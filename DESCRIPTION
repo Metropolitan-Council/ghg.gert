@@ -1,6 +1,6 @@
 Type: Package
 Package: ghg.sp
-Title: What the Package Does (Title Case)
+Title: Climate Scenario Planning for Twin Cities Metropolitan Region
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Metropolitan Council",
@@ -14,7 +14,10 @@ Description: More about what it does (maybe more than one line) Use four
 License: MIT + file LICENSE
 BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
 Imports: 
-    magrittr
+    dplyr (>= 1.0.7),
+    magrittr (>= 2.0.1),
+    stringr (>= 1.4.0),
+    tidyselect (>= 1.1.1)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
