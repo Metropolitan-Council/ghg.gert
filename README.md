@@ -8,7 +8,6 @@ The goal of ghg.sp is to ...
 
 ## Installation
 
-You can install the released version of ghg.sp from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("ghg.sp")
@@ -22,4 +21,11 @@ This is a basic example which shows you how to solve a common problem:
 library(ghg.sp)
 ## basic example code
 ```
+
+## Related repositories
+
+- [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
+
+
+<a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;"><div></div></a>
 
