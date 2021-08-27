@@ -3,7 +3,7 @@
 #' @param tb_vmt VMT input table
 #' @param tb cost input table
 #' @param pr price variable
-#' @param av whether the mode is av, which affects price
+#' @param is_av whether the mode is av, which affects price. Default is `0`.
 #' @inheritParams calc_ghg_direct
 #'
 #' @family transportation
@@ -14,7 +14,7 @@ calc_cost <- function(tb_vmt,
                       tb,
                       m,
                       pr,
-                      av = 0
+                      is_av = 0) {
 ) {
   cost <- tb_vmt %>%
     dplyr::select(all_of(YRS)) *

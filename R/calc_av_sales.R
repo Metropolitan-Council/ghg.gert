@@ -4,14 +4,14 @@
 #'     faster than previous stock turnover in order to match
 #'     AV market penetration
 #' @param tb input table
-#' @param av percent of trips by AV
+#' @param av_pct percent of trips by AV
 #'
 #' @return
 #' @export
 #' @importFrom dplyr select filter across cur_column
-
+#'
 calc_av_sales <- function(tb,
-                          av) {
+                          av_pct) {
   # Calculate basic sales (initial + 1/3 fleet replacement) and store as temp variable
   # Initial population of tibble with zeros
   temp <- tb %>%

@@ -5,7 +5,7 @@
 #' @param m current mode
 #' @param f current fuel type
 #' @param mpg miles per gallon for mode
-#' @param av whether the mode is AV. AV has a different MPG due to efficiency gains from automation of drive cycle.
+#' @param is_av whether the mode is AV. AV has a different
 #' @inheritParams calc_vmt
 #'
 #' @return
@@ -18,7 +18,7 @@ calc_ghg_direct <- function(tb_vmt,
                             f,
                             aeo = "REF",
                             mpg,
-                            av = 0
+                            is_av = 0) {
 ) {
   ghg <- tb_vmt %>% dplyr::select(all_of(YRS)) /
     (tb %>% dplyr::filter(mode == m, var == mpg) %>%
@@ -48,7 +48,7 @@ calc_ghg_direct <- function(tb_vmt,
        ) *
        # AV adjustment
        dplyr::case_when(
-         av > 0 ~ MPG_AV,
+      is_av > 0 ~ MPG_AV,
          TRUE ~ 1
        )) *
     ghg_factors %>%
