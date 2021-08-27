@@ -39,6 +39,7 @@
 #'
 #'
 #' @importFrom dplyr filter select case_when
+#' @importFrom tidyselect all_of
 #'
 calc_vmt <- function(scen,
                      tb,
@@ -65,24 +66,23 @@ calc_vmt <- function(scen,
                      trans_dist = 0,
                      comb_5d_impact_dr = 0,
                      telework = 0,
-                     ch_phev = 0
-) {
+                     ch_phev = 0) {
   # If it's not the BAU scenario, then need to run elasticities, etc.
   if (scen != "BAU") {
     # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
     if ((m == "BU") | (m == "BRT") | (m == "RU") | (m == "RI")) {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Apply AEO adjustments
-        case_when(
+        dplyr::case_when(
           ((m == "BU") | (m == "BRT")) ~ aeo_factors %>%
-            filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
-            select(all_of(YRS)) %>%
+            dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
+            dplyr::select(tidyselect::all_of(YRS)) %>%
             as.numeric(),
           ((m == "RU") | (m == "RI")) ~ aeo_factors %>%
-            filter(AEOScen == aeo, Metric == "VMT", Mode == "RAIL") %>%
-            select(all_of(YRS)) %>%
+            dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "RAIL") %>%
+            dplyr::select(tidyselect::all_of(YRS)) %>%
             as.numeric(),
           TRUE ~ 1
         ) *
@@ -101,57 +101,57 @@ calc_vmt <- function(scen,
             (1 + trans_dist / 100 * ELAST_DIST_TRANS) *
             (1 + cpop_dens / 100 * ELAST_CDENS_TRANS)
         } *
-            # Parking pricing effect
-            (1 + park / tb %>%
-               filter(mode == "PLDV", var == "PARK") %>%
-               select(all_of(YRS)) * CROSS_PARK_TRANSIT) *
-            # Gas price effect (relative to fuel cost)
-            (1 + (gas / fcm) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to gas price because already switched stock from SI/CI)
-               (tb %>% filter(mode == "PLDV", var == "SIStock") %>%
-                  select(all_of(YRS)) +
-                  tb %>% filter(mode == "PLDV", var == "CIStock") %>%
-                  select(all_of(YRS)) +
-                  tb %>% filter(mode == "PLDV", var == "HEVStock") %>%
-                  select(all_of(YRS))) /
-               tb %>%
-               filter(mode == "PLDV", var == "TotStock") %>%
-               select(all_of(YRS)) * CROSS_VMT) /
-            (tb %>% filter(mode == m, var == "AVO") %>%
-               select(all_of(YRS)) * (1 + t_avo / 100)) *
-            (tb %>% filter(mode == m, var == s) %>%
-               select(all_of(YRS)) /
-               tb %>%
-               filter(mode == m, var == "TotStock") %>%
-               select(all_of(YRS))) *
-            # AV adjustment
-            # Remove AV from non-AV PMT
-            case_when(
-              (((m == "BU") | (m == "BRT")) & av > 0) ~ (1 + BUS_AV * av / 100),
-              (((m == "RU") | (m == "RI")) & av > 0) ~ (1 + RAIL_AV * av / 100),
-              TRUE ~ 1
-            )        }
+          # Parking pricing effect
+          (1 + park / tb %>%
+            dplyr::filter(mode == "PLDV", var == "PARK") %>%
+            dplyr::select(tidyselect::all_of(YRS)) * CROSS_PARK_TRANSIT) *
+          # Gas price effect (relative to fuel cost)
+          (1 + (gas / fcm) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to gas price because already switched stock from SI/CI)
+            (tb %>% dplyr::filter(mode == "PLDV", var == "SIStock") %>%
+              dplyr::select(tidyselect::all_of(YRS)) +
+              tb %>% dplyr::filter(mode == "PLDV", var == "CIStock") %>%
+              dplyr::select(tidyselect::all_of(YRS)) +
+              tb %>% dplyr::filter(mode == "PLDV", var == "HEVStock") %>%
+              dplyr::select(tidyselect::all_of(YRS))) /
+            tb %>%
+              dplyr::filter(mode == "PLDV", var == "TotStock") %>%
+              dplyr::select(tidyselect::all_of(YRS)) * CROSS_VMT) /
+          (tb %>% dplyr::filter(mode == m, var == "AVO") %>%
+            dplyr::select(tidyselect::all_of(YRS)) * (1 + t_avo / 100)) *
+          (tb %>% dplyr::filter(mode == m, var == s) %>%
+            dplyr::select(tidyselect::all_of(YRS)) /
+            tb %>%
+              dplyr::filter(mode == m, var == "TotStock") %>%
+              dplyr::select(tidyselect::all_of(YRS))) *
+          # AV adjustment
+          # Remove AV from non-AV PMT
+          dplyr::case_when(
+            (((m == "BU") | (m == "BRT")) & av_pct > 0) ~ (1 + BUS_AV * av_pct / 100),
+            (((m == "RU") | (m == "RI")) & av_pct > 0) ~ (1 + RAIL_AV * av_pct / 100),
+            TRUE ~ 1
+          )        }
     } else if (m == "PLDV") {
-      vmt <- (tb %>% filter(mode == m, var == v) %>%
-                # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
-                select(all_of(YRS)) -
-                (tb %>% filter(mode == "AT", var == v) %>%
-                   select(all_of(YRS)) *
-                   # Apply elasticities, etc.
-                   (t_rider / 100 * PLDV_TRANSIT_RATIO))) *
+      vmt <- (tb %>% dplyr::filter(mode == m, var == v) %>%
+        # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
+        dplyr::select(tidyselect::all_of(YRS)) -
+        (tb %>% dplyr::filter(mode == "AT", var == v) %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
+          # Apply elasticities, etc.
+          (t_rider / 100 * PLDV_TRANSIT_RATIO))) *
         # Remove AV from non-AV PMT
-        case_when(av > 0 ~ (1 - tb %>% filter(var == "AVShare") %>% select(all_of(YRS)) %>% as.numeric() * av / 100), TRUE ~ 1) *
+        dplyr::case_when(av_pct > 0 ~ (1 - tb %>% dplyr::filter(var == "AVShare") %>% dplyr::select(tidyselect::all_of(YRS)) %>% as.numeric() * av_pct / 100), TRUE ~ 1) *
         # Apply AEO adjustments
         aeo_factors %>%
-        filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
-        select(all_of(YRS)) *
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
         (1 + (vmt / (fcm + TIME_COST_MI) + payd / INS_COST_MI) * ELAST_VMT) *
         # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
         (1 + (cong / (fcm + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
         # Gas price effect (relative to fuel cost)
         (1 + (gas / fcm) * ifelse(((s == "SIStock") | (s == "CIStock") | (s == "HEVStock") | ((s == "PHEVStock") & (ch_phev == 1))), 1, 0) * ELAST_GAS) *
         (1 + (park / tb %>%
-                filter(var == "PARK") %>%
-                select(all_of(YRS)) * ELAST_PARK)) *
+          dplyr::filter(var == "PARK") %>%
+          dplyr::select(tidyselect::all_of(YRS)) * ELAST_PARK)) *
         # Auto 5D: population density, employment density, diversity, design, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
         if (comb_5d_impact_dr < MAX_5D_DR) {
@@ -165,39 +165,40 @@ calc_vmt <- function(scen,
             (1 + trans_dist / 100 * ELAST_DIST_DR) *
             (1 + cpop_dens / 100 * ELAST_CDENS_DR)
         } *
-            # Telework
-            (1 + telework / 100 * MARG_TELEWORK) /
+          # Telework
+          (1 + telework / 100 * MARG_TELEWORK) /
+          tb %>%
+            dplyr::filter(mode == m, var == "AVO") %>%
+            dplyr::select(tidyselect::all_of(YRS)) *
+          (tb %>% dplyr::filter(mode == m, var == s) %>%
+            dplyr::select(tidyselect::all_of(YRS)) /
             tb %>%
-            filter(mode == m, var == "AVO") %>%
-            select(all_of(YRS)) *
-            (tb %>% filter(mode == m, var == s) %>%
-               select(all_of(YRS)) /
-               tb %>%
-               filter(mode == m, var == "TotStock") %>%
-               select(all_of(YRS)))        }
+              dplyr::filter(mode == m, var == "TotStock") %>%
+              dplyr::select(tidyselect::all_of(YRS)))        }
     } else if (m == "AV") {
-      vmt <- (tb %>% filter(mode == "PLDV", var == v) %>%
-                # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
-                select(all_of(YRS)) -
-                tb %>% filter(mode == "AT", var == v) %>%
-                select(all_of(YRS)) * (t_rider / 100 * PLDV_TRANSIT_RATIO)) *
+      vmt <- (tb %>% dplyr::filter(mode == "PLDV", var == v) %>%
+        # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
+        dplyr::select(tidyselect::all_of(YRS)) -
+        tb %>% dplyr::filter(mode == "AT", var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) * (t_rider / 100 * PLDV_TRANSIT_RATIO)) *
         # Remove non-AV from AV PMT
         tb %>%
-        filter(var == "AVShare") %>%
-        select(all_of(YRS)) %>%
-        as.numeric() * av / 100 *
+          dplyr::filter(var == "AVShare") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
+          as.numeric() * av_pct / 100 *
         # Apply AEO adjustments
         aeo_factors %>%
-        filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
-        select(all_of(YRS)) *
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
         # Apply elasticities, etc.
         (1 + (vmt / (fcm + TIME_COST_MI) + payd / INS_COST_MI) * ELAST_VMT) *
         # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
         (1 + (cong / (fcm + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
-        (1 + (gas / fcm) * ifelse(((s == "SIStock") | (s == "CIStock") | (s == "HEVStock") | ((s == "PHEVStock") & (ch_phev == 1))), 1, 0) * ELAST_GAS) *
+        (1 + (gas / fcm) * ifelse(((s == "SIStock") |
+                                     (s == "CIStock") | (s == "HEVStock") | ((s == "PHEVStock") & (ch_phev == 1))), 1, 0) * ELAST_GAS) *
         (1 + (park / tb %>%
-                filter(var == "PARK") %>%
-                select(all_of(YRS)) * ELAST_PARK)) *
+          dplyr::filter(var == "PARK") %>%
+          dplyr::select(tidyselect::all_of(YRS)) * ELAST_PARK)) *
         # Auto 5D: population density, employment density, diversity, design, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
         if (comb_5d_impact_dr < MAX_5D_DR) {
@@ -211,56 +212,56 @@ calc_vmt <- function(scen,
             (1 + trans_dist / 100 * ELAST_DIST_DR) *
             (1 + cpop_dens / 100 * ELAST_CDENS_DR)
         } *
-            # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
-            VMT_AV /
-            tb %>%
-            filter(mode == "PLDV", var == "AVO") %>%
-            select(all_of(YRS))        }
+          # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
+          VMT_AV /
+          tb %>%
+            dplyr::filter(mode == "PLDV", var == "AVO") %>%
+            dplyr::select(tidyselect::all_of(YRS))        }
     } else if (m == "SUT") {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Apply AEO adjustments
         aeo_factors %>%
-        filter(AEOScen == aeo, Metric == "VMT", Mode == "MDT") %>%
-        select(all_of(YRS)) *
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "MDT") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
         # Apply elasticities, etc.
         # Assumes no shift to other modes because there are other restrictions on that (you probably won't build a new rail line in a city based on a congestion price)
         (1 + fvmt / (fcm + F_TIME_COST_MI) * ELAST_FVMT * F_FRACT) * # Only apply the VMT fee to fraction occuring in MSP (equivalent to a reduction in elasticity)
         (1 + park / tb %>%
-           filter(var == "PARK") %>%
-           select(all_of(YRS)) * ELAST_PARK) /
+          dplyr::filter(var == "PARK") %>%
+          dplyr::select(tidyselect::all_of(YRS)) * ELAST_PARK) /
         tb %>%
-        filter(mode == m, var == "AVO") %>%
-        select(all_of(YRS)) *
-        (tb %>% filter(mode == m, var == s) %>%
-           select(all_of(YRS)) /
-           tb %>%
-           filter(mode == m, var == "TotStock") %>%
-           select(all_of(YRS)))
+          dplyr::filter(mode == m, var == "AVO") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
+        (tb %>% dplyr::filter(mode == m, var == s) %>%
+          dplyr::select(tidyselect::all_of(YRS)) /
+          tb %>%
+            dplyr::filter(mode == m, var == "TotStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)))
     } else if (m == "CUT") {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Apply AEO adjustments
         aeo_factors %>%
-        filter(AEOScen == aeo, Metric == "VMT", Mode == "HDT") %>%
-        select(all_of(YRS)) *
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "HDT") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
         # Apply elasticities, etc.
         # Assumes no shift to other modes because there are other restrictions on that (you probably won't build a new rail line in a city based on a congestion price)
         (1 + fvmt / (fcm + F_TIME_COST_MI) * ELAST_FVMT) /
         tb %>%
-        filter(mode == m, var == "AVO") %>%
-        select(all_of(YRS)) *
-        (tb %>% filter(mode == m, var == s) %>%
-           select(all_of(YRS)) /
-           tb %>%
-           filter(mode == m, var == "TotStock") %>%
-           select(all_of(YRS)))
+          dplyr::filter(mode == m, var == "AVO") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
+        (tb %>% dplyr::filter(mode == m, var == s) %>%
+          dplyr::select(tidyselect::all_of(YRS)) /
+          tb %>%
+            dplyr::filter(mode == m, var == "TotStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)))
     } else if (m == "WALK" | m == "BIKE") {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Active (use walk) 5D: population density, employment density, diversity, design, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
         if (comb_5d_impact_dr < MAX_5D_DR) {
@@ -276,93 +277,93 @@ calc_vmt <- function(scen,
         }
     } else if (m == "BS") {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Apply AEO adjustments
         aeo_factors %>%
-        filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
-        select(all_of(YRS)) %>%
-        as.numeric() /
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
+          as.numeric() /
         tb %>%
-        filter(mode == m, var == "AVO") %>%
-        select(all_of(YRS)) *
-        (tb %>% filter(mode == m, var == s) %>%
-           select(all_of(YRS)) /
-           tb %>%
-           filter(mode == m, var == "TotStock") %>%
-           select(all_of(YRS)))
+          dplyr::filter(mode == m, var == "AVO") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
+        (tb %>% dplyr::filter(mode == m, var == s) %>%
+          dplyr::select(tidyselect::all_of(YRS)) /
+          tb %>%
+            dplyr::filter(mode == m, var == "TotStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)))
     } else {
       vmt <- tb %>%
-        filter(mode == m, var == v) %>%
-        select(all_of(YRS)) *
+        dplyr::filter(mode == m, var == v) %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
         # Apply AEO adjustments
         ifelse(
           m == "FR",
-          aeo_factors %>% filter(AEOScen == aeo, Metric == "VMT", Mode == "FRAIL") %>%
-            select(all_of(YRS)),
-          aeo_factors %>% filter(AEOScen == aeo, Metric == "VMT", Mode == "FSHIP") %>%
-            select(all_of(YRS))
+          aeo_factors %>% dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "FRAIL") %>%
+            dplyr::select(tidyselect::all_of(YRS)),
+          aeo_factors %>% dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "FSHIP") %>%
+            dplyr::select(tidyselect::all_of(YRS))
         ) /
         tb %>%
-        filter(mode == m, var == "AVO") %>%
-        select(all_of(YRS)) *
-        (tb %>% filter(mode == m, var == s) %>%
-           select(all_of(YRS)) /
-           tb %>%
-           filter(mode == m, var == "TotStock") %>%
-           select(all_of(YRS)))
+          dplyr::filter(mode == m, var == "AVO") %>%
+          dplyr::select(tidyselect::all_of(YRS)) *
+        (tb %>% dplyr::filter(mode == m, var == s) %>%
+          dplyr::select(tidyselect::all_of(YRS)) /
+          tb %>%
+            dplyr::filter(mode == m, var == "TotStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)))
     }
   } else if (m == "WALK" | m == "BIKE") {
     vmt <- tb %>%
-      filter(mode == m, var == v) %>%
-      select(all_of(YRS)) /
+      dplyr::filter(mode == m, var == v) %>%
+      dplyr::select(tidyselect::all_of(YRS)) /
       tb %>%
-      filter(mode == m, var == "AVO") %>%
-      select(all_of(YRS))
+        dplyr::filter(mode == m, var == "AVO") %>%
+        dplyr::select(tidyselect::all_of(YRS))
   } else {
     vmt <- tb %>%
-      filter(mode == m, var == v) %>%
-      select(all_of(YRS)) *
+      dplyr::filter(mode == m, var == v) %>%
+      dplyr::select(tidyselect::all_of(YRS)) *
       # Apply AEO adjustments
-      case_when(
+      dplyr::case_when(
         m == "PLDV" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "LDV") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "SUT" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "MDT") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "MDT") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "CUT" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "HDT") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "HDT") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "BU" | m == "BRT" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "BUS") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "RU" | m == "RI" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "RAIL") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "RAIL") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "FR" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "FRAIL") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "FRAIL") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         m == "MM" | m == "AIR" | m == "WAT" ~ aeo_factors %>%
-          filter(AEOScen == aeo, Metric == "VMT", Mode == "FSHIP") %>%
-          select(all_of(YRS)) %>%
+          dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "FSHIP") %>%
+          dplyr::select(tidyselect::all_of(YRS)) %>%
           as.numeric(),
         TRUE ~ 1
       ) /
       tb %>%
-      filter(mode == m, var == "AVO") %>%
-      select(all_of(YRS)) *
-      (tb %>% filter(mode == m, var == s) %>%
-         select(all_of(YRS)) /
-         tb %>%
-         filter(mode == m, var == "TotStock") %>%
-         select(all_of(YRS)))
+        dplyr::filter(mode == m, var == "AVO") %>%
+        dplyr::select(tidyselect::all_of(YRS)) *
+      (tb %>% dplyr::filter(mode == m, var == s) %>%
+        dplyr::select(tidyselect::all_of(YRS)) /
+        tb %>%
+          dplyr::filter(mode == m, var == "TotStock") %>%
+          dplyr::select(tidyselect::all_of(YRS)))
   }
   return(vmt) # in thousands of miles
 }
