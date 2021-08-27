@@ -20,7 +20,7 @@ calc_vmt(
   cong = 0,
   park = 0,
   drs = 0,
-  av = 0,
+  av_pct = 0,
   fvmt = 0,
   pop_dens = 0,
   emp_dens = 0,
@@ -64,9 +64,9 @@ congested miles in MSP). Default is \code{0}}
 \item{park}{Average price of parking based on TBI results and literature -
 measured in cents per hour. Default is \code{0}}
 
-\item{drs}{percent of trips by auto or transit that are now by DRS. Default is \code{0}}
+\item{drs}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS). Default is \code{0}}
 
-\item{av}{percent of trips made by AV. Default is \code{0}}
+\item{av_pct}{percent of trips made by AV. Default is \code{0}}
 
 \item{fvmt}{freight VMT fee per mile. Default is \code{0}}
 

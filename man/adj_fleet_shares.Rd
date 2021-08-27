@@ -2,8 +2,7 @@
 % Please edit documentation in R/adj_fleet_shares.R
 \name{adj_fleet_shares}
 \alias{adj_fleet_shares}
-\title{Adjust the fleet to match what the user input for sales in 2050 rather
-than the defaults from MA3T}
+\title{Adjust Fleet}
 \usage{
 adj_fleet_shares(
   bev,
@@ -20,11 +19,11 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{bev}{percent of sales that are BEV in 2050}
+\item{bev}{percent of sales that are battery electric vehicles (BEV) in 2050}
 
-\item{phev}{percent of sales that are PHEV in 2050}
+\item{phev}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
 
-\item{hev}{percent of sales that are HEV in 2050}
+\item{hev}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
 
 \item{ptb}{passenger input table}
 
@@ -36,26 +35,22 @@ adj_fleet_shares(
 
 \item{gas}{gas tax per mile. Default is \code{0}}
 
-\item{drs}{percent of trips/fleet that is DRS. Default is \code{0}.}
-
-\item{av}{percent of trips/fleet that are AVs. Default is \code{0}.}
+\item{drs}{percent of trips/fleet that is dynamic ride sharing (DRS) Default is \code{0}.}
 
 \item{ch_ctu}{the chosen CTU for dplyr::filter of tables}
+
+\item{av_pct}{percent of trips/fleet that are autonomous vehicles (AV). Default is \code{0}.}
 }
 \value{
 
 }
 \description{
-Adjust the fleet to match what the user input for sales in 2050 rather
-than the defaults from MA3T
-}
-\section{Functions}{
-\itemize{
-\item \code{adj_fleet_shares}: held fixed in all cases. AV/DRS scenarios adjust the sales
+Match what the user input for sales in 2050 rather
+than the defaults from MA3TFleet held fixed in all cases.
+AV/DRS scenarios adjust the sales
 total up, but they adjust the existing stock down to match total stock
 in each year.
-}}
-
+}
 \seealso{
 Other transportation: 
 \code{\link{calc_cost}()},

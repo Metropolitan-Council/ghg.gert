@@ -40,13 +40,13 @@ adj_fleet_shares <- function(bev,
 
   # Adjust sales based on ownership response to price elasticity
   adj_si_ci_sales <- (1 + (vmt / AUTO_COST_MI +
-                             payd / AUTO_COST_MI) *
-                        ELAST_OWN_PRICE) *
+    payd / AUTO_COST_MI) *
+    ELAST_OWN_PRICE) *
     (1 + (gas / AUTO_COST_MI) * ELAST_OWN_PRICE)
 
   # Assume HEV, PHEV, and BEV not affected by gas price because already switched stock type
   adj_alt_sales <- (1 + (vmt / AUTO_COST_MI + payd /
-                           AUTO_COST_MI) * ELAST_OWN_PRICE)
+    AUTO_COST_MI) * ELAST_OWN_PRICE)
   ptb <- ptb %>%
     dplyr::mutate(dplyr::across(
       tidyselect::all_of(FOR_YRS), ~ dplyr::case_when(
@@ -66,11 +66,11 @@ adj_fleet_shares <- function(bev,
         dplyr::across(
           tidyselect::all_of(FOR_YRS), ~ dplyr::case_when(
             ((stringr::str_detect(var, "Sales")) |
-               (stringr::str_detect(var, "Exist")) |
-               (stringr::str_detect(var, "Stock"))) ~ .x *
+              (stringr::str_detect(var, "Exist")) |
+              (stringr::str_detect(var, "Stock"))) ~ .x *
               (1 - ptb %>% dplyr::filter(var == "DRSShare") %>%
-                 dplyr::select(tidyselect::all_of(FOR_YRS)) %>%
-                 as.numeric() * drs / 100),
+                dplyr::select(tidyselect::all_of(FOR_YRS)) %>%
+                as.numeric() * drs / 100),
             TRUE ~ .x
           )
         )
@@ -103,12 +103,12 @@ adj_fleet_shares <- function(bev,
             FOR_YRS
           ), ~ dplyr::case_when(
             ((stringr::str_detect(var, "Sales") |
-                stringr::str_detect(var, "Exist") |
-                stringr::str_detect(var, "Stock")) & mode == "PLDV") ~ .x *
+              stringr::str_detect(var, "Exist") |
+              stringr::str_detect(var, "Stock")) & mode == "PLDV") ~ .x *
               (1 - ptb %>%
-                 dplyr::filter(var == "AVShare") %>%
-                 dplyr::select(tidyselect::all_of(FOR_YRS)) %>%
-                 as.numeric() * av / 100), # Remove AV from non-AV stock
+                dplyr::filter(var == "AVShare") %>%
+                dplyr::select(tidyselect::all_of(FOR_YRS)) %>%
+                as.numeric() * av / 100), # Remove AV from non-AV stock
             TRUE ~ .x
           )
         )
@@ -122,8 +122,8 @@ adj_fleet_shares <- function(bev,
         FIN_YR
       ), ~ dplyr::case_when(
         (mode == "PLDV" &
-           stringr::str_detect(var, "Sales") &
-           .x == 0) ~ 1,
+          stringr::str_detect(var, "Sales") &
+          .x == 0) ~ 1,
         TRUE ~ .x
       ))
     )
@@ -132,96 +132,96 @@ adj_fleet_shares <- function(bev,
     # PASSENGER
     ptb_si_sales <- as.numeric(100 - bev - phev - hev) / 100 *
       (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
-         dplyr::select(FOR_YRS) /
-         (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
-            dplyr::select(FOR_YRS) +
-            ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
-            dplyr::select(FOR_YRS))) *
+        dplyr::select(FOR_YRS) /
+        (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
+          dplyr::select(FOR_YRS) +
+          ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
+          dplyr::select(FOR_YRS))) *
       (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
-         dplyr::select(FOR_YRS) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FOR_YRS)) /
+        dplyr::select(FOR_YRS) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FOR_YRS)) /
       (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
-         dplyr::select(FIN_YR) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::select(FIN_YR) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
     ptb_ci_sales <- as.numeric(100 - bev - phev - hev) / 100 *
       (ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
-         dplyr::select(FOR_YRS) /
-         (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
-            dplyr::select(FOR_YRS) +
-            ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
-            dplyr::select(FOR_YRS))) *
+        dplyr::select(FOR_YRS) /
+        (ptb %>% dplyr::filter(mode == "PLDV", var == "SISales") %>%
+          dplyr::select(FOR_YRS) +
+          ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
+          dplyr::select(FOR_YRS))) *
       (ptb %>% dplyr::filter(mode == "PLDV", var == "CISales") %>%
-         dplyr::select(FOR_YRS) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FOR_YRS)) /
+        dplyr::select(FOR_YRS) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FOR_YRS)) /
       (ptb %>%
-         dplyr::filter(mode == "PLDV", var == "CISales") %>%
-         dplyr::select(FIN_YR) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::filter(mode == "PLDV", var == "CISales") %>%
+        dplyr::select(FIN_YR) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
     ptb_hev_sales <- as.numeric(hev / 100) *
       (ptb %>%
-         dplyr::filter(
-           mode == "PLDV",
-           var == "HEVSales"
-         ) %>%
-         dplyr::select(FOR_YRS) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FOR_YRS)) /
+        dplyr::filter(
+          mode == "PLDV",
+          var == "HEVSales"
+        ) %>%
+        dplyr::select(FOR_YRS) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FOR_YRS)) /
       (ptb %>% dplyr::filter(mode == "PLDV", var == "HEVSales") %>%
-         dplyr::select(FIN_YR) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::select(FIN_YR) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
     ptb_phev_sales <- as.numeric(phev / 100) *
       (ptb %>%
-         dplyr::filter(
-           mode == "PLDV",
-           var == "PHEVSales"
-         ) %>%
-         dplyr::select(FOR_YRS) /
-         ptb %>%
-         dplyr::filter(
-           mode == "PLDV",
-           var == "TotSales"
-         ) %>%
-         dplyr::select(FOR_YRS)) /
+        dplyr::filter(
+          mode == "PLDV",
+          var == "PHEVSales"
+        ) %>%
+        dplyr::select(FOR_YRS) /
+        ptb %>%
+          dplyr::filter(
+            mode == "PLDV",
+            var == "TotSales"
+          ) %>%
+          dplyr::select(FOR_YRS)) /
       (ptb %>% dplyr::filter(mode == "PLDV", var == "PHEVSales") %>%
-         dplyr::select(FIN_YR) /
-         ptb %>%
-         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-         dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::select(FIN_YR) /
+        ptb %>%
+          dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
     ptb_bev_sales <- as.numeric(bev / 100) *
       (ptb %>%
-         dplyr::filter(
-           mode == "PLDV",
-           var == "BEVSales"
-         ) %>%
-         dplyr::select(FOR_YRS) /
-         ptb %>%
-         dplyr::filter(
-           mode == "PLDV",
-           var == "TotSales"
-         ) %>%
-         dplyr::select(FOR_YRS)) / (ptb %>%
-                                      dplyr::filter(
-                                        mode == "PLDV",
-                                        var == "BEVSales"
-                                      ) %>%
-                                      dplyr::select(FIN_YR) /
-                                      ptb %>%
-                                      dplyr::filter(
-                                        mode == "PLDV",
-                                        var == "TotSales"
-                                      ) %>%
-                                      dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::filter(
+          mode == "PLDV",
+          var == "BEVSales"
+        ) %>%
+        dplyr::select(FOR_YRS) /
+        ptb %>%
+          dplyr::filter(
+            mode == "PLDV",
+            var == "TotSales"
+          ) %>%
+          dplyr::select(FOR_YRS)) / (ptb %>%
+        dplyr::filter(
+          mode == "PLDV",
+          var == "BEVSales"
+        ) %>%
+        dplyr::select(FIN_YR) /
+        ptb %>%
+          dplyr::filter(
+            mode == "PLDV",
+            var == "TotSales"
+          ) %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
 
     # Readjust sales totals to sum to 100% in each year
     ptb_tot_sales <- ptb_si_sales + ptb_ci_sales +
@@ -237,39 +237,39 @@ adj_fleet_shares <- function(bev,
       dplyr::mutate(dplyr::across(
         tidyselect::all_of(FOR_YRS), ~ dplyr::case_when(
           (mode == "PLDV" & var == "BEVSales") ~
-            as.numeric(ptb %>%
-                         dplyr::filter(
-                           mode == "PLDV",
-                           var == "TotSales"
-                         ) %>%
-                         dplyr::select(dplyr::cur_column()) * ptb_bev_sales %>%
-                         dplyr::select(dplyr::cur_column())),
-          (mode == "PLDV" & var == "PHEVSales") ~
-            as.numeric(ptb %>%
-                         dplyr::filter(
-                           mode == "PLDV",
-                           var == "TotSales"
-                         ) %>%
-                         dplyr::select(dplyr::cur_column()) * ptb_phev_sales %>%
-                         dplyr::select(dplyr::cur_column())),
-          (mode == "PLDV" & var == "HEVSales") ~
-            as.numeric(ptb %>%
-                         dplyr::filter(mode == "PLDV", var == "TotSales") %>%
-                         dplyr::select(dplyr::cur_column()) * ptb_hev_sales %>%
-                         dplyr::select(dplyr::cur_column())),
-          (mode == "PLDV" & var == "SISales") ~
-            as.numeric(ptb %>% dplyr::filter(
+          as.numeric(ptb %>%
+            dplyr::filter(
               mode == "PLDV",
               var == "TotSales"
             ) %>%
-              dplyr::select(dplyr::cur_column()) * ptb_si_sales %>%
+            dplyr::select(dplyr::cur_column()) * ptb_bev_sales %>%
+              dplyr::select(dplyr::cur_column())),
+          (mode == "PLDV" & var == "PHEVSales") ~
+          as.numeric(ptb %>%
+            dplyr::filter(
+              mode == "PLDV",
+              var == "TotSales"
+            ) %>%
+            dplyr::select(dplyr::cur_column()) * ptb_phev_sales %>%
+              dplyr::select(dplyr::cur_column())),
+          (mode == "PLDV" & var == "HEVSales") ~
+          as.numeric(ptb %>%
+            dplyr::filter(mode == "PLDV", var == "TotSales") %>%
+            dplyr::select(dplyr::cur_column()) * ptb_hev_sales %>%
+              dplyr::select(dplyr::cur_column())),
+          (mode == "PLDV" & var == "SISales") ~
+          as.numeric(ptb %>% dplyr::filter(
+            mode == "PLDV",
+            var == "TotSales"
+          ) %>%
+            dplyr::select(dplyr::cur_column()) * ptb_si_sales %>%
               dplyr::select(dplyr::cur_column())),
           (mode == "PLDV" & var == "CISales") ~
-            as.numeric(ptb %>% dplyr::filter(
-              mode == "PLDV",
-              var == "TotSales"
-            ) %>%
-              dplyr::select(dplyr::cur_column()) * ptb_ci_sales %>%
+          as.numeric(ptb %>% dplyr::filter(
+            mode == "PLDV",
+            var == "TotSales"
+          ) %>%
+            dplyr::select(dplyr::cur_column()) * ptb_ci_sales %>%
               dplyr::select(dplyr::cur_column())),
           TRUE ~ .x
         )
@@ -287,11 +287,11 @@ adj_fleet_shares <- function(bev,
       dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb_new %>%
       dplyr::filter(mode == "PLDV", var == "SISales") %>%
       dplyr::select(tidyselect::all_of(ADJ_YRS))) /
-      (ptb %>%
-         dplyr::filter(mode == "PLDV", var == "SIExist") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
-         dplyr::filter(mode == "PLDV", var == "SISales") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS))))
+    (ptb %>%
+      dplyr::filter(mode == "PLDV", var == "SIExist") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
+      dplyr::filter(mode == "PLDV", var == "SISales") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS))))
 
   ptb_ci_exist <- as.numeric((
     ptb %>%
@@ -299,10 +299,10 @@ adj_fleet_shares <- function(bev,
       dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb_new %>%
       dplyr::filter(mode == "PLDV", var == "CISales") %>%
       dplyr::select(tidyselect::all_of(ADJ_YRS))) /
-      (ptb %>% dplyr::filter(mode == "PLDV", var == "CIExist") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
-         dplyr::filter(mode == "PLDV", var == "CISales") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS))))
+    (ptb %>% dplyr::filter(mode == "PLDV", var == "CIExist") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
+      dplyr::filter(mode == "PLDV", var == "CISales") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS))))
 
   ptb_hev_exist <- as.numeric((
     ptb %>%
@@ -313,10 +313,10 @@ adj_fleet_shares <- function(bev,
       dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb_new %>%
       dplyr::filter(mode == "PLDV", var == "HEVSales") %>%
       dplyr::select(tidyselect::all_of(ADJ_YRS))) /
-      (ptb %>% dplyr::filter(mode == "PLDV", var == "HEVExist") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
-         dplyr::filter(mode == "PLDV", var == "HEVSales") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS))))
+    (ptb %>% dplyr::filter(mode == "PLDV", var == "HEVExist") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
+      dplyr::filter(mode == "PLDV", var == "HEVSales") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS))))
 
   ptb_phev_exist <- as.numeric((
     ptb %>%
@@ -324,11 +324,11 @@ adj_fleet_shares <- function(bev,
       dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb_new %>%
       dplyr::filter(mode == "PLDV", var == "PHEVSales") %>%
       dplyr::select(tidyselect::all_of(ADJ_YRS))) /
-      (ptb %>%
-         dplyr::filter(mode == "PLDV", var == "PHEVExist") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
-         dplyr::filter(mode == "PLDV", var == "PHEVSales") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS))))
+    (ptb %>%
+      dplyr::filter(mode == "PLDV", var == "PHEVExist") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
+      dplyr::filter(mode == "PLDV", var == "PHEVSales") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS))))
 
   ptb_bev_exist <- as.numeric((
     ptb %>%
@@ -339,11 +339,11 @@ adj_fleet_shares <- function(bev,
       dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb_new %>%
       dplyr::filter(mode == "PLDV", var == "BEVSales") %>%
       dplyr::select(tidyselect::all_of(ADJ_YRS))) /
-      (ptb %>%
-         dplyr::filter(mode == "PLDV", var == "BEVExist") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
-         dplyr::filter(mode == "PLDV", var == "BEVSales") %>%
-         dplyr::select(tidyselect::all_of(ADJ_YRS))))
+    (ptb %>%
+      dplyr::filter(mode == "PLDV", var == "BEVExist") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS)) + ptb %>%
+      dplyr::filter(mode == "PLDV", var == "BEVSales") %>%
+      dplyr::select(tidyselect::all_of(ADJ_YRS))))
 
   ptb_new <- ptb_new %>% dplyr::mutate(
     dplyr::across(tidyselect::all_of(FOR_YRS), ~ dplyr::case_when(
@@ -373,14 +373,14 @@ adj_fleet_shares <- function(bev,
   temp <- temp %>%
     dplyr::mutate(
       TotStock = ifelse(mode == "PLDV", BEVStock +
-                          PHEVStock + HEVStock + CIStock +
-                          SIStock, TotStock),
+        PHEVStock + HEVStock + CIStock +
+        SIStock, TotStock),
       TotExist = ifelse(mode == "PLDV", BEVExist +
-                          PHEVExist + HEVExist + CIExist +
-                          SIExist, TotExist),
+        PHEVExist + HEVExist + CIExist +
+        SIExist, TotExist),
       TotSales = ifelse(mode == "PLDV", BEVSales +
-                          PHEVSales + HEVSales + CISales +
-                          SISales, TotSales)
+        PHEVSales + HEVSales + CISales +
+        SISales, TotSales)
     )
   ptb_new <- temp %>%
     tidyr::pivot_longer(
@@ -407,14 +407,14 @@ adj_fleet_shares <- function(bev,
       dplyr::filter(mode == "PLDV", var == "BEVSales") %>%
       dplyr::select(FIN_YR) /
       ptb_new %>%
-      dplyr::filter(mode == "PLDV", var == "BEVStock") %>%
-      dplyr::select(FIN_YR)
+        dplyr::filter(mode == "PLDV", var == "BEVStock") %>%
+        dplyr::select(FIN_YR)
     # Temporarily update any zero stock in final year to equal 1
     ftb <- ftb %>%
       dplyr::mutate(dplyr::across(
         tidyselect::all_of(FIN_YR), ~ dplyr::case_when(
           ((mode == "SUT" | mode == "CUT") &
-             stringr::str_detect(var, "Stock") & .x == 0) ~ 1,
+            stringr::str_detect(var, "Stock") & .x == 0) ~ 1,
           TRUE ~ .x
         )
       ))
@@ -422,23 +422,23 @@ adj_fleet_shares <- function(bev,
     # dplyr::filter out the ratios in the BAU and compare with user input for alternative scenario
     ftb_ci_stock_sut <- as.numeric((100 - 2 / 3 * fbev) / 100) *
       (ftb %>%
-         dplyr::filter(mode == "SUT", var == "CIStock") %>%
-         dplyr::select(FOR_YRS) /
-         ftb %>%
-         dplyr::filter(mode == "SUT", var == "TotStock") %>%
-         dplyr::select(FOR_YRS)) / (ftb %>%
-                                      dplyr::filter(
-                                        mode == "SUT",
-                                        var == "CIStock"
-                                      ) %>%
-                                      dplyr::select(FIN_YR) /
-                                      ftb %>%
-                                      dplyr::filter(
-                                        mode == "SUT",
-                                        var == "TotStock"
-                                      ) %>%
-                                      dplyr::select(FIN_YR)) %>%
-      as.numeric()
+        dplyr::filter(mode == "SUT", var == "CIStock") %>%
+        dplyr::select(FOR_YRS) /
+        ftb %>%
+          dplyr::filter(mode == "SUT", var == "TotStock") %>%
+          dplyr::select(FOR_YRS)) / (ftb %>%
+        dplyr::filter(
+          mode == "SUT",
+          var == "CIStock"
+        ) %>%
+        dplyr::select(FIN_YR) /
+        ftb %>%
+          dplyr::filter(
+            mode == "SUT",
+            var == "TotStock"
+          ) %>%
+          dplyr::select(FIN_YR)) %>%
+        as.numeric()
 
     ftb_bev_stock_sut <- as.numeric(2 / 3 * fbev / 100) * (
       ftb %>%
@@ -448,16 +448,16 @@ adj_fleet_shares <- function(bev,
         ) %>%
         dplyr::select(FOR_YRS) /
         ftb %>%
+          dplyr::filter(mode == "SUT", var == "TotStock") %>%
+          dplyr::select(FOR_YRS)) / (ftb %>%
+      dplyr::filter(
+        mode == "SUT",
+        var == "BEVStock"
+      ) %>%
+      dplyr::select(FIN_YR) /
+      ftb %>%
         dplyr::filter(mode == "SUT", var == "TotStock") %>%
-        dplyr::select(FOR_YRS)) / (ftb %>%
-                                     dplyr::filter(
-                                       mode == "SUT",
-                                       var == "BEVStock"
-                                     ) %>%
-                                     dplyr::select(FIN_YR) /
-                                     ftb %>%
-                                     dplyr::filter(mode == "SUT", var == "TotStock") %>%
-                                     dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::select(FIN_YR)) %>% as.numeric()
 
     ftb_ci_stock_cut <- as.numeric(100 - 1 / 3 * fbev) / 100 * (
       ftb %>%
@@ -467,35 +467,35 @@ adj_fleet_shares <- function(bev,
         ) %>%
         dplyr::select(FOR_YRS) /
         ftb %>%
+          dplyr::filter(mode == "CUT", var == "TotStock") %>%
+          dplyr::select(FOR_YRS)) / (ftb %>%
+      dplyr::filter(
+        mode == "SUT",
+        var == "CIStock"
+      ) %>%
+      dplyr::select(FIN_YR) /
+      ftb %>%
         dplyr::filter(mode == "CUT", var == "TotStock") %>%
-        dplyr::select(FOR_YRS)) / (ftb %>%
-                                     dplyr::filter(
-                                       mode == "SUT",
-                                       var == "CIStock"
-                                     ) %>%
-                                     dplyr::select(FIN_YR) /
-                                     ftb %>%
-                                     dplyr::filter(mode == "CUT", var == "TotStock") %>%
-                                     dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::select(FIN_YR)) %>% as.numeric()
 
     ftb_bev_stock_cut <- as.numeric(1 / 3 * fbev / 100) *
       (ftb %>%
-         dplyr::filter(mode == "CUT", var == "BEVStock") %>%
-         dplyr::select(FOR_YRS) /
-         ftb %>%
-         dplyr::filter(mode == "CUT", var == "TotStock") %>%
-         dplyr::select(FOR_YRS)) / (ftb %>%
-                                      dplyr::filter(
-                                        mode == "CUT",
-                                        var == "BEVStock"
-                                      ) %>%
-                                      dplyr::select(FIN_YR) /
-                                      ftb %>%
-                                      dplyr::filter(
-                                        mode == "CUT",
-                                        var == "TotStock"
-                                      ) %>%
-                                      dplyr::select(FIN_YR)) %>% as.numeric()
+        dplyr::filter(mode == "CUT", var == "BEVStock") %>%
+        dplyr::select(FOR_YRS) /
+        ftb %>%
+          dplyr::filter(mode == "CUT", var == "TotStock") %>%
+          dplyr::select(FOR_YRS)) / (ftb %>%
+        dplyr::filter(
+          mode == "CUT",
+          var == "BEVStock"
+        ) %>%
+        dplyr::select(FIN_YR) /
+        ftb %>%
+          dplyr::filter(
+            mode == "CUT",
+            var == "TotStock"
+          ) %>%
+          dplyr::select(FIN_YR)) %>% as.numeric()
 
     # Readjust sales totals to sum to 100% in each year
     ftb_tot_stock_sut <- ftb_ci_stock_sut + ftb_bev_stock_sut
@@ -511,33 +511,33 @@ adj_fleet_shares <- function(bev,
         FOR_YRS
       ), ~ dplyr::case_when(
         (mode == "SUT" & var == "BEVStock") ~
-          as.numeric(ftb %>%
-                       dplyr::filter(
-                         mode == "SUT",
-                         var == "TotStock"
-                       ) %>%
-                       dplyr::select(dplyr::cur_column()) * ftb_bev_stock_sut %>%
-                       dplyr::select(dplyr::cur_column())),
+        as.numeric(ftb %>%
+          dplyr::filter(
+            mode == "SUT",
+            var == "TotStock"
+          ) %>%
+          dplyr::select(dplyr::cur_column()) * ftb_bev_stock_sut %>%
+            dplyr::select(dplyr::cur_column())),
         (mode == "SUT" & var == "CIStock") ~
-          as.numeric(ftb %>%
-                       dplyr::filter(mode == "SUT", var == "TotStock") %>%
-                       dplyr::select(dplyr::cur_column()) * ftb_ci_stock_sut %>%
-                       dplyr::select(dplyr::cur_column())),
+        as.numeric(ftb %>%
+          dplyr::filter(mode == "SUT", var == "TotStock") %>%
+          dplyr::select(dplyr::cur_column()) * ftb_ci_stock_sut %>%
+            dplyr::select(dplyr::cur_column())),
         (mode == "CUT" & var == "BEVStock") ~
-          as.numeric(ftb %>%
-                       dplyr::filter(mode == "CUT", var == "TotStock") %>%
-                       dplyr::select(dplyr::cur_column()) * ftb_bev_stock_cut %>%
-                       dplyr::select(dplyr::cur_column())),
+        as.numeric(ftb %>%
+          dplyr::filter(mode == "CUT", var == "TotStock") %>%
+          dplyr::select(dplyr::cur_column()) * ftb_bev_stock_cut %>%
+            dplyr::select(dplyr::cur_column())),
         (mode == "CUT" & var == "CIStock") ~
-          as.numeric(ftb %>%
-                       dplyr::filter(
-                         mode == "CUT",
-                         var == "TotStock"
-                       ) %>%
-                       dplyr::select(
-                         dplyr::cur_column()
-                       ) * ftb_ci_stock_cut %>%
-                       dplyr::select(dplyr::cur_column())),
+        as.numeric(ftb %>%
+          dplyr::filter(
+            mode == "CUT",
+            var == "TotStock"
+          ) %>%
+          dplyr::select(
+            dplyr::cur_column()
+          ) * ftb_ci_stock_cut %>%
+            dplyr::select(dplyr::cur_column())),
         TRUE ~ .x
       ))
     )

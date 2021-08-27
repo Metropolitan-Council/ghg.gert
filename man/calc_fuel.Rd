@@ -18,8 +18,6 @@ calc_fuel(tb_vmt, tb, m, f, aeo = "REF", mpg, av = 0)
 \item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
 \item{mpg}{miles per gallon for mode}
-
-\item{av}{whether the mode is AV. AV has a different MPG due to efficiency gains from automation of drive cycle.}
 }
 \value{
 

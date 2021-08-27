@@ -4,7 +4,7 @@
 \alias{calc_ghg_direct}
 \title{Calculate direct emissions}
 \usage{
-calc_ghg_direct(tb_vmt, tb, m, f, aeo = "REF", mpg, av = 0)
+calc_ghg_direct(tb_vmt, tb, m, f, aeo = "REF", mpg, is_av = 0)
 }
 \arguments{
 \item{tb_vmt}{output VMT table}
@@ -19,7 +19,8 @@ calc_ghg_direct(tb_vmt, tb, m, f, aeo = "REF", mpg, av = 0)
 
 \item{mpg}{miles per gallon for mode}
 
-\item{av}{whether the mode is AV. AV has a different MPG due to efficiency gains from automation of drive cycle.}
+\item{is_av}{whether the mode is AV. AV has a different
+MPG due to efficiency gains from automation of drive cycle.}
 }
 \value{
 

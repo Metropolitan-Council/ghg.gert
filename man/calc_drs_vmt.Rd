@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_drs_vmt.R
 \name{calc_drs_vmt}
 \alias{calc_drs_vmt}
-\title{Calculate DRS VMT}
+\title{Calculate Dynamic Ride Sharing VMT}
 \usage{
 calc_drs_vmt(
   tb,
@@ -26,7 +26,7 @@ calc_drs_vmt(
 \arguments{
 \item{tb}{input table}
 
-\item{drs}{percent of trips by drs}
+\item{drs}{percent of trips by dynamic ride sharing (DRS)}
 
 \item{class}{vehicle class for current mode}
 
@@ -62,5 +62,5 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
 }
 \description{
-Calculate DRS VMT
+Calculate Dynamic Ride Sharing VMT
 }

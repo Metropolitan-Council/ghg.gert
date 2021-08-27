@@ -195,7 +195,7 @@ calc_vmt <- function(scen,
         # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
         (1 + (cong / (fcm + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
         (1 + (gas / fcm) * ifelse(((s == "SIStock") |
-                                     (s == "CIStock") | (s == "HEVStock") | ((s == "PHEVStock") & (ch_phev == 1))), 1, 0) * ELAST_GAS) *
+          (s == "CIStock") | (s == "HEVStock") | ((s == "PHEVStock") & (ch_phev == 1))), 1, 0) * ELAST_GAS) *
         (1 + (park / tb %>%
           dplyr::filter(var == "PARK") %>%
           dplyr::select(tidyselect::all_of(YRS)) * ELAST_PARK)) *

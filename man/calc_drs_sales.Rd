@@ -2,18 +2,18 @@
 % Please edit documentation in R/calc_drs_sales.R
 \name{calc_drs_sales}
 \alias{calc_drs_sales}
-\title{Calculate DRS stock sales}
+\title{Calculate dynamic ride sharing stock sales}
 \usage{
 calc_drs_sales(tb, drs)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{drs}{percent of trips by DRS and therefore percent of sales}
+\item{drs}{percent of trips by dynamic ride sharing and therefore percent of sales}
 }
 \value{
 
 }
 \description{
-Calculate DRS stock sales
+Calculate dynamic ride sharing stock sales
 }

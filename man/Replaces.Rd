@@ -4,12 +4,12 @@
 \alias{calc_av_sales}
 \title{Calculate AV stock sales}
 \usage{
-calc_av_sales(tb, av)
+calc_av_sales(tb, av_pct)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{av}{percent of trips by AV}
+\item{av_pct}{percent of trips by AV}
 }
 \value{
 

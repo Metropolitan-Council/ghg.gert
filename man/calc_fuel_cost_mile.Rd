@@ -16,8 +16,6 @@ calc_fuel_cost_mile(tb, m, aeo = "REF", mpg, fcg, av = 0)
 \item{mpg}{miles per gallon for current mode}
 
 \item{fcg}{fuel cost per gallon for current mode}
-
-\item{av}{percent of trips made by AV. Default is \code{0}}
 }
 \value{
 

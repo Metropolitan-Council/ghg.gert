@@ -4,7 +4,7 @@
 \alias{calc_cost}
 \title{Calculate cost estimates in millions of dollars}
 \usage{
-calc_cost(tb_vmt, tb, m, pr, av = 0)
+calc_cost(tb_vmt, tb, m, pr, is_av = 0)
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
@@ -15,7 +15,7 @@ calc_cost(tb_vmt, tb, m, pr, av = 0)
 
 \item{pr}{price variable}
 
-\item{av}{whether the mode is av, which affects price}
+\item{is_av}{whether the mode is av, which affects price. Default is \code{0}.}
 }
 \value{
 

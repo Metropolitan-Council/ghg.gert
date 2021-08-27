@@ -70,7 +70,7 @@ scenario_results <- function(scen = "BAU",
   # 4. Calculate VMT with `calc`
 
 
-# Passenger ------------------------------------------------------------
+  # Passenger ------------------------------------------------------------
 
   type <- "P"
   # For all passenger modes, variable = PMT
@@ -468,8 +468,10 @@ scenario_results <- function(scen = "BAU",
   # Caculate a fuel cost for use in DRS and transit calculations. Use gasoline PLDV value.
   mpg <- "SIMPG"
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(pass_transpo, mode,
-                             aeo_scen, mpg, SI_FUEL_COST_GAL)
+  fcm <- calc_fuel_cost_mile(
+    pass_transpo, mode,
+    aeo_scen, mpg, SI_FUEL_COST_GAL
+  )
 
   ## Bus Urban -----
   mode <- "BU"
@@ -886,8 +888,10 @@ scenario_results <- function(scen = "BAU",
   )
 
   # Add the RU data
-  out_sum <- dplyr::bind_rows(out_sum, ev_vmt,
-                              ev_ghg, ev_fuel, ev_cost)
+  out_sum <- dplyr::bind_rows(
+    out_sum, ev_vmt,
+    ev_ghg, ev_fuel, ev_cost
+  )
 
   # Rail Interurban-----
   mode <- "RI"
@@ -1714,7 +1718,7 @@ scenario_results <- function(scen = "BAU",
     }
   }
 
-# Freight -------------------------------
+  # Freight -------------------------------
   # (measured in ton-miles NOT miles)
   type <- "F"
   # For all freight, var = TMT
@@ -1730,27 +1734,37 @@ scenario_results <- function(scen = "BAU",
   mpg <- "CIMPG"
   class <- "CI"
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(freight_transpo, mode,
-                             aeo_scen, mpg, CI_FUEL_COST_GAL)
+  fcm <- calc_fuel_cost_mile(
+    freight_transpo, mode,
+    aeo_scen, mpg, CI_FUEL_COST_GAL
+  )
 
-  ci_vmt <- tibble::tibble(type = type,
-                           scenario = scen, mode = mode,
-                           class = class, ctu = ch_ctu, output = "TVMT",
-                           calc_vmt(scen, freight_transpo,
-                                    mode, stock, var, fcm,
-                                    aeo_scen, t_avo, t_rider,
-                                    vmt, payd, gas, cong,
-                                    park, drs, av_pct, fvmt,
-                                    pop_dens, emp_dens,
-                                    diverse, design,
-                                    job_access, trans_dist,
-                                    comb_5d_impact_dr))
+  ci_vmt <- tibble::tibble(
+    type = type,
+    scenario = scen, mode = mode,
+    class = class, ctu = ch_ctu, output = "TVMT",
+    calc_vmt(
+      scen, freight_transpo,
+      mode, stock, var, fcm,
+      aeo_scen, t_avo, t_rider,
+      vmt, payd, gas, cong,
+      park, drs, av_pct, fvmt,
+      pop_dens, emp_dens,
+      diverse, design,
+      job_access, trans_dist,
+      comb_5d_impact_dr
+    )
+  )
 
-  ci_ghg <- tibble::tibble(type = type, scenario = scen,
-                           mode = mode, class = class,
-                           ctu = ch_ctu, output = "DIR-GHG",
-                           calc_ghg_direct(ci_vmt, freight_transpo,
-                                           mode, "CUTCI", aeo_scen, mpg))
+  ci_ghg <- tibble::tibble(
+    type = type, scenario = scen,
+    mode = mode, class = class,
+    ctu = ch_ctu, output = "DIR-GHG",
+    calc_ghg_direct(
+      ci_vmt, freight_transpo,
+      mode, "CUTCI", aeo_scen, mpg
+    )
+  )
 
 
   ### Heavy  battery electric -----

@@ -11,9 +11,9 @@ readline_check(prompt, type, bev = 0, phev = 0)
 
 \item{type}{type of question to determine the set of applied logic}
 
-\item{bev}{percent of sales that are BEV in 2050}
+\item{bev}{percent of sales that are battery electric vehicles (BEV) in 2050}
 
-\item{phev}{percent of sales that are PHEV in 2050}
+\item{phev}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
 }
 \value{
 
