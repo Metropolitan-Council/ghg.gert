@@ -25,9 +25,20 @@ calc_cost <- function(tb_vmt,
   cost <- tb_vmt %>%
     dplyr::select(all_of(YRS)) %>%
     dplyr::rowwise() %>%
-    mutate_all(., function(col) {
-      col * cost_input
-    })
+    dplyr::mutate(
+      `2015` = `2015` * (cost_input)$`2015`,
+      `2018` = `2018` * (cost_input)$`2018`,
+      `2020` = `2020` * (cost_input)$`2020`,
+      `2025` = `2025` * (cost_input)$`2025`,
+      `2030` = `2030` * (cost_input)$`2030`,
+      `2035` = `2035` * (cost_input)$`2035`,
+      `2040` = `2040` * (cost_input)$`2040`,
+    )
+
+
+  # mutate_all(., function(col) {
+  #   col * cost_input
+  # })
 
 
   return(cost)

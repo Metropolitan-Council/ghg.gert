@@ -87,9 +87,15 @@ calc_ghg_embodied <- function(tb,
       dplyr::filter(mode == .mode, var == sales) %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate_all(., function(col) {
-        col * ghg_factors_current
-      })
+      mutate(
+        `2015` = `2015` * (ghg_factors_current)$`2015`,
+        `2018` = `2018` * (ghg_factors_current)$`2018`,
+        `2020` = `2020` * (ghg_factors_current)$`2020`,
+        `2025` = `2025` * (ghg_factors_current)$`2025`,
+        `2030` = `2030` * (ghg_factors_current)$`2030`,
+        `2035` = `2035` * (ghg_factors_current)$`2035`,
+        `2040` = `2040` * (ghg_factors_current)$`2040`,
+      )
   }
 
   return(ghg)

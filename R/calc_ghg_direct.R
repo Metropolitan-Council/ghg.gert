@@ -81,10 +81,15 @@ calc_ghg_direct <- function(tb_vmt,
 
   ghg <- tb_vmt %>%
     dplyr::select(all_of(YRS)) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate_all(., function(col) {
-      col / (ghg_by_mode * ghg_factors_current)
-    })
+    mutate(
+      `2015` = `2015` / (ghg_by_mode * ghg_factors_current)$`2015`,
+      `2018` = `2018` / (ghg_by_mode * ghg_factors_current)$`2018`,
+      `2020` = `2020` / (ghg_by_mode * ghg_factors_current)$`2020`,
+      `2025` = `2025` / (ghg_by_mode * ghg_factors_current)$`2025`,
+      `2030` = `2030` / (ghg_by_mode * ghg_factors_current)$`2030`,
+      `2035` = `2035` / (ghg_by_mode * ghg_factors_current)$`2035`,
+      `2040` = `2040` / (ghg_by_mode * ghg_factors_current)$`2040`,
+    )
 
   return(ghg)
 }
