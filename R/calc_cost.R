@@ -15,12 +15,17 @@ calc_cost <- function(tb_vmt,
                       m,
                       pr,
                       is_av = 0) {
-) {
-  cost <- tb_vmt %>%
-    dplyr::select(all_of(YRS)) *
-    tb %>%
-    dplyr::filter(mode == m, var == pr, AV == av) %>%
+  cost_input <- tb %>%
+    dplyr::filter(mode == m, var == pr, AV == is_av) %>%
     dplyr::select(all_of(YRS)) / 1000
+
+  cost <- tb_vmt %>%
+    dplyr::select(all_of(YRS)) %>%
+    dplyr::rowwise() %>%
+    mutate_all(., function(col) {
+      col * cost_input
+    })
+
 
   return(cost)
 }

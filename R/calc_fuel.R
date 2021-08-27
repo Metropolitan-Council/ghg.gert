@@ -13,40 +13,49 @@ calc_fuel <- function(tb_vmt,
                       f,
                       aeo = "REF",
                       mpg,
-                      av = 0
-) {
+                      av = 0) {
+  # browser()
+
+  ghg_by_mode <- tb %>%
+    dplyr::filter(mode == m, var == mpg) %>%
+    dplyr::select(tidyselect::all_of(YRS)) *
+    dplyr::case_when(
+      m == "PLDV" ~ aeo_factors %>%
+        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "LDV") %>%
+        dplyr::select(tidyselect::all_of(YRS)) %>%
+        as.numeric(),
+      m == "SUT" ~ aeo_factors %>%
+        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "MDT") %>%
+        dplyr::select(tidyselect::all_of(YRS)) %>%
+        as.numeric(),
+      m == "CUT" ~ aeo_factors %>%
+        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "HDT") %>%
+        dplyr::select(tidyselect::all_of(YRS)) %>%
+        as.numeric(),
+      m == "FR" ~ aeo_factors %>%
+        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FRAIL") %>%
+        dplyr::select(tidyselect::all_of(YRS)) %>%
+        as.numeric(),
+      m == "MM" | m == "AIR" | m == "WAT" ~ aeo_factors %>%
+        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FSHIP") %>%
+        dplyr::select(tidyselect::all_of(YRS)) %>%
+        as.numeric(),
+      TRUE ~ 1
+    ) *
+    # AV adjustment
+    dplyr::case_when(
+      av > 0 ~ MPG_AV,
+      TRUE ~ 1
+    )
+
+
+
   fuel <- tb_vmt %>%
-    dplyr::select(all_of(YRS)) /
-    (tb %>% dplyr::filter(mode == m, var == mpg) %>%
-       dplyr::select(all_of(YRS)) *
-       dplyr::case_when(
-         m == "PLDV" ~ aeo_factors %>%
-           dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "LDV") %>%
-           dplyr::select(all_of(YRS)) %>%
-           as.numeric(),
-         m == "SUT" ~ aeo_factors %>%
-           dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "MDT") %>%
-           dplyr::select(all_of(YRS)) %>%
-           as.numeric(),
-         m == "CUT" ~ aeo_factors %>%
-           dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "HDT") %>%
-           dplyr::select(all_of(YRS)) %>%
-           as.numeric(),
-         m == "FR" ~ aeo_factors %>%
-           dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FRAIL") %>%
-           dplyr::select(all_of(YRS)) %>%
-           as.numeric(),
-         m == "MM" | m == "AIR" | m == "WAT" ~ aeo_factors %>%
-           dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FSHIP") %>%
-           dplyr::select(all_of(YRS)) %>%
-           as.numeric(),
-         TRUE ~ 1
-       ) *
-       # AV adjustment
-       dplyr::case_when(
-         av > 0 ~ MPG_AV,
-         TRUE ~ 1
-       ))
+    dplyr::select(tidyselect::all_of(YRS)) %>%
+    dplyr::rowwise() %>%
+    mutate_all(., function(col) {
+      col / (ghg_by_mode)
+    })
 
   return(fuel)
 }
