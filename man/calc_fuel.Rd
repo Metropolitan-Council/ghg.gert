@@ -4,16 +4,16 @@
 \alias{calc_fuel}
 \title{Calculate use of fuel in thousands of gallons or thousands of kWh}
 \usage{
-calc_fuel(tb_vmt, tb, m, f, aeo = "REF", mpg, av = 0)
+calc_fuel(tb_vmt, tb, .mode, .fuel_type, aeo = "REF", mpg, av = 0)
 }
 \arguments{
 \item{tb_vmt}{output VMT table}
 
 \item{tb}{input GHB table}
 
-\item{m}{current mode}
+\item{.mode}{current mode}
 
-\item{f}{current fuel type}
+\item{.fuel_type}{current fuel type}
 
 \item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 

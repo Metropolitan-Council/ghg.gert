@@ -4,16 +4,16 @@
 \alias{calc_ghg_direct}
 \title{Calculate direct emissions}
 \usage{
-calc_ghg_direct(tb_vmt, tb, m, f, aeo = "REF", mpg, is_av = 0)
+calc_ghg_direct(tb_vmt, tb, .mode, .fuel_type, aeo = "REF", mpg, is_av = 0)
 }
 \arguments{
 \item{tb_vmt}{output VMT table}
 
 \item{tb}{input GHB table}
 
-\item{m}{current mode}
+\item{.mode}{current mode}
 
-\item{f}{current fuel type}
+\item{.fuel_type}{current fuel type}
 
 \item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 

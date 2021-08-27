@@ -4,12 +4,12 @@
 \alias{calc_ghg_embodied}
 \title{Calculate embodied/indirect emissions}
 \usage{
-calc_ghg_embodied(tb, m, sales, sour, c, t_avo = 0, mit = 0, bau = 0)
+calc_ghg_embodied(tb, .mode, sales, sour, c, t_avo = 0, mit = 0, bau = 0)
 }
 \arguments{
 \item{tb}{input table for embodied ghg emissions}
 
-\item{m}{current mode}
+\item{.mode}{current mode}
 
 \item{sales}{current mode sales name for calculation of embodied emissions of new vehicles}
 

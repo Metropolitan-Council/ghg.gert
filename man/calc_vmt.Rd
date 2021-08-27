@@ -38,11 +38,11 @@ calc_vmt(
 
 \item{tb}{input table}
 
-\item{m}{current mode}
+\item{.mode}{current mode}
 
-\item{s}{stock for current mode}
+\item{.stock}{stock for current mode}
 
-\item{v}{variable name - e.g., "VMT"}
+\item{.variable}{variable name - e.g., "VMT"}
 
 \item{fcm}{fuel cost per mile}
 
@@ -64,7 +64,8 @@ congested miles in MSP). Default is \code{0}}
 \item{park}{Average price of parking based on TBI results and literature -
 measured in cents per hour. Default is \code{0}}
 
-\item{drs}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS). Default is \code{0}}
+\item{drs}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
+Default is \code{0}}
 
 \item{av_pct}{percent of trips made by AV. Default is \code{0}}
 

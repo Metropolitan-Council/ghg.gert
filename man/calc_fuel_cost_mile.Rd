@@ -4,12 +4,12 @@
 \alias{calc_fuel_cost_mile}
 \title{Calculate fuel cost per mile}
 \usage{
-calc_fuel_cost_mile(tb, m, aeo = "REF", mpg, fcg, av = 0)
+calc_fuel_cost_mile(tb, .mode, aeo = "REF", mpg, fcg, av = 0)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{m}{current mode}
+\item{.mode}{current mode}
 
 \item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
