@@ -41,7 +41,7 @@ scenario_results <- function(scen = "BAU",
                              telework = 0,
                              bau_summary = 0) {
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
-  browser()
+  # browser()
   if (drs > 0) {
     pass_transpo <- pass_transpo %>%
       dplyr::mutate(
@@ -451,6 +451,7 @@ scenario_results <- function(scen = "BAU",
     )
   )
 
+  browser()
   # Combine the PLDV data
   out_sum <- dplyr::bind_rows(
     si_vmt, si_dir_ghg, si_fuel,
@@ -476,7 +477,7 @@ scenario_results <- function(scen = "BAU",
   ## Bus Urban -----
   mode <- "BU"
 
-  ## Biodiesel
+  ## Bus with Biodiesel-----
   stock <- "BCIStock"
   mpg <- "BCIMPG"
   class <- "BCI"
