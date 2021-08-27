@@ -6,12 +6,13 @@
 #' @param f current fuel type
 #' @param mpg miles per gallon for mode
 #' @param is_av whether the mode is AV. AV has a different
+#'     MPG due to efficiency gains from automation of drive cycle.
 #' @inheritParams calc_vmt
 #'
 #' @return
 #' @export
 #'
-#' @importFrom dplyr filter select case_when
+#' @importFrom dplyr filter select case_when rowwise mutate_all
 calc_ghg_direct <- function(tb_vmt,
                             tb,
                             m,

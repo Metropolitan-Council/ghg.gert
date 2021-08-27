@@ -5,8 +5,8 @@
 #' @return
 #' @family transportation
 #' @export
-#' @importFrom dplyr filter select case_when
-
+#' @importFrom dplyr filter select case_when rowwise mutate_all
+#' @importFrom tidyselect all_of
 calc_fuel <- function(tb_vmt,
                       tb,
                       m,

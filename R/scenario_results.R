@@ -11,7 +11,7 @@
 #'
 #' @return
 #' @export
-#' @importFrom dplyr filter select case_when across bind_rows
+#' @importFrom dplyr filter select case_when across bind_rows cur_column
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
 #'
