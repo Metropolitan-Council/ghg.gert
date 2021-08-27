@@ -119,8 +119,8 @@ scenario_results <- function(scen = "BAU",
     calc_ghg_direct(
       tb_vmt = si_vmt,
       tb = pass_transpo,
-      m = mode,
-      f = "SI",
+      .mode = mode,
+      .fuel_type = "SI",
       aeo = aeo_scen,
       mpg = mpg
     )

@@ -2,9 +2,9 @@
 #'
 #' @param scen character, scenario name
 #' @param tb input table
-#' @param m current mode
-#' @param s stock for current mode
-#' @param v variable name - e.g., "VMT"
+#' @param .mode current mode
+#' @param .stock stock for current mode
+#' @param .variable variable name - e.g., "VMT"
 #' @param fcm fuel cost per mile
 #' @param aeo selected EIA Annual Energy Outlook scenario. Default is `"REF"`
 #' @param t_avo transit average vehicle occupancy % adjustment. Default is `0`
@@ -16,7 +16,8 @@
 #'     congested miles in MSP). Default is `0`
 #' @param park Average price of parking based on TBI results and literature -
 #'      measured in cents per hour. Default is `0`
-#' @param drs percent of trips by auto or transit that are now by dynamic ride sharing (DRS). Default is `0`
+#' @param drs percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
+#'     Default is `0`
 #' @param av_pct percent of trips made by AV. Default is `0`
 #' @param fvmt freight VMT fee per mile. Default is `0`
 #' @param pop_dens percent change in population density in 2050 wrt BAU. Default is `0`
@@ -43,9 +44,9 @@
 #'
 calc_vmt <- function(scen,
                      tb,
-                     m,
-                     s,
-                     v,
+                     .mode,
+                     .stock,
+                     .variable,
                      fcm,
                      aeo = "REF",
                      t_avo = 0,

@@ -2,8 +2,8 @@
 #'
 #' @param tb_vmt output VMT table
 #' @param tb input GHB table
-#' @param m current mode
-#' @param f current fuel type
+#' @param .mode current mode
+#' @param .fuel_type current fuel type
 #' @param mpg miles per gallon for mode
 #' @param is_av whether the mode is AV. AV has a different
 #'     MPG due to efficiency gains from automation of drive cycle.
@@ -15,8 +15,8 @@
 #' @importFrom dplyr filter select case_when rowwise mutate_all
 calc_ghg_direct <- function(tb_vmt,
                             tb,
-                            m,
-                            f,
+                            .mode,
+                            .fuel_type,
                             aeo = "REF",
                             mpg,
                             is_av = 0) {
@@ -24,14 +24,14 @@ calc_ghg_direct <- function(tb_vmt,
 
 
   ghg_factors_current <- ghg_factors %>%
-    dplyr::filter(source == f) %>%
+    dplyr::filter(source == .fuel_type) %>%
     dplyr::select(all_of(YRS))
 
   ghg_by_mode <- tb %>%
-    dplyr::filter(mode == m, var == mpg) %>%
+    dplyr::filter(mode == .mode, var == mpg) %>%
     dplyr::select(all_of(YRS)) *
     dplyr::case_when(
-      m == "PLDV" ~ aeo_factors %>%
+      .mode == "PLDV" ~ aeo_factors %>%
         dplyr::filter(
           AEOScen == aeo,
           Metric == "MPG",
@@ -39,7 +39,7 @@ calc_ghg_direct <- function(tb_vmt,
         ) %>%
         dplyr::select(all_of(YRS)) %>%
         as.numeric(),
-      m == "SUT" ~ aeo_factors %>%
+      .mode == "SUT" ~ aeo_factors %>%
         dplyr::filter(
           AEOScen == aeo,
           Metric == "MPG",
@@ -47,7 +47,7 @@ calc_ghg_direct <- function(tb_vmt,
         ) %>%
         dplyr::select(all_of(YRS)) %>%
         as.numeric(),
-      m == "CUT" ~ aeo_factors %>%
+      .mode == "CUT" ~ aeo_factors %>%
         dplyr::filter(
           AEOScen == aeo,
           Metric == "MPG",
@@ -55,7 +55,7 @@ calc_ghg_direct <- function(tb_vmt,
         ) %>%
         dplyr::select(all_of(YRS)) %>%
         as.numeric(),
-      m == "FR" ~ aeo_factors %>%
+      .mode == "FR" ~ aeo_factors %>%
         dplyr::filter(
           AEOScen == aeo,
           Metric == "MPG",
@@ -63,7 +63,7 @@ calc_ghg_direct <- function(tb_vmt,
         ) %>%
         dplyr::select(all_of(YRS)) %>%
         as.numeric(),
-      m == "MM" | m == "AIR" | m == "WAT" ~ aeo_factors %>%
+      .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_factors %>%
         dplyr::filter(
           AEOScen == aeo,
           Metric == "MPG",

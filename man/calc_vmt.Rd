@@ -7,9 +7,9 @@
 calc_vmt(
   scen,
   tb,
-  m,
-  s,
-  v,
+  .mode,
+  .stock,
+  .variable,
   fcm,
   aeo = "REF",
   t_avo = 0,

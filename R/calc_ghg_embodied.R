@@ -18,7 +18,7 @@
 #' @importFrom dplyr filter select case_when mutate across
 #' @importFrom tidyselect all_of
 calc_ghg_embodied <- function(tb,
-                              m,
+                              .mode,
                               sales,
                               sour,
                               c,
@@ -26,9 +26,9 @@ calc_ghg_embodied <- function(tb,
                               mit = 0,
                               bau = 0) {
   # browser()
-  if ((m == "BU") | (m == "BRT")) {
+  if ((.mode == "BU") | (.mode == "BRT")) {
     ghg <- tb %>%
-      dplyr::filter(mode == m, var == sales) %>%
+      dplyr::filter(mode == .mode, var == sales) %>%
       dplyr::select(all_of(YRS)) *
       ghg_factors %>%
         dplyr::filter(source == sour) %>%
@@ -42,7 +42,7 @@ calc_ghg_embodied <- function(tb,
         dplyr::mutate(
           dplyr::across(
             tidyselect::all_of(YRS), ~ case_when(
-              (mode == m & class == c & .x == 0) ~ 1,
+              (mode == .mode & class == c & .x == 0) ~ 1,
               TRUE ~ .x / 10^5
             )
           )
@@ -54,7 +54,7 @@ calc_ghg_embodied <- function(tb,
         dplyr::mutate(
           dplyr::across(
             tidyselect::all_of(YRS), ~ case_when(
-              (mode == m & class == c & .x == 0) ~ 1,
+              (mode == .mode & class == c & .x == 0) ~ 1,
               TRUE ~ .x
             )
           )
@@ -62,7 +62,7 @@ calc_ghg_embodied <- function(tb,
 
       bau_vals <- bau %>%
         dplyr::filter(
-          mode == m,
+          mode == .mode,
           class == c,
           output == "VMT"
         ) %>%
@@ -84,7 +84,7 @@ calc_ghg_embodied <- function(tb,
       dplyr::select(tidyselect::all_of(YRS))
 
     ghg <- tb %>%
-      dplyr::filter(mode == m, var == sales) %>%
+      dplyr::filter(mode == .mode, var == sales) %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
       dplyr::rowwise() %>%
       dplyr::mutate_all(., function(col) {

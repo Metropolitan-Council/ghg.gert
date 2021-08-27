@@ -1,6 +1,7 @@
 #' Calculate use of fuel in thousands of gallons or thousands of kWh
 #'
 #' @inheritParams calc_ghg_direct
+#' @inheritParams calc_vmt
 #'
 #' @return
 #' @family transportation
@@ -9,34 +10,34 @@
 #' @importFrom tidyselect all_of
 calc_fuel <- function(tb_vmt,
                       tb,
-                      m,
-                      f,
+                      .mode,
+                      .fuel_type,
                       aeo = "REF",
                       mpg,
                       av = 0) {
   # browser()
 
   ghg_by_mode <- tb %>%
-    dplyr::filter(mode == m, var == mpg) %>%
+    dplyr::filter(mode == .mode, var == mpg) %>%
     dplyr::select(tidyselect::all_of(YRS)) *
     dplyr::case_when(
-      m == "PLDV" ~ aeo_factors %>%
+      .mode == "PLDV" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "LDV") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
-      m == "SUT" ~ aeo_factors %>%
+      .mode == "SUT" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "MDT") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
-      m == "CUT" ~ aeo_factors %>%
+      .mode == "CUT" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "HDT") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
-      m == "FR" ~ aeo_factors %>%
+      .mode == "FR" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FRAIL") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
-      m == "MM" | m == "AIR" | m == "WAT" ~ aeo_factors %>%
+      .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FSHIP") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
@@ -49,13 +50,17 @@ calc_fuel <- function(tb_vmt,
     )
 
 
-
+  fuel <- tb %>%
   fuel <- tb_vmt %>%
     dplyr::select(tidyselect::all_of(YRS)) %>%
-    dplyr::rowwise() %>%
-    mutate_all(., function(col) {
-      col / (ghg_by_mode)
-    })
-
+    mutate(
+      `2015` = `2015` / (ghg_by_mode)$`2015`,
+      `2018` = `2018` / (ghg_by_mode)$`2018`,
+      `2020` = `2020` / (ghg_by_mode)$`2020`,
+      `2025` = `2025` / (ghg_by_mode)$`2025`,
+      `2030` = `2030` / (ghg_by_mode)$`2030`,
+      `2035` = `2035` / (ghg_by_mode)$`2035`,
+      `2040` = `2040` / (ghg_by_mode)$`2040`,
+    )
   return(fuel)
 }
