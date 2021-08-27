@@ -52,7 +52,7 @@ scenario_results <- function(scen = "BAU",
               dplyr::case_when(
                 drs > 0 ~ (1 - pass_transpo %>%
                   dplyr::filter(var == "DRSShare") %>%
-                  dplyr::select(tidyselect::cur_column()) %>%
+                  dplyr::select(dplyr::cur_column()) %>%
                   as.numeric() * drs / 100),
                 TRUE ~ 1
               ),
