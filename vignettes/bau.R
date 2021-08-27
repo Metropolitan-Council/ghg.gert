@@ -1,4 +1,8 @@
 ############# Setup BAU scenario ###############################
+library(ghg.sp)
+source("vignettes/data_import.R")
+source("vignettes/global_constants.R")
+
 scen <- "BAU"
 bau_summary <- scenario_results(scen, elec_scen, aeo_scen, ch_ctu)
 
@@ -19,7 +23,7 @@ bau_summary <- bau_summary %>% mutate(across(
 mode_summary <- bau_summary %>%
   filter(type == "P", output == "VMT") %>%
   group_by(mode) %>%
-  select(append("mode", YRS)) %>%
+  select(append("mode", all_of(YRS))) %>%
   summarise(across(everything(), sum)) %>%
   pivot_longer(YRS) %>%
   pivot_wider(name, mode)

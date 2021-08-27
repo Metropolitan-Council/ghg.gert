@@ -1,5 +1,5 @@
 ####### Create plots for the BAU results #######
-
+library(plotly)
 ## Cumulative VMT plot by mode for personal vehicles
 mode_summary <- bau_summary %>%
   filter(type == "P", output == "VMT") %>%
@@ -68,6 +68,7 @@ pldv_ghg_summary <- bau_summary %>%
   summarise(across(everything(), sum)) %>%
   pivot_longer(YRS) %>%
   pivot_wider(name, class)
+
 pghgfig <- plot_ly(pldv_ghg_summary, x = ~name, y = ~SI, name = "Gasoline", type = "scatter", mode = "none", stackgroup = "one")
 pghgfig <- pghgfig %>% add_trace(y = ~CI, name = "Diesel")
 pghgfig <- pghgfig %>% add_trace(y = ~BCI, name = "Biodiesel")
