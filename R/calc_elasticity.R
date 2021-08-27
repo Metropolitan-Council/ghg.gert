@@ -11,9 +11,9 @@
 #'
 #' @family transportation
 calc_elasticity <- function(elas_list,
-                      elas,
-                      num_inits,
-                      num_yrs) {
+                            elas,
+                            num_inits,
+                            num_yrs) {
   for (i in 1:num_yrs) {
     elas_list[i + num_inits] <- (elas / num_yrs) * i
   }

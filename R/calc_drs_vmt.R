@@ -26,26 +26,25 @@ calc_drs_vmt <- function(tb,
                          design = 0,
                          job_access = 0,
                          trans_dist = 0,
-                         comb_5d_impact_dr = 0
-) {
+                         comb_5d_impact_dr = 0) {
   # Percent of population using DRS
   vmt <- tb %>%
     dplyr::filter(var == "POP") %>%
     dplyr::select(tidyselect::all_of(YRS)) * drs / 100 *
     tb %>%
-    dplyr::filter(var == "DRSShare") %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    as.numeric() *
+      dplyr::filter(var == "DRSShare") %>%
+      dplyr::select(tidyselect::all_of(YRS)) %>%
+      as.numeric() *
     # SAV per traveller
     tb %>%
-    dplyr::filter(var == "SAV") %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    as.numeric() *
+      dplyr::filter(var == "SAV") %>%
+      dplyr::select(tidyselect::all_of(YRS)) %>%
+      as.numeric() *
     # VMT per SAV per year
     tb %>%
-    dplyr::filter(var == "VMT") %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    as.numeric() *
+      dplyr::filter(var == "VMT") %>%
+      dplyr::select(tidyselect::all_of(YRS)) %>%
+      as.numeric() *
     # If SAV is PHEV or BEV, then additional VMT for charging
     dplyr::case_when(
       ((class == "PHEV") | (class == "BEV")) ~ (1 + EVCS_VMT),
@@ -71,19 +70,19 @@ calc_drs_vmt <- function(tb,
         (1 + (cong / (fcm + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
         # Parking price effect
         (1 + park / tb %>%
-           dplyr::filter(mode == "PLDV", var == "PARK") %>%
-           dplyr::select(tidyselect::all_of(YRS)) * CROSS_PARK_TRANSIT) *
+          dplyr::filter(mode == "PLDV", var == "PARK") %>%
+          dplyr::select(tidyselect::all_of(YRS)) * CROSS_PARK_TRANSIT) *
         # Gas price effect
         (1 + (gas / fcm) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to gas price because already switched stock from SI/CI)
-           (tb %>% dplyr::filter(mode == "PLDV", var == "SIStock") %>%
-              dplyr::select(tidyselect::all_of(YRS)) +
-              tb %>% dplyr::filter(mode == "PLDV", var == "CIStock") %>%
-              dplyr::select(tidyselect::all_of(YRS)) +
-              tb %>% dplyr::filter(mode == "PLDV", var == "HEVStock") %>%
-              dplyr::select(tidyselect::all_of(YRS))) /
-           tb %>%
-           dplyr::filter(mode == "PLDV", var == "TotStock") %>%
-           dplyr::select(tidyselect::all_of(YRS)) * CROSS_VMT)
+          (tb %>% dplyr::filter(mode == "PLDV", var == "SIStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)) +
+            tb %>% dplyr::filter(mode == "PLDV", var == "CIStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)) +
+            tb %>% dplyr::filter(mode == "PLDV", var == "HEVStock") %>%
+            dplyr::select(tidyselect::all_of(YRS))) /
+          tb %>%
+            dplyr::filter(mode == "PLDV", var == "TotStock") %>%
+            dplyr::select(tidyselect::all_of(YRS)) * CROSS_VMT)
     } # in thousands of miles (because population in 1000s of persons)
   return(vmt)
 }

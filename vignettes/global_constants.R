@@ -126,13 +126,10 @@ ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 elec_scen <- readline_check(prompt = "Enter electricity scenario ('ER' or 'EM'): ", type = "elec_scen")
 ## Prompt user for input of energy market assumption
 aeo_scen <- readline_check(prompt = "Enter AEO scenario ('REF', 'HM', 'HOGS', 'LM', 'HP', 'LP', 'LOGS'): ", type = "aeo_scen")
+
 # ch_ctu <- readline_check(prompt="Select a ctu: ", type="ctu")
 #### USER SHOULD SET IN UI #####
 ch_ctu <- "St. Paul"
 
 pass_transpo <- pass_transpo %>% filter(ctu == ch_ctu | ctu == "All")
 freight_transpo <- freight_transpo %>% filter(ctu == ch_ctu | ctu == "All")
-
-
-
-

@@ -16,17 +16,16 @@
 #' @return
 #' @export
 #' @importFrom dplyr filter select case_when mutate across
-#'
-calc_ghg_embodied <- function(
-  tb,
-  m,
-  sales,
-  sour,
-  c,
-  t_avo = 0,
-  mit = 0,
-  bau = 0
-) {
+#' @importFrom tidyselect all_of
+calc_ghg_embodied <- function(tb,
+                              m,
+                              sales,
+                              sour,
+                              c,
+                              t_avo = 0,
+                              mit = 0,
+                              bau = 0) {
+  # browser()
   if ((m == "BU") | (m == "BRT")) {
     ghg <- tb %>%
       dplyr::filter(mode == m, var == sales) %>%
