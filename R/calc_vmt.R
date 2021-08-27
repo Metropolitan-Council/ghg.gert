@@ -16,7 +16,7 @@
 #'     congested miles in MSP). Default is `0`
 #' @param park Average price of parking based on TBI results and literature -
 #'      measured in cents per hour. Default is `0`
-#' @param drs percent of trips by auto or transit that are now by DRS. Default is `0`
+#' @param drs percent of trips by auto or transit that are now by dynamic ride sharing (DRS). Default is `0`
 #' @param av_pct percent of trips made by AV. Default is `0`
 #' @param fvmt freight VMT fee per mile. Default is `0`
 #' @param pop_dens percent change in population density in 2050 wrt BAU. Default is `0`

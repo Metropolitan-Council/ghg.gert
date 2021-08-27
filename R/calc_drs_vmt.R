@@ -1,6 +1,6 @@
-#' Calculate DRS VMT
+#' Calculate Dynamic Ride Sharing VMT
 #'
-#' @param drs percent of trips by drs
+#' @param drs percent of trips by dynamic ride sharing (DRS)
 #' @param class vehicle class for current mode
 #' @param cong congestion price in cents per mile (only applies to congested VMT)
 #' @inheritParams calc_vmt
@@ -10,6 +10,7 @@
 #'
 #' @importFrom tidyselect all_of
 #' @importFrom dplyr filter select case_when
+#'
 calc_drs_vmt <- function(tb,
                          drs,
                          class,

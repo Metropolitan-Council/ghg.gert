@@ -1,17 +1,18 @@
-#' @title Adjust the fleet to match what the user input for sales in 2050 rather
-#'       than the defaults from MA3T
+#' @title Adjust the fleet
 #'
-#' @describeIn Fleet held fixed in all cases. AV/DRS scenarios adjust the sales
-#'      total up, but they adjust the existing stock down to match total stock
-#'      in each year.
+#' @describeIn Match what the user input for sales in 2050 rather
+#'     than the defaults from MA3TFleet held fixed in all cases.
+#'     AV/DRS scenarios adjust the sales
+#'     total up, but they adjust the existing stock down to match total stock
+#'     in each year.
 #'
-#' @param bev percent of sales that are BEV in 2050
-#' @param phev percent of sales that are PHEV in 2050
-#' @param hev percent of sales that are HEV in 2050
+#' @param bev percent of sales that are battery electric vehicles (BEV) in 2050
+#' @param phev percent of sales that are plug-in hybrid electric (PHEV) in 2050
+#' @param hev percent of sales that are hybrid electric vehicles (HEV) in 2050
 #' @param ptb passenger input table
 #' @param ftb freight input table
-#' @param drs percent of trips/fleet that is DRS. Default is `0`.
-#' @param av percent of trips/fleet that are AVs. Default is `0`.
+#' @param drs percent of trips/fleet that is dynamic ride sharing (DRS) Default is `0`.
+#' @param av_pct percent of trips/fleet that are autonomous vehicles (AV). Default is `0`.
 #' @param ch_ctu the chosen CTU for dplyr::filter of tables
 #' @inheritParams calc_vmt
 #'

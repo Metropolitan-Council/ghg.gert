@@ -4,7 +4,7 @@
 #' @param e_scen electricity scenario
 #' @param aeo_scen selected EIA Annual Energy Outlook scenario
 #' @param ch_ctu chosen CTU
-#' @param drs_fuel input drs fuel type
+#' @param drs_fuel input dynamic ride sharing (DRS) fuel type. Default is `0`.
 #' @param av_fuel input AV fuel type
 #' @param bau_summary input of BAU data for calculations in MIT scenario
 #' @inheritParams calc_vmt
