@@ -50,8 +50,7 @@ calc_fuel <- function(tb_vmt,
     )
 
 
-  fuel <- tb %>%
-    fuel() <- tb_vmt %>%
+  fuel <- tb_vmt %>%
     dplyr::select(tidyselect::all_of(YRS)) %>%
     mutate(
       `2015` = `2015` / (ghg_by_mode)$`2015`,

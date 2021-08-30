@@ -1,13 +1,14 @@
 #' @title Calculate vehicle miles traveled by mode and power train
 #'
 #' @param scen character, scenario name
-#' @param tb input table
+#' @param tb input table. Should have columns `mode`, `var`, `ctu`,
+#'    and one for each year
 #' @param .mode current mode
 #' @param .stock stock for current mode
 #' @param .variable variable name - e.g., "VMT"
 #' @param fcm fuel cost per mile
 #' @param aeo selected EIA Annual Energy Outlook scenario. Default is `"REF"`
-#' @param t_avo transit average vehicle occupancy % adjustment. Default is `0`
+#' @param t_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @param t_rider transit ridership % adjustment. Default is `0`
 #' @param vmt VMT fee per mile. Default is `0`
 #' @param payd  PAYD insurance fee per mile. Default is `0`
@@ -68,8 +69,9 @@ calc_vmt <- function(scen,
                      comb_5d_impact_dr = 0,
                      telework = 0,
                      ch_phev = 0) {
-  # browser()
+  browser()
   # Annual energy outlook VMT tables -------
+  # Specific to each mode type
   aeo_vmt <- list(
     rail = aeo_factors %>%
       dplyr::filter(AEOScen == aeo, Metric == "VMT", Mode == "RAIL") %>%
@@ -103,6 +105,7 @@ calc_vmt <- function(scen,
 
 
   # plvd stocks -----
+  # passenger light duty vehicle
   pldv_stocks <- list(
     si = tb %>%
       dplyr::filter(mode == "PLDV", var == "SIStock") %>%
@@ -135,7 +138,7 @@ calc_vmt <- function(scen,
     tot_stock = tb %>%
       dplyr::filter(mode == .mode, var == "TotStock") %>%
       dplyr::select(tidyselect::all_of(YRS)),
-    avo = tb %>%
+    avo = tb %>% # average vehicle occupancy
       dplyr::filter(mode == .mode, var == "AVO") %>%
       dplyr::select(tidyselect::all_of(YRS))
   )
@@ -216,7 +219,7 @@ calc_vmt <- function(scen,
               av_pct > 0) ~ (1 + RAIL_AV * av_pct / 100),
             TRUE ~ 1
           )        }
-    } else if (.mode == "PLDV") {
+    } else if (.mode == "PLDV") { # mode is passenger light duty
       vmt <- tb_mode$var -
         # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
         (tb_var$at *
@@ -255,7 +258,7 @@ calc_vmt <- function(scen,
             tb_mode$avo *
             (tb_mode$stock /
               tb_mode$tot_stock)        }
-    } else if (.mode == "AV") {
+    } else if (.mode == "AV") { # if mode is AV
       vmt <- (tb_var$pldv
         # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
         -
@@ -290,7 +293,7 @@ calc_vmt <- function(scen,
         } *
           # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
           VMT_AV / pldv_stocks$avo        }
-    } else if (.mode == "SUT") {
+    } else if (.mode == "SUT") { # if  mode is freight single truck
       vmt <- tb_mode$var *
         # Apply AEO adjustments
         aeo_vmt$mdt *
@@ -345,11 +348,11 @@ calc_vmt <- function(scen,
     }
   } else if (.mode == "WALK" | .mode == "BIKE") {
     vmt <- tb_mode$var / tb_mode$avo
-  } else {
-    vmt <- tb_mode$var *
+  } else { # if scenario is BAU
+    vmt <- tb_mode$var * # miles traveled for given mode
       # Apply AEO adjustments
       dplyr::case_when(
-        .mode == "PLDV" ~ aeo_vmt$ldv,
+        .mode == "PLDV" ~ aeo_vmt$ldv, # if passenger light duty, use aeo_vmt$ldv
         .mode == "SUT" ~ aeo_vmt$mdt,
         .mode == "CUT" ~ aeo_vmt$hdt,
         .mode == "BU" | .mode == "BRT" ~ aeo_vmt$bus,
