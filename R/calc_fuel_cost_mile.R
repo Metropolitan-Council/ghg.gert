@@ -1,7 +1,7 @@
 #' @title Calculate fuel cost per mile
 #'
 #' @param mpg miles per gallon for current mode
-#' @param fcg  fuel cost per gallon for current mode
+#' @param fuel_cost_gallon  fuel cost per gallon for current mode
 #' @inheritParams calc_vmt
 #' @inheritParams calc_cost
 #'
@@ -13,11 +13,12 @@ calc_fuel_cost_mile <- function(tb,
                                 .mode,
                                 aeo = "REF",
                                 mpg,
-                                fcg,
+                                fuel_cost_gallon,
                                 av = 0) {
   adj_specific <- tb %>%
     dplyr::filter(mode == .mode, var == mpg) %>%
     dplyr::select(all_of(YRS)) *
+    # fetch specific annual energy outlook (AEO) for the given metric, mode
     dplyr::case_when(
       .mode == "PLDV" ~ aeo_factors %>%
         dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "LDV") %>%
@@ -42,12 +43,14 @@ calc_fuel_cost_mile <- function(tb,
       TRUE ~ 1
     ) *
     # AV adjustment
+    # if vehicle is AV, then multiply by 1
+    # otherwise, multiply by the estimated reduction in fuel use for AVs
     dplyr::case_when(
-      av > 0 ~ MPG_AV,
+      av == 1 ~ MPG_AV,
       TRUE ~ 1
     )
 
-  fcm <- fcg / adj_specific
+  fuel_cost_mile <- fuel_cost_gallon / adj_specific
 
-  return(fcm)
+  return(fuel_cost_mile)
 }
