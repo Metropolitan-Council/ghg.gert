@@ -4,10 +4,11 @@
 \alias{calc_fuel_cost_mile}
 \title{Calculate fuel cost per mile}
 \usage{
-calc_fuel_cost_mile(tb, .mode, aeo = "REF", mpg, fcg, av = 0)
+calc_fuel_cost_mile(tb, .mode, aeo = "REF", mpg, fuel_cost_gallon, av = 0)
 }
 \arguments{
-\item{tb}{input table}
+\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year}
 
 \item{.mode}{current mode}
 
@@ -15,7 +16,7 @@ calc_fuel_cost_mile(tb, .mode, aeo = "REF", mpg, fcg, av = 0)
 
 \item{mpg}{miles per gallon for current mode}
 
-\item{fcg}{fuel cost per gallon for current mode}
+\item{fuel_cost_gallon}{fuel cost per gallon for current mode}
 }
 \value{
 

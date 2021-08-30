@@ -36,7 +36,8 @@ calc_vmt(
 \arguments{
 \item{scen}{character, scenario name}
 
-\item{tb}{input table}
+\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year}
 
 \item{.mode}{current mode}
 
@@ -48,7 +49,7 @@ calc_vmt(
 
 \item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
-\item{t_avo}{transit average vehicle occupancy \% adjustment. Default is \code{0}}
+\item{t_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{t_rider}{transit ridership \% adjustment. Default is \code{0}}
 

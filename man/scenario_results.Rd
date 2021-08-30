@@ -42,7 +42,7 @@ scenario_results(
 
 \item{ch_ctu}{chosen CTU}
 
-\item{t_avo}{transit average vehicle occupancy \% adjustment. Default is \code{0}}
+\item{t_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{t_rider}{transit ridership \% adjustment. Default is \code{0}}
 

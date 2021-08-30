@@ -43,7 +43,7 @@ all_class <- c(
   "EV", # electric vehicles
   "HEV", # hybrid electric vehicle
   "PHEV", # plug-in hybrid vehicles
-  "SI", # gasoline
+  "SI", # spark engine gasoline
   "WALK" # walk
 )
 

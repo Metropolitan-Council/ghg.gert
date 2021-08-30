@@ -24,7 +24,8 @@ calc_drs_vmt(
 )
 }
 \arguments{
-\item{tb}{input table}
+\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year}
 
 \item{drs}{percent of trips by dynamic ride sharing (DRS)}
 

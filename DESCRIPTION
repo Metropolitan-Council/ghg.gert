@@ -14,8 +14,11 @@ Description: More about what it does (maybe more than one line) Use four
 License: MIT + file LICENSE
 BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
 Imports: 
+    DBI (>= 1.1.1),
     dplyr (>= 1.0.7),
     magrittr (>= 2.0.1),
+    odbc (>= 1.3.2),
+    purrr (>= 0.3.4),
     stringr (>= 1.4.0),
     tibble (>= 3.1.3),
     tidyr (>= 1.1.3),
