@@ -17,55 +17,58 @@
 fetch_db_tables <- function(uid,
                             pwd,
                             serv = "dbsqlcl11t.test.local,65414",
-                            db = "CD_Emissions"
-){
-# browser()
+                            db = "CD_Emissions") {
+  # browser()
   # decide which driver to use based on OS
-  drv <- if(grepl("mac", osVersion)) {
+  drv <- if (grepl("mac", osVersion)) {
     "FreeTDS"
   } else {
     "SQL Server"
   }
 
   # check that DB connection works
-  if(DBI::dbCanConnect(odbc::odbc(),
-                       Driver = drv,
-                       Database = db,
-                       Uid = uid,
-                       Pwd = pwd,
-                       Server = serv)){
-
-    tables <- c("aeo_factor",
-                "aeo_scenario",
-                "cost_factor",
-                "ghg_factor",
-                "mode",
-                "pass_transpo",
-                "sources",
-                "variables")
+  if (DBI::dbCanConnect(odbc::odbc(),
+    Driver = drv,
+    Database = db,
+    Uid = uid,
+    Pwd = pwd,
+    Server = serv
+  )) {
+    tables <- c(
+      "aeo_factor",
+      "aeo_scenario",
+      "cost_factor",
+      "ghg_factor",
+      "mode",
+      "pass_transpo",
+      "sources",
+      "variables"
+    )
 
     conn <- DBI::dbConnect(odbc::odbc(),
-                           Driver = drv,
-                           Database = db,
-                           Uid = uid,
-                           Pwd = pwd,
-                           Server = serv)
+      Driver = drv,
+      Database = db,
+      Uid = uid,
+      Pwd = pwd,
+      Server = serv
+    )
 
-    db_sp_tables <- purrr::map(tables,
-                               function(x){
-                                 DBI::dbGetQuery(conn,
-                                                 paste0("SELECT * FROM metro_sp_mod_3.", x))
-                               })
+    db_sp_tables <- purrr::map(
+      tables,
+      function(x) {
+        DBI::dbGetQuery(
+          conn,
+          paste0("SELECT * FROM metro_sp_mod_3.", x)
+        )
+      }
+    )
 
     names(db_sp_tables) <- tables
 
     DBI::dbDisconnect(conn)
 
     return(db_sp_tables)
-
   } else {
     stop("Database failed to connect")
   }
-
 }
-

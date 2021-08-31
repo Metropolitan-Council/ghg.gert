@@ -12,40 +12,40 @@ calc_fuel <- function(tb_vmt,
                       tb,
                       .mode,
                       .fuel_type,
-                      aeo = "REF",
-                      mpg,
-                      av = 0) {
+                      .aeo_scenario = "REF",
+                      .miles_per_gallon,
+                      .is_av = 0) {
   # browser()
 
   ghg_by_mode <- tb %>%
-    dplyr::filter(mode == .mode, var == mpg) %>%
+    dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     dplyr::select(tidyselect::all_of(YRS)) *
     dplyr::case_when(
       .mode == "PLDV" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "LDV") %>%
+        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "LDV") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
       .mode == "SUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "MDT") %>%
+        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "MDT") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
       .mode == "CUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "HDT") %>%
+        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "HDT") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
       .mode == "FR" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FRAIL") %>%
+        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FRAIL") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
       .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == aeo, Metric == "MPG", Mode == "FSHIP") %>%
+        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FSHIP") %>%
         dplyr::select(tidyselect::all_of(YRS)) %>%
         as.numeric(),
       TRUE ~ 1
     ) *
     # AV adjustment
     dplyr::case_when(
-      av > 0 ~ MPG_AV,
+      .is_av > 0 ~ MPG_AV,
       TRUE ~ 1
     )
 
