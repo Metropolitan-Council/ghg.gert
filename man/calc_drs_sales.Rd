@@ -4,12 +4,12 @@
 \alias{calc_drs_sales}
 \title{Calculate dynamic ride sharing stock sales}
 \usage{
-calc_drs_sales(tb, drs)
+calc_drs_sales(tb, .drs_pct_trip)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{drs}{percent of trips by dynamic ride sharing and therefore percent of sales}
+\item{.drs_pct_trip}{percent of trips by dynamic ride sharing and therefore percent of sales}
 }
 \value{
 
@@ -17,3 +17,20 @@ calc_drs_sales(tb, drs)
 \description{
 Calculate dynamic ride sharing stock sales
 }
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_vmt}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
+}
+\concept{transportation}

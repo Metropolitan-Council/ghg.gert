@@ -10,10 +10,6 @@ readline_check(prompt, type, bev = 0, phev = 0)
 \item{prompt}{user input}
 
 \item{type}{type of question to determine the set of applied logic}
-
-\item{bev}{percent of sales that are battery electric vehicles (BEV) in 2050}
-
-\item{phev}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
 }
 \value{
 
@@ -24,10 +20,17 @@ Check user inputs
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
-\code{\link{calc_vmt}()}
+\code{\link{calc_vmt}()},
+\code{\link{scenario_results}()}
 }
 \concept{transportation}

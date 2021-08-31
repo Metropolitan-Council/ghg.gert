@@ -4,7 +4,15 @@
 \alias{calc_ghg_direct}
 \title{Calculate direct emissions}
 \usage{
-calc_ghg_direct(tb_vmt, tb, .mode, .fuel_type, aeo = "REF", mpg, is_av = 0)
+calc_ghg_direct(
+  tb_vmt,
+  tb,
+  .mode,
+  .fuel_type,
+  .aeo_scenario = "REF",
+  .miles_per_gallon,
+  .is_av = 0
+)
 }
 \arguments{
 \item{tb_vmt}{output VMT table}
@@ -13,13 +21,13 @@ calc_ghg_direct(tb_vmt, tb, .mode, .fuel_type, aeo = "REF", mpg, is_av = 0)
 
 \item{.mode}{current mode}
 
-\item{.fuel_type}{current fuel type}
+\item{.fuel_type}{current fuel type for mode}
 
-\item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
+\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
-\item{mpg}{miles per gallon for mode}
+\item{.miles_per_gallon}{miles per gallon for mode}
 
-\item{is_av}{whether the mode is AV. AV has a different
+\item{.is_av}{whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.}
 }
 \value{
@@ -28,3 +36,20 @@ MPG due to efficiency gains from automation of drive cycle.}
 \description{
 Calculate direct emissions
 }
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
+}
+\concept{transportation}

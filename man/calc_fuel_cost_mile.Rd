@@ -4,19 +4,21 @@
 \alias{calc_fuel_cost_mile}
 \title{Calculate fuel cost per mile}
 \usage{
-calc_fuel_cost_mile(tb, .mode, aeo = "REF", mpg, fuel_cost_gallon, av = 0)
+calc_fuel_cost_mile(
+  tb,
+  .mode,
+  .aeo_scenario = "REF",
+  .miles_per_gallon,
+  .fuel_cost_gallon,
+  .av_pct = 0
+)
 }
 \arguments{
-\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
-and one for each year}
-
 \item{.mode}{current mode}
 
-\item{aeo}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
+\item{.miles_per_gallon}{miles per gallon for current mode}
 
-\item{mpg}{miles per gallon for current mode}
-
-\item{fuel_cost_gallon}{fuel cost per gallon for current mode}
+\item{.fuel_cost_gallon}{fuel cost per gallon for current mode}
 }
 \value{
 
@@ -24,3 +26,20 @@ and one for each year}
 \description{
 Calculate fuel cost per mile
 }
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
+}
+\concept{transportation}

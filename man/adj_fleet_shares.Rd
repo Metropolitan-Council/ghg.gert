@@ -5,41 +5,41 @@
 \title{Adjust Fleet}
 \usage{
 adj_fleet_shares(
-  bev,
-  phev,
-  hev,
-  ptb,
-  ftb,
-  vmt = 0,
-  payd = 0,
-  gas = 0,
-  drs = 0,
-  av = 0,
-  ch_ctu
+  .bev_pct_sales,
+  .phev_pct_sales,
+  .hev_pct_sales,
+  .pass_tb,
+  .freight_tb,
+  .vmt_fee = 0,
+  .payd_fee = 0,
+  .gas_tax = 0,
+  .drs_pct_trip = 0,
+  .av_pct = 0,
+  .ctu
 )
 }
 \arguments{
-\item{bev}{percent of sales that are battery electric vehicles (BEV) in 2050}
+\item{.bev_pct_sales}{percent of sales that are battery electric vehicles (BEV) in 2050}
 
-\item{phev}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
+\item{.phev_pct_sales}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
 
-\item{hev}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
+\item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
 
-\item{ptb}{passenger input table}
+\item{.pass_tb}{passenger input table}
 
-\item{ftb}{freight input table}
+\item{.freight_tb}{freight input table}
 
-\item{vmt}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
-\item{payd}{PAYD insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
 
-\item{gas}{gas tax per mile. Default is \code{0}}
+\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
 
-\item{drs}{percent of trips/fleet that is dynamic ride sharing (DRS) Default is \code{0}.}
+\item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS) Default is \code{0}.}
 
-\item{ch_ctu}{the chosen CTU for dplyr::filter of tables}
+\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
-\item{av_pct}{percent of trips/fleet that are autonomous vehicles (AV). Default is \code{0}.}
+\item{.ctu}{the chosen CTU for dplyr::filter of tables}
 }
 \value{
 
@@ -53,11 +53,18 @@ in each year.
 }
 \seealso{
 Other transportation: 
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt}()},
-\code{\link{readline_check}()}
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
 }
 \concept{transportation}

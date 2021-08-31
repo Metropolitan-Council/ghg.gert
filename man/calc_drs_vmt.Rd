@@ -6,57 +6,58 @@
 \usage{
 calc_drs_vmt(
   tb,
-  drs,
-  class,
-  fcm,
-  vmt,
-  payd,
-  gas,
-  cong,
-  park = 0,
-  pop_dens = 0,
-  emp_dens = 0,
-  diverse = 0,
-  design = 0,
-  job_access = 0,
-  trans_dist = 0,
-  comb_5d_impact_dr = 0
+  .drs_pct_trip,
+  .class,
+  .fuel_cost_mile,
+  .vmt_fee,
+  .payd_fee,
+  .gas_tax,
+  .cong_price,
+  .parking_price = 0,
+  .pop_dens_pct_change = 0,
+  .emp_dens_pct_change = 0,
+  .land_use_pct_change = 0,
+  .intersection_design_pct_change = 0,
+  .job_access_pct_change = 0,
+  .transit_dist_pct_change = 0,
+  .comb_5d_impact_pct_change = 0
 )
 }
 \arguments{
 \item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year}
 
-\item{drs}{percent of trips by dynamic ride sharing (DRS)}
+\item{.drs_pct_trip}{percent of trips by dynamic ride sharing (DRS)}
 
-\item{class}{vehicle class for current mode}
+\item{.class}{vehicle class for current mode}
 
-\item{fcm}{fuel cost per mile}
+\item{.fuel_cost_mile}{fuel cost per mile}
 
-\item{vmt}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
-\item{payd}{PAYD insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
 
-\item{gas}{gas tax per mile. Default is \code{0}}
+\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
 
-\item{cong}{congestion price in cents per mile (only applies to congested VMT)}
+\item{.cong_price}{congestion price per mile (only applies to an approximation of
+congested miles in MSP). Default is \code{0}}
 
-\item{park}{Average price of parking based on TBI results and literature -
-measured in cents per hour. Default is \code{0}}
+\item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
+Default is \code{0}}
 
-\item{pop_dens}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
 
-\item{emp_dens}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
 
-\item{diverse}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
+\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
 
-\item{design}{percent change in intersection design (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
+\item{.intersection_design_pct_change}{percent change in intersection .intersection_design_pct_change (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
 
-\item{job_access}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
 
-\item{trans_dist}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
 
-\item{comb_5d_impact_dr}{percent change in population density in 2050 wrt BAU
+\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
 as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 }
 \value{
@@ -65,3 +66,20 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 \description{
 Calculate Dynamic Ride Sharing VMT
 }
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
+}
+\concept{transportation}

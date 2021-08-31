@@ -4,12 +4,12 @@
 \alias{calc_av_sales}
 \title{Calculate AV stock sales}
 \usage{
-calc_av_sales(tb, av_pct)
+calc_av_sales(tb, .av_pct)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{av_pct}{percent of trips by AV}
+\item{.av_pct}{percent of trips by AV}
 }
 \value{
 
@@ -24,3 +24,20 @@ faster than previous stock turnover in order to match
 AV market penetration
 }}
 
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()},
+\code{\link{scenario_results}()}
+}
+\concept{transportation}

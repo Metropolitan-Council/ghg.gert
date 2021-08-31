@@ -6,87 +6,87 @@
 direct GHG, indirect GHG, and costs}
 \usage{
 scenario_results(
-  scen = "BAU",
-  e_scen = "ER",
-  aeo_scen = "REF",
-  ch_ctu = "",
-  t_avo = 0,
-  t_rider = 0,
-  vmt = 0,
-  payd = 0,
-  gas = 0,
-  park = 0,
-  cong = 0,
-  fvmt = 0,
-  drs = 0,
-  av_pct = 0,
-  drs_fuel = "",
-  av_fuel = "",
-  pop_dens = 0,
-  emp_dens = 0,
-  diverse = 0,
-  design = 0,
-  job_access = 0,
-  trans_dist = 0,
-  comb_5d_impact_dr = 0,
-  telework = 0,
-  bau_summary = 0
+  .scenario = "BAU",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF",
+  .ctu = "",
+  .transit_avo = 0,
+  .transit_rider_pct = 0,
+  .vmt_fee = 0,
+  .payd_fee = 0,
+  .gas_tax = 0,
+  .parking_price = 0,
+  .cong_price = 0,
+  .freight_vmt_fee = 0,
+  .drs_pct = 0,
+  .av_pct = 0,
+  .drs_fuel_type = "",
+  .av_fuel_type = "",
+  .pop_dens_pct_change = 0,
+  .emp_dens_pct_change = 0,
+  .land_use_pct_change = 0,
+  .intersection_design_pct_change = 0,
+  .job_access_pct_change = 0,
+  .transit_dist_pct_change = 0,
+  .comb_5d_impact_pct_change = 0,
+  .telework_pct = 0,
+  .mit_bau_summary = 0
 )
 }
 \arguments{
-\item{scen}{character, scenario name}
+\item{.scenario}{character, scenario name}
 
-\item{e_scen}{electricity scenario}
+\item{.electric_scenario}{electricity scenario}
 
-\item{aeo_scen}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
 
-\item{ch_ctu}{chosen CTU}
+\item{.ctu}{chosen CTU}
 
-\item{t_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{t_rider}{transit ridership \% adjustment. Default is \code{0}}
+\item{.transit_rider_pct}{transit ridership \% adjustment. Default is \code{0}}
 
-\item{vmt}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
-\item{payd}{PAYD insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
 
-\item{gas}{gas tax per mile. Default is \code{0}}
+\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
 
-\item{park}{Average price of parking based on TBI results and literature -
-measured in cents per hour. Default is \code{0}}
-
-\item{cong}{congestion price per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
-
-\item{fvmt}{freight VMT fee per mile. Default is \code{0}}
-
-\item{drs}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
+\item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
 Default is \code{0}}
 
-\item{av_pct}{percent of trips made by AV. Default is \code{0}}
+\item{.cong_price}{congestion price per mile (only applies to an approximation of
+congested miles in MSP). Default is \code{0}}
 
-\item{drs_fuel}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
+\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{av_fuel}{input AV fuel type}
+\item{.drs_pct}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
+Default is \code{0}}
 
-\item{pop_dens}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
+\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
-\item{emp_dens}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
+\item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
 
-\item{diverse}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
+\item{.av_fuel_type}{input AV fuel type}
 
-\item{design}{percent change in intersection design (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
 
-\item{job_access}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
 
-\item{trans_dist}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
+\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
 
-\item{comb_5d_impact_dr}{percent change in population density in 2050 wrt BAU
+\item{.intersection_design_pct_change}{percent change in intersection .intersection_design_pct_change (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
+
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
+
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
+
+\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
 as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
-\item{telework}{percent of people teleworking in 2050. Default is \code{0}}
+\item{.telework_pct}{percent of people .telework_pcting in 2050. Default is \code{0}}
 
-\item{bau_summary}{input of BAU data for calculations in MIT scenario}
+\item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 }
 \value{
 
@@ -95,3 +95,20 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 Main function to call other functions for determining VMT,
 direct GHG, indirect GHG, and costs
 }
+\seealso{
+Other transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_drs_vmt}()},
+\code{\link{calc_elasticity}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
+\code{\link{calc_vmt}()},
+\code{\link{readline_check}()}
+}
+\concept{transportation}
