@@ -1,8 +1,5 @@
-#' Calculate embodied/indirect emissions
+#' @title Calculate embodied (indirect) emissions
 #'
-#' @describeIn ER/EM doesn't impact results because we can assume electricity is
-#'  a) generated in a different jurisdiction and/or
-#'  b) similarly affected by changes in local grid mix
 #'
 #' @param tb input table for embodied ghg emissions
 #' @param .sales_mode current mode .sales_mode name for calculation of embodied emissions of new vehicles
@@ -14,6 +11,10 @@
 #' @inheritParams calc_ghg_direct
 #'
 #' @family transportation
+#'
+#' @note  `ER` or `EM` doesn't impact results because we can assume electricity is
+#'  a) generated in a different jurisdiction and/or
+#'  b) similarly affected by changes in local grid mix
 #'
 #' @return
 #' @export
