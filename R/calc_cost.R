@@ -13,15 +13,16 @@ calc_cost <- function(tb_vmt,
                       tb_cost,
                       .mode,
                       .price,
-                      is_av = 0) {
+                      .is_av = 0) {
   cost_input <- tb_cost %>%
     dplyr::filter(
       mode == .mode,
       var == .price,
-      AV == is_av
+      AV == .is_av
     ) %>%
     dplyr::select(all_of(YRS)) / 1000
 
+  # multiply VMT by cost
   cost <- tb_vmt %>%
     dplyr::select(all_of(YRS)) %>%
     dplyr::rowwise() %>%

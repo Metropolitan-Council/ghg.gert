@@ -80,6 +80,11 @@ scenario_results <- function(.scenario = "BAU",
 
   ## Gasoline -----
   # Calculate aggregate GHG in kt CO2 by year
+  # 1. Calculate fuel cost per mile (FCM)
+  # 2. Calculate VMT (requires FCM, )
+  # 3. Calculate direct emissions (requires VMT)
+  # 4. Calculate fuel use (requires VMT)
+  # 5. Calculate embodied GHG
 
   stock <- "SIStock"
   mpg <- "SIMPG"
@@ -105,7 +110,8 @@ scenario_results <- function(.scenario = "BAU",
       .scenario, pass_transpo, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
       .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
-      .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
+      .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
+      .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .telework_pct
     )
@@ -130,7 +136,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu,
     output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       si_vmt, pass_transpo,
       mode, "SI",
       .aeo_scenario, mpg
@@ -200,7 +206,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       ci_vmt, pass_transpo,
       mode, "CI", .aeo_scenario, mpg
     )
@@ -262,7 +268,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       hev_vmt, pass_transpo,
       mode, "SI", .aeo_scenario, mpg
     )
@@ -337,7 +343,7 @@ scenario_results <- function(.scenario = "BAU",
   phev_fuelg <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       phev_vmtg, pass_transpo, mode, "SI",
       .aeo_scenario, mpg
     )
@@ -358,7 +364,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       phev_vmte, pass_transpo,
       mode, .electric_scenario, .aeo_scenario,
       mpe
@@ -425,7 +431,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       bev_vmt, pass_transpo,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
@@ -508,7 +514,7 @@ scenario_results <- function(.scenario = "BAU",
   ci_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       ci_vmt, pass_transpo, mode, "CI",
       .aeo_scenario, mpg
     )
@@ -563,7 +569,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       hev_vmt, pass_transpo,
       mode, "CI", .aeo_scenario, mpg
     )
@@ -618,7 +624,7 @@ scenario_results <- function(.scenario = "BAU",
   bev_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       bev_vmt, pass_transpo,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
@@ -686,7 +692,7 @@ scenario_results <- function(.scenario = "BAU",
   ci_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       ci_vmt, pass_transpo, mode, "CI",
       .aeo_scenario, mpg
     )
@@ -742,7 +748,7 @@ scenario_results <- function(.scenario = "BAU",
   hev_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       hev_vmt, pass_transpo, mode, "CI",
       .aeo_scenario, mpg
     )
@@ -798,7 +804,7 @@ scenario_results <- function(.scenario = "BAU",
   bev_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       bev_vmt, pass_transpo, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
@@ -875,7 +881,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       bev_vmt, pass_transpo,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
@@ -928,7 +934,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       ci_vmt, pass_transpo,
       mode, "BCI", .aeo_scenario, mpg
     )
@@ -968,7 +974,7 @@ scenario_results <- function(.scenario = "BAU",
   ev_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
-    calc_fuel(bev_vmt, pass_transpo, mode, .electric_scenario, .aeo_scenario, mpe)
+    calc_fuel_use(bev_vmt, pass_transpo, mode, .electric_scenario, .aeo_scenario, mpe)
   )
 
   ev_cost <- tibble::tibble(
@@ -1022,7 +1028,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
-    calc_fuel(
+    calc_fuel_use(
       ci_vmt, pass_transpo, mode,
       "CI", .aeo_scenario, mpg
     )
@@ -1071,7 +1077,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class, ctu = .ctu,
     output = "ELEC",
-    calc_fuel(
+    calc_fuel_use(
       bev_vmt, pass_transpo, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
@@ -1198,7 +1204,7 @@ scenario_results <- function(.scenario = "BAU",
       .drs_fuel_type <- tibble::tibble(
         type = type, scenario = .scenario, mode = mode,
         class = class, ctu = .ctu, output = "PETRO",
-        calc_fuel(
+        calc_fuel_use(
           drs_vmt,
           pass_transpo,
           mode_1, "SI",
@@ -1296,7 +1302,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "PETRO",
-        calc_fuel(
+        calc_fuel_use(
           phev_vmtg,
           pass_transpo, mode, "SI",
           .aeo_scenario, mpg, 1
@@ -1307,7 +1313,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
-        calc_fuel(
+        calc_fuel_use(
           phev_vmte, pass_transpo,
           mode, .electric_scenario, .aeo_scenario, mpe, 1
         )
@@ -1381,7 +1387,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
-        calc_fuel(
+        calc_fuel_use(
           drs_vmt,
           pass_transpo, mode_1, .electric_scenario,
           .aeo_scenario, mpe, 1
@@ -1493,7 +1499,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "PETRO",
-        calc_fuel(
+        calc_fuel_use(
           av_vmt, pass_transpo,
           mode_1, "SI", .aeo_scenario,
           mpg, .av_pct
@@ -1595,7 +1601,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "PETRO",
-        calc_fuel(
+        calc_fuel_use(
           phev_vmtg,
           pass_transpo, mode, "SI",
           .aeo_scenario, mpg, .av_pct
@@ -1606,7 +1612,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
-        calc_fuel(
+        calc_fuel_use(
           phev_vmte,
           pass_transpo,
           mode, .electric_scenario, .aeo_scenario,
@@ -1682,7 +1688,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
-        calc_fuel(
+        calc_fuel_use(
           av_vmt, pass_transpo,
           mode_1, .electric_scenario, .aeo_scenario, mpe, .av_pct
         )

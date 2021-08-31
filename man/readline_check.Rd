@@ -26,7 +26,7 @@ Other transportation:
 \code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},
 \code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel}()},
+\code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},

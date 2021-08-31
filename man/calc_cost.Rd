@@ -4,7 +4,7 @@
 \alias{calc_cost}
 \title{Calculate cost estimates in millions of dollars}
 \usage{
-calc_cost(tb_vmt, tb_cost, .mode, .price, is_av = 0)
+calc_cost(tb_vmt, tb_cost, .mode, .price, .is_av = 0)
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
@@ -15,7 +15,7 @@ calc_cost(tb_vmt, tb_cost, .mode, .price, is_av = 0)
 
 \item{.price}{price variable}
 
-\item{is_av}{whether the mode is AV. AV has a different
+\item{.is_av}{whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.}
 }
 \value{
@@ -32,7 +32,7 @@ Other transportation:
 \code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},
 \code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel}()},
+\code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
