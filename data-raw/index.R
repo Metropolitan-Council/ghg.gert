@@ -1,50 +1,10 @@
-## code to prepare `all_modes` dataset goes here
+library(tidyverse)
 
 
-mode_index <- list(
-  "Freight air" = "AIR",
-  "Autonomous vehicle" = "AV",
-  "Bike" = "BIKE",
-  "Bus rapid transit" = "BRT",
-  "School bus" = "BS",
-  "Transit bus" = "BU",
-  "Freight combination truck" = "CUT",
-  "Dynamic ride sharing" = "DRS",
-  "Freight rail" = "FR",
-  "Freight multimodal" = "MM",
-  "Passenger vehicle" = "PLDV",
-  "Passenger rail" = "RI",
-  "Passenger lightrail" = "RU",
-  "Freight single truck" = "SUT",
-  "Walk" = "WALK",
-  "Freight water" = "WAT"
-)
+emission_sources <- read.csv("data-raw/sources-wDef.csv")
 
-all_stocks <- c(
-  "BCIStock",
-  "BEVStock",
-  "HEVStock",
-  "PHEVStock",
-  "SIS"
-)
+variables <- read.csv("data-raw/variables-wDef.csv")
 
-all_mpg <- c()
-
-all_mpe <- c(
-  "BEVElec",
-  "PHEVElec"
-)
-
-all_class <- c(
-  "BCI", # biodiesel
-  "BEV", # battery electric vehicles
-  "BIKE", # bike
-  "CI", # diesel
-  "EV", # electric vehicles
-  "HEV", # hybrid electric vehicle
-  "PHEV", # plug-in hybrid vehicles
-  "SI", # spark engine gasoline
-  "WALK" # walk
-)
+modes <- read.csv("data-raw/mode-wDef.csv")
 
 # usethis::use_data(all_modes, overwrite = TRUE)
