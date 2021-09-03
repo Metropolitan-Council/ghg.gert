@@ -2,7 +2,8 @@
 #'
 #'
 #' @param tb input table for embodied ghg emissions
-#' @param .sales_mode current mode .sales_mode name for calculation of embodied emissions of new vehicles
+#' @param .sales_mode character, sales name for calculation of embodied emissions of new vehicles.
+#'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, `"BEVSales"`,
 #' @param .fuel_type fuel source for current mode
 #' @param .class vehicle class (passenger or freight)
 #' @param .transit_avo_pct percent change in transit AVO. Default is `0`
@@ -18,7 +19,7 @@
 #'
 #' @return
 #' @export
-#' @importFrom dplyr filter select case_when mutate across
+#' @importFrom dplyr filter select case_when mutate across rowwise everything
 #' @importFrom tidyselect all_of
 calc_ghg_embodied <- function(tb,
                               .mode,
@@ -30,17 +31,32 @@ calc_ghg_embodied <- function(tb,
                               .bau_tb = 0) {
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
-    ghg <- tb %>%
+    ghg_factor_current <- factor_values$ghg %>%
+      dplyr::filter(source == .fuel_type) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(source,
+             year,
+             ghg_value = value,
+      )
+
+    tb_current <- tb %>%
       dplyr::filter(mode == .mode, var == .sales_mode) %>%
-      dplyr::select(all_of(YRS)) *
-      ghg_factors %>%
-        dplyr::filter(source == .fuel_type) %>%
-        dplyr::select(tidyselect::all_of(YRS))
+      dplyr::select( dplyr::everything(),
+             sales_value = value)
+
+    ghg <-  dplyr::left_join(tb_current,
+              ghg_factor_current, by = c("year")) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(ghg_sales = sales_value * ghg_value)
+
 
     # adjust stock for changes made in VMT between BAU and MIT scenarios
     # If .transit_avo_pct given then use it, else assume all additional PMT handled by vehicle purchases
     # Update bau_vmt and mit_vmt to equal 1 if they are zero (to avoid division error)
     if (.bau_tb != 0) {
+      browser()
+
+
       .mitigation_tb <- .mitigation_tb %>%
         dplyr::mutate(
           dplyr::across(
@@ -96,18 +112,20 @@ calc_ghg_embodied <- function(tb,
       mutate(sales_value = value)
 
     ghg <- left_join(sales,
-      ghg_factors_current,
-      by = "year"
+                     ghg_factors_current,
+                     by = "year"
     ) %>%
       mutate(ghg_emobdied = sales_value * ghg_value) %>%
       select(type,
-        mode,
-        ctu = ctu.x,
-        year,
-        var,
-        aeo_mode,
-        source,
-        ghg_emobdied
+             var,
+             # scenario,
+             mode,
+             # class,
+             ctu = ctu.x,
+             year,
+             # AEOScen,
+             aeo_mode,
+             ghg_emobdied
       )
   }
 
