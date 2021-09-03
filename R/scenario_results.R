@@ -43,6 +43,7 @@ scenario_results <- function(.scenario = "BAU",
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
   # browser()
   if (.drs_pct > 0) {
+    browser()
     pass_transpo <- pass_transpo %>%
       dplyr::mutate(
         dplyr::across(

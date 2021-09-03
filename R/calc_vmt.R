@@ -146,11 +146,106 @@ calc_vmt <- function(.scenario,
   # calculation -----
   # If it's not the BAU scenario, then need to run elasticities, etc.
   if (.scenario != "BAU") {
+    browser()
     # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
     if ((.mode == "BU") |
         (.mode == "BRT") |
         (.mode == "RU") |
         (.mode == "RI")) {
+
+      tb_fin <- tb %>%
+        dplyr::filter(
+          mode == .mode,
+          var %in% c(
+            .variable,
+            .stock,
+            "TotStock",
+            "AVO",
+            "SIStock",
+            "CIStock",
+            "HEVStock",
+            "PARK"
+          )
+        ) %>%
+        unique() %>%
+        pivot_wider(
+          names_from = var,
+          values_from = value
+        ) %>%
+        left_join(
+          tb %>%
+            filter(mode == "PLDV",
+                   var %in% c("PARK",
+                              "SIStock")) %>%
+            pivot_wider(
+              names_from = var,
+              values_from = value
+            ) %>%
+            select(-ctu,
+                   -mode)
+        )
+
+
+
+      aeo_vals <- factor_values$aeo %>%
+        dplyr::filter(AEOScen == .aeo_scenario,
+                      Metric == "VMT",
+                      Mode == unique(tb_fin$aeo_mode)) %>%
+        select(everything(),
+               aeo_value = value)
+
+
+      # adjustments ----
+      transit_rider_adjust <- 1 + .transit_rider_pct/100
+
+      payd_ins_adjust <- .payd_fee / INS_COST_MI
+
+
+
+      comb_5d_elast <- elast_5d %>%
+        filter(type == "TRANSIT") %>%
+        mutate(population_density = (1 + .pop_dens_pct_change / 100) * population_density,
+               employment_density = (1 + .emp_dens_pct_change / 100) * employment_density,
+               diversity = (1 + .land_use_pct_change / 100) * diversity,
+               design = (1 + .intersection_design_pct_change / 100) * design,
+               job_access = (1 + .job_access_pct_change / 100) * job_access,
+               distance = (1 + .transit_dist_pct_change / 100) * distance,
+               combined_density = (1 + .pop_dens_pct_change / 100) * combined_density,
+               product_all = population_density * employment_density * diversity *
+                 design * job_access * distance * combined_density,
+               fin_value = ifelse(.comb_5d_impact_pct_change < MAX_5D_TRANS,
+                                  1 + MAX_5D_TRANS,
+                                  product_all))
+
+
+
+
+
+      fcm_adjust <- .fuel_cost_mile %>%
+        mutate(fuel_cost_mile_plus = fuel_cost_mile + TIME_COST_MI,
+               vmt_fee_adjust = .vmt_fee/fuel_cost_mile_plus,
+               cong_adjust = (.cong_price/fuel_cost_mile_plus) * CONG_VMT,
+               cross_vmt = CROSS_VMT,
+               adj_5d = comb_5d_elast$fin_value,
+               gas_adj = .gas_tax/fuel_cost_mile)
+
+
+      left_join(tb_fin, aeo_vals) %>%
+        left_join(fcm_adjust %>%
+                    select(-ctu,
+                           -mode)) %>%
+        mutate(
+          park_price_adj = 1 + .parking_price / PARK * CROSS_PARK_TRANSIT,
+
+         vmt =  !!rlang::sym(.variable) * aeo_value * transit_rider_adjust *
+           (1 + (vmt_fee_adjust + payd_ins_adjust + cong_adjust)) * cross_vmt *
+           adj_5d * park_price_adj  * gas_adj * (SIStock + CIStock + HEVStock)
+
+
+
+        )
+
+
       .vmt_fee <- tb_mode$var *
         # Apply AEO adjustments
         dplyr::case_when(
@@ -159,7 +254,12 @@ calc_vmt <- function(.scenario,
           TRUE ~ 1
         ) *
         # Elasticities, etc.
-        (1 + .transit_rider_pct / 100) * (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI + .cong_price / (.fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * CROSS_VMT) *
+        (1 + .transit_rider_pct / 100) *
+        (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) +
+                (.payd_fee / INS_COST_MI) +
+                .cong_price /
+                (.fuel_cost_mile + TIME_COST_MI) *
+                CONG_VMT) * CROSS_VMT) *
         # Transit 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
         if (.comb_5d_impact_pct_change < MAX_5D_DR) {
@@ -171,7 +271,7 @@ calc_vmt <- function(.scenario,
             (1 + .intersection_design_pct_change / 100 * ELAST_DES_TRANS) *
             (1 + .job_access_pct_change / 100 * ELAST_JOBS_TRANS) *
             (1 + .transit_dist_pct_change / 100 * ELAST_DIST_TRANS) *
-            (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_TRANS)
+            (1 + .pop_dens_pct_change / 100 * ELAST_CDENS_TRANS)
         } *
             # Parking pricing effect
             (1 + .parking_price / pldv_stocks$.parking_price * CROSS_PARK_TRANSIT) *
@@ -181,8 +281,7 @@ calc_vmt <- function(.scenario,
                (pldv_stocks$si + pldv_stocks$ci + pldv_stocks$hev) /
                pldv_stocks$tot * CROSS_VMT) /
             (tb_mode$avo * (1 + .transit_avo / 100)) *
-            (tb_mode$stock /
-               tb_mode$tot_stock) *
+            (tb_mode$stock / tb_mode$tot_stock) *
             # AV adjustment
             # Remove AV from non-AV PMT
             dplyr::case_when(
