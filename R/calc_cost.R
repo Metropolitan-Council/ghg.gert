@@ -1,8 +1,7 @@
 #' Calculate cost estimates in millions of dollars
 #'
 #' @param tb_vmt VMT input table
-#' @param tb_cost cost input table
-#' @param .price price variable
+#' @param .price character, price variable. Options include `"SIPrice"`
 #' @inheritParams calc_ghg_direct
 #'
 #' @family transportation
@@ -10,7 +9,6 @@
 #' @export
 #' @importFrom dplyr filter select
 calc_cost <- function(tb_vmt,
-                      tb_cost,
                       .mode,
                       .price,
                       .is_av = 0) {
