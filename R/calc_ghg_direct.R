@@ -52,36 +52,34 @@ calc_ghg_direct <- function(tb_vmt,
       av_multiplier = dplyr::case_when(
         .is_av == 1 ~ MPG_AV,
         TRUE ~ 1
-      )
+      ),
+      value.mpg = value
     ) %>%
-    tidyr::pivot_wider(
-      names_from = var,
-      values_from = value
-    )
+    select(-value)
 
 
   tb_aeo_ghg <- dplyr::left_join(tb_current,
     aeo_ghg,
-    by = c("year", "ctu")
+    by = c("year")
   ) %>%
-    dplyr::mutate(aeo_value = !!
-      rlang::sym(.miles_per_gallon) * value.aeo_factor * av_multiplier)
+    # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
+    dplyr::mutate(value.mpg_aeo = value.mpg * value.aeo_factor * av_multiplier)
 
 
   ghg <- dplyr::left_join(tb_vmt,
     tb_aeo_ghg,
     by = c("mode", "year", "aeo_mode", "type")
   ) %>%
-    dplyr::mutate(dir_ghg = (vmt / aeo_value) * value.ghg_factor) %>%
+    dplyr::mutate(dir_ghg = (vmt / value.mpg_aeo) * value.ghg_factor) %>%
     dplyr::select(type,
       scenario,
       mode,
-      ctu = ctu.x,
+      class,
+      ctu = ctu,
       year,
       # AEOScen,
       aeo_mode,
-      vmt,
-      source,
+      # vmt,
       dir_ghg
     )
 
