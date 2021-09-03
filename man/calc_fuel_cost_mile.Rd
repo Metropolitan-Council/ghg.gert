@@ -21,7 +21,7 @@ calc_fuel_cost_mile(
 \item{.fuel_cost_gallon}{fuel cost per gallon for current mode}
 }
 \value{
-
+a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.
 }
 \description{
 Calculate fuel cost per mile
