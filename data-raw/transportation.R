@@ -17,13 +17,25 @@ pass_transpo_long <- pass_transpo %>%
   mutate(
     aeo_mode = case_when(
       mode == "PLDV" ~ "LDV",
+      mode == "BU" ~ "LDV",
       mode == "SUT" ~ "MDT",
       mode == "CUT" ~ "HDT",
       mode == "FR" ~ "FRAIL",
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
     type = "P"
-  )
+  ) %>%
+  group_by(mode, var, ctu, year, aeo_mode, type) %>%  # selects highest value in case of duplicate entries
+  top_n(1, value) %>%
+  ungroup()
+
+# pass_transpo_long %>%
+#   filter(mode == "BU",
+#          ctu == "Blaine",
+#          var == "TotStock") %>%
+#   group_by(mode, var, ctu, year, aeo_mode, type) %>%
+#   top_n(1, value)
+
 
 freight_transpo_long <- freight_transpo %>%
   group_by(mode, var, ctu) %>%
