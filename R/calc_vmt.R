@@ -105,7 +105,7 @@ calc_vmt <- function(.scenario,
     hev = tb %>%
       dplyr::filter(mode == "PLDV", var == "HEVStock"),
     .parking_price = tb %>%
-      dplyr::filter(mode == "PLDV", var == "Park"),
+      dplyr::filter(mode == "PLDV", var == "PARK"),
     tot = tb %>%
       dplyr::filter(mode == "PLDV", var == "TotStock"),
     avo = tb %>%
