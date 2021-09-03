@@ -36,7 +36,7 @@
 #'
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
-#' @return
+#' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
 #' @export
 #' @family transportation
 #'
@@ -148,9 +148,9 @@ calc_vmt <- function(.scenario,
   if (.scenario != "BAU") {
     # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
     if ((.mode == "BU") |
-      (.mode == "BRT") |
-      (.mode == "RU") |
-      (.mode == "RI")) {
+        (.mode == "BRT") |
+        (.mode == "RU") |
+        (.mode == "RI")) {
       .vmt_fee <- tb_mode$var *
         # Apply AEO adjustments
         dplyr::case_when(
@@ -173,85 +173,47 @@ calc_vmt <- function(.scenario,
             (1 + .transit_dist_pct_change / 100 * ELAST_DIST_TRANS) *
             (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_TRANS)
         } *
-          # Parking pricing effect
-          (1 + .parking_price / pldv_stocks$.parking_price * CROSS_PARK_TRANSIT) *
-          # Gas price effect (relative to fuel cost)
-          (1 + (.gas_tax / .fuel_cost_mile) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to .gas_tax price because already switched stock from SI/CI)
+            # Parking pricing effect
+            (1 + .parking_price / pldv_stocks$.parking_price * CROSS_PARK_TRANSIT) *
+            # Gas price effect (relative to fuel cost)
+            (1 + (.gas_tax / .fuel_cost_mile) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to .gas_tax price because already switched stock from SI/CI)
 
-            (pldv_stocks$si + pldv_stocks$ci + pldv_stocks$hev) /
-            pldv_stocks$tot * CROSS_VMT) /
-          (tb_mode$avo * (1 + .transit_avo / 100)) *
-          (tb_mode$stock /
-            tb_mode$tot_stock) *
-          # AV adjustment
-          # Remove AV from non-AV PMT
-          dplyr::case_when(
-            (((.mode == "BU") |
-              (.mode == "BRT")) &
-              .av_pct > 0) ~ (1 + BUS_AV * .av_pct / 100),
-            (((.mode == "RU") |
-              (.mode == "RI")) &
-              .av_pct > 0) ~ (1 + RAIL_AV * .av_pct / 100),
-            TRUE ~ 1
-          )        }
+               (pldv_stocks$si + pldv_stocks$ci + pldv_stocks$hev) /
+               pldv_stocks$tot * CROSS_VMT) /
+            (tb_mode$avo * (1 + .transit_avo / 100)) *
+            (tb_mode$stock /
+               tb_mode$tot_stock) *
+            # AV adjustment
+            # Remove AV from non-AV PMT
+            dplyr::case_when(
+              (((.mode == "BU") |
+                  (.mode == "BRT")) &
+                 .av_pct > 0) ~ (1 + BUS_AV * .av_pct / 100),
+              (((.mode == "RU") |
+                  (.mode == "RI")) &
+                 .av_pct > 0) ~ (1 + RAIL_AV * .av_pct / 100),
+              TRUE ~ 1
+            )        }
     } else if (.mode == "PLDV") { # mode is passenger light duty
       .vmt_fee <- tb_mode$var -
         # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
         (tb_var$at *
-          # Apply elasticities, etc.
-          (.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)) *
-          # Remove AV from non-AV PMT
-          dplyr::case_when(.av_pct > 0 ~ (1 - tb_avshare %>%
-            as.numeric() * .av_pct / 100), TRUE ~ 1) *
-          # Apply AEO adjustments
-          aeo_vmt$ldv *
-          (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * ELAST_VMT) *
-          # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
-          (1 + (.cong_price / (.fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
-          # Gas price effect (relative to fuel cost)
-          (1 + (.gas_tax / .fuel_cost_mile) * ifelse(((.stock == "SIStock") |
-            (.stock == "CIStock") |
-            (.stock == "HEVStock") |
-            ((.stock == "PHEVStock") &
-              (ch_phev == 1))), 1, 0) * ELAST_GAS) *
-          (1 + (.parking_price / tb_park * ELAST_PARK)) *
-          # Auto 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
-          # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
-          if (.comb_5d_impact_pct_change < MAX_5D_DR) {
-            (1 + MAX_5D_DR)
-          } else {{
-            (1 + .pop_dens_pct_change / 100 * ELAST_DENS_DR_POP) *
-              (1 + .emp_dens_pct_change / 100 * ELAST_DENS_DR_EMP) *
-              (1 + .land_use_pct_change / 100 * ELAST_DIVER_DR) *
-              (1 + .intersection_design_pct_change / 100 * ELAST_DES_DR) *
-              (1 + .job_access_pct_change / 100 * ELAST_JOBS_DR) *
-              (1 + .transit_dist_pct_change / 100 * ELAST_DIST_DR) *
-              (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_DR)
-          } *
-            # Telework
-            (1 + .telework_pct / 100 * MARG_TELEWORK) /
-            tb_mode$avo *
-            (tb_mode$stock /
-              tb_mode$tot_stock)        }
-    } else if (.mode == "AV") { # if mode is AV
-      .vmt_fee <- (tb_var$pldv
-        # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
-        -
-        tb_var$at *
-          (.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)) *
-        # Remove non-AV from AV PMT
-        tb_avshare * .av_pct / 100 *
+           # Apply elasticities, etc.
+           (.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)) *
+        # Remove AV from non-AV PMT
+        dplyr::case_when(.av_pct > 0 ~ (1 - tb_avshare %>%
+                                          as.numeric() * .av_pct / 100), TRUE ~ 1) *
         # Apply AEO adjustments
         aeo_vmt$ldv *
-        # Apply elasticities, etc.
         (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * ELAST_VMT) *
         # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
         (1 + (.cong_price / (.fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
+        # Gas price effect (relative to fuel cost)
         (1 + (.gas_tax / .fuel_cost_mile) * ifelse(((.stock == "SIStock") |
-          (.stock == "CIStock") |
-          (.stock == "HEVStock") |
-          ((.stock == "PHEVStock") &
-            (ch_phev == 1))), 1, 0) * ELAST_GAS) *
+                                                      (.stock == "CIStock") |
+                                                      (.stock == "HEVStock") |
+                                                      ((.stock == "PHEVStock") &
+                                                         (ch_phev == 1))), 1, 0) * ELAST_GAS) *
         (1 + (.parking_price / tb_park * ELAST_PARK)) *
         # Auto 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
@@ -266,8 +228,46 @@ calc_vmt <- function(.scenario,
             (1 + .transit_dist_pct_change / 100 * ELAST_DIST_DR) *
             (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_DR)
         } *
-          # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
-          VMT_AV / pldv_stocks$avo        }
+            # Telework
+            (1 + .telework_pct / 100 * MARG_TELEWORK) /
+            tb_mode$avo *
+            (tb_mode$stock /
+               tb_mode$tot_stock)        }
+    } else if (.mode == "AV") { # if mode is AV
+      .vmt_fee <- (tb_var$pldv
+                   # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
+                   -
+                     tb_var$at *
+                     (.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)) *
+        # Remove non-AV from AV PMT
+        tb_avshare * .av_pct / 100 *
+        # Apply AEO adjustments
+        aeo_vmt$ldv *
+        # Apply elasticities, etc.
+        (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * ELAST_VMT) *
+        # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
+        (1 + (.cong_price / (.fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
+        (1 + (.gas_tax / .fuel_cost_mile) * ifelse(((.stock == "SIStock") |
+                                                      (.stock == "CIStock") |
+                                                      (.stock == "HEVStock") |
+                                                      ((.stock == "PHEVStock") &
+                                                         (ch_phev == 1))), 1, 0) * ELAST_GAS) *
+        (1 + (.parking_price / tb_park * ELAST_PARK)) *
+        # Auto 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
+        # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
+        if (.comb_5d_impact_pct_change < MAX_5D_DR) {
+          (1 + MAX_5D_DR)
+        } else {{
+          (1 + .pop_dens_pct_change / 100 * ELAST_DENS_DR_POP) *
+            (1 + .emp_dens_pct_change / 100 * ELAST_DENS_DR_EMP) *
+            (1 + .land_use_pct_change / 100 * ELAST_DIVER_DR) *
+            (1 + .intersection_design_pct_change / 100 * ELAST_DES_DR) *
+            (1 + .job_access_pct_change / 100 * ELAST_JOBS_DR) *
+            (1 + .transit_dist_pct_change / 100 * ELAST_DIST_DR) *
+            (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_DR)
+        } *
+            # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
+            VMT_AV / pldv_stocks$avo        }
     } else if (.mode == "SUT") { # if  mode is freight single truck
       .vmt_fee <- tb_mode$var *
         # Apply AEO adjustments
@@ -278,7 +278,7 @@ calc_vmt <- function(.scenario,
         (1 + .parking_price / tb_park * ELAST_PARK) /
         tb_mode$avo *
         (tb_mode$stock /
-          tb_mode$tot_stock)
+           tb_mode$tot_stock)
     } else if (.mode == "CUT") {
       .vmt_fee <- tb_mode$var *
         # Apply AEO adjustments
@@ -288,7 +288,7 @@ calc_vmt <- function(.scenario,
         (1 + .freight_vmt_fee / (.fuel_cost_mile + F_TIME_COST_MI) * ELAST_FVMT) /
         tb_mode$avo *
         (tb_mode$stock /
-          tb_mode$tot_stock)
+           tb_mode$tot_stock)
     } else if (.mode == "WALK" | .mode == "BIKE") {
       .vmt_fee <- tb_mode$var *
         # Active (use walk) 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
@@ -309,7 +309,7 @@ calc_vmt <- function(.scenario,
         # Apply AEO adjustments
         aeo_vmt$bus / tb_mode$avo *
         (tb_mode$stock /
-          tb_mode$tot_stock)
+           tb_mode$tot_stock)
     } else {
       .vmt_fee <- tb_mode$var *
         # Apply AEO adjustments
@@ -319,12 +319,55 @@ calc_vmt <- function(.scenario,
           aeo_vmt$fship
         ) / tb_mode$avo *
         (tb_mode$stock /
-          tb_mode$tot_stock)
+           tb_mode$tot_stock)
     }
   } else if (.mode == "WALK" | .mode == "BIKE") {
-    .vmt_fee <- tb_mode$var / tb_mode$avo
-  } else { # if scenario is BAU
+    browser()
 
+    avo <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var %in% c(
+          "AVO"
+        )
+      ) %>%
+      select(-ctu) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      )
+
+    tb_fin <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var %in% c(
+          .variable,
+          .stock,
+          "TotStock"
+        )
+      ) %>%
+      unique() %>%
+      group_by(mode, ctu, year, aeo_mode, type) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      left_join(avo, by = c("mode", "year", "aeo_mode", "type")) %>%
+      rowwise() %>%
+      mutate(vmt = PMT / AVO,
+             scenario = .scenario,
+             stock = .stock) %>%
+      select(
+        scenario,
+        mode,
+        stock,
+        ctu, year, aeo_mode, type, vmt
+      )
+
+    return(tb_fin)
+
+  } else { # if scenario is BAU
+    # browser()
     tb_fin <- tb %>%
       dplyr::filter(
         mode == .mode,
@@ -343,10 +386,14 @@ calc_vmt <- function(.scenario,
       ) %>%
       mutate(
         scenario = .scenario,
-        vmt := !!rlang::sym(.variable) /
-        (AVO * !!(rlang::sym(.stock) / TotStock))
+        stock = .stock,
+        vmt := !!rlang::sym(.variable) * 1 / AVO * (!!rlang::sym(.stock) / TotStock)
       ) %>%
-      select(scenario, mode, ctu, year, aeo_mode, type, vmt)
+      select(
+        scenario, mode,
+        stock,
+        ctu, year, aeo_mode, type, vmt
+      )
 
 
     return(tb_fin) # in thousands of miles
