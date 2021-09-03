@@ -43,7 +43,7 @@ calc_fuel_use <- function(tb_vmt,
     by = c("year")
   ) %>%
     mutate(fuel_factor = !!
-      rlang::sym(.miles_per_gallon) * aeo_factor * av_multiplier) %>%
+    rlang::sym(.miles_per_gallon) * aeo_factor * av_multiplier) %>%
     select(-value)
 
 
@@ -58,7 +58,6 @@ calc_fuel_use <- function(tb_vmt,
       ctu = ctu.x,
       year,
       type,
-      AEOScen,
       aeo_mode,
       class,
       fuel_use
