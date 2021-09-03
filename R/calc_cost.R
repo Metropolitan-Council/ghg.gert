@@ -14,33 +14,33 @@ calc_cost <- function(tb_vmt,
                       .mode,
                       .price,
                       .is_av = 0) {
-  cost_input <- tb_cost %>%
+  # browser()
+  tb_cost_current <- factor_values$cost %>%
     dplyr::filter(
       mode == .mode,
       var == .price,
       AV == .is_av
     ) %>%
-    dplyr::select(all_of(YRS)) / 1000
+    dplyr::mutate(cost_value = value / 1000)
 
-  # multiply VMT by cost
-  cost <- tb_vmt %>%
-    dplyr::select(all_of(YRS)) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(
-      `2015` = `2015` * (cost_input)$`2015`,
-      `2018` = `2018` * (cost_input)$`2018`,
-      `2020` = `2020` * (cost_input)$`2020`,
-      `2025` = `2025` * (cost_input)$`2025`,
-      `2030` = `2030` * (cost_input)$`2030`,
-      `2035` = `2035` * (cost_input)$`2035`,
-      `2040` = `2040` * (cost_input)$`2040`,
+
+  vmt_cost <- dplyr::left_join(
+    tb_vmt,
+    tb_cost_current,
+    by = c("mode", "year")
+  ) %>%
+    dplyr::mutate(vmt_cost = vmt * cost_value) %>%
+    dplyr::select(
+      scenario,
+      type,
+      mode,
+      ctu,
+      year,
+      aeo_mode,
+      class,
+      vmt_cost
     )
 
 
-  # mutate_all(., function(col) {
-  #   col * cost_input
-  # })
-
-
-  return(cost)
+  return(vmt_cost)
 }

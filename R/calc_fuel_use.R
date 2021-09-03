@@ -9,57 +9,61 @@
 #' @importFrom dplyr filter select case_when rowwise mutate_all
 #' @importFrom tidyselect all_of
 calc_fuel_use <- function(tb_vmt,
-                      tb,
-                      .mode,
-                      .fuel_type,
-                      .aeo_scenario = "REF",
-                      .miles_per_gallon,
-                      .is_av = 0) {
+                          tb,
+                          .mode,
+                          .fuel_type,
+                          .aeo_scenario = "REF",
+                          .miles_per_gallon,
+                          .is_av = 0) {
   # browser()
 
-  ghg_by_mode <- tb %>%
+  tb_l <- tb %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
-    dplyr::select(tidyselect::all_of(YRS)) *
-    dplyr::case_when(
-      .mode == "PLDV" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "LDV") %>%
-        dplyr::select(tidyselect::all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "SUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "MDT") %>%
-        dplyr::select(tidyselect::all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "CUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "HDT") %>%
-        dplyr::select(tidyselect::all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "FR" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FRAIL") %>%
-        dplyr::select(tidyselect::all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FSHIP") %>%
-        dplyr::select(tidyselect::all_of(YRS)) %>%
-        as.numeric(),
+    mutate(av_multiplier = dplyr::case_when(
+      .is_av == 1 ~ MPG_AV,
       TRUE ~ 1
-    ) *
-    # AV adjustment
-    dplyr::case_when(
-      .is_av > 0 ~ MPG_AV,
-      TRUE ~ 1
+    )) %>%
+    tidyr::pivot_wider(
+      names_from = var,
+      values_from = value
     )
 
 
-  fuel <- tb_vmt %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    mutate(
-      `2015` = `2015` / (ghg_by_mode)$`2015`,
-      `2018` = `2018` / (ghg_by_mode)$`2018`,
-      `2020` = `2020` / (ghg_by_mode)$`2020`,
-      `2025` = `2025` / (ghg_by_mode)$`2025`,
-      `2030` = `2030` / (ghg_by_mode)$`2030`,
-      `2035` = `2035` / (ghg_by_mode)$`2035`,
-      `2040` = `2040` / (ghg_by_mode)$`2040`,
+  aeo_f_l <- factor_values$aeo %>%
+    dplyr::filter(
+      Metric == "MPG",
+      AEOScen == .aeo_scenario,
+      Mode == tb_l$aeo_mode
+    ) %>%
+    mutate(aeo_factor = value)
+
+
+  tb_aeo <- left_join(tb_l,
+    aeo_f_l,
+    by = c("year")
+  ) %>%
+    mutate(fuel_factor = !!
+      rlang::sym(.miles_per_gallon) * aeo_factor * av_multiplier) %>%
+    select(-value)
+
+
+  fuel_use <- left_join(tb_vmt,
+    tb_aeo,
+    by = c("mode", "year", "aeo_mode", "type")
+  ) %>%
+    mutate(fuel_use = vmt * fuel_factor) %>%
+    select(type,
+      scenario,
+      mode,
+      ctu = ctu.x,
+      year,
+      type,
+      AEOScen,
+      aeo_mode,
+      class,
+      fuel_use
     )
-  return(fuel)
+
+
+  return(fuel_use)
 }

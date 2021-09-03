@@ -4,9 +4,9 @@
 #' @param .fuel_cost_gallon  fuel cost per gallon for current mode
 #' @inheritParams calc_cost
 #'
-#' @return
+#' @return a tibble with columns for `mode`, `var`, `year`, and `fuel_cost_mile`.
 #' @export
-#' @importFrom dplyr filter select case_when
+#' @importFrom dplyr filter select case_when left_join
 #' @family transportation
 calc_fuel_cost_mile <- function(tb,
                                 .mode,
@@ -14,42 +14,31 @@ calc_fuel_cost_mile <- function(tb,
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
                                 .av_pct = 0) {
-  adj_specific <- tb %>%
+  # browser()
+
+  tb_l <- tb %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
-    dplyr::select(all_of(YRS)) *
-    # fetch specific annual energy outlook (AEO) for the given metric, mode
-    dplyr::case_when(
-      .mode == "PLDV" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "LDV") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "SUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "MDT") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "CUT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "HDT") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "FR" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FRAIL") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_factors %>%
-        dplyr::filter(AEOScen == .aeo_scenario, Metric == "MPG", Mode == "FSHIP") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      TRUE ~ 1
-    ) *
-    # AV adjustment
-    # if vehicle is AV, then multiply by 1
-    # otherwise, multiply by the estimated reduction in fuel use for AVs
-    dplyr::case_when(
+    mutate(av_multiplier = dplyr::case_when(
       .av_pct == 1 ~ MPG_AV,
       TRUE ~ 1
+    ))
+
+
+  aeo_f_l <- factor_values$aeo %>%
+    dplyr::filter(
+      Metric == "MPG",
+      AEOScen == .aeo_scenario,
+      Mode == tb_l$aeo_mode
     )
 
-  fuel_cost_mile <- .fuel_cost_gallon / adj_specific
 
-  return(fuel_cost_mile)
+  re <- left_join(tb_l, aeo_f_l,
+    by = "year",
+    suffix = c(".tb", ".aeo")
+  ) %>%
+    mutate(fuel_cost_mile = .fuel_cost_gallon /
+      (value.tb * value.aeo * av_multiplier)) %>%
+    select(year, mode, var, ctu, fuel_cost_mile)
+
+  return(re)
 }

@@ -70,38 +70,28 @@ calc_vmt <- function(.scenario,
                      .comb_5d_impact_pct_change = 0,
                      .telework_pct = 0,
                      ch_phev = 0) {
-  browser()
+  # browser()
   # Annual energy outlook VMT tables -------
   # Specific to each mode type
   aeo_vmt <- list(
-    rail = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "RAIL") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    bus = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "BUS") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    ldv = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "LDV") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    mdt = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "MDT") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    hdt = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "HDT") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    frail = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FRAIL") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric(),
-    fship = aeo_factors %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FSHIP") %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      as.numeric()
+    rail = factor_values$aeo %>%
+      dplyr::filter(
+        AEOScen == .aeo_scenario,
+        Metric == "VMT",
+        Mode == "RAIL"
+      ),
+    bus = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "BUS"),
+    ldv = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "LDV"),
+    mdt = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "MDT"),
+    hdt = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "HDT"),
+    frail = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FRAIL"),
+    fship = factor_values$aeo %>%
+      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FSHIP")
   )
 
 
@@ -109,61 +99,45 @@ calc_vmt <- function(.scenario,
   # passenger light duty vehicle
   pldv_stocks <- list(
     si = tb %>%
-      dplyr::filter(mode == "PLDV", var == "SIStock") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "PLDV", var == "SIStock"),
     ci = tb %>%
-      dplyr::filter(mode == "PLDV", var == "CIStock") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "PLDV", var == "CIStock"),
     hev = tb %>%
-      dplyr::filter(mode == "PLDV", var == "HEVStock") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "PLDV", var == "HEVStock"),
     .parking_price = tb %>%
-      dplyr::filter(mode == "PLDV", var == "Park") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "PLDV", var == "Park"),
     tot = tb %>%
-      dplyr::filter(mode == "PLDV", var == "TotStock") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "PLDV", var == "TotStock"),
     avo = tb %>%
-      dplyr::filter(mode == "PLDV", var == "AVO") %>%
-      dplyr::select(tidyselect::all_of(YRS))
+      dplyr::filter(mode == "PLDV", var == "AVO")
   )
 
   # .mode held constant table subsets ------
   tb_mode <- list(
     var = tb %>%
-      dplyr::filter(mode == .mode, var == .variable) %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == .mode, var == .variable),
     stock = tb %>%
-      dplyr::filter(mode == .mode, var == .stock) %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == .mode, var == .stock),
     tot_stock = tb %>%
-      dplyr::filter(mode == .mode, var == "TotStock") %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == .mode, var == "TotStock"),
     avo = tb %>% # average vehicle occupancy
-      dplyr::filter(mode == .mode, var == "AVO") %>%
-      dplyr::select(tidyselect::all_of(YRS))
+      dplyr::filter(mode == .mode, var == "AVO")
   )
 
   # variable held constant -----
   tb_var <- list(
     at = tb %>%
-      dplyr::filter(mode == "AT", var == .variable) %>%
-      dplyr::select(tidyselect::all_of(YRS)),
+      dplyr::filter(mode == "AT", var == .variable),
     pldv = tb %>%
-      dplyr::filter(mode == "PLDV", var == .variable) %>%
-      dplyr::select(tidyselect::all_of(YRS))
+      dplyr::filter(mode == "PLDV", var == .variable)
   )
 
 
   tb_avshare <- tb %>%
-    dplyr::filter(var == "AVShare") %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    as.numeric()
+    dplyr::filter(var == "AVShare")
 
   tb_park <- tb %>%
-    dplyr::filter(var == "PARK") %>%
-    dplyr::select(tidyselect::all_of(YRS)) %>%
-    as.numeric()
+    dplyr::filter(var == "PARK")
 
   # basic filter for mode and variable
 
@@ -350,18 +324,31 @@ calc_vmt <- function(.scenario,
   } else if (.mode == "WALK" | .mode == "BIKE") {
     .vmt_fee <- tb_mode$var / tb_mode$avo
   } else { # if scenario is BAU
-    .vmt_fee <- tb_mode$var * # miles traveled for given mode
-      # Apply AEO adjustments
-      dplyr::case_when(
-        .mode == "PLDV" ~ aeo_vmt$ldv, # if passenger light duty, use aeo_vmt$ldv
-        .mode == "SUT" ~ aeo_vmt$mdt,
-        .mode == "CUT" ~ aeo_vmt$hdt,
-        .mode == "BU" | .mode == "BRT" ~ aeo_vmt$bus,
-        .mode == "RU" | .mode == "RI" ~ aeo_vmt$rail,
-        .mode == "FR" ~ aeo_vmt$frail,
-        .mode == "MM" | .mode == "AIR" | .mode == "WAT" ~ aeo_vmt$fship,
-        TRUE ~ 1
-      ) / tb_mode$avo * (tb_mode$stock / tb_mode$tot_stock)
+
+    tb_fin <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var %in% c(
+          .variable,
+          .stock,
+          "TotStock",
+          "AVO"
+        )
+      ) %>%
+      unique() %>%
+      group_by(mode, ctu, year, aeo_mode, type) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      mutate(
+        scenario = .scenario,
+        vmt := !!rlang::sym(.variable) /
+        (AVO * !!(rlang::sym(.stock) / TotStock))
+      ) %>%
+      select(scenario, mode, ctu, year, aeo_mode, type, vmt)
+
+
+    return(tb_fin) # in thousands of miles
   }
-  return(.vmt_fee) # in thousands of miles
 }

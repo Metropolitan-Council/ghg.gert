@@ -82,22 +82,32 @@ calc_ghg_embodied <- function(tb,
         (ifelse(.transit_avo_pct > 0, (1 - 1 / (1 + .transit_avo_pct)), 0) + 1)
     }
   } else {
-    ghg_factors_current <- ghg_factors %>%
+    ghg_factors_current <- factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
-      dplyr::select(tidyselect::all_of(YRS))
+      mutate(ghg_value = value)
 
-    ghg <- tb %>%
-      dplyr::filter(mode == .mode, var == .sales_mode) %>%
-      dplyr::select(tidyselect::all_of(YRS)) %>%
-      dplyr::rowwise() %>%
-      mutate(
-        `2015` = `2015` * (ghg_factors_current)$`2015`,
-        `2018` = `2018` * (ghg_factors_current)$`2018`,
-        `2020` = `2020` * (ghg_factors_current)$`2020`,
-        `2025` = `2025` * (ghg_factors_current)$`2025`,
-        `2030` = `2030` * (ghg_factors_current)$`2030`,
-        `2035` = `2035` * (ghg_factors_current)$`2035`,
-        `2040` = `2040` * (ghg_factors_current)$`2040`,
+
+    sales <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var == .sales_mode
+      ) %>%
+      unique() %>%
+      mutate(sales_value = value)
+
+    ghg <- left_join(sales,
+      ghg_factors_current,
+      by = "year"
+    ) %>%
+      mutate(ghg_emobdied = sales_value * ghg_value) %>%
+      select(type,
+        mode,
+        ctu = ctu.x,
+        year,
+        var,
+        aeo_mode,
+        source,
+        ghg_emobdied
       )
   }
 

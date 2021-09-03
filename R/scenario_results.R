@@ -70,413 +70,14 @@ scenario_results <- function(.scenario = "BAU",
   # 4. Calculate VMT with `calc`
 
 
-  # Passenger ------------------------------------------------------------
-
-  type <- "P"
-  # For all passenger modes, variable = PMT
-  var <- "PMT"
-  # PLDV by fuel and CTU
-  mode <- "PLDV"
-
-  ## Gasoline -----
-  # Calculate aggregate GHG in kt CO2 by year
-  # 1. Calculate fuel cost per mile (FCM)
-  # 2. Calculate VMT (requires FCM, )
-  # 3. Calculate direct emissions (requires VMT)
-  # 4. Calculate fuel use (requires VMT)
-  # 5. Calculate embodied GHG
-
-  stock <- "SIStock"
-  mpg <- "SIMPG"
-  class <- "SI"
-
-  # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo,
-    mode,
-    .aeo_scenario,
-    mpg,
-    SI_FUEL_COST_GAL
-  )
-
-  si_vmt <- tibble::tibble(
-    type = type,
-    scenario = .scenario,
-    mode = mode,
-    class = class,
-    ctu = .ctu,
-    output = "VMT",
-    calc_vmt(
-      .scenario, pass_transpo, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
-      .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
-      .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
-      .telework_pct
-    )
-  )
-
-  si_dir_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode,
-    class = class, ctu = .ctu,
-    output = "DIR-GHG",
-    calc_ghg_direct(
-      tb_vmt = si_vmt,
-      tb = pass_transpo,
-      .mode = mode,
-      .fuel_type = "SI",
-      .aeo_scenario = .aeo_scenario,
-      .mles_per_gallon = mpg
-    )
-  )
-
-  si_fuel <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu,
-    output = "PETRO",
-    calc_fuel_use(
-      si_vmt, pass_transpo,
-      mode, "SI",
-      .aeo_scenario, mpg
-    )
-  )
-
-  si_emb_ghg <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu,
-    output = "INDIR-GHG",
-    calc_ghg_embodied(
-      pass_transpo, mode,
-      "SISales",
-      "SI-EMB"
-    )
-  )
-
-  si_cost <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu,
-    output = "COST",
-    calc_cost(
-      si_vmt, cost_factors, mode,
-      "SIPrice"
-    )
-  )
-
-  ## Diesel----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
-
-  # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode, .aeo_scenario,
-    mpg, CI_FUEL_COST_GAL
-  )
-
-  ci_vmt <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class, ctu = .ctu,
-    output = "VMT", calc_vmt(
-      .scenario, pass_transpo,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change, .telework_pct
-    )
-  )
-
-  ci_dir_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "DIR-GHG",
-    calc_ghg_direct(
-      ci_vmt, pass_transpo,
-      mode, "CI", .aeo_scenario, mpg
-    )
-  )
-
-  ci_fuel <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "PETRO",
-    calc_fuel_use(
-      ci_vmt, pass_transpo,
-      mode, "CI", .aeo_scenario, mpg
-    )
-  )
-
-  ci_emb_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "INDIR-GHG",
-    calc_ghg_embodied(
-      pass_transpo, mode,
-      "CISales", "CI-EMB"
-    )
-  )
-
-  ci_cost <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "COST",
-    calc_cost(ci_vmt, cost_factors, mode, "CIPrice")
-  )
-
-  ## HEV (Hybrid electric vehicle)----
-  stock <- "HEVStock"
-  mpg <- "HEVMPG"
-  class <- "HEV"
-
-  # Calculate a fuel cost per mile rather than per gallon
-
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode, .aeo_scenario,
-    mpg, SI_FUEL_COST_GAL
-  )
-
-  hev_vmt <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu, output = "VMT",
-    calc_vmt(
-      .scenario, pass_transpo, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change, .telework_pct
-    )
-  )
-
-  hev_dir_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "DIR-GHG",
-    calc_ghg_direct(
-      hev_vmt, pass_transpo,
-      mode, "SI", .aeo_scenario, mpg
-    )
-  )
-
-  hev_fuel <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "PETRO",
-    calc_fuel_use(
-      hev_vmt, pass_transpo,
-      mode, "SI", .aeo_scenario, mpg
-    )
-  )
-
-  hev_emb_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "INDIR-GHG",
-    calc_ghg_embodied(pass_transpo, mode, "HEVSales", "HEV-EMB")
-  )
-
-  hev_cost <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "COST",
-    calc_cost(
-      hev_vmt, cost_factors, mode,
-      "HEVPrice"
-    )
-  )
-
-  ## PHEV (Plug-in hybrid) -----
-  ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) x ((Pr(Elec) x elec consumption (MWh per 1000 mi) x GHG per elec) + ((1 - Pr(Elec)) x fuel consumption (per 1000 mi) x GHG per fuel)
-
-  stock <- "PHEVStock"
-  mpg <- "PHEVMPG"
-  mpe <- "PHEVElec"
-  class <- "PHEV"
-
-  # Calculate a fuel cost per mile rather than per gallon
-
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode, .aeo_scenario,
-    mpg, SI_FUEL_COST_GAL
-  )
-  phev_vmtg <- calc_vmt(
-    .scenario, pass_transpo, mode, stock, var,
-    fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-    .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
-    .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-    .transit_dist_pct_change, .comb_5d_impact_pct_change,
-    .telework_pct, 1
-  ) * (1 - pass_transpo %>%
-    dplyr::filter(mode == mode, var == "PHEVPr") %>%
-    dplyr::select(all_of(YRS)))
-
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode, .aeo_scenario,
-    mpe, ELEC_FUEL_COST_KWH
-  )
-  phev_vmte <- calc_vmt(
-    .scenario, pass_transpo, mode, stock, var, fcm,
-    .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-    .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
-    .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
-    .telework_pct
-  ) * pass_transpo %>%
-    dplyr::filter(mode == mode, var == "PHEVPr") %>%
-    dplyr::select(all_of(YRS))
-
-  phev_vmt <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu, output = "VMT",
-    phev_vmtg + phev_vmte
-  )
-
-  phev_ghgg <- calc_ghg_direct(
-    phev_vmtg, pass_transpo, mode,
-    "SI", .aeo_scenario, mpg
-  )
-  phev_fuelg <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu, output = "PETRO",
-    calc_fuel_use(
-      phev_vmtg, pass_transpo, mode, "SI",
-      .aeo_scenario, mpg
-    )
-  )
-
-  phev_ghge <- calc_ghg_direct(
-    phev_vmte, pass_transpo, mode, .electric_scenario,
-    .aeo_scenario, mpe
-  )
-  phev_dir_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "DIR-GHG",
-    phev_ghgg + phev_ghge
-  )
-
-  phev_fuele <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "ELEC",
-    calc_fuel_use(
-      phev_vmte, pass_transpo,
-      mode, .electric_scenario, .aeo_scenario,
-      mpe
-    )
-  )
-
-  phev_emb_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "INDIR-GHG",
-    calc_ghg_embodied(
-      pass_transpo,
-      mode, "PHEVSales", "PHEV-EMB"
-    )
-  )
-
-  phev_cost <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "COST",
-    calc_cost(
-      phev_vmt, cost_factors,
-      mode, "PHEVPrice"
-    )
-  )
-
-  ## BEV (Battery electric vehicle) -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
-
-  fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode, .aeo_scenario,
-    mpe, ELEC_FUEL_COST_KWH
-  )
-
-  bev_vmt <- tibble::tibble(
-    type = type, scenario = .scenario, mode = mode,
-    class = class, ctu = .ctu, output = "VMT",
-    calc_vmt(
-      .scenario, pass_transpo, mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change, .telework_pct
-    )
-  )
-
-
-  bev_dir_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "DIR-GHG",
-    calc_ghg_direct(
-      bev_vmt, pass_transpo,
-      mode, .electric_scenario, .aeo_scenario, mpe
-    )
-  )
-
-
-  bev_fuel <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "ELEC",
-    calc_fuel_use(
-      bev_vmt, pass_transpo,
-      mode, .electric_scenario, .aeo_scenario, mpe
-    )
-  )
-
-  bev_emb_ghg <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "INDIR-GHG",
-    calc_ghg_embodied(
-      pass_transpo, mode,
-      "BEVSales", "BEV-EMB"
-    )
-  )
-
-  bev_cost <- tibble::tibble(
-    type = type, scenario = .scenario,
-    mode = mode, class = class,
-    ctu = .ctu, output = "COST",
-    calc_cost(
-      bev_vmt, cost_factors,
-      mode, "BEVPrice"
-    )
-  )
-
-  browser()
-  # Combine the PLDV data
-  out_sum <- dplyr::bind_rows(
-    si_vmt, si_dir_ghg, si_fuel,
-    si_emb_ghg, si_cost, ci_vmt,
-    ci_dir_ghg, ci_fuel, ci_emb_ghg,
-    ci_cost, hev_vmt, hev_dir_ghg,
-    hev_fuel, hev_emb_ghg, hev_cost,
-    phev_vmt, phev_dir_ghg, phev_fuelg,
-    phev_fuele, phev_emb_ghg, phev_cost,
-    bev_vmt, bev_dir_ghg, bev_fuel,
-    bev_emb_ghg, bev_cost
-  )
+  passenger_light_duty <- calc_passenger_light_duty()
 
   # Transit-----
   # Caculate a fuel cost for use in DRS and transit calculations. Use gasoline PLDV value.
   mpg <- "SIMPG"
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    pass_transpo, mode,
+    transportation_data$passenger, mode,
     .aeo_scenario, mpg, SI_FUEL_COST_GAL
   )
 
@@ -494,7 +95,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var,
+      .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
       .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
       .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
@@ -506,7 +107,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      ci_vmt, pass_transpo, mode,
+      ci_vmt, transportation_data$passenger, mode,
       "CI", .aeo_scenario, mpg
     )
   )
@@ -515,7 +116,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      ci_vmt, pass_transpo, mode, "CI",
+      ci_vmt, transportation_data$passenger, mode, "CI",
       .aeo_scenario, mpg
     )
   )
@@ -525,7 +126,7 @@ scenario_results <- function(.scenario = "BAU",
     class = class, ctu = .ctu,
     output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo,
+      transportation_data$passenger,
       mode, "BCISales",
       "BU-BCI-EMB", class, .transit_avo,
       ci_vmt, .mit_bau_summary
@@ -547,7 +148,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var,
+      .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
       .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
@@ -560,7 +161,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu,
     output = "DIR-GHG", calc_ghg_direct(
-      hev_vmt, pass_transpo, mode, "CI",
+      hev_vmt, transportation_data$passenger, mode, "CI",
       .aeo_scenario, mpg
     )
   )
@@ -570,7 +171,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      hev_vmt, pass_transpo,
+      hev_vmt, transportation_data$passenger,
       mode, "CI", .aeo_scenario, mpg
     )
   )
@@ -580,7 +181,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo,
+      transportation_data$passenger,
       mode, "HEVSales",
       "BU-HEV-EMB", class, .transit_avo,
       hev_vmt, .mit_bau_summary
@@ -602,7 +203,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock,
+      .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -615,7 +216,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      bev_vmt, pass_transpo,
+      bev_vmt, transportation_data$passenger,
       mode,
       .electric_scenario, .aeo_scenario, mpe
     )
@@ -625,7 +226,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
     calc_fuel_use(
-      bev_vmt, pass_transpo,
+      bev_vmt, transportation_data$passenger,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -635,7 +236,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class, ctu = .ctu,
     output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo, mode,
+      transportation_data$passenger, mode,
       "BEVSales", "BU-BEV-EMB",
       class, .transit_avo,
       bev_vmt, .mit_bau_summary
@@ -672,7 +273,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var,
+      .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
       .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
@@ -684,7 +285,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      ci_vmt, pass_transpo, mode,
+      ci_vmt, transportation_data$passenger, mode,
       "CI", .aeo_scenario, mpg
     )
   )
@@ -693,7 +294,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      ci_vmt, pass_transpo, mode, "CI",
+      ci_vmt, transportation_data$passenger, mode, "CI",
       .aeo_scenario, mpg
     )
   )
@@ -703,7 +304,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class, ctu = .ctu,
     output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo, mode,
+      transportation_data$passenger, mode,
       "BCISales", "BU-BCI-EMB",
       class, .transit_avo, ci_vmt,
       .mit_bau_summary
@@ -729,7 +330,7 @@ scenario_results <- function(.scenario = "BAU",
     scenario = .scenario,
     mode = mode, class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var, fcm, .aeo_scenario,
+      .scenario, transportation_data$passenger, mode, stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
@@ -740,7 +341,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      hev_vmt, pass_transpo,
+      hev_vmt, transportation_data$passenger,
       mode, "CI", .aeo_scenario, mpg
     )
   )
@@ -749,7 +350,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      hev_vmt, pass_transpo, mode, "CI",
+      hev_vmt, transportation_data$passenger, mode, "CI",
       .aeo_scenario, mpg
     )
   )
@@ -759,7 +360,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo, mode,
+      transportation_data$passenger, mode,
       "HEVSales", "BU-HEV-EMB",
       class, .transit_avo, hev_vmt,
       .mit_bau_summary
@@ -784,7 +385,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var, fcm,
+      .scenario, transportation_data$passenger, mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
       .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
       .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
@@ -796,7 +397,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      bev_vmt, pass_transpo,
+      bev_vmt, transportation_data$passenger,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -805,7 +406,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
     calc_fuel_use(
-      bev_vmt, pass_transpo, mode,
+      bev_vmt, transportation_data$passenger, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -815,7 +416,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class, ctu = .ctu,
     output = "INDIR-GHG",
     calc_ghg_embodied(
-      pass_transpo, mode,
+      transportation_data$passenger, mode,
       "BEVSales", "BU-BEV-EMB",
       class, .transit_avo, bev_vmt,
       .mit_bau_summary
@@ -854,7 +455,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode,
+      .scenario, transportation_data$passenger, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -870,7 +471,7 @@ scenario_results <- function(.scenario = "BAU",
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
       bev_vmt,
-      pass_transpo,
+      transportation_data$passenger,
       mode, .electric_scenario,
       .aeo_scenario,
       mpe
@@ -882,7 +483,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "ELEC",
     calc_fuel_use(
-      bev_vmt, pass_transpo,
+      bev_vmt, transportation_data$passenger,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -912,7 +513,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo,
+      .scenario, transportation_data$passenger,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -927,7 +528,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario,
     mode = mode, class = class,
     ctu = .ctu, output = "DIR-GHG",
-    calc_ghg_direct(ci_vmt, pass_transpo, mode, "BCI", .aeo_scenario, mpg)
+    calc_ghg_direct(ci_vmt, transportation_data$passenger, mode, "BCI", .aeo_scenario, mpg)
   )
 
   ci_fuel <- tibble::tibble(
@@ -935,7 +536,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      ci_vmt, pass_transpo,
+      ci_vmt, transportation_data$passenger,
       mode, "BCI", .aeo_scenario, mpg
     )
   )
@@ -957,7 +558,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock,
+      .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
@@ -968,13 +569,13 @@ scenario_results <- function(.scenario = "BAU",
   ev_ghg <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode, class = class,
     ctu = .ctu, output = "DIR-GHG",
-    calc_ghg_direct(bev_vmt, pass_transpo, mode, .electric_scenario, .aeo_scenario, mpe)
+    calc_ghg_direct(bev_vmt, transportation_data$passenger, mode, .electric_scenario, .aeo_scenario, mpe)
   )
 
   ev_fuel <- tibble::tibble(
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "ELEC",
-    calc_fuel_use(bev_vmt, pass_transpo, mode, .electric_scenario, .aeo_scenario, mpe)
+    calc_fuel_use(bev_vmt, transportation_data$passenger, mode, .electric_scenario, .aeo_scenario, mpe)
   )
 
   ev_cost <- tibble::tibble(
@@ -1002,7 +603,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode, class = class,
     ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo,
+      .scenario, transportation_data$passenger,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -1019,7 +620,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      ci_vmt, pass_transpo,
+      ci_vmt, transportation_data$passenger,
       mode, "CI", .aeo_scenario, mpg
     )
   )
@@ -1029,7 +630,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "PETRO",
     calc_fuel_use(
-      ci_vmt, pass_transpo, mode,
+      ci_vmt, transportation_data$passenger, mode,
       "CI", .aeo_scenario, mpg
     )
   )
@@ -1055,7 +656,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock, var, fcm,
+      .scenario, transportation_data$passenger, mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
@@ -1068,7 +669,7 @@ scenario_results <- function(.scenario = "BAU",
     class = class, ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
       bev_vmt,
-      pass_transpo, mode, .electric_scenario,
+      transportation_data$passenger, mode, .electric_scenario,
       .aeo_scenario, mpe
     )
   )
@@ -1078,7 +679,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class, ctu = .ctu,
     output = "ELEC",
     calc_fuel_use(
-      bev_vmt, pass_transpo, mode,
+      bev_vmt, transportation_data$passenger, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -1111,7 +712,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode, stock,
+      .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -1130,7 +731,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "VMT",
     calc_vmt(
-      .scenario, pass_transpo, mode,
+      .scenario, transportation_data$passenger, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .cong_price, .parking_price, .drs_pct,
@@ -1159,10 +760,10 @@ scenario_results <- function(.scenario = "BAU",
     drs_sales <- tibble::tibble(
       mode = mode,
       var = "DRSSales", ctu = .ctu,
-      calc_drs_sales(pass_transpo, .drs_pct)
+      calc_drs_sales(transportation_data$passenger, .drs_pct)
     )
 
-    pass_transpo <- dplyr::bind_rows(pass_transpo, drs_sales)
+    transportation_data$passenger <- dplyr::bind_rows(transportation_data$passenger, drs_sales)
 
     if (.drs_fuel_type == "HEV") {
       ## DRS Hybrid fuel -----
@@ -1170,7 +771,7 @@ scenario_results <- function(.scenario = "BAU",
       mpg <- "HEVMPG"
       class <- "HEV"
       fcm <- calc_fuel_cost_mile(
-        pass_transpo, mode,
+        transportation_data$passenger, mode,
         .aeo_scenario, mpg, SI_FUEL_COST_GAL
       )
 
@@ -1179,7 +780,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "VMT",
         calc_drs_vmt(
-          pass_transpo, .drs_pct,
+          transportation_data$passenger, .drs_pct,
           class, fcm, .vmt_fee,
           .payd_fee, .gas_tax, .cong_price,
           .parking_price, .pop_dens_pct_change,
@@ -1196,7 +797,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "DIR-GHG",
         calc_ghg_direct(
           drs_vmt,
-          pass_transpo,
+          transportation_data$passenger,
           mode_1, "SI",
           .aeo_scenario, mpg, 1
         )
@@ -1206,14 +807,14 @@ scenario_results <- function(.scenario = "BAU",
         class = class, ctu = .ctu, output = "PETRO",
         calc_fuel_use(
           drs_vmt,
-          pass_transpo,
+          transportation_data$passenger,
           mode_1, "SI",
           .aeo_scenario, mpg, 1
         )
       )
 
       temp <- calc_ghg_embodied(
-        pass_transpo,
+        transportation_data$passenger,
         mode, "DRSSales",
         "HEV-EMB"
       ) %>%
@@ -1253,24 +854,24 @@ scenario_results <- function(.scenario = "BAU",
 
       # Don't apply the .gas_tax factors, etc. to PHEV for DRS
       phev_vmtg <- calc_drs_vmt(
-        pass_transpo, .drs_pct, class, fcm, .vmt_fee,
+        transportation_data$passenger, .drs_pct, class, fcm, .vmt_fee,
         .payd_fee, .gas_tax, .cong_price, .parking_price, .pop_dens_pct_change,
         .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
         .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change
       ) * (
-        1 - pass_transpo %>%
+        1 - transportation_data$passenger %>%
           dplyr::filter(mode == mode, var == "PHEVPr") %>%
           dplyr::select(all_of(YRS)))
 
       phev_vmte <- calc_drs_vmt(
-        pass_transpo, .drs_pct, class,
+        transportation_data$passenger, .drs_pct, class,
         fcm, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
         .parking_price, .pop_dens_pct_change, .emp_dens_pct_change,
         .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
         .transit_dist_pct_change, .comb_5d_impact_pct_change
       ) *
-        pass_transpo %>%
+        transportation_data$passenger %>%
           dplyr::filter(mode == mode, var == "PHEVPr") %>%
           dplyr::select(all_of(YRS))
 
@@ -1282,12 +883,12 @@ scenario_results <- function(.scenario = "BAU",
       )
 
       phev_ghgg <- calc_ghg_direct(
-        phev_vmtg, pass_transpo,
+        phev_vmtg, transportation_data$passenger,
         mode, "SI", .aeo_scenario, mpg, 1
       )
 
       phev_ghge <- calc_ghg_direct(
-        phev_vmte, pass_transpo,
+        phev_vmte, transportation_data$passenger,
         mode, .electric_scenario, .aeo_scenario, mpe, 1
       )
 
@@ -1304,7 +905,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "PETRO",
         calc_fuel_use(
           phev_vmtg,
-          pass_transpo, mode, "SI",
+          transportation_data$passenger, mode, "SI",
           .aeo_scenario, mpg, 1
         )
       )
@@ -1314,13 +915,13 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
         calc_fuel_use(
-          phev_vmte, pass_transpo,
+          phev_vmte, transportation_data$passenger,
           mode, .electric_scenario, .aeo_scenario, mpe, 1
         )
       )
 
       temp <- calc_ghg_embodied(
-        pass_transpo, mode,
+        transportation_data$passenger, mode,
         "DRSSales", "PHEV-EMB"
       ) %>% as.numeric()
 
@@ -1361,7 +962,7 @@ scenario_results <- function(.scenario = "BAU",
         class = class, ctu = .ctu,
         output = "VMT",
         calc_drs_vmt(
-          pass_transpo, .drs_pct,
+          transportation_data$passenger, .drs_pct,
           class, fcm, .vmt_fee, .payd_fee,
           .gas_tax, .cong_price, .parking_price,
           .pop_dens_pct_change, .emp_dens_pct_change,
@@ -1377,7 +978,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "DIR-GHG",
         calc_ghg_direct(
           drs_vmt,
-          pass_transpo,
+          transportation_data$passenger,
           mode_1, .electric_scenario,
           .aeo_scenario, mpe, 1
         )
@@ -1389,13 +990,13 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "ELEC",
         calc_fuel_use(
           drs_vmt,
-          pass_transpo, mode_1, .electric_scenario,
+          transportation_data$passenger, mode_1, .electric_scenario,
           .aeo_scenario, mpe, 1
         )
       )
 
       temp <- calc_ghg_embodied(
-        pass_transpo,
+        transportation_data$passenger,
         mode, "DRSSales", "BEV-EMB"
       ) %>%
         as.numeric()
@@ -1442,12 +1043,12 @@ scenario_results <- function(.scenario = "BAU",
       mode = mode,
       var = "AVSales", ctu = .ctu,
       calc_av_sales(
-        pass_transpo,
+        transportation_data$passenger,
         .av_pct
       )
     )
 
-    pass_transpo <- dplyr::bind_rows(pass_transpo, av_sales)
+    transportation_data$passenger <- dplyr::bind_rows(transportation_data$passenger, av_sales)
 
 
     if (.av_fuel_type == "HEV") {
@@ -1458,7 +1059,7 @@ scenario_results <- function(.scenario = "BAU",
 
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
-        pass_transpo,
+        transportation_data$passenger,
         mode_1, .aeo_scenario, mpg, SI_FUEL_COST_GAL, .av_pct
       )
       av_vmt <- tibble::tibble(
@@ -1466,7 +1067,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class, ctu = .ctu,
         output = "VMT",
         calc_vmt(
-          .scenario, pass_transpo,
+          .scenario, transportation_data$passenger,
           mode, stock, var,
           fcm, .aeo_scenario,
           .transit_avo, .transit_rider_pct,
@@ -1488,7 +1089,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "DIR-GHG",
         calc_ghg_direct(
           av_vmt,
-          pass_transpo,
+          transportation_data$passenger,
           mode_1, "SI", .aeo_scenario,
           mpg, .av_pct
         )
@@ -1500,7 +1101,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "PETRO",
         calc_fuel_use(
-          av_vmt, pass_transpo,
+          av_vmt, transportation_data$passenger,
           mode_1, "SI", .aeo_scenario,
           mpg, .av_pct
         )
@@ -1511,7 +1112,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          pass_transpo,
+          transportation_data$passenger,
           mode, "AVSales",
           "HEV-EMB"
         )
@@ -1540,28 +1141,28 @@ scenario_results <- function(.scenario = "BAU",
       class <- "PHEV"
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
-        pass_transpo, mode_1, .aeo_scenario,
+        transportation_data$passenger, mode_1, .aeo_scenario,
         mpg, SI_FUEL_COST_GAL, .av_pct
       )
 
       phev_vmtg <- calc_vmt(
-        .scenario, pass_transpo, mode, stock,
+        .scenario, transportation_data$passenger, mode, stock,
         var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
-      ) * (1 - pass_transpo %>%
+      ) * (1 - transportation_data$passenger %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
-        pass_transpo, mode,
+        transportation_data$passenger, mode,
         .aeo_scenario, mpe, ELEC_FUEL_COST_KWH
       )
 
       phev_vmte <- calc_vmt(
-        .scenario, pass_transpo, mode,
+        .scenario, transportation_data$passenger, mode,
         stock, var, fcm, .aeo_scenario,
         .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
         .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -1569,7 +1170,7 @@ scenario_results <- function(.scenario = "BAU",
         .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
         .transit_dist_pct_change, .comb_5d_impact_pct_change,
         .telework_pct
-      ) * pass_transpo %>%
+      ) * transportation_data$passenger %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS))
 
@@ -1581,12 +1182,12 @@ scenario_results <- function(.scenario = "BAU",
       )
 
       phev_ghgg <- calc_ghg_direct(
-        phev_vmtg, pass_transpo,
+        phev_vmtg, transportation_data$passenger,
         mode, "SI", .aeo_scenario, mpg, .av_pct
       )
 
       phev_ghge <- calc_ghg_direct(
-        phev_vmtg, pass_transpo,
+        phev_vmtg, transportation_data$passenger,
         mode, .electric_scenario, .aeo_scenario, mpe, .av_pct
       )
 
@@ -1603,7 +1204,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "PETRO",
         calc_fuel_use(
           phev_vmtg,
-          pass_transpo, mode, "SI",
+          transportation_data$passenger, mode, "SI",
           .aeo_scenario, mpg, .av_pct
         )
       )
@@ -1614,7 +1215,7 @@ scenario_results <- function(.scenario = "BAU",
         ctu = .ctu, output = "ELEC",
         calc_fuel_use(
           phev_vmte,
-          pass_transpo,
+          transportation_data$passenger,
           mode, .electric_scenario, .aeo_scenario,
           mpe, .av_pct
         )
@@ -1625,7 +1226,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          pass_transpo, mode,
+          transportation_data$passenger, mode,
           "AVSales", "PHEV-EMB"
         )
       )
@@ -1652,7 +1253,7 @@ scenario_results <- function(.scenario = "BAU",
       mpe <- "BEVElec"
       class <- "BEV"
       fcm <- calc_fuel_cost_mile(
-        pass_transpo,
+        transportation_data$passenger,
         mode_1, .aeo_scenario, mpe, ELEC_FUEL_COST_KWH
       )
 
@@ -1661,7 +1262,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "VMT",
         calc_vmt(
-          .scenario, pass_transpo,
+          .scenario, transportation_data$passenger,
           mode, stock, var, fcm,
           .aeo_scenario, .transit_avo, .transit_rider_pct,
           .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -1678,7 +1279,7 @@ scenario_results <- function(.scenario = "BAU",
         output = "DIR-GHG",
         calc_ghg_direct(
           av_vmt,
-          pass_transpo,
+          transportation_data$passenger,
           mode_1, .electric_scenario,
           .aeo_scenario, mpe, .av_pct
         )
@@ -1689,7 +1290,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "ELEC",
         calc_fuel_use(
-          av_vmt, pass_transpo,
+          av_vmt, transportation_data$passenger,
           mode_1, .electric_scenario, .aeo_scenario, mpe, .av_pct
         )
       )
@@ -1699,7 +1300,7 @@ scenario_results <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          pass_transpo,
+          transportation_data$passenger,
           mode,
           "AVSales", "BEV-EMB"
         )
@@ -1742,7 +1343,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    freight_transpo, mode,
+    transportation_data$freight, mode,
     .aeo_scenario, mpg, CI_FUEL_COST_GAL
   )
 
@@ -1751,7 +1352,7 @@ scenario_results <- function(.scenario = "BAU",
     scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo,
+      .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -1768,7 +1369,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      ci_vmt, freight_transpo,
+      ci_vmt, transportation_data$freight,
       mode, "CUTCI", .aeo_scenario, mpg
     )
   )
@@ -1782,7 +1383,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode, stock,
+      .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -1797,7 +1398,7 @@ scenario_results <- function(.scenario = "BAU",
     output = "DIR-GHG",
     calc_ghg_direct(
       bev_vmt,
-      freight_transpo, mode,
+      transportation_data$freight, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -1817,7 +1418,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    freight_transpo, mode,
+    transportation_data$freight, mode,
     .aeo_scenario, mpg, CI_FUEL_COST_GAL
   )
 
@@ -1825,7 +1426,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode, stock,
+      .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -1840,7 +1441,7 @@ scenario_results <- function(.scenario = "BAU",
     output = "DIR-GHG",
     calc_ghg_direct(
       ci_vmt,
-      freight_transpo, mode,
+      transportation_data$freight, mode,
       "SUTCI", .aeo_scenario, mpg
     )
   )
@@ -1854,7 +1455,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode, stock,
+      .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
       .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -1870,7 +1471,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
-      bev_vmt, freight_transpo,
+      bev_vmt, transportation_data$freight,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -1893,7 +1494,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo,
+      .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -1909,7 +1510,7 @@ scenario_results <- function(.scenario = "BAU",
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
       ci_vmt,
-      freight_transpo,
+      transportation_data$freight,
       mode, "RCI", .aeo_scenario, mpg
     )
   )
@@ -1924,7 +1525,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class,
     ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo,
+      .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -1941,7 +1542,7 @@ scenario_results <- function(.scenario = "BAU",
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
       bev_vmt,
-      freight_transpo, mode,
+      transportation_data$freight, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -1964,7 +1565,7 @@ scenario_results <- function(.scenario = "BAU",
     class = class, ctu = .ctu,
     output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode,
+      .scenario, transportation_data$freight, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -1980,7 +1581,7 @@ scenario_results <- function(.scenario = "BAU",
     ctu = .ctu, output = "DIR-GHG",
     calc_ghg_direct(
       ci_vmt,
-      freight_transpo,
+      transportation_data$freight,
       mode, "MMCI", .aeo_scenario, mpg
     )
   )
@@ -1994,7 +1595,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode, stock,
+      .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -2009,7 +1610,7 @@ scenario_results <- function(.scenario = "BAU",
     output = "DIR-GHG",
     calc_ghg_direct(
       bev_vmt,
-      freight_transpo, mode,
+      transportation_data$freight, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
   )
@@ -2029,7 +1630,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     class = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode,
+      .scenario, transportation_data$freight, mode,
       stock, var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -2043,7 +1644,7 @@ scenario_results <- function(.scenario = "BAU",
     class = class, ctu = .ctu,
     output = "DIR-GHG",
     calc_ghg_direct(
-      si_vmt, freight_transpo, mode,
+      si_vmt, transportation_data$freight, mode,
       "ASI",
       .aeo_scenario, mpg
     )
@@ -2063,7 +1664,7 @@ scenario_results <- function(.scenario = "BAU",
     type = type, scenario = .scenario, mode = mode,
     lass = class, ctu = .ctu, output = "TVMT",
     calc_vmt(
-      .scenario, freight_transpo, mode, stock,
+      .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
@@ -2077,7 +1678,7 @@ scenario_results <- function(.scenario = "BAU",
     mode = mode, class = class, ctu = .ctu,
     output = "DIR-GHG",
     calc_ghg_direct(
-      ci_vmt, freight_transpo,
+      ci_vmt, transportation_data$freight,
       mode, "WCI", .aeo_scenario, mpg
     )
   )
