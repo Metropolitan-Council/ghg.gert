@@ -17,6 +17,29 @@ ADJ_YRS <- c("2020", "2025", "2030", "2035")
 INIT_YRS <- setdiff(YRS, FOR_YRS)
 DAYS <- 340
 
+
+user_constant <- list(
+  PLDV_TRANSIT_RATIO = 47 / 100, # 100 transit trips replace 47 LDV trips (APTA, 2009)
+  SI_FUEL_COST_GAL = 239.8, # in cents per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)
+  CI_FUEL_COST_GAL = 264.0, # in cents per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 44 cents per mile, so about equal to Barnes estimate)
+  ELEC_FUEL_COST_KWH = 13, # in cents per kWh https://www.xcelenergy.com/staticfiles/xe/PDF/Marketing/MN-SST-Interim-Rates.pdf
+  F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisidiction of application for VMT fee)
+  AUTO_COST_MI = 61.88, # https://exchange.aaa.com/automotive/driving-costs/#.YG7-L-hKiUk (assume mid-distance of 15,000 miles)
+  TIME_COST_MI = 12.814, # cents per mile according to https://www.vtpi.org/tca/tca0502.pdf and adjusted to 2015 using average CPI
+  F_TIME_COST_MI = 119.0, # cents per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf
+  INS_COST_MI = (100 * 808) / 8688, # https://www.forbes.com/advisor/car-insurance/state/minnesota/ and https://www.dot.state.mn.us/traffic/data/reports/vmt/92-17_per_capita_vmt.pdf
+  CONG_VMT <- 0.1087, # Congested VMT as a proportion of total VMT
+  BUS_AV = -1.05, # Factors for % change in bus/rail for a 1% change in AV penetration
+  RAIL_AV = -1.13,
+  VMT_AV = 1.20,
+  EVCS_VMT = 0.045, # Need to account for additional VMT due to charging for PHEV and BEV DRS
+  MPG_AV = 0.85, # 15% reduction in consumption of fuel with AV based on Forecasting the Impact of Connected and Automated Vehicles on Energy
+  MAX_5D_DR = -0.25,
+  MAX_5D_ACT = 0.37,
+  MAX_5D_TRANS = 0.71,
+  MARG_TELEWORK = -2.749    # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+)
+
 PLDV_TRANSIT_RATIO <- 47 / 100 # 100 transit trips replace 47 LDV trips (APTA, 2009)
 # FUEL_COST_MI = 13.13456 # cents per mile according to Barnes et al. (2003) for MN city and CPI for gasoline
 
@@ -40,7 +63,9 @@ INS_COST_MI <- (100 * 808) / 8688 # https://www.forbes.com/advisor/car-insurance
 # Congested VMT as a proportion of total VMT
 
 CONG_VMT <- 0.1087
+
 # Factors for % change in bus/rail for a 1% change in AV penetration
+
 BUS_AV <- -1.05
 RAIL_AV <- -1.13
 VMT_AV <- 1.20
@@ -139,7 +164,7 @@ ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 
 
 # combined tables -----
-elasticities <- tibble(
+elast <- tibble(
   year = unique(transportation_data$passenger$year),
   vmt = ELAST_VMT,
   gas = ELAST_GAS,
@@ -149,7 +174,7 @@ elasticities <- tibble(
   vehicle_ownership = ELAST_OWN_PRICE
 )
 
-crosses <- tibble(
+elast_cross <- tibble(
   year = unique(transportation_data$passenger$year),
   vmt = CROSS_VMT,
   park_active = CROSS_PARK_ACTIVE,
@@ -200,5 +225,7 @@ elast_5d <- bind_rows(
 )
 
 
-
+# save all -----
 usethis::use_data(elast_5d, overwrite = T)
+usethis::use_data(elast, overwrite = T)
+usethis::use_data(elast_cross, overwrite = T)

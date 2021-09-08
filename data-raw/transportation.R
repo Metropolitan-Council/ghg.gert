@@ -17,7 +17,10 @@ pass_transpo_long <- pass_transpo %>%
   mutate(
     aeo_mode = case_when(
       mode == "PLDV" ~ "LDV",
-      mode == "BU" ~ "LDV",
+      mode == "BU" ~ "BUS",
+      mode == "BRT" ~ "BUS",
+      mode == "RU" ~ "RAIL",
+      mode == "RI" ~ "RAIL",
       mode == "SUT" ~ "MDT",
       mode == "CUT" ~ "HDT",
       mode == "FR" ~ "FRAIL",
@@ -63,3 +66,19 @@ transportation_data <- list(
 )
 
 usethis::use_data(transportation_data, overwrite = TRUE)
+
+
+pldv_stocks <- transportation_data$passenger %>%
+  filter(mode == "PLDV",
+         var %in% c("SIStock",
+                    "CIStock",
+                    "HEVStock",
+                    "TotStock")) %>%
+  unique() %>%
+  pivot_wider(
+    names_from = var,
+    values_from = value,
+  )
+
+
+usethis::use_data(pldv_stocks, overwrite = TRUE)
