@@ -8,7 +8,7 @@ calc_drs_vmt(
   tb,
   .drs_pct_trip,
   .class,
-  .fuel_cost_mile,
+  .tb_fuel_cost_mile,
   .vmt_fee,
   .payd_fee,
   .gas_tax,
@@ -31,7 +31,7 @@ and one for each year}
 
 \item{.class}{vehicle class for current mode}
 
-\item{.fuel_cost_mile}{fuel cost per mile}
+\item{.tb_fuel_cost_mile}{table with fuel cost per mile}
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 

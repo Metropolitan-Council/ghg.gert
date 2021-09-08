@@ -4,16 +4,14 @@
 \alias{calc_cost}
 \title{Calculate cost estimates in millions of dollars}
 \usage{
-calc_cost(tb_vmt, tb_cost, .mode, .price, .is_av = 0)
+calc_cost(tb_vmt, .mode, .price, .is_av = 0)
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
 
-\item{tb_cost}{cost input table}
-
 \item{.mode}{current mode}
 
-\item{.price}{price variable}
+\item{.price}{character, price variable. Options include \code{"SIPrice"}}
 
 \item{.is_av}{whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.}

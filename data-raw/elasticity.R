@@ -37,7 +37,7 @@ user_constant <- list(
   MAX_5D_DR = -0.25,
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
-  MARG_TELEWORK = -2.749    # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+  MARG_TELEWORK = -2.749 # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
 )
 
 PLDV_TRANSIT_RATIO <- 47 / 100 # 100 transit trips replace 47 LDV trips (APTA, 2009)

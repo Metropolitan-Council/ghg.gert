@@ -37,7 +37,7 @@ si_vmt <- calc_vmt(
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
-  .fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
   .transit_avo = 0,
   .transit_rider_pct = 0,

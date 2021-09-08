@@ -20,7 +20,8 @@ calc_ghg_embodied(
 
 \item{.mode}{current mode}
 
-\item{.sales_mode}{current mode .sales_mode name for calculation of embodied emissions of new vehicles}
+\item{.sales_mode}{character, sales name for calculation of embodied emissions of new vehicles.
+Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PHEVSales"}, \code{"BEVSales"},}
 
 \item{.fuel_type}{fuel source for current mode}
 

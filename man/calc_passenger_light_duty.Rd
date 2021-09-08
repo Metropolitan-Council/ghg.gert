@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_passenger_light_duty.R
 \name{calc_passenger_light_duty}
 \alias{calc_passenger_light_duty}
-\title{Title}
+\title{Calculate scenario for passenger light-duty vehicles}
 \usage{
 calc_passenger_light_duty(
   .scenario = "BAU",
@@ -83,7 +83,7 @@ Default is \code{0}}
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
 as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
-\item{.telework_pct}{percent of people .telework_pcting in 2050. Default is \code{0}}
+\item{.telework_pct}{percent of people teleworking in 2050. Default is \code{0}}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 }
@@ -91,5 +91,6 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
 }
 \description{
-Title
+Calculate scenario for passenger light-duty vehicles
 }
+\concept{transportation results}

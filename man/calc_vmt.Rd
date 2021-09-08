@@ -10,7 +10,7 @@ calc_vmt(
   .mode,
   .stock,
   .variable,
-  .fuel_cost_mile,
+  .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
   .transit_avo = 0,
   .transit_rider_pct = 0,
@@ -45,7 +45,7 @@ and one for each year}
 
 \item{.variable}{variable name - e.g., "VMT"}
 
-\item{.fuel_cost_mile}{fuel cost per mile}
+\item{.tb_fuel_cost_mile}{table with fuel cost per mile}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
@@ -87,14 +87,14 @@ Default is \code{0}}
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
 as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
-\item{.telework_pct}{percent of people .telework_pcting in 2050. Default is \code{0}}
+\item{.telework_pct}{percent of people teleworking in 2050. Default is \code{0}}
 
 \item{ch_phev}{the current alternative is PHEV, which needs both
 gasoline and electric results (using assumption
 about gasoline/electric mode split). Default is \code{0}}
 }
 \value{
-
+a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
 }
 \description{
 Calculate vehicle miles traveled by mode and power train

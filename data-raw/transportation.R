@@ -28,7 +28,8 @@ pass_transpo_long <- pass_transpo %>%
     ),
     type = "P"
   ) %>%
-  group_by(mode, var, ctu, year, aeo_mode, type) %>%  # selects highest value in case of duplicate entries
+  group_by(mode, var, ctu, year, aeo_mode, type) %>%
+  # selects highest value in case of duplicate entries
   top_n(1, value) %>%
   ungroup()
 
@@ -69,11 +70,15 @@ usethis::use_data(transportation_data, overwrite = TRUE)
 
 
 pldv_stocks <- transportation_data$passenger %>%
-  filter(mode == "PLDV",
-         var %in% c("SIStock",
-                    "CIStock",
-                    "HEVStock",
-                    "TotStock")) %>%
+  filter(
+    mode == "PLDV",
+    var %in% c(
+      "SIStock",
+      "CIStock",
+      "HEVStock",
+      "TotStock"
+    )
+  ) %>%
   unique() %>%
   pivot_wider(
     names_from = var,

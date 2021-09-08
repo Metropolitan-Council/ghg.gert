@@ -49,12 +49,12 @@ scenario_results <- function(.scenario = "BAU",
         dplyr::across(
           all_of(YRS), ~ dplyr::case_when(
             ((mode == "PLDV") &
-               var == "PMT") ~ .x *
+              var == "PMT") ~ .x *
               dplyr::case_when(
                 .drs_pct > 0 ~ (1 - pass_transpo %>%
-                                  dplyr::filter(var == "DRSShare") %>%
-                                  dplyr::select(dplyr::cur_column()) %>%
-                                  as.numeric() * .drs_pct / 100),
+                  dplyr::filter(var == "DRSShare") %>%
+                  dplyr::select(dplyr::cur_column()) %>%
+                  as.numeric() * .drs_pct / 100),
                 TRUE ~ 1
               ),
             TRUE ~ .x
@@ -197,14 +197,12 @@ scenario_results <- function(.scenario = "BAU",
       bev_vmt, transportation_data$passenger,
       mode,
       .electric_scenario, .aeo_scenario, mpe
-
     )
 
   bev_fuel <-
     calc_fuel_use(
       bev_vmt, transportation_data$passenger,
       mode, .electric_scenario, .aeo_scenario, mpe
-
     )
 
   bev_emb_ghg <-
@@ -213,7 +211,6 @@ scenario_results <- function(.scenario = "BAU",
       "BEVSales", "BU-BEV-EMB",
       class, .transit_avo,
       bev_vmt, .mit_bau_summary
-
     )
 
   bev_cost <-
@@ -246,7 +243,6 @@ scenario_results <- function(.scenario = "BAU",
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
       .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
-
     ) %>%
     mutate(class = class)
 
@@ -296,7 +292,6 @@ scenario_results <- function(.scenario = "BAU",
     calc_ghg_direct(
       hev_vmt, transportation_data$passenger,
       mode, "CI", .aeo_scenario, mpg
-
     )
 
   hev_fuel <-
@@ -462,7 +457,7 @@ scenario_results <- function(.scenario = "BAU",
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
-  ) %>%
+    ) %>%
     mutate(class = class)
 
   ev_ghg <-
@@ -501,7 +496,7 @@ scenario_results <- function(.scenario = "BAU",
       .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change
-    )  %>%
+    ) %>%
     mutate(class = class)
 
 
@@ -509,19 +504,19 @@ scenario_results <- function(.scenario = "BAU",
     calc_ghg_direct(
       ci_vmt, transportation_data$passenger,
       mode, "CI", .aeo_scenario, mpg
-  )
+    )
 
   ci_fuel <-
     calc_fuel_use(
       ci_vmt, transportation_data$passenger, mode,
       "CI", .aeo_scenario, mpg
-  )
+    )
 
   ci_cost <-
     calc_cost(
       ci_vmt,
       mode, "CIPrice"
-  )
+    )
 
 
   ## BEV school bus -----
@@ -536,7 +531,7 @@ scenario_results <- function(.scenario = "BAU",
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change
-  )  %>%
+    ) %>%
     mutate(class = class)
 
   bev_ghg <-
@@ -544,19 +539,19 @@ scenario_results <- function(.scenario = "BAU",
       bev_vmt,
       transportation_data$passenger, mode, .electric_scenario,
       .aeo_scenario, mpe
-  )
+    )
 
   bev_fuel <-
     calc_fuel_use(
       bev_vmt, transportation_data$passenger, mode,
       .electric_scenario, .aeo_scenario, mpe
-  )
+    )
 
   bev_cost <-
     calc_cost(
       bev_vmt,
       mode, "BEVPrice"
-  )
+    )
 
 
   # Add the BS data
@@ -580,7 +575,7 @@ scenario_results <- function(.scenario = "BAU",
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-  ) %>%
+    ) %>%
     mutate(class = class)
 
   ## Bike -----
@@ -598,7 +593,7 @@ scenario_results <- function(.scenario = "BAU",
       .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
       .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-  )  %>%
+    ) %>%
     mutate(class = class)
 
 
@@ -641,7 +636,7 @@ scenario_results <- function(.scenario = "BAU",
           .emp_dens_pct_change, .land_use_pct_change,
           .intersection_design_pct_change, .job_access_pct_change,
           .transit_dist_pct_change, .comb_5d_impact_pct_change
-        )  %>%
+        ) %>%
         mutate(class = class)
 
 
@@ -652,16 +647,14 @@ scenario_results <- function(.scenario = "BAU",
           transportation_data$passenger,
           mode_1, "SI",
           .aeo_scenario, mpg, 1
-
-      )
+        )
       .drs_fuel_type <-
         calc_fuel_use(
           drs_vmt,
           transportation_data$passenger,
           mode_1, "SI",
           .aeo_scenario, mpg, 1
-
-      )
+        )
 
       temp <- calc_ghg_embodied(
         transportation_data$passenger,
@@ -720,8 +713,8 @@ scenario_results <- function(.scenario = "BAU",
         .transit_dist_pct_change, .comb_5d_impact_pct_change
       ) *
         transportation_data$passenger %>%
-        dplyr::filter(mode == mode, var == "PHEVPr") %>%
-        dplyr::select(all_of(YRS))
+          dplyr::filter(mode == mode, var == "PHEVPr") %>%
+          dplyr::select(all_of(YRS))
 
       drs_vmt <- tibble::tibble(
         type = type, scenario = .scenario,
@@ -988,8 +981,8 @@ scenario_results <- function(.scenario = "BAU",
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
       ) * (1 - transportation_data$passenger %>%
-             dplyr::filter(mode == mode, var == "PHEVPr") %>%
-             dplyr::select(all_of(YRS)))
+        dplyr::filter(mode == mode, var == "PHEVPr") %>%
+        dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger, mode,
@@ -1254,15 +1247,14 @@ scenario_results <- function(.scenario = "BAU",
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt,
       transportation_data$freight, mode,
       "SUTCI", .aeo_scenario, mpg
-
-  )
+    )
 
 
   ### Medium truck battery electric -----
@@ -1313,15 +1305,14 @@ scenario_results <- function(.scenario = "BAU",
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
       .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt,
       transportation_data$freight,
       mode, "RCI", .aeo_scenario, mpg
-
-  )
+    )
 
 
   ### Freight rail battery electric ------
@@ -1339,7 +1330,7 @@ scenario_results <- function(.scenario = "BAU",
       .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change
-    ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
 
   ev_ghg <-
@@ -1347,8 +1338,7 @@ scenario_results <- function(.scenario = "BAU",
       bev_vmt,
       transportation_data$freight, mode,
       .electric_scenario, .aeo_scenario, mpe
-
-  )
+    )
 
   # Add the FR data
   # out_sum <- dplyr::bind_rows(
@@ -1373,7 +1363,7 @@ scenario_results <- function(.scenario = "BAU",
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
@@ -1397,8 +1387,7 @@ scenario_results <- function(.scenario = "BAU",
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-
-  ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   bev_ghg <-
     calc_ghg_direct(
@@ -1427,8 +1416,7 @@ scenario_results <- function(.scenario = "BAU",
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
-
-  ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   si_ghg <-
     calc_ghg_direct(
@@ -1457,14 +1445,13 @@ scenario_results <- function(.scenario = "BAU",
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
       .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change
-
-  ) %>%  mutate(class = class)
+    ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt, transportation_data$freight,
       mode, "WCI", .aeo_scenario, mpg
-  )
+    )
 
   # Add the WAT data
   # out_sum <- dplyr::bind_rows(out_sum, ci_vmt, ci_ghg)
