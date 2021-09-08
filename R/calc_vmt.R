@@ -293,7 +293,7 @@ calc_vmt <- function(.scenario,
                  .av_pct > 0) ~ (1 + RAIL_AV * .av_pct / 100),
               TRUE ~ 1
             )        }
-    } else if (.mode == "PLDV") { # mode is passenger light duty
+    } else if (.mode == "PLDV") { # passenger light duty -----
       .vmt_fee <- tb_mode$var -
         # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
         (tb_var$at *
@@ -374,7 +374,7 @@ calc_vmt <- function(.scenario,
         aeo_vmt$mdt *
         # Apply elasticities, etc.
         # Assumes no shift to other modes because there are other restrictions on that (you probably won't build a new rail line in a city based on a congestion price)
-        (1 + .freight_vmt_fee / (.fuel_cost_mile + F_TIME_COST_MI) * ELAST_FVMT * F_FRACT) * # Only apply the VMT fee to fraction occuring in MSP (equivalent to a reduction in elasticity)
+        (1 + .freight_vmt_fee / (.tb_fuel_cost_mile + F_TIME_COST_MI) * ELAST_FVMT * F_FRACT) * # Only apply the VMT fee to fraction occuring in MSP (equivalent to a reduction in elasticity)
         (1 + .parking_price / tb_park * ELAST_PARK) /
         tb_mode$avo *
         (tb_mode$stock /

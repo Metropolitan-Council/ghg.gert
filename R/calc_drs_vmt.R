@@ -17,7 +17,7 @@
 calc_drs_vmt <- function(tb,
                          .drs_pct_trip,
                          .class,
-                         .fuel_cost_mile,
+                         .tb_fuel_cost_mile,
                          .vmt_fee,
                          .payd_fee,
                          .gas_tax,
@@ -54,7 +54,7 @@ calc_drs_vmt <- function(tb,
       TRUE ~ 1
     ) *
     # Elasticities, etc. - assume DRS acts similar to transit in response to changes in PLDV policies
-    (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * CROSS_VMT) *
+    (1 + (.vmt_fee / (.tb_fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * CROSS_VMT) *
     # Transit 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
     if (.comb_5d_impact_pct_change < MAX_5D_DR) {
       (1 + MAX_5D_TRANS)
@@ -68,15 +68,15 @@ calc_drs_vmt <- function(tb,
           (1 + .transit_dist_pct_change / 100 * ELAST_DIST_TRANS) *
           (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_TRANS)
       } *
-        (1 + (.vmt_fee / (.fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * ELAST_VMT) *
+        (1 + (.vmt_fee / (.tb_fuel_cost_mile + TIME_COST_MI) + .payd_fee / INS_COST_MI) * ELAST_VMT) *
         # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
-        (1 + (.cong_price / (.fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
+        (1 + (.cong_price / (.tb_fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
         # Parking price effect
         (1 + .parking_price / tb %>%
           dplyr::filter(mode == "PLDV", var == "PARK") %>%
           dplyr::select(tidyselect::all_of(YRS)) * CROSS_PARK_TRANSIT) *
         # Gas price effect
-        (1 + (.gas_tax / .fuel_cost_mile) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to .gas_tax price because already switched stock from SI/CI)
+        (1 + (.gas_tax / .tb_fuel_cost_mile) * # Only applied to SI/CI/HEV stock (assume PHEV not very sensitive and partially accounted for by a full inclusion of HEV, which is also not as sensitive to .gas_tax price because already switched stock from SI/CI)
           (tb %>% dplyr::filter(mode == "PLDV", var == "SIStock") %>%
             dplyr::select(tidyselect::all_of(YRS)) +
             tb %>% dplyr::filter(mode == "PLDV", var == "CIStock") %>%
