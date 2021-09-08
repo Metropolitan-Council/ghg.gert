@@ -153,6 +153,47 @@ calc_vmt <- function(.scenario,
         (.mode == "RU") |
         (.mode == "RI")) {
 
+
+      # formula is such
+      # transit vmt = PMT * AEO elasticity * transit ridership effect *
+      # (1 + (vmt_fee_adjust +  payd_ins_adj + cong_adjust * cross_vmt)) *
+      # land_use_adj * park_price_adj * gas_adj /
+      # av_adj / av_transit_adj
+      #
+      tb_vmt <- tb %>%
+        filter(mode == .mode,
+               var  ==  .variable) %>%
+        mutate(vmt = value)
+
+      ann_energy_outlook <- calc_annual_energy_outlook(tb = transportation_data$passenger,
+                                                       .aeo_scenario = .aeo_scenario,
+                                                       .mode = .mode)
+
+      trans_rider <- calc_transit_ridership(.mode = .mode,
+                                            .transit_rider_pct = .transit_rider_pct)
+
+      fc_adjustments <- calc_fuel_congestion(.mode = .mode,
+                                             .tb_vmt = tb_vmt,
+                                             .tb_fuel_cost_mile = .tb_fuel_cost_mile,
+                                             .vmt_fee = .vmt_fee,
+                                             .cong_price = .cong_price,
+                                             .gas_tax = .gas_tax,
+                                             .payd_fee = .payd_fee,
+                                             .is_av = 0,
+                                             .stock = .stock)
+
+      land_use <- calc_land_use_change(.mode = .mode,
+                                      .type = "P",
+                                      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+                                      .pop_dens_pct_change = .pop_dens_pct_change,
+                                      .emp_dens_pct_change = .emp_dens_pct_change,
+                                      .land_use_pct_change = .land_use_pct_change,
+                                      .intersection_design_pct_change = .intersection_design_pct_change,
+                                      .job_access_pct_change = .job_access_pct_change,
+                                      .transit_dist_pct_change = .transit_dist_pct_change)
+
+      parking <-  calc_parking_policy(.mode = mode, .parking_price = .parking_price)
+
       tb_fin <- tb %>%
         dplyr::filter(
           mode == .mode,
@@ -163,6 +204,7 @@ calc_vmt <- function(.scenario,
             "AVO",
             "SIStock",
             "CIStock",
+            "BCIStock",
             "HEVStock",
             "PARK"
           )
@@ -170,13 +212,15 @@ calc_vmt <- function(.scenario,
         unique() %>%
         pivot_wider(
           names_from = var,
-          values_from = value
+          values_from = value,
         ) %>%
         left_join(
+
           tb %>%
             filter(mode == "PLDV",
                    var %in% c("PARK",
                               "SIStock")) %>%
+            unique() %>%
             pivot_wider(
               names_from = var,
               values_from = value
@@ -221,11 +265,11 @@ calc_vmt <- function(.scenario,
 
 
 
-      fcm_adjust <- .fuel_cost_mile %>%
+      fcm_adjust <- .tb_fuel_cost_mile %>%
         mutate(fuel_cost_mile_plus = fuel_cost_mile + TIME_COST_MI,
                vmt_fee_adjust = .vmt_fee/fuel_cost_mile_plus,
                cong_adjust = (.cong_price/fuel_cost_mile_plus) * CONG_VMT,
-               cross_vmt = CROSS_VMT,
+               cross_vmt = elast_cross$vmt,
                adj_5d = comb_5d_elast$fin_value,
                gas_adj = .gas_tax/fuel_cost_mile)
 
@@ -235,15 +279,15 @@ calc_vmt <- function(.scenario,
                     select(-ctu,
                            -mode)) %>%
         mutate(
-          park_price_adj = 1 + .parking_price / PARK * CROSS_PARK_TRANSIT,
+          park_price_adj = 1 + (.parking_price / PARK * crosses$park_transit),
 
-         vmt =  !!rlang::sym(.variable) * aeo_value * transit_rider_adjust *
-           (1 + (vmt_fee_adjust + payd_ins_adjust + cong_adjust)) * cross_vmt *
-           adj_5d * park_price_adj  * gas_adj * (SIStock + CIStock + HEVStock)
+          vmt =  !!rlang::sym(.variable) * aeo_value * transit_rider_adjust *
+            (1 + (vmt_fee_adjust + payd_ins_adjust + cong_adjust)) * cross_vmt *
+            adj_5d * park_price_adj  * gas_adj
 
 
 
-        )
+        ) %>% View
 
 
       .vmt_fee <- tb_mode$var *
