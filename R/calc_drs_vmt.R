@@ -2,7 +2,7 @@
 #'
 #' @param .drs_pct_trip percent of trips by dynamic ride sharing (DRS)
 #' @param .class vehicle class for current mode
-#' @inheritParams calc_vmt
+#' @inheritParams calc_vmt_forecast
 #' @inheritParams calc_drs_sales
 #'
 #'

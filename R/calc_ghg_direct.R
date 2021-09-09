@@ -7,7 +7,7 @@
 #' @param .miles_per_gallon miles per gallon for mode
 #' @param .is_av whether the mode is AV. AV has a different
 #'     MPG due to efficiency gains from automation of drive cycle.
-#' @inheritParams calc_vmt
+#' @inheritParams calc_vmt_forecast
 #'
 #' @return
 #' @export

@@ -31,7 +31,7 @@ fcm_test <- tibble::tribble(
 t_dat <- transportation_data$passenger %>%
   filter(ctu == "St. Paul")
 
-si_vmt <- calc_vmt(
+si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
   tb = t_dat,
   .mode = "PLDV",

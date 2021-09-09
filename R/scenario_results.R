@@ -7,7 +7,7 @@
 #' @param .drs_fuel_type input dynamic ride sharing (DRS) fuel type. Default is `0`.
 #' @param .av_fuel_type input AV fuel type
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
-#' @inheritParams calc_vmt
+#' @inheritParams calc_vmt_forecast
 #'
 #' @return
 #' @export
@@ -97,7 +97,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BCI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
       .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -138,7 +138,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "HEV"
 
   hev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
       .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -181,7 +181,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BEV"
 
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
@@ -237,7 +237,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BCI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock, var,
       fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
@@ -279,7 +279,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "HEV"
 
   hev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
@@ -319,7 +319,7 @@ scenario_results <- function(.scenario = "BAU",
   mpe <- "BEVElec"
   class <- "BEV"
 
-  bev_vmt <- calc_vmt(
+  bev_vmt <- calc_vmt_forecast(
     .scenario, transportation_data$passenger, mode, stock, var, fcm,
     .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
     .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
@@ -373,7 +373,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "EV"
 
   ev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
@@ -419,7 +419,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BCI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -451,7 +451,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "EV"
 
   ev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -486,7 +486,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -525,7 +525,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BEV"
 
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -568,7 +568,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "WALK"
 
   walk_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
@@ -584,7 +584,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BIKE"
 
   bike_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
@@ -894,7 +894,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class, ctu = .ctu,
         output = "VMT",
-        calc_vmt(
+        calc_vmt_forecast(
           .scenario, transportation_data$passenger,
           mode, stock, var,
           fcm, .aeo_scenario,
@@ -973,7 +973,7 @@ scenario_results <- function(.scenario = "BAU",
         mpg, SI_FUEL_COST_GAL, .av_pct
       )
 
-      phev_vmtg <- calc_vmt(
+      phev_vmtg <- calc_vmt_forecast(
         .scenario, transportation_data$passenger, mode, stock,
         var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -989,7 +989,7 @@ scenario_results <- function(.scenario = "BAU",
         .aeo_scenario, mpe, ELEC_FUEL_COST_KWH
       )
 
-      phev_vmte <- calc_vmt(
+      phev_vmte <- calc_vmt_forecast(
         .scenario, transportation_data$passenger, mode,
         stock, var, fcm, .aeo_scenario,
         .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
@@ -1089,7 +1089,7 @@ scenario_results <- function(.scenario = "BAU",
         type = type, scenario = .scenario,
         mode = mode, class = class,
         ctu = .ctu, output = "VMT",
-        calc_vmt(
+        calc_vmt_forecast(
           .scenario, transportation_data$passenger,
           mode, stock, var, fcm,
           .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -1175,7 +1175,7 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -1201,7 +1201,7 @@ scenario_results <- function(.scenario = "BAU",
   mpe <- "BEVElec"
   class <- "BEV"
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -1240,7 +1240,7 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
@@ -1263,7 +1263,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BEV"
 
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
@@ -1297,7 +1297,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -1321,7 +1321,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "EV"
 
   ev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -1355,7 +1355,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
@@ -1380,7 +1380,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "BEV"
 
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
@@ -1409,7 +1409,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "SI"
 
   si_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode,
       stock, var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -1438,7 +1438,7 @@ scenario_results <- function(.scenario = "BAU",
   class <- "CI"
 
   ci_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$freight, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,

@@ -1,7 +1,7 @@
 #' Calculate scenario for passenger light-duty vehicles
 #'
 #' @inheritParams scenario_results
-#' @inheritParams calc_vmt
+#' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results
 #'
@@ -70,7 +70,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     SI_FUEL_COST_GAL
   )
 
-  si_vmt <- calc_vmt(
+  si_vmt <- calc_vmt_forecast(
     .scenario,
     transportation_data$passenger,
     mode,
@@ -134,7 +134,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     mpg, CI_FUEL_COST_GAL
   )
 
-  ci_vmt <- calc_vmt(
+  ci_vmt <- calc_vmt_forecast(
     .scenario, transportation_data$passenger,
     mode, stock, var, fcm,
     .aeo_scenario, .transit_avo, .transit_rider_pct,
@@ -193,7 +193,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   )
 
   hev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -247,7 +247,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   )
 
   ### VMT gas ----
-  phev_vmt_gas <- calc_vmt(
+  phev_vmt_gas <- calc_vmt_forecast(
     .scenario, transportation_data$passenger, mode, stock, var,
     fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
     .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
@@ -270,7 +270,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
 
   ### VMT electric ------
-  phev_vmt_electric <- calc_vmt(
+  phev_vmt_electric <- calc_vmt_forecast(
     .scenario, transportation_data$passenger, mode, stock, var, fcm,
     .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
     .gas_tax, .cong_price,
@@ -406,7 +406,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   )
 
   bev_vmt <-
-    calc_vmt(
+    calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,

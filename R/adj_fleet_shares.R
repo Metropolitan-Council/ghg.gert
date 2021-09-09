@@ -13,7 +13,7 @@
 #' @param .freight_tb freight input table
 #' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS) Default is `0`.
 #' @param .ctu the chosen CTU for dplyr::filter of tables
-#' @inheritParams calc_vmt
+#' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation
 #' @return
