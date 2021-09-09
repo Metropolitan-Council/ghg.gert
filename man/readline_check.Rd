@@ -30,7 +30,7 @@ Other transportation:
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
-\code{\link{calc_vmt}()},
+\code{\link{calc_vmt_forecast}()},
 \code{\link{scenario_results}()}
 }
 \concept{transportation}

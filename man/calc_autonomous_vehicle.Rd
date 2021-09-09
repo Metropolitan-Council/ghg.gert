@@ -2,23 +2,15 @@
 % Please edit documentation in R/calc_effects.R
 \name{calc_autonomous_vehicle}
 \alias{calc_autonomous_vehicle}
-\title{Title}
+\title{Calculate autonomous vehicle multiplier}
 \usage{
-calc_autonomous_vehicle(
-  tb,
-  .mode,
-  .is_av,
-  .av_pct,
-  .gas_tax,
-  .stock,
-  .transit_avo
-)
+calc_autonomous_vehicle(.tb_vmt, .av_pct, .mode)
 }
 \value{
-
+table with columns \code{year}, \code{ctu}, \code{av_adj}
 }
 \description{
-Title
+Calculate autonomous vehicle multiplier
 }
 \details{
 \loadmathjax

@@ -19,6 +19,8 @@ calc_land_use_change(
 \arguments{
 \item{.mode}{current mode}
 
+\item{.type}{character, one of \code{"DRIVE"}, \code{"WALK"}, \code{"TRANSIT"}.}
+
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
 as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 
@@ -35,7 +37,7 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 \item{.transit_dist_pct_change}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
 }
 \value{
-
+a table with columns \code{year}, \code{type}, and \code{land_use_adj}
 }
 \description{
 Calculate combined 5D land use change impact

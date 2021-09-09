@@ -13,7 +13,7 @@ calc_parking_policy(.mode, .parking_price)
 Default is \code{0}}
 }
 \value{
-
+a table with
 }
 \description{
 Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year

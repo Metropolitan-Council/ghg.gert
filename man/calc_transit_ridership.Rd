@@ -4,10 +4,10 @@
 \alias{calc_transit_ridership}
 \title{Calculate transit ridership adjustment for each forecast year}
 \usage{
-calc_transit_ridership(.mode, .transit_rider_pct)
+calc_transit_ridership(.tb_vmt, .mode, .transit_rider_pct)
 }
 \value{
-
+a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
 }
 \description{
 Calculate transit ridership adjustment for each forecast year

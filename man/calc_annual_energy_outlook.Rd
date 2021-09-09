@@ -7,7 +7,7 @@
 calc_annual_energy_outlook(tb, .mode, .aeo_scenario)
 }
 \value{
-
+a table with columns \code{AEOScen}, \code{Metric}, \code{Mode}, \code{year}, and \code{aeo_adj}.
 }
 \description{
 Calculate annual energy outlook (AEO) multipliers for each forecast year
