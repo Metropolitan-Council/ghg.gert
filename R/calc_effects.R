@@ -19,14 +19,14 @@ calc_telework <- function(.mode,
   if (.mode == "PLDV") {
     1 + (.telework_pct / 100) * MARG_TELEWORK
   } else {
-    error("Telework adjustment is only applicable for passenger light-duty vehicles")
+    stop("Telework adjustment is only applicable for passenger light-duty vehicles")
   }
 }
 
 
-#' Title
+#' Calculate autonomous vehicle multiplier
 #'
-#' @return
+#' @return table with columns `year`, `ctu`, `av_adj`
 #' @export
 #' @details
 #'
@@ -38,23 +38,11 @@ calc_telework <- function(.mode,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-calc_autonomous_vehicle <- function(tb,
-                                    .mode,
-                                    .is_av,
+calc_autonomous_vehicle <- function(.tb_vmt,
                                     .av_pct,
-                                    .gas_tax,
-                                    .stock,
-                                    .transit_avo) {
+                                    .mode
+                                    ) {
   browser()
-  tb_mode_totstock <- tb %>%
-    filter(
-      mode == .mode,
-      var == "TotStock"
-    ) %>%
-    pivot_wider(
-      names_from = var,
-      values_from = value
-    )
 
 
   if (.mode == "PLDV") {
@@ -68,29 +56,99 @@ calc_autonomous_vehicle <- function(tb,
       1
     }
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
-    pldv_occupancy <- transportation_data$passenger %>%
-      filter(
-        mode == "PLDV",
-        var == "AVO"
-      )
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
 
-    pldv_occupancy %>%
-      left_join(tb_mode_totstock) %>%
-      mutate(av_adj = value * .transit_avo / 100 * vmt / TotStock) %>%
-      mutate(av_transit_adj = dplyr::case_when(
+   av_return <-  .tb_vmt %>%
+      mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + BUS_AV * .av_pct) / 100),
         (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~ ((1 + RAIL_AV * .av_pct) / 100),
         TRUE ~ 1
-      ))
+      )) %>%
+     select(year, ctu, av_adj)
+
+   return(av_return)
+  } else if (.mode == "AV"){
+
   }
 }
 
 
+#' Calculate vehicle occupancy multiplier
+#'
+#' @return table with columns `ctu`, `year`, `occupancy_adj`
+#' @export
+#' @details
+#'
+#' \loadmathjax
+#' \mjdeqn{GHG = \frac{PMT}{AVO \times FF} \times AV \times GF}{GHG = (PMT)/(AVO x FF) x AV x GF}
+#'     where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
+#'     \eqn{PMT} is passenger miles traveled,
+#'     \eqn{AVO} is the average vehicle occupancy,
+#'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
+#'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
+#'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
+calc_vehicle_occupancy <- function(tb,
+                                   .tb_vmt,
+                                   .mode,
+                                   .gas_tax,
+                                   .stock,
+                                   .transit_avo) {
+  browser()
+  tb_mode_totstock <- tb %>%
+    filter(
+      mode == .mode,
+      var %in% c(.stock,
+                 "TotStock",
+                 "AVO")
+    ) %>%
+    unique() %>%
+    pivot_wider(
+      names_from = var,
+      values_from = value
+    ) %>%
+    select(mode,
+           year,
+           ctu,
+           aeo_mode,
+           type,
+           mode_totstock = TotStock,
+           mode_stock = !!rlang::sym(.stock),
+           mode_avo = AVO)
 
-#' Title
+
+  if (.mode == "PLDV") {
+
+    pldv_occupancy <- transportation_data$passenger %>%
+      filter(
+        mode == "PLDV",
+        var == "AVO"
+      ) %>%
+      select(year, ctu,
+             pldv_avo = value)
+
+  } else if ((.mode == "BU") |
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+
+
+
+
+    occ_return <- tb_mode_totstock %>%
+      left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
+      mutate(occupancy_adj = mode_avo * ( 1 + (.transit_avo / 100)) * (mode_stock / mode_totstock)) %>%
+      select(ctu, year, occupancy_adj)
+
+    return(occ_return)
+
+  } else if (.mode == "AV"){
+
+  }
+}
+
+#' Calculate dynamic ride sharing effect
 #'
 #' @return
 #' @export
@@ -133,8 +191,8 @@ calc_road_pricing <- function() {
 
 #' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
-#' @inheritParams calc_vmt
-#' @return
+#' @inheritParams calc_vmt_forecast
+#' @return a table with
 #' @export
 #' @details
 #' The long-run elasticity of VMT to parking cost is estimated to be in the range
@@ -179,27 +237,42 @@ calc_parking_policy <- function(.mode,
 
   if (.mode == "PLDV") {
     pldv_si_parking %>%
+      left_join(elast %>%
+                  select(year, park),
+                by = "year") %>%
       mutate(
         park_price_adj =
-          (1 + (.parking_price / PARK * elast$park))
-      )
+          (1 + (.parking_price / PARK * park))
+      ) %>%
+      select(year, ctu, park_price_adj) %>%
+      return()
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+
     pldv_si_parking %>%
+      left_join(elast_cross %>%
+                  select(year, park_transit),
+                by = "year") %>%
       mutate(
         park_price_adj =
-          1 + (.parking_price / PARK * crosses$park_transit)
-      )
+          1 + (.parking_price / PARK * park_transit)
+      ) %>%
+      select(year, ctu, park_price_adj) %>%
+      return()
+  } else if (.mode == "AV"){
+
   }
 }
 
 
 #' Calculate combined 5D land use change impact
 #'
-#' @inheritParams calc_vmt
-#' @return
+#' @inheritParams calc_vmt_forecast
+#' @param .type character, one of `"DRIVE"`, `"WALK"`, `"TRANSIT"`.
+#' @return a table with columns `year`, `type`, and `land_use_adj`
 #' @export
 #' @details
 #'
@@ -221,6 +294,11 @@ calc_land_use_change <- function(.mode,
                                  .job_access_pct_change,
                                  .transit_dist_pct_change) {
   browser()
+
+  if(!.type %in% c("WALK", "DRIVE", "TRANSIT")){
+    stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
+  }
+
   comb_5d_elast <- elast_5d %>%
     filter(type == .type) %>%
     mutate(
@@ -235,17 +313,18 @@ calc_land_use_change <- function(.mode,
     mutate(
       product_all =
         .data$population_density *
-          .data$employment_density *
-          .data$diversity *
-          .data$design *
-          .data$job_access *
-          .data$distance *
-          .data$combined_density,
+        .data$employment_density *
+        .data$diversity *
+        .data$design *
+        .data$job_access *
+        .data$distance *
+        .data$combined_density,
       land_use_adj = ifelse(.comb_5d_impact_pct_change < MAX_5D_TRANS,
-        1 + MAX_5D_TRANS,
-        product_all
+                            1 + MAX_5D_TRANS,
+                            product_all
       )
-    )
+    ) %>%
+    select(year, land_use_adj)
 
   return(comb_5d_elast)
 }
@@ -253,7 +332,7 @@ calc_land_use_change <- function(.mode,
 
 #' Calculate annual energy outlook (AEO) multipliers for each forecast year
 #'
-#' @return
+#' @return a table with columns `AEOScen`, `Metric`, `Mode`, `year`, and `aeo_adj`.
 #' @export
 #'
 calc_annual_energy_outlook <- function(tb,
@@ -275,35 +354,45 @@ calc_annual_energy_outlook <- function(tb,
       Mode == unique(tb_fin$aeo_mode)
     ) %>%
     select(everything(),
-      aeo_value = value
+           aeo_adj = value
     )
   return(aeo_vals)
 }
 
 #' Calculate transit ridership adjustment for each forecast year
 #'
-#' @return
+#' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #'
-calc_transit_ridership <- function(.mode,
+calc_transit_ridership <- function(.tb_vmt,
+                                   .mode,
                                    .transit_rider_pct) {
   browser()
   if (.mode == "PLDV") {
-    return(.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)
+    .tb_vmt %>%
+      select(year, ctu) %>%
+      mutate(transit_adj = .transit_rider_pct / 100 * PLDV_TRANSIT_RATIO) %>%
+      return()
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
-    return(1 + .transit_rider_pct / 100)
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+    .tb_vmt %>%
+      select(year, ctu) %>%
+      mutate(transit_adj = 1 + .transit_rider_pct / 100) %>%
+      return()
+  } else if(.mode == "AV"){
+
   }
 }
 
-#' Calculate transit ridership adjustment for each forecast year
+#' Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year
 #'
 #' @return
 #' @export
 #'
-calc_fuel_congestion <- function(.mode,
+calc_vehicle_fuel <- function(.mode,
                                  .tb_vmt,
                                  .tb_fuel_cost_mile,
                                  .vmt_fee,
@@ -321,23 +410,31 @@ calc_fuel_congestion <- function(.mode,
     ), 1, 0)
 
 
-    .tb_fuel_cost_mile %>%
-      mutate(
-        fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
-        payd_ins_adj = .payd_fee / INS_COST_MI,
-        vmt_fee_adjust = 1 + ((vmt / fuel_time_cost_mile) + payd_ins_adj) * elast$vmt,
-        cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * elast$cong,
-        cross_vmt = elast_cross$vmt,
-        gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * elast$gas
-      )
-  } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
-    elast_vmt <- elast_cross %>%
-      select(year, vmt_elas = vmt)
+    fc_return <- .tb_fuel_cost_mile %>%
+      left_join(elast, by = "year") %>%
+      left_join(elast_cross, by = "year")
+    mutate(
+      fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
+      payd_ins_adj = .payd_fee / INS_COST_MI,
+      vmt_fee_adjust = 1 + ((miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt,
+      cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * cong,
+      cross_vmt = vmt_cross,
+      gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas
+    ) %>%
+      select(year, ctu, fuel_time_cost_mile, payd_ins_adj,
+             vmt_fee_adjust, cong_adjust, cross_vmt, gas_adj)
 
-    .tb_fuel_cost_mile %>%
+
+    return(fc_return)
+  } else if ((.mode == "BU") |
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+
+    elast_vmt <- elast_cross %>%
+      select(year, vmt_elas = vmt_cross)
+
+    fc_return <-  .tb_fuel_cost_mile %>%
       select(-ctu, -var) %>%
       left_join(pldv_stocks, by = c("year", "mode")) %>%
       left_join(.tb_vmt, by = c("year", "ctu", "type")) %>%
@@ -345,10 +442,20 @@ calc_fuel_congestion <- function(.mode,
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
         payd_ins_adj = .payd_fee / INS_COST_MI,
-        vmt_fee_adjust = vmt / fuel_time_cost_mile,
+        vmt_fee_adjust = miles_traveled / fuel_time_cost_mile,
         cong_adjust = (.cong_price / fuel_time_cost_mile) * CONG_VMT,
-        cross_vmt = vmt_elas
+        stock_proportion = (SIStock + CIStock + HEVStock)/TotStock,
+        cross_vmt = vmt_elas,
+        gas_adj = 1 + ((.gas_tax/fuel_cost_mile) * (stock_proportion) * cross_vmt)
+
       ) %>%
-      return()
+      select(year, ctu, fuel_time_cost_mile, payd_ins_adj,
+             vmt_fee_adjust, cong_adjust,
+             stock_proportion,
+             cross_vmt, gas_adj)
+
+    return(fc_return)
+  } else if(.mode == "AV"){
+
   }
 }
