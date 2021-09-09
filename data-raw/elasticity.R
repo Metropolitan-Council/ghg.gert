@@ -176,7 +176,7 @@ elast <- tibble(
 
 elast_cross <- tibble(
   year = unique(transportation_data$passenger$year),
-  vmt = CROSS_VMT,
+  vmt_cross = CROSS_VMT,
   park_active = CROSS_PARK_ACTIVE,
   park_transit = CROSS_PARK_TRANSIT
 )
