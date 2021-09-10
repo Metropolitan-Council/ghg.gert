@@ -590,7 +590,8 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     "cost" = cost_all
   )
 
-  usethis::ui_done("Passenger light-duty vehicles")
+  usethis::ui_done(paste("Passenger light-duty vehicles",
+                   emo::ji("automobile")))
 
   return(pldv_scenario)
 

@@ -210,7 +210,7 @@ calc_rail_transit <- function(.scenario = "BAU",
     "cost" = cost_all
   )
 
-  usethis::ui_done("Passenger rail transit")
+  usethis::ui_done(paste("Urban and interurban rail", emo::ji("train")))
 
   return(passenger_rail)
 }

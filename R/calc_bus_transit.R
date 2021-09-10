@@ -497,5 +497,5 @@ calc_bus_transit <- function(.scenario = "BAU",
     "cost" = cost_all
   )
 
-  usethis::ui_done("Transit Buses")
+  usethis::ui_done(paste("Transit buses and bus rapid transit", emo::ji("bus")))
 }
