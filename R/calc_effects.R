@@ -237,8 +237,8 @@ calc_parking_policy <- function(.mode,
   if (.mode == "PLDV") {
     pldv_si_parking %>%
       left_join(elast %>%
-        select(year, park),
-      by = "year"
+                  select(year, park_elast),
+                by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -415,10 +415,10 @@ calc_vehicle_fuel <- function(.mode,
     mutate(
       fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
       payd_ins_adj = .payd_fee / INS_COST_MI,
-      vmt_fee_adjust = 1 + ((miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt,
-      cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * cong,
+        vmt_fee_adjust = 1 + ((miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt_elast,
+        cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * cong_elast,
       cross_vmt = vmt_cross,
-      gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas
+        gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
     ) %>%
       select(
         year, ctu, fuel_time_cost_mile, payd_ins_adj,

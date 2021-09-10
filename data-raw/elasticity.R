@@ -166,12 +166,12 @@ ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # combined tables -----
 elast <- tibble(
   year = unique(transportation_data$passenger$year),
-  vmt = ELAST_VMT,
-  gas = ELAST_GAS,
-  cong = ELAST_CONG,
-  park = ELAST_PARK,
-  freight_vmt = ELAST_FVMT,
-  vehicle_ownership = ELAST_OWN_PRICE
+  vmt_elast = ELAST_VMT,
+  gas_elast = ELAST_GAS,
+  cong_elast = ELAST_CONG,
+  park_elast = ELAST_PARK,
+  freight_vmt_elast = ELAST_FVMT,
+  vehicle_ownership_elast = ELAST_OWN_PRICE
 )
 
 elast_cross <- tibble(
