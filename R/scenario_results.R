@@ -174,9 +174,9 @@ scenario_results <- function(.scenario = "BAU",
     .mit_bau_summary = .mit_bau_summary
   )
 
-  ev_fuel <-
+calc_school_bus(
   .scenario = .scenario,
-      bev_vmt, transportation_data$passenger,
+  .electric_scenario = .electric_scenario,
   .aeo_scenario = .aeo_scenario,
   .ctu = .ctu,
   .transit_avo = .transit_avo,
@@ -184,156 +184,24 @@ scenario_results <- function(.scenario = "BAU",
   .vmt_fee = .vmt_fee,
   .payd_fee = .payd_fee,
   .gas_tax = .gas_tax,
-  # out_sum <- dplyr::bind_rows(
+  .parking_price = .parking_price,
   .cong_price = .cong_price,
-  #   ev_ghg, ev_fuel, ev_cost
-  # )
-
-  # Rail Interurban-----
-  mode <- "RI"
-
-  ## BCI Rail interurban -----
-  stock <- "BCIStock"
-  mpg <- "BCIMPG"
-  class <- "BCI"
-
-  ci_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger,
+  .freight_vmt_fee = .freight_vmt_fee,
+  .drs_pct = .drs_pct,
+  .av_pct = .av_pct,
+  .drs_fuel_type = .drs_fuel_type,
+  .av_fuel_type = .av_fuel_type,
+  .pop_dens_pct_change = .pop_dens_pct_change,
+  .emp_dens_pct_change = .emp_dens_pct_change,
+  .land_use_pct_change = .land_use_pct_change,
+  .intersection_design_pct_change = .intersection_design_pct_change,
+  .job_access_pct_change = .job_access_pct_change,
+  .transit_dist_pct_change = .transit_dist_pct_change,
+  .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+  .telework_pct = .telework_pct,
+  .mit_bau_summary = .mit_bau_summary
 )
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
 
-
-  ci_ghg <-
-    calc_ghg_direct(ci_vmt, transportation_data$passenger, mode, "BCI", .aeo_scenario, mpg)
-
-  ci_fuel <-
-    calc_fuel_use(
-      ci_vmt, transportation_data$passenger,
-      mode, "BCI", .aeo_scenario, mpg
-    )
-
-  ci_cost <-
-    calc_cost(ci_vmt, mode, "BCIPrice")
-
-
-  ## EV Rail Inter -----
-  stock <- "EVStock"
-  mpe <- "EVElec"
-  class <- "EV"
-
-  ev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-  ev_ghg <-
-    calc_ghg_direct(bev_vmt, transportation_data$passenger, mode, .electric_scenario, .aeo_scenario, mpe)
-
-  ev_fuel <-
-    calc_fuel_use(bev_vmt, transportation_data$passenger, mode, .electric_scenario, .aeo_scenario, mpe)
-
-  ev_cost <-
-    calc_cost(ev_vmt, mode, "EVPrice")
-
-
-  # Add the RI data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt,
-  #   ci_ghg, ci_fuel, ci_cost,
-  #   ev_vmt, ev_ghg, ev_fuel, ev_cost
-  # )
-
-  # School Bus-----
-  mode <- "BS"
-
-  ## CI School bus -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
-
-  ci_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-
-  ci_ghg <-
-    calc_ghg_direct(
-      ci_vmt, transportation_data$passenger,
-      mode, "CI", .aeo_scenario, mpg
-    )
-
-    calc_fuel_use(
-      ci_vmt, transportation_data$passenger, mode,
-      "CI", .aeo_scenario, mpg
-    )
-
-  ci_cost <-
-    calc_cost(
-      ci_vmt,
-      mode, "CIPrice"
-    )
-
-
-  ## BEV school bus -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
-
-  bev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-    calc_ghg_direct(
-      transportation_data$passenger, mode, .electric_scenario,
-      .aeo_scenario, mpe
-    )
-
-  bev_fuel <-
-    calc_fuel_use(
-      bev_vmt, transportation_data$passenger, mode,
-      .electric_scenario, .aeo_scenario, mpe
-    )
-
-  bev_cost <-
-    calc_cost(
-      bev_vmt,
-      mode, "BEVPrice"
-    )
-
-
-  # Add the BS data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum,
-  #   ci_vmt, ci_ghg, ci_fuel,
-  #   ci_cost, bev_vmt, bev_ghg, bev_cost
-  # )
 
   # Active Modes-----
   ## Walk -----
