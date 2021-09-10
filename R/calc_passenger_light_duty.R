@@ -71,18 +71,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   )
 
   si_vmt <- calc_vmt_forecast(
-    .scenario,
-    transportation_data$passenger,
-    mode,
-    stock,
-    var,
-    fcm,
-    .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
-    .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
-    .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-    .land_use_pct_change, .intersection_design_pct_change,
-    .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
-    .telework_pct
+    .scenario = .scenario,
+    tb = transportation_data$passenger,
+    .mode = mode,
+    .stock = stock,
+    .variable = var,
+    .tb_fuel_cost_mile = fcm,
+    .aeo_scenario = .aeo_scenario,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .cong_price = .cong_price,
+    .parking_price = .parking_price,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
 
@@ -135,15 +148,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   )
 
   ci_vmt <- calc_vmt_forecast(
-    .scenario, transportation_data$passenger,
-    mode, stock, var, fcm,
-    .aeo_scenario, .transit_avo, .transit_rider_pct,
-    .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-    .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-    .pop_dens_pct_change, .emp_dens_pct_change,
-    .land_use_pct_change, .intersection_design_pct_change,
-    .job_access_pct_change, .transit_dist_pct_change,
-    .comb_5d_impact_pct_change, .telework_pct
+    .scenario = .scenario,
+    tb = transportation_data$passenger,
+    .mode = mode,
+    .stock = stock,
+    .variable = var,
+    .tb_fuel_cost_mile = fcm,
+    .aeo_scenario = .aeo_scenario,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .cong_price = .cong_price,
+    .parking_price = .parking_price,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
 
@@ -194,12 +223,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   hev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change, .telework_pct
+      .scenario = .scenario,
+      tb = transportation_data$passenger,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo = .transit_avo,
+      .transit_rider_pct = .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .drs_pct = .drs_pct,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_pct_change = .land_use_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct
     ) %>%
     mutate(class = class)
 
@@ -248,13 +296,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   ### VMT gas ----
   phev_vmt_gas <- calc_vmt_forecast(
-    .scenario, transportation_data$passenger, mode, stock, var,
-    fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-    .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
-    .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-    .transit_dist_pct_change, .comb_5d_impact_pct_change,
-    .telework_pct,
-    ch_phev = 1
+    .scenario = .scenario,
+    tb = transportation_data$passenger,
+    .mode = mode,
+    .stock = stock,
+    .variable = var,
+    .tb_fuel_cost_mile = fcm,
+    .aeo_scenario = .aeo_scenario,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .cong_price = .cong_price,
+    .parking_price = .parking_price,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
 
@@ -271,14 +337,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   ### VMT electric ------
   phev_vmt_electric <- calc_vmt_forecast(
-    .scenario, transportation_data$passenger, mode, stock, var, fcm,
-    .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-    .gas_tax, .cong_price,
-    .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
-    .emp_dens_pct_change, .land_use_pct_change,
-    .intersection_design_pct_change, .job_access_pct_change,
-    .transit_dist_pct_change, .comb_5d_impact_pct_change,
-    .telework_pct
+    .scenario = .scenario,
+    tb = transportation_data$passenger,
+    .mode = mode,
+    .stock = stock,
+    .variable = var,
+    .tb_fuel_cost_mile = fcm,
+    .aeo_scenario = .aeo_scenario,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .cong_price = .cong_price,
+    .parking_price = .parking_price,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
 
@@ -407,13 +490,31 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   bev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change, .telework_pct
+      .scenario = .scenario,
+      tb = transportation_data$passenger,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo = .transit_avo,
+      .transit_rider_pct = .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .drs_pct = .drs_pct,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_pct_change = .land_use_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct
     ) %>%
     mutate(class = class)
 
