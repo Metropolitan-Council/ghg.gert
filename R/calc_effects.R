@@ -17,7 +17,11 @@ calc_telework <- function(.mode,
                           .telework_pct) {
   browser()
   if (.mode == "PLDV") {
-    1 + (.telework_pct / 100) * MARG_TELEWORK
+
+    telework_adj_tb <- tibble(year = unique(transportation_data$passenger$year),
+           telework_adj = 1 + (.telework_pct / 100) * MARG_TELEWORK)
+
+    return(telework_adj_tb)
   } else {
     stop("Telework adjustment is only applicable for passenger light-duty vehicles")
   }
