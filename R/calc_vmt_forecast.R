@@ -148,10 +148,19 @@ calc_vmt_forecast <- function(.scenario,
   if (.scenario != "BAU") {
     browser()
     # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
+    tb_vmt <- tb %>%
+      filter(
+        mode == .mode,
+        var == .variable
+      ) %>%
+      mutate(miles_traveled = value,
+             scenario = .scenario) %>%
+      select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled)
+
     if ((.mode == "BU") |
-      (.mode == "BRT") |
-      (.mode == "RU") |
-      (.mode == "RI")) {
+        (.mode == "BRT") |
+        (.mode == "RU") |
+        (.mode == "RI")) {
 
 
       # formula is such
@@ -160,13 +169,7 @@ calc_vmt_forecast <- function(.scenario,
       # land_use_adj * park_price_adj * gas_adj /
       # occupancy_adj / av_adj
       #
-      tb_vmt <- tb %>%
-        filter(
-          mode == .mode,
-          var == .variable
-        ) %>%
-        mutate(miles_traveled = value) %>%
-        select(mode, ctu, year, aeo_mode, type, miles_traveled)
+
 
       ann_energy_outlook <- calc_annual_energy_outlook(
         tb = transportation_data$passenger,
