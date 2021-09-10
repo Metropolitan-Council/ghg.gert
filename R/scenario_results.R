@@ -115,281 +115,36 @@ scenario_results <- function(.scenario = "BAU",
     .aeo_scenario, mpg, SI_FUEL_COST_GAL
   )
 
-  ## Bus Urban -----
-  mode <- "BU"
+  # transit buses -----
+  bus_transit <- calc_bus_transit(
 
-  ## Bus with Biodiesel-----
-  stock <- "BCIStock"
-  mpg <- "BCIMPG"
-  class <- "BCI"
+    .scenario = .scenario,
+    .electric_scenario = .electric_scenario,
+    .aeo_scenario = .aeo_scenario,
+    .ctu = .ctu,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .parking_price = .parking_price,
+    .cong_price = .cong_price,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .drs_fuel_type = .drs_fuel_type,
+    .av_fuel_type = .av_fuel_type,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct,
+    .mit_bau_summary = .mit_bau_summary
 
-  ci_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var,
-      fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
-      .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
-      .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-  ci_ghg <-
-    calc_ghg_direct(
-      ci_vmt, transportation_data$passenger, mode,
-      "CI", .aeo_scenario, mpg
-    )
-
-  ci_fuel <-
-    calc_fuel_use(
-      ci_vmt, transportation_data$passenger, mode, "CI",
-      .aeo_scenario, mpg
-    )
-
-  ci_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger,
-      mode, "BCISales",
-      "BU-BCI-EMB", class, .transit_avo,
-      ci_vmt, .mit_bau_summary
-    )
-
-  ci_cost <-
-    calc_cost(ci_vmt, mode, "BCIPrice")
-
-  ## HEV Bus ------
-  stock <- "HEVStock"
-  mpg <- "HEVMPG"
-  class <- "HEV"
-
-  hev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var,
-      fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee,
-      .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-
-  hev_ghg <- calc_ghg_direct(
-    hev_vmt, transportation_data$passenger, mode, "CI",
-    .aeo_scenario, mpg
   )
-
-
-  hev_fuel <-
-    calc_fuel_use(
-      hev_vmt, transportation_data$passenger,
-      mode, "CI", .aeo_scenario, mpg
-    )
-
-
-  hev_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger,
-      mode, "HEVSales",
-      "BU-HEV-EMB", class, .transit_avo,
-      hev_vmt, .mit_bau_summary
-    )
-
-
-  hev_cost <-
-    calc_cost(hev_vmt, mode, "HEVPrice")
-
-
-  ## BEV Bus -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
-
-  bev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
-      .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-
-  bev_ghg <-
-    calc_ghg_direct(
-      bev_vmt, transportation_data$passenger,
-      mode,
-      .electric_scenario, .aeo_scenario, mpe
-    )
-
-  bev_fuel <-
-    calc_fuel_use(
-      bev_vmt, transportation_data$passenger,
-      mode, .electric_scenario, .aeo_scenario, mpe
-    )
-
-  bev_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "BEVSales", "BU-BEV-EMB",
-      class, .transit_avo,
-      bev_vmt, .mit_bau_summary
-    )
-
-  bev_cost <-
-    calc_cost(
-      bev_vmt, mode,
-      "BEVPrice"
-    )
-
-  # Add the BU data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt, ci_ghg, ci_fuel,
-  #   ci_emb_ghg, ci_cost, hev_vmt,
-  #   hev_ghg, hev_fuel, hev_emb_ghg,
-  #   hev_cost, bev_vmt, bev_ghg,
-  #   bev_fuel, bev_emb_ghg, bev_cost
-  # )
-
-  # Bus Rapid Transit----
-
-  ## BCI BRT -----
-  mode <- "BRT"
-  stock <- "BCIStock"
-  mpg <- "BCIMPG"
-  class <- "BCI"
-
-  ci_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var,
-      fcm, .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-  ci_ghg <-
-    calc_ghg_direct(
-      ci_vmt, transportation_data$passenger, mode,
-      "CI", .aeo_scenario, mpg
-    )
-
-  ci_fuel <-
-    calc_fuel_use(
-      ci_vmt, transportation_data$passenger, mode, "CI",
-      .aeo_scenario, mpg
-    )
-
-  ci_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "BCISales", "BU-BCI-EMB",
-      class, .transit_avo, ci_vmt,
-      .mit_bau_summary
-    )
-
-  ci_cost <-
-    calc_cost(
-      ci_vmt,
-      mode, "BCIPrice"
-    )
-
-
-  ## HEV BRT -----
-  stock <- "HEVStock"
-  mpg <- "HEVMPG"
-  class <- "HEV"
-
-  hev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var, fcm, .aeo_scenario,
-      .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-
-  hev_ghg <-
-    calc_ghg_direct(
-      hev_vmt, transportation_data$passenger,
-      mode, "CI", .aeo_scenario, mpg
-    )
-
-  hev_fuel <-
-    calc_fuel_use(
-      hev_vmt, transportation_data$passenger, mode, "CI",
-      .aeo_scenario, mpg
-    )
-
-  hev_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "HEVSales", "BU-HEV-EMB",
-      class, .transit_avo, hev_vmt,
-      .mit_bau_summary
-    )
-
-  hev_cost <-
-    calc_cost(
-      hev_vmt,
-      mode, "HEVPrice"
-    )
-
-  ## BEV BRT -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
-
-  bev_vmt <- calc_vmt_forecast(
-    .scenario, transportation_data$passenger, mode, stock, var, fcm,
-    .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
-    .cong_price, .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
-    .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-    .transit_dist_pct_change, .comb_5d_impact_pct_change
-  ) %>%
-    mutate(class = class)
-
-
-  bev_ghg <-
-    calc_ghg_direct(
-      bev_vmt, transportation_data$passenger,
-      mode, .electric_scenario, .aeo_scenario, mpe
-    )
-
-  bev_fuel <-
-    calc_fuel_use(
-      bev_vmt, transportation_data$passenger, mode,
-      .electric_scenario, .aeo_scenario, mpe
-    )
-
-  bev_emb_ghg <-
-    calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "BEVSales", "BU-BEV-EMB",
-      class, .transit_avo, bev_vmt,
-      .mit_bau_summary
-    )
-
-  bev_cost <-
-    calc_cost(
-      bev_vmt,
-      mode, "BEVPrice"
-    )
-
-  # Add the BRT data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt, ci_ghg,
-  #   ci_fuel, ci_emb_ghg, ci_cost,
-  #   hev_vmt, hev_ghg, hev_fuel,
-  #   hev_emb_ghg, hev_cost, bev_vmt,
-  #   bev_ghg, bev_fuel, bev_emb_ghg, bev_cost
-  # )
 
   # Rail Urban-----
 
