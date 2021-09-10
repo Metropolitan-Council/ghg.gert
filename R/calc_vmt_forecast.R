@@ -143,6 +143,7 @@ calc_vmt_forecast <- function(.scenario,
       ) %>%
       select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled)
 
+    # bus and rail -----
     if ((.mode == "BU") |
       (.mode == "BRT") |
       (.mode == "RU") |
@@ -324,7 +325,15 @@ calc_vmt_forecast <- function(.scenario,
 
 
       return(vmt_forecast)
-    } else if (.mode == "AV") { # if mode is AV
+    } else if (.mode == "AV") { # if mode is autonomous vehicle
+
+      # av_vmt = miles_traveled  -
+      # (active transportation adjustment * transit_adj) *
+      # aeo_adj * vmt_fee_adjust * cong_adjust *
+      # gas_adj * park_price_adj * land_use_adj *
+      # av_adjust
+
+
       .vmt_fee <- (tb_var$pldv
         # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
         -
@@ -383,6 +392,11 @@ calc_vmt_forecast <- function(.scenario,
         (tb_mode$stock /
           tb_mode$tot_stock)
     } else if (.mode == "WALK" | .mode == "BIKE") {
+      browser()
+
+      # miles_traveled * land_use_adj *
+
+
       .vmt_fee <- tb_mode$var *
         # Active (use walk) 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
         # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
@@ -413,6 +427,7 @@ calc_vmt_forecast <- function(.scenario,
         ) / tb_mode$avo *
         (tb_mode$stock /
           tb_mode$tot_stock)
+    }
     } else if (.mode == "WALK" | .mode == "BIKE") {
       browser()
 
@@ -459,7 +474,7 @@ calc_vmt_forecast <- function(.scenario,
         )
 
       return(tb_fin)
-    }
+
   } else { # if scenario is BAU
     # browser()
     tb_fin <- tb %>%
