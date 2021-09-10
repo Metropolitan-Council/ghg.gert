@@ -8,6 +8,7 @@
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all
 #' @importFrom tidyselect all_of
+#' @importFrom tidyr pivot_wider
 calc_fuel_use <- function(tb_vmt,
                           tb,
                           .mode,

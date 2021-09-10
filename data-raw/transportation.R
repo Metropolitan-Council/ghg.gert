@@ -80,7 +80,7 @@ pldv_stocks <- transportation_data$passenger %>%
     )
   ) %>%
   unique() %>%
-  pivot_wider(
+  tidyr::pivot_wider(
     names_from = var,
     values_from = value,
   )

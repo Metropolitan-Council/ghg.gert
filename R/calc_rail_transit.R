@@ -34,7 +34,7 @@ calc_rail_transit <- function(.scenario = "BAU",
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .mit_bau_summary = 0){
+                              .mit_bau_summary = 0) {
   # Rail Urban-----
 
   ## EV Rail -----
@@ -111,8 +111,10 @@ calc_rail_transit <- function(.scenario = "BAU",
 
 
   ci_ri_ghg <-
-    calc_ghg_direct(ci_ri_vmt,
-                    transportation_data$passenger, mode, "BCI", .aeo_scenario, mpg)
+    calc_ghg_direct(
+      ci_ri_vmt,
+      transportation_data$passenger, mode, "BCI", .aeo_scenario, mpg
+    )
 
   ci_ri_fuel <-
     calc_fuel_use(
@@ -140,14 +142,18 @@ calc_rail_transit <- function(.scenario = "BAU",
     mutate(class = class)
 
   ev_ri_ghg <-
-    calc_ghg_direct(ev_ri_vmt, transportation_data$passenger,
-                    mode, .electric_scenario,
-                    .aeo_scenario, mpe)
+    calc_ghg_direct(
+      ev_ri_vmt, transportation_data$passenger,
+      mode, .electric_scenario,
+      .aeo_scenario, mpe
+    )
 
   ev_ri_fuel <-
-    calc_fuel_use(ev_ri_vmt, transportation_data$passenger,
-                  mode, .electric_scenario,
-                  .aeo_scenario, mpe)
+    calc_fuel_use(
+      ev_ri_vmt, transportation_data$passenger,
+      mode, .electric_scenario,
+      .aeo_scenario, mpe
+    )
 
   ev_ri_cost <-
     calc_cost(ev_ri_vmt, mode, "EVPrice")

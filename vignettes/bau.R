@@ -2,6 +2,7 @@
 library(ghg.sp)
 source("vignettes/data_import.R")
 source("vignettes/global_constants.R")
+source("data-raw/elasticity.R")
 
 scen <- "BAU"
 bau_summary <- scenario_results(scen, elec_scen, aeo_scen, ch_ctu)

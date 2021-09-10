@@ -12,12 +12,28 @@ calc_vehicle_fuel(
   .cong_price,
   .gas_tax,
   .payd_fee,
-  .is_av,
   .stock
 )
 }
-\value{
+\arguments{
+\item{.mode}{current mode}
 
+\item{.tb_fuel_cost_mile}{table with fuel cost per mile}
+
+\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
+
+\item{.cong_price}{congestion price per mile (only applies to an approximation of
+congested miles in MSP). Default is \code{0}}
+
+\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
+
+\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
+
+\item{.stock}{stock for current mode}
+}
+\value{
+a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},
+\code{vmt_fee_adjust}, \code{cong_adjust}, \code{cross_vmt}, \code{gas_adj}
 }
 \description{
 Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year

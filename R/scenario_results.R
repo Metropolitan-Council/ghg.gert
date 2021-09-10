@@ -117,7 +117,6 @@ scenario_results <- function(.scenario = "BAU",
 
   # transit buses -----
   bus_transit <- calc_bus_transit(
-
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -143,7 +142,6 @@ scenario_results <- function(.scenario = "BAU",
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
     .mit_bau_summary = .mit_bau_summary
-
   )
 
   # Rail Urban-----

@@ -17,9 +17,10 @@ calc_telework <- function(.mode,
                           .telework_pct) {
   browser()
   if (.mode == "PLDV") {
-
-    telework_adj_tb <- tibble(year = unique(transportation_data$passenger$year),
-           telework_adj = 1 + (.telework_pct / 100) * MARG_TELEWORK)
+    telework_adj_tb <- tibble(
+      year = unique(transportation_data$passenger$year),
+      telework_adj = 1 + (.telework_pct / 100) * MARG_TELEWORK
+    )
 
     return(telework_adj_tb)
   } else {
@@ -53,11 +54,12 @@ calc_autonomous_vehicle <- function(.tb_vmt,
       dplyr::filter(var == "AVShare")
 
     tb_avshare %>%
-      mutate(av_adj = case_when(.av_pct > 0 ~ 1 - (value * (.av_pct / 100)),
-                                TRUE ~ 1)) %>%
+      mutate(av_adj = case_when(
+        .av_pct > 0 ~ 1 - (value * (.av_pct / 100)),
+        TRUE ~ 1
+      )) %>%
       select(year, av_adj) %>%
       return()
-
   } else if ((.mode == "BU") |
     (.mode == "BRT") |
     (.mode == "RU") |
@@ -91,6 +93,8 @@ calc_autonomous_vehicle <- function(.tb_vmt,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
+#'
+#' @importFrom tidyr pivot_wider
 calc_vehicle_occupancy <- function(tb,
                                    .tb_vmt,
                                    .mode,
@@ -108,7 +112,7 @@ calc_vehicle_occupancy <- function(tb,
       )
     ) %>%
     unique() %>%
-    pivot_wider(
+    tidyr::pivot_wider(
       names_from = var,
       values_from = value
     ) %>%
@@ -130,14 +134,13 @@ calc_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-             occupancy_adj = value
+        occupancy_adj = value
       )
     return(pldv_occupancy)
-
   } else if ((.mode == "BU") |
-             (.mode == "BRT") |
-             (.mode == "RU") |
-             (.mode == "RI")) {
+    (.mode == "BRT") |
+    (.mode == "RU") |
+    (.mode == "RI")) {
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo * (1 + (.transit_avo / 100)) * (mode_stock / mode_totstock)) %>%
@@ -216,6 +219,8 @@ calc_road_pricing <- function() {
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
+#'
+#' @importFrom tidyr pivot_wider
 calc_parking_policy <- function(.mode,
                                 .parking_price) {
   browser()
@@ -230,7 +235,7 @@ calc_parking_policy <- function(.mode,
       )
     ) %>%
     unique() %>%
-    pivot_wider(
+    tidyr::pivot_wider(
       names_from = var,
       values_from = value
     )
@@ -239,8 +244,8 @@ calc_parking_policy <- function(.mode,
   if (.mode == "PLDV") {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -336,7 +341,7 @@ calc_land_use_change <- function(.mode,
 #'
 #' @return a table with columns `AEOScen`, `Metric`, `Mode`, `year`, and `aeo_adj`.
 #' @export
-#'
+#' @importFrom tidyr pivot_wider
 calc_annual_energy_outlook <- function(tb,
                                        .mode,
                                        .aeo_scenario) {
@@ -344,7 +349,7 @@ calc_annual_energy_outlook <- function(tb,
   tb_fin <- tb %>%
     filter(mode == .mode) %>%
     unique() %>%
-    pivot_wider(
+    tidyr::pivot_wider(
       names_from = var,
       values_from = value,
     )
@@ -432,12 +437,10 @@ calc_vehicle_fuel <- function(.mode,
 
 
     return(fc_return)
-
-
   } else if ((.mode == "BU") |
-             (.mode == "BRT") |
-             (.mode == "RU") |
-             (.mode == "RI")) {
+    (.mode == "BRT") |
+    (.mode == "RU") |
+    (.mode == "RI")) {
     elast_vmt <- elast_cross %>%
       select(year, vmt_elas = vmt_cross)
 

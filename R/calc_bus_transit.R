@@ -35,7 +35,6 @@ calc_bus_transit <- function(.scenario = "BAU",
                              .comb_5d_impact_pct_change = 0,
                              .telework_pct = 0,
                              .mit_bau_summary = 0) {
-
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -499,6 +498,4 @@ calc_bus_transit <- function(.scenario = "BAU",
   )
 
   usethis::ui_done("Transit Buses")
-
-
 }
