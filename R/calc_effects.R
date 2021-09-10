@@ -49,15 +49,15 @@ calc_autonomous_vehicle <- function(.tb_vmt,
 
 
   if (.mode == "PLDV") {
-    tb_avshare <- tb %>%
+    tb_avshare <- transportation_data$passenger %>%
       dplyr::filter(var == "AVShare")
 
-    if (.av_pct > 0) {
-      tb_avshare %>%
-        mutate(1 - value & .av_pct / 100)
-    } else {
-      1
-    }
+    tb_avshare %>%
+      mutate(av_adj = case_when(.av_pct > 0 ~ 1 - (value * (.av_pct / 100)),
+                                TRUE ~ 1)) %>%
+      select(year, av_adj) %>%
+      return()
+
   } else if ((.mode == "BU") |
     (.mode == "BRT") |
     (.mode == "RU") |
@@ -130,12 +130,14 @@ calc_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-        pldv_avo = value
+             occupancy_adj = value
       )
+    return(pldv_occupancy)
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo * (1 + (.transit_avo / 100)) * (mode_stock / mode_totstock)) %>%
@@ -411,16 +413,18 @@ calc_vehicle_fuel <- function(.mode,
 
 
     fc_return <- .tb_fuel_cost_mile %>%
+      select(-ctu) %>%
       left_join(elast, by = "year") %>%
-      left_join(elast_cross, by = "year")
-    mutate(
-      fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
-      payd_ins_adj = .payd_fee / INS_COST_MI,
+      left_join(elast_cross, by = "year") %>%
+      left_join(.tb_vmt, by = c("year", "mode")) %>%
+      mutate(
+        fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
+        payd_ins_adj = .payd_fee / INS_COST_MI,
         vmt_fee_adjust = 1 + ((miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt_elast,
         cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * cong_elast,
-      cross_vmt = vmt_cross,
+        cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
-    ) %>%
+      ) %>%
       select(
         year, ctu, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_adjust, cong_adjust, cross_vmt, gas_adj
@@ -428,10 +432,12 @@ calc_vehicle_fuel <- function(.mode,
 
 
     return(fc_return)
+
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
     elast_vmt <- elast_cross %>%
       select(year, vmt_elas = vmt_cross)
 
