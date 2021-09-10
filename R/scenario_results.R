@@ -144,49 +144,48 @@ scenario_results <- function(.scenario = "BAU",
     .mit_bau_summary = .mit_bau_summary
   )
 
-  # Rail Urban-----
+  # transit rail -----
 
-  ## EV Rail -----
-  mode <- "RU"
-  stock <- "EVStock"
-  mpe <- "EVElec"
-  class <- "EV"
-
-  ev_vmt <-
-    calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>%
-    mutate(class = class)
-
-
-
-  ev_ghg <-
-    calc_ghg_direct(
-      bev_vmt,
-      transportation_data$passenger,
-      mode, .electric_scenario,
-      .aeo_scenario,
-      mpe
-    )
+  rail_transit <- calc_rail_transit(
+    .scenario = .scenario,
+    .electric_scenario = .electric_scenario,
+    .aeo_scenario = .aeo_scenario,
+    .ctu = .ctu,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .parking_price = .parking_price,
+    .cong_price = .cong_price,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .drs_fuel_type = .drs_fuel_type,
+    .av_fuel_type = .av_fuel_type,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct,
+    .mit_bau_summary = .mit_bau_summary
+  )
 
   ev_fuel <-
-    calc_fuel_use(
+  .scenario = .scenario,
       bev_vmt, transportation_data$passenger,
-      mode, .electric_scenario, .aeo_scenario, mpe
-    )
-
-  ev_cost <-
-    calc_cost(ev_vmt, mode, "EVPrice")
-
-  # Add the RU data
+  .aeo_scenario = .aeo_scenario,
+  .ctu = .ctu,
+  .transit_avo = .transit_avo,
+  .transit_rider_pct = .transit_rider_pct,
+  .vmt_fee = .vmt_fee,
+  .payd_fee = .payd_fee,
+  .gas_tax = .gas_tax,
   # out_sum <- dplyr::bind_rows(
-  #   out_sum, ev_vmt,
+  .cong_price = .cong_price,
   #   ev_ghg, ev_fuel, ev_cost
   # )
 
@@ -201,9 +200,7 @@ scenario_results <- function(.scenario = "BAU",
   ci_vmt <-
     calc_vmt_forecast(
       .scenario, transportation_data$passenger,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price,
+)
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
       .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
@@ -286,7 +283,6 @@ scenario_results <- function(.scenario = "BAU",
       mode, "CI", .aeo_scenario, mpg
     )
 
-  ci_fuel <-
     calc_fuel_use(
       ci_vmt, transportation_data$passenger, mode,
       "CI", .aeo_scenario, mpg
@@ -314,9 +310,7 @@ scenario_results <- function(.scenario = "BAU",
     ) %>%
     mutate(class = class)
 
-  bev_ghg <-
     calc_ghg_direct(
-      bev_vmt,
       transportation_data$passenger, mode, .electric_scenario,
       .aeo_scenario, mpe
     )

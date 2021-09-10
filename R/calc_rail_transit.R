@@ -10,6 +10,7 @@
 #' @return
 #' @export
 #'
+#' @importFrom emo ji
 calc_rail_transit <- function(.scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
@@ -36,12 +37,22 @@ calc_rail_transit <- function(.scenario = "BAU",
                               .telework_pct = 0,
                               .mit_bau_summary = 0) {
   # Rail Urban-----
+  fcm <- calc_fuel_cost_mile(
+    transportation_data$passenger,
+    .mode = "PLDV",
+    .aeo_scenario,
+    .miles_per_gallon = "SIMPG",
+    SI_FUEL_COST_GAL
+  )
 
   ## EV Rail -----
   mode <- "RU"
   stock <- "EVStock"
   mpe <- "EVElec"
   class <- "EV"
+
+
+  message("Passenger urban rail, electric")
 
   ev_vmt <-
     calc_vmt_forecast(
@@ -95,6 +106,8 @@ calc_rail_transit <- function(.scenario = "BAU",
   mpg <- "BCIMPG"
   class <- "BCI"
 
+  message("Passenger interurban rail, diesel")
+
   ci_ri_vmt <-
     calc_vmt_forecast(
       .scenario, transportation_data$passenger,
@@ -131,6 +144,7 @@ calc_rail_transit <- function(.scenario = "BAU",
   mpe <- "EVElec"
   class <- "EV"
 
+  message("Passenger interurban rail, electric")
   ev_ri_vmt <-
     calc_vmt_forecast(
       .scenario, transportation_data$passenger, mode, stock,
