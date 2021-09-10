@@ -388,7 +388,9 @@ calc_transit_ridership <- function(.tb_vmt,
 
 #' Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year
 #'
-#' @return
+#' @inheritParams calc_vmt_forecast
+#' @return a table with columns   `year`, `ctu`, `fuel_time_cost_mile`, `payd_ins_adj`,
+#'    `vmt_fee_adjust`, `cong_adjust`, `cross_vmt`, `gas_adj`
 #' @export
 #'
 calc_vehicle_fuel <- function(.mode,
@@ -398,7 +400,6 @@ calc_vehicle_fuel <- function(.mode,
                               .cong_price,
                               .gas_tax,
                               .payd_fee,
-                              .is_av,
                               .stock) {
   browser()
   if (.mode == "PLDV") {
