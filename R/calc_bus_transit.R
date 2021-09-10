@@ -10,6 +10,8 @@
 #' @return
 #' @export
 #'
+#' @importFrom emo ji
+#'
 calc_bus_transit <- function(.scenario = "BAU",
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
@@ -35,19 +37,30 @@ calc_bus_transit <- function(.scenario = "BAU",
                              .comb_5d_impact_pct_change = 0,
                              .telework_pct = 0,
                              .mit_bau_summary = 0) {
+  browser()
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
-
-
   mode <- "BU"
 
   ## Bus transit -----
 
   ### CI Bus -----
+
+  message("Transit bus, diesel")
+
   stock <- "BCIStock"
   mpg <- "BCIMPG"
   class <- "BCI"
+
+  fcm <- calc_fuel_cost_mile(
+    transportation_data$passenger,
+    .mode = "PLDV",
+    .aeo_scenario,
+    .miles_per_gallon = "SIMPG",
+    SI_FUEL_COST_GAL
+  )
+
 
   ci_vmt <-
     calc_vmt_forecast(
@@ -79,7 +92,7 @@ calc_bus_transit <- function(.scenario = "BAU",
     ) %>%
     mutate(class = class)
 
-  ci_ghg <-
+  ci_dir_ghg <-
     calc_ghg_direct(
       ci_vmt,
       transportation_data$passenger,
@@ -101,9 +114,13 @@ calc_bus_transit <- function(.scenario = "BAU",
   ci_emb_ghg <-
     calc_ghg_embodied(
       transportation_data$passenger,
-      mode, "BCISales",
-      "BU-BCI-EMB", class, .transit_avo,
-      ci_vmt, .mit_bau_summary
+      mode,
+      "BCISales",
+      "BU-BCI-EMB",
+      class,
+      .transit_avo,
+      ci_vmt,
+      .mit_bau_summary
     )
 
   ci_cost <-
@@ -113,6 +130,7 @@ calc_bus_transit <- function(.scenario = "BAU",
   stock <- "HEVStock"
   mpg <- "HEVMPG"
   class <- "HEV"
+  message("Transit bus, hybrid")
 
   hev_vmt <-
     calc_vmt_forecast(
@@ -145,7 +163,7 @@ calc_bus_transit <- function(.scenario = "BAU",
     mutate(class = class)
 
 
-  hev_ghg <- calc_ghg_direct(
+  hev_dir_ghg <- calc_ghg_direct(
     hev_vmt, transportation_data$passenger, mode, "CI",
     .aeo_scenario, mpg
   )
@@ -175,6 +193,8 @@ calc_bus_transit <- function(.scenario = "BAU",
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
+  message("Transit bus, battery electric")
+
 
   bev_vmt <-
     calc_vmt_forecast(
@@ -207,7 +227,7 @@ calc_bus_transit <- function(.scenario = "BAU",
     mutate(class = class)
 
 
-  bev_ghg <-
+  bev_dir_ghg <-
     calc_ghg_direct(
       bev_vmt, transportation_data$passenger,
       mode,
@@ -250,6 +270,7 @@ calc_bus_transit <- function(.scenario = "BAU",
   stock <- "BCIStock"
   mpg <- "BCIMPG"
   class <- "BCI"
+  message("Bus rapid transit, diesel")
 
   ci_brt_vmt <-
     calc_vmt_forecast(
@@ -313,6 +334,8 @@ calc_bus_transit <- function(.scenario = "BAU",
   mpg <- "HEVMPG"
   class <- "HEV"
 
+  message("Bus rapid transit, hybrid")
+
   hev_brt_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -374,6 +397,7 @@ calc_bus_transit <- function(.scenario = "BAU",
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
+  message("Bus rapid transit, battery")
 
   bev_brt_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
