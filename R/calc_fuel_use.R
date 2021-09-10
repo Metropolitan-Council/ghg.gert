@@ -50,15 +50,15 @@ calc_fuel_use <- function(tb_vmt,
 
   fuel_use <- left_join(tb_vmt,
     tb_aeo,
-    by = c("mode", "year", "aeo_mode", "type")
+    by = c("mode", "year", "aeo_mode")
   ) %>%
     mutate(fuel_use = vmt * fuel_factor) %>%
-    select(type,
+    select(
+      # type,
       scenario,
       mode,
       ctu = ctu.x,
       year,
-      type,
       aeo_mode,
       class,
       fuel_use

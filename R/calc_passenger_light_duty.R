@@ -8,6 +8,8 @@
 #' @return
 #' @export
 #'
+#' @importFrom emo ji
+#'
 calc_passenger_light_duty <- function(.scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
@@ -38,7 +40,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
   # 4. Calculate VMT with `calc`
 
-  # browser()
+  browser()
   # Passenger ------------------------------------------------------------
 
   type <- "P"
@@ -377,10 +379,11 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
         vmt_gas = vmt
       ),
     c(
-      "scenario", "mode", "stock", "ctu", "class",
-      "year", "aeo_mode", "type"
+      "scenario", "mode", "ctu", "class",
+      "year", "aeo_mode"
     )
   ) %>%
+    rowwise() %>%
     mutate(vmt = sum(vmt_electric, vmt_gas)) %>%
     select(
       -vmt_electric,
@@ -423,7 +426,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     c(
       "scenario", "mode", "ctu",
       "class",
-      "year", "aeo_mode", "type"
+      "year", "aeo_mode"
     )
   ) %>%
     mutate(dir_ghg = sum(dir_ghg_electric, dir_ghg_gas)) %>%
@@ -449,7 +452,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
         fuel_use_gas = fuel_use
       ),
     c(
-      "type", "scenario", "mode", "ctu", "year",
+      "scenario", "mode", "ctu", "year",
       "aeo_mode", "class"
     )
   ) %>%

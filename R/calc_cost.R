@@ -30,7 +30,7 @@ calc_cost <- function(tb_vmt,
     dplyr::mutate(vmt_cost = vmt * cost_value) %>%
     dplyr::select(
       scenario,
-      type,
+      # type,
       mode,
       ctu,
       year,
