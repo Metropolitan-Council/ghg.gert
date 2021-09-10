@@ -63,7 +63,7 @@ scenario_results <- function(.scenario = "BAU",
       )
   }
 
-
+  browser()
   # Sequence for each
   # 1. Establish `type`, `var`, `mode`
   # 2. Establish `stock`, `mpg`, `class`
@@ -105,7 +105,6 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   # browser()
-  # Transit-----
   # Caculate a fuel cost for use in DRS and transit calculations. Use gasoline PLDV value.
   mpg <- "SIMPG"
   # Calculate a fuel cost per mile rather than per gallon
@@ -174,33 +173,34 @@ scenario_results <- function(.scenario = "BAU",
     .mit_bau_summary = .mit_bau_summary
   )
 
-calc_school_bus(
-  .scenario = .scenario,
-  .electric_scenario = .electric_scenario,
-  .aeo_scenario = .aeo_scenario,
-  .ctu = .ctu,
-  .transit_avo = .transit_avo,
-  .transit_rider_pct = .transit_rider_pct,
-  .vmt_fee = .vmt_fee,
-  .payd_fee = .payd_fee,
-  .gas_tax = .gas_tax,
-  .parking_price = .parking_price,
-  .cong_price = .cong_price,
-  .freight_vmt_fee = .freight_vmt_fee,
-  .drs_pct = .drs_pct,
-  .av_pct = .av_pct,
-  .drs_fuel_type = .drs_fuel_type,
-  .av_fuel_type = .av_fuel_type,
-  .pop_dens_pct_change = .pop_dens_pct_change,
-  .emp_dens_pct_change = .emp_dens_pct_change,
-  .land_use_pct_change = .land_use_pct_change,
-  .intersection_design_pct_change = .intersection_design_pct_change,
-  .job_access_pct_change = .job_access_pct_change,
-  .transit_dist_pct_change = .transit_dist_pct_change,
-  .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-  .telework_pct = .telework_pct,
-  .mit_bau_summary = .mit_bau_summary
-)
+  # school bus-----
+  calc_school_bus(
+    .scenario = .scenario,
+    .electric_scenario = .electric_scenario,
+    .aeo_scenario = .aeo_scenario,
+    .ctu = .ctu,
+    .transit_avo = .transit_avo,
+    .transit_rider_pct = .transit_rider_pct,
+    .vmt_fee = .vmt_fee,
+    .payd_fee = .payd_fee,
+    .gas_tax = .gas_tax,
+    .parking_price = .parking_price,
+    .cong_price = .cong_price,
+    .freight_vmt_fee = .freight_vmt_fee,
+    .drs_pct = .drs_pct,
+    .av_pct = .av_pct,
+    .drs_fuel_type = .drs_fuel_type,
+    .av_fuel_type = .av_fuel_type,
+    .pop_dens_pct_change = .pop_dens_pct_change,
+    .emp_dens_pct_change = .emp_dens_pct_change,
+    .land_use_pct_change = .land_use_pct_change,
+    .intersection_design_pct_change = .intersection_design_pct_change,
+    .job_access_pct_change = .job_access_pct_change,
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+    .telework_pct = .telework_pct,
+    .mit_bau_summary = .mit_bau_summary
+  )
 
 
   # Active Modes-----
@@ -1099,5 +1099,5 @@ calc_school_bus(
   # out_sum <- dplyr::bind_rows(out_sum, ci_vmt, ci_ghg)
 
   # Return final ------
-  return(out_sum)
+  # return(out_sum)
 }

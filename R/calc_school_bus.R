@@ -36,8 +36,6 @@ calc_school_bus <- function(.scenario = "BAU",
                             .comb_5d_impact_pct_change = 0,
                             .telework_pct = 0,
                             .mit_bau_summary = 0) {
-
-
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger,
     .mode = "PLDV",

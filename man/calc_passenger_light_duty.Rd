@@ -96,6 +96,7 @@ Calculate scenario for passenger light-duty vehicles
 \seealso{
 Other transportation results: 
 \code{\link{calc_bus_transit}()},
-\code{\link{calc_rail_transit}()}
+\code{\link{calc_rail_transit}()},
+\code{\link{calc_school_bus}()}
 }
 \concept{transportation results}

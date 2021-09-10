@@ -428,53 +428,52 @@ calc_vmt_forecast <- function(.scenario,
         (tb_mode$stock /
           tb_mode$tot_stock)
     }
-    } else if (.mode == "WALK" | .mode == "BIKE") {
-      browser()
+  } else if (.mode == "WALK" | .mode == "BIKE") {
+    browser()
 
-      avo <- tb %>%
-        dplyr::filter(
-          mode == .mode,
-          var %in% c(
-            "AVO"
-          )
-        ) %>%
-        select(-ctu) %>%
-        tidyr::pivot_wider(
-          names_from = var,
-          values_from = value
+    avo <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var %in% c(
+          "AVO"
         )
+      ) %>%
+      select(-ctu) %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      )
 
-      tb_fin <- tb %>%
-        dplyr::filter(
-          mode == .mode,
-          var %in% c(
-            .variable,
-            .stock,
-            "TotStock"
-          )
-        ) %>%
-        unique() %>%
-        group_by(mode, ctu, year, aeo_mode, type) %>%
-        pivot_wider(
-          names_from = var,
-          values_from = value
-        ) %>%
-        left_join(avo, by = c("mode", "year", "aeo_mode", "type")) %>%
-        rowwise() %>%
-        mutate(
-          vmt = PMT / AVO,
-          scenario = .scenario,
-          stock = .stock
-        ) %>%
-        select(
-          scenario,
-          mode,
-          stock,
-          ctu, year, aeo_mode, type, vmt
+    tb_fin <- tb %>%
+      dplyr::filter(
+        mode == .mode,
+        var %in% c(
+          .variable,
+          .stock,
+          "TotStock"
         )
+      ) %>%
+      unique() %>%
+      group_by(mode, ctu, year, aeo_mode, type) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      left_join(avo, by = c("mode", "year", "aeo_mode", "type")) %>%
+      rowwise() %>%
+      mutate(
+        vmt = PMT / AVO,
+        scenario = .scenario,
+        stock = .stock
+      ) %>%
+      select(
+        scenario,
+        mode,
+        stock,
+        ctu, year, aeo_mode, type, vmt
+      )
 
-      return(tb_fin)
-
+    return(tb_fin)
   } else { # if scenario is BAU
     # browser()
     tb_fin <- tb %>%

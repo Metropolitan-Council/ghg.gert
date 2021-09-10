@@ -15,7 +15,7 @@
 #'     and \eqn{TW} is an adjustment factor for the effect of telework on baseline PMT.
 calc_telework <- function(.mode,
                           .telework_pct) {
-  browser()
+  # browser()
   if (.mode == "PLDV") {
     telework_adj_tb <- tibble(
       year = unique(transportation_data$passenger$year),
@@ -46,7 +46,7 @@ calc_telework <- function(.mode,
 calc_autonomous_vehicle <- function(.tb_vmt,
                                     .av_pct,
                                     .mode) {
-  browser()
+  # browser()
 
 
   if (.mode == "PLDV") {
@@ -101,7 +101,7 @@ calc_vehicle_occupancy <- function(tb,
                                    .gas_tax,
                                    .stock,
                                    .transit_avo) {
-  browser()
+  # browser()
   tb_mode_totstock <- tb %>%
     filter(
       mode == .mode,
@@ -223,7 +223,7 @@ calc_road_pricing <- function() {
 #' @importFrom tidyr pivot_wider
 calc_parking_policy <- function(.mode,
                                 .parking_price) {
-  browser()
+  # browser()
 
 
   pldv_si_parking <- transportation_data$passenger %>%
@@ -300,7 +300,7 @@ calc_land_use_change <- function(.mode,
                                  .intersection_design_pct_change,
                                  .job_access_pct_change,
                                  .transit_dist_pct_change) {
-  browser()
+  # browser()
 
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
@@ -345,7 +345,7 @@ calc_land_use_change <- function(.mode,
 calc_annual_energy_outlook <- function(tb,
                                        .mode,
                                        .aeo_scenario) {
-  browser()
+  # browser()
   tb_fin <- tb %>%
     filter(mode == .mode) %>%
     unique() %>%
@@ -374,7 +374,7 @@ calc_annual_energy_outlook <- function(tb,
 calc_transit_ridership <- function(.tb_vmt,
                                    .mode,
                                    .transit_rider_pct) {
-  browser()
+  # browser()
   if (.mode == "PLDV") {
     .tb_vmt %>%
       select(year, ctu) %>%
@@ -408,7 +408,7 @@ calc_vehicle_fuel <- function(.mode,
                               .gas_tax,
                               .payd_fee,
                               .stock) {
-  browser()
+  # browser()
   if (.mode == "PLDV") {
     ev_multiplier <- ifelse(.stock %in% c(
       "SIStock",
