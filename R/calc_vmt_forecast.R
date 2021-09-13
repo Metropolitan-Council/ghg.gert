@@ -72,66 +72,13 @@ calc_vmt_forecast <- function(.scenario,
                               .telework_pct = 0,
                               ch_phev = 0) {
   # browser()
-  # Annual energy outlook VMT tables -------
-  # Specific to each mode type
-  aeo_vmt <- list(
-    rail = factor_values$aeo %>%
-      dplyr::filter(
-        AEOScen == .aeo_scenario,
-        Metric == "VMT",
-        Mode == "RAIL"
-      ),
-    bus = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "BUS"),
-    ldv = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "LDV"),
-    mdt = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "MDT"),
-    hdt = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "HDT"),
-    frail = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FRAIL"),
-    fship = factor_values$aeo %>%
-      dplyr::filter(AEOScen == .aeo_scenario, Metric == "VMT", Mode == "FSHIP")
-  )
 
 
-  # .mode held constant table subsets ------
-  tb_mode <- list(
-    var = tb %>%
-      dplyr::filter(mode == .mode, var == .variable),
-    stock = tb %>%
-      dplyr::filter(mode == .mode, var == .stock),
-    tot_stock = tb %>%
-      dplyr::filter(mode == .mode, var == "TotStock"),
-    avo = tb %>% # average vehicle occupancy
-      dplyr::filter(mode == .mode, var == "AVO")
-  )
-
-  # variable held constant -----
-  tb_var <- list(
-    at = tb %>%
-      dplyr::filter(mode == "AT", var == .variable),
-    pldv = tb %>%
-      dplyr::filter(mode == "PLDV", var == .variable)
-  )
-
-
-  tb_avshare <- tb %>%
-    dplyr::filter(var == "AVShare")
-
-  tb_park <- tb %>%
-    dplyr::filter(var == "PARK")
-
-  # basic filter for mode and variable
-
-
-
-  # calculation -----
   # If it's not the BAU scenario, then need to run elasticities, etc.
   if (.scenario != "BAU") {
+    # Not BAU ----
     browser()
-    # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
+
     tb_vmt <- tb %>%
       filter(
         mode == .mode,
