@@ -173,12 +173,12 @@ calc_freight_air_water_multi <- function(.scenario = "BAU",
     "ghg" = ghg_all
   )
 
-  usethis::ui_done(paste("Freight air, water, multimodal",
-                         emo::ji("airplane"),
-                         emo::ji("ship"),
-                         emo::ji("frog")))
+  usethis::ui_done(paste(
+    "Freight air, water, multimodal",
+    emo::ji("airplane"),
+    emo::ji("ship"),
+    emo::ji("frog")
+  ))
 
   return(av_return)
-
-
 }

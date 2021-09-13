@@ -35,7 +35,6 @@ calc_freight_rail <- function(.scenario = "BAU",
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
                               .mit_bau_summary = 0) {
-
   mode <- "FR"
 
   type <- "F"

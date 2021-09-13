@@ -49,12 +49,12 @@ scenario_results <- function(.scenario = "BAU",
         dplyr::across(
           all_of(YRS), ~ dplyr::case_when(
             ((mode == "PLDV") &
-               var == "PMT") ~ .x *
+              var == "PMT") ~ .x *
               dplyr::case_when(
                 .drs_pct > 0 ~ (1 - pass_transpo %>%
-                                  dplyr::filter(var == "DRSShare") %>%
-                                  dplyr::select(dplyr::cur_column()) %>%
-                                  as.numeric() * .drs_pct / 100),
+                  dplyr::filter(var == "DRSShare") %>%
+                  dplyr::select(dplyr::cur_column()) %>%
+                  as.numeric() * .drs_pct / 100),
                 TRUE ~ 1
               ),
             TRUE ~ .x
@@ -233,7 +233,7 @@ scenario_results <- function(.scenario = "BAU",
 
   # Dynamic Ride Sharing -----
 
-  if(.drs_pct > 0){
+  if (.drs_pct > 0) {
     dynamic_ride_share <- calc_dynamic_ride_sharing(
       .scenario = .scenario,
       .electric_scenario = .electric_scenario,
@@ -407,15 +407,15 @@ scenario_results <- function(.scenario = "BAU",
     freight_multi_air_wat,
     freight_rail,
     freight_truck
-
   )
 
   browser()
 
 
   return(
-    list("passenger" = passenger,
-         "freight" = freight)
+    list(
+      "passenger" = passenger,
+      "freight" = freight
+    )
   )
-
 }

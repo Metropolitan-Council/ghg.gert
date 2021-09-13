@@ -154,7 +154,6 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
           "HEVPrice", 1
         )
       )
-
     } else if (.av_fuel_type == "PHEV") {
       message("Autonomous vehicles, plug-in hybrid")
 
@@ -177,8 +176,8 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
       ) * (1 - transportation_data$passenger %>%
-             dplyr::filter(mode == mode, var == "PHEVPr") %>%
-             dplyr::select(all_of(YRS)))
+        dplyr::filter(mode == mode, var == "PHEVPr") %>%
+        dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger, mode,
@@ -336,7 +335,6 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
           mode_1, "BEVPrice", 1
         )
       )
-
     }
 
 
@@ -357,9 +355,7 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
 
     return(av_return)
   } else {
-
     usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
     return()
   }
-
 }

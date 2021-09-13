@@ -36,7 +36,7 @@ calc_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .transit_dist_pct_change = 0,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
-                                      .mit_bau_summary = 0){
+                                      .mit_bau_summary = 0) {
   browser()
   type <- "P"
   # For all passenger modes, variable = PMT
@@ -120,8 +120,6 @@ calc_dynamic_ride_sharing <- function(.scenario = "BAU",
           drs_vmt,
           mode_1, "HEVPrice", 1
         )
-
-
     } else if (.drs_fuel_type == "PHEV") {
 
       ## DRS Plug-in hybrid -----
@@ -150,8 +148,8 @@ calc_dynamic_ride_sharing <- function(.scenario = "BAU",
         .transit_dist_pct_change, .comb_5d_impact_pct_change
       ) *
         transportation_data$passenger %>%
-        dplyr::filter(mode == mode, var == "PHEVPr") %>%
-        dplyr::select(all_of(YRS))
+          dplyr::filter(mode == mode, var == "PHEVPr") %>%
+          dplyr::select(all_of(YRS))
 
       drs_vmt <- tibble::tibble(
         type = type, scenario = .scenario,
@@ -222,7 +220,6 @@ calc_dynamic_ride_sharing <- function(.scenario = "BAU",
           mode_1, "PHEVPrice", 1
         )
       )
-
     } else {
       ## DRS Battery Electric -----
       stock <- "DRSStock"
@@ -280,7 +277,6 @@ calc_dynamic_ride_sharing <- function(.scenario = "BAU",
           mode_1, "BEVPrice"
         )
       )
-
     }
   }
 

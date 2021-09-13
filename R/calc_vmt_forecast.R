@@ -92,9 +92,9 @@ calc_vmt_forecast <- function(.scenario,
       select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled)
 
     if ((.mode == "BU") |
-        (.mode == "BRT") |
-        (.mode == "RU") |
-        (.mode == "RI")) {
+      (.mode == "BRT") |
+      (.mode == "RU") |
+      (.mode == "RI")) {
       # bus and rail -----
       # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
 
@@ -172,20 +172,22 @@ calc_vmt_forecast <- function(.scenario,
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
         left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         mutate(transit_vmt = (miles_traveled *
-                                aeo_adj * transit_adj *
-                                (1 + (vmt_fee_adjust + payd_ins_adj + cong_adjust) * cross_vmt) *
-                                land_use_adj * park_price_adj * gas_adj) /
-                 occupancy_adj * av_adj) %>%
+          aeo_adj * transit_adj *
+          (1 + (vmt_fee_adjust + payd_ins_adj + cong_adjust) * cross_vmt) *
+          land_use_adj * park_price_adj * gas_adj) /
+          occupancy_adj * av_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = transit_vmt)
 
       return(vmt_forecast)
     } else if (.mode == "PLDV") {
       # passenger light duty --------
 
-      pass_tb_vmt <- calc_drs_reduction(.tb_vmt = tb_vmt,
-                                        .mode = .mode,
-                                        .variable = .variable,
-                                        .drs_pct = .drs_pct)
+      pass_tb_vmt <- calc_drs_reduction(
+        .tb_vmt = tb_vmt,
+        .mode = .mode,
+        .variable = .variable,
+        .drs_pct = .drs_pct
+      )
 
       # formula is such
       # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
@@ -267,21 +269,20 @@ calc_vmt_forecast <- function(.scenario,
         left_join(autonomous_adjust, by = c("year")) %>%
         left_join(telework_adjust, by = c("year")) %>%
         left_join(tb %>%
-                    filter(mode == "AT", var == .variable) %>%
-                    select(ctu, year, active_transportation_adj = value),
-                  by = c("year", "ctu")
+          filter(mode == "AT", var == .variable) %>%
+          select(ctu, year, active_transportation_adj = value),
+        by = c("year", "ctu")
         ) %>%
         mutate(pass_ld_vmt = miles_traveled -
-                 (active_transportation_adj * transit_adj) *
-                 av_adj * aeo_adj *
-                 vmt_fee_adjust * cong_adjust * gas_adj *
-                 telework_adj * land_use_adj *
-                 park_price_adj / occupancy_adj) %>%
+          (active_transportation_adj * transit_adj) *
+            av_adj * aeo_adj *
+            vmt_fee_adjust * cong_adjust * gas_adj *
+            telework_adj * land_use_adj *
+            park_price_adj / occupancy_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = pass_ld_vmt)
 
 
       return(vmt_forecast)
-
     } else if (.mode == "AV") {
       # autonomous vehicle -----
       # av_vmt = miles_traveled  -
@@ -345,15 +346,15 @@ calc_vmt_forecast <- function(.scenario,
 
       vmt <- tb_vmt %>%
         left_join(at_adjustment, by = c("year", "ctu")) %>%
-        left_join(trans_rider, by =  c("year", "ctu")) %>%
+        left_join(trans_rider, by = c("year", "ctu")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
         mutate(av_vmt = miles_traveled - (at_adjust * transit_adj) *
-                 av_adj * aeo_adj * vmt_fee_adj *
-                 cong_adjust * gas_adj * park_price_adj *
-                 land_use_adj * VMT_AV/occupancy_adj) %>%
+          av_adj * aeo_adj * vmt_fee_adj *
+          cong_adjust * gas_adj * park_price_adj *
+          land_use_adj * VMT_AV / occupancy_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
       return(vmt)
@@ -536,7 +537,6 @@ calc_vmt_forecast <- function(.scenario,
         select(scenario, ctu, year, mode, aeo_mode, vmt = walk_vmt)
 
       return(vmt)
-
     } else if (.mode == "BS") {
       # school bus-----
 
@@ -564,7 +564,6 @@ calc_vmt_forecast <- function(.scenario,
         select(scenario, ctu, year, mode, aeo_mode, vmt = school_bus_vmt)
 
       return(vmt)
-
     } else if (.mode == "FR") {
       # freight rail ------
       browser()
@@ -587,9 +586,9 @@ calc_vmt_forecast <- function(.scenario,
 
 
 
-      vmt <- left_join(tb_vmt, ann_energy_outlook, by =c( "year")) %>%
+      vmt <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        mutate(fr_vmt = (miles_traveled * aeo_adj)/occupancy_adj) %>%
+        mutate(fr_vmt = (miles_traveled * aeo_adj) / occupancy_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = school_bus_vmt)
 
       return(vmt)

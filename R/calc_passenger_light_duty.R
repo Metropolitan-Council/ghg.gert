@@ -599,5 +599,4 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   ))
 
   return(pldv_scenario)
-
 }
