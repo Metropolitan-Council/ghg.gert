@@ -24,8 +24,9 @@ calc_drs_vmt(
 )
 }
 \arguments{
-\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
-and one for each year}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.drs_pct_trip}{percent of trips by dynamic ride sharing (DRS)}
 
@@ -69,7 +70,6 @@ Calculate Dynamic Ride Sharing VMT
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
-\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_elasticity}()},

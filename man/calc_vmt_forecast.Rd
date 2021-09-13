@@ -36,8 +36,9 @@ calc_vmt_forecast(
 \arguments{
 \item{.scenario}{character, scenario name}
 
-\item{tb}{input table. Should have columns \code{mode}, \code{var}, \code{ctu},
-and one for each year}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.mode}{current mode}
 
@@ -102,7 +103,6 @@ Calculate vehicle miles traveled by mode and power train
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
-\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},

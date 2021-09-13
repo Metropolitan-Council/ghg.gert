@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_school_bus.R
 \name{calc_school_bus}
 \alias{calc_school_bus}
-\title{Title}
+\title{Calculate scenario for school buses}
 \usage{
 calc_school_bus(
   .scenario = "BAU",
@@ -96,7 +96,8 @@ Calculate scenario for school buses
 \seealso{
 Other transportation results: 
 \code{\link{calc_bus_transit}()},
-\code{\link{calc_passenger_light_duty}()},
-\code{\link{calc_rail_transit}()}
+\code{\link{calc_rail_transit}()},
+\code{\link{calc_walk_bike}()}
 }
 \concept{transportation results}
+\keyword{passenger}

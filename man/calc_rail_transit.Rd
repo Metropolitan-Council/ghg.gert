@@ -96,7 +96,7 @@ Calculate scenario for passenger rail
 \seealso{
 Other transportation results: 
 \code{\link{calc_bus_transit}()},
-\code{\link{calc_passenger_light_duty}()},
-\code{\link{calc_school_bus}()}
+\code{\link{calc_school_bus}()},
+\code{\link{calc_walk_bike}()}
 }
 \concept{transportation results}

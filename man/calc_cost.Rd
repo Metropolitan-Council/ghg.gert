@@ -25,7 +25,6 @@ Calculate cost estimates in millions of dollars
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
-\code{\link{calc_av_sales}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},

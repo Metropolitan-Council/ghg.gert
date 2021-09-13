@@ -29,7 +29,6 @@ Calculate fuel cost per mile
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
-\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},

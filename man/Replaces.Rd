@@ -24,20 +24,4 @@ faster than previous stock turnover in order to match
 AV market penetration
 }}
 
-\seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_drs_sales}()},
-\code{\link{calc_drs_vmt}()},
-\code{\link{calc_elasticity}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{scenario_results}()}
-}
-\concept{transportation}
+\concept{transportation. autonomous vehicles}
