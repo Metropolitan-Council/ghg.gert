@@ -37,7 +37,7 @@ calc_bus_transit <- function(.scenario = "BAU",
                              .comb_5d_impact_pct_change = 0,
                              .telework_pct = 0,
                              .mit_bau_summary = 0) {
-  browser()
+  # browser()
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -254,14 +254,6 @@ calc_bus_transit <- function(.scenario = "BAU",
       "BEVPrice"
     )
 
-  # Add the BU data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt, ci_ghg, ci_fuel,
-  #   ci_emb_ghg, ci_cost, hev_vmt,
-  #   hev_ghg, hev_fuel, hev_emb_ghg,
-  #   hev_cost, bev_vmt, bev_ghg,
-  #   bev_fuel, bev_emb_ghg, bev_cost
-  # )
 
   # Bus Rapid Transit----
 
@@ -455,16 +447,6 @@ calc_bus_transit <- function(.scenario = "BAU",
       mode, "BEVPrice"
     )
 
-  # Add the BRT data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt, ci_ghg,
-  #   ci_fuel, ci_emb_ghg, ci_cost,
-  #   hev_vmt, hev_ghg, hev_fuel,
-  #   hev_emb_ghg, hev_cost, bev_vmt,
-  #   bev_ghg, bev_fuel, bev_emb_ghg, bev_cost
-  # )
-
-
   # Finish up -----
 
   fuel_use_all <- dplyr::bind_rows(
@@ -522,4 +504,6 @@ calc_bus_transit <- function(.scenario = "BAU",
   )
 
   usethis::ui_done(paste("Transit buses and bus rapid transit", emo::ji("bus")))
+
+  return(bus_scenario)
 }

@@ -1,11 +1,10 @@
-#' Title
-#'
 #' Calculate scenario for school buses
 #'
 #' @inheritParams scenario_results
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results
+#' @keywords passenger
 #'
 #' @return
 #' @export
@@ -62,7 +61,8 @@ calc_school_bus <- function(.scenario = "BAU",
 
   ci_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger,
+      .scenario,
+      tb = transportation_data$passenger,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -130,31 +130,32 @@ calc_school_bus <- function(.scenario = "BAU",
     )
 
 
-  # Add the BS data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum,
-  #   ci_vmt, ci_ghg, ci_fuel,
-  #   ci_cost, bev_vmt, bev_ghg, bev_cost
-  # )
+  vmt_all <- dplyr::bind_rows(
+    ci_vmt,
+    bev_vmt
+  )
 
   dir_ghg_all <- dplyr::bind_rows(
-    ev_ghg,
-    ev_ri_ghg,
-    ci_ri_ghg
+    ci_ghg,
+    bev_ghg
   )
 
   cost_all <- dplyr::bind_rows(
-    ev_cost,
-    ev_ri_cost,
-    ci_ri_cost
+    ci_cost,
+    bev_cost,
   )
 
-  passenger_rail <- list(
-    "vmt" = vmt_all,
-    "dir_ghg" = dir_ghg_all,
-    # "emb_gog" = emb_ghg_all,
+  fuel_use_all <- dplyr::bind_rows(
+    ci_fuel,
+    bev_fuel
+  )
+
+
+  school_bus <- list(
+    "vmt" =  vmt_all,
+    "dir_ghg" =  dir_ghg_all,
     "fuel_use" = fuel_use_all,
-    "cost" = cost_all
+    "cost"  = cost_all
   )
 
   usethis::ui_done(paste("School bus", emo::ji("school")))

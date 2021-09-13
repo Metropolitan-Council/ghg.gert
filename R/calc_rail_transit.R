@@ -61,7 +61,9 @@ calc_rail_transit <- function(.scenario = "BAU",
 
   ev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode,
+      .scenario,
+      tb = transportation_data$passenger,
+      mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -96,12 +98,6 @@ calc_rail_transit <- function(.scenario = "BAU",
 
   ev_cost <-
     calc_cost(ev_vmt, mode, "EVPrice")
-
-  # Add the RU data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ev_vmt,
-  #   ev_ghg, ev_fuel, ev_cost
-  # )
 
   # Rail Interurban-----
   mode <- "RI"
@@ -178,13 +174,6 @@ calc_rail_transit <- function(.scenario = "BAU",
     calc_cost(ev_ri_vmt, mode, "EVPrice")
 
 
-  # Add the RI data
-  # out_sum <- dplyr::bind_rows(
-  #   out_sum, ci_vmt,
-  #   ci_ghg, ci_fuel, ci_cost,
-  #   ev_vmt, ev_ghg, ev_fuel, ev_cost
-  # )
-
   # Finish up -----
 
   fuel_use_all <- dplyr::bind_rows(
@@ -200,14 +189,6 @@ calc_rail_transit <- function(.scenario = "BAU",
     ci_ri_vmt
   )
 
-  # emb_ghg_all <- dplyr::bind_rows(
-  #   ci_emb_ghg,
-  #   hev_emb_ghg,
-  #   bev_emb_ghg,
-  #   ci_brt_emb_ghg,
-  #   hev_brt_emb_ghg,
-  #   bev_brt_emb_ghg
-  # )
 
   dir_ghg_all <- dplyr::bind_rows(
     ev_ghg,

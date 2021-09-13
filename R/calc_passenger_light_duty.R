@@ -3,7 +3,7 @@
 #' @inheritParams scenario_results
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation results
+#' @family transportation results, passenger
 #'
 #' @return
 #' @export
@@ -40,7 +40,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
   # 4. Calculate VMT with `calc`
 
-  browser()
+  # browser()
   # Passenger ------------------------------------------------------------
 
   type <- "P"
@@ -380,7 +380,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
       ),
     c(
       "scenario", "mode", "ctu", "class",
-      "year", "aeo_mode"
+      "year", "aeo_mode", "type"
     )
   ) %>%
     rowwise() %>%
@@ -600,16 +600,4 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   return(pldv_scenario)
 
-  # Combine the PLDV data
-  # out_sum <- dplyr::bind_rows(
-  #   si_vmt, si_dir_ghg, si_fuel,
-  #   si_emb_ghg, si_cost, ci_vmt,
-  #   ci_dir_ghg, ci_fuel, ci_emb_ghg,
-  #   ci_cost, hev_vmt, hev_dir_ghg,
-  #   hev_fuel, hev_emb_ghg, hev_cost,
-  #   phev_vmt, phev_dir_ghg, phev_fuel_gas,
-  #   phev_fuel_electric, phev_emb_ghg, phev_cost,
-  #   bev_vmt, bev_dir_ghg, bev_fuel,
-  #   bev_emb_ghg, bev_cost
-  # )
 }

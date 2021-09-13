@@ -6,7 +6,7 @@
 #' @param tb input table
 #' @param .av_pct percent of trips by AV
 #'
-#' @family transportation
+#' @family transportation. autonomous vehicles
 #'
 #' @return
 #' @export
