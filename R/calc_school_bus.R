@@ -153,5 +153,5 @@ calc_school_bus <- function(.scenario = "BAU",
 
   usethis::ui_done(paste("School bus", emo::ji("school")))
 
-  return(passenger_rail)
+  return(school_bus)
 }

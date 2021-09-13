@@ -1,9 +1,14 @@
+#' Calculate VMT effects
+
+
+
 #' Calculate telework multiplier
 #'
 #' @return
 #' @export
+#' @family VMT effects
 #' @details
-#' Only applicable for PLDV,
+#' Only applicable for passenger light-duty vehicles (PLDV).
 #'
 #' \loadmathjax
 #' \mjdeqn{GHG = \frac{PMT}{AVO \times FF} \times TW \times GF}{GHG = (PMT)/(AVO x FF) x TW x GF}
@@ -13,6 +18,7 @@
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{TW} is an adjustment factor for the effect of telework on baseline PMT.
+#'
 calc_telework <- function(.mode,
                           .telework_pct) {
   # browser()
@@ -33,8 +39,9 @@ calc_telework <- function(.mode,
 #'
 #' @return table with columns `year`, `ctu`, `av_adj`
 #' @export
-#' @details
 #'
+#' @family VMT effects
+#' @details
 #' \loadmathjax
 #' \mjdeqn{GHG = \frac{PMT}{AVO \times FF} \times AV \times GF}{GHG = (PMT)/(AVO x FF) x AV x GF}
 #'     where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
@@ -43,7 +50,7 @@ calc_telework <- function(.mode,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-calc_autonomous_vehicle <- function(.tb_vmt,
+calc_av_effect <- function(.tb_vmt,
                                     .av_pct,
                                     .mode) {
   # browser()
@@ -60,10 +67,11 @@ calc_autonomous_vehicle <- function(.tb_vmt,
       )) %>%
       select(year, av_adj) %>%
       return()
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + BUS_AV * .av_pct) / 100),
@@ -74,6 +82,17 @@ calc_autonomous_vehicle <- function(.tb_vmt,
 
     return(av_return)
   } else if (.mode == "AV") {
+
+    tb_avshare <- transportation_data$passenger %>%
+      dplyr::filter(var == "AVShare") %>%
+      select(year, av_share = value)
+
+    av_return <- .tb_vmt %>%
+      left_join(tb_avshare, by = c("year")) %>%
+      mutate(av_adj = av_share * .av_pct / 100)
+
+    return(av_return)
+
 
   }
 }
@@ -93,7 +112,7 @@ calc_autonomous_vehicle <- function(.tb_vmt,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-#'
+#' @family VMT effects
 #' @importFrom tidyr pivot_wider
 calc_vehicle_occupancy <- function(tb,
                                    .tb_vmt,
@@ -117,39 +136,48 @@ calc_vehicle_occupancy <- function(tb,
       values_from = value
     ) %>%
     select(mode,
-      year,
-      ctu,
-      aeo_mode,
-      type,
-      mode_totstock = TotStock,
-      mode_stock = !!rlang::sym(.stock),
-      mode_avo = AVO
+           year,
+           ctu,
+           aeo_mode,
+           type,
+           mode_totstock = TotStock,
+           mode_stock = !!rlang::sym(.stock),
+           mode_avo = AVO
     )
 
 
-  if (.mode == "PLDV") {
+  if (.mode == "PLDV" | .mode == "AV") {
     pldv_occupancy <- transportation_data$passenger %>%
       filter(
-        mode == "PLDV",
+        mode == .mode,
         var == "AVO"
       ) %>%
       select(year, ctu,
-        occupancy_adj = value
+             occupancy_adj = value
       )
     return(pldv_occupancy)
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo * (1 + (.transit_avo / 100)) * (mode_stock / mode_totstock)) %>%
       select(ctu, year, occupancy_adj)
 
     return(occ_return)
-  } else if (.mode == "AV") {
 
+  } else if(.mode == "BS" | .mode == "FR" | .mode == "SUT" | .mode == "CUT"){
+
+    occ_return <- tb_mode_totstock %>%
+      left_join(tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
+      mutate(occupancy_adj = mode_avo * (mode_stock / mode_totstock)) %>%
+      select(ctu, year, occupancy_adj)
+
+    return(occ_return)
   }
+
 }
 
 #' Calculate dynamic ride sharing effect
@@ -166,7 +194,49 @@ calc_vehicle_occupancy <- function(tb,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel measured in kilowatt hours per mile
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-calc_dynamic_ride_sharing <- function() {
+#'
+#' @family VMT effects
+calc_drs_reduction <- function(.tb_vmt,
+                               .mode,
+                               .variable,
+                               .drs_pct) {
+
+  if (.drs_pct > 0) {
+    browser()
+
+    drs_share <- transportation_data$passenger %>%
+      filter(var == "DRSShare") %>%
+      select(year,
+             drs_share_val = value)
+
+
+    .tb_vmt %>%
+      left_join(drs_share) %>%
+      mutate(miles_traveled = miles_traveled *
+               (1 - drs_share_val) * .drs_pct/100) %>%
+      return()
+
+
+
+    # pass_transpo <- pass_transpo %>%
+    #   dplyr::mutate(
+    #     dplyr::across(
+    #       all_of(YRS), ~ dplyr::case_when(
+    #         ((mode == "PLDV") & var == "PMT") ~ .x * dplyr::case_when(
+    #              .drs_pct > 0 ~ (1 - pass_transpo %>%
+    #                                dplyr::filter(var == "DRSShare") %>%
+    #                                dplyr::select(dplyr::cur_column()) %>%
+    #                                as.numeric() * .drs_pct / 100),
+    #              TRUE ~ 1
+    #            ),
+    #         TRUE ~ .x
+    #       )
+    #     )
+    #   )
+  } else {
+    return(.tb_vmt)
+  }
+
 
 }
 
@@ -186,7 +256,7 @@ calc_dynamic_ride_sharing <- function() {
 #'
 #'     In the case of electric vehicles, \eqn{FF} is measured in kWh of electricity consumed per mile and
 #'     \eqn{GF} depends on the GHG intensity of the electricity grid.
-#'
+#' @family VMT effects
 calc_road_pricing <- function() {
 
 
@@ -219,7 +289,7 @@ calc_road_pricing <- function() {
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-#'
+#' @family VMT effects
 #' @importFrom tidyr pivot_wider
 calc_parking_policy <- function(.mode,
                                 .parking_price) {
@@ -244,8 +314,8 @@ calc_parking_policy <- function(.mode,
   if (.mode == "PLDV") {
     pldv_si_parking %>%
       left_join(elast %>%
-        select(year, park_elast),
-      by = "year"
+                  select(year, park_elast),
+                by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -255,14 +325,14 @@ calc_parking_policy <- function(.mode,
       select(year, ctu, park_price_adj) %>%
       return()
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+
     pldv_si_parking %>%
       left_join(elast_cross %>%
-        select(year, park_transit),
-      by = "year"
-      ) %>%
+                  select(year, park_transit),
+                by = "year") %>%
       mutate(
         park_price_adj =
           1 + (.parking_price / PARK * park_transit)
@@ -270,6 +340,32 @@ calc_parking_policy <- function(.mode,
       select(year, ctu, park_price_adj) %>%
       return()
   } else if (.mode == "AV") {
+
+    pldv_si_parking %>%
+      left_join(elast %>%
+                  select(year, park_elast),
+                by = "year")  %>%
+      mutate(park_price_adj = 1 + (.parking_price / PARK * park_elast)) %>%
+      select(year, ctu, park_price_adj) %>%
+      return()
+
+  } else if(.mode == "SUT"){
+
+    tb_park <- transportation_data$freight %>% # note the freight data usage
+      dplyr::filter(var == "PARK",
+                    mode == .mode) %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      )
+
+
+    park_adj <- tb_park %>%
+      left_join(elast %>%
+                  select(year, park_elast)) %>%
+      mutate(park_price_adj = 1 + (.parking_price/(PARK * park_elast))) %>%
+      select(year, ctu, park_price_adj) %>%
+      return()
 
   }
 }
@@ -291,6 +387,9 @@ calc_parking_policy <- function(.mode,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{LUF} is the land use elasticity factor.
+#'
+#'
+#' @family VMT effects
 calc_land_use_change <- function(.mode,
                                  .type,
                                  .comb_5d_impact_pct_change,
@@ -320,15 +419,15 @@ calc_land_use_change <- function(.mode,
     mutate(
       product_all =
         .data$population_density *
-          .data$employment_density *
-          .data$diversity *
-          .data$design *
-          .data$job_access *
-          .data$distance *
-          .data$combined_density,
+        .data$employment_density *
+        .data$diversity *
+        .data$design *
+        .data$job_access *
+        .data$distance *
+        .data$combined_density,
       land_use_adj = ifelse(.comb_5d_impact_pct_change < MAX_5D_TRANS,
-        1 + MAX_5D_TRANS,
-        product_all
+                            1 + MAX_5D_TRANS,
+                            product_all
       )
     ) %>%
     select(year, land_use_adj)
@@ -341,6 +440,7 @@ calc_land_use_change <- function(.mode,
 #'
 #' @return a table with columns `AEOScen`, `Metric`, `Mode`, `year`, and `aeo_adj`.
 #' @export
+#' @family VMT effects
 #' @importFrom tidyr pivot_wider
 calc_annual_energy_outlook <- function(tb,
                                        .mode,
@@ -361,7 +461,7 @@ calc_annual_energy_outlook <- function(tb,
       Mode == unique(tb_fin$aeo_mode)
     ) %>%
     select(everything(),
-      aeo_adj = value
+           aeo_adj = value
     )
   return(aeo_vals)
 }
@@ -370,25 +470,26 @@ calc_annual_energy_outlook <- function(tb,
 #'
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
-#'
+#' @family VMT effects
 calc_transit_ridership <- function(.tb_vmt,
                                    .mode,
                                    .transit_rider_pct) {
   # browser()
-  if (.mode == "PLDV") {
+  if (.mode == "PLDV" | .mode == "AV") {
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = .transit_rider_pct / 100 * PLDV_TRANSIT_RATIO) %>%
       return()
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = 1 + .transit_rider_pct / 100) %>%
       return()
   } else if (.mode == "AV") {
+
 
   }
 }
@@ -399,15 +500,17 @@ calc_transit_ridership <- function(.tb_vmt,
 #' @return a table with columns   `year`, `ctu`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adjust`, `cong_adjust`, `cross_vmt`, `gas_adj`
 #' @export
-#'
+#' @family VMT effects
 calc_vehicle_fuel <- function(.mode,
                               .tb_vmt,
                               .tb_fuel_cost_mile,
                               .vmt_fee,
+                              .freight_vmt_fee = 0,
                               .cong_price,
                               .gas_tax,
                               .payd_fee,
-                              .stock) {
+                              .stock,
+                              ch_phev = 0) {
   # browser()
   if (.mode == "PLDV") {
     ev_multiplier <- ifelse(.stock %in% c(
@@ -435,12 +538,13 @@ calc_vehicle_fuel <- function(.mode,
         vmt_fee_adjust, cong_adjust, cross_vmt, gas_adj
       )
 
-
     return(fc_return)
+
   } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+             (.mode == "BRT") |
+             (.mode == "RU") |
+             (.mode == "RI")) {
+
     elast_vmt <- elast_cross %>%
       select(year, vmt_elas = vmt_cross)
 
@@ -467,6 +571,59 @@ calc_vehicle_fuel <- function(.mode,
 
     return(fc_return)
   } else if (.mode == "AV") {
+
+    ev_multiplier <- if(.stock %in% c(
+      "SIStock",
+      "CIStock",
+      "HEVStock",
+      "PHEVStock") & ch_phev == 1) {
+      1
+    } else {
+      0 }
+
+
+    fc_return <- .tb_fuel_cost_mile %>%
+      select(-ctu) %>%
+      left_join(elast, by = "year") %>%
+      left_join(.tb_vmt, by = c("year", "mode")) %>%
+      mutate(
+        fuel_time_cost_mile = fuel_cost_mile + TIME_COST_MI,
+        payd_ins_adj = .payd_fee / INS_COST_MI,
+        vmt_fee_adjust = 1 + ((.vmt_fee / fuel_time_cost_mile) + payd_ins_adj) * vmt_elast,
+        cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * CONG_VMT * cong_elast,
+        cross_vmt = vmt_cross,
+        gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
+      ) %>%
+      select(
+        year, ctu, fuel_time_cost_mile, payd_ins_adj,
+        vmt_fee_adjust, cong_adjust, cross_vmt, gas_adj
+      )
+
+  } else if(.mode == "SUT"){
+
+
+    fc_return <- .tb_fuel_cost_mile %>%
+      left_join(elast %>%
+                  select(year, freight_vmt_elast)) %>%
+      mutate(fuel_time_cost_mile = fuel_cost_mile + F_TIME_COST_MI,
+             vmt_fee_adj = 1 + ((.freight_vmt_fee/fuel_time_cost_mile) * freight_vmt_elast * F_FRACT)) %>%
+      select(year, ctu, vmt_fee_adj)
+
+    return(fc_return)
+
+
+  } else if(.mode == "CUT"){
+
+    fc_return <- .tb_fuel_cost_mile %>%
+      left_join(elast %>%
+                  select(year, freight_vmt_elast)) %>%
+      mutate(fuel_time_cost_mile = fuel_cost_mile + F_TIME_COST_MI,
+             vmt_fee_adj = 1 + ((.freight_vmt_fee/fuel_time_cost_mile) * freight_vmt_elast)) %>%
+      select(year, ctu, vmt_fee_adj)
+
+    return(fc_return)
+
+
 
   }
 }
