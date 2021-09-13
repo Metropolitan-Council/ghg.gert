@@ -532,6 +532,24 @@ calc_vehicle_fuel <- function(.mode,
     (.mode == "BRT") |
     (.mode == "RU") |
     (.mode == "RI")) {
+
+    pldv_stocks <- transportation_data$passenger %>%
+      filter(
+        mode == "PLDV",
+        var %in% c(
+          "SIStock",
+          "CIStock",
+          "HEVStock",
+          "TotStock"
+        )
+      ) %>%
+      unique() %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value,
+      )
+
+
     elast_vmt <- elast_cross %>%
       select(year, vmt_elas = vmt_cross)
 
