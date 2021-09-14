@@ -48,6 +48,7 @@ calc_freight_rail <- function(.scenario = "BAU",
   class <- "CI"
   message("Freight rail, diesel")
 
+  # browser()
   ci_vmt <-
     calc_vmt_forecast(
       .scenario, transportation_data$freight,
@@ -104,7 +105,7 @@ calc_freight_rail <- function(.scenario = "BAU",
 
   dir_ghg_all <- dplyr::bind_rows(
     ci_ghg,
-    ev_vmt
+    ev_ghg
   )
 
 
