@@ -36,7 +36,16 @@ calc_fuel_use <- function(tb_vmt,
       AEOScen == .aeo_scenario,
       Mode == tb_l$aeo_mode
     ) %>%
-    mutate(aeo_factor = value)
+    select(year,
+      aeo_factor = value
+    )
+
+  if (nrow(aeo_f_l) == 0) {
+    aeo_f_l <- tibble(
+      year = tb_l$year,
+      aeo_factor = 1
+    )
+  }
 
 
   tb_aeo <- left_join(tb_l,
@@ -45,8 +54,13 @@ calc_fuel_use <- function(tb_vmt,
   ) %>%
     mutate(fuel_factor = !!
     rlang::sym(.miles_per_gallon) * aeo_factor * av_multiplier) %>%
-    select(-value)
-
+    select(
+      mode,
+      year,
+      fuel_factor,
+      aeo_mode
+    )
+  # browser()
 
   fuel_use <- left_join(tb_vmt,
     tb_aeo,
@@ -57,7 +71,7 @@ calc_fuel_use <- function(tb_vmt,
       # type,
       scenario,
       mode,
-      ctu = ctu.x,
+      ctu,
       year,
       aeo_mode,
       class,

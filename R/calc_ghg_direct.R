@@ -26,7 +26,10 @@ calc_ghg_direct <- function(tb_vmt,
 
 
   ghg_factors_current <- factor_values$ghg %>%
-    dplyr::filter(source == .fuel_type)
+    dplyr::filter(source == .fuel_type) %>%
+    dplyr::select(source, year,
+      ghg_factor = value
+    )
 
 
   aeo_factors_current <- factor_values$aeo %>%
@@ -34,13 +37,22 @@ calc_ghg_direct <- function(tb_vmt,
       Metric == "MPG",
       AEOScen == .aeo_scenario,
       Mode == unique(tb_vmt$aeo_mode)
-    )
+    ) %>%
+    select(AEOScen, Metric, Mode, year, aeo_factor = value)
 
+
+  # if there isn't an AEO miles per gallon value for the given mode,
+  # use a value of 1
+  if (nrow(aeo_factors_current) == 0) {
+    aeo_factors_current <- tibble(
+      year = ghg_factors_current$year,
+      aeo_factor = 1
+    )
+  }
 
   aeo_ghg <- dplyr::left_join(ghg_factors_current,
     aeo_factors_current,
-    by = c("year"),
-    suffix = c(".ghg_factor", ".aeo_factor")
+    by = c("year")
   )
 
   tb_current <- tb %>%
@@ -53,9 +65,16 @@ calc_ghg_direct <- function(tb_vmt,
         .is_av == 1 ~ MPG_AV,
         TRUE ~ 1
       ),
-      value.mpg = value
+      val_mpg = value
     ) %>%
-    select(-value)
+    select(
+      year,
+      ctu,
+      val_mpg,
+      av_multiplier,
+      mode,
+      aeo_mode
+    )
 
 
   tb_aeo_ghg <- dplyr::left_join(tb_current,
@@ -63,20 +82,22 @@ calc_ghg_direct <- function(tb_vmt,
     by = c("year")
   ) %>%
     # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
-    dplyr::mutate(value.mpg_aeo = value.mpg * value.aeo_factor * av_multiplier)
+    dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor * av_multiplier)
 
 
   ghg <- dplyr::left_join(tb_vmt,
     tb_aeo_ghg,
-    by = c("mode", "year", "aeo_mode")
+    by = c("mode", "year", "aeo_mode"),
+    suffix = c(".vmt", ".aeo_ghg")
   ) %>%
-    dplyr::mutate(dir_ghg = (vmt / value.mpg_aeo) * value.ghg_factor) %>%
+    dplyr::mutate(dir_ghg = (vmt / val_mpg_aeo) * ghg_factor) %>%
     dplyr::select(
       # type,
+      # source,
       scenario,
       mode,
       class,
-      ctu = ctu,
+      ctu = ctu.vmt,
       year,
       # AEOScen,
       aeo_mode,

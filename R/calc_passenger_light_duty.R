@@ -61,14 +61,15 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   mpg <- "SIMPG"
   class <- "SI"
 
+  # browser()
   message("Passenger vehicles, gasoline")
 
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
+  si_fcm <- calc_fuel_cost_mile(
     transportation_data$passenger,
     mode,
     .aeo_scenario,
-    mpg,
+    .miles_per_gallon = "SIMPG",
     SI_FUEL_COST_GAL
   )
 
@@ -76,9 +77,9 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     .scenario = .scenario,
     tb = transportation_data$passenger,
     .mode = mode,
-    .stock = stock,
+    .stock = "SIStock",
     .variable = var,
-    .tb_fuel_cost_mile = fcm,
+    .tb_fuel_cost_mile = si_fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
@@ -143,19 +144,21 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   message("Passenger vehicles, diesel")
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
-    mode, .aeo_scenario,
-    mpg, CI_FUEL_COST_GAL
+  ci_fcm <- calc_fuel_cost_mile(
+    tb = transportation_data$passenger,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = "CIMPG",
+    .fuel_cost_gallon = CI_FUEL_COST_GAL
   )
 
   ci_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
     tb = transportation_data$passenger,
     .mode = mode,
-    .stock = stock,
+    .stock = "CIStock",
     .variable = var,
-    .tb_fuel_cost_mile = fcm,
+    .tb_fuel_cost_mile = ci_fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
@@ -182,31 +185,42 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   ci_dir_ghg <-
     calc_ghg_direct(
-      ci_vmt,
-      transportation_data$passenger,
-      mode,
-      "CI",
-      .aeo_scenario,
-      mpg
+      tb_vmt = ci_vmt,
+      tb = transportation_data$passenger,
+      .mode = mode,
+      .fuel_type = "CI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = "CIMPG"
     )
 
 
   ci_fuel <-
     calc_fuel_use(
-      ci_vmt, transportation_data$passenger,
-      mode, "CI", .aeo_scenario, mpg
+      tb_vmt = ci_vmt,
+      tb = transportation_data$passenger,
+      .mode = mode,
+      .fuel_type = "CI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = "CIMPG"
     )
 
 
   ci_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "CISales", "CI-EMB"
+      tb = transportation_data$passenger,
+      .mode = mode,
+      .sales_mode = "CISales",
+      .fuel_type = "CI-EMB",
+      .class = "P"
     )
 
 
   ci_cost <-
-    calc_cost(ci_vmt, mode, "CIPrice")
+    calc_cost(
+      tb_vmt = ci_vmt,
+      .mode = mode,
+      .price = "CIPrice"
+    )
 
 
   ## HEV (Hybrid electric vehicle)----
@@ -380,7 +394,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
       ),
     c(
       "scenario", "mode", "ctu", "class",
-      "year", "aeo_mode", "type"
+      "year", "aeo_mode"
     )
   ) %>%
     rowwise() %>%

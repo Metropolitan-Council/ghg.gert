@@ -15,30 +15,41 @@ calc_fuel_cost_mile <- function(tb,
                                 .fuel_cost_gallon,
                                 .av_pct = 0) {
   # browser()
-
   tb_l <- tb %>%
-    dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
+    dplyr::filter(
+      mode == .mode,
+      var == .miles_per_gallon
+    ) %>%
     mutate(av_multiplier = dplyr::case_when(
       .av_pct == 1 ~ MPG_AV,
       TRUE ~ 1
-    ))
+    )) %>%
+    select(mode,
+      year,
+      fuel_mpg = var,
+      aeo_mode,
+      av_multiplier,
+      val_mpg = value
+    )
 
 
   aeo_f_l <- factor_values$aeo %>%
     dplyr::filter(
       Metric == "MPG",
       AEOScen == .aeo_scenario,
-      Mode == tb_l$aeo_mode
+      Mode == unique(tb_l$aeo_mode)
+    ) %>%
+    select(everything(),
+      aeo_val = value
     )
-
 
   re <- left_join(tb_l, aeo_f_l,
     by = "year",
     suffix = c(".tb", ".aeo")
   ) %>%
     mutate(fuel_cost_mile = .fuel_cost_gallon /
-      (value.tb * value.aeo * av_multiplier)) %>%
-    select(year, mode, var, ctu, fuel_cost_mile)
+      (val_mpg * aeo_val * av_multiplier)) %>%
+    select(year, mode, fuel_mpg, fuel_cost_mile)
 
   return(re)
 }
