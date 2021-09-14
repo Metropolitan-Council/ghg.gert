@@ -69,11 +69,6 @@ scenario_results <- function(.scenario = "BAU",
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
   # 4. Calculate VMT with `calc`
 
-  type <- "P"
-  # For all passenger modes, variable = PMT
-  var <- "PMT"
-  mode <- "PLDV"
-
   # passenger light-duty -----
   passenger_light_duty <- calc_passenger_light_duty(
     .scenario = .scenario,
@@ -103,15 +98,6 @@ scenario_results <- function(.scenario = "BAU",
     .mit_bau_summary = .mit_bau_summary
   )
 
-  # browser()
-  # Caculate a fuel cost for use in DRS and transit calculations. Use gasoline PLDV value.
-  mpg <- "SIMPG"
-  # Calculate a fuel cost per mile rather than per gallon
-
-  fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger, mode,
-    .aeo_scenario, mpg, SI_FUEL_COST_GAL
-  )
 
   # transit buses -----
   bus_transit <- calc_bus_transit(
@@ -297,10 +283,6 @@ scenario_results <- function(.scenario = "BAU",
 
   # Freight -------------------------------
   # (measured in ton-miles NOT miles)
-  type <- "F"
-  # For all freight, var = TMT
-  var <- "TMT"
-
 
   # freight truck ------
   freight_truck <- calc_freight_truck(
@@ -393,23 +375,24 @@ scenario_results <- function(.scenario = "BAU",
     .mit_bau_summary = .mit_bau_summary
   )
 
+  # Finish up -----
 
   passenger <- list(
-    passenger_light_duty,
-    rail_transit,
-    bus_transit,
-    walk_bike,
-    school_bus,
-    auto_veh
+    PLDV = passenger_light_duty,
+    RAIL = rail_transit,
+    BU_BRT = bus_transit,
+    WALK_BIKE = walk_bike,
+    BS = school_bus,
+    AV = auto_veh
   )
 
   freight <- list(
-    freight_multi_air_wat,
-    freight_rail,
-    freight_truck
+    AIR_WAT_MM = freight_multi_air_wat,
+    FRAIL = freight_rail,
+    SUT_CUT = freight_truck
   )
 
-  browser()
+  # browser()
 
 
   return(
