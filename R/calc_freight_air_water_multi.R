@@ -41,7 +41,7 @@ calc_freight_air_water_multi <- function(.scenario = "BAU",
   type <- "F"
   # For all freight, var = TMT
   var <- "TMT"
-
+  # browser()
   mode <- "MM"
 
   ## CI -----

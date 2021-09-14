@@ -46,7 +46,6 @@ calc_school_bus <- function(.scenario = "BAU",
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
-  mode <- "PLDV"
 
 
   # School Bus-----

@@ -45,10 +45,11 @@ calc_rail_transit <- function(.scenario = "BAU",
     SI_FUEL_COST_GAL
   )
 
+  # browser()
+
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
-  mode <- "PLDV"
 
   ## EV Rail -----
   mode <- "RU"
