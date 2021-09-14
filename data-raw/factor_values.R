@@ -13,7 +13,9 @@ aeo_long <- aeo %>%
     `2015`, `2018`, `2020`,
     `2025`, `2030`, `2035`,
     `2040`, `2045`, `2050`
-  ), names_to = "year")
+  ), names_to = "year") %>%
+  ungroup()
+
 
 
 cost_long <- cost %>%
@@ -22,16 +24,19 @@ cost_long <- cost %>%
     `2015`, `2018`, `2020`,
     `2025`, `2030`, `2035`,
     `2040`, `2045`, `2050`
-  ), names_to = "year")
+  ), names_to = "year") %>%
+  ungroup()
 
 
 ghg_long <- ghg %>%
-  group_by(source, ctu) %>%
+  group_by(source) %>%
   pivot_longer(cols = c(
     `2015`, `2018`, `2020`,
     `2025`, `2030`, `2035`,
     `2040`, `2045`, `2050`
-  ), names_to = "year")
+  ), names_to = "year") %>%
+  select(-ctu) %>%
+  ungroup()
 
 
 

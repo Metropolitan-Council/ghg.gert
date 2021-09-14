@@ -58,7 +58,8 @@ freight_transpo_long <- freight_transpo %>%
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
     type = "F"
-  )
+  ) %>%
+  ungroup()
 
 
 transportation_data <- list(
@@ -67,5 +68,3 @@ transportation_data <- list(
 )
 
 usethis::use_data(transportation_data, overwrite = TRUE)
-
-
