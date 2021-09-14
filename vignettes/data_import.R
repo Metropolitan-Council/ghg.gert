@@ -8,13 +8,13 @@ pass_transpo <- arrange(pass_transpo, ctu)
 freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv")
 
 # Cost inputs (not available for all modes)
-cost_factors <- read_csv("data-raw/cost_factor_dat.csv")
+cost_factors <- read_csv("data-raw/factors/cost_factor_dat.csv")
 
 # GHG factor inputs
-ghg_factors <- read_csv("data-raw/ghg_factor_dat.csv")
+ghg_factors <- read_csv("data-raw/factors/ghg_factor_dat.csv")
 
 # Annual Energy Outlook inputs for specification of alternative macroeconomic future sensitivity
-aeo_factors <- read_csv("data-raw/aeo_factor_dat.csv")
+aeo_factors <- read_csv("data-raw/factors/aeo_factor_dat.csv")
 
 # Remove columns that aren't used due to forecast horizon (only if not using full set of available years)
 pass_transpo <- subset(pass_transpo, select = -c(`2045`, `2050`))
