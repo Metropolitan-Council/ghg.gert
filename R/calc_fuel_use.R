@@ -28,6 +28,10 @@ calc_fuel_use <- function(tb_vmt,
     tidyr::pivot_wider(
       names_from = var,
       values_from = value
+    ) %>%
+    select(mode, year, aeo_mode, av_multiplier,
+      per_gallon_val = !!
+      rlang::sym(.miles_per_gallon)
     )
 
 
@@ -53,8 +57,7 @@ calc_fuel_use <- function(tb_vmt,
     aeo_f_l,
     by = c("year")
   ) %>%
-    mutate(fuel_factor = !!
-    rlang::sym(.miles_per_gallon) * aeo_factor * av_multiplier) %>%
+    mutate(fuel_factor = per_gallon_val * aeo_factor * av_multiplier) %>%
     select(
       mode,
       year,
@@ -75,7 +78,6 @@ calc_fuel_use <- function(tb_vmt,
       ctu,
       year,
       aeo_mode,
-      class,
       fuel_use
     )
 

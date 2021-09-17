@@ -25,7 +25,10 @@ vmt_annual_energy_outlook <- function(tb,
       metric == "VMT",
       mode == unique(tb_fin$aeo_mode)
     ) %>%
-    select(everything(),
+    select(
+      year,
+      metric,
+      # everything(),
       aeo_adj = value
     )
   return(aeo_vals)
@@ -530,7 +533,8 @@ vmt_transit_ridership <- function(.tb_vmt,
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = .transit_rider_pct / 100 * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
-      return()
+      select(year, ctu, transit_adj)
+    return()
   } else if ((.mode == "BU") |
     (.mode == "BRT") |
     (.mode == "RU") |
@@ -538,10 +542,8 @@ vmt_transit_ridership <- function(.tb_vmt,
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = 1 + .transit_rider_pct / 100) %>%
+      select(year, ctu, transit_adj) %>%
       return()
-  } else if (.mode == "AV") {
-
-
   }
 }
 
@@ -561,6 +563,7 @@ vmt_transit_ridership <- function(.tb_vmt,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
+#' @importFrom dplyr right_join
 vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
@@ -618,7 +621,9 @@ vmt_vehicle_occupancy <- function(tb,
       tb_mode_totstock <- tb_mode_totstock %>%
         filter(!is.na(mode_avo)) %>%
         select(mode, year, aeo_mode, type, mode_avo) %>%
-        right_join(tb_mode_totstock_ctu, by = c("mode", "year", "aeo_mode", "type"))
+        dplyr::right_join(tb_mode_totstock_ctu,
+          by = c("mode", "year", "aeo_mode", "type")
+        )
     }
 
 
@@ -645,7 +650,7 @@ vmt_vehicle_occupancy <- function(tb,
       tb_mode_totstock <- tb_mode_totstock %>%
         filter(!is.na(mode_avo)) %>%
         select(mode, year, aeo_mode, type, mode_avo) %>%
-        right_join(tb_mode_totstock_ctu, by = c("mode", "year", "aeo_mode", "type"))
+        dplyr::right_join(tb_mode_totstock_ctu, by = c("mode", "year", "aeo_mode", "type"))
     }
 
 

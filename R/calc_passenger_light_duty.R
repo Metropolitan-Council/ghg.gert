@@ -395,12 +395,16 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
         vmt_gas = vmt
       ),
     c(
-      "scenario", "mode", "ctu", "class",
+      "type", "stock", "class",
+      "scenario", "mode", "ctu",
       "year", "aeo_mode"
     )
   ) %>%
     rowwise() %>%
-    mutate(vmt = sum(vmt_electric, vmt_gas)) %>%
+    mutate(
+      vmt = sum(vmt_electric, vmt_gas),
+      class = class
+    ) %>%
     select(
       -vmt_electric,
       -vmt_gas
@@ -441,8 +445,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     phev_ghg_gas, phev_ghg_electric,
     c(
       "scenario", "mode", "ctu",
-      "class",
-      "year", "aeo_mode"
+      "year", "aeo_mode", "class"
     )
   ) %>%
     mutate(dir_ghg = sum(dir_ghg_electric, dir_ghg_gas)) %>%
@@ -469,7 +472,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
       ),
     c(
       "scenario", "mode", "ctu", "year",
-      "aeo_mode", "class"
+      "aeo_mode"
     )
   ) %>%
     rowwise() %>%

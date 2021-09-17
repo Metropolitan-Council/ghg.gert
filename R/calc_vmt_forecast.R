@@ -39,7 +39,7 @@
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
-#'     with `vmt` in hundred thousands miles for passenger or ton-miles for freight.
+#'     with `vmt` in thousands
 #' @export
 #' @family transportation
 #'
@@ -750,7 +750,7 @@ calc_vmt_forecast <- function(.scenario,
         scenario = .scenario,
         stock = .stock,
         mode_stock_proportion = mode_stock / totstock,
-        vmt = miles_traveled * aeo_adj * 1 / (mode_avo * mode_stock_proportion),
+        vmt = (miles_traveled * aeo_adj) / mode_avo * (mode_stock / totstock),
         vmt = case_when(
           vmt == Inf | is.na(vmt) ~ 0,
           TRUE ~ vmt
@@ -761,9 +761,5 @@ calc_vmt_forecast <- function(.scenario,
   }
 
   # final return -----
-  return(
-    tb_fin %>%
-      mutate(vmt = vmt / 10^5) # Change thousands of miles/ton-miles to hundreds millions of miles/ton-miles
-
-  )
+  return(tb_fin)
 }

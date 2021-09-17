@@ -24,6 +24,7 @@ pass_transpo_long <- pass_transpo %>%
       mode == "SUT" ~ "MDT",
       mode == "CUT" ~ "HDT",
       mode == "FR" ~ "FRAIL",
+      mode == "BS" ~ "BUS",
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
     type = "P"

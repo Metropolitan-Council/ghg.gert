@@ -50,7 +50,11 @@ calc_fuel_cost_mile <- function(tb,
   ) %>%
     mutate(fuel_cost_mile = .fuel_cost_gallon /
       (val_mpg * aeo_val * av_multiplier)) %>%
-    select(year, mode, fuel_mpg, fuel_cost_mile)
+    select(year,
+      mode = mode.tb,
+      fuel_mpg,
+      fuel_cost_mile
+    )
 
   return(re)
 }
