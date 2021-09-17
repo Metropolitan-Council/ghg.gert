@@ -1,0 +1,32 @@
+---
+title: "transportation_scenario"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{transportation_scenario}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ghg.sp)
+```
+
+
+```{r}
+library(ghg.sp)
+source("vignettes/data_import.R")
+source("vignettes/global_constants.R")
+source("data-raw/elasticity.R")
+
+scen <- "BAU"
+bau_summary <- scenario_results(scen, elec_scen, aeo_scen, ch_ctu)
+
+```
+
