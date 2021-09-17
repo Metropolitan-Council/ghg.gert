@@ -283,9 +283,9 @@ vmt_parking_policy <- function(.mode,
              (.mode == "RU") |
              (.mode == "RI")) {
     pldv_si_parking %>%
-      left_join(elast_cross %>%
-                  select(year, park_transit),
-                by = "year"
+      left_join(elast %>%
+        select(year, park_transit),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -357,7 +357,6 @@ vmt_road_policy <- function(.mode,
 
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast, by = "year") %>%
-      left_join(elast_cross, by = "year") %>%
       left_join(.tb_vmt, by = c("year", "mode")) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -394,7 +393,7 @@ vmt_road_policy <- function(.mode,
       )
 
 
-    elast_vmt <- elast_cross %>%
+    elast_vmt <- elast %>%
       select(year, vmt_elas = vmt_cross)
 
     fc_return <- .tb_fuel_cost_mile %>%
@@ -451,8 +450,8 @@ vmt_road_policy <- function(.mode,
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-                  select(year, freight_vmt_elast),
-                by = "year"
+        select(year, freight_vmt_elast),
+      by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + F_.enviro_factors$TIME_COST_MI,
@@ -465,8 +464,8 @@ vmt_road_policy <- function(.mode,
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-                  select(year, freight_vmt_elast),
-                by = "year"
+        select(year, freight_vmt_elast),
+      by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + F_.enviro_factors$TIME_COST_MI,

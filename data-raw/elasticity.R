@@ -114,11 +114,7 @@ elast <- tibble(
   cong_elast = ELAST_CONG,
   park_elast = ELAST_PARK,
   freight_vmt_elast = ELAST_FVMT,
-  vehicle_ownership_elast = ELAST_OWN_PRICE
-)
-
-elast_cross <- tibble(
-  year = unique(transportation_data$passenger$year),
+  vehicle_ownership_elast = ELAST_OWN_PRICE,
   vmt_cross = CROSS_VMT,
   park_active = CROSS_PARK_ACTIVE,
   park_transit = CROSS_PARK_TRANSIT
@@ -171,4 +167,3 @@ elast_5d <- bind_rows(
 # save all -----
 usethis::use_data(elast_5d, overwrite = T)
 usethis::use_data(elast, overwrite = T)
-usethis::use_data(elast_cross, overwrite = T)
