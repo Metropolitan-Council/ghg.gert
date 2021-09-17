@@ -34,10 +34,11 @@ cost_long <- cost %>%
   ), names_to = "year") %>%
   ungroup() %>%
   select(mode,
-         var,
-         is_av = AV,
-         year,
-         value)
+    var,
+    is_av = AV,
+    year,
+    value
+  )
 
 
 ghg_long <- ghg %>%

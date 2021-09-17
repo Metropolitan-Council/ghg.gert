@@ -66,5 +66,3 @@ usethis::use_data(enviro_factors, overwrite = TRUE)
 #
 # MPG_AV <- 0.85 # 15% reduction in consumption of fuel with AV based on Forecasting the Impact of Connected and Automated Vehicles on Energy
 # # Use: A Microeconomic Study of Induced Travel and Energy Rebound Morteza Taiebata,b, Samuel Stolpera, Ming Xua,b
-
-

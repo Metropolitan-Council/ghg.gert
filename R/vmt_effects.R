@@ -7,9 +7,9 @@
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
 vmt_annual_energy_outlook <- function(tb,
-                                       .mode,
-                                       .aeo_scenario,
-                                       .enviro_factors = enviro_factors) {
+                                      .mode,
+                                      .aeo_scenario,
+                                      .enviro_factors = enviro_factors) {
   # browser()
   tb_fin <- tb %>%
     filter(mode == .mode) %>%
@@ -49,9 +49,9 @@ vmt_annual_energy_outlook <- function(tb,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 vmt_autonomous_vehicle <- function(.tb_vmt,
-                           .av_pct,
-                           .mode,
-                           .enviro_factors = enviro_factors) {
+                                   .av_pct,
+                                   .mode,
+                                   .enviro_factors = enviro_factors) {
   # browser()
 
 
@@ -109,24 +109,24 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
 #'
 #' @family VMT effects
 vmt_dynamic_ride_share_reduction <- function(.tb_vmt,
-                               .mode,
-                               .variable,
-                               .drs_pct,
-                               .enviro_factors = enviro_factors) {
+                                             .mode,
+                                             .variable,
+                                             .drs_pct,
+                                             .enviro_factors = enviro_factors) {
   if (.drs_pct > 0) {
     browser()
 
     drs_share <- transportation_data$passenger %>%
       filter(var == "DRSShare") %>%
       select(year,
-             drs_share_val = value
+        drs_share_val = value
       )
 
 
     .tb_vmt %>%
       left_join(drs_share, by = "year") %>%
       mutate(miles_traveled = miles_traveled *
-               (1 - drs_share_val) * .drs_pct / 100) %>%
+        (1 - drs_share_val) * .drs_pct / 100) %>%
       return()
 
 
@@ -171,15 +171,15 @@ vmt_dynamic_ride_share_reduction <- function(.tb_vmt,
 #'
 #' @family VMT effects
 vmt_land_use_change <- function(.mode,
-                                 .type,
-                                 .comb_5d_impact_pct_change,
-                                 .pop_dens_pct_change,
-                                 .emp_dens_pct_change,
-                                 .land_use_pct_change,
-                                 .intersection_design_pct_change,
-                                 .job_access_pct_change,
-                                 .transit_dist_pct_change,
-                                 .enviro_factors = enviro_factors) {
+                                .type,
+                                .comb_5d_impact_pct_change,
+                                .pop_dens_pct_change,
+                                .emp_dens_pct_change,
+                                .land_use_pct_change,
+                                .intersection_design_pct_change,
+                                .job_access_pct_change,
+                                .transit_dist_pct_change,
+                                .enviro_factors = enviro_factors) {
   # browser()
 
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
@@ -200,15 +200,15 @@ vmt_land_use_change <- function(.mode,
     mutate(
       product_all =
         .data$population_density *
-        .data$employment_density *
-        .data$diversity *
-        .data$design *
-        .data$job_access *
-        .data$distance *
-        .data$combined_density,
+          .data$employment_density *
+          .data$diversity *
+          .data$design *
+          .data$job_access *
+          .data$distance *
+          .data$combined_density,
       land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_TRANS,
-                            1 + .enviro_factors$MAX_5D_TRANS,
-                            product_all
+        1 + .enviro_factors$MAX_5D_TRANS,
+        product_all
       )
     ) %>%
     select(year, land_use_adj)
@@ -245,8 +245,8 @@ vmt_land_use_change <- function(.mode,
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
 vmt_parking_policy <- function(.mode,
-                                .parking_price,
-                                .enviro_factors = enviro_factors) {
+                               .parking_price,
+                               .enviro_factors = enviro_factors) {
   # browser()
 
 
@@ -268,8 +268,8 @@ vmt_parking_policy <- function(.mode,
   if (.mode == "PLDV") {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -279,9 +279,9 @@ vmt_parking_policy <- function(.mode,
       select(year, ctu, park_price_adj) %>%
       return()
   } else if ((.mode == "BU") |
-             (.mode == "BRT") |
-             (.mode == "RU") |
-             (.mode == "RI")) {
+    (.mode == "BRT") |
+    (.mode == "RU") |
+    (.mode == "RI")) {
     pldv_si_parking %>%
       left_join(elast %>%
         select(year, park_transit),
@@ -296,8 +296,8 @@ vmt_parking_policy <- function(.mode,
   } else if (.mode == "AV") {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(park_price_adj = 1 + (.parking_price / PARK * park_elast)) %>%
       select(year, ctu, park_price_adj) %>%
@@ -320,7 +320,7 @@ vmt_parking_policy <- function(.mode,
 
     park_adj <- tb_park %>%
       left_join(elast %>%
-                  select(year, park_elast), by = "year") %>%
+        select(year, park_elast), by = "year") %>%
       mutate(park_price_adj = 1 + (.parking_price / (PARK * park_elast))) %>%
       select(year, ctu, park_price_adj) %>%
       return()
@@ -373,9 +373,9 @@ vmt_road_policy <- function(.mode,
 
     return(fc_return)
   } else if ((.mode == "BU") |
-             (.mode == "BRT") |
-             (.mode == "RU") |
-             (.mode == "RI")) {
+    (.mode == "BRT") |
+    (.mode == "RU") |
+    (.mode == "RI")) {
     pldv_stocks <- transportation_data$passenger %>%
       filter(
         mode == "PLDV",
@@ -496,8 +496,8 @@ vmt_road_policy <- function(.mode,
 #'     and \eqn{TW} is an adjustment factor for the effect of telework on baseline PMT.
 #'
 vmt_telework <- function(.mode,
-                          .telework_pct,
-                          .enviro_factors = enviro_factors) {
+                         .telework_pct,
+                         .enviro_factors = enviro_factors) {
   # browser()
   if (.mode == "PLDV") {
     telework_adj_tb <- tibble(
@@ -522,9 +522,9 @@ vmt_telework <- function(.mode,
 #' @export
 #' @family VMT effects
 vmt_transit_ridership <- function(.tb_vmt,
-                                   .mode,
-                                   .transit_rider_pct,
-                                   .enviro_factors = enviro_factors) {
+                                  .mode,
+                                  .transit_rider_pct,
+                                  .enviro_factors = enviro_factors) {
   # browser()
   if (.mode == "PLDV" | .mode == "AV") {
     .tb_vmt %>%
@@ -562,12 +562,12 @@ vmt_transit_ridership <- function(.tb_vmt,
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
 vmt_vehicle_occupancy <- function(tb,
-                                   .tb_vmt,
-                                   .mode,
-                                   .gas_tax,
-                                   .stock,
-                                   .transit_avo,
-                                   .enviro_factors = enviro_factors) {
+                                  .tb_vmt,
+                                  .mode,
+                                  .gas_tax,
+                                  .stock,
+                                  .transit_avo,
+                                  .enviro_factors = enviro_factors) {
   # browser()
   tb_mode_totstock <- tb %>%
     filter(
@@ -584,13 +584,13 @@ vmt_vehicle_occupancy <- function(tb,
       values_from = value
     ) %>%
     select(mode,
-           year,
-           ctu,
-           aeo_mode,
-           type,
-           mode_totstock = TotStock,
-           mode_stock = !!rlang::sym(.stock),
-           mode_avo = AVO
+      year,
+      ctu,
+      aeo_mode,
+      type,
+      mode_totstock = TotStock,
+      mode_stock = !!rlang::sym(.stock),
+      mode_avo = AVO
     )
 
   # some modes apply the same AVO to all CTUs
@@ -603,13 +603,13 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-             occupancy_adj = value
+        occupancy_adj = value
       )
     return(pldv_occupancy)
   } else if ((.mode == "BU") |
-             (.mode == "BRT") |
-             (.mode == "RU") |
-             (.mode == "RI")) {
+    (.mode == "BRT") |
+    (.mode == "RU") |
+    (.mode == "RI")) {
     if (.mode %in% c("RU", "RI", "BRT")) {
       tb_mode_totstock_ctu <- tb_mode_totstock %>%
         filter(is.na(mode_avo)) %>%
@@ -629,9 +629,9 @@ vmt_vehicle_occupancy <- function(tb,
 
     return(occ_return)
   } else if (.mode == "BS" | .mode == "FR" |
-             .mode == "SUT" | .mode == "CUT" |
-             .mode == "MM" | .mode == "AIR" |
-             .mode == "WAT") {
+    .mode == "SUT" | .mode == "CUT" |
+    .mode == "MM" | .mode == "AIR" |
+    .mode == "WAT") {
     if (.mode %in% c(
       "CUT",
       "MM",
@@ -657,7 +657,3 @@ vmt_vehicle_occupancy <- function(tb,
     return(occ_return)
   }
 }
-
-
-
-

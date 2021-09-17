@@ -92,7 +92,6 @@
 #' library(ghg.sp)
 #' transportation_data$passenger
 #' transportation_data$freight
-#'
 "transportation_data"
 
 
@@ -116,6 +115,4 @@
 #' transportation_index$emission_sources
 #' transportation_index$variables
 #' transportation_index$modes
-#'
-#'
 "transportation_index"
