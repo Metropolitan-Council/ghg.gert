@@ -33,6 +33,13 @@ fcm <- calc_fuel_cost_mile(
 )
 
 
+testthat::expect_equal(fcm$fuel_cost_mile,
+                       c(8.33756659328527, 8.31262870848034,
+                         8.29608616378944, 8.25481210144047,
+                         8.21374338421122, 8.17287898988479,
+                         8.13221790132226, 8.09175910646294,
+                         8.05150159832325))
+
 
 # potential correct solution
 tibble::tribble(
