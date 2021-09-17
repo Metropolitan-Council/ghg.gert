@@ -1,22 +1,49 @@
 
 # Gasoline ------
 
-vmt_test <- tibble::tribble(
-  ~scenario, ~mode, ~stock, ~ctu, ~year, ~aeo_mode, ~type, ~vmt, ~class,
-  "BAU", "PLDV", "SIStock", "St. Paul", "2015", "LDV", "P", NA, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2018", "LDV", "P", 2212217.09054726, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2020", "LDV", "P", NA, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2025", "LDV", "P", 2085360.41006151, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2030", "LDV", "P", 2045594.73396012, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2035", "LDV", "P", 2017027.72754979, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2040", "LDV", "P", 1888351.83369188, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2045", "LDV", "P", 1830828.02849089, "SI",
-  "BAU", "PLDV", "SIStock", "St. Paul", "2050", "LDV", "P", 1775908.76643119, "SI"
+fcm_test <- calc_fuel_cost_mile(
+  regional_factors$passenger,
+  .mode = "PLDV",
+  .aeo_scenario = "REF",
+  .miles_per_gallon =  "SIMPG",
+  .fuel_cost_gallon = 239.8,
+  .av_pct = 0
 )
 
 
+si_vmt <- calc_vmt_forecast(
+  .scenario = "BAU",
+  tb = transportation_data$passenger,
+  .mode = "PLDV",
+  .stock = "SIStock",
+  .variable = "PMT",
+  .tb_fuel_cost_mile = fcm_test,
+  .aeo_scenario = "REF",
+  .transit_avo = 0,
+  .transit_rider_pct = 0,
+  .vmt_fee = 0,
+  .payd_fee = 0,
+  .gas_tax = 0,
+  .cong_price = 0,
+  .parking_price = 0,
+  .drs_pct = 0,
+  .av_pct = 0,
+  .freight_vmt_fee = 0,
+  .pop_dens_pct_change = 0,
+  .emp_dens_pct_change = 0,
+  .land_use_pct_change = 0,
+  .intersection_design_pct_change = 0,
+  .job_access_pct_change = 0,
+  .transit_dist_pct_change = 0,
+  .comb_5d_impact_pct_change = 0,
+  .telework_pct = 0,
+  ch_phev = 0
+) %>%
+  dplyr::filter(ctu == "St. Paul") %>%
+  dplyr::arrange(year)
+
 si_fuel_use <- calc_fuel_use(
-  tb_vmt = vmt_test,
+  tb_vmt = si_vmt,
   tb = transportation_data$passenger,
   .mode = "PLDV",
   .fuel_type = "SI",
@@ -24,27 +51,6 @@ si_fuel_use <- calc_fuel_use(
   .miles_per_gallon = "SIMPG",
   .is_av = 0
 )
-
-
-tibble::tribble(
-  ~type, ~scenario, ~mode, ~ctu, ~year, ~AEOScen, ~aeo_mode, ~class, ~fuel_use,
-  "P", "BAU", "PLDV", "St. Paul", "2015", "REF", "LDV", "SI", NA,
-  "P", "BAU", "PLDV", "St. Paul", "2018", "REF", "LDV", "SI", 59547349.0661272,
-  "P", "BAU", "PLDV", "St. Paul", "2020", "REF", "LDV", "SI", NA,
-  "P", "BAU", "PLDV", "St. Paul", "2025", "REF", "LDV", "SI", 57313473.7460134,
-  "P", "BAU", "PLDV", "St. Paul", "2030", "REF", "LDV", "SI", 57063873.2846238,
-  "P", "BAU", "PLDV", "St. Paul", "2035", "REF", "LDV", "SI", 57110973.1138399,
-  "P", "BAU", "PLDV", "St. Paul", "2040", "REF", "LDV", "SI", 54269603.4878194,
-  "P", "BAU", "PLDV", "St. Paul", "2045", "REF", "LDV", "SI", 53405665.1978367,
-  "P", "BAU", "PLDV", "St. Paul", "2050", "REF", "LDV", "SI", 52580712.8421712
-)
-
-
-out_sum_long %>%
-  filter(
-    mode == "PLDV",
-    class == "CI"
-  )
 
 
 # Diesel ------
