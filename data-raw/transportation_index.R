@@ -3,11 +3,16 @@
 library(tidyverse)
 
 
-emission_sources <- read.csv("data-raw/indices/sources-wDef.csv")
+emission_sources <- read_csv("data-raw/indices/sources-wDef.csv") %>%
+  as_tibble()
 
-variables <- read.csv("data-raw/indices/variables-wDef.csv")
 
-modes <- read.csv("data-raw/indices/mode-wDef.csv")
+variables <- read_csv("data-raw/indices/variables-wDef.csv") %>%
+  as_tibble()
+
+
+modes <- read_csv("data-raw/indices/mode-wDef.csv") %>%
+  as_tibble()
 
 
 transportation_index <- list(
