@@ -112,19 +112,19 @@ calc_vmt_forecast <- function(.scenario,
       #
 
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$passenger,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
-      trans_rider <- calc_transit_ridership(
+      trans_rider <- vmt_transit_ridership(
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
       )
 
-      fc_adjustments <- calc_vehicle_fuel(
+      fc_adjustments <- vmt_road_policy(
         .mode = .mode,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
@@ -135,7 +135,7 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock
       )
 
-      land_use <- calc_land_use_change(
+      land_use <- vmt_land_use_change(
         .mode = .mode,
         .type = "TRANSIT",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
@@ -147,12 +147,12 @@ calc_vmt_forecast <- function(.scenario,
         .transit_dist_pct_change = .transit_dist_pct_change
       )
 
-      parking <- calc_parking_policy(
+      parking <- vmt_parking_policy(
         .mode = .mode,
         .parking_price = .parking_price
       )
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$passenger,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -161,7 +161,7 @@ calc_vmt_forecast <- function(.scenario,
         .transit_avo = .transit_avo
       )
 
-      autonomous_adjust <- calc_av_effect(
+      autonomous_adjust <- vmt_autonomous_vehicle(
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .av_pct = .av_pct
@@ -186,7 +186,7 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "PLDV") {
       # passenger light duty --------
 
-      pass_tb_vmt <- calc_drs_reduction(
+      pass_tb_vmt <- vmt_dynamic_ride_share_reduction(
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .variable = .variable,
@@ -203,19 +203,19 @@ calc_vmt_forecast <- function(.scenario,
       # land_use_adj *
       # telework_adj /
       # occupancy_adj
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$passenger,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
-      trans_rider <- calc_transit_ridership(
+      trans_rider <- vmt_transit_ridership(
         .tb_vmt = pass_tb_vmt,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
       )
 
-      fc_adjustments <- calc_vehicle_fuel(
+      fc_adjustments <- vmt_road_policy(
         .mode = .mode,
         .tb_vmt = pass_tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
@@ -226,7 +226,7 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock
       )
 
-      land_use <- calc_land_use_change(
+      land_use <- vmt_land_use_change(
         .mode = .mode,
         .type = "DRIVE",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
@@ -238,12 +238,12 @@ calc_vmt_forecast <- function(.scenario,
         .transit_dist_pct_change = .transit_dist_pct_change
       )
 
-      parking <- calc_parking_policy(
+      parking <- vmt_parking_policy(
         .mode = .mode,
         .parking_price = .parking_price
       )
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$passenger,
         .tb_vmt = pass_tb_vmt,
         .mode = .mode,
@@ -252,13 +252,13 @@ calc_vmt_forecast <- function(.scenario,
         .transit_avo = .transit_avo
       )
 
-      autonomous_adjust <- calc_av_effect(
+      autonomous_adjust <- vmt_autonomous_vehicle(
         .tb_vmt = pass_tb_vmt,
         .mode = .mode,
         .av_pct = .av_pct
       )
 
-      telework_adjust <- calc_telework(
+      telework_adjust <- vmt_telework(
         .mode = .mode,
         .telework_pct = .telework_pct
       )
@@ -295,13 +295,13 @@ calc_vmt_forecast <- function(.scenario,
       # gas_adj * park_price_adj * land_use_adj *
       # av_adjust
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$passenger,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
-      fc_adjustments <- calc_vehicle_fuel(
+      fc_adjustments <- vmt_road_policy(
         .mode = .mode,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
@@ -312,7 +312,7 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock
       )
 
-      land_use <- calc_land_use_change(
+      land_use <- vmt_land_use_change(
         .mode = .mode,
         .type = "DRIVE",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
@@ -324,12 +324,12 @@ calc_vmt_forecast <- function(.scenario,
         .transit_dist_pct_change = .transit_dist_pct_change
       )
 
-      parking <- calc_parking_policy(
+      parking <- vmt_parking_policy(
         .mode = .mode,
         .parking_price = .parking_price
       )
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$passenger,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -342,7 +342,7 @@ calc_vmt_forecast <- function(.scenario,
         filter(mode == "AT", var == .variable) %>%
         select(year, ctu, at_adjust = value)
 
-      trans_rider <- calc_transit_ridership(
+      trans_rider <- vmt_transit_ridership(
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
@@ -405,13 +405,13 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "SUT") {
       # single truck --------
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$freight,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$freight,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -421,12 +421,12 @@ calc_vmt_forecast <- function(.scenario,
       )
 
 
-      parking <- calc_parking_policy(
+      parking <- vmt_parking_policy(
         .mode = .mode,
         .parking_price = .parking_price
       )
 
-      fc_adjustments <- calc_vehicle_fuel(
+      fc_adjustments <- vmt_road_policy(
         .mode = .mode,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
@@ -468,14 +468,14 @@ calc_vmt_forecast <- function(.scenario,
 
       # miles_traveled * aeo_adj * vmt_fee_adj / occpancy_adj
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$freight,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$freight,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -484,7 +484,7 @@ calc_vmt_forecast <- function(.scenario,
         .transit_avo = .transit_avo
       )
 
-      fc_adjustments <- calc_vehicle_fuel(
+      fc_adjustments <- vmt_road_policy(
         .mode = .mode,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
@@ -523,7 +523,7 @@ calc_vmt_forecast <- function(.scenario,
       # miles_traveled * land_use_adj * aeo_adj
 
 
-      land_use <- calc_land_use_change(
+      land_use <- vmt_land_use_change(
         .mode = .mode,
         .type = "WALK",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
@@ -547,14 +547,14 @@ calc_vmt_forecast <- function(.scenario,
 
       # miles_traveled * aeo_adj/occupancy_adj
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$passenger,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$passenger,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -574,13 +574,13 @@ calc_vmt_forecast <- function(.scenario,
       # browser()
       # miles_traveled * aeo_adj / occupancy_adj
 
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = transportation_data$freight,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = transportation_data$freight,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -603,14 +603,14 @@ calc_vmt_forecast <- function(.scenario,
       # freight multimodal, air, water-----
 
       # browser()
-      ann_energy_outlook <- calc_annual_energy_outlook(
+      ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
 
-      veh_occupancy <- calc_vehicle_occupancy(
+      veh_occupancy <- vmt_vehicle_occupancy(
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
@@ -705,14 +705,14 @@ calc_vmt_forecast <- function(.scenario,
   } else {
     # all other BAU------
 
-    ann_energy_outlook <- calc_annual_energy_outlook(
+    ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
       .mode = .mode
     )
 
 
-    veh_occupancy <- calc_vehicle_occupancy(
+    veh_occupancy <- vmt_vehicle_occupancy(
       tb = tb,
       .tb_vmt = tb_vmt,
       .mode = .mode,
