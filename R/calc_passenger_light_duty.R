@@ -34,7 +34,9 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
                                       .transit_dist_pct_change = 0,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
-                                      .mit_bau_summary = 0) { # Sequence for each
+                                      .mit_bau_summary = 0,
+                                      .enviro_factors = enviro_factors) {
+  # Sequence for each
   # 1. Establish `type`, `var`, `mode`
   # 2. Establish `stock`, `mpg`, `class`
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
@@ -70,7 +72,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     mode,
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL
   )
 
   si_vmt <- calc_vmt_forecast(
@@ -149,7 +151,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "CIMPG",
-    .fuel_cost_gallon = CI_FUEL_COST_GAL
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL
   )
 
   ci_vmt <- calc_vmt_forecast(
@@ -234,7 +236,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger, mode, .aeo_scenario,
-    mpg, SI_FUEL_COST_GAL
+    mpg, .enviro_factors$SI_FUEL_COST_GAL
   )
 
   hev_vmt <-
@@ -307,7 +309,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger, mode, .aeo_scenario,
-    mpg, SI_FUEL_COST_GAL
+    mpg, .enviro_factors$SI_FUEL_COST_GAL
   )
 
   ### VMT gas ----
@@ -347,7 +349,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger, mode, .aeo_scenario,
-    mpe, ELEC_FUEL_COST_KWH
+    mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
 
 
@@ -502,7 +504,7 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
 
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger, mode, .aeo_scenario,
-    mpe, ELEC_FUEL_COST_KWH
+    mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
 
   bev_vmt <-

@@ -39,7 +39,8 @@ scenario_results <- function(.scenario = "BAU",
                              .transit_dist_pct_change = 0,
                              .comb_5d_impact_pct_change = 0,
                              .telework_pct = 0,
-                             .mit_bau_summary = 0) {
+                             .mit_bau_summary = 0,
+                             .enviro_factors = enviro_factors) {
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
   # browser()
   if (.drs_pct > 0) {

@@ -21,7 +21,8 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
-                            .is_av = 0) {
+                            .is_av = 0,
+                            .enviro_factors = enviro_factors) {
   # browser()
 
 
@@ -62,7 +63,7 @@ calc_ghg_direct <- function(tb_vmt,
     ) %>%
     dplyr::mutate(
       av_multiplier = dplyr::case_when(
-        .is_av == 1 ~ MPG_AV,
+        .is_av == 1 ~ .enviro_factors$MPG_AV,
         TRUE ~ 1
       ),
       val_mpg = value

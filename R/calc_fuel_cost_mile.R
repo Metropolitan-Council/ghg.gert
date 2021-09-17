@@ -13,7 +13,8 @@ calc_fuel_cost_mile <- function(tb,
                                 .aeo_scenario = "REF",
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
-                                .av_pct = 0) {
+                                .av_pct = 0,
+                                .enviro_factors = enviro_factors) {
   # browser()
   tb_l <- tb %>%
     dplyr::filter(
@@ -21,7 +22,7 @@ calc_fuel_cost_mile <- function(tb,
       var == .miles_per_gallon
     ) %>%
     mutate(av_multiplier = dplyr::case_when(
-      .av_pct == 1 ~ MPG_AV,
+      .av_pct == 1 ~ .enviro_factors$MPG_AV,
       TRUE ~ 1
     )) %>%
     select(mode,

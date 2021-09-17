@@ -34,7 +34,8 @@ calc_freight_air_water_multi <- function(.scenario = "BAU",
                                          .transit_dist_pct_change = 0,
                                          .comb_5d_impact_pct_change = 0,
                                          .telework_pct = 0,
-                                         .mit_bau_summary = 0) {
+                                         .mit_bau_summary = 0,
+                                         .enviro_factors = enviro_factors) {
 
   # Multimodal -----
 

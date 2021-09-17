@@ -11,7 +11,8 @@
 calc_cost <- function(tb_vmt,
                       .mode,
                       .price,
-                      .is_av = 0) {
+                      .is_av = 0,
+                      .enviro_factors = enviro_factors) {
   # browser()
   tb_cost_current <- factor_values$cost %>%
     dplyr::filter(

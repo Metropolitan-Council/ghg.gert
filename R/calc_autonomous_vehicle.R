@@ -36,13 +36,14 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
                                     .transit_dist_pct_change = 0,
                                     .comb_5d_impact_pct_change = 0,
                                     .telework_pct = 0,
-                                    .mit_bau_summary = 0) {
+                                    .mit_bau_summary = 0,
+                                    .enviro_factors = enviro_factors) {
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL
   )
 
   type <- "P"
@@ -86,7 +87,7 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger,
-        mode_1, .aeo_scenario, mpg, SI_FUEL_COST_GAL, .av_pct
+        mode_1, .aeo_scenario, mpg, .enviro_factors$SI_FUEL_COST_GAL, .av_pct
       )
 
       hev_av_vmt <- tibble::tibble(
@@ -165,7 +166,7 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger, mode_1, .aeo_scenario,
-        mpg, SI_FUEL_COST_GAL, .av_pct
+        mpg, .enviro_factors$SI_FUEL_COST_GAL, .av_pct
       )
 
       phev_vmtg <- calc_vmt_forecast(
@@ -181,7 +182,7 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
 
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger, mode,
-        .aeo_scenario, mpe, ELEC_FUEL_COST_KWH
+        .aeo_scenario, mpe, .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
       phev_vmte <- calc_vmt_forecast(
@@ -274,7 +275,7 @@ calc_autonomous_vehicle <- function(.scenario = "BAU",
 
       fcm <- calc_fuel_cost_mile(
         transportation_data$passenger,
-        mode_1, .aeo_scenario, mpe, ELEC_FUEL_COST_KWH
+        mode_1, .aeo_scenario, mpe, .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
       av_vmt <- tibble::tibble(

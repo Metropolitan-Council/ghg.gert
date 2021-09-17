@@ -35,17 +35,18 @@ adj_fleet_shares <- function(.bev_pct_sales,
                              .gas_tax = 0,
                              .drs_pct_trip = 0,
                              .av_pct = 0,
-                             .ctu) {
+                             .ctu,
+                             .enviro_factors = enviro_factors) {
 
   # Adjust sales based on ownership response to price elasticity
-  adj_si_ci_sales <- (1 + (.vmt_fee / AUTO_COST_MI +
-    .payd_fee / AUTO_COST_MI) *
+  adj_si_ci_sales <- (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
+    .payd_fee / .enviro_factors$AUTO_COST_MI) *
     ELAST_OWN_PRICE) *
-    (1 + (.gas_tax / AUTO_COST_MI) * ELAST_OWN_PRICE)
+    (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) * ELAST_OWN_PRICE)
 
   # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
-  adj_alt_sales <- (1 + (.vmt_fee / AUTO_COST_MI + .payd_fee /
-    AUTO_COST_MI) * ELAST_OWN_PRICE)
+  adj_alt_sales <- (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI + .payd_fee /
+    .enviro_factors$AUTO_COST_MI) * ELAST_OWN_PRICE)
   .pass_tb <- .pass_tb %>%
     dplyr::mutate(dplyr::across(
       tidyselect::all_of(FOR_YRS), ~ dplyr::case_when(

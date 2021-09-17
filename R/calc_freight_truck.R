@@ -35,7 +35,8 @@ calc_freight_truck <- function(.scenario = "BAU",
                                .transit_dist_pct_change = 0,
                                .comb_5d_impact_pct_change = 0,
                                .telework_pct = 0,
-                               .mit_bau_summary = 0) {
+                               .mit_bau_summary = 0,
+                               .enviro_factors = enviro_factors) {
   mode <- "FR"
   # (measured in ton-miles NOT miles)
   type <- "F"
@@ -57,7 +58,7 @@ calc_freight_truck <- function(.scenario = "BAU",
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
     transportation_data$freight, mode,
-    .aeo_scenario, mpg, CI_FUEL_COST_GAL
+    .aeo_scenario, mpg, .enviro_factors$CI_FUEL_COST_GAL
   )
 
   cut_ci_vmt <-
@@ -123,7 +124,7 @@ calc_freight_truck <- function(.scenario = "BAU",
     mode,
     .aeo_scenario,
     mpg,
-    CI_FUEL_COST_GAL
+    .enviro_factors$CI_FUEL_COST_GAL
   )
 
   sut_ci_vmt <-

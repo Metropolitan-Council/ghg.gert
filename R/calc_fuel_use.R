@@ -15,13 +15,14 @@ calc_fuel_use <- function(tb_vmt,
                           .fuel_type,
                           .aeo_scenario = "REF",
                           .miles_per_gallon,
-                          .is_av = 0) {
+                          .is_av = 0,
+                          .enviro_factors = enviro_factors) {
   # browser()
 
   tb_l <- tb %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     mutate(av_multiplier = dplyr::case_when(
-      .is_av == 1 ~ MPG_AV,
+      .is_av == 1 ~ .enviro_factors$MPG_AV,
       TRUE ~ 1
     )) %>%
     tidyr::pivot_wider(

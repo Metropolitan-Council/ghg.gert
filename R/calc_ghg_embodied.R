@@ -28,7 +28,8 @@ calc_ghg_embodied <- function(tb,
                               .class,
                               .transit_avo_pct = 0,
                               .mitigation_tb = 0,
-                              .bau_tb = 0) {
+                              .bau_tb = 0,
+                              .enviro_factors = enviro_factors) {
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
     ghg_factor_current <- factor_values$ghg %>%

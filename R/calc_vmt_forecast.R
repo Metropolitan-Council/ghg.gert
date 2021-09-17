@@ -34,6 +34,7 @@
 #' @param ch_phev the current alternative is PHEV, which needs both
 #'     gasoline and electric results (using assumption
 #'     about gasoline/electric mode split). Default is `0`
+#' @param .enviro_factors list of environmental factors. Default is `enviro_factors`, included in this package.
 #'
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
@@ -71,7 +72,8 @@ calc_vmt_forecast <- function(.scenario,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              ch_phev = 0) {
+                              ch_phev = 0,
+                              .enviro_factors = enviro_factors) {
   # browser()
 
 
@@ -356,7 +358,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(av_vmt = miles_traveled - (at_adjust * transit_adj) *
           av_adj * aeo_adj * vmt_fee_adj *
           cong_adjust * gas_adj * park_price_adj *
-          land_use_adj * VMT_AV / occupancy_adj) %>%
+          land_use_adj * .enviro_factors$VMT_AV / occupancy_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
       return(vmt)
@@ -367,16 +369,16 @@ calc_vmt_forecast <- function(.scenario,
       #              # Subtract the PMT reduction from a shift to transit (assuming equal per trip PMT)
       #              -
       #                tb_var$at *
-      #                (.transit_rider_pct / 100 * PLDV_TRANSIT_RATIO)) *
+      #                (.transit_rider_pct / 100 * .enviro_factors$PLDV_TRANSIT_RATIO)) *
       #   # Remove non-AV from AV PMT
       #   tb_avshare * .av_pct / 100 *
       #   # Apply AEO adjustments
       #   aeo_vmt$ldv *
       #   # Apply elasticities, etc.
-      #   (1 + (.vmt_fee / (.tb_fuel_cost_mile + TIME_COST_MI) +
-      #           .payd_fee / INS_COST_MI) * ELAST_VMT) *
-      #   # Congestion elasticity only applies to a portion of the VMT set by CONG_VMT, so scale the elasticity effect down
-      #   (1 + (.cong_price / (.tb_fuel_cost_mile + TIME_COST_MI) * CONG_VMT) * ELAST_CONG) *
+      #   (1 + (.vmt_fee / (.tb_fuel_cost_mile + .enviro_factors$TIME_COST_MI) +
+      #           .payd_fee / .enviro_factors$INS_COST_MI) * ELAST_VMT) *
+      #   # Congestion elasticity only applies to a portion of the VMT set by .enviro_factors$CONG_VMT, so scale the elasticity effect down
+      #   (1 + (.cong_price / (.tb_fuel_cost_mile + .enviro_factors$TIME_COST_MI) * .enviro_factors$CONG_VMT) * ELAST_CONG) *
       #   (1 + (.gas_tax / .tb_fuel_cost_mile) *
       #      ifelse(((.stock == "SIStock") |
       #                (.stock == "CIStock") |
@@ -386,8 +388,8 @@ calc_vmt_forecast <- function(.scenario,
       #   (1 + (.parking_price / tb_park * ELAST_PARK)) *
       #   # Auto 5D: population density, employment density, diversity, .intersection_design_pct_change, distance
       #   # If the combined elasticity effect is greater than the max of 25% reduction in VMT (i.e., more negative) then use the max. Else, use the user provided elasticities.
-      #   if (.comb_5d_impact_pct_change < MAX_5D_DR) {
-      #     (1 + MAX_5D_DR)
+      #   if (.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_DR) {
+      #     (1 + .enviro_factors$MAX_5D_DR)
       #   } else {{
       #     (1 + .pop_dens_pct_change / 100 * ELAST_DENS_DR_POP) *
       #       (1 + .emp_dens_pct_change / 100 * ELAST_DENS_DR_EMP) *
@@ -398,7 +400,7 @@ calc_vmt_forecast <- function(.scenario,
       #       (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_DR)
       #   } *
       #       # AV increases the VMT slightly, by about 15-20% for local trips (<50 miles)
-      #       VMT_AV / pldv_stocks$avo
+      #       .enviro_factors$VMT_AV / pldv_stocks$avo
       #     }
     } else if (.mode == "SUT") {
       # single truck --------
@@ -456,7 +458,7 @@ calc_vmt_forecast <- function(.scenario,
       #         aeo_vmt$mdt *
       #         # Apply elasticities, etc.
       #         # Assumes no shift to other modes because there are other restrictions on that (you probably won't build a new rail line in a city based on a congestion price)
-      #         (1 + .freight_vmt_fee / (.tb_fuel_cost_mile + F_TIME_COST_MI) * ELAST_FVMT * F_FRACT) * # Only apply the VMT fee to fraction occuring in MSP (equivalent to a reduction in elasticity)
+      #         (1 + .freight_vmt_fee / (.tb_fuel_cost_mile + F_.enviro_factors$TIME_COST_MI) * ELAST_FVMT * .enviro_factors$F_FRACT) * # Only apply the VMT fee to fraction occuring in MSP (equivalent to a reduction in elasticity)
       #         (1 + .parking_price / tb_park * ELAST_PARK) /
       #         tb_mode$avo *
       #         (tb_mode$stock /
@@ -510,7 +512,7 @@ calc_vmt_forecast <- function(.scenario,
       #   aeo_vmt$hdt *
       #   # Apply elasticities, etc.
       #   # Assumes no shift to other modes because there are other restrictions on that (you probably won't build a new rail line in a city based on a congestion price)
-      #   (1 + .freight_vmt_fee / (.tb_fuel_cost_mile + F_TIME_COST_MI) * ELAST_FVMT) /
+      #   (1 + .freight_vmt_fee / (.tb_fuel_cost_mile + F_.enviro_factors$TIME_COST_MI) * ELAST_FVMT) /
       #   tb_mode$avo *
       #   (tb_mode$stock /
       #      tb_mode$tot_stock)
