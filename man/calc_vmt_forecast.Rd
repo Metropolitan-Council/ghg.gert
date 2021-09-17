@@ -99,7 +99,7 @@ about gasoline/electric mode split). Default is \code{0}}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
-with \code{vmt} in hundred thousands miles for passenger or ton-miles for freight.
+with \code{vmt} in thousands
 }
 \description{
 Calculate vehicle miles traveled by mode and power train
