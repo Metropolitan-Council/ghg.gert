@@ -30,7 +30,8 @@ scenario_results(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .mit_bau_summary = 0
+  .mit_bau_summary = 0,
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -87,6 +88,8 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 \item{.telework_pct}{percent of people teleworking in 2050. Default is \code{0}}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 

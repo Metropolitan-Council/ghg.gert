@@ -30,7 +30,8 @@ calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  ch_phev = 0,
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -93,9 +94,12 @@ as a measure of composite change in 5Ds on VMT. Default is \code{0}}
 \item{ch_phev}{the current alternative is PHEV, which needs both
 gasoline and electric results (using assumption
 about gasoline/electric mode split). Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
+with \code{vmt} in hundred thousands miles for passenger or ton-miles for freight.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train

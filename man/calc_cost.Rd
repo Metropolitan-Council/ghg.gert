@@ -4,7 +4,7 @@
 \alias{calc_cost}
 \title{Calculate cost estimates in millions of dollars}
 \usage{
-calc_cost(tb_vmt, .mode, .price, .is_av = 0)
+calc_cost(tb_vmt, .mode, .price, .is_av = 0, .enviro_factors = enviro_factors)
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
@@ -15,6 +15,8 @@ calc_cost(tb_vmt, .mode, .price, .is_av = 0)
 
 \item{.is_av}{whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 

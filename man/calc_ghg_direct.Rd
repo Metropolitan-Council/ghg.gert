@@ -11,7 +11,8 @@ calc_ghg_direct(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .is_av = 0
+  .is_av = 0,
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ calc_ghg_direct(
 
 \item{.is_av}{whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 

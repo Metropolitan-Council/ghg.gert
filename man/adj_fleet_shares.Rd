@@ -15,7 +15,8 @@ adj_fleet_shares(
   .gas_tax = 0,
   .drs_pct_trip = 0,
   .av_pct = 0,
-  .ctu
+  .ctu,
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ adj_fleet_shares(
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
 \item{.ctu}{the chosen CTU for dplyr::filter of tables}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 

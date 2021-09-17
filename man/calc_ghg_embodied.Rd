@@ -12,7 +12,8 @@ calc_ghg_embodied(
   .class,
   .transit_avo_pct = 0,
   .mitigation_tb = 0,
-  .bau_tb = 0
+  .bau_tb = 0,
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PH
 \item{.mitigation_tb}{mitigation output table for results. Default is \code{0}}
 
 \item{.bau_tb}{output table for results. Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 
