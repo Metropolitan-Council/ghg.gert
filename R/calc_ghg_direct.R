@@ -35,11 +35,11 @@ calc_ghg_direct <- function(tb_vmt,
 
   aeo_factors_current <- factor_values$aeo %>%
     dplyr::filter(
-      Metric == "MPG",
-      AEOScen == .aeo_scenario,
-      Mode == unique(tb_vmt$aeo_mode)
+      metric == "MPG",
+      aeo_scen == .aeo_scenario,
+      mode == unique(tb_vmt$aeo_mode)
     ) %>%
-    select(AEOScen, Metric, Mode, year, aeo_factor = value)
+    select(aeo_scen, metric, mode, year, aeo_factor = value)
 
 
   # if there isn't an AEO miles per gallon value for the given mode,
@@ -100,7 +100,7 @@ calc_ghg_direct <- function(tb_vmt,
       class,
       ctu = ctu.vmt,
       year,
-      # AEOScen,
+      # aeo_scen,
       aeo_mode,
       # vmt,
       dir_ghg

@@ -2,7 +2,7 @@
 
 #' Calculate annual energy outlook (AEO) multipliers for each forecast year
 #'
-#' @return a table with columns `AEOScen`, `Metric`, `Mode`, `year`, and `aeo_adj`.
+#' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.
 #' @export
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
@@ -21,12 +21,12 @@ vmt_annual_energy_outlook <- function(tb,
 
   aeo_vals <- factor_values$aeo %>%
     dplyr::filter(
-      AEOScen == .aeo_scenario,
-      Metric == "VMT",
-      Mode == unique(tb_fin$aeo_mode)
+      aeo_scen == .aeo_scenario,
+      metric == "VMT",
+      mode == unique(tb_fin$aeo_mode)
     ) %>%
     select(everything(),
-           aeo_adj = value
+      aeo_adj = value
     )
   return(aeo_vals)
 }

@@ -36,9 +36,9 @@ calc_fuel_cost_mile <- function(tb,
 
   aeo_f_l <- factor_values$aeo %>%
     dplyr::filter(
-      Metric == "MPG",
-      AEOScen == .aeo_scenario,
-      Mode == unique(tb_l$aeo_mode)
+      metric == "MPG",
+      aeo_scen == .aeo_scenario,
+      mode == unique(tb_l$aeo_mode)
     ) %>%
     select(everything(),
       aeo_val = value

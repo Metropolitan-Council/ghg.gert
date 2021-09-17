@@ -136,7 +136,7 @@ calc_ghg_embodied <- function(tb,
         mode,
         ctu = ctu,
         year,
-        # AEOScen,
+        # aeo_scen,
         aeo_mode,
         ghg_embodied
       )

@@ -18,7 +18,7 @@ calc_cost <- function(tb_vmt,
     dplyr::filter(
       mode == .mode,
       var == .price,
-      AV == .is_av
+      is_av == .is_av
     ) %>%
     dplyr::mutate(cost_value = value / 1000)
 

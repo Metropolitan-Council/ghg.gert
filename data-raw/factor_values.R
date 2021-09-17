@@ -14,7 +14,14 @@ aeo_long <- aeo %>%
     `2025`, `2030`, `2035`,
     `2040`, `2045`, `2050`
   ), names_to = "year") %>%
-  ungroup()
+  ungroup() %>%
+  select(
+    aeo_scen = AEOScen,
+    mode = Mode,
+    metric = Metric,
+    year,
+    value
+  )
 
 
 
@@ -25,7 +32,12 @@ cost_long <- cost %>%
     `2025`, `2030`, `2035`,
     `2040`, `2045`, `2050`
   ), names_to = "year") %>%
-  ungroup()
+  ungroup() %>%
+  select(mode,
+         var,
+         is_av = AV,
+         year,
+         value)
 
 
 ghg_long <- ghg %>%
