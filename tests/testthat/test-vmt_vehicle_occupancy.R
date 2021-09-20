@@ -22,4 +22,13 @@ si_veh_test <- vmt_vehicle_occupancy(
   .stock = "SIStock",
   .transit_avo = 0,
   .enviro_factors = enviro_factors
+) %>%
+  filter(ctu == "St. Paul")
+
+testthat::expect_equal(
+  si_veh_test$occupancy_adj,
+  c(
+    1.23679344, 1.23679344, 1.23679344, 1.23679344, 1.23679344,
+    1.23679344, 1.23679344, 1.23679344, 1.23679344
+  )
 )
