@@ -77,7 +77,6 @@ calc_vmt_forecast <- function(.scenario,
                               .enviro_factors = enviro_factors) {
   # browser()
 
-
   tb_vmt <- tb %>%
     filter(
       mode == .mode,
@@ -668,11 +667,8 @@ calc_vmt_forecast <- function(.scenario,
           "AVO"
         )
       ) %>%
-      select(-ctu) %>%
-      tidyr::pivot_wider(
-        names_from = var,
-        values_from = value
-      )
+      select(mode, ctu, year, aeo_mode, type, avo_val = value) %>%
+      unique()
 
     tb_fin <- tb %>%
       dplyr::filter(
@@ -689,10 +685,10 @@ calc_vmt_forecast <- function(.scenario,
         names_from = var,
         values_from = value
       ) %>%
-      left_join(avo, by = c("mode", "year", "aeo_mode", "type")) %>%
+      left_join(avo, by = c("mode", "year", "aeo_mode", "type", "ctu")) %>%
       rowwise() %>%
       mutate(
-        vmt = PMT / AVO,
+        vmt = PMT / avo_val,
         scenario = .scenario,
         stock = .stock
       ) %>%
