@@ -32,7 +32,8 @@ calc_fuel_use <- function(tb_vmt,
     select(mode, year, aeo_mode, av_multiplier,
       per_gallon_val = !!
       rlang::sym(.miles_per_gallon)
-    )
+    ) %>%
+    unique()
 
 
   aeo_f_l <- factor_values$aeo %>%

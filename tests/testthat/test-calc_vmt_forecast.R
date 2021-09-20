@@ -1,9 +1,12 @@
 
 # Business as usual scenario testing -----
 
+st_paul_passenger <- transportation_data$passenger %>%
+  filter(ctu == "St. Paul")
+
 # passenger si ------
 si_fcm_test <- calc_fuel_cost_mile(
-  regional_factors$passenger,
+  st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon =  "SIMPG",
@@ -14,7 +17,7 @@ si_fcm_test <- calc_fuel_cost_mile(
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
@@ -40,7 +43,6 @@ si_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   ch_phev = 0
 ) %>%
-  dplyr::filter(ctu == "St. Paul") %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(
     vmt = vmt / 10^5,
@@ -62,7 +64,7 @@ testthat::test_that("BAU, Passenger gasoline correct", {
 
 walk_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "WALK",
   .stock = "",
   .variable = "PMT",
@@ -88,7 +90,6 @@ walk_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   ch_phev = 0
 ) %>%
-  filter(ctu == "St. Paul") %>%
   dplyr::mutate(vmt = vmt / 10^5)
 
 
@@ -111,7 +112,7 @@ testthat::test_that("BAU walk VMT correct", {
 # test passenger ci -----
 
 fcm_test <- calc_fuel_cost_mile(
-  regional_factors$passenger,
+  st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon =  "SIMPG",
@@ -122,7 +123,7 @@ fcm_test <- calc_fuel_cost_mile(
 
 ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "CIStock",
   .variable = "PMT",
@@ -148,7 +149,6 @@ ci_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   ch_phev = 0
 ) %>%
-  dplyr::filter(ctu == "St. Paul") %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(vmt = vmt / 10^5)
 
@@ -174,7 +174,7 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
 
 ru_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "RU",
   .stock = "EVStock",
   .variable = "PMT",
@@ -200,6 +200,5 @@ ru_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   ch_phev = 0
 ) %>%
-  dplyr::filter(ctu == "St. Paul") %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(vmt = vmt / 10^5)

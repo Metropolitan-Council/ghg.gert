@@ -637,22 +637,6 @@ vmt_vehicle_occupancy <- function(tb,
     .mode == "SUT" | .mode == "CUT" |
     .mode == "MM" | .mode == "AIR" |
     .mode == "WAT") {
-    if (.mode %in% c(
-      "CUT",
-      "MM",
-      "WAT",
-      "FR"
-    )) {
-      tb_mode_totstock_ctu <- tb_mode_totstock %>%
-        filter(is.na(mode_avo)) %>%
-        select(-mode_avo)
-
-      tb_mode_totstock <- tb_mode_totstock %>%
-        filter(!is.na(mode_avo)) %>%
-        select(mode, year, aeo_mode, type, mode_avo) %>%
-        dplyr::right_join(tb_mode_totstock_ctu, by = c("mode", "year", "aeo_mode", "type"))
-    }
-
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%

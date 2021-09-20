@@ -31,7 +31,8 @@ calc_fuel_cost_mile <- function(tb,
       aeo_mode,
       av_multiplier,
       val_mpg = value
-    )
+    ) %>%
+    unique()
 
 
   aeo_f_l <- factor_values$aeo %>%

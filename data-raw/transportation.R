@@ -5,7 +5,7 @@ pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv")
 freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv")
 
 
-
+# passenger data -----
 pass_transpo_long <- pass_transpo %>%
   group_by(mode, var, ctu) %>%
   mutate_at(4:12, as.numeric) %>%
@@ -34,14 +34,19 @@ pass_transpo_long <- pass_transpo %>%
   top_n(1, value) %>%
   ungroup()
 
-# pass_transpo_long %>%
-#   filter(mode == "BU",
-#          ctu == "Blaine",
-#          var == "TotStock") %>%
-#   group_by(mode, var, ctu, year, aeo_mode, type) %>%
-#   top_n(1, value)
+ctu_year_unique <- pass_transpo_long %>%
+  select(year, ctu) %>%
+  filter(ctu != "All") %>%
+  unique()
+
+passenger_transpo_all <- pass_transpo_long %>%
+  filter(ctu == "All") %>%
+  select(-ctu) %>%
+  right_join(ctu_year_unique) %>%
+  select(names(pass_transpo_long))
 
 
+# freight data -----
 freight_transpo_long <- freight_transpo %>%
   group_by(mode, var, ctu) %>%
   mutate_at(4:12, as.numeric) %>%
@@ -63,9 +68,35 @@ freight_transpo_long <- freight_transpo %>%
   ungroup()
 
 
+
+freight_transpo_all <- freight_transpo_long %>%
+  filter(ctu == "All") %>%
+  select(-ctu) %>%
+  unique() %>%
+  right_join(ctu_year_unique) %>%
+  select(names(freight_transpo_long))
+
+
+
 transportation_data <- list(
-  passenger = pass_transpo_long,
-  freight = freight_transpo_long
+  passenger = rbind(
+    pass_transpo_long %>%
+      filter(ctu != "All"),
+    passenger_transpo_all
+  ),
+  freight = rbind(
+    freight_transpo_long %>%
+      filter(ctu != "All"),
+    freight_transpo_all
+  )
 )
+
+
+testthat::expect_false("All" %in% transportation_data$passenger$ctu)
+testthat::expect_false("All" %in% transportation_data$freight$ctu)
+
+testthat::expect_equal(157267, nrow(transportation_data$passenger))
+testthat::expect_equal(73332, nrow(transportation_data$freight))
+
 
 usethis::use_data(transportation_data, overwrite = TRUE)

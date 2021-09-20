@@ -105,7 +105,8 @@ calc_ghg_direct <- function(tb_vmt,
       aeo_mode,
       # vmt,
       dir_ghg
-    )
+    ) %>%
+    unique()
 
 
   return(ghg)

@@ -1,4 +1,8 @@
 
+
+st_paul_passenger <- transportation_data$passenger %>%
+  filter(ctu == "St. Paul")
+
 # Gasoline -----
 
 si_vmt_test <- tibble::tribble(
@@ -17,7 +21,7 @@ si_vmt_test <- tibble::tribble(
 
 si_dir_ghg <- calc_ghg_direct(
   tb_vmt = si_vmt_test,
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .fuel_type = "SI",
   .aeo_scenario = "REF",
@@ -53,7 +57,7 @@ ci_vmt_test <- tibble::tribble(
 
 si_dir_ghg <- calc_ghg_direct(
   tb_vmt = ci_vmt_test,
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .fuel_type = "CI",
   .aeo_scenario = "REF",

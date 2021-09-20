@@ -1,8 +1,11 @@
 
+st_paul_passenger <- transportation_data$passenger %>%
+  filter(ctu == "St. Paul")
+
 # Gasoline ------
 
 fcm_test <- calc_fuel_cost_mile(
-  regional_factors$passenger,
+  st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon =  "SIMPG",
@@ -13,7 +16,7 @@ fcm_test <- calc_fuel_cost_mile(
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
@@ -39,12 +42,11 @@ si_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   ch_phev = 0
 ) %>%
-  dplyr::filter(ctu == "St. Paul") %>%
   dplyr::arrange(year)
 
 si_fuel_use <- calc_fuel_use(
   tb_vmt = si_vmt,
-  tb = transportation_data$passenger,
+  tb = st_paul_passenger,
   .mode = "PLDV",
   .fuel_type = "SI",
   .aeo_scenario = "REF",
