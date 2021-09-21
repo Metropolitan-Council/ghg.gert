@@ -69,10 +69,10 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
       )) %>%
       select(year, av_adj) %>%
       return()
-  } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+  } else if (.mode %in% c("BU",
+                          "BRT",
+                          "RU",
+                          "RI")) {
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + .enviro_factors$BUS_AV * .av_pct) / 100),
@@ -281,14 +281,14 @@ vmt_parking_policy <- function(.mode,
       ) %>%
       select(year, ctu, park_price_adj) %>%
       return()
-  } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+  } else if (.mode %in% c("BU",
+                          "BRT",
+                          "RU",
+                          "RI")) {
     pldv_si_parking %>%
       left_join(elast %>%
-        select(year, park_transit),
-      by = "year"
+                  select(year, park_transit),
+                by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -372,13 +372,15 @@ vmt_road_policy <- function(.mode,
       select(
         year, ctu, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_adjust, cong_adjust, cross_vmt, gas_adj
-      )
+      ) %>%
+      unique()
 
     return(fc_return)
-  } else if ((.mode == "BU") |
-    (.mode == "BRT") |
-    (.mode == "RU") |
-    (.mode == "RI")) {
+  } else if (.mode %in% c("BU",
+                          "BRT",
+                          "RU",
+                          "RI")) {
+    # browser()
     pldv_stocks <- transportation_data$passenger %>%
       filter(
         mode == "PLDV",
