@@ -69,10 +69,12 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
       )) %>%
       select(year, av_adj) %>%
       return()
-  } else if (.mode %in% c("BU",
-                          "BRT",
-                          "RU",
-                          "RI")) {
+  } else if (.mode %in% c(
+    "BU",
+    "BRT",
+    "RU",
+    "RI"
+  )) {
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + .enviro_factors$BUS_AV * .av_pct) / 100),
@@ -122,15 +124,15 @@ vmt_dynamic_ride_share_reduction <- function(.tb_vmt,
     drs_share <- transportation_data$passenger %>%
       filter(var == "DRSShare") %>%
       select(year,
-             ctu,
-             drs_share_val = value
+        ctu,
+        drs_share_val = value
       )
 
 
     .tb_vmt %>%
       left_join(drs_share, by = c("year", "ctu")) %>%
       mutate(miles_traveled = miles_traveled *
-               (1 - drs_share_val) * .drs_pct / 100) %>%
+        (1 - drs_share_val) * .drs_pct / 100) %>%
       unique() %>%
       return()
 
@@ -205,15 +207,15 @@ vmt_land_use_change <- function(.mode,
     mutate(
       product_all =
         .data$population_density *
-        .data$employment_density *
-        .data$diversity *
-        .data$design *
-        .data$job_access *
-        .data$distance *
-        .data$combined_density,
+          .data$employment_density *
+          .data$diversity *
+          .data$design *
+          .data$job_access *
+          .data$distance *
+          .data$combined_density,
       land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_TRANS,
-                            1 + .enviro_factors$MAX_5D_TRANS,
-                            product_all
+        1 + .enviro_factors$MAX_5D_TRANS,
+        product_all
       )
     ) %>%
     select(year, land_use_adj)
@@ -273,8 +275,8 @@ vmt_parking_policy <- function(.mode,
   if (.mode == "PLDV") {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -283,14 +285,16 @@ vmt_parking_policy <- function(.mode,
       ) %>%
       select(year, ctu, park_price_adj) %>%
       return()
-  } else if (.mode %in% c("BU",
-                          "BRT",
-                          "RU",
-                          "RI")) {
+  } else if (.mode %in% c(
+    "BU",
+    "BRT",
+    "RU",
+    "RI"
+  )) {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_transit),
-                by = "year"
+        select(year, park_transit),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -301,8 +305,8 @@ vmt_parking_policy <- function(.mode,
   } else if (.mode == "AV") {
     pldv_si_parking %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(park_price_adj = 1 + (.parking_price / PARK * park_elast)) %>%
       select(year, ctu, park_price_adj) %>%
@@ -325,7 +329,7 @@ vmt_parking_policy <- function(.mode,
 
     park_adj <- tb_park %>%
       left_join(elast %>%
-                  select(year, park_elast), by = "year") %>%
+        select(year, park_elast), by = "year") %>%
       mutate(park_price_adj = 1 + (.parking_price / (PARK * park_elast))) %>%
       select(year, ctu, park_price_adj) %>%
       return()
@@ -378,10 +382,12 @@ vmt_road_policy <- function(.mode,
       unique()
 
     return(fc_return)
-  } else if (.mode %in% c("BU",
-                          "BRT",
-                          "RU",
-                          "RI")) {
+  } else if (.mode %in% c(
+    "BU",
+    "BRT",
+    "RU",
+    "RI"
+  )) {
     # browser()
     pldv_stocks <- transportation_data$passenger %>%
       filter(
@@ -457,8 +463,8 @@ vmt_road_policy <- function(.mode,
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-                  select(year, freight_vmt_elast),
-                by = "year"
+        select(year, freight_vmt_elast),
+      by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -471,8 +477,8 @@ vmt_road_policy <- function(.mode,
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-                  select(year, freight_vmt_elast),
-                by = "year"
+        select(year, freight_vmt_elast),
+      by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -533,18 +539,22 @@ vmt_transit_ridership <- function(.tb_vmt,
                                   .transit_rider_pct,
                                   .enviro_factors = enviro_factors) {
   # browser()
-  if (.mode %in% c("PLDV",
-                   "AV")) {
+  if (.mode %in% c(
+    "PLDV",
+    "AV"
+  )) {
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = .transit_rider_pct / 100 * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
-  } else if (.mode %in% c("BU",
-                          "BRT",
-                          "RU",
-                          "RI")){
+  } else if (.mode %in% c(
+    "BU",
+    "BRT",
+    "RU",
+    "RI"
+  )) {
     .tb_vmt %>%
       select(year, ctu) %>%
       mutate(transit_adj = 1 + .transit_rider_pct / 100) %>%
@@ -594,13 +604,13 @@ vmt_vehicle_occupancy <- function(tb,
       values_from = value
     ) %>%
     select(mode,
-           year,
-           ctu,
-           aeo_mode,
-           type,
-           mode_totstock = TotStock,
-           mode_stock = !!rlang::sym(.stock),
-           mode_avo = AVO
+      year,
+      ctu,
+      aeo_mode,
+      type,
+      mode_totstock = TotStock,
+      mode_stock = !!rlang::sym(.stock),
+      mode_avo = AVO
     )
 
   # some modes apply the same AVO to all CTUs
@@ -613,14 +623,16 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-             occupancy_adj = value
+        occupancy_adj = value
       ) %>%
       unique()
     return(pldv_occupancy)
-  } else if (.mode %in% c("BU",
-                          "BRT",
-                          "RU",
-                          "RI")) {
+  } else if (.mode %in% c(
+    "BU",
+    "BRT",
+    "RU",
+    "RI"
+  )) {
     # if (.mode %in% c("RU", "RI", "BRT")) {
     #   tb_mode_totstock_ctu <- tb_mode_totstock %>%
     #     filter(is.na(mode_avo)) %>%
@@ -642,14 +654,15 @@ vmt_vehicle_occupancy <- function(tb,
       unique()
 
     return(occ_return)
-  } else if (.mode %in% c("BS",
-                          "FR",
-                          "SUT",
-                          "CUT",
-                          "MM",
-                          "AIR",
-                          "WAT")) {
-
+  } else if (.mode %in% c(
+    "BS",
+    "FR",
+    "SUT",
+    "CUT",
+    "MM",
+    "AIR",
+    "WAT"
+  )) {
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo * (mode_stock / mode_totstock)) %>%

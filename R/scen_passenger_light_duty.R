@@ -344,10 +344,11 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   # account for proportion of PHEV
   phev_vmt_gas <- left_join(phev_vmt_gas,
-            transportation_data$passenger %>%
-              dplyr::filter(mode == mode, var == "PHEVPr"),
-            by =  c("mode", "ctu", "year", "aeo_mode", "type")) %>%
-    mutate(vmt = vmt * (1-value)) %>%
+    transportation_data$passenger %>%
+      dplyr::filter(mode == mode, var == "PHEVPr"),
+    by = c("mode", "ctu", "year", "aeo_mode", "type")
+  ) %>%
+    mutate(vmt = vmt * (1 - value)) %>%
     select(names(phev_vmt_gas))
 
   ### VMT electric ------
@@ -388,9 +389,10 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   # account for proportion of PHEV
   phev_vmt_electric <- left_join(phev_vmt_electric,
-            transportation_data$passenger %>%
-              dplyr::filter(mode == mode, var == "PHEVPr"),
-            by =  c("mode", "ctu", "year", "aeo_mode", "type")) %>%
+    transportation_data$passenger %>%
+      dplyr::filter(mode == mode, var == "PHEVPr"),
+    by = c("mode", "ctu", "year", "aeo_mode", "type")
+  ) %>%
     mutate(vmt = vmt * value) %>%
     select(names(phev_vmt_electric))
 
