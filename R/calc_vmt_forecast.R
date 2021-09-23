@@ -86,19 +86,20 @@ calc_vmt_forecast <- function(.scenario,
       miles_traveled = value,
       scenario = .scenario
     ) %>%
-    select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled)
+    select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled) %>%
+    unique()
 
   # If it's not the BAU scenario, then need to run elasticities, etc.
   if (.scenario != "BAU") {
     # Not BAU ----
-    # browser()
+    browser()
 
 
 
-    if ((.mode == "BU") |
-      (.mode == "BRT") |
-      (.mode == "RU") |
-      (.mode == "RI")) {
+    if (.mode %in% c("BU",
+                     "BRT",
+                     "RU",
+                     "RI")){
       # bus and rail -----
       # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
 
@@ -284,6 +285,7 @@ calc_vmt_forecast <- function(.scenario,
             telework_adj * land_use_adj *
             park_price_adj / occupancy_adj) %>%
         select(scenario, ctu, year, mode, aeo_mode, vmt = pass_ld_vmt)
+        unique()
 
 
       # return(vmt_forecast)
