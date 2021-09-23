@@ -99,7 +99,7 @@
 #' Reference index for abbreviations
 #'
 #' @format A list of tibbles with identifiers, abbreviations, and descriptions
-#'     for each emission source, variable, and transportation mode.
+#'     for each emission source, variable, transportation mode, and AEO scenario.
 #' \describe{
 #'   \item{emission_sources}{tibble with columns `source_id`, `source_abbrev`,
 #'       and `source_description`}
@@ -107,6 +107,7 @@
 #'       `var_description`, and `var_description_2`}
 #'   \item{modes}{tibble with columns `mode_id`, `mode_abbrev`,
 #'       `mode_description_1`, and `mode_description_2`}
+#'   \item{aeo}{tibble with columns `aeo_scen`, `name`, and `description`}
 #' }
 #'
 #' @family datasets

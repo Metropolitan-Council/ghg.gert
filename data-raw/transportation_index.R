@@ -15,10 +15,15 @@ modes <- read_csv("data-raw/indices/mode-wDef.csv") %>%
   as_tibble()
 
 
+aeo_desc <- read_csv("data-raw/indices/aeo_descriptions.csv") %>%
+  as_tibble()
+
+
 transportation_index <- list(
   "emission_sources" = emission_sources,
   "variables" = variables,
-  "modes" = modes
+  "modes" = modes,
+  "aeo" = aeo_desc
 )
 
 usethis::use_data(transportation_index, overwrite = TRUE)
