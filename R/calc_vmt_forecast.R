@@ -12,9 +12,9 @@
 #' @param .transit_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @param .transit_rider_pct transit ridership % adjustment. Default is `0`
 #' @param .vmt_fee VMT fee per mile. Default is `0`
-#' @param .payd_fee  PAYD insurance fee per mile. Default is `0`
-#' @param .gas_tax .gas_tax tax per mile. Default is `0`
-#' @param .cong_price congestion price per mile (only applies to an approximation of
+#' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee per mile. Default is `0`
+#' @param .gas_tax Gas tax tax per mile. Default is `0`
+#' @param .cong_price Congestion price per mile (only applies to an approximation of
 #'     congested miles in MSP). Default is `0`
 #' @param .parking_price measured in cents per hour. Average price of parking based on TBI results and literature -
 #'      Default is `0`
