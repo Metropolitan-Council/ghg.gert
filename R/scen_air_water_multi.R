@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-calc_freight_air_water_multi <- function(.scenario = "BAU",
+scen_air_water_multi <- function(.scenario = "BAU",
                                          .electric_scenario = "ER",
                                          .aeo_scenario = "REF",
                                          .ctu = "",

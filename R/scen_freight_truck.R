@@ -1,5 +1,3 @@
-#' Title
-#'
 #' Calculate scenario for freight trucks
 #'
 #' @inheritParams scenario_results
@@ -11,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-calc_freight_truck <- function(.scenario = "BAU",
+scen_freight_truck <- function(.scenario = "BAU",
                                .electric_scenario = "ER",
                                .aeo_scenario = "REF",
                                .ctu = "",

@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-calc_freight_rail <- function(.scenario = "BAU",
+scen_freight_rail <- function(.scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
                               .ctu = "",

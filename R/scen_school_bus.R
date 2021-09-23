@@ -3,14 +3,13 @@
 #' @inheritParams scenario_results
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation results
-#' @keywords passenger
+#' @family transportation results, passenger
 #'
 #' @return
 #' @export
 #'
 #' @importFrom emo ji
-calc_school_bus <- function(.scenario = "BAU",
+scen_school_bus <- function(.scenario = "BAU",
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
                             .ctu = "",

@@ -10,7 +10,7 @@
 #'
 #' @importFrom emo ji
 #'
-calc_passenger_light_duty <- function(.scenario = "BAU",
+scen_passenger_light_duty <- function(.scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
                                       .ctu = "",
@@ -342,18 +342,20 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
   ) %>%
     mutate(class = class)
 
-  # left_join(phev_vmt_gas,
-  #           transportation_data$passenger %>%
-  #             dplyr::filter(mode == mode, var == "PHEVPr"),
-  #           by =  c("mode", "ctu", "year", "aeo_mode", "type"))
+  # account for proportion of PHEV
+  phev_vmt_gas <- left_join(phev_vmt_gas,
+            transportation_data$passenger %>%
+              dplyr::filter(mode == mode, var == "PHEVPr"),
+            by =  c("mode", "ctu", "year", "aeo_mode", "type")) %>%
+    mutate(vmt = vmt * (1-value)) %>%
+    select(names(phev_vmt_gas))
 
+  ### VMT electric ------
   fcm <- calc_fuel_cost_mile(
     transportation_data$passenger, mode, .aeo_scenario,
     mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
 
-
-  ### VMT electric ------
   phev_vmt_electric <- calc_vmt_forecast(
     .scenario = .scenario,
     tb = transportation_data$passenger,
@@ -382,6 +384,15 @@ calc_passenger_light_duty <- function(.scenario = "BAU",
     .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
+
+
+  # account for proportion of PHEV
+  phev_vmt_electric <- left_join(phev_vmt_electric,
+            transportation_data$passenger %>%
+              dplyr::filter(mode == mode, var == "PHEVPr"),
+            by =  c("mode", "ctu", "year", "aeo_mode", "type")) %>%
+    mutate(vmt = vmt * value) %>%
+    select(names(phev_vmt_electric))
 
 
   ### VMT all -----

@@ -12,7 +12,7 @@
 #'
 #'
 #' @importFrom emo ji
-calc_dynamic_ride_sharing <- function(.scenario = "BAU",
+scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
                                       .ctu = "",

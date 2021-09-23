@@ -71,7 +71,7 @@ scenario_results <- function(.scenario = "BAU",
   # 4. Calculate VMT with `calc`
 
   # passenger light-duty -----
-  passenger_light_duty <- calc_passenger_light_duty(
+  passenger_light_duty <- scen_passenger_light_duty(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -101,7 +101,7 @@ scenario_results <- function(.scenario = "BAU",
 
 
   # transit buses -----
-  bus_transit <- calc_bus_transit(
+  bus_transit <- scen_transit_bus(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -131,7 +131,7 @@ scenario_results <- function(.scenario = "BAU",
 
   # transit rail -----
 
-  rail_transit <- calc_rail_transit(
+  rail_transit <- scen_transit_rail(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -160,7 +160,7 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   # school bus-----
-  school_bus <- calc_school_bus(
+  school_bus <- scen_school_bus(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -190,7 +190,7 @@ scenario_results <- function(.scenario = "BAU",
 
 
   # walk and bike ----
-  walk_bike <- calc_walk_bike(
+  walk_bike <- scen_walk_bike(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -221,7 +221,7 @@ scenario_results <- function(.scenario = "BAU",
   # Dynamic Ride Sharing -----
 
   if (.drs_pct > 0) {
-    dynamic_ride_share <- calc_dynamic_ride_sharing(
+    dynamic_ride_share <- scen_dynamic_ride_sharing(
       .scenario = .scenario,
       .electric_scenario = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
@@ -252,7 +252,7 @@ scenario_results <- function(.scenario = "BAU",
 
   # autonomous vehicles -----
 
-  auto_veh <- calc_autonomous_vehicle(
+  auto_veh <- scen_autonomous_vehicle(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -286,7 +286,7 @@ scenario_results <- function(.scenario = "BAU",
   # (measured in ton-miles NOT miles)
 
   # freight truck ------
-  freight_truck <- calc_freight_truck(
+  freight_truck <- scen_freight_truck(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -317,7 +317,7 @@ scenario_results <- function(.scenario = "BAU",
 
   # freight rail -----
 
-  freight_rail <- calc_freight_rail(
+  freight_rail <- scen_freight_rail(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -348,7 +348,7 @@ scenario_results <- function(.scenario = "BAU",
 
 
   # freight multi-modal, air, and water -----
-  freight_multi_air_wat <- calc_freight_air_water_multi(
+  freight_multi_air_wat <- scen_air_water_multi(
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,

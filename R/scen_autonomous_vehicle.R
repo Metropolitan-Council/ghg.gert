@@ -1,5 +1,3 @@
-#' Title
-#'
 #' Calculate scenario for autonomous vehicles (AVs)
 #'
 #' @inheritParams scenario_results
@@ -12,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-calc_autonomous_vehicle <- function(.scenario = "BAU",
+scen_autonomous_vehicle <- function(.scenario = "BAU",
                                     .electric_scenario = "ER",
                                     .aeo_scenario = "REF",
                                     .ctu = "",
