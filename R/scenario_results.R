@@ -64,6 +64,25 @@ scenario_results <- function(.scenario = "BAU",
       )
   }
 
+  l_names <- c("electric_scenario",
+               "aeo_scenario",
+               "vmt_fee",
+               "payd_fee",
+               "parking_price",
+               "transit_avo")
+
+  l_vals <- c(.electric_scenario,
+              .aeo_scenario,
+              .vmt_fee,
+              .payd_fee,
+              .parking_price,
+              .transit_avo)
+
+  purrr::map2(l_names, l_vals, check_inputs)
+
+
+
+
   # Sequence for each
   # 1. Establish `type`, `var`, `mode`
   # 2. Establish `stock`, `mpg`, `class`

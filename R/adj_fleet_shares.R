@@ -9,8 +9,8 @@
 #' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050
 #' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050
 #' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050
-#' @param .pass_tb passenger input table
-#' @param .freight_tb freight input table
+#' @param .pass_tb passenger input table. Default is `transportation_data$passenger`.
+#' @param .freight_tb freight input table. Default is `transportation_data$freight`.
 #' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS) Default is `0`.
 #' @param .ctu the chosen CTU for dplyr::filter of tables
 #' @inheritParams calc_vmt_forecast
@@ -24,12 +24,13 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr filter select case_when mutate across summarise group_by ungroup cur_column
 #' @importFrom tidyr pivot_wider pivot_longer
+#' @importFrom purrr map2
 #'
 adj_fleet_shares <- function(.bev_pct_sales,
                              .phev_pct_sales,
                              .hev_pct_sales,
-                             .pass_tb,
-                             .freight_tb,
+                             .pass_tb = transportation_data$passenger,
+                             .freight_tb = transportation_data$freight,
                              .vmt_fee = 0,
                              .payd_fee = 0,
                              .gas_tax = 0,
@@ -38,6 +39,25 @@ adj_fleet_shares <- function(.bev_pct_sales,
                              .ctu,
                              .enviro_factors = enviro_factors) {
 
+  # check inputs -----
+  l_names <- c("bev_pct_sales",
+               "hev_pct_sales",
+               "phev_pct_sales",
+               "drs_pct_trip")
+
+  l_values <- c(.bev_pct_sales,
+                .hev_pct_sales,
+                .phev_pct_sales,
+                .drs_pct_trip)
+
+  purrr::map2(l_names, l_vals, check_inputs)
+
+  if(sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 90){
+    stop("Values will not add to less than 90 for BEV, PHEV, and HEV percent sales.")
+  }
+
+
+  # calculation -----
   # Adjust sales based on ownership response to price elasticity
   adj_si_ci_sales <- (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
     .payd_fee / .enviro_factors$AUTO_COST_MI) *
