@@ -60,7 +60,7 @@ testthat::test_that("BAU, Passenger gasoline correct", {
 })
 
 
-# test walk ------
+# walk ------
 
 walk_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
@@ -109,7 +109,7 @@ testthat::test_that("BAU walk VMT correct", {
 })
 
 
-# test passenger ci -----
+# passenger ci -----
 
 fcm_test <- calc_fuel_cost_mile(
   st_paul_passenger,
@@ -170,7 +170,7 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
   )
 })
 
-# rail ! -----
+# rail -----
 
 ru_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
