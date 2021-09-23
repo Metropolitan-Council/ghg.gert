@@ -92,7 +92,7 @@ calc_vmt_forecast <- function(.scenario,
   # If it's not the BAU scenario, then need to run elasticities, etc.
   if (.scenario != "BAU") {
     # Not BAU ----
-    browser()
+    # browser()
 
 
 

@@ -50,12 +50,12 @@ scenario_results <- function(.scenario = "BAU",
         dplyr::across(
           all_of(YRS), ~ dplyr::case_when(
             ((mode == "PLDV") &
-              var == "PMT") ~ .x *
+               var == "PMT") ~ .x *
               dplyr::case_when(
                 .drs_pct > 0 ~ (1 - pass_transpo %>%
-                  dplyr::filter(var == "DRSShare") %>%
-                  dplyr::select(dplyr::cur_column()) %>%
-                  as.numeric() * .drs_pct / 100),
+                                  dplyr::filter(var == "DRSShare") %>%
+                                  dplyr::select(dplyr::cur_column()) %>%
+                                  as.numeric() * .drs_pct / 100),
                 TRUE ~ 1
               ),
             TRUE ~ .x
@@ -71,12 +71,12 @@ scenario_results <- function(.scenario = "BAU",
                "parking_price",
                "transit_avo")
 
-  l_vals <- c(.electric_scenario,
-              .aeo_scenario,
-              .vmt_fee,
-              .payd_fee,
-              .parking_price,
-              .transit_avo)
+  l_vals <- list(.electric_scenario,
+                 .aeo_scenario,
+                 .vmt_fee,
+                 .payd_fee,
+                 .parking_price,
+                 .transit_avo)
 
   purrr::map2(l_names, l_vals, check_inputs)
 
@@ -396,7 +396,7 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   # Finish up -----
-
+  browser()
   passenger <- list(
     PLDV = passenger_light_duty,
     RAIL = rail_transit,
@@ -406,11 +406,54 @@ scenario_results <- function(.scenario = "BAU",
     AV = auto_veh
   )
 
-  freight <- list(
-    AIR_WAT_MM = freight_multi_air_wat,
-    FRAIL = freight_rail,
-    SUT_CUT = freight_truck
-  )
+
+  pass_vmt <- bind_rows(passenger_light_duty$vmt,
+                        rail_transit$vmt,
+                        bus_transit$vmt,
+                        walk_bike$vmt,
+                        school_bus$vmt,
+                        auto_veh)
+
+  pass_dir_ghg <-  bind_rows(
+    passenger_light_duty$dir_ghg,
+    rail_transit$dir_ghg,
+    bus_transit$dir_ghg,
+    school_bus$dir_ghg,
+    auto_veh)
+
+  pass_indir_ghg <- bind_rows(passenger_light_duty$emb_gog,
+                              bus_transit$emb_gog)
+
+  pass_fuel <- bind_rows(passenger_light_duty$fuel_use,
+                         bus_transit$fuel_use,
+                         rail_transit$fuel_use,
+                         school_bus$fuel_use)
+
+  pass_cost <- bind_rows(passenger_light_duty$cost,
+                         bus_transit$cost,
+                         rail_transit$cost,
+                         school_bus$cost)
+
+pass_all <- left_join(pass_vmt, pass_dir_ghg) %>%
+  # left_join(pass_indir_ghg) %>%
+  left_join(pass_fuel) %>%
+  left_join(pass_cost)
+
+## freight -----
+freight_vmt <- bind_rows(freight_multi_air_wat$vmt,
+          freight_rail$vmt,
+          freight_truck$vmt)
+
+freight_ghg <- bind_rows(freight_multi_air_wat$ghg,
+                         freight_truck$dir_ghg,
+                         freight_rail$dir_ghg)
+
+
+    freight <- list(
+      AIR_WAT_MM = freight_multi_air_wat,
+      FRAIL = freight_rail,
+      SUT_CUT = freight_truck
+    )
 
   # browser()
 

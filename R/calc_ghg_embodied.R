@@ -139,7 +139,8 @@ calc_ghg_embodied <- function(tb,
         # aeo_scen,
         aeo_mode,
         ghg_embodied
-      )
+      ) %>%
+      unique()
   }
 
   return(ghg)
