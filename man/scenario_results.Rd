@@ -49,14 +49,14 @@ scenario_results(
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
-\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
 
-\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
 
 \item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
 Default is \code{0}}
 
-\item{.cong_price}{congestion price per mile (only applies to an approximation of
+\item{.cong_price}{Congestion price per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}

@@ -32,9 +32,9 @@ adj_fleet_shares(
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
-\item{.payd_fee}{PAYD insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
 
-\item{.gas_tax}{.gas_tax tax per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
 
 \item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS) Default is \code{0}.}
 
