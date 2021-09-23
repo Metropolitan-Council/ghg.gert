@@ -1,0 +1,53 @@
+#' Check input parameters
+#'
+#' @param name parameter name
+#' @param value parameter value
+#'
+#' @return Error if values do not pass
+#' @export
+#'
+#' @examples
+#'
+#' check_inputs("electric_scenario", "ER")
+#' check_inputs("transit_avo", 0)
+check_inputs <- function(name, value) {
+  if (name == "electric_scenario") {
+    if (!value %in% c("ER", "EM")) {
+      stop("Enter a valid electricity scenario: 'ER' or 'EM'.")
+    }
+  } else if (name == "aeo_scenario") {
+    if (!value %in% c("REF", "HM", "HOGS", "
+                      LM", "HP", "LP", "LOGS")) {
+      stop("Enter a valid aeo scenario: 'REF', 'HM', 'LM', 'HP', 'LP','HOGS', or 'LOGS'")
+    }
+  } else if (name %in% c("transit_avo")) {
+    if (!is.numeric(value)) {
+      stop("Enter a valid transit AVO value between 0 and 500")
+    } else if (value < 0 | value > 500) {
+      stop("Enter a valid transit AVO value between 0 and 500")
+    }
+  } else if (name %in% c(
+    "vmt_fee",
+    "payd_fee",
+    "freight_vmt_fee"
+  )) {
+    if (value > 100) {
+      stop(paste("Enter a valid", name, "value between 0 and 100"))
+    }
+  } else if (name %in% c("parking_price")) {
+    if (value > 20 | value < 0) {
+      stop("Enter a valid parking price between 0 and 20 dollars")
+    }
+  } else if (name %in% c(
+    "bev_pct_sales",
+    "hev_pct_sales",
+    "phev_pct_sales",
+    "drs_pct_trip"
+  )) {
+    if (value > 90 | value < 0) {
+      stop(paste("Enter a valid", name, "value between 0 and 90"))
+    }
+  } else {
+    return()
+  }
+}
