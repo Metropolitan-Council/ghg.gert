@@ -63,3 +63,24 @@ si_dir_ghg <- calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon = "CIMPG"
 )
+
+
+# battery electric -----
+
+fcm <- calc_fuel_cost_mile(
+  st_paul_passenger,
+  .mode = "PLDV",
+  .aeo_scenario = "REF",
+  "BEVElec",
+  enviro_factors$ELEC_FUEL_COST_KWH
+)
+
+
+bev_dir_ghg <- calc_ghg_direct(
+  tb_vmt = ci_vmt_test,
+  tb = st_paul_passenger,
+  .mode = "PLDV",
+  .fuel_type = "BEV",
+  .aeo_scenario = "REF",
+  .miles_per_gallon = "BEVElec"
+)

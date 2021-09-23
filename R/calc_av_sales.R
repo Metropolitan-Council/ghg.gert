@@ -15,6 +15,8 @@
 calc_av_sales <- function(tb,
                           .av_pct) {
   browser()
+
+
   # Calculate basic sales (initial + 1/3 fleet replacement) and store as temp variable
   # Initial population of tibble with zeros
   temp <- tb %>%

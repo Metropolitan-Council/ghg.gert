@@ -8,8 +8,8 @@ adj_fleet_shares(
   .bev_pct_sales,
   .phev_pct_sales,
   .hev_pct_sales,
-  .pass_tb,
-  .freight_tb,
+  .pass_tb = transportation_data$passenger,
+  .freight_tb = transportation_data$freight,
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
@@ -26,9 +26,9 @@ adj_fleet_shares(
 
 \item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
 
-\item{.pass_tb}{passenger input table}
+\item{.pass_tb}{passenger input table. Default is \code{transportation_data$passenger}.}
 
-\item{.freight_tb}{freight input table}
+\item{.freight_tb}{freight input table. Default is \code{transportation_data$freight}.}
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 

@@ -40,23 +40,27 @@ adj_fleet_shares <- function(.bev_pct_sales,
                              .enviro_factors = enviro_factors) {
 
   # check inputs -----
-  l_names <- c("bev_pct_sales",
-               "hev_pct_sales",
-               "phev_pct_sales",
-               "drs_pct_trip")
+  l_names <- c(
+    "bev_pct_sales",
+    "hev_pct_sales",
+    "phev_pct_sales",
+    "drs_pct_trip"
+  )
 
-  l_vals <- list(.bev_pct_sales,
-                .hev_pct_sales,
-                .phev_pct_sales,
-                .drs_pct_trip)
+  l_vals <- list(
+    .bev_pct_sales,
+    .hev_pct_sales,
+    .phev_pct_sales,
+    .drs_pct_trip
+  )
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-  if(sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 90){
+  if (sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 90) {
     stop("Values will not add to less than 90 for BEV, PHEV, and HEV percent sales.")
   }
 
-browser()
+  browser()
   # calculation -----
   # Adjust sales based on ownership response to price elasticity
   adj_si_ci_sales <- (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
@@ -69,14 +73,13 @@ browser()
     .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
   pass_adj <- .pass_tb %>%
     mutate(mul = dplyr::case_when(
-        (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt_sales,
-        (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt_sales,
-        (mode == "PLDV" & var == "HEVExist") ~ value * adj_alt_sales,
-        (mode == "PLDV" & var == "SIExist") ~ value * adj_si_ci_sales,
-        (mode == "PLDV" & var == "CIExist") ~ value * adj_si_ci_sales,
-        TRUE ~ value
-      )
-    )
+      (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt_sales,
+      (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt_sales,
+      (mode == "PLDV" & var == "HEVExist") ~ value * adj_alt_sales,
+      (mode == "PLDV" & var == "SIExist") ~ value * adj_si_ci_sales,
+      (mode == "PLDV" & var == "CIExist") ~ value * adj_si_ci_sales,
+      TRUE ~ value
+    ))
 
   # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
   if (.drs_pct_trip > 0) {
@@ -137,90 +140,113 @@ browser()
   if (.bev_pct_sales > 0 | .phev_pct_sales > 0 | .hev_pct_sales > 0) {
     # Temporarily update any zero sales in final year to equal 1
     pass_tb_1 <- .pass_tb %>%
-      filter(mode == "PLDV",
-        stringr::str_detect(var, "Sales")) %>%
+      filter(
+        mode == "PLDV",
+        stringr::str_detect(var, "Sales")
+      ) %>%
       rowwise() %>%
       mutate(value = dplyr::case_when(
-          value == 0 ~ 1,
-        TRUE ~ value)
-    )
+        value == 0 ~ 1,
+        TRUE ~ value
+      ))
 
 
     pass_tb_sales <- .pass_tb %>%
-      filter(mode == "PLDV",
-             stringr::str_detect(var, "Sales")) %>%
+      filter(
+        mode == "PLDV",
+        stringr::str_detect(var, "Sales")
+      ) %>%
       unique() %>%
       pivot_wider(names_from = "var", values_from = "value")
 
 
-  pass_tb_sales_w_fin <- pass_tb_sales %>%
+    pass_tb_sales_w_fin <- pass_tb_sales %>%
       filter(year == max(year)) %>%
-      mutate(si_fin_year = SISales/TotSales,
-             ci_fin_year = CISales/TotSales,
-             hev_fin_year = HEVSales/TotSales,
-             phev_fin_year = PHEVSales/TotSales,
-             bev_fin_year = BEVSales/TotSales) %>%
-      select(mode, ctu, aeo_mode, type,
-             si_fin_year,
-             ci_fin_year,
-             hev_fin_year,
-             phev_fin_year,
-             bev_fin_year) %>%
+      mutate(
+        si_fin_year = SISales / TotSales,
+        ci_fin_year = CISales / TotSales,
+        hev_fin_year = HEVSales / TotSales,
+        phev_fin_year = PHEVSales / TotSales,
+        bev_fin_year = BEVSales / TotSales
+      ) %>%
+      select(
+        mode, ctu, aeo_mode, type,
+        si_fin_year,
+        ci_fin_year,
+        hev_fin_year,
+        phev_fin_year,
+        bev_fin_year
+      ) %>%
       right_join(pass_tb_sales) %>%
       arrange(ctu, year) %>%
-      select(names(pass_tb_sales),
-                   si_fin_year,
-                   ci_fin_year,
-                   hev_fin_year,
-                   phev_fin_year,
-                   bev_fin_year )
+      select(
+        names(pass_tb_sales),
+        si_fin_year,
+        ci_fin_year,
+        hev_fin_year,
+        phev_fin_year,
+        bev_fin_year
+      )
 
 
     all_pcts <- as.numeric(100 - .bev_pct_sales - .phev_pct_sales - .hev_pct_sales)
 
     pass_adj_tab <- pass_tb_sales_w_fin %>%
       rowwise() %>%
-      mutate(ptb_si = all_pcts/100 *(SISales/SISales + CISales) *(SISales/TotSales) / si_fin_year,
-             ptb_ci = all_pcts/100 *(CISales/CISales + SISales) *(CISales/TotSales)/ ci_fin_year,
-             ptb_hev = (.hev_pct_sales/100) *(HEVSales/TotSales)/hev_fin_year,
-             ptb_phev = (.phev_pct_sales/100) *(PHEVSales/TotSales) / phev_fin_year,
-             ptb_bev = (.bev_pct_sales/100) * (BEVSales/TotSales) /bev_fin_year
+      mutate(
+        ptb_si = all_pcts / 100 * (SISales / SISales + CISales) * (SISales / TotSales) / si_fin_year,
+        ptb_ci = all_pcts / 100 * (CISales / CISales + SISales) * (CISales / TotSales) / ci_fin_year,
+        ptb_hev = (.hev_pct_sales / 100) * (HEVSales / TotSales) / hev_fin_year,
+        ptb_phev = (.phev_pct_sales / 100) * (PHEVSales / TotSales) / phev_fin_year,
+        ptb_bev = (.bev_pct_sales / 100) * (BEVSales / TotSales) / bev_fin_year
       ) %>%
-      mutate(ptb_tot_sales = sum(ptb_si,
-                                 ptb_ci,
-                                 ptb_hev,
-                                 ptb_phev,
-                                 ptb_bev),
-
-             new_si = ptb_si/ptb_tot_sales,
-             new_ci = ptb_ci/ptb_tot_sales,
-             new_hev = ptb_hev/ptb_tot_sales,
-             new_phev = ptb_phev/ptb_tot_sales,
-             new_bev = ptb_bev/ptb_tot_sales) %>%
-      mutate(sum_check = sum(new_si,
-                             new_ci,
-                             new_bev,
-                             new_hev,
-                             new_phev))
+      mutate(
+        ptb_tot_sales = sum(
+          ptb_si,
+          ptb_ci,
+          ptb_hev,
+          ptb_phev,
+          ptb_bev
+        ),
+        new_si = ptb_si / ptb_tot_sales,
+        new_ci = ptb_ci / ptb_tot_sales,
+        new_hev = ptb_hev / ptb_tot_sales,
+        new_phev = ptb_phev / ptb_tot_sales,
+        new_bev = ptb_bev / ptb_tot_sales
+      ) %>%
+      mutate(sum_check = sum(
+        new_si,
+        new_ci,
+        new_bev,
+        new_hev,
+        new_phev
+      ))
 
 
 
     .pass_tb %>%
-      filter(mode == "PLDV",
-             stringr::str_detect(var, "Sales")) %>%
+      filter(
+        mode == "PLDV",
+        stringr::str_detect(var, "Sales")
+      ) %>%
       left_join(pass_adj_tab %>%
-                  select(mode, ctu, year, aeo_mode, type,
-                         new_si,
-                         new_ci,
-                         new_bev,
-                         new_hev,
-                         new_phev)) %>%
-      mutate(new_val = case_when(var == "BEVSales" ~ value * new_bev,
-                                 var == "CISales" ~ value * new_ci,
-                                 var == "SISales" ~ value * new_si,
-                                 var == "PHEVSales" ~ value * new_phev,
-                                 var == "HEVSales" ~ value * new_hev,
-                                 TRUE ~ value)) %>% View
+        select(
+          mode, ctu, year, aeo_mode, type,
+          new_si,
+          new_ci,
+          new_bev,
+          new_hev,
+          new_phev
+        )) %>%
+      mutate(new_val = case_when(
+        var == "BEVSales" ~ value * new_bev,
+        var == "CISales" ~ value * new_ci,
+        var == "SISales" ~ value * new_si,
+        var == "PHEVSales" ~ value * new_phev,
+        var == "HEVSales" ~ value * new_hev,
+        TRUE ~ value
+      )) %>%
+      View()
 
     # dplyr::filter out the ratios in the BAU and compare with user input for alternative scenario
     # PASSENGER-----
@@ -355,7 +381,8 @@ browser()
                 var == "TotSales"
               ) %>%
               dplyr::select(dplyr::cur_column()) * ptb_bev_sales %>%
-              dplyr::select(dplyr::cur_column())),
+                dplyr::select(dplyr::cur_column())
+          ),
           (mode == "PLDV" & var == "PHEVSales") ~
           as.numeric(.pass_tb %>%
             dplyr::filter(

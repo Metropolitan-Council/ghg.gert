@@ -6,7 +6,7 @@
 \title{Reference index for abbreviations}
 \format{
 A list of tibbles with identifiers, abbreviations, and descriptions
-for each emission source, variable, and transportation mode.
+for each emission source, variable, transportation mode, and AEO scenario.
 \describe{
 \item{emission_sources}{tibble with columns \code{source_id}, \code{source_abbrev},
 and \code{source_description}}
@@ -14,6 +14,7 @@ and \code{source_description}}
 \code{var_description}, and \code{var_description_2}}
 \item{modes}{tibble with columns \code{mode_id}, \code{mode_abbrev},
 \code{mode_description_1}, and \code{mode_description_2}}
+\item{aeo}{tibble with columns \code{aeo_scen}, \code{name}, and \code{description}}
 }
 }
 \usage{
