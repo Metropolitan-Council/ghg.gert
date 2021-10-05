@@ -2,12 +2,13 @@
 library(tidyverse)
 
 pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv",
-                         col_names = c(
-                           "mode", "var", "ctu",
-                           "2015", "2018", "2020",
-                           "2025", "2030", "2035",
-                           "2040", "2045", "2050"
-                         ))
+  col_names = c(
+    "mode", "var", "ctu",
+    "2015", "2018", "2020",
+    "2025", "2030", "2035",
+    "2040", "2045", "2050"
+  )
+)
 freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv")
 
 
@@ -90,20 +91,22 @@ transportation_data <- list(
     pass_transpo_long %>%
       filter(ctu != "All"),
     passenger_transpo_all
-  ),
+  ) %>%
+    unique(),
   freight = rbind(
     freight_transpo_long %>%
       filter(ctu != "All"),
     freight_transpo_all
-  )
+  ) %>%
+    unique()
 )
 
 
 testthat::expect_false("All" %in% transportation_data$passenger$ctu)
 testthat::expect_false("All" %in% transportation_data$freight$ctu)
 
-testthat::expect_equal(157572, nrow(transportation_data$passenger))
-testthat::expect_equal(73494, nrow(transportation_data$freight))
+testthat::expect_equal(154296, nrow(transportation_data$passenger))
+testthat::expect_equal(72144, nrow(transportation_data$freight))
 
 
 usethis::use_data(transportation_data, overwrite = TRUE)
