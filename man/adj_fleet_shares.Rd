@@ -2,7 +2,7 @@
 % Please edit documentation in R/adj_fleet_shares.R
 \name{adj_fleet_shares}
 \alias{adj_fleet_shares}
-\title{Adjust Fleet}
+\title{Adjust fleet before running scenario}
 \usage{
 adj_fleet_shares(
   .bev_pct_sales,
@@ -15,7 +15,6 @@ adj_fleet_shares(
   .gas_tax = 0,
   .drs_pct_trip = 0,
   .av_pct = 0,
-  .ctu,
   .enviro_factors = enviro_factors
 )
 }
@@ -40,8 +39,6 @@ adj_fleet_shares(
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
-\item{.ctu}{the chosen CTU for dplyr::filter of tables}
-
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
@@ -52,7 +49,14 @@ Match what the user input for sales in 2050 rather
 than the defaults from MA3TFleet held fixed in all cases.
 AV/DRS scenarios adjust the sales
 total up, but they adjust the existing stock down to match total stock
-in each year.
+in each year.\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
+Distribute personal vehicle VMT between the different powertrains.
+Ratio of vehicle stocks by powertrain type.
+If the user inputs a different percent for BEV, update vehicles by existing
+vehicles and new sales
+DRS will take away from VMT for passenger vehicles.
+Run this before anything else
+}
 }
 \seealso{
 Other transportation: 

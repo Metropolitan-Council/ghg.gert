@@ -35,7 +35,7 @@ calc_vmt_forecast(
 )
 }
 \arguments{
-\item{.scenario}{character, scenario name}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or

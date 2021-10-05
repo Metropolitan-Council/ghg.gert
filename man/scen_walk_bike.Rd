@@ -34,7 +34,7 @@ scen_walk_bike(
 )
 }
 \arguments{
-\item{.scenario}{character, scenario name}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{.electric_scenario}{electricity scenario}
 

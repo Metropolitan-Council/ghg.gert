@@ -34,7 +34,7 @@ scen_freight_truck(
 )
 }
 \arguments{
-\item{.scenario}{character, scenario name}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{.electric_scenario}{electricity scenario}
 

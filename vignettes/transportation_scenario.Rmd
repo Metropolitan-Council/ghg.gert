@@ -12,17 +12,66 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
 ```
 
 ```{r setup}
 library(ghg.sp)
+library(tidyverse)
 ```
 
 
 ```{r}
 bau_summary <- scenario_results(.scenario = "BAU",
                                 .electric_scenario = "ER",
-                                .aeo_scenario = "REF")
+                                .aeo_scenario = "REF"
+                              )
+
+```
+
+```{r}
+alternate_scenario <- scenario_results(
+  .scenario = "MIT",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF",
+  .drs_fuel_type = "BEV",
+  .av_pct = 5,
+  .av_fuel_type = "BEV"
+)
+```
+
+```{r}
+bind_rows(
+bau_summary$passenger$PLDV$vmt %>% 
+  filter(ctu == "St. Paul"),
+
+alternate_scenario$passenger$PLDV$vmt %>% 
+  filter(ctu == "St. Paul")) %>% 
+  ggplot(aes(x = year,
+             y = vmt,
+             shape = class,
+             color = scenario)) +
+  geom_point(size = 3,
+             alpha = 0.5) +
+  scale_shape_discrete(labels = c("Battery electric",
+                                 "Diesel",
+                                 "Hybrid electric",
+                                 "Plug-in Hybrid",
+                                 "Gasoline"))
+
+```
+
+```{r}
+bau_summary$passenger$BU_BRT$vmt %>% 
+    filter(mode == "BU",
+         ctu == "St. Paul",
+         class == "BCI")  %>% 
+      mutate(vmt = vmt / 10^5)
+
+
+```
+```{r}
 
 ```
 
