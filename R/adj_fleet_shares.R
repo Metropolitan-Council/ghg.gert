@@ -6,6 +6,14 @@
 #'     total up, but they adjust the existing stock down to match total stock
 #'     in each year.
 #'
+#'     Jason has a model used to forecast vehicle fleet shares between powertrains.
+#'     Distribute personal vehicle VMT between the different powertrains.
+#'     Ratio of vehicle stocks by powertrain type.
+#'     If the user inputs a different percent for BEV, update vehicles by existing
+#'     vehicles and new sales
+#'     DRS will take away from VMT for passenger vehicles.
+#'     Run this before anything else
+#'
 #' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050
 #' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050
 #' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050

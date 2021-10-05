@@ -7,6 +7,11 @@ cost <- read_csv("data-raw/factors/cost_factor_dat.csv")
 ghg <- read_csv("data-raw/factors/ghg_factor_dat.csv")
 
 
+# AEO recognizes that there is uncertainty in the macroeconomic future
+# in addition to the AEO reference scenarios,
+# changes forecasts on mileage
+
+
 aeo_long <- aeo %>%
   group_by(AEOScen, Mode, Metric) %>%
   pivot_longer(cols = c(

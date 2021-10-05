@@ -1,6 +1,6 @@
 #' @title Calculate vehicle miles traveled by mode and power train
 #'
-#' @param .scenario character, scenario name
+#' @param .scenario character, scenario name. JUST A LABEL
 #' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided datasets `transportation_data$passenger` or
 #'    `transportation_data$freight` are suitable.
