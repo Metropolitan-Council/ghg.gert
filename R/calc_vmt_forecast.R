@@ -10,7 +10,7 @@
 #' @param .tb_fuel_cost_mile table with fuel cost per mile
 #' @param .aeo_scenario selected EIA Annual Energy Outlook scenario. Default is `"REF"`
 #' @param .transit_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
-#' @param .transit_rider_pct transit ridership % adjustment. Default is `0`
+#' @param .transit_rider_pct transit ridership % adjustment. Numeric between 0 and 1.   Default is `0`
 #' @param .vmt_fee VMT fee per mile. Default is `0`
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee per mile. Default is `0`
 #' @param .gas_tax Gas tax tax per mile. Default is `0`
@@ -19,18 +19,19 @@
 #' @param .parking_price measured in cents per hour. Average price of parking based on TBI results and literature -
 #'      Default is `0`
 #' @param .drs_pct percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-#'     Default is `0`
+#'     Numeric between 0 and 1.  Default is `0`
 #' @param .av_pct percent of trips made by AV. Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
-#' @param .pop_dens_pct_change percent change in population density in 2050 wrt BAU. Default is `0`
-#' @param .emp_dens_pct_change percent change in employment density in 2050 wrt BAU. Default is `0`
-#' @param .land_use_pct_change percent change in land use diversity/mix in 2050 wrt BAU. Default is `0`
-#' @param .intersection_design_pct_change percent change in intersection .intersection_design_pct_change (% 4-way stops) in 2050 wrt BAU. Default is `0`
-#' @param .job_access_pct_change percent change in job accessibility in 2050 wrt BAU. Default is `0`
-#' @param .transit_dist_pct_change percent change in transit distance in 2050 wrt BAU. Default is `0`
-#' @param .comb_5d_impact_pct_change percent change in population density in 2050 wrt BAU
-#'      as a measure of composite change in 5Ds on VMT. Default is `0`
-#' @param .telework_pct percent of people teleworking in 2050. Default is `0`
+#' @param .pop_dens_pct_change percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
+#' @param .emp_dens_pct_change percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
+#' @param .land_use_pct_change percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
+#' @param .intersection_design_pct_change percent change in intersection design (% 4-way stops) in 2050 relative to BAU.
+#'     Numeric between 0 and 1.  Default is `0`
+#' @param .job_access_pct_change percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
+#' @param .transit_dist_pct_change percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
+#' @param .comb_5d_impact_pct_change percent change in population density in 2050 relative to BAU
+#'      as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is `0`
+#' @param .telework_pct percent of people teleworking in 2050. Numeric between 0 and 1. Default is `0`
 #' @param ch_phev the current alternative is PHEV, which needs both
 #'     gasoline and electric results (using assumption
 #'     about gasoline/electric mode split). Default is `0`

@@ -55,7 +55,7 @@ scenario_results <- function(.scenario = "BAU",
                 .drs_pct > 0 ~ (1 - pass_transpo %>%
                   dplyr::filter(var == "DRSShare") %>%
                   dplyr::select(dplyr::cur_column()) %>%
-                  as.numeric() * .drs_pct / 100),
+                  as.numeric() * .drs_pct),
                 TRUE ~ 1
               ),
             TRUE ~ .x
@@ -70,7 +70,18 @@ scenario_results <- function(.scenario = "BAU",
     "vmt_fee",
     "payd_fee",
     "parking_price",
-    "transit_avo"
+    "transit_avo",
+    "transit_rider_pct",
+    "av_pct",
+    "drs_pct",
+    "emp_dens_pct_change",
+    "pop_dens_pct_change",
+    "job_access_pct_change",
+    "land_use_pct_change",
+    "transit_dist_pct_change",
+    "comb_5d_impact_pct_change",
+    "telework_pct",
+
   )
 
   l_vals <- list(
@@ -79,7 +90,19 @@ scenario_results <- function(.scenario = "BAU",
     .vmt_fee,
     .payd_fee,
     .parking_price,
-    .transit_avo
+    .transit_avo,
+    .transit_rider_pct,
+    .av_pct,
+    .drs_pct,
+    .emp_dens_pct_change,
+    .pop_dens_pct_change,
+    .job_access_pct_change,
+    .land_use_pct_change,
+    .transit_dist_pct_change,
+    .comb_5d_impact_pct_change,
+    .telework_pct,
+
+
   )
 
   purrr::map2(l_names, l_vals, check_inputs)

@@ -1,7 +1,7 @@
 t_hev_bev_phev <- adj_fleet_shares(
-  .bev_pct_sales = 20,
-  .phev_pct_sales = 15,
-  .hev_pct_sales = 40,
+  .bev_pct_sales = .20,
+  .phev_pct_sales = .15,
+  .hev_pct_sales = .40,
   .pass_tb = transportation_data$passenger,
   .freight_tb = transportation_data$freight,
   .vmt_fee = 0,

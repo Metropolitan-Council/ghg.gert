@@ -32,7 +32,7 @@ check_inputs <- function(name, value) {
     "freight_vmt_fee"
   )) {
     if (value > 100) {
-      stop(paste("Enter a valid", name, "value between 0 and 100"))
+      stop(paste("Enter a valid", name, "value between 0 and 100 cents per mile"))
     }
   } else if (name %in% c("parking_price")) {
     if (value > 20 | value < 0) {
@@ -42,12 +42,23 @@ check_inputs <- function(name, value) {
     "bev_pct_sales",
     "hev_pct_sales",
     "phev_pct_sales",
-    "drs_pct_trip"
+    "drs_pct_trip",
+    "transit_rider_pct",
+    "av_pct",
+    "drs_pct",
+    "emp_dens_pct_change",
+    "pop_dens_pct_change",
+    "job_access_pct_change",
+    "land_use_pct_change",
+    "transit_dist_pct_change",
+    "comb_5d_impact_pct_change",
+    "telework_pct"
   )) {
-    if (value > 90 | value < 0) {
-      stop(paste("Enter a valid", name, "value between 0 and 90"))
+    if (value > 1 | value < 0) {
+      stop(paste("Enter a valid", name, "value between 0 and 1"))
     }
   } else {
     return()
   }
 }
+

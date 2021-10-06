@@ -36,13 +36,13 @@ calc_av_sales <- function(tb,
         dplyr::select(which(colnames(tb) == dplyr::cur_column()) - 1)) *
         tb %>%
           dplyr::filter(mode == "AV", var == "AVShare") %>%
-          dplyr::select(dplyr::cur_column()) * av / 100 +
+          dplyr::select(dplyr::cur_column()) * av +
         tb %>%
         dplyr::filter(mode == "AV", var == "AVStock") %>%
         dplyr::select(which(colnames(tb) == dplyr::cur_column()) - 1) *
         tb %>%
           dplyr::filter(mode == "AV", var == "AVShare") %>%
-          dplyr::select(dplyr::cur_column()) * av / 100 * 1 / 3)
+          dplyr::select(dplyr::cur_column()) * av * 1 / 3)
     ))
   return(temp)
 }

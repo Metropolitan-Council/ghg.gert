@@ -14,6 +14,20 @@
 #'     DRS will take away from VMT for passenger vehicles.
 #'     Run this before anything else
 #'
+#'     Adjusting the existing passenger vehicle stock takes into account vehicle ownership
+#'     cost elasticity, gas taxes, and VMT and PAYD fees.
+#'     Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
+#'       - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct_trip`)
+#'         and adjusts all passenger sales, existing, and stock regardless of mode
+#'       - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
+#'         and adjusts all passenger sales, existing, and stock regardless of mode.
+#'     If battery electric, plug-in hybrid, and/or hybrid percent of sales in 2050
+#'     (`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
+#'     If
+#'     DRS, AV, estimated sales,
+#'     and existing vehicles to estimate future stock. Freight data is dependent on passenger
+#'     data,
+#'
 #' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050
 #' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050
 #' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050
@@ -69,12 +83,12 @@ adj_fleet_shares <- function(.bev_pct_sales,
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-  if (sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 90) {
-    stop("Values will not add to less than 90 for BEV, PHEV, and HEV percent sales.")
+  if (sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 0.9) {
+    stop("Values will not add to less than 90 for battery electric, plug-in hybrid, and hybrid vehicle percent sales.")
   }
 
   # browser()
-  # calculation -----
+  # VMT/PAYD, auto cost, ownership elasticity -----
   # Adjust sales based on ownership response to price elasticity
 
   adj_si_ci_sales <- tibble::tibble(
@@ -113,9 +127,10 @@ adj_fleet_shares <- function(.bev_pct_sales,
     )) %>%
     dplyr::select(names(.pass_tb))
 
-  testthat::expect_true(nrow(.pass_tb) == nrow(pass_tb))
-  # SALES -----
-  ## drs-----
+  if (nrow(.pass_tb) != nrow(pass_tb)) {
+    stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
+  }
+  # drs-----
   # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
   if (.drs_pct_trip > 0) {
     # browser()
@@ -126,21 +141,21 @@ adj_fleet_shares <- function(.bev_pct_sales,
 
     pass_tb <- pass_tb %>%
       dplyr::left_join(drs_share, by = c("ctu", "year")) %>%
-      dplyr::rowwise() %>%
+      # dplyr::rowwise() %>%
       dplyr::mutate(
         value =
           dplyr::case_when(
             (stringr::str_detect(var, "Sales")) |
               (stringr::str_detect(var, "Exist")) |
               (stringr::str_detect(var, "Stock")) ~ value *
-              (1 - drs_share * .drs_pct_trip / 100),
+              (1 - drs_share * .drs_pct_trip),
             TRUE ~ value
           )
       ) %>%
       dplyr::select(names(.pass_tb))
   }
 
-  ## av -----
+  # av -----
   # AV adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
   # Non-AV portion continues as before and AV treated separately
   if (.av_pct > 0) {
@@ -148,6 +163,7 @@ adj_fleet_shares <- function(.bev_pct_sales,
     # Add a row for stock to pivot AV analysis off
 
 
+    # assign the total stock PLDV as AV
     av_stock <- pass_tb %>%
       dplyr::filter(
         mode == "PLDV",
@@ -173,17 +189,24 @@ adj_fleet_shares <- function(.bev_pct_sales,
               stringr::str_detect(var, "Exist") |
               stringr::str_detect(var, "Stock")) &
               mode == "PLDV" ~
-            value * (1 - AVShare * .av_pct / 100),
+              value * (1 - AVShare * .av_pct),
             TRUE ~ value
           )
       ) %>%
       dplyr::select(names(.pass_tb))
 
 
-    testthat::expect_equal(nrow(.pass_tb), nrow(pass_tb))
+    if (nrow(.pass_tb) != nrow(pass_tb)) {
+      stop("Passenger data did not pass AV adjustment")
+    }
   }
-  ## hev/bev/phev  -----
+
+  # hev/bev/phev  -----
   if (.bev_pct_sales > 0 | .phev_pct_sales > 0 | .hev_pct_sales > 0) {
+    # browser()
+    ## passenger-----
+    ### sales ------
+
     pass_tb_sales <- pass_tb %>%
       dplyr::filter(
         mode == "PLDV",
@@ -216,10 +239,11 @@ adj_fleet_shares <- function(.bev_pct_sales,
         phev_fin_year,
         bev_fin_year
       ) %>%
-      dplyr::right_join(pass_tb_sales,
+      dplyr::right_join(
+        # join back with all years
+        pass_tb_sales,
         by = c("mode", "ctu", "aeo_mode", "type")
       ) %>%
-      # join back with all years
       dplyr::arrange(ctu, year) %>%
       dplyr::select(
         names(pass_tb_sales),
@@ -231,20 +255,20 @@ adj_fleet_shares <- function(.bev_pct_sales,
       )
 
     # the total
-    all_sales_pcts <- as.numeric(100 - .bev_pct_sales - .phev_pct_sales - .hev_pct_sales)
+    all_sales_pcts <- as.numeric(1 - (.bev_pct_sales + .phev_pct_sales + .hev_pct_sales))
 
     # SI: (portion of SI and CI sales less BEV, PHEV, HEV) * (SI portion of SI+CI sales) + (SI portion of total sales) / (si portion of total sales in the final year)
-    # HEV: (.hev_pct_sales/100) * (HEV portion of total sales) / (PHEV portion of total sales in final year)
+    # HEV: (.hev_pct_sales) * (HEV portion of total sales) / (HEV portion of total sales in final year)
 
 
     pass_adj_tab <- pass_tb_sales_w_fin %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        ptb_si = all_sales_pcts / 100 * (SISales / SISales + CISales) * (SISales / TotSales) / si_fin_year,
-        ptb_ci = all_sales_pcts / 100 * (CISales / CISales + SISales) * (CISales / TotSales) / ci_fin_year,
-        ptb_hev = (.hev_pct_sales / 100) * (HEVSales / TotSales) / hev_fin_year,
-        ptb_phev = (.phev_pct_sales / 100) * (PHEVSales / TotSales) / phev_fin_year,
-        ptb_bev = (.bev_pct_sales / 100) * (BEVSales / TotSales) / bev_fin_year,
+        ptb_si = all_sales_pcts * (SISales / SISales + CISales) * (SISales / TotSales) / si_fin_year,
+        ptb_ci = all_sales_pcts * (CISales / CISales + SISales) * (CISales / TotSales) / ci_fin_year,
+        ptb_hev = (.hev_pct_sales) * (HEVSales / TotSales) / hev_fin_year,
+        ptb_phev = (.phev_pct_sales) * (PHEVSales / TotSales) / phev_fin_year,
+        ptb_bev = (.bev_pct_sales) * (BEVSales / TotSales) / bev_fin_year,
         # total sales of each type
         ptb_tot_sales = sum(
           ptb_si,
@@ -272,7 +296,7 @@ adj_fleet_shares <- function(.bev_pct_sales,
       unique()
 
 
-    ## adjust absolute passenger sales -----
+    ### apply portions to get actual sales
     ptb_sales_new <- pass_tb %>%
       dplyr::filter(
         mode == "PLDV",
@@ -516,16 +540,16 @@ adj_fleet_shares <- function(.bev_pct_sales,
       dplyr::left_join(freight_battery_fin_year, by = "ctu") %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        ci_stock_sut = ((100 - 2 / 3 * bev_pcts) / 100) *
+        ci_stock_sut = ((1 - 2 / 3 * bev_pcts)) *
           (CIStock_SUT / TotStock_SUT) /
           ci_sut_fin,
-        ci_stock_cut = ((100 - 1 / 3 * bev_pcts) / 100) *
+        ci_stock_cut = ((1 - 1 / 3 * bev_pcts)) *
           (CIStock_CUT / TotStock_CUT) /
           ci_cut_fin,
-        bev_stock_sut = (2 / 3 * bev_pcts / 100) *
+        bev_stock_sut = (2 / 3 * bev_pcts) *
           (BEVStock_SUT / TotStock_SUT) /
           bev_sut_fin,
-        bev_stock_cut = ((1 / 3 * bev_pcts) / 100) *
+        bev_stock_cut = ((1 / 3 * bev_pcts)) *
           (BEVStock_CUT / TotStock_CUT) /
           bev_cut_fin
       ) %>%

@@ -63,7 +63,7 @@ calc_drs_vmt <- function(tb,
   # Percent of population using DRS
   .vmt_fee <- tb %>%
     dplyr::filter(var == "POP") %>%
-    dplyr::select(tidyselect::all_of(YRS)) * .drs_pct_trip / 100 *
+    dplyr::select(tidyselect::all_of(YRS)) * .drs_pct_trip  *
     tb %>%
       dplyr::filter(var == "DRSShare") %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
@@ -90,13 +90,13 @@ calc_drs_vmt <- function(tb,
       (1 + .enviro_factors$MAX_5D_TRANS)
     } else {
       {
-        (1 + .pop_dens_pct_change / 100 * ELAST_DENS_TRANS_POP) *
-          (1 + .emp_dens_pct_change / 100 * ELAST_DENS_TRANS_EMP) *
-          (1 + .land_use_pct_change / 100 * ELAST_DIVER_TRANS) *
-          (1 + .intersection_design_pct_change / 100 * ELAST_DES_TRANS) *
-          (1 + .job_access_pct_change / 100 * ELAST_JOBS_TRANS) *
-          (1 + .transit_dist_pct_change / 100 * ELAST_DIST_TRANS) *
-          (1 + c.pop_dens_pct_change / 100 * ELAST_CDENS_TRANS)
+        (1 + .pop_dens_pct_change  * ELAST_DENS_TRANS_POP) *
+          (1 + .emp_dens_pct_change  * ELAST_DENS_TRANS_EMP) *
+          (1 + .land_use_pct_change  * ELAST_DIVER_TRANS) *
+          (1 + .intersection_design_pct_change  * ELAST_DES_TRANS) *
+          (1 + .job_access_pct_change  * ELAST_JOBS_TRANS) *
+          (1 + .transit_dist_pct_change  * ELAST_DIST_TRANS) *
+          (1 + c.pop_dens_pct_change  * ELAST_CDENS_TRANS)
       } *
         (1 + (.vmt_fee / (.tb_fuel_cost_mile + .enviro_factors$TIME_COST_MI) + .payd_fee / .enviro_factors$INS_COST_MI) * ELAST_VMT) *
         # Congestion elasticity only applies to a portion of the VMT set by .enviro_factors$CONG_VMT, so scale the elasticity effect down
