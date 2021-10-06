@@ -1,15 +1,10 @@
 ## code to prepare `transportation` dataset goes here
 library(tidyverse)
 
-pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv",
-  col_names = c(
-    "mode", "var", "ctu",
-    "2015", "2018", "2020",
-    "2025", "2030", "2035",
-    "2040", "2045", "2050"
-  )
-)
-freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv")
+pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
+  unique()
+freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv") %>%
+  unique()
 
 
 # passenger data -----
@@ -105,8 +100,8 @@ transportation_data <- list(
 testthat::expect_false("All" %in% transportation_data$passenger$ctu)
 testthat::expect_false("All" %in% transportation_data$freight$ctu)
 
-testthat::expect_equal(154296, nrow(transportation_data$passenger))
-testthat::expect_equal(72144, nrow(transportation_data$freight))
+testthat::expect_equal(nrow(transportation_data$passenger), 154008)
+testthat::expect_equal(nrow(transportation_data$freight), 71982)
 
 
 usethis::use_data(transportation_data, overwrite = TRUE)
