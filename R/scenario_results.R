@@ -81,7 +81,6 @@ scenario_results <- function(.scenario = "BAU",
     "transit_dist_pct_change",
     "comb_5d_impact_pct_change",
     "telework_pct",
-
   )
 
   l_vals <- list(
@@ -101,8 +100,6 @@ scenario_results <- function(.scenario = "BAU",
     .transit_dist_pct_change,
     .comb_5d_impact_pct_change,
     .telework_pct,
-
-
   )
 
   purrr::map2(l_names, l_vals, check_inputs)

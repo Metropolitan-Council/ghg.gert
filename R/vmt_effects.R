@@ -64,7 +64,7 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
 
     tb_avshare %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (value * (.av_pct )),
+        .av_pct > 0 ~ 1 - (value * (.av_pct)),
         TRUE ~ 1
       )) %>%
       select(year, av_adj) %>%
@@ -77,8 +77,8 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
   )) {
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
-        (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + .enviro_factors$BUS_AV * .av_pct) ),
-        (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~ ((1 + .enviro_factors$RAIL_AV * .av_pct) ),
+        (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + .enviro_factors$BUS_AV * .av_pct)),
+        (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~ ((1 + .enviro_factors$RAIL_AV * .av_pct)),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj)
@@ -91,7 +91,7 @@ vmt_autonomous_vehicle <- function(.tb_vmt,
 
     av_return <- .tb_vmt %>%
       left_join(tb_avshare, by = c("year")) %>%
-      mutate(av_adj = av_share * .av_pct )
+      mutate(av_adj = av_share * .av_pct)
 
     return(av_return)
   }
@@ -132,7 +132,7 @@ vmt_dynamic_ride_share_reduction <- function(.tb_vmt,
     .tb_vmt %>%
       left_join(drs_share, by = c("year", "ctu")) %>%
       mutate(miles_traveled = miles_traveled *
-        (1 - drs_share_val) * .drs_pct ) %>%
+        (1 - drs_share_val) * .drs_pct) %>%
       unique() %>%
       return()
 
@@ -196,13 +196,13 @@ vmt_land_use_change <- function(.mode,
   comb_5d_elast <- elast_5d %>%
     filter(type == .type) %>%
     mutate(
-      population_density = (1 + .pop_dens_pct_change ) * .data$population_density,
-      employment_density = (1 + .emp_dens_pct_change ) * .data$employment_density,
-      diversity = (1 + .land_use_pct_change ) * .data$diversity,
-      design = (1 + .intersection_design_pct_change ) * .data$design,
-      job_access = (1 + .job_access_pct_change ) * .data$job_access,
-      distance = (1 + .transit_dist_pct_change ) * .data$distance,
-      combined_density = (1 + .pop_dens_pct_change ) * .data$combined_density
+      population_density = (1 + .pop_dens_pct_change) * .data$population_density,
+      employment_density = (1 + .emp_dens_pct_change) * .data$employment_density,
+      diversity = (1 + .land_use_pct_change) * .data$diversity,
+      design = (1 + .intersection_design_pct_change) * .data$design,
+      job_access = (1 + .job_access_pct_change) * .data$job_access,
+      distance = (1 + .transit_dist_pct_change) * .data$distance,
+      combined_density = (1 + .pop_dens_pct_change) * .data$combined_density
     ) %>%
     mutate(
       product_all =
@@ -515,7 +515,7 @@ vmt_telework <- function(.mode,
   if (.mode == "PLDV") {
     telework_adj_tb <- tibble(
       year = unique(transportation_data$passenger$year),
-      telework_adj = 1 + (.telework_pct ) * .enviro_factors$MARG_TELEWORK
+      telework_adj = 1 + (.telework_pct) * .enviro_factors$MARG_TELEWORK
     )
 
     return(telework_adj_tb)
@@ -545,7 +545,7 @@ vmt_transit_ridership <- function(.tb_vmt,
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = .transit_rider_pct  * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      mutate(transit_adj = .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -557,7 +557,7 @@ vmt_transit_ridership <- function(.tb_vmt,
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = 1 + .transit_rider_pct ) %>%
+      mutate(transit_adj = 1 + .transit_rider_pct) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -649,7 +649,7 @@ vmt_vehicle_occupancy <- function(tb,
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
-      mutate(occupancy_adj = mode_avo * (1 + (.transit_avo )) * (mode_stock / mode_totstock)) %>%
+      mutate(occupancy_adj = mode_avo * (1 + (.transit_avo)) * (mode_stock / mode_totstock)) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
 

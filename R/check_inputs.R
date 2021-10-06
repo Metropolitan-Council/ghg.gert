@@ -61,4 +61,3 @@ check_inputs <- function(name, value) {
     return()
   }
 }
-
