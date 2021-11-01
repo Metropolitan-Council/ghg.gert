@@ -2,12 +2,12 @@
 #'
 #' @describeIn Replaces both sales and stock because need to replace
 #'     faster than previous stock turnover in order to match
-#'     AV market penetration
+#'     AV market penetration.
 #' @param tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
 #'  @inheritParams calc_vmt_forecast
 #'
-#' @family transportation. autonomous vehicles
+#' @family transportation. autonomous vehicles, stock adjustments
 #'
 #' @return
 #' @export

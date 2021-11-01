@@ -1,4 +1,4 @@
-#' Title
+#' Calculate dynamic ride sharing scenario
 #'
 #' @inheritParams scenario_results
 #' @inheritParams calc_vmt_forecast

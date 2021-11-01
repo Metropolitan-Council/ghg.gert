@@ -36,7 +36,7 @@
 #' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS) Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation
+#' @family transportation, stock adjustments
 #' @return
 #' @export
 #'
