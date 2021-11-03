@@ -593,29 +593,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo,
                                   .enviro_factors = enviro_factors) {
   # browser()
-  tb_mode_totstock <- tb %>%
-    filter(
-      mode == .mode,
-      var %in% c(
-        .stock,
-        "TotStock",
-        "AVO"
-      )
-    ) %>%
-    unique() %>%
-    tidyr::pivot_wider(
-      names_from = var,
-      values_from = value
-    ) %>%
-    select(mode,
-      year,
-      ctu,
-      aeo_mode,
-      type,
-      mode_totstock = TotStock,
-      mode_stock = !!rlang::sym(.stock),
-      mode_avo = AVO
-    )
+
 
   # some modes apply the same AVO to all CTUs
 
@@ -650,6 +628,29 @@ vmt_vehicle_occupancy <- function(tb,
     #     )
     # }
 
+    tb_mode_totstock <- tb %>%
+      filter(
+        mode == .mode,
+        var %in% c(
+          .stock,
+          "TotStock",
+          "AVO"
+        )
+      ) %>%
+      unique() %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      select(mode,
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_totstock = TotStock,
+             mode_stock = !!rlang::sym(.stock),
+             mode_avo = AVO
+      )
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
@@ -667,6 +668,31 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
+
+    tb_mode_totstock <- tb %>%
+      filter(
+        mode == .mode,
+        var %in% c(
+          .stock,
+          "TotStock",
+          "AVO"
+        )
+      ) %>%
+      unique() %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      select(mode,
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_totstock = TotStock,
+             mode_stock = !!rlang::sym(.stock),
+             mode_avo = AVO
+      )
+
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo * (mode_stock / mode_totstock)) %>%
