@@ -5,24 +5,23 @@ pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
   unique() %>%
   arrange(ctu)
 
-
 # make DRS and AV shares relative to 2050
-pass_transpo <- pass_transpo %>%
-  mutate(across(
-    all_of(4:12),
-    ~ case_when(
-      (var == "DRSShare") ~ .x /
-        pass_transpo %>%
-        filter(var == "DRSShare") %>%
-        select(`2050`) %>%
-        as.numeric(),
-      (var == "AVShare") ~ .x / pass_transpo %>%
-        filter(var == "AVShare") %>%
-        select(`2050`) %>%
-        as.numeric(),
-      TRUE ~ .x
-    )
-  ))
+# pass_transpo <- pass_transpo %>%
+#   mutate(across(
+#     all_of(4:12),
+#     ~ case_when(
+#       (var == "DRSShare") ~ .x /
+#         pass_transpo %>%
+#         filter(var == "DRSShare") %>%
+#         select(`2050`) %>%
+#         as.numeric(),
+#       (var == "AVShare") ~ .x / pass_transpo %>%
+#         filter(var == "AVShare") %>%
+#         select(`2050`) %>%
+#         as.numeric(),
+#       TRUE ~ .x
+#     )
+#   ))
 
 freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv") %>%
   unique()
@@ -128,3 +127,24 @@ testthat::expect_equal(nrow(transportation_data$freight), 71982)
 
 
 usethis::use_data(transportation_data, overwrite = TRUE)
+
+
+## value comparisons ------
+orig_pass_transpo <- transportation_data$passenger %>%
+  filter(ctu == "St. Paul",
+         var == "TotStock",
+         mode == "PLDV")
+
+testthat::expect_equal(
+
+  orig_pass_transpo$value[1:7],
+
+  # values from dataset as processed in ghg.sp.tool.model
+  c(154401.15,
+    161234.14,
+    165789.47,
+    166936.74,
+    170939.95,
+    173314.49,
+    175867.3))
+
