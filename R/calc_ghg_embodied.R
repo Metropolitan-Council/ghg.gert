@@ -113,12 +113,12 @@ calc_ghg_embodied <- function(tb,
       unique() %>%
       dplyr::select(
         type,
-             ghg_embodied_source = var,
-             year,
-             mode,
-             ctu,
-             sales_value = value,
-             aeo_mode
+        ghg_embodied_source = var,
+        year,
+        mode,
+        ctu,
+        sales_value = value,
+        aeo_mode
       )
     if (.mode == "FR") {
       browser()
@@ -126,19 +126,20 @@ calc_ghg_embodied <- function(tb,
 
     # browser()
     ghg <- dplyr::left_join(sales,
-                     ghg_factors_current,
-                     by = "year"
+                            ghg_factors_current,
+                            by = "year"
     ) %>%
       dplyr::mutate(ghg_embodied = sales_value * ghg_value) %>%
-      dplyr::select(type,
-             ghg_embodied_source,
-             # scenario,
-             mode,
-             ctu = ctu,
-             year,
-             # aeo_scen,
-             aeo_mode,
-             ghg_embodied
+      dplyr::select(
+        type,
+        ghg_embodied_source,
+        # scenario,
+        mode,
+        ctu = ctu,
+        year,
+        # aeo_scen,
+        aeo_mode,
+        ghg_embodied
       ) %>%
       unique()
   }

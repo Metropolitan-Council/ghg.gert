@@ -58,13 +58,13 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
       dplyr::mutate(
         dplyr::across(
           all_of(YRS), ~ dplyr::case_when(
-            ((mode == "PLDV") &
-              var == "PMT") ~ .x *
+            ((mode == "PLDV") & var == "PMT") ~ .x *
               dplyr::case_when(
-                .drs_pct > 0 ~ (1 - pass_transpo %>%
-                  dplyr::filter(var == "DRSShare") %>%
-                  dplyr::select(dplyr::cur_column()) %>%
-                  as.numeric() * .drs_pct),
+                .drs_pct > 0 ~ (
+                  1 - pass_transpo %>%
+                    dplyr::filter(var == "DRSShare") %>%
+                    dplyr::select(dplyr::cur_column()) %>%
+                    as.numeric() * .drs_pct),
                 TRUE ~ 1
               ),
             TRUE ~ .x
@@ -465,7 +465,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
   )
 
   # Finish up -----
-  browser()
+  ## passenger ------
+  # browser()
   passenger <- list(
     PLDV = passenger_light_duty,
     RAIL = rail_transit,
@@ -482,38 +483,47 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     bus_transit$vmt,
     walk_bike$vmt,
     school_bus$vmt,
-    auto_veh
+    auto_veh$vmt
   )
 
   pass_dir_ghg <- bind_rows(
     passenger_light_duty$dir_ghg,
     rail_transit$dir_ghg,
     bus_transit$dir_ghg,
+    walk_bike$dir_ghg,
     school_bus$dir_ghg,
-    auto_veh
+    auto_veh$dir_ghg
   )
 
-  pass_indir_ghg <- bind_rows(
+  pass_emb_ghg <- bind_rows(
     passenger_light_duty$emb_ghg,
-    bus_transit$emb_ghg
+    rail_transit$emb_ghg,
+    bus_transit$emb_ghg,
+    walk_bike$emb_ghg,
+    school_bus$emb_ghg,
+    auto_veh$emb_ghg
   )
 
   pass_fuel <- bind_rows(
     passenger_light_duty$fuel_use,
     bus_transit$fuel_use,
     rail_transit$fuel_use,
-    school_bus$fuel_use
+    walk_bike$fuel_use,
+    school_bus$fuel_use,
+    auto_veh$fuel_use
   )
 
   pass_cost <- bind_rows(
     passenger_light_duty$cost,
     bus_transit$cost,
     rail_transit$cost,
-    school_bus$cost
+    school_bus$cost,
+    walk_bike$cost,
+    auto_veh$cost
   )
 
   pass_all <- left_join(pass_vmt, pass_dir_ghg) %>%
-    # left_join(pass_indir_ghg) %>%
+    left_join(pass_emb_ghg) %>%
     left_join(pass_fuel) %>%
     left_join(pass_cost)
 
