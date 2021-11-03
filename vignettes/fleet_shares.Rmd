@@ -1,0 +1,34 @@
+---
+title: "fleet_shares"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fleet_shares}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ghg.sp)
+library(tidyverse)
+ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
+
+```
+
+
+## Adjust sales for final year  
+
+
+$$
+SIportion_{y} = (1 - AltFuel_{y}) \times \frac{ \left(  \frac{SISales_{y}}{SISales_{y} + CISales_{y}} \times \frac{SISales_{y}}{TotalSales_{y}}\right)}{{\frac{SISales_{y = 2050}}{TotalSales_{y=2050}} }}
+$$
+where 
+
+$y$ is the given year.  
+
