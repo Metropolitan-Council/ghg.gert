@@ -299,6 +299,7 @@ calc_vmt_forecast <- function(.scenario,
 
       # return(vmt_forecast)
     } else if (.mode == "AV") {
+      # browser()
       # autonomous vehicle -----
       # av_vmt = miles_traveled  -
       # (active transportation adjustment * transit_adj) *
@@ -306,11 +307,29 @@ calc_vmt_forecast <- function(.scenario,
       # gas_adj * park_price_adj * land_use_adj *
       # av_adjust
 
+      tb_vmt <- tb %>%
+        dplyr::filter(
+          mode == "PLDV",
+          var == .variable
+        ) %>%
+        mutate(
+          miles_traveled = value,
+          scenario = .scenario
+        ) %>%
+        select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled) %>%
+        unique()
+
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$passenger,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
+
+      autonomous_adjust <- vmt_autonomous_vehicle(
+        .tb_vmt = tb_vmt,
+        .mode = .mode,
+        .av_pct = .av_pct
+      ) %>% unique()
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
@@ -343,7 +362,7 @@ calc_vmt_forecast <- function(.scenario,
       veh_occupancy <- vmt_vehicle_occupancy(
         tb = tb,
         .tb_vmt = tb_vmt,
-        .mode = .mode,
+        .mode = "PLDV",
         .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
@@ -360,14 +379,17 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       tb_fin <- tb_vmt %>%
+        left_join(ann_energy_outlook, by = c("year")) %>%
         left_join(at_adjustment, by = c("year", "ctu")) %>%
         left_join(trans_rider, by = c("year", "ctu")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
+        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         mutate(
           stock = .stock,
+          mode = .mode,
           av_vmt = miles_traveled - (at_adjust * transit_adj) *
             av_adj * aeo_adj * vmt_fee_adj *
             cong_adjust * gas_adj * park_price_adj *
@@ -375,7 +397,7 @@ calc_vmt_forecast <- function(.scenario,
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
-      # return(vmt)
+      return(tb_fin)
 
 
 
