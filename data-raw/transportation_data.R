@@ -2,7 +2,28 @@
 library(tidyverse)
 
 pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
-  unique()
+  unique() %>%
+  arrange(ctu)
+
+
+# make DRS and AV shares relative to 2050
+pass_transpo <- pass_transpo %>%
+  mutate(across(
+    all_of(4:12),
+    ~ case_when(
+      (var == "DRSShare") ~ .x /
+        pass_transpo %>%
+        filter(var == "DRSShare") %>%
+        select(`2050`) %>%
+        as.numeric(),
+      (var == "AVShare") ~ .x / pass_transpo %>%
+        filter(var == "AVShare") %>%
+        select(`2050`) %>%
+        as.numeric(),
+      TRUE ~ .x
+    )
+  ))
+
 freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv") %>%
   unique()
 
@@ -28,6 +49,7 @@ pass_transpo_long <- pass_transpo %>%
       mode == "CUT" ~ "HDT",
       mode == "FR" ~ "FRAIL",
       mode == "BS" ~ "BUS",
+      mode == "AV" ~ "LDV",
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
     type = "P"
@@ -64,6 +86,7 @@ freight_transpo_long <- freight_transpo %>%
       mode == "SUT" ~ "MDT",
       mode == "CUT" ~ "HDT",
       mode == "FR" ~ "FRAIL",
+      mode == "AV" ~ "LDV",
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
     type = "F"
