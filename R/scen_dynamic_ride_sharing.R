@@ -16,7 +16,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
-                                      .ctu = "",
                                       .transit_avo = 0,
                                       .transit_rider_pct = 0,
                                       .vmt_fee = 0,
@@ -216,7 +215,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_cost <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "COST",
+        output = "COST",
         calc_cost(
           drs_vmt,
           mode_1, "PHEVPrice", 1
@@ -272,7 +271,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_cost <- tibble::tibble(
         type = type,
         scenario = .scenario, mode = mode,
-        class = class, ctu = .ctu,
+        class = class,
         output = "COST",
         calc_cost(
           drs_vmt,

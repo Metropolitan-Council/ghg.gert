@@ -28,12 +28,12 @@
 #'     and existing vehicles to estimate future stock. Freight data is dependent on passenger
 #'     data,
 #'
-#' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050
-#' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050
+#' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050. Default is `0`.
+#' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050. Default is `0`.
 #' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050
 #' @param .pass_tb passenger input table. Default is `transportation_data$passenger`.
 #' @param .freight_tb freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS) Default is `0`.
+#' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS). Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation, stock adjustments
