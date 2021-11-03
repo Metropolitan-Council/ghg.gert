@@ -12,22 +12,107 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
 ```
 
 ```{r setup}
 library(ghg.sp)
 library(tidyverse)
+ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
+
 ```
 
 
 ```{r}
-bau_summary <- scenario_results(.scenario = "BAU",
+bau_summary <- scenario_results(pass_tb = transportation_data$passenger %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All")),
+                                freight_tb = transportation_data$freight %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All")),
+                                .scenario = "BAU",
                                 .electric_scenario = "ER",
-                                .aeo_scenario = "REF"
-                              )
+                                .aeo_scenario = "REF")
 
+```
+```{r}
+bind_rows(bau_summary$passenger$PLDV$vmt,
+          bau_summary$passenger$RAIL$vmt,
+          bau_summary$passenger$BU_BRT$vmt,
+          bau_summary$passenger$WALK_BIKE$vmt,
+          bau_summary$passenger$BS$vmt,
+          bau_summary$passenger$AV$vmt) %>% 
+  select(-stock, -aeo_mode) %>% 
+  group_by(ctu, year, mode) %>% 
+  summarize(total_vmt = sum(vmt, na.rm = T)) %>% 
+  ggplot(aes(x = year,
+             y = total_vmt,
+             # color = mode,
+             fill = reorder(mode,-total_vmt),
+             group = reorder(mode, -total_vmt))) +
+  geom_area()
+```
+
+```{r}
+bau_summary$passenger$PLDV$dir_ghg %>% 
+  ungroup() %>% 
+  ggplot(aes(x = year,
+             y = dir_ghg,
+             fill = class,
+             color = class,
+             group = class)) +
+  geom_area()
+```
+
+
+```{r}
+bind_rows(bau_summary$passenger$PLDV$dir_ghg,
+          bau_summary$passenger$RAIL$dir_ghg,
+          bau_summary$passenger$BU_BRT$dir_ghg,
+          bau_summary$passenger$WALK_BIKE$dir_ghg,
+          bau_summary$passenger$BS$dir_ghg,
+          bau_summary$passenger$AV$dir_ghg) %>% 
+  select(-aeo_mode) %>% 
+  group_by(ctu, year, mode) %>% 
+  summarize(total_dir_ghg = sum(dir_ghg, na.rm = T)) %>% 
+  ggplot(aes(x = year,
+             y = total_dir_ghg,
+             # color = mode,
+             fill = mode,
+             group = mode)) +
+  geom_area()
+```
+
+
+## Interventions  
+
+### Vehicle electrification  
+
+```{r}
+mitigation_ev <- scenario_results(
+  pass_tb = transportation_data$passenger %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All")),
+                                freight_tb = transportation_data$freight %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All")),
+  .scenario = "MIT-EV",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .bev_pct_sales = 0.25,
+  .hev_pct_sales = 0.25,
+  .phev_pct_sales = 0.25
+)
+
+```
+
+```{r}
+mitigation_ev$passenger$PLDV$dir_ghg %>% 
+  ggplot(aes(x = year,
+             y = dir_ghg,
+             fill = class,
+             color = class,
+             group = class)) +
+  geom_area(position = "stack")
 ```
 
 ```{r}
