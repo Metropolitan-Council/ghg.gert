@@ -47,7 +47,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
-  mode <- "PLDV"
 
   # browser()
 
@@ -55,23 +54,19 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   mode <- "AV"
   # Use PLDV features in some cases
   mode_1 <- "PLDV"
+  stock <- "AVStock"
 
   # If AV is included, then perform calculations depending
   # if fuel type is BEV, HEV, or PHEV
   if (.scenario != "BAU" & .av_pct > 0) {
-    browser()
-    # Calculate DRS sales in each year
+    # Calculate AV sales in each year
+    av_sales <- calc_av_sales(
       .pass_tb,
-      mode = mode,
-      var = "AVSales", ctu = .ctu,
-      calc_av_sales(
-        transportation_data$passenger,
-        .av_pct
-      )
+      .av_pct = .av_pct
     )
 
     av_passenger_tb <-
-      dplyr::bind_rows(transportation_data$passenger, av_sales)
+      dplyr::bind_rows(.pass_tb, av_sales)
 
 
     if (.av_fuel_type == "HEV") {
@@ -90,7 +85,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
       hev_av_vmt <- tibble::tibble(
         type = type, scenario = .scenario,
-        mode = mode, class = class, ctu = .ctu,
+        mode = mode, class = class,
         output = "VMT",
         calc_vmt_forecast(
           .scenario, av_passenger_tb,
@@ -112,7 +107,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       hev_av_dir_ghg <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "DIR-GHG",
+        output = "DIR-GHG",
         calc_ghg_direct(
           av_vmt,
           av_passenger_tb,
@@ -125,7 +120,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       hev_av_fuel <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "PETRO",
+        output = "PETRO",
         calc_fuel_use(
           av_vmt, av_passenger_tb,
           mode_1, "SI", .aeo_scenario,
@@ -136,7 +131,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_emb_ghg <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "INDIR-GHG",
+        output = "INDIR-GHG",
         calc_ghg_embodied(
           av_passenger_tb,
           mode, "AVSales",
@@ -146,7 +141,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
       av_cost <- tibble::tibble(
         type = type, scenario = .scenario, mode = mode,
-        class = class, ctu = .ctu, output = "COST",
+        class = class, output = "COST",
         calc_cost(
           av_vmt,
           mode_1,
@@ -174,8 +169,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
       ) * (1 - av_passenger_tb %>%
-        dplyr::filter(mode == mode, var == "PHEVPr") %>%
-        dplyr::select(all_of(YRS)))
+             dplyr::filter(mode == mode, var == "PHEVPr") %>%
+             dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
         av_passenger_tb, mode,
@@ -198,7 +193,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_vmt <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "VMT",
+        output = "VMT",
         phev_vmtg + phev_vmte
       )
 
@@ -215,14 +210,14 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_dir_ghg <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "DIR-GHG",
+        output = "DIR-GHG",
         phev_ghgg + phev_ghge
       )
 
       av_fuelg <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "PETRO",
+        output = "PETRO",
         calc_fuel_use(
           phev_vmtg,
           av_passenger_tb, mode, "SI",
@@ -233,7 +228,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_fuele <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "ELEC",
+        output = "ELEC",
         calc_fuel_use(
           phev_vmte,
           av_passenger_tb,
@@ -245,7 +240,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_emb_ghg <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "INDIR-GHG",
+        output = "INDIR-GHG",
         calc_ghg_embodied(
           av_passenger_tb, mode,
           "AVSales", "PHEV-EMB"
@@ -255,14 +250,14 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_cost <- tibble::tibble(
         type = type, scenario = .scenario,
         mode = mode, class = class,
-        ctu = .ctu, output = "COST",
+        output = "COST",
         calc_cost(
           av_vmt,
           mode_1,
           "PHEVPrice", 1
         )
       )
-    } else {
+    } else if(.av_fuel_type == "BEV"){
       ## AV Battery electric -----
       stock <- "AVStock"
       mpe <- "BEVElec"
@@ -272,88 +267,142 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
       fcm <- calc_fuel_cost_mile(
         tb =   av_passenger_tb,
-        mode_1, .aeo_scenario, mpe, .enviro_factors$ELEC_FUEL_COST_KWH
+        mode_1, .aeo_scenario, mpe,
+        .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
-      av_vmt <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "VMT",
+      av_vmt <-
         calc_vmt_forecast(
           tb = av_passenger_tb,
-          mode, stock, var, fcm,
-          .aeo_scenario, .transit_avo, .transit_rider_pct,
+          .scenario = .scenario,
+          .mode = mode,
+          .stock = stock,
+          .variable = var,
+          .tb_fuel_cost_mile = fcm,
+          .aeo_scenario = .aeo_scenario,
+          .transit_avo, .transit_rider_pct,
           .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
           .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
           .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
           .job_access_pct_change, .transit_dist_pct_change,
           .comb_5d_impact_pct_change, .telework_pct
-        )
-      )
+        ) %>%
+        dplyr::mutate(class = class)
 
-      av_dir_ghg <- tibble::tibble(
-        type = type, scenario = .scenario, mode = mode,
-        class = class, ctu = .ctu,
-        output = "DIR-GHG",
+      av_dir_ghg <-
         calc_ghg_direct(
-          av_vmt,
-          transportation_data$passenger,
-          mode_1, .electric_scenario,
-          .aeo_scenario, mpe, .av_pct
+          tb_vmt =  av_vmt,
+          tb =  av_passenger_tb,
+          .mode = mode_1,
+          .fuel_type =  .electric_scenario,
+          .aeo_scenario =  .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE
         )
-      )
 
-      .av_fuel_type <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "ELEC",
+
+      av_fuel <-
         calc_fuel_use(
-          av_vmt, transportation_data$passenger,
-          mode_1, .electric_scenario, .aeo_scenario, mpe, .av_pct
+          tb_vmt = av_vmt,
+          tb = av_passenger_tb,
+          .mode = mode_1,
+          .fuel_type = .electric_scenario,
+          .aeo_scenario = .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
-      )
 
-      av_emb_ghg <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "INDIR-GHG",
+
+      av_emb_ghg <-
         calc_ghg_embodied(
           tb = av_passenger_tb,
-          mode,
-          "AVSales", "BEV-EMB"
+          .mode = mode_1,
+          .sales_mode = "AVSales",
+          .fuel_type = "BEV-EMB",
+          .enviro_factors = .enviro_factors
         )
-      )
 
-      av_cost <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "COST",
+      av_cost <-
         calc_cost(
-          av_vmt,
-          mode_1, "BEVPrice", 1
+          tb_vmt = av_vmt,
+          .mode = mode_1,
+          .price = "BEVPrice",
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
-      )
+
     }
 
 
     # Finish up -----
 
 
-    vmt_all <- dplyr::bind_rows(
-      bike_vmt,
-      walk_vmt
-    )
+    fuel_use_all <- av_fuel
+
+    vmt_all <- av_vmt
+
+    emb_ghg_all <- av_emb_ghg
+
+    dir_ghg_all <- av_dir_ghg
+
+    cost_all <- av_cost
 
 
     av_return <- list(
-      "vmt" = vmt_all
+      "vmt" = vmt_all,
+      "dir_ghg" = dir_ghg_all,
+      "emb_ghg" = emb_ghg_all,
+      "fuel_use" = fuel_use_all,
+      "cost" = cost_all
     )
 
     usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
 
     return(av_return)
+
   } else {
+
+    # return a basic shell with NA values
+    vmt_all <- .pass_tb %>%
+      dplyr::select(ctu, year) %>%
+      unique() %>%
+      dplyr::mutate(type = type,
+             stock = stock,
+             scenario = .scenario,
+             mode = mode,
+             aeo_mode = "LDV",
+             vmt = NA,
+             class = NA)
+
+    fuel_use_all <- vmt_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode) %>%
+      dplyr::mutate(fuel_use = NA)
+
+    dir_ghg_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+             dir_ghg = fuel_use)
+
+    emb_ghg_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+             ghg_embodied = fuel_use)
+
+    cost_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+             cost = fuel_use)
+
+
+
+      av_return <- list(
+        "vmt" = vmt_all,
+        "dir_ghg" = dir_ghg_all,
+        "emb_ghg" = emb_ghg_all,
+        "fuel_use" = fuel_use_all,
+        "cost" = cost_all
+      )
+
+
     usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
-    return()
+    return(av_return)
   }
 }

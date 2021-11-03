@@ -175,14 +175,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
 
   # Finish up -----
-
-  fuel_use_all <- dplyr::bind_rows(
-    ev_fuel,
-    ev_ri_fuel,
-    ci_ri_fuel
-  )
-
-
+# browser()
   vmt_all <- dplyr::bind_rows(
     ev_vmt,
     ev_ri_vmt,
@@ -190,11 +183,27 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   )
 
 
+
+  fuel_use_all <- dplyr::bind_rows(
+    ev_fuel,
+    ev_ri_fuel,
+    ci_ri_fuel
+  )
+
   dir_ghg_all <- dplyr::bind_rows(
     ev_ghg,
     ev_ri_ghg,
     ci_ri_ghg
   )
+
+
+  emb_ghg_all <- dir_ghg_all %>%
+    mutate(ghg_embodied_source = NA,
+           ghg_embodied = NA,
+           type = type) %>%
+    select(type, ghg_embodied_source, ghg_embodied,
+           mode, class, ctu, year, aeo_mode) %>%
+    unique()
 
   cost_all <- dplyr::bind_rows(
     ev_cost,
@@ -205,7 +214,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   passenger_rail <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all,
-    # "emb_ghg" = emb_ghg_all,
+    "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
     "cost" = cost_all
   )

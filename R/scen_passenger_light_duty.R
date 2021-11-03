@@ -42,7 +42,6 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
   # 4. Calculate VMT with `calc`
 
-  # browser()
   # Passenger ------------------------------------------------------------
 
   type <- "P"
@@ -589,31 +588,42 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   # Finish up -----
 
   fuel_use_all <- dplyr::bind_rows(
-    ci_fuel, si_fuel, hev_fuel,
-    phev_fuel, bev_fuel
+    ci_fuel,
+    si_fuel,
+    hev_fuel,
+    phev_fuel,
+    bev_fuel
   )
 
 
   vmt_all <- dplyr::bind_rows(
-    ci_vmt, si_vmt, hev_vmt,
+    ci_vmt,
+    si_vmt,
+    hev_vmt,
     phev_vmt,
     bev_vmt
   )
 
   emb_ghg_all <- dplyr::bind_rows(
-    ci_emb_ghg, si_emb_ghg, hev_emb_ghg,
+    ci_emb_ghg,
+    si_emb_ghg,
+    hev_emb_ghg,
     phev_emb_ghg,
     bev_emb_ghg
   )
 
   dir_ghg_all <- dplyr::bind_rows(
-    ci_dir_ghg, si_dir_ghg, hev_dir_ghg,
+    ci_dir_ghg,
+    si_dir_ghg,
+    hev_dir_ghg,
     phev_dir_ghg,
     bev_dir_ghg
   )
 
   cost_all <- dplyr::bind_rows(
-    si_cost, ci_cost, hev_cost,
+    si_cost,
+    ci_cost,
+    hev_cost,
     phev_cost,
     bev_cost
   )

@@ -129,6 +129,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     )
 
 
+  # Finish up -----
   vmt_all <- dplyr::bind_rows(
     ci_vmt,
     bev_vmt
@@ -138,6 +139,13 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     ci_ghg,
     bev_ghg
   )
+
+  emb_ghg_all <- dir_ghg_all %>%
+    dplyr::mutate(ghg_embodied_source = NA,
+                  type = type) %>%
+    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+                ghg_embodied_source,
+                ghg_embodied = dir_ghg)
 
   cost_all <- dplyr::bind_rows(
     ci_cost,
@@ -153,6 +161,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   school_bus <- list(
     "vmt" =  vmt_all,
     "dir_ghg" =  dir_ghg_all,
+    "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
     "cost"  = cost_all
   )

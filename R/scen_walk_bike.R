@@ -48,7 +48,6 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
-  mode <- "PLDV"
 
   # browser()
   ## Walk -----
@@ -88,14 +87,41 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
 
 
   # Finish up -----
+  # browser()
   vmt_all <- dplyr::bind_rows(
     bike_vmt,
     walk_vmt
   )
+# browser()
+  dir_ghg_all <- vmt_all %>%
+    dplyr::mutate(dir_ghg = NA,
+                  type = type) %>%
+    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+                  dir_ghg) %>%
+    unique()
+
+  emb_ghg_all <- dir_ghg_all %>%
+    dplyr::mutate(ghg_embodied_source = NA) %>%
+    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+                  ghg_embodied_source,
+                  ghg_embodied = dir_ghg)
+
+  fuel_use_all <- dir_ghg_all %>%
+    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+                  fuel_use = dir_ghg)
+
+  cost_all <- dir_ghg_all %>%
+    dplyr::select(type,
+                  scenario, mode, ctu, year, aeo_mode,
+                  cost = dir_ghg)
 
 
   wb_fin <- list(
-    "vmt" = vmt_all
+    "vmt" = vmt_all,
+    "dir_ghg" = dir_ghg_all,
+    "emb_ghg" = emb_ghg_all,
+    "fuel_use" = fuel_use_all,
+    "cost" = cost_all
   )
 
   usethis::ui_done(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
