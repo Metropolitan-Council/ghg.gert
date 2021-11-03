@@ -1,12 +1,12 @@
 #' Calculate direct emissions
 #'
 #' @param tb_vmt output VMT table
-#' @param tb input GHB table
 #' @param .mode current mode
 #' @param .fuel_type current fuel type for mode
 #' @param .miles_per_gallon miles per gallon for mode
-#' @param .is_av whether the mode is AV. AV has a different
+#' @param .is_av logical, whether the mode is AV. AV has a different
 #'     MPG due to efficiency gains from automation of drive cycle.
+#'     Default is `FALSE`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @return
@@ -21,7 +21,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
-                            .is_av = 0,
+                            .is_av = FALSE,
                             .enviro_factors = enviro_factors) {
   # browser()
 
@@ -63,7 +63,7 @@ calc_ghg_direct <- function(tb_vmt,
     ) %>%
     dplyr::mutate(
       av_multiplier = dplyr::case_when(
-        .is_av == 1 ~ .enviro_factors$MPG_AV,
+        .is_av == TRUE ~ .enviro_factors$MPG_AV,
         TRUE ~ 1
       ),
       val_mpg = value

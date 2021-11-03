@@ -34,19 +34,19 @@ calc_ghg_embodied <- function(tb,
     ghg_factor_current <- factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       dplyr::select(source,
-        year,
-        ghg_value = value,
+                    year,
+                    ghg_value = value,
       )
 
     tb_current <- tb %>%
       dplyr::filter(mode == .mode, var == .sales_mode) %>%
       dplyr::select(dplyr::everything(),
-        sales_value = value
+                    sales_value = value
       )
 
     ghg <- dplyr::left_join(tb_current,
-      ghg_factor_current,
-      by = c("year")
+                            ghg_factor_current,
+                            by = c("year")
     ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(ghg_sales = sales_value * ghg_value)
@@ -116,9 +116,9 @@ calc_ghg_embodied <- function(tb,
              ghg_embodied_source = var,
              year,
              mode,
-        ctu,
-        sales_value = value,
-        aeo_mode
+             ctu,
+             sales_value = value,
+             aeo_mode
       )
     if (.mode == "FR") {
       browser()
@@ -134,11 +134,11 @@ calc_ghg_embodied <- function(tb,
              ghg_embodied_source,
              # scenario,
              mode,
-        ctu = ctu,
-        year,
-        # aeo_scen,
-        aeo_mode,
-        ghg_embodied
+             ctu = ctu,
+             year,
+             # aeo_scen,
+             aeo_mode,
+             ghg_embodied
       ) %>%
       unique()
   }
