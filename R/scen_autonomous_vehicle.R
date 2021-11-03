@@ -169,8 +169,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
       ) * (1 - av_passenger_tb %>%
-             dplyr::filter(mode == mode, var == "PHEVPr") %>%
-             dplyr::select(all_of(YRS)))
+        dplyr::filter(mode == mode, var == "PHEVPr") %>%
+        dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
         av_passenger_tb, mode,
@@ -257,7 +257,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           "PHEVPrice", 1
         )
       )
-    } else if(.av_fuel_type == "BEV"){
+    } else if (.av_fuel_type == "BEV") {
       ## AV Battery electric -----
       stock <- "AVStock"
       mpe <- "BEVElec"
@@ -291,11 +291,11 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
       av_dir_ghg <-
         calc_ghg_direct(
-          tb_vmt =  av_vmt,
-          tb =  av_passenger_tb,
+          tb_vmt = av_vmt,
+          tb = av_passenger_tb,
           .mode = mode_1,
-          .fuel_type =  .electric_scenario,
-          .aeo_scenario =  .aeo_scenario,
+          .fuel_type = .electric_scenario,
+          .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
           .is_av = TRUE
         )
@@ -331,7 +331,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
         )
-
     }
 
 
@@ -360,20 +359,21 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
 
     return(av_return)
-
   } else {
 
     # return a basic shell with NA values
     vmt_all <- .pass_tb %>%
       dplyr::select(ctu, year) %>%
       unique() %>%
-      dplyr::mutate(type = type,
-             stock = stock,
-             scenario = .scenario,
-             mode = mode,
-             aeo_mode = "LDV",
-             vmt = NA,
-             class = NA)
+      dplyr::mutate(
+        type = type,
+        stock = stock,
+        scenario = .scenario,
+        mode = mode,
+        aeo_mode = "LDV",
+        vmt = NA,
+        class = NA
+      )
 
     fuel_use_all <- vmt_all %>%
       dplyr::select(scenario, mode, ctu, year, aeo_mode) %>%
@@ -381,25 +381,28 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
     dir_ghg_all <- fuel_use_all %>%
       dplyr::select(scenario, mode, ctu, year, aeo_mode,
-             dir_ghg = fuel_use)
+        dir_ghg = fuel_use
+      )
 
     emb_ghg_all <- fuel_use_all %>%
       dplyr::select(scenario, mode, ctu, year, aeo_mode,
-             ghg_embodied = fuel_use)
+        ghg_embodied = fuel_use
+      )
 
     cost_all <- fuel_use_all %>%
       dplyr::select(scenario, mode, ctu, year, aeo_mode,
-             cost = fuel_use)
-
-
-
-      av_return <- list(
-        "vmt" = vmt_all,
-        "dir_ghg" = dir_ghg_all,
-        "emb_ghg" = emb_ghg_all,
-        "fuel_use" = fuel_use_all,
-        "cost" = cost_all
+        cost = fuel_use
       )
+
+
+
+    av_return <- list(
+      "vmt" = vmt_all,
+      "dir_ghg" = dir_ghg_all,
+      "emb_ghg" = emb_ghg_all,
+      "fuel_use" = fuel_use_all,
+      "cost" = cost_all
+    )
 
 
     usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))

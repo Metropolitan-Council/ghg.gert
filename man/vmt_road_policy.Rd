@@ -6,6 +6,7 @@
 \usage{
 vmt_road_policy(
   .mode,
+  .pass_tb = transportation_data$passenger,
   .tb_vmt,
   .tb_fuel_cost_mile,
   .vmt_fee,
@@ -44,7 +45,7 @@ about gasoline/electric mode split). Default is \code{0}}
 }
 \value{
 a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},
-\code{vmt_fee_adjust}, \code{cong_adjust}, \code{cross_vmt}, \code{gas_adj}
+\code{vmt_fee_adj}, \code{cong_adjust}, \code{cross_vmt}, \code{gas_adj}
 }
 \description{
 Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year

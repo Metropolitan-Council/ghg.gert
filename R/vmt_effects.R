@@ -72,7 +72,6 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       )) %>%
       select(year, ctu, av_adj) %>%
       return()
-
   } else if (.mode %in% c(
     "BU",
     "BRT",
@@ -88,7 +87,6 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       select(year, ctu, av_adj)
 
     return(av_return)
-
   } else if (.mode == "AV") {
     tb_avshare <- .pass_tb %>%
       dplyr::filter(var == "AVShare") %>%
@@ -652,13 +650,13 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_totstock = TotStock,
-             mode_stock = !!rlang::sym(.stock),
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_totstock = TotStock,
+        mode_stock = !!rlang::sym(.stock),
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -677,7 +675,6 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
-
     tb_mode_totstock <- tb %>%
       filter(
         mode == .mode,
@@ -693,13 +690,13 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_totstock = TotStock,
-             mode_stock = !!rlang::sym(.stock),
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_totstock = TotStock,
+        mode_stock = !!rlang::sym(.stock),
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%

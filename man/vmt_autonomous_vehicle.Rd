@@ -5,6 +5,7 @@
 \title{Calculate autonomous vehicle multiplier}
 \usage{
 vmt_autonomous_vehicle(
+  .pass_tb = transportation_data$passenger,
   .tb_vmt,
   .av_pct,
   .mode,

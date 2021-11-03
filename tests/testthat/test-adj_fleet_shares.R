@@ -1,5 +1,4 @@
 testthat::test_that("Expected number of rows", {
-
   t_hev_bev_phev <- adj_fleet_shares(
     .bev_pct_sales = .20,
     .phev_pct_sales = .15,
@@ -73,19 +72,24 @@ t_with_av$pass %>%
   filter(var == "AVStock")
 
 pass_av <- t_with_av$pass %>%
-  filter(var == "TotStock",
-         mode == "PLDV")
+  filter(
+    var == "TotStock",
+    mode == "PLDV"
+  )
 
 
-testthat::expect_equal(tolerance = 0.001,
-                       pass_av$value[1:7],
-                       c(154401.15,
-                         161234.142,
-                         165789.47,
-                         166827.35,
-                         170255.75,
-                         170439.518,
-                         169406.28)
+testthat::expect_equal(
+  tolerance = 0.001,
+  pass_av$value[1:7],
+  c(
+    154401.15,
+    161234.142,
+    165789.47,
+    166827.35,
+    170255.75,
+    170439.518,
+    169406.28
+  )
 )
 
 t_hev_bev_phev <- adj_fleet_shares(
@@ -106,7 +110,7 @@ t_hev_bev_phev <- adj_fleet_shares(
 
 
 t_hev_bev_phev$pass %>%
-  filter(mode == "PLDV",
-         var == "SISales")
-
-
+  filter(
+    mode == "PLDV",
+    var == "SISales"
+  )

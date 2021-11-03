@@ -131,20 +131,23 @@ usethis::use_data(transportation_data, overwrite = TRUE)
 
 ## value comparisons ------
 orig_pass_transpo <- transportation_data$passenger %>%
-  filter(ctu == "St. Paul",
-         var == "TotStock",
-         mode == "PLDV")
+  filter(
+    ctu == "St. Paul",
+    var == "TotStock",
+    mode == "PLDV"
+  )
 
 testthat::expect_equal(
-
   orig_pass_transpo$value[1:7],
 
   # values from dataset as processed in ghg.sp.tool.model
-  c(154401.15,
+  c(
+    154401.15,
     161234.14,
     165789.47,
     166936.74,
     170939.95,
     173314.49,
-    175867.3))
-
+    175867.3
+  )
+)

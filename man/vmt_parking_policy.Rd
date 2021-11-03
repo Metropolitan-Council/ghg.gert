@@ -4,7 +4,12 @@
 \alias{vmt_parking_policy}
 \title{Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year}
 \usage{
-vmt_parking_policy(.mode, .parking_price, .enviro_factors = enviro_factors)
+vmt_parking_policy(
+  .pass_tb = transportation_data$passenger,
+  .mode,
+  .parking_price,
+  .enviro_factors = enviro_factors
+)
 }
 \arguments{
 \item{.mode}{current mode}

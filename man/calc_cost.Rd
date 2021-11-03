@@ -4,7 +4,13 @@
 \alias{calc_cost}
 \title{Calculate cost estimates in millions of dollars}
 \usage{
-calc_cost(tb_vmt, .mode, .price, .is_av = 0, .enviro_factors = enviro_factors)
+calc_cost(
+  tb_vmt,
+  .mode,
+  .price,
+  .is_av = FALSE,
+  .enviro_factors = enviro_factors
+)
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
@@ -13,8 +19,9 @@ calc_cost(tb_vmt, .mode, .price, .is_av = 0, .enviro_factors = enviro_factors)
 
 \item{.price}{character, price variable. Options include \code{"SIPrice"}}
 
-\item{.is_av}{whether the mode is AV. AV has a different
-MPG due to efficiency gains from automation of drive cycle.}
+\item{.is_av}{logical, whether the mode is AV. AV has a different
+MPG due to efficiency gains from automation of drive cycle.
+Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -26,7 +33,6 @@ Calculate cost estimates in millions of dollars
 }
 \seealso{
 Other transportation: 
-\code{\link{adj_fleet_shares}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},
 \code{\link{calc_elasticity}()},

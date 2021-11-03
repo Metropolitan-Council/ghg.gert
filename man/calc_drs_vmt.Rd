@@ -47,20 +47,21 @@ congested miles in MSP). Default is \code{0}}
 \item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
 Default is \code{0}}
 
-\item{.pop_dens_pct_change}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.emp_dens_pct_change}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
+\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.intersection_design_pct_change}{percent change in intersection .intersection_design_pct_change (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
+\item{.intersection_design_pct_change}{percent change in intersection design (\% 4-way stops) in 2050 relative to BAU.
+Numeric between 0 and 1.  Default is \code{0}}
 
-\item{.job_access_pct_change}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.transit_dist_pct_change}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
-as a measure of composite change in 5Ds on VMT. Default is \code{0}}
+\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
+as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -72,7 +73,6 @@ Calculate Dynamic Ride Sharing VMT
 }
 \seealso{
 Other transportation: 
-\code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_elasticity}()},

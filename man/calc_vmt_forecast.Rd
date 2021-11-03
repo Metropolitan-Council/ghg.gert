@@ -53,7 +53,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Default is \code{0}}
+\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between 0 and 1.   Default is \code{0}}
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
@@ -68,28 +68,29 @@ congested miles in MSP). Default is \code{0}}
 Default is \code{0}}
 
 \item{.drs_pct}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-Default is \code{0}}
+Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.pop_dens_pct_change}{percent change in population density in 2050 wrt BAU. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.emp_dens_pct_change}{percent change in employment density in 2050 wrt BAU. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 wrt BAU. Default is \code{0}}
+\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.intersection_design_pct_change}{percent change in intersection .intersection_design_pct_change (\% 4-way stops) in 2050 wrt BAU. Default is \code{0}}
+\item{.intersection_design_pct_change}{percent change in intersection design (\% 4-way stops) in 2050 relative to BAU.
+Numeric between 0 and 1.  Default is \code{0}}
 
-\item{.job_access_pct_change}{percent change in job accessibility in 2050 wrt BAU. Default is \code{0}}
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.transit_dist_pct_change}{percent change in transit distance in 2050 wrt BAU. Default is \code{0}}
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 wrt BAU
-as a measure of composite change in 5Ds on VMT. Default is \code{0}}
+\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
+as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.telework_pct}{percent of people teleworking in 2050. Default is \code{0}}
+\item{.telework_pct}{percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
 
 \item{ch_phev}{the current alternative is PHEV, which needs both
 gasoline and electric results (using assumption
@@ -106,7 +107,6 @@ Calculate vehicle miles traveled by mode and power train
 }
 \seealso{
 Other transportation: 
-\code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},

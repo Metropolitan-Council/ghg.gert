@@ -141,11 +141,14 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   )
 
   emb_ghg_all <- dir_ghg_all %>%
-    dplyr::mutate(ghg_embodied_source = NA,
-                  type = type) %>%
+    dplyr::mutate(
+      ghg_embodied_source = NA,
+      type = type
+    ) %>%
     dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                ghg_embodied_source,
-                ghg_embodied = dir_ghg)
+      ghg_embodied_source,
+      ghg_embodied = dir_ghg
+    )
 
   cost_all <- dplyr::bind_rows(
     ci_cost,

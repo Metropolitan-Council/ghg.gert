@@ -5,6 +5,7 @@
 \title{Calculate dynamic ride sharing effect}
 \usage{
 vmt_dynamic_ride_share_reduction(
+  .pass_tb = transportation_data$passenger,
   .tb_vmt,
   .mode,
   .variable,

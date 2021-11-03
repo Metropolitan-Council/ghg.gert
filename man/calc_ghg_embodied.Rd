@@ -17,7 +17,9 @@ calc_ghg_embodied(
 )
 }
 \arguments{
-\item{tb}{input table for embodied ghg emissions}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.mode}{current mode}
 
@@ -49,7 +51,6 @@ b) similarly affected by changes in local grid mix
 }
 \seealso{
 Other transportation: 
-\code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},

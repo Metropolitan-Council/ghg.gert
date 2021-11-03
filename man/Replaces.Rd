@@ -7,9 +7,10 @@
 calc_av_sales(tb, .av_pct)
 }
 \arguments{
-\item{tb}{input table}
-
-\item{.av_pct}{percent of trips by AV}
+\item{tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu}, \code{value},
+and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.
+Must have \code{"AVStock"} variable.
+@inheritParams calc_vmt_forecast}
 }
 \value{
 
@@ -21,7 +22,7 @@ Calculate AV stock sales
 \itemize{
 \item \code{calc_av_sales}: both sales and stock because need to replace
 faster than previous stock turnover in order to match
-AV market penetration
+AV market penetration.
 }}
 
-\concept{transportation. autonomous vehicles}
+\concept{transportation. autonomous vehicles, stock adjustments}

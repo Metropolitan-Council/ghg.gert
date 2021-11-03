@@ -92,28 +92,35 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     bike_vmt,
     walk_vmt
   )
-# browser()
+  # browser()
   dir_ghg_all <- vmt_all %>%
-    dplyr::mutate(dir_ghg = NA,
-                  type = type) %>%
-    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                  dir_ghg) %>%
+    dplyr::mutate(
+      dir_ghg = NA,
+      type = type
+    ) %>%
+    dplyr::select(
+      type, scenario, mode, ctu, year, aeo_mode,
+      dir_ghg
+    ) %>%
     unique()
 
   emb_ghg_all <- dir_ghg_all %>%
     dplyr::mutate(ghg_embodied_source = NA) %>%
     dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                  ghg_embodied_source,
-                  ghg_embodied = dir_ghg)
+      ghg_embodied_source,
+      ghg_embodied = dir_ghg
+    )
 
   fuel_use_all <- dir_ghg_all %>%
     dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                  fuel_use = dir_ghg)
+      fuel_use = dir_ghg
+    )
 
   cost_all <- dir_ghg_all %>%
     dplyr::select(type,
-                  scenario, mode, ctu, year, aeo_mode,
-                  cost = dir_ghg)
+      scenario, mode, ctu, year, aeo_mode,
+      cost = dir_ghg
+    )
 
 
   wb_fin <- list(

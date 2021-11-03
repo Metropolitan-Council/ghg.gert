@@ -91,45 +91,44 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
-  if(.vmt_fee > 0 |
-     .payd_fee > 0 |
-     .gas_tax > 0){
-
+  if (.vmt_fee > 0 |
+    .payd_fee > 0 |
+    .gas_tax > 0) {
     adj_si_ci_sales <- tibble::tibble(
       year = elast$year,
       adj_si_ci =
-      (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-        .payd_fee / .enviro_factors$AUTO_COST_MI) *
-        elast$vehicle_ownership_elast) *
-        (1 +
-          (.gas_tax / .enviro_factors$AUTO_COST_MI) *
-            elast$vehicle_ownership_elast)
-  )
+        (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
+          .payd_fee / .enviro_factors$AUTO_COST_MI) *
+          elast$vehicle_ownership_elast) *
+          (1 +
+            (.gas_tax / .enviro_factors$AUTO_COST_MI) *
+              elast$vehicle_ownership_elast)
+    )
 
 
-  # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
-  adj_alt_sales <- tibble::tibble(
-    year = elast$year,
-    adj_alt =
-      (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI + .payd_fee /
-        .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
-  )
+    # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
+    adj_alt_sales <- tibble::tibble(
+      year = elast$year,
+      adj_alt =
+        (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI + .payd_fee /
+          .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
+    )
 
-  # adjust passenger existing stock
-  # pass_alt_adj will have the same number of rows and same structure as .pass_tb
-  # only the value is changed
-  pass_tb <- pass_tb %>%
-    dplyr::left_join(adj_alt_sales, by = c("year")) %>%
-    dplyr::left_join(adj_si_ci_sales, by = c("year")) %>%
-    dplyr::mutate(value = dplyr::case_when(
-      (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
-      (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
-      (mode == "PLDV" & var == "HEVExist") ~ value * adj_alt,
-      (mode == "PLDV" & var == "SIExist") ~ value * adj_si_ci,
-      (mode == "PLDV" & var == "CIExist") ~ value * adj_si_ci,
-      TRUE ~ value
-    )) %>%
-    dplyr::select(names(.pass_tb))
+    # adjust passenger existing stock
+    # pass_alt_adj will have the same number of rows and same structure as .pass_tb
+    # only the value is changed
+    pass_tb <- pass_tb %>%
+      dplyr::left_join(adj_alt_sales, by = c("year")) %>%
+      dplyr::left_join(adj_si_ci_sales, by = c("year")) %>%
+      dplyr::mutate(value = dplyr::case_when(
+        (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
+        (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
+        (mode == "PLDV" & var == "HEVExist") ~ value * adj_alt,
+        (mode == "PLDV" & var == "SIExist") ~ value * adj_si_ci,
+        (mode == "PLDV" & var == "CIExist") ~ value * adj_si_ci,
+        TRUE ~ value
+      )) %>%
+      dplyr::select(names(.pass_tb))
 
     if (nrow(.pass_tb) != nrow(pass_tb)) {
       stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
@@ -175,12 +174,17 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         var == "TotStock"
       ) %>%
       unique() %>%
-      dplyr::mutate(mode = "AV",
-                    var = "AVStock",
-                    value = ifelse(year %in% c("2015",
-                                               "2018",
-                                               "2020"), 0,
-                                   value))
+      dplyr::mutate(
+        mode = "AV",
+        var = "AVStock",
+        value = ifelse(year %in% c(
+          "2015",
+          "2018",
+          "2020"
+        ), 0,
+        value
+        )
+      )
 
 
     av_share <- pass_tb %>%
@@ -189,24 +193,27 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       unique()
 
     pass_tb <- pass_tb %>%
-      dplyr::bind_rows(av_stock) %>% # attach AV Stock
+      dplyr::bind_rows(av_stock) %>%
+      # attach AV Stock
       dplyr::left_join(av_share, by = c("year")) %>%
       dplyr::mutate(
         value =
           case_when(
-                      stringr::str_detect(var, "Sales") |
-                         stringr::str_detect(var, "Exist") |
-                         stringr::str_detect(var, "Stock") ~ value * (1 - AVShare * .av_pct),
-                    TRUE ~ value)) %>%
+            stringr::str_detect(var, "Sales") |
+              stringr::str_detect(var, "Exist") |
+              stringr::str_detect(var, "Stock") ~ value * (1 - AVShare * .av_pct),
+            TRUE ~ value
+          )
+      ) %>%
       # both return same values
-          # ifelse(
-          #   (stringr::str_detect(var, "Sales") |
-          #      stringr::str_detect(var, "Exist") |
-          #      stringr::str_detect(var, "Stock")) &
-          #      mode == "PLDV",
-          #   value * (1 - AVShare * .av_pct),
-          #   value
-          # )) %>%
+      # ifelse(
+      #   (stringr::str_detect(var, "Sales") |
+      #      stringr::str_detect(var, "Exist") |
+      #      stringr::str_detect(var, "Stock")) &
+      #      mode == "PLDV",
+      #   value * (1 - AVShare * .av_pct),
+      #   value
+      # )) %>%
       dplyr::select(names(.pass_tb))
 
 
@@ -221,6 +228,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     ## passenger-----
     ### sales ------
 
+    browser()
     pass_tb_sales <- pass_tb %>%
       dplyr::filter(
         mode == "PLDV",

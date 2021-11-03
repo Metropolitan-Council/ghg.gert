@@ -18,7 +18,7 @@ calc_av_sales <- function(tb,
                           .av_pct) {
   # browser()
 
-  if(!"AVStock" %in% unique(tb$var)){
+  if (!"AVStock" %in% unique(tb$var)) {
     stop("No AVStock provided. Run `adj_fleet_shares()` on `tb` prior to calculating AV sales")
   }
 
@@ -50,8 +50,6 @@ calc_av_sales <- function(tb,
     unique()
 
   tb_av_sales <-
-
-
     tb_av_stock %>%
     dplyr::left_join(av_shares, by = c("year")) %>%
     dplyr::group_by(mode, ctu, aeo_mode, type) %>%

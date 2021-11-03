@@ -11,14 +11,16 @@ calc_fuel_use(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .is_av = 0,
+  .is_av = FALSE,
   .enviro_factors = enviro_factors
 )
 }
 \arguments{
 \item{tb_vmt}{output VMT table}
 
-\item{tb}{input GHB table}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.mode}{current mode}
 
@@ -28,8 +30,9 @@ calc_fuel_use(
 
 \item{.miles_per_gallon}{miles per gallon for mode}
 
-\item{.is_av}{whether the mode is AV. AV has a different
-MPG due to efficiency gains from automation of drive cycle.}
+\item{.is_av}{logical, whether the mode is AV. AV has a different
+MPG due to efficiency gains from automation of drive cycle.
+Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -41,7 +44,6 @@ Calculate use of fuel in thousands of gallons or thousands of kWh
 }
 \seealso{
 Other transportation: 
-\code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_drs_vmt}()},

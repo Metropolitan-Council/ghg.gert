@@ -5,11 +5,11 @@
 \title{Adjust fleet before running scenario}
 \usage{
 adj_fleet_shares(
-  .bev_pct_sales,
-  .phev_pct_sales,
-  .hev_pct_sales,
   .pass_tb = transportation_data$passenger,
   .freight_tb = transportation_data$freight,
+  .bev_pct_sales = 0,
+  .phev_pct_sales = 0,
+  .hev_pct_sales = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
@@ -19,15 +19,15 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{.bev_pct_sales}{percent of sales that are battery electric vehicles (BEV) in 2050}
-
-\item{.phev_pct_sales}{percent of sales that are plug-in hybrid electric (PHEV) in 2050}
-
-\item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
-
 \item{.pass_tb}{passenger input table. Default is \code{transportation_data$passenger}.}
 
 \item{.freight_tb}{freight input table. Default is \code{transportation_data$freight}.}
+
+\item{.bev_pct_sales}{percent of sales that are battery electric vehicles (BEV) in 2050. Default is \code{0}.}
+
+\item{.phev_pct_sales}{percent of sales that are plug-in hybrid electric (PHEV) in 2050. Default is \code{0}.}
+
+\item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
@@ -35,7 +35,7 @@ adj_fleet_shares(
 
 \item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
 
-\item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS) Default is \code{0}.}
+\item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS). Default is \code{0}.}
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
@@ -56,21 +56,20 @@ If the user inputs a different percent for BEV, update vehicles by existing
 vehicles and new sales
 DRS will take away from VMT for passenger vehicles.
 Run this before anything else
+
+Adjusting the existing passenger vehicle stock takes into account vehicle ownership
+cost elasticity, gas taxes, and VMT and PAYD fees.
+Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
+  - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct_trip`)
+    and adjusts all passenger sales, existing, and stock regardless of mode
+  - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
+    and adjusts all passenger sales, existing, and stock regardless of mode.
+If battery electric, plug-in hybrid, and/or hybrid percent of sales in 2050
+(`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
+If
+DRS, AV, estimated sales,
+and existing vehicles to estimate future stock. Freight data is dependent on passenger
+data,
 }
 }
-\seealso{
-Other transportation: 
-\code{\link{calc_cost}()},
-\code{\link{calc_drs_sales}()},
-\code{\link{calc_drs_vmt}()},
-\code{\link{calc_elasticity}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{scenario_results}()}
-}
-\concept{transportation}
+\concept{transportation, stock adjustments}
