@@ -115,24 +115,27 @@ mitigation_ev$passenger$PLDV$dir_ghg %>%
   geom_area(position = "stack")
 ```
 
+
+### Vehicle automation  
+
 ```{r}
 alternate_scenario <- scenario_results(
-  .scenario = "MIT",
+  .scenario = "MIT-AV",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .drs_fuel_type = "BEV",
-  .av_pct = 5,
+  .av_pct = 0.05,
   .av_fuel_type = "BEV"
 )
 ```
 
 ```{r}
 bind_rows(
-bau_summary$passenger$PLDV$vmt %>% 
-  filter(ctu == "St. Paul"),
-
-alternate_scenario$passenger$PLDV$vmt %>% 
-  filter(ctu == "St. Paul")) %>% 
+  bau_summary$passenger$PLDV$vmt %>% 
+    filter(ctu == "St. Paul"),
+  
+  alternate_scenario$passenger$PLDV$vmt %>% 
+    filter(ctu == "St. Paul")) %>% 
   ggplot(aes(x = year,
              y = vmt,
              shape = class,
@@ -140,19 +143,19 @@ alternate_scenario$passenger$PLDV$vmt %>%
   geom_point(size = 3,
              alpha = 0.5) +
   scale_shape_discrete(labels = c("Battery electric",
-                                 "Diesel",
-                                 "Hybrid electric",
-                                 "Plug-in Hybrid",
-                                 "Gasoline"))
+                                  "Diesel",
+                                  "Hybrid electric",
+                                  "Plug-in Hybrid",
+                                  "Gasoline"))
 
 ```
 
 ```{r}
 bau_summary$passenger$BU_BRT$vmt %>% 
-    filter(mode == "BU",
+  filter(mode == "BU",
          ctu == "St. Paul",
          class == "BCI")  %>% 
-      mutate(vmt = vmt / 10^5)
+  mutate(vmt = vmt / 10^5)
 
 
 ```
