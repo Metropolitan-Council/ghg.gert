@@ -19,7 +19,7 @@ calc_cost(
   tb_vmt = vmt_test,
   .mode = "PLDV",
   .price = "SIPrice",
-  .is_av = 0
+  .is_av = FALSE
 )
 
 tibble::tribble(

@@ -1,13 +1,17 @@
 #' @title  Main function to call other functions for determining VMT,
 #'      direct GHG, indirect GHG, and costs
 #'
+#' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`,
+#'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
+#' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `ctu`,
+#'    and one for each year. Package provided dataset `transportation_data$freight` is suitable.
 #' @param .electric_scenario electricity scenario
 #' @param .aeo_scenario selected EIA Annual Energy Outlook scenario
-#' @param .ctu chosen CTU
 #' @param .drs_fuel_type input dynamic ride sharing (DRS) fuel type. Default is `0`.
 #' @param .av_fuel_type input AV fuel type
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams adj_fleet_shares
 #'
 #' @return
 #' @export
@@ -15,10 +19,11 @@
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
 #' @family transportation
-scenario_results <- function(.scenario = "BAU",
+scenario_results <- function(pass_tb = transportation_data$passenger,
+                             freight_tb = transportation_data$freight,
+                             .scenario = "BAU",
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
-                             .ctu = "",
                              .transit_avo = 0,
                              .transit_rider_pct = 0,
                              .vmt_fee = 0,

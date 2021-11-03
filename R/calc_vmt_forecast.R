@@ -110,7 +110,7 @@ calc_vmt_forecast <- function(.scenario,
 
       # formula is such
       # transit vmt = PMT * aeo_adj * transit_adj *
-      # (1 + (vmt_fee_adjust +  payd_ins_adj + cong_adjust * cross_vmt)) *
+      # (1 + (vmt_fee_adj +  payd_ins_adj + cong_adjust * cross_vmt)) *
       # land_use_adj * park_price_adj * gas_adj /
       # occupancy_adj / av_adj
       #
@@ -182,7 +182,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           transit_vmt = miles_traveled *
             aeo_adj * transit_adj *
-            (1 + ((vmt_fee_adjust + payd_ins_adj + cong_adjust) * cross_vmt)) *
+            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
             land_use_adj * park_price_adj * gas_adj / occupancy_adj * av_adj,
           stock = .stock
         ) %>%
@@ -202,7 +202,7 @@ calc_vmt_forecast <- function(.scenario,
       # formula is such
       # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
       # aeo adjustment *
-      # (1 + (vmt_fee_adjust +  payd_ins_adj) * ELAST_VMT) *
+      # (1 + (vmt_fee_adj +  payd_ins_adj) * ELAST_VMT) *
       # (1 + cong_adj) *
       # (1 + gas_adj) *
       # park_price_adj *
@@ -276,7 +276,7 @@ calc_vmt_forecast <- function(.scenario,
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(autonomous_adjust, by = c("year")) %>%
+        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         left_join(telework_adjust, by = c("year")) %>%
         left_join(tb %>%
           filter(mode == "AT", var == .variable) %>%
@@ -288,7 +288,7 @@ calc_vmt_forecast <- function(.scenario,
           pass_ld_vmt = miles_traveled -
             (active_transportation_adj * transit_adj) *
               av_adj * aeo_adj *
-              vmt_fee_adjust * cong_adjust * gas_adj *
+              vmt_fee_adj * cong_adjust * gas_adj *
               telework_adj * land_use_adj *
               park_price_adj / occupancy_adj,
           stock = .stock
@@ -302,7 +302,7 @@ calc_vmt_forecast <- function(.scenario,
       # autonomous vehicle -----
       # av_vmt = miles_traveled  -
       # (active transportation adjustment * transit_adj) *
-      # aeo_adj * vmt_fee_adjust * cong_adjust *
+      # aeo_adj * vmt_fee_adj * cong_adjust *
       # gas_adj * park_price_adj * land_use_adj *
       # av_adjust
 

@@ -11,9 +11,9 @@
 #'
 #' @importFrom emo ji
 scen_freight_rail <- function(.freight_tb = transportation_data$freight,
+                              .scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
-                              .ctu = "",
                               .transit_avo = 0,
                               .transit_rider_pct = 0,
                               .vmt_fee = 0,

@@ -51,7 +51,8 @@ vmt_annual_energy_outlook <- function(tb,
 #'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-vmt_autonomous_vehicle <- function(.tb_vmt,
+vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
+                                   .tb_vmt,
                                    .av_pct,
                                    .mode,
                                    .enviro_factors = enviro_factors) {

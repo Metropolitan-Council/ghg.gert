@@ -51,7 +51,7 @@ si_fuel_use <- calc_fuel_use(
   .fuel_type = "SI",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
-  .is_av = 0
+  .is_av = FALSE
 )
 
 

@@ -11,9 +11,9 @@
 #' @importFrom emo ji
 #'
 scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
+                             .scenario = "BAU",
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
-                             .ctu = "",
                              .transit_avo = 0,
                              .transit_rider_pct = 0,
                              .vmt_fee = 0,
