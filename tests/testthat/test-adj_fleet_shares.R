@@ -47,9 +47,43 @@ t_with_av <- adj_fleet_shares(
   .gas_tax = 0,
     .av_pct = .05,
   .drs_pct_trip = 0,
+    .enviro_factors = enviro_factors
+  )
+
+  testthat::expect_equal(nrow(t_with_av$freight), nrow(transportation_data$freight))
+})
+
+t_with_av <- adj_fleet_shares(
+  .bev_pct_sales = 0,
+  .phev_pct_sales = 0,
+  .hev_pct_sales = 0,
+  .pass_tb = transportation_data$passenger %>%
+    filter(ctu == "St. Paul"),
+  .freight_tb = transportation_data$freight %>%
+    filter(ctu == "St. Paul"),
+  .vmt_fee = 0,
+  .payd_fee = 0,
+  .gas_tax = 0,
+  .av_pct = 0.05,
+  .drs_pct_trip = 0,
   .enviro_factors = enviro_factors
 )
 
-testthat::expect_equal(nrow(t_with_av$pass), nrow(transportation_data$passenger))
-testthat::expect_equal(nrow(t_with_av$freight), nrow(transportation_data$freight))
-})
+t_with_av$pass %>%
+  filter(var == "AVStock")
+
+pass_av <- t_with_av$pass %>%
+  filter(var == "TotStock",
+         mode == "PLDV")
+
+
+testthat::expect_equal(tolerance = 0.001,
+                       pass_av$value[1:7],
+                       c(154401.15,
+                         161234.142,
+                         165789.47,
+                         166827.35,
+                         170255.75,
+                         170439.518,
+                         169406.28)
+)
