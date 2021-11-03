@@ -47,11 +47,11 @@
 #' @importFrom tidyr pivot_wider pivot_longer
 #' @importFrom purrr map2
 #'
-adj_fleet_shares <- function(.bev_pct_sales,
-                             .phev_pct_sales,
-                             .hev_pct_sales,
-                             .pass_tb = transportation_data$passenger,
+adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .freight_tb = transportation_data$freight,
+                             .bev_pct_sales = 0,
+                             .phev_pct_sales = 0,
+                             .hev_pct_sales = 0,
                              .vmt_fee = 0,
                              .payd_fee = 0,
                              .gas_tax = 0,
@@ -88,12 +88,16 @@ adj_fleet_shares <- function(.bev_pct_sales,
   }
 
   # browser()
-  # VMT/PAYD, auto cost, ownership elasticity -----
+  # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
-  adj_si_ci_sales <- tibble::tibble(
-    year = elast$year,
-    adj_si_ci =
+  if(.vmt_fee > 0 |
+     .payd_fee > 0 |
+     .gas_tax > 0){
+
+    adj_si_ci_sales <- tibble::tibble(
+      year = elast$year,
+      adj_si_ci =
       (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
         .payd_fee / .enviro_factors$AUTO_COST_MI) *
         elast$vehicle_ownership_elast) *
@@ -127,8 +131,9 @@ adj_fleet_shares <- function(.bev_pct_sales,
     )) %>%
     dplyr::select(names(.pass_tb))
 
-  if (nrow(.pass_tb) != nrow(pass_tb)) {
-    stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
+    if (nrow(.pass_tb) != nrow(pass_tb)) {
+      stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
+    }
   }
   # drs-----
   # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
@@ -156,7 +161,7 @@ adj_fleet_shares <- function(.bev_pct_sales,
   }
 
   # av -----
-  # AV adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
+  # AV adjustment of all Sales, Existing, and Stock in each year *regardless* of passenger mode
   # Non-AV portion continues as before and AV treated separately
   if (.av_pct > 0) {
     # browser()
@@ -170,33 +175,42 @@ adj_fleet_shares <- function(.bev_pct_sales,
         var == "TotStock"
       ) %>%
       unique() %>%
-      dplyr::mutate(mode = "AV") %>%
-      dplyr::select(ctu, year, AVStock = value)
+      dplyr::mutate(mode = "AV",
+                    var = "AVStock",
+                    value = ifelse(year %in% c("2015",
+                                               "2018",
+                                               "2020"), 0,
+                                   value))
 
 
     av_share <- pass_tb %>%
       dplyr::filter(var == "AVShare") %>%
-      dplyr::select(ctu, year, AVShare = value) %>%
+      dplyr::select(year, AVShare = value) %>%
       unique()
 
     pass_tb <- pass_tb %>%
-      dplyr::left_join(av_stock, by = c("ctu", "year")) %>%
-      dplyr::left_join(av_share, by = c("ctu", "year")) %>%
+      dplyr::bind_rows(av_stock) %>% # attach AV Stock
+      dplyr::left_join(av_share, by = c("year")) %>%
       dplyr::mutate(
         value =
-          dplyr::case_when(
-            (stringr::str_detect(var, "Sales") |
-              stringr::str_detect(var, "Exist") |
-              stringr::str_detect(var, "Stock")) &
-              mode == "PLDV" ~
-            value * (1 - AVShare * .av_pct),
-            TRUE ~ value
-          )
-      ) %>%
+          case_when(
+                      stringr::str_detect(var, "Sales") |
+                         stringr::str_detect(var, "Exist") |
+                         stringr::str_detect(var, "Stock") ~ value * (1 - AVShare * .av_pct),
+                    TRUE ~ value)) %>%
+      # both return same values
+          # ifelse(
+          #   (stringr::str_detect(var, "Sales") |
+          #      stringr::str_detect(var, "Exist") |
+          #      stringr::str_detect(var, "Stock")) &
+          #      mode == "PLDV",
+          #   value * (1 - AVShare * .av_pct),
+          #   value
+          # )) %>%
       dplyr::select(names(.pass_tb))
 
 
-    if (nrow(.pass_tb) != nrow(pass_tb)) {
+    if (nrow(.pass_tb) + nrow(av_stock) != nrow(pass_tb)) {
       stop("Passenger data did not pass AV adjustment")
     }
   }
