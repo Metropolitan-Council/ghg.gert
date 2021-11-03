@@ -44,6 +44,10 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
                              .transit_dist_pct_change = 0,
                              .comb_5d_impact_pct_change = 0,
                              .telework_pct = 0,
+                             .bev_pct_sales = 0,
+                             .phev_pct_sales = 0,
+                             .hev_pct_sales = 0,
+                             .drs_pct_trip = 0,
                              .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors) {
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
@@ -86,6 +90,10 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     "transit_dist_pct_change",
     "comb_5d_impact_pct_change",
     "telework_pct",
+    "bev_pct_sales",
+    "hev_pct_sales",
+    "phev_pct_sales",
+    "drs_pct_trip"
   )
 
   l_vals <- list(
@@ -105,11 +113,43 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change,
     .comb_5d_impact_pct_change,
     .telework_pct,
+    .bev_pct_sales,
+    .hev_pct_sales,
+    .phev_pct_sales,
+    .drs_pct_trip
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
 
 
+  # adjust fleet size if neccessary -----
+  if(.vmt_fee        > 0 |
+     .payd_fee       > 0 |
+     .drs_pct        > 0 |
+     .drs_pct_trip   > 0 |
+     .gas_tax        > 0 |
+     .av_pct         > 0 |
+     .bev_pct_sales  > 0 |
+     .hev_pct_sales  > 0 |
+     .phev_pct_sales > 0){
+
+    browser()
+
+    adj_fleet <- adj_fleet_shares(.pass_tb = pass_tb,
+                                  .freight_tb = freight_tb,
+                                  .bev_pct_sales = .bev_pct_sales,
+                                  .phev_pct_sales = .phev_pct_sales,
+                                  .hev_pct_sales = .hev_pct_sales,
+                                  .vmt_fee =  .vmt_fee,
+                                  .payd_fee = .payd_fee,
+                                  .gas_tax = .gas_tax,
+                                  .drs_pct_trip = .drs_pct_trip,
+                                  .av_pct = .av_pct,
+                                  .enviro_factors = .enviro_factors)
+
+    pass_tb <- adj_fleet$pass
+    freight_tb <- adj_fleet$freight
+  }
 
 
   # Sequence for each
