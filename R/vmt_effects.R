@@ -61,15 +61,18 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
   if (.mode == "PLDV") {
     tb_avshare <- .pass_tb %>%
-      dplyr::filter(var == "AVShare")
+      dplyr::filter(var == "AVShare") %>%
+      dplyr::select(year, ctu, av_share = value) %>%
+      dplyr::distinct()
 
     tb_avshare %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (value * (.av_pct)),
+        .av_pct > 0 ~ 1 - (av_share * (.av_pct)),
         TRUE ~ 1
       )) %>%
-      select(year, av_adj) %>%
+      select(year, ctu, av_adj) %>%
       return()
+
   } else if (.mode %in% c(
     "BU",
     "BRT",
@@ -85,14 +88,20 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       select(year, ctu, av_adj)
 
     return(av_return)
+
   } else if (.mode == "AV") {
     tb_avshare <- .pass_tb %>%
       dplyr::filter(var == "AVShare") %>%
-      select(year, av_share = value)
+      dplyr::select(year, av_share = value) %>%
+      dplyr::distinct()
 
     av_return <- .tb_vmt %>%
       left_join(tb_avshare, by = c("year")) %>%
-      mutate(av_adj = av_share * .av_pct)
+      mutate(av_adj = case_when(
+        .av_pct > 0 ~ av_share * (.av_pct),
+        TRUE ~ 1
+      )) %>%
+      select(year, ctu, av_adj)
 
     return(av_return)
   }
