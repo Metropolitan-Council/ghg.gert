@@ -117,7 +117,7 @@ calc_vmt_forecast <- function(.scenario,
 
 
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$passenger,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
@@ -157,7 +157,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$passenger,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -210,7 +210,7 @@ calc_vmt_forecast <- function(.scenario,
       # telework_adj /
       # occupancy_adj
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$passenger,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
@@ -250,7 +250,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$passenger,
+        tb = tb,
         .tb_vmt = pass_tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -341,7 +341,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$passenger,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -420,13 +420,13 @@ calc_vmt_forecast <- function(.scenario,
       # single truck --------
       # browser()
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$freight,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$freight,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -486,14 +486,14 @@ calc_vmt_forecast <- function(.scenario,
       # miles_traveled * aeo_adj * vmt_fee_adj / occpancy_adj
 
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$freight,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$freight,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -571,14 +571,14 @@ calc_vmt_forecast <- function(.scenario,
       # miles_traveled * aeo_adj/occupancy_adj
 
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$passenger,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$passenger,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,
@@ -599,13 +599,13 @@ calc_vmt_forecast <- function(.scenario,
       # miles_traveled * aeo_adj / occupancy_adj
 
       ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = transportation_data$freight,
+        tb = tb,
         .aeo_scenario = .aeo_scenario,
         .mode = .mode
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
-        tb = transportation_data$freight,
+        tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .gas_tax = .gas_tax,

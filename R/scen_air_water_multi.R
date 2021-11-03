@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_air_water_multi <- function(.scenario = "BAU",
+scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .electric_scenario = "ER",
                                  .aeo_scenario = "REF",
                                  .ctu = "",
@@ -53,7 +53,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   mm_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode,
+      .scenario, .freight_tb, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -65,7 +65,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
   mm_ci_ghg <-
     calc_ghg_direct(
       mm_ci_vmt,
-      transportation_data$freight,
+      .freight_tb,
       mode, "MMCI", .aeo_scenario, mpg
     )
 
@@ -79,7 +79,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   mm_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode, stock,
+      .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -90,7 +90,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
   mm_bev_ghg <-
     calc_ghg_direct(
       mm_bev_vmt,
-      transportation_data$freight, mode,
+      .freight_tb, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 
@@ -108,7 +108,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   air_si_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode,
+      .scenario, .freight_tb, mode,
       stock, var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -118,7 +118,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   air_si_ghg <-
     calc_ghg_direct(
-      air_si_vmt, transportation_data$freight, mode,
+      air_si_vmt, .freight_tb, mode,
       "ASI",
       .aeo_scenario, mpg
     )
@@ -136,7 +136,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   wat_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode, stock,
+      .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
@@ -146,7 +146,7 @@ scen_air_water_multi <- function(.scenario = "BAU",
 
   wat_ci_ghg <-
     calc_ghg_direct(
-      wat_ci_vmt, transportation_data$freight,
+      wat_ci_vmt, .freight_tb,
       mode, "WCI", .aeo_scenario, mpg
     )
 

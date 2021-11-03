@@ -10,7 +10,7 @@
 #'
 #' @importFrom emo ji
 #'
-scen_transit_bus <- function(.scenario = "BAU",
+scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
                              .ctu = "",
@@ -53,7 +53,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   class <- "BCI"
 
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -64,7 +64,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -94,7 +94,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   ci_dir_ghg <-
     calc_ghg_direct(
       ci_vmt,
-      transportation_data$passenger,
+      .pass_tb,
       mode,
       "CI",
       .aeo_scenario,
@@ -104,7 +104,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   ci_fuel <-
     calc_fuel_use(
       ci_vmt,
-      transportation_data$passenger,
+      .pass_tb,
       mode,
       "CI",
       .aeo_scenario, mpg
@@ -112,7 +112,7 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   ci_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger,
+      .pass_tb,
       mode,
       "BCISales",
       "BU-BCI-EMB",
@@ -134,7 +134,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   hev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -163,21 +163,21 @@ scen_transit_bus <- function(.scenario = "BAU",
 
 
   hev_dir_ghg <- calc_ghg_direct(
-    hev_vmt, transportation_data$passenger, mode, "CI",
+    hev_vmt, .pass_tb, mode, "CI",
     .aeo_scenario, mpg
   )
 
 
   hev_fuel <-
     calc_fuel_use(
-      hev_vmt, transportation_data$passenger,
+      hev_vmt, .pass_tb,
       mode, "CI", .aeo_scenario, mpg
     )
 
 
   hev_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger,
+      .pass_tb,
       mode, "HEVSales",
       "BU-HEV-EMB", class, .transit_avo,
       hev_vmt, .mit_bau_summary
@@ -198,7 +198,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -228,20 +228,20 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   bev_dir_ghg <-
     calc_ghg_direct(
-      bev_vmt, transportation_data$passenger,
+      bev_vmt, .pass_tb,
       mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 
   bev_fuel <-
     calc_fuel_use(
-      bev_vmt, transportation_data$passenger,
+      bev_vmt, .pass_tb,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
 
   bev_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
+      .pass_tb, mode,
       "BEVSales", "BU-BEV-EMB",
       class, .transit_avo,
       bev_vmt, .mit_bau_summary
@@ -266,7 +266,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   ci_brt_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -295,19 +295,19 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   ci_brt_ghg <-
     calc_ghg_direct(
-      ci_brt_vmt, transportation_data$passenger, mode,
+      ci_brt_vmt, .pass_tb, mode,
       "CI", .aeo_scenario, mpg
     )
 
   ci_brt_fuel <-
     calc_fuel_use(
-      ci_brt_vmt, transportation_data$passenger, mode, "CI",
+      ci_brt_vmt, .pass_tb, mode, "CI",
       .aeo_scenario, mpg
     )
 
   ci_brt_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
+      .pass_tb, mode,
       "BCISales", "BU-BCI-EMB",
       class, .transit_avo, ci_brt_vmt,
       .mit_bau_summary
@@ -330,7 +330,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   hev_brt_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -360,19 +360,19 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   hev_brt_ghg <-
     calc_ghg_direct(
-      hev_brt_vmt, transportation_data$passenger,
+      hev_brt_vmt, .pass_tb,
       mode, "CI", .aeo_scenario, mpg
     )
 
   hev_brt_fuel <-
     calc_fuel_use(
-      hev_brt_vmt, transportation_data$passenger, mode, "CI",
+      hev_brt_vmt, .pass_tb, mode, "CI",
       .aeo_scenario, mpg
     )
 
   hev_brt_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
+      .pass_tb, mode,
       "HEVSales", "BU-HEV-EMB",
       class, .transit_avo, hev_brt_vmt,
       .mit_bau_summary
@@ -392,7 +392,7 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   bev_brt_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .stock = stock,
     .variable = var,
@@ -422,19 +422,19 @@ scen_transit_bus <- function(.scenario = "BAU",
 
   bev_brt_ghg <-
     calc_ghg_direct(
-      bev_brt_vmt, transportation_data$passenger,
+      bev_brt_vmt, .pass_tb,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
 
   bev_brt_fuel <-
     calc_fuel_use(
-      bev_brt_vmt, transportation_data$passenger, mode,
+      bev_brt_vmt, .pass_tb, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 
   bev_brt_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
+      .pass_tb, mode,
       "BEVSales", "BU-BEV-EMB",
       class, .transit_avo, bev_brt_vmt,
       .mit_bau_summary
@@ -497,7 +497,7 @@ scen_transit_bus <- function(.scenario = "BAU",
   bus_scenario <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all,
-    "emb_gog" = emb_ghg_all,
+    "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
     "cost" = cost_all
   )

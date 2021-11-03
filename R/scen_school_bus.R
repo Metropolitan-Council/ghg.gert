@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_school_bus <- function(.scenario = "BAU",
+scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
                             .ctu = "",
@@ -36,7 +36,7 @@ scen_school_bus <- function(.scenario = "BAU",
                             .mit_bau_summary = 0,
                             .enviro_factors = enviro_factors) {
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -61,7 +61,7 @@ scen_school_bus <- function(.scenario = "BAU",
   ci_vmt <-
     calc_vmt_forecast(
       .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -76,13 +76,13 @@ scen_school_bus <- function(.scenario = "BAU",
 
   ci_ghg <-
     calc_ghg_direct(
-      ci_vmt, transportation_data$passenger,
+      ci_vmt, .pass_tb,
       mode, "CI", .aeo_scenario, mpg
     )
 
   ci_fuel <-
     calc_fuel_use(
-      ci_vmt, transportation_data$passenger, mode,
+      ci_vmt, .pass_tb, mode,
       "CI", .aeo_scenario, mpg
     )
 
@@ -101,7 +101,7 @@ scen_school_bus <- function(.scenario = "BAU",
   message("School bus, electric")
   bev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock, var, fcm,
+      .scenario, .pass_tb, mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
@@ -112,13 +112,13 @@ scen_school_bus <- function(.scenario = "BAU",
   bev_ghg <-
     calc_ghg_direct(
       bev_vmt,
-      transportation_data$passenger, mode, .electric_scenario,
+      .pass_tb, mode, .electric_scenario,
       .aeo_scenario, mpe
     )
 
   bev_fuel <-
     calc_fuel_use(
-      bev_vmt, transportation_data$passenger, mode,
+      bev_vmt, .pass_tb, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 

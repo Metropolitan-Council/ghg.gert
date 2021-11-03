@@ -10,7 +10,8 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_autonomous_vehicle <- function(.scenario = "BAU",
+scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
+                                    .scenario = "BAU",
                                     .electric_scenario = "ER",
                                     .aeo_scenario = "REF",
                                     .ctu = "",
@@ -37,7 +38,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
                                     .mit_bau_summary = 0,
                                     .enviro_factors = enviro_factors) {
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -61,7 +62,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
   if (.scenario != "BAU" & .av_pct > 0) {
     browser()
     # Calculate DRS sales in each year
-    av_sales <- tibble::tibble(
+      .pass_tb,
       mode = mode,
       var = "AVSales", ctu = .ctu,
       calc_av_sales(
@@ -70,7 +71,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
       )
     )
 
-    transportation_data$passenger <-
+    av_passenger_tb <-
       dplyr::bind_rows(transportation_data$passenger, av_sales)
 
 
@@ -84,7 +85,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
 
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
-        transportation_data$passenger,
+        tb =   av_passenger_tb,
         mode_1, .aeo_scenario, mpg, .enviro_factors$SI_FUEL_COST_GAL, .av_pct
       )
 
@@ -93,7 +94,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class, ctu = .ctu,
         output = "VMT",
         calc_vmt_forecast(
-          .scenario, transportation_data$passenger,
+          .scenario, av_passenger_tb,
           mode, stock, var,
           fcm, .aeo_scenario,
           .transit_avo, .transit_rider_pct,
@@ -115,7 +116,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         ctu = .ctu, output = "DIR-GHG",
         calc_ghg_direct(
           av_vmt,
-          transportation_data$passenger,
+          av_passenger_tb,
           mode_1, "SI", .aeo_scenario,
           mpg, .av_pct
         )
@@ -127,7 +128,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "PETRO",
         calc_fuel_use(
-          av_vmt, transportation_data$passenger,
+          av_vmt, av_passenger_tb,
           mode_1, "SI", .aeo_scenario,
           mpg, .av_pct
         )
@@ -138,7 +139,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          transportation_data$passenger,
+          av_passenger_tb,
           mode, "AVSales",
           "HEV-EMB"
         )
@@ -155,7 +156,6 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
       )
     } else if (.av_fuel_type == "PHEV") {
       message("Autonomous vehicles, plug-in hybrid")
-
       ## AV Plug-in hygbrid -----
       stock <- "AVStock"
       mpg <- "PHEVMPG"
@@ -163,28 +163,28 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
       class <- "PHEV"
       # Calculate a fuel cost per mile rather than per gallon
       fcm <- calc_fuel_cost_mile(
-        transportation_data$passenger, mode_1, .aeo_scenario,
+        av_passenger_tb, mode_1, .aeo_scenario,
         mpg, .enviro_factors$SI_FUEL_COST_GAL, .av_pct
       )
 
       phev_vmtg <- calc_vmt_forecast(
-        .scenario, transportation_data$passenger, mode, stock,
+        .scenario, av_passenger_tb, mode, stock,
         var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change, .telework_pct, 1
-      ) * (1 - transportation_data$passenger %>%
+      ) * (1 - av_passenger_tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS)))
 
       fcm <- calc_fuel_cost_mile(
-        transportation_data$passenger, mode,
+        av_passenger_tb, mode,
         .aeo_scenario, mpe, .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
       phev_vmte <- calc_vmt_forecast(
-        .scenario, transportation_data$passenger, mode,
+        .scenario, av_passenger_tb, mode,
         stock, var, fcm, .aeo_scenario,
         .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
         .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -192,7 +192,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
         .transit_dist_pct_change, .comb_5d_impact_pct_change,
         .telework_pct
-      ) * transportation_data$passenger %>%
+      ) * av_passenger_tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS))
 
@@ -204,12 +204,12 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
       )
 
       phev_ghgg <- calc_ghg_direct(
-        phev_vmtg, transportation_data$passenger,
+        phev_vmtg, av_passenger_tb,
         mode, "SI", .aeo_scenario, mpg, .av_pct
       )
 
       phev_ghge <- calc_ghg_direct(
-        phev_vmtg, transportation_data$passenger,
+        phev_vmtg, av_passenger_tb,
         mode, .electric_scenario, .aeo_scenario, mpe, .av_pct
       )
 
@@ -226,7 +226,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         ctu = .ctu, output = "PETRO",
         calc_fuel_use(
           phev_vmtg,
-          transportation_data$passenger, mode, "SI",
+          av_passenger_tb, mode, "SI",
           .aeo_scenario, mpg, .av_pct
         )
       )
@@ -237,7 +237,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         ctu = .ctu, output = "ELEC",
         calc_fuel_use(
           phev_vmte,
-          transportation_data$passenger,
+          av_passenger_tb,
           mode, .electric_scenario, .aeo_scenario,
           mpe, .av_pct
         )
@@ -248,7 +248,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          transportation_data$passenger, mode,
+          av_passenger_tb, mode,
           "AVSales", "PHEV-EMB"
         )
       )
@@ -272,7 +272,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
       message("Autonomous vehicles, battery electric")
 
       fcm <- calc_fuel_cost_mile(
-        transportation_data$passenger,
+        tb =   av_passenger_tb,
         mode_1, .aeo_scenario, mpe, .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
@@ -281,7 +281,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "VMT",
         calc_vmt_forecast(
-          .scenario, transportation_data$passenger,
+          tb = av_passenger_tb,
           mode, stock, var, fcm,
           .aeo_scenario, .transit_avo, .transit_rider_pct,
           .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -319,7 +319,7 @@ scen_autonomous_vehicle <- function(.scenario = "BAU",
         mode = mode, class = class,
         ctu = .ctu, output = "INDIR-GHG",
         calc_ghg_embodied(
-          transportation_data$passenger,
+          tb = av_passenger_tb,
           mode,
           "AVSales", "BEV-EMB"
         )

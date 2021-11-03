@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_freight_rail <- function(.scenario = "BAU",
+scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
                               .ctu = "",
@@ -52,7 +52,8 @@ scen_freight_rail <- function(.scenario = "BAU",
   # browser()
   ci_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight,
+      .scenario,
+      tb = .freight_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -64,7 +65,7 @@ scen_freight_rail <- function(.scenario = "BAU",
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt,
-      transportation_data$freight,
+      .freight_tb,
       mode, "RCI", .aeo_scenario, mpg
     )
 
@@ -77,7 +78,7 @@ scen_freight_rail <- function(.scenario = "BAU",
 
   ev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight,
+      .scenario, .freight_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
@@ -91,7 +92,7 @@ scen_freight_rail <- function(.scenario = "BAU",
   ev_ghg <-
     calc_ghg_direct(
       ev_vmt,
-      transportation_data$freight, mode,
+      .freight_tb, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 

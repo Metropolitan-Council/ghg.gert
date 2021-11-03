@@ -10,7 +10,7 @@
 #'
 #' @importFrom emo ji
 #'
-scen_passenger_light_duty <- function(.scenario = "BAU",
+scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
                                       .ctu = "",
@@ -68,7 +68,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   # Calculate a fuel cost per mile rather than per gallon
   si_fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     mode,
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -77,7 +77,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   si_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .stock = "SIStock",
     .variable = var,
@@ -106,7 +106,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   si_dir_ghg <- calc_ghg_direct(
     tb_vmt = si_vmt,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
@@ -115,7 +115,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   si_fuel <- calc_fuel_use(
     tb_vmt = si_vmt,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
@@ -124,7 +124,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   si_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
+      .pass_tb, mode,
       "SISales",
       "SI-EMB"
     )
@@ -147,7 +147,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   message("Passenger vehicles, diesel")
   # Calculate a fuel cost per mile rather than per gallon
   ci_fcm <- calc_fuel_cost_mile(
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "CIMPG",
@@ -156,7 +156,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   ci_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .stock = "CIStock",
     .variable = var,
@@ -188,7 +188,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   ci_dir_ghg <-
     calc_ghg_direct(
       tb_vmt = ci_vmt,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
@@ -199,7 +199,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   ci_fuel <-
     calc_fuel_use(
       tb_vmt = ci_vmt,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
@@ -209,7 +209,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   ci_emb_ghg <-
     calc_ghg_embodied(
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .sales_mode = "CISales",
       .fuel_type = "CI-EMB",
@@ -235,14 +235,14 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   # Calculate a fuel cost per mile rather than per gallon
 
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger, mode, .aeo_scenario,
+    .pass_tb, mode, .aeo_scenario,
     mpg, .enviro_factors$SI_FUEL_COST_GAL
   )
 
   hev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -271,19 +271,19 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   hev_dir_ghg <-
     calc_ghg_direct(
-      hev_vmt, transportation_data$passenger,
+      hev_vmt, .pass_tb,
       mode, "SI", .aeo_scenario, mpg
     )
 
   hev_fuel <-
     calc_fuel_use(
-      hev_vmt, transportation_data$passenger,
+      hev_vmt, .pass_tb,
       mode, "SI", .aeo_scenario, mpg
     )
 
   hev_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger,
+      .pass_tb,
       mode, "HEVSales", "HEV-EMB"
     )
 
@@ -308,14 +308,14 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   # browser()
 
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger, mode, .aeo_scenario,
+    .pass_tb, mode, .aeo_scenario,
     mpg, .enviro_factors$SI_FUEL_COST_GAL
   )
 
   ### VMT gas ----
   phev_vmt_gas <- calc_vmt_forecast(
     .scenario = .scenario,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .stock = stock,
     .variable = var,
@@ -344,7 +344,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   # account for proportion of PHEV
   phev_vmt_gas <- left_join(phev_vmt_gas,
-    transportation_data$passenger %>%
+    .pass_tb %>%
       dplyr::filter(mode == mode, var == "PHEVPr"),
     by = c("mode", "ctu", "year", "aeo_mode", "type")
   ) %>%
@@ -353,13 +353,13 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   ### VMT electric ------
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger, mode, .aeo_scenario,
+    .pass_tb, mode, .aeo_scenario,
     mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
 
   phev_vmt_electric <- calc_vmt_forecast(
     .scenario = .scenario,
-    tb = transportation_data$passenger,
+    tb = .pass_tb,
     .mode = mode,
     .stock = stock,
     .variable = var,
@@ -389,7 +389,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   # account for proportion of PHEV
   phev_vmt_electric <- left_join(phev_vmt_electric,
-    transportation_data$passenger %>%
+    .pass_tb %>%
       dplyr::filter(mode == mode, var == "PHEVPr"),
     by = c("mode", "ctu", "year", "aeo_mode", "type")
   ) %>%
@@ -427,7 +427,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   ## gas ghg direct -----
   phev_ghg_gas <- calc_ghg_direct(
-    phev_vmt_gas, transportation_data$passenger, mode,
+    phev_vmt_gas, .pass_tb, mode,
     "SI", .aeo_scenario, mpg
   ) %>%
     select(everything(),
@@ -437,7 +437,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   phev_fuel_gas <- calc_fuel_use(
     phev_vmt_gas,
-    transportation_data$passenger,
+    .pass_tb,
     mode,
     "SI",
     .aeo_scenario, mpg
@@ -446,7 +446,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   ## electric ghg direct -----
   phev_ghg_electric <- calc_ghg_direct(
     phev_vmt_electric,
-    transportation_data$passenger, mode, .electric_scenario,
+    .pass_tb, mode, .electric_scenario,
     .aeo_scenario, mpe
   ) %>%
     select(everything(),
@@ -469,7 +469,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   phev_fuel_electric <-
     calc_fuel_use(
-      phev_vmt_electric, transportation_data$passenger,
+      phev_vmt_electric, .pass_tb,
       mode, .electric_scenario, .aeo_scenario,
       mpe
     )
@@ -497,7 +497,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   phev_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger,
+      .pass_tb,
       mode, "PHEVSales", "PHEV-EMB"
     )
 
@@ -519,14 +519,14 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
 
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger, mode, .aeo_scenario,
+    .pass_tb, mode, .aeo_scenario,
     mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
 
   bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       .mode = mode,
       .stock = stock,
       .variable = var,
@@ -557,7 +557,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   bev_dir_ghg <-
     calc_ghg_direct(
-      bev_vmt, transportation_data$passenger,
+      bev_vmt, .pass_tb,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
 
@@ -565,15 +565,16 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
 
   bev_fuel <-
     calc_fuel_use(
-      bev_vmt, transportation_data$passenger,
+      bev_vmt, .pass_tb,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
 
 
   bev_emb_ghg <-
     calc_ghg_embodied(
-      transportation_data$passenger, mode,
-      "BEVSales", "BEV-EMB"
+      .pass_tb, mode,
+      "BEVSales", "BEV-EMB",
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -620,7 +621,7 @@ scen_passenger_light_duty <- function(.scenario = "BAU",
   pldv_scenario <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all,
-    "emb_gog" = emb_ghg_all,
+    "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
     "cost" = cost_all
   )

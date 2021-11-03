@@ -11,10 +11,10 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_walk_bike <- function(.scenario = "BAU",
+scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
+                           .scenario = "BAU",
                            .electric_scenario = "ER",
                            .aeo_scenario = "REF",
-                           .ctu = "",
                            .transit_avo = 0,
                            .transit_rider_pct = 0,
                            .vmt_fee = 0,
@@ -38,7 +38,7 @@ scen_walk_bike <- function(.scenario = "BAU",
                            .mit_bau_summary = 0,
                            .enviro_factors = enviro_factors) {
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -58,7 +58,7 @@ scen_walk_bike <- function(.scenario = "BAU",
 
   walk_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock,
+      .scenario, .pass_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -74,7 +74,7 @@ scen_walk_bike <- function(.scenario = "BAU",
 
   bike_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode,
+      .scenario, .pass_tb, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .cong_price, .parking_price, .drs_pct,

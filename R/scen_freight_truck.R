@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_freight_truck <- function(.scenario = "BAU",
+scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .electric_scenario = "ER",
                                .aeo_scenario = "REF",
                                .ctu = "",
@@ -55,14 +55,14 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    transportation_data$freight, mode,
+    .freight_tb, mode,
     .aeo_scenario, mpg, .enviro_factors$CI_FUEL_COST_GAL
   )
 
   cut_ci_vmt <-
     calc_vmt_forecast(
       .scenario,
-      transportation_data$freight,
+      .freight_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -77,7 +77,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   cut_ci_ghg <-
     calc_ghg_direct(
-      cut_ci_vmt, transportation_data$freight,
+      cut_ci_vmt, .freight_tb,
       mode, "CUTCI", .aeo_scenario, mpg
     )
 
@@ -90,7 +90,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   cut_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode, stock,
+      .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -102,7 +102,7 @@ scen_freight_truck <- function(.scenario = "BAU",
   cut_bev_ghg <-
     calc_ghg_direct(
       cut_bev_vmt,
-      transportation_data$freight, mode,
+      .freight_tb, mode,
       .electric_scenario, .aeo_scenario, mpe
     )
 
@@ -118,7 +118,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    transportation_data$freight,
+    .freight_tb,
     mode,
     .aeo_scenario,
     mpg,
@@ -127,7 +127,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   sut_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode, stock,
+      .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -138,7 +138,7 @@ scen_freight_truck <- function(.scenario = "BAU",
   sut_ci_ghg <-
     calc_ghg_direct(
       sut_ci_vmt,
-      transportation_data$freight, mode,
+      .freight_tb, mode,
       "SUTCI", .aeo_scenario, mpg
     )
 
@@ -151,7 +151,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   sut_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$freight, mode, stock,
+      .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
       .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -165,7 +165,7 @@ scen_freight_truck <- function(.scenario = "BAU",
 
   sut_bev_ghg <-
     calc_ghg_direct(
-      sut_bev_vmt, transportation_data$freight,
+      sut_bev_vmt, .freight_tb,
       mode, .electric_scenario, .aeo_scenario, mpe
     )
 

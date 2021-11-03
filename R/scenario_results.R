@@ -115,10 +115,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # passenger light-duty -----
   passenger_light_duty <- scen_passenger_light_duty(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -145,10 +145,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # transit buses -----
   bus_transit <- scen_transit_bus(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -175,10 +175,10 @@ scenario_results <- function(.scenario = "BAU",
   # transit rail -----
 
   rail_transit <- scen_transit_rail(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -204,10 +204,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # school bus-----
   school_bus <- scen_school_bus(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -234,10 +234,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # walk and bike ----
   walk_bike <- scen_walk_bike(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -265,10 +265,10 @@ scenario_results <- function(.scenario = "BAU",
 
   if (.drs_pct > 0) {
     dynamic_ride_share <- scen_dynamic_ride_sharing(
+      .pass_tb = pass_tb,
       .scenario = .scenario,
       .electric_scenario = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .ctu = .ctu,
       .transit_avo = .transit_avo,
       .transit_rider_pct = .transit_rider_pct,
       .vmt_fee = .vmt_fee,
@@ -296,10 +296,10 @@ scenario_results <- function(.scenario = "BAU",
   # autonomous vehicles -----
 
   auto_veh <- scen_autonomous_vehicle(
+    .pass_tb = pass_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -330,10 +330,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # freight truck ------
   freight_truck <- scen_freight_truck(
+    .freight_tb = freight_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -361,10 +361,10 @@ scenario_results <- function(.scenario = "BAU",
   # freight rail -----
 
   freight_rail <- scen_freight_rail(
+    .freight_tb = freight_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -392,10 +392,10 @@ scenario_results <- function(.scenario = "BAU",
 
   # freight multi-modal, air, and water -----
   freight_multi_air_wat <- scen_air_water_multi(
+    .freight_tb = freight_tb,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .ctu = .ctu,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
@@ -449,8 +449,8 @@ scenario_results <- function(.scenario = "BAU",
   )
 
   pass_indir_ghg <- bind_rows(
-    passenger_light_duty$emb_gog,
-    bus_transit$emb_gog
+    passenger_light_duty$emb_ghg,
+    bus_transit$emb_ghg
   )
 
   pass_fuel <- bind_rows(

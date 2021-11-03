@@ -1,7 +1,6 @@
 #' @title Calculate embodied (indirect) emissions
 #'
 #'
-#' @param tb input table for embodied ghg emissions
 #' @param .sales_mode character, sales name for calculation of embodied emissions of new vehicles.
 #'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, `"BEVSales"`,
 #' @param .fuel_type fuel source for current mode
@@ -112,10 +111,11 @@ calc_ghg_embodied <- function(tb,
         var == .sales_mode
       ) %>%
       unique() %>%
-      select(type,
-        ghg_embodied_source = var,
-        year,
-        mode,
+      dplyr::select(
+        type,
+             ghg_embodied_source = var,
+             year,
+             mode,
         ctu,
         sales_value = value,
         aeo_mode
@@ -125,15 +125,15 @@ calc_ghg_embodied <- function(tb,
     }
 
     # browser()
-    ghg <- left_join(sales,
-      ghg_factors_current,
-      by = "year"
+    ghg <- dplyr::left_join(sales,
+                     ghg_factors_current,
+                     by = "year"
     ) %>%
-      mutate(ghg_embodied = sales_value * ghg_value) %>%
-      select(type,
-        ghg_embodied_source,
-        # scenario,
-        mode,
+      dplyr::mutate(ghg_embodied = sales_value * ghg_value) %>%
+      dplyr::select(type,
+             ghg_embodied_source,
+             # scenario,
+             mode,
         ctu = ctu,
         year,
         # aeo_scen,

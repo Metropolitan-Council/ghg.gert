@@ -9,10 +9,10 @@
 #' @export
 #'
 #' @importFrom emo ji
-scen_transit_rail <- function(.scenario = "BAU",
+scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
+                              .scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
-                              .ctu = "",
                               .transit_avo = 0,
                               .transit_rider_pct = 0,
                               .vmt_fee = 0,
@@ -37,7 +37,7 @@ scen_transit_rail <- function(.scenario = "BAU",
                               .enviro_factors = enviro_factors) {
   # Rail Urban-----
   fcm <- calc_fuel_cost_mile(
-    transportation_data$passenger,
+    .pass_tb,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
@@ -62,7 +62,7 @@ scen_transit_rail <- function(.scenario = "BAU",
   ev_vmt <-
     calc_vmt_forecast(
       .scenario,
-      tb = transportation_data$passenger,
+      tb = .pass_tb,
       mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
@@ -79,7 +79,7 @@ scen_transit_rail <- function(.scenario = "BAU",
   ev_ghg <-
     calc_ghg_direct(
       ev_vmt,
-      transportation_data$passenger,
+      .pass_tb,
       mode,
       .electric_scenario,
       .aeo_scenario,
@@ -89,7 +89,7 @@ scen_transit_rail <- function(.scenario = "BAU",
   ev_fuel <-
     calc_fuel_use(
       ev_vmt,
-      transportation_data$passenger,
+      .pass_tb,
       mode,
       .electric_scenario,
       .aeo_scenario,
@@ -111,7 +111,7 @@ scen_transit_rail <- function(.scenario = "BAU",
 
   ci_ri_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger,
+      .scenario, .pass_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -127,12 +127,12 @@ scen_transit_rail <- function(.scenario = "BAU",
   ci_ri_ghg <-
     calc_ghg_direct(
       ci_ri_vmt,
-      transportation_data$passenger, mode, "BCI", .aeo_scenario, mpg
+      .pass_tb, mode, "BCI", .aeo_scenario, mpg
     )
 
   ci_ri_fuel <-
     calc_fuel_use(
-      ci_ri_vmt, transportation_data$passenger,
+      ci_ri_vmt, .pass_tb,
       mode, "BCI", .aeo_scenario, mpg
     )
 
@@ -148,7 +148,7 @@ scen_transit_rail <- function(.scenario = "BAU",
   message("Passenger interurban rail, electric")
   ev_ri_vmt <-
     calc_vmt_forecast(
-      .scenario, transportation_data$passenger, mode, stock,
+      .scenario, .pass_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
@@ -158,14 +158,14 @@ scen_transit_rail <- function(.scenario = "BAU",
 
   ev_ri_ghg <-
     calc_ghg_direct(
-      ev_ri_vmt, transportation_data$passenger,
+      ev_ri_vmt, .pass_tb,
       mode, .electric_scenario,
       .aeo_scenario, mpe
     )
 
   ev_ri_fuel <-
     calc_fuel_use(
-      ev_ri_vmt, transportation_data$passenger,
+      ev_ri_vmt, .pass_tb,
       mode, .electric_scenario,
       .aeo_scenario, mpe
     )
@@ -205,7 +205,7 @@ scen_transit_rail <- function(.scenario = "BAU",
   passenger_rail <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all,
-    # "emb_gog" = emb_ghg_all,
+    # "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
     "cost" = cost_all
   )
