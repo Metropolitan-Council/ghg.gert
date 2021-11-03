@@ -89,7 +89,7 @@ calc_ghg_direct <- function(tb_vmt,
 
   ghg <- dplyr::left_join(tb_vmt,
     tb_aeo_ghg,
-    by = c("mode", "year", "aeo_mode"),
+    by = c("year", "aeo_mode"),
     suffix = c(".vmt", ".aeo_ghg")
   ) %>%
     dplyr::mutate(dir_ghg = (vmt / val_mpg_aeo) * ghg_factor) %>%
@@ -97,7 +97,7 @@ calc_ghg_direct <- function(tb_vmt,
       # type,
       # source,
       scenario,
-      mode,
+      mode = mode.vmt,
       class,
       ctu,
       year,
