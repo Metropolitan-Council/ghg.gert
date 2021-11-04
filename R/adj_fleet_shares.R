@@ -1,4 +1,4 @@
-#' @title Adjust fleet before running scenario
+#' @title Adjust fleet power train distribution before running scenario
 #'
 #' @description  Match what the user input for sales in 2050 rather
 #'     than the defaults from MA3TFleet held fixed in all cases.
@@ -228,7 +228,6 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     ## passenger-----
     ### sales ------
 
-    browser()
     pass_tb_sales <- pass_tb %>%
       dplyr::filter(
         mode == "PLDV",
@@ -291,19 +290,18 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     pass_sales_portions <- pass_tb_sales_w_fin %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        ptb_si = all_sales_pcts * (SISales / SISales + CISales) * (SISales / TotSales) / si_fin_year,
-        ptb_ci = all_sales_pcts * (CISales / CISales + SISales) * (CISales / TotSales) / ci_fin_year,
-        ptb_hev = (.hev_pct_sales) * (HEVSales / TotSales) / hev_fin_year,
-        ptb_phev = (.phev_pct_sales) * (PHEVSales / TotSales) / phev_fin_year,
-        ptb_bev = (.bev_pct_sales) * (BEVSales / TotSales) / bev_fin_year,
+        ptb_si = all_sales_pcts * (SISales / (SISales + CISales)) * (SISales / TotSales),
+        ptb_ci = all_sales_pcts * (CISales / (CISales + SISales)) * (CISales / TotSales),
+        ptb_hev = (.hev_pct_sales) * (HEVSales / TotSales),
+        ptb_phev = (.phev_pct_sales) * (PHEVSales / TotSales),
+        ptb_bev = (.bev_pct_sales) * (BEVSales / TotSales),
         # total sales of each type
-        ptb_tot_sales = sum(
-          ptb_si,
-          ptb_ci,
-          ptb_hev,
-          ptb_phev,
+        ptb_tot_sales =
+          ptb_si +
+          ptb_ci +
+          ptb_hev +
+          ptb_phev +
           ptb_bev
-        )
       ) %>%
       dplyr::mutate(
         # new portion of total sales for each type
@@ -313,13 +311,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         new_phev_portion = ptb_phev / ptb_tot_sales,
         new_bev_portion = ptb_bev / ptb_tot_sales
       ) %>%
-      dplyr::mutate(sum_check = sum(
-        new_si_portion,
-        new_ci_portion,
-        new_bev_portion,
-        new_hev_portion,
+      dplyr::mutate(sum_check =
+        new_si_portion +
+        new_ci_portion +
+        new_bev_portion +
+        new_hev_portion +
         new_phev_portion
-      )) %>%
+      ) %>%
       unique()
 
 
@@ -333,6 +331,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         pass_sales_portions %>%
           dplyr::select(
             mode, ctu, year, aeo_mode, type,
+            TotSales,
             new_si_portion,
             new_ci_portion,
             new_bev_portion,
@@ -343,11 +342,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::mutate(new_val = dplyr::case_when(
         # calculate new absolute sales value for each
-        var == "SISales" ~ value * new_si_portion,
-        var == "CISales" ~ value * new_ci_portion,
-        var == "HEVSales" ~ value * new_hev_portion,
-        var == "PHEVSales" ~ value * new_phev_portion,
-        var == "BEVSales" ~ value * new_bev_portion,
+        var == "SISales" ~ TotSales * new_si_portion,
+        var == "CISales" ~ TotSales * new_ci_portion,
+        var == "HEVSales" ~ TotSales * new_hev_portion,
+        var == "PHEVSales" ~ TotSales * new_phev_portion,
+        var == "BEVSales" ~ TotSales * new_bev_portion,
         TRUE ~ value
       )) %>%
       dplyr::select(mode, var,
@@ -402,11 +401,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        si_new_adj = SIExist + SISales / (SIExist.old + SISales.old),
-        ci_new_adj = CIExist + CISales / (CIExist.old + CISales.old),
-        hev_new_adj = HEVExist + HEVSales / (HEVExist.old + HEVSales.old),
-        phev_new_adj = PHEVExist + PHEVSales / (PHEVExist.old + PHEVSales.old),
-        bev_new_adj = BEVExist + BEVSales / (BEVExist.old + BEVSales.old)
+        si_new_adj = ifelse(year != max(year), (SIExist.old + SISales) / (SIExist.old + SISales.old),1),
+        ci_new_adj = ifelse(year != max(year),(CIExist.old + CISales) / (CIExist.old + CISales.old),1),
+        hev_new_adj = ifelse(year != max(year),(HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old),1),
+        phev_new_adj = ifelse(year != max(year),(PHEVExist.old + PHEVSales) / (PHEVExist.old + PHEVSales.old),1),
+        bev_new_adj = ifelse(year != max(year),(BEVExist.old + BEVSales) / (BEVExist.old + BEVSales.old),1)
       ) %>%
       dplyr::select(
         mode, ctu, year, aeo_mode, type,
@@ -455,11 +454,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        BEVStock = BEVExist + BEVStock,
-        PHEVStock = PHEVExist + PHEVStock,
-        HEVStock = HEVExist + HEVStock,
-        CIStock = CIExist + CIStock,
-        SIStock = SIExist + SIStock,
+        BEVStock = BEVExist + BEVSales,
+        PHEVStock = PHEVExist + PHEVSales,
+        HEVStock = HEVExist + HEVSales,
+        CIStock = CIExist + CISales,
+        SIStock = SIExist + SISales,
         TotStock = BEVStock + PHEVStock + HEVStock + CIStock + SIStock,
         TotExist = BEVExist + PHEVExist + HEVExist + CIExist + SIExist,
         TotSales = BEVSales + PHEVSales + HEVSales + CISales + SISales
@@ -501,15 +500,17 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::bind_rows(ptb_new) %>%
       dplyr::select(names(.pass_tb))
 
-    if (nrow(pass_tb) != nrow(.pass_tb)) {
+    if (nrow(ptb_new) != nrow(.pass_tb)) {
       stop("Passenger data did not pass HEV/PHEV/BEV adjustment")
     }
 
 
     ## freight --------
     # BAU assumes 1/3 and 2/3 change (relative to PLDV in 2025-2040) to freight sales to include BEV (as summation of BEV+PHEV+HEV from PLDV) for SUT and CUT, respectively
-    # We do not have good stock numbers on freight so we do not consider the embodied emissions from freight and the shift in sales, etc. from the passenger
+    # We do not have good stock numbers on freight so we do NOT consider the embodied emissions from freight and the shift in sales, etc. from the passenger
     # fleet is translated into a total stock number for freight. The use of 1/3 and 2/3 helps to account for this being sales not total stock (i.e., should be lower as percent of total stock)
+
+    # browser()
     freight_battery_fin_year <- ptb_stock_new %>%
       dplyr::ungroup() %>%
       dplyr::filter(year == max(year)) %>%
@@ -519,7 +520,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
     freight_battery <- ptb_stock_new %>%
-      dplyr::mutate(bev_pcts = .bev_pct_sales * BEVSales / BEVStock) %>%
+      dplyr::mutate(bev_pcts = .bev_pct_sales * (BEVSales / BEVStock)) %>%
       dplyr::select(ctu, year, bev_pcts)
 
 
@@ -539,12 +540,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         TRUE ~ value
       )) %>%
       unique() %>%
+      select(-aeo_mode) %>%
       tidyr::pivot_wider(
         names_from = c(var, mode),
         values_from = value
       ) %>%
       dplyr::group_by(year, ctu) %>%
-      dplyr::mutate(dplyr::across(3:8, sum, na.rm = T)) %>%
+      dplyr::mutate(dplyr::across(4:7, sum, na.rm = T)) %>%
       unique()
 
 
@@ -566,7 +568,8 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         ci_cut_fin,
         bev_cut_fin
       ) %>%
-      unique()
+      unique() %>%
+      filter(!is.na(ci_cut_fin ))
 
 
     freight_stock_new <- freight_stock %>%
@@ -617,10 +620,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         names_from = var,
         values_from = value
       ) %>%
-      dplyr::select(year, ctu, mode, TotStock)
+      dplyr::select(year, ctu, mode, TotStock) %>%
+      unique()
 
 
-    ftb_new <- freight_tb %>%
+    ftb_new_stocks <- freight_tb %>%
       dplyr::filter(mode %in% c(
         "SUT",
         "CUT"
@@ -660,8 +664,9 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::mutate(all_combos = paste(mode, ctu, year, var, aeo_mode,
         sep = "-"
       )) %>%
-      dplyr::filter(!all_combos %in% ftb_new$all_combos) %>%
-      dplyr::bind_rows(ftb_new)
+      dplyr::filter(!all_combos %in% ftb_new_stocks$all_combos) %>%
+      dplyr::bind_rows(ftb_new_stocks) %>%
+      dplyr::select(names(freight_tb))
 
     if (nrow(.freight_tb) != nrow(ftb_new)) {
       stop("Freight data did not pass adjustment")

@@ -1,21 +1,4 @@
 testthat::test_that("Expected number of rows", {
-  t_hev_bev_phev <- adj_fleet_shares(
-    .bev_pct_sales = .20,
-    .phev_pct_sales = .15,
-    .hev_pct_sales = .40,
-    .pass_tb = transportation_data$passenger,
-    .freight_tb = transportation_data$freight,
-    .vmt_fee = 0,
-    .payd_fee = 0,
-    .gas_tax = 0,
-    .drs_pct_trip = 0,
-    .av_pct = 0,
-    .enviro_factors = enviro_factors
-  )
-
-  testthat::expect_equal(nrow(t_hev_bev_phev$pass), nrow(transportation_data$passenger))
-  testthat::expect_equal(nrow(t_hev_bev_phev$freight), nrow(transportation_data$freight))
-
 
   t_with_drs <- adj_fleet_shares(
     .bev_pct_sales = 0,
@@ -92,6 +75,11 @@ testthat::expect_equal(
   )
 )
 
+
+# Stock adjustments only adjust the proportion of the total vehicles
+# The total number of vehicles should NOT change
+
+
 t_hev_bev_phev <- adj_fleet_shares(
   .bev_pct_sales = .20,
   .phev_pct_sales = .15,
@@ -109,8 +97,57 @@ t_hev_bev_phev <- adj_fleet_shares(
 )
 
 
-t_hev_bev_phev$pass %>%
-  filter(
-    mode == "PLDV",
-    var == "SISales"
+test_total_table <- left_join(
+  transportation_data$passenger %>%
+    filter(ctu == "St. Paul",
+           mode == "PLDV",
+           str_detect(var, "Tot")),
+  t_hev_bev_phev$pass %>%
+    filter(
+      mode == "PLDV",
+      str_detect(var, "Tot")),
+  c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+  suffix = c(".orig", ".adj")
+) %>%
+  mutate(diff = round(value.orig - value.adj)) %>%
+  filter(diff != 0)
+
+testthat::expect_equal(nrow(test_total_table), 0)
+
+
+
+testthat::expect_error(
+  adj_fleet_shares(
+    .bev_pct_sales = 1,
+    .pass_tb = transportation_data$passenger %>%
+      filter(ctu == "St. Paul"),
+    .freight_tb = transportation_data$freight %>%
+      filter(ctu == "St. Paul"),
+    .vmt_fee = 0,
+    .payd_fee = 0,
+    .gas_tax = 0,
+    .drs_pct_trip = 0,
+    .av_pct = 0,
+    .enviro_factors = enviro_factors
   )
+)
+
+t_hev_bev_phev$freight
+
+
+freight_test_total_table <- left_join(
+  transportation_data$freight %>%
+    filter(ctu == "St. Paul",
+           mode %in% c("SUT", "CUT"),
+           str_detect(var, "Tot")),
+  t_hev_bev_phev$freight %>%
+    filter(ctu == "St. Paul",
+           mode %in% c("SUT", "CUT"),
+           str_detect(var, "Tot")),
+  c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+  suffix = c(".orig", ".adj")
+) %>%
+  mutate(diff = round(value.orig - value.adj)) %>%
+  filter(diff != 0)
+
+testthat::expect_equal(nrow(freight_test_total_table), 0)
