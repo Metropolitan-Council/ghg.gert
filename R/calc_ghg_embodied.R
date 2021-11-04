@@ -45,12 +45,26 @@ calc_ghg_embodied <- function(tb,
       ) %>%
       dplyr::mutate(class = .class)
 
+
     ghg <- dplyr::left_join(tb_current,
       ghg_factor_current,
       by = c("year")
     ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(ghg_sales = sales_value * ghg_value)
+      dplyr::mutate(ghg_embodied = sales_value * ghg_value) %>%
+      dplyr::select(
+        type,
+        ghg_embodied_source = var,
+        # scenario,
+        mode,
+        class,
+        ctu = ctu,
+        year,
+        # aeo_scen,
+        aeo_mode,
+        ghg_embodied
+      )
+
 
 
     # adjust stock for changes made in VMT between BAU and MIT scenarios
@@ -101,6 +115,8 @@ calc_ghg_embodied <- function(tb,
         (ifelse(.transit_avo_pct > 0, (1 - 1 / (1 + .transit_avo_pct)), 0) + 1)
     }
   } else {
+    # browser()
+
     ghg_factors_current <- factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       select(year, ghg_value = value)
@@ -127,7 +143,6 @@ calc_ghg_embodied <- function(tb,
       browser()
     }
 
-    # browser()
     ghg <- dplyr::left_join(sales,
       ghg_factors_current,
       by = "year"
