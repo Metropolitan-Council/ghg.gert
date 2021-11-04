@@ -134,7 +134,9 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         output = "INDIR-GHG",
         calc_ghg_embodied(
           av_passenger_tb,
-          mode, "AVSales",
+          mode,
+          .class = class,
+          "AVSales",
           "HEV-EMB"
         )
       )
@@ -243,6 +245,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         output = "INDIR-GHG",
         calc_ghg_embodied(
           av_passenger_tb, mode,
+          .class = class,
           "AVSales", "PHEV-EMB"
         )
       )
@@ -320,6 +323,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .mode = mode_1,
           .sales_mode = "AVSales",
           .fuel_type = "BEV-EMB",
+          .class = class,
           .enviro_factors = .enviro_factors
         )
 

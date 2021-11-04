@@ -102,6 +102,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       temp <- calc_ghg_embodied(
         .pass_tb,
+        .class = class,
         mode, "DRSSales",
         "HEV-EMB"
       )
@@ -199,6 +200,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       temp <- calc_ghg_embodied(
         .pass_tb, mode,
+        .class = class,
+
         "DRSSales", "PHEV-EMB"
       ) %>% as.numeric()
 
@@ -256,6 +259,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       temp <- calc_ghg_embodied(
         .pass_tb,
+        .class = class,
+
         mode, "DRSSales", "BEV-EMB"
       ) %>%
         as.numeric()

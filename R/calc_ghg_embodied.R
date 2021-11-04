@@ -4,7 +4,7 @@
 #' @param .sales_mode character, sales name for calculation of embodied emissions of new vehicles.
 #'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, `"BEVSales"`,
 #' @param .fuel_type fuel source for current mode
-#' @param .class vehicle class (passenger or freight)
+#' @param .class vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`
 #' @param .transit_avo_pct percent change in transit AVO. Default is `0`
 #' @param .mitigation_tb mitigation output table for results. Default is `0`
 #' @param .bau_tb output table for results. Default is `0`
@@ -42,7 +42,8 @@ calc_ghg_embodied <- function(tb,
       dplyr::filter(mode == .mode, var == .sales_mode) %>%
       dplyr::select(dplyr::everything(),
         sales_value = value
-      )
+      ) %>%
+      dplyr::mutate(class = .class)
 
     ghg <- dplyr::left_join(tb_current,
       ghg_factor_current,
@@ -111,8 +112,10 @@ calc_ghg_embodied <- function(tb,
         var == .sales_mode
       ) %>%
       unique() %>%
+      mutate(class = .class) %>%
       dplyr::select(
         type,
+        class,
         ghg_embodied_source = var,
         year,
         mode,
@@ -135,6 +138,7 @@ calc_ghg_embodied <- function(tb,
         ghg_embodied_source,
         # scenario,
         mode,
+        class,
         ctu = ctu,
         year,
         # aeo_scen,

@@ -124,6 +124,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   si_emb_ghg <-
     calc_ghg_embodied(
       .pass_tb, mode,
+      .class = class,
       "SISales",
       "SI-EMB"
     )
@@ -212,7 +213,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       .sales_mode = "CISales",
       .fuel_type = "CI-EMB",
-      .class = "P"
+      .class = class
     )
 
 
@@ -283,6 +284,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   hev_emb_ghg <-
     calc_ghg_embodied(
       .pass_tb,
+      .class = class,
       mode, "HEVSales", "HEV-EMB"
     )
 
@@ -497,6 +499,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_emb_ghg <-
     calc_ghg_embodied(
       .pass_tb,
+      .class = class,
       mode, "PHEVSales", "PHEV-EMB"
     )
 
@@ -571,8 +574,11 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   bev_emb_ghg <-
     calc_ghg_embodied(
-      .pass_tb, mode,
-      "BEVSales", "BEV-EMB",
+      .pass_tb,
+      .mode = mode,
+      .class = class,
+      .sales_mode = "BEVSales",
+      .fuel_type = "BEV-EMB",
       .enviro_factors = .enviro_factors
     )
 
