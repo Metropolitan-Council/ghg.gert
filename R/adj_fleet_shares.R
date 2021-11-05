@@ -17,7 +17,7 @@
 #'     Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 #'     cost elasticity, gas taxes, and VMT and PAYD fees.
 #'     Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
-#'       - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct_trip`)
+#'       - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct`)
 #'         and adjusts all passenger sales, existing, and stock regardless of mode
 #'       - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
 #'         and adjusts all passenger sales, existing, and stock regardless of mode.
@@ -33,7 +33,7 @@
 #' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050
 #' @param .pass_tb passenger input table. Default is `transportation_data$passenger`.
 #' @param .freight_tb freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct_trip percent of trips/fleet that is dynamic ride sharing (DRS). Default is `0`.
+#' @param .drs_pct percent of trips/fleet that is dynamic ride sharing (DRS). Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation, stock adjustments
@@ -55,7 +55,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .vmt_fee = 0,
                              .payd_fee = 0,
                              .gas_tax = 0,
-                             .drs_pct_trip = 0,
+                             .drs_pct = 0,
                              .av_pct = 0,
                              .enviro_factors = enviro_factors) {
 
@@ -78,7 +78,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     .bev_pct_sales,
     .hev_pct_sales,
     .phev_pct_sales,
-    .drs_pct_trip
+    .drs_pct
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -136,7 +136,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   }
   # drs-----
   # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
-  if (.drs_pct_trip > 0) {
+  if (.drs_pct > 0) {
     # browser()
 
     drs_share <- pass_tb %>%
@@ -152,7 +152,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
             (stringr::str_detect(var, "Sales")) |
               (stringr::str_detect(var, "Exist")) |
               (stringr::str_detect(var, "Stock")) ~ value *
-              (1 - drs_share * .drs_pct_trip),
+              (1 - drs_share * .drs_pct),
             TRUE ~ value
           )
       ) %>%

@@ -47,7 +47,6 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
                              .bev_pct_sales = 0,
                              .phev_pct_sales = 0,
                              .hev_pct_sales = 0,
-                             .drs_pct_trip = 0,
                              .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors) {
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
@@ -116,7 +115,7 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     .bev_pct_sales,
     .hev_pct_sales,
     .phev_pct_sales,
-    .drs_pct_trip
+    .drs_pct
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -126,13 +125,13 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
   if (.vmt_fee > 0 |
     .payd_fee > 0 |
     .drs_pct > 0 |
-    .drs_pct_trip > 0 |
+    .drs_pct > 0 |
     .gas_tax > 0 |
     .av_pct > 0 |
     .bev_pct_sales > 0 |
     .hev_pct_sales > 0 |
     .phev_pct_sales > 0) {
-    browser()
+    # browser()
 
     adj_fleet <- adj_fleet_shares(
       .pass_tb = pass_tb,
@@ -143,7 +142,7 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
       .gas_tax = .gas_tax,
-      .drs_pct_trip = .drs_pct_trip,
+      .drs_pct = .drs_pct,
       .av_pct = .av_pct,
       .enviro_factors = .enviro_factors
     )
