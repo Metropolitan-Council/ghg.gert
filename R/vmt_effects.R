@@ -52,13 +52,11 @@ vmt_annual_energy_outlook <- function(tb,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
+                                   .stock,
                                    .tb_vmt,
                                    .av_pct,
                                    .mode,
                                    .enviro_factors = enviro_factors) {
-  # browser()
-
-
   if (.mode == "PLDV") {
     tb_avshare <- .pass_tb %>%
       dplyr::filter(var == "AVShare") %>%
@@ -66,8 +64,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       dplyr::distinct()
 
     tb_avshare %>%
+      rowwise() %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (av_share * (.av_pct)),
+        .av_pct > 0 ~ 1 - (av_share * .av_pct),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
@@ -128,7 +127,7 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
                                              .drs_pct,
                                              .enviro_factors = enviro_factors) {
   if (.drs_pct > 0) {
-    browser()
+    # browser()
 
     drs_share <- .pass_tb %>%
       filter(var == "DRSShare") %>%
@@ -140,8 +139,7 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
 
     .tb_vmt %>%
       left_join(drs_share, by = c("year", "ctu")) %>%
-      mutate(miles_traveled = miles_traveled *
-        (1 - drs_share_val) * .drs_pct) %>%
+      mutate(miles_traveled = miles_traveled * (1 - drs_share_val) * .drs_pct) %>%
       unique() %>%
       return()
 
@@ -370,11 +368,12 @@ vmt_road_policy <- function(.mode,
   # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
-      "SIStock",
-      "CIStock",
-      "HEVStock"
-      ) |(.stock == "PHEVStock" & .phev_electric == FALSE)
-    ), 1, 0)
+        "SIStock",
+        "CIStock",
+        "HEVStock"
+      ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
+      ), 1, 0
+    )
 
 
     fc_return <- .tb_fuel_cost_mile %>%
@@ -451,7 +450,8 @@ vmt_road_policy <- function(.mode,
         "CIStock",
         "HEVStock"
       ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
-      ), 1, 0)
+      ), 1, 0
+    )
 
 
     fc_return <- .tb_fuel_cost_mile %>%
@@ -544,17 +544,17 @@ vmt_telework <- function(.mode,
 #'
 vmt_stock_proportion <- function(.tb,
                                  .mode,
-                                 .stock){
-  if(.mode %in% c("WALK",
-                  "BIKE")){
+                                 .stock) {
+  if (.mode %in% c(
+    "WALK",
+    "BIKE"
+  )) {
     tb_stock_proportion <- .tb %>%
       filter(mode = .mode) %>%
       mutate(mode_stock_adj = 1) %>%
       select(year, ctu, mode, mode_stock_adj) %>%
       unique()
-
-  } else if(.mode == "DRS"){
-
+  } else if (.mode == "DRS") {
     tb_stock_proportion <- .tb %>%
       filter(
         mode == "PLDV",
@@ -569,12 +569,12 @@ vmt_stock_proportion <- function(.tb,
         names_from = var,
         values_from = value
       ) %>%
-      mutate(mode_stock_adj = (SIStock + CIStock + HEVStock) / TotStock,
-             mode = .mode) %>%
+      mutate(
+        mode_stock_adj = (SIStock + CIStock + HEVStock) / TotStock,
+        mode = .mode
+      ) %>%
       select(ctu, year, mode, mode_stock_adj)
-
   } else {
-
     tb_stock_proportion <- .tb %>%
       filter(
         mode == .mode,
