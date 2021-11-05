@@ -19,7 +19,7 @@ t_with_av <- adj_fleet_shares(
   .payd_fee = 0,
   .gas_tax = 0,
   .av_pct = 0.05,
-  .drs_pct_trip = 0,
+  .drs_pct = 0,
   .enviro_factors = enviro_factors
 )
 

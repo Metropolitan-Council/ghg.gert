@@ -7,11 +7,11 @@ pass <- suppressMessages(scen_passenger_light_duty(
 testthat::expect_length(pass, 5)
 
 testthat::expect_named(pass,
-                       expected = c(
-                         "vmt",
-                         "dir_ghg",
-                         "emb_ghg",
-                         "fuel_use",
-                         "cost"
-                       )
+  expected = c(
+    "vmt",
+    "dir_ghg",
+    "emb_ghg",
+    "fuel_use",
+    "cost"
+  )
 )

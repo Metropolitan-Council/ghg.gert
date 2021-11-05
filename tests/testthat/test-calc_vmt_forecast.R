@@ -41,7 +41,7 @@ si_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(
@@ -89,7 +89,7 @@ walk_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::mutate(vmt = vmt / 10^5)
 
@@ -148,7 +148,7 @@ ci_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(vmt = vmt / 10^5)
@@ -195,7 +195,7 @@ ru_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(vmt = vmt / 10^5)
@@ -207,7 +207,7 @@ si_fcm_test <- calc_fuel_cost_mile(
   st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
+  .miles_per_gallon =  "CIMPG",
   .fuel_cost_gallon = 239.8,
   .av_pct = 0
 )
@@ -239,12 +239,12 @@ bus_ci_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(
     vmt = vmt / 10^5,
-    class = "SI"
+    class = "CI"
   )
 
 testthat::test_that("BAU, Bus diesel correct", {
@@ -288,7 +288,7 @@ phev_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(

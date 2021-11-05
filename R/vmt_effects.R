@@ -362,10 +362,10 @@ vmt_road_policy <- function(.mode,
                             .gas_tax,
                             .payd_fee,
                             .stock,
-                            ch_phev = 0,
+                            .phev_electric = FALSE,
                             .enviro_factors = enviro_factors) {
   if (.mode == "PLDV") {
-  # browser()
+    # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
         "SIStock",
@@ -707,10 +707,10 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       select(mode,
         year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -745,10 +745,10 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       select(mode,
         year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%

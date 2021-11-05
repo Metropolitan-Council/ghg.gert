@@ -40,7 +40,7 @@ si_vmt <- calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  ch_phev = 0
+  .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year)
 

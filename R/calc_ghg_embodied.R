@@ -71,7 +71,7 @@ calc_ghg_embodied <- function(tb,
     # If .transit_avo_pct given then use it, else assume all additional PMT handled by vehicle purchases
     # Update bau_vmt and mit_vmt to equal 1 if they are zero (to avoid division error)
     if (.bau_tb != 0) {
-      browser()
+      # browser()
 
 
       .mitigation_tb <- .mitigation_tb %>%
@@ -140,7 +140,7 @@ calc_ghg_embodied <- function(tb,
         aeo_mode
       )
     if (.mode == "FR") {
-      browser()
+      # browser()
     }
 
     ghg <- dplyr::left_join(sales,

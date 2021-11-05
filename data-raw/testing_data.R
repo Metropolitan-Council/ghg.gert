@@ -14,13 +14,17 @@ bau_comp <- readRDS("../ghg.sp.tool.model/mod_3/outputs/bau_summary.RDS") %>%
     names_from = output,
     values_from = value
   ) %>%
-  mutate(VMT = VMT  * 10^5,
-         `DIR-GHG` = `DIR-GHG` * 10^5,
-         `INDIR-GHG` = `INDIR-GHG` * 10^3)
+  mutate(
+    VMT = VMT * 10^5,
+    `DIR-GHG` = `DIR-GHG` * 10^5,
+    `INDIR-GHG` = `INDIR-GHG` * 10^3
+  )
 
 bau_comp %>%
-  filter(mode == "BU",
-         class == "BEV") %>%
+  filter(
+    mode == "BU",
+    class == "BEV"
+  ) %>%
   select(1:5, ghg_embodied = `INDIR-GHG`)
 
 
@@ -28,15 +32,15 @@ bau_comp %>%
 
 left_join(
   bau_comp %>%
-  filter(mode == "PLDV") %>%
+    filter(mode == "PLDV") %>%
     unique(),
-
   bau_summary$passenger$PLDV$emb_ghg %>%
     select(-ghg_embodied_source) %>%
     unique(),
-  by = c("type", "mode", "ctu", "year", "class")) %>%
+  by = c("type", "mode", "ctu", "year", "class")
+) %>%
   mutate(indir_ghg_diff = `INDIR-GHG` - ghg_embodied) %>%
- View()
+  View()
 
 
 

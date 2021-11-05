@@ -49,29 +49,6 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
                              .hev_pct_sales = 0,
                              .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors) {
-  # If the user has specified DRS, then reduce the PMT for non-DRS trips
-  # browser()
-  if (.drs_pct > 0) {
-    browser()
-    pass_transpo <- pass_transpo %>%
-      dplyr::mutate(
-        dplyr::across(
-          all_of(YRS), ~ dplyr::case_when(
-            ((mode == "PLDV") & var == "PMT") ~ .x *
-              dplyr::case_when(
-                .drs_pct > 0 ~ (
-                  1 - pass_transpo %>%
-                    dplyr::filter(var == "DRSShare") %>%
-                    dplyr::select(dplyr::cur_column()) %>%
-                    as.numeric() * .drs_pct),
-                TRUE ~ 1
-              ),
-            TRUE ~ .x
-          )
-        )
-      )
-  }
-
   l_names <- c(
     "electric_scenario",
     "aeo_scenario",

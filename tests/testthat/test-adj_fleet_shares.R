@@ -1,5 +1,4 @@
 testthat::test_that("Expected number of rows", {
-
   t_with_drs <- adj_fleet_shares(
     .bev_pct_sales = 0,
     .phev_pct_sales = 0,
@@ -10,7 +9,7 @@ testthat::test_that("Expected number of rows", {
     .payd_fee = 0,
     .gas_tax = 0,
     .av_pct = 0,
-    .drs_pct_trip = .10,
+    .drs_pct = .10,
     .enviro_factors = enviro_factors
   )
 
@@ -28,7 +27,7 @@ testthat::test_that("Expected number of rows", {
     .payd_fee = 0,
     .gas_tax = 0,
     .av_pct = .05,
-    .drs_pct_trip = 0,
+    .drs_pct = 0,
     .enviro_factors = enviro_factors
   )
 
@@ -47,7 +46,7 @@ t_with_av <- adj_fleet_shares(
   .payd_fee = 0,
   .gas_tax = 0,
   .av_pct = 0.05,
-  .drs_pct_trip = 0,
+  .drs_pct = 0,
   .enviro_factors = enviro_factors
 )
 
@@ -91,7 +90,7 @@ t_hev_bev_phev <- adj_fleet_shares(
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
-  .drs_pct_trip = 0,
+  .drs_pct = 0,
   .av_pct = 0,
   .enviro_factors = enviro_factors
 )
@@ -99,13 +98,16 @@ t_hev_bev_phev <- adj_fleet_shares(
 
 test_total_table <- left_join(
   transportation_data$passenger %>%
-    filter(ctu == "St. Paul",
-           mode == "PLDV",
-           str_detect(var, "Tot")),
+    filter(
+      ctu == "St. Paul",
+      mode == "PLDV",
+      str_detect(var, "Tot")
+    ),
   t_hev_bev_phev$pass %>%
     filter(
       mode == "PLDV",
-      str_detect(var, "Tot")),
+      str_detect(var, "Tot")
+    ),
   c("mode", "var", "ctu", "year", "aeo_mode", "type"),
   suffix = c(".orig", ".adj")
 ) %>%
@@ -126,7 +128,7 @@ testthat::expect_error(
     .vmt_fee = 0,
     .payd_fee = 0,
     .gas_tax = 0,
-    .drs_pct_trip = 0,
+    .drs_pct = 0,
     .av_pct = 0,
     .enviro_factors = enviro_factors
   )
@@ -137,13 +139,17 @@ t_hev_bev_phev$freight
 
 freight_test_total_table <- left_join(
   transportation_data$freight %>%
-    filter(ctu == "St. Paul",
-           mode %in% c("SUT", "CUT"),
-           str_detect(var, "Tot")),
+    filter(
+      ctu == "St. Paul",
+      mode %in% c("SUT", "CUT"),
+      str_detect(var, "Tot")
+    ),
   t_hev_bev_phev$freight %>%
-    filter(ctu == "St. Paul",
-           mode %in% c("SUT", "CUT"),
-           str_detect(var, "Tot")),
+    filter(
+      ctu == "St. Paul",
+      mode %in% c("SUT", "CUT"),
+      str_detect(var, "Tot")
+    ),
   c("mode", "var", "ctu", "year", "aeo_mode", "type"),
   suffix = c(".orig", ".adj")
 ) %>%
