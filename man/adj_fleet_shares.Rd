@@ -2,7 +2,7 @@
 % Please edit documentation in R/adj_fleet_shares.R
 \name{adj_fleet_shares}
 \alias{adj_fleet_shares}
-\title{Adjust fleet before running scenario}
+\title{Adjust fleet power train distribution before running scenario}
 \usage{
 adj_fleet_shares(
   .pass_tb = transportation_data$passenger,
@@ -13,7 +13,7 @@ adj_fleet_shares(
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
-  .drs_pct_trip = 0,
+  .drs_pct = 0,
   .av_pct = 0,
   .enviro_factors = enviro_factors
 )
@@ -35,7 +35,7 @@ adj_fleet_shares(
 
 \item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
 
-\item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS). Default is \code{0}.}
+\item{.drs_pct}{percent of trips/fleet that is dynamic ride sharing (DRS). Default is \code{0}.}
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
@@ -60,7 +60,7 @@ Run this before anything else
 Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 cost elasticity, gas taxes, and VMT and PAYD fees.
 Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
-  - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct_trip`)
+  - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct`)
     and adjusts all passenger sales, existing, and stock regardless of mode
   - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
     and adjusts all passenger sales, existing, and stock regardless of mode.

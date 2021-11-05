@@ -4,12 +4,15 @@
 \alias{calc_drs_sales}
 \title{Calculate dynamic ride sharing stock sales}
 \usage{
-calc_drs_sales(tb, .drs_pct_trip, .enviro_factors = enviro_factors)
+calc_drs_sales(tb, .drs_pct, .enviro_factors = enviro_factors)
 }
 \arguments{
 \item{tb}{input table}
 
-\item{.drs_pct_trip}{percent of trips by dynamic ride sharing and therefore percent of sales}
+\item{.drs_pct}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
+Numeric between 0 and 1.  Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 

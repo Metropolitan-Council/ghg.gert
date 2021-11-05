@@ -15,7 +15,7 @@ vmt_road_policy(
   .gas_tax,
   .payd_fee,
   .stock,
-  ch_phev = 0,
+  .phev_electric = FALSE,
   .enviro_factors = enviro_factors
 )
 }
@@ -37,9 +37,7 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.stock}{stock for current mode}
 
-\item{ch_phev}{the current alternative is PHEV, which needs both
-gasoline and electric results (using assumption
-about gasoline/electric mode split). Default is \code{0}}
+\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -57,6 +55,7 @@ Other VMT effects:
 \code{\link{vmt_dynamic_ride_share_reduction}()},
 \code{\link{vmt_land_use_change}()},
 \code{\link{vmt_parking_policy}()},
+\code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
 \code{\link{vmt_transit_ridership}()},
 \code{\link{vmt_vehicle_occupancy}()}

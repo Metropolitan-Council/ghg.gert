@@ -34,7 +34,6 @@ scenario_results(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .drs_pct_trip = 0,
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors
 )
@@ -102,8 +101,6 @@ as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default
 \item{.phev_pct_sales}{percent of sales that are plug-in hybrid electric (PHEV) in 2050. Default is \code{0}.}
 
 \item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
-
-\item{.drs_pct_trip}{percent of trips/fleet that is dynamic ride sharing (DRS). Default is \code{0}.}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 

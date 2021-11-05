@@ -118,7 +118,7 @@ testthat::expect_equal(nrow(test_total_table), 0)
 
 
 
-testthat::expect_error(
+testthat::expect_warning(
   adj_fleet_shares(
     .bev_pct_sales = 1,
     .pass_tb = transportation_data$passenger %>%

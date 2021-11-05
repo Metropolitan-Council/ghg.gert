@@ -28,7 +28,7 @@ Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PH
 
 \item{.fuel_type}{fuel source for current mode}
 
-\item{.class}{vehicle class (passenger or freight)}
+\item{.class}{vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"}, \code{"PHEV"},  or \code{"BEV"}}
 
 \item{.transit_avo_pct}{percent change in transit AVO. Default is \code{0}}
 

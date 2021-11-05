@@ -6,6 +6,7 @@
 \usage{
 vmt_autonomous_vehicle(
   .pass_tb = transportation_data$passenger,
+  .stock,
   .tb_vmt,
   .av_pct,
   .mode,
@@ -35,6 +36,7 @@ Other VMT effects:
 \code{\link{vmt_land_use_change}()},
 \code{\link{vmt_parking_policy}()},
 \code{\link{vmt_road_policy}()},
+\code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
 \code{\link{vmt_transit_ridership}()},
 \code{\link{vmt_vehicle_occupancy}()}

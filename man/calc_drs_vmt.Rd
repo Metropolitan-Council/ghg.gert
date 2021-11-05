@@ -6,7 +6,7 @@
 \usage{
 calc_drs_vmt(
   tb,
-  .drs_pct_trip,
+  .drs_pct,
   .class,
   .tb_fuel_cost_mile,
   .vmt_fee,
@@ -29,7 +29,7 @@ calc_drs_vmt(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.drs_pct_trip}{percent of trips by dynamic ride sharing (DRS)}
+\item{.drs_pct}{percent of trips by dynamic ride sharing (DRS)}
 
 \item{.class}{vehicle class for current mode}
 
