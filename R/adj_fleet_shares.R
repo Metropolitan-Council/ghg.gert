@@ -193,7 +193,6 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       unique()
 
     pass_tb <- pass_tb %>%
-      dplyr::bind_rows(av_stock) %>%
       # attach AV Stock
       dplyr::left_join(av_share, by = c("year")) %>%
       dplyr::mutate(
@@ -214,6 +213,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       #   value * (1 - AVShare * .av_pct),
       #   value
       # )) %>%
+      dplyr::bind_rows(av_stock) %>%
       dplyr::select(names(.pass_tb))
 
 
