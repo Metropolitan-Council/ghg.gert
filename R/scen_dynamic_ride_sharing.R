@@ -38,7 +38,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
                                       .enviro_factors = enviro_factors) {
-  browser()
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -59,6 +58,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
     .pass_tb <-
       dplyr::bind_rows(.pass_tb, drs_sales)
+
+
 
     if (.drs_fuel_type == "HEV") {
       ## DRS Hybrid fuel -----
@@ -201,7 +202,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       temp <- calc_ghg_embodied(
         .pass_tb, mode,
         .class = class,
-
         "DRSSales", "PHEV-EMB"
       ) %>% as.numeric()
 
@@ -229,15 +229,48 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       stock <- "DRSStock"
       mpe <- "BEVElec"
       class <- "BEV"
+
+
+      fcm <- calc_fuel_cost_mile(
+        .pass_tb,
+        .mode = mode_1,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe,
+        .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+        .enviro_factors = .enviro_factors
+      )
+
+
       drs_vmt <-
-        calc_drs_vmt(
-          .pass_tb, .drs_pct,
-          class, fcm, .vmt_fee, .payd_fee,
-          .gas_tax, .cong_price, .parking_price,
-          .pop_dens_pct_change, .emp_dens_pct_change,
-          .land_use_pct_change, .intersection_design_pct_change,
-          .job_access_pct_change, .transit_dist_pct_change,
-          .comb_5d_impact_pct_change
+        calc_vmt_forecast(
+          .scenario = .scenario,
+          tb = .pass_tb,
+          .mode = mode,
+          .stock = stock,
+          .variable = var,
+          .tb_fuel_cost_mile = fcm,
+          .aeo_scenario = .aeo_scenario,
+          .transit_avo = .transit_avo,
+          .transit_rider_pct = .transit_rider_pct,
+          .vmt_fee = .vmt_fee,
+          .payd_fee = .payd_fee,
+          .gas_tax = .gas_tax,
+          .cong_price = .cong_price,
+          .parking_price = .parking_price,
+          .drs_pct = .drs_pct,
+          .drs_fuel_type = .drs_fuel_type,
+          .av_pct = .av_pct,
+          .freight_vmt_fee = .freight_vmt_fee,
+          .pop_dens_pct_change = .pop_dens_pct_change,
+          .emp_dens_pct_change = .emp_dens_pct_change,
+          .land_use_pct_change = .land_use_pct_change,
+          .intersection_design_pct_change = .intersection_design_pct_change,
+          .job_access_pct_change = .job_access_pct_change,
+          .transit_dist_pct_change = .transit_dist_pct_change,
+          .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+          .telework_pct = .telework_pct,
+          .phev_electric = .phev_electric,
+          .enviro_factors = enviro_factors
         ) %>%
         mutate(class = class)
 
@@ -260,7 +293,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       temp <- calc_ghg_embodied(
         .pass_tb,
         .class = class,
-
         mode, "DRSSales", "BEV-EMB"
       ) %>%
         as.numeric()

@@ -50,6 +50,23 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   # PLDV by fuel and CTU
   mode <- "PLDV"
 
+
+
+  # If the user has specified DRS, then reduce the PMT for non-DRS trips
+  # browser()
+  if (.drs_pct > 0) {
+    drs_share_tb <- .pass_tb %>%
+      filter(var == "DRSShare") %>%
+      select(year, ctu, drs_share = value)
+
+    .pass_tb <- .pass_tb %>%
+      left_join(drs_share_tb, by = c("year", "ctu")) %>%
+      mutate(value = case_when(
+        var == "PMT" & mode == "PLDV" ~ value * (1 - drs_share * .drs_pct),
+        TRUE ~ value
+      ))
+  }
+
   ## Gasoline -----
   # Calculate aggregate GHG in kt CO2 by year
   # 1. Calculate fuel cost per mile (FCM)
@@ -304,7 +321,6 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   message("Passenger vehicles, plug-in hybrid")
 
-
   # Calculate a fuel cost per mile rather than per gallon
   # browser()
 
@@ -317,6 +333,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_vmt_gas <- calc_vmt_forecast(
     .scenario = .scenario,
     tb = .pass_tb,
+    .phev_electric = FALSE,
     .mode = mode,
     .stock = stock,
     .variable = var,
@@ -343,17 +360,9 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   ) %>%
     mutate(class = class)
 
-  # account for proportion of PHEV
-  phev_vmt_gas <- left_join(phev_vmt_gas,
-    .pass_tb %>%
-      dplyr::filter(mode == mode, var == "PHEVPr"),
-    by = c("mode", "ctu", "year", "aeo_mode", "type")
-  ) %>%
-    mutate(vmt = vmt * (1 - value)) %>%
-    select(names(phev_vmt_gas))
 
   ### VMT electric ------
-  fcm <- calc_fuel_cost_mile(
+  fcm_electric <- calc_fuel_cost_mile(
     .pass_tb, mode, .aeo_scenario,
     mpe, .enviro_factors$ELEC_FUEL_COST_KWH
   )
@@ -361,10 +370,11 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_vmt_electric <- calc_vmt_forecast(
     .scenario = .scenario,
     tb = .pass_tb,
+    .phev_electric = TRUE,
     .mode = mode,
     .stock = stock,
     .variable = var,
-    .tb_fuel_cost_mile = fcm,
+    .tb_fuel_cost_mile = fcm_electric,
     .aeo_scenario = .aeo_scenario,
     .transit_avo = .transit_avo,
     .transit_rider_pct = .transit_rider_pct,
@@ -386,17 +396,6 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .telework_pct = .telework_pct
   ) %>%
     mutate(class = class)
-
-
-  # account for proportion of PHEV
-  phev_vmt_electric <- left_join(phev_vmt_electric,
-    .pass_tb %>%
-      dplyr::filter(mode == mode, var == "PHEVPr"),
-    by = c("mode", "ctu", "year", "aeo_mode", "type")
-  ) %>%
-    mutate(vmt = vmt * value) %>%
-    select(names(phev_vmt_electric))
-
 
   ### VMT all -----
   phev_vmt <- left_join(
@@ -446,9 +445,12 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   ## electric ghg direct -----
   phev_ghg_electric <- calc_ghg_direct(
-    phev_vmt_electric,
-    .pass_tb, mode, .electric_scenario,
-    .aeo_scenario, mpe
+    tb_vmt = phev_vmt_electric,
+    tb = .pass_tb,
+    .mode = mode,
+    .fuel_type = .electric_scenario,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpe
   ) %>%
     select(everything(),
       dir_ghg_electric = dir_ghg
@@ -470,9 +472,12 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   phev_fuel_electric <-
     calc_fuel_use(
-      phev_vmt_electric, .pass_tb,
-      mode, .electric_scenario, .aeo_scenario,
-      mpe
+      tb_vmt = phev_vmt_electric,
+      tb =  .pass_tb,
+      .mode =   mode,
+      .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe
     )
 
   phev_fuel <- left_join(
