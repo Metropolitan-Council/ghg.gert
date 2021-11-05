@@ -1,7 +1,7 @@
 #' @title Calculate dynamic ride sharing stock sales
 #'
+#' @inheritParams calc_vmt_forecast
 #' @param tb input table
-#' @param .drs_pct_trip percent of trips by dynamic ride sharing and therefore percent of sales
 #'
 #' @family transportation
 #'
@@ -10,26 +10,34 @@
 #' @importFrom dplyr select filter case_when
 #'
 calc_drs_sales <- function(tb,
-                           .drs_pct_trip,
+                           .drs_pct,
                            .enviro_factors = enviro_factors) {
-  # Calculate basic sales (initial + 1/3 fleet replacement) and store as temp variable
+  browser()
+
+  pop <- tb %>%
+    filter(var == "POP") %>%
+    select(year, ctu, population = value) %>%
+    unique()
+
   sales <- tb %>%
-    dplyr::filter(var == "POP") %>%
-    dplyr::select(all_of(YRS)) *
-    dplyr::case_when(
-      .drs_pct_trip > 0 ~ tb %>%
-        dplyr::filter(var == "SAVSales") %>%
-        dplyr::select(all_of(YRS)) %>%
-        as.numeric(),
-      TRUE ~ 1
-    )
+    filter(var == "SAVSales") %>%
+    select(everything(), SAVSales = value) %>%
+    left_join(pop, by = c("year", "ctu")) %>%
+    mutate(
+      DRSSales = population * .drs_pct,
+      var = "DRSSales",
+      value = DRSSales
+    ) %>%
+    select(names(tb))
+
+  # Calculate basic sales (initial + 1/3 fleet replacement) and store as temp variable
   return(sales)
 }
 
 
 #' Calculate Dynamic Ride Sharing VMT
 #'
-#' @param .drs_pct_trip percent of trips by dynamic ride sharing (DRS)
+#' @param .drs_pct percent of trips by dynamic ride sharing (DRS)
 #' @param .class vehicle class for current mode
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams calc_drs_sales
@@ -44,7 +52,7 @@ calc_drs_sales <- function(tb,
 #' @importFrom dplyr filter select case_when
 #'
 calc_drs_vmt <- function(tb,
-                         .drs_pct_trip,
+                         .drs_pct,
                          .class,
                          .tb_fuel_cost_mile,
                          .vmt_fee,
@@ -60,10 +68,11 @@ calc_drs_vmt <- function(tb,
                          .transit_dist_pct_change = 0,
                          .comb_5d_impact_pct_change = 0,
                          .enviro_factors = enviro_factors) {
+  browser()
   # Percent of population using DRS
   .vmt_fee <- tb %>%
     dplyr::filter(var == "POP") %>%
-    dplyr::select(tidyselect::all_of(YRS)) * .drs_pct_trip *
+    dplyr::select(tidyselect::all_of(YRS)) * .drs_pct *
     tb %>%
       dplyr::filter(var == "DRSShare") %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
