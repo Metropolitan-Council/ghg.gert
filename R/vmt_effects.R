@@ -366,12 +366,14 @@ vmt_road_policy <- function(.mode,
                             .stock,
                             ch_phev = 0,
                             .enviro_factors = enviro_factors) {
-  # browser()
   if (.mode == "PLDV") {
-    ev_multiplier <- ifelse(.stock %in% c(
+  # browser()
+    ev_multiplier <- ifelse(
+      (.stock %in% c(
       "SIStock",
       "CIStock",
       "HEVStock"
+      ) |(.stock == "PHEVStock" & .phev_electric == FALSE)
     ), 1, 0)
 
 
@@ -443,16 +445,13 @@ vmt_road_policy <- function(.mode,
 
     return(fc_return)
   } else if (.mode == "AV") {
-    ev_multiplier <- if (.stock %in% c(
-      "SIStock",
-      "CIStock",
-      "HEVStock",
-      "PHEVStock"
-    ) & ch_phev == 1) {
-      1
-    } else {
-      0
-    }
+    ev_multiplier <- ifelse(
+      (.stock %in% c(
+        "SIStock",
+        "CIStock",
+        "HEVStock"
+      ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
+      ), 1, 0)
 
 
     fc_return <- .tb_fuel_cost_mile %>%
@@ -536,7 +535,64 @@ vmt_telework <- function(.mode,
 }
 
 
+#' Calculate stock adjustment
+#'
+#' @inheritParams calc_vmt_forecast
+#' @return table with columns `ctu`, `year`, `mode`, and `mode_stock_adj`
+#' @export
+#' @family VMT effects
+#'
+vmt_stock_proportion <- function(.tb,
+                                 .mode,
+                                 .stock){
+  if(.mode %in% c("WALK",
+                  "BIKE")){
+    tb_stock_proportion <- .tb %>%
+      filter(mode = .mode) %>%
+      mutate(mode_stock_adj = 1) %>%
+      select(year, ctu, mode, mode_stock_adj) %>%
+      unique()
 
+  } else if(.mode == "DRS"){
+
+    tb_stock_proportion <- .tb %>%
+      filter(
+        mode == "PLDV",
+        var %in% c(
+          "SIStock",
+          "CIStock",
+          "HEVStock",
+          "TotStock"
+        )
+      ) %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      mutate(mode_stock_adj = (SIStock + CIStock + HEVStock) / TotStock,
+             mode = .mode) %>%
+      select(ctu, year, mode, mode_stock_adj)
+
+  } else {
+
+    tb_stock_proportion <- .tb %>%
+      filter(
+        mode == .mode,
+        var %in% c(
+          .stock,
+          "TotStock"
+        )
+      ) %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
+      mutate(mode_stock_adj = !!as.name(.stock) / TotStock) %>%
+      select(ctu, year, mode, mode_stock_adj)
+  }
+
+  return(tb_stock_proportion)
+}
 
 
 
@@ -651,17 +707,15 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       select(mode,
         year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_totstock = TotStock,
-        mode_stock = !!rlang::sym(.stock),
-        mode_avo = AVO
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
-      mutate(occupancy_adj = mode_avo * (1 + (.transit_avo)) * (mode_stock / mode_totstock)) %>%
+      mutate(occupancy_adj = mode_avo * (1 + (.transit_avo))) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
 
@@ -691,17 +745,15 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       select(mode,
         year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_totstock = TotStock,
-        mode_stock = !!rlang::sym(.stock),
-        mode_avo = AVO
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
-      mutate(occupancy_adj = mode_avo * (mode_stock / mode_totstock)) %>%
+      mutate(occupancy_adj = mode_avo) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
 
