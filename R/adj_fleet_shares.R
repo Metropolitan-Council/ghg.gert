@@ -84,7 +84,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   purrr::map2(l_names, l_vals, check_inputs)
 
   if (sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 0.9) {
-    stop("Values will not add to less than 90 for battery electric, plug-in hybrid, and hybrid vehicle percent sales.")
+    warning("Values will not add to less than 90 for battery electric, plug-in hybrid, and hybrid vehicle percent sales.")
   }
 
   # browser()
@@ -298,10 +298,10 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         # total sales of each type
         ptb_tot_sales =
           ptb_si +
-          ptb_ci +
-          ptb_hev +
-          ptb_phev +
-          ptb_bev
+            ptb_ci +
+            ptb_hev +
+            ptb_phev +
+            ptb_bev
       ) %>%
       dplyr::mutate(
         # new portion of total sales for each type
@@ -311,12 +311,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         new_phev_portion = ptb_phev / ptb_tot_sales,
         new_bev_portion = ptb_bev / ptb_tot_sales
       ) %>%
-      dplyr::mutate(sum_check =
-        new_si_portion +
-        new_ci_portion +
-        new_bev_portion +
-        new_hev_portion +
-        new_phev_portion
+      dplyr::mutate(
+        sum_check =
+          new_si_portion +
+            new_ci_portion +
+            new_bev_portion +
+            new_hev_portion +
+            new_phev_portion
       ) %>%
       unique()
 
@@ -401,11 +402,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        si_new_adj = ifelse(year != max(year), (SIExist.old + SISales) / (SIExist.old + SISales.old),1),
-        ci_new_adj = ifelse(year != max(year),(CIExist.old + CISales) / (CIExist.old + CISales.old),1),
-        hev_new_adj = ifelse(year != max(year),(HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old),1),
-        phev_new_adj = ifelse(year != max(year),(PHEVExist.old + PHEVSales) / (PHEVExist.old + PHEVSales.old),1),
-        bev_new_adj = ifelse(year != max(year),(BEVExist.old + BEVSales) / (BEVExist.old + BEVSales.old),1)
+        si_new_adj = ifelse(year != max(year), (SIExist.old + SISales) / (SIExist.old + SISales.old), 1),
+        ci_new_adj = ifelse(year != max(year), (CIExist.old + CISales) / (CIExist.old + CISales.old), 1),
+        hev_new_adj = ifelse(year != max(year), (HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old), 1),
+        phev_new_adj = ifelse(year != max(year), (PHEVExist.old + PHEVSales) / (PHEVExist.old + PHEVSales.old), 1),
+        bev_new_adj = ifelse(year != max(year), (BEVExist.old + BEVSales) / (BEVExist.old + BEVSales.old), 1)
       ) %>%
       dplyr::select(
         mode, ctu, year, aeo_mode, type,
@@ -500,9 +501,9 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::bind_rows(ptb_new) %>%
       dplyr::select(names(.pass_tb))
 
-    if (nrow(ptb_new) != nrow(.pass_tb)) {
-      stop("Passenger data did not pass HEV/PHEV/BEV adjustment")
-    }
+    # if (nrow(ptb_new) != nrow(.pass_tb)) {
+    #   stop("Passenger data did not pass HEV/PHEV/BEV adjustment")
+    # }
 
 
     ## freight --------
@@ -569,7 +570,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         bev_cut_fin
       ) %>%
       unique() %>%
-      filter(!is.na(ci_cut_fin ))
+      filter(!is.na(ci_cut_fin))
 
 
     freight_stock_new <- freight_stock %>%
