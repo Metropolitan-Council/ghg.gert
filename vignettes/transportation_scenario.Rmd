@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 library(ghg.sp)
 library(tidyverse)
 ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
-
 ```
 
+## Business as usual
 
 ```{r}
 bau_summary <- scenario_results(pass_tb = transportation_data$passenger %>% 
@@ -34,6 +34,7 @@ bau_summary <- scenario_results(pass_tb = transportation_data$passenger %>%
                                 .aeo_scenario = "REF")
 
 ```
+
 ```{r}
 bind_rows(bau_summary$passenger$PLDV$vmt,
           bau_summary$passenger$RAIL$vmt,
@@ -52,6 +53,24 @@ bind_rows(bau_summary$passenger$PLDV$vmt,
   geom_area()
 ```
 
+
+```{r}
+
+vmt_pass_bau <- bau_summary$passenger$PLDV$vmt %>% 
+  group_by(mode, year, scenario, class) %>% 
+  summarize(vmt = sum(vmt))
+
+ggplot(bind_rows(vmt_pass_bau),
+       aes(x = year,
+           y = vmt,
+           fill = class,
+           color = class,
+           group = class)) +
+  geom_area() +
+  labs(title = "All Passenger Vehicle Miles Traveled")
+```
+
+
 ```{r}
 bau_summary$passenger$PLDV$dir_ghg %>% 
   ungroup() %>% 
@@ -60,26 +79,8 @@ bau_summary$passenger$PLDV$dir_ghg %>%
              fill = class,
              color = class,
              group = class)) +
-  geom_area()
-```
-
-
-```{r}
-bind_rows(bau_summary$passenger$PLDV$dir_ghg,
-          bau_summary$passenger$RAIL$dir_ghg,
-          bau_summary$passenger$BU_BRT$dir_ghg,
-          bau_summary$passenger$WALK_BIKE$dir_ghg,
-          bau_summary$passenger$BS$dir_ghg,
-          bau_summary$passenger$AV$dir_ghg) %>% 
-  select(-aeo_mode) %>% 
-  group_by(ctu, year, mode) %>% 
-  summarize(total_dir_ghg = sum(dir_ghg, na.rm = T)) %>% 
-  ggplot(aes(x = year,
-             y = total_dir_ghg,
-             # color = mode,
-             fill = mode,
-             group = mode)) +
-  geom_area()
+  geom_area() +
+  labs(title = "BAU - Personal Vehicle Emissions")
 ```
 
 
@@ -87,79 +88,107 @@ bind_rows(bau_summary$passenger$PLDV$dir_ghg,
 
 ### Vehicle electrification  
 
-```{r}
-mitigation_ev <- scenario_results(
+- Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2050. 
+- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2050.
+- Introduce dynamic ride-sharing (DRS) in 2025 to replace 90% of motorized PMT by 2050. 
+- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2050.
+
+
+```{r, message=FALSE}
+mitigation_ev <-  scenario_results(
   pass_tb = transportation_data$passenger %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All")),
-                                freight_tb = transportation_data$freight %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All")),
+    filter(ctu %in% c("St. Paul",
+                      "All")),
+  freight_tb = transportation_data$freight %>% 
+    filter(ctu %in% c("St. Paul",
+                      "All")),
   .scenario = "MIT-EV",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .bev_pct_sales = 0.25,
-  .hev_pct_sales = 0.25,
-  .phev_pct_sales = 0.25
-)
-
+  .bev_pct_sales = 0.6,
+  .hev_pct_sales = 0.2,
+  .phev_pct_sales = 0.2,
+  .av_pct = 0.10,
+  .av_fuel_type = "BEV",
+  .drs_pct = 0.9,
+  .drs_fuel_type = "BEV"
+) %>% 
+  suppressMessages()
 ```
 
 ```{r}
-mitigation_ev$passenger$PLDV$dir_ghg %>% 
-  ggplot(aes(x = year,
-             y = dir_ghg,
-             fill = class,
-             color = class,
-             group = class)) +
-  geom_area(position = "stack")
-```
-
-
-### Vehicle automation  
-
-```{r}
-alternate_scenario <- scenario_results(
-  .scenario = "MIT-AV",
-  .electric_scenario = "ER",
-  .aeo_scenario = "REF",
-  .drs_fuel_type = "BEV",
-  .av_pct = 0.05,
-  .av_fuel_type = "BEV"
-)
-```
-
-```{r}
-bind_rows(
-  bau_summary$passenger$PLDV$vmt %>% 
-    filter(ctu == "St. Paul"),
+vmt_pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
+  group_by(mode, year, scenario, class) %>% 
+  summarize(vmt = sum(vmt))
   
-  alternate_scenario$passenger$PLDV$vmt %>% 
-    filter(ctu == "St. Paul")) %>% 
-  ggplot(aes(x = year,
-             y = vmt,
-             shape = class,
-             color = scenario)) +
-  geom_point(size = 3,
-             alpha = 0.5) +
-  scale_shape_discrete(labels = c("Battery electric",
-                                  "Diesel",
-                                  "Hybrid electric",
-                                  "Plug-in Hybrid",
-                                  "Gasoline"))
-
+ggplot(bind_rows(vmt_pass_ev),
+       aes(x = year,
+           y = vmt,
+           fill = class,
+           color = class,
+           group = class)) +
+  geom_area() +
+  labs(title = "All Passenger Vehicle Miles Traveled")
 ```
 
 ```{r}
-bau_summary$passenger$BU_BRT$vmt %>% 
-  filter(mode == "BU",
-         ctu == "St. Paul",
-         class == "BCI")  %>% 
-  mutate(vmt = vmt / 10^5)
-
-
+ bau_summary$passenger$PLDV$dir_ghg %>% 
+  left_join(mitigation_ev$passenger$PLDV$dir_ghg,
+             by = c( "mode", "class", "ctu", "year", "aeo_mode"),
+            suffix = c(".bau", ".mit"))
 ```
+
 ```{r}
-
+ bau_summary$passenger$PLDV$vmt %>% 
+  left_join(mitigation_ev$passenger$PLDV$vmt,
+             by = c( "mode", "class", "ctu", "year", "aeo_mode", "stock"),
+            suffix = c(".bau", ".mit"))
 ```
+
+
+
+```{r}
+pass_bau <- bau_summary$passenger$PLDV$dir_ghg %>% 
+  bind_rows(bau_summary$passenger$AV$dir_ghg) %>% 
+  group_by(year, scenario) %>% 
+  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+
+
+pass_ev <- mitigation_ev$passenger$PLDV$dir_ghg %>% 
+    bind_rows(mitigation_ev$passenger$AV$dir_ghg) %>% 
+  group_by(year, scenario) %>% 
+  summarize(dir_ghg = sum(dir_ghg))
+
+  ggplot(bind_rows(pass_ev, pass_bau),
+    aes(x = year,
+             y = dir_ghg,
+             color = scenario,
+             group = scenario)) +
+  geom_point() +
+  geom_line() +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
+```{r}
+pass_bau <- bau_summary$passenger$BU_BRT$dir_ghg %>% 
+  group_by(year, scenario) %>% 
+  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+
+
+pass_ev <- mitigation_ev$passenger$BU_BRT$dir_ghg %>% 
+  group_by(year, scenario) %>% 
+  summarize(dir_ghg = sum(dir_ghg))
+
+  ggplot(bind_rows(pass_ev, pass_bau),
+    aes(x = year,
+             y = dir_ghg,
+             color = scenario,
+             group = scenario)) +
+  geom_point() +
+  geom_line() +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
 
