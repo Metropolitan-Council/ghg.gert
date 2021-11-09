@@ -220,8 +220,8 @@ vmt_land_use_change <- function(.mode,
           .data$job_access *
           .data$distance *
           .data$combined_density,
-      land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_TRANS,
-        1 + .enviro_factors$MAX_5D_TRANS,
+    land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_DR,
+        1 + .enviro_factors$MAX_5D_DR,
         product_all
       )
     ) %>%
