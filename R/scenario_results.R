@@ -285,7 +285,6 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
 
   # Dynamic Ride Sharing -----
 
-  if (.drs_pct > 0) {
     dynamic_ride_share <- scen_dynamic_ride_sharing(
       .pass_tb = pass_tb,
       .scenario = .scenario,
@@ -313,7 +312,6 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .mit_bau_summary = .mit_bau_summary
     )
-  }
 
   # autonomous vehicles -----
 
@@ -450,7 +448,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     BU_BRT = bus_transit,
     WALK_BIKE = walk_bike,
     BS = school_bus,
-    AV = auto_veh
+    AV = auto_veh,
+    DRS = dynamic_ride_share
   )
 
 
@@ -460,7 +459,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     bus_transit$vmt,
     walk_bike$vmt,
     school_bus$vmt,
-    auto_veh$vmt
+    auto_veh$vmt,
+    dynamic_ride_share$vmt
   )
 
   pass_dir_ghg <- bind_rows(
@@ -469,7 +469,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     bus_transit$dir_ghg,
     walk_bike$dir_ghg,
     school_bus$dir_ghg,
-    auto_veh$dir_ghg
+    auto_veh$dir_ghg,
+    dynamic_ride_share$dir_ghg
   )
 
   pass_emb_ghg <- bind_rows(
@@ -478,7 +479,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     bus_transit$emb_ghg,
     walk_bike$emb_ghg,
     school_bus$emb_ghg,
-    auto_veh$emb_ghg
+    auto_veh$emb_ghg,
+    dynamic_ride_share$emb_ghg
   )
 
   pass_fuel <- bind_rows(
@@ -487,7 +489,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     rail_transit$fuel_use,
     walk_bike$fuel_use,
     school_bus$fuel_use,
-    auto_veh$fuel_use
+    auto_veh$fuel_use,
+    dynamic_ride_share$fuel_use
   )
 
   pass_cost <- bind_rows(
@@ -496,13 +499,14 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     rail_transit$cost,
     school_bus$cost,
     walk_bike$cost,
-    auto_veh$cost
+    auto_veh$cost,
+    dynamic_ride_share$cost
   )
 
-  pass_all <- left_join(pass_vmt, pass_dir_ghg) %>%
-    left_join(pass_emb_ghg) %>%
-    left_join(pass_fuel) %>%
-    left_join(pass_cost)
+  # pass_all <- left_join(pass_vmt, pass_dir_ghg) %>%
+  #   left_join(pass_emb_ghg) %>%
+  #   left_join(pass_fuel) %>%
+  #   left_join(pass_cost)
 
   ## freight -----
   freight_vmt <- bind_rows(
