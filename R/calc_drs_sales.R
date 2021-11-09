@@ -20,11 +20,11 @@ calc_drs_sales <- function(tb,
     unique()
 
   sales <- tb %>%
-    filter(var == "SAVSales") %>%
-    select(everything(), SAVSales = value) %>%
+    filter(var == "DRSSales") %>%
+    select(everything(), DRSSales = value) %>%
     left_join(pop, by = c("year", "ctu")) %>%
     mutate(
-      DRSSales = population * SAVSales,
+      DRSSales = population * DRSSales,
       var = "DRSSales",
       value = DRSSales
     ) %>%

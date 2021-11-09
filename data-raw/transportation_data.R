@@ -57,7 +57,8 @@ pass_transpo_long <- pass_transpo %>%
   group_by(mode, var, ctu, year, aeo_mode, type) %>%
   # selects highest value in case of duplicate entries
   top_n(1, value) %>%
-  ungroup()
+  ungroup() %>%
+  mutate(var = stringr::str_replace_all(var, "SAV", "DRS"))
 
 ctu_year_unique <- pass_transpo_long %>%
   select(year, ctu) %>%

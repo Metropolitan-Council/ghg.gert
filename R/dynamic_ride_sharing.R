@@ -77,17 +77,17 @@ calc_drs_vmt <- function(tb,
       dplyr::filter(var == "DRSShare") %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
       as.numeric() *
-    # SAV per traveller
+    # DRS vehicles per traveller
     tb %>%
-      dplyr::filter(var == "SAV") %>%
+      dplyr::filter(var == "DRS") %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
       as.numeric() *
-    # VMT per SAV per year
+    # VMT per DRS vehicle per year
     tb %>%
       dplyr::filter(var == "VMT") %>%
       dplyr::select(tidyselect::all_of(YRS)) %>%
       as.numeric() *
-    # If SAV is PHEV or BEV, then additional VMT for charging
+    # If DRS is PHEV or BEV, then additional VMT for charging
     dplyr::case_when(
       ((.class == "PHEV") | (.class == "BEV")) ~ (1 + .enviro_factors$EVCS_VMT),
       TRUE ~ 1

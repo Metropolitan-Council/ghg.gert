@@ -25,7 +25,6 @@ calc_ghg_direct <- function(tb_vmt,
                             .enviro_factors = enviro_factors) {
   # browser()
 
-
   ghg_factors_current <- factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,

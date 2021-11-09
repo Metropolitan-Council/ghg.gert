@@ -450,11 +450,10 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "DRS") {
       # dynamic ride share ----
       browser()
-      # vmt = (POP * .drs_pct) * DRSShare * SAV per traveler *
-      # VMT per SAV per year *  adj for charging *
+      # vmt = (POP * .drs_pct) * DRSShare * DRS veh. per traveler *
+      # VMT per DRS veh. per year *  adj for charging *
       #  1 + (vmt_adj + payd_adj) * CROSS_VMT) *
-      # land_use_adj * cong_adj * parking_adj * gas_adj *
-      # (CIStock + SIStock + HEVStock)/TotSTock
+      # land_use_adj * cong_adj * parking_adj * gas_adj
 
 
       mode_stock <- vmt_stock_proportion(
