@@ -30,8 +30,7 @@ calc_fuel_use <- function(tb_vmt,
       values_from = value
     ) %>%
     select(mode, year, aeo_mode, av_multiplier,
-      per_gallon_val = !!
-      rlang::sym(.miles_per_gallon)
+      per_gallon_val = !!rlang::sym(.miles_per_gallon)
     ) %>%
     unique()
 
@@ -60,7 +59,7 @@ calc_fuel_use <- function(tb_vmt,
   ) %>%
     mutate(fuel_factor = per_gallon_val * aeo_factor * av_multiplier) %>%
     select(
-      mode,
+      # mode,
       year,
       fuel_factor,
       aeo_mode
@@ -69,8 +68,9 @@ calc_fuel_use <- function(tb_vmt,
 
   fuel_use <- left_join(tb_vmt,
     tb_aeo,
-    by = c("mode", "year", "aeo_mode")
+    by = c("year", "aeo_mode")
   ) %>%
+    rowwise() %>%
     mutate(fuel_use = vmt * fuel_factor) %>%
     select(
       # type,
