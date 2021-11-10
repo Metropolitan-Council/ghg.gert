@@ -205,7 +205,7 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
 #'
 #'
 #' @family VMT effects
-vmt_land_use_change <- function(.mode,
+vmt_land_use_change <- function(
                                 .type,
                                 .comb_5d_impact_pct_change,
                                 .pop_dens_pct_change,
@@ -215,7 +215,6 @@ vmt_land_use_change <- function(.mode,
                                 .job_access_pct_change,
                                 .transit_dist_pct_change,
                                 .enviro_factors = enviro_factors) {
-  # browser()
 
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
@@ -228,32 +227,36 @@ vmt_land_use_change <- function(.mode,
   } else {
     .enviro_factors$MAX_5D_ACT
   }
-  browser()
 
   comb_5d_elast <- elast_5d %>%
     filter(type == .type) %>%
     mutate(
-      population_density = (1 + .pop_dens_pct_change) * .data$population_density,
-      employment_density = (1 + .emp_dens_pct_change) * .data$employment_density,
-      diversity = (1 + .land_use_pct_change) * .data$diversity,
-      design = (1 + .intersection_design_pct_change) * .data$design,
-      job_access = (1 + .job_access_pct_change) * .data$job_access,
-      distance = (1 + .transit_dist_pct_change) * .data$distance,
-      combined_density = (1 + .pop_dens_pct_change) * .data$combined_density
-    ) %>%
+      n_population_density = 1 + .pop_dens_pct_change * .data$population_density,
+      n_employment_density = 1 + .emp_dens_pct_change * .data$employment_density,
+      n_diversity = 1 + .land_use_pct_change * .data$diversity,
+      n_design = 1 + .intersection_design_pct_change * .data$design,
+      n_job_access = 1 + .job_access_pct_change * .data$job_access,
+      n_distance = 1 + .transit_dist_pct_change * .data$distance,
+      n_combined_density = 1 + .pop_dens_pct_change * .data$combined_density
+     ) %>%
     mutate(
       product_all =
-        .data$population_density *
-        .data$employment_density *
-        .data$diversity *
-        .data$design *
-        .data$job_access *
-        .data$distance *
-        .data$combined_density,
-      land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_DR,
+        .data$n_population_density *
+        .data$n_employment_density *
+        .data$n_diversity *
+        .data$n_design *
+        .data$n_job_access *
+        .data$n_distance *
+        .data$n_combined_density
+      ) %>%
+    rowwise() %>%
+    mutate(
+      land_use_adj = ifelse(product_all <  max_value,
                             1 + max_value,
                             product_all
-      )
+      ),
+      land_use_adj = ifelse(land_use_adj == 0, 1,
+                            land_use_adj)
     ) %>%
     select(year, land_use_adj)
 
