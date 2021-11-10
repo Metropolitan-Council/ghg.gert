@@ -1,13 +1,12 @@
 #' Calculate dynamic ride sharing scenario
 #'
 #' @inheritParams scenario_results
-#' @inheritParams calc_vmt_forecast
 #' @inheritParams calc_drs_sales
-#' @inheritParams calc_drs_vmt
+#' @inheritParams calc_vmt_forecast_drs
 #' @return
 #' @export
 #'
-#' @family transportation results, passenger
+#' @family transportation, dynamic ride share
 #' @keywords passenger
 #'
 #'
@@ -80,14 +79,35 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       )
 
       drs_vmt <-
-        calc_drs_vmt(
-          .pass_tb, .drs_pct,
-          class, fcm, .vmt_fee,
-          .payd_fee, .gas_tax, .cong_price,
-          .parking_price, .pop_dens_pct_change,
-          .emp_dens_pct_change, .land_use_pct_change,
-          .intersection_design_pct_change, .job_access_pct_change,
-          .transit_dist_pct_change, .comb_5d_impact_pct_change
+        calc_vmt_forecast_drs(
+          .scenario = .scenario,
+          tb = .pass_tb,
+          .mode = mode,
+          .stock = stock,
+          .variable = var,
+          .tb_fuel_cost_mile = fcm,
+          .aeo_scenario = .aeo_scenario,
+          .transit_avo = .transit_avo,
+          .transit_rider_pct = .transit_rider_pct,
+          .vmt_fee = .vmt_fee,
+          .payd_fee = .payd_fee,
+          .gas_tax = .gas_tax,
+          .cong_price = .cong_price,
+          .parking_price = .parking_price,
+          .drs_pct = .drs_pct,
+          .drs_fuel_type = .drs_fuel_type,
+          .av_pct = .av_pct,
+          .freight_vmt_fee = .freight_vmt_fee,
+          .pop_dens_pct_change = .pop_dens_pct_change,
+          .emp_dens_pct_change = .emp_dens_pct_change,
+          .land_use_pct_change = .land_use_pct_change,
+          .intersection_design_pct_change = .intersection_design_pct_change,
+          .job_access_pct_change = .job_access_pct_change,
+          .transit_dist_pct_change = .transit_dist_pct_change,
+          .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+          .telework_pct = .telework_pct,
+          .phev_electric = .phev_electric,
+          .enviro_factors = enviro_factors
         ) %>%
         mutate(class = class)
 
@@ -104,30 +124,26 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
         )
-      .drs_fuel_type <-
+
+      drs_fuel <-
         calc_fuel_use(
-          drs_vmt,
-          .pass_tb,
-          mode_1, "SI",
-          .aeo_scenario, mpg, 1
+          tb_vmt =  drs_vmt,
+          tb = .pass_tb,
+          .mode = mode_1,
+          .fuel_type = "SI",
+          .aeo_scenario = .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE
         )
 
-      temp <- calc_ghg_embodied(
-        .pass_tb,
-        .class = class,
-        mode, "DRSSales",
-        "HEV-EMB"
-      )
 
-      # out_sum <- out_sum %>%
-      #   dplyr::mutate(
-      #     dplyr::across(all_of(YRS), ~ dplyr::case_when(
-      #       (mode == mode_1 &
-      #          class == class &
-      #          output == "INDIR-GHG") ~ .x + temp %>% as.numeric(),
-      #       TRUE ~ .x
-      #     ))
-      #   )
+      drs_ghg_emb <- calc_ghg_embodied(
+        tb = .pass_tb,
+        .class = class,
+        .mode =  mode,
+        .sales_mode = "DRSSales",
+        .fuel_type = "HEV-EMB"
+      )
 
       drs_cost <-
         calc_cost(
@@ -145,80 +161,210 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       mpe <- "PHEVElec"
       class <- "PHEV"
 
+
+      #### VMT gas ----
+
+      fcm <- calc_fuel_cost_mile(
+        .pass_tb, mode, .aeo_scenario,
+        mpg, .enviro_factors$SI_FUEL_COST_GAL
+      )
+
+
       # Don't apply the .gas_tax factors, etc. to PHEV for DRS
-      phev_vmtg <- calc_drs_vmt(
-        .pass_tb, .drs_pct, class, fcm, .vmt_fee,
-        .payd_fee, .gas_tax, .cong_price, .parking_price, .pop_dens_pct_change,
-        .emp_dens_pct_change, .land_use_pct_change, .intersection_design_pct_change,
-        .job_access_pct_change, .transit_dist_pct_change,
-        .comb_5d_impact_pct_change
-      ) * (
-        1 - .pass_tb %>%
-          dplyr::filter(mode == mode, var == "PHEVPr") %>%
-          dplyr::select(all_of(YRS)))
+      phev_vmt_gas <- calc_vmt_forecast_drs(
+        .scenario = .scenario,
+        tb = .pass_tb,
+        .phev_electric = FALSE,
+        .mode = mode,
+        .stock = stock,
+        .variable = var,
+        .tb_fuel_cost_mile = fcm,
+        .aeo_scenario = .aeo_scenario,
+        .transit_avo = .transit_avo,
+        .transit_rider_pct = .transit_rider_pct,
+        .vmt_fee = .vmt_fee,
+        .payd_fee = .payd_fee,
+        .gas_tax = .gas_tax,
+        .cong_price = .cong_price,
+        .parking_price = .parking_price,
+        .drs_pct = .drs_pct,
+        .av_pct = .av_pct,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .pop_dens_pct_change = .pop_dens_pct_change,
+        .emp_dens_pct_change = .emp_dens_pct_change,
+        .land_use_pct_change = .land_use_pct_change,
+        .intersection_design_pct_change = .intersection_design_pct_change,
+        .job_access_pct_change = .job_access_pct_change,
+        .transit_dist_pct_change = .transit_dist_pct_change,
+        .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+        .telework_pct = .telework_pct
+      ) %>%
+        mutate(class = class)
 
-      phev_vmte <- calc_drs_vmt(
-        .pass_tb, .drs_pct, class,
-        fcm, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-        .parking_price, .pop_dens_pct_change, .emp_dens_pct_change,
-        .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-        .transit_dist_pct_change, .comb_5d_impact_pct_change
-      ) *
-        .pass_tb %>%
-          dplyr::filter(mode == mode, var == "PHEVPr") %>%
-          dplyr::select(all_of(YRS))
+      #### VMT electric ----
 
-      drs_vmt <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "VMT",
-        phev_vmtg + phev_vmte
+      fcm_electric <- calc_fuel_cost_mile(
+        .pass_tb, mode, .aeo_scenario,
+        mpe, .enviro_factors$ELEC_FUEL_COST_KWH
       )
 
-      phev_ghgg <- calc_ghg_direct(
-        phev_vmtg, .pass_tb,
-        mode, "SI", .aeo_scenario, mpg, 1
-      )
 
-      phev_ghge <- calc_ghg_direct(
-        phev_vmte, .pass_tb,
-        mode, .electric_scenario, .aeo_scenario, mpe, 1
-      )
+      phev_vmt_electric <- calc_vmt_forecast_drs(
+        .scenario = .scenario,
+        tb = .pass_tb,
+        .phev_electric = TRUE,
+        .mode = mode,
+        .stock = stock,
+        .variable = var,
+        .tb_fuel_cost_mile = fcm_electric,
+        .aeo_scenario = .aeo_scenario,
+        .transit_avo = .transit_avo,
+        .transit_rider_pct = .transit_rider_pct,
+        .vmt_fee = .vmt_fee,
+        .payd_fee = .payd_fee,
+        .gas_tax = .gas_tax,
+        .cong_price = .cong_price,
+        .parking_price = .parking_price,
+        .drs_pct = .drs_pct,
+        .av_pct = .av_pct,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .pop_dens_pct_change = .pop_dens_pct_change,
+        .emp_dens_pct_change = .emp_dens_pct_change,
+        .land_use_pct_change = .land_use_pct_change,
+        .intersection_design_pct_change = .intersection_design_pct_change,
+        .job_access_pct_change = .job_access_pct_change,
+        .transit_dist_pct_change = .transit_dist_pct_change,
+        .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+        .telework_pct = .telework_pct
+      ) %>%
+        mutate(class = class)
 
-      drs_dir_ghg <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "DIR-GHG",
-        phev_ghgg + phev_ghge
-      )
-
-      drs_fuelg <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "PETRO",
-        calc_fuel_use(
-          phev_vmtg,
-          .pass_tb, mode, "SI",
-          .aeo_scenario, mpg, 1
+      # combine vmt tables
+      drs_vmt <- left_join(
+        phev_vmt_electric %>%
+          select(everything(),
+                 vmt_electric = vmt
+          ),
+        phev_vmt_gas %>%
+          select(everything(),
+                 vmt_gas = vmt
+          ),
+        c(
+          "type", "stock", "class",
+          "scenario", "mode", "ctu",
+          "year", "aeo_mode"
         )
-      )
-
-      drs_fuele <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        ctu = .ctu, output = "ELEC",
-        calc_fuel_use(
-          phev_vmte, .pass_tb,
-          mode, .electric_scenario, .aeo_scenario, mpe, 1
+      ) %>%
+        rowwise() %>%
+        mutate(
+          vmt = vmt_electric + vmt_gas,
+          class = class
+        ) %>%
+        select(
+          -vmt_electric,
+          -vmt_gas
         )
+
+
+      ##### gas direct, fuel, indirect -----
+      phev_ghg_gas <- calc_ghg_direct(
+        tb_vmt = phev_vmt_gas,
+        tb = .pass_tb,
+        .mode = mode,
+        .fuel_type = "SI",
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .is_av =  TRUE,
+        .enviro_factors = .enviro_factors
+      ) %>%
+        select(everything(),
+               dir_ghg_gas = dir_ghg
+        )
+
+
+      phev_fuel_gas <- calc_fuel_use(
+        tb_vmt =  phev_vmt_gas,
+        tb = .pass_tb,
+        .mode =   mode,
+        .fuel_type = "SI",
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .enviro_factors = .enviro_factors
       )
 
-      temp <- calc_ghg_embodied(
-        .pass_tb, mode,
-        .class = class,
-        "DRSSales", "PHEV-EMB"
-      ) %>% as.numeric()
 
+      ##### electric direct, fuel, indirect -----
+      phev_ghg_electric <- calc_ghg_direct(
+        tb_vmt = phev_vmt_electric,
+        tb = .pass_tb,
+        .mode = mode,
+        .fuel_type = .electric_scenario,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe
+      ) %>%
+        select(everything(),
+               dir_ghg_electric = dir_ghg
+        )
+
+      phev_fuel_electric <-
+        calc_fuel_use(
+          tb_vmt = phev_vmt_electric,
+          tb =  .pass_tb,
+          .mode =   mode,
+          .electric_scenario,
+          .aeo_scenario = .aeo_scenario,
+          .miles_per_gallon = mpe
+        )
+
+
+      # combine direct emission tables
+      drs_dir_ghg <- left_join(
+        phev_ghg_gas, phev_ghg_electric,
+        c(
+          "scenario", "mode", "ctu",
+          "year", "aeo_mode", "class"
+        )
+      ) %>%
+        mutate(dir_ghg = dir_ghg_electric + dir_ghg_gas) %>%
+        select(
+          -dir_ghg_electric,
+          -dir_ghg_gas
+        )
+
+
+      # combine fuel use tables
+      drs_fuel <- left_join(
+        phev_fuel_electric %>%
+          select(everything(),
+                 fuel_use_electric = fuel_use
+          ),
+        phev_fuel_gas %>%
+          select(everything(),
+                 fuel_use_gas = fuel_use
+          ),
+        c(
+          "scenario", "mode", "ctu", "year",
+          "aeo_mode"
+        )
+      ) %>%
+        rowwise() %>%
+        mutate(fuel_use = fuel_use_gas + fuel_use_electric) %>%
+        select(
+          -fuel_use_gas,
+          -fuel_use_electric
+        )
+
+
+      drs_ghg_emb <-
+        calc_ghg_embodied(
+          tb = .pass_tb,
+          .mode = .mode,
+          .class = class,
+          .sales_mode = "DRSSales",
+          .fuel_type = "PHEV-EMB",
+          .enviro_factors = .enviro_factors,
+          .transit_avo_pct = .transit_avo_pct
+        )
       # out_sum <- out_sum %>%
       #   dplyr::mutate(
       #     dplyr::across(all_of(YRS), ~ dplyr::case_when(
@@ -229,15 +375,15 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       #     ))
       #   )
 
-      drs_cost <- tibble::tibble(
-        type = type, scenario = .scenario,
-        mode = mode, class = class,
-        output = "COST",
+
+      drs_cost <-
         calc_cost(
-          drs_vmt,
-          mode_1, "PHEVPrice", 1
+          phev_vmt,
+          mode,
+          "PHEVPrice"
         )
-      )
+
+
     } else {
       ## DRS Battery Electric -----
       stock <- "DRSStock"
@@ -256,7 +402,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
 
       drs_vmt <-
-        calc_vmt_forecast(
+        calc_vmt_forecast_drs(
           .scenario = .scenario,
           tb = .pass_tb,
           .mode = mode,
@@ -290,26 +436,35 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_dir_ghg <-
         calc_ghg_direct(
-          drs_vmt,
-          .pass_tb,
-          mode_1, .electric_scenario,
-          .aeo_scenario, mpe, 1
+          tb_vmt = drs_vmt,
+          tb =   .pass_tb,
+          .mode = mode_1,
+          .fuel_type = .electric_scenario,
+          .aeo_scenario =  .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
 
-      .drs_fuel_type <-
+      drs_fuel <-
         calc_fuel_use(
-          drs_vmt,
-          .pass_tb, mode_1, .electric_scenario,
-          .aeo_scenario, mpe, 1
+          tb_vmt =  drs_vmt,
+          tb = .pass_tb,
+          .mode = mode_1,
+          .fuel_type = .electric_scenario,
+          .aeo_scenario = .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE
         )
 
 
-      temp <- calc_ghg_embodied(
-        .pass_tb,
+      drs_ghg_emb <- calc_ghg_embodied(
+        tb = .pass_tb,
         .class = class,
-        mode, "DRSSales", "BEV-EMB"
-      ) %>%
-        as.numeric()
+        .mode =  mode,
+        .sales_mode = "DRSSales",
+        .fuel_type = "BEV-EMB"
+      )
 
       # out_sum <- out_sum %>%
       #   dplyr::mutate(dplyr::across(all_of(YRS), ~ dplyr::case_when(
