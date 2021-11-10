@@ -303,3 +303,17 @@ testthat::expect_equal(
     1.27017350051881, 1.45027225105197
   )
 )
+
+
+# dynamic ride share error ------
+
+testthat::expect_error( calc_vmt_forecast(
+  .scenario = "MIT",
+  tb = st_paul_passenger,
+  .mode = "DRS",
+  .stock = "BEVStock",
+  .variable = "PMT",
+  .tb_fuel_cost_mile = fcm_test,
+  .aeo_scenario = "REF"
+))
+
