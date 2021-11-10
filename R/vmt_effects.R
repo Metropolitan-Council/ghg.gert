@@ -200,6 +200,15 @@ vmt_land_use_change <- function(.mode,
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
 
+  max_value <- if(.type == "DRIVE"){
+    .enviro_factors$MAX_5D_DR
+  } else if (.type == "TRANSIT"){
+    .enviro_factors$MAX_5D_TRANS
+  } else {
+    .enviro_factors$MAX_5D_ACT
+  }
+  browser()
+
   comb_5d_elast <- elast_5d %>%
     filter(type == .type) %>%
     mutate(
@@ -218,11 +227,11 @@ vmt_land_use_change <- function(.mode,
           .data$diversity *
           .data$design *
           .data$job_access *
-          .data$distance *
-          .data$combined_density,
-    land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_DR,
-        1 + .enviro_factors$MAX_5D_DR,
-        product_all
+        .data$distance *
+        .data$combined_density,
+      land_use_adj = ifelse(.comb_5d_impact_pct_change < .enviro_factors$MAX_5D_DR,
+                            1 + max_value,
+                            product_all
       )
     ) %>%
     select(year, land_use_adj)
