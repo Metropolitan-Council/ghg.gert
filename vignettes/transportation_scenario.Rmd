@@ -18,17 +18,19 @@ knitr::opts_chunk$set(
 library(ghg.sp)
 library(tidyverse)
 ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
+st_paul_pass <- transportation_data$passenger %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All"))
+st_paul_freight <- transportation_data$freight %>% 
+                                  filter(ctu %in% c("St. Paul",
+                                                    "All"))
 ```
 
 ## Business as usual
 
 ```{r}
-bau_summary <- scenario_results(pass_tb = transportation_data$passenger %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All")),
-                                freight_tb = transportation_data$freight %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All")),
+bau_summary <- scenario_results(pass_tb = st_paul_pass,
+                                freight_tb = st_paul_freight,
                                 .scenario = "BAU",
                                 .electric_scenario = "ER",
                                 .aeo_scenario = "REF")
@@ -96,20 +98,16 @@ bau_summary$passenger$PLDV$dir_ghg %>%
 
 ```{r, message=FALSE}
 mitigation_ev <-  scenario_results(
-  pass_tb = transportation_data$passenger %>% 
-    filter(ctu %in% c("St. Paul",
-                      "All")),
-  freight_tb = transportation_data$freight %>% 
-    filter(ctu %in% c("St. Paul",
-                      "All")),
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
   .scenario = "MIT-EV",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .bev_pct_sales = 0.6,
-  .hev_pct_sales = 0.2,
-  .phev_pct_sales = 0.2,
-  .av_pct = 0.10,
-  .av_fuel_type = "BEV",
+  # .bev_pct_sales = 0.6,
+  # .hev_pct_sales = 0.2,
+  # .phev_pct_sales = 0.2,
+  # .av_pct = 0.10,
+  # .av_fuel_type = "BEV",
   .drs_pct = 0.9,
   .drs_fuel_type = "BEV"
 ) %>% 
@@ -117,10 +115,29 @@ mitigation_ev <-  scenario_results(
 ```
 
 ```{r}
+bind_rows(
+  mitigation_ev$passenger$PLDV$vmt,
+  # mitigation_ev$passenger$AV$vmt,
+  mitigation_ev$passenger$DRS$vmt
+) %>% 
+  ggplot(aes(x = year,
+             y = vmt,
+             fill = class,
+             group = class)) +
+  facet_wrap(~mode) +
+  # geom_point() +
+  geom_area() 
+```
+
+```{r}
+
+
+
 vmt_pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
+  bind_rows(mitigation_ev$passenger$DRS$vmt) %>%
   group_by(mode, year, scenario, class) %>% 
-  summarize(vmt = sum(vmt))
-  
+  summarize(vmt = sum(vmt, na.rm = T))
+
 ggplot(bind_rows(vmt_pass_ev),
        aes(x = year,
            y = vmt,
