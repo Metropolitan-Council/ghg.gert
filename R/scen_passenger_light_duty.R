@@ -433,7 +433,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
-    .is_av = .is_av,
+    .is_av = FALSE,
     .enviro_factors = .enviro_factors
   ) %>%
     select(everything(),
@@ -448,7 +448,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
   .miles_per_gallon = mpg,
-  .is_av = .is_av,
+  .is_av = FALSE,
   .enviro_factors = .enviro_factors
   )
 
@@ -513,7 +513,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_emb_ghg <-
     calc_ghg_embodied(
       tb = .pass_tb,
-      .mode = .mode,
+      .mode = mode,
       .class = class,
       .sales_mode = "PHEVSales",
       .fuel_type = "PHEV-EMB",
