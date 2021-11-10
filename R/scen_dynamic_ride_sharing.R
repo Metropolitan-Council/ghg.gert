@@ -319,76 +319,82 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       #     TRUE ~ .x
       #   )))
 
-      drs_cost <- tibble::tibble(
-        type = type,
-        scenario = .scenario, mode = mode,
-        class = class,
-        output = "COST",
+      drs_cost <-
         calc_cost(
           drs_vmt,
           mode_1, "BEVPrice"
         )
-      )
+
+
+
     }
+
+    fuel_use_all <- dplyr::bind_rows(drs_fuel)
+
+    vmt_all <- dplyr::bind_rows(drs_vmt)
+
+    emb_ghg_all <- dplyr::bind_rows(drs_ghg_emb)
+
+    dir_ghg_all <- dplyr::bind_rows(drs_dir_ghg)
+
+    cost_all <- dplyr::bind_rows(drs_cost)
+
+    dynamic_ride_share <- list(
+      "vmt" = vmt_all,
+      "dir_ghg" = dir_ghg_all,
+      "emb_ghg" = emb_ghg_all,
+      "fuel_use" = fuel_use_all,
+      "cost" = cost_all
+    )
+  } else {
+    # return a basic shell with NA values
+    vmt_all <- .pass_tb %>%
+      dplyr::select(ctu, year) %>%
+      unique() %>%
+      dplyr::mutate(
+        type = type,
+        stock = NA,
+        scenario = .scenario,
+        mode = mode,
+        aeo_mode = "LDV",
+        vmt = NA,
+        class = NA
+      )
+
+    fuel_use_all <- vmt_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode) %>%
+      dplyr::mutate(fuel_use = NA)
+
+    dir_ghg_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+                    dir_ghg = fuel_use
+      )
+
+    emb_ghg_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+                    ghg_embodied = fuel_use
+      )
+
+    cost_all <- fuel_use_all %>%
+      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+                    cost = fuel_use
+      )
+
+
+    dynamic_ride_share <- list(
+      "vmt" = vmt_all,
+      "dir_ghg" = dir_ghg_all,
+      "emb_ghg" = emb_ghg_all,
+      "fuel_use" = fuel_use_all,
+      "cost" = cost_all
+    )
   }
 
 
 
   # Finish up -----
 
-  # fuel_use_all <- dplyr::bind_rows(
-  #   ci_fuel,
-  #   hev_fuel,
-  #   bev_fuel,
-  #   ci_brt_fuel,
-  #   hev_brt_fuel,
-  #   bev_brt_fuel
-  # )
-  #
-  #
-  # vmt_all <- dplyr::bind_rows(
-  #   ci_vmt,
-  #   hev_vmt,
-  #   bev_vmt,
-  #   ci_brt_vmt,
-  #   hev_brt_vmt,
-  #   bev_brt_vmt
-  # )
-  #
-  # emb_ghg_all <- dplyr::bind_rows(
-  #   ci_emb_ghg,
-  #   hev_emb_ghg,
-  #   bev_emb_ghg,
-  #   ci_brt_emb_ghg,
-  #   hev_brt_emb_ghg,
-  #   bev_brt_emb_ghg
-  # )
-  #
-  # dir_ghg_all <- dplyr::bind_rows(
-  #   ci_dir_ghg,
-  #   hev_dir_ghg,
-  #   bev_dir_ghg,
-  #   ci_brt_ghg,
-  #   hev_brt_ghg,
-  #   bev_brt_ghg
-  # )
-  #
-  # cost_all <- dplyr::bind_rows(
-  #   ci_cost,
-  #   hev_cost,
-  #   bev_cost,
-  #   ci_brt_cost,
-  #   hev_brt_cost,
-  #   bev_brt_cost
-  # )
-  #
-  # bus_scenario <- list(
-  #   "vmt" = vmt_all,
-  #   "dir_ghg" = dir_ghg_all,
-  #   "emb_ghg" = emb_ghg_all,
-  #   "fuel_use" = fuel_use_all,
-  #   "cost" = cost_all
-  # )
-
   usethis::ui_done(paste("Dynamic ride sharing", emo::ji("fast")))
+
+  return(dynamic_ride_share)
 }
