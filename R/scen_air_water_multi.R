@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
+#' @importFrom usethis ui_done
 scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .scenario = "BAU",
                                  .electric_scenario = "ER",

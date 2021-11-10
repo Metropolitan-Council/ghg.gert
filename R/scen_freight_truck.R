@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
+#' @importFrom usethis ui_done
 scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .scenario = "BAU",
                                .electric_scenario = "ER",

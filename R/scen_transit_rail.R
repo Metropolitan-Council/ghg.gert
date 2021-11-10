@@ -7,7 +7,7 @@
 #'
 #' @return
 #' @export
-#'
+#' @importFrom usethis ui_done
 #' @importFrom emo ji
 scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .scenario = "BAU",

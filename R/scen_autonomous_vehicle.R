@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
+#' @importFrom usethis ui_done
 scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
                                     .scenario = "BAU",
                                     .electric_scenario = "ER",
@@ -362,9 +363,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       "cost" = cost_all
     )
 
-    usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
-
-    return(av_return)
   } else {
 
     # return a basic shell with NA values
@@ -400,8 +398,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         cost = fuel_use
       )
 
-
-
     av_return <- list(
       "vmt" = vmt_all,
       "dir_ghg" = dir_ghg_all,
@@ -409,9 +405,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       "fuel_use" = fuel_use_all,
       "cost" = cost_all
     )
-
-
-    usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
-    return(av_return)
   }
+
+  usethis::ui_done(paste("Autonomous vehicles", emo::ji("robot")))
+  return(av_return)
 }

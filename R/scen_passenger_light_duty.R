@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#'
+#' @importFrom usethis ui_done
 scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",

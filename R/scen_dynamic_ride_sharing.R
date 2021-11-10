@@ -11,6 +11,7 @@
 #'
 #'
 #' @importFrom emo ji
+#' @importFrom usethis ui_done
 scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
