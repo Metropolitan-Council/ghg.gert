@@ -9,32 +9,17 @@
 #' @param .variable variable name - e.g., "VMT"
 #' @param .tb_fuel_cost_mile table with fuel cost per mile
 #' @param .aeo_scenario selected EIA Annual Energy Outlook scenario. Default is `"REF"`
-#' @param .transit_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
-#' @param .transit_rider_pct transit ridership % adjustment. Numeric between 0 and 1.   Default is `0`
-#' @param .vmt_fee VMT fee per mile. Default is `0`
-#' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee per mile. Default is `0`
-#' @param .gas_tax Gas tax tax per mile. Default is `0`
-#' @param .cong_price Congestion price per mile (only applies to an approximation of
-#'     congested miles in MSP). Default is `0`
-#' @param .parking_price measured in cents per hour. Average price of parking based on TBI results and literature -
-#'      Default is `0`
 #' @param .drs_pct percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
 #'     Numeric between 0 and 1.  Default is `0`
-#' @param .av_pct percent of trips made by AV. Default is `0`
-#' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
-#' @param .pop_dens_pct_change percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
-#' @param .emp_dens_pct_change percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
-#' @param .land_use_pct_change percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
-#' @param .intersection_design_pct_change percent change in intersection design (% 4-way stops) in 2050 relative to BAU.
-#'     Numeric between 0 and 1.  Default is `0`
-#' @param .job_access_pct_change percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
-#' @param .transit_dist_pct_change percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is `0`
-#' @param .comb_5d_impact_pct_change percent change in population density in 2050 relative to BAU
-#'      as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is `0`
-#' @param .telework_pct percent of people teleworking in 2050. Numeric between 0 and 1. Default is `0`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list of environmental factors. Default is `enviro_factors`, included in this package.
 #' @inheritParams scenario_results
+#' @inheritParams vmt_land_use_change
+#' @inheritParams vmt_road_policy
+#' @inheritParams vmt_autonomous_vehicle
+#' @inheritParams vmt_transit_ridership
+#' @inheritParams vmt_vehicle_occupancy
+#' @inheritParams vmt_telework
 #'
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
@@ -46,7 +31,6 @@
 #'
 #' @importFrom dplyr filter select case_when
 #' @importFrom tidyselect all_of
-#' @importFrom rlang sym
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
@@ -143,7 +127,6 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       land_use <- vmt_land_use_change(
-        .mode = .mode,
         .type = "TRANSIT",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
         .pop_dens_pct_change = .pop_dens_pct_change,
@@ -187,9 +170,9 @@ calc_vmt_forecast <- function(.scenario,
         rowwise() %>%
         mutate(
           transit_vmt = ((miles_traveled *
-            aeo_adj * transit_adj *
-            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-            land_use_adj * park_price_adj * gas_adj) / occupancy_adj * av_adj) *
+                            aeo_adj * transit_adj *
+                            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
+                            land_use_adj * park_price_adj * gas_adj) / occupancy_adj * av_adj) *
             mode_stock_adj,
           stock = .stock
         ) %>%
@@ -205,16 +188,16 @@ calc_vmt_forecast <- function(.scenario,
         phev_proportion <- tb %>%
           dplyr::filter(mode == mode, var == "PHEVPr") %>%
           dplyr::select(mode, var, ctu, year,
-            phev_prop_electric = value, aeo_mode, type
+                        phev_prop_electric = value, aeo_mode, type
           )
 
         tb_vmt <- tb_vmt %>%
           left_join(phev_proportion) %>%
           mutate(miles_traveled = case_when(
             .phev_electric == TRUE ~
-            miles_traveled * phev_prop_electric,
+              miles_traveled * phev_prop_electric,
             .phev_electric == FALSE ~
-            miles_traveled * (1 - phev_prop_electric)
+              miles_traveled * (1 - phev_prop_electric)
           )) %>%
           select(names(tb_vmt))
       }
@@ -226,12 +209,14 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock
       )
 
-      dyn_ride_share <- vmt_dynamic_ride_share_reduction(
-        .tb_vmt = tb_vmt,
-        .mode = .mode,
-        .variable = .variable,
-        .drs_pct = .drs_pct
-      )
+      if(.drs_pct != 0){
+        tb_vmt <- vmt_dynamic_ride_share_reduction(
+          .tb_vmt = tb_vmt,
+          .mode = .mode,
+          .variable = .variable,
+          .drs_pct = .drs_pct
+        )
+      }
 
       # formula is such
       # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
@@ -268,7 +253,6 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       land_use <- vmt_land_use_change(
-        .mode = .mode,
         .type = "DRIVE",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
         .pop_dens_pct_change = .pop_dens_pct_change,
@@ -315,25 +299,25 @@ calc_vmt_forecast <- function(.scenario,
         left_join(telework_adjust, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
         left_join(tb %>%
-          filter(mode == "AT", var == .variable) %>%
-          select(ctu, year, active_transportation_adj = value),
-        by = c("year", "ctu")
+                    filter(mode == "AT", var == .variable) %>%
+                    select(ctu, year, active_transportation_adj = value),
+                  by = c("year", "ctu")
         ) %>%
         unique() %>%
         rowwise() %>%
         mutate(
           pass_ld_vmt = (
             (miles_traveled -
-              (active_transportation_adj * transit_adj) *
-                av_adj * aeo_adj *
-                vmt_fee_adj * cong_adjust * gas_adj *
-                telework_adj * land_use_adj *
-                park_price_adj) / occupancy_adj) * mode_stock_adj,
+               (active_transportation_adj * transit_adj) *
+               av_adj * aeo_adj *
+               vmt_fee_adj * cong_adjust * gas_adj *
+               telework_adj * land_use_adj *
+               park_price_adj) / occupancy_adj) * mode_stock_adj,
           stock = .stock
         ) %>%
         select(type, stock, scenario,
-          ctu, year, mode, aeo_mode,
-          vmt = pass_ld_vmt
+               ctu, year, mode, aeo_mode,
+               vmt = pass_ld_vmt
         ) %>%
         unique()
 
@@ -389,7 +373,6 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       land_use <- vmt_land_use_change(
-        .mode = .mode,
         .type = "DRIVE",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
         .pop_dens_pct_change = .pop_dens_pct_change,
@@ -439,14 +422,15 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           mode = .mode,
           av_vmt = ((miles_traveled - (at_adjust * transit_adj) *
-            aeo_adj * vmt_fee_adj *
-            cong_adjust * gas_adj * park_price_adj *
-            land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
+                       aeo_adj * vmt_fee_adj *
+                       cong_adjust * gas_adj * park_price_adj *
+                       land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
       return(tb_fin)
     } else if (.mode == "DRS") {
+      # dynamic ride share  -----
 
       stop("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
 
@@ -509,7 +493,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           stock = .stock,
           sut_vmt = (miles_traveled * aeo_adj *
-            vmt_fee_adj * park_price_adj / occupancy_adj) *
+                       vmt_fee_adj * park_price_adj / occupancy_adj) *
             mode_stock_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = sut_vmt)
@@ -600,7 +584,6 @@ calc_vmt_forecast <- function(.scenario,
 
 
       land_use <- vmt_land_use_change(
-        .mode = .mode,
         .type = "WALK",
         .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
         .pop_dens_pct_change = .pop_dens_pct_change,
@@ -658,11 +641,11 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           stock = .stock,
           school_bus_vmt = (miles_traveled * aeo_adj
-            / occupancy_adj) * mode_stock_adj
+                            / occupancy_adj) * mode_stock_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode,
-          aeo_mode,
-          vmt = school_bus_vmt
+               aeo_mode,
+               vmt = school_bus_vmt
         )
     } else if (.mode == "FR") {
       # freight rail ------
@@ -705,8 +688,8 @@ calc_vmt_forecast <- function(.scenario,
 
       # return(vmt)
     } else if (.mode == "MM" |
-      .mode == "AIR" |
-      .mode == "WAT") {
+               .mode == "AIR" |
+               .mode == "WAT") {
       # freight multimodal, air, water-----
 
       # browser()
