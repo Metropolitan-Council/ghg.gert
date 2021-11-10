@@ -85,7 +85,6 @@ calc_vmt_forecast_drs <- function(.scenario,
   )
 
   land_use <- vmt_land_use_change(
-    .mode = .mode,
     .type = "TRANSIT",
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .pop_dens_pct_change = .pop_dens_pct_change,
