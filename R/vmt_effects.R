@@ -401,11 +401,12 @@ vmt_road_policy <- function(.mode,
     fc_return <- .tb_fuel_cost_mile %>%
       dplyr::left_join(elast, by = "year") %>%
       dplyr::left_join(.tb_vmt, by = c("year", "mode")) %>%
+      rowwise() %>%
       dplyr::mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
-        vmt_fee_adj = 1 + ((miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt_elast,
-        cong_adjust = 1 + (.cong_price / fuel_time_cost_mile) * .enviro_factors$CONG_VMT * cong_elast,
+        vmt_fee_adj = (1 + (miles_traveled / fuel_time_cost_mile) + payd_ins_adj) * vmt_elast,
+        cong_adjust = (1 + (.cong_price / fuel_time_cost_mile) * .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
