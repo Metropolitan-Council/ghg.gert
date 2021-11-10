@@ -8,8 +8,9 @@
 #'
 #' @return
 #' @export
+#' @keywords internal
 #'
-#' @family transportation
+#' @family transportation, pre-processing
 calc_elasticity <- function(elas_list,
                             elas,
                             num_inits,
