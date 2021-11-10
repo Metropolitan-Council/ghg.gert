@@ -54,8 +54,8 @@ check_inputs <- function(name, value) {
     "comb_5d_impact_pct_change",
     "telework_pct"
   )) {
-    if (value > 1 | value < 0) {
-      stop(paste("Enter a valid", name, "value between 0 and 1"))
+    if (value > 1 | value < -1) {
+      stop(paste("Enter a valid", name, "value between -1 and 1"))
     }
   } else {
     return()
