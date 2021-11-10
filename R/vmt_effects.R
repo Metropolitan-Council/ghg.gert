@@ -38,6 +38,8 @@ vmt_annual_energy_outlook <- function(tb,
 
 #' Calculate autonomous vehicle multiplier
 #'
+#' @param .av_pct percent of trips made by AV. Default is `0`
+
 #' @return table with columns `year`, `ctu`, `av_adj`
 #' @export
 #'
@@ -169,6 +171,25 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
 #'
 #' @inheritParams calc_vmt_forecast
 #' @param .type character, one of `"DRIVE"`, `"WALK"`, `"TRANSIT"`.
+#' @param .pop_dens_pct_change percent change in population density in 2050 relative to BAU.
+#'     Numeric between -1 and 1. Default is `0`
+#' @param .emp_dens_pct_change percent change in employment density in 2050 relative to BAU.
+#'      Numeric between -1 and 1. Default is `0`
+#' @param .land_use_pct_change percent change in land use diversity/mix in 2050 relative to BAU.
+#'      Numeric between -1 and 1. Default is `0`
+#' @param .intersection_design_pct_change percent change in intersection design
+#'     (% 4-way stops) in 2050 relative to BAU.
+#'     Numeric between -1 and 1.  Default is `0`
+#' @param .job_access_pct_change percent change in job accessibility in 2050 relative to BAU.
+#'     Numeric between -1 and 1. Default is `0`
+#' @param .transit_dist_pct_change percent change in transit distance in 2050 relative to BAU.
+#'     Numeric between -1 and 1. Default is `0`
+#' @param .comb_5d_impact_pct_change percent change in population density in 2050 relative to BAU
+#'      as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is `0`
+#'
+#' @note An input value of 1 indicates a 100% increase, where a value of 0.75 indicates a 75% increase.
+#'     A value of -0.75 indicates a 75% decrease.
+#'
 #' @return a table with columns `year`, `type`, and `land_use_adj`
 #' @export
 #' @details
@@ -240,7 +261,8 @@ vmt_land_use_change <- function(.mode,
 }
 
 #' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
-#'
+#' @param .parking_price measured in cents per hour. Average price of parking based on TBI results and literature -
+#'      Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @return a table with
 #' @export
@@ -370,6 +392,12 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 #' Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year
 #'
 #' @inheritParams calc_vmt_forecast
+#' @param .vmt_fee VMT fee per mile. Default is `0`
+#' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee per mile. Default is `0`
+#' @param .gas_tax Gas tax tax per mile. Default is `0`
+#' @param .cong_price Congestion price per mile (only applies to an approximation of
+#'     congested miles in MSP). Default is `0`
+#' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
 #' @return a table with columns   `year`, `ctu`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adj`, `cong_adjust`, `cross_vmt`, `gas_adj`
 #' @export
@@ -586,7 +614,8 @@ vmt_road_policy <- function(.mode,
 
 
 #' Calculate telework multiplier
-#'
+#' @param .telework_pct percent of people teleworking in 2050. Numeric between 0 and 1. Default is `0`
+#' @inheritParams calc_vmt_forecast
 #' @return
 #' @export
 #' @family VMT effects
@@ -681,7 +710,9 @@ vmt_stock_proportion <- function(.tb,
 
 
 #' Calculate transit ridership adjustment for each forecast year
-#'
+#' @param .transit_rider_pct transit ridership % adjustment. Numeric between -1 and 1.
+#'      Default is `0`
+#' @inheritParams calc_vmt_forecast
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #' @family VMT effects
@@ -717,6 +748,8 @@ vmt_transit_ridership <- function(.tb_vmt,
 
 #' Calculate vehicle occupancy multiplier
 #'
+#' @param .transit_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @inheritParams calc_vmt_forecast
 #' @return table with columns `ctu`, `year`, `occupancy_adj`
 #' @export
 #' @details
