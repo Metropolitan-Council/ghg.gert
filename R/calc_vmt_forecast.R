@@ -306,7 +306,6 @@ calc_vmt_forecast <- function(.scenario,
 
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
-        # left_join(dyn_ride_share)
         left_join(trans_rider, by = c("ctu", "year")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
@@ -448,107 +447,9 @@ calc_vmt_forecast <- function(.scenario,
 
       return(tb_fin)
     } else if (.mode == "DRS") {
-      # dynamic ride share ----
-      browser()
-      # vmt = (POP * .drs_pct) * DRSShare * DRS veh. per traveler *
-      # VMT per DRS veh. per year *  adj for charging *
-      #  1 + (vmt_adj + payd_adj) * CROSS_VMT) *
-      # land_use_adj * cong_adj * parking_adj * gas_adj
 
+      stop("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
 
-      mode_stock <- vmt_stock_proportion(
-        .tb = tb,
-        .mode = .mode,
-        .stock = .stock
-      )
-
-
-      sav_charging <- ifelse(.drs_fuel_type %in% c("BEV", "PHEV"),
-        .enviro_factors$EVCS_VMT,
-        1
-      )
-
-      sav_vmt <- tb %>%
-        filter(var == "VMT")
-
-      ann_energy_outlook <- vmt_annual_energy_outlook(
-        tb = tb,
-        .aeo_scenario = .aeo_scenario,
-        .mode = .mode
-      )
-
-
-      autonomous_adjust <- vmt_autonomous_vehicle(
-        .tb_vmt = tb_vmt,
-        .mode = .mode,
-        .av_pct = .av_pct
-      ) %>% unique()
-
-      fc_adjustments <- vmt_road_policy(
-        .mode = .mode,
-        .tb_vmt = tb_vmt,
-        .tb_fuel_cost_mile = .tb_fuel_cost_mile,
-        .vmt_fee = .vmt_fee,
-        .cong_price = .cong_price,
-        .gas_tax = .gas_tax,
-        .payd_fee = .payd_fee,
-        .stock = .stock
-      )
-
-      land_use <- vmt_land_use_change(
-        .mode = .mode,
-        .type = "DRIVE",
-        .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-        .pop_dens_pct_change = .pop_dens_pct_change,
-        .emp_dens_pct_change = .emp_dens_pct_change,
-        .land_use_pct_change = .land_use_pct_change,
-        .intersection_design_pct_change = .intersection_design_pct_change,
-        .job_access_pct_change = .job_access_pct_change,
-        .transit_dist_pct_change = .transit_dist_pct_change
-      )
-
-      parking <- vmt_parking_policy(
-        .mode = .mode,
-        .parking_price = .parking_price
-      )
-
-      veh_occupancy <- vmt_vehicle_occupancy(
-        tb = tb,
-        .tb_vmt = tb_vmt,
-        .mode = "PLDV",
-        .gas_tax = .gas_tax,
-        .stock = .stock,
-        .transit_avo = .transit_avo
-      )
-
-      trans_rider <- vmt_transit_ridership(
-        .tb_vmt = tb_vmt,
-        .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct
-      )
-
-      tb_fin <- tb_vmt %>%
-        left_join(ann_energy_outlook, by = c("year")) %>%
-        left_join(at_adjustment, by = c("year", "ctu")) %>%
-        left_join(trans_rider, by = c("year", "ctu")) %>%
-        left_join(fc_adjustments, by = c("ctu", "year")) %>%
-        left_join(land_use, by = c("year")) %>%
-        left_join(parking, by = c("year", "ctu")) %>%
-        left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
-        unique() %>%
-        rowwise() %>%
-        mutate(
-          stock = .stock,
-          mode = .mode,
-          av_vmt = ((miles_traveled - (at_adjust * transit_adj) *
-            aeo_adj * vmt_fee_adj *
-            cong_adjust * gas_adj * park_price_adj *
-            land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
-        ) %>%
-        select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
-
-      return(tb_fin)
     } else if (.mode == "SUT") {
       # single truck --------
       # browser()
