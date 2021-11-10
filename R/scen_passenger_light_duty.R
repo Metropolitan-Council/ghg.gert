@@ -415,7 +415,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   ) %>%
     rowwise() %>%
     mutate(
-      vmt = sum(vmt_electric, vmt_gas),
+      vmt = vmt_electric + vmt_gas,
       class = class
     ) %>%
     select(
@@ -464,7 +464,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       "year", "aeo_mode", "class"
     )
   ) %>%
-    mutate(dir_ghg = sum(dir_ghg_electric, dir_ghg_gas)) %>%
+    mutate(dir_ghg = dir_ghg_electric + dir_ghg_gas) %>%
     select(
       -dir_ghg_electric,
       -dir_ghg_gas
@@ -495,7 +495,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     )
   ) %>%
     rowwise() %>%
-    mutate(fuel_use = sum(fuel_use_gas, fuel_use_electric)) %>%
+    mutate(fuel_use = fuel_use_gas + fuel_use_electric) %>%
     select(
       -fuel_use_gas,
       -fuel_use_electric

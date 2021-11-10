@@ -83,7 +83,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-  if (sum(.bev_pct_sales, .hev_pct_sales, .phev_pct_sales) > 0.9) {
+  if ((.bev_pct_sales + .hev_pct_sales + .phev_pct_sales) > 0.9) {
     warning("Values will not add to less than 90 for battery electric, plug-in hybrid, and hybrid vehicle percent sales.")
   }
 
