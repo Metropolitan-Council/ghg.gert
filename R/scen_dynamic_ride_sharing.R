@@ -51,10 +51,12 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
   # then perform calculations depending if fuel is BEV, HEV, or PHEV
 
   if (.scenario != "BAU" & .drs_pct > 0) {
-    browser()
+    # browser()
     # Calculate DRS sales in each year
     drs_sales <-
-      calc_drs_sales(.pass_tb, .drs_pct)
+      calc_drs_sales(
+        tb = .pass_tb,
+        .drs_pct = .drs_pct)
 
     .pass_tb <-
       dplyr::bind_rows(.pass_tb, drs_sales)
@@ -68,8 +70,13 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       class <- "HEV"
 
       fcm <- calc_fuel_cost_mile(
-        .pass_tb, mode,
-        .aeo_scenario, mpg, .enviro_factors$SI_FUEL_COST_GAL
+        tb =    .pass_tb ,
+        .mode =  mode,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+        .av_pct = .av_pct,
+        .enviro_factors = .enviro_factors
       )
 
       drs_vmt <-
@@ -88,10 +95,14 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_dir_ghg <-
         calc_ghg_direct(
-          drs_vmt,
-          .pass_tb,
-          mode_1, "SI",
-          .aeo_scenario, mpg, 1
+          tb_vmt = drs_vmt,
+          tb =   .pass_tb,
+          .mode = mode_1,
+          .fuel_type = .electric_scenario,
+          .aeo_scenario =  .aeo_scenario,
+          .miles_per_gallon = mpe,
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
       .drs_fuel_type <-
         calc_fuel_use(
@@ -120,8 +131,11 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_cost <-
         calc_cost(
-          drs_vmt,
-          mode_1, "HEVPrice", 1
+          tb_vmt = drs_vmt,
+          .mode = mode_1,
+          .price = "HEVPrice",
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
     } else if (.drs_fuel_type == "PHEV") {
 

@@ -427,8 +427,14 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   ## gas ghg direct -----
   phev_ghg_gas <- calc_ghg_direct(
-    phev_vmt_gas, .pass_tb, mode,
-    "SI", .aeo_scenario, mpg
+    tb_vmt = phev_vmt_gas,
+    tb = .pass_tb,
+    .mode = mode,
+    .fuel_type = "SI",
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .is_av = .is_av,
+    .enviro_factors = .enviro_factors
   ) %>%
     select(everything(),
       dir_ghg_gas = dir_ghg
@@ -436,11 +442,14 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
 
   phev_fuel_gas <- calc_fuel_use(
-    phev_vmt_gas,
-    .pass_tb,
-    mode,
-    "SI",
-    .aeo_scenario, mpg
+   tb_vmt =  phev_vmt_gas,
+    tb = .pass_tb,
+  .mode =   mode,
+    .fuel_type = "SI",
+    .aeo_scenario = .aeo_scenario,
+  .miles_per_gallon = mpg,
+  .is_av = .is_av,
+  .enviro_factors = .enviro_factors
   )
 
   ## electric ghg direct -----
@@ -503,9 +512,13 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   phev_emb_ghg <-
     calc_ghg_embodied(
-      .pass_tb,
+      tb = .pass_tb,
+      .mode = .mode,
       .class = class,
-      mode, "PHEVSales", "PHEV-EMB"
+      .sales_mode = "PHEVSales",
+      .fuel_type = "PHEV-EMB",
+      .enviro_factors = .enviro_factors,
+      .transit_avo_pct = .transit_avo_pct
     )
 
 
