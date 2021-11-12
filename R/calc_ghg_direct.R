@@ -93,7 +93,7 @@ calc_ghg_direct <- function(tb_vmt,
   ) %>%
     dplyr::mutate(dir_ghg = (vmt / val_mpg_aeo) * ghg_factor) %>%
     dplyr::select(
-      # type,
+      type,
       # source,
       scenario,
       mode = mode.vmt,

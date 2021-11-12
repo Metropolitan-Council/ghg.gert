@@ -1,4 +1,4 @@
-#' Calculate VMT effects
+#' @title  Calculate strategy effects on vehicle miles traveled.
 
 #' Calculate annual energy outlook (AEO) multipliers for each forecast year
 #'
@@ -263,8 +263,9 @@ vmt_land_use_change <- function(.type,
 }
 
 #' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
-#' @param .parking_price measured in cents per hour. Average price of parking based on TBI results and literature -
-#'      Default is `0`
+#'
+#' @param .parking_price measured in cents per hour. Average price of parking based on
+#'     TBI results and literature - Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #' @return a table with
 #' @export
@@ -400,8 +401,10 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 #' @param .cong_price Congestion price per mile (only applies to an approximation of
 #'     congested miles in MSP). Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
+#'
 #' @return a table with columns   `year`, `ctu`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adj`, `cong_adjust`, `cross_vmt`, `gas_adj`
+#'
 #' @export
 #' @family VMT effects
 vmt_road_policy <- function(.mode,

@@ -60,7 +60,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     .enviro_factors$SI_FUEL_COST_GAL
   )
 
-
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -112,13 +111,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_emb_ghg <-
     calc_ghg_embodied(
-      .pass_tb,
-      mode,
-      "BCISales",
-      "BU-BCI-EMB",
+      tb = .pass_tb,
+      .mode =   mode,
+      .sales_mode =  "BCISales",
+      .fuel_type = "BU-BCI-EMB",
       .class = class,
       .transit_avo,
-      ci_vmt,
       .mit_bau_summary
     )
 

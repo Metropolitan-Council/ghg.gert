@@ -23,7 +23,7 @@ calc_cost <- function(tb_vmt,
     dplyr::mutate(cost_value = value / 1000)
 
 
-  vmt_cost <- dplyr::left_join(
+  vmt_cost_fin <- dplyr::left_join(
     tb_vmt,
     tb_cost_current,
     by = c("mode", "year")
@@ -31,7 +31,7 @@ calc_cost <- function(tb_vmt,
     dplyr::mutate(vmt_cost = vmt * cost_value) %>%
     dplyr::select(
       scenario,
-      # type,
+      type,
       mode,
       ctu,
       year,
@@ -41,5 +41,5 @@ calc_cost <- function(tb_vmt,
     )
 
 
-  return(vmt_cost)
+  return(vmt_cost_fin)
 }

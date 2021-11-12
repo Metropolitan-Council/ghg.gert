@@ -469,7 +469,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_dir_ghg <- left_join(
     phev_ghg_gas, phev_ghg_electric,
     c(
-      "scenario", "mode", "ctu",
+    "type",  "scenario", "mode", "ctu",
       "year", "aeo_mode", "class"
     )
   ) %>%
@@ -499,6 +499,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
         fuel_use_gas = fuel_use
       ),
     c(
+      "type",
       "scenario", "mode", "ctu", "year",
       "aeo_mode"
     )
@@ -603,8 +604,11 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   bev_cost <-
     calc_cost(
-      bev_vmt,
-      mode, "BEVPrice"
+      tb_vmt = bev_vmt,
+      .mode = mode,
+      .price = "BEVPrice",
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   # browser()

@@ -73,10 +73,11 @@ calc_fuel_use <- function(tb_vmt,
     rowwise() %>%
     mutate(fuel_use = vmt * fuel_factor) %>%
     select(
-      # type,
+      type,
       scenario,
       mode,
       ctu,
+      class,
       year,
       aeo_mode,
       fuel_use

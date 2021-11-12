@@ -98,10 +98,11 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   dir_ghg_all <- vmt_all %>%
     dplyr::mutate(
       dir_ghg = NA,
-      type = type
+      type = type,
+      class = mode,
     ) %>%
     dplyr::select(
-      type, scenario, mode, ctu, year, aeo_mode,
+      type, class, scenario, mode, ctu, year, aeo_mode,
       dir_ghg
     ) %>%
     unique()
@@ -121,7 +122,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   cost_all <- dir_ghg_all %>%
     dplyr::select(type,
       scenario, mode, ctu, year, aeo_mode,
-      cost = dir_ghg
+      vmt_cost = dir_ghg
     )
 
 

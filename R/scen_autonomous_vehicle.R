@@ -379,22 +379,22 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       )
 
     fuel_use_all <- vmt_all %>%
-      dplyr::select(scenario, mode, ctu, year, aeo_mode) %>%
+      dplyr::select(type, scenario, mode, ctu, year, aeo_mode) %>%
       dplyr::mutate(fuel_use = NA)
 
     dir_ghg_all <- fuel_use_all %>%
-      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+      dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
         dir_ghg = fuel_use
       )
 
     emb_ghg_all <- fuel_use_all %>%
-      dplyr::select(scenario, mode, ctu, year, aeo_mode,
+      dplyr::select(type,scenario, mode, ctu, year, aeo_mode,
         ghg_embodied = fuel_use
       )
 
     cost_all <- fuel_use_all %>%
-      dplyr::select(scenario, mode, ctu, year, aeo_mode,
-        cost = fuel_use
+      dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+        vmt_cost = fuel_use
       )
 
     av_return <- list(
