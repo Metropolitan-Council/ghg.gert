@@ -43,6 +43,7 @@ bind_rows(bau_summary$passenger$PLDV$vmt,
           bau_summary$passenger$BU_BRT$vmt,
           bau_summary$passenger$WALK_BIKE$vmt,
           bau_summary$passenger$BS$vmt,
+          bau_summary$passenger$DRS$vmt,
           bau_summary$passenger$AV$vmt) %>% 
   select(-stock, -aeo_mode) %>% 
   group_by(ctu, year, mode) %>% 
@@ -88,6 +89,27 @@ bau_summary$passenger$PLDV$dir_ghg %>%
 
 ## Interventions  
 
+### Land use  
+
+```{r}
+mitigation_lu <-  scenario_results(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "MIT-LU",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .pop_dens_pct_change = 0.05,
+  .emp_dens_pct_change = 0.05,
+  .land_use_diversity_pct_change = 0.05,
+  .intersection_design_pct_change = 0.05,
+  .job_access_pct_change = 0.05,
+  .transit_dist_pct_change = -0.05,
+  .comb_5d_impact_pct_change = 0.02
+) %>% 
+  suppressMessages()
+```
+
+
 ### Vehicle electrification  
 
 - Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2050. 
@@ -103,38 +125,19 @@ mitigation_ev <-  scenario_results(
   .scenario = "MIT-EV",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  # .bev_pct_sales = 0.6,
-  # .hev_pct_sales = 0.2,
-  # .phev_pct_sales = 0.2,
-  # .av_pct = 0.10,
-  # .av_fuel_type = "BEV",
-  .drs_pct = 0.9,
-  .drs_fuel_type = "BEV"
+  .bev_pct_sales = 0.6,
+  .hev_pct_sales = 0.2,
+  .phev_pct_sales = 0.2,
+  .av_pct = 0.10,
+  .av_fuel_type = "BEV"
 ) %>% 
   suppressMessages()
 ```
 
-```{r}
-bind_rows(
-  mitigation_ev$passenger$PLDV$vmt,
-  # mitigation_ev$passenger$AV$vmt,
-  mitigation_ev$passenger$DRS$vmt
-) %>% 
-  ggplot(aes(x = year,
-             y = vmt,
-             fill = class,
-             group = class)) +
-  facet_wrap(~mode) +
-  # geom_point() +
-  geom_area() 
-```
 
 ```{r}
-
-
 
 vmt_pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
-  bind_rows(mitigation_ev$passenger$DRS$vmt) %>%
   group_by(mode, year, scenario, class) %>% 
   summarize(vmt = sum(vmt, na.rm = T))
 
@@ -146,45 +149,118 @@ ggplot(bind_rows(vmt_pass_ev),
            group = class)) +
   geom_area() +
   labs(title = "All Passenger Vehicle Miles Traveled")
+
+
 ```
+
+### Transit improvements   
+
+- Increase average vehicle occupancy by 10% by 2050
+- Increase transit ridership by 10% by 2050
+- Increase daily fraction of telework by 10% by 2050.
 
 ```{r}
- bau_summary$passenger$PLDV$dir_ghg %>% 
-  left_join(mitigation_ev$passenger$PLDV$dir_ghg,
-             by = c( "mode", "class", "ctu", "year", "aeo_mode"),
-            suffix = c(".bau", ".mit"))
+mitigation_trans <-  scenario_results(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "MIT-TR",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .transit_avo = 0.47 * 1.1,
+  .transit_rider_pct = 0.10,
+  .telework_pct = 0.10
+) %>% 
+  suppressMessages()
 ```
+
+
+### Economic instruments  
+
+- Introduce $0.05 per mile VMT fee in 2025
+- Introduce a $0.05 per mile congestion fee in 2025
+- Introduce a $0.05 per mile pay-as-you-drive insurance fee in 2025
+- Double the gas tax (currently $0.47 per gallon)
+- Double parking price (currently $0.22 per hour)
+
 
 ```{r}
- bau_summary$passenger$PLDV$vmt %>% 
-  left_join(mitigation_ev$passenger$PLDV$vmt,
-             by = c( "mode", "class", "ctu", "year", "aeo_mode", "stock"),
-            suffix = c(".bau", ".mit"))
+mitigation_econ <-  scenario_results(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "MIT-EC",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .vmt_fee = 0.05,
+  .cong_price = 0.05,
+  .payd_fee = 0.05,
+  .gas_tax = 0.94,
+  .parking_price = 0.44
+) %>% 
+suppressMessages()
 ```
 
 
+## Compare  
 
 ```{r}
 pass_bau <- bau_summary$passenger$PLDV$dir_ghg %>% 
-  bind_rows(bau_summary$passenger$AV$dir_ghg) %>% 
+  bind_rows(bau_summary$passenger$AV$dir_ghg) %>%
   group_by(year, scenario) %>% 
   summarize(dir_ghg = sum(dir_ghg, na.rm = T))
 
 
 pass_ev <- mitigation_ev$passenger$PLDV$dir_ghg %>% 
-    bind_rows(mitigation_ev$passenger$AV$dir_ghg) %>% 
+  bind_rows(mitigation_ev$passenger$AV$dir_ghg) %>% 
   group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg))
+  summarize(dir_ghg = sum(dir_ghg, na.rm =T ))
 
-  ggplot(bind_rows(pass_ev, pass_bau),
-    aes(x = year,
-             y = dir_ghg,
-             color = scenario,
-             group = scenario)) +
+pass_lu <- mitigation_lu$passenger$PLDV$dir_ghg %>% 
+  bind_rows(mitigation_lu$passenger$AV$dir_ghg) %>% 
+  group_by(year, scenario) %>% 
+  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+
+ggplot(bind_rows(pass_ev, pass_bau) %>% 
+         bind_rows(pass_lu),
+       aes(x = year,
+           y = dir_ghg,
+           color = scenario,
+           group = scenario)) +
   geom_point() +
   geom_line() +
   labs(title = "All Passenger Vehicle Emissions")
 ```
+
+```{r}
+pass_bau <- bau_summary$passenger$PLDV$vmt %>% 
+  bind_rows(bau_summary$passenger$AV$vmt) %>%
+  group_by(year, scenario, class) %>% 
+  summarize(vmt = sum(vmt, na.rm = T))
+
+
+pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
+  bind_rows(mitigation_ev$passenger$AV$vmt) %>% 
+  group_by(year, scenario, class) %>% 
+  summarize(vmt = sum(vmt, na.rm =T ))
+
+pass_lu <- mitigation_lu$passenger$PLDV$vmt %>% 
+  bind_rows(mitigation_lu$passenger$AV$vmt) %>% 
+  group_by(year, scenario, class) %>% 
+  summarize(vmt = sum(vmt, na.rm = T))
+
+ggplot(bind_rows(pass_ev, pass_bau) %>% 
+         bind_rows(pass_lu),
+       aes(x = year,
+           y = vmt,
+           color = scenario,
+           group = scenario)) +
+  facet_wrap(~class) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
 
 
 ```{r}
@@ -197,14 +273,14 @@ pass_ev <- mitigation_ev$passenger$BU_BRT$dir_ghg %>%
   group_by(year, scenario) %>% 
   summarize(dir_ghg = sum(dir_ghg))
 
-  ggplot(bind_rows(pass_ev, pass_bau),
-    aes(x = year,
-             y = dir_ghg,
-             color = scenario,
-             group = scenario)) +
+ggplot(bind_rows(pass_ev, pass_bau),
+       aes(x = year,
+           y = dir_ghg,
+           color = scenario,
+           group = scenario)) +
   geom_point() +
   geom_line() +
-  labs(title = "All Passenger Vehicle Emissions")
+  labs(title = "All Bus and BRT Emissions")
 ```
 
 
