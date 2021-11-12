@@ -14,8 +14,8 @@ vmt_parking_policy(
 \arguments{
 \item{.mode}{current mode}
 
-\item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
-Default is \code{0}}
+\item{.parking_price}{measured in cents per hour. Average price of parking based on
+TBI results and literature - Default is \code{0}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

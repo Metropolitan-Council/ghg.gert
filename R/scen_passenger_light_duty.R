@@ -469,7 +469,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_dir_ghg <- left_join(
     phev_ghg_gas, phev_ghg_electric,
     c(
-    "type",  "scenario", "mode", "ctu",
+      "type", "scenario", "mode", "ctu",
       "year", "aeo_mode", "class"
     )
   ) %>%

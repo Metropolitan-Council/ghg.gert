@@ -366,8 +366,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   hev_brt_ghg <-
     calc_ghg_direct(
-      hev_brt_vmt, .pass_tb,
-      mode, "HEV", .aeo_scenario, mpg
+      tb_vmt = hev_brt_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = "HEV",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg
     )
 
   hev_brt_fuel <-

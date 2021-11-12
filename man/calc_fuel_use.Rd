@@ -46,8 +46,6 @@ Calculate use of fuel in thousands of gallons or thousands of kWh
 Other transportation: 
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
-\code{\link{calc_drs_vmt}()},
-\code{\link{calc_elasticity}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},

@@ -13,6 +13,9 @@ vmt_autonomous_vehicle(
   .enviro_factors = enviro_factors
 )
 }
+\arguments{
+\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+}
 \value{
 table with columns \code{year}, \code{ctu}, \code{av_adj}
 }

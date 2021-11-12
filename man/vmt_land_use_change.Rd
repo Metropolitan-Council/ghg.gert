@@ -5,12 +5,11 @@
 \title{Calculate combined 5D land use change impact}
 \usage{
 vmt_land_use_change(
-  .mode,
   .type,
   .comb_5d_impact_pct_change,
   .pop_dens_pct_change,
   .emp_dens_pct_change,
-  .land_use_pct_change,
+  .land_use_diversity_pct_change,
   .intersection_design_pct_change,
   .job_access_pct_change,
   .transit_dist_pct_change,
@@ -18,25 +17,29 @@ vmt_land_use_change(
 )
 }
 \arguments{
-\item{.mode}{current mode}
-
 \item{.type}{character, one of \code{"DRIVE"}, \code{"WALK"}, \code{"TRANSIT"}.}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
 
-\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.intersection_design_pct_change}{percent change in intersection design (\% 4-way stops) in 2050 relative to BAU.
-Numeric between 0 and 1.  Default is \code{0}}
+\item{.intersection_design_pct_change}{percent change in intersection design
+(\% 4-way stops) in 2050 relative to BAU.
+Numeric between -1 and 1.  Default is \code{0}}
 
-\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -55,6 +58,10 @@ where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
 \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
 \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 and \eqn{LUF} is the land use elasticity factor.
+}
+\note{
+An input value of 1 indicates a 100\% increase, where a value of 0.75 indicates a 75\% increase.
+A value of -0.75 indicates a 75\% decrease.
 }
 \seealso{
 Other VMT effects: 

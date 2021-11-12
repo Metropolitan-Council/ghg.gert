@@ -23,7 +23,7 @@ scen_autonomous_vehicle(
   .av_fuel_type = "",
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -45,16 +45,14 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 
 \item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between 0 and 1.   Default is \code{0}}
+\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
+Default is \code{0}}
 
 \item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
 
 \item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
-
-\item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
-Default is \code{0}}
 
 \item{.cong_price}{Congestion price per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
@@ -70,21 +68,27 @@ Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.av_fuel_type}{input AV fuel type}
 
-\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.intersection_design_pct_change}{percent change in intersection design (\% 4-way stops) in 2050 relative to BAU.
-Numeric between 0 and 1.  Default is \code{0}}
+\item{.intersection_design_pct_change}{percent change in intersection design
+(\% 4-way stops) in 2050 relative to BAU.
+Numeric between -1 and 1.  Default is \code{0}}
 
-\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
-\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
+\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU.
+Numeric between -1 and 1. Default is \code{0}}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
 
 \item{.telework_pct}{percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
 
@@ -100,7 +104,6 @@ Calculate scenario for autonomous vehicles (AVs)
 }
 \seealso{
 Other transportation results, passenger: 
-\code{\link{scen_dynamic_ride_sharing}()},
 \code{\link{scen_passenger_light_duty}()},
 \code{\link{scen_school_bus}()},
 \code{\link{scen_transit_bus}()},

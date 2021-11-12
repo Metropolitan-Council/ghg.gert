@@ -21,8 +21,6 @@ Check user inputs
 Other transportation: 
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
-\code{\link{calc_drs_vmt}()},
-\code{\link{calc_elasticity}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},

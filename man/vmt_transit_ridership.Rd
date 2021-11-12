@@ -11,6 +11,14 @@ vmt_transit_ridership(
   .enviro_factors = enviro_factors
 )
 }
+\arguments{
+\item{.mode}{current mode}
+
+\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
+Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+}
 \value{
 a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
 }

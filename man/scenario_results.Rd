@@ -25,7 +25,7 @@ scenario_results(
   .av_fuel_type = "",
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -51,50 +51,12 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
 
-\item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
-
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between 0 and 1.   Default is \code{0}}
-
-\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
-
-\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
-
-\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
-
-\item{.parking_price}{measured in cents per hour. Average price of parking based on TBI results and literature -
-Default is \code{0}}
-
-\item{.cong_price}{Congestion price per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
-
-\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
-
 \item{.drs_pct}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
 Numeric between 0 and 1.  Default is \code{0}}
-
-\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
 
 \item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
 
 \item{.av_fuel_type}{input AV fuel type}
-
-\item{.pop_dens_pct_change}{percent change in population density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.emp_dens_pct_change}{percent change in employment density in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.land_use_pct_change}{percent change in land use diversity/mix in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.intersection_design_pct_change}{percent change in intersection design (\% 4-way stops) in 2050 relative to BAU.
-Numeric between 0 and 1.  Default is \code{0}}
-
-\item{.job_access_pct_change}{percent change in job accessibility in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.transit_dist_pct_change}{percent change in transit distance in 2050 relative to BAU. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default is \code{0}}
-
-\item{.telework_pct}{percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
 
 \item{.bev_pct_sales}{percent of sales that are battery electric vehicles (BEV) in 2050. Default is \code{0}.}
 
@@ -107,7 +69,7 @@ as a measure of composite change in 5Ds on VMT. Numeric between 0 and 1. Default
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.
 }
 \description{
 Main function to call other functions for determining VMT,
@@ -117,8 +79,6 @@ direct GHG, indirect GHG, and costs
 Other transportation: 
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
-\code{\link{calc_drs_vmt}()},
-\code{\link{calc_elasticity}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},

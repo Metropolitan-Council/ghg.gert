@@ -2,7 +2,7 @@
 % Please edit documentation in R/vmt_effects.R
 \name{vmt_annual_energy_outlook}
 \alias{vmt_annual_energy_outlook}
-\title{Calculate VMT effects
+\title{Calculate strategy effects on vehicle miles traveled.
 Calculate annual energy outlook (AEO) multipliers for each forecast year}
 \usage{
 vmt_annual_energy_outlook(
@@ -16,7 +16,7 @@ vmt_annual_energy_outlook(
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.
 }
 \description{
-Calculate VMT effects
+Calculate strategy effects on vehicle miles traveled.
 Calculate annual energy outlook (AEO) multipliers for each forecast year
 }
 \seealso{

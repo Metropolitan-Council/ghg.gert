@@ -79,16 +79,6 @@ bau_summary$passenger$PLDV$dir_ghg %>%
   arrange(year)
 # mutate(vmt = vmt / 10^5)
 
-
-datapasta::tribble_construct(
-  bau_summary$passenger$PLDV$vmt %>%
-    filter(
-      class == "BEV",
-      ctu == "St. Paul",
-      mode == "PLDV"
-    ) %>%
-    arrange(year)
-)
 # MIT scenario -----
 
 
@@ -147,7 +137,7 @@ auto_veh <- scen_autonomous_vehicle(
 
 auto_veh$vmt
 
-mit_av <- readRDS("../ghg.sp.tool.model/mod_3/outputs/mit_av_summary.RDS") %>%
+mit_drs <- readRDS("../ghg.sp.tool.model/mod_3/outputs/mit_drs_summary.RDS") %>%
   group_by(type, scenario, mode, class, ctu, output) %>%
   mutate_at(7:13, as.numeric) %>%
   pivot_longer(cols = c(
@@ -160,4 +150,3 @@ mit_av <- readRDS("../ghg.sp.tool.model/mod_3/outputs/mit_av_summary.RDS") %>%
     names_from = output,
     values_from = value
   )
-filter(mode == "AV")

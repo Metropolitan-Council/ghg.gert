@@ -6,6 +6,13 @@
 \usage{
 vmt_telework(.mode, .telework_pct, .enviro_factors = enviro_factors)
 }
+\arguments{
+\item{.mode}{current mode}
+
+\item{.telework_pct}{percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+}
 \value{
 
 }

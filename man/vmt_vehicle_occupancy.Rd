@@ -14,6 +14,19 @@ vmt_vehicle_occupancy(
   .enviro_factors = enviro_factors
 )
 }
+\arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
+\item{.mode}{current mode}
+
+\item{.stock}{stock for current mode}
+
+\item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+}
 \value{
 table with columns \code{ctu}, \code{year}, \code{occupancy_adj}
 }

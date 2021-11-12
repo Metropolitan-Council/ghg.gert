@@ -388,7 +388,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       )
 
     emb_ghg_all <- fuel_use_all %>%
-      dplyr::select(type,scenario, mode, ctu, year, aeo_mode,
+      dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
         ghg_embodied = fuel_use
       )
 

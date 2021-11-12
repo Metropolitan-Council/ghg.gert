@@ -505,8 +505,10 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
 
   browser()
 
-  pass_all <- left_join(pass_vmt, pass_dir_ghg,
-                        c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
+  pass_all <- left_join(
+    pass_vmt, pass_dir_ghg,
+    c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")
+  ) %>%
     anti_join(pass_cost) %>%
     left_join(pass_emb_ghg, c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
     left_join(pass_fuel, by = c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
