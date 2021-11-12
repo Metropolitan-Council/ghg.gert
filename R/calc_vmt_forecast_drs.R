@@ -35,7 +35,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .freight_vmt_fee = 0,
                                   .pop_dens_pct_change = 0,
                                   .emp_dens_pct_change = 0,
-                                  .land_use_pct_change = 0,
+                                  .land_use_diversity_pct_change = 0,
                                   .intersection_design_pct_change = 0,
                                   .job_access_pct_change = 0,
                                   .transit_dist_pct_change = 0,
@@ -59,8 +59,10 @@ calc_vmt_forecast_drs <- function(.scenario,
       miles_per_drs_veh = value,
       scenario = .scenario
     ) %>%
-    select(scenario, mode, ctu, year,
-           aeo_mode, type, miles_traveled) %>%
+    select(
+      scenario, mode, ctu, year,
+      aeo_mode, type, miles_per_drs_veh
+    ) %>%
     unique()
 
   drs_per_traveler <- tb %>%
@@ -89,7 +91,7 @@ calc_vmt_forecast_drs <- function(.scenario,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_pct_change = .land_use_pct_change,
+    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
     .intersection_design_pct_change = .intersection_design_pct_change,
     .job_access_pct_change = .job_access_pct_change,
     .transit_dist_pct_change = .transit_dist_pct_change
@@ -104,8 +106,10 @@ calc_vmt_forecast_drs <- function(.scenario,
 
   tb_pop_drsshare <- tb %>%
     filter(var %in% c("POP", "DRSShare")) %>%
-    tidyr::pivot_wider(names_from = var,
-                       values_from = value) %>%
+    tidyr::pivot_wider(
+      names_from = var,
+      values_from = value
+    ) %>%
     select(ctu, year, POP, DRSShare)
 
   tb_fin <- drs_miles_per_veh %>%
@@ -129,7 +133,9 @@ calc_vmt_forecast_drs <- function(.scenario,
         park_price_adj
     ) %>%
     select(type, stock, scenario,
-           ctu, year, mode, aeo_mode, vmt = drs_vmt)
+      ctu, year, mode, aeo_mode,
+      vmt = drs_vmt
+    )
 
   return(tb_fin)
 
@@ -168,7 +174,7 @@ calc_vmt_forecast_drs <- function(.scenario,
   #     {
   #       (1 + .pop_dens_pct_change * ELAST_DENS_TRANS_POP) *
   #         (1 + .emp_dens_pct_change * ELAST_DENS_TRANS_EMP) *
-  #         (1 + .land_use_pct_change * ELAST_DIVER_TRANS) *
+  #         (1 + .land_use_diversity_pct_change * ELAST_DIVER_TRANS) *
   #         (1 + .intersection_design_pct_change * ELAST_DES_TRANS) *
   #         (1 + .job_access_pct_change * ELAST_JOBS_TRANS) *
   #         (1 + .transit_dist_pct_change * ELAST_DIST_TRANS) *

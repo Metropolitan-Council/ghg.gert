@@ -30,7 +30,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .av_fuel_type = "",
                                       .pop_dens_pct_change = 0,
                                       .emp_dens_pct_change = 0,
-                                      .land_use_pct_change = 0,
+                                      .land_use_diversity_pct_change = 0,
                                       .intersection_design_pct_change = 0,
                                       .job_access_pct_change = 0,
                                       .transit_dist_pct_change = 0,
@@ -56,7 +56,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
     drs_sales <-
       calc_drs_sales(
         tb = .pass_tb,
-        .drs_pct = .drs_pct)
+        .drs_pct = .drs_pct
+      )
 
     .pass_tb <-
       dplyr::bind_rows(.pass_tb, drs_sales)
@@ -70,8 +71,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       class <- "HEV"
 
       fcm <- calc_fuel_cost_mile(
-        tb =    .pass_tb ,
-        .mode =  mode,
+        tb = .pass_tb,
+        .mode = mode,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
         .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
@@ -101,7 +102,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .freight_vmt_fee = .freight_vmt_fee,
           .pop_dens_pct_change = .pop_dens_pct_change,
           .emp_dens_pct_change = .emp_dens_pct_change,
-          .land_use_pct_change = .land_use_pct_change,
+          .land_use_diversity_pct_change = .land_use_diversity_pct_change,
           .intersection_design_pct_change = .intersection_design_pct_change,
           .job_access_pct_change = .job_access_pct_change,
           .transit_dist_pct_change = .transit_dist_pct_change,
@@ -117,10 +118,10 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_dir_ghg <-
         calc_ghg_direct(
           tb_vmt = drs_vmt,
-          tb =   .pass_tb,
+          tb = .pass_tb,
           .mode = mode_1,
           .fuel_type = .electric_scenario,
-          .aeo_scenario =  .aeo_scenario,
+          .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
@@ -128,7 +129,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_fuel <-
         calc_fuel_use(
-          tb_vmt =  drs_vmt,
+          tb_vmt = drs_vmt,
           tb = .pass_tb,
           .mode = mode_1,
           .fuel_type = "SI",
@@ -141,7 +142,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_ghg_emb <- calc_ghg_embodied(
         tb = .pass_tb,
         .class = class,
-        .mode =  mode,
+        .mode = mode,
         .sales_mode = "DRSSales",
         .fuel_type = "HEV-EMB"
       )
@@ -193,7 +194,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .freight_vmt_fee = .freight_vmt_fee,
         .pop_dens_pct_change = .pop_dens_pct_change,
         .emp_dens_pct_change = .emp_dens_pct_change,
-        .land_use_pct_change = .land_use_pct_change,
+        .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
         .transit_dist_pct_change = .transit_dist_pct_change,
@@ -231,7 +232,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .freight_vmt_fee = .freight_vmt_fee,
         .pop_dens_pct_change = .pop_dens_pct_change,
         .emp_dens_pct_change = .emp_dens_pct_change,
-        .land_use_pct_change = .land_use_pct_change,
+        .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
         .transit_dist_pct_change = .transit_dist_pct_change,
@@ -275,7 +276,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
-        .is_av =  TRUE,
+        .is_av = TRUE,
         .enviro_factors = .enviro_factors
       ) %>%
         select(everything(),
@@ -284,9 +285,9 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
 
       phev_fuel_gas <- calc_fuel_use(
-        tb_vmt =  phev_vmt_gas,
+        tb_vmt = phev_vmt_gas,
         tb = .pass_tb,
-        .mode =   mode,
+        .mode = mode,
         .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
@@ -383,8 +384,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           mode,
           "PHEVPrice"
         )
-
-
     } else {
       ## DRS Battery Electric -----
       stock <- "DRSStock"
@@ -424,7 +423,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .freight_vmt_fee = .freight_vmt_fee,
           .pop_dens_pct_change = .pop_dens_pct_change,
           .emp_dens_pct_change = .emp_dens_pct_change,
-          .land_use_pct_change = .land_use_pct_change,
+          .land_use_diversity_pct_change = .land_use_diversity_pct_change,
           .intersection_design_pct_change = .intersection_design_pct_change,
           .job_access_pct_change = .job_access_pct_change,
           .transit_dist_pct_change = .transit_dist_pct_change,
@@ -438,10 +437,10 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_dir_ghg <-
         calc_ghg_direct(
           tb_vmt = drs_vmt,
-          tb =   .pass_tb,
+          tb = .pass_tb,
           .mode = mode_1,
           .fuel_type = .electric_scenario,
-          .aeo_scenario =  .aeo_scenario,
+          .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
@@ -449,7 +448,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_fuel <-
         calc_fuel_use(
-          tb_vmt =  drs_vmt,
+          tb_vmt = drs_vmt,
           tb = .pass_tb,
           .mode = mode_1,
           .fuel_type = .electric_scenario,
@@ -462,7 +461,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_ghg_emb <- calc_ghg_embodied(
         tb = .pass_tb,
         .class = class,
-        .mode =  mode,
+        .mode = mode,
         .sales_mode = "DRSSales",
         .fuel_type = "BEV-EMB"
       )
@@ -480,9 +479,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           drs_vmt,
           mode_1, "BEVPrice"
         )
-
-
-
     }
 
     fuel_use_all <- dplyr::bind_rows(drs_fuel)

@@ -35,7 +35,7 @@ si_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -83,7 +83,7 @@ walk_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -142,7 +142,7 @@ ci_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -189,7 +189,7 @@ ru_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -233,7 +233,7 @@ bus_ci_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -282,7 +282,7 @@ phev_vmt <- calc_vmt_forecast(
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
-  .land_use_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
@@ -307,7 +307,7 @@ testthat::expect_equal(
 
 # dynamic ride share error ------
 
-testthat::expect_error( calc_vmt_forecast(
+testthat::expect_error(calc_vmt_forecast(
   .scenario = "MIT",
   tb = st_paul_passenger,
   .mode = "DRS",
@@ -316,4 +316,3 @@ testthat::expect_error( calc_vmt_forecast(
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF"
 ))
-

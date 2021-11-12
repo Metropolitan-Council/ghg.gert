@@ -29,7 +29,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .av_fuel_type = "",
                                  .pop_dens_pct_change = 0,
                                  .emp_dens_pct_change = 0,
-                                 .land_use_pct_change = 0,
+                                 .land_use_diversity_pct_change = 0,
                                  .intersection_design_pct_change = 0,
                                  .job_access_pct_change = 0,
                                  .transit_dist_pct_change = 0,
@@ -59,7 +59,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .transit_avo, .transit_rider_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
+      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
     ) %>% mutate(class = class)
 
@@ -84,7 +84,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
+      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
     ) %>% mutate(class = class)
 
@@ -113,7 +113,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       stock, var, fcm, .aeo_scenario, .transit_avo,
       .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_pct_change, .intersection_design_pct_change, .job_access_pct_change,
+      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change
     ) %>% mutate(class = class)
 
@@ -140,7 +140,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .scenario, .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_pct_change,
+      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
       .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change
     ) %>% mutate(class = class)
