@@ -149,10 +149,16 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::mutate(
         value =
           dplyr::case_when(
-            (stringr::str_detect(var, "Sales")) |
+            # mode != "DRS" &
+            ((stringr::str_detect(var, "Sales")) |
               (stringr::str_detect(var, "Exist")) |
-              (stringr::str_detect(var, "Stock")) ~ value *
-              (1 - drs_share * .drs_pct),
+              (stringr::str_detect(var, "Stock"))) ~ value *
+              (1 - (drs_share * .drs_pct)),
+            # mode == "DRS" &
+            #   ((stringr::str_detect(var, "Sales")) |
+            #      (stringr::str_detect(var, "Exist")) |
+            #      (stringr::str_detect(var, "Stock"))) ~
+            #   value * drs_share * .drs_pct,
             TRUE ~ value
           )
       ) %>%
