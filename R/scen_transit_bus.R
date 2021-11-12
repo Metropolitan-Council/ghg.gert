@@ -259,6 +259,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Bus Rapid Transit----
 
+  browser()
+
   ### CI BRT -----
   mode <- "BRT"
   stock <- "BCIStock"
@@ -299,12 +301,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   ci_brt_ghg <-
     calc_ghg_direct(
       ci_brt_vmt, .pass_tb, mode,
-      "CI", .aeo_scenario, mpg
+      "BCI", .aeo_scenario, mpg
     )
 
   ci_brt_fuel <-
     calc_fuel_use(
-      ci_brt_vmt, .pass_tb, mode, "CI",
+      ci_brt_vmt, .pass_tb, mode, "BCI",
       .aeo_scenario, mpg
     )
 
@@ -365,12 +367,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   hev_brt_ghg <-
     calc_ghg_direct(
       hev_brt_vmt, .pass_tb,
-      mode, "CI", .aeo_scenario, mpg
+      mode, "HEV", .aeo_scenario, mpg
     )
 
   hev_brt_fuel <-
     calc_fuel_use(
-      hev_brt_vmt, .pass_tb, mode, "CI",
+      hev_brt_vmt, .pass_tb, mode, "HEV",
       .aeo_scenario, mpg
     )
 
@@ -456,6 +458,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Finish up -----
 
+  # browser()
   fuel_use_all <- dplyr::bind_rows(
     ci_fuel,
     hev_fuel,
