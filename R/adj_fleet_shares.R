@@ -137,11 +137,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   # drs-----
   # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
   if (.drs_pct > 0) {
-    # browser()
-
     drs_share <- pass_tb %>%
       dplyr::filter(var == "DRSShare") %>%
-      dplyr::select(ctu, year, drs_share = value)
+      dplyr::select(ctu, year,
+        drs_share = value
+      )
 
     pass_tb <- pass_tb %>%
       dplyr::left_join(drs_share, by = c("ctu", "year")) %>%
