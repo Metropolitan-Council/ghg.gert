@@ -12,7 +12,7 @@
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams adj_fleet_shares
-#' @return
+#' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
 #' @export
 #' @importFrom dplyr filter select case_when across bind_rows cur_column
 #' @importFrom tidyselect all_of
@@ -480,7 +480,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     school_bus$emb_ghg,
     auto_veh$emb_ghg,
     dynamic_ride_share$emb_ghg
-  )
+  ) %>%
+    mutate(scenario = .scenario)
 
   pass_fuel <- bind_rows(
     passenger_light_duty$fuel_use,
@@ -502,10 +503,15 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
     dynamic_ride_share$cost
   )
 
-  # pass_all <- left_join(pass_vmt, pass_dir_ghg) %>%
-  #   left_join(pass_emb_ghg) %>%
-  #   left_join(pass_fuel) %>%
-  #   left_join(pass_cost)
+  browser()
+
+  pass_all <- left_join(pass_vmt, pass_dir_ghg,
+                        c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
+    anti_join(pass_cost) %>%
+    left_join(pass_emb_ghg, c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
+    left_join(pass_fuel, by = c("type", "scenario", "ctu", "year", "mode", "aeo_mode", "class")) %>%
+    unique()
+
 
   ## freight -----
   freight_vmt <- bind_rows(
@@ -521,6 +527,8 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
   )
 
 
+  freight_all <- left_join(freight_vmt, freight_ghg)
+
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,
     FRAIL = freight_rail,
@@ -533,7 +541,9 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
   return(
     list(
       "passenger" = passenger,
-      "freight" = freight
+      "passenger_all" = pass_all,
+      "freight" = freight,
+      "freight_all" = freight_transpo_all
     )
   )
 }
