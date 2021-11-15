@@ -507,19 +507,29 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
 
   pass_all <- left_join(
     pass_vmt, pass_dir_ghg,
-    c("type", "scenario", "ctu", "year", "mode", "aeo_mode",
-      "class")
+    c(
+      "type", "scenario", "ctu", "year", "mode", "aeo_mode",
+      "class"
+    )
   ) %>%
-    left_join(pass_cost, by = c("type", "scenario", "ctu",
-                                "year", "mode", "aeo_mode", "class")) %>%
-    left_join(pass_emb_ghg, c("type", "scenario", "ctu",
-                              "year", "mode", "aeo_mode", "class")) %>%
-    left_join(pass_fuel, by = c("type", "scenario",
-                                "ctu", "year", "mode",
-                                "aeo_mode", "class")) %>%
+    left_join(pass_cost, by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )) %>%
+    left_join(pass_emb_ghg, c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )) %>%
+    left_join(pass_fuel, by = c(
+      "type", "scenario",
+      "ctu", "year", "mode",
+      "aeo_mode", "class"
+    )) %>%
     unique() %>%
-    select(type, scenario, ctu, year, mode, aeo_mode, stock, class,vmt,
-           dir_ghg, ghg_embodied_source, ghg_embodied, fuel_use)
+    select(
+      type, scenario, ctu, year, mode, aeo_mode, stock, class, vmt,
+      dir_ghg, ghg_embodied_source, ghg_embodied, fuel_use
+    )
 
 
   ## freight -----
@@ -536,8 +546,11 @@ scenario_results <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-                           by = c("type", "scenario", "ctu",
-                                  "year", "mode", "aeo_mode", "class"))
+    by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )
+  )
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,

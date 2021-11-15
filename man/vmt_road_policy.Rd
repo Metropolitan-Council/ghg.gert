@@ -5,9 +5,9 @@
 \title{Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year}
 \usage{
 vmt_road_policy(
-  .mode,
-  .pass_tb = transportation_data$passenger,
+  .pass_tb,
   .tb_vmt,
+  .mode,
   .tb_fuel_cost_mile,
   .vmt_fee,
   .freight_vmt_fee = 0,

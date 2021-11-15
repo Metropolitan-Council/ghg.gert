@@ -157,3 +157,24 @@ freight_test_total_table <- left_join(
   filter(diff != 0)
 
 testthat::expect_equal(nrow(freight_test_total_table), 0)
+
+
+# if the non-alt fuel sales make up 100% of all sales, then there should
+# be no CI or SI sales in the final year
+
+no_si_ci <- adj_fleet_shares(
+  .bev_pct_sales = .60,
+  .phev_pct_sales = .20,
+  .hev_pct_sales = .20,
+  .pass_tb = transportation_data$passenger %>%
+    filter(ctu == "St. Paul"),
+  .freight_tb = transportation_data$freight %>%
+    filter(ctu == "St. Paul"),
+  .enviro_factors = enviro_factors
+)
+
+no_si_ci$pass %>%
+  filter(
+    mode == "PLDV",
+    var == "CISales"
+  )
