@@ -166,29 +166,26 @@ ggplot(all_scen_passenger_av,
 ```
 
 ```{r}
-pass_bau <- bau_summary$passenger$PLDV$vmt %>% 
-  bind_rows(bau_summary$passenger$AV$vmt) %>%
-  group_by(year, scenario, class) %>% 
-  summarize(vmt = sum(vmt, na.rm = T))
+all_scen_passenger_vmt <- purrr::map_dfr(
+  list(bau_summary,
+       mitigation_econ,
+       mitigation_ev,
+       mitigation_trans,
+       mitigation_lu),
+  function(x){
+    x$passenger_all %>% 
+      filter(mode %in% c("PLDV")) %>% 
+      group_by(year, scenario) %>% 
+      summarize(vmt = sum(vmt, na.rm = T))
+  }
+)
 
-
-pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
-  bind_rows(mitigation_ev$passenger$AV$vmt) %>% 
-  group_by(year, scenario, class) %>% 
-  summarize(vmt = sum(vmt, na.rm =T ))
-
-pass_lu <- mitigation_lu$passenger$PLDV$vmt %>% 
-  bind_rows(mitigation_lu$passenger$AV$vmt) %>% 
-  group_by(year, scenario, class) %>% 
-  summarize(vmt = sum(vmt, na.rm = T))
-
-ggplot(bind_rows(pass_ev, pass_bau) %>% 
-         bind_rows(pass_lu),
+ggplot(all_scen_passenger_vmt,
        aes(x = year,
            y = vmt,
            color = scenario,
            group = scenario)) +
-  facet_wrap(~class) +
+  # facet_wrap(~class) +
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1.1) +
