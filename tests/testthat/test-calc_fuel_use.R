@@ -42,7 +42,8 @@ si_vmt <- calc_vmt_forecast(
   .telework_pct = 0,
   .phev_electric = FALSE
 ) %>%
-  dplyr::arrange(year)
+  dplyr::arrange(year) %>%
+  mutate(class = "SI")
 
 si_fuel_use <- calc_fuel_use(
   tb_vmt = si_vmt,
