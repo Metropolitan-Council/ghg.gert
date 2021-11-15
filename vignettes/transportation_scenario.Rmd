@@ -77,13 +77,14 @@ mitigation_ev <-  scenario_results(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .bev_pct_sales = 0.6,
-  .hev_pct_sales = 0.2,
-  .phev_pct_sales = 0.2,
-  .av_pct = 0.10,
-  .av_fuel_type = "BEV"
-) %>% 
+  .hev_pct_sales = 0.175,
+  .phev_pct_sales = 0.175
+  # .hev_pct_sales =  0.2,
+  # .phev_pct_sales = 0.2
+  # .av_pct = 0.05,
+  # .av_fuel_type = "BEV"
+) %>%
   suppressMessages()
-```
 
 
 mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode == "PLDV") 
@@ -100,7 +101,7 @@ mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode == "PLDV")
 mitigation_trans <-  scenario_results(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-TR",
+  .scenario = "MIT-TRANSIT",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .transit_avo = 0.47 * 1.1,
@@ -114,7 +115,7 @@ mitigation_trans <-  scenario_results(
 ### Economic instruments  
 
 - Introduce $0.05 per mile VMT fee in 2025
-- Introduce a $0.05 per mile congestion fee in 2025
+- Introduce a $0.10 per mile congestion fee in 2025
 - Introduce a $0.05 per mile pay-as-you-drive insurance fee in 2025
 - Double the gas tax (currently $0.47 per gallon)
 - Double parking price (currently $0.22 per hour)
@@ -124,14 +125,14 @@ mitigation_trans <-  scenario_results(
 mitigation_econ <-  scenario_results(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-EC",
+  .scenario = "MIT-ECON",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .vmt_fee = 0.05,
-  .cong_price = 0.05,
+  .cong_price = 0.10,
   .payd_fee = 0.05,
-  .gas_tax = 0.94,
-  .parking_price = 0.44
+  .gas_tax = 0.47 * 2,
+  .parking_price = 0.22 * 2
 ) %>% 
 suppressMessages()
 ```
