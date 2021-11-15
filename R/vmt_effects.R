@@ -322,8 +322,8 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       mutate(
         park_price_adj =
-          1 + (.parking_price / (PARK * park_elast)),
-        park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
+          1 + (.parking_price / PARK) * park_elast
+        # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
       select(year, ctu, park_price_adj) %>%
       return()
