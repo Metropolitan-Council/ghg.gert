@@ -728,7 +728,7 @@ vmt_transit_ridership <- function(.tb_vmt,
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      mutate(transit_adj = 1 + .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
