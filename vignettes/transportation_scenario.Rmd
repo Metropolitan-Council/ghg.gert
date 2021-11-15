@@ -34,6 +34,7 @@ bau_summary <- scenario_results(pass_tb = st_paul_pass,
                                 .scenario = "BAU",
                                 .electric_scenario = "ER",
                                 .aeo_scenario = "REF")
+
 bau_pldv <-  bau_summary$passenger_all %>% filter(mode == "PLDV") 
 
 ```
@@ -189,7 +190,7 @@ ggplot(all_scen_passenger_vmt,
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1.1) +
-  labs(title = "All Passenger Vehicle Emissions")
+  labs(title = "All Passenger Vehicle Miles Traveled")
 ```
 
 
