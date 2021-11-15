@@ -120,7 +120,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     )
 
   cost_all <- dir_ghg_all %>%
-    dplyr::select(type,
+    dplyr::select(type, class,
       scenario, mode, ctu, year, aeo_mode,
       vmt_cost = dir_ghg
     )
