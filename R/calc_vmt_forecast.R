@@ -142,6 +142,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
+        .pass_tb = tb,
         .mode = .mode,
         .parking_price = .parking_price
       )
@@ -185,6 +186,7 @@ calc_vmt_forecast <- function(.scenario,
       # return(vmt_forecast)
     } else if (.mode == "PLDV") {
       # passenger light duty --------
+      # browser()
 
       if (.stock == "PHEVStock") {
         # browser()
@@ -222,16 +224,6 @@ calc_vmt_forecast <- function(.scenario,
         )
       }
 
-      # formula is such
-      # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
-      # aeo adjustment *
-      # (1 + (vmt_fee_adj +  payd_ins_adj) * ELAST_VMT) *
-      # (1 + cong_adj) *
-      # (1 + gas_adj) *
-      # park_price_adj *
-      # land_use_adj *
-      # telework_adj /
-      # occupancy_adj
       ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = tb,
         .aeo_scenario = .aeo_scenario,
@@ -271,6 +263,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
+        .pass_tb = tb,
         .mode = .mode,
         .parking_price = .parking_price
       )
@@ -285,9 +278,12 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
+        .pass_tb = tb,
+        .stock = .stock,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .av_pct = .av_pct
+        .av_pct = .av_pct,
+        .enviro_factors = .enviro_factors
       )
 
       telework_adjust <- vmt_telework(
@@ -295,6 +291,18 @@ calc_vmt_forecast <- function(.scenario,
         .telework_pct = .telework_pct
       )
 
+
+      # formula is such
+      # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
+      # aeo adjustment *
+      # vmt_fee_adj
+      # cong_adj *
+      # gas_adj *
+      # park_price_adj *
+      # land_use_adj *
+      # telework_adj /
+      # occupancy_adj
+      # * mode_stock_adj
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
         left_join(trans_rider, by = c("ctu", "year")) %>%
@@ -395,6 +403,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
+        .pass_tb = tb,
         .mode = .mode,
         .parking_price = .parking_price
       )

@@ -408,6 +408,7 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 #' @export
 #' @family VMT effects
 vmt_road_policy <- function(.pass_tb,
+                            .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
                             .vmt_fee,
