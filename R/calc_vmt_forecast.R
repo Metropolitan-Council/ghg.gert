@@ -117,13 +117,17 @@ calc_vmt_forecast <- function(.scenario,
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
+        .pass_tb = tb,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
         .cong_price = .cong_price,
         .gas_tax = .gas_tax,
         .payd_fee = .payd_fee,
-        .stock = .stock
+        .stock = .stock,
+        .phev_electric = .phev_electric,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .enviro_factors = .enviro_factors
       )
 
       land_use <- vmt_land_use_change(
@@ -242,6 +246,7 @@ calc_vmt_forecast <- function(.scenario,
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
+        .pass_tb = tb,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
@@ -249,7 +254,9 @@ calc_vmt_forecast <- function(.scenario,
         .gas_tax = .gas_tax,
         .payd_fee = .payd_fee,
         .stock = .stock,
-        .phev_electric = .phev_electric
+        .phev_electric = .phev_electric,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .enviro_factors = .enviro_factors
       )
 
       land_use <- vmt_land_use_change(
@@ -363,13 +370,17 @@ calc_vmt_forecast <- function(.scenario,
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
+        .pass_tb = tb,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
         .cong_price = .cong_price,
         .gas_tax = .gas_tax,
         .payd_fee = .payd_fee,
-        .stock = .stock
+        .stock = .stock,
+        .phev_electric = .phev_electric,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .enviro_factors = .enviro_factors
       )
 
       land_use <- vmt_land_use_change(
@@ -466,6 +477,7 @@ calc_vmt_forecast <- function(.scenario,
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
+        .pass_tb = tb,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
@@ -473,7 +485,9 @@ calc_vmt_forecast <- function(.scenario,
         .gas_tax = .gas_tax,
         .payd_fee = .payd_fee,
         .stock = .stock,
-        .freight_vmt_fee = .freight_vmt_fee
+        .phev_electric = .phev_electric,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -538,6 +552,7 @@ calc_vmt_forecast <- function(.scenario,
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
+        .pass_tb = tb,
         .tb_vmt = tb_vmt,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
@@ -545,7 +560,9 @@ calc_vmt_forecast <- function(.scenario,
         .gas_tax = .gas_tax,
         .payd_fee = .payd_fee,
         .stock = .stock,
-        .freight_vmt_fee = .freight_vmt_fee
+        .phev_electric = .phev_electric,
+        .freight_vmt_fee = .freight_vmt_fee,
+        .enviro_factors = .enviro_factors
       )
 
 
