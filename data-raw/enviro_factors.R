@@ -4,13 +4,13 @@ library(tidyverse)
 
 enviro_factors <- list(
   PLDV_TRANSIT_RATIO = 47 / 100, # 100 transit trips replace 47 LDV trips (APTA, 2009)
-  SI_FUEL_COST_GAL = 239.8, # in cents per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)
-  CI_FUEL_COST_GAL = 264.0, # in cents per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 44 cents per mile, so about equal to Barnes estimate)
-  ELEC_FUEL_COST_KWH = 13, # in cents per kWh https://www.xcelenergy.com/staticfiles/xe/PDF/Marketing/MN-SST-Interim-Rates.pdf
+  SI_FUEL_COST_GAL = 239.8 /100, # in dollars per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)
+  CI_FUEL_COST_GAL = 264.0 / 100, # in dollars per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 44 cents per mile, so about equal to Barnes estimate)
+  ELEC_FUEL_COST_KWH = 13 / 100, # in dollars per kWh https://www.xcelenergy.com/staticfiles/xe/PDF/Marketing/MN-SST-Interim-Rates.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
   AUTO_COST_MI = 61.88, # https://exchange.aaa.com/automotive/driving-costs/#.YG7-L-hKiUk (assume mid-distance of 15,000 miles)
-  TIME_COST_MI = 12.814, # cents per mile according to https://www.vtpi.org/tca/tca0502.pdf and adjusted to 2015 using average CPI
-  F_TIME_COST_MI = 119.0, # cents per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf
+  TIME_COST_MI = 12.814 / 100, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf and adjusted to 2015 using average CPI
+  F_TIME_COST_MI = 119.0 / 100, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf
   INS_COST_MI = (100 * 808) / 8688, # https://www.forbes.com/advisor/car-insurance/state/minnesota/ and https://www.dot.state.mn.us/traffic/data/reports/vmt/92-17_per_capita_vmt.pdf
   CONG_VMT = 0.1087, # Congested VMT as a proportion of total VMT
   BUS_AV = -1.05, # Factors for % change in bus/rail for a 1% change in AV penetration

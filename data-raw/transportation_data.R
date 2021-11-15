@@ -52,7 +52,9 @@ pass_transpo_long <- pass_transpo %>%
       mode == "DRS" ~ "LDV",
       mode %in% c("MM", "AIR", "WAT") ~ "FSHIP"
     ),
-    type = "P"
+    type = "P",
+    value = case_when(var == "PARK" ~ value/100,
+                      TRUE ~ value)
   ) %>%
   group_by(mode, var, ctu, year, aeo_mode, type) %>%
   # selects highest value in case of duplicate entries
