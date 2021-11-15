@@ -34,58 +34,9 @@ bau_summary <- scenario_results(pass_tb = st_paul_pass,
                                 .scenario = "BAU",
                                 .electric_scenario = "ER",
                                 .aeo_scenario = "REF")
+bau_pldv <-  bau_summary$passenger_all %>% filter(mode == "PLDV") 
 
 ```
-
-```{r}
-bind_rows(bau_summary$passenger$PLDV$vmt,
-          bau_summary$passenger$RAIL$vmt,
-          bau_summary$passenger$BU_BRT$vmt,
-          bau_summary$passenger$WALK_BIKE$vmt,
-          bau_summary$passenger$BS$vmt,
-          bau_summary$passenger$DRS$vmt,
-          bau_summary$passenger$AV$vmt) %>% 
-  select(-stock, -aeo_mode) %>% 
-  group_by(ctu, year, mode) %>% 
-  summarize(total_vmt = sum(vmt, na.rm = T)) %>% 
-  ggplot(aes(x = year,
-             y = total_vmt,
-             # color = mode,
-             fill = reorder(mode,-total_vmt),
-             group = reorder(mode, -total_vmt))) +
-  geom_area()
-```
-
-
-```{r}
-
-vmt_pass_bau <- bau_summary$passenger$PLDV$vmt %>% 
-  group_by(mode, year, scenario, class) %>% 
-  summarize(vmt = sum(vmt))
-
-ggplot(bind_rows(vmt_pass_bau),
-       aes(x = year,
-           y = vmt,
-           fill = class,
-           color = class,
-           group = class)) +
-  geom_area() +
-  labs(title = "All Passenger Vehicle Miles Traveled")
-```
-
-
-```{r}
-bau_summary$passenger$PLDV$dir_ghg %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = dir_ghg,
-             fill = class,
-             color = class,
-             group = class)) +
-  geom_area() +
-  labs(title = "BAU - Personal Vehicle Emissions")
-```
-
 
 ## Interventions  
 
@@ -135,21 +86,7 @@ mitigation_ev <-  scenario_results(
 ```
 
 
-```{r}
-
-vmt_pass_ev <- mitigation_ev$passenger$PLDV$vmt %>% 
-  group_by(mode, year, scenario, class) %>% 
-  summarize(vmt = sum(vmt, na.rm = T))
-
-ggplot(bind_rows(vmt_pass_ev),
-       aes(x = year,
-           y = vmt,
-           fill = class,
-           color = class,
-           group = class)) +
-  geom_area() +
-  labs(title = "All Passenger Vehicle Miles Traveled")
-
+mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode == "PLDV") 
 
 ```
 
@@ -203,24 +140,21 @@ suppressMessages()
 ## Compare  
 
 ```{r}
-pass_bau <- bau_summary$passenger$PLDV$dir_ghg %>% 
-  bind_rows(bau_summary$passenger$AV$dir_ghg) %>%
-  group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+all_scen_passenger_av <- purrr::map_dfr(
+  list(bau_summary,
+       mitigation_econ,
+       mitigation_ev,
+       mitigation_trans,
+       mitigation_lu),
+  function(x){
+    x$passenger_all %>% 
+      filter(mode %in% c("AV", "PLDV")) %>% 
+      group_by(year, scenario) %>% 
+      summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+  }
+)
 
-
-pass_ev <- mitigation_ev$passenger$PLDV$dir_ghg %>% 
-  bind_rows(mitigation_ev$passenger$AV$dir_ghg) %>% 
-  group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg, na.rm =T ))
-
-pass_lu <- mitigation_lu$passenger$PLDV$dir_ghg %>% 
-  bind_rows(mitigation_lu$passenger$AV$dir_ghg) %>% 
-  group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
-
-ggplot(bind_rows(pass_ev, pass_bau) %>% 
-         bind_rows(pass_lu),
+ggplot(all_scen_passenger_av,
        aes(x = year,
            y = dir_ghg,
            color = scenario,
