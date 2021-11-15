@@ -91,9 +91,8 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
-  if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .gas_tax > 0) {
+  if (.vmt_fee > 0 | .payd_fee > 0 | .gas_tax > 0) {
+    # browser()
     adj_si_ci_sales <- tibble::tibble(
       year = elast$year,
       adj_si_ci =
@@ -106,13 +105,28 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     )
 
 
+    adj_si_ci_sales <- tibble(year = elast$year,
+                     adj_si_ci = c(1, 1,
+                                   seq(1, adj_si_ci_sales$adj_si_ci[8],
+                                       by = -(1 - adj_si_ci_sales$adj_si_ci[8])/6)
+                     ))
+
+
     # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
     adj_alt_sales <- tibble::tibble(
       year = elast$year,
       adj_alt =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI + .payd_fee /
-          .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
+                .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
     )
+
+
+    adj_alt_sales <- tibble(year = elast$year,
+                            adj_alt = c(1, 1,
+                                          seq(1, adj_alt_sales$adj_alt[8],
+                                              by = -(1 - adj_alt_sales$adj_alt[8])/6)
+                            ))
+
 
     # adjust passenger existing stock
     # pass_alt_adj will have the same number of rows and same structure as .pass_tb
@@ -120,6 +134,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     pass_tb <- pass_tb %>%
       dplyr::left_join(adj_alt_sales, by = c("year")) %>%
       dplyr::left_join(adj_si_ci_sales, by = c("year")) %>%
+      rowwise() %>%
       dplyr::mutate(value = dplyr::case_when(
         (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
         (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
