@@ -224,6 +224,10 @@ calc_vmt_forecast <- function(.scenario,
         )
       }
 
+      at_adjustment <- tb %>%
+        filter(mode == "AT", var == .variable) %>%
+        select(ctu, year, active_transportation_adj = value)
+
       ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = tb,
         .aeo_scenario = .aeo_scenario,
@@ -313,9 +317,7 @@ calc_vmt_forecast <- function(.scenario,
         left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         left_join(telework_adjust, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
-        left_join(tb %>%
-          filter(mode == "AT", var == .variable) %>%
-          select(ctu, year, active_transportation_adj = value),
+        left_join(at_adjustment,
         by = c("year", "ctu")
         ) %>%
         unique() %>%
