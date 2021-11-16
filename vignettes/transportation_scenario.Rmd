@@ -35,7 +35,7 @@ bau_summary <- scenario_results(pass_tb = st_paul_pass,
                                 .electric_scenario = "ER",
                                 .aeo_scenario = "REF")
 
-bau_pldv <-  bau_summary$passenger_all %>% filter(mode == "PLDV") 
+bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV"))) 
 
 ```
 
@@ -78,17 +78,17 @@ mitigation_ev <-  scenario_results(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .bev_pct_sales = 0.6,
-  .hev_pct_sales = 0.175,
-  .phev_pct_sales = 0.175
-  # .hev_pct_sales =  0.2,
-  # .phev_pct_sales = 0.2
-  # .av_pct = 0.05,
-  # .av_fuel_type = "BEV"
+  .hev_pct_sales =  0.1,
+  .phev_pct_sales = 0.1,
+  .av_pct = 0.10,
+  .av_fuel_type = "BEV",
+  .drs_pct = 0.1,
+  .drs_fuel_type = "BEV"
 ) %>%
   suppressMessages()
 
 
-mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode == "PLDV") 
+mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode %in% c("AV", "PLDV", "DRS")) 
 
 ```
 
@@ -130,12 +130,44 @@ mitigation_econ <-  scenario_results(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .vmt_fee = 0.05,
-  .cong_price = 0.10,
+  # .cong_price = 0.10,
   .payd_fee = 0.05,
-  .gas_tax = 0.47 * 2,
-  .parking_price = 0.22 * 2
+  # .gas_tax = 0.47 * 1,
+  .parking_price = 0.22 * 1
 ) %>% 
 suppressMessages()
+
+mit_econ_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV")) 
+
+```
+
+### Mix
+
+
+
+```{r}
+mitigation_mix <-  scenario_results(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "MIT-MIX",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .av_pct = 0.1,
+  .av_fuel_type = "BEV",
+  .telework_pct = 0.1,
+  .transit_avo = 0.47 * 1.1,
+  .transit_rider_pct = 0.10,
+  .pop_dens_pct_change = 0.05,
+  # .vmt_fee = 0.05,
+  # .cong_price = 0.10,
+  # .payd_fee = 0.05,
+  # .gas_tax = 0.47 * 1,
+  .parking_price = 0.10
+) %>% 
+suppressMessages()
+
+mit_mix_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV")) 
+
 ```
 
 
@@ -147,10 +179,11 @@ all_scen_passenger_av <- purrr::map_dfr(
        mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       mitigation_lu),
+       mitigation_lu,
+       mitigation_mix),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV")) %>% 
+      filter(mode %in% c("AV", "PLDV", "DRS")) %>%
       group_by(year, scenario) %>% 
       summarize(dir_ghg = sum(dir_ghg, na.rm = T))
   }
@@ -162,7 +195,8 @@ ggplot(all_scen_passenger_av,
            color = scenario,
            group = scenario)) +
   geom_point() +
-  geom_line() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
   labs(title = "All Passenger Vehicle Emissions")
 ```
 
@@ -172,10 +206,11 @@ all_scen_passenger_vmt <- purrr::map_dfr(
        mitigation_econ,
        mitigation_ev,
        mitigation_trans,
+       mitigation_mix,
        mitigation_lu),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("PLDV")) %>% 
+      filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
       group_by(year, scenario) %>% 
       summarize(vmt = sum(vmt, na.rm = T))
   }
@@ -190,31 +225,10 @@ ggplot(all_scen_passenger_vmt,
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1.1) +
+  scale_y_continuous(labels = scales::comma) +
   labs(title = "All Passenger Vehicle Miles Traveled")
 ```
 
-
-
-
-```{r}
-pass_bau <- bau_summary$passenger$BU_BRT$dir_ghg %>% 
-  group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg, na.rm = T))
-
-
-pass_ev <- mitigation_ev$passenger$BU_BRT$dir_ghg %>% 
-  group_by(year, scenario) %>% 
-  summarize(dir_ghg = sum(dir_ghg))
-
-ggplot(bind_rows(pass_ev, pass_bau),
-       aes(x = year,
-           y = dir_ghg,
-           color = scenario,
-           group = scenario)) +
-  geom_point() +
-  geom_line() +
-  labs(title = "All Bus and BRT Emissions")
-```
 
 
 

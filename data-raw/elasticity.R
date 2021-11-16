@@ -17,36 +17,55 @@ ADJ_YRS <- c("2020", "2025", "2030", "2035")
 INIT_YRS <- setdiff(YRS, FOR_YRS)
 DAYS <- 340
 
-
+empty_list <- c(rep(0, length(YRS)))
 
 # LONG-RUN ELASTICITY - should be made available as a range (slider) for users----
 # Harvey and Deakin (1998)
 # INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean
 # ELAST_VMT <- readline(prompt="Pick an elasiticty for VMT ricing (-0.1 to -0.8. Mean: -0.34): ")
 ELAST_VMT <- c(0, 0, 0, rep(-0.20, length(FOR_YRS)))
+# ELAST_VMT <- calc_elasticity(empty_list, -0.2, length(INIT_YRS), length(FOR_YRS))
+
 # Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean
 # Small (2007)
 # ELAST_GAS <- readline(prompt="Pick an elasiticty for gas tax (-0.05 to -0.17. Mean: -0.1066): ")
 
+# ELAST_GAS <- calc_elasticity(empty_list, -0.1066, length(INIT_YRS), length(FOR_YRS))
 ELAST_GAS <- c(0, 0, 0, rep(-0.1066, length(FOR_YRS)))
 # Arentze, Hofman and Timmermans (2004) and PSRC 2005
 # ELAST_CONG <- readline(prompt="Pick an elasiticty for congestion (-0.04 to -0.16. Mean: -0.10): ")
 
 ELAST_CONG <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
+# ELAST_CONG <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
+
 # TRACE (1999) and Litman (2019)
 # ELAST_PARK <- readline(prompt="Pick an elasiticty for parking cost (-0.03 to -0.17. Mean: -0.07): ")
-
 ELAST_PARK <- c(0, 0, 0, rep(-0.07, length(FOR_YRS)))
+# ELAST_PARK <- calc_elasticity(empty_list, -0.03, length(INIT_YRS), length(FOR_YRS))
+
+
+# CROSS_VMT <- calc_elasticity(empty_list, 0.13, length(INIT_YRS), length(FOR_YRS))
 CROSS_VMT <- c(0, 0, 0, rep(0.13, length(FOR_YRS))) # for transit/walk/bike wrt PLDV price (VMT) (Litman 2019. https://www.vtpi.org/elasticities.pdf)
 
 # TRACE (1999)
 CROSS_PARK_TRANSIT <- c(0, 0, 0, rep(0.01, length(FOR_YRS)))
+# CROSS_PARK_TRANSIT <- calc_elasticity(empty_list, 0.01, length(INIT_YRS), length(FOR_YRS))
+
 # TRACE (1999)
 CROSS_PARK_ACTIVE <- c(0, 0, 0, rep(0.03, length(FOR_YRS)))
+# CROSS_PARK_ACTIVE <- calc_elasticity(empty_list, 0.03, length(INIT_YRS), length(FOR_YRS))
+
 # # GHG wrt AVO according to Naumov et al. (2020)
 # ELAST_PLDV_AVO = -0.675
 # ELAST_TRANSIT_AVO = -0.055
+
+# ELAST_FVMT <- calc_elasticity(empty_list, -0.25, length(INIT_YRS), length(FOR_YRS))
 ELAST_FVMT <- c(0, 0, 0, rep(-0.25, length(FOR_YRS))) # Small and Winston (1999) quoted in (Litman 2011)
+
+
+# Elasticities for changes in vehicle ownership in response to price changes
+ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
+# ELAST_OWN_PRICE <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
 # Driving VMT elasticity to 5Ds - calls function that interpolates changes through forecast years for elasticity. Assumes change is linear to final forecast year.
 # Define a default starting list for elasticities for 5Ds
@@ -100,10 +119,7 @@ MAX_5D_DR <- -0.25
 MAX_5D_ACT <- 0.37
 MAX_5D_TRANS <- 0.71
 
-# Telework marginal effect percent change in PMT (per household)
-MARG_TELEWORK <- -2.749 # From Kim et al. (2015)
-# Elasticities for changes in vehicle ownership in response to price changes
-ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
+
 
 
 # combined tables -----
