@@ -84,11 +84,13 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   # Calculate a fuel cost per mile rather than per gallon
   si_fcm <- calc_fuel_cost_mile(
-    .pass_tb,
-    mode,
-    .aeo_scenario,
+    tb = .pass_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
   )
 
   si_vmt <- calc_vmt_forecast(
@@ -116,7 +118,10 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .job_access_pct_change = .job_access_pct_change,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct
+    .telework_pct = .telework_pct,
+    .drs_fuel_type = .drs_fuel_type,
+    .phev_electric = NA,
+    .enviro_factors = .enviro_factors
   ) %>%
     mutate(class = class)
 

@@ -358,7 +358,8 @@ calc_vmt_forecast <- function(.scenario,
           miles_traveled = value,
           scenario = .scenario
         ) %>%
-        select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled) %>%
+        select(scenario, mode, ctu, year,
+               aeo_mode, type, miles_traveled) %>%
         unique()
 
 
@@ -630,7 +631,8 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           walk_vmt = miles_traveled * land_use_adj
         ) %>%
-        select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = walk_vmt)
+        select(type, stock, scenario, ctu,
+               year, mode, aeo_mode, vmt = walk_vmt)
 
       # return(vmt)
     } else if (.mode == "BS") {
@@ -802,7 +804,7 @@ calc_vmt_forecast <- function(.scenario,
       unique()
   } else {
     # all other BAU------
-
+# browser()
     mode_stock <- vmt_stock_proportion(
       .tb = tb,
       .mode = .mode,

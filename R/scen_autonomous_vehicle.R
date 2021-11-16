@@ -266,13 +266,18 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       stock <- "AVStock"
       mpe <- "BEVElec"
       class <- "BEV"
+      # browser()
 
       message("Autonomous vehicles, battery electric")
 
       fcm <- calc_fuel_cost_mile(
         tb =   av_passenger_tb,
-        mode_1, .aeo_scenario, mpe,
-        .enviro_factors$ELEC_FUEL_COST_KWH
+        .mode = mode_1,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe,
+        .fuel_cost_gallon =  .enviro_factors$ELEC_FUEL_COST_KWH,
+        .av_pct = .av_pct,
+        .enviro_factors = .enviro_factors
       )
 
       av_vmt <-
