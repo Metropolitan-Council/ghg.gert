@@ -38,6 +38,7 @@ cost_long <- cost %>%
     `2040`, `2045`, `2050`
   ), names_to = "year") %>%
   ungroup() %>%
+  mutate(AV = as.logical(AV)) %>%
   select(mode,
     var,
     is_av = AV,
