@@ -81,14 +81,17 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   )) {
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
-        (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~ ((1 + .enviro_factors$BUS_AV * .av_pct)),
-        (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~ ((1 + .enviro_factors$RAIL_AV * .av_pct)),
+        (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
+          ((1 + .enviro_factors$BUS_AV * .av_pct)),
+        (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
+          ((1 + .enviro_factors$RAIL_AV * .av_pct)),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj)
 
     return(av_return)
   } else if (.mode == "AV") {
+    # browser()
     tb_avshare <- .pass_tb %>%
       dplyr::filter(var == "AVShare") %>%
       dplyr::select(year, av_share = value) %>%
@@ -217,7 +220,7 @@ vmt_land_use_change <- function(.type,
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
-
+# browser()
   max_value <- if (.type == "DRIVE") {
     .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
@@ -728,7 +731,7 @@ vmt_transit_ridership <- function(.tb_vmt,
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = 1 + .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      mutate(transit_adj = .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
