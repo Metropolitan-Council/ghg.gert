@@ -187,14 +187,17 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
     pass_tb <- pass_tb %>%
       dplyr::left_join(drs_share, by = c("ctu", "year")) %>%
-      # dplyr::rowwise() %>%
+      dplyr::rowwise() %>%
       dplyr::mutate(
         value =
           dplyr::case_when(
-            # mode != "DRS" &
-            ((stringr::str_detect(var, "Sales")) |
-              (stringr::str_detect(var, "Exist")) |
-              (stringr::str_detect(var, "Stock"))) ~ value *
+            mode %in% c("PLDV",
+                        "BU",
+                        "BRT",
+                        "AV") &
+              ((stringr::str_detect(var, "Sales")) |
+                 (stringr::str_detect(var, "Exist")) |
+                 (stringr::str_detect(var, "Stock"))) ~ value *
               (1 - (drs_share * .drs_pct)),
             # mode == "DRS" &
             #   ((stringr::str_detect(var, "Sales")) |
