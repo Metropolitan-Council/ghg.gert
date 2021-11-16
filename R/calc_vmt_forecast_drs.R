@@ -117,18 +117,20 @@ calc_vmt_forecast_drs <- function(.scenario,
     left_join(tb_pop_drsshare, by = c("ctu", "year")) %>%
     left_join(land_use, by = c("year")) %>%
     left_join(parking, by = c("year", "ctu")) %>%
+    left_join(drs_per_traveler, by = c("ctu", "year")) %>%
     unique() %>%
     rowwise() %>%
     mutate(
       stock = .stock,
       mode = .mode,
       drs_vmt = POP * (DRSShare * .drs_pct)*
+        sav_per *
         drs_charging *
         miles_per_drs_veh *
-        vmt_fee_elas_adj *
-        vmt_fee_cross_adj *
+        # vmt_fee_elas_adj *
+        # vmt_fee_cross_adj *
         land_use_adj *
-        cong_adjust *
+        -cong_adjust *
         gas_adj *
         park_price_adj
     ) %>%
