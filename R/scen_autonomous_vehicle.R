@@ -333,16 +333,19 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .fuel_type = "BEV-EMB",
           .class = class,
           .enviro_factors = .enviro_factors
-        )
+        ) %>%
+        mutate(mode = "AV")
 
       av_cost <-
         calc_cost(
-          tb_vmt = av_vmt,
+          tb_vmt = av_vmt %>%
+            mutate(mode = "PLDV"),
           .mode = mode_1,
           .price = "BEVPrice",
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
-        )
+        ) %>%
+        mutate(mode = "AV")
     }
 
 
