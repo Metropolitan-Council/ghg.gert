@@ -144,7 +144,7 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
 
     .tb_vmt %>%
       left_join(drs_share, by = c("year", "ctu")) %>%
-      mutate(miles_traveled = miles_traveled * (1 - drs_share_val) * .drs_pct) %>%
+      mutate(miles_traveled = miles_traveled * (1 - drs_share_val* .drs_pct)) %>%
       unique() %>%
       return()
 

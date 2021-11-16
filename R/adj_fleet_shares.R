@@ -93,15 +93,15 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
   if (.vmt_fee > 0 | .payd_fee > 0 | .gas_tax > 0) {
     # browser()
+
     adj_si_ci_sales <- tibble::tibble(
       year = elast$year,
       adj_si_ci =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-          .payd_fee / .enviro_factors$AUTO_COST_MI) *
-          elast$vehicle_ownership_elast) *
-          (1 +
-            (.gas_tax / .enviro_factors$AUTO_COST_MI) *
-              elast$vehicle_ownership_elast)
+                (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
+           elast$vehicle_ownership_elast) *
+        (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
+           elast$vehicle_ownership_elast)
     )
 
 
@@ -120,8 +120,9 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     adj_alt_sales <- tibble::tibble(
       year = elast$year,
       adj_alt =
-        (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI + .payd_fee /
-          .enviro_factors$AUTO_COST_MI) * elast$vehicle_ownership_elast)
+        (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
+                .payd_fee / .enviro_factors$AUTO_COST_MI) *
+           elast$vehicle_ownership_elast)
     )
 
 

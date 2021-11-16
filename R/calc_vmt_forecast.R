@@ -323,13 +323,13 @@ calc_vmt_forecast <- function(.scenario,
         unique() %>%
         rowwise() %>%
         mutate(
-          pass_ld_vmt = (
+          pass_ld_vmt =
             (miles_traveled -
-              (active_transportation_adj * transit_adj) *
+              (active_transportation_adj * transit_adj)) *
                 av_adj * aeo_adj *
                 vmt_fee_adj * cong_adjust * gas_adj *
                 telework_adj * land_use_adj *
-                park_price_adj) / occupancy_adj) * mode_stock_adj,
+                park_price_adj / occupancy_adj * mode_stock_adj,
           stock = .stock
         ) %>%
         select(type, stock, scenario,
@@ -837,7 +837,7 @@ calc_vmt_forecast <- function(.scenario,
       mutate(
         scenario = .scenario,
         stock = .stock,
-        vmt = ((miles_traveled * aeo_adj) / occupancy_adj) * mode_stock_adj,
+        vmt = (miles_traveled * aeo_adj) / occupancy_adj * mode_stock_adj,
         vmt = case_when(
           vmt == Inf | is.na(vmt) ~ 0,
           TRUE ~ vmt
