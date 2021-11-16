@@ -153,6 +153,24 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       )) %>%
       dplyr::select(names(.pass_tb))
 
+    new_tot_exist <-  pass_tb %>%
+      filter(str_detect(var, "Exist"),
+             mode == "PLDV") %>%
+      tidyr::pivot_wider(names_from = var, values_from = value) %>%
+      rowwise() %>%
+      mutate(TotExist = BEVExist + PHEVExist + HEVExist + SIExist + CIExist,
+             var = "TotExist",
+             value = TotExist) %>%
+      select(names(.pass_tb))
+
+    pass_tb <- pass_tb %>%
+      anti_join(new_tot_exist, by = c("year", "mode", "ctu", "aeo_mode",
+                                      "type", "var")) %>%
+      bind_rows(new_tot_exist)
+
+
+
+
     if (nrow(.pass_tb) != nrow(pass_tb)) {
       stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
     }
