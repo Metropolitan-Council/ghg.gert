@@ -8,9 +8,8 @@ vmt_vehicle_occupancy(
   tb,
   .tb_vmt,
   .mode,
-  .gas_tax,
   .stock,
-  .transit_avo,
+  .transit_avo_pct,
   .enviro_factors = enviro_factors
 )
 }
@@ -23,7 +22,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.stock}{stock for current mode}
 
-\item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

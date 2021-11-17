@@ -12,7 +12,7 @@ calc_vmt_forecast(
   .variable,
   .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -52,18 +52,19 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
-\item{.transit_avo}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
 Default is \code{0}}
 
-\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
-\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
+Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
-\item{.cong_price}{Congestion price per mile (only applies to an approximation of
+\item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
 
 \item{.drs_pct}{percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
@@ -97,7 +98,7 @@ Numeric between -1 and 1. Default is \code{0}}
 \item{.comb_5d_impact_pct_change}{percent change in population density in 2050 relative to BAU
 as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
 
-\item{.telework_pct}{percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
+\item{.telework_pct}{additional percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
 
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 

@@ -11,7 +11,7 @@ scenario_results(
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,

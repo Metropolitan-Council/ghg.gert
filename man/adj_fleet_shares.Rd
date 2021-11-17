@@ -29,11 +29,12 @@ adj_fleet_shares(
 
 \item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in 2050}
 
-\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
-\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
+Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
 \item{.drs_pct}{percent of trips/fleet that is dynamic ride sharing (DRS). Default is \code{0}.}
 

@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = 0,
+  .transit_avo_pct_pct = 0,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors
@@ -30,7 +30,7 @@ Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PH
 
 \item{.class}{vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"}, \code{"PHEV"},  or \code{"BEV"}}
 
-\item{.transit_avo_pct}{percent change in transit AVO. Default is \code{0}}
+\item{.transit_avo_pct_pct}{percent change in transit AVO. Default is \code{0}}
 
 \item{.mitigation_tb}{mitigation output table for results. Default is \code{0}}
 

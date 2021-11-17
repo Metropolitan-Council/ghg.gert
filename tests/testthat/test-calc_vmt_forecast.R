@@ -45,7 +45,7 @@ si_vmt <- calc_vmt_forecast(
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(
-  vmt = vmt / 10^5,
+    vmt = vmt / 10^5,
     class = "SI"
   )
 

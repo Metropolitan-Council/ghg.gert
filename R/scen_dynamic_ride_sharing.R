@@ -168,7 +168,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       #### VMT gas ----
 
       fcm <- calc_fuel_cost_mile(
-        tb =  .pass_tb,
+        tb = .pass_tb,
         .mode = mode,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
@@ -251,11 +251,11 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_vmt <- left_join(
         phev_vmt_electric %>%
           select(everything(),
-                 vmt_electric = vmt
+            vmt_electric = vmt
           ),
         phev_vmt_gas %>%
           select(everything(),
-                 vmt_gas = vmt
+            vmt_gas = vmt
           ),
         c(
           "type", "stock", "class",
@@ -286,7 +286,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .enviro_factors = .enviro_factors
       ) %>%
         select(everything(),
-               dir_ghg_gas = dir_ghg
+          dir_ghg_gas = dir_ghg
         )
 
 
@@ -314,7 +314,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .enviro_factors = .enviro_factors
       ) %>%
         select(everything(),
-               dir_ghg_electric = dir_ghg
+          dir_ghg_electric = dir_ghg
         )
 
       phev_fuel_electric <-
@@ -349,11 +349,11 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_fuel <- left_join(
         phev_fuel_electric %>%
           select(everything(),
-                 fuel_use_electric = fuel_use
+            fuel_use_electric = fuel_use
           ),
         phev_fuel_gas %>%
           select(everything(),
-                 fuel_use_gas = fuel_use
+            fuel_use_gas = fuel_use
           ),
         c(
           "scenario", "mode", "ctu", "year",
@@ -524,17 +524,17 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
     dir_ghg_all <- fuel_use_all %>%
       dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                    dir_ghg = fuel_use
+        dir_ghg = fuel_use
       )
 
     emb_ghg_all <- fuel_use_all %>%
       dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                    ghg_embodied = fuel_use
+        ghg_embodied = fuel_use
       )
 
     cost_all <- fuel_use_all %>%
       dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                    vmt_cost = fuel_use
+        vmt_cost = fuel_use
       )
 
 

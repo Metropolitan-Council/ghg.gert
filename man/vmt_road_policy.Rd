@@ -24,16 +24,17 @@ vmt_road_policy(
 
 \item{.tb_fuel_cost_mile}{table with fuel cost per mile}
 
-\item{.vmt_fee}{VMT fee per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.cong_price}{Congestion price per mile (only applies to an approximation of
+\item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
-\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee per mile. Default is \code{0}}
+\item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
+Default is \code{0}}
 
 \item{.stock}{stock for current mode}
 

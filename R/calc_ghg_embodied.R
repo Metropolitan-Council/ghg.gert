@@ -114,11 +114,13 @@ calc_ghg_embodied <- function(tb,
       ghg <- ghg * (mit_vals) *
         (ifelse(.transit_avo_pct_pct > 0, (1 - 1 / (1 + .transit_avo_pct_pct)), 0) + 1)
     }
-  } else if (.mode %in% c("MM",
-                          "SUT",
-                          "CUT",
-                          "AIR",
-                          "WAT")){
+  } else if (.mode %in% c(
+    "MM",
+    "SUT",
+    "CUT",
+    "AIR",
+    "WAT"
+  )) {
     stop("Embodied emissions only calculated for passenger type")
   } else {
     # browser()

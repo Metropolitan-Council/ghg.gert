@@ -20,5 +20,5 @@ Check input parameters
 \examples{
 
 check_inputs("electric_scenario", "ER")
-check_inputs("transit_avo", 0)
+check_inputs("transit_avo_pct", 0)
 }
