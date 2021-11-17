@@ -67,7 +67,8 @@ calc_vmt_forecast_drs <- function(.scenario,
 
   drs_per_traveler <- tb %>%
     filter(var == "DRS") %>%
-    select(year, ctu, sav_per = value)
+    select(year, ctu, sav_per = value) %>%
+    unique()
 
   drs_charging <- ifelse(
     .drs_fuel_type %in% c("BEV", "PHEV"),
@@ -106,6 +107,7 @@ calc_vmt_forecast_drs <- function(.scenario,
 
   tb_pop_drsshare <- tb %>%
     filter(var %in% c("POP", "DRSShare")) %>%
+    unique() %>%
     tidyr::pivot_wider(
       names_from = var,
       values_from = value

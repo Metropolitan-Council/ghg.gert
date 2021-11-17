@@ -21,6 +21,7 @@ calc_fuel_use <- function(tb_vmt,
 
   tb_l <- tb %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
+    unique() %>%
     mutate(av_multiplier = dplyr::case_when(
       .is_av == 1 ~ .enviro_factors$MPG_AV,
       TRUE ~ 1

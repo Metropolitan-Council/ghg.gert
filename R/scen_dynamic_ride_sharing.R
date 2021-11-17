@@ -145,7 +145,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .mode = mode,
         .sales_mode = "DRSSales",
         .fuel_type = "HEV-EMB"
-      )
+      ) %>%
+        unique()
 
       drs_cost <-
         calc_cost(
