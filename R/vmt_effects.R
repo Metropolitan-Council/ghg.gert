@@ -144,7 +144,7 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
 
     .tb_vmt %>%
       left_join(drs_share, by = c("year", "ctu")) %>%
-      mutate(miles_traveled = miles_traveled * (1 - drs_share_val* .drs_pct)) %>%
+      mutate(miles_traveled = miles_traveled * (1 - drs_share_val * .drs_pct)) %>%
       unique() %>%
       return()
 
@@ -640,10 +640,18 @@ vmt_telework <- function(.mode,
                          .enviro_factors = enviro_factors) {
   # browser()
   if (.mode == "PLDV") {
+    telework_elast <- calc_elasticity(elas_list = c(rep(0, length(unique(transportation_data$passenger$year)))),
+                                      elas = .telework_pct,
+                                      num_inits = 3,
+                                      num_yrs = length(unique(transportation_data$passenger$year)) - 3)
+
     telework_adj_tb <- tibble(
       year = unique(transportation_data$passenger$year),
-      telework_adj = 1 + (.telework_pct) * .enviro_factors$MARG_TELEWORK
-    )
+      telework_elast = telework_elast) %>%
+      mutate(
+        telework_adj = 1 + telework_elast * .enviro_factors$MARG_TELEWORK
+      ) %>%
+      select(year, telework_adj)
 
     return(telework_adj_tb)
   } else {
@@ -724,14 +732,24 @@ vmt_transit_ridership <- function(.tb_vmt,
                                   .mode,
                                   .transit_rider_pct,
                                   .enviro_factors = enviro_factors) {
-  # browser()
+  transit_rider_elast <-
+    tibble(year = unique(transportation_data$passenger$year),
+           elast =
+             calc_elasticity(
+               elas_list = c(rep(0, length(unique(transportation_data$passenger$year)))),
+               elas = .transit_rider_pct,
+               num_inits = 3,
+               num_yrs = length(unique(transportation_data$passenger$year)) - 3))
+
+
   if (.mode %in% c(
     "PLDV",
     "AV"
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = .transit_rider_pct * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      left_join(transit_rider_elast, by = c("year")) %>%
+      mutate(transit_adj = elast * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -743,7 +761,8 @@ vmt_transit_ridership <- function(.tb_vmt,
   )) {
     .tb_vmt %>%
       select(year, ctu) %>%
-      mutate(transit_adj = 1 + .transit_rider_pct) %>%
+      left_join(transit_rider_elast, by = c("year")) %>%
+      mutate(transit_adj = 1 + elast) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -799,18 +818,11 @@ vmt_vehicle_occupancy <- function(tb,
     "RU",
     "RI"
   )) {
-    # if (.mode %in% c("RU", "RI", "BRT")) {
-    #   tb_mode_totstock_ctu <- tb_mode_totstock %>%
-    #     filter(is.na(mode_avo)) %>%
-    #     select(-mode_avo)
-    #
-    #   tb_mode_totstock <- tb_mode_totstock %>%
-    #     filter(!is.na(mode_avo)) %>%
-    #     select(mode, year, aeo_mode, type, mode_avo) %>%
-    #     dplyr::right_join(tb_mode_totstock_ctu,
-    #       by = c("mode", "year", "aeo_mode", "type")
-    #     )
-    # }
+    transit_avo_elast <-  calc_elasticity(
+      elas_list = c(rep(0, length(unique(transportation_data$passenger$year)))),
+      elas = .transit_avo,
+      num_inits = 3,
+      num_yrs = length(unique(transportation_data$passenger$year)) - 3)
 
     tb_mode_totstock <- tb %>%
       filter(
@@ -836,7 +848,7 @@ vmt_vehicle_occupancy <- function(tb,
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
-      mutate(occupancy_adj = mode_avo * (1 + (.transit_avo))) %>%
+      mutate(occupancy_adj = mode_avo * (1 + transit_avo_elast)) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
 
