@@ -267,7 +267,7 @@ vmt_land_use_change <- function(.type,
 
 #' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
-#' @param .parking_price measured in cents per hour. Average price of parking based on
+#' @param .parking_price measured in dollars per hour. Average price of parking based on
 #'     TBI results and literature - Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #' @return a table with
