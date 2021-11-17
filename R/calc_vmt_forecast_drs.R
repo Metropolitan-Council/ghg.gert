@@ -125,14 +125,14 @@ calc_vmt_forecast_drs <- function(.scenario,
     mutate(
       stock = .stock,
       mode = .mode,
-      drs_vmt = POP * (DRSShare * .drs_pct)*
+      drs_vmt = POP * (DRSShare * .drs_pct) *
         sav_per *
         drs_charging *
         miles_per_drs_veh *
-        # vmt_fee_elas_adj *
-        # vmt_fee_cross_adj *
+        vmt_fee_elas_adj *
+        vmt_fee_cross_adj *
         land_use_adj *
-        -cong_adjust *
+        cong_adjust *
         gas_adj *
         park_price_adj
     ) %>%

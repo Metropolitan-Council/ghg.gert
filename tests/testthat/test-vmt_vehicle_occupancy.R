@@ -18,7 +18,6 @@ si_veh_test <- vmt_vehicle_occupancy(
   tb = transportation_data$passenger,
   .tb_vmt = si_vmt_test,
   .mode = "PLDV",
-  .gas_tax = 0,
   .stock = "SIStock",
   .transit_avo = 0,
   .enviro_factors = enviro_factors

@@ -11,6 +11,22 @@ fcm_test <- calc_fuel_cost_mile(
 )
 
 
+testthat::expect_error(
+  vmt_road_policy(
+  .pass_tb = st_paul_passenger,
+  .tb_vmt = tibble(
+    year = unique(st_paul_passenger$year),
+    ctu = "St. Paul",
+    mode = "PLDV"
+  ),
+  .mode = "PLDV",
+  .tb_fuel_cost_mile = fcm_test,
+  .vmt_fee = 0.05,
+  .payd_fee = 0.05,
+  .stock = "SIStock",
+  .enviro_factors = enviro_factors)
+)
+
 
 si_road_policy <- vmt_road_policy(
   .pass_tb = st_paul_passenger,
@@ -23,8 +39,8 @@ si_road_policy <- vmt_road_policy(
   .tb_fuel_cost_mile = fcm_test,
   .vmt_fee = 0.05,
   .cong_price = 0.10,
-  .payd_fee = 0.05,
   .gas_tax = 0.94,
+  .payd_fee = 0,
   .stock = "SIStock",
   .enviro_factors = enviro_factors
 ) %>%
@@ -32,17 +48,18 @@ si_road_policy <- vmt_road_policy(
 
 
 test_si_road <- tibble::tribble(
-  ~year, ~fuel_time_cost_mile, ~payd_ins_adj, ~vmt_fee_adj, ~cong_adjust, ~cross_vmt, ~gas_adj,
-  "2015", 0.218029, 0.005376, 1, 1, 0, 1,
-  "2018", 0.217227, 0.005376, 1, 1, 0, 1,
-  "2020", 0.2167, 0.005376, 1, 1, 0, 1,
-  "2025", 0.215392, 0.005376, 0.954704, 0.994953, 0.13, 0.534782,
-  "2030", 0.214102, 0.005376, 0.954437, 0.994923, 0.13, 0.531981,
-  "2035", 0.212832, 0.005376, 0.954172, 0.994893, 0.13, 0.529187,
-  "2040", 0.21158, 0.005376, 0.953908, 0.994862, 0.13, 0.526402,
-  "2045", 0.210347, 0.005376, 0.953644, 0.994832, 0.13, 0.523626,
-  "2050", 0.209132, 0.005376, 0.953382, 0.994802, 0.13, 0.520858
+  ~year,       ~ctu, ~fuel_time_cost_mile, ~payd_ins_adj, ~vmt_fee_adj, ~cong_adjust, ~cross_vmt, ~gas_adj,
+  "2015", "St. Paul",             0.218029,             0,            1,            1,          0,        1,
+  "2018", "St. Paul",             0.217227,             0,            1,            1,          0,        1,
+  "2020", "St. Paul",               0.2167,             0,            1,            1,          0,        1,
+  "2025", "St. Paul",             0.215392,             0,     0.953573,     0.994953,       0.13, 0.534782,
+  "2030", "St. Paul",             0.214102,             0,     0.953293,     0.994923,       0.13, 0.531981,
+  "2035", "St. Paul",             0.212832,             0,     0.953015,     0.994893,       0.13, 0.529187,
+  "2040", "St. Paul",              0.21158,             0,     0.952737,     0.994862,       0.13, 0.526402,
+  "2045", "St. Paul",             0.210347,             0,      0.95246,     0.994832,       0.13, 0.523626,
+  "2050", "St. Paul",             0.209132,             0,     0.952183,     0.994802,       0.13, 0.520858
 )
+
 
 testthat::expect_equal(
   si_road_policy$fuel_time_cost_mile,
@@ -93,7 +110,7 @@ bev_road_policy <- vmt_road_policy(
   .tb_fuel_cost_mile = fce,
   .vmt_fee = 0.05,
   .cong_price = 0.10,
-  .payd_fee = 0.05,
+  .payd_fee = 0.0,
   .gas_tax = 0.94,
   .stock = "BEVSock"
 ) %>%
