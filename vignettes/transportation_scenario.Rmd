@@ -12,11 +12,13 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(ghg.sp)
+library(tidyverse)
 ```
 
 ```{r setup}
-library(ghg.sp)
-library(tidyverse)
+
 ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
 st_paul_pass <- transportation_data$passenger %>% 
                                   filter(ctu %in% c("St. Paul",
@@ -35,7 +37,8 @@ bau_summary <- scenario_results(pass_tb = st_paul_pass,
                                 .electric_scenario = "ER",
                                 .aeo_scenario = "REF")
 
-bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV"))) 
+bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
+                                                               "DRS"))) 
 
 ```
 
@@ -78,17 +81,18 @@ mitigation_ev <-  scenario_results(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .bev_pct_sales = 0.6,
-  .hev_pct_sales =  0.1,
-  .phev_pct_sales = 0.1,
+  .hev_pct_sales =  0.2,
+  .phev_pct_sales = 0.2,
   .av_pct = 0.10,
   .av_fuel_type = "BEV",
-  .drs_pct = 0.1,
-  .drs_fuel_type = "BEV"
+  .drs_pct = 0.20,
+  .drs_fuel_type = "HEV"
 ) %>%
   suppressMessages()
 
 
-mit_ev_pldv <-  mitigation_ev$passenger_all %>% filter(mode %in% c("AV", "PLDV", "DRS")) 
+mit_ev_pldv <-  mitigation_ev$passenger_all %>%
+  filter(mode %in% c("AV", "PLDV", "DRS")) 
 
 ```
 
@@ -105,7 +109,7 @@ mitigation_trans <-  scenario_results(
   .scenario = "MIT-TRANSIT",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .transit_avo = 0.47 * 1.1,
+  .transit_avo = 0.5,
   .transit_rider_pct = 0.10,
   .telework_pct = 0.10
 ) %>% 
@@ -119,7 +123,7 @@ mitigation_trans <-  scenario_results(
 - Introduce a $0.10 per mile congestion fee in 2025
 - Introduce a $0.05 per mile pay-as-you-drive insurance fee in 2025
 - Double the gas tax (currently $0.47 per gallon)
-- Double parking price (currently $0.22 per hour)
+- Double parking price (currently $22 per hour)
 
 
 ```{r}
@@ -130,20 +134,20 @@ mitigation_econ <-  scenario_results(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .vmt_fee = 0.05,
-  # .cong_price = 0.10,
-  .payd_fee = 0.05,
-  # .gas_tax = 0.47 * 1,
-  .parking_price = 0.22 * 1
+  .cong_price = 0.10,
+  .payd_fee = 0.0,
+  .freight_vmt_fee = 0.05,
+  .gas_tax = 0.47 * 1,
+  .parking_price = 44
 ) %>% 
 suppressMessages()
 
-mit_econ_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV")) 
+mit_econ_pldv <-  mitigation_econ$passenger_all %>%
+  filter(mode %in% c("AV", "PLDV", "DRS")) 
 
 ```
 
 ### Mix
-
-
 
 ```{r}
 mitigation_mix <-  scenario_results(
@@ -162,11 +166,12 @@ mitigation_mix <-  scenario_results(
   # .cong_price = 0.10,
   # .payd_fee = 0.05,
   # .gas_tax = 0.47 * 1,
-  .parking_price = 0.10
+  .parking_price = 30
 ) %>% 
 suppressMessages()
 
-mit_mix_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV")) 
+mit_mix_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV", 
+                                                                      "DRS")) 
 
 ```
 
@@ -218,7 +223,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
 
 ggplot(all_scen_passenger_vmt,
        aes(x = year,
-           y = vmt,
+           y = vmt/1000000,
            color = scenario,
            group = scenario)) +
   # facet_wrap(~class) +
@@ -230,5 +235,35 @@ ggplot(all_scen_passenger_vmt,
 ```
 
 
+### Freight  
+
+
+```{r}
+all_scen_freight_em <- purrr::map_dfr(
+  list(bau_summary,
+       mitigation_econ,
+       mitigation_ev,
+       mitigation_trans,
+       mitigation_mix,
+       mitigation_lu),
+  function(x){
+    x$freight_all %>% 
+      group_by(year, scenario) %>% 
+      summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+  }
+)
+
+ggplot(all_scen_freight_em,
+       aes(x = year,
+           y = dir_ghg,
+           color = scenario,
+           group = scenario)) +
+  # facet_wrap(~class) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "All Freight Emissions")
+```
 
 
