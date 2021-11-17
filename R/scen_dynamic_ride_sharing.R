@@ -16,7 +16,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
-                                      .transit_avo = 0,
+                                      .transit_avo_pct = 0,
                                       .transit_rider_pct = 0,
                                       .vmt_fee = 0,
                                       .payd_fee = 0,
@@ -51,7 +51,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
   # then perform calculations depending if fuel is BEV, HEV, or PHEV
 
   if (.scenario != "BAU" & .drs_pct > 0) {
-    browser()
+    # browser()
     # Calculate DRS sales in each year
     drs_sales <-
       calc_drs_sales(
@@ -91,7 +91,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .variable = var,
           .tb_fuel_cost_mile = fcm,
           .aeo_scenario = .aeo_scenario,
-          .transit_avo = .transit_avo,
+          .transit_avo_pct = .transit_avo_pct,
           .transit_rider_pct = .transit_rider_pct,
           .vmt_fee = .vmt_fee,
           .payd_fee = .payd_fee,
@@ -188,7 +188,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .variable = var,
         .tb_fuel_cost_mile = fcm,
         .aeo_scenario = .aeo_scenario,
-        .transit_avo = .transit_avo,
+        .transit_avo_pct = .transit_avo_pct,
         .transit_rider_pct = .transit_rider_pct,
         .vmt_fee = .vmt_fee,
         .payd_fee = .payd_fee,
@@ -226,7 +226,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .variable = var,
         .tb_fuel_cost_mile = fcm_electric,
         .aeo_scenario = .aeo_scenario,
-        .transit_avo = .transit_avo,
+        .transit_avo_pct = .transit_avo_pct,
         .transit_rider_pct = .transit_rider_pct,
         .vmt_fee = .vmt_fee,
         .payd_fee = .payd_fee,
@@ -376,7 +376,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .sales_mode = "DRSSales",
           .fuel_type = "PHEV-EMB",
           .enviro_factors = .enviro_factors,
-          .transit_avo_pct = .transit_avo_pct
+          .transit_avo_pct_pct = .transit_avo_pct_pct
         )
 
       drs_cost <-
@@ -412,7 +412,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .variable = var,
           .tb_fuel_cost_mile = fcm,
           .aeo_scenario = .aeo_scenario,
-          .transit_avo = .transit_avo,
+          .transit_avo_pct = .transit_avo_pct,
           .transit_rider_pct = .transit_rider_pct,
           .vmt_fee = .vmt_fee,
           .payd_fee = .payd_fee,

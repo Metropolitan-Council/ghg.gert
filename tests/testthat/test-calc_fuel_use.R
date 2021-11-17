@@ -22,7 +22,7 @@ si_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,

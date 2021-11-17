@@ -82,9 +82,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-          ((1 + .enviro_factors$BUS_AV * .av_pct)),
+          1 + .enviro_factors$BUS_AV * .av_pct,
         (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-          ((1 + .enviro_factors$RAIL_AV * .av_pct)),
+          1 + .enviro_factors$RAIL_AV * .av_pct,
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj)
@@ -378,10 +378,11 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 #' Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year
 #'
 #' @inheritParams calc_vmt_forecast
-#' @param .vmt_fee VMT fee per mile. Default is `0`
-#' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee per mile. Default is `0`
-#' @param .gas_tax Gas tax tax per mile. Default is `0`
-#' @param .cong_price Congestion price per mile (only applies to an approximation of
+#' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
+#' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
+#'      Default is `0`
+#' @param .gas_tax Gas tax tax in dollars per mile. Default is `0`
+#' @param .cong_price Congestion price in dollars per mile (only applies to an approximation of
 #'     congested miles in MSP). Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
 #'
@@ -474,10 +475,10 @@ vmt_road_policy <- function(.pass_tb,
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = .vmt_fee / fuel_time_cost_mile,
-        cong_adjust = (.cong_price / fuel_time_cost_mile) * .enviro_factors$CONG_VMT,
+        cong_adjust = .cong_price / fuel_time_cost_mile * .enviro_factors$CONG_VMT,
         stock_proportion = (SIStock + CIStock + HEVStock) / TotStock,
         cross_vmt = vmt_elas,
-        gas_adj = 1 + ((.gas_tax / fuel_cost_mile) * (stock_proportion) * cross_vmt)
+        gas_adj = 1 + ((.gas_tax / fuel_cost_mile) * stock_proportion * cross_vmt)
       ) %>%
       select(
         year, ctu, fuel_time_cost_mile, payd_ins_adj,
@@ -521,8 +522,9 @@ vmt_road_policy <- function(.pass_tb,
                 by = "year"
       ) %>%
       mutate(
-        fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
-        vmt_fee_adj = 1 + ((.freight_vmt_fee / fuel_time_cost_mile) * freight_vmt_elast * .enviro_factors$F_FRACT)
+        fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
+        vmt_fee_adj = 1 + .freight_vmt_fee / fuel_time_cost_mile *
+          freight_vmt_elast * .enviro_factors$F_FRACT
       ) %>%
       select(year, vmt_fee_adj)
 
@@ -535,14 +537,14 @@ vmt_road_policy <- function(.pass_tb,
                 by = "year"
       ) %>%
       mutate(
-        fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
-        vmt_fee_adj = 1 + ((.freight_vmt_fee / fuel_time_cost_mile) * freight_vmt_elast)
+        fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
+        vmt_fee_adj = 1 + .freight_vmt_fee / fuel_time_cost_mile * freight_vmt_elast
       ) %>%
       select(year, vmt_fee_adj)
 
     return(fc_return)
   } else if (.mode == "DRS") {
-    browser()
+    # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
         "SIStock",
@@ -589,7 +591,7 @@ vmt_road_policy <- function(.pass_tb,
         cong_adjust = 1 + .cong_price / fuel_time_cost_mile *
                          .enviro_factors$CONG_VMT * cong_elast,
         stock_proportion = (SIStock + CIStock + HEVStock) / TotStock,
-        gas_adj = 1 + (.gas_tax / fuel_cost_mile) * (stock_proportion) *
+        gas_adj = 1 + .gas_tax / fuel_cost_mile * stock_proportion *
                      vmt_cross * ev_multiplier
       ) %>%
       select(
@@ -759,7 +761,7 @@ vmt_transit_ridership <- function(.tb_vmt,
 
 #' Calculate vehicle occupancy multiplier
 #'
-#' @param .transit_avo transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @param .transit_avo_pct transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @return table with columns `ctu`, `year`, `occupancy_adj`
 #' @export
@@ -780,7 +782,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
                                   .stock,
-                                  .transit_avo,
+                                  .transit_avo_pct,
                                   .enviro_factors = enviro_factors) {
   # browser()
 
@@ -805,9 +807,9 @@ vmt_vehicle_occupancy <- function(tb,
     "RU",
     "RI"
   )) {
-    transit_avo_elast <-  calc_elasticity(
+    .transit_avo_pct_elast <-  calc_elasticity(
       elas_list = c(rep(0, length(unique(transportation_data$passenger$year)))),
-      elas = .transit_avo,
+      elas = .transit_avo_pct,
       num_inits = 3,
       num_yrs = length(unique(transportation_data$passenger$year)) - 3)
 
@@ -835,7 +837,7 @@ vmt_vehicle_occupancy <- function(tb,
 
     occ_return <- tb_mode_totstock %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
-      mutate(occupancy_adj = mode_avo * (1 + transit_avo_elast)) %>%
+      mutate(occupancy_adj = mode_avo * 1 + .transit_avo_pct_elast) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
 

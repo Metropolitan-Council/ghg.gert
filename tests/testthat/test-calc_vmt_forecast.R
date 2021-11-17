@@ -23,7 +23,7 @@ si_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -45,7 +45,7 @@ si_vmt <- calc_vmt_forecast(
 ) %>%
   dplyr::arrange(year) %>%
   dplyr::mutate(
-    vmt = vmt / 10^5,
+  vmt = vmt / 10^5,
     class = "SI"
   )
 
@@ -71,7 +71,7 @@ walk_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -130,7 +130,7 @@ ci_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -177,7 +177,7 @@ ru_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -221,7 +221,7 @@ bus_ci_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -270,7 +270,7 @@ phev_vmt <- calc_vmt_forecast(
   .variable = "PMT",
   .tb_fuel_cost_mile = fcm_test,
   .aeo_scenario = "REF",
-  .transit_avo = 0,
+  .transit_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,

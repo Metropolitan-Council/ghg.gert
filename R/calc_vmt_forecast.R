@@ -39,7 +39,7 @@ calc_vmt_forecast <- function(.scenario,
                               .variable,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
-                              .transit_avo = 0,
+                              .transit_avo_pct = 0,
                               .transit_rider_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,
@@ -152,7 +152,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -173,10 +173,10 @@ calc_vmt_forecast <- function(.scenario,
         unique() %>%
         rowwise() %>%
         mutate(
-          transit_vmt = ((miles_traveled *
+          transit_vmt = miles_traveled *
             aeo_adj * transit_adj *
             (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-            land_use_adj * park_price_adj * gas_adj) / occupancy_adj * av_adj) *
+            land_use_adj * park_price_adj * gas_adj / occupancy_adj * av_adj *
             mode_stock_adj,
           stock = .stock
         ) %>%
@@ -276,7 +276,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -416,7 +416,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = "PLDV",
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       at_adjustment <- tb %>%
@@ -476,7 +476,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
 
@@ -556,7 +556,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -657,7 +657,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       tb_fin <- left_join(tb_vmt, veh_occupancy, c("year", "ctu")) %>%
@@ -696,7 +696,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
 
@@ -708,14 +708,12 @@ calc_vmt_forecast <- function(.scenario,
         rowwise() %>%
         mutate(
           stock = .stock,
-          fr_vmt = ((miles_traveled * aeo_adj) / occupancy_adj) * mode_stock_adj
+          fr_vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = fr_vmt)
 
       # return(vmt)
-    } else if (.mode == "MM" |
-      .mode == "AIR" |
-      .mode == "WAT") {
+    } else if (.mode %in% c("MM", "AIR", "WAT")) {
       # freight multimodal, air, water-----
 
       # browser()
@@ -732,13 +730,12 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
-
       veh_occupancy <- vmt_vehicle_occupancy(
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo = .transit_avo
+        .transit_avo_pct = .transit_avo_pct
       )
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
@@ -749,7 +746,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           scenario = .scenario,
           stock = .stock,
-          vmt = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj,
+          vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj,
           vmt = case_when(
             vmt == Inf | is.na(vmt) | vmt < 0 ~ 0,
             TRUE ~ vmt
@@ -820,7 +817,7 @@ calc_vmt_forecast <- function(.scenario,
       .tb_vmt = tb_vmt,
       .mode = .mode,
       .stock = .stock,
-      .transit_avo = .transit_avo
+      .transit_avo_pct = .transit_avo_pct
     )
 
     tb_fin <- tb_vmt %>%

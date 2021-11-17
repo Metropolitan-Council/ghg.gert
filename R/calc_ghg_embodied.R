@@ -5,7 +5,7 @@
 #'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, `"BEVSales"`,
 #' @param .fuel_type fuel source for current mode
 #' @param .class vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`
-#' @param .transit_avo_pct percent change in transit AVO. Default is `0`
+#' @param .transit_avo_pct_pct percent change in transit AVO. Default is `0`
 #' @param .mitigation_tb mitigation output table for results. Default is `0`
 #' @param .bau_tb output table for results. Default is `0`
 #' @inheritParams calc_ghg_direct
@@ -25,7 +25,7 @@ calc_ghg_embodied <- function(tb,
                               .sales_mode,
                               .fuel_type,
                               .class,
-                              .transit_avo_pct = 0,
+                              .transit_avo_pct_pct = 0,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors) {
@@ -68,7 +68,7 @@ calc_ghg_embodied <- function(tb,
 
 
     # adjust stock for changes made in VMT between BAU and MIT scenarios
-    # If .transit_avo_pct given then use it, else assume all additional PMT handled by vehicle purchases
+    # If .transit_avo_pct_pct given then use it, else assume all additional PMT handled by vehicle purchases
     # Update bau_vmt and mit_vmt to equal 1 if they are zero (to avoid division error)
     if (.bau_tb != 0) {
       # browser()
@@ -112,7 +112,7 @@ calc_ghg_embodied <- function(tb,
 
 
       ghg <- ghg * (mit_vals) *
-        (ifelse(.transit_avo_pct > 0, (1 - 1 / (1 + .transit_avo_pct)), 0) + 1)
+        (ifelse(.transit_avo_pct_pct > 0, (1 - 1 / (1 + .transit_avo_pct_pct)), 0) + 1)
     }
   } else {
     # browser()

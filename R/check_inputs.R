@@ -9,7 +9,7 @@
 #' @examples
 #'
 #' check_inputs("electric_scenario", "ER")
-#' check_inputs("transit_avo", 0)
+#' check_inputs("transit_avo_pct", 0)
 check_inputs <- function(name, value) {
   if (name == "electric_scenario") {
     if (!value %in% c("ER", "EM")) {
@@ -20,7 +20,7 @@ check_inputs <- function(name, value) {
                       LM", "HP", "LP", "LOGS")) {
       stop("Enter a valid aeo scenario: 'REF', 'HM', 'LM', 'HP', 'LP','HOGS', or 'LOGS'")
     }
-  } else if (name %in% c("transit_avo")) {
+  } else if (name %in% c("transit_avo_pct")) {
     if (!is.numeric(value)) {
       stop("Enter a valid transit AVO value between 0 and 500")
     } else if (value < 0 | value > 500) {

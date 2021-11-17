@@ -22,7 +22,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .variable,
                                   .tb_fuel_cost_mile,
                                   .aeo_scenario = "REF",
-                                  .transit_avo = 0,
+                                  .transit_avo_pct = 0,
                                   .transit_rider_pct = 0,
                                   .vmt_fee = 0,
                                   .payd_fee = 0,
@@ -45,11 +45,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .enviro_factors = enviro_factors) {
 
   # dynamic ride share ----
-  browser()
-  # vmt = (POP * .drs_pct) * DRSShare * DRS veh. per traveler *
-  # VMT per DRS veh. per year *  adj for charging *
-  #  1 + (vmt_adj + payd_adj) * CROSS_VMT) *
-  # land_use_adj * cong_adj * parking_adj * gas_adj
+  # browser()
 
   drs_miles_per_veh <- tb %>%
     dplyr::filter(

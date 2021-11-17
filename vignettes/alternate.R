@@ -6,9 +6,9 @@
 # Define a default starting list for treatments
 TREATMENT_DEF <- c(rep(0, length(YRS)))
 # Change in AVO in final year
-transit_avo <- 0 # (1, 10, 50, etc.)
+.transit_avo_pct <- 0 # (1, 10, 50, etc.)
 # Interpolate AVO change across years
-transit_avo <- calc_elasticity(TREATMENT_DEF, transit_avo, length(INIT_YRS), length(FOR_YRS))
+.transit_avo_pct <- calc_elasticity(TREATMENT_DEF, .transit_avo_pct, length(INIT_YRS), length(FOR_YRS))
 # Change in ridership in final year
 transit_rider <- 0 # (1, 10, 50, etc.)
 # Interpolate ridership change across years
@@ -148,7 +148,7 @@ mit_av_summary <- mit_av_summary %>% mutate(across(all_of(YRS), ~ case_when(
 mit_av_summary <- mit_av_summary %>% mutate(across(all_of(YRS), ~ replace(., is.nan(.), 0)))
 
 # Run the transit treatments
-mit_transit_summary <- scenario_results(scen, elec_scen, aeo_scen, ch_ctu, transit_avo, transit_rider, 0, 0, 0, 0, 0, 0, 0, 0, drs_fuel, av_fuel, 0, 0, 0, 0, 0, 0, 0, 0, bau_summary)
+mit_transit_summary <- scenario_results(scen, elec_scen, aeo_scen, ch_ctu, .transit_avo_pct, transit_rider, 0, 0, 0, 0, 0, 0, 0, 0, drs_fuel, av_fuel, 0, 0, 0, 0, 0, 0, 0, 0, bau_summary)
 # Change thousands of miles/ton-miles to 100s millions of miles/ton-miles and thousands gal/kWh to millions gal/kWh
 mit_transit_summary <- mit_transit_summary %>% mutate(across(all_of(YRS), ~ case_when(
   ((output == "VMT") | (output == "TVMT")) ~ .x / 10^5,
