@@ -299,10 +299,10 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
                                .mode,
                                .parking_price,
                                .enviro_factors = enviro_factors) {
-  # browser()
 
 
-  pldv_si_parking <- .pass_tb %>%
+  # current parking prices
+  park_price_current <- .pass_tb %>%
     filter(
       mode == "PLDV",
       var %in% c(
@@ -317,15 +317,16 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
     )
 
 
-  if (.mode == "PLDV") {
-    pldv_si_parking %>%
+  if (.mode %in% c("PLDV",
+                   "AV")) {
+    park_price_current %>%
       left_join(elast %>%
-        select(year, park_elast),
-      by = "year"
+                  select(year, park_elast),
+                by = "year"
       ) %>%
       mutate(
         park_price_adj =
-          1 + (.parking_price / PARK) * park_elast
+          1 + .parking_price / PARK * park_elast
         # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
       select(year, ctu, park_price_adj) %>%
@@ -334,38 +335,17 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
     "BU",
     "BRT",
     "RU",
-    "RI"
+    "RI",
+    "DRS"
   )) {
-    pldv_si_parking %>%
+    park_price_current %>%
       left_join(elast %>%
-        select(year, park_transit),
-      by = "year"
+                  select(year, park_transit),
+                by = "year"
       ) %>%
       mutate(
         park_price_adj =
-          1 + (.parking_price / PARK * park_transit)
-      ) %>%
-      select(year, ctu, park_price_adj) %>%
-      return()
-  } else if (.mode == "AV") {
-    pldv_si_parking %>%
-      left_join(elast %>%
-        select(year, park_elast),
-      by = "year"
-      ) %>%
-      mutate(park_price_adj = 1 + (.parking_price / PARK * park_elast)) %>%
-      select(year, ctu, park_price_adj) %>%
-      return()
-  } else if (.mode == "DRS") {
-    pldv_si_parking %>%
-      left_join(elast %>%
-        select(year, park_transit),
-      by = "year"
-      ) %>%
-      mutate(
-        park_price_adj =
-          1 + (.parking_price / (PARK * park_transit)),
-        park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
+          1 + .parking_price / PARK * park_transit
       ) %>%
       select(year, ctu, park_price_adj) %>%
       return()
@@ -387,8 +367,8 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 
     park_adj <- tb_park %>%
       left_join(elast %>%
-        select(year, park_elast), by = "year") %>%
-      mutate(park_price_adj = 1 + (.parking_price / (PARK * park_elast))) %>%
+                  select(year, park_elast), by = "year") %>%
+      mutate(park_price_adj = 1 + .parking_price / PARK * park_elast) %>%
       select(year, ctu, park_price_adj) %>%
       return()
   }
@@ -589,6 +569,8 @@ vmt_road_policy <- function(.pass_tb,
     elast_vmt <- elast %>%
       select(year, vmt_elas = vmt_cross)
 
+
+    tb_fin <-
     .tb_fuel_cost_mile %>%
       left_join(elast, by = "year") %>%
       left_join(elast_vmt, by = c("year")) %>%
@@ -596,29 +578,31 @@ vmt_road_policy <- function(.pass_tb,
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
-        vmt_fee_cross_adj = (1 + (.vmt_fee / fuel_time_cost_mile) +
-          payd_ins_adj) * vmt_cross,
-        vmt_fee_elas_adj = (1 + (.vmt_fee / fuel_time_cost_mile) +
-          payd_ins_adj) * vmt_elas,
-        cong_adjust = (1 + (.cong_price / fuel_time_cost_mile) *
-          .enviro_factors$CONG_VMT) * cong_elast,
+        vmt_fee_cross_adj = 1 + (.vmt_fee / fuel_time_cost_mile) +
+                               payd_ins_adj * vmt_cross,
+        vmt_fee_elas_adj = 1 + (.vmt_fee / fuel_time_cost_mile) +
+                              payd_ins_adj * vmt_elas,
+        cong_adjust = 1 + .cong_price / fuel_time_cost_mile *
+                         .enviro_factors$CONG_VMT * cong_elast,
         stock_proportion = (SIStock + CIStock + HEVStock) / TotStock,
-        gas_adj = (1 + (.gas_tax / fuel_cost_mile) * (stock_proportion) *
-          vmt_cross * ev_multiplier)
+        gas_adj = 1 + (.gas_tax / fuel_cost_mile) * (stock_proportion) *
+                     vmt_cross * ev_multiplier
       ) %>%
       select(
         year, ctu, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_cross_adj, vmt_fee_elas_adj, cong_adjust,
         stock_proportion,
         cross_vmt = vmt_cross, gas_adj
-      ) %>%
-      return()
+      )
+
+
+      return(tb_fin)
   }
 }
 
 
 #' Calculate telework multiplier
-#' @param .telework_pct percent of people teleworking in 2050. Numeric between 0 and 1. Default is `0`
+#' @param .telework_pct additional percent of people teleworking in 2050. Numeric between 0 and 1. Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @return
 #' @export
@@ -791,7 +775,6 @@ vmt_transit_ridership <- function(.tb_vmt,
 vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
-                                  .gas_tax,
                                   .stock,
                                   .transit_avo,
                                   .enviro_factors = enviro_factors) {
