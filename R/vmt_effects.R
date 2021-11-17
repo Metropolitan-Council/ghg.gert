@@ -137,8 +137,8 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
     drs_share <- .pass_tb %>%
       filter(var == "DRSShare") %>%
       select(year,
-        ctu,
-        drs_share_val = value
+             ctu,
+             drs_share_val = value
       )
 
 
@@ -220,7 +220,7 @@ vmt_land_use_change <- function(.type,
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
-# browser()
+  # browser()
   max_value <- if (.type == "DRIVE") {
     .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
@@ -243,21 +243,21 @@ vmt_land_use_change <- function(.type,
     mutate(
       product_all =
         .data$n_population_density *
-          .data$n_employment_density *
-          .data$n_diversity *
-          .data$n_design *
-          .data$n_job_access *
-          .data$n_distance *
-          .data$n_combined_density
+        .data$n_employment_density *
+        .data$n_diversity *
+        .data$n_design *
+        .data$n_job_access *
+        .data$n_distance *
+        .data$n_combined_density
     ) %>%
     rowwise() %>%
     mutate(
       land_use_adj = ifelse(product_all < max_value,
-        1 + max_value,
-        product_all
+                            1 + max_value,
+                            product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-        land_use_adj
+                            land_use_adj
       )
     ) %>%
     select(year, land_use_adj)
@@ -402,6 +402,10 @@ vmt_road_policy <- function(.pass_tb,
                             .stock,
                             .phev_electric = FALSE,
                             .enviro_factors = enviro_factors) {
+  if(.vmt_fee > 0 & .payd_fee > 0){
+    stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+  }
+
   if (.mode == "PLDV") {
     # browser()
     ev_multiplier <- ifelse(
@@ -423,7 +427,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-          .enviro_factors$CONG_VMT) * cong_elast,
+                             .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
@@ -513,8 +517,8 @@ vmt_road_policy <- function(.pass_tb,
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+                  select(year, freight_vmt_elast),
+                by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -527,8 +531,8 @@ vmt_road_policy <- function(.pass_tb,
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
       left_join(elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+                  select(year, freight_vmt_elast),
+                by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -791,7 +795,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-        occupancy_adj = value
+             occupancy_adj = value
       ) %>%
       unique()
     return(pldv_occupancy)
@@ -822,11 +826,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-        year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_avo = AVO
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -860,11 +864,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-        year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_avo = AVO
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%

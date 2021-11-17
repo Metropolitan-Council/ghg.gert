@@ -151,7 +151,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -276,7 +275,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -318,7 +316,7 @@ calc_vmt_forecast <- function(.scenario,
         left_join(telework_adjust, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
         left_join(at_adjustment,
-        by = c("year", "ctu")
+          by = c("year", "ctu")
         ) %>%
         unique() %>%
         rowwise() %>%
@@ -326,10 +324,10 @@ calc_vmt_forecast <- function(.scenario,
           pass_ld_vmt =
             (miles_traveled -
               (active_transportation_adj * transit_adj)) *
-                av_adj * aeo_adj *
-                vmt_fee_adj * cong_adjust * gas_adj *
-                telework_adj * land_use_adj *
-                park_price_adj / occupancy_adj * mode_stock_adj,
+              av_adj * aeo_adj *
+              vmt_fee_adj * cong_adjust * gas_adj *
+              telework_adj * land_use_adj *
+              park_price_adj / occupancy_adj * mode_stock_adj,
           stock = .stock
         ) %>%
         select(type, stock, scenario,
@@ -358,8 +356,10 @@ calc_vmt_forecast <- function(.scenario,
           miles_traveled = value,
           scenario = .scenario
         ) %>%
-        select(scenario, mode, ctu, year,
-               aeo_mode, type, miles_traveled) %>%
+        select(
+          scenario, mode, ctu, year,
+          aeo_mode, type, miles_traveled
+        ) %>%
         unique()
 
 
@@ -415,7 +415,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = "PLDV",
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -476,7 +475,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -557,7 +555,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -632,7 +629,9 @@ calc_vmt_forecast <- function(.scenario,
           walk_vmt = miles_traveled * land_use_adj
         ) %>%
         select(type, stock, scenario, ctu,
-               year, mode, aeo_mode, vmt = walk_vmt)
+          year, mode, aeo_mode,
+          vmt = walk_vmt
+        )
 
       # return(vmt)
     } else if (.mode == "BS") {
@@ -657,7 +656,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -697,7 +695,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -740,7 +737,6 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .tb_vmt = tb_vmt,
         .mode = .mode,
-        .gas_tax = .gas_tax,
         .stock = .stock,
         .transit_avo = .transit_avo
       )
@@ -804,7 +800,7 @@ calc_vmt_forecast <- function(.scenario,
       unique()
   } else {
     # all other BAU------
-# browser()
+    # browser()
     mode_stock <- vmt_stock_proportion(
       .tb = tb,
       .mode = .mode,
@@ -823,7 +819,6 @@ calc_vmt_forecast <- function(.scenario,
       tb = tb,
       .tb_vmt = tb_vmt,
       .mode = .mode,
-      .gas_tax = .gas_tax,
       .stock = .stock,
       .transit_avo = .transit_avo
     )

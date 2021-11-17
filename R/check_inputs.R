@@ -31,12 +31,12 @@ check_inputs <- function(name, value) {
     "payd_fee",
     "freight_vmt_fee"
   )) {
-    if (value > 100) {
-      stop(paste("Enter a valid", name, "value between 0 and 100 cents per mile"))
+    if (value > 1) {
+      stop(paste("Enter a valid", name, "value between 0 and 1 dollars per mile"))
     }
   } else if (name %in% c("parking_price")) {
-    if (value > 20 | value < 0) {
-      stop("Enter a valid parking price between 0 and 20 dollars")
+    if (value > 200 | value < 0) {
+      stop("Enter a valid parking price between 0 and 200 dollars per hour")
     }
   } else if (name %in% c(
     "bev_pct_sales",

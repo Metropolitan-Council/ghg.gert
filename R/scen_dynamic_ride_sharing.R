@@ -70,15 +70,16 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       mpg <- "HEVMPG"
       class <- "HEV"
 
+
       fcm <- calc_fuel_cost_mile(
-        tb = .pass_tb,
-        .mode = mode,
+        .pass_tb,
+        .mode = mode_1,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
         .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-        .av_pct = .av_pct,
         .enviro_factors = .enviro_factors
       )
+
 
       drs_vmt <-
         calc_vmt_forecast_drs(
@@ -113,16 +114,14 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         ) %>%
         mutate(class = class)
 
-
-
       drs_dir_ghg <-
         calc_ghg_direct(
           tb_vmt = drs_vmt,
           tb = .pass_tb,
           .mode = mode_1,
-          .fuel_type = .electric_scenario,
+          .fuel_type = "SI",
           .aeo_scenario = .aeo_scenario,
-          .miles_per_gallon = mpe,
+          .miles_per_gallon = mpg,
           .is_av = TRUE,
           .enviro_factors = .enviro_factors
         )
@@ -134,7 +133,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .mode = mode_1,
           .fuel_type = "SI",
           .aeo_scenario = .aeo_scenario,
-          .miles_per_gallon = mpe,
+          .miles_per_gallon = mpg,
           .is_av = TRUE
         )
 
@@ -168,8 +167,13 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       #### VMT gas ----
 
       fcm <- calc_fuel_cost_mile(
-        .pass_tb, mode, .aeo_scenario,
-        mpg, .enviro_factors$SI_FUEL_COST_GAL
+        tb =  .pass_tb,
+        .mode = mode,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+        .av_pct = .av_pct,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -292,7 +296,8 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .is_av = TRUE
       )
 
 
@@ -303,10 +308,12 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         .mode = mode,
         .fuel_type = .electric_scenario,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe
+        .miles_per_gallon = mpe,
+        .is_av = TRUE,
+        .enviro_factors = .enviro_factors
       ) %>%
         select(everything(),
-          dir_ghg_electric = dir_ghg
+               dir_ghg_electric = dir_ghg
         )
 
       phev_fuel_electric <-
@@ -316,7 +323,9 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .mode =   mode,
           .electric_scenario,
           .aeo_scenario = .aeo_scenario,
-          .miles_per_gallon = mpe
+          .miles_per_gallon = mpe,
+          .is_av = TRUE,
+          .fuel_type = .electric_scenario
         )
 
 
@@ -368,22 +377,13 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .enviro_factors = .enviro_factors,
           .transit_avo_pct = .transit_avo_pct
         )
-      # out_sum <- out_sum %>%
-      #   dplyr::mutate(
-      #     dplyr::across(all_of(YRS), ~ dplyr::case_when(
-      #       (mode == mode_1 &
-      #          class == class &
-      #          output == "INDIR-GHG") ~ .x + temp %>% as.numeric(),
-      #       TRUE ~ .x
-      #     ))
-      #   )
-
 
       drs_cost <-
         calc_cost(
-          phev_vmt,
-          mode,
-          "PHEVPrice"
+          tb_vmt = phev_vmt,
+          .mode =  mode,
+          .price = "PHEVPrice",
+          .is_av = TRUE
         )
     } else {
       ## DRS Battery Electric -----
@@ -477,8 +477,11 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
 
       drs_cost <-
         calc_cost(
-          drs_vmt,
-          mode_1, "BEVPrice"
+          tb_vmt = drs_vmt,
+          .mode = mode,
+          .price = "BEVPrice",
+          .is_av = TRUE,
+          .enviro_factors = .enviro_factors
         )
     }
 
