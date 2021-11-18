@@ -19,7 +19,7 @@ library(tidyverse)
 
 ```{r setup}
 
-ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
+ggplot2::theme_set(councilR::council_theme(use_showtext = TRUE))
 st_paul_pass <- transportation_data$passenger %>% 
                                   filter(ctu %in% c("St. Paul",
                                                     "All"),
@@ -104,8 +104,7 @@ mit_ev_pldv <-  mitigation_ev$passenger_all %>%
 
 - Increase average vehicle occupancy by 10% by 2040
 - Increase transit ridership by 10% by 2040
-- Increase daily fraction of telework by 10% by 2040.
-- Phase out biodiesel fuel buses from fleet by 2035 and hybrid electric bus sales by 2040. Buses will e battery electric.  
+- Phase out biodiesel fuel buses from fleet by 2035 and hybrid electric bus sales by 2040. Fleet will be entirely electric  
 
 
 ```{r}
@@ -115,9 +114,8 @@ mitigation_trans <-  run_scenario(
   .scenario = "strategy_improve_transit",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .transit_avo = 0.05,
+  .transit_avo = 0.10,
   .transit_rider_pct = 0.10,
-  .telework_pct = 0.10
 ) %>% 
   suppressMessages()
 ```
@@ -127,7 +125,6 @@ mitigation_trans <-  run_scenario(
 
 - Introduce $0.05 per mile VMT fee in 2025
 - Introduce a $0.10 per mile congestion fee in 2025
-- Introduce a $0.05 per mile pay-as-you-drive insurance fee in 2025
 - Double the gas tax (currently $0.47 per gallon)
 - Double parking price (currently $22 per hour)
 
@@ -143,7 +140,7 @@ mitigation_econ <-  run_scenario(
   .cong_price = 0.10,
   .payd_fee = 0.0,
   .freight_vmt_fee = 0.05,
-  .gas_tax = 0.47 * 1,
+  .gas_tax = 0.47 * 2,
   .parking_price = 44
 ) %>% 
 suppressMessages()
@@ -153,33 +150,51 @@ mit_econ_pldv <-  mitigation_econ$passenger_all %>%
 
 ```
 
-### Mix
+## Parking  
 
 ```{r}
-mitigation_mix <-  run_scenario(
+mitigation_parking <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-MIX",
+  .scenario = "strategy_parking_price",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .av_pct = 0.1,
-  .av_fuel_type = "BEV",
-  .telework_pct = 0.1,
-  .transit_avo = 0.47 * 1.1,
-  .transit_rider_pct = 0.10,
-  .pop_dens_pct_change = 0.05,
-  # .vmt_fee = 0.05,
-  # .cong_price = 0.10,
-  # .payd_fee = 0.05,
-  # .gas_tax = 0.47 * 1,
-  .parking_price = 30
-) %>% 
-suppressMessages()
-
-mit_mix_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLDV", 
-                                                                      "DRS")) 
+  .parking_price = 44
+)  %>% 
+  suppressMessages()
 
 ```
+
+
+## Telework  
+
+```{r}
+mitigation_telework <-  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_telework",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .telework_pct = 0.10
+)  %>% 
+  suppressMessages()
+```
+
+
+## VMT pricing  
+
+```{r}
+mitigation_vmt <-  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_vmt",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .vmt_fee = 0.05
+)  %>% 
+  suppressMessages()
+```
+
 
 
 ## Compare  
@@ -187,15 +202,17 @@ mit_mix_pldv <-  mitigation_econ$passenger_all %>% filter(mode %in% c("AV", "PLD
 ```{r}
 all_scen_passenger_av <- purrr::map_dfr(
   list(bau_summary,
-       mitigation_econ,
+       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       mitigation_lu
-       # mitigation_mix
+       mitigation_lu,
+       mitigation_telework,
+       mitigation_vmt,
+       mitigation_parking
        ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS")) %>%
+      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
       group_by(year, scenario) %>% 
       summarize(dir_ghg = sum(dir_ghg, na.rm = T))
   }
@@ -208,18 +225,21 @@ ggplot(all_scen_passenger_av,
            group = scenario)) +
   geom_point() +
   geom_line(alpha = 0.5,
-            size = 1.1) +
+            size = 1) +
   labs(title = "All Passenger Vehicle Emissions")
 ```
 
 ```{r}
 all_scen_passenger_vmt <- purrr::map_dfr(
   list(bau_summary,
-       mitigation_econ,
+       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       # mitigation_mix,
-       mitigation_lu),
+       mitigation_lu,
+       mitigation_telework,
+       mitigation_vmt,
+       mitigation_parking
+       ),
   function(x){
     x$passenger_all %>% 
       filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
@@ -248,11 +268,14 @@ ggplot(all_scen_passenger_vmt,
 ```{r}
 all_scen_freight_em <- purrr::map_dfr(
   list(bau_summary,
-       mitigation_econ,
+       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       mitigation_mix,
-       mitigation_lu),
+       mitigation_lu,
+       mitigation_telework,
+       mitigation_vmt,
+       mitigation_parking
+       ),
   function(x){
     x$freight_all %>% 
       group_by(year, scenario) %>% 
@@ -273,4 +296,29 @@ ggplot(all_scen_freight_em,
   labs(title = "All Freight Emissions")
 ```
 
+```{r}
+app_out <- purrr::map_dfr(
+  list(bau_summary,
+       # mitigation_econ,
+       mitigation_ev,
+       mitigation_trans,
+       mitigation_lu,
+       mitigation_telework,
+       mitigation_vmt,
+       mitigation_parking
+       ),
+  function(x){
+    x$app_data
+  }
+) %>% 
+  mutate(type = ifelse(scenario == "BAU", "bau_forecast",
+                       scenario),
+         ctu = "Hollywood",
+         ctu_id = "99999") %>% 
+  ungroup() %>% 
+  select(ctu_id, ctu, year, module, submodule, type, source = name, metric, value) 
+
+write.csv(app_out, "../vignettes/app_sample.csv")
+
+```
 

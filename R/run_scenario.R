@@ -19,35 +19,35 @@
 #' @importFrom tibble tibble
 #' @family transportation
 run_scenario <- function(pass_tb = transportation_data$passenger,
-                             freight_tb = transportation_data$freight,
-                             .scenario = "BAU",
-                             .electric_scenario = "ER",
-                             .aeo_scenario = "REF",
-                             .transit_avo_pct = 0,
-                             .transit_rider_pct = 0,
-                             .vmt_fee = 0,
-                             .payd_fee = 0,
-                             .gas_tax = 0,
-                             .parking_price = 0,
-                             .cong_price = 0,
-                             .freight_vmt_fee = 0,
-                             .drs_pct = 0,
-                             .av_pct = 0,
-                             .drs_fuel_type = "",
-                             .av_fuel_type = "",
-                             .pop_dens_pct_change = 0,
-                             .emp_dens_pct_change = 0,
-                             .land_use_diversity_pct_change = 0,
-                             .intersection_design_pct_change = 0,
-                             .job_access_pct_change = 0,
-                             .transit_dist_pct_change = 0,
-                             .comb_5d_impact_pct_change = 0,
-                             .telework_pct = 0,
-                             .bev_pct_sales = 0,
-                             .phev_pct_sales = 0,
-                             .hev_pct_sales = 0,
-                             .mit_bau_summary = 0,
-                             .enviro_factors = enviro_factors) {
+                         freight_tb = transportation_data$freight,
+                         .scenario = "BAU",
+                         .electric_scenario = "ER",
+                         .aeo_scenario = "REF",
+                         .transit_avo_pct = 0,
+                         .transit_rider_pct = 0,
+                         .vmt_fee = 0,
+                         .payd_fee = 0,
+                         .gas_tax = 0,
+                         .parking_price = 0,
+                         .cong_price = 0,
+                         .freight_vmt_fee = 0,
+                         .drs_pct = 0,
+                         .av_pct = 0,
+                         .drs_fuel_type = "",
+                         .av_fuel_type = "",
+                         .pop_dens_pct_change = 0,
+                         .emp_dens_pct_change = 0,
+                         .land_use_diversity_pct_change = 0,
+                         .intersection_design_pct_change = 0,
+                         .job_access_pct_change = 0,
+                         .transit_dist_pct_change = 0,
+                         .comb_5d_impact_pct_change = 0,
+                         .telework_pct = 0,
+                         .bev_pct_sales = 0,
+                         .phev_pct_sales = 0,
+                         .hev_pct_sales = 0,
+                         .mit_bau_summary = 0,
+                         .enviro_factors = enviro_factors) {
   l_names <- c(
     "electric_scenario",
     "aeo_scenario",
@@ -99,14 +99,14 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .drs_pct > 0 |
-    .drs_pct > 0 |
-    .gas_tax > 0 |
-    .av_pct > 0 |
-    .bev_pct_sales > 0 |
-    .hev_pct_sales > 0 |
-    .phev_pct_sales > 0) {
+      .payd_fee > 0 |
+      .drs_pct > 0 |
+      .drs_pct > 0 |
+      .gas_tax > 0 |
+      .av_pct > 0 |
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0 |
+      .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -546,10 +546,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-    by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )
+                           by = c(
+                             "type", "scenario", "ctu",
+                             "year", "mode", "aeo_mode", "class"
+                           )
   )
 
   freight <- list(
@@ -558,7 +558,28 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     SUT_CUT = freight_truck
   )
 
-  # browser()
+  app_output <- bind_rows(
+    pass_all %>%
+      filter(year %in% c("2018",
+                         "2040")) %>%
+      select(ctu, year, scenario,
+             direct = dir_ghg,
+             embodied = ghg_embodied) %>%
+      mutate(module = "transportation",
+             submodule = "people",
+             metric = "emissions_tonnes_co2e") %>%
+      tidyr::pivot_longer(cols = c("direct", "embodied")),
+    freight_all %>%
+      filter(year %in% c("2018",
+                         "2040")) %>%
+      select(ctu, year, scenario,
+             direct = dir_ghg) %>%
+      mutate(module = "transportation",
+             submodule = "freight",
+             metric = "emissions_tonnes_co2e") %>%
+      tidyr::pivot_longer(cols = c("direct"))) %>%
+    group_by(ctu,year, scenario, module, submodule, metric, name) %>%
+    summarize(value = sum(value, na.rm = T))
 
 
   return(
@@ -566,7 +587,8 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       "passenger" = passenger,
       "passenger_all" = pass_all,
       "freight" = freight,
-      "freight_all" = freight_all
+      "freight_all" = freight_all,
+      "app_data" = app_output
     )
   )
 }
