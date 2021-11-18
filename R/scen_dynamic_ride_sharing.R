@@ -1,6 +1,6 @@
 #' Calculate dynamic ride sharing scenario
 #'
-#' @inheritParams scenario_results
+#' @inheritParams run_scenario
 #' @inheritParams calc_drs_sales
 #' @inheritParams calc_vmt_forecast_drs
 #' @return

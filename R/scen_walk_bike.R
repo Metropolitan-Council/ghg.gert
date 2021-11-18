@@ -2,7 +2,7 @@
 #'
 #' Calculate scenario for walk and bike
 #'
-#' @inheritParams scenario_results
+#' @inheritParams run_scenario
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results, passenger

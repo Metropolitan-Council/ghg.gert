@@ -18,7 +18,7 @@
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
 #' @family transportation
-scenario_results <- function(pass_tb = transportation_data$passenger,
+run_scenario <- function(pass_tb = transportation_data$passenger,
                              freight_tb = transportation_data$freight,
                              .scenario = "BAU",
                              .electric_scenario = "ER",

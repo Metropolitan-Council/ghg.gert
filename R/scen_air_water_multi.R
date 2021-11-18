@@ -1,7 +1,7 @@
 #'
 #' Calculate scenario for freight multi-modal, air, and water transportation
 #'
-#' @inheritParams scenario_results
+#' @inheritParams run_scenario
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results, freight

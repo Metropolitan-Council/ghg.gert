@@ -10,7 +10,7 @@ vmt_road_policy(
   .mode,
   .tb_fuel_cost_mile,
   .vmt_fee,
-  .freight_vmt_fee = 0,
+  .freight_vmt_fee,
   .cong_price,
   .gas_tax,
   .payd_fee,
@@ -48,6 +48,14 @@ a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \cod
 }
 \description{
 Calculate fuel, VMT, stock, congestion, and gas adjustments for each forecast year
+}
+\note{
+This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.
+There are differences in their acceptability and implementation, but they are essentially
+targeting the same thing. A VMT fee would be paid by the driver and could be varied based
+on the time of day and location. However, it could also be a straight fee per mile. PAYD
+is paid to an insurance provider in place of a flat insurance rate. The main difference is
+whether the driver would prefer to pay the cost to a government agency or insurance provider.
 }
 \seealso{
 Other VMT effects: 

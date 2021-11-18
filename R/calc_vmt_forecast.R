@@ -13,7 +13,7 @@
 #'     Numeric between 0 and 1.  Default is `0`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list of environmental factors. Default is `enviro_factors`, included in this package.
-#' @inheritParams scenario_results
+#' @inheritParams run_scenario
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
 #' @inheritParams vmt_autonomous_vehicle
@@ -289,6 +289,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       telework_adjust <- vmt_telework(
+        .pass_tb = tb,
         .mode = .mode,
         .telework_pct = .telework_pct
       )

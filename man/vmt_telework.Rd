@@ -4,12 +4,12 @@
 \alias{vmt_telework}
 \title{Calculate telework multiplier}
 \usage{
-vmt_telework(.mode, .telework_pct, .enviro_factors = enviro_factors)
+vmt_telework(.pass_tb, .mode, .telework_pct, .enviro_factors = enviro_factors)
 }
 \arguments{
 \item{.mode}{current mode}
 
-\item{.telework_pct}{additional percent of people teleworking in 2050. Numeric between 0 and 1. Default is \code{0}}
+\item{.telework_pct}{additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

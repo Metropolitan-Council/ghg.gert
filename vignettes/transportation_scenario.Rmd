@@ -35,7 +35,7 @@ st_paul_freight <- transportation_data$freight %>%
 ## Business as usual
 
 ```{r}
-bau_summary <- scenario_results(pass_tb = st_paul_pass,
+bau_summary <- run_scenario(pass_tb = st_paul_pass,
                                 freight_tb = st_paul_freight,
                                 .scenario = "BAU",
                                 .electric_scenario = "ER",
@@ -51,7 +51,7 @@ bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
 ### Land use  
 
 ```{r}
-mitigation_lu <-  scenario_results(
+mitigation_lu <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use",
@@ -78,7 +78,7 @@ mitigation_lu <-  scenario_results(
 
 
 ```{r, message=FALSE}
-mitigation_ev <-  scenario_results(
+mitigation_ev <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_veh_electric",
@@ -109,7 +109,7 @@ mit_ev_pldv <-  mitigation_ev$passenger_all %>%
 
 
 ```{r}
-mitigation_trans <-  scenario_results(
+mitigation_trans <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",
@@ -133,7 +133,7 @@ mitigation_trans <-  scenario_results(
 
 
 ```{r}
-mitigation_econ <-  scenario_results(
+mitigation_econ <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "MIT-ECON",
@@ -156,7 +156,7 @@ mit_econ_pldv <-  mitigation_econ$passenger_all %>%
 ### Mix
 
 ```{r}
-mitigation_mix <-  scenario_results(
+mitigation_mix <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "MIT-MIX",

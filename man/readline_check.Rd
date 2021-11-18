@@ -27,6 +27,6 @@ Other transportation:
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{scenario_results}()}
+\code{\link{run_scenario}()}
 }
 \concept{transportation}

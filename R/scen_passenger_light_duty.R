@@ -1,6 +1,6 @@
 #' Calculate scenario for passenger light-duty vehicles
 #'
-#' @inheritParams scenario_results
+#' @inheritParams run_scenario
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results, passenger
