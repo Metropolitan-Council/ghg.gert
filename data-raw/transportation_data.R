@@ -132,7 +132,6 @@ testthat::expect_equal(nrow(transportation_data$passenger), 154008)
 testthat::expect_equal(nrow(transportation_data$freight), 71982)
 
 
-usethis::use_data(transportation_data, overwrite = TRUE)
 
 
 ## value comparisons ------
@@ -157,3 +156,6 @@ testthat::expect_equal(
     175867.3
   )
 )
+
+usethis::use_data(transportation_data, overwrite = TRUE)
+

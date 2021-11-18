@@ -1,7 +1,4 @@
 
-st_paul_passenger <- transportation_data$passenger %>%
-  filter(ctu == "St. Paul")
-
 # Gasoline ------
 
 fcm_test <- calc_fuel_cost_mile(

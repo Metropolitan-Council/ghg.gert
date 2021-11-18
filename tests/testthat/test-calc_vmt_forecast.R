@@ -1,9 +1,6 @@
 
 # Business as usual scenario testing -----
 
-st_paul_passenger <- transportation_data$passenger %>%
-  filter(ctu == "St. Paul")
-
 # passenger si ------
 si_fcm_test <- calc_fuel_cost_mile(
   st_paul_passenger,

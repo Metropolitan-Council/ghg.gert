@@ -1,6 +1,6 @@
 #' @title Adjust fleet power train distribution before running scenario
 #'
-#' @description  Match what the user input for sales in 2050 rather
+#' @description  Match what the user input for sales in the final forecast year rather
 #'     than the defaults from MA3TFleet held fixed in all cases.
 #'     AV/DRS scenarios adjust the sales
 #'     total up, but they adjust the existing stock down to match total stock
@@ -21,19 +21,30 @@
 #'         and adjusts all passenger sales, existing, and stock regardless of mode
 #'       - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
 #'         and adjusts all passenger sales, existing, and stock regardless of mode.
-#'     If battery electric, plug-in hybrid, and/or hybrid percent of sales in 2050
+#'     If battery electric, plug-in hybrid, and/or hybrid percent of sales in the final forecast year
 #'     (`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
 #'     If
 #'     DRS, AV, estimated sales,
 #'     and existing vehicles to estimate future stock. Freight data is dependent on passenger
 #'     data,
+#' @note This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.
+#'     There are differences in their acceptability and implementation, but they are essentially
+#'     targeting the same thing. A VMT fee would be paid by the driver and could be varied based
+#'     on the time of day and location. However, it could also be a straight fee per mile. PAYD
+#'     is paid to an insurance provider in place of a flat insurance rate. The main difference is
+#'     whether the driver would prefer to pay the cost to a government agency or insurance provider.
 #'
-#' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in 2050. Default is `0`.
-#' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in 2050. Default is `0`.
-#' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in 2050
+#'
+#' @param .bev_pct_sales percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+#'      Default is `0`.
+#' @param .phev_pct_sales percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+#'      Default is `0`.
+#' @param .hev_pct_sales percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+#'      Default is `0`.
 #' @param .pass_tb passenger input table. Default is `transportation_data$passenger`.
 #' @param .freight_tb freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct percent of trips/fleet that is dynamic ride sharing (DRS). Default is `0`.
+#' @param .drs_pct percent of trips/fleet that is dynamic ride sharing (DRS).
+#'     Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation, stock adjustments
@@ -93,6 +104,10 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
   if (.vmt_fee > 0 | .payd_fee > 0 | .gas_tax > 0) {
     # browser()
+
+    if (.vmt_fee > 0 & .payd_fee > 0) {
+      stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+    }
 
     adj_si_ci_sales <- tibble::tibble(
       year = elast$year,

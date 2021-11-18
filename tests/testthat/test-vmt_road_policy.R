@@ -1,5 +1,3 @@
-st_paul_passenger <- transportation_data$passenger %>%
-  filter(ctu == "St. Paul")
 
 fcm_test <- calc_fuel_cost_mile(
   st_paul_passenger,
@@ -42,6 +40,7 @@ si_road_policy <- vmt_road_policy(
   .cong_price = 0.10,
   .gas_tax = 0.94,
   .payd_fee = 0,
+  .freight_vmt_fee = 0,
   .stock = "SIStock",
   .enviro_factors = enviro_factors
 ) %>%
@@ -113,6 +112,7 @@ bev_road_policy <- vmt_road_policy(
   .cong_price = 0.10,
   .payd_fee = 0.0,
   .gas_tax = 0.94,
+  .freight_vmt_fee = 0,
   .stock = "BEVSock"
 ) %>%
   mutate(across(3:7, round, digits = 6))

@@ -1,6 +1,4 @@
 
-st_paul_passenger <- transportation_data$passenger %>%
-  filter(ctu == "St. Paul")
 
 ## Passenger, gasoline-----
 si_test_table <- tibble::tribble(

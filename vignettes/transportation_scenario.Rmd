@@ -22,10 +22,14 @@ library(tidyverse)
 ggplot2::theme_set( councilR::council_theme(use_showtext = TRUE))
 st_paul_pass <- transportation_data$passenger %>% 
                                   filter(ctu %in% c("St. Paul",
-                                                    "All"))
+                                                    "All"),
+                                         !year %in% c("2045",
+                                                       "2050"))
 st_paul_freight <- transportation_data$freight %>% 
                                   filter(ctu %in% c("St. Paul",
-                                                    "All"))
+                                                    "All"),
+                                         !year %in% c("2045",
+                                                       "2050"))
 ```
 
 ## Business as usual
@@ -50,7 +54,7 @@ bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
 mitigation_lu <-  scenario_results(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-LU",
+  .scenario = "strategy_land_use",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .pop_dens_pct_change = 0.05,
@@ -67,17 +71,17 @@ mitigation_lu <-  scenario_results(
 
 ### Vehicle electrification  
 
-- Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2050. 
-- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2050.
-- Introduce dynamic ride-sharing (DRS) in 2025 to replace 90% of motorized PMT by 2050. 
-- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2050.
+- Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2040. 
+- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2040.
+- Introduce dynamic ride-sharing (DRS) in 2025 to replace 10% of motorized PMT by 2040. 
+- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.
 
 
 ```{r, message=FALSE}
 mitigation_ev <-  scenario_results(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-EV",
+  .scenario = "strategy_veh_electric",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .bev_pct_sales = 0.6,
@@ -85,7 +89,7 @@ mitigation_ev <-  scenario_results(
   .phev_pct_sales = 0.2,
   .av_pct = 0.10,
   .av_fuel_type = "BEV",
-  .drs_pct = 0.20,
+  .drs_pct = 0.10,
   .drs_fuel_type = "HEV"
 ) %>%
   suppressMessages()
@@ -98,18 +102,20 @@ mit_ev_pldv <-  mitigation_ev$passenger_all %>%
 
 ### Transit improvements   
 
-- Increase average vehicle occupancy by 10% by 2050
-- Increase transit ridership by 10% by 2050
-- Increase daily fraction of telework by 10% by 2050.
+- Increase average vehicle occupancy by 10% by 2040
+- Increase transit ridership by 10% by 2040
+- Increase daily fraction of telework by 10% by 2040.
+- Phase out biodiesel fuel buses from fleet by 2035 and hybrid electric bus sales by 2040. Buses will e battery electric.  
+
 
 ```{r}
 mitigation_trans <-  scenario_results(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-TRANSIT",
+  .scenario = "strategy_improve_transit",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .transit_avo = 0.5,
+  .transit_avo = 0.05,
   .transit_rider_pct = 0.10,
   .telework_pct = 0.10
 ) %>% 
@@ -184,8 +190,9 @@ all_scen_passenger_av <- purrr::map_dfr(
        mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       mitigation_lu,
-       mitigation_mix),
+       mitigation_lu
+       # mitigation_mix
+       ),
   function(x){
     x$passenger_all %>% 
       filter(mode %in% c("AV", "PLDV", "DRS")) %>%
@@ -211,7 +218,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
        mitigation_econ,
        mitigation_ev,
        mitigation_trans,
-       mitigation_mix,
+       # mitigation_mix,
        mitigation_lu),
   function(x){
     x$passenger_all %>% 

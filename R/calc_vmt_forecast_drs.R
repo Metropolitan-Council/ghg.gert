@@ -80,7 +80,8 @@ calc_vmt_forecast_drs <- function(.scenario,
     .cong_price = .cong_price,
     .gas_tax = .gas_tax,
     .payd_fee = .payd_fee,
-    .stock = .stock
+    .freight_vmt_fee = .freight_vmt_fee,
+    .stock = .stock,
   )
 
   land_use <- vmt_land_use_change(
