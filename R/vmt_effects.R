@@ -82,9 +82,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     av_return <- .tb_vmt %>%
       mutate(av_adj = dplyr::case_when(
         (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-          1 + .enviro_factors$BUS_AV * .av_pct,
+        1 + .enviro_factors$BUS_AV * .av_pct,
         (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-          1 + .enviro_factors$RAIL_AV * .av_pct,
+        1 + .enviro_factors$RAIL_AV * .av_pct,
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj)
@@ -137,8 +137,8 @@ vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$pass
     drs_share <- .pass_tb %>%
       filter(var == "DRSShare") %>%
       select(year,
-             ctu,
-             drs_share_val = value
+        ctu,
+        drs_share_val = value
       )
 
 
@@ -243,21 +243,21 @@ vmt_land_use_change <- function(.type,
     mutate(
       product_all =
         .data$n_population_density *
-        .data$n_employment_density *
-        .data$n_diversity *
-        .data$n_design *
-        .data$n_job_access *
-        .data$n_distance *
-        .data$n_combined_density
+          .data$n_employment_density *
+          .data$n_diversity *
+          .data$n_design *
+          .data$n_job_access *
+          .data$n_distance *
+          .data$n_combined_density
     ) %>%
     rowwise() %>%
     mutate(
       land_use_adj = ifelse(product_all < max_value,
-                            1 + max_value,
-                            product_all
+        1 + max_value,
+        product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-                            land_use_adj
+        land_use_adj
       )
     ) %>%
     select(year, land_use_adj)
@@ -323,8 +323,8 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
   )) {
     park_price_current %>%
       left_join(elast %>%
-                  select(year, park_elast),
-                by = "year"
+        select(year, park_elast),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -342,8 +342,8 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
   )) {
     park_price_current %>%
       left_join(elast %>%
-                  select(year, park_transit),
-                by = "year"
+        select(year, park_transit),
+      by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -369,7 +369,7 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
 
     park_adj <- tb_park %>%
       left_join(elast %>%
-                  select(year, park_elast), by = "year") %>%
+        select(year, park_elast), by = "year") %>%
       mutate(park_price_adj = 1 + .parking_price / PARK * park_elast) %>%
       select(year, ctu, park_price_adj) %>%
       return()
@@ -644,11 +644,13 @@ vmt_telework <- function(.pass_tb,
       year = unique(.pass_tb$year),
       telework_elast_val = calc_elasticity(
         elas_list = c(rep(
-          0, length(unique(.pass_tb$year)))),
+          0, length(unique(.pass_tb$year))
+        )),
         elas = .telework_pct,
         num_inits = 3,
         num_yrs = length(unique(.pass_tb$year)) - 3
-      ))
+      )
+    )
 
     telework_adj_tb <- telework_elast %>%
       mutate(
@@ -813,7 +815,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-             occupancy_adj = value
+        occupancy_adj = value
       ) %>%
       unique()
     return(pldv_occupancy)
@@ -850,11 +852,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -889,11 +891,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%

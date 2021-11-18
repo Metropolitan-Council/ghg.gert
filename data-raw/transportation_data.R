@@ -158,4 +158,3 @@ testthat::expect_equal(
 )
 
 usethis::use_data(transportation_data, overwrite = TRUE)
-

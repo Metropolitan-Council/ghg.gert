@@ -318,7 +318,7 @@ app_out <- purrr::map_dfr(
   ungroup() %>% 
   select(ctu_id, ctu, year, module, submodule, type, source = name, metric, value) 
 
-write.csv(app_out, "../vignettes/app_sample.csv")
+write.csv(app_out, "../vignettes/app_sample.csv", row.names = FALSE)
 
 ```
 

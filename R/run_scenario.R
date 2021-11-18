@@ -99,14 +99,14 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-      .payd_fee > 0 |
-      .drs_pct > 0 |
-      .drs_pct > 0 |
-      .gas_tax > 0 |
-      .av_pct > 0 |
-      .bev_pct_sales > 0 |
-      .hev_pct_sales > 0 |
-      .phev_pct_sales > 0) {
+    .payd_fee > 0 |
+    .drs_pct > 0 |
+    .drs_pct > 0 |
+    .gas_tax > 0 |
+    .av_pct > 0 |
+    .bev_pct_sales > 0 |
+    .hev_pct_sales > 0 |
+    .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -546,10 +546,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-                           by = c(
-                             "type", "scenario", "ctu",
-                             "year", "mode", "aeo_mode", "class"
-                           )
+    by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )
   )
 
   freight <- list(
@@ -560,25 +560,36 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
 
   app_output <- bind_rows(
     pass_all %>%
-      filter(year %in% c("2018",
-                         "2040")) %>%
+      filter(year %in% c(
+        "2018",
+        "2040"
+      )) %>%
       select(ctu, year, scenario,
-             direct = dir_ghg,
-             embodied = ghg_embodied) %>%
-      mutate(module = "transportation",
-             submodule = "people",
-             metric = "emissions_tonnes_co2e") %>%
+        direct = dir_ghg,
+        embodied = ghg_embodied
+      ) %>%
+      mutate(
+        module = "transportation",
+        submodule = "people",
+        metric = "emissions_tonnes_co2e"
+      ) %>%
       tidyr::pivot_longer(cols = c("direct", "embodied")),
     freight_all %>%
-      filter(year %in% c("2018",
-                         "2040")) %>%
+      filter(year %in% c(
+        "2018",
+        "2040"
+      )) %>%
       select(ctu, year, scenario,
-             direct = dir_ghg) %>%
-      mutate(module = "transportation",
-             submodule = "freight",
-             metric = "emissions_tonnes_co2e") %>%
-      tidyr::pivot_longer(cols = c("direct"))) %>%
-    group_by(ctu,year, scenario, module, submodule, metric, name) %>%
+        direct = dir_ghg
+      ) %>%
+      mutate(
+        module = "transportation",
+        submodule = "freight",
+        metric = "emissions_tonnes_co2e"
+      ) %>%
+      tidyr::pivot_longer(cols = c("direct"))
+  ) %>%
+    group_by(ctu, year, scenario, module, submodule, metric, name) %>%
     summarize(value = sum(value, na.rm = T))
 
 
