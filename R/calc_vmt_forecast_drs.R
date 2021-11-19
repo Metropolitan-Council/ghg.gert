@@ -100,7 +100,6 @@ calc_vmt_forecast_drs <- function(.scenario,
     tb = tb,
     .mode = .mode,
     .freight_parking_price = .freight_parking_price,
-
     .parking_price = .parking_price
   )
 

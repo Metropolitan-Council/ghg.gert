@@ -10,6 +10,11 @@ vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
                                       .enviro_factors = enviro_factors) {
+  check_inputs(
+    name = "aeo_scenario",
+    value = .aeo_scenario
+  )
+
   # browser()
   tb_fin <- tb %>%
     filter(mode == .mode) %>%
@@ -54,56 +59,61 @@ vmt_annual_energy_outlook <- function(tb,
 #'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
-                                   .stock,
-                                   .tb_vmt,
                                    .av_pct,
                                    .mode,
                                    .enviro_factors = enviro_factors) {
-  if (.mode == "PLDV") {
-    tb_avshare <- .pass_tb %>%
-      dplyr::filter(var == "AVShare") %>%
-      dplyr::select(year, ctu, av_share = value) %>%
-      dplyr::distinct()
+  tb_avshare <- .pass_tb %>%
+    dplyr::filter(var == "AVShare") %>%
+    dplyr::select(year, ctu, av_share = value) %>%
+    dplyr::distinct()
 
-    tb_avshare %>%
+  if (nrow(tb_avshare) == 0) {
+    stop("Make sure you are using the correct input table")
+  }
+
+  if (.mode == "PLDV") {
+    av_return <- tb_avshare %>%
       rowwise() %>%
       mutate(av_adj = case_when(
         .av_pct > 0 ~ 1 - (av_share * .av_pct),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
-      return()
+      ungroup()
+
+    return(av_return)
   } else if (.mode %in% c(
     "BU",
     "BRT",
     "RU",
     "RI"
   )) {
-    av_return <- .tb_vmt %>%
-      mutate(av_adj = dplyr::case_when(
-        (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-        1 + .enviro_factors$BUS_AV * .av_pct,
-        (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-        1 + .enviro_factors$RAIL_AV * .av_pct,
-        TRUE ~ 1
-      )) %>%
-      select(year, ctu, av_adj)
+    av_return <- .pass_tb %>%
+      # rowwise() %>%
+      mutate(
+        av_adj = dplyr::case_when(
+          year %in% c("2015", "2018", "2020") ~ 1,
+          (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
+          1 + .enviro_factors$BUS_AV * .av_pct,
+          (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
+          1 + .enviro_factors$RAIL_AV * .av_pct,
+          TRUE ~ 1
+        )
+      ) %>%
+      select(year, ctu, av_adj) %>%
+      unique() %>%
+      ungroup()
 
     return(av_return)
   } else if (.mode == "AV") {
     # browser()
-    tb_avshare <- .pass_tb %>%
-      dplyr::filter(var == "AVShare") %>%
-      dplyr::select(year, av_share = value) %>%
-      dplyr::distinct()
-
-    av_return <- .tb_vmt %>%
-      left_join(tb_avshare, by = c("year")) %>%
+    av_return <- tb_avshare %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ av_share * (.av_pct),
+        .av_pct > 0 ~ av_share * .av_pct,
         TRUE ~ 1
       )) %>%
-      select(year, ctu, av_adj)
+      select(year, ctu, av_adj) %>%
+      ungroup()
 
     return(av_return)
   }
@@ -126,47 +136,26 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 #'
 #' @family VMT effects
 vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$passenger,
-                                             .tb_vmt,
-                                             .mode,
-                                             .variable,
                                              .drs_pct,
                                              .enviro_factors = enviro_factors) {
   if (.drs_pct > 0) {
     # browser()
 
-    drs_share <- .pass_tb %>%
+    drs_share_tb <- .pass_tb %>%
       filter(var == "DRSShare") %>%
-      select(year,
-        ctu,
-        drs_share_val = value
-      )
+      select(year, ctu, drs_share = value)
 
+    .pass_tb <- .pass_tb %>%
+      left_join(drs_share_tb, by = c("year", "ctu")) %>%
+      mutate(value = case_when(
+        var == "PMT" & mode == "PLDV" ~ value * (1 - drs_share * .drs_pct),
+        TRUE ~ value
+      )) %>%
+      select(names(.pass_tb))
 
-    .tb_vmt %>%
-      left_join(drs_share, by = c("year", "ctu")) %>%
-      mutate(miles_traveled = miles_traveled * (1 - drs_share_val * .drs_pct)) %>%
-      unique() %>%
-      return()
-
-
-
-    # pass_transpo <- pass_transpo %>%
-    #   dplyr::mutate(
-    #     dplyr::across(
-    #       all_of(YRS), ~ dplyr::case_when(
-    #         ((mode == "PLDV") & var == "PMT") ~ .x * dplyr::case_when(
-    #              .drs_pct > 0 ~ (1 - pass_transpo %>%
-    #                                dplyr::filter(var == "DRSShare") %>%
-    #                                dplyr::select(dplyr::cur_column()) %>%
-    #                                as.numeric() * .drs_pct ),
-    #              TRUE ~ 1
-    #            ),
-    #         TRUE ~ .x
-    #       )
-    #     )
-    #   )
+    return(.pass_tb)
   } else {
-    return(.tb_vmt)
+    return(.pass_tb)
   }
 }
 
@@ -305,9 +294,9 @@ vmt_parking_policy <- function(tb,
   # current parking prices
   park_price_current <- tb %>%
     filter(
-      mode == .mode,
       var %in% c(
-        "PARK")
+        "PARK"
+      )
     ) %>%
     unique() %>%
     tidyr::pivot_wider(
@@ -316,11 +305,15 @@ vmt_parking_policy <- function(tb,
     )
 
 
+  if(!.mode %in% unique(tb$mode) ){
+    stop("Make sure you are using the correct input table")
+  }
+
   if (.mode %in% c(
     "PLDV",
     "AV"
   )) {
-    park_price_current %>%
+    park_return <- park_price_current %>%
       left_join(elast %>%
         select(year, park_elast),
       by = "year"
@@ -330,8 +323,7 @@ vmt_parking_policy <- function(tb,
           1 + .parking_price / PARK * park_elast
         # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
-      select(year, ctu, park_price_adj) %>%
-      return()
+      select(year, ctu, park_price_adj)
   } else if (.mode %in% c(
     "BU",
     "BRT",
@@ -339,7 +331,7 @@ vmt_parking_policy <- function(tb,
     "RI",
     "DRS"
   )) {
-    park_price_current %>%
+   park_return <-  park_price_current %>%
       left_join(elast %>%
         select(year, park_transit),
       by = "year"
@@ -348,18 +340,18 @@ vmt_parking_policy <- function(tb,
         park_price_adj =
           1 + .parking_price / PARK * park_transit
       ) %>%
-      select(year, ctu, park_price_adj) %>%
-      return()
+      select(year, ctu, park_price_adj)
   } else if (.mode == "SUT") {
     # browser()
 
-    park_adj <- park_price_current %>%
+    park_return <- park_adj <- park_price_current %>%
       left_join(elast %>%
         select(year, park_elast), by = "year") %>%
-      mutate(park_price_adj = 1  + .freight_parking_price / PARK * park_elast) %>%
-      select(year, ctu, park_price_adj) %>%
-      return()
+      mutate(park_price_adj = 1 + .freight_parking_price / PARK * park_elast) %>%
+      select(year, ctu, park_price_adj)
   }
+
+  return(park_return)
 }
 
 
@@ -719,19 +711,19 @@ vmt_stock_proportion <- function(.tb,
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #' @family VMT effects
-vmt_transit_ridership <- function(.tb_vmt,
+vmt_transit_ridership <- function(tb,
                                   .mode,
                                   .transit_rider_pct,
                                   .enviro_factors = enviro_factors) {
   transit_rider_elast <-
     tibble(
-      year = unique(.tb_vmt$year),
+      year = unique(tb$year),
       elast =
         calc_elasticity(
-          elas_list = c(rep(0, length(unique(.tb_vmt$year)))),
+          elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_rider_pct,
           num_inits = 3,
-          num_yrs = length(unique(.tb_vmt$year)) - 3
+          num_yrs = length(unique(tb$year)) - 3
         )
     )
 
@@ -740,8 +732,9 @@ vmt_transit_ridership <- function(.tb_vmt,
     "PLDV",
     "AV"
   )) {
-    .tb_vmt %>%
+    tb %>%
       select(year, ctu) %>%
+      unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
       mutate(transit_adj = elast * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
@@ -753,8 +746,9 @@ vmt_transit_ridership <- function(.tb_vmt,
     "RU",
     "RI"
   )) {
-    .tb_vmt %>%
+    tb %>%
       select(year, ctu) %>%
+      unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
       mutate(transit_adj = 1 + elast) %>%
       select(year, ctu, transit_adj) %>%

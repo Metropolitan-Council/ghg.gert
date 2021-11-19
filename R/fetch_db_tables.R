@@ -14,6 +14,7 @@
 #' @importFrom DBI dbCanConnect dbGetQuery dbConnect dbDisconnect
 #' @importFrom odbc odbc
 #' @importFrom purrr map
+#' @importFrom utils osVersion
 fetch_db_tables <- function(uid,
                             pwd,
                             serv = "dbsqlcl11t.test.local,65414",

@@ -111,7 +111,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       trans_rider <- vmt_transit_ridership(
-        .tb_vmt = tb_vmt,
+        tb = tb,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
       )
@@ -158,7 +158,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
-        .tb_vmt = tb_vmt,
+        .pass_tb = tb,
         .mode = .mode,
         .av_pct = .av_pct
       )
@@ -236,7 +236,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       trans_rider <- vmt_transit_ridership(
-        .tb_vmt = tb_vmt,
+        tb = tb,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
       )
@@ -284,8 +284,6 @@ calc_vmt_forecast <- function(.scenario,
 
       autonomous_adjust <- vmt_autonomous_vehicle(
         .pass_tb = tb,
-        .stock = .stock,
-        .tb_vmt = tb_vmt,
         .mode = .mode,
         .av_pct = .av_pct,
         .enviro_factors = .enviro_factors
@@ -378,10 +376,11 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
-        .tb_vmt = tb_vmt,
+        .pass_tb = tb,
         .mode = .mode,
         .av_pct = .av_pct
-      ) %>% unique()
+      ) %>%
+        unique()
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
@@ -429,7 +428,7 @@ calc_vmt_forecast <- function(.scenario,
         select(year, ctu, at_adjust = value)
 
       trans_rider <- vmt_transit_ridership(
-        .tb_vmt = tb_vmt,
+        tb = tb,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct
       )
@@ -527,7 +526,9 @@ calc_vmt_forecast <- function(.scenario,
             mode_stock_adj
         ) %>%
         select(type, stock, scenario, ctu,
-               year, mode, aeo_mode, vmt = sut_vmt)
+          year, mode, aeo_mode,
+          vmt = sut_vmt
+        )
 
       # return(vmt)
       #

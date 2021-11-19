@@ -16,8 +16,10 @@ check_inputs <- function(name, value) {
       stop("Enter a valid electricity scenario: 'ER' or 'EM'.")
     }
   } else if (name == "aeo_scenario") {
-    if (!value %in% c("REF", "HM", "HOGS", "
-                      LM", "HP", "LP", "LOGS")) {
+    if (!value %in% c(
+      "REF", "HM", "HOGS",
+      "LM", "HP", "LP", "LOGS"
+    )) {
       stop("Enter a valid aeo scenario: 'REF', 'HM', 'LM', 'HP', 'LP','HOGS', or 'LOGS'")
     }
   } else if (name %in% c("transit_avo_pct")) {

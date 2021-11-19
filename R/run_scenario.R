@@ -179,7 +179,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -211,7 +210,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -242,7 +240,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -274,7 +271,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -306,7 +302,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -372,7 +367,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -405,7 +399,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -438,7 +431,6 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .gas_tax = .gas_tax,
     .parking_price = .parking_price,
     .freight_parking_price = .freight_parking_price,
-
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
     .drs_pct = .drs_pct,
@@ -608,8 +600,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       ) %>%
       tidyr::pivot_longer(cols = c("direct"))
   ) %>%
-    group_by(ctu, year, scenario, module, submodule, mode,
-             metric, name) %>%
+    group_by(
+      ctu, year, scenario, module, submodule, mode,
+      metric, name
+    ) %>%
     summarize(value = sum(value, na.rm = T))
 
 
