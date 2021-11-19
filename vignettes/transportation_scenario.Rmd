@@ -282,7 +282,7 @@ app_out <- purrr::map_dfr(
     mode %in% c("MM", "AIR", "WAT", "FR") ~ "other freight"),
     submodule = paste0(submodule, " - ", mode)) %>% 
   group_by(ctu_id, ctu, year, module,
-           submodule, type, name, metric, value) %>% 
+           submodule, type, name, metric) %>% 
   summarize(value = sum(value, na.rm = T), .groups = "keep") %>% 
   select(ctu_id, ctu, year, module,
          submodule, type, source = name, metric, value)
