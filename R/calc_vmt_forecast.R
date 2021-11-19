@@ -216,14 +216,6 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock
       )
 
-      if (.drs_pct != 0) {
-        tb_vmt <- vmt_dynamic_ride_share_reduction(
-          .tb_vmt = tb_vmt,
-          .mode = .mode,
-          .variable = .variable,
-          .drs_pct = .drs_pct
-        )
-      }
 
       at_adjustment <- tb %>%
         filter(mode == "AT", var == .variable) %>%

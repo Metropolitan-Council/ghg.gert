@@ -55,18 +55,12 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   # If the user has specified DRS, then reduce the PMT for non-DRS trips
   # browser()
-  if (.drs_pct > 0) {
-    drs_share_tb <- .pass_tb %>%
-      filter(var == "DRSShare") %>%
-      select(year, ctu, drs_share = value)
 
-    .pass_tb <- .pass_tb %>%
-      left_join(drs_share_tb, by = c("year", "ctu")) %>%
-      mutate(value = case_when(
-        var == "PMT" & mode == "PLDV" ~ value * (1 - drs_share * .drs_pct),
-        TRUE ~ value
-      ))
-  }
+  .pass_tb <- vmt_dynamic_ride_share_reduction(
+    .pass_tb = .pass_tb,
+    .drs_pct = .drs_pct,
+    .enviro_factors = .enviro_factors
+  )
 
   ## Gasoline -----
   # Calculate aggregate GHG in kt CO2 by year
