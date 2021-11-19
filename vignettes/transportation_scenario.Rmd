@@ -21,25 +21,25 @@ library(tidyverse)
 
 ggplot2::theme_set(councilR::council_theme(use_showtext = TRUE))
 st_paul_pass <- transportation_data$passenger %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All"),
-                                         !year %in% c("2045",
-                                                       "2050"))
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
 st_paul_freight <- transportation_data$freight %>% 
-                                  filter(ctu %in% c("St. Paul",
-                                                    "All"),
-                                         !year %in% c("2045",
-                                                       "2050"))
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
 ```
 
 ## Business as usual
 
 ```{r}
 bau_summary <- run_scenario(pass_tb = st_paul_pass,
-                                freight_tb = st_paul_freight,
-                                .scenario = "BAU",
-                                .electric_scenario = "ER",
-                                .aeo_scenario = "REF")
+                            freight_tb = st_paul_freight,
+                            .scenario = "BAU",
+                            .electric_scenario = "ER",
+                            .aeo_scenario = "REF")
 
 bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
                                                                "DRS"))) 
@@ -68,38 +68,6 @@ mitigation_lu <-  run_scenario(
   suppressMessages()
 ```
 
-
-### Vehicle electrification  
-
-- Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2040. 
-- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2040.
-- Introduce dynamic ride-sharing (DRS) in 2025 to replace 10% of motorized PMT by 2040. 
-- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.
-
-
-```{r, message=FALSE}
-mitigation_ev <-  run_scenario(
-  pass_tb = st_paul_pass,
-  freight_tb = st_paul_freight,
-  .scenario = "strategy_veh_electric",
-  .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
-  .bev_pct_sales = 0.6,
-  .hev_pct_sales =  0.2,
-  .phev_pct_sales = 0.2,
-  .av_pct = 0.10,
-  .av_fuel_type = "BEV",
-  .drs_pct = 0.10,
-  .drs_fuel_type = "HEV"
-) %>%
-  suppressMessages()
-
-
-mit_ev_pldv <-  mitigation_ev$passenger_all %>%
-  filter(mode %in% c("AV", "PLDV", "DRS")) 
-
-```
-
 ### Transit improvements   
 
 - Increase average vehicle occupancy by 10% by 2040
@@ -121,52 +89,58 @@ mitigation_trans <-  run_scenario(
 ```
 
 
-### Economic instruments  
 
-- Introduce $0.05 per mile VMT fee in 2025
-- Introduce a $0.10 per mile congestion fee in 2025
-- Double the gas tax (currently $0.47 per gallon)
-- Double parking price (currently $22 per hour)
+### Vehicle electrification  
+
+- Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2040. 
+- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2040.
+- Introduce dynamic ride-sharing (DRS) in 2025 to replace 10% of motorized PMT by 2040. 
+- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.
 
 
-```{r}
-mitigation_econ <-  run_scenario(
+```{r, message=FALSE}
+mitigation_ev <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "MIT-ECON",
+  .scenario = "strategy_veh_electric",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .vmt_fee = 0.05,
-  .cong_price = 0.10,
-  .payd_fee = 0.0,
-  .freight_vmt_fee = 0.05,
-  .gas_tax = 0.47 * 2,
-  .parking_price = 44
-) %>% 
-suppressMessages()
+  .bev_pct_sales = 0.6,
+  .hev_pct_sales =  0.2,
+  .phev_pct_sales = 0.2,
+  .av_pct = 0.10,
+  .av_fuel_type = "HEV",
+  .drs_pct = 0.10,
+  .drs_fuel_type = "HEV"
+) %>%
+  suppressMessages()
 
-mit_econ_pldv <-  mitigation_econ$passenger_all %>%
+
+mit_ev_pldv <-  mitigation_ev$passenger_all %>%
   filter(mode %in% c("AV", "PLDV", "DRS")) 
 
 ```
 
-## Parking  
+### Road price  
 
 ```{r}
-mitigation_parking <-  run_scenario(
+mitigation_road_price<-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
-  .scenario = "strategy_parking_price",
+  .scenario = "strategy_road_price",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .parking_price = 44
+  .parking_price = 44,
+  .freight_parking_price = 2,
+  .vmt_fee = 0.05
+  
 )  %>% 
   suppressMessages()
 
 ```
 
 
-## Telework  
+### Telework  
 
 ```{r}
 mitigation_telework <-  run_scenario(
@@ -181,35 +155,21 @@ mitigation_telework <-  run_scenario(
 ```
 
 
-## VMT pricing  
-
-```{r}
-mitigation_vmt <-  run_scenario(
-  pass_tb = st_paul_pass,
-  freight_tb = st_paul_freight,
-  .scenario = "strategy_vmt",
-  .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
-  .vmt_fee = 0.05
-)  %>% 
-  suppressMessages()
-```
-
-
 
 ## Compare  
+
+
+### Passenger  
 
 ```{r}
 all_scen_passenger_av <- purrr::map_dfr(
   list(bau_summary,
-       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_vmt,
-       mitigation_parking
-       ),
+       mitigation_road_price
+  ),
   function(x){
     x$passenger_all %>% 
       filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
@@ -232,14 +192,12 @@ ggplot(all_scen_passenger_av,
 ```{r}
 all_scen_passenger_vmt <- purrr::map_dfr(
   list(bau_summary,
-       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_vmt,
-       mitigation_parking
-       ),
+       mitigation_road_price,
+  ),
   function(x){
     x$passenger_all %>% 
       filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
@@ -268,14 +226,12 @@ ggplot(all_scen_passenger_vmt,
 ```{r}
 all_scen_freight_em <- purrr::map_dfr(
   list(bau_summary,
-       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_vmt,
-       mitigation_parking
-       ),
+       mitigation_road_price
+  ),
   function(x){
     x$freight_all %>% 
       group_by(year, scenario) %>% 
@@ -295,18 +251,17 @@ ggplot(all_scen_freight_em,
   scale_y_continuous(labels = scales::comma) +
   labs(title = "All Freight Emissions")
 ```
+## App data output   
 
 ```{r}
 app_out <- purrr::map_dfr(
   list(bau_summary,
-       # mitigation_econ,
        mitigation_ev,
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_vmt,
-       mitigation_parking
-       ),
+       mitigation_road_price
+  ),
   function(x){
     x$app_data
   }
