@@ -305,6 +305,7 @@ vmt_parking_policy <- function(tb,
   # current parking prices
   park_price_current <- tb %>%
     filter(
+      mode == .mode,
       var %in% c(
         "PARK")
     ) %>%
