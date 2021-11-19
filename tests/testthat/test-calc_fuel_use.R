@@ -26,6 +26,7 @@ si_vmt <- calc_vmt_forecast(
   .gas_tax = 0,
   .cong_price = 0,
   .parking_price = 0,
+  .freight_parking_price = 0,
   .drs_pct = 0,
   .av_pct = 0,
   .freight_vmt_fee = 0,

@@ -46,6 +46,7 @@ calc_vmt_forecast <- function(.scenario,
                               .gas_tax = 0,
                               .cong_price = 0,
                               .parking_price = 0,
+                              .freight_parking_price = 0,
                               .drs_pct = 0,
                               .drs_fuel_type = "",
                               .av_pct = 0,
@@ -142,8 +143,9 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
-        .pass_tb = tb,
+        tb = tb,
         .mode = .mode,
+        .freight_parking_price = .freight_parking_price,
         .parking_price = .parking_price
       )
 
@@ -266,8 +268,9 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
-        .pass_tb = tb,
+        tb = tb,
         .mode = .mode,
+        .freight_parking_price = .freight_parking_price,
         .parking_price = .parking_price
       )
 
@@ -407,8 +410,9 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       parking <- vmt_parking_policy(
-        .pass_tb = tb,
+        tb = tb,
         .mode = .mode,
+        .freight_parking_price = .freight_parking_price,
         .parking_price = .parking_price
       )
 
@@ -482,8 +486,10 @@ calc_vmt_forecast <- function(.scenario,
 
 
       parking <- vmt_parking_policy(
+        tb = tb,
         .mode = .mode,
-        .parking_price = .parking_price
+        .parking_price = .parking_price,
+        .freight_parking_price = .freight_parking_price
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -510,7 +516,7 @@ calc_vmt_forecast <- function(.scenario,
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(fc_adjustments, by = "year") %>%
+        left_join(fc_adjustments, by = "year", "ctu") %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
         unique() %>%
         rowwise() %>%
@@ -520,7 +526,8 @@ calc_vmt_forecast <- function(.scenario,
             vmt_fee_adj * park_price_adj / occupancy_adj) *
             mode_stock_adj
         ) %>%
-        select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = sut_vmt)
+        select(type, stock, scenario, ctu,
+               year, mode, aeo_mode, vmt = sut_vmt)
 
       # return(vmt)
       #
@@ -577,7 +584,6 @@ calc_vmt_forecast <- function(.scenario,
 
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
-        # left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
         left_join(fc_adjustments, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%

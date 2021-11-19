@@ -267,8 +267,8 @@ vmt_land_use_change <- function(.type,
 
 #' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
-#' @param .parking_price measured in dollars per hour. Average price of parking based on
-#'     TBI results and literature - Default is `0`.
+#' @param .parking_price measured in dollars per hour. Default is `0`.
+#' @param .freight_parking_price measured in dollars per hour. Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #' @return a table with
 #' @export
@@ -295,20 +295,18 @@ vmt_land_use_change <- function(.type,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
-vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
+vmt_parking_policy <- function(tb,
                                .mode,
-                               .parking_price,
+                               .parking_price = 0,
+                               .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
 
 
   # current parking prices
-  park_price_current <- .pass_tb %>%
+  park_price_current <- tb %>%
     filter(
-      mode == "PLDV",
       var %in% c(
-        "PARK",
-        "SIStock"
-      )
+        "PARK")
     ) %>%
     unique() %>%
     tidyr::pivot_wider(
@@ -354,23 +352,10 @@ vmt_parking_policy <- function(.pass_tb = transportation_data$passenger,
   } else if (.mode == "SUT") {
     # browser()
 
-    tb_park <- transportation_data$freight %>%
-      # note the freight data usage
-      dplyr::filter(
-        var == "PARK",
-        mode == .mode
-      ) %>%
-      unique() %>%
-      tidyr::pivot_wider(
-        names_from = var,
-        values_from = value
-      )
-
-
-    park_adj <- tb_park %>%
+    park_adj <- park_price_current %>%
       left_join(elast %>%
         select(year, park_elast), by = "year") %>%
-      mutate(park_price_adj = 1 + .parking_price / PARK * park_elast) %>%
+      mutate(park_price_adj = 1  + .freight_parking_price / PARK * park_elast) %>%
       select(year, ctu, park_price_adj) %>%
       return()
   }

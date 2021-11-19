@@ -22,6 +22,8 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .payd_fee = 0,
                               .gas_tax = 0,
                               .parking_price = 0,
+                              .freight_parking_price = 0,
+
                               .cong_price = 0,
                               .freight_vmt_fee = 0,
                               .drs_pct = 0,

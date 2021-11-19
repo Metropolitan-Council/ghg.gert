@@ -29,6 +29,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .gas_tax = 0,
                                   .cong_price = 0,
                                   .parking_price = 0,
+                                  .freight_parking_price = 0,
                                   .drs_pct = 0,
                                   .drs_fuel_type = "",
                                   .av_pct = 0,
@@ -96,8 +97,10 @@ calc_vmt_forecast_drs <- function(.scenario,
   )
 
   parking <- vmt_parking_policy(
-    .pass_tb = tb,
+    tb = tb,
     .mode = .mode,
+    .freight_parking_price = .freight_parking_price,
+
     .parking_price = .parking_price
   )
 

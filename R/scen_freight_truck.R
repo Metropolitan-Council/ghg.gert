@@ -20,12 +20,14 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .payd_fee = 0,
                                .gas_tax = 0,
                                .parking_price = 0,
+                               .freight_parking_price = 0,
                                .cong_price = 0,
                                .freight_vmt_fee = 0,
                                .drs_pct = 0,
                                .av_pct = 0,
                                .drs_fuel_type = "",
                                .av_fuel_type = "",
+                               .is_av = FALSE,
                                .pop_dens_pct_change = 0,
                                .emp_dens_pct_change = 0,
                                .land_use_diversity_pct_change = 0,
@@ -44,10 +46,10 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
 
 
 
-  ## Heavy truck (CUT) ----
+  ## CUT ----
   mode <- "CUT"
 
-  ## CI
+  ### CI -----
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
@@ -56,62 +58,132 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    .freight_tb, mode,
-    .aeo_scenario, mpg, .enviro_factors$CI_FUEL_COST_GAL
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon =   mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
   )
 
   cut_ci_vmt <-
     calc_vmt_forecast(
-      .scenario,
-      .freight_tb,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
+      .scenario = .scenario,
+      tb =  .freight_tb,
+      .mode =  mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario =  .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct =  .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee =  .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change =  .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change =   .transit_dist_pct_change,
+      .comb_5d_impact_pct_change =  .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 
 
   cut_ci_ghg <-
     calc_ghg_direct(
-      cut_ci_vmt, .freight_tb,
-      mode, "CUTCI", .aeo_scenario, mpg
+      tb_vmt = cut_ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "CUTCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = .is_av,
+      .enviro_factors = .enviro_factors
     )
 
 
-  ### Heavy  battery electric -----
+  ### BEV  -----
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
   message("Combined truck freight, battery electric")
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon =   mpe,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
+  )
+
   cut_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .scenario = .scenario,
+      tb =  .freight_tb,
+      .mode =  mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario =  .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct =  .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee =  .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change =  .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change =   .transit_dist_pct_change,
+      .comb_5d_impact_pct_change =  .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 
   cut_bev_ghg <-
     calc_ghg_direct(
-      cut_bev_vmt,
-      .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe
+      tb_vmt = cut_bev_vmt,
+     tb =  .freight_tb,
+     .mode = mode,
+     .fuel_type = .electric_scenario,
+     .aeo_scenario = .aeo_scenario,
+     .miles_per_gallon = mpe,
+     .is_av = .is_av,
+     .enviro_factors = .enviro_factors
     )
 
 
-  ## Medium truck (SUT) -----
+  ## SUT -----
   mode <- "SUT"
 
-  ## CI
+  ### CI ----
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
@@ -119,46 +191,112 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
-    .freight_tb,
-    mode,
-    .aeo_scenario,
-    mpg,
-    .enviro_factors$CI_FUEL_COST_GAL
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon =   mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
   )
 
   sut_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
-      .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
-    ) %>% mutate(class = class)
+      .scenario = .scenario,
+      tb =  .freight_tb,
+      .mode =  mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario =  .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct =  .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee =  .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change =  .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change =   .transit_dist_pct_change,
+      .comb_5d_impact_pct_change =  .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors
+    ) %>%
+    mutate(class = class)
 
   sut_ci_ghg <-
     calc_ghg_direct(
-      sut_ci_vmt,
-      .freight_tb, mode,
-      "SUTCI", .aeo_scenario, mpg
+      tb_vmt = sut_ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "SUTCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = .is_av,
+      .enviro_factors = .enviro_factors
     )
 
 
-  ### Medium truck battery electric -----
+  ### BEV -----
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
-  message("Combined truck freight, battery electric")
+  message("Single truck freight, battery electric")
+
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon =   mpe,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
+  )
+
 
   sut_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct,
-      .transit_rider_pct, .vmt_fee, .payd_fee, .gas_tax,
-      .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .scenario = .scenario,
+      tb =  .freight_tb,
+      .mode =  mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario =  .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct =  .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee =  .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change =  .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change =   .transit_dist_pct_change,
+      .comb_5d_impact_pct_change =  .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 
@@ -166,8 +304,14 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
 
   sut_bev_ghg <-
     calc_ghg_direct(
-      sut_bev_vmt, .freight_tb,
-      mode, .electric_scenario, .aeo_scenario, mpe
+      tb_vmt = sut_bev_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = .is_av,
+      .enviro_factors = .enviro_factors
     )
 
 
