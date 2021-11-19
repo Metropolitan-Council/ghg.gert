@@ -584,7 +584,8 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       )) %>%
       select(ctu, year, scenario,
         direct = dir_ghg,
-        embodied = ghg_embodied
+        embodied = ghg_embodied,
+        mode
       ) %>%
       mutate(
         module = "transportation",
@@ -597,7 +598,7 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
         "2018",
         "2040"
       )) %>%
-      select(ctu, year, scenario,
+      select(ctu, year, scenario, mode,
         direct = dir_ghg
       ) %>%
       mutate(
@@ -607,7 +608,8 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       ) %>%
       tidyr::pivot_longer(cols = c("direct"))
   ) %>%
-    group_by(ctu, year, scenario, module, submodule, metric, name) %>%
+    group_by(ctu, year, scenario, module, submodule, mode,
+             metric, name) %>%
     summarize(value = sum(value, na.rm = T))
 
 
