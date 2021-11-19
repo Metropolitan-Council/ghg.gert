@@ -6,9 +6,6 @@
 \usage{
 vmt_dynamic_ride_share_reduction(
   .pass_tb = transportation_data$passenger,
-  .tb_vmt,
-  .mode,
-  .variable,
   .drs_pct,
   .enviro_factors = enviro_factors
 )

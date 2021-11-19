@@ -5,17 +5,23 @@
 \title{Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year}
 \usage{
 vmt_parking_policy(
-  .pass_tb = transportation_data$passenger,
+  tb,
   .mode,
-  .parking_price,
+  .parking_price = 0,
+  .freight_parking_price = 0,
   .enviro_factors = enviro_factors
 )
 }
 \arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
 \item{.mode}{current mode}
 
-\item{.parking_price}{measured in dollars per hour. Average price of parking based on
-TBI results and literature - Default is \code{0}.}
+\item{.parking_price}{measured in dollars per hour. Default is \code{0}.}
+
+\item{.freight_parking_price}{measured in dollars per hour. Default is \code{0}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

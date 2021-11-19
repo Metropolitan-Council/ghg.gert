@@ -19,6 +19,7 @@ calc_vmt_forecast_drs(
   .gas_tax = 0,
   .cong_price = 0,
   .parking_price = 0,
+  .freight_parking_price = 0,
   .drs_pct = 0,
   .drs_fuel_type = "",
   .av_pct = 0,

@@ -305,7 +305,7 @@ vmt_parking_policy <- function(tb,
     )
 
 
-  if(!.mode %in% unique(tb$mode) ){
+  if (!.mode %in% unique(tb$mode)) {
     stop("Make sure you are using the correct input table")
   }
 
@@ -331,7 +331,7 @@ vmt_parking_policy <- function(tb,
     "RI",
     "DRS"
   )) {
-   park_return <-  park_price_current %>%
+    park_return <- park_price_current %>%
       left_join(elast %>%
         select(year, park_transit),
       by = "year"

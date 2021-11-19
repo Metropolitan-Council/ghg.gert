@@ -6,8 +6,6 @@
 \usage{
 vmt_autonomous_vehicle(
   .pass_tb = transportation_data$passenger,
-  .stock,
-  .tb_vmt,
   .av_pct,
   .mode,
   .enviro_factors = enviro_factors

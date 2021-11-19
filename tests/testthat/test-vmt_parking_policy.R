@@ -53,13 +53,12 @@ testthat::expect_equal(
     .mode = "BU",
     .parking_price = 66,
     .enviro_factors = enviro_factors
-  )
-  ,
+  ),
   tibble::tribble(
-    ~year,       ~ctu,  ~park_price_adj,
-    "2015", "St. Paul",                1,
-    "2018", "St. Paul",                1,
-    "2020", "St. Paul",                1,
+    ~year, ~ctu, ~park_price_adj,
+    "2015", "St. Paul", 1,
+    "2018", "St. Paul", 1,
+    "2020", "St. Paul", 1,
     "2025", "St. Paul", 1.02972774091708,
     "2030", "St. Paul", 1.02972774091708,
     "2035", "St. Paul", 1.02972774091708,

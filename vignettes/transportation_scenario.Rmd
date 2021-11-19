@@ -199,7 +199,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_road_price,
+       mitigation_road_price
   ),
   function(x){
     x$passenger_all %>% 

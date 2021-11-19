@@ -5,13 +5,17 @@
 \title{Calculate transit ridership adjustment for each forecast year}
 \usage{
 vmt_transit_ridership(
-  .tb_vmt,
+  tb,
   .mode,
   .transit_rider_pct,
   .enviro_factors = enviro_factors
 )
 }
 \arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
 \item{.mode}{current mode}
 
 \item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
