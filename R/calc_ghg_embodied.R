@@ -51,7 +51,7 @@ calc_ghg_embodied <- function(tb,
       by = c("year")
     ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(ghg_embodied = sales_value * ghg_value) %>%
+      dplyr::mutate(ghg_embodied = (sales_value * ghg_value)/1000) %>%
       dplyr::select(
         type,
         ghg_embodied_source = var,
@@ -155,7 +155,7 @@ calc_ghg_embodied <- function(tb,
       ghg_factors_current,
       by = "year"
     ) %>%
-      dplyr::mutate(ghg_embodied = sales_value * ghg_value) %>%
+      dplyr::mutate(ghg_embodied = (sales_value * ghg_value)/1000) %>%
       dplyr::select(
         type,
         ghg_embodied_source,

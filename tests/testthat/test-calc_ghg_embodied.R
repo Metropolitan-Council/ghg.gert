@@ -19,7 +19,8 @@ si_emb_ghg <-
     .class = "SI",
     .sales_mode = "SISales",
     .fuel_type = "SI-EMB"
-  )
+  ) %>%
+  mutate(ghg_embodied = ghg_embodied * 1000)
 
 testthat::expect_equal(
   si_emb_ghg$ghg_embodied[1:7],
@@ -47,7 +48,9 @@ bu_bev <-
     .class = "BEV",
     .sales_mode = "BEVSales",
     .fuel_type = "BU-BEV-EMB"
-  )
+  ) %>%
+  mutate(ghg_embodied = ghg_embodied * 1000)
+
 
 testthat::expect_equal(
   bu_bev$ghg_embodied[1:7],

@@ -192,6 +192,38 @@ ggplot(all_scen_passenger_av,
   labs(title = "All Passenger Vehicle Emissions")
 ```
 
+
+```{r}
+purrr::map_dfr(
+  list(bau_summary,
+       mitigation_ev
+       # mitigation_trans,
+       # mitigation_lu,
+       # mitigation_telework,
+       # mitigation_road_price
+  ),
+  function(x){
+    x$passenger_all %>% 
+      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+      group_by(year, scenario, ghg_embodied_source)  %>% 
+      summarize(ghg_embodied = sum(ghg_embodied, na.rm = T))
+  }
+)  %>% 
+
+ggplot(
+       aes(x = year,
+           y = ghg_embodied,
+           color = scenario,
+           group = scenario)) +
+  facet_wrap(~ghg_embodied_source) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1) +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
+
 ```{r}
 all_scen_passenger_vmt <- purrr::map_dfr(
   list(bau_summary,
