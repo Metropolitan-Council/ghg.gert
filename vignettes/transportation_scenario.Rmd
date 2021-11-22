@@ -157,7 +157,45 @@ mitigation_telework <-  run_scenario(
   suppressMessages()
 ```
 
+### Land use and transit improvements  
 
+```{r}
+mitigation_lu_transit <-  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_land_use_and_transit",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .pop_dens_pct_change = 0.05,
+  .emp_dens_pct_change = 0.05,
+  .land_use_diversity_pct_change = 0.05,
+  .intersection_design_pct_change = 0.05,
+  .job_access_pct_change = 0.05,
+  .transit_dist_pct_change = -0.05,
+  .comb_5d_impact_pct_change = 0.02,
+  .transit_avo = 0.10,
+  .transit_rider_pct = 0.10
+)  %>% 
+  suppressMessages()
+```
+
+
+### Road pricing and telework
+
+```{r}
+mitigation_road_telework <-  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_road_price_and_telework",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .parking_price = 44,
+  .freight_parking_price = 2,
+  .vmt_fee = 0.05,
+  .telework_pct = 0.10
+)  %>% 
+  suppressMessages()
+```
 
 ## Compare  
 
@@ -171,7 +209,9 @@ all_scen_passenger_av <- purrr::map_dfr(
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_road_price
+       mitigation_lu_transit,
+       mitigation_road_price,
+       mitigation_road_telework
   ),
   function(x){
     x$passenger_all %>% 
@@ -209,12 +249,12 @@ purrr::map_dfr(
       summarize(ghg_embodied = sum(ghg_embodied, na.rm = T))
   }
 )  %>% 
-
-ggplot(
-       aes(x = year,
-           y = ghg_embodied,
-           color = scenario,
-           group = scenario)) +
+  
+  ggplot(
+    aes(x = year,
+        y = ghg_embodied,
+        color = scenario,
+        group = scenario)) +
   facet_wrap(~ghg_embodied_source) +
   geom_point() +
   geom_line(alpha = 0.5,
@@ -231,7 +271,9 @@ all_scen_passenger_vmt <- purrr::map_dfr(
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_road_price
+       mitigation_lu_transit,
+       mitigation_road_price,
+       mitigation_road_telework
   ),
   function(x){
     x$passenger_all %>% 
@@ -265,7 +307,9 @@ all_scen_freight_em <- purrr::map_dfr(
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_road_price
+       mitigation_road_price,
+       mitigation_lu_transit,
+       mitigation_road_telework
   ),
   function(x){
     x$freight_all %>% 
@@ -295,7 +339,9 @@ app_out <- purrr::map_dfr(
        mitigation_trans,
        mitigation_lu,
        mitigation_telework,
-       mitigation_road_price
+       mitigation_road_price,
+       mitigation_lu_transit,
+       mitigation_road_telework
   ),
   function(x){
     x$app_data
@@ -313,7 +359,7 @@ app_out <- purrr::map_dfr(
   group_by(ctu, year, scenario, module, submodule, name) %>% 
   summarize(value = sum(value, na.rm = T), .groups = "keep") %>% 
   ungroup() %>% 
-    mutate(type = ifelse(scenario == "BAU", "bau_forecast",
+  mutate(type = ifelse(scenario == "BAU", "bau_forecast",
                        scenario),
          ctu = "Hollywood",
          ctu_id = "99999",
