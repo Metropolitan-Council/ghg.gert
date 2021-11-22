@@ -364,7 +364,7 @@ app_out <- purrr::map_dfr(
          ctu = "Hollywood",
          ctu_id = "99999",
          metric = "emissions_tonnes_co2e") %>% 
-  select(ctu_id, ctu, year, module,
+  select(ctu_id, ctu_name = ctu, year, module,
          submodule, type, source = name, metric, value)
 
 write.csv(app_out, "../vignettes/app_sample.csv", row.names = FALSE)

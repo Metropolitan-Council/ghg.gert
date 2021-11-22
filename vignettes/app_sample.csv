@@ -1,4 +1,4 @@
-"ctu_id","ctu","year","module","submodule","type","source","metric","value"
+"ctu_id","ctu_name","year","module","submodule","type","source","metric","value"
 "99999","Hollywood","2018","transportation","freight - other freight","bau_forecast","direct","emissions_tonnes_co2e",434.37961277357
 "99999","Hollywood","2018","transportation","freight - trucks","bau_forecast","direct","emissions_tonnes_co2e",128.064622181212
 "99999","Hollywood","2018","transportation","people - personal vehicles","bau_forecast","direct","emissions_tonnes_co2e",743.587966093081
