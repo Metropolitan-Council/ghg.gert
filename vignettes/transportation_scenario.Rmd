@@ -269,11 +269,8 @@ app_out <- purrr::map_dfr(
     x$app_data
   }
 ) %>% 
-  mutate(type = ifelse(scenario == "BAU", "bau_forecast",
-                       scenario),
-         ctu = "Hollywood",
-         ctu_id = "99999") %>% 
   ungroup() %>% 
+  rowwise() %>% 
   mutate(mode = case_when(
     mode %in% c("PLDV", "AV", "DRS") ~ "personal vehicles",
     mode %in% c("WALK", "BIKE") ~ "walk and bike",
@@ -281,9 +278,14 @@ app_out <- purrr::map_dfr(
     mode %in% c("CUT", "SUT") ~ "trucks",
     mode %in% c("MM", "AIR", "WAT", "FR") ~ "other freight"),
     submodule = paste0(submodule, " - ", mode)) %>% 
-  group_by(ctu_id, ctu, year, module,
-           submodule, type, name, metric) %>% 
+  group_by(ctu, year, scenario, module, submodule, name) %>% 
   summarize(value = sum(value, na.rm = T), .groups = "keep") %>% 
+  ungroup() %>% 
+    mutate(type = ifelse(scenario == "BAU", "bau_forecast",
+                       scenario),
+         ctu = "Hollywood",
+         ctu_id = "99999",
+         metric = "emissions_tonnes_co2e") %>% 
   select(ctu_id, ctu, year, module,
          submodule, type, source = name, metric, value)
 

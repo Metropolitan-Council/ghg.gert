@@ -1,97 +1,97 @@
 "ctu_id","ctu","year","module","submodule","type","source","metric","value"
 "99999","Hollywood","2018","transportation","freight - other freight","bau_forecast","direct","emissions_tonnes_co2e",434.37961277357
-"99999","Hollywood","2018","transportation","freight - other freight","strategy_improve_transit","direct","emissions_tonnes_co2e",434.37961277357
-"99999","Hollywood","2018","transportation","freight - other freight","strategy_land_use","direct","emissions_tonnes_co2e",434.37961277357
-"99999","Hollywood","2018","transportation","freight - other freight","strategy_road_price","direct","emissions_tonnes_co2e",434.37961277357
-"99999","Hollywood","2018","transportation","freight - other freight","strategy_telework","direct","emissions_tonnes_co2e",434.37961277357
-"99999","Hollywood","2018","transportation","freight - other freight","strategy_veh_electric","direct","emissions_tonnes_co2e",434.37961277357
 "99999","Hollywood","2018","transportation","freight - trucks","bau_forecast","direct","emissions_tonnes_co2e",128.064622181212
-"99999","Hollywood","2018","transportation","freight - trucks","strategy_improve_transit","direct","emissions_tonnes_co2e",128.064622181212
-"99999","Hollywood","2018","transportation","freight - trucks","strategy_land_use","direct","emissions_tonnes_co2e",128.064622181212
-"99999","Hollywood","2018","transportation","freight - trucks","strategy_road_price","direct","emissions_tonnes_co2e",128.064622181212
-"99999","Hollywood","2018","transportation","freight - trucks","strategy_telework","direct","emissions_tonnes_co2e",128.064622181212
-"99999","Hollywood","2018","transportation","freight - trucks","strategy_veh_electric","direct","emissions_tonnes_co2e",128.064622181212
 "99999","Hollywood","2018","transportation","people - personal vehicles","bau_forecast","direct","emissions_tonnes_co2e",743.587966093081
 "99999","Hollywood","2018","transportation","people - personal vehicles","bau_forecast","embodied","emissions_tonnes_co2e",113646.010325997
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_improve_transit","direct","emissions_tonnes_co2e",743.117030053715
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_improve_transit","embodied","emissions_tonnes_co2e",113646.010325997
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_land_use","direct","emissions_tonnes_co2e",743.117030053715
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_land_use","embodied","emissions_tonnes_co2e",113646.010325997
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_road_price","direct","emissions_tonnes_co2e",743.117030053715
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_road_price","embodied","emissions_tonnes_co2e",113646.010325997
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_telework","direct","emissions_tonnes_co2e",743.117030053715
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_telework","embodied","emissions_tonnes_co2e",113646.010325997
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_veh_electric","direct","emissions_tonnes_co2e",743.117002569296
-"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_veh_electric","embodied","emissions_tonnes_co2e",113646.010325997
 "99999","Hollywood","2018","transportation","people - public transit","bau_forecast","direct","emissions_tonnes_co2e",14.7031311550375
 "99999","Hollywood","2018","transportation","people - public transit","bau_forecast","embodied","emissions_tonnes_co2e",4335.97999992
-"99999","Hollywood","2018","transportation","people - public transit","strategy_improve_transit","direct","emissions_tonnes_co2e",14.7031311550375
-"99999","Hollywood","2018","transportation","people - public transit","strategy_improve_transit","embodied","emissions_tonnes_co2e",4335.97999992
-"99999","Hollywood","2018","transportation","people - public transit","strategy_land_use","direct","emissions_tonnes_co2e",14.7031311550375
-"99999","Hollywood","2018","transportation","people - public transit","strategy_land_use","embodied","emissions_tonnes_co2e",4335.97999992
-"99999","Hollywood","2018","transportation","people - public transit","strategy_road_price","direct","emissions_tonnes_co2e",14.7031311550375
-"99999","Hollywood","2018","transportation","people - public transit","strategy_road_price","embodied","emissions_tonnes_co2e",4335.97999992
-"99999","Hollywood","2018","transportation","people - public transit","strategy_telework","direct","emissions_tonnes_co2e",14.7031311550375
-"99999","Hollywood","2018","transportation","people - public transit","strategy_telework","embodied","emissions_tonnes_co2e",4335.97999992
-"99999","Hollywood","2018","transportation","people - public transit","strategy_veh_electric","direct","emissions_tonnes_co2e",14.7031311550375
-"99999","Hollywood","2018","transportation","people - public transit","strategy_veh_electric","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","bau_forecast","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","bau_forecast","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2018","transportation","freight - other freight","strategy_improve_transit","direct","emissions_tonnes_co2e",434.37961277357
+"99999","Hollywood","2018","transportation","freight - trucks","strategy_improve_transit","direct","emissions_tonnes_co2e",128.064622181212
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_improve_transit","direct","emissions_tonnes_co2e",743.117030053715
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_improve_transit","embodied","emissions_tonnes_co2e",113646.010325997
+"99999","Hollywood","2018","transportation","people - public transit","strategy_improve_transit","direct","emissions_tonnes_co2e",14.7031311550375
+"99999","Hollywood","2018","transportation","people - public transit","strategy_improve_transit","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_improve_transit","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_improve_transit","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2018","transportation","freight - other freight","strategy_land_use","direct","emissions_tonnes_co2e",434.37961277357
+"99999","Hollywood","2018","transportation","freight - trucks","strategy_land_use","direct","emissions_tonnes_co2e",128.064622181212
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_land_use","direct","emissions_tonnes_co2e",743.117030053715
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_land_use","embodied","emissions_tonnes_co2e",113646.010325997
+"99999","Hollywood","2018","transportation","people - public transit","strategy_land_use","direct","emissions_tonnes_co2e",14.7031311550375
+"99999","Hollywood","2018","transportation","people - public transit","strategy_land_use","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_land_use","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_land_use","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2018","transportation","freight - other freight","strategy_road_price","direct","emissions_tonnes_co2e",434.37961277357
+"99999","Hollywood","2018","transportation","freight - trucks","strategy_road_price","direct","emissions_tonnes_co2e",128.064622181212
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_road_price","direct","emissions_tonnes_co2e",743.117030053715
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_road_price","embodied","emissions_tonnes_co2e",113646.010325997
+"99999","Hollywood","2018","transportation","people - public transit","strategy_road_price","direct","emissions_tonnes_co2e",14.7031311550375
+"99999","Hollywood","2018","transportation","people - public transit","strategy_road_price","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_road_price","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_road_price","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2018","transportation","freight - other freight","strategy_telework","direct","emissions_tonnes_co2e",434.37961277357
+"99999","Hollywood","2018","transportation","freight - trucks","strategy_telework","direct","emissions_tonnes_co2e",128.064622181212
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_telework","direct","emissions_tonnes_co2e",743.117030053715
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_telework","embodied","emissions_tonnes_co2e",113646.010325997
+"99999","Hollywood","2018","transportation","people - public transit","strategy_telework","direct","emissions_tonnes_co2e",14.7031311550375
+"99999","Hollywood","2018","transportation","people - public transit","strategy_telework","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_telework","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_telework","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2018","transportation","freight - other freight","strategy_veh_electric","direct","emissions_tonnes_co2e",434.37961277357
+"99999","Hollywood","2018","transportation","freight - trucks","strategy_veh_electric","direct","emissions_tonnes_co2e",128.064622181212
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_veh_electric","direct","emissions_tonnes_co2e",743.117002569296
+"99999","Hollywood","2018","transportation","people - personal vehicles","strategy_veh_electric","embodied","emissions_tonnes_co2e",113646.010325997
+"99999","Hollywood","2018","transportation","people - public transit","strategy_veh_electric","direct","emissions_tonnes_co2e",14.7031311550375
+"99999","Hollywood","2018","transportation","people - public transit","strategy_veh_electric","embodied","emissions_tonnes_co2e",4335.97999992
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_veh_electric","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2018","transportation","people - walk and bike","strategy_veh_electric","embodied","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","freight - other freight","bau_forecast","direct","emissions_tonnes_co2e",483.127177072858
-"99999","Hollywood","2040","transportation","freight - other freight","strategy_improve_transit","direct","emissions_tonnes_co2e",483.127177072858
-"99999","Hollywood","2040","transportation","freight - other freight","strategy_land_use","direct","emissions_tonnes_co2e",483.127177072858
-"99999","Hollywood","2040","transportation","freight - other freight","strategy_road_price","direct","emissions_tonnes_co2e",483.127177072858
-"99999","Hollywood","2040","transportation","freight - other freight","strategy_telework","direct","emissions_tonnes_co2e",483.127177072858
-"99999","Hollywood","2040","transportation","freight - other freight","strategy_veh_electric","direct","emissions_tonnes_co2e",483.127177072858
 "99999","Hollywood","2040","transportation","freight - trucks","bau_forecast","direct","emissions_tonnes_co2e",138.246143116875
-"99999","Hollywood","2040","transportation","freight - trucks","strategy_improve_transit","direct","emissions_tonnes_co2e",138.246143116875
-"99999","Hollywood","2040","transportation","freight - trucks","strategy_land_use","direct","emissions_tonnes_co2e",138.246143116875
-"99999","Hollywood","2040","transportation","freight - trucks","strategy_road_price","direct","emissions_tonnes_co2e",131.971356406114
-"99999","Hollywood","2040","transportation","freight - trucks","strategy_telework","direct","emissions_tonnes_co2e",138.246143116875
-"99999","Hollywood","2040","transportation","freight - trucks","strategy_veh_electric","direct","emissions_tonnes_co2e",143.594875407287
 "99999","Hollywood","2040","transportation","people - personal vehicles","bau_forecast","direct","emissions_tonnes_co2e",659.393451044275
 "99999","Hollywood","2040","transportation","people - personal vehicles","bau_forecast","embodied","emissions_tonnes_co2e",110304.019513474
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_improve_transit","direct","emissions_tonnes_co2e",641.700302971433
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_improve_transit","embodied","emissions_tonnes_co2e",110304.019513474
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_land_use","direct","emissions_tonnes_co2e",629.973241905961
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_land_use","embodied","emissions_tonnes_co2e",110304.019513474
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_road_price","direct","emissions_tonnes_co2e",508.501302449378
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_road_price","embodied","emissions_tonnes_co2e",110304.019513474
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_telework","direct","emissions_tonnes_co2e",641.401340071257
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_telework","embodied","emissions_tonnes_co2e",110304.019513474
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_veh_electric","direct","emissions_tonnes_co2e",599.484017957198
-"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_veh_electric","embodied","emissions_tonnes_co2e",132233.838393343
 "99999","Hollywood","2040","transportation","people - public transit","bau_forecast","direct","emissions_tonnes_co2e",11.725531165885
 "99999","Hollywood","2040","transportation","people - public transit","bau_forecast","embodied","emissions_tonnes_co2e",6822.1333333
-"99999","Hollywood","2040","transportation","people - public transit","strategy_improve_transit","direct","emissions_tonnes_co2e",12.6737273466412
-"99999","Hollywood","2040","transportation","people - public transit","strategy_improve_transit","embodied","emissions_tonnes_co2e",6822.1333333
-"99999","Hollywood","2040","transportation","people - public transit","strategy_land_use","direct","emissions_tonnes_co2e",11.8736240177055
-"99999","Hollywood","2040","transportation","people - public transit","strategy_land_use","embodied","emissions_tonnes_co2e",6822.1333333
-"99999","Hollywood","2040","transportation","people - public transit","strategy_road_price","direct","emissions_tonnes_co2e",12.2503058432791
-"99999","Hollywood","2040","transportation","people - public transit","strategy_road_price","embodied","emissions_tonnes_co2e",6822.1333333
-"99999","Hollywood","2040","transportation","people - public transit","strategy_telework","direct","emissions_tonnes_co2e",11.725531165885
-"99999","Hollywood","2040","transportation","people - public transit","strategy_telework","embodied","emissions_tonnes_co2e",6822.1333333
-"99999","Hollywood","2040","transportation","people - public transit","strategy_veh_electric","direct","emissions_tonnes_co2e",10.914769683139
-"99999","Hollywood","2040","transportation","people - public transit","strategy_veh_electric","embodied","emissions_tonnes_co2e",6320.86999161712
 "99999","Hollywood","2040","transportation","people - walk and bike","bau_forecast","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","bau_forecast","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2040","transportation","freight - other freight","strategy_improve_transit","direct","emissions_tonnes_co2e",483.127177072858
+"99999","Hollywood","2040","transportation","freight - trucks","strategy_improve_transit","direct","emissions_tonnes_co2e",138.246143116875
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_improve_transit","direct","emissions_tonnes_co2e",641.700302971433
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_improve_transit","embodied","emissions_tonnes_co2e",110304.019513474
+"99999","Hollywood","2040","transportation","people - public transit","strategy_improve_transit","direct","emissions_tonnes_co2e",12.6737273466412
+"99999","Hollywood","2040","transportation","people - public transit","strategy_improve_transit","embodied","emissions_tonnes_co2e",6822.1333333
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_improve_transit","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_improve_transit","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2040","transportation","freight - other freight","strategy_land_use","direct","emissions_tonnes_co2e",483.127177072858
+"99999","Hollywood","2040","transportation","freight - trucks","strategy_land_use","direct","emissions_tonnes_co2e",138.246143116875
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_land_use","direct","emissions_tonnes_co2e",629.973241905961
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_land_use","embodied","emissions_tonnes_co2e",110304.019513474
+"99999","Hollywood","2040","transportation","people - public transit","strategy_land_use","direct","emissions_tonnes_co2e",11.8736240177055
+"99999","Hollywood","2040","transportation","people - public transit","strategy_land_use","embodied","emissions_tonnes_co2e",6822.1333333
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_land_use","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_land_use","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2040","transportation","freight - other freight","strategy_road_price","direct","emissions_tonnes_co2e",483.127177072858
+"99999","Hollywood","2040","transportation","freight - trucks","strategy_road_price","direct","emissions_tonnes_co2e",131.971356406114
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_road_price","direct","emissions_tonnes_co2e",508.501302449378
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_road_price","embodied","emissions_tonnes_co2e",110304.019513474
+"99999","Hollywood","2040","transportation","people - public transit","strategy_road_price","direct","emissions_tonnes_co2e",12.2503058432791
+"99999","Hollywood","2040","transportation","people - public transit","strategy_road_price","embodied","emissions_tonnes_co2e",6822.1333333
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_road_price","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_road_price","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2040","transportation","freight - other freight","strategy_telework","direct","emissions_tonnes_co2e",483.127177072858
+"99999","Hollywood","2040","transportation","freight - trucks","strategy_telework","direct","emissions_tonnes_co2e",138.246143116875
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_telework","direct","emissions_tonnes_co2e",641.401340071257
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_telework","embodied","emissions_tonnes_co2e",110304.019513474
+"99999","Hollywood","2040","transportation","people - public transit","strategy_telework","direct","emissions_tonnes_co2e",11.725531165885
+"99999","Hollywood","2040","transportation","people - public transit","strategy_telework","embodied","emissions_tonnes_co2e",6822.1333333
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_telework","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_telework","embodied","emissions_tonnes_co2e",0
+"99999","Hollywood","2040","transportation","freight - other freight","strategy_veh_electric","direct","emissions_tonnes_co2e",483.127177072858
+"99999","Hollywood","2040","transportation","freight - trucks","strategy_veh_electric","direct","emissions_tonnes_co2e",143.594875407287
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_veh_electric","direct","emissions_tonnes_co2e",599.484017957198
+"99999","Hollywood","2040","transportation","people - personal vehicles","strategy_veh_electric","embodied","emissions_tonnes_co2e",132233.838393343
+"99999","Hollywood","2040","transportation","people - public transit","strategy_veh_electric","direct","emissions_tonnes_co2e",10.914769683139
+"99999","Hollywood","2040","transportation","people - public transit","strategy_veh_electric","embodied","emissions_tonnes_co2e",6320.86999161712
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_veh_electric","direct","emissions_tonnes_co2e",0
 "99999","Hollywood","2040","transportation","people - walk and bike","strategy_veh_electric","embodied","emissions_tonnes_co2e",0

@@ -579,6 +579,7 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
         embodied = ghg_embodied,
         mode
       ) %>%
+      unique() %>%
       mutate(
         module = "transportation",
         submodule = "people",
@@ -593,6 +594,7 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       select(ctu, year, scenario, mode,
         direct = dir_ghg
       ) %>%
+      unique() %>%
       mutate(
         module = "transportation",
         submodule = "freight",
