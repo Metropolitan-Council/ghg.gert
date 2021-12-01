@@ -6,14 +6,6 @@ pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
   arrange(ctu) %>%
   mutate_at(4:12, as.numeric)
 
-
-# unique_sources <- pass_transpo %>%
-#   select(mode, var) %>%
-#   mutate(source = "model name/lit reference") %>%
-#   unique()
-#
-# write.csv(unique_sources, "data-raw/indices/unique_sources.csv")
-
 # pass_transpo_new <- read_csv("data-raw/pass_transpo_dat_16.csv") %>%
 #   unique() %>%
 #   arrange(ctu) %>%
