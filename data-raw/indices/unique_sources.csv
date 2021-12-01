@@ -59,7 +59,7 @@ BS,PMT,Met council travel model,Metropolitan Council Travel Demand Model,,,Metro
 WALK,PMT,Met council travel model,Metropolitan Council Travel Demand Model,,,Metropolitan Council Travel Demand Model
 BIKE,PMT,Met council travel model,Metropolitan Council Travel Demand Model,,,Metropolitan Council Travel Demand Model
 DRS,POP,Met Council forecasts,Metropolitan Council Travel Demand Model,,,Metropolitan Council Travel Demand Model
-PLDV,PARK,Assume 1 cent as a minimum unless reliable estimate available from TBI 2019 parking costs to adjust up,Assume 1 cent as a minimum unless reliable estimate available from TBI 2019 parking costs to adjust up,,,2019 Transportation Behavior Inventory
+PLDV,PARK,Assume 1 cent as a minimum unless reliable estimate available from TBI 2019 parking costs to adjust up,Assume 1 cent as a minimum unless reliable estimate available from TBI 2019 parking costs to adjust up,,,2019 Travel Behavior Inventory
 PLDV,SIMPG,EIA Annual Energy Outlook 2020,EIA Annual Energy Outlook 2020,,,U.S. Energy Information Administration
 PLDV,CIMPG,EIA Annual Energy Outlook 2020,EIA Annual Energy Outlook 2020,,,U.S. Energy Information Administration
 PLDV,HEVMPG,EIA Annual Energy Outlook 2020,EIA Annual Energy Outlook 2020,,,U.S. Energy Information Administration
