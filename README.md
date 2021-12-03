@@ -25,6 +25,8 @@ library(ghg.sp)
 ## Related repositories
 
 - [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
+- [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
+- [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
 
 
 <a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;"><div></div></a>
