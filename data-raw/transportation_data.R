@@ -4,17 +4,19 @@ library(tidyverse)
 pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
   unique() %>%
   arrange(ctu) %>%
-  mutate_at(4:12, as.numeric)
+  mutate_at(4:12, as.numeric) %>%
+  mutate_at(4:12, round, digits = 8)
 
-# pass_transpo_new <- read_csv("data-raw/pass_transpo_dat_16.csv") %>%
-#   unique() %>%
-#   arrange(ctu) %>%
-#   mutate_at(4:12, as.numeric)
+pass_transpo_new <- read_csv("data-raw/pass_transpo_dat_new.csv") %>%
+  unique() %>%
+  arrange(ctu) %>%
+  mutate_at(4:12, as.numeric) %>%
+  mutate_at(4:12, round, digits = 8)
+
 #
 #
-# anti_join(pass_transpo_new, pass_transpo)
-
-# pass_transpo <- pass_transpo_new
+# anti_join(pass_transpo_new, pass_transpo) %>% View
+pass_transpo <- pass_transpo_new
 
 # make DRS and AV shares relative to 2050
 # pass_transpo <- pass_transpo %>%
