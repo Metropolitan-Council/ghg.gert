@@ -142,7 +142,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           tb_vmt = av_vmt,
           tb = av_passenger_tb,
           .mode = mode_1,
-          .fuel_type = "HEV",
+          # .fuel_type = "HEV",
           .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpg,
           .is_av = TRUE,
@@ -243,7 +243,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         output = "PETRO",
         calc_fuel_use(
           phev_vmtg,
-          av_passenger_tb, mode, "SI",
+          av_passenger_tb, mode,
+          # "SI",
           .aeo_scenario, mpg, .av_pct
         )
       )
@@ -255,7 +256,9 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         calc_fuel_use(
           phev_vmte,
           av_passenger_tb,
-          mode, .electric_scenario, .aeo_scenario,
+          mode,
+          # .electric_scenario,
+          .aeo_scenario,
           mpe, .av_pct
         )
       )
@@ -337,7 +340,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           tb_vmt = av_vmt,
           tb = av_passenger_tb,
           .mode = mode_1,
-          .fuel_type = .electric_scenario,
+          # .fuel_type = .electric_scenario,
           .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
           .is_av = TRUE,

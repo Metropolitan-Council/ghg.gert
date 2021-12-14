@@ -134,7 +134,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     tb_vmt = si_vmt,
     tb = .pass_tb,
     .mode = mode,
-    .fuel_type = "SI",
+    # .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg
   )
@@ -220,7 +220,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       tb_vmt = ci_vmt,
       tb = .pass_tb,
       .mode = mode,
-      .fuel_type = "CI",
+      # .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG"
     )
@@ -297,15 +297,23 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   hev_fuel <-
     calc_fuel_use(
-      hev_vmt, .pass_tb,
-      mode, "SI", .aeo_scenario, mpg
+      tb_vmt = hev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      # .fuel_type = "SI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg
+      # .is_av = .is_av
     )
 
   hev_emb_ghg <-
     calc_ghg_embodied(
-      .pass_tb,
+      tb = .pass_tb,
       .class = class,
-      mode, "HEVSales", "HEV-EMB"
+      .mode = mode,
+      .sales_mode = "HEVSales",
+      .fuel_type = "HEV-EMB",
+      .enviro_factors = .enviro_factors
     )
 
   hev_cost <-
@@ -450,7 +458,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     tb_vmt = phev_vmt_gas,
     tb = .pass_tb,
     .mode = mode,
-    .fuel_type = "SI",
+    # .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .is_av = FALSE,
@@ -489,7 +497,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       tb_vmt = phev_vmt_electric,
       tb =  .pass_tb,
       .mode =   mode,
-      .electric_scenario,
+      # .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe
     )
@@ -593,7 +601,9 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   bev_fuel <-
     calc_fuel_use(
       bev_vmt, .pass_tb,
-      mode, .electric_scenario, .aeo_scenario, mpe
+      mode,
+      # .electric_scenario,
+      .aeo_scenario, mpe
     )
 
 

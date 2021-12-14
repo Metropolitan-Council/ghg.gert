@@ -12,7 +12,6 @@
 calc_fuel_use <- function(tb_vmt,
                           tb,
                           .mode,
-                          .fuel_type,
                           .aeo_scenario = "REF",
                           .miles_per_gallon,
                           .is_av = FALSE,

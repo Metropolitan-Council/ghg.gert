@@ -47,7 +47,7 @@ si_fuel_use <- calc_fuel_use(
   tb_vmt = si_vmt,
   tb = st_paul_passenger,
   .mode = "PLDV",
-  .fuel_type = "SI",
+  # .fuel_type = "SI",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
   .is_av = FALSE

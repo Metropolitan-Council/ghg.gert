@@ -8,7 +8,6 @@ calc_fuel_use(
   tb_vmt,
   tb,
   .mode,
-  .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .is_av = FALSE,
@@ -23,8 +22,6 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \code{transportation_data$freight} are suitable.}
 
 \item{.mode}{current mode}
-
-\item{.fuel_type}{current fuel type for mode}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 

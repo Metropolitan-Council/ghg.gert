@@ -107,7 +107,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       ci_vmt,
       .pass_tb,
       mode,
-      "CI",
+      # "CI",
       .aeo_scenario, mpg
     )
 
@@ -171,7 +171,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   hev_fuel <-
     calc_fuel_use(
       hev_vmt, .pass_tb,
-      mode, "CI", .aeo_scenario, mpg
+      mode,
+      # "CI",
+      .aeo_scenario, mpg
     )
 
 
@@ -241,7 +243,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   bev_fuel <-
     calc_fuel_use(
       bev_vmt, .pass_tb,
-      mode, .electric_scenario, .aeo_scenario, mpe
+      mode,
+      # .electric_scenario,
+      .aeo_scenario, mpe
     )
 
   bev_emb_ghg <-
@@ -310,7 +314,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_brt_fuel <-
     calc_fuel_use(
-      ci_brt_vmt, .pass_tb, mode, "BCI",
+      ci_brt_vmt, .pass_tb,
+      mode,
+      # "BCI",
       .aeo_scenario, mpg
     )
 
@@ -387,7 +393,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       tb_vmt = hev_brt_vmt,
       tb = .pass_tb,
       .mode = mode,
-      .fuel_type = "HEV",
+      # .fuel_type = "HEV",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg
     )
@@ -460,7 +466,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       tb_vmt = bev_brt_vmt,
       tb = .pass_tb,
       .mode = mode,
-      .fuel_type = .electric_scenario,
+      # .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
       .is_av = FALSE

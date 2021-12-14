@@ -92,7 +92,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       ev_vmt,
       .pass_tb,
       mode,
-      .electric_scenario,
+      # .electric_scenario,
       .aeo_scenario,
       mpe
     )
@@ -134,7 +134,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ci_ri_fuel <-
     calc_fuel_use(
       ci_ri_vmt, .pass_tb,
-      mode, "BCI", .aeo_scenario, mpg
+      mode,
+      # "BCI",
+      .aeo_scenario, mpg
     )
 
   ci_ri_cost <-
@@ -167,7 +169,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_ri_fuel <-
     calc_fuel_use(
       ev_ri_vmt, .pass_tb,
-      mode, .electric_scenario,
+      mode,
+      # .electric_scenario,
       .aeo_scenario, mpe
     )
 

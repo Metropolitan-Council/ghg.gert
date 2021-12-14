@@ -134,7 +134,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           tb_vmt = drs_vmt,
           tb = .pass_tb,
           .mode = mode_1,
-          .fuel_type = "SI",
+          # .fuel_type = "SI",
           .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpg,
           .is_av = TRUE
@@ -298,7 +298,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
         tb_vmt = phev_vmt_gas,
         tb = .pass_tb,
         .mode = mode,
-        .fuel_type = "SI",
+        # .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
         .enviro_factors = .enviro_factors,
@@ -326,11 +326,11 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           tb_vmt = phev_vmt_electric,
           tb =  .pass_tb,
           .mode =   mode,
-          .electric_scenario,
+          # .electric_scenario,
           .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
-          .is_av = TRUE,
-          .fuel_type = .electric_scenario
+          .is_av = TRUE
+          # .fuel_type = .electric_scenario
         )
 
 
@@ -458,7 +458,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           tb_vmt = drs_vmt,
           tb = .pass_tb,
           .mode = mode_1,
-          .fuel_type = .electric_scenario,
+          # .fuel_type = .electric_scenario,
           .aeo_scenario = .aeo_scenario,
           .miles_per_gallon = mpe,
           .is_av = TRUE
