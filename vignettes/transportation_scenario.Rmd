@@ -7,27 +7,38 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE,
+  fig.width = 8
 )
 
+
+requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace("scales", quietly = TRUE)
+requireNamespace("councilR", quietly = TRUE)
+requireNamespace("wesanderson", quietly = TRUE)
 library(ghg.sp)
 library(ggplot2)
 library(dplyr)
 library(stringr)
 library(scales)
+library(wesanderson)
+library(councilR)
+
+ggplot2::theme_set(councilR::council_theme(use_showtext = FALSE))
+
 ```
 
-```{r setup}
-
-ggplot2::theme_set(councilR::council_theme(use_showtext = TRUE))
+```{r}
 st_paul_pass <- transportation_data$passenger %>% 
   filter(ctu %in% c("St. Paul",
                     "All"),
          !year %in% c("2045",
                       "2050"))
+
 st_paul_freight <- transportation_data$freight %>% 
   filter(ctu %in% c("St. Paul",
                     "All"),

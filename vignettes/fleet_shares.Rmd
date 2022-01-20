@@ -10,122 +10,212 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8
 )
 ```
 
 ```{r setup}
+requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace("scales", quietly = TRUE)
+requireNamespace("councilR", quietly = TRUE)
+requireNamespace("wesanderson", quietly = TRUE)
 library(ghg.sp)
 library(ggplot2)
 library(dplyr)
 library(stringr)
 library(scales)
 library(wesanderson)
+library(councilR)
 
-ggplot2::theme_set(councilR::council_theme(use_showtext = TRUE))
-st_paul_pass <- transportation_data$passenger %>% 
-  filter(ctu %in% c("St. Paul",
-                    "All"),
-         # !year %in% c("2045", "2050")
+ggplot2::theme_set(councilR::council_theme(use_showtext = FALSE))
+st_paul_pass <- transportation_data$passenger %>%
+  filter(
+    ctu %in% c(
+      "St. Paul",
+      "All"
+    ),
+    # !year %in% c("2045", "2050")
   )
-st_paul_freight <- transportation_data$freight %>% 
-  filter(ctu %in% c("St. Paul",
-                    "All"),
-         # !year %in% c("2045","2050")
+st_paul_freight <- transportation_data$freight %>%
+  filter(
+    ctu %in% c(
+      "St. Paul",
+      "All"
+    ),
+    # !year %in% c("2045","2050")
   )
-
 ```
 
 
 ```{r}
-st_paul_pass %>% 
-  filter(str_detect(var, "Sales"),
-         mode == "PLDV",
-         var != "TotSales") %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = value,
-             color = var,
-             fill = var,
-             group = var)) +
+st_paul_pass %>%
+  filter(
+    str_detect(var, "Sales"),
+    mode == "PLDV",
+    var != "TotSales"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
   geom_area(position = "fill") +
-    scale_fill_manual(values = wesanderson::wes_palettes$Royal2,
-                    aesthetics = c("fill", "color")) +
-  scale_y_continuous(labels = scales::percent)
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BEVSales" = "Electric",
+      "CISales" = "Diesel",
+      "HEVSales" = "Hybrid",
+      "PHEVSales" = "Plug-in hybrid",
+      "SISales" = "Gasoline"
+    )
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Passenger personal vehicle sales",
+       subtitle = "Business as usual")
 ```
 
 
 
 ```{r}
-adj_sales <- adj_fleet_shares(.pass_tb = st_paul_pass,
-                              .freight_tb = st_paul_freight,
-                              .bev_pct_sales = 0.4854,
-                              .hev_pct_sales = 0.1352,
-                              .phev_pct_sales = 0.3151)
+adj_sales <- adj_fleet_shares(
+  .pass_tb = st_paul_pass,
+  .freight_tb = st_paul_freight,
+  .bev_pct_sales = 0.4854,
+  .hev_pct_sales = 0.1352,
+  .phev_pct_sales = 0.3151
+)
 ```
 ```{r}
-adj_sales$pass %>% 
-  filter(str_detect(var, "Sales"),
-         mode == "PLDV",
-         var != "TotSales") %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = value,
-             color = var,
-             fill = var,
-             group = var)) +
+adj_sales$pass %>%
+  filter(
+    str_detect(var, "Sales"),
+    mode == "PLDV",
+    var != "TotSales"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
   geom_area(position = "fill") +
-  scale_fill_manual(values = wesanderson::wes_palettes$Royal2,
-                    aesthetics = c("fill", "color")) +
-  scale_y_continuous(labels = scales::percent)
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BEVSales" = "Electric",
+      "CISales" = "Diesel",
+      "HEVSales" = "Hybrid",
+      "PHEVSales" = "Plug-in hybrid",
+      "SISales" = "Gasoline"
+    )
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Passenger personal vehicle sales",
+       subtitle = "Sales adjusted")
 ```
 
 ```{r}
-adj_sales$pass %>% 
-  filter(str_detect(var, "Stock"),
-         mode == "PLDV",
-         var != "TotStock") %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = value,
-             color = var,
-             fill = var,
-             group = var)) +
+adj_sales$pass %>%
+  filter(
+    str_detect(var, "Stock"),
+    mode == "PLDV",
+    var != "TotStock"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
   geom_area() +
-  scale_fill_manual(values = wesanderson::wes_palettes$Royal2,
-                    aesthetics = c("fill", "color")) 
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BEVStock" = "Electric",
+      "CIStock" = "Diesel",
+      "HEVStock" = "Hybrid",
+      "PHEVStock" = "Plug-in hybrid",
+      "SIStock" = "Gasoline"
+    )
+  ) +
+  labs(title = "Passenger personal vehicle stock",
+       subtitle = "Fleet adjusted")
 # scale_y_continuous(labels = scales::percent)
 ```
 
 ```{r}
-adj_sales$pass %>% 
-  filter(str_detect(var, "Stock"),
-         mode == "BRT",
-         var != "TotStock") %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = value,
-             color = var,
-             fill = var,
-             group = var)) +
+adj_sales$pass %>%
+  filter(
+    str_detect(var, "Stock"),
+    mode == "BRT",
+    var != "TotStock"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
   geom_area(position = "fill") +
-  scale_fill_manual(values = wesanderson::wes_palettes$Royal2,
-                    aesthetics = c("fill", "color")) +
-  scale_y_continuous(labels = scales::percent)
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BCIStock" = "Diesel",
+      "BEVStock" = "Electric",
+      "HEVStock" = "Hybrid"
+    )
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Bus Rapid Transit vehicle stock",
+       subtitle = "Fleet adjusted")
 ```
 ```{r}
-st_paul_pass %>% 
-  filter(str_detect(var, "Stock"),
-         mode == "BRT",
-         var != "TotStock") %>% 
-  ungroup() %>% 
-  ggplot(aes(x = year,
-             y = value,
-             color = var,
-             fill = var,
-             group = var)) +
+st_paul_pass %>%
+  filter(
+    str_detect(var, "Stock"),
+    mode == "BRT",
+    var != "TotStock"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
   geom_area() +
-  scale_fill_manual(values = wesanderson::wes_palettes$Royal2,
-                    aesthetics = c("fill", "color")) 
+  scale_fill_manual(
+    name = "Powertrain", values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BCIStock" = "Diesel",
+      "BEVStock" = "Electric",
+      "HEVStock" = "Hybrid"
+    )
+  ) +
+  labs(title = "Bus Rapid Transit vehicle stock",
+       subtitle = "Fleet adjusted")
 # scale_y_continuous(labels = scales::percent)
 ```
