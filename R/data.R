@@ -1,4 +1,4 @@
-#' Environmental factors for users
+#' @title Environmental factors for users
 #'
 #' @format A named list of 19 values.
 #' \describe{
@@ -39,29 +39,54 @@
 "enviro_factors"
 
 
-#' General elasticities and cross elasticities
+#' @title General elasticities and cross elasticities
 #'
-#'
+#' @description Values are specific to forecast year
 #' @format A tibble with 9 columns and 10 observations.
 #' \describe{
-#'   \item{year}{forecast year}
-#'   \item{vmt_elast}{INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean}
-#'   \item{gas_elast}{Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean}
-#'   \item{cong_elast}{TRACE (1999) and Litman (2019)}
-#'   \item{park_elast}{TRACE (1999) and Litman (2019)}
-#'   \item{freight_vmt_elast}{Small and Winston (1999) quoted in (Litman 2011)}
-#'   \item{vehicle_ownership_elast}{}
-#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price (VMT)
+#'   \item{year}{Forecast year}
+#'   \item{vmt_elast}{Elasticity for VMT pricing effect on VMT. INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean}
+#'   \item{gas_elast}{Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean}
+#'   \item{cong_elast}{Elasticity for congestion pricing effect on VMT. TRACE (1999) and Litman (2019)}
+#'   \item{park_elast}{Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019)}
+#'   \item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
+#'   \item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
+#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price. Affects VMT.
 #'       (Litman 2019. https://www.vtpi.org/elasticities.pdf)}
-#'   \item{park_active}{TRACE (1999)}
-#'   \item{park_transit}{TRACE (1999)}
+#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT RACE (1999)}
+#'   \item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
 #' }
 #'
 #' @family datasets
+#' @examples
+#' library(ghg.sp)
+#' elast
 "elast"
 
 
-#' Annual energy outlook, cost, and greenhouse gas factors
+#' @title 5D elasticities
+#'
+#' @description Values are specific to forecast year
+#' @format A tibble with 27 columns and 9 observations.
+#' \describe{
+#'   \item{year}{Forecast year}
+#'   \item{type}{Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT`}
+#'   \item{population_density}{Elasticity for population density effect on VMT}
+#'   \item{employment_density}{Elasticity employment population density effect on VMT}
+#'   \item{diversity}{Elasticity for land use diversity effect on VMT}
+#'   \item{design}{Elasticity for intersection design effect on VMT}
+#'   \item{job_access}{Elasticity for job accessibility via transit effect on VMT}
+#'   \item{distance}{Elasticity for minimum distance to transit stops effect on VMT}
+#'   \item{combined_density}{Combined effect of all land use elasticities}
+#' }
+#'
+#' @family datasets
+#' @examples
+#' library(ghg.sp)
+#' elast_5d
+"elast_5d"
+
+#' @title Annual energy outlook, cost, and greenhouse gas factors
 #'     by scenario, mode, year, and source
 #'
 #'
@@ -76,7 +101,7 @@
 "factor_values"
 
 
-#' A list of transportation and freight data input tables
+#' @title A list of transportation and freight data input tables
 #'
 #'
 #' @format A named list of two tibbles
@@ -96,7 +121,7 @@
 
 
 
-#' Reference index for abbreviations
+#' @title Reference index for abbreviations
 #'
 #' @format A list of tibbles with identifiers, abbreviations, and descriptions
 #'     for each emission source, variable, transportation mode, and AEO scenario.
