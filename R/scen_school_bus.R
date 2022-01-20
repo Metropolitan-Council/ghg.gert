@@ -86,7 +86,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       tb_vmt = ci_vmt,
       tb = .pass_tb,
       .mode = mode,
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg
       # .is_av = .is_av
     )

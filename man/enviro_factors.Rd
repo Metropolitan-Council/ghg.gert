@@ -48,6 +48,7 @@ Environmental factors for users
 }
 \seealso{
 Other datasets: 
+\code{\link{elast_5d}},
 \code{\link{elast}},
 \code{\link{factor_values}},
 \code{\link{transportation_data}},

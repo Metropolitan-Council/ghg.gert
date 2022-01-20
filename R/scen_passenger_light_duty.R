@@ -495,8 +495,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_fuel_electric <-
     calc_fuel_use(
       tb_vmt = phev_vmt_electric,
-      tb =  .pass_tb,
-      .mode =   mode,
+      tb = .pass_tb,
+      .mode = mode,
       # .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe

@@ -11,10 +11,10 @@ parking_adj <- vmt_parking_policy(
 testthat::expect_equal(
   parking_adj,
   tibble::tribble(
-    ~year,       ~ctu,   ~park_price_adj,
-    "2015", "St. Paul",                 1,
-    "2018", "St. Paul",                 1,
-    "2020", "St. Paul",                 1,
+    ~year, ~ctu, ~park_price_adj,
+    "2015", "St. Paul", 1,
+    "2018", "St. Paul", 1,
+    "2020", "St. Paul", 1,
     "2025", "St. Paul", 0.861270572380502,
     "2030", "St. Paul", 0.861270572380502,
     "2035", "St. Paul", 0.861270572380502,
@@ -33,10 +33,10 @@ testthat::expect_equal(
     .enviro_factors = enviro_factors
   ),
   tibble::tribble(
-    ~year,       ~ctu,   ~park_price_adj,
-    "2015", "St. Paul",                 1,
-    "2018", "St. Paul",                 1,
-    "2020", "St. Paul",                 1,
+    ~year, ~ctu, ~park_price_adj,
+    "2015", "St. Paul", 1,
+    "2018", "St. Paul", 1,
+    "2020", "St. Paul", 1,
     "2025", "St. Paul", 0.791905858570754,
     "2030", "St. Paul", 0.791905858570754,
     "2035", "St. Paul", 0.791905858570754,

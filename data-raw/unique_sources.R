@@ -15,7 +15,8 @@ uni_sources <- read.csv("~/Documents/MetC_Locals/CD/ghg.sp/data-raw/indices/uniq
 
 
 
-uni_sources  %>% group_by(source_short) %>%
+uni_sources %>%
+  group_by(source_short) %>%
   count()
 
 

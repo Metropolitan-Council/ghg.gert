@@ -7,27 +7,32 @@
 \format{
 A tibble with 9 columns and 10 observations.
 \describe{
-\item{year}{forecast year}
-\item{vmt_elast}{INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean}
-\item{gas_elast}{Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean}
-\item{cong_elast}{TRACE (1999) and Litman (2019)}
-\item{park_elast}{TRACE (1999) and Litman (2019)}
-\item{freight_vmt_elast}{Small and Winston (1999) quoted in (Litman 2011)}
-\item{vehicle_ownership_elast}{}
-\item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price (VMT)
+\item{year}{Forecast year}
+\item{vmt_elast}{Elasticity for VMT pricing effect on VMT. INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean}
+\item{gas_elast}{Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean}
+\item{cong_elast}{Elasticity for congestion pricing effect on VMT. TRACE (1999) and Litman (2019)}
+\item{park_elast}{Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019)}
+\item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
+\item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
+\item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price. Affects VMT.
 (Litman 2019. https://www.vtpi.org/elasticities.pdf)}
-\item{park_active}{TRACE (1999)}
-\item{park_transit}{TRACE (1999)}
+\item{park_active}{Elasticity for parking price effect on active transportation VMT RACE (1999)}
+\item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
 }
 }
 \usage{
 elast
 }
 \description{
-General elasticities and cross elasticities
+Values are specific to forecast year
+}
+\examples{
+library(ghg.sp)
+elast
 }
 \seealso{
 Other datasets: 
+\code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
 \code{\link{transportation_data}},

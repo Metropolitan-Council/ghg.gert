@@ -22,6 +22,7 @@ by scenario, mode, year, and source
 }
 \seealso{
 Other datasets: 
+\code{\link{elast_5d}},
 \code{\link{elast}},
 \code{\link{enviro_factors}},
 \code{\link{transportation_data}},
