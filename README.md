@@ -4,6 +4,8 @@
 # ghg.sp
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/Metropolitan-Council/ghg.sp/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.sp/actions)
 <!-- badges: end -->
 
 The goal of ghg.sp is to …
