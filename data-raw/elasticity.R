@@ -22,7 +22,7 @@ empty_list <- c(rep(0, length(YRS)))
 # LONG-RUN ELASTICITY - should be made available as a range (slider) for users----
 # Harvey and Deakin (1998)
 # INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean
-# ELAST_VMT <- readline(prompt="Pick an elasiticty for VMT ricing (-0.1 to -0.8. Mean: -0.34): ")
+# ELAST_VMT <- readline(prompt="Pick an elasiticty for VMT pricing (-0.1 to -0.8. Mean: -0.34): ")
 ELAST_VMT <- c(0, 0, 0, rep(-0.34, length(FOR_YRS)))
 # ELAST_VMT <- calc_elasticity(empty_list, -0.2, length(INIT_YRS), length(FOR_YRS))
 
