@@ -1,7 +1,9 @@
 #' Fetch scenario planning data tables
 #'
-#' @param uid character, your network id. For example, `"mc\\rotenle"`
-#' @param pwd character, your network password. For example, `"my_password"`
+#' @param uid character, your network id.
+#'     Default is `getOption("councilR.uid")`. For example, `"mc\\rotenle"`
+#' @param pwd character, your network password.
+#'     Default is `getOption("councilR.pwd")`. For example, `"my_password"`
 #' @param serv character, database server.
 #'     Default is `"dbsqlcl11t.test.local,65414"` (the test database).
 #' @param db character, datbase name. Default is `"CD_Emissions"`
