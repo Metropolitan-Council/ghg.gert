@@ -1,0 +1,47 @@
+---
+title: "Transportation elasticities"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Transportation_elasticities}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  fig.width = 8
+)
+
+
+requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace("scales", quietly = TRUE)
+requireNamespace("councilR", quietly = TRUE)
+requireNamespace("wesanderson", quietly = TRUE)
+library(ghg.sp)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+library(wesanderson)
+library(councilR)
+
+ggplot2::theme_set(
+  councilR::theme_council(use_showtext = FALSE,
+                          use_manual_font_sizes = T))
+
+```
+
+```{r}
+elast_ranges <- read.csv("../data-raw/indices/elast_ranges.csv")
+```
+
+```{r}
+vmt_seq  <- seq(from = elast_ranges[1,]$min, to =  elast_ranges[1,]$max, by = -0.01)
+gas_seq <- seq(from = elast_ranges[2,]$min, to =  elast_ranges[2,]$max, by = -0.01)
+cong_seq <- seq(from = elast_ranges[3,]$min, to =  elast_ranges[3,]$max, by = -0.01)
+park_seq <- seq(from = elast_ranges[4,]$min, to =  elast_ranges[4,]$max, by = -0.01)
+```
+
