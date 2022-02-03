@@ -28,7 +28,9 @@ library(scales)
 library(wesanderson)
 library(councilR)
 
-ggplot2::theme_set(councilR::council_theme(use_showtext = FALSE))
+ggplot2::theme_set(
+  councilR::theme_council(use_showtext = FALSE,
+                          use_manual_font_sizes = T))
 
 ```
 
@@ -87,6 +89,8 @@ mitigation_lu <-  run_scenario(
 - Increase average vehicle occupancy by 10% by 2040
 - Increase transit ridership by 10% by 2040
 - Phase out biodiesel fuel buses from fleet by 2035 and hybrid electric bus sales by 2040. Fleet will be entirely electric  
+- Currently forecasting 10% zero-emission buses by 2027
+
 
 
 ```{r}
@@ -109,7 +113,7 @@ mitigation_trans <-  run_scenario(
 - Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2040. 
 - Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2040.
 - Introduce dynamic ride-sharing (DRS) in 2025 to replace 10% of motorized PMT by 2040. 
-- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.
+- Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.  
 
 
 ```{r, message=FALSE}
