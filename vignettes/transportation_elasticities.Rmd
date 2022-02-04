@@ -66,3 +66,25 @@ cong_seq <- seq(from = elast_ranges[3,]$min, to =  elast_ranges[3,]$max, by = -0
 park_seq <- seq(from = elast_ranges[4,]$min, to =  elast_ranges[4,]$max, by = -0.01)
 ```
 
+
+```{r}
+vmt_alt_elast <- purrr::map(vmt_seq, 
+           function(x){
+             elast %>% 
+               mutate(vmt_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+gas_alt_elast <- purrr::map(gas_seq, 
+           function(x){
+             elast %>% 
+               mutate(gas_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+cong_alt_elast <- purrr::map(cong_seq, 
+           function(x){
+             elast %>% 
+               mutate(cong_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+park_alt_elast <- purrr::map(park_seq, 
+           function(x){
+             elast %>% 
+               mutate(park_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+```
