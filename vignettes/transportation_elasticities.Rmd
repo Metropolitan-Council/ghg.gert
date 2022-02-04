@@ -88,3 +88,52 @@ park_alt_elast <- purrr::map(park_seq,
              elast %>% 
                mutate(park_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
 ```
+
+
+## VMT variable elasticities
+
+```{r}
+vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
+  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_road_price",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .parking_price = 44,
+  .freight_parking_price = 2,
+  .vmt_fee = 0.05,
+  .gas_tax = 0.05,
+  .elast = x
+  
+)  %>% 
+  suppressMessages()
+  
+  print(unique(x$vmt_elast))
+})
+
+
+```
+
+```{r}
+gas_alt_results <- purrr::map(gas_alt_elast, function(x){
+  run_scenario(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "strategy_road_price",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF", 
+  .parking_price = 44,
+  .freight_parking_price = 2,
+  .vmt_fee = 0.05,
+  .gas_tax = 0.05,
+  .elast = x
+  
+)  %>% 
+  suppressMessages()
+  
+  print(unique(x$gas_elast))
+})
+
+```
+
