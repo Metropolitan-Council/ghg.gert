@@ -29,8 +29,13 @@ library(wesanderson)
 library(councilR)
 
 ggplot2::theme_set(
-  councilR::theme_council(use_showtext = FALSE,
-                          use_manual_font_sizes = T))
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+      councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T)
+  }
+)
 
 ```
 

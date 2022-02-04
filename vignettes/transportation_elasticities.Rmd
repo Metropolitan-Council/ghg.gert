@@ -15,7 +15,6 @@ knitr::opts_chunk$set(
   fig.width = 8
 )
 
-
 requireNamespace("ggplot2", quietly = TRUE)
 requireNamespace("scales", quietly = TRUE)
 requireNamespace("councilR", quietly = TRUE)
@@ -29,12 +28,34 @@ library(wesanderson)
 library(councilR)
 
 ggplot2::theme_set(
-  councilR::theme_council(use_showtext = FALSE,
-                          use_manual_font_sizes = T))
-
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+      councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T)
+  }
+)
 ```
 
+```{r st-paul-data, echo=FALSE}
+st_paul_pass <- transportation_data$passenger %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+
+st_paul_freight <- transportation_data$freight %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+```
+
+
+## Generate sequences   
+
 ```{r}
+source("../data-raw/elasticity.R")
 elast_ranges <- read.csv("../data-raw/indices/elast_ranges.csv")
 ```
 
