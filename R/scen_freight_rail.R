@@ -38,7 +38,8 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
                               .mit_bau_summary = 0,
-                              .enviro_factors = enviro_factors) {
+                              .enviro_factors = enviro_factors,
+                              .elast = elast) {
   mode <- "FR"
 
   type <- "F"
@@ -62,7 +63,10 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
       .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
+
     ) %>% mutate(class = class)
 
   ci_ghg <-
@@ -88,7 +92,9 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change,
       .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
       .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change
+      .comb_5d_impact_pct_change,
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     ) %>% mutate(class = class)
 
 

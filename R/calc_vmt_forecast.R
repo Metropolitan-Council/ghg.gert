@@ -13,6 +13,8 @@
 #'     Numeric between 0 and 1.  Default is `0`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list of environmental factors. Default is `enviro_factors`, included in this package.
+#' @param .elast table of elasticities. Default is `elast` included in this package.
+#'
 #' @inheritParams run_scenario
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
@@ -60,7 +62,8 @@ calc_vmt_forecast <- function(.scenario,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
                               .phev_electric = FALSE,
-                              .enviro_factors = enviro_factors) {
+                              .enviro_factors = enviro_factors,
+                              .elast = elast) {
   # browser()
 
   tb_vmt <- tb %>%
@@ -113,7 +116,9 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct
+        .transit_rider_pct = .transit_rider_pct,
+        .elast = .elast,
+        .enviro_factors = .enviro_factors
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -128,7 +133,8 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock,
         .phev_electric = .phev_electric,
         .freight_vmt_fee = .freight_vmt_fee,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
       )
 
       land_use <- vmt_land_use_change(
@@ -146,7 +152,8 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .mode = .mode,
         .freight_parking_price = .freight_parking_price,
-        .parking_price = .parking_price
+        .parking_price = .parking_price,
+        .elast = .elast
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
@@ -230,7 +237,9 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct
+        .transit_rider_pct = .transit_rider_pct,
+        .elast = .elast,
+        .enviro_factors = .enviro_factors
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -245,7 +254,8 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock,
         .phev_electric = .phev_electric,
         .freight_vmt_fee = .freight_vmt_fee,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
       )
 
       land_use <- vmt_land_use_change(
@@ -263,7 +273,8 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .mode = .mode,
         .freight_parking_price = .freight_parking_price,
-        .parking_price = .parking_price
+        .parking_price = .parking_price,
+        .elast = .elast
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
@@ -386,7 +397,9 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock,
         .phev_electric = .phev_electric,
         .freight_vmt_fee = .freight_vmt_fee,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
+
       )
 
       land_use <- vmt_land_use_change(
@@ -404,7 +417,8 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .mode = .mode,
         .freight_parking_price = .freight_parking_price,
-        .parking_price = .parking_price
+        .parking_price = .parking_price,
+        .elast = .elast
       )
 
       veh_occupancy <- vmt_vehicle_occupancy(
@@ -422,7 +436,9 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct
+        .transit_rider_pct = .transit_rider_pct,
+        .elast = .elast
+
       )
 
       tb_fin <- tb_vmt %>%
@@ -480,7 +496,8 @@ calc_vmt_forecast <- function(.scenario,
         tb = tb,
         .mode = .mode,
         .parking_price = .parking_price,
-        .freight_parking_price = .freight_parking_price
+        .freight_parking_price = .freight_parking_price,
+        .elast = .elast
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -495,7 +512,9 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock,
         .phev_electric = .phev_electric,
         .freight_vmt_fee = .freight_vmt_fee,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
+
       )
 
 
@@ -572,7 +591,9 @@ calc_vmt_forecast <- function(.scenario,
         .stock = .stock,
         .phev_electric = .phev_electric,
         .freight_vmt_fee = .freight_vmt_fee,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
+
       )
 
 

@@ -35,7 +35,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
                               .mit_bau_summary = 0,
-                              .enviro_factors = enviro_factors) {
+                              .enviro_factors = enviro_factors,
+                              .elast = elast) {
   # Rail Urban-----
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
@@ -71,7 +72,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change, .intersection_design_pct_change,
       .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 
@@ -120,7 +123,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change,
       .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 
@@ -155,7 +160,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       var, fcm, .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change
+      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     ) %>%
     mutate(class = class)
 

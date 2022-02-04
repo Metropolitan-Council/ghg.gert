@@ -286,6 +286,7 @@ vmt_land_use_change <- function(.type,
 #' @importFrom tidyr pivot_wider
 vmt_parking_policy <- function(tb,
                                .mode,
+                               .elast = ghg.sp::elast,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
@@ -314,7 +315,7 @@ vmt_parking_policy <- function(tb,
     "AV"
   )) {
     park_return <- park_price_current %>%
-      left_join(elast %>%
+      left_join(.elast %>%
         select(year, park_elast),
       by = "year"
       ) %>%
@@ -332,7 +333,7 @@ vmt_parking_policy <- function(tb,
     "DRS"
   )) {
     park_return <- park_price_current %>%
-      left_join(elast %>%
+      left_join(.elast %>%
         select(year, park_transit),
       by = "year"
       ) %>%
@@ -345,7 +346,7 @@ vmt_parking_policy <- function(tb,
     # browser()
 
     park_return <- park_adj <- park_price_current %>%
-      left_join(elast %>%
+      left_join(.elast %>%
         select(year, park_elast), by = "year") %>%
       mutate(park_price_adj = 1 + .freight_parking_price / PARK * park_elast) %>%
       select(year, ctu, park_price_adj)
@@ -389,7 +390,8 @@ vmt_road_policy <- function(.pass_tb,
                             .payd_fee,
                             .stock,
                             .phev_electric = FALSE,
-                            .enviro_factors = enviro_factors) {
+                            .enviro_factors = enviro_factors,
+                            .elast = elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
     stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
@@ -407,7 +409,7 @@ vmt_road_policy <- function(.pass_tb,
 
 
     fc_return <- .tb_fuel_cost_mile %>%
-      dplyr::left_join(elast, by = "year") %>%
+      dplyr::left_join(.elast, by = "year") %>%
       dplyr::left_join(.tb_vmt, by = c("year", "mode")) %>%
       rowwise() %>%
       dplyr::mutate(
@@ -450,7 +452,7 @@ vmt_road_policy <- function(.pass_tb,
       )
 
 
-    elast_vmt <- elast %>%
+    elast_vmt <- .elast %>%
       select(year, vmt_elas = vmt_cross)
 
     fc_return <- .tb_fuel_cost_mile %>%
@@ -488,7 +490,7 @@ vmt_road_policy <- function(.pass_tb,
 
     fc_return <- .tb_fuel_cost_mile %>%
       # select(-ctu) %>%
-      left_join(elast, by = "year") %>%
+      left_join(.elast, by = "year") %>%
       left_join(.tb_vmt, by = c("year", "mode")) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -504,7 +506,7 @@ vmt_road_policy <- function(.pass_tb,
       )
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(elast %>%
+      left_join(.elast %>%
         select(year, freight_vmt_elast),
       by = "year"
       ) %>%
@@ -519,7 +521,7 @@ vmt_road_policy <- function(.pass_tb,
   } else if (.mode == "CUT") {
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(elast %>%
+      left_join(.elast %>%
         select(year, freight_vmt_elast),
       by = "year"
       ) %>%
@@ -559,13 +561,13 @@ vmt_road_policy <- function(.pass_tb,
         values_from = value,
       )
 
-    elast_vmt <- elast %>%
+    elast_vmt <- .elast %>%
       select(year, vmt_elas = vmt_cross)
 
 
     tb_fin <-
       .tb_fuel_cost_mile %>%
-      left_join(elast, by = "year") %>%
+      left_join(.elast, by = "year") %>%
       left_join(elast_vmt, by = c("year")) %>%
       left_join(pldv_stocks, by = c("year")) %>%
       mutate(
@@ -714,11 +716,12 @@ vmt_stock_proportion <- function(.tb,
 vmt_transit_ridership <- function(tb,
                                   .mode,
                                   .transit_rider_pct,
+                                  .elast = ghg.sp::elast,
                                   .enviro_factors = enviro_factors) {
   transit_rider_elast <-
     tibble(
       year = unique(tb$year),
-      elast =
+      .elast =
         calc_elasticity(
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_rider_pct,
@@ -736,7 +739,7 @@ vmt_transit_ridership <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
-      mutate(transit_adj = elast * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      mutate(transit_adj = .elast * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -750,7 +753,7 @@ vmt_transit_ridership <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
-      mutate(transit_adj = 1 + elast) %>%
+      mutate(transit_adj = 1 + .elast) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()

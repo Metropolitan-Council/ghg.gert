@@ -43,7 +43,8 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .comb_5d_impact_pct_change = 0,
                                   .telework_pct = 0,
                                   .phev_electric = FALSE,
-                                  .enviro_factors = enviro_factors) {
+                                  .enviro_factors = enviro_factors,
+                                  .elast = elast) {
 
   # dynamic ride share ----
   # browser()
@@ -83,6 +84,8 @@ calc_vmt_forecast_drs <- function(.scenario,
     .payd_fee = .payd_fee,
     .freight_vmt_fee = .freight_vmt_fee,
     .stock = .stock,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast
   )
 
   land_use <- vmt_land_use_change(

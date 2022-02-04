@@ -37,7 +37,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .comb_5d_impact_pct_change = 0,
                                .telework_pct = 0,
                                .mit_bau_summary = 0,
-                               .enviro_factors = enviro_factors) {
+                               .enviro_factors = enviro_factors,
+                               .elast = elast) {
   mode <- "FR"
   # (measured in ton-miles NOT miles)
   type <- "F"
@@ -97,7 +98,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast = .elast
     ) %>%
     mutate(class = class)
 
@@ -161,8 +163,9 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
+      .elast = .elast,
       .enviro_factors = .enviro_factors
-    ) %>%
+      ) %>%
     mutate(class = class)
 
   cut_bev_ghg <-
@@ -228,8 +231,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
-      .enviro_factors = .enviro_factors
-    ) %>%
+      .elast = .elast,
+      .enviro_factors = .enviro_factors    ) %>%
     mutate(class = class)
 
   sut_ci_ghg <-
@@ -292,8 +295,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
-      .enviro_factors = .enviro_factors
-    ) %>%
+      .elast = .elast,
+      .enviro_factors = .enviro_factors    ) %>%
     mutate(class = class)
 
 
