@@ -286,7 +286,7 @@ vmt_land_use_change <- function(.type,
 #' @importFrom tidyr pivot_wider
 vmt_parking_policy <- function(tb,
                                .mode,
-                               .elast = ghg.sp::elast,
+                               .elast = elast,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
@@ -716,7 +716,7 @@ vmt_stock_proportion <- function(.tb,
 vmt_transit_ridership <- function(tb,
                                   .mode,
                                   .transit_rider_pct,
-                                  .elast = ghg.sp::elast,
+                                  .elast = elast,
                                   .enviro_factors = enviro_factors) {
   transit_rider_elast <-
     tibble(

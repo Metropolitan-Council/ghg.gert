@@ -15,6 +15,7 @@ adj_fleet_shares(
   .gas_tax = 0,
   .drs_pct = 0,
   .av_pct = 0,
+  .elast = elast,
   .enviro_factors = enviro_factors
 )
 }
@@ -43,6 +44,8 @@ Default is \code{0}}
 Default is \code{0}.}
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

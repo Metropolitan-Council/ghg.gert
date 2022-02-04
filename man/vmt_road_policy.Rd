@@ -16,7 +16,8 @@ vmt_road_policy(
   .payd_fee,
   .stock,
   .phev_electric = FALSE,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast = elast
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ Default is \code{0}}
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 }
 \value{
 a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},

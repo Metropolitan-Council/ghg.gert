@@ -7,6 +7,7 @@
 vmt_parking_policy(
   tb,
   .mode,
+  .elast = elast,
   .parking_price = 0,
   .freight_parking_price = 0,
   .enviro_factors = enviro_factors
@@ -18,6 +19,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \code{transportation_data$freight} are suitable.}
 
 \item{.mode}{current mode}
+
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.parking_price}{measured in dollars per hour. Default is \code{0}.}
 

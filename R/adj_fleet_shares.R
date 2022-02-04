@@ -68,7 +68,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .gas_tax = 0,
                              .drs_pct = 0,
                              .av_pct = 0,
-                             .elast = ghg.sp::elast,
+                             .elast = elast,
                              .enviro_factors = enviro_factors) {
 
   # browser()
