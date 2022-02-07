@@ -164,7 +164,9 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast
   )
 
 
