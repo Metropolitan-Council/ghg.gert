@@ -58,9 +58,12 @@ st_paul_freight <- transportation_data$freight %>%
 source("../data-raw/elasticity.R")
 elast_ranges <- read.csv("../data-raw/indices/elast_ranges.csv")
 ```
-Increment all by -0.01, except VMT, which would be too long otherwise. 
+
+
+Increment all by -0.01, except VMT, which would be too long otherwise.  
+
 ```{r}
-vmt_seq  <- seq(from = elast_ranges[1,]$min, to =  elast_ranges[1,]$max, by = -0.02) 
+vmt_seq  <- seq(from = elast_ranges[1,]$min, to =  elast_ranges[1,]$max, by = -0.04) 
 gas_seq <- seq(from = elast_ranges[2,]$min, to =  elast_ranges[2,]$max, by = -0.01)
 cong_seq <- seq(from = elast_ranges[3,]$min, to =  elast_ranges[3,]$max, by = -0.01)
 park_seq <- seq(from = elast_ranges[4,]$min, to =  elast_ranges[4,]$max, by = -0.01)
@@ -95,7 +98,7 @@ park_alt_elast <- purrr::map(park_seq,
 ```{r}
 tictoc::tic("VMT alternates")
 vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
-  run_scenario(
+  scen <- run_scenario(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -110,6 +113,7 @@ vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
     suppressMessages()
   
   print(min(unique(x$vmt_elast)))
+  return(scen)
 })
 
 tictoc::toc()
@@ -119,7 +123,7 @@ tictoc::toc()
 ```{r}
 tictoc::tic("Gas alternates")
 gas_alt_results <- purrr::map(gas_alt_elast, function(x){
-  run_scenario(
+  scen <- run_scenario(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -134,6 +138,7 @@ gas_alt_results <- purrr::map(gas_alt_elast, function(x){
     suppressMessages()
   
   print(min(unique(x$gas_elast)))
+  return(scen)
 })
 tictoc::toc()
 
@@ -142,7 +147,7 @@ tictoc::toc()
 ```{r}
 tictoc::tic("Congestion alternates")
 cong_alt_results <- purrr::map(cong_alt_elast, function(x){
-  run_scenario(
+  scen <- run_scenario(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -157,6 +162,7 @@ cong_alt_results <- purrr::map(cong_alt_elast, function(x){
     suppressMessages()
   
   print(min(x$cong_elast))
+  return(scen)
 })
 tictoc::toc()
 
@@ -165,7 +171,7 @@ tictoc::toc()
 ```{r}
 tictoc::tic("Parking alternates")
 park_alt_results <- purrr::map(park_alt_elast, function(x){
-  run_scenario(
+  scen <- run_scenario(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -180,6 +186,8 @@ park_alt_results <- purrr::map(park_alt_elast, function(x){
     suppressMessages()
   
   print(min(unique(x$park_elast)))
+  
+  return(scen)
 })
 tictoc::toc()
 
@@ -194,27 +202,92 @@ names(park_alt_results) <- paste0("park_", park_seq)
 ```
 
 ```{r}
-
-purrr::map2(list(vmt_alt_results,
-                 gas_alt_results,
-                 cong_alt_results,
-                 park_alt_results),
-            list(names(vmt_alt_results),
-                 names(gas_alt_results),
-                 names(cong_alt_results),
-                 names(park_alt_results)))
+save.image()
+```
 
 
-all_scen_passenger_av <- purrr::map_dfr(
-  list(vmt_alt_results,
-       gas_alt_results),
-  function(x){
-    x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+```{r}
+emissions <- purrr::map2_dfr(
+  .x = list(
+    vmt_alt_results,
+    gas_alt_results,
+    cong_alt_results,
+    park_alt_results),
+  .y = list(
+    names(vmt_alt_results),
+    names(gas_alt_results),
+    names(cong_alt_results),
+    names(park_alt_results)),
+  .f = function(x, y){
+    purrr::map2_dfr(
+      x,
+      y,
+      function(x2, y2){
+        # browser()
+        x2$passenger_all %>% 
+          filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+          group_by(year, scenario) %>% 
+          summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep") %>% 
+          mutate(alt = y2,
+                 alt_cat = stringr::str_sub(y2, 1, 4))
+      })
+  })
+
+```
+
+```{r}
+ggplot(emissions,
+       aes(x = year,
+           y = dir_ghg,
+           color = alt,
+           group = alt)) +
+  geom_point(show.legend = F) +
+  geom_line(alpha = 0.5,
+            size = 1,
+            show.legend = F) +
+  facet_wrap(~alt_cat) +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
+```{r}
+vmt <- purrr::map2_dfr(
+  .x = list(
+    vmt_alt_results,
+    gas_alt_results,
+    cong_alt_results,
+    park_alt_results),
+  .y = list(
+    names(vmt_alt_results),
+    names(gas_alt_results),
+    names(cong_alt_results),
+    names(park_alt_results)),
+  .f = function(x, y){
+    purrr::map2_dfr(
+      x,
+      y,
+      function(x2, y2){
+        x2$passenger_all %>% 
+ filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
       group_by(year, scenario) %>% 
-      summarize(dir_ghg = sum(dir_ghg, na.rm = T))
-  }
-)
+      summarize(vmt = sum(vmt, na.rm = T), .groups = "keep") %>% 
+          mutate(alt = y2,
+                 alt_cat = stringr::str_sub(y2, 1, 4))
+      })
+  })
+```
 
+```{r}
+ggplot(vmt,
+       aes(x = year,
+           y = vmt/1000000,
+           color = alt,
+           group = alt)) +
+  # facet_wrap(~class) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "All Passenger Vehicle Miles Traveled")
 ```
 
