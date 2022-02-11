@@ -15,6 +15,8 @@ and \code{source_description}}
 \item{modes}{tibble with columns \code{mode_id}, \code{mode_abbrev},
 \code{mode_description_1}, and \code{mode_description_2}}
 \item{aeo}{tibble with columns \code{aeo_scen}, \code{name}, and \code{description}}
+\item{data_sources}{tibble with columns \code{mode}, \code{var}, \code{source}, \code{source_1},
+\code{source_2}, \code{source_3}, and \code{source_short}}
 }
 }
 \usage{
@@ -28,6 +30,7 @@ library(ghg.sp)
 transportation_index$emission_sources
 transportation_index$variables
 transportation_index$modes
+transportation_index$data_sources
 }
 \seealso{
 Other datasets: 
