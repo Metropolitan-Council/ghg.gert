@@ -133,6 +133,8 @@
 #'   \item{modes}{tibble with columns `mode_id`, `mode_abbrev`,
 #'       `mode_description_1`, and `mode_description_2`}
 #'   \item{aeo}{tibble with columns `aeo_scen`, `name`, and `description`}
+#'   \item{data_sources}{tibble with columns `mode`, `var`, `source`, `source_1`,
+#'       `source_2`, `source_3`, and `source_short`}
 #' }
 #'
 #' @family datasets
@@ -141,4 +143,5 @@
 #' transportation_index$emission_sources
 #' transportation_index$variables
 #' transportation_index$modes
+#' transportation_index$data_sources
 "transportation_index"

@@ -90,7 +90,7 @@ calc_vmt_forecast <- function(.scenario,
       "RI"
     )) {
       # bus and rail -----
-      # If it's a transit mode, then apply the ridership and avo factors (including cross elasticity from PLDV fees)
+      # If it's a transit mode, then apply the ridership and average vehicle occupancy factors (including cross elasticity from PLDV fees)
 
       # browser()
 
@@ -113,6 +113,8 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
+      # transit ridership adjustment
+      # distributes final % increase across years
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
@@ -122,9 +124,9 @@ calc_vmt_forecast <- function(.scenario,
       )
 
       fc_adjustments <- vmt_road_policy(
-        .mode = .mode,
         .pass_tb = tb,
         .tb_vmt = tb_vmt,
+        .mode = .mode,
         .tb_fuel_cost_mile = .tb_fuel_cost_mile,
         .vmt_fee = .vmt_fee,
         .cong_price = .cong_price,
