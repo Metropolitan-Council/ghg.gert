@@ -165,7 +165,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors
-      ) %>%
+    ) %>%
     mutate(class = class)
 
   cut_bev_ghg <-
@@ -232,7 +232,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors    ) %>%
+      .enviro_factors = .enviro_factors
+    ) %>%
     mutate(class = class)
 
   sut_ci_ghg <-
@@ -296,7 +297,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors    ) %>%
+      .enviro_factors = .enviro_factors
+    ) %>%
     mutate(class = class)
 
 

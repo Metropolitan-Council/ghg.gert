@@ -62,8 +62,9 @@ bau_summary <- run_scenario(pass_tb = st_paul_pass,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF")
 
-bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
-                                                               "DRS"))) 
+bau_pldv <-  bau_summary$passenger_all %>%
+  filter((mode %in% c("AV", "PLDV",
+                      "DRS"))) 
 
 ```
 

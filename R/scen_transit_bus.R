@@ -92,7 +92,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors
-
     ) %>%
     mutate(class = class)
 

@@ -66,7 +66,6 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
       .enviro_factors = .enviro_factors
-
     ) %>% mutate(class = class)
 
   ci_ghg <-

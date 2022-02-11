@@ -196,7 +196,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .elast = .elast,
         .enviro_factors = .enviro_factors,
         .telework_pct,
-        .phev_electric =  FALSE
+        .phev_electric = FALSE
       ) * (1 - av_passenger_tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS)))

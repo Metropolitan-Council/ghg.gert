@@ -119,7 +119,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .drs_fuel_type = .drs_fuel_type,
     .phev_electric = NA,
     .elast = .elast,
-    .enviro_factors = .enviro_factors  ) %>%
+    .enviro_factors = .enviro_factors
+  ) %>%
     mutate(class = class)
 
   si_dir_ghg <- calc_ghg_direct(

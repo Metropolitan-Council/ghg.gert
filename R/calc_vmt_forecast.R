@@ -401,7 +401,6 @@ calc_vmt_forecast <- function(.scenario,
         .freight_vmt_fee = .freight_vmt_fee,
         .enviro_factors = .enviro_factors,
         .elast = .elast
-
       )
 
       land_use <- vmt_land_use_change(
@@ -440,7 +439,6 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode,
         .transit_rider_pct = .transit_rider_pct,
         .elast = .elast
-
       )
 
       tb_fin <- tb_vmt %>%
@@ -516,7 +514,6 @@ calc_vmt_forecast <- function(.scenario,
         .freight_vmt_fee = .freight_vmt_fee,
         .enviro_factors = .enviro_factors,
         .elast = .elast
-
       )
 
 
@@ -595,7 +592,6 @@ calc_vmt_forecast <- function(.scenario,
         .freight_vmt_fee = .freight_vmt_fee,
         .enviro_factors = .enviro_factors,
         .elast = .elast
-
       )
 
 

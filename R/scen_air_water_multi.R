@@ -38,9 +38,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .telework_pct = 0,
                                  .mit_bau_summary = 0,
                                  .enviro_factors = enviro_factors,
-                                 .elast = elast
-
-                                 ) {
+                                 .elast = elast) {
 
   # Multimodal -----
 
@@ -93,7 +91,6 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast
-
     ) %>% mutate(class = class)
 
   mm_bev_ghg <-
@@ -124,7 +121,6 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast
-
     ) %>% mutate(class = class)
 
   air_si_ghg <-
@@ -154,7 +150,6 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change,
       .elast = .elast
-
     ) %>% mutate(class = class)
 
   wat_ci_ghg <-
