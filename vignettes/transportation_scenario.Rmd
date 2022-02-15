@@ -238,7 +238,7 @@ all_scen_passenger_av <- purrr::map_dfr(
     x$passenger_all %>% 
       filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
       group_by(year, scenario) %>% 
-      summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+      summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
   }
 )
 
@@ -267,7 +267,7 @@ purrr::map_dfr(
     x$passenger_all %>% 
       filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
       group_by(year, scenario, ghg_embodied_source)  %>% 
-      summarize(ghg_embodied = sum(ghg_embodied, na.rm = T))
+      summarize(ghg_embodied = sum(ghg_embodied, na.rm = T), .groups = "keep")
   }
 )  %>% 
   
@@ -300,7 +300,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
     x$passenger_all %>% 
       filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
       group_by(year, scenario) %>% 
-      summarize(vmt = sum(vmt, na.rm = T))
+      summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
   }
 )
 
