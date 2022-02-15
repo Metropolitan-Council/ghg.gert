@@ -97,21 +97,26 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_dir_ghg <-
     calc_ghg_direct(
-      ci_vmt,
-      .pass_tb,
-      mode,
-      "CI",
-      .aeo_scenario,
-      mpg
+      tb_vmt = ci_vmt,
+      tb = .pass_tb,
+      .mode =   mode,
+      .fuel_type = "CI",
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_fuel <-
     calc_fuel_use(
-      ci_vmt,
-      .pass_tb,
-      mode,
+      tb_vmt =  ci_vmt,
+      tb =  .pass_tb,
+      .mode = mode,
       # "CI",
-      .aeo_scenario, mpg
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon =   mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_emb_ghg <-
