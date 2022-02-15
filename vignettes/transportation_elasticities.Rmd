@@ -62,7 +62,7 @@ elast_ranges <- read.csv("../data-raw/indices/elast_ranges.csv")
 
 Increment all by -0.01, except VMT, which would be too long otherwise.  
 
-```{r}
+```{r seq-elast}
 vmt_seq  <- seq(from = elast_ranges[1,]$min, to =  elast_ranges[1,]$max, by = -0.04) 
 gas_seq <- seq(from = elast_ranges[2,]$min, to =  elast_ranges[2,]$max, by = -0.01)
 cong_seq <- seq(from = elast_ranges[3,]$min, to =  elast_ranges[3,]$max, by = -0.01)
@@ -70,7 +70,7 @@ park_seq <- seq(from = elast_ranges[4,]$min, to =  elast_ranges[4,]$max, by = -0
 ```
 
 
-```{r}
+```{r calc-elasts}
 vmt_alt_elast <- purrr::map(vmt_seq, 
                             function(x){
                               elast %>% 
@@ -95,7 +95,7 @@ park_alt_elast <- purrr::map(park_seq,
 
 ## VMT variable elasticities
 
-```{r}
+```{r vmt-alt}
 tictoc::tic("VMT alternates")
 vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
   scen <- run_scenario(
@@ -120,7 +120,7 @@ tictoc::toc()
 
 ```
 
-```{r}
+```{r gas-alt}
 tictoc::tic("Gas alternates")
 gas_alt_results <- purrr::map(gas_alt_elast, function(x){
   scen <- run_scenario(
@@ -144,7 +144,7 @@ tictoc::toc()
 
 ```
 
-```{r}
+```{r cong-alt}
 tictoc::tic("Congestion alternates")
 cong_alt_results <- purrr::map(cong_alt_elast, function(x){
   scen <- run_scenario(
@@ -168,7 +168,7 @@ tictoc::toc()
 
 ```
 
-```{r}
+```{r parking-alt}
 tictoc::tic("Parking alternates")
 park_alt_results <- purrr::map(park_alt_elast, function(x){
   scen <- run_scenario(
@@ -194,19 +194,20 @@ tictoc::toc()
 ```
 
 
-```{r}
+```{r rename}
 names(vmt_alt_results) <- paste0("vmt_", vmt_seq)
 names(gas_alt_results) <- paste0("gas_", gas_seq)
 names(cong_alt_results) <- paste0("cong_", cong_seq)
 names(park_alt_results) <- paste0("park_", park_seq)
 ```
 
-```{r}
+```{r save-image}
 save.image()
 ```
 
+# Plot results  
 
-```{r}
+```{r combine-emissions}
 emissions <- purrr::map2_dfr(
   .x = list(
     vmt_alt_results,
