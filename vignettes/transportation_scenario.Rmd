@@ -236,7 +236,8 @@ all_scen_passenger_av <- purrr::map_dfr(
   ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT",
+                         "RU", "RI")) %>%
       group_by(year, scenario) %>% 
       summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
   }
@@ -257,15 +258,18 @@ ggplot(all_scen_passenger_av,
 ```{r}
 purrr::map_dfr(
   list(bau_summary,
-       mitigation_ev
-       # mitigation_trans,
+       mitigation_ev,
+       mitigation_trans
        # mitigation_lu,
        # mitigation_telework,
        # mitigation_road_price
   ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+      filter(mode %in% c("AV", "PLDV",
+                         "DRS" ,"BU", "BRT",
+                         "RI", "RU"),
+             !is.na(ghg_embodied_source)) %>%
       group_by(year, scenario, ghg_embodied_source)  %>% 
       summarize(ghg_embodied = sum(ghg_embodied, na.rm = T), .groups = "keep")
   }
@@ -280,7 +284,8 @@ purrr::map_dfr(
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1) +
-  labs(title = "All Passenger Vehicle Emissions")
+  labs(title = "All Passenger Vehicle Embodied Emissions") +
+  theme(legend.position = "bottom")
 ```
 
 
@@ -314,7 +319,8 @@ ggplot(all_scen_passenger_vmt,
   geom_line(alpha = 0.5,
             size = 1.1) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "All Passenger Vehicle Miles Traveled")
+  labs(title = "All Passenger Vehicle Miles Traveled",
+       y = "VMT")
 ```
 
 
