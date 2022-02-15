@@ -542,7 +542,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .sales_mode = "PHEVSales",
       .fuel_type = "PHEV-EMB",
       .enviro_factors = .enviro_factors,
-      .transit_avo_pct_pct = .transit_avo_pct_pct
+      .transit_avo_pct = .transit_avo_pct
     )
 
 

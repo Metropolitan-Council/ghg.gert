@@ -158,7 +158,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .class = class,
           .sales_mode = "AVSales",
           .fuel_type = "HEV-EMB",
-          .transit_avo_pct_pct = .transit_avo_pct,
+          .transit_avo_pct = .transit_avo_pct,
           .enviro_factors = .enviro_factors
         ) %>%
         mutate(mode = "AV")

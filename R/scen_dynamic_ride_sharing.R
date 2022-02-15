@@ -380,7 +380,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .sales_mode = "DRSSales",
           .fuel_type = "PHEV-EMB",
           .enviro_factors = .enviro_factors,
-          .transit_avo_pct_pct = .transit_avo_pct_pct
+          .transit_avo_pct = .transit_avo_pct
         )
 
       drs_cost <-

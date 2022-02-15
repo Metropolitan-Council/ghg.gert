@@ -121,7 +121,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .sales_mode =  "BCISales",
       .fuel_type = "BU-BCI-EMB",
       .class = class,
-      .transit_avo_pct,
+      .transit_avo_pct = .transit_avo_pct,
       .mit_bau_summary
     )
 
@@ -189,7 +189,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .sales_mode = "HEVSales",
       .fuel_type = "BU-HEV-EMB",
       .class = class,
-      .transit_avo_pct_pct = .transit_avo_pct,
+      .transit_avo_pct = .transit_avo_pct,
       hev_vmt,
       .mit_bau_summary
     )
@@ -336,7 +336,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .sales_mode = "BCISales",
       .fuel_type = "BU-BCI-EMB",
       .class = class,
-      .transit_avo_pct_pct = .transit_avo_pct
+      .transit_avo_pct = .transit_avo_pct
     )
 
   ci_brt_cost <-
@@ -492,7 +492,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .sales_mode = "BEVSales",
       .fuel_type = "BU-BEV-EMB",
       .class = class,
-      .transit_avo_pct_pct = .transit_avo_pct,
+      .transit_avo_pct = .transit_avo_pct,
       .mit_bau_summary
     )
 
