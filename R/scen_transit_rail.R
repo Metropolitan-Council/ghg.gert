@@ -1,9 +1,9 @@
-#' Calculate scenario for passenger rail
+#' @title Calculate scenario for passenger rail
 #'
 #' @inheritParams run_scenario
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation results, passenger
+#' @family transportation results, passenger, transit
 #'
 #' @return
 #' @export
@@ -63,16 +63,34 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ev_vmt <-
     calc_vmt_forecast(
-      .scenario,
+      .scenario = .scenario,
       tb = .pass_tb,
-      mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo_pct, .transit_rider_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct = .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price =  .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors
     ) %>%
@@ -82,26 +100,35 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ev_ghg <-
     calc_ghg_direct(
-      ev_vmt,
-      .pass_tb,
-      mode,
-      .electric_scenario,
-      .aeo_scenario,
-      mpe
+      tb_vmt = ev_vmt,
+      tb = .pass_tb,
+      .mode =  mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon =  mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ev_fuel <-
     calc_fuel_use(
-      ev_vmt,
-      .pass_tb,
-      mode,
+      tb_vmt = ev_vmt,
+      tb =  .pass_tb,
+      .mode =  mode,
       # .electric_scenario,
-      .aeo_scenario,
-      mpe
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ev_cost <-
-    calc_cost(ev_vmt, mode, "EVPrice")
+    calc_cost(
+      tb_vmt = ev_vmt,
+      .mode = mode,
+      .price = "EVPrice",
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors)
 
   # Rail Interurban-----
   mode <- "RI"
@@ -115,15 +142,34 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ci_ri_vmt <-
     calc_vmt_forecast(
-      .scenario, .pass_tb,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price,
-      .parking_price, .drs_pct, .av_pct, .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      tb = .pass_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct = .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price =  .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors
     ) %>%
@@ -132,16 +178,26 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ci_ri_ghg <-
     calc_ghg_direct(
-      ci_ri_vmt,
-      .pass_tb, mode, "BCI", .aeo_scenario, mpg
+      tb_vmt = ci_ri_vmt,
+      tb =  .pass_tb,
+      .mode = mode,
+      .fuel_type = "BCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_ri_fuel <-
     calc_fuel_use(
-      ci_ri_vmt, .pass_tb,
-      mode,
+      tb_vmt =  ci_ri_vmt,
+      tb = .pass_tb,
+      .mode =  mode,
       # "BCI",
-      .aeo_scenario, mpg
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_ri_cost <-
@@ -156,11 +212,34 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   message("Passenger interurban rail, electric")
   ev_ri_vmt <-
     calc_vmt_forecast(
-      .scenario, .pass_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      tb = .pass_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .transit_rider_pct = .transit_rider_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price =  .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .drs_pct = .drs_pct,
+      .drs_fuel_type = .drs_fuel_type,
+      .av_pct = .av_pct,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors
     ) %>%
@@ -168,21 +247,35 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ev_ri_ghg <-
     calc_ghg_direct(
-      ev_ri_vmt, .pass_tb,
-      mode, .electric_scenario,
-      .aeo_scenario, mpe
+      tb_vmt = ev_ri_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ev_ri_fuel <-
     calc_fuel_use(
-      ev_ri_vmt, .pass_tb,
-      mode,
+      tb_vmt = ev_ri_vmt,
+      tb = .pass_tb,
+      .mode =   mode,
       # .electric_scenario,
-      .aeo_scenario, mpe
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ev_ri_cost <-
-    calc_cost(ev_ri_vmt, mode, "EVPrice")
+    calc_cost(
+      tb_vmt = ev_ri_vmt,
+      .mode = mode,
+      .price = "EVPrice",
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors)
 
 
   # Finish up -----

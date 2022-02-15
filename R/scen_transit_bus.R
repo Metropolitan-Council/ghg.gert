@@ -1,9 +1,9 @@
-#' Calculate scenario for transit buses
+#' @title Calculate scenario for transit buses
 #'
 #' @inheritParams run_scenario
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation results, passenger
+#' @family transportation results, passenger, transit
 #'
 #' @return
 #' @export
@@ -55,11 +55,13 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   class <- "BCI"
 
   fcm <- calc_fuel_cost_mile(
-    .pass_tb,
+    tb =  .pass_tb,
     .mode = "PLDV",
-    .aeo_scenario,
+    .aeo_scenario =  .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .fuel_cost_gallon =   .enviro_factors$SI_FUEL_COST_GAL,
+    .av_pct = .av_pct,
+    .enviro_factors = .enviro_factors
   )
 
   ci_vmt <-
@@ -127,11 +129,17 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BU-BCI-EMB",
       .class = class,
       .transit_avo_pct = .transit_avo_pct,
-      .mit_bau_summary
+      .mit_bau_summary,
+      .enviro_factors = .enviro_factors
+
     )
 
   ci_cost <-
-    calc_cost(ci_vmt, mode, "BCIPrice")
+    calc_cost(tb_vmt = ci_vmt,
+              .mode = mode,
+              .price = "BCIPrice",
+              .is_av = .is_av,
+              .enviro_factors = .enviro_factors)
 
   ### HEV Bus ------
   stock <- "HEVStock"
@@ -173,17 +181,27 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
 
   hev_dir_ghg <- calc_ghg_direct(
-    hev_vmt, .pass_tb, mode, "CI",
-    .aeo_scenario, mpg
+    tb_vmt = hev_vmt,
+    tb = .pass_tb,
+    .mode = mode,
+    .fuel_type = "CI",
+    .aeo_scenario =  .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .is_av = FALSE,
+    .enviro_factors = .enviro_factors
   )
 
 
   hev_fuel <-
     calc_fuel_use(
-      hev_vmt, .pass_tb,
-      mode,
+      tb_vmt = hev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
       # "CI",
-      .aeo_scenario, mpg
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -196,7 +214,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .class = class,
       .transit_avo_pct = .transit_avo_pct,
       hev_vmt,
-      .mit_bau_summary
+      .mit_bau_summary,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -247,32 +266,48 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   bev_dir_ghg <-
     calc_ghg_direct(
-      bev_vmt, .pass_tb,
-      mode,
-      .electric_scenario, .aeo_scenario, mpe
+      tb_vmt = bev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   bev_fuel <-
     calc_fuel_use(
-      bev_vmt, .pass_tb,
-      mode,
+      tb_vmt =  bev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
       # .electric_scenario,
-      .aeo_scenario, mpe
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   bev_emb_ghg <-
     calc_ghg_embodied(
-      .pass_tb, mode,
-      "BEVSales", "BU-BEV-EMB",
+      tb = .pass_tb,
+      .mode = mode,
+      .sales_mode = "BEVSales",
+      .fuel_type = "BU-BEV-EMB",
       .class = class,
-      .transit_avo_pct,
-      bev_vmt, .mit_bau_summary
+      .transit_avo_pct = .transit_avo_pct,
+      bev_vmt,
+      .mit_bau_summary,
+      .enviro_factors = .enviro_factors
     )
 
   bev_cost <-
     calc_cost(
-      bev_vmt, mode,
-      "BEVPrice"
+      tb_vmt = bev_vmt,
+      .mode = mode,
+     .price =  "BEVPrice",
+     .is_av = FALSE,
+     .enviro_factors = .enviro_factors
     )
 
 
@@ -322,16 +357,26 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_brt_ghg <-
     calc_ghg_direct(
-      ci_brt_vmt, .pass_tb, mode,
-      "BCI", .aeo_scenario, mpg
+      tb_vmt = ci_brt_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = "BCI",
+      .aeo_scenario =  .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_brt_fuel <-
     calc_fuel_use(
-      ci_brt_vmt, .pass_tb,
-      mode,
+      tb_vmt = ci_brt_vmt,
+      tb = .pass_tb,
+      .mode = mode,
       # "BCI",
-      .aeo_scenario, mpg
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   ci_brt_emb_ghg <-
@@ -411,7 +456,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       # .fuel_type = "HEV",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg
+      .miles_per_gallon = mpg,
+      .is_av = .is_av,
+      .enviro_factors = .enviro_factors
     )
 
   hev_brt_emb_ghg <-
@@ -422,7 +469,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BU-HEV-EMB",
       .class = class,
       .transit_avo_pct, hev_brt_vmt,
-      .mit_bau_summary
+      .mit_bau_summary,
+      .enviro_factors = .enviro_factors
+
     )
 
   hev_brt_cost <-
@@ -475,8 +524,14 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   bev_brt_ghg <-
     calc_ghg_direct(
-      bev_brt_vmt, .pass_tb,
-      mode, .electric_scenario, .aeo_scenario, mpe
+      tb_vmt =  bev_brt_vmt,
+      tb = .pass_tb,
+      .mode =   mode,
+      .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   bev_brt_fuel <-
@@ -487,7 +542,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       # .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .is_av = FALSE
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
   bev_brt_emb_ghg <-
@@ -498,13 +554,15 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BU-BEV-EMB",
       .class = class,
       .transit_avo_pct = .transit_avo_pct,
-      .mit_bau_summary
+      .mit_bau_summary,
+      .enviro_factors = .enviro_factors
     )
 
   bev_brt_cost <-
     calc_cost(
       tb_vmt = bev_brt_vmt,
-      .mode = mode, .price = "BEVPrice",
+      .mode = mode,
+      .price = "BEVPrice",
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
