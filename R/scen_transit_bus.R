@@ -138,7 +138,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     calc_cost(tb_vmt = ci_vmt,
               .mode = mode,
               .price = "BCIPrice",
-              .is_av = .is_av,
+              .is_av = FALSE,
               .enviro_factors = .enviro_factors)
 
   ### HEV Bus ------
@@ -457,7 +457,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       # .fuel_type = "HEV",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = .is_av,
+      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
