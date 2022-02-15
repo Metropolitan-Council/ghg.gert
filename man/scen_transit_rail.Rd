@@ -108,11 +108,7 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 Calculate scenario for passenger rail
 }
 \seealso{
-Other transportation results, passenger: 
-\code{\link{scen_autonomous_vehicle}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_walk_bike}()}
+Other transportation results, passenger, transit: 
+\code{\link{scen_transit_bus}()}
 }
-\concept{transportation results, passenger}
+\concept{transportation results, passenger, transit}

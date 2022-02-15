@@ -111,8 +111,6 @@ Calculate scenario for walk and bike
 Other transportation results, passenger: 
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()}
+\code{\link{scen_school_bus}()}
 }
 \concept{transportation results, passenger}

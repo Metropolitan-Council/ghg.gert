@@ -111,8 +111,6 @@ Calculate scenario for passenger light-duty vehicles
 Other transportation results, passenger: 
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
 \code{\link{scen_walk_bike}()}
 }
 \concept{transportation results, passenger}
