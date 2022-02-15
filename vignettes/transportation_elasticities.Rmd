@@ -283,7 +283,8 @@ ggplot(vmt,
        aes(x = year,
            y = vmt/1000000,
            color = alt,
-           group = alt)) +
+           group = alt,
+           shape = alt_cat)) +
   # facet_wrap(~class) +
   geom_point() +
   geom_line(alpha = 0.5,
