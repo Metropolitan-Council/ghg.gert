@@ -14,6 +14,7 @@
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list of environmental factors. Default is `enviro_factors`, included in this package.
 #' @param .elast table of elasticities. Default is `elast` included in this package.
+#' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
 #'
 #' @inheritParams run_scenario
 #' @inheritParams vmt_land_use_change
@@ -63,7 +64,8 @@ calc_vmt_forecast <- function(.scenario,
                               .telework_pct = 0,
                               .phev_electric = FALSE,
                               .enviro_factors = enviro_factors,
-                              .elast = elast) {
+                              .elast = elast,
+                              .elast_5d = elast_5d) {
   # browser()
 
   tb_vmt <- tb %>%
@@ -147,7 +149,8 @@ calc_vmt_forecast <- function(.scenario,
         .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
-        .transit_dist_pct_change = .transit_dist_pct_change
+        .transit_dist_pct_change = .transit_dist_pct_change,
+        .elast_5d = .elast_5d
       )
 
       parking <- vmt_parking_policy(
@@ -268,7 +271,8 @@ calc_vmt_forecast <- function(.scenario,
         .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
-        .transit_dist_pct_change = .transit_dist_pct_change
+        .transit_dist_pct_change = .transit_dist_pct_change,
+        .elast_5d = .elast_5d
       )
 
       parking <- vmt_parking_policy(
@@ -411,7 +415,7 @@ calc_vmt_forecast <- function(.scenario,
         .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
-        .transit_dist_pct_change = .transit_dist_pct_change
+        .transit_dist_pct_change = .transit_dist_pct_change, .elast_5d = .elast_5d
       )
 
       parking <- vmt_parking_policy(
@@ -635,7 +639,8 @@ calc_vmt_forecast <- function(.scenario,
         .land_use_diversity_pct_change = .land_use_diversity_pct_change,
         .intersection_design_pct_change = .intersection_design_pct_change,
         .job_access_pct_change = .job_access_pct_change,
-        .transit_dist_pct_change = .transit_dist_pct_change
+        .transit_dist_pct_change = .transit_dist_pct_change,
+        .elast_5d = .elast_5d
       )
 
 

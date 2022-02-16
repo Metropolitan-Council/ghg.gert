@@ -37,7 +37,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
                                       .enviro_factors = enviro_factors,
-                                      .elast = elast) {
+                                      .elast = elast,
+                                      .elast_5d = elast_5d) {
   # Sequence for each
   # 1. Establish `type`, `var`, `mode`
   # 2. Establish `stock`, `mpg`, `class`
@@ -119,7 +120,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .drs_fuel_type = .drs_fuel_type,
     .phev_electric = NA,
     .elast = .elast,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   ) %>%
     mutate(class = class)
 
@@ -202,7 +204,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
     .elast = .elast,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   ) %>%
     mutate(class = class)
 
@@ -291,7 +294,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -376,7 +380,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
     .elast = .elast,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   ) %>%
     mutate(class = class)
 
@@ -416,7 +421,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
     .elast = .elast,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   ) %>%
     mutate(class = class)
 
@@ -596,7 +602,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 

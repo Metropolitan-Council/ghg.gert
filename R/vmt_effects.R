@@ -72,6 +72,7 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   }
 
   if (.mode == "PLDV") {
+    # increase in AV usage will increase PLDV VMT
     av_return <- tb_avshare %>%
       rowwise() %>%
       mutate(av_adj = case_when(
@@ -88,6 +89,7 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     "RU",
     "RI"
   )) {
+    # increase in AV usage will decrease transit VMT
     av_return <- .pass_tb %>%
       # rowwise() %>%
       mutate(
@@ -205,7 +207,8 @@ vmt_land_use_change <- function(.type,
                                 .intersection_design_pct_change,
                                 .job_access_pct_change,
                                 .transit_dist_pct_change,
-                                .enviro_factors = enviro_factors) {
+                                .enviro_factors = enviro_factors,
+                                .elast_5d = elast_5d) {
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
@@ -218,7 +221,7 @@ vmt_land_use_change <- function(.type,
     .enviro_factors$MAX_5D_ACT
   }
 
-  comb_5d_elast <- elast_5d %>%
+  comb_5d_elast <- .elast_5d %>%
     filter(type == .type) %>%
     mutate(
       n_population_density = 1 + .pop_dens_pct_change * .data$population_density,

@@ -37,7 +37,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .telework_pct = 0,
                              .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors,
-                             .elast = .elast) {
+                             .elast = elast,
+                             .elast_5d = elast_5d) {
   # browser()
   type <- "P"
   # For all passenger modes, variable = PMT
@@ -55,11 +56,11 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   class <- "BCI"
 
   fcm <- calc_fuel_cost_mile(
-    tb =  .pass_tb,
+    tb = .pass_tb,
     .mode = "PLDV",
-    .aeo_scenario =  .aeo_scenario,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .fuel_cost_gallon =   .enviro_factors$SI_FUEL_COST_GAL,
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .av_pct = .av_pct,
     .enviro_factors = .enviro_factors
   )
@@ -93,7 +94,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -101,9 +103,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     calc_ghg_direct(
       tb_vmt = ci_vmt,
       tb = .pass_tb,
-      .mode =   mode,
+      .mode = mode,
       .fuel_type = "CI",
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
@@ -111,12 +113,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_fuel <-
     calc_fuel_use(
-      tb_vmt =  ci_vmt,
-      tb =  .pass_tb,
+      tb_vmt = ci_vmt,
+      tb = .pass_tb,
       .mode = mode,
       # "CI",
-      .aeo_scenario =  .aeo_scenario,
-      .miles_per_gallon =   mpg,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
@@ -131,15 +133,16 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .transit_avo_pct = .transit_avo_pct,
       .mit_bau_summary,
       .enviro_factors = .enviro_factors
-
     )
 
   ci_cost <-
-    calc_cost(tb_vmt = ci_vmt,
-              .mode = mode,
-              .price = "BCIPrice",
-              .is_av = FALSE,
-              .enviro_factors = .enviro_factors)
+    calc_cost(
+      tb_vmt = ci_vmt,
+      .mode = mode,
+      .price = "BCIPrice",
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
+    )
 
   ### HEV Bus ------
   stock <- "HEVStock"
@@ -175,7 +178,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -185,7 +189,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     tb = .pass_tb,
     .mode = mode,
     .fuel_type = "CI",
-    .aeo_scenario =  .aeo_scenario,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .is_av = FALSE,
     .enviro_factors = .enviro_factors
@@ -259,7 +263,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -278,7 +283,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   bev_fuel <-
     calc_fuel_use(
-      tb_vmt =  bev_vmt,
+      tb_vmt = bev_vmt,
       tb = .pass_tb,
       .mode = mode,
       # .electric_scenario,
@@ -305,9 +310,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     calc_cost(
       tb_vmt = bev_vmt,
       .mode = mode,
-     .price =  "BEVPrice",
-     .is_av = FALSE,
-     .enviro_factors = .enviro_factors
+      .price = "BEVPrice",
+      .is_av = FALSE,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -351,7 +356,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -361,7 +367,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       tb = .pass_tb,
       .mode = mode,
       .fuel_type = "BCI",
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
@@ -434,7 +440,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -471,7 +478,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .transit_avo_pct, hev_brt_vmt,
       .mit_bau_summary,
       .enviro_factors = .enviro_factors
-
     )
 
   hev_brt_cost <-
@@ -517,7 +523,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
     .elast = .elast,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   ) %>%
     mutate(class = class)
 

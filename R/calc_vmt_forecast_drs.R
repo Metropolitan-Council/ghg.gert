@@ -44,7 +44,8 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .telework_pct = 0,
                                   .phev_electric = FALSE,
                                   .enviro_factors = enviro_factors,
-                                  .elast = elast) {
+                                  .elast = elast,
+                                  .elast_5d = elast_5d) {
 
   # dynamic ride share ----
   # browser()
@@ -96,7 +97,9 @@ calc_vmt_forecast_drs <- function(.scenario,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
     .intersection_design_pct_change = .intersection_design_pct_change,
     .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   )
 
   parking <- vmt_parking_policy(

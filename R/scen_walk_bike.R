@@ -40,7 +40,8 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .telework_pct = 0,
                            .mit_bau_summary = 0,
                            .enviro_factors = enviro_factors,
-                           .elast = elast) {
+                           .elast = elast,
+                           .elast_5d = elast_5d) {
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",

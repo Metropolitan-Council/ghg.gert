@@ -36,7 +36,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .telework_pct = 0,
                               .mit_bau_summary = 0,
                               .enviro_factors = enviro_factors,
-                              .elast = elast) {
+                              .elast = elast,
+                              .elast_5d = elast_5d) {
   # Rail Urban-----
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
@@ -75,7 +76,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
       .gas_tax = .gas_tax,
-      .cong_price =  .cong_price,
+      .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
       .drs_pct = .drs_pct,
@@ -92,7 +93,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -102,10 +104,10 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
     calc_ghg_direct(
       tb_vmt = ev_vmt,
       tb = .pass_tb,
-      .mode =  mode,
+      .mode = mode,
       .fuel_type = .electric_scenario,
-      .aeo_scenario =  .aeo_scenario,
-      .miles_per_gallon =  mpe,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
@@ -113,10 +115,10 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_fuel <-
     calc_fuel_use(
       tb_vmt = ev_vmt,
-      tb =  .pass_tb,
-      .mode =  mode,
+      tb = .pass_tb,
+      .mode = mode,
       # .electric_scenario,
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
@@ -128,7 +130,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       .price = "EVPrice",
       .is_av = FALSE,
-      .enviro_factors = .enviro_factors)
+      .enviro_factors = .enviro_factors
+    )
 
   # Rail Interurban-----
   mode <- "RI"
@@ -154,7 +157,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
       .gas_tax = .gas_tax,
-      .cong_price =  .cong_price,
+      .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
       .drs_pct = .drs_pct,
@@ -171,7 +174,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -179,7 +183,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ci_ri_ghg <-
     calc_ghg_direct(
       tb_vmt = ci_ri_vmt,
-      tb =  .pass_tb,
+      tb = .pass_tb,
       .mode = mode,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
@@ -190,9 +194,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   ci_ri_fuel <-
     calc_fuel_use(
-      tb_vmt =  ci_ri_vmt,
+      tb_vmt = ci_ri_vmt,
       tb = .pass_tb,
-      .mode =  mode,
+      .mode = mode,
       # "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
@@ -224,7 +228,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
       .gas_tax = .gas_tax,
-      .cong_price =  .cong_price,
+      .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
       .drs_pct = .drs_pct,
@@ -241,7 +245,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -261,9 +266,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
     calc_fuel_use(
       tb_vmt = ev_ri_vmt,
       tb = .pass_tb,
-      .mode =   mode,
+      .mode = mode,
       # .electric_scenario,
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
       .is_av = FALSE,
       .enviro_factors = .enviro_factors
@@ -275,7 +280,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       .price = "EVPrice",
       .is_av = FALSE,
-      .enviro_factors = .enviro_factors)
+      .enviro_factors = .enviro_factors
+    )
 
 
   # Finish up -----

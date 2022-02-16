@@ -38,7 +38,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .telework_pct = 0,
                                  .mit_bau_summary = 0,
                                  .enviro_factors = enviro_factors,
-                                 .elast = elast) {
+                                 .elast = elast,
+                                 .elast_5d = elast_5d) {
 
   # Multimodal -----
 
@@ -63,7 +64,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
-      .elast = .elast
+      .elast = .elast,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -90,7 +92,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
-      .elast = .elast
+      .elast = .elast,
+      .elast_5d = .elast_5d
     ) %>% mutate(class = class)
 
   mm_bev_ghg <-
@@ -120,7 +123,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
-      .elast = .elast
+      .elast = .elast,
+      .elast_5d = .elast_5d
     ) %>% mutate(class = class)
 
   air_si_ghg <-
@@ -149,7 +153,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
       .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change,
-      .elast = .elast
+      .elast = .elast,
+      .elast_5d = .elast_5d
     ) %>% mutate(class = class)
 
   wat_ci_ghg <-

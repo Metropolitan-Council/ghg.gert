@@ -38,7 +38,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .telework_pct = 0,
                                .mit_bau_summary = 0,
                                .enviro_factors = enviro_factors,
-                               .elast = elast) {
+                               .elast = elast,
+                               .elast_5d = elast_5d) {
   mode <- "FR"
   # (measured in ton-miles NOT miles)
   type <- "F"
@@ -99,7 +100,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
-      .elast = .elast
+      .elast = .elast,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -164,7 +166,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -232,7 +235,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -297,7 +301,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .telework_pct = .telework_pct,
       .phev_electric = .phev_electric,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 

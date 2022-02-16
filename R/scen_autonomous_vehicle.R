@@ -38,7 +38,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
                                     .telework_pct = 0,
                                     .mit_bau_summary = 0,
                                     .enviro_factors = enviro_factors,
-                                    .elast = elast) {
+                                    .elast = elast,
+                                    .elast_5d = elast_5d) {
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",
@@ -121,7 +122,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .telework_pct = .telework_pct,
           .phev_electric = NA,
           .enviro_factors = .enviro_factors,
-          .elast = .elast
+          .elast = .elast,
+          .elast_5d = .elast_5d
         ) %>%
         mutate(class = class)
 
@@ -194,6 +196,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
         .comb_5d_impact_pct_change,
         .elast = .elast,
+        .elast_5d = .elast_5d,
         .enviro_factors = .enviro_factors,
         .telework_pct,
         .phev_electric = FALSE
@@ -216,6 +219,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .transit_dist_pct_change, .comb_5d_impact_pct_change,
         .telework_pct,
         .elast = .elast,
+        .elast_5d = .elast_5d,
         .enviro_factors = .enviro_factors,
         .phev_electric = TRUE
       ) * av_passenger_tb %>%
@@ -330,6 +334,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .job_access_pct_change, .transit_dist_pct_change,
           .comb_5d_impact_pct_change, .telework_pct,
           .elast = .elast,
+          .elast_5d = .elast_5d,
           .enviro_factors = .enviro_factors
         ) %>%
         dplyr::mutate(class = class)
