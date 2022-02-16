@@ -1,0 +1,68 @@
+---
+title: "Interventions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intervention_overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  fig.width = 8
+)
+
+
+requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace("scales", quietly = TRUE)
+requireNamespace("councilR", quietly = TRUE)
+requireNamespace("wesanderson", quietly = TRUE)
+library(ghg.sp)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+library(wesanderson)
+library(councilR)
+library(emo)
+
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+      councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T)
+  }
+)
+
+```
+
+
+# Intervention strategies
+
+All possible strategies  
+
+**VMT effects - negative coefficients**   
+Increase in these values = decrease in VMT
+
+- Vehicle-miles-traveled fee   
+- Pay-as-you-drive fee   
+- Gas tax  
+- Parking price increases  
+- Telework
+- Land use changes (no more than a 25% reduction in VMT)
+    - + Employment density  
+    - + Housing density   
+    - + Land use diversity  
+    - Intersection design  
+    - Minimum distance to bus stop  
+    - Job accessibility via transit
+  - 
+  
+**VMT effects - positive coefficinets**  
+
+ these values
+  
