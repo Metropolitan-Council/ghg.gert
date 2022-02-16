@@ -15,7 +15,6 @@ knitr::opts_chunk$set(
   fig.width = 8
 )
 
-
 requireNamespace("ggplot2", quietly = TRUE)
 requireNamespace("scales", quietly = TRUE)
 requireNamespace("councilR", quietly = TRUE)
@@ -45,8 +44,9 @@ ggplot2::theme_set(
 
 All possible strategies  
 
+## Transportation
 **VMT effects - negative coefficients**   
-Increase in these values = decrease in VMT
+Increase in these values = decrease in PLDV VMT
 
 - Vehicle-miles-traveled fee   
 - Pay-as-you-drive fee   
@@ -54,15 +54,16 @@ Increase in these values = decrease in VMT
 - Parking price increases  
 - Telework
 - Land use changes (no more than a 25% reduction in VMT)
-    - + Employment density  
-    - + Housing density   
-    - + Land use diversity  
-    - Intersection design  
-    - Minimum distance to bus stop  
-    - Job accessibility via transit
-  - 
-  
-**VMT effects - positive coefficinets**  
-
- these values
+    - + Employment density, jobs per sq. mi. developed land  
+    - + Housing density, residents per sq. mi. developed land  
+    - + Land use diversity/ entropy  
+    - + Intersection design (increase % of intersections with 3+ ways)
+    - - Minimum distance to transit stop from residential building   
+    - + Job accessibility via transit (jobs located within one mile of the home)
+- Transit ridership  
+- Average vehicle occupancy  
+- Vehicle automation  
+- Dynamic ride sharing (contextual)  
+- Annual energy outlook (contextual)
+    
   
