@@ -15,7 +15,13 @@ calc_fuel_cost_mile(
 )
 }
 \arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
 \item{.mode}{current mode}
+
+\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{miles per gallon for current mode}
 

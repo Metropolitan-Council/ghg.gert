@@ -3,6 +3,7 @@
 #' @param .miles_per_gallon miles per gallon for current mode
 #' @param .fuel_cost_gallon  fuel cost per gallon for current mode
 #' @inheritParams calc_cost
+#' @inheritParams calc_ghg_direct
 #'
 #' @return a tibble with columns for `mode`, `var`, `year`, and `fuel_cost_mile`.
 #' @export

@@ -37,7 +37,8 @@ run_scenario(
   .hev_pct_sales = 0,
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
-  .elast = elast
+  .elast = elast,
+  .elast_5d = elast_5d
 )
 }
 \arguments{
@@ -74,6 +75,8 @@ Default is \code{0}.}
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.
