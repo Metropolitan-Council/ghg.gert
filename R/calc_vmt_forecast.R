@@ -786,6 +786,7 @@ calc_vmt_forecast <- function(.scenario,
     # BAU and walk/bike -----
     # browser()
 
+    # AVO for all bike and walk is 1
     avo <- tb %>%
       dplyr::filter(
         mode == .mode,

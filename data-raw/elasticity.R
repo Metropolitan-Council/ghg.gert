@@ -84,6 +84,7 @@ ELAST_JOBS_DR <- calc_elasticity(ELAST_DEF_5D, -0.200, length(INIT_YRS), length(
 ELAST_DIST_DR <- calc_elasticity(ELAST_DEF_5D, -0.050, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_DR <- calc_elasticity(ELAST_DEF_5D, -0.22, length(INIT_YRS), length(FOR_YRS))
+
 # Walking VMT elasticity to 5Ds
 # Density population (RANGE)
 ELAST_DENS_ACT_POP <- calc_elasticity(ELAST_DEF_5D, 0.070, length(INIT_YRS), length(FOR_YRS))
@@ -99,6 +100,7 @@ ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length
 ELAST_DIST_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.330, length(INIT_YRS), length(FOR_YRS))
+
 # Transit VMT elasticity to 5Ds
 # Density population (RANGE)
 ELAST_DENS_TRANS_POP <- calc_elasticity(ELAST_DEF_5D, 0.07, length(INIT_YRS), length(FOR_YRS))
