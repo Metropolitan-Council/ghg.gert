@@ -51,9 +51,9 @@
 #'   \item{park_elast}{Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019)}
 #'   \item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
 #'   \item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
-#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price. Affects VMT.
+#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV VMT price. Affects VMT.
 #'       (Litman 2019. https://www.vtpi.org/elasticities.pdf)}
-#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT RACE (1999)}
+#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT TRACE (1999)}
 #'   \item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
 #' }
 #'
