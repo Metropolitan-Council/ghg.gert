@@ -1,6 +1,6 @@
 mode_id,mode_abbrev,mode_description_1,mode_description_2
 1,BUS,Bus,bus
-2,FRAIL,Freight Rail,freight_rail
+2,FRAIL,Freight rail,freight_rail
 3,FSHIP,Freight ship,Mostly barges going to port in St. Paul
 4,HDT,Heavy duty vehicle,heavy_duty_veh
 5,LDV,Light duty vehicle,light_duty_veh
