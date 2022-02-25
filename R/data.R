@@ -36,6 +36,7 @@
 #' }
 #'
 #' @family datasets
+# enviro_factors -----
 "enviro_factors"
 
 
@@ -61,6 +62,7 @@
 #' @examples
 #' library(ghg.sp)
 #' elast
+# elast -----
 "elast"
 
 
@@ -83,7 +85,8 @@
 #' @family datasets
 #' @examples
 #' library(ghg.sp)
-#' elast_5d
+#' elast_5d'
+# elast_5d-----
 "elast_5d"
 
 #' @title Annual energy outlook, cost, and greenhouse gas factors
