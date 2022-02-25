@@ -357,7 +357,8 @@ ggplot(all_scen_freight_em,
   scale_y_continuous(labels = scales::comma) +
   labs(title = "All Freight Emissions")
 ```
-## App data output   
+
+## App data output    
 
 ```{r}
 app_out <- purrr::map_dfr(

@@ -44,7 +44,17 @@ ggplot2::theme_set(
 
 All possible strategies  
 
-## Transportation
+## Transportation  
+
+There are two main transportation strategies: vehicle electrification and increase public transit.  
+
+### Increase public transit  
+
+- Land use changes  
+- Increase average vehicle occupancy using route improvements  
+- 
+
+
 **VMT effects - negative coefficients**   
 Increase in these values = decrease in PLDV VMT
 
@@ -56,7 +66,7 @@ Increase in these values = decrease in PLDV VMT
 - Land use changes (no more than a 25% reduction in VMT)
     - + Employment density, jobs per sq. mi. developed land  
     - + Housing density, residents per sq. mi. developed land  
-    - + Land use diversity/ entropy  
+    - + Land use diversity / entropy  
     - + Intersection design (increase % of intersections with 3+ ways)
     - - Minimum distance to transit stop from residential building   
     - + Job accessibility via transit (jobs located within one mile of the home)
