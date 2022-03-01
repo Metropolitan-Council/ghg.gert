@@ -69,9 +69,9 @@ Land use strategies are interdependent.
 - Increase housing density, residents per sq. mile of developed land  
 - Increase employment density, jobs per sq. mile of developed land
 - Increase land use diversity/entropy
-- Increase intersection density, increase % of all intersections with 3+ ways)  
-- Decrease minimum distance from residential buildings to transit stops
-- Increase job accessibility via transit (jobs located within one mile of the home)
+- Increase intersection density, increase % of all intersections with 3+ ways  
+- Decrease average minimum distance from residential buildings to transit stops
+- Increase job accessibility via transit (jobs located within one mile of the home?)
 
 
 ```{r}
