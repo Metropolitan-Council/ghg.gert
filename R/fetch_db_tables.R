@@ -101,6 +101,7 @@ fetch_db_tables <- function(uid = getOption("councilR.uid"),
 
     tables <- c(
       "land_cover_types",
+      "ctu_land_use_2016_land_cover",
       "land_use_2016_types",
       "vw_land_use_by_cover_type",
       "vw_ctu_forecast",
