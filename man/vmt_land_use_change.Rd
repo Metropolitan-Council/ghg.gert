@@ -13,7 +13,8 @@ vmt_land_use_change(
   .intersection_design_pct_change,
   .job_access_pct_change,
   .transit_dist_pct_change,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast_5d = elast_5d
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ Numeric between -1 and 1. Default is \code{0}}
 Numeric between -1 and 1. Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 a table with columns \code{year}, \code{type}, and \code{land_use_adj}

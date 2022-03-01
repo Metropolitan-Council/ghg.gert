@@ -30,7 +30,16 @@ library(scales)
 library(wesanderson)
 library(councilR)
 
-ggplot2::theme_set(councilR::council_theme(use_showtext = FALSE))
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+      councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T)
+  }
+)
+
+
 st_paul_pass <- transportation_data$passenger %>%
   filter(
     ctu %in% c(

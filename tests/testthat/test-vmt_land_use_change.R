@@ -8,7 +8,8 @@ ten_pct <- vmt_land_use_change(
   .intersection_design_pct_change = 0.1,
   .job_access_pct_change = 0.1,
   .transit_dist_pct_change = -0.1,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast_5d = elast_5d
 )
 
 testthat::expect_equal(
@@ -31,7 +32,8 @@ walk <- vmt_land_use_change(
   .intersection_design_pct_change = 0.1,
   .job_access_pct_change = 0.1,
   .transit_dist_pct_change = -0.1,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast_5d = elast_5d
 )
 
 testthat::expect_equal(
@@ -52,7 +54,8 @@ transit <- vmt_land_use_change(
   .intersection_design_pct_change = 0.1,
   .job_access_pct_change = 0.1,
   .transit_dist_pct_change = -0.1,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast_5d = elast_5d
 )
 
 
@@ -77,5 +80,6 @@ testthat::expect_error(vmt_land_use_change(
   .intersection_design_pct_change = 0.1,
   .job_access_pct_change = 0.1,
   .transit_dist_pct_change = -0.1,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast_5d = elast_5d
 ))

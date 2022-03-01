@@ -31,7 +31,9 @@ scen_freight_rail(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .mit_bau_summary = 0,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .elast = elast,
+  .elast_5d = elast_5d
 )
 }
 \arguments{
@@ -55,6 +57,10 @@ Default is \code{0}}
 Default is \code{0}}
 
 \item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+
+\item{.parking_price}{measured in dollars per hour. Default is \code{0}.}
+
+\item{.freight_parking_price}{measured in dollars per hour. Default is \code{0}.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
@@ -97,6 +103,10 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 

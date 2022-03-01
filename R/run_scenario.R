@@ -48,7 +48,9 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
                          .phev_pct_sales = 0,
                          .hev_pct_sales = 0,
                          .mit_bau_summary = 0,
-                         .enviro_factors = enviro_factors) {
+                         .enviro_factors = enviro_factors,
+                         .elast = elast,
+                         .elast_5d = elast_5d) {
   l_names <- c(
     "electric_scenario",
     "aeo_scenario",
@@ -121,7 +123,8 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
       .gas_tax = .gas_tax,
       .drs_pct = .drs_pct,
       .av_pct = .av_pct,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .elast = .elast
     )
 
     pass_tb <- adj_fleet$pass
@@ -162,7 +165,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
 
@@ -193,7 +199,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
   # transit rail -----
@@ -224,7 +233,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
   # school bus-----
@@ -254,7 +266,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
 
@@ -285,7 +300,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
   # Dynamic Ride Sharing -----
@@ -316,7 +334,9 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   )
 
   # autonomous vehicles -----
@@ -346,7 +366,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
 
@@ -381,7 +404,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
 
@@ -413,7 +439,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
 
@@ -445,7 +474,10 @@ run_scenario <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary
+    .mit_bau_summary = .mit_bau_summary,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast,
+    .elast_5d = .elast_5d
   )
 
   # Finish up -----

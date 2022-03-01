@@ -38,7 +38,9 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
-                                      .enviro_factors = enviro_factors) {
+                                      .enviro_factors = enviro_factors,
+                                      .elast = elast,
+                                      .elast_5d = elast_5d) {
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -380,7 +382,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .sales_mode = "DRSSales",
           .fuel_type = "PHEV-EMB",
           .enviro_factors = .enviro_factors,
-          .transit_avo_pct_pct = .transit_avo_pct_pct
+          .transit_avo_pct = .transit_avo_pct
         )
 
       drs_cost <-

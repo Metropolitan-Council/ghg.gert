@@ -8,6 +8,7 @@ vmt_transit_ridership(
   tb,
   .mode,
   .transit_rider_pct,
+  .elast = elast,
   .enviro_factors = enviro_factors
 )
 }
@@ -20,6 +21,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
 Default is \code{0}}
+
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

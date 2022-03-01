@@ -43,7 +43,9 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .comb_5d_impact_pct_change = 0,
                                   .telework_pct = 0,
                                   .phev_electric = FALSE,
-                                  .enviro_factors = enviro_factors) {
+                                  .enviro_factors = enviro_factors,
+                                  .elast = elast,
+                                  .elast_5d = elast_5d) {
 
   # dynamic ride share ----
   # browser()
@@ -83,6 +85,8 @@ calc_vmt_forecast_drs <- function(.scenario,
     .payd_fee = .payd_fee,
     .freight_vmt_fee = .freight_vmt_fee,
     .stock = .stock,
+    .enviro_factors = .enviro_factors,
+    .elast = .elast
   )
 
   land_use <- vmt_land_use_change(
@@ -93,7 +97,9 @@ calc_vmt_forecast_drs <- function(.scenario,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
     .intersection_design_pct_change = .intersection_design_pct_change,
     .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change
+    .transit_dist_pct_change = .transit_dist_pct_change,
+    .enviro_factors = .enviro_factors,
+    .elast_5d = .elast_5d
   )
 
   parking <- vmt_parking_policy(

@@ -1,0 +1,299 @@
+---
+title: "Transportation elasticities"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Transportation_elasticities}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  fig.width = 8
+)
+
+requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace("scales", quietly = TRUE)
+requireNamespace("councilR", quietly = TRUE)
+requireNamespace("wesanderson", quietly = TRUE)
+library(ghg.sp)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+library(wesanderson)
+library(councilR)
+
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
+  }
+)
+```
+
+```{r st-paul-data, echo=FALSE}
+st_paul_pass <- transportation_data$passenger %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+
+st_paul_freight <- transportation_data$freight %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+```
+
+
+## Generate sequences   
+
+```{r}
+source("../data-raw/elasticity.R")
+elast_ranges <- read.csv("../data-raw/indices/elast_ranges.csv")
+```
+
+
+Increment all by -0.01, except VMT, which would be too long otherwise.  
+
+```{r seq-elast}
+vmt_seq  <- seq(from = elast_ranges[1,]$min, to =  elast_ranges[1,]$max, by = -0.04) 
+gas_seq <- seq(from = elast_ranges[2,]$min, to =  elast_ranges[2,]$max, by = -0.01)
+cong_seq <- seq(from = elast_ranges[3,]$min, to =  elast_ranges[3,]$max, by = -0.01)
+park_seq <- seq(from = elast_ranges[4,]$min, to =  elast_ranges[4,]$max, by = -0.01)
+```
+
+
+```{r calc-elasts}
+vmt_alt_elast <- purrr::map(vmt_seq, 
+                            function(x){
+                              elast %>% 
+                                mutate(vmt_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+gas_alt_elast <- purrr::map(gas_seq, 
+                            function(x){
+                              elast %>% 
+                                mutate(gas_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+cong_alt_elast <- purrr::map(cong_seq, 
+                             function(x){
+                               elast %>% 
+                                 mutate(cong_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+
+park_alt_elast <- purrr::map(park_seq, 
+                             function(x){
+                               elast %>% 
+                                 mutate(park_elast = c(0, 0, 0, rep(x, length(FOR_YRS))))})
+```
+
+
+## VMT variable elasticities
+
+```{r vmt-alt}
+tictoc::tic("VMT alternates")
+vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
+  scen <- run_scenario(
+    pass_tb = st_paul_pass,
+    freight_tb = st_paul_freight,
+    .scenario = "strategy_road_price",
+    .electric_scenario = "ER",
+    .aeo_scenario = "REF", 
+    .parking_price = 44,
+    .freight_parking_price = 2,
+    .vmt_fee = 0.05,
+    .gas_tax = 0.05,
+    .elast = x
+  )  %>% 
+    suppressMessages()
+  
+  print(min(unique(x$vmt_elast)))
+  return(scen)
+})
+
+tictoc::toc()
+
+```
+
+```{r gas-alt}
+tictoc::tic("Gas alternates")
+gas_alt_results <- purrr::map(gas_alt_elast, function(x){
+  scen <- run_scenario(
+    pass_tb = st_paul_pass,
+    freight_tb = st_paul_freight,
+    .scenario = "strategy_road_price",
+    .electric_scenario = "ER",
+    .aeo_scenario = "REF", 
+    .parking_price = 44,
+    .freight_parking_price = 2,
+    .vmt_fee = 0.05,
+    .gas_tax = 0.05,
+    .elast = x
+  )  %>% 
+    suppressMessages()
+  
+  print(min(unique(x$gas_elast)))
+  return(scen)
+})
+tictoc::toc()
+
+```
+
+```{r cong-alt}
+tictoc::tic("Congestion alternates")
+cong_alt_results <- purrr::map(cong_alt_elast, function(x){
+  scen <- run_scenario(
+    pass_tb = st_paul_pass,
+    freight_tb = st_paul_freight,
+    .scenario = "strategy_road_price",
+    .electric_scenario = "ER",
+    .aeo_scenario = "REF", 
+    .parking_price = 44,
+    .freight_parking_price = 2,
+    .vmt_fee = 0.05,
+    .gas_tax = 0.05,
+    .elast = x
+  )  %>% 
+    suppressMessages()
+  
+  print(min(x$cong_elast))
+  return(scen)
+})
+tictoc::toc()
+
+```
+
+```{r parking-alt}
+tictoc::tic("Parking alternates")
+park_alt_results <- purrr::map(park_alt_elast, function(x){
+  scen <- run_scenario(
+    pass_tb = st_paul_pass,
+    freight_tb = st_paul_freight,
+    .scenario = "strategy_road_price",
+    .electric_scenario = "ER",
+    .aeo_scenario = "REF", 
+    .parking_price = 44,
+    .freight_parking_price = 2,
+    .vmt_fee = 0.05,
+    .gas_tax = 0.05,
+    .elast = x
+  )  %>% 
+    suppressMessages()
+  
+  print(min(unique(x$park_elast)))
+  
+  return(scen)
+})
+tictoc::toc()
+
+```
+
+
+```{r rename}
+names(vmt_alt_results) <- paste0("vmt_", vmt_seq)
+names(gas_alt_results) <- paste0("gas_", gas_seq)
+names(cong_alt_results) <- paste0("cong_", cong_seq)
+names(park_alt_results) <- paste0("park_", park_seq)
+```
+
+```{r save-image}
+save.image()
+```
+
+# Plot results  
+
+```{r combine-emissions}
+emissions <- purrr::map2_dfr(
+  .x = list(
+    vmt_alt_results,
+    gas_alt_results,
+    cong_alt_results,
+    park_alt_results),
+  .y = list(
+    names(vmt_alt_results),
+    names(gas_alt_results),
+    names(cong_alt_results),
+    names(park_alt_results)),
+  .f = function(x, y){
+    purrr::map2_dfr(
+      x,
+      y,
+      function(x2, y2){
+        # browser()
+        x2$passenger_all %>% 
+          filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+          group_by(year, scenario) %>% 
+          summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep") %>% 
+          mutate(alt = y2,
+                 alt_cat = stringr::str_sub(y2, 1, 4))
+      })
+  })
+
+```
+
+```{r}
+ggplot(emissions,
+       aes(x = year,
+           y = dir_ghg,
+           color = alt,
+           group = alt)) +
+  geom_point(show.legend = F) +
+  geom_line(alpha = 0.5,
+            size = 1,
+            show.legend = F) +
+  facet_wrap(~alt_cat) +
+  labs(title = "All Passenger Vehicle Emissions")
+```
+
+
+```{r}
+vmt <- purrr::map2_dfr(
+  .x = list(
+    vmt_alt_results,
+    gas_alt_results,
+    cong_alt_results,
+    park_alt_results),
+  .y = list(
+    names(vmt_alt_results),
+    names(gas_alt_results),
+    names(cong_alt_results),
+    names(park_alt_results)),
+  .f = function(x, y){
+    purrr::map2_dfr(
+      x,
+      y,
+      function(x2, y2){
+        x2$passenger_all %>% 
+ filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
+      group_by(year, scenario) %>% 
+      summarize(vmt = sum(vmt, na.rm = T), .groups = "keep") %>% 
+          mutate(alt = y2,
+                 alt_cat = stringr::str_sub(y2, 1, 4))
+      })
+  })
+```
+
+```{r}
+ggplot(vmt,
+       aes(x = year,
+           y = vmt/1000000,
+           color = alt,
+           group = alt,
+           shape = alt_cat)) +
+  # facet_wrap(~class) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "All Passenger Vehicle Miles Traveled")
+```
+# Conclusion  
+
+Of the interventions with elasticities provided, the largest effect comes from parking pricing. Other interventions, including VMT/PAYD pricing, gas tax, and congestion pricing, are out of scope for CTUs.   
+
+

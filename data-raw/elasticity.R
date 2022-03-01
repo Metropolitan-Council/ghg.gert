@@ -1,5 +1,9 @@
 # elasticities
-library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(councilR)
+library(emo)
 library(ghg.sp)
 
 
@@ -22,24 +26,24 @@ empty_list <- c(rep(0, length(YRS)))
 # LONG-RUN ELASTICITY - should be made available as a range (slider) for users----
 # Harvey and Deakin (1998)
 # INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean
-# ELAST_VMT <- readline(prompt="Pick an elasiticty for VMT pricing (-0.1 to -0.8. Mean: -0.34): ")
+# ELAST_VMT <- readline(prompt="Pick an elasticity for VMT pricing (-0.1 to -0.8. Mean: -0.34): ")
 ELAST_VMT <- c(0, 0, 0, rep(-0.34, length(FOR_YRS)))
 # ELAST_VMT <- calc_elasticity(empty_list, -0.2, length(INIT_YRS), length(FOR_YRS))
 
 # Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean
 # Small (2007)
-# ELAST_GAS <- readline(prompt="Pick an elasiticty for gas tax (-0.05 to -0.17. Mean: -0.1066): ")
+# ELAST_GAS <- readline(prompt="Pick an elasticity for gas tax (-0.05 to -0.17. Mean: -0.1066): ")
 
 # ELAST_GAS <- calc_elasticity(empty_list, -0.1066, length(INIT_YRS), length(FOR_YRS))
 ELAST_GAS <- c(0, 0, 0, rep(-0.1066, length(FOR_YRS)))
 # Arentze, Hofman and Timmermans (2004) and PSRC 2005
-# ELAST_CONG <- readline(prompt="Pick an elasiticty for congestion (-0.04 to -0.16. Mean: -0.10): ")
+# ELAST_CONG <- readline(prompt="Pick an elasticity for congestion (-0.04 to -0.16. Mean: -0.10): ")
 
 ELAST_CONG <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_CONG <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
 # TRACE (1999) and Litman (2019)
-# ELAST_PARK <- readline(prompt="Pick an elasiticty for parking cost (-0.03 to -0.17. Mean: -0.07): ")
+# ELAST_PARK <- readline(prompt="Pick an elasticity for parking cost (-0.03 to -0.17. Mean: -0.07): ")
 ELAST_PARK <- c(0, 0, 0, rep(-0.07, length(FOR_YRS)))
 # ELAST_PARK <- calc_elasticity(empty_list, -0.03, length(INIT_YRS), length(FOR_YRS))
 
@@ -84,6 +88,7 @@ ELAST_JOBS_DR <- calc_elasticity(ELAST_DEF_5D, -0.200, length(INIT_YRS), length(
 ELAST_DIST_DR <- calc_elasticity(ELAST_DEF_5D, -0.050, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_DR <- calc_elasticity(ELAST_DEF_5D, -0.22, length(INIT_YRS), length(FOR_YRS))
+
 # Walking VMT elasticity to 5Ds
 # Density population (RANGE)
 ELAST_DENS_ACT_POP <- calc_elasticity(ELAST_DEF_5D, 0.070, length(INIT_YRS), length(FOR_YRS))
@@ -99,6 +104,7 @@ ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length
 ELAST_DIST_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.330, length(INIT_YRS), length(FOR_YRS))
+
 # Transit VMT elasticity to 5Ds
 # Density population (RANGE)
 ELAST_DENS_TRANS_POP <- calc_elasticity(ELAST_DEF_5D, 0.07, length(INIT_YRS), length(FOR_YRS))

@@ -36,6 +36,7 @@
 #' }
 #'
 #' @family datasets
+# enviro_factors -----
 "enviro_factors"
 
 
@@ -51,9 +52,9 @@
 #'   \item{park_elast}{Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019)}
 #'   \item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
 #'   \item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
-#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV price. Affects VMT.
+#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV VMT price. Affects VMT.
 #'       (Litman 2019. https://www.vtpi.org/elasticities.pdf)}
-#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT RACE (1999)}
+#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT TRACE (1999)}
 #'   \item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
 #' }
 #'
@@ -61,6 +62,7 @@
 #' @examples
 #' library(ghg.sp)
 #' elast
+# elast -----
 "elast"
 
 
@@ -84,6 +86,7 @@
 #' @examples
 #' library(ghg.sp)
 #' elast_5d
+# elast_5d-----
 "elast_5d"
 
 #' @title Annual energy outlook, cost, and greenhouse gas factors
@@ -98,6 +101,7 @@
 #' }
 #'
 #' @family datasets
+# factor_values-----
 "factor_values"
 
 
@@ -117,6 +121,7 @@
 #' library(ghg.sp)
 #' transportation_data$passenger
 #' transportation_data$freight
+# transportation_data -----
 "transportation_data"
 
 
@@ -133,6 +138,8 @@
 #'   \item{modes}{tibble with columns `mode_id`, `mode_abbrev`,
 #'       `mode_description_1`, and `mode_description_2`}
 #'   \item{aeo}{tibble with columns `aeo_scen`, `name`, and `description`}
+#'   \item{data_sources}{tibble with columns `mode`, `var`, `source`, `source_1`,
+#'       `source_2`, `source_3`, and `source_short`}
 #' }
 #'
 #' @family datasets
@@ -141,4 +148,6 @@
 #' transportation_index$emission_sources
 #' transportation_index$variables
 #' transportation_index$modes
+#' transportation_index$data_sources
+# transportation_index -----
 "transportation_index"

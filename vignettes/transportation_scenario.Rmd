@@ -29,8 +29,13 @@ library(wesanderson)
 library(councilR)
 
 ggplot2::theme_set(
-  councilR::theme_council(use_showtext = FALSE,
-                          use_manual_font_sizes = T))
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+      councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T)
+  }
+)
 
 ```
 
@@ -57,8 +62,9 @@ bau_summary <- run_scenario(pass_tb = st_paul_pass,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF")
 
-bau_pldv <-  bau_summary$passenger_all %>% filter((mode %in% c("AV", "PLDV",
-                                                               "DRS"))) 
+bau_pldv <-  bau_summary$passenger_all %>%
+  filter((mode %in% c("AV", "PLDV",
+                      "DRS"))) 
 
 ```
 
@@ -230,9 +236,10 @@ all_scen_passenger_av <- purrr::map_dfr(
   ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT",
+                         "RU", "RI")) %>%
       group_by(year, scenario) %>% 
-      summarize(dir_ghg = sum(dir_ghg, na.rm = T))
+      summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
   }
 )
 
@@ -251,17 +258,20 @@ ggplot(all_scen_passenger_av,
 ```{r}
 purrr::map_dfr(
   list(bau_summary,
-       mitigation_ev
-       # mitigation_trans,
+       mitigation_ev,
+       mitigation_trans
        # mitigation_lu,
        # mitigation_telework,
        # mitigation_road_price
   ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT")) %>%
+      filter(mode %in% c("AV", "PLDV",
+                         "DRS" ,"BU", "BRT",
+                         "RI", "RU"),
+             !is.na(ghg_embodied_source)) %>%
       group_by(year, scenario, ghg_embodied_source)  %>% 
-      summarize(ghg_embodied = sum(ghg_embodied, na.rm = T))
+      summarize(ghg_embodied = sum(ghg_embodied, na.rm = T), .groups = "keep")
   }
 )  %>% 
   
@@ -274,7 +284,8 @@ purrr::map_dfr(
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1) +
-  labs(title = "All Passenger Vehicle Emissions")
+  labs(title = "All Passenger Vehicle Embodied Emissions") +
+  theme(legend.position = "bottom")
 ```
 
 
@@ -294,7 +305,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
     x$passenger_all %>% 
       filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
       group_by(year, scenario) %>% 
-      summarize(vmt = sum(vmt, na.rm = T))
+      summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
   }
 )
 
@@ -308,7 +319,8 @@ ggplot(all_scen_passenger_vmt,
   geom_line(alpha = 0.5,
             size = 1.1) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "All Passenger Vehicle Miles Traveled")
+  labs(title = "All Passenger Vehicle Miles Traveled",
+       y = "VMT")
 ```
 
 
@@ -345,7 +357,8 @@ ggplot(all_scen_freight_em,
   scale_y_continuous(labels = scales::comma) +
   labs(title = "All Freight Emissions")
 ```
-## App data output   
+
+## App data output    
 
 ```{r}
 app_out <- purrr::map_dfr(

@@ -68,6 +68,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .gas_tax = 0,
                              .drs_pct = 0,
                              .av_pct = 0,
+                             .elast = elast,
                              .enviro_factors = enviro_factors) {
 
   # browser()
@@ -110,18 +111,18 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     }
 
     adj_si_ci_sales <- tibble::tibble(
-      year = elast$year,
+      year = .elast$year,
       adj_si_ci =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
           (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
-          elast$vehicle_ownership_elast) *
+          .elast$vehicle_ownership_elast) *
           (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
-            elast$vehicle_ownership_elast)
+            .elast$vehicle_ownership_elast)
     )
 
 
     adj_si_ci_sales <- tibble(
-      year = elast$year,
+      year = .elast$year,
       adj_si_ci = c(
         1, 1,
         seq(1, adj_si_ci_sales$adj_si_ci[8],
@@ -133,16 +134,16 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
     # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
     adj_alt_sales <- tibble::tibble(
-      year = elast$year,
+      year = .elast$year,
       adj_alt =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
           .payd_fee / .enviro_factors$AUTO_COST_MI) *
-          elast$vehicle_ownership_elast)
+          .elast$vehicle_ownership_elast)
     )
 
 
     # adj_alt_sales <- tibble(
-    #   year = elast$year,
+    #   year = .elast$year,
     #   adj_alt = c(
     #     1, 1,
     #     seq(1, adj_alt_sales$adj_alt[8],

@@ -1,10 +1,10 @@
 mode_id,mode_abbrev,mode_description_1,mode_description_2
 1,BUS,Bus,bus
-2,FRAIL,Freight Rail,freight_rail
+2,FRAIL,Freight rail,freight_rail
 3,FSHIP,Freight ship,Mostly barges going to port in St. Paul
-4,HDT,High Duty Vehicle,heavy_duty_veh
-5,LDV,Light Duty Vehicle,light_duty_veh
-6,MDT,Medium Duty Vehicle,medium_duty_veh
+4,HDT,Heavy duty vehicle,heavy_duty_veh
+5,LDV,Light duty vehicle,light_duty_veh
+6,MDT,Medium duty vehicle,medium_duty_veh
 7,RAIL,Rail,rail
 8,CUT,Combined unit truck,Eqivalent to HDT
 9,SUT,Single unit truck,Equivalent to MDT
@@ -12,14 +12,14 @@ mode_id,mode_abbrev,mode_description_1,mode_description_2
 11,MM,Multi-modal freight (combination of truck and rail),
 12,AIR,Air freight,
 13,WAT,Water freight,Equivalent to FSHIP
-14,PLDV,Passenger Light Duty Vehicle,
+14,PLDV,Passenger light duty vehicle,
 15,BU,"Urban bus (standard, non-BRT bus)",
-16,BRT,Bus Rapid Transit,
+16,BRT,Bus rapid transit,
 17,RU,Urban rail,LRT
 18,RI,Intercity rail,Northstar commuter rail
 19,BS,School bus,
-20,DRS,Dynamic Ride Sharing,
-21,AT,Active transportation (walk+bike),
-22,WALK,walking mode,
-23,BIKE,Biking mode,
-24,AV,Autonomous Vehicle,autonomous_vehicle
+20,DRS,Dynamic ride sharing,
+21,AT,Active transportation (walk and bike),
+22,WALK,Walk,
+23,BIKE,Bike,
+24,AV,Autonomous vehicle,autonomous_vehicle

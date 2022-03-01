@@ -37,7 +37,9 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
                                     .comb_5d_impact_pct_change = 0,
                                     .telework_pct = 0,
                                     .mit_bau_summary = 0,
-                                    .enviro_factors = enviro_factors) {
+                                    .enviro_factors = enviro_factors,
+                                    .elast = elast,
+                                    .elast_5d = elast_5d) {
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",
@@ -119,7 +121,9 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
           .telework_pct = .telework_pct,
           .phev_electric = NA,
-          .enviro_factors = .enviro_factors
+          .enviro_factors = .enviro_factors,
+          .elast = .elast,
+          .elast_5d = .elast_5d
         ) %>%
         mutate(class = class)
 
@@ -156,7 +160,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .class = class,
           .sales_mode = "AVSales",
           .fuel_type = "HEV-EMB",
-          .transit_avo_pct_pct = .transit_avo_pct,
+          .transit_avo_pct = .transit_avo_pct,
           .enviro_factors = .enviro_factors
         ) %>%
         mutate(mode = "AV")
@@ -190,7 +194,12 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-        .comb_5d_impact_pct_change, .telework_pct, 1
+        .comb_5d_impact_pct_change,
+        .elast = .elast,
+        .elast_5d = .elast_5d,
+        .enviro_factors = .enviro_factors,
+        .telework_pct,
+        .phev_electric = FALSE
       ) * (1 - av_passenger_tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS)))
@@ -208,7 +217,11 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
         .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
         .transit_dist_pct_change, .comb_5d_impact_pct_change,
-        .telework_pct
+        .telework_pct,
+        .elast = .elast,
+        .elast_5d = .elast_5d,
+        .enviro_factors = .enviro_factors,
+        .phev_electric = TRUE
       ) * av_passenger_tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(all_of(YRS))
@@ -319,7 +332,10 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .freight_vmt_fee, .pop_dens_pct_change,
           .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
           .job_access_pct_change, .transit_dist_pct_change,
-          .comb_5d_impact_pct_change, .telework_pct
+          .comb_5d_impact_pct_change, .telework_pct,
+          .elast = .elast,
+          .elast_5d = .elast_5d,
+          .enviro_factors = .enviro_factors
         ) %>%
         dplyr::mutate(class = class)
 
