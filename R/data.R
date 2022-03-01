@@ -85,7 +85,7 @@
 #' @family datasets
 #' @examples
 #' library(ghg.sp)
-#' elast_5d'
+#' elast_5d
 # elast_5d-----
 "elast_5d"
 
@@ -101,6 +101,7 @@
 #' }
 #'
 #' @family datasets
+# factor_values-----
 "factor_values"
 
 
@@ -120,6 +121,7 @@
 #' library(ghg.sp)
 #' transportation_data$passenger
 #' transportation_data$freight
+# transportation_data -----
 "transportation_data"
 
 
@@ -147,4 +149,5 @@
 #' transportation_index$variables
 #' transportation_index$modes
 #' transportation_index$data_sources
+# transportation_index -----
 "transportation_index"
