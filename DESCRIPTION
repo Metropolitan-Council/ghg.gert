@@ -1,15 +1,14 @@
 Type: Package
 Package: ghg.sp
 Title: Climate Scenario Planning for Twin Cities Metropolitan Region
-Version: 0.1.9.9000
-Date: 2022-01-20
+Version: 0.1.9.9001
+Date: 2022-03-02
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-5346-3549"))
   )
-Description: Tools for the Metropolitan Council GHG scenario
-    planning app.
+Description: Tools for the Metropolitan Council GHG scenario planning app.
 License: MIT + file LICENSE
 BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
 Depends: 
@@ -31,6 +30,7 @@ Imports:
 Suggests: 
     councilR (>= 0.1.0.9001),
     ggplot2 (>= 3.3.5),
+    gt (>= 0.4.0),
     knitr (>= 1.34),
     rmarkdown (>= 2.10),
     scales (>= 1.1.1),
