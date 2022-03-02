@@ -1,4 +1,4 @@
-db_tables <- list(
+db_table_names <- list(
   # mod 1
   mod_1 = list(
   "t_ctu_forecast" = "metro_sp_mod_1.vw_ctu_forecast"),
@@ -54,5 +54,12 @@ db_tables <- list(
   "t_eia_energy_consumption_state" = "state_energy.eia_energy_consumption_state")
 
 )
+
+usethis::use_data(db_table_names, overwrite = T)
+
+
+# db tables-----
+
+db_tables <- fetch_db_tables(module = "all")
 
 usethis::use_data(db_tables, overwrite = T)
