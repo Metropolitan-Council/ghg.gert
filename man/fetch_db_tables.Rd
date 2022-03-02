@@ -7,7 +7,8 @@
 fetch_db_tables(
   uid = getOption("councilR.uid"),
   pwd = getOption("councilR.pwd"),
-  module,
+  module = c("mod_1", "mod_2", "mod_3", "metro_demos", "state_demos", "metro_energy",
+    "state_energy", "all"),
   local = TRUE,
   serv = "dbsqlcl11t.test.local,65414",
   db = "CD_Emissions"
@@ -20,8 +21,9 @@ Default is \code{getOption("councilR.uid")}. For example, \code{"mc\\\\rotenle"}
 \item{pwd}{character, your network password.
 Default is \code{getOption("councilR.pwd")}. For example, \code{"my_password"}}
 
-\item{module}{character, which module tables to pull. One of \code{"1"}, \code{"2"},
-\code{"3"}, \code{"metro_demographic"}, or \code{"state_demographic"}.}
+\item{module}{character, which module tables to pull. One of \code{"mod_1"}, \code{"mod_2"},
+\code{"mod_3"},\code{ "metro_demos"},
+\code{"state_demos"}, \code{"metro_energy"}, \code{"state_energy"}, or \code{"all"}}
 
 \item{serv}{character, database server.
 Default is \code{"dbsqlcl11t.test.local,65414"} (the test database).}
@@ -55,24 +57,13 @@ options(
   councilR.pwd = "mypwd"
 )
 
-mod_1_tables <- fetch_db_tables(module = "1")
-mod_2_tables <- fetch_db_tables(module = "2")
-mod_3_tables <- fetch_db_tables(module = "3")
+mod_1_tables <- fetch_db_tables(module = "mod_1")
+mod_2_tables <- fetch_db_tables(module = "mod_2")
+mod_3_tables <- fetch_db_tables(module = "mod_3")
 
-# use purrr::map() to fetch all available tables
+# or fetch all tables
 
-library(purrr)
-
-purrr::map(
-  c(
-    "1", "2", "3",
-    "metro_demographic",
-    "state_demographic"
-  ),
-  function(x) {
-    fetch_db_tables(module = x)
-  }
-)
+all <- fetch_db_tables(module = "all")
 }
 
 }
