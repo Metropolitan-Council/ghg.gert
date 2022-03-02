@@ -2,7 +2,7 @@
 title: "Transportation elasticities"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Transportation_elasticities}
+  %\VignetteIndexEntry{trans_elasticities}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
