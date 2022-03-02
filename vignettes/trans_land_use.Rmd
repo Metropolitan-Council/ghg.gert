@@ -19,6 +19,7 @@ requireNamespace("ggplot2", quietly = TRUE)
 requireNamespace("scales", quietly = TRUE)
 requireNamespace("councilR", quietly = TRUE)
 requireNamespace("wesanderson", quietly = TRUE)
+requireNamespace("gt", quietly = TRUE)
 library(ghg.sp)
 library(ggplot2)
 library(dplyr)
@@ -26,6 +27,8 @@ library(stringr)
 library(scales)
 library(wesanderson)
 library(councilR)
+library(tibble)
+library(gt)
 library(emo)
 
 ggplot2::theme_set(
@@ -145,11 +148,12 @@ tibble::tribble(
 
 SHCN did provide us with a complete dataset for all CTUs, but did NOT provide reproducible code.  
 
-We could try to use OSM again, but we would have to work backwards. Ashley Asmus might have some useful code.  
 
 1. Figure out how intersections were identified in OSM and how they quantified the number of ways. Key columns here would be `intersection_id`, `ctu_name`, `n_ways`. `n_ways` should be a factor, with levels `2-way`, `3-way` and `4+  way`
 1. `dplyr::group_by()` CTU and calculate distribution by each number of ways. 
 
+
+Ashley Asmus provided her code from another project [here](./data-raw/trans_intersection_design.R)
 
 ## Average minimum distance to transit stops   
 
