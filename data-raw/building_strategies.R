@@ -45,7 +45,3 @@ s_percent_of_additional_households_with_heating_electrified <- 0.59
 
 # Grid decarbonization: GHGs reduced 80% (compared to 2018)
 s_percent_reduction_ghgs <- 0.8
-
-
-
-

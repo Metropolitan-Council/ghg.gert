@@ -44,8 +44,7 @@
 #'
 #' # or fetch all tables
 #'
-#' all <- fetch_db_tables(module= "all")
-#'
+#' all <- fetch_db_tables(module = "all")
 #' }
 #'
 #' @importFrom DBI dbCanConnect dbGetQuery dbConnect dbDisconnect
@@ -54,10 +53,12 @@
 #' @importFrom utils osVersion
 fetch_db_tables <- function(uid = getOption("councilR.uid"),
                             pwd = getOption("councilR.pwd"),
-                            module = c("mod_1", "mod_2", "mod_3",
-                                       "metro_demos", "state_demos",
-                                       "metro_energy", "state_energy",
-                                       "all"),
+                            module = c(
+                              "mod_1", "mod_2", "mod_3",
+                              "metro_demos", "state_demos",
+                              "metro_energy", "state_energy",
+                              "all"
+                            ),
                             local = TRUE,
                             serv = "dbsqlcl11t.test.local,65414",
                             db = "CD_Emissions") {
@@ -88,22 +89,22 @@ fetch_db_tables <- function(uid = getOption("councilR.uid"),
   }
 
 
-  tables_to_fetch <- if(module == "all"){
+  tables_to_fetch <- if (module == "all") {
     purrr::flatten(db_table_names)
   } else {
     db_table_names[[module]]
   }
 
-  if(length(tables_to_fetch) == 0){
+  if (length(tables_to_fetch) == 0) {
     stop("No matching module name")
   }
 
   conn <- DBI::dbConnect(odbc::odbc(),
-                         Driver = drv,
-                         Database = db,
-                         Uid = uid,
-                         Pwd = pwd,
-                         Server = serv
+    Driver = drv,
+    Database = db,
+    Uid = uid,
+    Pwd = pwd,
+    Server = serv
   )
 
   db_sp_tables <- purrr::map(

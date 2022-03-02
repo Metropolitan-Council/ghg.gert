@@ -214,10 +214,10 @@ all_intersections <-
     by = c("focal_way_node_id" = "from_id")
   ) %>%
   rbind(all_junctions %>%
-          left_join(
-            select(osm_as_dataframe, to_id, way_id, intsct_way_type),
-            by = c("focal_way_node_id" = "to_id")
-          )) %>%
+    left_join(
+      select(osm_as_dataframe, to_id, way_id, intsct_way_type),
+      by = c("focal_way_node_id" = "to_id")
+    )) %>%
   # at the very least, get rid of ways intersecting with themselves
   filter(!focal_way == way_id) %>%
   unique() %>%
@@ -265,8 +265,8 @@ get_related_ways <- function(wayid) {
   related_ways <- related_ways$osm_id
   related_ways <- data.frame(cbind(related_ways, osm_id = wayid))
   write.csv(related_ways,
-            paste0("related_ways/", wayid, ".csv"),
-            row.names = F
+    paste0("related_ways/", wayid, ".csv"),
+    row.names = F
   )
 }
 
@@ -441,9 +441,9 @@ nrow(intersections_aggregated) / nrow(all_intersections) # Now only 48% of inter
 # first need to rejoin to the CMP file:
 intersections_x_cmp <-
   merge(conflation_table,
-        intersections_aggregated,
-        by.x = "osm_id",
-        by.y = "focal_way"
+    intersections_aggregated,
+    by.x = "osm_id",
+    by.y = "focal_way"
   ) %>%
   select(
     CMPP_SI,
@@ -515,10 +515,10 @@ nrow(intersections_cropped)
 
 
 st_write(intersections_cropped,
-         dsn =
-           "IntersectionsCropped", layer = "IntersectionsCropped",
-         driver = "ESRI Shapefile",
-         append = F
+  dsn =
+    "IntersectionsCropped", layer = "IntersectionsCropped",
+  driver = "ESRI Shapefile",
+  append = F
 )
 
 
@@ -604,10 +604,10 @@ intersections_final <- bind_rows(intersections_merged)
 intersections_final <- st_transform(intersections_final, crs = 2811)
 
 st_write(intersections_final,
-         dsn =
-           "Intersections", layer = "Intersections",
-         driver = "ESRI Shapefile",
-         append = F
+  dsn =
+    "Intersections", layer = "Intersections",
+  driver = "ESRI Shapefile",
+  append = F
 )
 
 
@@ -619,10 +619,10 @@ intersections_polygon <- intersections_final %>%
   st_cast("POLYGON")
 
 st_write(intersections_polygon,
-         dsn =
-           "IntersectionsPolygon", layer = "IntersectionsPolygon",
-         driver = "ESRI Shapefile",
-         append = F
+  dsn =
+    "IntersectionsPolygon", layer = "IntersectionsPolygon",
+  driver = "ESRI Shapefile",
+  append = F
 )
 
 
@@ -657,18 +657,18 @@ cmp_intdensity <- cmp_intdensity %>%
   mutate(length_mi = as.numeric(length / 1609)) %>%
   mutate(int_density = total_intersections / length_mi) %>%
   mutate(int_density_bin = cut(int_density,
-                               breaks = c(-0.0001, 2, 4, 8, 1000),
-                               labels = c("0-2", "2-4", "4-8", "8+")
+    breaks = c(-0.0001, 2, 4, 8, 1000),
+    labels = c("0-2", "2-4", "4-8", "8+")
   ))
 
 # boxplot(cmp_intdensity$int_density)
 
 # write this result to a shapefile
 st_write(cmp_intdensity,
-         dsn =
-           "IntersectionDensity", layer = "IntersectionDensity",
-         driver = "ESRI Shapefile",
-         append = F
+  dsn =
+    "IntersectionDensity", layer = "IntersectionDensity",
+  driver = "ESRI Shapefile",
+  append = F
 )
 
 str(cmp_intdensity)
@@ -689,10 +689,10 @@ cmp_polygon %>%
   plot()
 
 st_write(cmp_polygon,
-         dsn =
-           "IntersectionDensityPolygon", layer = "IntersectionDensityPolygon",
-         driver = "ESRI Shapefile",
-         append = F
+  dsn =
+    "IntersectionDensityPolygon", layer = "IntersectionDensityPolygon",
+  driver = "ESRI Shapefile",
+  append = F
 )
 
 # Some mapping, segment by segment

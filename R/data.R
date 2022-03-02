@@ -152,7 +152,7 @@
 # transportation_index -----
 "transportation_index"
 
-#' @title Database tables
+#' @title Database table names
 #'
 #' @format Nested, named list of table names available in the CD_Emissions database
 #' \describe{
