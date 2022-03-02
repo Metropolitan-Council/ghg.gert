@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE,
-  fig.width = 8
+  fig.width = 8,
+  eval = FALSE
 )
 
 requireNamespace("ggplot2", quietly = TRUE)
