@@ -173,3 +173,25 @@
 #' db_tables$metro_demos
 # db_tables -----
 "db_tables"
+
+#' @title North American Industry Classification System (NAICS) and
+#'      Local Employment Dynamics (LED) codes
+#'
+#' @format Nested, named list
+#' \describe{
+#'   \item{commercial}{NAICS codes considered commercial}
+#'   \item{industrial}{NAICS codes considered industrial}
+#'   \item{led_commercial}{NAICS codes considered
+#'       commercial for the LED dataset}
+#'   \item{led_industrial}{NAICS codes considered industrial
+#'       for the LED dataset}
+
+#' }
+#'
+#' @family datasets
+#' @examples
+#' library(ghg.sp)
+#' naics_codes$commercial
+#' naics_codes$industrial
+# naics_codes -----
+"naics_codes"
