@@ -169,10 +169,10 @@
 #' @family datasets
 #' @examples
 #' library(ghg.sp)
-#' db_tables$mod_1
-#' db_tables$metro_demos
-# db_tables -----
-"db_tables"
+#' db_table_names$mod_1
+#' db_table_names$metro_demos
+# db_table_names -----
+"db_table_names"
 
 #' @title North American Industry Classification System (NAICS) and
 #'      Local Employment Dynamics (LED) codes

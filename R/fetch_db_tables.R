@@ -89,9 +89,9 @@ fetch_db_tables <- function(uid = getOption("councilR.uid"),
 
 
   tables_to_fetch <- if(module == "all"){
-    purrr::flatten(db_tables)
+    purrr::flatten(db_table_names)
   } else {
-    db_tables[[module]]
+    db_table_names[[module]]
   }
 
   if(length(tables_to_fetch) == 0){
