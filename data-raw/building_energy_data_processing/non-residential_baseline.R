@@ -390,29 +390,75 @@ p_nrel_natural_gas_ctu <-
   select(ctu_name, year, metric, value)
 
 
-## -------------------------------------------------------------------------------------------
+# ------
+
 p_ctu_nonresidential_energy_baseline_1 <-
-  bind_rows(# electricity
-    if (is_served_by_mostly_xcel == TRUE) {
-      p_xcel_energy_electricity
-    }
-    else if (count(p_nrel_electricity_ctu)$n > 0) {
-      p_nrel_electricity_ctu
-    }
-    else{
-      stop("Non Residential Electricity Data is Missing!!")
-    },
-    # natural gas
-    if (count(p_nrel_natural_gas_ctu)$n > 0) {
-      p_nrel_natural_gas_ctu
-    }
-    else if (count(p_nonresidential_naturalgas_ctu)$n==1 &&
-             p_nonresidential_naturalgas_ctu$customer_class_name == "Business") {
-      p_commercial_and_industrial_natural_gas_ctu
-    }
-    else{
-      stop("Non Residential Natural Gas Data is Missing!!")
-    })
+  purrr::map_dfr(unique(p_commercial_and_industrial_natural_gas_ctu$ctu_name),
+                 function(ctu_na){
+                   # browser()
+
+                   # print(ctu_na)
+                   p_xcel_energy_electricity %<>% filter(ctu_name == ctu_na)
+                   p_nrel_electricity_ctu %<>% filter(ctu_name == ctu_na)
+
+                   p_nrel_natural_gas_ctu %<>% filter(ctu_name == ctu_na)
+                   p_nonresidential_naturalgas_ctu %<>% filter(ctu_name == ctu_na)
+                   p_commercial_and_industrial_natural_gas_ctu %<>% filter(ctu_name == ctu_na)
+                   p_is_served_by_mostly_xcel %<>% filter(ctu_name == ctu_na)
+
+                   is_xcel <- if(nrow(p_is_served_by_mostly_xcel) == 0) {FALSE} else {TRUE}
+
+                   # browser()
+                   bind_rows(# electricity
+                     if (is_xcel == TRUE) {
+                       p_xcel_energy_electricity
+                     }
+                     else if (nrow(p_nrel_electricity_ctu) > 0) {
+                       p_nrel_electricity_ctu
+                     }
+                     else{
+                       p_xcel_energy_electricity
+                       message(paste0( ctu_na, " Non Residential Electricity Data is Missing!!"))
+                     },
+                     # natural gas
+                     if (nrow(p_nrel_natural_gas_ctu) > 0) {
+                       p_nrel_natural_gas_ctu
+                     }
+                     else if (nrow(p_commercial_and_industrial_natural_gas_ctu) > 0 ) { #&&
+                       # p_nonresidential_naturalgas_ctu$customer_class_name == "Business") {
+                       p_commercial_and_industrial_natural_gas_ctu
+                     }
+                     else{
+                       browser()
+                       message("Non Residential Natural Gas Data is Missing!!")
+                     })
+                 })
+
+
+
+## -------------------------------------------------------------------------------------------
+# p_ctu_nonresidential_energy_baseline_1 <-
+#   bind_rows(# electricity
+#     if (is_served_by_mostly_xcel == TRUE) {
+#       p_xcel_energy_electricity
+#     }
+#     else if (count(p_nrel_electricity_ctu)$n > 0) {
+#       p_nrel_electricity_ctu
+#     }
+#     else{
+#       stop("Non Residential Electricity Data is Missing!!")
+#     },
+#     # natural gas
+#     if (count(p_nrel_natural_gas_ctu)$n > 0) {
+#       p_nrel_natural_gas_ctu
+#     }
+#     else if (count(p_nonresidential_naturalgas_ctu)$n==1 &&
+#              p_nonresidential_naturalgas_ctu$customer_class_name == "Business") {
+#       p_commercial_and_industrial_natural_gas_ctu
+#     }
+#     else{
+#       stop("Non Residential Natural Gas Data is Missing!!")
+#     })
 
 
 ## -------------------------------------------------------------------------------------------
