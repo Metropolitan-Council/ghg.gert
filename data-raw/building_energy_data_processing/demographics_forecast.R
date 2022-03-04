@@ -158,29 +158,35 @@ p_housing_stock_ctu_forecast <-
 ## ----average building area single family----------------------------------------------------
 p_average_floor_area_single_family_ctu_forecast <-
   p_average_floor_area_single_family_ctu %>%
+  left_join(t_ctu_county) %>%
+  left_join(p_average_annual_growth_single_family_sqft) %>%
   mutate(
     value =
       case_when(
-        p_average_annual_growth_single_family_sqft$mean * (2040 - 2018) > 0.15 ~ value + (value *
+        mean * (2040 - 2018) > 0.15 ~ value + (value *
                                                                                             0.15),
-        p_average_annual_growth_single_family_sqft$mean * (2040 - 2018) < 0.15 ~ value + (value * p_average_annual_growth_single_family_sqft$mean)
+        mean * (2040 - 2018) < 0.15 ~ value + (value * mean)
       ),
     year = 2040
-  )
+  ) %>%
+  unique()
 
 
 ## -------------------------------------------------------------------------------------------
 p_average_floor_area_multifamily_ctu_forecast <-
   p_average_floor_area_multifamily_ctu %>%
+  left_join(t_ctu_county) %>%
+  left_join(p_average_annual_growth_multifamily_sqft) %>%
   mutate(
     value =
       case_when(
-        p_average_annual_growth_multifamily_sqft$mean * (2040 - 2018) > 0.15 ~ value + (value *
+        mean * (2040 - 2018) > 0.15 ~ value + (value *
                                                                                           0.15),
-        p_average_annual_growth_multifamily_sqft$mean * (2040 - 2018) < 0.15 ~ value + (value * p_average_annual_growth_multifamily_sqft$mean)
+        mean * (2040 - 2018) < 0.15 ~ value + (value * mean)
       ),
     year = 2040
-  )
+  ) %>%
+  unique()
 
 
 ## -------------------------------------------------------------------------------------------
