@@ -32,7 +32,14 @@ p_temp_mndoc_electricity_county <-
                      dplyr::select(co_name, mn_doc_co_code),
                    by = "mn_doc_co_code") %>%
   dplyr::filter(year == 2018) %>%
-  dplyr::filter(co_name %in% l_metro_counties)
+  dplyr::filter(co_name %in% c("Anoka",
+                               "Carver",
+                               "Dakota",
+                               "Hennepin",
+                               "Ramsey",
+                               "Scott",
+                               "Washington")
+  )
 
 p_mndoc_electricity_county_total <-
   p_temp_mndoc_electricity_county %>%
@@ -263,8 +270,10 @@ p_xcel_energy_percent <-
   filter(utility_name == "Xcel Energy")
 
 # variable return TRUE if Xcel Energy serves more than 90%
-is_served_by_mostly_xcel <-
-  if_else(p_xcel_energy_percent$percent  > 0.90, TRUE, FALSE)
+p_is_served_by_mostly_xcel <-
+  p_xcel_energy_percent %>%
+  rowwise() %>%
+  mutate(is_excel = if_else(percent  > 0.90, TRUE, FALSE))
 
 # get xcel energy mwh/year for the 'business' category
 p_commercial_industrial_electricity_mwh_xcel <-
