@@ -18,7 +18,8 @@ p_average_floor_area_multifamily_county <-
   select(co_name, property_land_use, mean_sqft) %>%
   filter(property_land_use == "Condominium") %>%
   # filter(co_name == p_county)  %>%
-  group_by(co_name) %>%   mutate(metric = "multifamily_average_floor_area_sqft_county",
+  # group_by(co_name) %>%
+  mutate(metric = "multifamily_average_floor_area_sqft_county",
          year = 2018) %>%
   rename(value = mean_sqft) %>%
   select(co_name, year, metric, value)
