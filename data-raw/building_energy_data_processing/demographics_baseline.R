@@ -142,9 +142,10 @@ p_average_floor_area_single_family_ctu <-
   select(ctu_name, property_land_use, mean_sqft) %>%
   unique() %>%
   filter(property_land_use == "Single family residential") %>%
+  group_by(ctu_name) %>%
   mutate(metric = "single_family_average_floor_area_sqft_ctu",
-         year = 2018) %>%
-  rename(value = mean_sqft) %>%
+         year = 2018,
+         value = mean(mean_sqft)) %>%
   select(ctu_name, year, metric, value)
 
 
