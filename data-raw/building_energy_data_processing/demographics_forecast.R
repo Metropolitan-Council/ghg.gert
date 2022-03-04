@@ -56,8 +56,8 @@ p_emp_forecast_county <-
   dplyr::group_by(co_name, year, indlabel) %>%
   dplyr::mutate(metric =
                   dplyr::case_when(
-                    (indlabel %in% l_industrial_naics ~ "industrial_emp_forecast_county"),
-                    (indlabel %in% l_commercial_naics ~ "commercial_emp_forecast_county")
+                    (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"),
+                    (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast_county")
                   )) %>%
   group_by(co_name, year, metric) %>%
   summarise(value = sum(emp))
@@ -87,8 +87,8 @@ p_emp_forecast_ctu <-
   dplyr::group_by(ctu_name, year, indlabel) %>%
   dplyr::mutate(metric =
                   dplyr::case_when(
-                    (indlabel %in% l_industrial_naics ~ "industrial_emp_forecast"),
-                    (indlabel %in% l_commercial_naics ~ "commercial_emp_forecast")
+                    (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast"),
+                    (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast")
                   )) %>%
   group_by(ctu_name, year, metric) %>%
   summarise(value = sum(emp))
@@ -190,9 +190,10 @@ p_ctu_characteristics_forecast <-
     p_housing_stock_ctu_forecast,
     p_average_floor_area_single_family_ctu_forecast,
     p_average_floor_area_multifamily_ctu_forecast,
-    p_county_characteristics_forecast %>%
-      rename("ctu_name" = "co_name") %>%
-      mutate(ctu_name = params$ctu_name),
+    # p_county_characteristics_forecast %>%
+      # rename("ctu_name" = "co_name") %>%
+      # mutate(ctu_name = params$ctu_name),
     p_emp_forecast_ctu
   )
+
 
