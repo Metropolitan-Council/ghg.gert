@@ -104,8 +104,8 @@ p_county_electricity <-
     names_to = "metric"
   ) %>%
   mutate(year = 2018) %>%
-  select(co_name, year, metric, value) %>%
-  filter(co_name == p_county)
+  select(co_name, year, metric, value)
+  # filter(co_name == p_county)
 
 
 ## -------------------------------------------------------------------------------------------
@@ -296,10 +296,11 @@ p_xcel_energy_electricity <-
         (metric == "industrial_jobs") ~ p_industrial_mwh_per_worker_state[[1]]
       )
   ) %>%
+  left_join(p_commercial_industrial_electricity_mwh_xcel) %>%
   mutate(
     value = value * state_mwh_per_worker,
     ratio = value  / sum(value),
-    mwh = ratio * p_commercial_industrial_electricity_mwh_xcel$mwh_per_year
+    mwh = ratio * mwh_per_year
   ) %>%
   select(ctu_name, year, metric, mwh) %>%
   mutate(metric = case_when(
@@ -350,10 +351,11 @@ p_commercial_and_industrial_natural_gas_ctu <-
         (metric == "industrial_jobs") ~ p_industrial_ng_therms_per_worker_state[[1]]
       )
   ) %>%
+  left_join(p_nonresidential_naturalgas_ctu) %>%
   mutate(
     value = value * state_ng_therms_per_worker,
     ratio = value  / sum(value),
-    therms = ratio * p_nonresidential_naturalgas_ctu$therms_per_year
+    therms = ratio * therms_per_year
   ) %>%
   select(ctu_name, year, metric, therms) %>%
   mutate(metric = case_when(
