@@ -53,6 +53,7 @@ p_county_characteristics <-
 # CTU ----
 
 ## -------------------------------------------------------------------------------------------
+# TODO resolve CTUs that fall in multiple counties
 p_ctu_population <-
   t_ctu_population %>%
   select(ctu_name, year, population, households) %>%
@@ -62,7 +63,9 @@ p_ctu_population <-
     cols = c("population", "households"),
     names_to = "metric",
     values_to = "value"
-  )
+  ) %>%
+  group_by(ctu_name, year, metric) %>%
+  summarize(value = sum(value))
 
 
 ## -------------------------------------------------------------------------------------------
@@ -117,24 +120,27 @@ p_commercial_jobs <-
 ## -------------------------------------------------------------------------------------------
 p_ctu_housing_stock <-
   t_housing_stock_ctu %>%
+  filter(year == 2018) %>%
   mutate(
     single_family_units = single_family_detached + townhouse + manufactured_homes,
     multifamily_units = multifamily_in_5_or_more_units_bldng + duplex_triplex_or_quadplex
   ) %>%
-  filter(year == 2018) %>%
   select(ctu_name, year, multifamily_units, single_family_units) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("single_family_units", "multifamily_units"),
     names_to = "metric",
     values_to = "value"
-  )
+  ) %>%
+  group_by(ctu_name, year, metric) %>%
+  summarize(value = sum(value))
 
 
 ## -------------------------------------------------------------------------------------------
 p_average_floor_area_single_family_ctu <-
   t_ztrax_sqft_summary_ctu %>%
   select(ctu_name, property_land_use, mean_sqft) %>%
+  unique() %>%
   filter(property_land_use == "Single family residential") %>%
   mutate(metric = "single_family_average_floor_area_sqft_ctu",
          year = 2018) %>%
@@ -146,7 +152,7 @@ p_average_floor_area_single_family_ctu <-
 p_average_floor_area_multifamily_ctu <-
   t_ztrax_sqft_summary_ctu %>%
   select(ctu_name, property_land_use, mean_sqft) %>%
-  filter(property_land_use == "	Condominium") %>%
+  filter(stringr::str_detect(property_land_use, "Condominium")) %>%
   mutate(metric = "multifamily_average_floor_area_sqft_ctu",
          year = 2018) %>%
   rename(value = mean_sqft) %>%
@@ -154,6 +160,17 @@ p_average_floor_area_multifamily_ctu <-
 
 
 ## -------------------------------------------------------------------------------------------
+
+## ----------
+# TODO resolve CTUs that fall in more than one county
+p_ctu_county <- p_county_characteristics %>%
+  left_join(t_ctu_county) %>%
+  filter(metric == "multifamily_average_floor_area_sqft_county") %>%
+  group_by(ctu_name, year, metric) %>%
+  summarize(value = mean(value))
+
+
+#----------
 p_ctu_characteristics <-
   bind_rows(
     p_ctu_population,
@@ -162,9 +179,11 @@ p_ctu_characteristics <-
     p_industrial_jobs,
     p_ctu_housing_stock,
     p_average_floor_area_single_family_ctu,
-    p_average_floor_area_multifamily_ctu
+    p_average_floor_area_multifamily_ctu,
+    p_ctu_county
     # p_county_characteristics %>%
     #   rename("ctu_name" = "co_name") %>%
     #   mutate(ctu_name = params$ctu_name)
-  )
+  ) %>%
+  unique()
 

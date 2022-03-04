@@ -5,7 +5,7 @@ p_residential_electricity_forecast_ctu <-
   filter(metric == "kwh_per_floor_area") %>%
   ungroup() %>%
   select(-c(year)) %>%
-  bind_rows(., p_ctu_characteristics_forecast %>%
+  bind_rows(p_ctu_characteristics_forecast %>%
               select(-c(year))) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   mutate(residential_kwh_per_floor_area_forecast = kwh_per_floor_area * 0.8) %>%

@@ -47,15 +47,18 @@ p_natural_gas_residential_ctu <-
 ## -------------------------------------------------------------------------------------------
 p_residential_kwh_per_sqft <-
   bind_rows(p_electricity_residential_ctu,
-            p_ctu_characteristics) %>%
+            p_ctu_characteristics %>%
+              filter(metric %in% c("single_family_units",
+                                   "single_family_average_floor_area_sqft_ctu",
+                                   "multifamily_units",
+                                   "multifamily_average_floor_area_sqft_county"))) %>%
+  unique() %>%
+  group_by(ctu_name, year) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   mutate(kwh_per_floor_area = (residential_mwh / ((
-    single_family_units * single_family_average_floor_area_sqft_ctu
-  ) +
-    (
-      multifamily_units * multifamily_average_floor_area_sqft_county
-    )
-  )) * 1000) %>%
+    single_family_units * single_family_average_floor_area_sqft_ctu) +
+      (multifamily_units * multifamily_average_floor_area_sqft_county))) *
+      1000) %>%
   select(ctu_name, year, kwh_per_floor_area) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
