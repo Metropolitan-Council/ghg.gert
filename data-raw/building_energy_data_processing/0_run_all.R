@@ -1,16 +1,22 @@
 library(tidyr)
 library(dplyr)
 library(magrittr)
+library(purrr)
 library(ghg.sp)
 
-source("data-raw/building_energy_data_processing/bau_demographics.R")
-source("data-raw/building_energy_data_processing/forecast_demographics.R")
 
-source("data-raw/building_energy_data_processing/bau_residential.R")
-source("data-raw/building_energy_data_processing/forecast_residential.R")
+db_tables <- ghg.sp::db_tables
 
-source("data-raw/building_energy_data_processing/bau_nonres.R")
-source("data-raw/building_energy_data_processing/forecast_nonres.R")
+list2env(db_tables, envir = environment())
+
+source("data-raw/building_energy_data_processing/demographics_baseline.R")
+source("data-raw/building_energy_data_processing/demographics_forecast.R")
+
+source("data-raw/building_energy_data_processing/residential_baseline.R")
+source("data-raw/building_energy_data_processing/residential_forecast.R")
+
+source("data-raw/building_energy_data_processing/non-residential_baseline.R")
+source("data-raw/building_energy_data_processing/non-residential_forecast.R")
 
 source("data-raw/building_energy_data_processing/bau_emissions.R")
 
