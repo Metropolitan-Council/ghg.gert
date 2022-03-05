@@ -53,7 +53,7 @@ p_baseline_fin <-
   # natural gas
   mutate(natural_gas_emissions_kg_co2e =
            ((
-             population * residential_floor_area_per_capita * therms_ng_per_floor_area
+             population * residential_floor_area_per_capita * therms_per_floor_area
            ) +
              (commercial_jobs * commercial_ng_therm_per_worker) +
              (industrial_jobs * industrial_ng_therm_per_worker)
@@ -78,14 +78,14 @@ p_forecast_fin <-
 
   # electricity
   mutate(electricity_emissions_kg_co2e =
-           ((residential_kwh_forecast / 1000) +
+           ((total_residential_kwh_forecast / 1000) +
               ((commercial_mwh_forecast +
                   industrial_mwh_forecast) / 1000
               )) * v_kg_co2e_per_mwh_forecast_bau) %>%
 
   # natural gas
   mutate(natural_gas_emissions_kg_co2e =
-           ((residential_therms_forecast) +
+           ((total_residential_therms_forecast) +
               (
                 commerical_ng_therms_forecast +
                   industrial_ng_therms_forecast

@@ -72,17 +72,17 @@ p_residential_therms_per_sqft <-
   bind_rows(p_natural_gas_residential_ctu,
             p_ctu_characteristics) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
-  mutate(therms_ng_per_floor_area = (residential_ng_therms / ((
+  mutate(therms_per_floor_area = (residential_ng_therms / ((
     single_family_units * single_family_average_floor_area_sqft_ctu
   ) +
     (
       multifamily_units * multifamily_average_floor_area_sqft_county
     )
   ))) %>%
-  select(ctu_name, year, therms_ng_per_floor_area) %>%
+  select(ctu_name, year, therms_per_floor_area) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
-    cols = c("therms_ng_per_floor_area"),
+    cols = c("therms_per_floor_area"),
     names_to = "metric"
   )
 
