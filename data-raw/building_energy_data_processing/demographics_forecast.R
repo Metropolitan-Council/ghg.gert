@@ -166,6 +166,9 @@ p_housing_stock_ctu_forecast <-
   select(ctu_name, year, metric, value)
 
 
+p_housing_stock_ctu_forecast %>%
+  filter(value < 0)
+
 ## ----average building area single family----------------------------------------------------
 p_average_floor_area_single_family_ctu_forecast <-
   p_average_floor_area_single_family_ctu %>%

@@ -108,15 +108,20 @@ arsenal::comparedf(elmo_comp_baseline,
   summary()
 
 
+names(p_forecast_fin) <-  names(p_forecast_fin) %>%
+  stringr::str_remove("_forecast")
+
 building_data <- bind_rows(
   p_baseline_fin,
-  p_forecast_fin %>%
+  p_forecast_fin)
+
+
+%>%
     mutate(kg_co2e_per_floor_area =
              ( residential_kwh_per_floor_area_forecast *
                  v_kg_co2e_per_mwh_forecast_bau/1000) +
-             residential_therms_per_floor_area_forecast *
-             v_kg_co2e_per_therm_forecast_bau)
-) %>%
+             residential_therms_per_floor_area_forecast * v_kg_co2e_per_therm_forecast_bau)
+)
   group_by(ctu_name, year) %>%
   pivot_longer(
     3:44,

@@ -55,6 +55,8 @@ p_temp_mndoc_electricity_county %>% remove()
 
 
 ## ----customer class ratio by land use designation-------------------------------------------
+# estimate the ratio of MWh/year that is consumed by county based on the service wide utility territory MWH sales by customer class
+# combine the estimated ratio with the land use that intersects with the utility service territory and get an average of the two ratios
 p_customer_class_ratio_by_area <-
   t_intersect_landuse_utility_service_area_county %>%
   dplyr::select(co_name, utility_name, type, acres) %>%

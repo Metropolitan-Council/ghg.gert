@@ -33,10 +33,10 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
 
 # join with energy -----
 
-kg_co2e_per_mwh
+# kg_co2e_per_mwh
 
 
-v_kg_co2e_per_mwh_baseline_bau
+# v_kg_co2e_per_mwh_baseline_bau
 
 
 ctu_characteristics %>%
