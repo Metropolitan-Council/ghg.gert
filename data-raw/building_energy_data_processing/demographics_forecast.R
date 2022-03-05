@@ -95,8 +95,12 @@ p_emp_forecast_ctu <-
 
 
 ## ----housing stock--------------------------------------------------------------------------
+
+# TODO housing stock forecasts are based on the growth rate in each housing stock type
+# this is fairly unreliable, because some years have negative or no growth
 p_growth_rate_single_family_stock_ctu <-
   t_housing_stock_ctu %>%
+  filter(year >=2010) %>%
   group_by(ctu_name) %>%
   mutate(
     single_family_units = single_family_detached + townhouse + manufactured_homes,
@@ -109,23 +113,26 @@ p_growth_rate_single_family_stock_ctu <-
     # Difference in route between years
     rate_percent = (diff_growth / diff_year) / single_family_units * 100
   ) %>% # growth rate in percent
-  summarise(average_annual_growth_rate_single_family = mean(rate_percent, na.rm = TRUE))
+  summarise(average_annual_growth_rate_single_family = mean(rate_percent, na.rm = TRUE),
+            average_annual_growth_rate_single_family = ifelse(average_annual_growth_rate_single_family <= 0, 1, average_annual_growth_rate_single_family))
 
 p_growth_rate_multifamily_stock_ctu <-
-  t_housing_stock_ctu %>%
-  group_by(ctu_name) %>%
+  t_housing_stock_ctu %>%  filter(year >=2010) %>%
+  rowwise() %>%
   mutate(
     single_family_units = single_family_detached + townhouse + manufactured_homes,
     multifamily_units = multifamily_in_5_or_more_units_bldng + duplex_triplex_or_quadplex
   ) %>%
-  mutate(
+  group_by(ctu_name) %>%
+  summarize(
     diff_year = year - lag(year),
     # Difference in time (just in case there are gaps)
     diff_growth = multifamily_units - lag(multifamily_units),
     # Difference in route between years
-    rate_percent = (diff_growth / diff_year) / multifamily_units * 100
+    rate_percent = (diff_growth / abs(diff_year)) / multifamily_units * 100
   ) %>% # growth rate in percent
-  summarise(average_annual_growth_rate_multifamily = mean(rate_percent, na.rm = TRUE))
+  summarise(average_annual_growth_rate_multifamily = mean(rate_percent, na.rm = TRUE),
+            average_annual_growth_rate_multifamily = ifelse(average_annual_growth_rate_multifamily <= 0, 1, average_annual_growth_rate_multifamily))
 
 p_housing_stock_ctu_ratios <-
   p_ctu_housing_stock %>%
