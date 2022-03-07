@@ -110,7 +110,9 @@ p_mndoc_customer_class_estimate <-
 p_county_electricity <-
   p_mndoc_customer_class_estimate %>%
   pivot_longer(
-    cols = c("residential_mwh_county", "commercial_mwh_county", "industrial_mwh_county"),
+    cols = c("residential_mwh_county",
+             "commercial_mwh_county",
+             "industrial_mwh_county"),
     names_to = "metric"
   ) %>%
   mutate(year = 2018) %>%
@@ -211,7 +213,9 @@ p_mwh_per_woker_state <-
     industrial_mwh_per_worker_state = (electricity_industrial_consumption_mwh_state/industrial_employees_state)
   ) %>%
   select(state_name, year, commercial_mwh_per_worker_state, industrial_mwh_per_worker_state) %>%
-  pivot_longer(cols = c("commercial_mwh_per_worker_state", "industrial_mwh_per_worker_state"), names_to = "metric")
+  pivot_longer(cols = c("commercial_mwh_per_worker_state",
+                        "industrial_mwh_per_worker_state"),
+               names_to = "metric")
 
 
 ## -------------------------------------------------------------------------------------------
@@ -229,26 +233,26 @@ p_natural_gas_consumption_by_customer_class_state <-
 
 
 ## -------------------------------------------------------------------------------------------
-p_ng_therms_per_woker_state <-
+p_therms_per_woker_state <-
   bind_rows(p_natural_gas_consumption_by_customer_class_state,
             p_employees_by_type_state) %>%
   pivot_wider(values_from = "value", names_from = "metric") %>%
   mutate(
-    commercial_ng_therms_per_worker_state = (((natural_gas_commercial_consumption_mmcf * 1e+6) * 0.01
+    commercial_therms_per_worker_state = (((natural_gas_commercial_consumption_mmcf * 1e+6) * 0.01
     ) / commercial_employees_state),
-    industrial_ng_therms_per_worker_state = (((natural_gas_industrial_consumption_mmcf * 1e+6) * 0.01
+    industrial_therms_per_worker_state = (((natural_gas_industrial_consumption_mmcf * 1e+6) * 0.01
     ) / industrial_employees_state)
   ) %>%
   select(
     state_name,
     year,
-    commercial_ng_therms_per_worker_state,
-    industrial_ng_therms_per_worker_state
+    commercial_therms_per_worker_state,
+    industrial_therms_per_worker_state
   ) %>%
   pivot_longer(
     cols = c(
-      "commercial_ng_therms_per_worker_state",
-      "industrial_ng_therms_per_worker_state"
+      "commercial_therms_per_worker_state",
+      "industrial_therms_per_worker_state"
     ),
     names_to = "metric"
   )
@@ -260,7 +264,7 @@ p_state_nonresidential_energy <-
     p_electricity_consumption_by_customer_class_state,
     p_employees_by_type_state,
     p_mwh_per_woker_state,
-    p_ng_therms_per_woker_state
+    p_therms_per_woker_state
   )
 
 ## ----xcel energy | commercial and industrial electricity | mwh/year | ctu-------------------
@@ -286,12 +290,14 @@ p_commercial_industrial_electricity_mwh_xcel <-
 
 # obtain mwh/year for commercial workers for the state
 p_commercial_mwh_per_worker_state <-
-  p_state_nonresidential_energy  %>% filter(metric == "commercial_mwh_per_worker_state") %>%
+  p_state_nonresidential_energy  %>%
+  filter(metric == "commercial_mwh_per_worker_state") %>%
   select(value)
 
 # obtain mwh/year for industrial workers for the state
 p_industrial_mwh_per_worker_state <-
-  p_state_nonresidential_energy  %>% filter(metric == "industrial_mwh_per_worker_state") %>%
+  p_state_nonresidential_energy  %>%
+  filter(metric == "industrial_mwh_per_worker_state") %>%
   select(value)
 
 # estimate the MWh per customer class using Xcel Energy data, which aggregates
@@ -344,12 +350,14 @@ p_nonresidential_naturalgas_ctu <-
   filter(year == 2018) %>%
   filter(customer_class_name == "Business")
 
-p_commercial_ng_therms_per_worker_state <-
-  p_state_nonresidential_energy %>% filter(metric == "commercial_ng_therms_per_worker_state") %>%
+p_commercial_therms_per_worker_state <-
+  p_state_nonresidential_energy %>%
+  filter(metric == "commercial_therms_per_worker_state") %>%
   select(value)
 
-p_industrial_ng_therms_per_worker_state <-
-  p_state_nonresidential_energy %>% filter(metric == "industrial_ng_therms_per_worker_state") %>%
+p_industrial_therms_per_worker_state <-
+  p_state_nonresidential_energy %>%
+  filter(metric == "industrial_therms_per_worker_state") %>%
   select(value)
 
 p_commercial_and_industrial_natural_gas_ctu <-
@@ -357,22 +365,23 @@ p_commercial_and_industrial_natural_gas_ctu <-
   filter(metric %in% c("commercial_jobs",
                        "industrial_jobs")) %>%
   mutate(
-    state_ng_therms_per_worker =
+    state_therms_per_worker =
       case_when(
-        (metric == "commercial_jobs") ~ p_commercial_ng_therms_per_worker_state[[1]],
-        (metric == "industrial_jobs") ~ p_industrial_ng_therms_per_worker_state[[1]]
+        metric == "commercial_jobs" ~ p_commercial_therms_per_worker_state[[1]],
+        metric == "industrial_jobs" ~ p_industrial_therms_per_worker_state[[1]]
       )
   ) %>%
   left_join(p_nonresidential_naturalgas_ctu) %>%
+  rowwise() %>%
   mutate(
-    value = value * state_ng_therms_per_worker,
+    value = value * state_therms_per_worker,
     ratio = value  / sum(value),
     therms = ratio * therms_per_year
   ) %>%
   select(ctu_name, year, metric, therms) %>%
   mutate(metric = case_when(
-    (metric == "commercial_jobs") ~ "commercial_ng_therms",
-    (metric == "industrial_jobs") ~ "industrial_ng_therms"
+    (metric == "commercial_jobs") ~ "commercial_therms",
+    (metric == "industrial_jobs") ~ "industrial_therms"
   )) %>%
   rename(value = therms)
 
@@ -390,13 +399,14 @@ p_nrel_natural_gas_ctu <-
              (sector == "industrial") ~ "industrial_therms",
              (sector == "commercial") ~ "commercial_therms",
            )) %>%
-  select(ctu_name, year, metric, value)
+  select(ctu_name, year, metric, value) %>%
+  unique()
 
 
 # ------
 
 p_ctu_nonresidential_energy_baseline_1 <-
-  purrr::map_dfr(unique(p_commercial_and_industrial_natural_gas_ctu$ctu_name),
+  purrr::map_dfr(unique(p_ctu_characteristics$ctu_name),
                  function(ctu_na){
                    # browser()
 
@@ -421,19 +431,18 @@ p_ctu_nonresidential_energy_baseline_1 <-
                      }
                      else{
                        p_xcel_energy_electricity
-                       message(paste0( ctu_na, " Non Residential Electricity Data is Missing!!"))
+                       message(paste0( ctu_na, "Non-Residential Electricity Data is Missing!!"))
                      },
                      # natural gas
                      if (nrow(p_nrel_natural_gas_ctu) > 0) {
                        p_nrel_natural_gas_ctu
                      }
-                     else if (nrow(p_commercial_and_industrial_natural_gas_ctu) > 0 ) { #&&
+                     else if (nrow(p_nonresidential_naturalgas_ctu) > 0 ) { #&&
                        # p_nonresidential_naturalgas_ctu$customer_class_name == "Business") {
                        p_commercial_and_industrial_natural_gas_ctu
                      }
                      else{
-                       browser()
-                       message("Non Residential Natural Gas Data is Missing!!")
+                       message(paste0(ctu_na, " Non Residential Natural Gas Data is Missing!!"))
                      })
                  })
 
@@ -472,21 +481,25 @@ p_ctu_nonresidential_energy_per_worker <-
       filter(metric %in% c("commercial_jobs", "industrial_jobs"))
   ) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
+  rowwise() %>%
   mutate(
-    commercial_ng_therm_per_worker = commercial_ng_therms / commercial_jobs,
-    industrial_ng_therm_per_worker = industrial_ng_therms / industrial_jobs,
+    commercial_therm_per_worker = commercial_therms / commercial_jobs,
+    industrial_therm_per_worker = industrial_therms / industrial_jobs,
     commercial_mwh_per_worker = commercial_mwh / commercial_jobs,
     industrial_mwh_per_worker = industrial_mwh / industrial_jobs
   ) %>%
   select(
     ctu_name,
     year,
-    commercial_ng_therm_per_worker,
-    industrial_ng_therm_per_worker,
+    commercial_therm_per_worker,
+    industrial_therm_per_worker,
     commercial_mwh_per_worker,
     industrial_mwh_per_worker
   ) %>%
-  pivot_longer(cols = c("commercial_ng_therm_per_worker",  "industrial_ng_therm_per_worker", "commercial_mwh_per_worker", "industrial_mwh_per_worker"), names_to = "metric")
+  pivot_longer(cols = c("commercial_therm_per_worker",
+                        "industrial_therm_per_worker",
+                        "commercial_mwh_per_worker",
+                        "industrial_mwh_per_worker"), names_to = "metric")
 
 
 ## -------------------------------------------------------------------------------------------
