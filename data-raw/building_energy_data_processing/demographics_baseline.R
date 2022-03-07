@@ -121,11 +121,15 @@ p_commercial_jobs <-
 p_ctu_housing_stock <-
   t_housing_stock_ctu %>%
   filter(year == 2018) %>%
+  group_by(ctu_name) %>%
   mutate(
-    single_family_units = single_family_detached + townhouse + manufactured_homes,
-    multifamily_units = multifamily_in_5_or_more_units_bldng + duplex_triplex_or_quadplex
+    single_family_units =  sum(
+      c(single_family_detached, townhouse,manufactured_homes), na.rm = T),
+    multifamily_units = sum(
+      c(multifamily_in_5_or_more_units_bldng, duplex_triplex_or_quadplex), na.rm = T)
   ) %>%
   select(ctu_name, year, multifamily_units, single_family_units) %>%
+  # tidyr::replace_na(data = multifa 0) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("single_family_units", "multifamily_units"),

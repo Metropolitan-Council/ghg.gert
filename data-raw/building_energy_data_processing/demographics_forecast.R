@@ -45,7 +45,7 @@ p_average_floor_area_multifamily_county_forecast <-
                                                  0.15),
         mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
       ),
-    year= 2040
+    year = 2040
   )
 
 
@@ -60,7 +60,7 @@ p_emp_forecast_county <-
                     (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast_county")
                   )) %>%
   group_by(co_name, year, metric) %>%
-  summarise(value = sum(emp))
+  summarise(value = sum(emp, na.rm = T))
 # filter(co_name == p_county)
 
 
@@ -91,7 +91,7 @@ p_emp_forecast_ctu <-
                     (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast")
                   )) %>%
   group_by(ctu_name, year, metric) %>%
-  summarise(value = sum(emp))
+  summarise(value = sum(emp, na.rm = T))
 
 
 ## ----housing stock--------------------------------------------------------------------------
