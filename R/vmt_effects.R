@@ -664,7 +664,7 @@ vmt_stock_proportion <- function(.tb,
     "BIKE"
   )) {
     tb_stock_proportion <- .tb %>%
-      filter(mode = .mode) %>%
+      filter(mode == .mode) %>%
       mutate(mode_stock_adj = 1) %>%
       select(year, ctu, mode, mode_stock_adj) %>%
       unique()
