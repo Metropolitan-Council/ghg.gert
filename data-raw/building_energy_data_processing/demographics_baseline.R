@@ -38,7 +38,7 @@ p_county_workers <-
            )) %>%
   select(co_name, year, sector, count) %>%
   group_by(co_name, year, sector) %>%
-  summarise(value = sum(count)) %>%
+  summarise(value = sum(count, na.rm = T)) %>%
   rename(metric = sector)
 
 
@@ -65,7 +65,7 @@ p_ctu_population <-
     values_to = "value"
   ) %>%
   group_by(ctu_name, year, metric) %>%
-  summarize(value = sum(value))
+  summarize(value = sum(value, na.rm = T))
 
 
 ## -------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ p_ctu_housing_stock <-
     values_to = "value"
   ) %>%
   group_by(ctu_name, year, metric) %>%
-  summarize(value = sum(value))
+  summarize(value = sum(value, na.rm = T))
 
 
 ## -------------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ p_average_floor_area_single_family_ctu <-
   group_by(ctu_name) %>%
   mutate(metric = "single_family_average_floor_area_sqft_ctu",
          year = 2018,
-         value = mean(mean_sqft)) %>%
+         value = mean(mean_sqft, na.rm = T)) %>%
   select(ctu_name, year, metric, value)
 
 
@@ -168,7 +168,7 @@ p_ctu_county <- p_county_characteristics %>%
   left_join(t_ctu_county) %>%
   filter(metric == "multifamily_average_floor_area_sqft_county") %>%
   group_by(ctu_name, year, metric) %>%
-  summarize(value = mean(value))
+  summarize(value = mean(value, na.rm = T))
 
 
 #----------
