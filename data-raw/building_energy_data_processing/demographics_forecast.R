@@ -101,9 +101,11 @@ p_emp_forecast_ctu <-
 source("data-raw/building_energy_data_processing/housing_stock_forecast.R")
 
 p_housing_stock_ctu_forecast <- housing_stock_forecast %>%
-  filter(year == "2040") %>%
+  filter(year == "2040",
+         ctu_name %in% unique(t_ctu_forecast$ctu_name)) %>%
   group_by(year, ctu_name, metric) %>%
-  summarize(value = sum(value))
+  summarize(value = sum(value)) %>%
+  mutate(year = as.integer(year))
 
 p_housing_stock_ctu_forecast %>%
   count(ctu_name) %>%
@@ -197,7 +199,7 @@ p_average_floor_area_single_family_ctu_forecast <-
   left_join(p_average_annual_growth_single_family_sqft) %>%
   select(-co_name) %>%
   group_by(ctu_name) %>%
-  mutate(mean_growth_rate = mean(mean_growth_rate)) %>%
+  mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%
   unique() %>%
   group_by(ctu_name) %>%
   mutate(
@@ -221,7 +223,7 @@ p_average_floor_area_multifamily_ctu_forecast <-
   left_join(p_average_annual_growth_multifamily_sqft) %>%
   select(-co_name) %>%
   group_by(ctu_name) %>%
-  mutate(mean_growth_rate = mean(mean_growth_rate)) %>%
+  mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%
   unique() %>%
   group_by(ctu_name) %>%
   mutate(

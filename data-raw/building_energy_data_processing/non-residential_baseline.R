@@ -348,7 +348,17 @@ p_nrel_electricity_ctu <-
 p_nonresidential_naturalgas_ctu <-
   t_utility_natural_gas_by_ctu %>%
   filter(year == 2018) %>%
-  filter(customer_class_name == "Business")
+  filter(customer_class_name %in% c("Business",
+                                    "Industrial",
+                                    "Commercial",
+                                    "Non-Residential")) %>%
+  group_by(ctu_name, year) %>%
+  summarize(
+            mcf_per_year = sum(mcf_per_year, na.rm = T),
+            number_of_customers = sum(number_of_customers, na.rm = T),
+            therms_per_year = sum(therms_per_year, na.rm = T),
+            utility_name = paste(utility_name, collapse = ", "),
+            customer_class_name = paste(customer_class_name, collapse = ", "))
 
 p_commercial_therms_per_worker_state <-
   p_state_nonresidential_energy %>%
@@ -372,10 +382,10 @@ p_commercial_and_industrial_natural_gas_ctu <-
       )
   ) %>%
   left_join(p_nonresidential_naturalgas_ctu) %>%
-  rowwise() %>%
+  group_by(ctu_name, year, metric) %>%
   mutate(
-    value = value * state_therms_per_worker,
-    ratio = value  / sum(value),
+    value1 = value * state_therms_per_worker,
+    ratio = value1  / sum(value1, na.rm = T),
     therms = ratio * therms_per_year
   ) %>%
   select(ctu_name, year, metric, therms) %>%
@@ -430,8 +440,9 @@ p_ctu_nonresidential_energy_baseline_1 <-
                        p_nrel_electricity_ctu
                      }
                      else{
+                       browser()
                        p_xcel_energy_electricity
-                       message(paste0( ctu_na, "Non-Residential Electricity Data is Missing!!"))
+                       message(paste0("ELEC missing ", ctu_na))
                      },
                      # natural gas
                      if (nrow(p_nrel_natural_gas_ctu) > 0) {
@@ -442,7 +453,7 @@ p_ctu_nonresidential_energy_baseline_1 <-
                        p_commercial_and_industrial_natural_gas_ctu
                      }
                      else{
-                       message(paste0(ctu_na, " Non Residential Natural Gas Data is Missing!!"))
+                       message(paste0("NG missing ", ctu_na))
                      })
                  })
 
