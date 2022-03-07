@@ -21,7 +21,8 @@ p_servicewide_customer_class_ratio <-
     servicewide_percent_commercial = Commercial / Total,
     servicewide_percent_industrial = Industrial / Total
   ) %>%
-  dplyr::select(c(1, 6, 7, 8))
+  dplyr::select(utility_name, servicewide_percent_residential,
+                servicewide_percent_industrial, servicewide_percent_commercial)
 
 
 ## ----MNDOC electricity by county total and by utility---------------------------------------
