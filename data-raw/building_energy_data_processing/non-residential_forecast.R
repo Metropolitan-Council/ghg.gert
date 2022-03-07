@@ -20,14 +20,22 @@ p_nonresidential_energy_forecast_1 <-
     commercial_mwh,
     commerical_therms,
     industrial_mwh,
-    industrial_therms
+    industrial_therms,
+    industrial_therm_per_worker,
+    industrial_mwh_per_worker,
+    commercial_therm_per_worker,
+    commercial_mwh_per_worker
   ) %>%
   pivot_longer(
     cols = c(
       "commercial_mwh",
       "commerical_therms",
       "industrial_mwh",
-      "industrial_therms"
+      "industrial_therms",
+      "industrial_therm_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_therm_per_worker",
+      "commercial_mwh_per_worker"
     ),
     names_to = "metric"
   )

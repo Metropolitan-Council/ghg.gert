@@ -49,14 +49,29 @@ ctu_char_emission <- ctu_characteristics %>%
     residential_mwh = population *
       residential_floor_area_per_capita *
       (kwh_per_floor_area / 1000),
-    electricity_emissions_kg_co =
+    residential_electricity_emissions_kg_co =
       residential_mwh  * enviro_factors$KG_CO2E_PER_MHW_BASELINE
   ) %>%
   mutate(
     residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
-    natural_gas_emissions_kg_co =
+    residential_natural_gas_emissions_kg_co =
       residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE )
 
 filter(ctu_char_emission, is.na(residential_floor_area_per_capita))
 
 ## join with non-residential energy -----
+
+
+ctu_char_emission %>%
+  left_join(ctu_non_residential_energy,
+            by = c("ctu_name", "year")) %>%
+  mutate(non_residential_mwh = commercial_mwh +
+           industrial_mwh,
+         non_residential_electricity_emissions_kg_co = non_residential_mwh * enviro_factors$KG_CO2E_PER_MHW_BASELINE) %>%
+  mutate(non_residential_therms = commercial_therms +
+           industrial_therms,
+         non_residential_natural_gas_emissions_kg_co = non_residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE) %>%
+  arrange(ctu_name)
+  group_by(ctu_name, year) %>%
+  pivot_longer(cols = 3:32,
+               names_to = "metric")
