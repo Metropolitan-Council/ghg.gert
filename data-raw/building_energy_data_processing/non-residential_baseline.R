@@ -440,9 +440,9 @@ p_ctu_nonresidential_energy_baseline_1 <-
                        p_nrel_electricity_ctu
                      }
                      else{
-                       browser()
-                       p_xcel_energy_electricity
+                       # browser()
                        message(paste0("ELEC missing ", ctu_na))
+                       p_xcel_energy_electricity
                      },
                      # natural gas
                      if (nrow(p_nrel_natural_gas_ctu) > 0) {
@@ -454,6 +454,7 @@ p_ctu_nonresidential_energy_baseline_1 <-
                      }
                      else{
                        message(paste0("NG missing ", ctu_na))
+                       p_commercial_and_industrial_natural_gas_ctu
                      })
                  })
 

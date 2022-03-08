@@ -1,3 +1,6 @@
+# not every strategy needs every variable.
+# I've indexed the variables needed for each group
+
 vars_base <- c("ctu_name",
                "year")
 
@@ -52,12 +55,9 @@ vars_non_res <- c("ctu_name",
 vars_grid <- c("ctu_name",
                "year",
                "residential_floor_area_per_capita",
-               "residential_kwh_per_floor_area_forecast",
+               "residential_kwh_per_floor_area",
                "commercial_mwh_per_worker",
-               "industrial_mwh_per_worker", )
-
-
-
+               "industrial_mwh_per_worker")
 
 
 all_vars <- c(

@@ -21,4 +21,5 @@ source("data-raw/building_energy_data_processing/non-residential_forecast.R")
 # source("data-raw/building_energy_data_processing/emissions_baseline_forecast.R")
 
 source("data-raw/building_energy_data_processing/ctu_residential_energy.R")
+source("data-raw/building_energy_data_processing/ctu_non_residential_energy.R")
 source("data-raw/building_energy_data_processing/ctu_characteristics.R")
