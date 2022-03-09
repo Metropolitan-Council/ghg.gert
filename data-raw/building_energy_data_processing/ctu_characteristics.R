@@ -41,9 +41,10 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
 
 ctu_w_res <- ctu_characteristics %>%
   left_join(ctu_residential_energy, c("ctu_name", "year")) %>%
-  mutate(residential_floor_area_per_capita = (
-    (single_family_average_floor_area_sqft_ctu * single_family_units) +
-      (multifamily_average_floor_area_sqft_county * multifamily_units))
+  mutate(
+    residential_floor_area_per_capita = (
+      (single_family_average_floor_area_sqft_ctu * single_family_units) +
+        (multifamily_average_floor_area_sqft_county * multifamily_units))
     / population) %>%
   mutate(
     residential_mwh = population *
@@ -58,7 +59,7 @@ ctu_w_res <- ctu_characteristics %>%
       residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE ) %>%
   unique()
 
-filter(ctu_char_emission, is.na(residential_floor_area_per_capita))
+# filter(ctu_char_emission, is.na(residential_floor_area_per_capita))
 
 ## join with non-residential energy -----
 

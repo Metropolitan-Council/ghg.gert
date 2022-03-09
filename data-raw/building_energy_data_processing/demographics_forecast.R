@@ -98,10 +98,9 @@ p_emp_forecast_ctu <-
 
 # will get housing stock forecasts from Todd
 
-source("data-raw/building_energy_data_processing/housing_stock_forecast.R")
 
 p_housing_stock_ctu_forecast <- housing_stock_forecast %>%
-  filter(year == "2040",
+  filter(year == 2040,
          ctu_name %in% unique(t_ctu_forecast$ctu_name)) %>%
   group_by(year, ctu_name, metric) %>%
   summarize(value = sum(value)) %>%
