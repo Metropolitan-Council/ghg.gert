@@ -113,6 +113,7 @@ residential <- ctu_w_nonres %>%
     # "residential_mwh_per_households",
     # "residential_therms_per_households",
   )) %>%
+  rename("var" = "metric") %>%
   unique()
 
 non_residential <- ctu_w_nonres %>%
@@ -129,6 +130,7 @@ non_residential <- ctu_w_nonres %>%
     "industrial_therm_per_worker",
     "commercial_therm_per_worker"
   )) %>%
+  rename("var" = "metric") %>%
   unique()
 
 
