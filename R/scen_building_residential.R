@@ -1,3 +1,19 @@
+#' Title
+#'
+#' @param tb
+#' @param .single_family_floor_area_growth_pct
+#' @param .new_homes_leed_gold_pct
+#' @param .existing_home_retrofit_pct
+#' @param .existing_home_ultra_retrofit_pct
+#' @param .home_behavior_change_pct
+#' @param .homes_electric_heating_pct
+#'
+#' @inheritParams adj_unit_counts
+#'
+#' @return
+#' @export
+#'
+#' @examples
 scen_building_residential <- function(tb = building_data,
                                       .new_homes_to_multifamily_pct = 0.5,
                                       .single_family_floor_area_growth_pct = 0.05,
@@ -9,33 +25,20 @@ scen_building_residential <- function(tb = building_data,
 
   ### Compact buildings: half of new SF homes become MF
   ## 50% new multifamily
+
+  tb <- adj_unit_counts(res_tb = tb,
+                        .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
+
+
   s_percent_new_homes <- 0.5
 
   # tool assumes that floor area will increase over time
 
-  # of all the new single family homes that will be built between 2018 and 2040,
-  # make 50% of them multifamily units.
-
-  # increse multifamily unit production
-  building_data %>%
-    filter(ctu_name == "Lake Elmo",
-           var %in% c("single_family_units",
-                      "multifamily_units",
-                      "single_family_average_floor_area_sqft_ctu",
-                      "multifamily_average_floor_area_sqft_county")) %>%
-    select(-kg_co2e_per_floor_area) %>%
-    group_by(ctu_name, var) %>%
-    pivot_wider(names_from = "year", values_from = "value") %>%
-    mutate(diff = `2040` - `2018`)
-
-  # 7731 * 2459 = 19010529 sqft of SF
-  # 446 * 1551 = 691746 sqft of MF
-
-  # 4137 SF units * 0.5 = 2068.5 MF units
-  # 469 +
-  #
 
   ## 5% Growth Rate of Single Family Floor Area
+  # assume that energy costs will rise, and people will get smaller homes
+  # only about 50% of single family homes will be affected/will respond
+  # to increased energy costs with smaller homes
   s_growth_rate_singlefamily_floor_area <- 0.05
 
   ## Percent of New Homes that LEED
