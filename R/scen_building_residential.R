@@ -18,7 +18,6 @@
 #' library(ghg.sp)
 #'
 #' scen_building_residential(tb = building_data$residential)
-#'
 #' }
 scen_building_residential <- function(tb = building_data$residential,
                                       .new_homes_to_multifamily_pct = 0.5,
@@ -29,27 +28,35 @@ scen_building_residential <- function(tb = building_data$residential,
                                       .existing_home_ultra_retrofit_pct = 0.2,
                                       .home_behavior_change_pct = 1,
                                       .homes_electric_heating_pct = 0.59,
-                                      .enviro_factors = enviro_factors){
+                                      .enviro_factors = enviro_factors) {
   # browser()
 
-  tb01 <- adj_unit_counts(res_tb = tb,
-                          .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
+  tb01 <- adj_unit_counts(
+    res_tb = tb,
+    .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct
+  )
 
 
-  tb02 <- floor_area_growth(res_tb = tb01,
-                            .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-                            .new_homes_affected_pct = .new_homes_affected_pct,
-                            .enviro_factors = .enviro_factors)
+  tb02 <- floor_area_growth(
+    res_tb = tb01,
+    .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+    .new_homes_affected_pct = .new_homes_affected_pct,
+    .enviro_factors = .enviro_factors
+  )
 
 
-  tb03 <- floor_area_leed(res_tb = tb02,
-                          .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
-                          .enviro_factors = .enviro_factors)
+  tb03 <- floor_area_leed(
+    res_tb = tb02,
+    .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+    .enviro_factors = .enviro_factors
+  )
 
-  tb04 <- floor_area_retrofit(res_tb = tb03,
-                              .existing_home_retrofit_pct = .existing_home_retrofit_pct,
-                              .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
-                              .enviro_factors = .enviro_factors)
+  tb04 <- floor_area_retrofit(
+    res_tb = tb03,
+    .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+    .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+    .enviro_factors = .enviro_factors
+  )
 
   # All homes receive effective messages, use in-home display, and smart meters (reduce HH energy use by 11%)
   # s_percent_of_homes_changes_behaviors <- 1

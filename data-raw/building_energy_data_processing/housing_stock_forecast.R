@@ -11,22 +11,28 @@ housing_stock_forecast <- readxl::read_xlsx("data-raw/building_energy_data_proce
   summarize(across(3:66, sum)) %>%
   select(COCTU_ID, 25:32) %>%
   left_join(ctu_county %>%
-              sf::st_drop_geometry()) %>%
+    sf::st_drop_geometry()) %>%
   select(-COCTU_ID) %>%
   group_by(CTU_NAME) %>%
   summarize(across(1:8, sum, na.rm = T)) %>%
   pivot_longer(cols = 2:9) %>%
-  mutate(year = stringr::str_sub(name, start = -2, end= -1) %>%
-           paste0("20", .),
-         type =  stringr::str_sub(name, 1, 3),
-         type =   ifelse(type == "SFD", "single_family_units", "multifamily_units")) %>%
+  mutate(
+    year = stringr::str_sub(name, start = -2, end = -1) %>%
+      paste0("20", .),
+    type = stringr::str_sub(name, 1, 3),
+    type = ifelse(type == "SFD", "single_family_units", "multifamily_units")
+  ) %>%
   ungroup() %>%
-  select(ctu_name = CTU_NAME,
-         year,
-         metric = type,
-         value) %>%
-  filter(year %in% c(2018,
-                     2040))
+  select(
+    ctu_name = CTU_NAME,
+    year,
+    metric = type,
+    value
+  ) %>%
+  filter(year %in% c(
+    2018,
+    2040
+  ))
 
 
 

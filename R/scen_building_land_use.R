@@ -3,6 +3,6 @@
 #' @return
 #' @export
 #'
-scen_building_land_use <- function(){
+scen_building_land_use <- function() {
 
 }

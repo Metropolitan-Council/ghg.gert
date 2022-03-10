@@ -3,6 +3,6 @@
 #' @return
 #' @export
 #'
-scen_building_industrial <- function(){
+scen_building_industrial <- function() {
 
 }

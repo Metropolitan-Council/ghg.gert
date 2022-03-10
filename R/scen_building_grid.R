@@ -3,6 +3,6 @@
 #' @return
 #' @export
 #'
-scen_grid <- function(){
+scen_grid <- function() {
 
 }

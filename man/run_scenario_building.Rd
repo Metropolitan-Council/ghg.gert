@@ -2,13 +2,22 @@
 % Please edit documentation in R/run_scenario_building.R
 \name{run_scenario_building}
 \alias{run_scenario_building}
-\title{Title}
+\title{Run building energy scenarios}
 \usage{
-run_scenario_building()
+run_scenario_building(
+  res_tb = building_data$residential,
+  non_res_tb = building_data$non_residential
+)
 }
 \value{
 
 }
 \description{
-Title
+Run building energy scenarios
 }
+\seealso{
+Other buildings: 
+\code{\link{calc_ghg_floor_area}()},
+\code{\link{calc_ghg_worker}()}
+}
+\concept{buildings}

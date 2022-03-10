@@ -16,19 +16,24 @@ p_ctu_characteristics_forecast %>%
 
 
 ctu_characteristics <- p_ctu_characteristics_forecast %>%
-  pivot_wider(names_from = metric,
-              values_from = value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  ) %>%
   select(ctu_name,
-         year,
-         population,
-         households,
-         total_jobs = jobs,
-         commercial_jobs = commercial_emp_forecast,
-         industrial_jobs = industrial_emp_forecast,
-         everything()) %>%
+    year,
+    population,
+    households,
+    total_jobs = jobs,
+    commercial_jobs = commercial_emp_forecast,
+    industrial_jobs = industrial_emp_forecast,
+    everything()
+  ) %>%
   bind_rows(p_ctu_characteristics %>%
-              pivot_wider(names_from = metric,
-                          values_from = value))
+    pivot_wider(
+      names_from = metric,
+      values_from = value
+    ))
 
 
 # join with residential -----
@@ -45,18 +50,20 @@ ctu_w_res <- ctu_characteristics %>%
     residential_floor_area_per_capita = (
       (single_family_average_floor_area_sqft_ctu * single_family_units) +
         (multifamily_average_floor_area_sqft_county * multifamily_units))
-    / population) %>%
+    / population
+  ) %>%
   mutate(
     residential_mwh = population *
       residential_floor_area_per_capita *
       (kwh_per_floor_area / 1000),
     residential_electricity_emissions_kg_co =
-      residential_mwh  * enviro_factors$KG_CO2E_PER_MHW_BASELINE
+      residential_mwh * enviro_factors$KG_CO2E_PER_MHW_BASELINE
   ) %>%
   mutate(
     residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
     residential_natural_gas_emissions_kg_co =
-      residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE ) %>%
+      residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE
+  ) %>%
   unique()
 
 # filter(ctu_char_emission, is.na(residential_floor_area_per_capita))
@@ -66,17 +73,24 @@ ctu_w_res <- ctu_characteristics %>%
 
 ctu_w_nonres <- ctu_w_res %>%
   left_join(ctu_non_residential_energy,
-            by = c("ctu_name", "year")) %>%
-  mutate(non_residential_mwh = commercial_mwh +
-           industrial_mwh,
-         non_residential_electricity_emissions_kg_co = non_residential_mwh * enviro_factors$KG_CO2E_PER_MHW_BASELINE) %>%
-  mutate(non_residential_therms = commercial_therms +
-           industrial_therms,
-         non_residential_natural_gas_emissions_kg_co = non_residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE) %>%
+    by = c("ctu_name", "year")
+  ) %>%
+  mutate(
+    non_residential_mwh = commercial_mwh +
+      industrial_mwh,
+    non_residential_electricity_emissions_kg_co = non_residential_mwh * enviro_factors$KG_CO2E_PER_MHW_BASELINE
+  ) %>%
+  mutate(
+    non_residential_therms = commercial_therms +
+      industrial_therms,
+    non_residential_natural_gas_emissions_kg_co = non_residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE
+  ) %>%
   arrange(ctu_name) %>%
   group_by(ctu_name, year) %>%
-  pivot_longer(cols = 3:32,
-               names_to = "metric") %>%
+  pivot_longer(
+    cols = 3:32,
+    names_to = "metric"
+  ) %>%
   unique()
 
 
@@ -86,7 +100,6 @@ residential <- ctu_w_nonres %>%
   filter(metric %in% c(
     "households",
     "population",
-
     "multifamily_units",
     "single_family_units",
 
@@ -99,7 +112,6 @@ residential <- ctu_w_nonres %>%
     # multiplier
     "residential_elec_emis_t_co2e",
     "residential_ng_emis_t_co2e",
-
     "kwh_per_floor_area",
     "therms_per_floor_area",
     "residential_kwh_per_floor_area",
@@ -136,7 +148,9 @@ non_residential <- ctu_w_nonres %>%
 
 
 building_data <-
-  list("residential" = residential,
-       "non_residential" = non_residential)
+  list(
+    "residential" = residential,
+    "non_residential" = non_residential
+  )
 
 usethis::use_data(building_data, overwrite = T)
