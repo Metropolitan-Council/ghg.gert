@@ -1,4 +1,4 @@
-#' Title
+#' Adjust single and multifamily unit count forecast in residential table
 #'
 #' @param res_tb
 #' @param .new_homes_to_multifamily_pct numeric, percentage of new single-family homes
@@ -8,49 +8,58 @@
 #' @export
 #'
 #' @examples
+#'
+#' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
+#' @importFrom tidyr pivot_wider
 adj_unit_counts <- function(res_tb,
                             .new_homes_to_multifamily_pct){
+
+  if(.new_homes_to_multifamily_pct <= 0){
+    warning("No single family homes instead built as multifamily homes. Returning original table")
+
+    return(res_tb)
+      }
   n_new_homes<-
     res_tb %>%
-    filter(var %in% c(
+    dplyr::filter(var %in% c(
       "multifamily_units",
       "single_family_units"
-      # "single_family_average_floor_area_sqft_ctu"
-      # "multifamily_average_floor_area_sqft_county"
     )) %>%
-    group_by(ctu_name, var) %>%
-    pivot_wider(names_from = year, values_from = value) %>%
-    mutate(new_homes = `2040` - `2018`)
-           # new_homes = ifelse(new_sf_homes < 0, 0, new_sf_homes)) %>%
-    # mutate(new_sf_homes *  0.5) %>%
+    dplyr::group_by(ctu_name, var) %>%
+    tidyr::pivot_wider(names_from = year, values_from = value) %>%
+    dplyr::mutate(new_homes = `2040` - `2018`)
 
 
+  # some CTUs are going to decrease the number of single family units
+  # over the next few decades. Remedy this by replacing all negative
+  # unit counts with 0.
     sf_now_mf <- n_new_homes %>%
-      filter(var == "single_family_units") %>%
-      mutate(new_homes = ifelse(new_homes < 0, 0, new_homes),
-             now_mf = new_homes * 0.5) %>%
-      ungroup() %>%
-      select(ctu_name, now_mf) %>%
+      dplyr::filter(var == "single_family_units") %>%
+      dplyr::mutate(new_homes = ifelse(new_homes < 0, 0, new_homes),
+             now_mf = new_homes * .new_homes_to_multifamily_pct) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(ctu_name, now_mf) %>%
       unique()
 
 
     new_units <-  res_tb %>%
-       filter(var %in% c(
+      dplyr::filter(var %in% c(
          "multifamily_units",
          "single_family_units"
-         # "single_family_average_floor_area_sqft_ctu"
-         # "multifamily_average_floor_area_sqft_county"
        ),
        year == 2040) %>%
-       left_join(sf_now_mf) %>%
-       mutate(value = ifelse(var == "multifamily_units", value + now_mf,
+      dplyr::left_join(sf_now_mf, by = "ctu_name") %>%
+      # if multifamily, add the now-multifamily units
+      # if single family, subtract the now-multifamily units
+      dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
                              value - now_mf)) %>%
-      select(names(res_tb))
+      dplyr::select(names(res_tb))
 
-
+    # anti_join to replace original values
+    # return a new version of res_tb
      new_res_tb <- res_tb %>%
-       anti_join(new_units, by = c("ctu_name", "year", "var")) %>%
-       bind_rows(new_units)
+       dplyr::anti_join(new_units, by = c("ctu_name", "year", "var")) %>%
+       dplyr::bind_rows(new_units)
 
 
     return(new_res_tb)
