@@ -1,13 +1,13 @@
 #' Adjust single and multifamily unit count forecast in residential table
 #'
-#' @param res_tb
+#'
 #' @param .new_homes_to_multifamily_pct numeric, percentage of new single-family homes
 #'     to instead be built as multifamily homes
 #'
+#' @inheritParams scen_building_residential
 #' @return
 #' @export
 #'
-#' @examples
 #'
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
@@ -15,8 +15,7 @@ adj_unit_counts <- function(res_tb,
                             .new_homes_to_multifamily_pct){
 
   if(.new_homes_to_multifamily_pct <= 0){
-    warning("No single family homes instead built as multifamily homes. Returning original table")
-
+    warning("No single family homes instead built as multifamily homes.")
     return(res_tb)
       }
   n_new_homes<-

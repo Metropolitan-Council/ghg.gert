@@ -43,13 +43,11 @@ vars_non_res <- c("ctu_name",
                   "commercial_mwh",
                   "industrial_mwh",
                   "industrial_therms",
-                  "commercial_therms"
-                  # "commercial_ng_therms",
-                  # "industrial_ng_therms",
-                  # "commercial_ng_therm_per_worker",
-                  # "industrial_ng_therm_per_worker",
-                  # "commercial_mwh_per_worker",
-                  # "industrial_mwh_per_worker",
+                  "commercial_therms",
+                  "commercial_therm_per_worker",
+                  "industrial_therm_per_worker",
+                  "commercial_mwh_per_worker",
+                  "industrial_mwh_per_worker"
 )
 
 vars_grid <- c("ctu_name",

@@ -1,60 +1,61 @@
 #' Title
 #'
-#' @param tb
-#' @param .single_family_floor_area_growth_pct
-#' @param .new_homes_leed_gold_pct
-#' @param .existing_home_retrofit_pct
-#' @param .existing_home_ultra_retrofit_pct
-#' @param .home_behavior_change_pct
-#' @param .homes_electric_heating_pct
+#' @param tb table, data table with residential building attributes. Default is
+#'     the building data in this package, `building_energy$residential`.
 #'
 #' @inheritParams adj_unit_counts
+#' @inheritParams floor_area_leed
+#' @inheritParams floor_area_growth
+#' @inheritParams floor_area_retrofit
+#' @inheritParams floor_area_leed
+#' @inheritParams run_scenario
 #'
 #' @return
 #' @export
 #'
 #' @examples
-scen_building_residential <- function(tb = building_data,
+#' \dontrun{
+#' library(ghg.sp)
+#'
+#' scen_building_residential(tb = building_data$residential)
+#'
+#' }
+scen_building_residential <- function(tb = building_data$residential,
                                       .new_homes_to_multifamily_pct = 0.5,
                                       .single_family_floor_area_growth_pct = 0.05,
+                                      .new_homes_affected_pct = 0.5,
                                       .new_homes_leed_gold_pct = 0.5,
                                       .existing_home_retrofit_pct = 0.8,
-                                      .existing_home_ultra_retrofit_pct = 0.2, # needs to be 1 - .existing_home_retrofit_pct
+                                      .existing_home_ultra_retrofit_pct = 0.2,
                                       .home_behavior_change_pct = 1,
-                                      .homes_electric_heating_pct = 0.59){
+                                      .homes_electric_heating_pct = 0.59,
+                                      .enviro_factors = enviro_factors){
+  # browser()
 
-  ### Compact buildings: half of new SF homes become MF
-  ## 50% new multifamily
-
-  tb <- adj_unit_counts(res_tb = tb,
-                        .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
-
-
-  s_percent_new_homes <- 0.5
-
-  # tool assumes that floor area will increase over time
+  tb01 <- adj_unit_counts(res_tb = tb,
+                          .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
 
 
-  ## 5% Growth Rate of Single Family Floor Area
-  # assume that energy costs will rise, and people will get smaller homes
-  # only about 50% of single family homes will be affected/will respond
-  # to increased energy costs with smaller homes
-  s_growth_rate_singlefamily_floor_area <- 0.05
+  tb02 <- floor_area_growth(res_tb = tb01,
+                            .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+                            .new_homes_affected_pct = .new_homes_affected_pct,
+                            .enviro_factors = .enviro_factors)
 
-  ## Percent of New Homes that LEED
-  # 50% new homes to LEED Gold (25 kBTU/sf; electricity reduces by 64% and gas by 64%)
-  s_percent_of_new_leed_homes <- 0.5
 
-  ### Existing Homes (80%) Retrofitted to Performance-Based High Energy Efficiency Standards
-  ## Percent of Single Family Units to be Retrofitted
-  s_percent_of_existing_homes_to_retrofitted <- 0.8
+  tb03 <- floor_area_leed(res_tb = tb02,
+                          .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+                          .enviro_factors = .enviro_factors)
 
-  ## Percent of Largest Existing Homes to Become Passive Homes
-  s_percent_of_largest_existing_homes_to_be_passive_homes <- 0.2
+  tb04 <- floor_area_retrofit(res_tb = tb03,
+                              .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+                              .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+                              .enviro_factors = .enviro_factors)
 
   # All homes receive effective messages, use in-home display, and smart meters (reduce HH energy use by 11%)
-  s_percent_of_homes_changes_behaviors <- 1
+  # s_percent_of_homes_changes_behaviors <- 1
 
 
-  s_percent_of_additional_households_with_heating_electrified <- 0.59
+  # s_percent_of_additional_households_with_heating_electrified <- 0.59
+
+  return(tb04)
 }

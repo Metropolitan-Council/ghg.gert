@@ -1,17 +1,16 @@
 #' Calculate emissions by residential floor area
 #'
 #' @param res_tb table, table with residential building data.
+#' @inheritParams run_scenario
 #'
 #' @return a table with columns `year`, `ctu_name`, `residential_mwh`,
 #'    `residential_electricity_emissions_kg_co`,
 #'    `residential_therms`, and `residential_natural_gas_emissions_kg_co`
 #'
 #'
-#' @inheritParams run_scenario
 #' @family buildings
 #' @export
 #'
-#' @examples
 calc_ghg_floor_area <- function(res_tb = building_data$residential,
                                 .enviro_factors = enviro_factors){
   emis <- res_tb %>%
@@ -40,9 +39,11 @@ calc_ghg_floor_area <- function(res_tb = building_data$residential,
     dplyr::mutate(
       residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
       residential_natural_gas_emissions_kg_co = residential_therms * kg_per_therm ) %>%
+    dplyr::mutate(total_residential_emissions = sum(c(residential_natural_gas_emissions_kg_co,
+                    residential_electricity_emissions_kg_co), na.rm = T)) %>%
     unique() %>%
     dplyr::select(ctu_name, year, residential_mwh, residential_electricity_emissions_kg_co,
-                  residential_therms, residential_natural_gas_emissions_kg_co)
+                  residential_therms, residential_natural_gas_emissions_kg_co, total_residential_emissions)
 
 
   return(emis)
@@ -52,14 +53,14 @@ calc_ghg_floor_area <- function(res_tb = building_data$residential,
 
 #' Calculate emissions by worker for industrial and commercial sectors
 #'
-#' @param non_res_tb
+#' @param non_res_tb table with non-residential data.
+#'      Default is `building_data$non_residential`
 #' @inheritParams run_scenario
 #' @return
 #' @export
 #'
 #' @family buildings
 #'
-#' @examples
 calc_ghg_worker <- function(non_res_tb = building_data$non_residential,
                             .enviro_factors = enviro_factors){
 
@@ -103,7 +104,8 @@ calc_ghg_worker <- function(non_res_tb = building_data$non_residential,
     dplyr::select(ctu_name, year, commercial_mwh, industrial_mwh,
                   commercial_therms, industrial_therms,
                   commercial_electricity_emissions_kg_co, industrial_electricity_emissions_kg_co,
-                  commercial_natural_gas_emissions_kg_co, industrial_natural_gas_emissions_kg_co)
+                  commercial_natural_gas_emissions_kg_co, industrial_natural_gas_emissions_kg_co,
+                  total_industrial_commercial_emissions)
 
 
   return(emis)
