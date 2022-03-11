@@ -40,15 +40,18 @@ Uses the average single family floor area in 2018
 \dontrun{
 library(ghg.sp)
 
-floor_area_growth(res_tb = building_data$residential,
-.single_family_floor_area_growth_pct = 0.05,
-.new_homes_affected_pct = 0.30,
-.enviro_factors = enviro_factors)
+floor_area_growth(
+  res_tb = building_data$residential,
+  .single_family_floor_area_growth_pct = 0.05,
+  .new_homes_affected_pct = 0.30,
+  .enviro_factors = enviro_factors
+)
 }
 
 }
 \seealso{
 Other building: 
+\code{\link{floor_area_behavior_change}()},
 \code{\link{floor_area_leed}()},
 \code{\link{floor_area_retrofit}()}
 }

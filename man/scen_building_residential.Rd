@@ -18,8 +18,8 @@ scen_building_residential(
 )
 }
 \arguments{
-\item{tb}{table, data table with residential building attributes. Default is
-the building data in this package, \code{building_energy$residential}.}
+\item{tb}{table, data table with residential building attributes. Package provided
+dataset \code{building_energy$residential} is suitable and the default value.}
 
 \item{.new_homes_to_multifamily_pct}{numeric, percentage of new single-family homes
 to instead be built as multifamily homes}
@@ -53,6 +53,5 @@ Title
 library(ghg.sp)
 
 scen_building_residential(tb = building_data$residential)
-
 }
 }

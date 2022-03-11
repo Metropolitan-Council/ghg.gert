@@ -31,6 +31,7 @@ Uses the average single family floor area in 2018
 }
 \seealso{
 Other building: 
+\code{\link{floor_area_behavior_change}()},
 \code{\link{floor_area_growth}()},
 \code{\link{floor_area_leed}()}
 }
