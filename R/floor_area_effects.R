@@ -34,8 +34,9 @@ floor_area_growth <- function(res_tb,
                               .single_family_floor_area_growth_pct,
                               .new_homes_affected_pct,
                               .enviro_factors) {
+
   if (.single_family_floor_area_growth_pct == 0) {
-    warning("No change in single family floor area growth .")
+    warning("No change in single family floor area growth.")
     return(res_tb)
   } else if (.single_family_floor_area_growth_pct != 0) {
     res_tb_units <- res_tb %>%
@@ -120,6 +121,7 @@ floor_area_growth <- function(res_tb,
 floor_area_leed <- function(res_tb,
                             .new_homes_leed_gold_pct,
                             .enviro_factors) {
+
   if (.new_homes_leed_gold_pct == 0) {
     warning("No change in new single family home energy efficiency")
     return(res_tb)
@@ -296,13 +298,74 @@ floor_area_retrofit <- function(res_tb,
 }
 
 #
-# floor_area_behavior_change <- function(res_tb,
-#                                        .home_behavior_change_pct,
-#                                        .enviro_factors){
-#
-#
-#
-#
-#
-#
-# }
+#' Adjust residential floor area based on proportion of households that change
+#'     behavior to reduce energy use.
+#'
+#' @param .home_behavior_change_pct numeric, percentage of households that change
+#'     behavior to reduce household emissions.
+#' @inheritParams scen_building_residential
+#' @inheritParams run_scenario
+#' @family building
+#'
+#'
+#' @return
+#' @export
+#'
+floor_area_behavior_change <- function(res_tb,
+                                       .home_behavior_change_pct,
+                                       .enviro_factors){
+
+
+  if(.home_behavior_change_pct == 0){
+    warning("No change in household behavior.")
+    return(res_tb)
+  } else if(.home_behavior_change_pct != 0){
+
+    # browser()
+    new_behavior_change <- res_tb %>%
+      filter(var %in% c("single_family_average_floor_area_sqft_ctu",
+                        "multifamily_average_floor_area_sqft_county")) %>%
+      dplyr::group_by(ctu_name, var) %>%
+      tidyr::pivot_wider(names_from = year, values_from = value) %>%
+      mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`) ) %>%
+      mutate(
+        new_weighted_mean_forecast =
+          weighted.mean(
+            c(
+              new_forecast,
+              `2040`
+            ),
+            c(
+            .home_behavior_change_pct,
+             (1 - .home_behavior_change_pct)
+            )
+          )
+      )
+
+
+
+    new_fla <- res_tb %>%
+      filter(
+        var %in% c(
+          "single_family_average_floor_area_sqft_ctu",
+          "multifamily_average_floor_area_sqft_county"
+        ),
+        year == 2040
+      ) %>%
+      left_join(new_behavior_change, by = c("ctu_name", "var")) %>%
+      mutate(value = new_weighted_mean_forecast) %>%
+      select(names(res_tb))
+
+
+    new_res_tb_fin <- res_tb %>%
+      anti_join(new_fla, by = c("ctu_name", "year", "var")) %>%
+      bind_rows(new_fla)
+
+    return(new_res_tb_fin)
+
+  }
+
+
+
+
+}
