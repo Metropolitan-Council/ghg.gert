@@ -1,7 +1,7 @@
 #' Title
 #'
-#' @param tb table, data table with residential building attributes. Default is
-#'     the building data in this package, `building_energy$residential`.
+#' @param tb table, data table with residential building attributes. Package provided
+#'     dataset `building_energy$residential` is suitable and the default value.
 #'
 #' @inheritParams adj_unit_counts
 #' @inheritParams floor_area_leed
@@ -9,6 +9,7 @@
 #' @inheritParams floor_area_retrofit
 #' @inheritParams floor_area_leed
 #' @inheritParams run_scenario
+#'
 #'
 #' @return
 #' @export
@@ -58,11 +59,19 @@ scen_building_residential <- function(tb = building_data$residential,
     .enviro_factors = .enviro_factors
   )
 
+
+  tb05 <-  floor_area_behavior_change(
+    res_tb = tb04,
+    .home_behavior_change_pct = .home_behavior_change_pct,
+    .enviro_factors = .enviro_factors
+  )
+
+
   # All homes receive effective messages, use in-home display, and smart meters (reduce HH energy use by 11%)
   # s_percent_of_homes_changes_behaviors <- 1
 
 
   # s_percent_of_additional_households_with_heating_electrified <- 0.59
 
-  return(tb04)
+  return(tb05)
 }
