@@ -66,6 +66,6 @@ usethis::use_data(db_table_names, overwrite = T)
 
 # db tables-----
 
-db_tables <- fetch_db_tables(module = "all")
+db_tables <- import_from_emissions(module = "all")
 
 usethis::use_data(db_tables, overwrite = T)
