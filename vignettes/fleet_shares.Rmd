@@ -228,3 +228,35 @@ st_paul_pass %>%
        subtitle = "Fleet adjusted")
 # scale_y_continuous(labels = scales::percent)
 ```
+
+```{r}
+adj_sales$pass %>%
+  filter(
+    str_detect(var, "Stock"),
+    mode == "BU",
+    var != "TotStock"
+  ) %>%
+  ungroup() %>%
+  ggplot(aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )) +
+  geom_area(position = "fill") +
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BCIStock" = "Diesel",
+      "BEVStock" = "Electric",
+      "HEVStock" = "Hybrid"
+    )
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Transit bus vehicle stock",
+       subtitle = "Fleet adjusted")
+```
+
