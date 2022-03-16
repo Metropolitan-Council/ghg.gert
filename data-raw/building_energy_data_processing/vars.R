@@ -1,10 +1,14 @@
-vars_base <- c("ctu_name",
-               "year")
+# not every strategy needs every variable.
+# I've indexed the variables needed for each group
+
+vars_base <- c(
+  "ctu_name",
+  "year"
+)
 
 vars_residential <- c(
   "households",
   "population",
-
   "multifamily_units",
   "single_family_units",
 
@@ -17,7 +21,6 @@ vars_residential <- c(
   # multiplier
   "residential_elec_emis_t_co2e",
   "residential_ng_emis_t_co2e",
-
   "kwh_per_floor_area",
   "therms_per_floor_area",
   "residential_kwh_per_floor_area",
@@ -34,30 +37,28 @@ vars_residential <- c(
 )
 
 
-vars_non_res <- c("ctu_name",
-                  "year",
-                  # "commercial_ng_therm_per_worker",
-                  "commercial_mwh",
-                  "industrial_mwh",
-                  "industrial_therms",
-                  "commercial_therms"
-                  # "commercial_ng_therms",
-                  # "industrial_ng_therms",
-                  # "commercial_ng_therm_per_worker",
-                  # "industrial_ng_therm_per_worker",
-                  # "commercial_mwh_per_worker",
-                  # "industrial_mwh_per_worker",
+vars_non_res <- c(
+  "ctu_name",
+  "year",
+  # "commercial_ng_therm_per_worker",
+  "commercial_mwh",
+  "industrial_mwh",
+  "industrial_therms",
+  "commercial_therms",
+  "commercial_therm_per_worker",
+  "industrial_therm_per_worker",
+  "commercial_mwh_per_worker",
+  "industrial_mwh_per_worker"
 )
 
-vars_grid <- c("ctu_name",
-               "year",
-               "residential_floor_area_per_capita",
-               "residential_kwh_per_floor_area_forecast",
-               "commercial_mwh_per_worker",
-               "industrial_mwh_per_worker", )
-
-
-
+vars_grid <- c(
+  "ctu_name",
+  "year",
+  "residential_floor_area_per_capita",
+  "residential_kwh_per_floor_area",
+  "commercial_mwh_per_worker",
+  "industrial_mwh_per_worker"
+)
 
 
 all_vars <- c(

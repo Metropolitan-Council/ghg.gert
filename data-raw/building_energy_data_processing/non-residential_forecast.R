@@ -2,8 +2,10 @@
 
 ## -------------------------------------------------------------------------------------------
 p_nonresidential_energy_forecast_1 <-
-  bind_rows(p_ctu_characteristics_forecast,
-            p_ctu_nonresidential_energy_baseline) %>%
+  bind_rows(
+    p_ctu_characteristics_forecast,
+    p_ctu_nonresidential_energy_baseline
+  ) %>%
   select(-c("year")) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   rowwise() %>%
@@ -46,5 +48,3 @@ p_ctu_nonresidential_energy_forecast <-
   bind_rows(
     p_nonresidential_energy_forecast_1
   )
-
-

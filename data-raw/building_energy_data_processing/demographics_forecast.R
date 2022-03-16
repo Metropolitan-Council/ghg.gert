@@ -42,7 +42,7 @@ p_average_floor_area_multifamily_county_forecast <-
     value =
       case_when(
         mean_growth_rate * (2040 - 2018) > 0.15 ~ value + (value *
-                                                 0.15),
+          0.15),
         mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
       ),
     year = 2040
@@ -54,11 +54,13 @@ p_emp_forecast_county <-
   t_emp_forecast_county %>%
   filter(year == 2040) %>%
   dplyr::group_by(co_name, year, indlabel) %>%
-  dplyr::mutate(metric =
-                  dplyr::case_when(
-                    (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"),
-                    (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast_county")
-                  )) %>%
+  dplyr::mutate(
+    metric =
+      dplyr::case_when(
+        (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"),
+        (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast_county")
+      )
+  ) %>%
   group_by(co_name, year, metric) %>%
   summarise(value = sum(emp, na.rm = T))
 # filter(co_name == p_county)
@@ -85,11 +87,13 @@ p_emp_forecast_ctu <-
   t_emp_forecast_ctu %>%
   filter(year == 2040) %>%
   dplyr::group_by(ctu_name, year, indlabel) %>%
-  dplyr::mutate(metric =
-                  dplyr::case_when(
-                    (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast"),
-                    (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast")
-                  )) %>%
+  dplyr::mutate(
+    metric =
+      dplyr::case_when(
+        (indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast"),
+        (indlabel %in% naics_codes$commerical ~ "commercial_emp_forecast")
+      )
+  ) %>%
   group_by(ctu_name, year, metric) %>%
   summarise(value = sum(emp, na.rm = T))
 
@@ -98,11 +102,12 @@ p_emp_forecast_ctu <-
 
 # will get housing stock forecasts from Todd
 
-source("data-raw/building_energy_data_processing/housing_stock_forecast.R")
 
 p_housing_stock_ctu_forecast <- housing_stock_forecast %>%
-  filter(year == "2040",
-         ctu_name %in% unique(t_ctu_forecast$ctu_name)) %>%
+  filter(
+    year == 2040,
+    ctu_name %in% unique(t_ctu_forecast$ctu_name)
+  ) %>%
   group_by(year, ctu_name, metric) %>%
   summarize(value = sum(value)) %>%
   mutate(year = as.integer(year))
@@ -256,10 +261,8 @@ p_ctu_characteristics_forecast <-
     p_average_floor_area_single_family_ctu_forecast,
     p_average_floor_area_multifamily_ctu_forecast,
     # p_county_characteristics_forecast %>%
-      # rename("ctu_name" = "co_name") %>%
-      # mutate(ctu_name = params$ctu_name),
+    # rename("ctu_name" = "co_name") %>%
+    # mutate(ctu_name = params$ctu_name),
     p_emp_forecast_ctu,
     p_ctu_county_forecast
   )
-
-
