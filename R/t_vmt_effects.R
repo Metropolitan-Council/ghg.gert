@@ -727,7 +727,7 @@ vmt_transit_ridership <- function(tb,
   transit_rider_elast <-
     tibble(
       year = unique(tb$year),
-      .elast =
+      elast_new =
         calc_elasticity(
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_rider_pct,
@@ -759,7 +759,7 @@ vmt_transit_ridership <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
-      mutate(transit_adj = 1 + .elast) %>%
+      mutate(transit_adj = 1 + elast_new) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
