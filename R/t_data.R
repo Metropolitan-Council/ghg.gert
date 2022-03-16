@@ -173,7 +173,6 @@
 #'   \item{state_demos}{named list of 2 table names}
 #'   \item{metro_energy}{named list of 9 table names}
 #'   \item{state_energy}{named list of 1 table name}
-
 #' }
 #'
 #' @family datasets
