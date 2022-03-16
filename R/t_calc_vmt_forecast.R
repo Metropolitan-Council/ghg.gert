@@ -79,7 +79,27 @@ calc_vmt_forecast <- function(.scenario,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-  # browser()
+
+  # are there any interventions/strategies?
+  intervention_any <- sum(c(.transit_avo_pct,
+                            .transit_rider_pct,
+                            .vmt_fee,
+                            .payd_fee,
+                            .gas_tax,
+                            .cong_price,
+                            .parking_price,
+                            .freight_parking_price,
+                            .drs_pct,
+                            .av_pct,
+                            .freight_vmt_fee,
+                            .pop_dens_pct_change,
+                            .emp_dens_pct_change,
+                            .land_use_diversity_pct_change,
+                            .intersection_design_pct_change,
+                            .job_access_pct_change,
+                            .transit_dist_pct_change,
+                            .comb_5d_impact_pct_change,
+                            .telework_pct)) > 0
 
   tb_vmt <- tb %>%
     filter(
@@ -94,7 +114,7 @@ calc_vmt_forecast <- function(.scenario,
     unique()
 
   # If it's not the BAU scenario, then need to run elasticities, etc.
-  if (.scenario != "BAU") {
+  if (.scenario != "BAU" & intervention_any == TRUE) {
     # Not BAU ----
     # browser()
 
