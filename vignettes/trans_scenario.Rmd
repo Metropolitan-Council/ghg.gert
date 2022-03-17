@@ -12,8 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE,
-  fig.width = 8,
-  eval = FALSE
+  fig.width = 8
+  # eval = FALSE
 )
 
 
@@ -33,8 +33,8 @@ ggplot2::theme_set(
   if(testthat:::on_ci() == TRUE){
     theme_minimal()
   } else {
-      councilR::theme_council(use_showtext = T,
-                          use_manual_font_sizes = T)
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
   }
 )
 
@@ -86,7 +86,7 @@ mitigation_lu <-  run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.02
+  .comb_5d_impact_pct_change = 0.2
 ) %>% 
   suppressMessages()
 ```
@@ -134,9 +134,9 @@ mitigation_ev <-  run_scenario_transportation(
   .hev_pct_sales =  0.2,
   .phev_pct_sales = 0.2,
   .av_pct = 0.10,
-  .av_fuel_type = "HEV",
-  .drs_pct = 0.10,
-  .drs_fuel_type = "HEV"
+  .av_fuel_type = "BEV"
+  # .drs_pct = 0.10,
+  # .drs_fuel_type = "HEV"
 ) %>%
   suppressMessages()
 
@@ -194,7 +194,7 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.02,
+  .comb_5d_impact_pct_change = 0.2,
   .transit_avo = 0.10,
   .transit_rider_pct = 0.10
 )  %>% 
