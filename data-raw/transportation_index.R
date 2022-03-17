@@ -8,7 +8,9 @@ emission_sources <- read_csv("data-raw/indices/sources-wDef.csv") %>%
 
 
 variables <- read_csv("data-raw/indices/variables-wDef.csv") %>%
-  as_tibble()
+  as_tibble() %>%
+  mutate(var_name = stringr::str_replace_all(var_name, "SAV", "DRS"))
+
 
 
 modes <- read_csv("data-raw/indices/mode-wDef.csv") %>%
