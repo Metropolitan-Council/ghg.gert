@@ -8,16 +8,16 @@ pass_trans <- vmt_transit_ridership(
 testthat::expect_equal(
   pass_trans,
   tibble::tribble(
-    ~year,       ~ctu,     ~transit_adj,
-    "2015", "St. Paul",                0,
-    "2018", "St. Paul",                0,
-    "2020", "St. Paul",                0,
+    ~year, ~ctu, ~transit_adj,
+    "2015", "St. Paul", 0,
+    "2018", "St. Paul", 0,
+    "2020", "St. Paul", 0,
     "2025", "St. Paul", 905.813374216667,
-    "2030", "St. Paul",     1904.1519887,
-    "2035", "St. Paul",    3001.87704445,
-    "2040", "St. Paul",     4196.7014776,
+    "2030", "St. Paul", 1904.1519887,
+    "2035", "St. Paul", 3001.87704445,
+    "2040", "St. Paul", 4196.7014776,
     "2045", "St. Paul", 5488.62528658333,
-    "2050", "St. Paul",     6877.6484667
+    "2050", "St. Paul", 6877.6484667
   )
 )
 
