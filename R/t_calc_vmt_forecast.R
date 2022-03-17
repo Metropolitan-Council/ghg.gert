@@ -384,11 +384,11 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "AV") {
       # browser()
       # autonomous vehicle -----
-      # av_vmt = miles_traveled  -
-      # (active transportation adjustment * transit_adj) *
+      # av_vmt = ((PLDV miles_traveled  - transit shift) *
       # aeo_adj * vmt_fee_adj * cong_adjust *
-      # gas_adj * park_price_adj * land_use_adj *
-      # av_adjust
+      # gas_adj * park_price_adj * land_use_adj  * 1.2)/
+      # occupancy_adj *
+      # pct of PLDV traffic now AV
 
       tb_vmt <- tb %>%
         dplyr::filter(
