@@ -19,7 +19,7 @@ vmt_annual_energy_outlook <- function(tb,
 
   # browser()
   tb_fin <- tb %>%
-    filter(mode == .mode) %>%
+    dplyr::filter(mode == .mode) %>%
     unique() %>%
     tidyr::pivot_wider(
       names_from = var,
@@ -32,7 +32,7 @@ vmt_annual_energy_outlook <- function(tb,
       metric == "VMT",
       mode == unique(tb_fin$aeo_mode)
     ) %>%
-    select(
+    dplyr::select(
       year,
       metric,
       # everything(),
@@ -75,6 +75,8 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
   if (.mode == "PLDV") {
     # increase in AV usage will increase PLDV VMT
+    # AVs are PLDV, so reduce conventional PLDV VMT
+    # AV VMT will increase proportionally
     av_return <- tb_avshare %>%
       rowwise() %>%
       mutate(av_adj = case_when(
@@ -255,7 +257,7 @@ vmt_land_use_change <- function(.type,
                             land_use_adj
       )
     ) %>%
-  select(year, land_use_adj)
+    select(year, land_use_adj)
 
   return(comb_5d_elast)
 }
@@ -327,7 +329,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       mutate(
         park_price_adj =
-          1 + .parking_price / PARK * park_elast
+          1 + (.parking_price / PARK) * park_elast
         # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
       select(year, ctu, park_price_adj)
@@ -345,7 +347,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       mutate(
         park_price_adj =
-          1 + .parking_price / PARK * park_transit
+          1 + (.parking_price / PARK) * park_transit
       ) %>%
       select(year, ctu, park_price_adj)
   } else if (.mode == "SUT") {
@@ -375,7 +377,7 @@ vmt_parking_policy <- function(tb,
 #' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 #'      Default is `0`
-#' @param .gas_tax Gas tax tax in dollars per mile. Default is `0`
+#' @param .gas_tax Gas tax in dollars per mile. Default is `0`
 #' @param .cong_price Congestion price in dollars per mile (only applies to an approximation of
 #'     congested miles in MSP). Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
