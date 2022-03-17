@@ -34,8 +34,8 @@ ggplot2::theme_set(
   if(testthat:::on_ci() == TRUE){
     theme_minimal()
   } else {
-      councilR::theme_council(use_showtext = T,
-                          use_manual_font_sizes = T)
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
   }
 )
 
@@ -58,69 +58,53 @@ st_paul_freight <- transportation_data$freight %>%
   )
 ```
 
-## Passenger vehicles  
-
-
-```{r}
-st_paul_pass %>%
-  filter(
-    str_detect(var, "Sales"),
-    mode == "PLDV",
-    var != "TotSales"
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
-  scale_fill_manual(
-    name = "Powertrain",
-    values = wesanderson::wes_palettes$Royal2,
-    aesthetics = c("fill", "color"),
-    labels = c(
-      "BEVSales" = "Electric",
-      "CISales" = "Diesel",
-      "HEVSales" = "Hybrid",
-      "PHEVSales" = "Plug-in hybrid",
-      "SISales" = "Gasoline"
-    )
-  ) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Passenger personal vehicle sales",
-       subtitle = "Business as usual")
-```
-
-
 
 ```{r}
 adj_sales <- adj_fleet_shares(
-  .pass_tb = st_paul_pass,
-  .freight_tb = st_paul_freight,
+  .pass_tb = transportation_data$passenger,
+  .freight_tb = transportation_data$freight,
   .bev_pct_sales = 0.4854,
   .hev_pct_sales = 0.1352,
   .phev_pct_sales = 0.3151
 )
 ```
+
+## Passenger vehicles  
+
+
 ```{r}
-adj_sales$pass %>%
+bau_pldv_sales <- transportation_data$passenger %>%
   filter(
     str_detect(var, "Sales"),
     mode == "PLDV",
     var != "TotSales"
   ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
+  group_by(year, var) %>% 
+  summarize(value = sum(value)) %>% 
+  mutate(scenario = "BAU") %>% 
+  bind_rows(adj_sales$pass %>% 
+              filter(
+                str_detect(var, "Sales"),
+                mode == "PLDV",
+                var != "TotSales"
+              ) %>%
+              group_by(year, var) %>% 
+              summarize(value = sum(value)) %>% 
+              mutate(scenario = "Sales Adjusted"))
+
+
+
+
+ggplot(data = bau_pldv_sales, 
+       aes(
+         x = year,
+         y = value,
+         color = var,
+         fill = var,
+         group = var
+       )) +
+  facet_wrap(~scenario ) +
+  geom_area() +
   scale_fill_manual(
     name = "Powertrain",
     values = wesanderson::wes_palettes$Royal2,
@@ -133,27 +117,47 @@ adj_sales$pass %>%
       "SISales" = "Gasoline"
     )
   ) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::comma) +
   labs(title = "Passenger personal vehicle sales",
-       subtitle = "Sales adjusted")
+       y = "Sales") +
+  theme(legend.position = "none")
+
 ```
 
 ```{r}
-adj_sales$pass %>%
+bau_pldv_stock <- transportation_data$passenger %>%
   filter(
     str_detect(var, "Stock"),
     mode == "PLDV",
     var != "TotStock"
   ) %>%
   ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
+  group_by(year, var) %>% 
+  summarize(value = sum(value)) %>% 
+  mutate(scenario = "BAU") %>% 
+  bind_rows(adj_sales$pass %>% 
+              filter(
+                str_detect(var, "Stock"),
+                mode == "PLDV",
+                var != "TotStock"
+              ) %>%
+              group_by(year, var) %>% 
+              summarize(value = sum(value)) %>% 
+              mutate(scenario = "Sales Adjusted"))
+
+
+
+ggplot(data = bau_pldv_stock,
+       aes(
+         x = year,
+         y = value,
+         color = var,
+         fill = var,
+         group = var
+       )) +
   geom_area() +
+  facet_wrap(~scenario) +
+  # geom_area(position = "fill") +
   scale_fill_manual(
     name = "Powertrain",
     values = wesanderson::wes_palettes$Royal2,
@@ -166,169 +170,60 @@ adj_sales$pass %>%
       "SIStock" = "Gasoline"
     )
   ) +
+  scale_y_continuous(labels = scales::comma) +
   labs(title = "Passenger personal vehicle stock",
-       subtitle = "Fleet adjusted")
-# scale_y_continuous(labels = scales::percent)
-```
+       y = "Stock")
 
+```
 
 ## Transit vehicles    
 
 ```{r}
-st_paul_pass %>%
+
+bu_stock <- 
+  transportation_data$passenger %>%
   filter(
     str_detect(var, "Stock"),
     mode == "BU",
     var != "TotStock"
   ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
-  scale_fill_manual(
-    name = "Powertrain",
-    values = wesanderson::wes_palettes$Royal2,
-    aesthetics = c("fill", "color"),
-    labels = c(
-      "BEVStock" = "Electric",
-      "CIStock" = "Diesel",
-      "HEVStock" = "Hybrid",
-      "PHEVStock" = "Plug-in hybrid",
-      "SIStock" = "Gasoline"
-    )
-  ) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Bus vehicle stock",
-       subtitle = "Business as usual")
-```
+  group_by(year, var) %>% 
+  summarize(value = sum(value)) %>%   
+  mutate(scenario = "BAU") %>% 
+  bind_rows(adj_sales$pass %>%
+              filter(
+                str_detect(var, "Stock"),
+                mode == "BU",
+                var != "TotStock"
+              ) %>%
+              group_by(year, var) %>% 
+              summarize(value = sum(value)) %>%   
+              mutate(scenario = "Sales Adjusted"))
 
-```{r}
-adj_sales$pass %>%
-  filter(
-    str_detect(var, "Stock"),
-    mode == "BU",
-    var != "TotStock"
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
-  scale_fill_manual(
-    name = "Powertrain",
-    values = wesanderson::wes_palettes$Royal2,
-    aesthetics = c("fill", "color"),
-    labels = c(
-      "BEVStock" = "Electric",
-      "CIStock" = "Diesel",
-      "BCIStock" = "Diesel",
-      "HEVStock" = "Hybrid",
-      "PHEVStock" = "Plug-in hybrid",
-      "SIStock" = "Gasoline"
-    )
-  ) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Bus vehicle stock",
-       subtitle = "Fleet adjusted")
-```
-
-```{r}
-adj_sales$pass %>%
-  filter(
-    str_detect(var, "Stock"),
-    mode == "BRT",
-    var != "TotStock"
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
-  scale_fill_manual(
-    name = "Powertrain",
-    values = wesanderson::wes_palettes$Royal2,
-    aesthetics = c("fill", "color"),
-    labels = c(
-      "BCIStock" = "Diesel",
-      "BEVStock" = "Electric",
-      "HEVStock" = "Hybrid"
-    )
-  ) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Bus Rapid Transit vehicle stock",
-       subtitle = "Fleet adjusted")
-```
-```{r}
-st_paul_pass %>%
-  filter(
-    str_detect(var, "Stock"),
-    mode == "BRT",
-    var != "TotStock"
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
+ggplot(bu_stock, aes(
+  x = year,
+  y = value,
+  color = var,
+  fill = var,
+  group = var
+)) +
   geom_area() +
-  scale_fill_manual(
-    name = "Powertrain", values = wesanderson::wes_palettes$Royal2,
-    aesthetics = c("fill", "color"),
-    labels = c(
-      "BCIStock" = "Diesel",
-      "BEVStock" = "Electric",
-      "HEVStock" = "Hybrid"
-    )
-  ) +
-  labs(title = "Bus Rapid Transit vehicle stock",
-       subtitle = "Fleet adjusted")
-# scale_y_continuous(labels = scales::percent)
-```
-
-```{r}
-adj_sales$pass %>%
-  filter(
-    str_detect(var, "Stock"),
-    mode == "BU",
-    var != "TotStock"
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(
-    x = year,
-    y = value,
-    color = var,
-    fill = var,
-    group = var
-  )) +
-  geom_area(position = "fill") +
+  facet_wrap(~scenario)+
+  # geom_area(position = "fill") +
   scale_fill_manual(
     name = "Powertrain",
     values = wesanderson::wes_palettes$Royal2,
     aesthetics = c("fill", "color"),
     labels = c(
-      "BCIStock" = "Diesel",
       "BEVStock" = "Electric",
-      "HEVStock" = "Hybrid"
+      "CIStock" = "Diesel",
+      "HEVStock" = "Hybrid",
+      "PHEVStock" = "Plug-in hybrid",
+      "SIStock" = "Gasoline"
     )
   ) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Transit bus vehicle stock",
-       subtitle = "Fleet adjusted")
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Bus vehicle stock")
 ```
+
 
