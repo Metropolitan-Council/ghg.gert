@@ -215,15 +215,16 @@ vmt_land_use_change <- function(.type,
   }
   # browser()
   max_value <- if (.type == "DRIVE") {
-    .enviro_factors$MAX_5D_DR
+    1 +  .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
-    .enviro_factors$MAX_5D_TRANS
+    1 + .enviro_factors$MAX_5D_TRANS
   } else {
-    .enviro_factors$MAX_5D_ACT
+    1 + .enviro_factors$MAX_5D_ACT
   }
 
   comb_5d_elast <- .elast_5d %>%
     filter(type == .type) %>%
+    rowwise() %>%
     mutate(
       n_population_density = 1 + .pop_dens_pct_change * .data$population_density,
       n_employment_density = 1 + .emp_dens_pct_change * .data$employment_density,
@@ -245,12 +246,13 @@ vmt_land_use_change <- function(.type,
     ) %>%
     rowwise() %>%
     mutate(
-      land_use_adj = ifelse(product_all < max_value,
-        1 + max_value,
-        product_all
+      land_use_adj = case_when(.type == "DRIVE" & product_all < max_value ~ max_value,
+                               .type %in% c("WALK",
+                                            "TRANSIT") & product_all > max_value ~ max_value,
+                               TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-        land_use_adj
+                            land_use_adj
       )
     ) %>%
     select(year, land_use_adj)
