@@ -220,11 +220,11 @@ calc_vmt_forecast <- function(.scenario,
         unique() %>%
         rowwise() %>%
         mutate(
-          transit_vmt = miles_traveled *
-            aeo_adj * transit_adj *
-            ((1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust)
-                   * cross_vmt)) *
-               land_use_adj * park_price_adj * gas_adj) / occupancy_adj * av_adj *
+          transit_vmt = ((miles_traveled *
+                           aeo_adj * transit_adj *
+                           (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust)
+                                  * cross_vmt)) *
+                              land_use_adj * park_price_adj * gas_adj) / occupancy_adj) * av_adj *
             mode_stock_adj,
           stock = .stock
         ) %>%
@@ -264,9 +264,10 @@ calc_vmt_forecast <- function(.scenario,
       )
 
 
-      at_adjustment <- tb %>%
-        filter(mode == "AT", var == .variable) %>%
-        select(ctu, year, active_transportation_adj = value)
+      # all transit
+      # at_adjustment <- tb %>%
+      #   filter(mode == "AT", var == .variable) %>%
+      #   select(ctu, year, active_transportation_adj = value)
 
       ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = tb,
@@ -341,7 +342,7 @@ calc_vmt_forecast <- function(.scenario,
 
 
       # formula is such
-      # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
+      # pldv_vmt <- (miles_traveled - transit shift) * AV adjustment *
       # aeo adjustment *
       # vmt_fee_adj
       # cong_adj *
@@ -361,15 +362,11 @@ calc_vmt_forecast <- function(.scenario,
         left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         left_join(telework_adjust, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
-        left_join(at_adjustment,
-                  by = c("year", "ctu")
-        ) %>%
         unique() %>%
         rowwise() %>%
         mutate(
           pass_ld_vmt =
-            (((miles_traveled -
-                 (active_transportation_adj * transit_adj)) *
+            (((miles_traveled - transit_adj) *
                 av_adj * aeo_adj *
                 vmt_fee_adj * cong_adjust * gas_adj *
                 telework_adj * land_use_adj *
@@ -469,10 +466,6 @@ calc_vmt_forecast <- function(.scenario,
         .transit_avo_pct = .transit_avo_pct
       )
 
-      at_adjustment <- tb %>%
-        filter(mode == "AT", var == .variable) %>%
-        select(year, ctu, at_adjust = value)
-
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
@@ -482,7 +475,6 @@ calc_vmt_forecast <- function(.scenario,
 
       tb_fin <- tb_vmt %>%
         left_join(ann_energy_outlook, by = c("year")) %>%
-        left_join(at_adjustment, by = c("year", "ctu")) %>%
         left_join(trans_rider, by = c("year", "ctu")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
@@ -494,10 +486,11 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           stock = .stock,
           mode = .mode,
-          av_vmt = ((miles_traveled - (at_adjust * transit_adj) *
-                       aeo_adj * vmt_fee_adj *
-                       cong_adjust * gas_adj * park_price_adj *
-                       land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
+          av_vmt = (
+            ((miles_traveled - transit_adj) *
+               aeo_adj * vmt_fee_adj *
+               cong_adjust * gas_adj * park_price_adj *
+               land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
