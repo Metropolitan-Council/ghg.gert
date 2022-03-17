@@ -69,6 +69,18 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     dplyr::select(year, ctu, av_share = value) %>%
     dplyr::distinct()
 
+  av_elast <-
+    tibble(
+      year = unique(.pass_tb$year),
+      elast_av =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(.pass_tb$year)))),
+          elas = .av_pct,
+          num_inits = 3,
+          num_yrs = length(unique(.pass_tb$year)) - 3
+        )
+    )
+
   if (nrow(tb_avshare) == 0) {
     stop("Make sure you are using the correct input table")
   }
@@ -78,9 +90,10 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     # AVs are PLDV, so reduce conventional PLDV VMT
     # AV VMT will increase proportionally
     av_return <- tb_avshare %>%
+      left_join(av_elast, by = "year") %>%
       rowwise() %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (av_share * .av_pct),
+        .av_pct > 0 ~ 1 - (av_share * elast_av),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
@@ -95,14 +108,15 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   )) {
     # increase in AV usage will decrease transit VMT
     av_return <- .pass_tb %>%
+      left_join(av_elast, by = "year") %>%
       # rowwise() %>%
       mutate(
         av_adj = dplyr::case_when(
           year %in% c("2015", "2018", "2020") ~ 1,
           (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-            1 + .enviro_factors$BUS_AV * .av_pct,
+            1 + .enviro_factors$BUS_AV * elast_av,
           (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-            1 + .enviro_factors$RAIL_AV * .av_pct,
+            1 + .enviro_factors$RAIL_AV * elast_av,
           TRUE ~ 1
         )
       ) %>%
@@ -114,8 +128,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   } else if (.mode == "AV") {
     # browser()
     av_return <- tb_avshare %>%
+      left_join(av_elast, by = "year") %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ av_share * .av_pct,
+        .av_pct > 0 ~ av_share * elast_av,
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
