@@ -1,0 +1,131 @@
+---
+title: "Formulas"
+output: 
+  html_document: default
+  html_vignette: default
+vignette: >
+  %\VignetteIndexEntry{Formulas}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE
+)
+```
+
+```{r setup}
+library(ghg.sp)
+```
+
+
+## Transportation  
+
+### Vehicle miles traveled   
+
+#### Passenger vehicles  
+
+$$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} }{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
+$y$ is the given year   
+$n$ is the number of vehicles with fuel type $f$ and travel mode $m$.  
+
+pass_ld_vmt = (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj * telework_adj * land_use_adj * park_price_adj) / occupancy_adj) * mode_stock_adj  
+
+
+##### Adjustments {.tabset}
+
+###### Transit  
+
+For passenger VMT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.sp::enviro_factors$PLDV_TRANSIT_RATIO`
+
+$$ adj_{transit} = VMT_{transit} \times \Delta ridership \times 0.47  $$
+
+###### Autonomous vehicles  
+
+$adj_{av}$ is the 1 - the proportion of all passenger trips that are autonomous multiplied by the adjustment factor for introducing vehicle automation on VMT, 0.73.  
+
+AVShare = adjustment factor for the effect of introducing vehicle automation on VMT by mode  
+
+$$ adj_{av} =  1 - (\frac{trips_{av}}{trips_{passenger}}) \times 0.73 $$
+$trips$ is the number of trips that are autonomous, $av$ and all passenger trips $passenger$
+
+###### Energy outlook  
+
+$adj_{aeo}$ is the Annual Energy Outlook VMT adjustment factor for the given mode.  
+
+###### VMT fees  
+
+$$adj_{vmt} = 1 + \left( \frac{vmt \space fee}{fuel_{f} + time + payd} \right) \times elast_{vmt} $$
+$vmt \space fee$ is the vehicle miles traveled fee in dollars per mile  
+$fuel$ is the cost of fuel in dollars per mile fuel type $f$   
+$time$ is estimated cost of time in dollars per mile, `r ghg.sp::enviro_factors$TIME_COST_MI`   
+$payd$ is pay-as-you-drive insurance cost in dollars per mile   
+$elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total vehicle miles traveled, `r ghg.sp::elast$vmt_elast[9]`  
+
+
+Users can include EITHER VMT fees or PAYD fees, not both. 
+
+
+1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast  
+
+###### Congestion fees    
+
+Congestion price in dollars per mile divided by the cost of fuel in dollars per mile plus the cost of time in dollars per mile, multiplied by the proportion of all VMT that occur during congested time periods, `r ghg.sp::enviro_factors$CONG_VMT`,  all times the elasticity or effect size of per mile pricing during congested time periods, `r ghg.sp::elast$cong_elast[9]`.    
+
+$$ adj_{cong} = 1 + \left(\frac{cong\space price}{fuel_{f} + time} \times 0.10 \right) \times elast_{cong} $$
+$cong \space price$ is the price of traveling during congested time periods in dollars per mile  
+$fuel$ is the cost of fuel in dollars per mile fuel type $f$   
+$time$ is estimated cost of time in dollars per mile, `r ghg.sp::enviro_factors$TIME_COST_MI`   
+$elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods, `r ghg.sp::elast$cong_elast[9]`.     
+
+
+1 + ((.cong_price / fuel_time_cost_mile) *
+                             .enviro_factors$CONG_VMT) * cong_elast
+
+###### Gas taxes    
+
+$$adj_{gas} = 1 + \left( \frac{gas \space price}{fuel_{f} + time} \right) \times EV_{f} \times elast_{gas}$$
+$gas \space price$ is the additional tax on fuel in dollars per mile.   
+$EV$ is either 0 or 1, dependent on the fuel type $f$  
+$elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r ghg.sp::elast$gas_elast[9]` on vehicle miles traveled.     
+
+
+
+1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
+
+###### Telework    
+
+Telework is 1  plus the additional percentage of people teleworking by the final forecast year times the marginal effect of telework, `r ghg.sp::enviro_factors$MARG_TELEWORK`
+$$adj_{telework} = 1 + (\%telework \times -0.0275) $$
+$\%telework$ is additional percent of people teleworking in the final forecast year.  
+
+###### Land use   
+$$ adj_{land} = \prod_{i=1}^{7} 1 + \Delta_{i} \times elast_{i,m} $$
+
+where $\Delta_{i}$  is the percent change in land use element $i$. 
+$elast_{i,m}$ is the elasticity or effect size land use element $i$ and travel mode $m$.     
+
+7 elements are considered: employment density, population density, land use diversity, intersection design, job accessibility via transit, average minimum distance to transit stops, and combined density.   
+
+
+$adj_{land}$ must fall within limits dependent on travel mode $m$. Passenger VMT can be no less than `r 1 + ghg.sp::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.sp::enviro_factors$MAX_5D_TR`, and walk/bike VMT can be no greater than `r 1 + ghg.sp::enviro_factors$MAX_5D_ACT`.    
+
+###### Parking    
+
+$$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}}$$
+$price_y$ is the price of parking on dollars per hour in year $y$  
+$price_{y = 2018}$ is the price of parking in dollars per hour in 2018   
+$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.  
+
+###### Occupancy  
+
+$adj_{occupancy}$ is the average number of passengers per passenger light duty vehicle, or average vehicle occupancy (AVO).   
+
+
+#### Autonomous vehicles   
+
+$$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} \times 1.2 }{adj_{occupancy}} \right ) \times AV$$
+ 
