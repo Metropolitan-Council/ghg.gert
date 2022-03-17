@@ -43,7 +43,7 @@ Default is \code{0}.}
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.drs_pct}{numeric,   a value between \code{0} and \code{1.}
 Percent of trips/fleet that is dynamic ride sharing (DRS).

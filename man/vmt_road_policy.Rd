@@ -32,7 +32,7 @@ vmt_road_policy(
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}

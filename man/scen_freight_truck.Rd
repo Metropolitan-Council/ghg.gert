@@ -58,7 +58,7 @@ Default is \code{0}}
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
