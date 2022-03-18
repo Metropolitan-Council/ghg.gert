@@ -270,11 +270,6 @@ calc_vmt_forecast <- function(.scenario,
       )
 
 
-      # all transit
-      # at_adjustment <- tb %>%
-      #   filter(mode == "AT", var == .variable) %>%
-      #   select(ctu, year, active_transportation_adj = value)
-
       ann_energy_outlook <- vmt_annual_energy_outlook(
         tb = tb,
         .aeo_scenario = .aeo_scenario,
@@ -889,7 +884,7 @@ calc_vmt_forecast <- function(.scenario,
       .transit_avo_pct = .transit_avo_pct
     )
 
-    tb_fin <- tb_vmt %>%
+    tb_fin_debug <- tb_vmt %>%
       left_join(veh_occupancy, by = c("ctu", "year")) %>%
       left_join(ann_energy_outlook, by = c("year")) %>%
       left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
@@ -898,14 +893,18 @@ calc_vmt_forecast <- function(.scenario,
       mutate(
         scenario = .scenario,
         stock = .stock,
-        vmt = (miles_traveled * aeo_adj) / occupancy_adj * mode_stock_adj,
+        vmt = ((miles_traveled * aeo_adj) / occupancy_adj) * mode_stock_adj,
         vmt = case_when(
           vmt == Inf | is.na(vmt) ~ 0,
           TRUE ~ vmt
         )
       ) %>%
+      unique()
+
+    tb_fin <- tb_fin_debug %>%
       select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt) %>%
       unique()
+
   }
 
   # final return -----
