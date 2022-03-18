@@ -56,6 +56,8 @@ st_paul_freight <- transportation_data$freight %>%
     ),
     # !year %in% c("2045","2050")
   )
+
+my_caption <- paste0(Sys.Date())
 ```
 
 
@@ -119,8 +121,7 @@ ggplot(data = bau_pldv_sales,
   ) +
   scale_y_continuous(labels = scales::comma) +
   labs(title = "Passenger personal vehicle sales",
-       y = "Sales") +
-  theme(legend.position = "none")
+       y = "Sales") 
 
 ```
 
@@ -172,7 +173,7 @@ ggplot(data = bau_pldv_stock,
   ) +
   scale_y_continuous(labels = scales::comma) +
   labs(title = "Passenger personal vehicle stock",
-       y = "Stock")
+       y = "Vehicles")
 
 ```
 
@@ -200,14 +201,16 @@ bu_stock <-
               summarize(value = sum(value)) %>%   
               mutate(scenario = "Sales Adjusted"))
 
-ggplot(bu_stock, aes(
+
+ggplot(bu_stock, 
+       aes(
   x = year,
   y = value,
   color = var,
   fill = var,
   group = var
 )) +
-  geom_area() +
+  geom_area(position = "stack") +
   facet_wrap(~scenario)+
   # geom_area(position = "fill") +
   scale_fill_manual(
@@ -223,7 +226,68 @@ ggplot(bu_stock, aes(
     )
   ) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "Bus vehicle stock")
+  labs(title = "Bus vehicle stock",
+       y = "Vehicles",
+       x = "Year")  +
+  theme(legend.position = "bottom")
+
+
 ```
 
+
+```{r}
+
+bus_stock_total <- bu_stock %>% 
+  filter(scenario == "BAU") %>% 
+  group_by(year, scenario) %>% 
+  summarize(value = round(sum(value)))
+
+ggplot(bu_stock %>% 
+         filter(scenario == "BAU"), 
+       aes(
+  x = year,
+  y = value,
+  color = var,
+  fill = var,
+  group = var
+)) +
+  geom_area(position = "stack") +
+  # facet_wrap(~scenario)+
+  # geom_area(position = "fill") +
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BEVStock" = "Electric",
+      "CIStock" = "Diesel",
+            "BCIStock" = "Diesel",
+      "HEVStock" = "Hybrid",
+      "PHEVStock" = "Plug-in hybrid",
+      "SIStock" = "Gasoline"
+    )
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  geom_point(
+    inherit.aes = FALSE,
+    data = bus_stock_total,
+            aes(x = year,
+                y = value)) +
+  geom_text(
+    inherit.aes = FALSE,
+    data = bus_stock_total,
+            aes(x = year,
+                y = value,
+                label =  value),
+    nudge_y = 80) +
+  labs(title = "Bus vehicle stock",
+       y = "Vehicles",
+       x = "Year",
+       caption = paste0(my_caption, " Source: Metro Transit Facts and National Transit Database"))  +
+  theme(legend.position = "bottom")
+
+ggsave("../data-raw/peer_review/figs/bus_stock.png",
+      width = 10,
+      height = 8)
+```
 
