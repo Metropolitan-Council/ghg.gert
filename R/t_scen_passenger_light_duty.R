@@ -453,7 +453,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
 
 
-  ## gas ghg direct -----
+  ### gas ghg direct -----
   phev_ghg_gas <- calc_ghg_direct(
     tb_vmt = phev_vmt_gas,
     tb = .pass_tb,
@@ -480,7 +480,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors
   )
 
-  ## electric ghg direct -----
+  ### electric ghg direct -----
   phev_ghg_electric <- calc_ghg_direct(
     tb_vmt = phev_vmt_electric,
     tb = .pass_tb,
