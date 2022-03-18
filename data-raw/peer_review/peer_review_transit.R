@@ -113,10 +113,12 @@ ggplot(all_scen_passenger_vmt,
   geom_line(alpha = 0.5,
             size = 1) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "PLDV, AV miles traveled",
-       color = "") +
-  theme(legend.position = "bottom")
+  labs(title = "Region PLDV, AV miles traveled",
+       color = "")
 
+ggsave("./data-raw/peer_review/figs/scen_run.png",
+       width = 8,
+       height = 6)
 
 
 all_scen_passenger_dir_ghg <- purrr::map_dfr(
