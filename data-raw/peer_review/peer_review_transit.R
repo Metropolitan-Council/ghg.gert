@@ -30,7 +30,7 @@ bau_summary <- run_scenario(pass_tb = st_paul_pass,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF")
 
-# debug(calc_vmt_forecast)
+debug(calc_vmt_forecast)
 
 # browser()
 mitigation_trans <-  run_scenario(
@@ -39,14 +39,8 @@ mitigation_trans <-  run_scenario(
   .scenario = "strategy_improve_transit",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
-  .transit_avo_pct = 0.20,
+  .transit_avo_pct = 0.10,
   .transit_rider_pct = 0.10
-  # .cong_price = 0.10,
-  # .gas_tax = 0.05,
-  # .av_pct = 0.10,
-  # .av_fuel_type = "BEV"
-  # .drs_pct = 0.03,
-  # .drs_fuel_type = "BEV"
 ) %>%
   suppressMessages()
 
@@ -63,7 +57,7 @@ mitigation_lu <-  run_scenario(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.25
+  .comb_5d_impact_pct_change = 0.20
 ) %>%
   suppressMessages()
 
@@ -80,7 +74,7 @@ mitigation_lu_transit <-  run_scenario(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.25,
+  .comb_5d_impact_pct_change = 0.20,
   .transit_avo_pct = 0.20,
   .transit_rider_pct = .10
 )  %>%
@@ -104,6 +98,7 @@ all_scen_passenger_vmt <- purrr::map_dfr(
         # "RU", "RI",
         # "AT"
       )) %>%
+      unique() %>%
       group_by(year, scenario) %>%
       summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
   }
@@ -117,7 +112,10 @@ ggplot(all_scen_passenger_vmt,
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1) +
-  labs(title = "PLDV, AV miles traveled")
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "PLDV, AV miles traveled",
+       color = "") +
+  theme(legend.position = "bottom")
 
 
 
@@ -137,6 +135,7 @@ all_scen_passenger_dir_ghg <- purrr::map_dfr(
         # "RU", "RI",
         # "AT"
       )) %>%
+      unique() %>%
       group_by(year, scenario) %>%
       summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
   }
@@ -152,4 +151,49 @@ ggplot(all_scen_passenger_dir_ghg,
   geom_line(alpha = 0.5,
             size = 1) +
   labs(title = "PLDV, AV direct emissions")
+
+
+## bus powertrain proportions -----
+
+transportation_data$passenger %>%
+  filter(mode == "PLDV",
+         str_detect(var, "Exist") |str_detect(var, "Stock") |str_detect(var, "Sales")
+         # var != "TotStock"
+  ) %>%
+  group_by(var, year) %>%
+  summarize(value = sum(value)) %>%
+  tidyr::pivot_wider(names_from = var,
+                     values_from = value) %>%
+  rowwise() %>%
+  mutate(TotStock_new = CIStock + BEVStock  + HEVStock + PHEVStock,
+         TotExist_new = CIExist + BEVExist  + HEVExist + PHEVExist,
+         TotSales_new = CISales + BEVSales  + HEVSales + PHEVSales) %>% View
+  mutate(across(2:4, ~ ./TotStock))
+
+
+transportation_data$passenger %>%
+  filter(mode == "PLDV",
+         str_detect(var, "Stock"),
+         var != "TotStock"
+  ) %>%
+  group_by(var, year) %>%
+  summarize(value = sum(value)) %>%
+  ggplot(aes(x = year, y = value,
+             color = var,
+             fill = var)) +
+  geom_col(position = "fill") +
+  scale_fill_manual(
+    name = "Powertrain",
+    values = wesanderson::wes_palettes$Royal2,
+    aesthetics = c("fill", "color"),
+    labels = c(
+      "BEVStock" = "Electric",
+      "CIStock" = "Diesel",
+      "BCIStock" = "Diesel",
+      "HEVStock" = "Hybrid",
+      "PHEVStock" = "Plug-in hybrid",
+      "SIStock" = "Gasoline"
+    )
+  ) +
+  scale_y_continuous(labels = scales::percent)
 
