@@ -1,11 +1,8 @@
-library(ghg.sp)
-library(ggplot2)
+pkgload::load_all()
 library(dplyr)
-library(stringr)
-library(scales)
 library(wesanderson)
 library(councilR)
-
+library(ggplot2)
 ggplot2::theme_set(
 councilR::theme_council(use_showtext = T,
                         use_manual_font_sizes = T))
@@ -30,7 +27,7 @@ bau_summary <- run_scenario(pass_tb = st_paul_pass,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF")
 
-debug(calc_vmt_forecast)
+undebug(calc_vmt_forecast)
 
 # browser()
 mitigation_trans <-  run_scenario(
@@ -75,7 +72,7 @@ mitigation_lu_transit <-  run_scenario(
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
   .comb_5d_impact_pct_change = 0.20,
-  .transit_avo_pct = 0.20,
+  .transit_avo_pct = 0.10,
   .transit_rider_pct = .10
 )  %>%
   suppressMessages()
@@ -91,13 +88,14 @@ all_scen_passenger_vmt <- purrr::map_dfr(
   function(x){
     x$passenger_all %>%
       filter(mode %in% c(
-        "AV",
-        "PLDV",
-        "DRS"
+        # "AV",
+        "PLDV"
+        # "DRS"
         # "BU", "BRT",
         # "RU", "RI",
         # "AT"
       )) %>%
+      select(year, scenario, vmt) %>%
       unique() %>%
       group_by(year, scenario) %>%
       summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
