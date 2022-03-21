@@ -252,7 +252,7 @@ ggplot(all_scen_passenger_av,
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1) +
-  labs(title = "All Passenger Vehicle Emissions")
+  labs(title = "All Passenger Travel Emissions")
 ```
 
 
