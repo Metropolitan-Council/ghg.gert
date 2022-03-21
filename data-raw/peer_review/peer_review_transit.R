@@ -121,6 +121,43 @@ ggsave("./data-raw/peer_review/figs/scen_run.png",
        height = 6)
 
 
+all_scen_transit_vmt <- purrr::map_dfr(
+  list(bau_summary,
+       mitigation_trans,
+       mitigation_lu,
+       mitigation_lu_transit
+  ),
+  function(x){
+    x$passenger_all %>%
+      filter(mode %in% c(
+        # "AV",
+        # "PLDV"
+        # "DRS"
+        "BU", "BRT",
+        "RU", "RI"
+        # "AT"
+      )) %>%
+      select(year, scenario, vmt) %>%
+      unique() %>%
+      group_by(year, scenario) %>%
+      summarize(vmt = sum(vmt, na.rm = T)*12, .groups = "keep")
+  }
+)
+
+ggplot(all_scen_transit_vmt,
+       aes(x = year,
+           y = vmt,
+           color = scenario,
+           group = scenario)) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Region transit vehicle miles traveled",
+       color = "")
+
+
+
 all_scen_passenger_dir_ghg <- purrr::map_dfr(
   list(bau_summary,
        mitigation_trans,
