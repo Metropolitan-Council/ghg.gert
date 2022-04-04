@@ -35,8 +35,6 @@ housing_stock_forecast <- readxl::read_xlsx("data-raw/building_energy_data_proce
   ))
 
 
-
-
 # c("COUSUBNS", "COCTU_ID", "TAZ2012", "HH2010", "HH2014", "HH2018",
 #   "HH2020", "HH2030", "HH2040", "POPINHH10", "POPINHH14", "POPINHH18",
 #   "POPINHH20", "POPINHH30", "POPINHH40", "POP2010", "POP2014",

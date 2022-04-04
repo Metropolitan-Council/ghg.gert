@@ -35,8 +35,10 @@ p_average_annual_growth_multifamily_sqft <-
   summarise(mean_growth_rate = mean(rate_percent, na.rm = TRUE))
 # filter(co_name == p_county)
 
-p_average_floor_area_multifamily_county_forecast <-
-  p_average_floor_area_multifamily_county %>%
+
+## -------------------------------------------------------------------------------------------
+p_county_average_floor_area_multifamily_forecast <-
+  p_county_average_floor_area_multifamily %>%
   left_join(p_average_annual_growth_multifamily_sqft) %>%
   mutate(
     value =
@@ -69,7 +71,7 @@ p_emp_forecast_county <-
 ## -------------------------------------------------------------------------------------------
 p_county_characteristics_forecast <-
   bind_rows(
-    p_average_floor_area_multifamily_county_forecast,
+    p_county_average_floor_area_multifamily_forecast,
     p_emp_forecast_county
   )
 
@@ -198,8 +200,8 @@ p_housing_stock_ctu_forecast %>%
   filter(value < 0)
 
 ## ----average building area single family----------------------------------------------------
-p_average_floor_area_single_family_ctu_forecast <-
-  p_average_floor_area_single_family_ctu %>%
+p_ctu_average_floor_area_single_family_forecast <-
+  p_ctu_average_floor_area_single_family %>%
   left_join(t_ctu_county) %>%
   left_join(p_average_annual_growth_single_family_sqft) %>%
   select(-co_name) %>%
@@ -218,12 +220,12 @@ p_average_floor_area_single_family_ctu_forecast <-
   unique() %>%
   select(ctu_name, year, metric, value)
 
-count(p_average_floor_area_single_family_ctu_forecast, ctu_name) %>% filter(n > 1)
+count(p_ctu_average_floor_area_single_family_forecast, ctu_name) %>% filter(n > 1)
 
 
 ## -------------------------------------------------------------------------------------------
-p_average_floor_area_multifamily_ctu_forecast <-
-  p_average_floor_area_multifamily_ctu %>%
+p_ctu_average_floor_area_multifamily_forecast <-
+  p_ctu_average_floor_area_multifamily %>%
   left_join(t_ctu_county) %>%
   left_join(p_average_annual_growth_multifamily_sqft) %>%
   select(-co_name) %>%
@@ -258,8 +260,8 @@ p_ctu_characteristics_forecast <-
   bind_rows(
     p_population_forecast,
     p_housing_stock_ctu_forecast,
-    p_average_floor_area_single_family_ctu_forecast,
-    p_average_floor_area_multifamily_ctu_forecast,
+    p_ctu_average_floor_area_single_family_forecast,
+    p_ctu_average_floor_area_multifamily_forecast,
     # p_county_characteristics_forecast %>%
     # rename("ctu_name" = "co_name") %>%
     # mutate(ctu_name = params$ctu_name),
