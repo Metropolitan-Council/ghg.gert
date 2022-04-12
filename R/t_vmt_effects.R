@@ -798,7 +798,8 @@ vmt_transit_ridership <- function(tb,
 
 #' Calculate vehicle occupancy multiplier
 #'
-#' @param .transit_avo_pct transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @return table with columns `ctu`, `year`, `occupancy_adj`
 #' @export
@@ -820,6 +821,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .mode,
                                   .stock,
                                   .transit_avo_pct,
+                                  .pldv_avo_pct,
                                   .enviro_factors = enviro_factors) {
   # browser()
 
@@ -837,6 +839,25 @@ vmt_vehicle_occupancy <- function(tb,
         occupancy_adj = value
       ) %>%
       unique()
+
+    pldv_avo_elast <- tibble(
+      year = unique(tb$year),
+      avo_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(tb$year)))),
+          elas = .pldv_avo_pct,
+          num_inits = 3,
+          num_yrs = length(unique(tb$year)) - 3
+        )
+    )
+
+    pldv_occupancy %>%
+      left_join(pldv_avo_elast, by = "year") %>%
+      mutate(occupancy_adj = occupancy_adj * (1 + avo_elast))
+
+
+
+
     return(pldv_occupancy)
   } else if (.mode %in% c(
     "BU",

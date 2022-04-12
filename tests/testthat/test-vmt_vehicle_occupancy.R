@@ -20,6 +20,7 @@ si_veh_test <- vmt_vehicle_occupancy(
   .mode = "PLDV",
   .stock = "SIStock",
   .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
   .enviro_factors = enviro_factors
 ) %>%
   filter(ctu == "St. Paul")
