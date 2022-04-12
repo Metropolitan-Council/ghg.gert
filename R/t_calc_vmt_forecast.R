@@ -56,6 +56,7 @@ calc_vmt_forecast <- function(.scenario,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
                               .transit_avo_pct = 0,
+                              .pldv_avo_pct = 0,
                               .transit_rider_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,
@@ -201,6 +202,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -325,6 +327,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -466,6 +469,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = "PLDV",
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -526,6 +530,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -615,6 +620,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -720,6 +726,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -759,6 +766,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -798,6 +806,7 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
+        .pldv_avo_pct = .pldv_avo_pct,
         .transit_avo_pct = .transit_avo_pct
       )
 
@@ -881,6 +890,7 @@ calc_vmt_forecast <- function(.scenario,
       .tb_vmt = tb_vmt,
       .mode = .mode,
       .stock = .stock,
+      .pldv_avo_pct = .pldv_avo_pct,
       .transit_avo_pct = .transit_avo_pct
     )
 
