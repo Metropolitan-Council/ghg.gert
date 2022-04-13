@@ -95,13 +95,12 @@ mitigation_lu <-  run_scenario_transportation(
 
 - Increase average vehicle occupancy by 10% by 2040
 - Increase transit ridership by 10% by 2040
-- Phase out biodiesel fuel buses from fleet by 2035 and hybrid electric bus sales by 2040. Fleet will be entirely electric  
-- Currently forecasting 10% zero-emission buses by 2027
-
+- Increase passenger light duty vehicle occupancy by 10%
 
 
 ```{r}
-mitigation_trans <-  run_scenario_transportation(
+debug(vmt_vehicle_occupancy)
+mitigation_trans <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",
@@ -109,6 +108,7 @@ mitigation_trans <-  run_scenario_transportation(
   .aeo_scenario = "REF", 
   .transit_avo = 0.10,
   .transit_rider_pct = 0.10,
+  .pldv_avo_pct = 0.10
 ) %>% 
   suppressMessages()
 ```
@@ -196,7 +196,8 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .transit_dist_pct_change = -0.05,
   .comb_5d_impact_pct_change = 0.2,
   .transit_avo = 0.10,
-  .transit_rider_pct = 0.10
+  .transit_rider_pct = 0.10,
+  .pldv_avo_pct = 0.1
 )  %>% 
   suppressMessages()
 ```
