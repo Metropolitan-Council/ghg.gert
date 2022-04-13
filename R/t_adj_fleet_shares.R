@@ -409,7 +409,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       unique()
 
 
-    ### apply portions to get actual sales
+    ### apply portions to get actual number of vehicles sold
     ptb_sales_new <- pass_tb %>%
       dplyr::filter(
         # year %in% c("2025", "2030", "2035", "2040", "2045", "2050"),
@@ -429,6 +429,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
           ),
         by = c("mode", "ctu", "year", "aeo_mode", "type")
       ) %>%
+      rowwise() %>%
       dplyr::mutate(new_val = dplyr::case_when(
         # calculate new absolute sales value for each
         !year %in% c("2015", "2018", "2020") & var == "SISales" ~ TotSales * new_si_portion,
@@ -449,7 +450,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
     ### exist -----
-    # get OLD sales and existing values
+    # get OLD (previous year) sales and existing values
     pass_exist_old <- pass_tb %>%
       dplyr::filter(
         # year %in% c("2025", "2030", "2035", "2040", "2045",
@@ -490,13 +491,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         pass_exist_old,
         by = c("mode", "ctu", "year", "aeo_mode", "type")
       ) %>%
-      dplyr::rowwise() %>%
+      # dplyr::rowwise() %>%
       dplyr::mutate(
-        si_new_adj = ifelse(year != max(year), (SIExist.old + SISales) / (SIExist.old + SISales.old), 1),
-        ci_new_adj = ifelse(year != max(year), (CIExist.old + CISales) / (CIExist.old + CISales.old), 1),
-        hev_new_adj = ifelse(year != max(year), (HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old), 1),
-        phev_new_adj = ifelse(year != max(year), (PHEVExist.old + PHEVSales) / (PHEVExist.old + PHEVSales.old), 1),
-        bev_new_adj = ifelse(year != max(year), (BEVExist.old + BEVSales) / (BEVExist.old + BEVSales.old), 1)
+        si_new_adj = ifelse(year != max(pass_tb$year), (SIExist.old + SISales) / (SIExist.old + SISales.old), 1),
+        ci_new_adj = ifelse(year != max(pass_tb$year), (CIExist.old + CISales) / (CIExist.old + CISales.old), 1),
+        hev_new_adj = ifelse(year != max(pass_tb$year), (HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old), 1),
+        phev_new_adj = ifelse(year != max(pass_tb$year), (PHEVExist.old + PHEVSales) / (PHEVExist.old + PHEVSales.old), 1),
+        bev_new_adj = ifelse(year != max(pass_tb$year), (BEVExist.old + BEVSales) / (BEVExist.old + BEVSales.old), 1)
       ) %>%
       dplyr::select(
         mode, ctu, year, aeo_mode, type,
@@ -547,6 +548,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
+        # Stock  = Existing + Sales
         BEVStock = BEVExist + BEVSales,
         PHEVStock = PHEVExist + PHEVSales,
         HEVStock = HEVExist + HEVSales,
