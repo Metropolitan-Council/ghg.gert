@@ -317,18 +317,29 @@ ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
   full_join(st_drop_geometry(ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
             by = c("ctu_id" = "CTU_ID")) 
 
-# save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
-
-ctu_pop2020_transit %>%
-  ggplot(aes(x = percent_pop_0.5mi_transit)) +
-  geom_histogram() +
-  theme_minimal()
+save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
 
 ```
 
 
 
+# Make some figs
 
+```{r}
+ctu_pop2020_transit %>%
+  ggplot(aes(x = percent_pop_0.5mi_transit)) +
+  geom_histogram() +
+  theme_minimal()
+
+
+ctu_pop2020_transit %>%
+    full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
+            by = c("ctu_id" = "CTU_ID")) %>%
+  ggplot() +
+  geom_sf(aes(fill = percent_pop_0.5mi_transit, geometry = geometry)) +
+  theme_void()
+
+```
 
 
 
