@@ -119,9 +119,12 @@ trans_buffer <- trans_stops %>%
   group_by(active_sta) %>%
   summarise(geometry = st_union(geometry))
 
-# trans_stops %>%
-#   ggplot() + 
-#   geom_sf()
+trans_stops %>%
+  ggplot() +
+  geom_sf(data = trans_buffer, fill = "blue", alpha = .4) +
+  geom_sf(color = "red", size = .1) +
+  geom_sf(data = ctu_boundary, fill = "transparent") +
+  theme_void()
 # 
 # leaflet::leaflet() %>%
 #   leaflet::addTiles() %>%
