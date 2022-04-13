@@ -298,19 +298,31 @@ census2020pop <- dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts
                             AND subject_level_desc = 'Population Total'" ) %>%
   # subject_area_desc == "Population and Households"
   # datasource == "Census 2020"
-  tibble::as_tibble()
+  tibble::as_tibble() %>%
+  group_by(ctu_id) %>% 
+  summarise(persons_census2020 = sum(measure)) #right now this db is split across counties
 
 ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
                                         .group_var2 = CTU_ID) %>%
   select(-code) %>%
   rename(persons_0.5mi_transit = persons,
          ctu_id = CTU_ID) %>%
-  full_join(census2020pop %>% 
-              select(ctu_id, measure) %>% 
-              rename(persons_census2020 = measure)) %>%
-  mutate(percent_pop_0.5mi_transit = persons_0.5mi_transit / persons_census2020)
+  full_join(census2020pop) %>%
+  
+  #if census 2020 pop is < transit buffer pop, adjst accordingly
+  mutate(persons_0.5mi_transit = if_else(persons_0.5mi_transit > persons_census2020, 
+                                         persons_census2020, persons_0.5mi_transit)) %>%
+  
+  mutate(percent_pop_0.5mi_transit = persons_0.5mi_transit / persons_census2020) %>%
+  full_join(st_drop_geometry(ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
+            by = c("ctu_id" = "CTU_ID")) 
 
-save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
+# save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
+
+ctu_pop2020_transit %>%
+  ggplot(aes(x = percent_pop_0.5mi_transit)) +
+  geom_histogram() +
+  theme_minimal()
 
 ```
 
