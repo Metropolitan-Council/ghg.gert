@@ -13,6 +13,7 @@ calc_vmt_forecast(
   .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -58,7 +59,9 @@ Variable name - e.g., "VMT"}
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 
 \item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
 Default is \code{0}}

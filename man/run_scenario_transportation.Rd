@@ -12,6 +12,7 @@ run_scenario_transportation(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,

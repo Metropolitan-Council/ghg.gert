@@ -52,16 +52,16 @@ testthat::expect_equal(
     .stock = "BCIStock"
   ),
   tibble::tribble(
-    ~ctu,  ~year, ~mode, ~mode_stock_adj,
-    "St. Paul", "2015",  "BU",               1,
-    "St. Paul", "2018",  "BU",               1,
-    "St. Paul", "2020",  "BU",               1,
-    "St. Paul", "2025",  "BU",               1,
-    "St. Paul", "2030",  "BU",               1,
-    "St. Paul", "2035",  "BU",               1,
-    "St. Paul", "2040",  "BU",               1,
-    "St. Paul", "2045",  "BU",               1,
-    "St. Paul", "2050",  "BU",               1
+    ~ctu, ~year, ~mode, ~mode_stock_adj,
+    "St. Paul", "2015", "BU", 1,
+    "St. Paul", "2018", "BU", 1,
+    "St. Paul", "2020", "BU", 1,
+    "St. Paul", "2025", "BU", 1,
+    "St. Paul", "2030", "BU", 1,
+    "St. Paul", "2035", "BU", 1,
+    "St. Paul", "2040", "BU", 1,
+    "St. Paul", "2045", "BU", 1,
+    "St. Paul", "2050", "BU", 1
   )
 )
 

@@ -1,6 +1,6 @@
 enviro_factors_edit <- enviro_factors
 
-enviro_factors_edit$PLDV_TRANSIT_RATIO <- 47/100
+enviro_factors_edit$PLDV_TRANSIT_RATIO <- 47 / 100
 
 pass_trans <- vmt_transit_ridership(
   tb = st_paul_passenger,

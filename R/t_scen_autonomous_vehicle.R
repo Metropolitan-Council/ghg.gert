@@ -105,7 +105,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .aeo_scenario = .aeo_scenario,
           .transit_avo_pct = .transit_avo_pct,
           .pldv_avo_pct = .pldv_avo_pct,
-
           .transit_rider_pct = .transit_rider_pct,
           .vmt_fee = .vmt_fee,
           .payd_fee = .payd_fee,

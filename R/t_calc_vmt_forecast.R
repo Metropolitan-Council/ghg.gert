@@ -235,8 +235,8 @@ calc_vmt_forecast <- function(.scenario,
 
       tb_fin <- tb_fin_debug %>%
         select(type, stock, scenario, ctu, year, mode,
-               aeo_mode,
-               vmt = transit_vmt
+          aeo_mode,
+          vmt = transit_vmt
         )
 
       # return(vmt_forecast)
@@ -250,16 +250,16 @@ calc_vmt_forecast <- function(.scenario,
         phev_proportion <- tb %>%
           dplyr::filter(mode == mode, var == "PHEVPr") %>%
           dplyr::select(mode, var, ctu, year,
-                        phev_prop_electric = value, aeo_mode, type
+            phev_prop_electric = value, aeo_mode, type
           )
 
         tb_vmt <- tb_vmt %>%
           left_join(phev_proportion) %>%
           mutate(miles_traveled = case_when(
             .phev_electric == TRUE ~
-              miles_traveled * phev_prop_electric,
+            miles_traveled * phev_prop_electric,
             .phev_electric == FALSE ~
-              miles_traveled * (1 - phev_prop_electric)
+            miles_traveled * (1 - phev_prop_electric)
           )) %>%
           select(names(tb_vmt))
       }
@@ -371,17 +371,17 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           pass_ld_vmt =
             (((miles_traveled - transit_adj) *
-                av_adj * aeo_adj *
-                vmt_fee_adj * cong_adjust * gas_adj *
-                telework_adj * land_use_adj *
-                park_price_adj) / occupancy_adj) * mode_stock_adj,
+              av_adj * aeo_adj *
+              vmt_fee_adj * cong_adjust * gas_adj *
+              telework_adj * land_use_adj *
+              park_price_adj) / occupancy_adj) * mode_stock_adj,
           stock = .stock
         )
 
       tb_fin <- tb_fin_debug %>%
         select(type, stock, scenario,
-               ctu, year, mode, aeo_mode,
-               vmt = pass_ld_vmt
+          ctu, year, mode, aeo_mode,
+          vmt = pass_ld_vmt
         ) %>%
         unique()
 
@@ -495,9 +495,9 @@ calc_vmt_forecast <- function(.scenario,
           mode = .mode,
           av_vmt = (
             ((miles_traveled - transit_adj) *
-               aeo_adj * vmt_fee_adj *
-               cong_adjust * gas_adj * park_price_adj *
-               land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
+              aeo_adj * vmt_fee_adj *
+              cong_adjust * gas_adj * park_price_adj *
+              land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
         )
 
       tb_fin <- tb_fin_debug %>%
@@ -575,14 +575,14 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           stock = .stock,
           sut_vmt = (miles_traveled * aeo_adj *
-                       vmt_fee_adj * park_price_adj / occupancy_adj) *
+            vmt_fee_adj * park_price_adj / occupancy_adj) *
             mode_stock_adj
         )
 
       tb_fin <- tb_fin_debug %>%
         select(type, stock, scenario, ctu,
-               year, mode, aeo_mode,
-               vmt = sut_vmt
+          year, mode, aeo_mode,
+          vmt = sut_vmt
         )
 
       # return(vmt)
@@ -698,8 +698,8 @@ calc_vmt_forecast <- function(.scenario,
           walk_vmt = miles_traveled * land_use_adj
         ) %>%
         select(type, stock, scenario, ctu,
-               year, mode, aeo_mode,
-               vmt = walk_vmt
+          year, mode, aeo_mode,
+          vmt = walk_vmt
         )
 
       # return(vmt)
@@ -738,11 +738,11 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           stock = .stock,
           school_bus_vmt = (miles_traveled * aeo_adj
-                            / occupancy_adj) * mode_stock_adj
+            / occupancy_adj) * mode_stock_adj
         ) %>%
         select(type, stock, scenario, ctu, year, mode,
-               aeo_mode,
-               vmt = school_bus_vmt
+          aeo_mode,
+          vmt = school_bus_vmt
         )
     } else if (.mode == "FR") {
       # freight rail ------
@@ -914,7 +914,6 @@ calc_vmt_forecast <- function(.scenario,
     tb_fin <- tb_fin_debug %>%
       select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt) %>%
       unique()
-
   }
 
   # final return -----
