@@ -1,23 +1,13 @@
 
 # Gasoline ------
 
-fcm_test <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
-  .fuel_cost_gallon = 2.398,
-  .av_pct = 0
-)
-
-
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -67,24 +57,13 @@ testthat::expect_equal(
 # Diesel ------
 
 
-fcm_test_dies <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon =  "CIMPG",
-  .fuel_cost_gallon = enviro_factors$CI_FUEL_COST_GAL,
-  .av_pct = 0
-)
-
-
-
 ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "CIStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test_dies,
+  .tb_fuel_cost_mile = ci_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
