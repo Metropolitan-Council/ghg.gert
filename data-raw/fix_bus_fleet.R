@@ -1,7 +1,5 @@
 pkgload::load_all()
 
-
-
 bus_year_estimate <- tibble(year = unique(transportation_data$passenger$year),
                             n_bus = seq(865, by = 10, length = 9))
 
@@ -28,7 +26,8 @@ new_stock_all <- new_stock %>%
 
 
 new_pass <- transportation_data$passenger %>%
-  anti_join(new_stock_all, by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
+  anti_join(new_stock_all,
+            by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
   bind_rows(new_stock_all)
 
 transportation_data$passenger <- new_pass
