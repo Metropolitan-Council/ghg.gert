@@ -311,6 +311,36 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     ## passenger-----
     ### sales ------
 
+
+    sales_elast <- tibble::tibble(
+      year = unique(pass_tb$year),
+      bev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas =.bev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        ),
+      hev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas = .hev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        ),
+      phev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas = .phev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        )
+    ) %>%
+      mutate(si_ci_elast = 1 - (bev_elast + phev_elast + hev_elast),
+             si_ci_elast = ifelse(year %in% c("2015", "2018", "2020"), 1, si_ci_elast))
+
+
+
     pass_tb_sales <- pass_tb %>%
       dplyr::filter(
         year %in% c(
