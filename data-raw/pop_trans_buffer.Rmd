@@ -49,7 +49,7 @@ Get block groups and assign to CTUs.
 # block groups
 MN_counties <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"
                  # ,"Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
-                 )
+)
 # WI_counties <- c("St. Croix", "Polk", "Pierce")
 
 MNblock_group <- tigris::block_groups(
@@ -77,7 +77,7 @@ ctu_boundary <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
 
 bg_geo <- ctu_boundary %>%
   st_intersection(MNblock_group%>%
-  st_transform(26915)) #bind_rows(MNblock_group, WIblock_group)
+                    st_transform(26915)) #bind_rows(MNblock_group, WIblock_group)
 # tract_geo <- bind_rows(MNtract, WItract)
 
 # bg_geo %>% st_drop_geometry() %>% count(GEOID) %>% filter(n > 1) %>% arrange(-n)
@@ -170,7 +170,7 @@ Population numbers:
 ##############
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census2020population/xlsx_society_census2020population.zip",
-  destfile = temp
+              destfile = temp
 )
 bg_pop <- readxl::read_xlsx(unzip(temp, "Census2020PopulationBlockGroup.xlsx")) %>%
   janitor::clean_names() %>%
@@ -202,7 +202,7 @@ create function to link at block group and tract levels
 
 link_census_bg_coverage <- function(.df, .group_var) {
   .group_var <- enquos(.group_var)
-
+  
   persons <- .df %>% 
     # coverage_bg_transportation %>% #
     st_drop_geometry() %>%
@@ -222,13 +222,13 @@ link_census_bg_coverage <- function(.df, .group_var) {
       across(c(adj_poptotal), sum, na.rm = T),
     )  %>%
     mutate(measurement = "persons")
-
+  
   census_agency_summary_1 <- persons %>%
     arrange(!!!.group_var) %>%
     pivot_longer(names_to = "code", values_to = "value", -c(!!!.group_var, measurement)) %>%
     pivot_wider(names_from = measurement, values_from = value) 
-
-
+  
+  
   return(census_agency_summary_1)
 }
 
@@ -295,18 +295,22 @@ rm(server, database, uid, pwd, is_local)
 
 ```{r link-census-transpercent}
 
-census2020pop <- dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts 
-                            WHERE subject_area_desc = 'Population and Households' 
-                            AND datasource = 'Census 2020'
-                            AND subject_level_desc = 'Population Total'" ) %>%
-  # subject_area_desc == "Population and Households"
-  # datasource == "Census 2020"
+census2020pop <-
+  # dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts 
+  #                           WHERE subject_area_desc = 'Population and Households' 
+  #                           AND datasource = 'Census 2020'
+  #                           AND subject_level_desc = 'Population Total'" ) %>%
+  councilR::import_from_emissions("metro_sp_mod_2.census_facts") %>% 
+  filter(
+    subject_area_desc == "Population and Households",
+    datasource == "Census 2020",
+    subject_level_desc == 'Population Total') %>% 
   tibble::as_tibble() %>%
   group_by(ctu_id) %>% 
   summarise(persons_census2020 = sum(measure)) #right now this db is split across counties
 
 ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
-                                        .group_var2 = CTU_ID) %>%
+                                      .group_var2 = CTU_ID) %>%
   select(-code) %>%
   rename(persons_0.5mi_transit = persons,
          ctu_id = CTU_ID) %>%
@@ -320,7 +324,7 @@ ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
   full_join(st_drop_geometry(ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
             by = c("ctu_id" = "CTU_ID")) 
 
-save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
+save(ctu_pop2020_transit, file = "../data-raw/ctu_pop2020_transit.rda")
 
 ```
 
@@ -336,7 +340,7 @@ ctu_pop2020_transit %>%
 
 
 ctu_pop2020_transit %>%
-    full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
+  full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
             by = c("ctu_id" = "CTU_ID")) %>%
   ggplot() +
   geom_sf(aes(fill = percent_pop_0.5mi_transit, geometry = geometry)) +
