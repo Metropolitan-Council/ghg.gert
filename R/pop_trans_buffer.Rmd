@@ -70,7 +70,7 @@ download.file(
 
 unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
 ctu_boundary <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
-  select(CTU_NAME, Shape_Area) %>%
+  select(CTU_ID, CTU_NAME, Shape_Area) %>%
   st_transform(26915) %>%
   st_buffer(-100) #give some breathing room to intersect with block groups
 
@@ -119,14 +119,14 @@ trans_buffer <- trans_stops %>%
   group_by(active_sta) %>%
   summarise(geometry = st_union(geometry))
 
-trans_stops %>%
-  ggplot() + 
-  geom_sf()
-
-leaflet::leaflet() %>%
-  leaflet::addTiles() %>%
-  leaflet::addPolygons(data = trans_buffer %>% st_transform(4326))%>%
-  leaflet::addCircles(color = "red", data = trans_stops %>% st_transform(4326))
+# trans_stops %>%
+#   ggplot() + 
+#   geom_sf()
+# 
+# leaflet::leaflet() %>%
+#   leaflet::addTiles() %>%
+#   leaflet::addPolygons(data = trans_buffer %>% st_transform(4326))%>%
+#   leaflet::addCircles(color = "red", data = trans_stops %>% st_transform(4326))
 ```
 
 ## Get census and feature geometry overlap
@@ -135,7 +135,6 @@ Overlap:
 
 ```{r agency-coverage}
 coverage_bg_transportation <- coverage_fxn(.geo_main = trans_buffer, .geo_census = bg_geo)
-# coverage_bg_transportation <- coverage_fxn(.geo_main = ctu_boundary, .geo_census = bg_geo)
 
 ```
 
@@ -239,15 +238,77 @@ compile_census <- function(.bg_df, .group_var2){
 
 
 
-## Summarize and save
+## Summarize and add in census 2020 population from database
+
+### Establish Database Connection
+
+```{r message=FALSE}
+library(odbc)
+library(DBI)
 
 
+dbConnector <- function(server, database,
+                        uid = "mc\\eesch", 
+                        pwd = getOption("councilR.pwd"),
+                        local = TRUE, port = 1433, tds_version = 7.4) {
+  if (local) {
+    if (Sys.info()[["sysname"]] == "Windows") {
+      DBI::dbConnect(odbc::odbc(),
+                     Driver = "ODBC Driver 17 for SQL Server",
+                     Server = "dbsqlcl11t.test.local,65414",
+                     Database = "CD_Emissions",
+                     Trusted_Connection = "yes"
+      )
+    } else {
+      # user <- base::readline(prompt = "User: ")
+      # pswd <- base::readline(prompt = "Password: ")
+      
+      DBI::dbConnect(
+        odbc::odbc(),
+        Driver = "FreeTDS",
+        Database = "CD_Emissions",
+        Uid = uid,
+        Pwd = pwd,
+        Server = "dbsqlcl11t.test.local,65414"
+      )
+    }
+  } else {
+    DBI::dbConnect(odbc::odbc(),
+                   Driver = "FreeTDS",
+                   Database = database,
+                   Uid = uid,
+                   Pwd = pwd,
+                   Server = server,
+                   Port = port,
+                   TDS_Version = tds_version
+    )
+  }
+}
 
-```{r link-census-impagency}
+conn <- dbConnector(server, database, counciR.uid, councilR.pwd, is_local)
+rm(server, database, uid, pwd, is_local)
+
+```
+
+```{r link-census-transpercent}
+
+census2020pop <- dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts 
+                            WHERE subject_area_desc = 'Population and Households' 
+                            AND datasource = 'Census 2020'
+                            AND subject_level_desc = 'Population Total'" ) %>%
+  # subject_area_desc == "Population and Households"
+  # datasource == "Census 2020"
+  tibble::as_tibble()
+
 ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
-                                        .group_var2 = CTU_NAME) %>%
+                                        .group_var2 = CTU_ID) %>%
   select(-code) %>%
-  rename(persons_0.5mi_transit = persons)
+  rename(persons_0.5mi_transit = persons,
+         ctu_id = CTU_ID) %>%
+  full_join(census2020pop %>% 
+              select(ctu_id, measure) %>% 
+              rename(persons_census2020 = measure)) %>%
+  mutate(percent_pop_0.5mi_transit = persons_0.5mi_transit / persons_census2020)
 
 save(ctu_pop2020_transit, file = "../data/ctu_pop2020_transit.rda")
 
