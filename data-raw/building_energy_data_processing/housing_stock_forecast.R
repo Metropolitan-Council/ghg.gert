@@ -2,7 +2,7 @@ library(ghg.sp)
 library(dplyr)
 library(tidyr)
 
-ctu_county <- councilR::import_from_gis(query = "CountiesAndCTUs") %>%
+ctu_county <- councilR::import_from_gis(query = "GISLibrary.dbo.CountiesAndCTUs", dbname = "GISLibrary") %>%
   select(COCTU_ID, CTU_NAME)
 
 housing_stock_forecast <- readxl::read_xlsx("data-raw/building_energy_data_processing/building-data/FORECAST_LU_TAZCTU.xlsx") %>%
@@ -11,7 +11,7 @@ housing_stock_forecast <- readxl::read_xlsx("data-raw/building_energy_data_proce
   summarize(across(3:66, sum)) %>%
   select(COCTU_ID, 25:32) %>%
   left_join(ctu_county %>%
-    sf::st_drop_geometry()) %>%
+    sf::st_drop_geometry(), by = "COCTU_ID") %>%
   select(-COCTU_ID) %>%
   group_by(CTU_NAME) %>%
   summarize(across(1:8, sum, na.rm = T)) %>%

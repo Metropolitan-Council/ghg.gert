@@ -1,6 +1,6 @@
 # residential forecast
 ## -------------------------------------------------------------------------------------------
-p_residential_electricity_forecast_ctu <-
+p_ctu_residential_electricity_forecast <-
   p_ctu_residential_energy_baseline %>%
   filter(metric == "kwh_per_floor_area") %>%
   ungroup() %>%
@@ -57,6 +57,6 @@ p_residential_natural_gas_forecast_ctu <-
 ## -------------------------------------------------------------------------------------------
 p_ctu_residential_energy_forecast <-
   bind_rows(
-    p_residential_electricity_forecast_ctu,
+    p_ctu_residential_electricity_forecast,
     p_residential_natural_gas_forecast_ctu
   )
