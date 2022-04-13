@@ -323,90 +323,90 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # browser()
 
-  ### CI BRT -----
-  mode <- "BRT"
-  stock <- "BCIStock"
-  mpg <- "BCIMPG"
-  class <- "BCI"
-  message("Bus rapid transit, diesel")
-
-  ci_brt_vmt <-
-    calc_vmt_forecast(
-      .scenario = .scenario,
-      tb = .pass_tb,
-      .mode = mode,
-      .stock = stock,
-      .variable = var,
-      .tb_fuel_cost_mile = fcm,
-      .aeo_scenario = .aeo_scenario,
-      .transit_avo_pct = .transit_avo_pct,
-      .transit_rider_pct = .transit_rider_pct,
-      .vmt_fee = .vmt_fee,
-      .payd_fee = .payd_fee,
-      .gas_tax = .gas_tax,
-      .cong_price = .cong_price,
-      .parking_price = .parking_price,
-      .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .av_pct = .av_pct,
-      .freight_vmt_fee = .freight_vmt_fee,
-      .pop_dens_pct_change = .pop_dens_pct_change,
-      .emp_dens_pct_change = .emp_dens_pct_change,
-      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-      .intersection_design_pct_change = .intersection_design_pct_change,
-      .job_access_pct_change = .job_access_pct_change,
-      .transit_dist_pct_change = .transit_dist_pct_change,
-      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-      .telework_pct = .telework_pct,
-      .elast = .elast,
-      .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
-    ) %>%
-    mutate(class = class)
-
-  ci_brt_ghg <-
-    calc_ghg_direct(
-      tb_vmt = ci_brt_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .fuel_type = "BCI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  ci_brt_fuel <-
-    calc_fuel_use(
-      tb_vmt = ci_brt_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # "BCI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  ci_brt_emb_ghg <-
-    calc_ghg_embodied(
-      tb = .pass_tb,
-      .mode = mode,
-      .sales_mode = "BCISales",
-      .fuel_type = "BU-BCI-EMB",
-      .class = class,
-      .transit_avo_pct = .transit_avo_pct
-    )
-
-  ci_brt_cost <-
-    calc_cost(
-      tb_vmt = ci_brt_vmt,
-      .mode = mode,
-      .price = "BCIPrice",
-      .is_av = FALSE
-    )
-
+  # ### CI BRT -----
+  # mode <- "BRT"
+  # stock <- "BCIStock"
+  # mpg <- "BCIMPG"
+  # class <- "BCI"
+  # message("Bus rapid transit, diesel")
   #
+  # ci_brt_vmt <-
+  #   calc_vmt_forecast(
+  #     .scenario = .scenario,
+  #     tb = .pass_tb,
+  #     .mode = mode,
+  #     .stock = stock,
+  #     .variable = var,
+  #     .tb_fuel_cost_mile = fcm,
+  #     .aeo_scenario = .aeo_scenario,
+  #     .transit_avo_pct = .transit_avo_pct,
+  #     .transit_rider_pct = .transit_rider_pct,
+  #     .vmt_fee = .vmt_fee,
+  #     .payd_fee = .payd_fee,
+  #     .gas_tax = .gas_tax,
+  #     .cong_price = .cong_price,
+  #     .parking_price = .parking_price,
+  #     .freight_parking_price = .freight_parking_price,
+  #     .drs_pct = .drs_pct,
+  #     .av_pct = .av_pct,
+  #     .freight_vmt_fee = .freight_vmt_fee,
+  #     .pop_dens_pct_change = .pop_dens_pct_change,
+  #     .emp_dens_pct_change = .emp_dens_pct_change,
+  #     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+  #     .intersection_design_pct_change = .intersection_design_pct_change,
+  #     .job_access_pct_change = .job_access_pct_change,
+  #     .transit_dist_pct_change = .transit_dist_pct_change,
+  #     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+  #     .telework_pct = .telework_pct,
+  #     .elast = .elast,
+  #     .enviro_factors = .enviro_factors,
+  #     .elast_5d = .elast_5d
+  #   ) %>%
+  #   mutate(class = class)
+  #
+  # ci_brt_ghg <-
+  #   calc_ghg_direct(
+  #     tb_vmt = ci_brt_vmt,
+  #     tb = .pass_tb,
+  #     .mode = mode,
+  #     .fuel_type = "BCI",
+  #     .aeo_scenario = .aeo_scenario,
+  #     .miles_per_gallon = mpg,
+  #     .is_av = FALSE,
+  #     .enviro_factors = .enviro_factors
+  #   )
+  #
+  # ci_brt_fuel <-
+  #   calc_fuel_use(
+  #     tb_vmt = ci_brt_vmt,
+  #     tb = .pass_tb,
+  #     .mode = mode,
+  #     # "BCI",
+  #     .aeo_scenario = .aeo_scenario,
+  #     .miles_per_gallon = mpg,
+  #     .is_av = FALSE,
+  #     .enviro_factors = .enviro_factors
+  #   )
+  #
+  # ci_brt_emb_ghg <-
+  #   calc_ghg_embodied(
+  #     tb = .pass_tb,
+  #     .mode = mode,
+  #     .sales_mode = "BCISales",
+  #     .fuel_type = "BU-BCI-EMB",
+  #     .class = class,
+  #     .transit_avo_pct = .transit_avo_pct
+  #   )
+  #
+  # ci_brt_cost <-
+  #   calc_cost(
+  #     tb_vmt = ci_brt_vmt,
+  #     .mode = mode,
+  #     .price = "BCIPrice",
+  #     .is_av = FALSE
+  #   )
+  #
+  # #
   # ### HEV BRT -----
   # stock <- "HEVStock"
   # mpg <- "HEVMPG"
@@ -581,47 +581,47 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # browser()
   fuel_use_all <- dplyr::bind_rows(
-    ci_fuel,
+    ci_fuel
     # hev_fuel,
     # bev_fuel,
-    ci_brt_fuel
+    # ci_brt_fuel
     # hev_brt_fuel,
     # bev_brt_fuel
   )
 
 
   vmt_all <- dplyr::bind_rows(
-    ci_vmt,
+    ci_vmt
     # hev_vmt,
     # bev_vmt,
-    ci_brt_vmt
+    # ci_brt_vmt
     # hev_brt_vmt,
     # bev_brt_vmt
   )
 
   emb_ghg_all <- dplyr::bind_rows(
-    ci_emb_ghg,
+    ci_emb_ghg
     # hev_emb_ghg,
     # bev_emb_ghg,
-    ci_brt_emb_ghg
+    # ci_brt_emb_ghg
     # hev_brt_emb_ghg,
     # bev_brt_emb_ghg
   )
 
   dir_ghg_all <- dplyr::bind_rows(
-    ci_dir_ghg,
+    ci_dir_ghg
     # hev_dir_ghg,
     # bev_dir_ghg,
-    ci_brt_ghg
+    # ci_brt_ghg
     # hev_brt_ghg,
     # bev_brt_ghg
   )
 
   cost_all <- dplyr::bind_rows(
-    ci_cost,
+    ci_cost
     # hev_cost,
     # bev_cost,
-    ci_brt_cost
+    # ci_brt_cost
     # hev_brt_cost,
     # bev_brt_cost
   )
