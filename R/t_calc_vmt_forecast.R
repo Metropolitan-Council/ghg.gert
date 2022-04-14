@@ -818,7 +818,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           scenario = .scenario,
           stock = .stock,
-          vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj,
+          vmt = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj,
           vmt = case_when(
             vmt == Inf | is.na(vmt) | vmt < 0 ~ 0,
             TRUE ~ vmt
