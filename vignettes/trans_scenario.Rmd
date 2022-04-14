@@ -99,7 +99,7 @@ mitigation_lu <-  run_scenario_transportation(
 
 
 ```{r}
-debug(vmt_vehicle_occupancy)
+# debug(vmt_vehicle_occupancy)
 mitigation_trans <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
@@ -118,8 +118,6 @@ mitigation_trans <-  run_scenario(
 ### Vehicle electrification  
 
 - Increase private EV sales to 20% HEV, 20% PHEV, and 60% BEV of all vehicle sales by 2040. 
-- Phase out biodiesel buses from fleet by 2035 and HEV bus sales by 2040.
-- Introduce dynamic ride-sharing (DRS) in 2025 to replace 10% of motorized PMT by 2040. 
 - Introduce autonomous vehicles in 2025 to replace 10% of motorized PMT by 2040.  
 
 
@@ -131,10 +129,10 @@ mitigation_ev <-  run_scenario_transportation(
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
   .bev_pct_sales = 0.6,
-  .hev_pct_sales =  0.2,
-  .phev_pct_sales = 0.2,
-  .av_pct = 0.10,
-  .av_fuel_type = "BEV"
+  .hev_pct_sales =  0.1,
+  .phev_pct_sales = 0.05
+  # .av_pct = 0.10,
+  # .av_fuel_type = "BEV"
   # .drs_pct = 0.10,
   # .drs_fuel_type = "HEV"
 ) %>%
@@ -195,9 +193,10 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
   .comb_5d_impact_pct_change = 0.2,
-  .transit_avo = 0.10,
-  .transit_rider_pct = 0.10,
-  .pldv_avo_pct = 0.1
+  .transit_avo = 0.2,
+  # .transit_rider_pct = 0.10,
+  .pldv_avo_pct = 0.1,
+  .parking_price = 44
 )  %>% 
   suppressMessages()
 ```
@@ -238,10 +237,13 @@ all_scen_passenger_av <- purrr::map_dfr(
   ),
   function(x){
     x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS" ,"BU", "BRT",
-                         "RU", "RI")) %>%
+      filter(mode %in% c("AV", "PLDV", "DRS"
+                         # "BU", "BRT",
+                         # "RU", "RI"
+                         )) %>%
       group_by(year, scenario) %>% 
-      summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
+      summarize(dir_ghg = sum(dir_ghg, na.rm = T),
+                .groups = "keep")
   }
 )
 
@@ -261,9 +263,9 @@ ggplot(all_scen_passenger_av,
 purrr::map_dfr(
   list(bau_summary,
        mitigation_ev,
-       mitigation_trans
+       # mitigation_trans
        # mitigation_lu,
-       # mitigation_telework,
+       mitigation_telework
        # mitigation_road_price
   ),
   function(x){

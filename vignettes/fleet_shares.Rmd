@@ -65,9 +65,9 @@ my_caption <- paste0(Sys.Date())
 adj_sales <- adj_fleet_shares(
   .pass_tb = transportation_data$passenger,
   .freight_tb = transportation_data$freight,
-  .bev_pct_sales = 0.4854,
-  .hev_pct_sales = 0.1352,
-  .phev_pct_sales = 0.3151
+  .bev_pct_sales = 0.9,
+  .hev_pct_sales = 0.05,
+  .phev_pct_sales = 0.01
 )
 ```
 
@@ -222,7 +222,8 @@ ggplot(bu_stock,
       "CIStock" = "Diesel",
       "HEVStock" = "Hybrid",
       "PHEVStock" = "Plug-in hybrid",
-      "SIStock" = "Gasoline"
+      "SIStock" = "Gasoline",
+      "BCIStock" = "Diesel"
     )
   ) +
   scale_y_continuous(labels = scales::comma) +
