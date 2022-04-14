@@ -82,11 +82,11 @@ mitigation_lu <-  run_scenario_transportation(
   .aeo_scenario = "REF", 
   .pop_dens_pct_change = 0.05,
   .emp_dens_pct_change = 0.05,
-  .land_use_diversity_pct_change = 0.05,
-  .intersection_design_pct_change = 0.05,
-  .job_access_pct_change = 0.05,
-  .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.2
+  # .land_use_diversity_pct_change = 0.05,
+  # .intersection_design_pct_change = 0.05,
+  # .job_access_pct_change = 0.05,
+  .transit_dist_pct_change = -0.05
+  # .comb_5d_impact_pct_change = 0.2
 ) %>% 
   suppressMessages()
 ```
@@ -186,11 +186,11 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .aeo_scenario = "REF", 
   .pop_dens_pct_change = 0.05,
   .emp_dens_pct_change = 0.05,
-  .land_use_diversity_pct_change = 0.05,
-  .intersection_design_pct_change = 0.05,
-  .job_access_pct_change = 0.05,
+  # .land_use_diversity_pct_change = 0.05,
+  # .intersection_design_pct_change = 0.05,
+  # .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05,
-  .comb_5d_impact_pct_change = 0.2,
+  # .comb_5d_impact_pct_change = 0.2,
   .transit_avo = 0.2,
   # .transit_rider_pct = 0.10,
   .pldv_avo_pct = 0.1,
