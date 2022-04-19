@@ -99,7 +99,6 @@ mitigation_lu <-  run_scenario_transportation(
 
 
 ```{r}
-# debug(vmt_vehicle_occupancy)
 mitigation_trans <-  run_scenario(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
