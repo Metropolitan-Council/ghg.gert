@@ -150,9 +150,9 @@ calc_scen_vals <- reactive({
     ),
     function(x){
       x$passenger_all %>% 
-        filter(mode %in% c("AV", "PLDV", "DRS",
-                           "BU", #"BRT",
-                           "RU", "RI"
+        filter(mode %in% c("AV", "PLDV", "DRS"
+                           # "BU" #"BRT",
+                           # "RU", "RI"
         )) %>%
         group_by(year, scenario) %>% 
         summarize(dir_ghg = sum(dir_ghg, na.rm = T),
@@ -193,7 +193,7 @@ observeEvent(input$go_button, {
       geom_line(alpha = 0.5,
                 size = 1) +
       scale_y_continuous(limits = c(400, 750)) +
-    labs(title = "All Passenger Travel Emissions")
+    labs(title = "All Passenger Light-Duty Vehicle Emissions")
     
   })
   
