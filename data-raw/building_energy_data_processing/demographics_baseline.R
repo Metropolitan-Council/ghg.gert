@@ -18,8 +18,6 @@ p_county_average_floor_area_multifamily <-
   t_ztrax_sqft_summary_county %>%
   select(co_name, property_land_use, mean_sqft) %>%
   filter(property_land_use == "Condominium") %>%
-  # filter(co_name == p_county)  %>%
-  # group_by(co_name) %>%
   mutate(
     metric = "multifamily_average_floor_area_sqft_county",
     year = 2018

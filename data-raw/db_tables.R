@@ -32,7 +32,8 @@ db_table_names <- list(
     "t_housing_stock_ctu"  = "metro_demographic.vw_housing_stock_ctu",
     "t_emp_forecast_county" = "metro_demographic.vw_emp_forecast_county",
     "t_emp_forecast_ctu" =  "metro_demographic.vw_emp_forecast_ctu",
-    "t_led_industry_county" = "metro_demographic.vw_led_industry_county"
+    "t_led_industry_county" = "metro_demographic.vw_led_industry_county",
+    "t_forecast_lu_ctu" = "metro_demographic.vw_forecast_lu_ctu"
   ),
 
 
