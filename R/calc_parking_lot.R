@@ -25,9 +25,9 @@ parking_lot_land_cover <-
   dplyr::mutate(
     parking_lot_2 =
       case_when(year == 2016 ~ parking_lot,
-                year == 2040 & scenario$scenario_description_2 == "compact_dev_with_drs"  ~ 
+                year == 2040 & scenario$scenario_description_2 == "compact_dev_with_drs"  ~
                   (parking_lot * (1 - parking_lot_reduction_percentage)),
-                year == 2040 & scenario$scenario_description_2 != "compact_dev_with_drs" ~ 
+                year == 2040 & scenario$scenario_description_2 != "compact_dev_with_drs" ~
                   parking_lot),
     decreased_parking_lot = parking_lot - parking_lot_2,
     scaling_factor = (total_area + decreased_parking_lot) / total_area,
@@ -42,5 +42,4 @@ parking_lot_land_cover <-
     woody_wetland = woody_wetland * scaling_factor,
     wetland = wetland * scaling_factor)
 #here you could pivot longer and then take all the land covers * scaling factor, and then pivot wider again. Or maybe liz has a purrr suggestion?
-
 

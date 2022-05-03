@@ -70,3 +70,13 @@ p_scenario_land_use_2040 <-
     "scenario_hectares"
   ))
 
+
+## ------------------------------------------------------------------------------------------------------------
+p_summed_land_use_2040 <-
+  p_scenario_land_use_2040 %>%
+  dplyr::group_by(ctu_name, description_2) %>%
+  dplyr::summarise(scenario_hectares = sum(scenario_hectares),
+                   .groups = 'drop') %>%
+  dplyr::group_by(ctu_name) %>%
+  dplyr::mutate(total_scenario_hectares = sum(scenario_hectares)) %>%
+  dplyr::ungroup()

@@ -41,3 +41,12 @@ p_land_cover_percentages <-
   dplyr::group_by(ctu_name, description_2, land_cover_description_2) %>%
   dplyr::transmute(land_cover_percent = hectares / total_hectares) %>%
   dplyr::ungroup()
+
+## ------------------------------------------------------------------------------------------------------------
+p_summed_land_use_2016 <-
+  t_ctu_land_use_hectares %>%
+  dplyr::filter(year == 2016) %>%
+  dplyr::group_by(ctu_name, description_2) %>%
+  dplyr::summarise(hectares = sum(hectares),
+                   .groups = 'drop') %>%
+  dplyr::ungroup()
