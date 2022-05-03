@@ -49,9 +49,9 @@ p_residential_natural_gas_forecast_ctu <-
   # assumption that natural gas per floor area stays static
   mutate(residential_therms_per_floor_area_forecast = therms_per_floor_area * 1) %>%
   mutate(total_residential_therms_forecast = (((
-    single_family_units * single_family_average_floor_area_sqft_ctu
+    SFD_Units * single_family_average_floor_area_sqft_ctu
   ) + (
-    multifamily_units * multifamily_average_floor_area_sqft_county
+    MF_Units * multifamily_average_floor_area_sqft_county
   )
   ) * residential_therms_per_floor_area_forecast)) %>%
   mutate(year = 2040) %>%

@@ -85,7 +85,7 @@ p_residential_therms_per_sqft <-
     p_natural_gas_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value") %>%
+  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
   mutate(therms_per_floor_area = (residential_ng_therms / ((
     SFD_Units * single_family_average_floor_area_sqft_ctu
   ) +
@@ -107,7 +107,7 @@ p_residential_kwh_per_household <-
     p_electricity_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value") %>%
+  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
   mutate(residential_mwh_per_households = residential_mwh / households) %>%
   select(ctu_name, year, residential_mwh_per_households) %>%
   group_by(ctu_name, year) %>%
@@ -123,7 +123,7 @@ p_residential_therms_per_household <-
     p_natural_gas_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value") %>%
+  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
   mutate(residential_therms_per_households = residential_ng_therms / households) %>%
   group_by(ctu_name, year) %>%
   select(ctu_name, year, residential_therms_per_households) %>%
