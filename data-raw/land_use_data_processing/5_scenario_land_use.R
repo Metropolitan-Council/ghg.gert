@@ -1,7 +1,3 @@
-## ----setup, include=FALSE------------------------------------------------------------------------------------
-knitr::opts_chunk$set(echo = TRUE)
-
-
 ## ------------------------------------------------------------------------------------------------------------
 p_scenario_land_use_2040_scaling_factor <-
   p_land_by_development_type %>%
@@ -58,12 +54,12 @@ p_scenario_land_use_2040 <-
                       "mixed_use_commercial"
                     )
                   ),
-                  
+
                   ((hectares + ((
                     percent * total_hectares.x
                   ) - hectares)) + (scenario_mixed_use_mf_new / 4)
                   ),
-                  
+
                   ((
                     hectares + ((percent * total_hectares.x) - hectares)
                   ) * scaling_factor))) %>%

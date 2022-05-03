@@ -1,19 +1,3 @@
-## ----setup, include=FALSE------------------------------------------------------------------------------------
-knitr::opts_chunk$set(echo = TRUE)
-
-
-## ------------------------------------------------------------------------------------------------------------
-p_land_cover_percentages <-
-  t_ctu_land_use_2016_land_cover %>%
-  dplyr::group_by(ctu_name, description_2) %>%
-  dplyr::mutate(total_hectares = sum(hectares)) %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(ctu_name, description_2, land_cover_description_2) %>%
-  dplyr::transmute(land_cover_percent = hectares / total_hectares) %>% 
-  dplyr::ungroup()
-
-
-## ------------------------------------------------------------------------------------------------------------
 p_land_cover_percentages_filled <-
   p_summed_land_use_2016 %>%
   dplyr::left_join(
@@ -55,7 +39,7 @@ p_land_cover_percentages_filled <-
         land_cover_percent,
         percent_of_total_area
       ),
-    
+
     by = c("ctu_name", "description_2")
   ) %>%
   dplyr::mutate(test = dplyr::if_else(
@@ -65,4 +49,3 @@ p_land_cover_percentages_filled <-
                    0,
                    percent_of_total_area)
   ))
-

@@ -1,6 +1,7 @@
-## ----setup, include=FALSE------------------------------------------------------------------------------------
-knitr::opts_chunk$set(echo = TRUE)
-
+# import tables
+## -------------------------------------------------------------------------------------------
+t_land_use_by_cover_type <- import_from_emissions("metro_sp_mod_1.vw_land_use_by_cover_type")
+t_general_carbon_values <- import_from_emissions("metro_sp_mod_1.vw_general_carbon_values")
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_use_by_cover_type_percent <-
@@ -10,7 +11,6 @@ p_land_use_by_cover_type_percent <-
                   (total_area_m2 /
                      sum(total_area_m2))) %>%
   dplyr::ungroup()
-
 
 ## ------------------------------------------------------------------------------------------------------------
 p_carbon_stock_by_cover_type <-
@@ -23,4 +23,3 @@ p_carbon_stock_by_cover_type <-
       (percent_of_total_area *
          stock_mg_c_per_ha)
   )
-
