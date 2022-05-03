@@ -364,8 +364,4 @@ floor_area_behavior_change <- function(res_tb,
     return(new_res_tb_fin)
 
   }
-
-
-
-
 }

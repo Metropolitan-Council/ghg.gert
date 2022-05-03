@@ -7,7 +7,6 @@
 #' @inheritParams floor_area_leed
 #' @inheritParams floor_area_growth
 #' @inheritParams floor_area_retrofit
-#' @inheritParams floor_area_leed
 #' @inheritParams run_scenario
 #'
 #'

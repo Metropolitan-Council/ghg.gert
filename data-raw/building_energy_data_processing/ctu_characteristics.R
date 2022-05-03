@@ -16,11 +16,11 @@ p_ctu_characteristics_forecast %>%
 
 
 ctu_characteristics <- p_ctu_characteristics_forecast %>%
-  pivot_wider(
-    names_from = metric,
-    values_from = value
-  ) %>%
-  select(ctu_name,
+  as_tibble() %>%
+  pivot_wider(names_from = metric,
+              values_from = value) %>%
+  select(
+    ctu_name,
     year,
     population,
     households,
@@ -29,11 +29,10 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
     industrial_jobs = industrial_emp_forecast,
     everything()
   ) %>%
+  group_by(ctu_name, year) %>%
   bind_rows(p_ctu_characteristics %>%
-    pivot_wider(
-      names_from = metric,
-      values_from = value
-    ))
+              pivot_wider(names_from = metric,
+                          values_from = value))
 
 
 # join with residential -----
@@ -48,8 +47,8 @@ ctu_w_res <- ctu_characteristics %>%
   left_join(ctu_residential_energy, c("ctu_name", "year")) %>%
   mutate(
     residential_floor_area_per_capita = (
-      (single_family_average_floor_area_sqft_ctu * single_family_units) +
-        (multifamily_average_floor_area_sqft_county * multifamily_units))
+      (single_family_average_floor_area_sqft_ctu * SFD_Units) +
+        (multifamily_average_floor_area_sqft_county * MF_Units))
     / population
   ) %>%
   mutate(

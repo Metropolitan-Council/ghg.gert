@@ -21,10 +21,6 @@ p_ctu_residential_energy_baseline %>%
   unique()
 # residential_mhw
 
-
-
-
-
 # common variables
 "kwh_per_floor_area" <- "residential_kwh_per_floor_area_forecast"
 "therms_per_floor_area" <- "residential_therms_per_floor_area_forecast"

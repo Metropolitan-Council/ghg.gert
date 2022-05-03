@@ -239,7 +239,7 @@ p_employees_by_type_state <-
       )
   ) %>%
   group_by(state_name, year, type) %>%
-  summarise(value = sum(emp)) %>%
+  summarise(value = sum(emp), .groups = "keep") %>%
   rename(metric = type)
 
 
@@ -320,7 +320,7 @@ p_state_nonresidential_energy <-
 p_xcel_energy_percent <-
   t_intersect_landuse_utility_service_area_ctu %>%
   group_by(ctu_name, utility_name) %>%
-  summarise(acres = sum(acres)) %>%
+  summarise(acres = sum(acres), .groups = "keep") %>%
   mutate(percent = acres / acres) %>%
   filter(utility_name == "Xcel Energy")
 
@@ -364,7 +364,7 @@ p_xcel_energy_electricity <-
         (metric == "industrial_jobs") ~ p_industrial_mwh_per_worker_state[[1]]
       )
   ) %>%
-  left_join(p_commercial_industrial_electricity_mwh_xcel) %>%
+  left_join(p_commercial_industrial_electricity_mwh_xcel, by = c("ctu_name", "year")) %>%
   mutate(
     value = value * state_mwh_per_worker,
     ratio = value / sum(value),
@@ -409,12 +409,13 @@ p_nonresidential_naturalgas_ctu <-
     "Non-Residential"
   )) %>%
   group_by(ctu_name, year) %>%
-  summarize(
+  summarise(
     mcf_per_year = sum(mcf_per_year, na.rm = T),
     number_of_customers = sum(number_of_customers, na.rm = T),
     therms_per_year = sum(therms_per_year, na.rm = T),
     utility_name = paste(utility_name, collapse = ", "),
-    customer_class_name = paste(customer_class_name, collapse = ", ")
+    customer_class_name = paste(customer_class_name, collapse = ", "),
+    .groups = "keep"
   )
 
 p_commercial_therms_per_worker_state <-
@@ -440,7 +441,7 @@ p_commercial_and_industrial_natural_gas_ctu <-
         metric == "industrial_jobs" ~ p_industrial_therms_per_worker_state[[1]]
       )
   ) %>%
-  left_join(p_nonresidential_naturalgas_ctu) %>%
+  left_join(p_nonresidential_naturalgas_ctu, by = c("ctu_name", "year")) %>%
   group_by(ctu_name, year, metric) %>%
   mutate(
     value1 = value * state_therms_per_worker,

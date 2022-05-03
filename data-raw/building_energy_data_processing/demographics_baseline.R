@@ -172,7 +172,9 @@ p_ctu_county <- p_county_characteristics %>%
   left_join(t_ctu_county, by="co_name") %>%
   filter(metric == "multifamily_average_floor_area_sqft_county") %>%
   group_by(ctu_name, year, metric) %>%
-  select(ctu_name, year, metric, value)
+  select(ctu_name, year, metric, value) %>%
+  dplyr::group_by(ctu_name, year, metric) %>%
+  dplyr::summarise(value = mean(value), .groups = "keep")
 
 
 #----------
