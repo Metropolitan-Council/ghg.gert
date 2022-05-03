@@ -45,7 +45,7 @@ db_table_names <- list(
 
   # metro energy
   metro_energy = list(
-    "t_electricity_residential_ctu" = " metro_energy.vw_electricity_residential_ctu",
+    "t_electricity_residential_ctu" = "metro_energy.vw_electricity_residential_ctu",
     "t_natural_gas_residential_ctu" = "metro_energy.vw_natural_gas_residential_ctu",
     "t_intersect_landuse_utility_service_area_ctu" = "metro_energy.vw_intersect_landuse_utility_service_area_ctu",
     "t_utility_electricity_by_ctu" = "metro_energy.vw_utility_electricity_by_ctu",

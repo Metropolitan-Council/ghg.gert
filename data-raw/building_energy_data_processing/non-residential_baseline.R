@@ -1,3 +1,16 @@
+# import tables
+## -------------------------------------------------------------------------------------------
+t_eia_electricity_servicewide <- import_from_emissions("metro_energy.vw_eia_electricity_servicewide")
+t_mndoc_electricity_county <- import_from_emissions("metro_energy.vw_mndoc_electricity_county")
+t_intersect_landuse_utility_service_area_county <- import_from_emissions("metro_energy.vw_intersect_landuse_utility_service_area_county")
+t_eia_energy_consumption_state <- import_from_emissions("state_energy.eia_energy_consumption_state")
+t_intersect_landuse_utility_service_area_ctu <- import_from_emissions("metro_energy.vw_intersect_landuse_utility_service_area_ctu")
+t_state_qcew <- import_from_emissions("state_demographic.vw_state_qcew")
+t_county <- import_from_emissions("state_demographic.county")
+t_utility_electricity_by_ctu <- import_from_emissions("metro_energy.vw_utility_electricity_by_ctu")
+t_nrel_energy_consumption_ctu <- import_from_emissions("metro_energy.vw_nrel_energy_consumption_ctu")
+t_utility_natural_gas_by_ctu <- import_from_emissions("metro_energy.vw_utility_natural_gas_by_ctu")
+
 # non-residential baseline
 
 ## ----electric serviewide customer ratio of utilities----------------------------------------
@@ -510,33 +523,6 @@ p_ctu_nonresidential_energy_baseline_1 <-
       )
     }
   )
-
-
-
-## -------------------------------------------------------------------------------------------
-# p_ctu_nonresidential_energy_baseline_1 <-
-#   bind_rows(# electricity
-#     if (is_served_by_mostly_xcel == TRUE) {
-#       p_xcel_energy_electricity
-#     }
-#     else if (count(p_nrel_electricity_ctu)$n > 0) {
-#       p_nrel_electricity_ctu
-#     }
-#     else{
-#       stop("Non Residential Electricity Data is Missing!!")
-#     },
-#     # natural gas
-#     if (count(p_nrel_natural_gas_ctu)$n > 0) {
-#       p_nrel_natural_gas_ctu
-#     }
-#     else if (count(p_nonresidential_naturalgas_ctu)$n==1 &&
-#              p_nonresidential_naturalgas_ctu$customer_class_name == "Business") {
-#       p_commercial_and_industrial_natural_gas_ctu
-#     }
-#     else{
-#       stop("Non Residential Natural Gas Data is Missing!!")
-#     })
-
 
 ## -------------------------------------------------------------------------------------------
 p_ctu_nonresidential_energy_per_worker <-
