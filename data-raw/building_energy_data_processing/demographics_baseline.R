@@ -1,3 +1,13 @@
+# import tables
+## -------------------------------------------------------------------------------------------
+t_ztrax_sqft_summary_county <- import_from_emissions("metro_sp_mod_2.ztrax_sqft_summary_county")
+t_led_industry_county <- import_from_emissions("metro_demographic.vw_led_industry_county")
+t_ctu_population <- import_from_emissions("metro_demographic.vw_ctu_population")
+t_ctu_qcew_ctu <- import_from_emissions("metro_demographic.vw_qcew_ctu")
+t_forecast_lu_ctu <- import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
+t_ztrax_sqft_summary_ctu <- import_from_emissions("metro_sp_mod_2.vw_ztrax_sqft_summary_ctu")
+t_ctu_county <- import_from_emissions("metro_demographic.vw_ctu_county")
+
 # baseline demographics
 ## -------------------------------------------------------------------------------------------
 p_county_average_floor_area_single_family <-
@@ -119,11 +129,17 @@ p_ctu_commercial_jobs <-
 
 
 ## -------------------------------------------------------------------------------------------
-source("data-raw/building_energy_data_processing/housing_stock_forecast.R")
-
-p_ctu_housing_stock <- housing_stock_forecast %>%
+# source("data-raw/building_energy_data_processing/housing_stock_forecast.R")
+#
+# p_ctu_housing_stock <- housing_stock_forecast %>%
+#   filter(year == 2018) %>%
+#   mutate(year = as.integer(year))
+p_ctu_housing_stock <-
+  t_forecast_lu_ctu %>%
+  filter(metric %in% c("SFD_Units", "MF_Units"))  %>%
   filter(year == 2018) %>%
-  mutate(year = as.integer(year))
+  group_by(ctu_name, year)
+
 
 
 # p_ctu_housing_stock <-

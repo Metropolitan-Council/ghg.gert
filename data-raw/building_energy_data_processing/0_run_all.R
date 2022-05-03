@@ -3,11 +3,11 @@ library(dplyr)
 library(magrittr)
 library(purrr)
 library(ghg.sp)
+library(councilR)
 
-
-db_tables <- ghg.sp::db_tables
-
-list2env(db_tables, envir = environment())
+# db_tables <- ghg.sp::db_tables
+#
+# list2env(db_tables, envir = environment())
 
 # demographic
 source("data-raw/building_energy_data_processing/demographics_baseline.R")
