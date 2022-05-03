@@ -133,8 +133,7 @@ p_ctu_average_floor_area_single_family_forecast <-
   unique() %>%
   select(ctu_name, year, metric, value)
 
-count(p_ctu_average_floor_area_single_family_forecast, ctu_name) %>% filter(n > 1)
-
+# count(p_ctu_average_floor_area_single_family_forecast, ctu_name) %>% filter(n > 1)
 
 ## -------------------------------------------------------------------------------------------
 p_ctu_average_floor_area_multifamily_forecast <-

@@ -1,3 +1,9 @@
+# import tables
+## -------------------------------------------------------------------------------------------
+t_electricity_residential_ctu <- import_from_emissions("metro_energy.vw_electricity_residential_ctu")
+t_natural_gas_residential_ctu <- import_from_emissions("metro_energy.vw_natural_gas_residential_ctu")
+
+
 # residential baseline
 ## -------------------------------------------------------------------------------------------
 p_electricity_residential_ctu <-
@@ -52,9 +58,9 @@ p_residential_kwh_per_sqft <-
     p_electricity_residential_ctu,
     p_ctu_characteristics %>%
       filter(metric %in% c(
-        "single_family_units",
+        "SFD_Units",
         "single_family_average_floor_area_sqft_ctu",
-        "multifamily_units",
+        "MF_Units",
         "multifamily_average_floor_area_sqft_county"
       ))
   ) %>%
@@ -62,8 +68,8 @@ p_residential_kwh_per_sqft <-
   group_by(ctu_name, year) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   mutate(kwh_per_floor_area = (residential_mwh / ((
-    single_family_units * single_family_average_floor_area_sqft_ctu) +
-    (multifamily_units * multifamily_average_floor_area_sqft_county))) *
+    SFD_Units * single_family_average_floor_area_sqft_ctu) +
+    (MF_Units * multifamily_average_floor_area_sqft_county))) *
     1000) %>%
   select(ctu_name, year, kwh_per_floor_area) %>%
   group_by(ctu_name, year) %>%
@@ -81,10 +87,10 @@ p_residential_therms_per_sqft <-
   ) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   mutate(therms_per_floor_area = (residential_ng_therms / ((
-    single_family_units * single_family_average_floor_area_sqft_ctu
+    SFD_Units * single_family_average_floor_area_sqft_ctu
   ) +
     (
-      multifamily_units * multifamily_average_floor_area_sqft_county
+      MF_Units * multifamily_average_floor_area_sqft_county
     )
   ))) %>%
   select(ctu_name, year, therms_per_floor_area) %>%
