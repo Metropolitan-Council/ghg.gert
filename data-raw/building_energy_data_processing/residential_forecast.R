@@ -1,3 +1,8 @@
+# import tables
+## -------------------------------------------------------------------------------------------
+
+
+
 # residential forecast
 ## -------------------------------------------------------------------------------------------
 p_ctu_residential_electricity_forecast <-
@@ -8,17 +13,17 @@ p_ctu_residential_electricity_forecast <-
   bind_rows(p_ctu_characteristics_forecast %>%
     select(-c(year)) %>%
     filter(metric %in% c(
-      "single_family_units",
+      "SFD_Units",
       "single_family_average_floor_area_sqft_ctu",
-      "multifamily_units",
+      "MF_Units",
       "multifamily_average_floor_area_sqft_county"
     ))) %>%
   pivot_wider(names_from = "metric", values_from = "value") %>%
   mutate(residential_kwh_per_floor_area_forecast = kwh_per_floor_area * 0.8) %>%
   mutate(total_residential_kwh_forecast = (((
-    single_family_units * single_family_average_floor_area_sqft_ctu
+    SFD_Units * single_family_average_floor_area_sqft_ctu
   ) + (
-    multifamily_units * multifamily_average_floor_area_sqft_county
+    MF_Units * multifamily_average_floor_area_sqft_county
   )
   ) * residential_kwh_per_floor_area_forecast)) %>%
   mutate(year = 2040) %>%

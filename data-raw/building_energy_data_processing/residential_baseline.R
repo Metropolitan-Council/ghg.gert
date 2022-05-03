@@ -66,7 +66,7 @@ p_residential_kwh_per_sqft <-
   ) %>%
   unique() %>%
   group_by(ctu_name, year) %>%
-  pivot_wider(names_from = "metric", values_from = "value") %>%
+  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
   mutate(kwh_per_floor_area = (residential_mwh / ((
     SFD_Units * single_family_average_floor_area_sqft_ctu) +
     (MF_Units * multifamily_average_floor_area_sqft_county))) *
