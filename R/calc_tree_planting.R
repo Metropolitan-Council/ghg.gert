@@ -1,4 +1,3 @@
-
 ## ------------------------------------------------------------------------------------------------------------
 p_tree_planting_factors <-
   t_ctu_forecast %>%
@@ -102,5 +101,3 @@ tree_planting_land_cover <-
                   dplyr::if_else(year == 2016,
                                  agriculture,
                                  agriculture * scaling_factor))
-
-

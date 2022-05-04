@@ -5,5 +5,4 @@ library(purrr)
 library(ghg.sp)
 library(councilR)
 
-source("data-raw/land_use_data_processing/general_values.R")
 source("data-raw/land_use_data_processing/land_composition.R")

@@ -1,5 +1,10 @@
-## ------------------------------------------------------------------------------------------------------------
-p_land_cover_by_land_use <-
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+p_land_cover_by_land_use <- function() {
   dplyr::bind_rows(
     p_land_cover_percentages_filled %>%
       dplyr::group_by(ctu_name, description_2, land_cover_description_2) %>%
@@ -15,3 +20,4 @@ p_land_cover_by_land_use <-
       dplyr::transmute(land_cover_land_use_hectares = test * scenario_hectares) %>%
       dplyr::mutate(year = 2040)
   )
+}

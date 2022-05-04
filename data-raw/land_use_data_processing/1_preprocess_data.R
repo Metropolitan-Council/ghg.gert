@@ -14,4 +14,3 @@ v_urban_infill <- v_scenario$urban_infill
 v_maximum_soc_accumulation_percent <- 1.54
 v_LA_tree_per_capita_planting_factor <- 0.26
 v_tree_planting_per_hectare <- 247
-
