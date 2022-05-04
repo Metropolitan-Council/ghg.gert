@@ -14,7 +14,8 @@ t_land_cover_types <-
   import_from_emissions("metro_sp_mod_1.land_cover_types")
 t_land_use_2016_types <-
   import_from_emissions("metro_sp_mod_1.land_use_2016_types")
-
+t_scenario_parameters <-
+  import_from_emissions("metro_sp_mod_1.scenario_parameters")
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_use_by_cover_type_percent <-

@@ -6,8 +6,10 @@
 #' @export
 #'
 #' @examples
+
 calc_land_by_development_type_1 <-
-  function(tb, .luse_scen = "bau") {
+  function(tb = land_use_data,
+           .luse_scen = "compact_dev_with_drs") {
     p_x <-
       tb$ctu_land_use_hectares %>%
       dplyr::group_by(ctu_name, development_name) %>%
@@ -44,7 +46,7 @@ calc_land_by_development_type_1 <-
             hectares =
               dplyr::if_else(
                 development_name == "urban_expansion",
-                hectares * v_scenario$urban_expansion_relative_to_bau,
+                hectares * luse_scenario_params()$urban_expansion_relative_to_bau,
                 hectares
               )
           ) %>%
@@ -67,8 +69,8 @@ calc_land_by_development_type_1 <-
             urban_expansion =
               dplyr::if_else
             (
-              urban_expansion * v_urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
-              urban_expansion * v_urban_expansion_relative_to_bau,
+              urban_expansion * luse_scenario_params()$urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
+              urban_expansion * luse_scenario_params()$urban_expansion_relative_to_bau,
               total_hectares_bau - urban_infill
             )
           ) %>%
@@ -90,15 +92,16 @@ calc_land_by_development_type_1 <-
       dplyr::mutate(
         scenario_mixed_use_mf_new = case_when(
           development_name == "urban_expansion" ~ (scenario_total - scenario_mixed_use_compact_zoning) *
-            v_urban_expansion_relative_to_bau,
+            luse_scenario_params()$urban_expansion_relative_to_bau,
           development_name != "urban_expansion" ~ bau
         )
       )
 
+
     p_land_by_development_type_s3 <-
       dplyr::bind_rows(
         p_land_by_development_type_s2,
-        (if (params$scenario == "compact_dev_with_drs") {
+        (if (.luse_scen == "compact_dev_with_drs") {
           p_x2 %>%
             dplyr::select(.,
                           ctu_name,
@@ -122,14 +125,17 @@ calc_land_by_development_type_1 <-
             dplyr::mutate(scenario = "scenario_mixed_use_mf_new")
         } else{
           p_x2 %>%
-            dplyr::select(.,
-                          development_name,
-                          scenario_total,
-                          scenario_mixed_use_compact_zoning) %>%
+            dplyr::select(
+              .,
+              ctu_name,
+              development_name,
+              scenario_total,
+              scenario_mixed_use_compact_zoning
+            ) %>%
             dplyr::mutate(
               scenario_mixed_use_mf_new =
                 (scenario_total - scenario_mixed_use_compact_zoning)
-              * var_urban_infill
+              * luse_scenario_params()$urban_infill
             ) %>%
             dplyr::select(ctu_name, development_name, scenario_mixed_use_mf_new) %>%
             dplyr::rename(hectares = scenario_mixed_use_mf_new) %>%
@@ -147,7 +153,6 @@ calc_land_by_development_type_1 <-
     return(p_land_by_development_type_s3)
 
   }
-
 #' Title
 #'
 #' @param .development_name
@@ -156,7 +161,7 @@ calc_land_by_development_type_1 <-
 #' @export
 #'
 #' @examples
-p_x3 <- function(.development_name) {
+p_x3 <- function(.development_name = "urban_expansion") {
   calc_land_by_development_type_1() %>%
     dplyr::filter(development_name == .development_name) %>%
     tidyr::pivot_wider(.,
