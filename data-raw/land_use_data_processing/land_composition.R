@@ -140,3 +140,37 @@ p_land_cover_percentages_filled <-
                    0,
                    percent_of_total_area)
   ))
+
+## ------------------------------------------------------------------------------------------------------------
+p_multifamily_mixed_area <-
+  t_ctu_land_use_hectares %>%
+  dplyr::group_by(ctu_name, development_name) %>%
+  dplyr::filter(year == 2040) %>%
+  dplyr::filter(
+    description_2 %in% c(
+      "park_recreational_or_preserve",
+      "mixed_use_commercial",
+      "mixed_use_industrial",
+      "mixed_use_residential",
+      "multifamily"
+    )
+  ) %>%
+  dplyr::summarise(hectares = sum(hectares), .groups = 'drop') %>%
+  dplyr::ungroup()
+
+## ------------------------------------------------------------------------------------------------------------
+
+p_land_by_development_type <- c()
+
+# BAU Total
+p_land_by_development_type$bau_total <-
+  t_ctu_land_use_hectares %>%
+  dplyr::filter(year == 2040) %>%
+  dplyr::group_by(ctu_name, development_name) %>%
+  dplyr::summarise(hectares = sum(hectares), .groups = 'drop') %>%
+  dplyr::mutate(scenario = "bau")
+
+# BAU Mixed Use/Compact Zoning/Park
+p_land_by_development_type$bau_mixed_use_compact_zoning_park <-
+  p_multifamily_mixed_area %>%
+  dplyr::mutate(scenario = "bau_mixed_use_compact_zoning")

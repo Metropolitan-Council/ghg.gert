@@ -13,10 +13,16 @@ land_use_data$summed_land_use_2016 <- p_summed_land_use_2016
 
 land_use_data$land_composition_ctu <- p_land_composition_ctu
 
+land_use_data$land_by_development_type_sum_bau <- p_land_by_development_type_sum_bau
+
 land_use_data$ctu_land_use_hectares <- t_ctu_land_use_hectares
 
 land_use_data$ctu_forecast <- t_ctu_forecast
 
 land_use_data$scenario_parameters <- t_scenario_parameters
+
+land_use_data$multifamily_mixed_area <- p_multifamily_mixed_area
+
+land_use_data$land_by_development_type <- p_land_by_development_type
 
 usethis::use_data(land_use_data, overwrite = T)
