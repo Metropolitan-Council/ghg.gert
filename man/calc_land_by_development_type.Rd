@@ -4,7 +4,13 @@
 \alias{calc_land_by_development_type}
 \title{Title}
 \usage{
-calc_land_by_development_type()
+calc_land_by_development_type(
+  tb = land_use_data,
+  .luse_scen = "compact_dev_with_drs"
+)
+}
+\arguments{
+\item{.luse_scen}{}
 }
 \value{
 

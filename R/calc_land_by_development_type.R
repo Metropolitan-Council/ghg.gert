@@ -14,7 +14,7 @@ calc_land_by_development_type <-
 
     # Scenario Mixed Use Compact Zoning Park
     land_by_development_type$scenario_mixed_use_compact_zoning_park <-
-      p_multifamily_mixed_area %>%
+      tb$multifamily_mixed_area %>%
       dplyr::mutate(
         hectares =
           dplyr::if_else(
@@ -29,7 +29,7 @@ calc_land_by_development_type <-
     land_by_development_type$scenario_total <-
       land_by_development_type$bau_total %>%
       base::merge(.,
-                  p_land_by_development_type_sum_bau,
+                  tb$land_by_development_type_sum_bau,
                   by = "ctu_name") %>%
       tidyr::pivot_wider(.,
                          names_from = development_name,
