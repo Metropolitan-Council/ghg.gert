@@ -1,6 +1,5 @@
 ## ------------------------------------------------------------------------------------------------------------
 calc_tree_planting <- function() {
-
   tree_planting_factors <-
     tb$ctu_forecast %>%
     dplyr::filter(metric == "population") %>%
@@ -8,7 +7,7 @@ calc_tree_planting <- function() {
     dplyr::select(-c(year, metric)) %>%
     dplyr::rename(population = value) %>%
     dplyr::full_join(
-      p_land_cover_by_city %>%
+      tb$land_cover_by_city %>%
         dplyr::filter(land_cover_description_2 == "trees",
                       year == 2040) %>%
         # to check: are you aware that Brooklyn Center has NAs for tree cover?

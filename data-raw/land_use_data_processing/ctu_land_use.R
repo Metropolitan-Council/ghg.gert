@@ -25,4 +25,6 @@ land_use_data$multifamily_mixed_area <- p_multifamily_mixed_area
 
 land_use_data$land_by_development_type <- p_land_by_development_type
 
+land_use_data$land_cover_percentages <- p_land_cover_percentages
+
 usethis::use_data(land_use_data, overwrite = T)

@@ -159,10 +159,9 @@ p_multifamily_mixed_area <-
   dplyr::ungroup()
 
 ## ------------------------------------------------------------------------------------------------------------
-
 p_land_by_development_type <- c()
 
-# BAU Total
+  # BAU Total
 p_land_by_development_type$bau_total <-
   t_ctu_land_use_hectares %>%
   dplyr::filter(year == 2040) %>%
@@ -170,7 +169,17 @@ p_land_by_development_type$bau_total <-
   dplyr::summarise(hectares = sum(hectares), .groups = 'drop') %>%
   dplyr::mutate(scenario = "bau")
 
-# BAU Mixed Use/Compact Zoning/Park
+  # BAU Mixed Use/Compact Zoning/Park
 p_land_by_development_type$bau_mixed_use_compact_zoning_park <-
   p_multifamily_mixed_area %>%
   dplyr::mutate(scenario = "bau_mixed_use_compact_zoning")
+
+## ------------------------------------------------------------------------------------------------------------
+p_land_cover_percentages <-
+  t_ctu_land_use_2016_land_cover %>%
+  dplyr::group_by(ctu_name, description_2) %>%
+  dplyr::mutate(total_hectares = sum(hectares)) %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(ctu_name, description_2, land_cover_description_2) %>%
+  dplyr::transmute(land_cover_percent = hectares / total_hectares) %>%
+  dplyr::ungroup()
