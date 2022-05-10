@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_land_by_development_type.R
 \name{calc_land_by_development_type}
 \alias{calc_land_by_development_type}
-\title{Title}
+\title{Calcuate Land by Development Type}
 \usage{
 calc_land_by_development_type(
   tb = land_use_data,
@@ -10,11 +10,15 @@ calc_land_by_development_type(
 )
 }
 \arguments{
-\item{.luse_scen}{}
+\item{.luse_scen}{the current land use scenario being explored
+default is compact development with dynamic ride sharing.}
 }
 \value{
-
+A list of tables with the estimated hectares by different development
+types (urban expansion, urban infill, and exurban development) for different
+land use scenarios
 }
 \description{
-Title
+
 }
+\concept{land_use_mod}

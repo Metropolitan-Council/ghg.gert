@@ -17,6 +17,7 @@ t_land_use_2016_types <-
 t_scenario_parameters <-
   import_from_emissions("metro_sp_mod_1.scenario_parameters")
 
+
 ## ------------------------------------------------------------------------------------------------------------
 p_land_use_by_cover_type_percent <-
   t_land_use_by_cover_type %>%
@@ -141,6 +142,7 @@ p_land_cover_percentages_filled <-
                    percent_of_total_area)
   ))
 
+
 ## ------------------------------------------------------------------------------------------------------------
 p_multifamily_mixed_area <-
   t_ctu_land_use_hectares %>%
@@ -158,6 +160,7 @@ p_multifamily_mixed_area <-
   dplyr::summarise(hectares = sum(hectares), .groups = 'drop') %>%
   dplyr::ungroup()
 
+
 ## ------------------------------------------------------------------------------------------------------------
 p_land_by_development_type <- c()
 
@@ -173,6 +176,7 @@ p_land_by_development_type$bau_total <-
 p_land_by_development_type$bau_mixed_use_compact_zoning_park <-
   p_multifamily_mixed_area %>%
   dplyr::mutate(scenario = "bau_mixed_use_compact_zoning")
+
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_cover_percentages <-

@@ -1,9 +1,18 @@
-#' Title
+#' Calcuate Land by Development Type
 #'
+#' @description calculates the hectares of land by different development types
+#' (urban expansion, urban infill, and exurban development) for different land
+#' use scenarios at the city/township scale
 #'
-#' @param .luse_scen
+#' @param .luse_scen the current land use scenario being explored
+#' default is compact development with dynamic ride sharing.
 #'
-#' @return
+#' @family land_use_mod
+#'
+#' @return A list of tables with the estimated hectares by different development
+#' types (urban expansion, urban infill, and exurban development) for different
+#' land use scenarios
+#'
 #' @export
 #'
 #' @examples
@@ -51,8 +60,6 @@ calc_land_by_development_type <-
                           cols =  3:5,
                           names_to = "development_name",
                           values_to = "hectares")
-
-
 
 
     # Scenario Mixed Use MF (new)
@@ -154,5 +161,4 @@ calc_land_by_development_type <-
       filter(scenario == "scenario_other_zoning")
 
     return(land_by_development_type)
-
   }

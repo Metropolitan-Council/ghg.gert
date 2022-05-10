@@ -1,6 +1,6 @@
-#' Title
+#' Calculate Land Cover by Land Use
 #'
-#' @param tb
+#' @param tb the dataset to be used; defaults to "land_use_data.rda"
 #'
 #' @return
 #' @export
