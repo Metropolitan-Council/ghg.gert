@@ -6,6 +6,7 @@
 #'
 #' @param .luse_scen the current land use scenario being explored
 #' default is compact development with dynamic ride sharing.
+#' @param tb the dataset to be used; defaults to "land_use_data.rda"
 #'
 #' @family land_use_mod
 #'

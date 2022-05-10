@@ -1,3 +1,11 @@
+#' Calculate Scenario Land Use
+#' @description For the selected scenario, this function calculates the land use type in hectares
+#' for all cities/townships
+#'
+#' @return
+#' @export
+#'
+#' @examples
 scen_land_use <- function() {
   bind_rows(
     calc_land_by_development_type()$scenario_mixed_use_mf_new,
@@ -52,7 +60,4 @@ scen_land_use <- function() {
     dplyr::summarise(scenario_hectares = sum(scenario_hectares),
                      .groups = 'drop') %>%
     dplyr::group_by(ctu_name)
-    # %>%
-    # dplyr::mutate(total_scenario_hectares = sum(scenario_hectares)) %>%
-    # dplyr::ungroup()
 }
