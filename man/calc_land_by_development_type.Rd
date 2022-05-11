@@ -10,6 +10,8 @@ calc_land_by_development_type(
 )
 }
 \arguments{
+\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
+
 \item{.luse_scen}{the current land use scenario being explored
 default is compact development with dynamic ride sharing.}
 }
@@ -19,6 +21,13 @@ types (urban expansion, urban infill, and exurban development) for different
 land use scenarios
 }
 \description{
-
+calculates the hectares of land by different development types
+(urban expansion, urban infill, and exurban development) for different land
+use scenarios at the city/township scale
+}
+\seealso{
+Other land_use_mod: 
+\code{\link{calc_land_cover_by_land_use}()},
+\code{\link{scen_land_use}()}
 }
 \concept{land_use_mod}

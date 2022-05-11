@@ -134,7 +134,7 @@ p_land_cover_percentages_filled <-
 
     by = c("ctu_name", "description_2")
   ) %>%
-  dplyr::mutate(test = dplyr::if_else(
+  dplyr::mutate(percent_land_cover_type = dplyr::if_else(
     hectares > 50,
     land_cover_percent,
     dplyr::if_else(is.na(percent_of_total_area),

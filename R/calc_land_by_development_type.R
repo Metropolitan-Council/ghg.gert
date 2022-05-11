@@ -4,11 +4,11 @@
 #' (urban expansion, urban infill, and exurban development) for different land
 #' use scenarios at the city/township scale
 #'
+#' @family land_use_mod
+#'
 #' @param .luse_scen the current land use scenario being explored
 #' default is compact development with dynamic ride sharing.
 #' @param tb the dataset to be used; defaults to "land_use_data.rda"
-#'
-#' @family land_use_mod
 #'
 #' @return A list of tables with the estimated hectares by different development
 #' types (urban expansion, urban infill, and exurban development) for different

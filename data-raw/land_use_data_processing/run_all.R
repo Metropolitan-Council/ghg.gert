@@ -6,3 +6,4 @@ library(ghg.sp)
 library(councilR)
 
 source("data-raw/land_use_data_processing/land_composition.R")
+source("data-raw/land_use_data_processing/ctu_land_use.R")

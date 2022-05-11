@@ -1,6 +1,9 @@
 #' Calculate Scenario Land Use
+#'
 #' @description For the selected scenario, this function calculates the land use type in hectares
 #' for all cities/townships
+#'
+#' @family land_use_mod
 #'
 #' @return
 #' @export

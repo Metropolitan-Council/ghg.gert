@@ -1,5 +1,16 @@
-## ------------------------------------------------------------------------------------------------------------
-calc_tree_planting <- function() {
+#' Title
+#'
+#' @param tree_planting_factor_per_capita the default tree planting per capita factor
+#' is '0.26' from the Los Angeles 1,000,000 trees scenario
+#' @param tree_planting_per_hectares the default tree planting per hectares factor is
+#' '247'
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calc_tree_planting <- function(tree_planting_per_capita = 0.26,
+                               tree_planting_per_hectare = 247) {
   tree_planting_factors <-
     tb$ctu_forecast %>%
     dplyr::filter(metric == "population") %>%
@@ -7,7 +18,7 @@ calc_tree_planting <- function() {
     dplyr::select(-c(year, metric)) %>%
     dplyr::rename(population = value) %>%
     dplyr::full_join(
-      tb$land_cover_by_city %>%
+      calc_land_cover_by_city() %>%
         dplyr::filter(land_cover_description_2 == "trees",
                       year == 2040) %>%
         # to check: are you aware that Brooklyn Center has NAs for tree cover?
@@ -16,30 +27,26 @@ calc_tree_planting <- function() {
       ,
       by = "ctu_name"
     ) %>%
-    dplyr::rename(total_tree_canopy_hectares = hectares) %>%
+    dplyr::rename(total_tree_canopy_hectares = land_cover_hectares) %>%
     dplyr::mutate(
-      LA_goal = (population *
-                   LA_tree_per_capita_planting_factor)
+      additional_tree_canopy_hectares = (population *
+                                           tree_planting_per_capita)
+      / tree_planting_per_hectare
+    )  %>%
+    dplyr::mutate(
+      LA_goal_hectares = (population *
+                            tree_planting_per_capita)
       / tree_planting_per_hectare
     ) %>%
     dplyr::right_join(
       (
-        land_cover_by_city_total_plantable %>%
+        calc_total_plantable_area() %>%
           dplyr::filter(year == 2040) %>%
           dplyr::select(-c(year)) %>%
           dplyr::rename(pervious_surface_hectares =
-                          total_plantable)
+                          plantable_area_hectares)
       ),
       by = "ctu_name"
-    ) %>%
-    dplyr::mutate(
-      tree_planting_on_all_pervious =
-        (pervious_surface_hectares +
-           total_tree_canopy_hectares) /
-        total_tree_canopy_hectares,
-      LA_million_trees_plan_match =
-        (total_tree_canopy_hectares + LA_goal)
-      / total_tree_canopy_hectares
     )
 
 

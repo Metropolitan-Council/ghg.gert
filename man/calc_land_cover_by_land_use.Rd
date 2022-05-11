@@ -10,8 +10,15 @@ calc_land_cover_by_land_use(tb = land_use_data)
 \item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
 }
 \value{
-
+A long table with the percent of land cover for each land use type for each city*/township
 }
 \description{
-Calculate Land Cover by Land Use
+For the selected land use scenario, this function calculates the land cover
+by land use type for each community, using the bridge table "land_cover_percentages_filled"
 }
+\seealso{
+Other land_use_mod: 
+\code{\link{calc_land_by_development_type}()},
+\code{\link{scen_land_use}()}
+}
+\concept{land_use_mod}
