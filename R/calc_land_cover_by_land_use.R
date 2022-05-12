@@ -22,10 +22,12 @@ calc_land_cover_by_land_use <- function(tb = land_use_data) {
       dplyr::mutate(year = 2016),
     dplyr::right_join(
       tb$land_cover_percentages_filled %>%
-        dplyr::select(ctu_name,
-                      description_2,
-                      land_cover_description_2,
-                      percent_land_cover_type ),
+        dplyr::select(
+          ctu_name,
+          description_2,
+          land_cover_description_2,
+          percent_land_cover_type
+        ),
       scen_land_use(),
       by = c("ctu_name", "description_2")
     ) %>%
