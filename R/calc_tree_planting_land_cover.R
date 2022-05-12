@@ -9,25 +9,40 @@
 #' @export
 #'
 #' @examples
-calc_tree_planting_land_cover <- function() {
-  View(
+calc_tree_planting_land_cover <-
+  function(tree_planting_intervention = "tree_planting_on_all_pervious") {
     calc_total_plantable_area() %>%
+      right_join(.,
+                 calc_tree_planting_scenario(),
+                 by = "ctu_name") %>%
       transmute(
-        max_tree = total_area_hectares - woody_wetland - forest - impervious - wetland,
+        max_trees = total_area_hectares - woody_wetland - forest - impervious - wetland,
         trees =
-          dplyr::if_else(
-            year == 2016,
-            trees,
-            dplyr::if_else(
-              #need to add choice of main parameter
-              trees * tree_planting_on_all_pervious < max_trees,
-              trees * tree_planting_on_all_pervious,
-              max_trees
-            )
-          )
-
+          dplyr::if_else(year == 2016,
+                         trees,
+                         (if (tree_planting_intervention == "tree_planting_on_all_pervious") {
+                           dplyr::if_else(
+                             #need to add choice of main parameter
+                             trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
+                             trees * tree_planting_on_all_pervious_sufaces_percent,
+                             max_trees
+                           )
+                         } else if (tree_planting_intervention == "match_la_million_trees_goal") {
+                           dplyr::if_else(
+                             #need to add choice of main parameter
+                             trees * match_los_angeles_million_trees_plan_percent < max_trees,
+                             trees * match_los_angeles_million_trees_plan_percent,
+                             max_trees
+                           )
+                         } else if (tree_planting_intervention == "double") {
+                           dplyr::if_else(
+                             trees * match_los_angeles_million_trees_plan_percent < max_trees,
+                             trees * match_los_angeles_million_trees_plan_percent,
+                             max_trees
+                           )
+                         }))
       )
-  )
+  }
 
 
 
@@ -73,35 +88,35 @@ calc_tree_planting_land_cover <- function() {
 
 }
 
-calc_ <- function(){
-dplyr::mutate(scaling_factor =
-                dplyr::if_else(
-                  increased_tree > 0,
-                  (total_plantable - increased_tree) / total_plantable,
-                  1
-                )) %>%
-  dplyr::mutate(grass =
-                  dplyr::if_else(year == 2016,
-                                 grass,
-                                 grass * scaling_factor)) %>%
-  dplyr::mutate(water =
-                  dplyr::if_else(year == 2016,
-                                 water,
-                                 water * scaling_factor)) %>%
-  dplyr::mutate(barren =
-                  dplyr::if_else(year == 2016,
-                                 barren,
-                                 barren * scaling_factor)) %>%
-  dplyr::mutate(shrub =
-                  dplyr::if_else(year == 2016,
-                                 shrub,
-                                 shrub * scaling_factor)) %>%
-  dplyr::mutate(grassland =
-                  dplyr::if_else(year == 2016,
-                                 grassland,
-                                 grassland * scaling_factor)) %>%
-  dplyr::mutate(agriculture =
-                  dplyr::if_else(year == 2016,
-                                 agriculture,
-                                 agriculture * scaling_factor))
+calc_ <- function() {
+  dplyr::mutate(scaling_factor =
+                  dplyr::if_else(
+                    increased_tree > 0,
+                    (total_plantable - increased_tree) / total_plantable,
+                    1
+                  )) %>%
+    dplyr::mutate(grass =
+                    dplyr::if_else(year == 2016,
+                                   grass,
+                                   grass * scaling_factor)) %>%
+    dplyr::mutate(water =
+                    dplyr::if_else(year == 2016,
+                                   water,
+                                   water * scaling_factor)) %>%
+    dplyr::mutate(barren =
+                    dplyr::if_else(year == 2016,
+                                   barren,
+                                   barren * scaling_factor)) %>%
+    dplyr::mutate(shrub =
+                    dplyr::if_else(year == 2016,
+                                   shrub,
+                                   shrub * scaling_factor)) %>%
+    dplyr::mutate(grassland =
+                    dplyr::if_else(year == 2016,
+                                   grassland,
+                                   grassland * scaling_factor)) %>%
+    dplyr::mutate(agriculture =
+                    dplyr::if_else(year == 2016,
+                                   agriculture,
+                                   agriculture * scaling_factor))
 }
