@@ -1,5 +1,7 @@
 #' Calculate Total Plantable Area in Hectares by City
 #'
+#' @family land_use_module
+#'
 #' @return
 #' @export
 #'

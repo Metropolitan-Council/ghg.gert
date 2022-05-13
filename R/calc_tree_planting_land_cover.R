@@ -5,6 +5,11 @@
 #' @description This function calculates the hectares of forested land by land cover type
 #' by community.
 #'
+#' @param tree_panting_intervention this argument specificies the type of tree planting
+#' intervention to be explored under the current scenario.
+#'     The options are 'tree_planting_on_all_pervious', 'double', or 'match_la_million_trees_goal'
+#'
+#'
 #' @return
 #' @export
 #'
@@ -15,7 +20,7 @@ calc_tree_planting_land_cover <-
       right_join(.,
                  calc_tree_planting_scenario(),
                  by = "ctu_name") %>%
-      transmute(
+      mutate(
         max_trees = total_area_hectares - woody_wetland - forest - impervious - wetland,
         trees =
           dplyr::if_else(year == 2016,
@@ -41,82 +46,48 @@ calc_tree_planting_land_cover <-
                              max_trees
                            )
                          }))
-      )
-  }
-
-
-
-
-
-
-
-
-    tidyr::pivot_wider(names_from = land_cover_description_2,
-                       values_from = land_cover_hectares) %>%
-    dplyr::full_join(tree_planting_factors, by = c("ctu_name")) %>%
-    base::list(
-
-      # total plantable area
-      calc_total_plantable_area(),
-
-      #
-      calc_land_cover_by_city(),
-      total_tree_canopy_hectares
-    ) %>%
-    purrr::reduce(full_join, by = c("ctu_name", "year")) %>%
-    dplyr::filter(ctu_name != c("Fort Snelling (unorg.)",
-                                "Hilltop",
-                                "Rogers")) %>% #to check: these 3 not included originally
-    #for liz; do you see the quick purrr fix here? probably a group_by(ctu_name, year) and maybe then purrring on just the 2040 data?
-    mutate(
-      max_trees = total_area - (impervious + forest + woody_wetland + wetland),
-      trees =
-        dplyr::if_else(
-          year == 2016,
-          trees,
-          dplyr::if_else(
-            #need to add choice of main parameter
-            trees * tree_planting_on_all_pervious < max_trees,
-            trees * tree_planting_on_all_pervious,
-            max_trees
-          )
+      ) %>%
+      dplyr::mutate(total_scenario_tree = trees + forest + woody_wetland) %>%
+      dplyr::mutate(total_bau_tree = total_trees_hectares) %>%
+      dplyr::mutate(increased_tree = total_scenario_tree - total_bau_tree) %>%
+      dplyr::mutate(scaling_factor =
+                      dplyr::if_else(
+                        increased_tree > 0,
+                        (plantable_area_hectares  - increased_tree) / plantable_area_hectares ,
+                        1
+                      )) %>%
+      dplyr::mutate(grass = if_else(
+        year == 2016,
+        grass,
+        if_else(grass * scaling_factor < 1, 0, grass * scaling_factor)
+      )) %>%
+      dplyr::mutate(water = if_else(
+        year == 2016,
+        water,
+        if_else(water * scaling_factor < 1, 0, water * scaling_factor)
+      )) %>%
+      dplyr::mutate(barren = if_else(
+        year == 2016,
+        barren,
+        if_else(barren * scaling_factor < 1, 0, barren * scaling_factor)
+      )) %>%
+      dplyr::mutate(shrub = if_else(
+        year == 2016,
+        shrub,
+        if_else(shrub * scaling_factor < 1, 0, shrub * scaling_factor)
+      )) %>%
+      dplyr::mutate(grassland = if_else(
+        year == 2016,
+        grassland,
+        if_else(grassland * scaling_factor < 1, 0, grassland * scaling_factor)
+      )) %>%
+      dplyr::mutate(agriculture = if_else(
+        year == 2016,
+        agriculture,
+        if_else(
+          agriculture * scaling_factor < 1,
+          0,
+          agriculture * scaling_factor
         )
-    ) %>%
-    dplyr::mutate(total_scenario_tree = trees + forest + woody_wetland) %>%
-    dplyr::mutate(total_bau_tree = total_trees) %>%
-    dplyr::mutate(increased_tree = total_scenario_tree - total_bau_tree)
-
-}
-
-calc_ <- function() {
-  dplyr::mutate(scaling_factor =
-                  dplyr::if_else(
-                    increased_tree > 0,
-                    (total_plantable - increased_tree) / total_plantable,
-                    1
-                  )) %>%
-    dplyr::mutate(grass =
-                    dplyr::if_else(year == 2016,
-                                   grass,
-                                   grass * scaling_factor)) %>%
-    dplyr::mutate(water =
-                    dplyr::if_else(year == 2016,
-                                   water,
-                                   water * scaling_factor)) %>%
-    dplyr::mutate(barren =
-                    dplyr::if_else(year == 2016,
-                                   barren,
-                                   barren * scaling_factor)) %>%
-    dplyr::mutate(shrub =
-                    dplyr::if_else(year == 2016,
-                                   shrub,
-                                   shrub * scaling_factor)) %>%
-    dplyr::mutate(grassland =
-                    dplyr::if_else(year == 2016,
-                                   grassland,
-                                   grassland * scaling_factor)) %>%
-    dplyr::mutate(agriculture =
-                    dplyr::if_else(year == 2016,
-                                   agriculture,
-                                   agriculture * scaling_factor))
-}
+      ))
+  }
