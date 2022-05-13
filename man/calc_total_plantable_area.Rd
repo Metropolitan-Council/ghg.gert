@@ -12,3 +12,8 @@ calc_total_plantable_area()
 \description{
 Calculate Total Plantable Area in Hectares by City
 }
+\seealso{
+Other land_use_module: 
+\code{\link{calc_tree_planting_land_cover}()}
+}
+\concept{land_use_module}
