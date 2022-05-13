@@ -2,18 +2,20 @@
 #'
 #' @family land_use_module
 #'
-#' @description This function calculates the hectares of forested land by land cover type
-#' by community.
+#' @description Recalculates the hectares land by land cover type
+#' by community under a tree planting scenario
 #'
 #' @param tree_panting_intervention this argument specificies the type of tree planting
 #' intervention to be explored under the current scenario.
 #'     The options are 'tree_planting_on_all_pervious', 'double', or 'match_la_million_trees_goal'
+#'     The default is 'tree_planting_on_all_pervious'
 #'
+#' @return a table with hectares of land by land cover type after a tree planting scenario
+#' for each city/township
 #'
-#' @return
 #' @export
 #'
-#' @examples
+#' @examples calc_tree_planting_land_cover()
 calc_tree_planting_land_cover <-
   function(tree_planting_intervention = "tree_planting_on_all_pervious") {
     calc_total_plantable_area() %>%
@@ -89,5 +91,22 @@ calc_tree_planting_land_cover <-
           0,
           agriculture * scaling_factor
         )
-      ))
+      )) %>%
+      select(
+        ctu_name,
+        year,
+        agriculture,
+        barren,
+        forest,
+        grass,
+        grassland,
+        impervious,
+        parking_lot,
+        shrub,
+        trees,
+        water,
+        wetland,
+        woody_wetland,
+        total_area_hectares
+      )
   }

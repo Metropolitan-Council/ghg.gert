@@ -1,5 +1,9 @@
 #' Calculate Tree Planting Factors
 #'
+#' @family land_use_module
+#'
+#' @description calculates the tree planting factors for the tree planting scenarios
+#'
 #' @param tree_planting_factor_per_capita the default tree planting per capita factor
 #' is '0.26' from the Los Angeles 1,000,000 trees scenario
 #'

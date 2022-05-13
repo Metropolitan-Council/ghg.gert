@@ -2,9 +2,12 @@
 % Please edit documentation in R/calc_parking_lot.R
 \name{parking_lot_land_cover}
 \alias{parking_lot_land_cover}
-\title{Title}
+\title{Calculate Parking Lot Intervention}
 \usage{
-parking_lot_land_cover(.parking_lot_reduction_percentage = 0.8)
+parking_lot_land_cover(
+  .parking_lot_reduction_percentage = 0.8,
+  .luse_scen = "compact_dev_with_drs"
+)
 }
 \arguments{
 \item{.parking_lot_reduction_percentage}{Default is '0.8'}
@@ -13,5 +16,16 @@ parking_lot_land_cover(.parking_lot_reduction_percentage = 0.8)
 
 }
 \description{
-Title
+calculates the change in land cover types by city when implementing a
+parking lot reduction intervention
 }
+\references{
+
+}
+\seealso{
+Other land_use_module: 
+\code{\link{calc_total_plantable_area}()},
+\code{\link{calc_tree_planting_factors}()},
+\code{\link{calc_tree_planting_land_cover}()}
+}
+\concept{land_use_module}

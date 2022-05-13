@@ -20,5 +20,12 @@ is '0.26' from the Los Angeles 1,000,000 trees scenario}
 
 }
 \description{
-Calculate Tree Planting Factors
+calculates the tree planting factors for the tree planting scenarios
 }
+\seealso{
+Other land_use_module: 
+\code{\link{calc_total_plantable_area}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{parking_lot_land_cover}()}
+}
+\concept{land_use_module}
