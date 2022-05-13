@@ -5,9 +5,11 @@
 #' @references
 #'
 #' @description Recalculates the change in land cover types by city when implementing a
-#' parking lot reduction intervention
+#' parking lot reduction intervention, the percent reduction of parking lot area is
+#' defined in the argument '.parking_lot_reduction_percentage'
 #'
-#' @param .parking_lot_reduction_percentage
+#' @param .parking_lot_reduction_percentage specifies the percentage reduction of parking lot
+#' area to be explored under the current scenario
 #'      Default is '0.8'
 #'
 #' @return
