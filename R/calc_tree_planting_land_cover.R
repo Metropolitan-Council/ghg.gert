@@ -18,7 +18,21 @@
 #' @examples calc_tree_planting_land_cover()
 calc_tree_planting_land_cover <-
   function(tree_planting_intervention = "tree_planting_on_all_pervious") {
-    calc_total_plantable_area() %>%
+
+    scaling <- function(.data, group_col) {
+      .data %>%
+        dplyr::mutate(.,  group_col = dplyr::if_else(
+                           year == 2016,
+                           {{ group_col }},
+                           dplyr::if_else(
+                             {{ group_col }} * scaling_factor < 1,
+                             0,
+                             {{ group_col }} * scaling_factor)
+                         ))
+    }
+
+    calc_tree_planting_land_cover <-
+      calc_total_plantable_area() %>%
       right_join(.,
                  calc_tree_planting_scenario(),
                  by = "ctu_name") %>%
@@ -58,40 +72,49 @@ calc_tree_planting_land_cover <-
                         (plantable_area_hectares  - increased_tree) / plantable_area_hectares ,
                         1
                       )) %>%
-      dplyr::mutate(grass = if_else(
-        year == 2016,
-        grass,
-        if_else(grass * scaling_factor < 1, 0, grass * scaling_factor)
-      )) %>%
-      dplyr::mutate(water = if_else(
-        year == 2016,
-        water,
-        if_else(water * scaling_factor < 1, 0, water * scaling_factor)
-      )) %>%
-      dplyr::mutate(barren = if_else(
-        year == 2016,
-        barren,
-        if_else(barren * scaling_factor < 1, 0, barren * scaling_factor)
-      )) %>%
-      dplyr::mutate(shrub = if_else(
-        year == 2016,
-        shrub,
-        if_else(shrub * scaling_factor < 1, 0, shrub * scaling_factor)
-      )) %>%
-      dplyr::mutate(grassland = if_else(
-        year == 2016,
-        grassland,
-        if_else(grassland * scaling_factor < 1, 0, grassland * scaling_factor)
-      )) %>%
-      dplyr::mutate(agriculture = if_else(
-        year == 2016,
-        agriculture,
-        if_else(
-          agriculture * scaling_factor < 1,
-          0,
-          agriculture * scaling_factor
+      dplyr::mutate(dplyr::across(
+        .cols = c(grass, water, barren, shrub, grassland, agriculture),
+        ~ if_else(
+          year == 2016,
+          .x,
+          if_else(.x * scaling_factor < 1, 0, .x * scaling_factor)
         )
       )) %>%
+
+      # dplyr::mutate(grass = if_else(
+      #   year == 2016,
+      #   grass,
+      #   if_else(grass * scaling_factor < 1, 0, grass * scaling_factor)
+      # )) %>%
+      # dplyr::mutate(water = if_else(
+      #   year == 2016,
+      #   water,
+      #   if_else(water * scaling_factor < 1, 0, water * scaling_factor)
+      # )) %>%
+      # dplyr::mutate(barren = if_else(
+      #   year == 2016,
+      #   barren,
+      #   if_else(barren * scaling_factor < 1, 0, barren * scaling_factor)
+      # )) %>%
+      # dplyr::mutate(shrub = if_else(
+      #   year == 2016,
+      #   shrub,
+      #   if_else(shrub * scaling_factor < 1, 0, shrub * scaling_factor)
+      # )) %>%
+      # dplyr::mutate(grassland = if_else(
+      #   year == 2016,
+      #   grassland,
+      #   if_else(grassland * scaling_factor < 1, 0, grassland * scaling_factor)
+      # )) %>%
+      # dplyr::mutate(agriculture = if_else(
+      #   year == 2016,
+      #   agriculture,
+      #   if_else(
+      #     agriculture * scaling_factor < 1,
+      #     0,
+      #     agriculture * scaling_factor
+      #   )
+      # )) %>%
       select(
         ctu_name,
         year,
@@ -109,4 +132,7 @@ calc_tree_planting_land_cover <-
         woody_wetland,
         total_area_hectares
       )
+
+    return(calc_tree_planting_land_cover)
+
   }
