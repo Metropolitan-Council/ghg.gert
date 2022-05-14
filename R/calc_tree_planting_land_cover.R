@@ -2,35 +2,29 @@
 #'
 #' @family land_use_module
 #'
-#' @description Recalculates the hectares land by land cover type
-#' by community under a tree planting scenario
+#' @description Recalculates the hectares of land by land cover type
+#' by community under a tree planting scenario.
 #'
 #' @param tree_panting_intervention this argument specificies the type of tree planting
 #' intervention to be explored under the current scenario.
 #'     The options are 'tree_planting_on_all_pervious', 'double', or 'match_la_million_trees_goal'
 #'     The default is 'tree_planting_on_all_pervious'
 #'
-#' @return a table with hectares of land by land cover type after a tree planting scenario
-#' for each city/township
+#' @param detail Default is FALSE, returns a table with more detailed fields. Recommended
+#' for debugging.
+#'
+#' @return A tibble. A table with hectares of land by land cover type after a tree planting scenario
+#' for each city/township. Set argumnet detail to TRUE for a more detailed table.
+#'
+#' @field
 #'
 #' @export
 #'
 #' @examples calc_tree_planting_land_cover()
+
 calc_tree_planting_land_cover <-
-  function(tree_planting_intervention = "tree_planting_on_all_pervious") {
-
-    scaling <- function(.data, group_col) {
-      .data %>%
-        dplyr::mutate(.,  group_col = dplyr::if_else(
-                           year == 2016,
-                           {{ group_col }},
-                           dplyr::if_else(
-                             {{ group_col }} * scaling_factor < 1,
-                             0,
-                             {{ group_col }} * scaling_factor)
-                         ))
-    }
-
+  function(tree_planting_intervention = "tree_planting_on_all_pervious",
+           detail = FALSE) {
     calc_tree_planting_land_cover <-
       calc_total_plantable_area() %>%
       right_join(.,
@@ -79,42 +73,10 @@ calc_tree_planting_land_cover <-
           .x,
           if_else(.x * scaling_factor < 1, 0, .x * scaling_factor)
         )
-      )) %>%
+      ))
 
-      # dplyr::mutate(grass = if_else(
-      #   year == 2016,
-      #   grass,
-      #   if_else(grass * scaling_factor < 1, 0, grass * scaling_factor)
-      # )) %>%
-      # dplyr::mutate(water = if_else(
-      #   year == 2016,
-      #   water,
-      #   if_else(water * scaling_factor < 1, 0, water * scaling_factor)
-      # )) %>%
-      # dplyr::mutate(barren = if_else(
-      #   year == 2016,
-      #   barren,
-      #   if_else(barren * scaling_factor < 1, 0, barren * scaling_factor)
-      # )) %>%
-      # dplyr::mutate(shrub = if_else(
-      #   year == 2016,
-      #   shrub,
-      #   if_else(shrub * scaling_factor < 1, 0, shrub * scaling_factor)
-      # )) %>%
-      # dplyr::mutate(grassland = if_else(
-      #   year == 2016,
-      #   grassland,
-      #   if_else(grassland * scaling_factor < 1, 0, grassland * scaling_factor)
-      # )) %>%
-      # dplyr::mutate(agriculture = if_else(
-      #   year == 2016,
-      #   agriculture,
-      #   if_else(
-      #     agriculture * scaling_factor < 1,
-      #     0,
-      #     agriculture * scaling_factor
-      #   )
-      # )) %>%
+    calc_tree_planting_land_cover_short <-
+      calc_tree_planting_land_cover %>%
       select(
         ctu_name,
         year,
@@ -133,6 +95,11 @@ calc_tree_planting_land_cover <-
         total_area_hectares
       )
 
-    return(calc_tree_planting_land_cover)
+    return(if (detail == TRUE) {
+      calc_tree_planting_land_cover
+    }
+    else{
+      calc_tree_planting_land_cover_short
+    })
 
   }

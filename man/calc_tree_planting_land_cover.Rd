@@ -5,30 +5,35 @@
 \title{Calculate Tree Planting Land Cover by City/Township}
 \usage{
 calc_tree_planting_land_cover(
-  tree_planting_intervention = "tree_planting_on_all_pervious"
+  tree_planting_intervention = "tree_planting_on_all_pervious",
+  detail = FALSE
 )
 }
 \arguments{
+\item{detail}{Default is FALSE, returns a table with more detailed fields. Recommended
+for debugging.}
+
 \item{tree_panting_intervention}{this argument specificies the type of tree planting
 intervention to be explored under the current scenario.
 The options are 'tree_planting_on_all_pervious', 'double', or 'match_la_million_trees_goal'
 The default is 'tree_planting_on_all_pervious'}
 }
 \value{
-a table with hectares of land by land cover type after a tree planting scenario
-for each city/township
+A tibble. A table with hectares of land by land cover type after a tree planting scenario
+for each city/township. Set argumnet detail to TRUE for a more detailed table.
 }
 \description{
-Recalculates the hectares land by land cover type
-by community under a tree planting scenario
+Recalculates the hectares of land by land cover type
+by community under a tree planting scenario.
 }
 \examples{
 calc_tree_planting_land_cover()
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_total_plantable_area}()},
-\code{\link{calc_tree_planting_factors}()},
-\code{\link{parking_lot_land_cover}()}
+\code{\link{calc_tree_planting_factors}()}
 }
 \concept{land_use_module}

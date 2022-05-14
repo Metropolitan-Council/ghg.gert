@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_conservation_tillage.R
 \name{calc_conservation_tillage}
 \alias{calc_conservation_tillage}
-\title{Title}
+\title{Calculate Conservation Tillage}
 \usage{
 calc_conservation_tillage(
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
@@ -11,15 +11,23 @@ calc_conservation_tillage(
 )
 }
 \arguments{
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{Default is '12.50'}
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{Default is \code{12.50}}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Default is '0.102'}
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Default is \code{0.102}}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is '41'}
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is \code{41}}
 }
 \value{
 
 }
 \description{
-Title
+Calculate Conservation Tillage
 }
+\seealso{
+Other land_use_module: 
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_total_plantable_area}()},
+\code{\link{calc_tree_planting_factors}()},
+\code{\link{calc_tree_planting_land_cover}()}
+}
+\concept{land_use_module}
