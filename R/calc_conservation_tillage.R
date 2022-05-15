@@ -3,7 +3,7 @@
 #' @description calculates the impact of conservation tillage scenarios on carbon
 #' stocks by city/township
 #'
-#' @family land_use_module
+#' @family land_use_module, conservation_tillage
 #'
 #'
 #' @param .w2w_diesel_emission_factor_kg_co2e_per_gal well-to-well diesel emissions

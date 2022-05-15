@@ -7,9 +7,24 @@
 calc_tree_planting_scenario()
 }
 \value{
-
+a Tibble
+Table with percent change on tree canopy hectares under the different scenarios
+for tree planting
 }
 \description{
 Calculates the percent change on tree planting land cover hectares under the
 Los Angeles Million Trees goal, and the tree planting on all pervious surface scenario,
 }
+\note{
+requires the output of function \code{ghg.sp::calc_tree_planting_factors()}
+}
+\seealso{
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_total_plantable_area}()},
+\code{\link{calc_tree_planting_factors}()},
+\code{\link{calc_tree_planting_land_cover}()}
+}
+\concept{land_use_module}

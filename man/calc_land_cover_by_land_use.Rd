@@ -18,7 +18,6 @@ by land use type for each community, using the bridge table "land_cover_percenta
 }
 \seealso{
 Other land_use_mod: 
-\code{\link{calc_land_by_development_type}()},
 \code{\link{scen_land_use}()}
 }
 \concept{land_use_mod}

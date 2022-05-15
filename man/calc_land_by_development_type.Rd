@@ -26,8 +26,12 @@ calculates the hectares of land by different development types
 use scenarios at the city/township scale
 }
 \seealso{
-Other land_use_mod: 
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{scen_land_use}()}
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_total_plantable_area}()},
+\code{\link{calc_tree_planting_factors}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{calc_tree_planting_scenario}()}
 }
-\concept{land_use_mod}
+\concept{land_use_module}

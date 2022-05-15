@@ -15,7 +15,6 @@ for all cities/townships
 }
 \seealso{
 Other land_use_mod: 
-\code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_land_use}()}
 }
 \concept{land_use_mod}

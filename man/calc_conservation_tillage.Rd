@@ -7,27 +7,26 @@
 calc_conservation_tillage(
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 41
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3
 )
 }
 \arguments{
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{Default is \code{12.50}}
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{well-to-well diesel emissions
+factor in kg of carbon dioxide equivalent (CO2e) per gallon
+Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
+@source \verb{Hilman and Ramaswami, 2009}}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Default is \code{0.102}}
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Default is \code{0.102} million grams of carbon dioxide equivalent (CO2e) per hectare
+@source \verb{United States Department of Agriculture}}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is \code{41}}
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is \code{41} million grams of carbon (C) per hectare
+@source \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
 }
 \value{
 
 }
 \description{
-Calculate Conservation Tillage
+calculates the impact of conservation tillage scenarios on carbon
+stocks by city/township
 }
-\seealso{
-Other land_use_module: 
-\code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_total_plantable_area}()},
-\code{\link{calc_tree_planting_factors}()},
-\code{\link{calc_tree_planting_land_cover}()}
-}
-\concept{land_use_module}
+\concept{land_use_module, conservation_tillage}

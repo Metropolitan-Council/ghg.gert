@@ -4,7 +4,7 @@
 #' (urban expansion, urban infill, and exurban development) for different land
 #' use scenarios at the city/township scale
 #'
-#' @family land_use_mod
+#' @family land_use_module
 #'
 #' @param .luse_scen the current land use scenario being explored
 #' default is compact development with dynamic ride sharing.

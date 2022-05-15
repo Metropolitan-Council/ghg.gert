@@ -11,12 +11,16 @@ calc_parking_lot_land_cover(
 )
 }
 \arguments{
-\item{.parking_lot_reduction_percentage}{specifies the percentage reduction of parking lot
+\item{.parking_lot_reduction_percentage}{A value between 0 and 1.
+specifies the percentage reduction of parking lot
 area to be explored under the current scenario
 Default is \code{0.8}}
 
-\item{detail}{Default is \code{FALSE}, returns a table with more detailed fields. Recommended
-for debugging.}
+\item{detail}{a \code{TRUE} or \code{FALSE} argument
+if detail == TRUE the function
+returns a tibble with more detailed fields. Recommended
+for debugging
+Default is \code{FALSE},}
 }
 \value{
 a Tibble.
@@ -26,14 +30,16 @@ Recalculates the change in land cover types by city when implementing a
 parking lot reduction intervention, the percent reduction of parking lot area is
 defined in the argument '.parking_lot_reduction_percentage'
 }
-\references{
-
+\note{
+This function follows \code{calc_tree_planting_land_cover()}
 }
 \seealso{
 Other land_use_module: 
-\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_land_by_development_type}()},
 \code{\link{calc_total_plantable_area}()},
 \code{\link{calc_tree_planting_factors}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{calc_tree_planting_scenario}()}
 }
 \concept{land_use_module}

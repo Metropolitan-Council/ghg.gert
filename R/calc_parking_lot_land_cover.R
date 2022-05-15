@@ -2,20 +2,25 @@
 #'
 #' @family land_use_module
 #'
-#' @references
-#'
 #' @description Recalculates the change in land cover types by city when implementing a
 #' parking lot reduction intervention, the percent reduction of parking lot area is
 #' defined in the argument '.parking_lot_reduction_percentage'
 #'
-#' @param .parking_lot_reduction_percentage specifies the percentage reduction of parking lot
+#' @note This function follows `calc_tree_planting_land_cover()`
+#'
+#' @param .parking_lot_reduction_percentage A value between 0 and 1.
+#' specifies the percentage reduction of parking lot
 #' area to be explored under the current scenario
 #'      Default is `0.8`
 #'
-#' @param detail Default is `FALSE`, returns a table with more detailed fields. Recommended
-#' for debugging.
+#' @param detail a `TRUE` or `FALSE` argument
+#' if detail == TRUE the function
+#' returns a tibble with more detailed fields. Recommended
+#' for debugging
+#'      Default is `FALSE`,
 #'
 #' @return a Tibble.
+#'
 #' @export
 #'
 #' @examples
