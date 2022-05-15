@@ -7,12 +7,20 @@
 #'
 #' @details
 #'
-#' @param tree_panting_intervention String. Specifies the type of tree planting
+#' @param tb a `tibble`. The default is `land_use_data`.
+#'
+#' @param tree_panting_intervention a String. Specifies the type of tree planting
 #' intervention to be explored under the current scenario. The options are:
 #' * `tree_planting_on_all_pervious` Assumes that all pervious surfaces are converted to tree canopy.
 #' * `double` Assumes double the tree canopy relative.
 #'    to the baseline year.
 #' * `match_la_million_trees_goal` Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
+#'
+#' @param tree_planting_factor_per_capita the default tree planting per capita factor
+#' is `0.26` from the "Los Angeles 1,000,000 Trees" scenario
+#'
+#' @param tree_planting_per_hectares the default tree planting per hectares factor is
+#' `247`
 #'
 #' @param detail Default is `FALSE`.
 #' If true, returns a table with more detailed fields. Recommended
@@ -31,6 +39,7 @@ calc_tree_planting_land_cover <-
            detail = FALSE,
            tree_planting_per_capita = 0.26,
            tree_planting_per_hectare = 247) {
+
     land_cover_by_city <- calc_land_cover_by_city()
 
     total_plantable_area <-
@@ -98,8 +107,8 @@ calc_tree_planting_land_cover <-
     tree_planting_land_cover <-
       total_plantable_area %>%
       dplyr::right_join(.,
-                 tree_planting_scenario,
-                 by = "ctu_name") %>%
+                        tree_planting_scenario,
+                        by = "ctu_name") %>%
       dplyr::mutate(
         max_trees = total_area_hectares - woody_wetland - forest - impervious - wetland,
         trees =
