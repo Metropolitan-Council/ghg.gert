@@ -27,4 +27,8 @@ land_use_data$land_by_development_type <- p_land_by_development_type
 
 land_use_data$land_cover_percentages <- p_land_cover_percentages
 
+land_use_data$ctu_county <- t_ctu_county
+
+land_use_data$current_conservation_tillage_county <- t_current_conservation_tillage_county
+
 usethis::use_data(land_use_data, overwrite = T)

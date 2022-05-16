@@ -24,14 +24,42 @@
 #' @export
 #'
 #' @examples
-calc_conservation_tillage <- function(.w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-                                      .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-                                      .agricultural_land_carbon_stock_mg_c_per_hectare = 3){
+calc_conservation_tillage <-
+  function(.conservation_tillage_scen = "current_conservation_tillage",
+           .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+           .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+           .agricultural_land_carbon_stock_mg_c_per_hectare = 3) {
+    baseline_bau <-
+      calc_parking_lot_land_cover() %>%
+      right_join(.,
+                 tb$ctu_county,
+                 by = "ctu_name") %>%
+      right_join(.,
+                 tb$current_conservation_tillage_county,
+                 by = "co_name") %>%
+      dplyr::select(ctu_name, co_name, year, agriculture) %>%
+      tidyr::pivot_wider(
+        names_from = year,
+        values_from = agriculture,
+        names_prefix = 'agriculture_hectares_year_'
+      ) %>%
+      right_join(.,
+                 tb$current_conservation_tillage_county,
+                 by = "co_name") %>%
+      dplyr::mutate(
+        baseline_carbon_stock_mg_c_per_hectare = agriculture_hectares_year_2016 *
+          .agricultural_land_carbon_stock_mg_c_per_hectare,
+        bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare =
+          agriculture_hectares_year_2040
+      )
 
-  calc_parking_lot_land_cover() %>%
-    dplyr::select(ctu_name, year, agriculture) %>%
-    pivot_wider(names_from = year, values_from = agriculture, names_prefix = 'agriculture_hectares_year_') %>%
-    dplyr::mutate(baseline_carbon_stock_mg_co2_per_hectare = agriculture_hectares_year_2016 *
-                    .agricultural_land_carbon_stock_mg_c_per_hectare)
+    conservation_tillage_carbon_stocks_mg_c <-
+      if (.conservation_tillage_scen == "current_conservation_tillage") {
+        baseline_bau %>%
+          agriculture_hectares_year_2040
 
-}
+
+      }
+
+
+  }

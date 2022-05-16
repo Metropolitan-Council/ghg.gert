@@ -16,6 +16,10 @@ t_land_use_2016_types <-
   import_from_emissions("metro_sp_mod_1.land_use_2016_types")
 t_scenario_parameters <-
   import_from_emissions("metro_sp_mod_1.scenario_parameters")
+t_ctu_county <-
+  import_from_emissions("metro_demographic.vw_ctu_county")
+t_current_conservation_tillage_county <-
+  import_from_emissions("metro_sp_mod_1.vw_current_conservation_tillage_county")
 
 
 ## ------------------------------------------------------------------------------------------------------------
