@@ -3,26 +3,33 @@
 #' @description calculates the impact of conservation tillage scenarios on carbon
 #' stocks by city/township
 #'
-#' @family land_use_module, conservation_tillage
+#' @family land_use_module
 #'
+#' @param .conservation_tillage_scen A String.
+#' The type of conservation tillage scenario to be explored.
+#' Default is `current_conservation_tillage`. The options are:
+#' * `current_conservation_tillage` it maintains the per county levels of conservation tillage
+#' relative to the baseline year.
+#' * `double_conservation_tillage` it doubles the per county levels of conservation tillage
+#' relative to the baseline year.
+#' * `maximum_conservation_tillage` it assumes that all agricultural land implements conservation
+#' tillage.
 #'
-#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal well-to-well diesel emissions
-#' factor in kg of carbon dioxide equivalent (CO2e) per gallon
+#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal A Numeric object.
+#' Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 #'      Default is `12.50` kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
-#'      @source `Hilman and Ramaswami, 2009`
-#'
-#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare
+#'      * `Hilman and Ramaswami, 2009`
+#'.
+#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare A Numeric object
 #'      Default is `0.102` million grams of carbon dioxide equivalent (CO2e) per hectare
-#'      @source `United States Department of Agriculture`
+#'      * `United States Department of Agriculture`
 #'
-#' @param .agricultural_land_carbon_stock_mg_c_per_hectare
-#'       Default is `41` million grams of carbon (C) per hectare
-#'      @source `Tran et al., 2015` https://doi.org/10.1073/pnas.1512542112
+#' @param .agricultural_land_carbon_stock_mg_c_per_hectare A Numeric object.
+#'      Default is `41` million grams of carbon (C) per hectare
+#'      * `Tran et al., 2015` https://doi.org/10.1073/pnas.1512542112
 #'
-#' @param .conservation_tillage_scen
-#'
-#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag
-#'
+#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag A Numeric object.
+#'      Default is `1.54`
 #'
 #' @return
 #' @export

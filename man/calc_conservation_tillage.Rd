@@ -5,12 +5,25 @@
 \title{Calculate Conservation Tillage}
 \usage{
 calc_conservation_tillage(
+  .conservation_tillage_scen = "current_conservation_tillage",
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54
 )
 }
 \arguments{
+\item{.conservation_tillage_scen}{A String. The type of conservation tillage scenario
+to be explored. The options are:
+\itemize{
+\item \code{current_conservation_tillage} it maintains the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{double_conservation_tillage} it doubles the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{maximum_conservation_tillage} it assumes that all agricultural land implements conservation
+tillage.
+}}
+
 \item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{well-to-well diesel emissions
 factor in kg of carbon dioxide equivalent (CO2e) per gallon
 Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
@@ -21,6 +34,8 @@ Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon
 
 \item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is \code{41} million grams of carbon (C) per hectare
 @source \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
+
+\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{}
 }
 \value{
 
@@ -29,4 +44,12 @@ Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon
 calculates the impact of conservation tillage scenarios on carbon
 stocks by city/township
 }
-\concept{land_use_module, conservation_tillage}
+\seealso{
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_land_use}()}
+}
+\concept{land_use_module}

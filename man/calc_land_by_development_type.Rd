@@ -28,10 +28,9 @@ use scenarios at the city/township scale
 \seealso{
 Other land_use_module: 
 \code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
 \code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_total_plantable_area}()},
-\code{\link{calc_tree_planting_factors}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{calc_tree_planting_scenario}()}
+\code{\link{scen_land_use}()}
 }
 \concept{land_use_module}

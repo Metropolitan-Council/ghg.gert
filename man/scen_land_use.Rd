@@ -14,7 +14,11 @@ For the selected scenario, this function calculates the land use type in hectare
 for all cities/townships
 }
 \seealso{
-Other land_use_mod: 
-\code{\link{calc_land_cover_by_land_use}()}
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_tree_planting_land_cover}()}
 }
-\concept{land_use_mod}
+\concept{land_use_module}

@@ -16,8 +16,4 @@ A long table with the percent of land cover for each land use type for each city
 For the selected land use scenario, this function calculates the land cover
 by land use type for each community, using the bridge table "land_cover_percentages_filled"
 }
-\seealso{
-Other land_use_mod: 
-\code{\link{scen_land_use}()}
-}
 \concept{land_use_mod}
