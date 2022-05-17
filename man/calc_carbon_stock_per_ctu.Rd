@@ -6,7 +6,7 @@
 \usage{
 calc_carbon_stock_per_ctu(
   .impervious_stock_mg_c_per_hectare = 33,
-  .grass_stock_mg_c_per_hectare = 74.04,
+  .grass_stock_mg_c_per_hectare = 77.04,
   .trees_stock_mg_c_per_hectare = 115,
   .water_stock_mg_c_per_hectare = 0,
   .barren_stock_mg_c_per_hectare = 5,
@@ -20,53 +20,53 @@ calc_carbon_stock_per_ctu(
 )
 }
 \arguments{
-\item{.impervious_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of impervious surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{33} megagrammes of carbon per hectare.}
+\item{.impervious_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of impervious surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{33} megagrams of carbon per hectare.}
 
-\item{.grass_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{74.04} megagrammes of carbon per hectare.}
+\item{.grass_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{74.04} megagrams of carbon per hectare.}
 
-\item{.trees_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of trees surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{115} megagrammes of carbon per hectare.}
+\item{.trees_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of trees surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{115} megagrams of carbon per hectare.}
 
-\item{.water_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of water surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{0} megagrammes of carbon per hectare.}
+\item{.water_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of water surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{0} megagrams of carbon per hectare.}
 
-\item{.barren_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of barren surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{5} megagrammes of carbon per hectare.}
+\item{.barren_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of barren surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{5} megagrams of carbon per hectare.}
 
-\item{.forest_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of forest surfaces in Mg (megagramme/tonne) of carbon per hectare.
+\item{.forest_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of forest surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 The default is \code{117} megagrammes of carbon per hectare.}
 
-\item{.shrub_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of shrub surfaces in Mg (megagramme/tonne) of carbon per hectare.
+\item{.shrub_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of shrub surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{49} megagrams of carbon per hectare.}
+
+\item{.grassland_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 The default is \code{49} megagrammes of carbon per hectare.}
 
-\item{.grassland_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{49} megagrammes of carbon per hectare.}
+\item{.agriculture_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{41} megagrams of carbon per hectare.}
 
-\item{.agriculture_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{41} megagrammes of carbon per hectare.}
+\item{.woody_wetland_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{117} megagrams of carbon per hectare.}
 
-\item{.woody_wetland_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{117} megagrammes of carbon per hectare.}
+\item{.wetland_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{296.75} megagrams of carbon per hectare.}
 
-\item{.wetland_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{296.75} megagrammes of carbon per hectare.}
-
-\item{.parking_lot_stock_mg_c_per_hectare}{A number.
-The estimated carbon stock of grass surfaces in Mg (megagramme/tonne) of carbon per hectare.
-The default is \code{33} megagrammes of carbon per hectare.}
+\item{.parking_lot_stock_mg_c_per_hectare}{A numeric object.
+The estimated carbon stock of grass surfaces in Mg (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+The default is \code{33} megagrams of carbon per hectare.}
 }
 \value{
 
@@ -80,7 +80,7 @@ Other land_use_module:
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{scen_land_use}()}
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()}
 }
 \concept{land_use_module}

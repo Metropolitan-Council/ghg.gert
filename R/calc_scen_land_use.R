@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-scen_land_use <- function() {
+calc_scen_land_use <- function() {
   bind_rows(
     calc_land_by_development_type()$scenario_mixed_use_mf_new,
     calc_land_by_development_type()$scenario_other_zoning,

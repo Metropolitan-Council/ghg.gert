@@ -30,7 +30,42 @@ calc_carbon_sequestration_per_ctu <-
            .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
            .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
            .parking_lot_sequest_mg_c_per_hectare_per_year = 0) {
+    calc_parking_lot_land_cover() %>%
+      group_by(ctu_name) %>%
+      pivot_wider(names_from = year, values_from = !ctu_name, names_sep = "." ) %>%
+      mutate(
+        impervious = ((impervious.2016 + impervious.2040) / 2) *
+          .impervious_sequest_mg_c_per_hectare_per_year,
 
-    calc_parking_lot_land_cover()
+        grass = ((grass.2016 + grass.2040) / 2) *
+          .grass_sequest_mg_c_per_hectare_per_year,
 
+        trees = ((trees.2016 + trees.2040) / 2) *
+          .trees_sequest_mg_c_per_hectare_per_year,
+
+        water = ((water.2016 + water.2040) / 2) *
+          .water_sequest_mg_c_per_hectare_per_year,
+
+        barren = ((barren.2016 + barren.2040) / 2) *
+          .barren_sequest_mg_c_per_hectare_per_year,
+
+        forest = ((forest.2016 + forest.2040) / 2) *
+          .forest_sequest_mg_c_per_hectare_per_year,
+
+        shrub = ((shrub.2016 + shrub.2040) / 2) *
+          .shrub_sequest_mg_c_per_hectare_per_year,
+
+        grassland = ((grassland.2016 + grassland.2040) / 2) *
+          .grassland_sequest_mg_c_per_hectare_per_year,
+
+        agriculture = ((agriculture.2016 + agriculture.2040) / 2) *
+          .agriculture_sequest_mg_c_per_hectare_per_year,
+
+        woody_wetland = ((woody_wetland.2016 + woody_wetland.2040) / 2) *
+          .woody_wetland_sequest_mg_c_per_hectare_per_year,
+
+        parking_lot = ((parking_lot.2016 + parking_lot.2040) / 2) *
+          .parking_lot_sequest_mg_c_per_hectare_per_year
+
+      )
   }

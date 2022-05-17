@@ -54,6 +54,6 @@ Other land_use_module:
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_parking_lot_land_cover}()},
-\code{\link{scen_land_use}()}
+\code{\link{calc_scen_land_use}()}
 }
 \concept{land_use_module}

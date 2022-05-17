@@ -13,8 +13,9 @@ calc_conservation_tillage(
 )
 }
 \arguments{
-\item{.conservation_tillage_scen}{A String. The type of conservation tillage scenario
-to be explored. The options are:
+\item{.conservation_tillage_scen}{A String.
+The type of conservation tillage scenario to be explored.
+Default is \code{current_conservation_tillage}. The options are:
 \itemize{
 \item \code{current_conservation_tillage} it maintains the per county levels of conservation tillage
 relative to the baseline year.
@@ -24,18 +25,22 @@ relative to the baseline year.
 tillage.
 }}
 
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{well-to-well diesel emissions
-factor in kg of carbon dioxide equivalent (CO2e) per gallon
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{A Numeric object.
+Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
-@source \verb{Hilman and Ramaswami, 2009}}
+* \verb{Hilman and Ramaswami, 2009}
+.}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Default is \code{0.102} million grams of carbon dioxide equivalent (CO2e) per hectare
-@source \verb{United States Department of Agriculture}}
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{A Numeric object
+Default is \code{0.102} million grams of carbon dioxide equivalent (CO2e) per hectare
+* \verb{United States Department of Agriculture}}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Default is \code{41} million grams of carbon (C) per hectare
-@source \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{A Numeric object.
+Default is \code{41} million grams of carbon (C) per hectare
+* \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
 
-\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{}
+\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{A Numeric object.
+Default is \code{1.54}}
 }
 \value{
 
@@ -49,7 +54,7 @@ Other land_use_module:
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{scen_land_use}()}
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()}
 }
 \concept{land_use_module}

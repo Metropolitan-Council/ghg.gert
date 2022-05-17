@@ -28,7 +28,7 @@ calc_land_cover_by_land_use <- function(tb = land_use_data) {
           land_cover_description_2,
           percent_land_cover_type
         ),
-      scen_land_use(),
+      calc_scen_land_use(),
       by = c("ctu_name", "description_2")
     ) %>%
       dplyr::group_by(ctu_name,
