@@ -3,13 +3,15 @@
 #' @description For the selected scenario, this function calculates the land use type in hectares
 #' for all cities/townships
 #'
+#' @inheritParams calc_land_by_development_type
+#'
 #' @family land_use_module
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calc_scen_land_use <- function() {
+calc_scen_land_use <- function(tb = land_use_data) {
   bind_rows(
     calc_land_by_development_type()$scenario_mixed_use_mf_new,
     calc_land_by_development_type()$scenario_other_zoning,

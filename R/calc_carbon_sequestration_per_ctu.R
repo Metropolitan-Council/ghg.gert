@@ -32,7 +32,11 @@ calc_carbon_sequestration_per_ctu <-
            .parking_lot_sequest_mg_c_per_hectare_per_year = 0) {
     calc_parking_lot_land_cover() %>%
       group_by(ctu_name) %>%
-      pivot_wider(names_from = year, values_from = !ctu_name, names_sep = "." ) %>%
+      pivot_wider(
+        names_from = year,
+        values_from = !ctu_name,
+        names_sep = "."
+      ) %>%
       mutate(
         impervious = ((impervious.2016 + impervious.2040) / 2) *
           .impervious_sequest_mg_c_per_hectare_per_year,
@@ -61,11 +65,34 @@ calc_carbon_sequestration_per_ctu <-
         agriculture = ((agriculture.2016 + agriculture.2040) / 2) *
           .agriculture_sequest_mg_c_per_hectare_per_year,
 
-        woody_wetland = ((woody_wetland.2016 + woody_wetland.2040) / 2) *
+        woody_wetland = ((
+          woody_wetland.2016 + woody_wetland.2040
+        ) / 2) *
           .woody_wetland_sequest_mg_c_per_hectare_per_year,
+
+        wetland = ((
+          wetland.2016 + wetland.2040
+        ) / 2) *
+          .wetland_sequest_mg_c_per_hectare_per_year,
 
         parking_lot = ((parking_lot.2016 + parking_lot.2040) / 2) *
           .parking_lot_sequest_mg_c_per_hectare_per_year
 
+      ) %>%
+      select(
+        ctu_name,
+        year.2040,
+        agriculture,
+        barren,
+        forest,
+        grass,
+        grassland,
+        impervious,
+        parking_lot,
+        shrub,
+        trees,
+        water,
+        wetland,
+        woody_wetland
       )
   }

@@ -4,7 +4,10 @@
 \alias{calc_land_cover_by_city}
 \title{Calculate Land Cover by City/Township}
 \usage{
-calc_land_cover_by_city()
+calc_land_cover_by_city(tb = land_use_data)
+}
+\arguments{
+\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
 }
 \value{
 

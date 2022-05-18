@@ -4,7 +4,10 @@
 \alias{calc_scen_land_use}
 \title{Calculate Scenario Land Use}
 \usage{
-calc_scen_land_use()
+calc_scen_land_use(tb = land_use_data)
+}
+\arguments{
+\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
 }
 \value{
 
