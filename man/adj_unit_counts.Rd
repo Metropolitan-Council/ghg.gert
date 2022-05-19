@@ -2,13 +2,14 @@
 % Please edit documentation in R/adj_unit_counts.R
 \name{adj_unit_counts}
 \alias{adj_unit_counts}
-\title{Adjust single and multifamily unit count forecast in residential table}
+\title{Adjust Residential Building Unit Counts}
 \usage{
 adj_unit_counts(res_tb, .new_homes_to_multifamily_pct)
 }
 \arguments{
-\item{.new_homes_to_multifamily_pct}{numeric, percentage of new single-family homes
-to instead be built as multifamily homes}
+\item{.new_homes_to_multifamily_pct}{Numeric.
+Percentage of new single-family homes to instead be built as multifamily homes
+Default is ``}
 }
 \value{
 
@@ -16,3 +17,8 @@ to instead be built as multifamily homes}
 \description{
 Adjust single and multifamily unit count forecast in residential table
 }
+\seealso{
+Other building_energy_module: 
+\code{\link{scen_building_residential}()}
+}
+\concept{building_energy_module}

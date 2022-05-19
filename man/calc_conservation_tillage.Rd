@@ -82,7 +82,7 @@ stocks by city/township
 }
 \examples{
 \dontrun{
-calc_conservation_tillage(
+ghg.sp::calc_conservation_tillage(
     .conservation_tillage_scen = "current_conservation_tillage",
     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
@@ -92,7 +92,7 @@ calc_conservation_tillage(
     detail = FALSE,
     .tree_planting_intervention = "tree_planting_on_all_pervious",
     .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247
+    .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0.8,
     .luse_scen = "compact_dev_with_drs",
     .scenario = "bau")

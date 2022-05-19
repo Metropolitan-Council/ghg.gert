@@ -1,8 +1,11 @@
-#' Adjust single and multifamily unit count forecast in residential table
+#' @title Adjust Residential Building Unit Counts
+#' @family building_energy_module
 #'
+#' @description Adjust single and multifamily unit count forecast in residential table
 #'
-#' @param .new_homes_to_multifamily_pct numeric, percentage of new single-family homes
-#'     to instead be built as multifamily homes
+#' @param .new_homes_to_multifamily_pct Numeric.
+#' Percentage of new single-family homes to instead be built as multifamily homes
+#'      Default is ``
 #'
 #' @inheritParams scen_building_residential
 #' @return
@@ -19,10 +22,8 @@ adj_unit_counts <- function(res_tb,
   }
   n_new_homes <-
     res_tb %>%
-    dplyr::filter(var %in% c(
-      "multifamily_units",
-      "single_family_units"
-    )) %>%
+    dplyr::filter(var %in% c("multifamily_units",
+                             "single_family_units")) %>%
     dplyr::group_by(ctu_name, var) %>%
     tidyr::pivot_wider(names_from = year, values_from = value) %>%
     dplyr::mutate(new_homes = `2040` - `2018`)
@@ -43,19 +44,14 @@ adj_unit_counts <- function(res_tb,
 
 
   new_units <- res_tb %>%
-    dplyr::filter(
-      var %in% c(
-        "multifamily_units",
-        "single_family_units"
-      ),
-      year == 2040
-    ) %>%
+    dplyr::filter(var %in% c("multifamily_units",
+                             "single_family_units"),
+                  year == 2040) %>%
     dplyr::left_join(sf_now_mf, by = "ctu_name") %>%
     # if multifamily, add the now-multifamily units
     # if single family, subtract the now-multifamily units
     dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
-      value - now_mf
-    )) %>%
+                                 value - now_mf)) %>%
     dplyr::select(names(res_tb))
 
   # anti_join to replace original values

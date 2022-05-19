@@ -2,7 +2,7 @@
 % Please edit documentation in R/scen_building_residential.R
 \name{scen_building_residential}
 \alias{scen_building_residential}
-\title{Title}
+\title{Calculate Residential Building Strategies}
 \usage{
 scen_building_residential(
   tb = building_data$residential,
@@ -21,8 +21,9 @@ scen_building_residential(
 \item{tb}{table, data table with residential building attributes. Package provided
 dataset \code{building_energy$residential} is suitable and the default value.}
 
-\item{.new_homes_to_multifamily_pct}{numeric, percentage of new single-family homes
-to instead be built as multifamily homes}
+\item{.new_homes_to_multifamily_pct}{Numeric.
+Percentage of new single-family homes to instead be built as multifamily homes
+Default is ``}
 
 \item{.single_family_floor_area_growth_pct}{numeric, growth rate
 in single family home floor area.}
@@ -46,7 +47,8 @@ retrofitted to reduce energy usage by 66\%}
 
 }
 \description{
-Title
+\code{scen_building_residential()} calculates the effect of the residential building
+strategies within the building energy module
 }
 \examples{
 \dontrun{
@@ -55,3 +57,8 @@ library(ghg.sp)
 scen_building_residential(tb = building_data$residential)
 }
 }
+\seealso{
+Other building_energy_module: 
+\code{\link{adj_unit_counts}()}
+}
+\concept{building_energy_module}
