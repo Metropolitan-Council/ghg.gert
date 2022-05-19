@@ -4,21 +4,21 @@
 #' @description `calc_parking_lot_land_cover()` recalculates the change in land cover types
 #' by city when implementing a
 #' parking lot reduction intervention, the percent reduction of parking lot area is
-#' defined in the argument '.parking_lot_reduction_percentage'
+#' defined in the argument `.parking_lot_reduction_percentage`
 #'
-#' @inheritParams calc_tree_planting_land_cover()
+#' @inheritParams calc_tree_planting_land_cover
 #'
 #' @param .parking_lot_reduction_percentage Numeric.
 #' A value between 0 and 1.
 #' specifies the percentage reduction of parking lot
 #' area to be explored under the current scenario
-#'      Default is `0.8`
+#'      Default is `0.8`.
 #' @param detail Logical.
 #' A `TRUE` or `FALSE` argument
 #' if detail == TRUE the function
 #' returns a tibble with more detailed fields. Recommended
 #' for debugging
-#'      Default is `FALSE`
+#'      Default is `FALSE`.
 #'
 #' @return Tibble.
 #'
@@ -26,24 +26,36 @@
 #'
 #' @examples
 #' \dontrun{
-#' calc_parking_lot_land_cover(
-#'      tb = land_used_data,
-#'      detail = FALSE,
-#'      tree_planting_intervention =
-#'      .parking_lot_reduction_percentage = 0.8,
-#'      .luse_scen = "compact_dev_with_drs",
-#'      .scenario = "bau"
+#' ghg.sp::calc_parking_lot_land_cover(
+#'       tb = land_use_data,
+#'       detail = FALSE,
+#'       .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'       .tree_planting_per_capita = 0.26,
+#'       .tree_planting_per_hectare = 247,
+#'       .parking_lot_reduction_percentage = 0.8,
+#'       .luse_scen = "compact_dev_with_drs",
+#'       .scenario = "bau"
 #' )
 #' }
 calc_parking_lot_land_cover <-
-  function(.parking_lot_reduction_percentage,
+  function(tb,
+           .parking_lot_reduction_percentage,
            .luse_scen,
            .scenario,
+           .tree_planting_intervention,
+           .tree_planting_per_capita,
+           .tree_planting_per_hectare,
            detail = FALSE) {
     parking_lot_land_cover <-
-      calc_tree_planting_land_cover(tb = tb,
-                                    .luse_scen = .luse_scen,
-                                    .scenario =  scenario) %>%
+      calc_tree_planting_land_cover(
+        tb = tb,
+        .luse_scen = .luse_scen,
+        .scenario =  .scenario,
+        .tree_planting_intervention = .tree_planting_intervention,
+        .tree_planting_per_capita = .tree_planting_per_capita,
+        .tree_planting_per_hectare = .tree_planting_per_hectare,
+        detail = FALSE
+      ) %>%
       dplyr::mutate(
         parking_lot_2 =
           case_when(

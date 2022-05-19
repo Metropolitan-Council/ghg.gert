@@ -4,8 +4,9 @@
 #' @description `calc_conservation_tillage()` calculates the impact of conservation tillage scenarios on carbon
 #' stocks by city/township
 #'
+#' @inheritParams calc_parking_lot_land_cover
 #'
-#' @param .conservation_tillage_scen A String.
+#' @param .conservation_tillage_scen Character.
 #' The type of conservation tillage scenario to be explored.
 #' Default is `current_conservation_tillage`. The options are:
 #' * `current_conservation_tillage` it maintains the per county levels of conservation tillage
@@ -31,21 +32,47 @@
 #' @export
 #'
 #' @examples
-#'  \dontrun{
-#'  calc_conservation_tillage(.conservation_tillage_scen = "current_conservation_tillage",
-#'  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-#'  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-#'  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-#'  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54)
+#' \dontrun{
+#' ghg.sp::calc_conservation_tillage(
+#'     .conservation_tillage_scen = "current_conservation_tillage",
+#'     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+#'     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+#'     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+#'     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+#'     tb = land_use_data,
+#'     detail = FALSE,
+#'     .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'     .tree_planting_per_capita = 0.26,
+#'     .tree_planting_per_hectare = 247,
+#'     .parking_lot_reduction_percentage = 0.8,
+#'     .luse_scen = "compact_dev_with_drs",
+#'     .scenario = "bau")
 #'  }
 calc_conservation_tillage <-
-  function(.conservation_tillage_scen = "current_conservation_tillage",
-           .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-           .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-           .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-           .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54) {
+  function(.conservation_tillage_scen,
+           .w2w_diesel_emission_factor_kg_co2e_per_gal,
+           .avoided_emissions_tractor_use_mg_co2e_per_hectare,
+           .agricultural_land_carbon_stock_mg_c_per_hectare,
+           .maximum_soc_accumation_under_reduced_or_no_till_ag,
+           .parking_lot_reduction_percentage,
+           tb,
+           detail,
+           .tree_planting_intervention,
+           .tree_planting_per_capita,
+           .tree_planting_per_hectare,
+           .luse_scen,
+           .scenario) {
     baseline_bau <-
-      calc_parking_lot_land_cover() %>%
+      calc_parking_lot_land_cover(
+        tb = tb,
+        detail = detail,
+        .tree_planting_intervention = .tree_planting_intervention,
+        .tree_planting_per_capita = .tree_planting_per_capita,
+        .tree_planting_per_hectare = .tree_planting_per_hectare,
+        .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+        .luse_scen = .luse_scen,
+        .scenario = .scenario
+      ) %>%
       right_join(.,
                  tb$ctu_county,
                  by = "ctu_name") %>%

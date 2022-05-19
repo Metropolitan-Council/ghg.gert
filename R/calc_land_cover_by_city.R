@@ -12,9 +12,10 @@
 #'
 #' @examples
 #' \dontrun{
-#'      calc_land_cover_by_city(tb = land_use_data,
-#'      .luse_scen = "compact_dev_with_drs",
-#'      .scenario = "bau")
+#' ghg.sp::calc_land_cover_by_city(
+#'     tb = land_use_data,
+#'     .luse_scen = "compact_dev_with_drs",
+#'     .scenario = "bau")
 #' }
 calc_land_cover_by_city <- function(tb,
                                     .luse_scen,

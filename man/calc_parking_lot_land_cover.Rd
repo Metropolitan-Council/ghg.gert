@@ -5,40 +5,72 @@
 \title{Calculate Parking Lot Intervention Effect on Land Cover}
 \usage{
 calc_parking_lot_land_cover(
-  .parking_lot_reduction_percentage = 0.8,
-  .luse_scen = "compact_dev_with_drs",
+  tb,
+  .parking_lot_reduction_percentage,
+  .luse_scen,
+  .scenario,
+  .tree_planting_intervention,
+  .tree_planting_per_capita,
+  .tree_planting_per_hectare,
   detail = FALSE
 )
 }
 \arguments{
-\item{.parking_lot_reduction_percentage}{A value between 0 and 1.
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
+
+\item{.parking_lot_reduction_percentage}{Numeric.
+A value between 0 and 1.
 specifies the percentage reduction of parking lot
 area to be explored under the current scenario
-Default is \code{0.8}}
+Default is \code{0.8}.}
 
-\item{detail}{a \code{TRUE} or \code{FALSE} argument
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
+
+\item{.scenario}{Character.
+Default is \code{"bau"}}
+
+\item{detail}{Logical.
+A \code{TRUE} or \code{FALSE} argument
 if detail == TRUE the function
 returns a tibble with more detailed fields. Recommended
 for debugging
-Default is \code{FALSE},}
+Default is \code{FALSE}.}
 }
 \value{
-a Tibble.
+Tibble.
 }
 \description{
-Recalculates the change in land cover types by city when implementing a
+\code{calc_parking_lot_land_cover()} recalculates the change in land cover types
+by city when implementing a
 parking lot reduction intervention, the percent reduction of parking lot area is
-defined in the argument '.parking_lot_reduction_percentage'
+defined in the argument \code{.parking_lot_reduction_percentage}
 }
-\note{
-This function follows \code{calc_tree_planting_land_cover()}
+\examples{
+\dontrun{
+ghg.sp::calc_parking_lot_land_cover(
+      tb = land_use_data,
+      detail = FALSE,
+      .tree_planting_intervention = "tree_planting_on_all_pervious",
+      .tree_planting_per_capita = 0.26,
+      .tree_planting_per_hectare = 247,
+      .parking_lot_reduction_percentage = 0.8,
+      .luse_scen = "compact_dev_with_drs",
+      .scenario = "bau"
+)
+}
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
 \code{\link{scen_green_infrastructure}()}

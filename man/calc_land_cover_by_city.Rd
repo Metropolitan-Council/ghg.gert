@@ -4,23 +4,42 @@
 \alias{calc_land_cover_by_city}
 \title{Calculate Land Cover by City/Township}
 \usage{
-calc_land_cover_by_city(tb = land_use_data)
+calc_land_cover_by_city(tb, .luse_scen, .scenario)
 }
 \arguments{
-\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
+
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
+
+\item{.scenario}{Character.
+Default is \code{"bau"}}
 }
 \value{
 
 }
 \description{
-takes the output of the function 'calc_land_cover_by_land_use' and
-calculates the total land cover by type for each community.
+\code{calc_land_cover_by_city()} takes the output of the function 'calc_land_cover_by_land_use()' and
+calculates the total land cover (hectares) by type for each community.
+}
+\examples{
+\dontrun{
+ghg.sp::calc_land_cover_by_city(
+    tb = land_use_data,
+    .luse_scen = "compact_dev_with_drs",
+    .scenario = "bau")
+}
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
+\code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},

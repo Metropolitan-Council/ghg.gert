@@ -2,18 +2,49 @@
 % Please edit documentation in R/calc_land_cover_by_land_use.R
 \name{calc_land_cover_by_land_use}
 \alias{calc_land_cover_by_land_use}
-\title{Calculate Land Cover by Land Use}
+\title{Calculate Land Cover by Land Use by City/Township}
 \usage{
-calc_land_cover_by_land_use(tb = land_use_data)
+calc_land_cover_by_land_use(tb, .scenario, .luse_scen)
 }
 \arguments{
-\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
+
+\item{.scenario}{Character.
+Default is \code{"bau"}}
+
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
 }
 \value{
+Tibble.
 A long table with the percent of land cover for each land use type for each city*/township
 }
 \description{
-For the selected land use scenario, this function calculates the land cover
-by land use type for each community, using the bridge table "land_cover_percentages_filled"
+\code{calc_land_cover_by_land_use} calculates the land cover by land use type for each community,
+using the bridge table "land_cover_percentages_filled"
+for the selected land use scenario.
 }
-\concept{land_use_mod}
+\examples{
+\dontrun{
+ghg.sp::calc_land_cover_by_land_use(
+      tb = land_use_data,
+      .scenario = "bau",
+      .luse_scen = "compact_dev_with_drs")
+}
+}
+\seealso{
+Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
+}
+\concept{land_use_module}

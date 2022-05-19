@@ -7,14 +7,14 @@
 #' @inheritParams calc_land_by_development_type
 #' @inheritParams calc_tree_planting_land_cover
 #' @inheritParams calc_conservation_tillage
+#' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
-#' @inheritParams calc_parking_lot_land_cover
 #'
 #' @return
 #' @export
 #'
-scen_green_infrastructure <- function(tb = land_use_data,
+scen_green_infrastructure <- function(tb = land_use_data.rda,
                                       detail = FALSE,
                                       .luse_scen = "compact_dev_with_drs",
                                       .conservation_tillage_scen = "current_conservation_tillage",

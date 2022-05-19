@@ -7,12 +7,12 @@
 #'
 #' @param tb Tibble.
 #' The input dataset to be used.
-#'      Default is `land_use_data.rda`
+#'      Default is `land_use_data`
 #' @param .scenario Character.
 #'      Default is `"bau"`
 #' @param .luse_scen Character.
 #' the current land use scenario being explored
-#'      Default is "compact_dev_with_drs"
+#'      Default is `"compact_dev_with_drs"`
 #'
 #' @return Tibble.
 #' A list of tables with the estimated hectares by different development
@@ -23,9 +23,9 @@
 #'
 #' @examples
 #' \dontrun{
-#'     calc_land_by_development_type(
+#' ghg.sp::calc_land_by_development_type(
 #'     tb = land_use_data,
-#'     .scneario = "bau",
+#'     .scenario = "bau",
 #'     .luse_scen = "compact_dev_with_drs")
 #' }
 calc_land_by_development_type <-

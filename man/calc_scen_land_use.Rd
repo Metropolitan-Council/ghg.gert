@@ -4,27 +4,43 @@
 \alias{calc_scen_land_use}
 \title{Calculate Scenario Land Use}
 \usage{
-calc_scen_land_use(tb = land_use_data, .luse_scen = "compact_dev_with_drs")
+calc_scen_land_use(tb, .scenario, .luse_scen)
 }
 \arguments{
-\item{tb}{the dataset to be used; defaults to "land_use_data.rda"}
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
 
-\item{.luse_scen}{the current land use scenario being explored
-default is compact development with dynamic ride sharing.}
+\item{.scenario}{Character.
+Default is \code{"bau"}}
+
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
 }
 \value{
 
 }
 \description{
-For the selected scenario, this function calculates the land use type in hectares
-for all cities/townships
+\code{calc_scen_land_use()} Calculates the land use type in hectares
+for all cities/townships for the selected scenario.
+}
+\examples{
+\dontrun{
+ghg.sp::calc_scen_land_use(
+     tb =  land_use_data,
+     .scenario = "bau",
+     .luse_scen = "compact_dev_with_drs")
+}
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_tree_planting_land_cover}()},
 \code{\link{scen_green_infrastructure}()}

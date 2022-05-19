@@ -5,21 +5,34 @@
 \title{Calculate Tree Planting Land Cover by City/Township}
 \usage{
 calc_tree_planting_land_cover(
-  tb = land_use_data,
-  tree_planting_intervention = "tree_planting_on_all_pervious",
-  detail = FALSE,
-  tree_planting_per_capita = 0.26,
-  tree_planting_per_hectare = 247
+  tb,
+  detail,
+  .luse_scen,
+  .scenario,
+  .tree_planting_intervention,
+  .tree_planting_per_capita,
+  .tree_planting_per_hectare
 )
 }
 \arguments{
-\item{tb}{a \code{tibble}. The default is \code{land_use_data}.}
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
 
-\item{detail}{Default is \code{FALSE}.
+\item{detail}{Logical.
 If true, returns a table with more detailed fields. Recommended
-for debugging.}
+for debugging.
+Default is \code{FALSE}.}
 
-\item{tree_panting_intervention}{a String. Specifies the type of tree planting
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
+
+\item{.scenario}{Character.
+Default is \code{"bau"}}
+
+\item{tree_panting_intervention}{Character.
+Specifies the type of tree planting
 intervention to be explored under the current scenario. The options are:
 \itemize{
 \item \code{tree_planting_on_all_pervious} Assumes that all pervious surfaces are converted to tree canopy.
@@ -28,32 +41,43 @@ to the baseline year.
 \item \code{match_la_million_trees_goal} Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
 }}
 
-\item{tree_planting_factor_per_capita}{the default tree planting per capita factor
-is \code{0.26} from the "Los Angeles 1,000,000 Trees" scenario}
+\item{tree_planting_factor_per_capita}{Numeric.
+Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{0.26} trees per capita.}
 
-\item{tree_planting_per_hectares}{the default tree planting per hectares factor is
-\code{247}}
+\item{tree_planting_per_hectares}{Numeric.
+Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{247} trees per hectare.}
 }
 \value{
-Returns a \code{tibble}. A table with hectares of land by land cover type after a tree planting scenario
+Tibble.
+\code{calc_tree_planting_land_cover()} returns table with hectares of land by land cover type after a tree planting scenario
 for each city/township. Set argumnet \code{detail} to \code{TRUE} for a more detailed table.
 }
 \description{
 \code{calc_tree_planting_land_cover()} recalculates the hectares of land by
 land cover type by city/township under a tree planting scenario.
 }
-\details{
-
-}
 \examples{
-calc_tree_planting_land_cover()
+\dontrun{
+ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .luse_scen = "compact_dev_with_drs",
+    .scenario = "bau",
+    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247)
+}
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{scen_green_infrastructure}()}

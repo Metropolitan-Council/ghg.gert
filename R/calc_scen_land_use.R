@@ -12,10 +12,10 @@
 #'
 #' @examples
 #' \dontrun{
-#'     calc_scen_land_use(
-#'     tb =  land_use_data,
-#'     .scenario = "bau".
-#'     .luse_scen = "compact_dev_with_drs")
+#' ghg.sp::calc_scen_land_use(
+#'      tb =  land_use_data,
+#'      .scenario = "bau",
+#'      .luse_scen = "compact_dev_with_drs")
 #' }
 calc_scen_land_use <- function(tb,
                                .scenario,

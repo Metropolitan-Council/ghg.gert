@@ -2,18 +2,26 @@
 % Please edit documentation in R/calc_conservation_tillage.R
 \name{calc_conservation_tillage}
 \alias{calc_conservation_tillage}
-\title{Calculate Conservation Tillage}
+\title{Calculate Conservation Tillage by City/Township}
 \usage{
 calc_conservation_tillage(
-  .conservation_tillage_scen = "current_conservation_tillage",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54
+  .conservation_tillage_scen,
+  .w2w_diesel_emission_factor_kg_co2e_per_gal,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare,
+  .agricultural_land_carbon_stock_mg_c_per_hectare,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag,
+  .parking_lot_reduction_percentage,
+  tb,
+  detail,
+  .tree_planting_intervention,
+  .tree_planting_per_capita,
+  .tree_planting_per_hectare,
+  .luse_scen,
+  .scenario
 )
 }
 \arguments{
-\item{.conservation_tillage_scen}{A String.
+\item{.conservation_tillage_scen}{Character.
 The type of conservation tillage scenario to be explored.
 Default is \code{current_conservation_tillage}. The options are:
 \itemize{
@@ -25,35 +33,78 @@ relative to the baseline year.
 tillage.
 }}
 
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{A Numeric object.
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{Numeric.
 Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
-* \verb{Hilman and Ramaswami, 2009}
-.}
+* \verb{Hilman and Ramaswami, 2009}}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{A Numeric object
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Numeric.
 Default is \code{0.102} million grams of carbon dioxide equivalent (CO2e) per hectare
 * \verb{United States Department of Agriculture}}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{A Numeric object.
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Numeric..
 Default is \code{41} million grams of carbon (C) per hectare
 * \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
 
-\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{A Numeric object.
+\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{Numeric.
 Default is \code{1.54}}
+
+\item{.parking_lot_reduction_percentage}{Numeric.
+A value between 0 and 1.
+specifies the percentage reduction of parking lot
+area to be explored under the current scenario
+Default is \code{0.8}.}
+
+\item{tb}{Tibble.
+The input dataset to be used.
+Default is \code{land_use_data}}
+
+\item{detail}{Logical.
+A \code{TRUE} or \code{FALSE} argument
+if detail == TRUE the function
+returns a tibble with more detailed fields. Recommended
+for debugging
+Default is \code{FALSE}.}
+
+\item{.luse_scen}{Character.
+the current land use scenario being explored
+Default is \code{"compact_dev_with_drs"}}
+
+\item{.scenario}{Character.
+Default is \code{"bau"}}
 }
 \value{
 
 }
 \description{
-calculates the impact of conservation tillage scenarios on carbon
+\code{calc_conservation_tillage()} calculates the impact of conservation tillage scenarios on carbon
 stocks by city/township
+}
+\examples{
+\dontrun{
+calc_conservation_tillage(
+    .conservation_tillage_scen = "current_conservation_tillage",
+    .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+    .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+    .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+    .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+    tb = land_use_data,
+    detail = FALSE,
+    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247
+    .parking_lot_reduction_percentage = 0.8,
+    .luse_scen = "compact_dev_with_drs",
+    .scenario = "bau")
+ }
 }
 \seealso{
 Other land_use_module: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},

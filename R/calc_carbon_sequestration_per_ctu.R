@@ -48,6 +48,12 @@
 #'
 #' \dontrun{
 #' ghg.sp::calc_carbon_sequestration_per_ctu(
+#' tb
+#' .luse_scen = "compact_dev_with_drs",
+#' .scenario = "bau",
+#' .tree_planting_intervention = "tree_planting_on_all_pervious",
+#' .tree_planting_per_capita = 0.26,
+#' .tree_planting_per_hectare = 247,
 #' .impervious_sequest_mg_c_per_hectare_per_year = 0,
 #' .grass_sequest_mg_c_per_hectare_per_year = -0.42,
 #' .trees_sequest_mg_c_per_hectare_per_year = -1.27,
@@ -76,13 +82,13 @@ calc_carbon_sequestration_per_ctu <-
            .wetland_sequest_mg_c_per_hectare_per_year,
            .parking_lot_sequest_mg_c_per_hectare_per_year) {
     calc_parking_lot_land_cover() %>%
-      group_by(ctu_name) %>%
-      pivot_wider(
+      dplyr::group_by(ctu_name) %>%
+      tidyr::pivot_wider(
         names_from = year,
         values_from = !ctu_name,
         names_sep = "."
       ) %>%
-      mutate(
+      dplyr::mutate(
         impervious = ((impervious.2016 + impervious.2040) / 2) *
           .impervious_sequest_mg_c_per_hectare_per_year,
 
@@ -122,7 +128,7 @@ calc_carbon_sequestration_per_ctu <-
           .parking_lot_sequest_mg_c_per_hectare_per_year
 
       ) %>%
-      select(
+      dplyr::select(
         ctu_name,
         year.2040,
         agriculture,

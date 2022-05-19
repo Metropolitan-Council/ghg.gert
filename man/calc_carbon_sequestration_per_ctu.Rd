@@ -5,72 +5,110 @@
 \title{Calculate Carbon Sequestration by City/Township}
 \usage{
 calc_carbon_sequestration_per_ctu(
-  .impervious_sequest_mg_c_per_hectare_per_year = 0,
-  .grass_sequest_mg_c_per_hectare_per_year = -0.42,
-  .trees_sequest_mg_c_per_hectare_per_year = -1.27,
-  .water_sequest_mg_c_per_hectare_per_year = 0,
-  .barren_sequest_mg_c_per_hectare_per_year = -0.014,
-  .forest_sequest_mg_c_per_hectare_per_year = -0.625,
-  .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
-  .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
-  .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
-  .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
-  .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
-  .parking_lot_sequest_mg_c_per_hectare_per_year = 0
+  .impervious_sequest_mg_c_per_hectare_per_year,
+  .grass_sequest_mg_c_per_hectare_per_year,
+  .trees_sequest_mg_c_per_hectare_per_year,
+  .water_sequest_mg_c_per_hectare_per_year,
+  .barren_sequest_mg_c_per_hectare_per_year,
+  .forest_sequest_mg_c_per_hectare_per_year,
+  .shrub_sequest_mg_c_per_hectare_per_year,
+  .grassland_sequest_mg_c_per_hectare_per_year,
+  .agriculture_sequest_mg_c_per_hectare_per_year,
+  .woody_wetland_sequest_mg_c_per_hectare_per_year,
+  .wetland_sequest_mg_c_per_hectare_per_year,
+  .parking_lot_sequest_mg_c_per_hectare_per_year
 )
 }
 \arguments{
-\item{.impervious_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.impervious_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of impervious land cover.
-The default is \code{0} C/ha/year}
+Default is \code{0} C/ha/year}
 
-\item{.grass_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.grass_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of grass land cover.
-The default is \code{-0.42} C/ha/year}
+Default is \code{-0.42} C/ha/year}
 
-\item{.trees_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.trees_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of trees land cover.
-The default is \code{-1.27} C/ha/year}
+Default is \code{-1.27} C/ha/year}
 
-\item{.water_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.water_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of water land cover.
-The default is \code{0} C/ha/year}
+Default is \code{0} C/ha/year}
 
-\item{.barren_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.barren_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of barren land cover.
-The default is \code{-0.014} Mg C/ha/year}
+Default is \code{-0.014} Mg C/ha/year}
 
-\item{.forest_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.forest_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of forest land cover.
-The default is \code{-0.625} Mg C/ha/year}
+Default is \code{-0.625} Mg C/ha/year}
 
-\item{.shrub_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.shrub_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of shrub land cover.
-The default is \code{-0.287} Mg C/ha/year}
+Default is \code{-0.287} Mg C/ha/year}
 
-\item{.grassland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.grassland_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of grassland land cover.
-The default is \code{-0.287} Mg C/ha/year}
+Default is \code{-0.287} Mg C/ha/year}
 
-\item{.agriculture_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.agriculture_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-The default is \code{-0.19} Mg C/ha/year}
+Default is \code{-0.19} Mg C/ha/year}
 
-\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-The default is \code{-0.625} Mg C/ha/year}
+Default is \code{-0.625} Mg C/ha/year}
 
-\item{.wetland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.wetland_sequest_mg_c_per_hectare_per_year}{Numeric.
 Megagrams of carbon sequestration per hectare per year of wetland land cover.
-The default is \code{-1.493} Mg C/ha/year}
+Default is \code{-1.493} Mg C/ha/year}
 
-\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{Numerict.
 Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-The default is \code{0} Mg C/ha/year}
+Default is \code{0} Mg C/ha/year}
 }
 \value{
 
 }
 \description{
-Calculate Carbon Sequestration by City/Township
+
 }
+\examples{
+
+\dontrun{
+ghg.sp::calc_carbon_sequestration_per_ctu(
+tb
+.luse_scen = "compact_dev_with_drs",
+.scenario = "bau",
+.tree_planting_intervention = "tree_planting_on_all_pervious",
+.tree_planting_per_capita = 0.26,
+.tree_planting_per_hectare = 247,
+.impervious_sequest_mg_c_per_hectare_per_year = 0,
+.grass_sequest_mg_c_per_hectare_per_year = -0.42,
+.trees_sequest_mg_c_per_hectare_per_year = -1.27,
+.water_sequest_mg_c_per_hectare_per_year = 0,
+.barren_sequest_mg_c_per_hectare_per_year = -0.014,
+.forest_sequest_mg_c_per_hectare_per_year = -0.625,
+.shrub_sequest_mg_c_per_hectare_per_year = -0.287,
+.grassland_sequest_mg_c_per_hectare_per_year = -0.287,
+.agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
+.woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
+.wetland_sequest_mg_c_per_hectare_per_year = -1.493,
+.parking_lot_sequest_mg_c_per_hectare_per_year = 0)
+}
+
+}
+\seealso{
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
+}
+\concept{land_use_module}

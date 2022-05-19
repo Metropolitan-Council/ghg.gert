@@ -5,7 +5,7 @@
 #' using the bridge table "land_cover_percentages_filled"
 #' for the selected land use scenario.
 #'
-#' @inheritParams calc_scen_land_use()
+#' @inheritParams calc_scen_land_use
 #'
 #' @return Tibble.
 #' A long table with the percent of land cover for each land use type for each city*/township
@@ -13,10 +13,10 @@
 #'
 #' @examples
 #' \dontrun{
-#'      calc_land_cover_by_land_use(
-#'      tb = land_use_data,
-#'      .scenario = "bau",
-#'      .luse_scen = "compact_dev_with_drs")
+#' ghg.sp::calc_land_cover_by_land_use(
+#'       tb = land_use_data,
+#'       .scenario = "bau",
+#'       .luse_scen = "compact_dev_with_drs")
 #' }
 calc_land_cover_by_land_use <- function(tb,
                                         .scenario,
