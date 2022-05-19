@@ -1,45 +1,49 @@
-#' Calculate Tree Planting Land Cover by City/Township
-#'
+#' @title Calculate Tree Planting Land Cover by City/Township
 #' @family land_use_module
 #'
 #' @description `calc_tree_planting_land_cover()` recalculates the hectares of land by
 #' land cover type by city/township under a tree planting scenario.
 #'
-#' @details
-#'
-#' @param tb a `tibble`. The default is `land_use_data`.
-#'
-#' @param tree_panting_intervention a String. Specifies the type of tree planting
+#' @inheritParams calc_land_cover_by_city
+#' @param tree_panting_intervention Character.
+#' Specifies the type of tree planting
 #' intervention to be explored under the current scenario. The options are:
 #' * `tree_planting_on_all_pervious` Assumes that all pervious surfaces are converted to tree canopy.
 #' * `double` Assumes double the tree canopy relative.
 #'    to the baseline year.
 #' * `match_la_million_trees_goal` Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
-#'
-#' @param tree_planting_factor_per_capita the default tree planting per capita factor
-#' is `0.26` from the "Los Angeles 1,000,000 Trees" scenario
-#'
-#' @param tree_planting_per_hectares the default tree planting per hectares factor is
-#' `247`
-#'
-#' @param detail Default is `FALSE`.
+#' @param tree_planting_factor_per_capita Numeric.
+#' Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+#'      Default is `0.26` trees per capita.
+#' @param tree_planting_per_hectares Numeric.
+#' Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+#'      Default is `247` trees per hectare.
+#' @param detail Logical.
 #' If true, returns a table with more detailed fields. Recommended
 #' for debugging.
-#'
-#' @return Returns a `tibble`. A table with hectares of land by land cover type after a tree planting scenario
-#' for each city/township. Set argumnet `detail` to `TRUE` for a more detailed table.
+#'      Default is `FALSE`.
+#' @return Tibble.
+#'      A table with hectares of land by land cover type after a tree planting scenario
+#'      for each city/township. Set argumnet `detail` to `TRUE` for a more detailed table.
 #'
 #' @export
 #'
-#' @examples calc_tree_planting_land_cover()
+#' @examples
+#' \dontrun{
+#'      ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+#'      tree_planting_intervention = "tree_planting_on_all_pervious",
+#'      detail = FALSE,
+#'      tree_planting_per_capita = 0.26,
+#'      tree_planting_per_hectare = 247)
+#' }
+
 
 calc_tree_planting_land_cover <-
-  function(tb = land_use_data,
-           tree_planting_intervention = "tree_planting_on_all_pervious",
-           detail = FALSE,
-           tree_planting_per_capita = 0.26,
-           tree_planting_per_hectare = 247) {
-
+  function(tb,
+           tree_planting_intervention,
+           detail,
+           tree_planting_per_capita,
+           tree_planting_per_hectare) {
     land_cover_by_city <- calc_land_cover_by_city()
 
     total_plantable_area <-

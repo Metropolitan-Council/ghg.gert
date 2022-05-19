@@ -16,3 +16,14 @@ calc_land_cover_by_city(tb = land_use_data)
 takes the output of the function 'calc_land_cover_by_land_use' and
 calculates the total land cover by type for each community.
 }
+\seealso{
+Other land_use_module: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
+}
+\concept{land_use_module}

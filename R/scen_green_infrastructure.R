@@ -1,17 +1,19 @@
-#' Run Green Infrastructure Module
+#' @title Run Green Infrastructure Module
+#' @family land_use_module
 #'
-#' @description Generates the outputs of the land use and green infrastructure module.
+#' @description `scen_green_infrastrucutre` generates the outputs of the land use and green
+#' infrastructure module.
 #'
 #' @inheritParams calc_land_by_development_type
 #' @inheritParams calc_tree_planting_land_cover
 #' @inheritParams calc_conservation_tillage
 #' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
+#' @inheritParams calc_parking_lot_land_cover
 #'
 #' @return
 #' @export
 #'
-#' @examples
 scen_green_infrastructure <- function(tb = land_use_data,
                                       detail = FALSE,
                                       .luse_scen = "compact_dev_with_drs",
@@ -35,9 +37,32 @@ scen_green_infrastructure <- function(tb = land_use_data,
                                       .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
                                       .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
                                       .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
-                                      .parking_lot_sequest_mg_c_per_hectare_per_year = 0
-                                      ) {
-  calc_carbon_sequestration_per_ctu()
-
+                                      .parking_lot_sequest_mg_c_per_hectare_per_year = 0,
+                                      .impervious_stock_mg_c_per_hectare = 33,
+                                      .grass_stock_mg_c_per_hectare = 77.04,
+                                      .trees_stock_mg_c_per_hectare = 115,
+                                      .water_stock_mg_c_per_hectare = 0,
+                                      .barren_stock_mg_c_per_hectare = 5,
+                                      .forest_stock_mg_c_per_hectare = 117,
+                                      .shrub_stock_mg_c_per_hectare = 49,
+                                      .grassland_stock_mg_c_per_hectare = 49,
+                                      .agriculture_stock_mg_c_per_hectare = 41,
+                                      .woody_wetland_stock_mg_c_per_hectare = 117,
+                                      .wetland_stock_mg_c_per_hectare = 296.75,
+                                      .parking_lot_stock_mg_c_per_hectare = 33) {
+  calc_carbon_sequestration_per_ctu(
+    .impervious_sequest_mg_c_per_hectare_per_year = .impervious_sequest_mg_c_per_hectare_per_year,
+    .grass_sequest_mg_c_per_hectare_per_year = .grass_sequest_mg_c_per_hectare_per_year,
+    .trees_sequest_mg_c_per_hectare_per_year = .trees_sequest_mg_c_per_hectare_per_year,
+    .water_sequest_mg_c_per_hectare_per_year = .water_sequest_mg_c_per_hectare_per_year,
+    .barren_sequest_mg_c_per_hectare_per_year = .barren_sequest_mg_c_per_hectare_per_year,
+    .forest_sequest_mg_c_per_hectare_per_year = .forest_sequest_mg_c_per_hectare_per_year,
+    .shrub_sequest_mg_c_per_hectare_per_year = .shrub_sequest_mg_c_per_hectare_per_year,
+    .grassland_sequest_mg_c_per_hectare_per_year = .grassland_sequest_mg_c_per_hectare_per_year,
+    .agriculture_sequest_mg_c_per_hectare_per_year = .agriculture_sequest_mg_c_per_hectare_per_year,
+    .woody_wetland_sequest_mg_c_per_hectare_per_year = .woody_wetland_sequest_mg_c_per_hectare_per_year,
+    .wetland_sequest_mg_c_per_hectare_per_year = .wetland_sequest_mg_c_per_hectare_per_year,
+    .parking_lot_sequest_mg_c_per_hectare_per_year = .parking_lot_sequest_mg_c_per_hectare_per_year
+  )
 
 }

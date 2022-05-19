@@ -1,25 +1,41 @@
-#' Calcuate Land by Development Type
+#' @title Calculate Land by Development Type
+#' @family land_use_module
 #'
 #' @description calculates the hectares of land by different development types
 #' (urban expansion, urban infill, and exurban development) for different land
 #' use scenarios at the city/township scale
 #'
-#' @family land_use_module
+#' @param tb Tibble.
+#' The input dataset to be used.
+#'      Default is `land_use_data.rda`
+#' @param .scenario Character.
+#'      Default is `"bau"`
+#' @param .luse_scen Character.
+#' the current land use scenario being explored
+#'      Default is "compact_dev_with_drs"
 #'
-#' @param .luse_scen the current land use scenario being explored
-#' default is compact development with dynamic ride sharing.
-#' @param tb the dataset to be used; defaults to "land_use_data.rda"
-#'
-#' @return A list of tables with the estimated hectares by different development
+#' @return Tibble.
+#' A list of tables with the estimated hectares by different development
 #' types (urban expansion, urban infill, and exurban development) for different
-#' land use scenarios
+#' land use scenarios.
 #'
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'     calc_land_by_development_type(
+#'     tb = land_use_data,
+#'     .scneario = "bau",
+#'     .luse_scen = "compact_dev_with_drs")
+#' }
 calc_land_by_development_type <-
-  function(tb = land_use_data,
-           .luse_scen = "compact_dev_with_drs") {
+  function(tb,
+           .scenario,
+           .luse_scen) {
+
+    luse_scenario_params <- tb$scenario_parameters %>%
+      dplyr::filter(scenario_description_2 == .scenario)
+
     land_by_development_type <- tb$land_by_development_type
 
     # Scenario Mixed Use Compact Zoning Park
@@ -29,7 +45,7 @@ calc_land_by_development_type <-
         hectares =
           dplyr::if_else(
             development_name == "urban_expansion",
-            hectares * luse_scenario_params()$urban_expansion_relative_to_bau,
+            hectares * luse_scenario_params$urban_expansion_relative_to_bau,
             hectares
           )
       ) %>%
@@ -48,15 +64,15 @@ calc_land_by_development_type <-
         urban_expansion =
           dplyr::if_else
         (
-          urban_expansion * luse_scenario_params(.scenario = .luse_scen)$urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
-          urban_expansion * luse_scenario_params(.scenario = .luse_scen)$urban_expansion_relative_to_bau,
+          urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
+          urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau,
           total_hectares_bau - urban_infill
         )
       ) %>%
       dplyr::mutate(exurban_development =
                       total_hectares_bau - (urban_infill) - (urban_expansion))  %>%
       dplyr::mutate(scenario = "scenario_total") %>%
-      select(.,-c(total_hectares_bau)) %>%
+      select(., -c(total_hectares_bau)) %>%
       tidyr::pivot_longer(.,
                           cols =  3:5,
                           names_to = "development_name",
@@ -80,7 +96,7 @@ calc_land_by_development_type <-
         scenario_mixed_use_mf_new.urban_expansion = (
           scenario_total.urban_expansion - scenario_mixed_use_compact_zoning.urban_expansion
         ) *
-          luse_scenario_params(.scenario = .luse_scen)$urban_expansion_relative_to_bau
+          luse_scenario_params$urban_expansion_relative_to_bau
       )
 
     land_by_development_type$scenario_mixed_use_mf_new <-
@@ -111,7 +127,7 @@ calc_land_by_development_type <-
               ((
                 scenario_total.urban_infill - scenario_mixed_use_compact_zoning.urban_infill
               )
-              * luse_scenario_params(.scenario = .luse_scen)$urban_infill
+              * luse_scenario_params$urban_infill
               ),
             scenario_mixed_use_mf_new.exurban_development = 0
           ) %>%

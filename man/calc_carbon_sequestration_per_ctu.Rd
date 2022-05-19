@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_carbon_sequestration_per_ctu.R
 \name{calc_carbon_sequestration_per_ctu}
 \alias{calc_carbon_sequestration_per_ctu}
-\title{Title}
+\title{Calculate Carbon Sequestration by City/Township}
 \usage{
 calc_carbon_sequestration_per_ctu(
   .impervious_sequest_mg_c_per_hectare_per_year = 0,
@@ -20,11 +20,57 @@ calc_carbon_sequestration_per_ctu(
 )
 }
 \arguments{
-\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{}
+\item{.impervious_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of impervious land cover.
+The default is \code{0} C/ha/year}
+
+\item{.grass_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of grass land cover.
+The default is \code{-0.42} C/ha/year}
+
+\item{.trees_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of trees land cover.
+The default is \code{-1.27} C/ha/year}
+
+\item{.water_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of water land cover.
+The default is \code{0} C/ha/year}
+
+\item{.barren_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of barren land cover.
+The default is \code{-0.014} Mg C/ha/year}
+
+\item{.forest_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of forest land cover.
+The default is \code{-0.625} Mg C/ha/year}
+
+\item{.shrub_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of shrub land cover.
+The default is \code{-0.287} Mg C/ha/year}
+
+\item{.grassland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of grassland land cover.
+The default is \code{-0.287} Mg C/ha/year}
+
+\item{.agriculture_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of agriculture land cover.
+The default is \code{-0.19} Mg C/ha/year}
+
+\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
+The default is \code{-0.625} Mg C/ha/year}
+
+\item{.wetland_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of wetland land cover.
+The default is \code{-1.493} Mg C/ha/year}
+
+\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{A Numeric object.
+Megagrams of carbon sequestration per hectare per year of parking lot land cover.
+The default is \code{0} Mg C/ha/year}
 }
 \value{
 
 }
 \description{
-Title
+Calculate Carbon Sequestration by City/Township
 }

@@ -1,9 +1,9 @@
-#' Calculate Conservation Tillage
+#' @title Calculate Conservation Tillage by City/Township
+#' @family land_use_module
 #'
-#' @description calculates the impact of conservation tillage scenarios on carbon
+#' @description `calc_conservation_tillage()` calculates the impact of conservation tillage scenarios on carbon
 #' stocks by city/township
 #'
-#' @family land_use_module
 #'
 #' @param .conservation_tillage_scen A String.
 #' The type of conservation tillage scenario to be explored.
@@ -14,27 +14,30 @@
 #' relative to the baseline year.
 #' * `maximum_conservation_tillage` it assumes that all agricultural land implements conservation
 #' tillage.
-#'
-#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal A Numeric object.
+#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal Numeric.
 #' Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 #'      Default is `12.50` kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
 #'      * `Hilman and Ramaswami, 2009`
-#'.
-#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare A Numeric object
+#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare Numeric.
 #'      Default is `0.102` million grams of carbon dioxide equivalent (CO2e) per hectare
 #'      * `United States Department of Agriculture`
-#'
-#' @param .agricultural_land_carbon_stock_mg_c_per_hectare A Numeric object.
+#' @param .agricultural_land_carbon_stock_mg_c_per_hectare Numeric..
 #'      Default is `41` million grams of carbon (C) per hectare
 #'      * `Tran et al., 2015` https://doi.org/10.1073/pnas.1512542112
-#'
-#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag A Numeric object.
+#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag Numeric.
 #'      Default is `1.54`
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#'  \dontrun{
+#'  calc_conservation_tillage(.conservation_tillage_scen = "current_conservation_tillage",
+#'  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+#'  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+#'  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+#'  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54)
+#'  }
 calc_conservation_tillage <-
   function(.conservation_tillage_scen = "current_conservation_tillage",
            .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,

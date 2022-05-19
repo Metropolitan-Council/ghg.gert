@@ -1,35 +1,80 @@
-#' Title
+#' @title Calculate Carbon Sequestration by City/Township
+#' @family land_use_module
 #'
-#' @param .impervious_sequest_mg_c_per_hectare_per_year
-#' @param .grass_sequest_mg_c_per_hectare_per_year
-#' @param .trees_sequest_mg_c_per_hectare_per_year
-#' @param .water_sequest_mg_c_per_hectare_per_year
-#' @param .barren_sequest_mg_c_per_hectare_per_year
-#' @param .forest_sequest_mg_c_per_hectare_per_year
-#' @param .shrub_sequest_mg_c_per_hectare_per_year
-#' @param .grassland_sequest_mg_c_per_hectare_per_year
-#' @param .agriculture_sequest_mg_c_per_hectare_per_year
-#' @param .woody_wetland_sequest_mg_c_per_hectare_per_year
-#' @param .wetland_sequest_mg_c_per_hectare_per_year
-#' @param .parking_lot_sequest_mg_c_per_hectare_per_year
+#' @description
+#'
+#' @inheritParams calc_parking_lot_land_cover
+#' @param .impervious_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of impervious land cover.
+#'      Default is `0` C/ha/year
+#' @param .grass_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of grass land cover.
+#'      Default is `-0.42` C/ha/year
+#' @param .trees_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of trees land cover.
+#'      Default is `-1.27` C/ha/year
+#' @param .water_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of water land cover.
+#'      Default is `0` C/ha/year
+#' @param .barren_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of barren land cover.
+#'      Default is `-0.014` Mg C/ha/year
+#' @param .forest_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of forest land cover.
+#'      Default is `-0.625` Mg C/ha/year
+#' @param .shrub_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of shrub land cover.
+#'      Default is `-0.287` Mg C/ha/year
+#' @param .grassland_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of grassland land cover.
+#'      Default is `-0.287` Mg C/ha/year
+#' @param .agriculture_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of agriculture land cover.
+#'      Default is `-0.19` Mg C/ha/year
+#' @param .woody_wetland_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
+#'      Default is `-0.625` Mg C/ha/year
+#' @param .wetland_sequest_mg_c_per_hectare_per_year Numeric.
+#'      Megagrams of carbon sequestration per hectare per year of wetland land cover.
+#'      Default is `-1.493` Mg C/ha/year
+#' @param .parking_lot_sequest_mg_c_per_hectare_per_year Numerict.
+#'      Megagrams of carbon sequestration per hectare per year of parking lot land cover.
+#'      Default is `0` Mg C/ha/year
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#'
+#' \dontrun{
+#' ghg.sp::calc_carbon_sequestration_per_ctu(
+#' .impervious_sequest_mg_c_per_hectare_per_year = 0,
+#' .grass_sequest_mg_c_per_hectare_per_year = -0.42,
+#' .trees_sequest_mg_c_per_hectare_per_year = -1.27,
+#' .water_sequest_mg_c_per_hectare_per_year = 0,
+#' .barren_sequest_mg_c_per_hectare_per_year = -0.014,
+#' .forest_sequest_mg_c_per_hectare_per_year = -0.625,
+#' .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
+#' .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
+#' .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
+#' .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
+#' .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
+#' .parking_lot_sequest_mg_c_per_hectare_per_year = 0)
+#' }
+#'
 calc_carbon_sequestration_per_ctu <-
-  function(.impervious_sequest_mg_c_per_hectare_per_year = 0,
-           .grass_sequest_mg_c_per_hectare_per_year = -0.42,
-           .trees_sequest_mg_c_per_hectare_per_year = -1.27,
-           .water_sequest_mg_c_per_hectare_per_year = 0,
-           .barren_sequest_mg_c_per_hectare_per_year = -0.014,
-           .forest_sequest_mg_c_per_hectare_per_year = -0.625,
-           .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
-           .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
-           .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
-           .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
-           .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
-           .parking_lot_sequest_mg_c_per_hectare_per_year = 0) {
+  function(.impervious_sequest_mg_c_per_hectare_per_year,
+           .grass_sequest_mg_c_per_hectare_per_year,
+           .trees_sequest_mg_c_per_hectare_per_year,
+           .water_sequest_mg_c_per_hectare_per_year,
+           .barren_sequest_mg_c_per_hectare_per_year,
+           .forest_sequest_mg_c_per_hectare_per_year,
+           .shrub_sequest_mg_c_per_hectare_per_year,
+           .grassland_sequest_mg_c_per_hectare_per_year,
+           .agriculture_sequest_mg_c_per_hectare_per_year,
+           .woody_wetland_sequest_mg_c_per_hectare_per_year,
+           .wetland_sequest_mg_c_per_hectare_per_year,
+           .parking_lot_sequest_mg_c_per_hectare_per_year) {
     calc_parking_lot_land_cover() %>%
       group_by(ctu_name) %>%
       pivot_wider(
@@ -70,9 +115,7 @@ calc_carbon_sequestration_per_ctu <-
         ) / 2) *
           .woody_wetland_sequest_mg_c_per_hectare_per_year,
 
-        wetland = ((
-          wetland.2016 + wetland.2040
-        ) / 2) *
+        wetland = ((wetland.2016 + wetland.2040) / 2) *
           .wetland_sequest_mg_c_per_hectare_per_year,
 
         parking_lot = ((parking_lot.2016 + parking_lot.2040) / 2) *

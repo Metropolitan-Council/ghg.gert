@@ -1,21 +1,41 @@
-#' Calculate Scenario Land Use
+#' @title Calculate Scenario Land Use
+#' @family land_use_module
 #'
-#' @description For the selected scenario, this function calculates the land use type in hectares
-#' for all cities/townships
+#' @description `calc_scen_land_use()` Calculates the land use type in hectares
+#' for all cities/townships for the selected scenario.
 #'
 #' @inheritParams calc_land_by_development_type
 #'
-#' @family land_use_module
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calc_scen_land_use <- function(tb = land_use_data) {
+#' \dontrun{
+#'     calc_scen_land_use(
+#'     tb =  land_use_data,
+#'     .scenario = "bau".
+#'     .luse_scen = "compact_dev_with_drs")
+#' }
+calc_scen_land_use <- function(tb,
+                               .scenario,
+                               .luse_scen) {
   bind_rows(
-    calc_land_by_development_type()$scenario_mixed_use_mf_new,
-    calc_land_by_development_type()$scenario_other_zoning,
-    calc_land_by_development_type()$scenario_total
+    calc_land_by_development_type(
+      tb = tb,
+      .scenario = .scenario,
+      .luse_scen = .luse_scen
+    )$scenario_mixed_use_mf_new,
+    calc_land_by_development_type(
+      tb = tb,
+      .scenario = .scenario,
+      .luse_scen = .luse_scen
+    )$scenario_other_zoning,
+    calc_land_by_development_type(
+      tb = tb,
+      .scenario = .scenario,
+      .luse_scen = .luse_scen
+    )$scenario_total
   ) %>%
     # Increase mixed use / residential
     tidyr::pivot_wider(
