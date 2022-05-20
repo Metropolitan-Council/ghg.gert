@@ -1,12 +1,15 @@
-#
-#' Adjust residential floor area based on proportion of households that change
+#' @title Calculate Floor Area Energy Intensity Reduction from Behavior Change
+#' @family building_energy_module
+#'
+#' @description `calc_floor_area_behavior_change()` adjusts residential floor area
+#' by city/township based on proportion of households that change
 #'     behavior to reduce energy use.
 #'
 #' @param .home_behavior_change_pct numeric, percentage of households that change
 #'     behavior to reduce household emissions.
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario
-#' @family building
+#'
 #'
 #'
 #' @return
@@ -37,9 +40,6 @@ calc_floor_area_behavior_change <- function(res_tb,
                                       .home_behavior_change_pct,
                                       (1 - .home_behavior_change_pct)
                                     )))
-
-
-
     new_fla <- res_tb %>%
       dplyr::filter(
         var %in% c(

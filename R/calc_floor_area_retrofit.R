@@ -1,0 +1,124 @@
+#' Adjust single and multifamily average floor area forecast in accordance with LEED reduction
+#'
+#' @param .existing_home_retrofit_pct numeric, percentage of existing homes
+#'     retrofitted to reduce energy usage by 33%
+#' @param .existing_home_ultra_retrofit_pct numeric, percentage of existing homes
+#'      retrofitted to reduce energy usage by 66%
+#'
+#' @inheritParams scen_building_residential
+#' @inheritParams run_scenario
+#' @family building_energy_module
+#'
+#' @details
+#'    Uses the average single family floor area in 2018
+#'
+#' @return
+#' @export
+#'
+calc_floor_area_retrofit <- function(res_tb,
+                                     .existing_home_retrofit_pct,
+                                     .existing_home_ultra_retrofit_pct,
+                                     .enviro_factors) {
+  # browser()
+  if (.existing_home_retrofit_pct == 0) {
+    warning("No change in existing home energy efficiency")
+    return(res_tb)
+  } else if (.existing_home_retrofit_pct != 0) {
+    existing_units <- res_tb %>%
+      dplyr::filter(var %in% c("single_family_units",
+                               "multifamily_units")) %>%
+      dplyr::group_by(ctu_name, var) %>%
+      tidyr::pivot_wider(names_from = year, values_from = value) %>%
+      dplyr::mutate(existing_units = `2018`,
+                    # existing_pct_retrofit = existing_units * .existing_home_retrofit_pct,
+                    # proportion of homes in 2040 that were built before 2018
+                    prop_of_all_existing = existing_units / `2040`) %>%
+      dplyr::select(ctu_name, var, prop_of_all_existing) %>%
+      dplyr::ungroup() %>%
+      pivot_wider(
+        names_from = var,
+        values_from = prop_of_all_existing,
+        names_glue = "proportion_existing_{var}"
+      )
+
+
+    retrofit_results <- res_tb %>%
+      dplyr::filter(
+        var %in% c(
+          "single_family_average_floor_area_sqft_ctu",
+          "multifamily_average_floor_area_sqft_county"
+        )
+      ) %>%
+      dplyr::group_by(ctu_name, var) %>%
+      tidyr::pivot_wider(names_from = year, values_from = value) %>%
+      dplyr::left_join(existing_units, by = "ctu_name") %>%
+      dplyr::mutate(
+        new_weighted_mean_forecast =
+          case_when(
+            var == "single_family_average_floor_area_sqft_ctu" ~
+              weighted.mean(
+                c(
+                  `2040`,
+                  `2040` - (
+                    `2040` * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+                  ),
+                  `2040` - (
+                    `2040` * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                  )
+                ),
+                c(
+                  1 - proportion_existing_single_family_units,
+                  # new homes
+                  proportion_existing_single_family_units * .existing_home_retrofit_pct,
+                  # existing homes, retrofitted
+                  proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
+                ) # existing homes, ultra retrofitted
+              ),
+            var == "multifamily_average_floor_area_sqft_county" ~
+              weighted.mean(
+                c(
+                  `2040`,
+                  `2040` - (
+                    `2040` * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+                  ),
+                  `2040` - (
+                    `2040` * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                  )
+                ),
+                # existing homes, ultra retrofitted
+                c(
+                  1 - proportion_existing_multifamily_units,
+                  proportion_existing_multifamily_units * .existing_home_retrofit_pct,
+                  proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
+                )
+              )
+          )
+      )
+
+
+    new_retrofit_floor_area <- res_tb %>%
+      dplyr::filter(
+        var %in% c(
+          "single_family_average_floor_area_sqft_ctu",
+          "multifamily_average_floor_area_sqft_county"
+        ),
+        year == 2040
+      ) %>%
+      dplyr::left_join(retrofit_results, by = c("ctu_name", "var")) %>%
+      dplyr::mutate(value = new_weighted_mean_forecast) %>%
+      dplyr::select(names(res_tb))
+
+    new_res_tb_fin <- res_tb %>%
+      dplyr::anti_join(new_retrofit_floor_area, by = c("ctu_name", "year", "var")) %>%
+      dplyr::bind_rows(new_retrofit_floor_area)
+
+    return(new_res_tb_fin)
+  }
+
+
+
+
+  # Holding the floor area constant, LEED buildings will use less energy
+  # Here, we are effectively reducing the average floor area to account
+  # for the energy savings from LEED buildings
+}
