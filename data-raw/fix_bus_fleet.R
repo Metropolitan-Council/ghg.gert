@@ -1,4 +1,22 @@
 pkgload::load_all()
+library(councilR)
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
+  }
+)
+
+bus_stock_old <- transportation_data$passenger %>%
+  filter(
+    str_detect(var, "Stock"),
+    mode == "BU",
+    var != "TotStock"
+  ) %>%
+  group_by(year, var) %>%
+  summarize(n_bus = sum(value))
 
 bus_year_estimate <- tibble(
   year = unique(transportation_data$passenger$year),
@@ -28,17 +46,56 @@ new_stock <- transportation_data$passenger %>%
   ) %>%
   select(mode, var, ctu, year, value, aeo_mode, type)
 
+
+# generate 0s for all other bus fuel types
+blank_alt_buses <- purrr::map_dfr(c("HEVStock", "BEVStock"), function(x){
+  new_stock %>%
+    mutate(value = 0,
+           var = x)
+})
+
 new_stock_all <- new_stock %>%
-  bind_rows(new_stock %>%
-    mutate(var = "TotStock"))
+  bind_rows(new_stock %>% # reassign TotStock to BCIStock
+              mutate(var = "TotStock")) %>%
+  bind_rows(blank_alt_buses)
 
 
 new_pass <- transportation_data$passenger %>%
   anti_join(new_stock_all,
-    by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
+            by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
   ) %>%
   bind_rows(new_stock_all)
 
 transportation_data$passenger <- new_pass
 
 usethis::use_data(transportation_data, overwrite = T)
+
+
+bus_year_estimate %>%
+  mutate(var = "All",
+         version = "Update"
+  ) %>%
+  bind_rows(bus_stock_old %>%
+              mutate(version = "Original")) %>%
+  ggplot(aes(x = year,
+             y = n_bus,
+             group = var,
+             color = var,
+             fill = var,
+             label = n_bus)) +
+  geom_point() +
+  geom_line() +
+  geom_text(nudge_y = 100) +
+  # geom_area(position = "stack") +
+  facet_wrap(~version,
+             nrow = 2) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Regional bus fleet",
+       y = "Buses",
+       x = "Year") +
+  theme(legend.position = "bottom")
+
+ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
+       width = 10,
+       height = 8)
+
