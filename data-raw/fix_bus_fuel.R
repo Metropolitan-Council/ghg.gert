@@ -32,16 +32,43 @@ fuel_eco_predict <- tibble(year = seq(max(bus_fuel_economy$year), 2050)) %>%
 
 
 
-fuel_eco_predict %>%
+new_bus_mpg <- fuel_eco_predict %>%
   mutate(fleet_mpg =
            c(predict(linear_mod, fuel_eco_predict))) %>%
   filter(year %in% transportation_data$passenger$year) %>%
   mutate(new_fleet_mpg = ifelse(is.na(total_fleet_mpg), fleet_mpg, total_fleet_mpg))
 
-transportation_data$passenger %>%
+existing_bus_mpg <- transportation_data$passenger %>%
   filter(var == "BCIMPG",
          mode == "BU") %>%
   select(var, year, value) %>%
   unique() %>%
   arrange(year)
 
+bind_rows(new_bus_mpg %>%
+            mutate(year = as.character(year),
+                   fleet_mpg = new_fleet_mpg,
+                   version = "Corrected") %>%
+            select(year, fleet_mpg, version),
+          existing_bus_mpg %>%
+            mutate(fleet_mpg = value,
+                  version = "Original") %>%
+            select(year, fleet_mpg, version)
+) %>%
+ggplot(aes(x = year,
+           y = fleet_mpg,
+           group = version,
+           color = version,
+           # fill = var,
+           label = fleet_mpg)) +
+  geom_point() +
+  geom_line()
+  # geom_text(nudge_y = 100) +
+  # geom_area(position = "stack") +
+  # facet_wrap(~version,
+  #            nrow = 2)
+
+
+ggsave("data-raw/peer_review/figs/corrected_bus_fuel.png",
+       width = 10,
+       height = 8)
