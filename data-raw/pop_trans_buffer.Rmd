@@ -295,16 +295,32 @@ save(ctu_pop2020_transit, file = "../data-raw/ctu_pop2020_transit.rda")
 ```{r}
 ctu_pop2020_transit %>%
   ggplot(aes(x = percent_pop_0.5mi_transit)) +
-  geom_histogram() +
-  theme_minimal()
+  geom_histogram(bins = 50) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(y = "CTUs",
+       title = "% of pop. within 0.5 miles of any transit stop")
 
 
 ctu_pop2020_transit %>%
   full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
             by = c("ctu_id" = "CTU_ID")) %>%
   ggplot() +
-  geom_sf(aes(fill = percent_pop_0.5mi_transit, geometry = geometry)) +
-  theme_void()
+  geom_sf(aes(fill = percent_pop_0.5mi_transit,
+              geometry = geometry),
+          color = "darkgray",
+          size = 0.1) +
+  theme(panel.grid = element_blank(),
+        axis.text = element_blank()) +
+  scale_fill_distiller(palette = "PuBuGn",
+                       na.value = "gray",
+                       label = scales::percent) +
+  labs(fill = stringr::str_wrap("% of pop. within 0.5 mile of any transit stop", 15),
+       caption = paste0("2020 Census. Transit stops from MN Geospatial Commons, ", Sys.Date()))
+
+
+ggsave("../data-raw/peer_review/figs/percent_0.5_mile_transit.png",
+       width = 10,
+       height = 8)
 
 ```
 
