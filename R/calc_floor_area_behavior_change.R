@@ -3,21 +3,31 @@
 #'
 #' @description `calc_floor_area_behavior_change()` adjusts residential floor area
 #' by city/township based on proportion of households that change
-#'     behavior to reduce energy use.
+#' behavior to reduce energy use.
 #'
-#' @param .home_behavior_change_pct numeric, percentage of households that change
-#'     behavior to reduce household emissions.
+#' @param .home_behavior_change_pct Numeric. A number between `0` and `1`.
+#' Percentage of households that change behavior to reduce household emissions.
+#'      Default is `1.00`
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario
-#'
-#'
 #'
 #' @return
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' library(ghg.sp)
+#'
+#' ghg.sp::calc_floor_area_behavior_change(
+#'   res_tb = building_data$residential,
+#'   .home_behavior_change_pct = 1.00,
+#'   .enviro_factors = enviro_factors
+#' )
+#' }
+#'
 calc_floor_area_behavior_change <- function(res_tb,
-                                       .home_behavior_change_pct,
-                                       .enviro_factors) {
+                                           .home_behavior_change_pct,
+                                           .enviro_factors) {
   if (.home_behavior_change_pct == 0) {
     warning("No change in household behavior.")
     return(res_tb)

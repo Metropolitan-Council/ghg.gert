@@ -1,0 +1,113 @@
+---
+title: "Introduction to Building Energy Module"
+author: Mauricio Leon, Senior Researcher, Metropolitan Council
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro_to_building_energy_module}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Background
+
+The *Metropolitan Council Greenhouse Gas Scenario Planning Tool* estimates business-as-usual greenhouse gas emissions and greenhouse gas mitigation strategies by city/township for the Twin Cities Region. The tool covers greenhouse gas emissions from the transportation, building energy, and land use sectors.
+
+# Building Energy Module
+
+The Building Energy Module of the *Metropolitan Council Greenhouse Gas Scenario Planning Tool* 
+consists of a modified version of the *Zero Carbon Calculator for Communities* created by the Sustainable Healthy 
+Cities Network (SHCN). The original concept of the tool was provided by SHCN as a Microsoft Excel Spreadsheet submitted to the Metropolitan Council on October of 2021, which 
+was later adapted into an R Package. 
+
+The module allows users to explore strategies for decarbonization within the building energy sector.
+
+## Strategies
+
+The GHG mitgation strategies included in the Building Energy Module include:
+
+1. **Metroplitan Council's Planned Land Use**: Multi-family housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily
+housing in accordance with the Metropolitan Council 2040 Planned Land Use estimates.
+
+2. **More Compact Residential Buildings**: This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that 50% of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
+
+3. **Increased Affordable Floor Area**: This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space. 
+
+4. **New Homes are LEED-Gold**: This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
+
+5. **Existing Homes Retrofits**:This strategy focuses on existing homes and assumes 80% of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by 33%, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewables, so they conflate renewables with efficiency. 
+
+# Techical Documentation
+
+All the functions for the Building Energy Module are contained within the `ghg.sp` package.
+
+```{r setup}
+library(ghg.sp)
+```
+
+## Source Datasets
+
+The `building_data.rda` is a preloaded dataset that includes cleaned datasets to 
+run the building energy module of the `ghg.sp` package. 
+
+The R scripts to produce `building_data.rda` can be found on the `/raw-data folder` of the `ghg.sp` package.
+
+The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
+database, on the Council's Microsoft SQL Server. 
+
+The following chunk shows the names of the tables contained in `building_data.rda` dataset.
+
+```{r}
+names(building_data)
+```
+As seen above, the `building_data` dataset contains two tables. 
+`residential` and `non_residential`.
+
+These two tables contain all the key variables necessary to run the functions of the building
+energy module. 
+
+Next, we will go in depth on the two main tables of `building_data.rda`
+
+
+### Residential Energy
+
+```{r}
+names(building_data$residential)
+```
+
+
+The following chunk prints the main key variables for the building energy module for
+the city of Lake Elmo
+
+Note that when there is missing data for the `multifamily_average_floor_area_sqft_ctu` the 
+package will refer to the county wide average. 
+
+```{r}
+building_data$residential %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
+
+### Non-Residential Energy 
+
+The following chunk prints the key variables for the commercial/industrial strategies 
+under the building energy module. 
+
+```{r}
+building_data$non_residential %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
+

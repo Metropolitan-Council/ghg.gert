@@ -96,6 +96,7 @@ ctu_w_nonres <- ctu_w_res %>%
 # finish up -----
 
 residential <- ctu_w_nonres %>%
+  mutate(metric=recode(metric, "SFD_Units"="single_family_units", "MF_Units"="multifamily_units")) %>%
   filter(metric %in% c(
     "households",
     "population",

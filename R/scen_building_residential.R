@@ -8,13 +8,14 @@
 #'     dataset `building_energy$residential` is suitable and the default value.
 #'
 #' @inheritParams adj_unit_counts
-#' @inheritParams floor_area_leed
-#' @inheritParams floor_area_growth
-#' @inheritParams floor_area_retrofit
+#' @inheritParams calc_floor_area_leed
+#' @inheritParams calc_floor_area_growth
+#' @inheritParams calc_floor_area_retrofit
 #' @inheritParams run_scenario
 #'
 #'
-#' @return
+#' @return Tibble.
+#'
 #' @export
 #'
 #' @examples
@@ -25,13 +26,13 @@
 #' }
 scen_building_residential <-
   function(tb = building_data$residential,
-           .new_homes_to_multifamily_pct = 0.5,
+           .new_homes_to_multifamily_pct = 0.50,
            .single_family_floor_area_growth_pct = 0.05,
-           .new_homes_affected_pct = 0.5,
-           .new_homes_leed_gold_pct = 0.5,
-           .existing_home_retrofit_pct = 0.8,
-           .existing_home_ultra_retrofit_pct = 0.2,
-           .home_behavior_change_pct = 1,
+           .new_homes_affected_pct = 0.50,
+           .new_homes_leed_gold_pct = 0.50,
+           .existing_home_retrofit_pct = 0.80,
+           .existing_home_ultra_retrofit_pct = 0.20,
+           .home_behavior_change_pct = 1.00,
            .homes_electric_heating_pct = 0.59,
            .enviro_factors = enviro_factors) {
     # browser()

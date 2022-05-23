@@ -1,0 +1,82 @@
+---
+title: "Introduction to the Green Infrastructure & Land Use Module"
+author: Mauricio Leon, Senior Researcher, Metropolitan Council
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro_to_land_use_module}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Background
+
+The *Metropolitan Council Greenhouse Gas Scenario Planning Tool* estimates business-as-usual greenhouse gas emissions and greenhouse gas mitigation strategies by city/township for the Twin Cities Region. The tool covers greenhouse gas emissions from the transportation, building energy, and land use sectors.
+
+## Land Use & Green Infrastructure Module
+
+The Land Use & Green Infrastructure Module of the *Metropolitan Council Greenhouse Gas Scenario Planning Tool* 
+consists of a modified version of the *Zero Carbon Calculator for Communities* created by the Sustainable Healthy 
+Cities Network (SHCN). The original concept of the tool was provided by SHCN as a Microsoft Excel Spreadsheet submitted to the Metropolitan Council on October of 2021, which 
+was later adapted into an R Package. 
+
+The module allows users to explore strategies for decarbonization within the land use and greenery of communities.
+
+The GHG mitgation strategies included in the Land Use & Green Infrastructure Module include:
+
+1. *Increase Tree Canopy*:
+2. *Reduced Parking Lot Area*:
+3. *Conservation Tillage*:
+
+## Land Use Data
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ghg.sp)
+```
+
+The `land_use_data.rda` data set is required for the land use module to run. 
+
+The source of these tables is the `Emissions` database. 
+
+```{r}
+names(land_use_data)
+```
+## CTU Forecast
+
+```{r}
+names(land_use_data$ctu_forecast)
+```
+
+
+The first function is `calc_by_development_type`
+
+It provides a series of scenarios of land use by development type
+
+```{r}
+names(
+  ghg.sp::calc_land_by_development_type(
+    tb = land_use_data,
+    .scenario = "bau",
+    .luse_scen = "compact_dev_with_drs"
+  )
+)
+```
+
+## The Business as Usual Scenario
+
+How is the Business as Usual Obtained? 
+
+The estimates for the land by development type for the business as usual are based on the ...
+
+```{r}
+ghg.sp::calc_land_by_development_type(tb = land_use_data,
+                                      .scenario = "bau",
+                                      .luse_scen = "compact_dev_with_drs")$bau_total
+```
+

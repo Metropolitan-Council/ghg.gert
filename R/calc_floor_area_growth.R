@@ -1,4 +1,4 @@
-#' @title Building Floor Area Growth
+#' @title Calculate Floor Area Growth
 #' @family building_energy_module
 #'
 #' @description Adjust single and multifamily average floor area
@@ -6,13 +6,15 @@
 #' increase in single family floor areas, and the percentage of homes
 #' affected.
 #'
-#' @param .single_family_floor_area_growth_pct Numeric. A number between `0` and `1`
-#'     Growth rate
-#'     in single family home floor area.
+#' @param .single_family_floor_area_growth_pct Numeric. A number between `0` and `1`.
+#' Percentage growth rate in single family home floor area.
+#'      Default is `0.05`
 #' @param .new_homes_affected_pct Numeric. A number between `0` and `1`.
-#'     Percentage of all new single-family
-#'     households that will respond to increased energy costs by decreasing
-#'     home size.
+#' Percentage of all new single-family
+#' households that will respond to increased energy costs by decreasing
+#' home size.
+#'      Default is `0.30`
+#'
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario
 #'
@@ -25,7 +27,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::floor_area_growth(
+#' ghg.sp::calc_floor_area_growth(
 #'   res_tb = building_data$residential,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.30,

@@ -2,6 +2,8 @@
 #'
 #' @return
 #' @export
-scen_building_commercial <- function() {
+scen_building_commercial <-
+  function() {
 
-}
+
+  }

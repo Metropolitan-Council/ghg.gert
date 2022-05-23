@@ -1,6 +1,6 @@
 Type: Package
 Package: ghg.sp
-Title: Climate Scenario Planning for Twin Cities Metropolitan Region
+Title: Greenhouse Gas Scenario Planning for Twin Cities Metropolitan Region
 Version: 0.1.9.9001
 Date: 2022-03-02
 Authors@R: c(
