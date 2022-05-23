@@ -21,11 +21,13 @@ was later adapted into an R Package.
 
 The module allows users to explore strategies for decarbonization within the land use and greenery of communities.
 
+## Strategies
+
 The GHG mitgation strategies included in the Land Use & Green Infrastructure Module include:
 
-1. *Increase Tree Canopy*:
-2. *Reduced Parking Lot Area*:
-3. *Conservation Tillage*:
+1. **Increase Tree Canopy (LU.1)**:
+2. **Reduced Parking Lot Area (LU2)**:
+3. **Conservation Tillage (LU3)**:
 
 ## Land Use Data
 
@@ -35,6 +37,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+# Techical Walkthrough
 
 ```{r setup}
 library(ghg.sp)

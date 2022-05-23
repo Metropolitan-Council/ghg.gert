@@ -1,6 +1,8 @@
 ---
 title: "Introduction to Building Energy Module"
-author: Mauricio Leon, Senior Researcher, Metropolitan Council
+subtitle: "Adapted from the Zero Energy Carbon for Communities Tool by the Sustainable Healthy Cities Network"
+author: 
+  - name: Mauricio Leon
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{intro_to_building_energy_module}
@@ -32,18 +34,37 @@ The module allows users to explore strategies for decarbonization within the bui
 
 The GHG mitgation strategies included in the Building Energy Module include:
 
+### Residential Strategies
+
 1. **Metroplitan Council's Planned Land Use**: Multi-family housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily
 housing in accordance with the Metropolitan Council 2040 Planned Land Use estimates.
 
-2. **More Compact Residential Buildings**: This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that 50% of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
+2. **More Compact Residential Buildings (B.R1)**: This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that 50% of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
 
-3. **Increased Affordable Floor Area**: This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space. 
+3. **Increase Affordable Floor Area (B.R2)**: This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space. 
 
-4. **New Homes are LEED-Gold**: This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
+4. **Make New Homes LEED-Gold (B.R3)**: This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
 
-5. **Existing Homes Retrofits**:This strategy focuses on existing homes and assumes 80% of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by 33%, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewables, so they conflate renewables with efficiency. 
+5. **Retrofit Existing Homes to High Energy Efficiency (B.R4)**:This strategy focuses on existing homes and assumes 80% of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by 33%, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewables, so they conflate renewables with efficiency. 
 
-# Techical Documentation
+6. **Retrofit Existing Homes to Passive-House (B.R5)**: The remaining 20% of homes from strategy B.R4 are retrofitted to high passive house standards, which results in 66% reduction in energy use intensity.
+
+7. **Implement Behavioral & Smart Nudges (B.R6)**:  This strategy assumes that all homes receive effective messages which encourage them to reduce energy use via nudges such as in-home display and smart meters. Such nudges can reduce household energy use by 11%, based on Gilbert et al. (ACEEE 2010). We only apply this reduction to remaining electricity and gas after the building efficiency strategies. 
+
+8. **Electrify Heating on Residential Buildings (B.R7)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, 59% of households will use electric heating, based on the Net-Zero America report. Currently, 14% of households already use electricity for heating, according to American Community Survey estimates (in Washington county). Therefore, a transition of 45% of homes to electric heating (59%-14%) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, 71% of annual household gas is used for space heating, and 24% of gas is used for water heating, according to the Residential Energy Consumption Survey (RECS) (2015)
+
+9. **Increase Renewable Natural Gas on Residential Buildings (B.R8)**: For this strategy, the remaining homes that do not transition to electric space and water heating are assumed to switch to renewable natural gas, based on the State of Minnesota’s policy to aggregate all waste-to-energy project towards renewable natural gas. This includes municipal solid waste.
+
+### Commmercial & Industrial Strategies
+
+9. **Retrofit Existing Commercial Buildings (B.C1)**: This strategy models the reduction in energy use intensity (EUI) that will result if 80% of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by 25%-50%, based on case studies from the Minnesota SB program. 
+
+10. **Smart Grid Efficiency (B.C2)**: Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately 11%, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO2 Benefits.” This 11% will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to 100% of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. Note: All commercial and industrial energy use is computed on the basis of employees, not square footage.
+
+11. **Electrifying Heating for Commercial Buildings**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, 70% of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the 19% will increase to 59%, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (59%-19%) will have the modeled effects on GHG emissions. In Minnesota, approximately 69% of gas is used for space heating, according to a Navigant Consulting report (2009).
+
+
+# Techical Walkthrough
 
 All the functions for the Building Energy Module are contained within the `ghg.sp` package.
 
@@ -74,6 +95,17 @@ energy module.
 
 Next, we will go in depth on the two main tables of `building_data.rda`
 
+## Running the module 
+
+The `ghg.sp::run_scenario_building()` function compiles all of the strategies for the Building Energy Module and produces an output table. 
+
+`ghg.sp::run_scenario_building()` call two separate functions:
+
+* `ghg.sp::scen_building_residential()`
+* `ghg.sp::scen_building_commercial()`
+
+
+Each of these functions, in turn call sequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
 
 ### Residential Energy
 
@@ -97,6 +129,39 @@ building_data$residential %>%
   dplyr::mutate_if(is.numeric, round, 2)
 ```
 
+### Residential Variables
+| var                                          | description                                                         | 2018                                                                                       | 2040                                                                                               |
+|----------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `population`                                 | Population by CTU                                                   | From Metropolitan Council Community Profiles                                               | From Metropolitan Council Community Profiles                                                       |
+| `households`                                 | Households by CTU                                                   | From Metropolitan Council Community Profiles                                               | From Metropolitan Council Community Profiles                                                       |
+| `multifamily_units`                          | Number of Multifamily Units by CTU                                  | From Metropolitan Council Community Profiles                                               | From an Unpublished UrbanSim Forecast of Different Demographic Variables                           |
+| `single_family_units`                        | Number of Single Family Units by CTU                                | From Metropolitan Council Community Profiles                                               | From an Unpublished UrbanSim Forecast of Different Demographic Variables                           |
+| `single_family_average_floor_area_sqft_ctu`  | Average Size of Single Family Houses in Square Feet  by CTU         | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
+| `multifamily_average_floor_area_sqft_ctu`    | Average Size of Multifamily Houses by CTU                           | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
+| `multifamily_average_floor_area_sqft_county` | Average Size of Multifamily Houses by County                        | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
+| `kwh_per_floor_area`                         | Kilowatt Hours per Total Square Feet by CTU  per Year               | From Electricity Use Data (see section on Energy Data) Divided By Total Floor Area         | From 2018 Electricity Use Data (see section on Energy Data) Divided By Forecasted Total Floor Area |
+| `therms_per_floor_area`                      | Therms per Total Floor Area in Square Feet by CTU per Year          | From Natural Gas Consumption Data (see section on Energy Data)  Divide by Total Floor Area | From 2018 Natural Gas Consumption Data (see section on Energy Data)  Divide by Total Floor Area    |
+| `residential_mwh`                            | Total Residential Megawatt Hours Consumption by CTU per Year        | From Electricity Use Data (see section on Energy Data)                                     | `kwh_per_floor_area` for 2018 multiplied by Forecasted Total Floor Area                            |
+| `residential_therms`                         | Total Residential Therms of Natural Gas Consumption by CTU per Year | From Natural Gas Consumption Data (see section on Energy Data)                             | `therms_per_floor_area` for 2018 multiplied by Forecasted Total Floor Area                         |
+
+
+#### Strategy B.R1: More Compact Residential Buildings 
+
+This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that 50% of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
+
+The main function related to this strategy is `ghg.sp::adj_unit_counts()` which allows to specify the percentage of single family homes to be converted to multifamily. 
+
+#### Strategy B.R2: Increase Affordable Floor Area
+
+This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space.
+
+#### Strategy B.R4: Make New Homes LEED-Gold
+
+This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
+
+The main function involved in this strategy is `ghg.sp::calc_floor_area_leed()` which allows to specify the number of new homes to turn into LEED Gold. 
+
+
 ### Non-Residential Energy 
 
 The following chunk prints the key variables for the commercial/industrial strategies 
@@ -110,4 +175,5 @@ building_data$non_residential %>%
   dplyr::ungroup() %>%
   dplyr::mutate_if(is.numeric, round, 2)
 ```
+
 
