@@ -9,6 +9,16 @@ library(tigris)
 library(janitor)
 library(leaflet)
 `%not_in%` <- Negate(`%in%`)
+
+library(councilR)
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
+  }
+)
 ```
 
 ## Setup
@@ -242,56 +252,6 @@ compile_census <- function(.bg_df, .group_var2){
 
 
 ## Summarize and add in census 2020 population from database
-
-### Establish Database Connection
-
-```{r message=FALSE}
-library(odbc)
-library(DBI)
-
-
-dbConnector <- function(server, database,
-                        uid = "mc\\eesch", 
-                        pwd = getOption("councilR.pwd"),
-                        local = TRUE, port = 1433, tds_version = 7.4) {
-  if (local) {
-    if (Sys.info()[["sysname"]] == "Windows") {
-      DBI::dbConnect(odbc::odbc(),
-                     Driver = "ODBC Driver 17 for SQL Server",
-                     Server = "dbsqlcl11t.test.local,65414",
-                     Database = "CD_Emissions",
-                     Trusted_Connection = "yes"
-      )
-    } else {
-      # user <- base::readline(prompt = "User: ")
-      # pswd <- base::readline(prompt = "Password: ")
-      
-      DBI::dbConnect(
-        odbc::odbc(),
-        Driver = "FreeTDS",
-        Database = "CD_Emissions",
-        Uid = uid,
-        Pwd = pwd,
-        Server = "dbsqlcl11t.test.local,65414"
-      )
-    }
-  } else {
-    DBI::dbConnect(odbc::odbc(),
-                   Driver = "FreeTDS",
-                   Database = database,
-                   Uid = uid,
-                   Pwd = pwd,
-                   Server = server,
-                   Port = port,
-                   TDS_Version = tds_version
-    )
-  }
-}
-
-conn <- dbConnector(server, database, counciR.uid, councilR.pwd, is_local)
-rm(server, database, uid, pwd, is_local)
-
-```
 
 ```{r link-census-transpercent}
 
