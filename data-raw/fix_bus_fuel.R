@@ -1,5 +1,13 @@
 # fix bus fuel efficiency
-
+library(councilR)
+ggplot2::theme_set(
+  if(testthat:::on_ci() == TRUE){
+    theme_minimal()
+  } else {
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
+  }
+)
 bus_fuel_economy <- tibble::tribble(
   ~Year, ~`Fuel.Usage.(Gallons)`, ~Hybrid.MPG, ~Hybrid.Mileage, ~Standard.MPG, ~Standard.Mileage, ~Total.Mileage, ~`Hybrid.%`, ~`Standard.%`, ~Total.Fleet.MPG,
   2009L,                 7265286,         5.4,         2655900,             4,          27130225,       29786125,      0.0892,        0.9108,              4.1,
@@ -46,13 +54,19 @@ existing_bus_mpg <- transportation_data$passenger %>%
   arrange(year)
 
 bind_rows(new_bus_mpg %>%
-            mutate(year = as.character(year),
+            mutate(year = as.numeric(year),
                    fleet_mpg = new_fleet_mpg,
-                   version = "Corrected") %>%
+                   version = "Predicted, fleet mpg ~ year") %>%
+            select(year, fleet_mpg, version),
+          bus_fuel_economy %>%
+            mutate(year = as.numeric(year),
+                   fleet_mpg = total_fleet_mpg,
+                   version = "Observed") %>%
             select(year, fleet_mpg, version),
           existing_bus_mpg %>%
-            mutate(fleet_mpg = value,
-                  version = "Original") %>%
+            mutate(year = as.numeric(year),
+              fleet_mpg = value,
+                  version = "SHCN, diesel") %>%
             select(year, fleet_mpg, version)
 ) %>%
 ggplot(aes(x = year,
@@ -60,9 +74,15 @@ ggplot(aes(x = year,
            group = version,
            color = version,
            # fill = var,
-           label = fleet_mpg)) +
+           label = round(fleet_mpg, 1))) +
   geom_point() +
-  geom_line()
+  geom_line() +
+  geom_text(nudge_y = 0.1,
+            size = 3.5,
+            check_overlap = T) +
+  theme(legend.position = "bottom") +
+  labs(title = "Bus fuel economy",
+       y = stringr::str_wrap("Fleet, miles per gallon", 10))
   # geom_text(nudge_y = 100) +
   # geom_area(position = "stack") +
   # facet_wrap(~version,
@@ -70,5 +90,5 @@ ggplot(aes(x = year,
 
 
 ggsave("data-raw/peer_review/figs/corrected_bus_fuel.png",
-       width = 10,
-       height = 8)
+       width = 11,
+       height = 6)
