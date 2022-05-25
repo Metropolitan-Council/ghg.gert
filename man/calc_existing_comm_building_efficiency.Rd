@@ -5,18 +5,23 @@
 \title{Calculate Existing Commercial Buildings Efficiency}
 \usage{
 calc_existing_comm_building_efficiency(
-  non_res_tb,
+  non_res_tb = building_data$non_residential,
   .existing_high_efficiency_buildings_pct
 )
 }
 \arguments{
-\item{.existing_high_efficiency_buildings_pct}{}
+\item{.existing_high_efficiency_buildings_pct}{Numeric. A number between \code{0} and 1.
+Percent of existing commercial buildings are LEED Gold
+Default is \code{0.8}}
 }
 \value{
-
+A tibble.
 }
 \description{
-Calculate Existing Commercial Buildings Efficiency
+\code{calc_existing_comm_building_efficiency} helps to calculate the reduced
+emissions from impementing high energy efficiency retrofits to existing buildings.
+Given that the main determinant of energy efficiency is the number of workers, this
+function reduces the number of workers.
 }
 \seealso{
 Other building_energy_module: 

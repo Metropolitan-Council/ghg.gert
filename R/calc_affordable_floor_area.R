@@ -7,7 +7,8 @@
 #'
 #' @examples
 calc_affordable_floor_area <-
-  function(.pct_growth_single_family_floor_area) {
+  function(res_tb,
+           .pct_growth_single_family_floor_area) {
     if (.pct_growth_single_family_floor_area > 0.05) {
       warning("Single Family Floor Area Growth Cannot Be Greater than %5")
       return(res_tb)

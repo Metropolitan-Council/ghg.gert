@@ -35,16 +35,16 @@ scen_building_residential <-
            .home_behavior_change_pct = 1.00,
            .homes_electric_heating_pct = 0.59,
            .enviro_factors = enviro_factors) {
+
+
     # browser()
-
-
 
     #B.R1 (MF to SF)
     tb01 <- adj_unit_counts(res_tb = tb,
                             .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
 
     #B.R2 (Affordable Floor Area)
-    tb02 <- calc_affordable_floor_area(res_tb = tb_01,
+    tb02 <- calc_affordable_floor_area(res_tb = tb01,
                                        .pct_growth_single_family_floor_area = .pct_growth_single_family_floor_area)
 
     #B.R3 (New Homes LEED Gold)
@@ -62,54 +62,12 @@ scen_building_residential <-
       .enviro_factors = .enviro_factors
     )
 
-
     #B.R6 (Behavior Change)
-    calc_floor_area_behavior_change(
+    tb05 <- calc_floor_area_behavior_change(
       res_tb = tb04,
       .home_behavior_change_pct = .home_behavior_change_pct,
       .enviro_factors = .enviro_factors
     )
-
-    # #B.R7 (Electrify Buildings)
-    # calc_electrify_residential_heating()
-    #
-    # #B.R8
-    # calc_residential_renewable_ng()
-
-    # tb01 <- adj_unit_counts(res_tb = tb,
-    #                         .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct)
-    #
-    #
-    # tb02 <- floor_area_growth(
-    #   res_tb = tb01,
-    #   .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-    #   .new_homes_affected_pct = .new_homes_affected_pct,
-    #   .enviro_factors = .enviro_factors
-    # )
-    #
-    #
-    # tb03 <- floor_area_leed(
-    #   res_tb = tb02,
-    #   .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
-    #   .enviro_factors = .enviro_factors
-    # )
-    #
-    # tb04 <- floor_area_retrofit(
-    #   res_tb = tb03,
-    #   .existing_home_retrofit_pct = .existing_home_retrofit_pct,
-    #   .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
-    #   .enviro_factors = .enviro_factors
-    # )
-    #
-    #
-    # tb05 <-  floor_area_behavior_change(
-    #   res_tb = tb04,
-    #   .home_behavior_change_pct = .home_behavior_change_pct,
-    #   .enviro_factors = .enviro_factors
-    # )
-    # All homes receive effective messages, use in-home display, and smart meters (reduce HH energy use by 11%)
-    # s_percent_of_homes_changes_behaviors <- 1
-    # s_percent_of_additional_households_with_heating_electrified <- 0.59
 
     return(tb05)
   }
