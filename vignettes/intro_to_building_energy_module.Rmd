@@ -157,7 +157,7 @@ building_data$residential %>%
 
 #### Strategy B.R1: More Compact Residential Buildings 
 
-This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that 50% of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
+This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that *50%* of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
 
 The main function related to this strategy is `ghg.sp::adj_unit_counts()` which allows to specify the percentage of single family homes to be converted to multifamily. 
 
@@ -268,7 +268,7 @@ The main function associated with this strategy `ghg.sp::calc_non_res_smart_grid
 
 #### Strategy B.C4: Electrifying Heating for Commercial Buildings
 
-This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, *70%* of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the *19%* will increase to *59%*, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (*59%*-*19%*) will have the modeled effects on GHG emissions. In Minnesota, approximately *69%* of gas is used for space heating, according to a Navigant Consulting report (2009).
+This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, *70%* of commercial buildings in the Midwest are using either gas or propane; approximately *19%* are primarily on electricity for heating. We model that the *19%* will increase to *59%*, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of *40%* of commercial buildings to electric heating (*59%*-*19%*) will have the modeled effects on GHG emissions. In Minnesota, approximately *69%* of gas is used for space heating, according to a Navigant Consulting report (2009).
 
 The main function involved in this strategy is `calc_electrify_commercial_heating()`
 
