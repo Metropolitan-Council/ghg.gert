@@ -11,7 +11,7 @@
 #'      Percent of existing commercial buildings are LEED Gold
 #'      Default is `0.8`
 #'
-#' @return
+#' @return A tibble.
 #' @export
 #'
 #' @examples

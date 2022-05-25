@@ -250,7 +250,7 @@ building_data$non_residential %>%
 
 This strategy models the reduction in energy use intensity (EUI) that will result if *80%* of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by *25%*-*50%*, based on case studies from the Minnesota SB program. 
 
-`ghg.sp::calc_existing_comm_building_efficiency()`
+The main function involved in this strategy is `ghg.sp::calc_existing_comm_building_efficiency()`
 
 #### Strategy B.C2: Smart Grid Efficiency for Commercial Buildings
 

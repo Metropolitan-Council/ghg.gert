@@ -25,18 +25,17 @@ adj_unit_counts <- function(res_tb,
     dplyr::filter(var %in% c("multifamily_units",
                              "single_family_units")) %>%
     dplyr::group_by(ctu_name, var) %>%
-    tidyr::pivot_wider(names_from = year, values_from = value) %>%
-    dplyr::mutate(new_homes = `2040` - `2018`)
-
-
+    tidyr::pivot_wider(names_from = c(var, year), values_from = value, names_sep = ".") %>%
+    dplyr::mutate(new_sf_homes = single_family_units.2040 - single_family_units.2018,
+                  new_mf_homes = multifamily_units.2040 - multifamily_units.2018)
   # some CTUs are going to decrease the number of single family units
   # over the next few decades. Remedy this by replacing all negative
   # unit counts with 0.
+
   sf_now_mf <- n_new_homes %>%
-    dplyr::filter(var == "single_family_units") %>%
     dplyr::mutate(
-      new_homes = ifelse(new_homes < 0, 0, new_homes),
-      now_mf = new_homes * .new_homes_to_multifamily_pct
+      new_homes = ifelse(new_sf_homes < 0, 0, new_sf_homes),
+      now_mf = new_sf_homes * .new_homes_to_multifamily_pct
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(ctu_name, now_mf) %>%
@@ -59,7 +58,6 @@ adj_unit_counts <- function(res_tb,
   new_res_tb <- res_tb %>%
     dplyr::anti_join(new_units, by = c("ctu_name", "year", "var")) %>%
     dplyr::bind_rows(new_units)
-
 
   return(new_res_tb)
 }
