@@ -47,28 +47,28 @@ housing in accordance with the *Metropolitan Council 2040 Planned Land Use* esti
 
 5. **Retrofit Existing Homes to High Energy Efficiency (B.R4)**:This strategy focuses on existing homes and assumes *80%* of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by *33%*, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewables, so they conflate renewables with efficiency. 
 
-6. **Retrofit Existing Homes to Passive-House (B.R5)**: The remaining 20% of homes from strategy B.R4 are retrofitted to high passive house standards, which results in *66%* reduction in energy use intensity.
+6. **Retrofit Existing Homes to Passive-House (B.R5)**: The remaining *20%* of homes from strategy B.R4 are retrofitted to high passive house standards, which results in *66%* reduction in energy use intensity.
 
 7. **Implement Behavioral & Smart Nudges (B.R6)**:  This strategy assumes that all homes receive effective messages which encourage them to reduce energy use via nudges such as in-home display and smart meters. Such nudges can reduce household energy use by *11%*, based on Gilbert et al. (ACEEE 2010). We only apply this reduction to remaining electricity and gas after the building efficiency strategies. 
 
-8. **Electrify Heating on Residential Buildings (B.R7)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, *59%* of households will use electric heating, based on the Net-Zero America report. Currently, *14%* of households already use electricity for heating, according to American Community Survey estimates (in Washington county). Therefore, a transition of 45% of homes to electric heating (*59%*-*14%*) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, *71%* of annual household gas is used for space heating, and *24%* of gas is used for water heating, according to the Residential Energy Consumption Survey (RECS) (2015)
+8. **Electrify Heating on Residential Buildings (B.R7)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, *59%* of households will use electric heating, based on the Net-Zero America report. Currently, *14%* of households already use electricity for heating, according to American Community Survey estimates (in Washington county). Therefore, a transition of *45%* of homes to electric heating (*59%*-*14%*) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, *71%* of annual household gas is used for space heating, and *24%* of gas is used for water heating, according to the Residential Energy Consumption Survey (RECS) (2015)
 
 9. **Increase Renewable Natural Gas on Residential Buildings (B.R8)**: For this strategy, the remaining homes that do not transition to electric space and water heating are assumed to switch to renewable natural gas, based on the State of Minnesota’s policy to aggregate all waste-to-energy project towards renewable natural gas. This includes municipal solid waste.
 
 ### Commmercial & Industrial Strategies
 
-9. **Retrofit Existing Commercial Buildings (B.C1)**: This strategy models the reduction in energy use intensity (EUI) that will result if *80%* of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by 25%-50%, based on case studies from the Minnesota SB program. 
+9. **Retrofit Existing Commercial Buildings (B.C1)**: This strategy models the reduction in energy use intensity (EUI) that will result if *80%* of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by *25%*-*50%*, based on case studies from the Minnesota SB program. 
 
-10. **Smart Grid Efficiency for Commercial Buildings (B.C2)**: Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately *11%*, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO2 Benefits.” This 11% will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to 100% of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. Note: All commercial and industrial energy use is computed on the basis of employees, not square footage.
+10. **Smart Grid Efficiency for Commercial Buildings (B.C2)**: Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately *11%*, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO<sub>2</sub> Benefits.” This *11%* will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to *100%* of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. Note: All commercial and industrial energy use is computed on the basis of employees, not square footage.
 
-11. **Smart Grid Efficiency for Industrial Buildings (B.C3)**:
+11. **Smart Grid Efficiency for Industrial Buildings (B.C3)**: Smart grid and technologies are projected to reduce industrial electricity use by *11%*.
 
-12. **Electrifying Heating for Commercial Buildings (B.C4)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, 70% of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the 19% will increase to 59%, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (59%-19%) will have the modeled effects on GHG emissions. In Minnesota, approximately 69% of gas is used for space heating, according to a Navigant Consulting report (2009).
+12. **Electrifying Heating for Commercial Buildings (B.C4)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, *70%* of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the *19%* will increase to *59%*, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (*59%*-*19%*) will have the modeled effects on GHG emissions. In Minnesota, approximately *69%* of gas is used for space heating, according to a Navigant Consulting report (2009).
 
 
 ### Grid-Level Strategies
 
-13. **Increase Grid Decarbonization (B.G1)**: This wedge demonstrates the impact of grid decarbonization after all the efficiency reductions are subtracted to yield the final electricity demand estimate. Note: Switching to electricity is shown as a separate scenario after grid decarbonization.
+13. **Increase Grid Decarbonization (B.G1)**: This strategy demonstrates the impact of grid decarbonization after all the efficiency reductions are subtracted to yield the final electricity demand estimate. Note: Switching to electricity is shown as a separate scenario after grid decarbonization.
 
 # Techical Walkthrough
 
@@ -178,7 +178,7 @@ This strategy focuses on existing homes and assumes *80%* of them are retrofitte
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_retrofit()` which allows to specify the number of existing homes to be retrofit. 
 
-**Note**: Strategy B.R5 & B.R6 are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
+**Note**: Strategy **B.R5** & **B.R6** are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
 
 #### Strategy B.R5: Retrofit Existing Homes to Passive-House
 
@@ -186,7 +186,7 @@ This strategy assumes that the remaining *20%* of homes from strategy B.R5 are r
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_retrofit()` which allows to specify the number of existing homes to be retrofit.
 
-**Note**: Strategy B.R5 & B.R6 are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
+**Note**: Strategy **B.R5** & **B.R6** are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
 
 #### Strategy B.R6: Implement Behavioral & Smart Nudges 
 
@@ -202,7 +202,6 @@ The main function involved in this strategy is `ghg.sp::calc_floor_area_behavior
 This strategy calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, *59%* of households will use electric heating, based on the Net-Zero America report. Currently, *14%* of households already use electricity for heating, according to American Community Survey estimates (in Washington County). Therefore, a transition of *45%* of homes to electric heating (*59%*-*14%*) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, *71%* of annual household gas is used for space heating, and *24%* of gas is used for water heating, according to the [Residential Energy Consumption Survey (RECS)](https://www.eia.gov/consumption/residential/data/2015/)
 
 The main function involved in this strategy is `calc_electrify_residential_heating()`
-
 
 #### Strategy B.R8: Increase Renewable Natural Gas on Residential Buildings
 
@@ -249,9 +248,31 @@ building_data$non_residential %>%
 
 #### Strategy B.C1: Retrofit Existing Commercial Buildings
 
+This strategy models the reduction in energy use intensity (EUI) that will result if *80%* of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by *25%*-*50%*, based on case studies from the Minnesota SB program. 
+
+`ghg.sp::calc_existing_comm_building_efficiency()`
+
 #### Strategy B.C2: Smart Grid Efficiency for Commercial Buildings
+
+Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately *11%*, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO<sub>2</sub> Benefits.” This *11%* will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to *100%* of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. 
+
+The main function associated with this strategy `ghg.sp::calc_non_res_smart_grid()`
+
+**Note**: All commercial and industrial energy use is computed on the basis of employees, not square footage.
 
 #### Strategy B.C3: Smart Grid Efficiency for Industrial Buildings
 
+Smart grid and technologies are projected to reduce industrial electricity use by *11%*.
+
+The main function associated with this strategy `ghg.sp::calc_non_res_smart_grid()`
+
 #### Strategy B.C4: Electrifying Heating for Commercial Buildings
+
+This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, *70%* of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the *19%* will increase to *59%*, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (*59%*-*19%*) will have the modeled effects on GHG emissions. In Minnesota, approximately *69%* of gas is used for space heating, according to a Navigant Consulting report (2009).
+
+The main function involved in this strategy is `calc_electrify_commercial_heating()`
+
+### Energy Consumption Data 
+
+The electricity and natural consumption data used for the Building Energy Module might come from more than one source. The module requires energy consumption to be broken down into sector (residential, commercial, and industrial). Such breakdown, is difficult to access from utility companies or other databases. Hence, the Greenhouse Gas Scenario Planning Tool selects the best data or estimate available for a community. 
 
