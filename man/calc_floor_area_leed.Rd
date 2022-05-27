@@ -42,8 +42,9 @@ Other building_energy_module:
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_smart_grid_comm_electr_use}()},
-\code{\link{calc_smart_grid_indust_electr_use}()},
+\code{\link{calc_ghg_non_residential_x}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

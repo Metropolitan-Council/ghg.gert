@@ -32,7 +32,7 @@ The module allows users to explore strategies for decarbonization within the bui
 
 ## Strategies
 
-The GHG mitgation strategies included in the Building Energy Module include:
+The GHG mitigation strategies included in the Building Energy Module include:
 
 ### Residential Strategies
 
@@ -272,7 +272,7 @@ This equation calculates reduction in energy use and GHG emissions due to electr
 
 The main function involved in this strategy is `calc_electrify_commercial_heating()`
 
-### Energy Consumption Data 
+### Baseline Energy Consumption Data 
 
 The electricity and natural consumption data used for the Building Energy Module might come from more than one source. The module requires energy consumption to be broken down into sector (residential, commercial, and industrial). Such breakdown, is difficult to access from utility companies or other databases. Hence, the Greenhouse Gas Scenario Planning Tool selects the best data or estimate available for a community. 
 

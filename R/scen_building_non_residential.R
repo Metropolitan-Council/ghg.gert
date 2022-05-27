@@ -5,10 +5,12 @@
 scen_building_non_residential <-
   function(tb = building_data$non_residential) {
 
-    #B.C1
-    tb01 <- calc_existing_comm_building_efficiency(non_res_tb = tb,
-                                                   .existing_high_efficiency_buildings_pct = 0.8)
-    #B.C4
-    calc_electrify_commercial_heating()
+    tb01 <- calc_ghg_non_residential(non_res_tb = tb)
+
+    tb02 <- calc_electrify_commercial_heating(tb = tb01)
+
+    tb03 <- calc_non_res_renewable_ng(tb = tb02)
+
+    return(tb03)
 
   }

@@ -1,0 +1,163 @@
+#' @title Calculate Non-Residential Building Emissions
+#' @family building_energy_module
+#'
+#' @description `calc_ghg_non_residential()` calculates total energy demand and emissions from
+#' workers for industrial and commercial sectors
+#'
+#' @param non_res_tb table with non-residential data.
+#'      Default is `building_data$non_residential`
+#'
+#' @param .industrial_smart_grid_pct Numeric.
+#' @param .commercial_smart_grid_pct Numeric.
+#' @param .grid_decarbonization_pct Numeric.
+#' @param .smart_grid_energy_reduction_pct Numeric.
+#'
+#' @inheritParams run_scenario
+#' @return
+#' @export
+#'
+#' @example
+#' \donotrun{
+#' calc_ghg_non_residential(
+#' non_res_tb = building_data$non_residential
+#'      .industrial_smart_grid_pct = 1,
+#'      .commercial_smart_grid_pct = 1,
+#'      .grid_decarbonization_pct = 1,
+#'      .smart_grid_energy_reduction_pct = 1,
+#'      .enviro_factors = enviro_factors,
+#'      .existing_high_efficiency_buildings_pct = 0.8
+#' )
+#' }
+calc_ghg_non_residential <-
+  function(non_res_tb = building_data$non_residential,
+           .new_non_res_tb =  building_data$non_residential,
+           .commercial_smart_grid_pct = 1,
+           .industrial_smart_grid_pct = 1,
+           .smart_grid_energy_reduction_pct = 1,
+           .grid_decarbonization_pct = 1,
+           .existing_high_efficiency_buildings_pct = 0.8,
+           .enviro_factors = enviro_factors) {
+    emis <-
+      function(x,
+               grid_decarb,
+               commercial_smart_grid_pct,
+               industrial_smart_grid_pct,
+               smart_grid_decarb) {
+        x %>%
+          dplyr::filter(
+            var %in% c(
+              "population",
+              "commercial_jobs",
+              "industrial_jobs",
+              "commercial_therm_per_worker",
+              "industrial_therm_per_worker",
+              "commercial_mwh_per_worker",
+              "industrial_mwh_per_worker"
+            )
+          ) %>%
+          dplyr::group_by(ctu_name, year, var) %>%
+          tidyr::pivot_wider(names_from = "var", values_from = value) %>%
+          dplyr::mutate(
+            kg_per_mwh = dplyr::case_when(
+              year < 2040 ~ .enviro_factors$KG_CO2E_PER_MHW_BASELINE,
+              TRUE ~ .enviro_factors$KG_CO2E_PER_MHW_FORECAST
+            ),
+            kg_per_therm = dplyr::case_when(
+              year < 2040 ~ .enviro_factors$KG_CO2E_PER_THERM_BASELINE,
+              TRUE ~ .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+            )
+          ) %>%
+          dplyr::mutate(
+            # mw hours
+            commercial_mwh = (commercial_jobs * commercial_smart_grid_pct) * commercial_mwh_per_worker,
+            industrial_mwh = (industrial_jobs * industrial_smart_grid_pct) * industrial_mwh_per_worker,
+
+            # therms
+            commercial_therms = commercial_jobs * commercial_therm_per_worker,
+            industrial_therms = industrial_jobs * industrial_therm_per_worker,
+
+
+            # electric emissions
+            commercial_electricity_emissions_kg_co =
+              commercial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
+
+            industrial_electricity_emissions_kg_co =
+              industrial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
+            # therm emissions
+
+            commercial_natural_gas_emissions_kg_co =
+              commercial_therms * kg_per_therm,
+
+            industrial_natural_gas_emissions_kg_co =
+              industrial_therms * kg_per_therm,
+            total_industrial_commercial_emissions = sum(
+              c(
+                commercial_electricity_emissions_kg_co,
+                industrial_electricity_emissions_kg_co,
+                commercial_natural_gas_emissions_kg_co,
+                industrial_natural_gas_emissions_kg_co
+              ),
+              na.rm = T
+            )
+          ) %>%
+          dplyr::select(
+            ctu_name,
+            year,
+            population,
+            commercial_jobs,
+            industrial_jobs,
+            kg_per_mwh,
+            kg_per_therm,
+            commercial_mwh_per_worker,
+            industrial_mwh_per_worker,
+            commercial_mwh,
+            industrial_mwh,
+            commercial_therms,
+            industrial_therms,
+            commercial_electricity_emissions_kg_co,
+            industrial_electricity_emissions_kg_co,
+            commercial_natural_gas_emissions_kg_co,
+            industrial_natural_gas_emissions_kg_co,
+            total_industrial_commercial_emissions
+          )
+      }
+
+    emis_bau <-
+      emis(
+        non_res_tb,
+        grid_decarb = 0,
+        commercial_smart_grid_pct = 1,
+        industrial_smart_grid_pct = 1,
+        smart_grid_decarb = 1
+      )
+    emis_strategy <-
+      emis(
+        calc_existing_comm_building_efficiency(non_res_tb,
+                                               .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct),
+        grid_decarb = .grid_decarbonization_pct,
+        commercial_smart_grid_pct = .commercial_smart_grid_pct,
+        industrial_smart_grid_pct = .industrial_smart_grid_pct,
+        smart_grid_decarb = .smart_grid_energy_reduction_pct
+      )
+    emis_final <-
+      right_join(
+        emis_bau,
+        emis_strategy,
+        by = c("ctu_name", "year"),
+        suffix = c(".bau", ".scen")
+      ) %>%
+      pivot_longer(
+        names_to = "var",
+        values_to = "value",
+        cols = -c(ctu_name, year)
+      ) %>%
+      pivot_wider(
+        names_from = c(var, year),
+        values_from = value,
+        names_sep = "."
+      )
+
+    return(emis_final)
+
+
+  }

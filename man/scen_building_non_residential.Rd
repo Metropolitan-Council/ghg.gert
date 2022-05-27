@@ -4,7 +4,7 @@
 \alias{scen_building_non_residential}
 \title{Calculate Scenario Building Non-Residential}
 \usage{
-scen_building_non_residential()
+scen_building_non_residential(tb = building_data$non_residential)
 }
 \value{
 

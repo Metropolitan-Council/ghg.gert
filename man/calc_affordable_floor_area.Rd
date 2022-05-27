@@ -4,7 +4,7 @@
 \alias{calc_affordable_floor_area}
 \title{Calculate Affordable Floor Area Effects}
 \usage{
-calc_affordable_floor_area(.pct_growth_single_family_floor_area)
+calc_affordable_floor_area(res_tb, .pct_growth_single_family_floor_area)
 }
 \arguments{
 \item{.pct_growth_single_family_floor_area}{}

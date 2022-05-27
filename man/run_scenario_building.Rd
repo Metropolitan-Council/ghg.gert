@@ -17,7 +17,7 @@ Run building energy scenarios
 }
 \seealso{
 Other buildings: 
-\code{\link{calc_ghg_floor_area}()},
-\code{\link{calc_ghg_worker}()}
+\code{\link{calc_ghg_non_residential_x}()},
+\code{\link{calc_ghg_non_residential}()}
 }
 \concept{buildings}

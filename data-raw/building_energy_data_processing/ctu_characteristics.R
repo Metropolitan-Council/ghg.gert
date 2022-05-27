@@ -131,6 +131,8 @@ residential <- ctu_w_nonres %>%
 
 non_residential <- ctu_w_nonres %>%
   filter(metric %in% c(
+    "population",
+
     "industrial_jobs",
     "commercial_jobs",
     "total_jobs",
