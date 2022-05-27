@@ -22,18 +22,29 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' scen_building_residential(tb = building_data$residential)
+#' scen_building_residential(
+#'      tb = building_data$residential,
+#'      .new_homes_to_multifamily_pct = 0.50,
+#'      .single_family_floor_area_growth_pct = 0.05,
+#'      .new_homes_affected_pct = 0.50,
+#'      .new_homes_leed_gold_pct = 0.50,
+#'      .existing_home_retrofit_pct = 0.80,
+#'      .existing_home_ultra_retrofit_pct = 0.20,
+#'      .home_behavior_change_pct = 1.00,
+#'      .homes_electric_heating_pct = 0.59,
+#'      .enviro_factors = enviro_factors
+#' )
 #' }
 scen_building_residential <-
-  function(tb = building_data$residential,
-           .new_homes_to_multifamily_pct = 0.50,
-           .single_family_floor_area_growth_pct = 0.05,
-           .new_homes_affected_pct = 0.50,
-           .new_homes_leed_gold_pct = 0.50,
-           .existing_home_retrofit_pct = 0.80,
-           .existing_home_ultra_retrofit_pct = 0.20,
-           .home_behavior_change_pct = 1.00,
-           .homes_electric_heating_pct = 0.59,
+  function(tb = res_tb,
+           .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
+           .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+           .new_homes_affected_pct = .new_homes_affected_pct,
+           .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+           .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+           .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+           .home_behavior_change_pct = .home_behavior_change_pct,
+           .homes_electric_heating_pct = .homes_electric_heating_pct,
            .enviro_factors = enviro_factors) {
 
 
@@ -45,7 +56,7 @@ scen_building_residential <-
 
     #B.R2 (Affordable Floor Area)
     tb02 <- calc_affordable_floor_area(res_tb = tb01,
-                                       .pct_growth_single_family_floor_area = .pct_growth_single_family_floor_area)
+                                       .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct)
 
     #B.R3 (New Homes LEED Gold)
     tb03 <- calc_floor_area_leed(

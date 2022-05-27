@@ -2,16 +2,19 @@
 #' @family building_energy_module
 #'
 #' @description `calc_ghg_non_residential()` calculates total energy demand and emissions from
-#' workers for industrial and commercial sectors
+#' workers for industrial and commercial sectors by city/township.
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
-#'
-#' @param .industrial_smart_grid_pct Numeric.
-#' @param .commercial_smart_grid_pct Numeric.
-#' @param .grid_decarbonization_pct Numeric.
-#' @param .smart_grid_energy_reduction_pct Numeric.
-#'
+#' @param .industrial_smart_grid_pct Numeric. A number between `0` and `1`.
+#'      Default is `1`
+#' @param .commercial_smart_grid_pct Numeric. A number between `0` and `1`.
+#'      Default is `1`
+#' @param .grid_decarbonization_pct Numeric. A number between `0` and `1`.
+#'      Default is `1`
+#' @param .smart_grid_energy_reduction_pct Numeric. A number between `0` and `1`.
+#'      Default is `1`
+#'S
 #' @inheritParams run_scenario
 #' @return
 #' @export
@@ -29,21 +32,21 @@
 #' )
 #' }
 calc_ghg_non_residential <-
-  function(non_res_tb = building_data$non_residential,
-           .new_non_res_tb =  building_data$non_residential,
-           .commercial_smart_grid_pct = 1,
-           .industrial_smart_grid_pct = 1,
-           .smart_grid_energy_reduction_pct = 1,
-           .grid_decarbonization_pct = 1,
-           .existing_high_efficiency_buildings_pct = 0.8,
+  function(non_res_tb,
+           .commercial_smart_grid_pct,
+           .industrial_smart_grid_pct,
+           .smart_grid_energy_reduction_pct,
+           .grid_decarbonization_pct,
+           .existing_high_efficiency_buildings_pct,
            .enviro_factors = enviro_factors) {
+
     emis <-
-      function(x,
+      function(tb,
                grid_decarb,
                commercial_smart_grid_pct,
                industrial_smart_grid_pct,
                smart_grid_decarb) {
-        x %>%
+        tb %>%
           dplyr::filter(
             var %in% c(
               "population",
@@ -124,7 +127,7 @@ calc_ghg_non_residential <-
 
     emis_bau <-
       emis(
-        non_res_tb,
+        tb = non_res_tb,
         grid_decarb = 0,
         commercial_smart_grid_pct = 1,
         industrial_smart_grid_pct = 1,
@@ -132,32 +135,31 @@ calc_ghg_non_residential <-
       )
     emis_strategy <-
       emis(
-        calc_existing_comm_building_efficiency(non_res_tb,
-                                               .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct),
+        tb = calc_existing_comm_building_efficiency(non_res_tb,
+                                                    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct),
         grid_decarb = .grid_decarbonization_pct,
         commercial_smart_grid_pct = .commercial_smart_grid_pct,
         industrial_smart_grid_pct = .industrial_smart_grid_pct,
         smart_grid_decarb = .smart_grid_energy_reduction_pct
       )
     emis_final <-
-      right_join(
+      dplyr::right_join(
         emis_bau,
         emis_strategy,
         by = c("ctu_name", "year"),
         suffix = c(".bau", ".scen")
       ) %>%
-      pivot_longer(
+      tidyr::pivot_longer(
         names_to = "var",
         values_to = "value",
         cols = -c(ctu_name, year)
       ) %>%
-      pivot_wider(
+      tidyr::pivot_wider(
         names_from = c(var, year),
         values_from = value,
         names_sep = "."
       )
 
     return(emis_final)
-
 
   }

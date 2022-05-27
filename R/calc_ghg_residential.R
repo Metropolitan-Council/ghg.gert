@@ -1,8 +1,8 @@
 #' @title Calculate Residential Building Emissions
 #' @family building_energy_module
 #'
-#' @description `calc_ghg_residential()` estimates the residential energy demand
-#' and emissions by CTU.
+#' @description `calc_ghg_residential()` estimates total energy demand
+#' and emissions from the residential sector by city/township.
 #'
 #' @param res_tb table, table with residential building data.
 #' @inheritParams run_scenario
@@ -15,9 +15,8 @@
 
 #' @export
 #'
-calc_ghg_residential <- function(res_tb = building_data$residential,
-                                 .grid_decarbonization_pct = 1,
-                                 .renewable_natural_gas = FALSE,
+calc_ghg_residential <- function(res_tb,
+                                 .grid_decarbonization_pct,
                                  .enviro_factors = enviro_factors) {
   emis <- res_tb %>%
     dplyr::filter(

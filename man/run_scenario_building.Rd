@@ -6,8 +6,52 @@
 \usage{
 run_scenario_building(
   res_tb = building_data$residential,
-  non_res_tb = building_data$non_residential
+  non_res_tb = building_data$non_residential,
+  .electrified_buildings_pct,
+  .natural_gas_for_water_heating_pct,
+  .natural_gas_for_space_heating_pct,
+  .boiler_to_heat_pump_efficiency_ratio,
+  .commercial_smart_grid_pct = 1,
+  .industrial_smart_grid_pct = 1,
+  .new_homes_to_multifamily_pct,
+  .pct_growth_single_family_floor_area,
+  .existing_high_efficiency_buildings_pct = 0.8,
+  .home_behavior_change_pct = 1,
+  .single_family_floor_area_growth_pct = 0.05,
+  .new_homes_affected_pct = 0.3,
+  .new_homes_leed_gold_pct = 0.5,
+  .existing_home_retrofit_pct = 0.8,
+  .existing_home_ultra_retrofit_pct = 0.2,
+  .smart_grid_energy_reduction_pct = 1,
+  .grid_decarbonization_pct = 1
 )
+}
+\arguments{
+\item{.new_homes_to_multifamily_pct}{Numeric.
+Percentage of new single-family homes to instead be built as multifamily homes
+Default is ``}
+
+\item{.single_family_floor_area_growth_pct}{Numeric. A number between \code{0} and \code{1}.
+Percentage growth rate in single family home floor area.
+Default is \code{0.05}}
+
+\item{.new_homes_affected_pct}{Numeric. A number between \code{0} and \code{1}.
+Percentage of all new single-family
+households that will respond to increased energy costs by decreasing
+home size.
+Default is \code{0.30}}
+
+\item{.new_homes_leed_gold_pct}{Numeric. A number between \code{0} and \code{1}
+The percentage of new single-family homes built according to LEED Gold standards.
+Default is \code{0.5}}
+
+\item{.existing_home_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
+The percentage of existing homes retrofitted to reduce energy usage by 33\%.
+Default is \code{0.8}}
+
+\item{.existing_home_ultra_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
+The percentage of existing homes retrofitted to reduce energy usage by 66\%.
+Default is \code{0.2}}
 }
 \value{
 
@@ -17,7 +61,6 @@ Run building energy scenarios
 }
 \seealso{
 Other buildings: 
-\code{\link{calc_ghg_non_residential_x}()},
-\code{\link{calc_ghg_non_residential}()}
+\code{\link{calc_ghg_non_residential_x}()}
 }
 \concept{buildings}

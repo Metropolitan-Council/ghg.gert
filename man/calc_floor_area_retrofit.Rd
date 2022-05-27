@@ -48,6 +48,7 @@ ghg.sp::calc_floor_area_retrofit(
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},
@@ -55,6 +56,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

@@ -1,11 +1,22 @@
 #' @title Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions
-#'
+#' @family building_energy_module
+#' @description text...
 #' @return
 #' @export
 #'
+#' @note `calc_non_res_renewable_ng` is called within `scen_building_non_residential()`
+#'
 #' @examples
+#' \donotrun{
+#' ghg.sp::calc_non_res_renewable_ng(
+#'      tb =
+#'      .enviro_factors = enviro_factors
+#' )
+#' }
+#'
 calc_non_res_renewable_ng <-
-  function(tb) {
+  function(tb,
+           .enviro_factors = .enviro_factors) {
     tb %>%
       dplyr::mutate(
         reduced_therms =
