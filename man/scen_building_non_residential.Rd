@@ -4,7 +4,15 @@
 \alias{scen_building_non_residential}
 \title{Calculate Scenario Building Non-Residential}
 \usage{
-scen_building_non_residential(tb = building_data$non_residential)
+scen_building_non_residential(
+  tb,
+  .electrified_buildings_pct,
+  .natural_gas_for_water_heating_pct,
+  .natural_gas_for_space_heating_pct,
+  .boiler_to_heat_pump_efficiency_ratio,
+  .commercial_smart_grid_pct,
+  .industrial_smart_grid_pct
+)
 }
 \value{
 

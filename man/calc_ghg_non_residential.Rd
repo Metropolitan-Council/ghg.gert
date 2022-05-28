@@ -6,7 +6,6 @@
 \usage{
 calc_ghg_non_residential(
   non_res_tb,
-  .new_non_res_tb = building_data$non_residential,
   .commercial_smart_grid_pct,
   .industrial_smart_grid_pct,
   .smart_grid_energy_reduction_pct,
@@ -26,7 +25,8 @@ Default is \code{1}}
 Default is \code{1}}
 
 \item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}
+S}
 
 \item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
 Default is \code{1}}
@@ -38,7 +38,7 @@ Default is \code{1}}
 }
 \description{
 \code{calc_ghg_non_residential()} calculates total energy demand and emissions from
-workers for industrial and commercial sectors
+workers for industrial and commercial sectors by city/township.
 }
 \seealso{
 Other building_energy_module: 
@@ -52,6 +52,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

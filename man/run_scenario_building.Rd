@@ -2,19 +2,19 @@
 % Please edit documentation in R/run_scenario_building.R
 \name{run_scenario_building}
 \alias{run_scenario_building}
-\title{Run building energy scenarios}
+\title{Run Building Energy Scenarios}
 \usage{
 run_scenario_building(
   res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,
-  .electrified_buildings_pct,
-  .natural_gas_for_water_heating_pct,
-  .natural_gas_for_space_heating_pct,
-  .boiler_to_heat_pump_efficiency_ratio,
+  .enviro_factors = enviro_factors,
+  .electrified_buildings_pct = 0.4,
+  .natural_gas_for_water_heating_pct = 0.2,
+  .natural_gas_for_space_heating_pct = 0.69,
+  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
-  .new_homes_to_multifamily_pct,
-  .pct_growth_single_family_floor_area,
+  .new_homes_to_multifamily_pct = 0.5,
   .existing_high_efficiency_buildings_pct = 0.8,
   .home_behavior_change_pct = 1,
   .single_family_floor_area_growth_pct = 0.05,
@@ -27,6 +27,8 @@ run_scenario_building(
 )
 }
 \arguments{
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+
 \item{.new_homes_to_multifamily_pct}{Numeric.
 Percentage of new single-family homes to instead be built as multifamily homes
 Default is ``}
@@ -57,10 +59,22 @@ Default is \code{0.2}}
 
 }
 \description{
-Run building energy scenarios
+\code{run_scenario_building} produces the outputs of the building energy module of the
+Metropolitan Council Greenhouse Gas Scenario Planning Tool.
 }
 \seealso{
-Other buildings: 
-\code{\link{calc_ghg_non_residential_x}()}
+Other building_energy_module: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_floor_area_behavior_change}()},
+\code{\link{calc_floor_area_growth}()},
+\code{\link{calc_floor_area_leed}()},
+\code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_non_residential_x}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{scen_building_residential}()}
 }
-\concept{buildings}
+\concept{building_energy_module}

@@ -17,6 +17,15 @@ Default is ``}
 \description{
 Adjust single and multifamily unit count forecast in residential table
 }
+\examples{
+\donotrun{
+ghg.sp::adj_unit_counts(
+     res_tb = building_data$residential,
+     .new_homes_to_multifamily_pct = 0.50
+)
+
+}
+}
 \seealso{
 Other building_energy_module: 
 \code{\link{calc_electrify_commercial_heating}()},
@@ -29,6 +38,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

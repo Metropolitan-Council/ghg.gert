@@ -21,6 +21,10 @@
 calc_land_cover_by_land_use <- function(tb,
                                         .scenario,
                                         .luse_scen) {
+
+  match.arg(arg = .scenario, choices = c("bau"))
+  match.arg(arg = .luse_scen, choices = c("compact_dev_with_drs"))
+
   land_cover_by_land_use <-
     dplyr::bind_rows(
       tb$land_cover_percentages_filled %>%

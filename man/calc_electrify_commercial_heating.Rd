@@ -6,11 +6,11 @@
 \usage{
 calc_electrify_commercial_heating(
   tb,
-  .electrified_buildings_pct = 0.4,
-  .natural_gas_for_water_heating_pct = 0.2,
-  .natural_gas_for_space_heating_pct = 0.69,
-  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
-  .enviro_factors = enviro_factors
+  .electrified_buildings_pct = .electrified_buildings_pct,
+  .natural_gas_for_water_heating_pct = .natural_gas_for_water_heating_pct,
+  .natural_gas_for_space_heating_pct = .natural_gas_for_space_heating_pct,
+  .boiler_to_heat_pump_efficiency_ratio = .boiler_to_heat_pump_efficiency_ratio,
+  .enviro_factors = .enviro_factors
 )
 }
 \arguments{
@@ -41,8 +41,13 @@ commercial buildings on greenhouse gas emissions.
 }
 \examples{
 \donotrun{
-
-
+ghg.sp::calc_electrify_commercial_heating(
+    .electrified_buildings_pct = 0.40,
+    .natural_gas_for_water_heating_pct = 0.20,
+    .natural_gas_for_space_heating_pct = 0.69,
+    .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+    .enviro_factors = enviro_factors
+)
 }
 }
 \seealso{
@@ -57,6 +62,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

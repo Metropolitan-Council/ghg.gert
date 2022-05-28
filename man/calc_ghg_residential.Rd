@@ -4,11 +4,7 @@
 \alias{calc_ghg_residential}
 \title{Calculate Residential Building Emissions}
 \usage{
-calc_ghg_residential(
-  res_tb,
-  .grid_decarbonization_pct,
-  .enviro_factors = enviro_factors
-)
+calc_ghg_residential(res_tb, .grid_decarbonization_pct, .enviro_factors)
 }
 \arguments{
 \item{res_tb}{table, table with residential building data.}
@@ -21,8 +17,19 @@ a table with columns \code{year}, \code{ctu_name}, \code{residential_mwh},
 \code{residential_therms}, and \code{residential_natural_gas_emissions_kg_co}
 }
 \description{
-\code{calc_ghg_residential()} estimates the residential energy demand
-and emissions by CTU.
+\code{calc_ghg_residential()} estimates total energy demand
+and emissions from the residential building sector by city/township.
+}
+\examples{
+\donotrun{
+library(ghg.sp)
+
+ghg.sp::calc_ghg_residential(
+     res_tb = building_data$residential,
+     .grid_decarbonization_pct = 1,
+     .enviro_factors = enviro_factors
+)
+}
 }
 \seealso{
 Other building_energy_module: 
@@ -36,6 +43,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

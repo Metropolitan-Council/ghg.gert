@@ -4,13 +4,25 @@
 \alias{calc_non_res_renewable_ng}
 \title{Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions}
 \usage{
-calc_non_res_renewable_ng(tb, .enviro_factors = enviro_factors)
+calc_non_res_renewable_ng(tb, .enviro_factors = .enviro_factors)
 }
 \value{
 
 }
 \description{
-Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions
+text...
+}
+\note{
+\code{calc_non_res_renewable_ng} is called within \code{scen_building_non_residential()}
+}
+\examples{
+\donotrun{
+ghg.sp::calc_non_res_renewable_ng(
+     tb =
+     .enviro_factors = enviro_factors
+)
+}
+
 }
 \seealso{
 Other building_energy_module: 
@@ -24,6 +36,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

@@ -7,6 +7,14 @@
 #' Percentage of new single-family homes to instead be built as multifamily homes
 #'      Default is ``
 #'
+#' @examples
+#' \donotrun{
+#' ghg.sp::adj_unit_counts(
+#'      res_tb = building_data$residential,
+#'      .new_homes_to_multifamily_pct = 0.50
+#' )
+#'
+#' }
 #' @inheritParams scen_building_residential
 #' @return
 #' @export

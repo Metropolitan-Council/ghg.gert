@@ -2,7 +2,7 @@
 #' @family building_energy_module
 #'
 #' @description `calc_ghg_residential()` estimates total energy demand
-#' and emissions from the residential sector by city/township.
+#' and emissions from the residential building sector by city/township.
 #'
 #' @param res_tb table, table with residential building data.
 #' @inheritParams run_scenario
@@ -11,13 +11,21 @@
 #'    `residential_electricity_emissions_kg_co`,
 #'    `residential_therms`, and `residential_natural_gas_emissions_kg_co`
 #'
+#' @examples
+#' \donotrun{
+#' library(ghg.sp)
 #'
-
+#' ghg.sp::calc_ghg_residential(
+#'      res_tb = building_data$residential,
+#'      .grid_decarbonization_pct = 1,
+#'      .enviro_factors = enviro_factors
+#' )
+#' }
 #' @export
 #'
 calc_ghg_residential <- function(res_tb,
                                  .grid_decarbonization_pct,
-                                 .enviro_factors = enviro_factors) {
+                                 .enviro_factors) {
   emis <- res_tb %>%
     dplyr::filter(
       var %in% c(
@@ -58,11 +66,8 @@ calc_ghg_residential <- function(res_tb,
     ) %>%
     dplyr::mutate(
       residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
-      residential_natural_gas_emissions_kg_co = if_else(
-        .renewable_natural_gas == TRUE,
-        (residential_therms - (population * 78)) * kg_per_therm,
+      residential_natural_gas_emissions_kg_co =
         residential_therms * kg_per_therm
-      )
     ) %>%
     dplyr::mutate(total_residential_emissions = sum(
       c(
@@ -81,7 +86,6 @@ calc_ghg_residential <- function(res_tb,
       residential_natural_gas_emissions_kg_co,
       total_residential_emissions
     )
-
 
   return(emis)
 }

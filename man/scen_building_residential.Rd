@@ -5,20 +5,21 @@
 \title{Calculate Residential Building Strategies}
 \usage{
 scen_building_residential(
-  tb = building_data$residential,
-  .new_homes_to_multifamily_pct = 0.5,
-  .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0.5,
-  .new_homes_leed_gold_pct = 0.5,
-  .existing_home_retrofit_pct = 0.8,
-  .existing_home_ultra_retrofit_pct = 0.2,
-  .home_behavior_change_pct = 1,
-  .homes_electric_heating_pct = 0.59,
+  tb = res_tb,
+  .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
+  .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+  .new_homes_affected_pct = .new_homes_affected_pct,
+  .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+  .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+  .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+  .home_behavior_change_pct = .home_behavior_change_pct,
+  .grid_decarbonization_pct = .grid_decarbonization_pct,
   .enviro_factors = enviro_factors
 )
 }
 \arguments{
-\item{tb}{table, data table with residential building attributes. Package provided
+\item{tb}{Tibble.
+Data table with residential building attributes. Package provided
 dataset \code{building_energy$residential} is suitable and the default value.}
 
 \item{.new_homes_to_multifamily_pct}{Numeric.
@@ -60,7 +61,18 @@ strategies within the building energy module.
 \dontrun{
 library(ghg.sp)
 
-scen_building_residential(tb = building_data$residential)
+scen_building_residential(
+     tb = building_data$residential,
+     .new_homes_to_multifamily_pct = 0.50,
+     .single_family_floor_area_growth_pct = 0.05,
+     .new_homes_affected_pct = 0.50,
+     .new_homes_leed_gold_pct = 0.50,
+     .existing_home_retrofit_pct = 0.80,
+     .existing_home_ultra_retrofit_pct = 0.20,
+     .home_behavior_change_pct = 1.00,
+     .grid_decarbonization_pct = 1,
+     .enviro_factors = enviro_factors
+)
 }
 }
 \seealso{
@@ -75,6 +87,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()}
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()}
 }
 \concept{building_energy_module}

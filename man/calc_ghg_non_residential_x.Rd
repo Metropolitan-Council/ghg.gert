@@ -40,10 +40,8 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
-
-Other buildings: 
-\code{\link{run_scenario_building}()}
 }
 \concept{building_energy_module}
 \concept{buildings}

@@ -4,7 +4,8 @@
 #' @description `scen_building_residential()` calculates the effect of the residential building
 #' strategies within the building energy module.
 #'
-#' @param tb table, data table with residential building attributes. Package provided
+#' @param tb Tibble.
+#' Data table with residential building attributes. Package provided
 #'     dataset `building_energy$residential` is suitable and the default value.
 #'
 #' @inheritParams adj_unit_counts
@@ -31,7 +32,7 @@
 #'      .existing_home_retrofit_pct = 0.80,
 #'      .existing_home_ultra_retrofit_pct = 0.20,
 #'      .home_behavior_change_pct = 1.00,
-#'      .homes_electric_heating_pct = 0.59,
+#'      .grid_decarbonization_pct = 1,
 #'      .enviro_factors = enviro_factors
 #' )
 #' }
@@ -44,11 +45,11 @@ scen_building_residential <-
            .existing_home_retrofit_pct = .existing_home_retrofit_pct,
            .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
            .home_behavior_change_pct = .home_behavior_change_pct,
-           .homes_electric_heating_pct = .homes_electric_heating_pct,
+           .grid_decarbonization_pct = .grid_decarbonization_pct,
            .enviro_factors = enviro_factors) {
 
 
-    # browser()
+    browser()
 
     #B.R1 (MF to SF)
     tb01 <- adj_unit_counts(res_tb = tb,
@@ -77,6 +78,12 @@ scen_building_residential <-
     tb05 <- calc_floor_area_behavior_change(
       res_tb = tb04,
       .home_behavior_change_pct = .home_behavior_change_pct,
+      .enviro_factors = .enviro_factors
+    )
+
+    tb06 <- calc_ghg_residential(
+      res_tb = tb05,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors
     )
 
