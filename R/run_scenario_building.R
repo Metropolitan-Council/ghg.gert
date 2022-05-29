@@ -1,5 +1,6 @@
 #' @title Run Building Energy Scenarios
 #' @family building_energy_module
+#'
 #' @description `run_scenario_building` produces the outputs of the building energy module of the
 #' Metropolitan Council Greenhouse Gas Scenario Planning Tool.
 #'
@@ -61,7 +62,7 @@ run_scenario_building <-
 
     non_res <-
       scen_building_non_residential(
-      .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+      #.existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
       .electrified_buildings_pct = .electrified_buildings_pct,
       .natural_gas_for_water_heating_pct = .natural_gas_for_water_heating_pct,
       .natural_gas_for_space_heating_pct =  .natural_gas_for_space_heating_pct,

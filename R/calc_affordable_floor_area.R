@@ -1,14 +1,27 @@
 #' @title Calculate Affordable Floor Area Effects
+#' @family building_energy_module
 #'
-#' @param .single_family_floor_area_growth_pct
+#' @description `calc_affordable_floor_area` calculates the reduction in single family
+#' floor area from increased energy prices.
 #'
-#' @return
+#' @param .single_family_floor_area_growth_pct **Numeric**. A number between `0` and `1`.
+#'       Percentage of single family floor area that gets reduced due to increase energy prices.
+#'       Default is `0.05`.
+#'       Should not be greater than 0.05 or *%5*.
+#'
+#' @return **Tibble**.
+#'       A table with field `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
+#'       `single_family_units` for the `var` column.
 #' @export
 #'
 #' @examples
 calc_affordable_floor_area <-
   function(res_tb,
            .single_family_floor_area_growth_pct) {
+
+    check_argument_pct(.single_family_floor_area_growth_pct, 0,1)
+
     if (.single_family_floor_area_growth_pct > 0.05) {
       warning("Single Family Floor Area Growth Cannot Be Greater than %5")
       return(res_tb)

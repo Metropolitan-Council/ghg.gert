@@ -22,9 +22,9 @@ scen_building_residential(
 Data table with residential building attributes. Package provided
 dataset \code{building_energy$residential} is suitable and the default value.}
 
-\item{.new_homes_to_multifamily_pct}{Numeric.
+\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}
 Percentage of new single-family homes to instead be built as multifamily homes
-Default is ``}
+Default is \code{0.50}}
 
 \item{.single_family_floor_area_growth_pct}{Numeric. A number between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
@@ -61,7 +61,7 @@ strategies within the building energy module.
 \dontrun{
 library(ghg.sp)
 
-scen_building_residential(
+ghg.sp::scen_building_residential(
      tb = building_data$residential,
      .new_homes_to_multifamily_pct = 0.50,
      .single_family_floor_area_growth_pct = 0.05,
@@ -88,6 +88,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
-\code{\link{run_scenario_building}()}
+\code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()}
 }
 \concept{building_energy_module}

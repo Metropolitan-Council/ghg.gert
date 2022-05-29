@@ -7,18 +7,23 @@
 adj_unit_counts(res_tb, .new_homes_to_multifamily_pct)
 }
 \arguments{
-\item{.new_homes_to_multifamily_pct}{Numeric.
+\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}
 Percentage of new single-family homes to instead be built as multifamily homes
-Default is ``}
+Default is \code{0.50}}
 }
 \value{
-
+A tibble.
+A table with field \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for field \code{var}.
 }
 \description{
-Adjust single and multifamily unit count forecast in residential table
+Adjust single and multifamily unit count forecast by city/township
+in residential input table
 }
 \examples{
 \donotrun{
+library(ghg.sp)
+
 ghg.sp::adj_unit_counts(
      res_tb = building_data$residential,
      .new_homes_to_multifamily_pct = 0.50
@@ -39,6 +44,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

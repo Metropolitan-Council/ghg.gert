@@ -4,8 +4,8 @@
 #' @description `scen_building_residential()` calculates the effect of the residential building
 #' strategies within the building energy module.
 #'
-#' @param tb Tibble.
-#' Data table with residential building attributes. Package provided
+#' @param tb **Tibble**.
+#'     Data table with residential building attributes. Package provided
 #'     dataset `building_energy$residential` is suitable and the default value.
 #'
 #' @inheritParams adj_unit_counts
@@ -14,8 +14,7 @@
 #' @inheritParams calc_floor_area_retrofit
 #' @inheritParams run_scenario
 #'
-#'
-#' @return Tibble.
+#' @return **Tibble**.
 #'
 #' @export
 #'
@@ -23,7 +22,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' scen_building_residential(
+#' ghg.sp::scen_building_residential(
 #'      tb = building_data$residential,
 #'      .new_homes_to_multifamily_pct = 0.50,
 #'      .single_family_floor_area_growth_pct = 0.05,
@@ -87,5 +86,5 @@ scen_building_residential <-
       .enviro_factors = .enviro_factors
     )
 
-    return(tb05)
+    return(tb06)
   }

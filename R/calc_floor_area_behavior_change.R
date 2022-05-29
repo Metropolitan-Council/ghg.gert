@@ -2,16 +2,21 @@
 #' @family building_energy_module
 #'
 #' @description `calc_floor_area_behavior_change()` adjusts residential floor area
-#' by city/township based on proportion of households that change
-#' behavior to reduce energy use.
+#'      by city/township based on proportion of households that change
+#'      behavior to reduce energy use.
 #'
-#' @param .home_behavior_change_pct Numeric. A number between `0` and `1`.
-#' Percentage of households that change behavior to reduce household emissions.
-#'      Default is `1.00`
-#' @inheritParams scen_building_residential
+#' @param .home_behavior_change_pct **Numeric**. A number between `0` and `1`.
+#'      Percentage of households that change behavior to reduce household emissions.
+#'      Default is `1.00`.
+#'
 #' @inheritParams run_scenario
 #'
-#' @return
+#' @return **Tibble**.
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted
+#'       `single_family_average_floor_area_sqft_ctu` and
+#'       `multifamily_average_floor_area_sqft_county` records for column `var`.
+#'
 #' @export
 #'
 #' @examples
@@ -24,7 +29,6 @@
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
-#'
 calc_floor_area_behavior_change <- function(res_tb,
                                            .home_behavior_change_pct,
                                            .enviro_factors) {

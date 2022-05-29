@@ -12,7 +12,8 @@ calc_ghg_residential(res_tb, .grid_decarbonization_pct, .enviro_factors)
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-a table with columns \code{year}, \code{ctu_name}, \code{residential_mwh},
+Tibble.
+A table with columns \code{year}, \code{ctu_name}, \code{residential_mwh},
 \code{residential_electricity_emissions_kg_co},
 \code{residential_therms}, and \code{residential_natural_gas_emissions_kg_co}
 }
@@ -44,6 +45,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

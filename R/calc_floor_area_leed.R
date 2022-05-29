@@ -1,18 +1,22 @@
 #' @title Calculate Floor Area LEED
 #' @family building_energy_module
 #'
-#' @description `calc_floor_area_leed()` adjusts single and multifamily average floor area forecast in
-#' accordance with LEED reduction
+#' @description `calc_floor_area_leed()` adjusts single and multifamily average
+#' floor area forecast in accordance with LEED reduction.
 #'
-#' @param .new_homes_leed_gold_pct Numeric. A number between `0` and `1`
-#' The percentage of new single-family homes built according to LEED Gold standards.
+#' @param .new_homes_leed_gold_pct **Numeric**. A number between `0` and `1`.
+#'      The percentage of new single-family homes built according to *LEED Gold* standards.
 #'      Default is `0.5`
 #' @inheritParams run_scenario
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
 #'
-#' @return data table
+#' @return **Tibble**.
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted `single_family_units` and
+#'       `single_family_average_floor_area_sqft_ctu` records for column `var`.
+#'
 #' @export
 #'
 #' @examples
@@ -29,6 +33,9 @@
 calc_floor_area_leed <- function(res_tb,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
+
+  ghg.sp::check_argument_pct(.new_homes_leed_gold_pct, 0,1)
+
   if (.new_homes_leed_gold_pct == 0) {
     warning("No change in new single family home energy efficiency")
     return(res_tb)

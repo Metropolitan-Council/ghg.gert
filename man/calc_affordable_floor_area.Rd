@@ -7,10 +7,16 @@
 calc_affordable_floor_area(res_tb, .single_family_floor_area_growth_pct)
 }
 \arguments{
-\item{.single_family_floor_area_growth_pct}{}
+\item{.single_family_floor_area_growth_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of single family floor area that gets reduced due to increase energy prices.
+Default is \code{0.05}.
+Should not be greater than 0.05 or \%5.}
 }
 \value{
-
+a Tibble.
+A table with field \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
+\code{single_family_units} for the \code{var} column.
 }
 \description{
 Calculate Affordable Floor Area Effects

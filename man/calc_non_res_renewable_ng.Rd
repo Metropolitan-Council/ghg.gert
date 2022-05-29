@@ -37,6 +37,7 @@ Other building_energy_module:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
 \concept{building_energy_module}

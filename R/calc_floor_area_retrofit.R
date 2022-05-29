@@ -2,23 +2,26 @@
 #' @family building_energy_module
 #'
 #' @description `calc_floor_area_retrofit()` adjusts single and multifamily average
-#' floor area forecast in accordance with LEED reduction
+#' floor area forecast under the assumptio of energy use reduction due to home
+#' retrofits.
 #'
-#' @param .existing_home_retrofit_pct Numeric. A number between `0` and `1`.
-#' The percentage of existing homes retrofitted to reduce energy usage by 33%.
-#'      Default is `0.8`
-#' @param .existing_home_ultra_retrofit_pct Numeric. A number between `0` and `1`.
-#' The percentage of existing homes retrofitted to reduce energy usage by 66%.
-#'      Default is `0.2`
+#' @param .existing_home_retrofit_pct **Numeric**. A number between `0` and `1`.
+#'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
+#'      Default is `0.80`.
+#' @param .existing_home_ultra_retrofit_pct **Numeric**. A number between `0` and `1`.
+#'      Percentage of existing homes retrofitted to reduce energy usage by *66%*.
+#'      Default is `0.20`.
 #'
-#' @inheritParams scen_building_residential
 #' @inheritParams run_scenario
-#'
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
 #'
-#' @return
+#' @return **Tibble**
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted `single_family_units`,
+#'       `single_family_average_floor_area_sqft_ctu`, `multifamily_units`, and
+#'       `multifamily_average_floor_area_sqft_county` records for column `var`.
 #' @export
 #'
 #' @examples
@@ -27,8 +30,8 @@
 #'
 #' ghg.sp::calc_floor_area_retrofit(
 #'   res_tb = building_data$residential,
-#'   .existing_home_retrofit_pct = 0.8,
-#'   .existing_home_ultra_retrofit_pct = 0.2,
+#'   .existing_home_retrofit_pct = 0.80,
+#'   .existing_home_ultra_retrofit_pct = 0.20,
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
@@ -37,6 +40,10 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
+
+  check_argument_pct(.existing_home_retrofit_pct, 0,1)
+  check_argument_pct(.existing_home_ultra_retrofit_pct, 0,1)
+
   # browser()
   if (.existing_home_retrofit_pct == 0) {
     warning("No change in existing home energy efficiency")
@@ -112,7 +119,6 @@ calc_floor_area_retrofit <- function(res_tb,
               )
           )
       )
-
 
     new_retrofit_floor_area <- res_tb %>%
       dplyr::filter(

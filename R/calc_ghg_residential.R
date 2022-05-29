@@ -7,7 +7,8 @@
 #' @param res_tb table, table with residential building data.
 #' @inheritParams run_scenario
 #'
-#' @return a table with columns `year`, `ctu_name`, `residential_mwh`,
+#' @return Tibble.
+#'    A table with columns `year`, `ctu_name`, `residential_mwh`,
 #'    `residential_electricity_emissions_kg_co`,
 #'    `residential_therms`, and `residential_natural_gas_emissions_kg_co`
 #'

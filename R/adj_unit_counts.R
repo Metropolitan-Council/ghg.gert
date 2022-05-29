@@ -1,22 +1,27 @@
 #' @title Adjust Residential Building Unit Counts
 #' @family building_energy_module
 #'
-#' @description Adjust single and multifamily unit count forecast in residential table
+#' @description `adj_unit_counts()` adjusts single and multifamily unit count forecast by city/township
+#' in residential input table
 #'
-#' @param .new_homes_to_multifamily_pct Numeric.
-#' Percentage of new single-family homes to instead be built as multifamily homes
-#'      Default is ``
+#' @inheritParams run_scenario_building
+#' @param .new_homes_to_multifamily_pct **Numeric**. A number between `0` and `1`.
+#'      Percentage of new single-family homes to instead be built as multifamily homes.
+#'      Default is `0.50`.
 #'
 #' @examples
 #' \donotrun{
+#' library(ghg.sp)
+#'
 #' ghg.sp::adj_unit_counts(
 #'      res_tb = building_data$residential,
 #'      .new_homes_to_multifamily_pct = 0.50
 #' )
-#'
 #' }
 #' @inheritParams scen_building_residential
-#' @return
+#' @return **Tibble**.
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`.
 #' @export
 #'
 #'
@@ -24,6 +29,9 @@
 #' @importFrom tidyr pivot_wider
 adj_unit_counts <- function(res_tb,
                             .new_homes_to_multifamily_pct) {
+
+  ghg.sp::check_argument_pct(.new_homes_to_multifamily_pct, 0,1)
+
   if (.new_homes_to_multifamily_pct <= 0) {
     warning("No single family homes instead built as multifamily homes.")
     return(res_tb)
