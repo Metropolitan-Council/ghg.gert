@@ -28,13 +28,13 @@ Calculate Strategy Electrify Residential Heating
 library(ghg.sp)
 
 ghg.sp::calc_electrify_residential_heating(
-     tb = calc_ghg_residential(
+     res_tb = calc_ghg_residential(
           res_tb = building_data$residential,
           .grid_decarbonization_pct = 0.80,
           .enviro_factors = enviro_factors),
      .additional_electrified_residential_buildings_pct = 0.45,
-     .natural_gas_for_space_heating_pct = 0.71,
-     .natural_gas_for_water_heating_pct = 0.24,
+     .res_natural_gas_for_space_heating_pct = 0.71,
+     .res_natural_gas_for_water_heating_pct = 0.24,
      .boiler_to_heat_pump_efficiency_ratio = 1.59362,
      .grid_decarbonization_pct = 0.80,
      .enviro_factors = enviro_factors

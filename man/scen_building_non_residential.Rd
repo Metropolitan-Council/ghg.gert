@@ -6,6 +6,7 @@
 \usage{
 scen_building_non_residential(
   tb,
+  non_res_tb_bau,
   .electrified_buildings_pct,
   .natural_gas_for_water_heating_pct,
   .natural_gas_for_space_heating_pct,
@@ -56,6 +57,26 @@ A tibble.
 \description{
 \code{scen_building_non_residential} compiles all the strategies related to
 non-residential buildings.
+}
+\examples{
+\donotrun{
+library(ghg.sp)
+
+ghg.sp::scen_building_non_residential(
+     tb = building_data$non_residential,
+     non_res_tb_bau = building_data$non_residential,
+     .electrified_buildings_pct = 0.40,
+     .natural_gas_for_water_heating_pct = 0.20,
+     .natural_gas_for_space_heating_pct = 0.69,
+     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+     .commercial_smart_grid_pct = 1.00,
+     .industrial_smart_grid_pct = 1.00,
+     .smart_grid_energy_reduction_pct = 1.00,
+     .grid_decarbonization_pct = 0.80,
+     .existing_high_efficiency_buildings_pct = 0.80,
+     .enviro_factors = enviro_factors
+)
+}
 }
 \seealso{
 Other building_energy_module: 

@@ -27,7 +27,7 @@ run_scenario_building <-
              #smartgrid
            .commercial_smart_grid_pct = 1.00,
            .industrial_smart_grid_pct = 1.00,
-           .smart_grid_energy_reduction_pct = 1,
+           .smart_grid_energy_reduction_pct = 1.00,
            #residential
              #floor_area
            .new_homes_to_multifamily_pct = 0.50,
@@ -66,17 +66,24 @@ run_scenario_building <-
 
     non_res <-
       scen_building_non_residential(
-      #.existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+      non_res_tb = non_res_tb,
+      non_res_tb_bau = non_res_tb_bau,
+      .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
       .electrified_buildings_pct = .electrified_buildings_pct,
-      .natural_gas_for_water_heating_pct = .natural_gas_for_water_heating_pct,
-      .natural_gas_for_space_heating_pct =  .natural_gas_for_space_heating_pct,
+      .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
+      .non_res_natural_gas_for_space_heating_pct =  .non_res_natural_gas_for_space_heating_pct,
       .boiler_to_heat_pump_efficiency_ratio =  .boiler_to_heat_pump_efficiency_ratio,
       .commercial_smart_grid_pct = .commercial_smart_grid_pct,
       .industrial_smart_grid_pct = .industrial_smart_grid_pct,
       .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct
+      .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
+      .enviro_factors = .enviro_factors
     )
 
-    return(res)
+    building_module_ouput <-
+        bind_rows(res, non_res)
+
+
+    return(building_module_ouput)
 
   }

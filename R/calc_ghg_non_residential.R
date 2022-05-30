@@ -7,13 +7,13 @@
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
 #' @param .industrial_smart_grid_pct Numeric. A number between `0` and `1`.
-#'      Default is `1`
+#'      Default is `1`.
 #' @param .commercial_smart_grid_pct Numeric. A number between `0` and `1`.
-#'      Default is `1`
+#'      Default is `1`.
 #' @param .grid_decarbonization_pct Numeric. A number between `0` and `1`.
-#'      Default is `1`
+#'      Default is `1`.
 #' @param .smart_grid_energy_reduction_pct Numeric. A number between `0` and `1`.
-#'      Default is `1`
+#'      Default is `1`.
 #'S
 #' @inheritParams run_scenario
 #' @return
@@ -40,7 +40,7 @@ calc_ghg_non_residential <-
            .smart_grid_energy_reduction_pct,
            .grid_decarbonization_pct,
            .existing_high_efficiency_buildings_pct,
-           .enviro_factors = enviro_factors) {
+           .enviro_factors) {
 
     emis <-
       function(tb,

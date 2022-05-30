@@ -24,22 +24,34 @@
 #' @examples
 #' \donotrun{
 #' ghg.sp::calc_electrify_commercial_heating(
+#'     non_res_tb = calc_ghg_non_residential(
+#'           non_res_tb = building_data$non_residential,
+#'           non_res_tb_bau = building_data$non_residential,
+#'           .industrial_smart_grid_pct = 1,
+#'           .commercial_smart_grid_pct = 1,
+#'           .grid_decarbonization_pct = 0.8,
+#'           .smart_grid_energy_reduction_pct = 1,
+#'           .enviro_factors = enviro_factors,
+#'           .existing_high_efficiency_buildings_pct = 0.8
+#'     ),
+#'     .grid_decarbonization_pct = 0.8,
 #'     .electrified_buildings_pct = 0.40,
-#'     .natural_gas_for_water_heating_pct = 0.20,
-#'     .natural_gas_for_space_heating_pct = 0.69,
+#'     .non_res_natural_gas_for_water_heating_pct = 0.20,
+#'     .non_res_natural_gas_for_space_heating_pct = 0.69,
 #'     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
 #'     .enviro_factors = enviro_factors
 #')
 #'}
 calc_electrify_commercial_heating <-
-  function(tb,
+  function(non_res_tb,
            .electrified_buildings_pct,
-           .natural_gas_for_water_heating_pct,
-           .natural_gas_for_space_heating_pct,
+           .non_res_natural_gas_for_water_heating_pct,
+           .non_res_natural_gas_for_space_heating_pct,
            .boiler_to_heat_pump_efficiency_ratio,
            .grid_decarbonization_pct,
            .enviro_factors) {
-    new_non_res_tb <- tb %>%
+    new_non_res_tb <-
+      non_res_tb %>%
       dplyr::mutate(
         reduced_therms =
           commercial_therms.bau.2040 * .electrified_buildings_pct,
@@ -52,13 +64,13 @@ calc_electrify_commercial_heating <-
           (
             reduced_therms *
               gas_savings_pct *
-              .natural_gas_for_space_heating_pct *
+              .non_res_natural_gas_for_space_heating_pct *
               enviro_factors$KG_CO2E_PER_THERM_FORECAST
           )
         - (
           reduced_therms *
             gas_savings_pct *
-            .natural_gas_for_space_heating_pct *
+            .non_res_natural_gas_for_space_heating_pct *
             .boiler_to_heat_pump_efficiency_ratio *
 
             (
@@ -70,14 +82,14 @@ calc_electrify_commercial_heating <-
         + (
           reduced_therms
           * gas_savings_pct
-          * .natural_gas_for_water_heating_pct
+          * .non_res_natural_gas_for_water_heating_pct
           * enviro_factors$KG_CO2E_PER_THERM_FORECAST
 
         )
         - ((
           reduced_therms
           * gas_savings_pct
-          * .natural_gas_for_water_heating_pct
+          * .non_res_natural_gas_for_water_heating_pct
           * enviro_factors$KG_CO2E_PER_THERM_FORECAST
 
         ) /
@@ -85,7 +97,7 @@ calc_electrify_commercial_heating <-
             1 *
               (
                 enviro_factors$KG_CO2E_PER_MHW_FORECAST *
-                  (1 - grid_decarbonization_pct)
+                  (1 - .grid_decarbonization_pct)
               )
             * .enviro_factors$THERM_TO_MWH
           )

@@ -18,7 +18,16 @@ text...
 \examples{
 \donotrun{
 ghg.sp::calc_non_res_renewable_ng(
-     non_res_tb =
+     non_res_tb = calc_ghg_non_residential(
+          non_res_tb = building_data$non_residential,
+          non_res_tb_bau = building_data$non_residential,
+          .industrial_smart_grid_pct = 1,
+          .commercial_smart_grid_pct = 1,
+          .grid_decarbonization_pct = 0.8,
+          .smart_grid_energy_reduction_pct = 1,
+          .enviro_factors = enviro_factors,
+          .existing_high_efficiency_buildings_pct = 0.8
+    )
      .enviro_factors = enviro_factors
 )
 }

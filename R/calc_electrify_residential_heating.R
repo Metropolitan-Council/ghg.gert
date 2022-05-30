@@ -16,7 +16,7 @@
 #' library(ghg.sp)
 #'
 #' ghg.sp::calc_electrify_residential_heating(
-#'      tb = calc_ghg_residential(
+#'      res_tb = calc_ghg_residential(
 #'           res_tb = building_data$residential,
 #'           .grid_decarbonization_pct = 0.80,
 #'           .enviro_factors = enviro_factors),

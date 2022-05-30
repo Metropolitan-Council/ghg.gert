@@ -33,7 +33,9 @@
 #'      .existing_home_ultra_retrofit_pct = 0.20,
 #'      .home_behavior_change_pct = 1.00,
 #'      .grid_decarbonization_pct = 1,
-#'
+#'      .additional_electrified_residential_buildings_pct = 0.45,
+#'      .res_natural_gas_for_space_heating_pct = 0.71
+#'      .res_natural_gas_for_water_heating_pct = 0.24,
 #'      .enviro_factors = enviro_factors
 #' )
 #' }
@@ -53,7 +55,7 @@ scen_building_residential <-
            .res_natural_gas_for_water_heating_pct,
            .boiler_to_heat_pump_efficiency_ratio,
            .enviro_factors = enviro_factors) {
-    browser()
+    #browser()
 
     #B.R1 (MF to SF)
     tb01 <- adj_unit_counts(
