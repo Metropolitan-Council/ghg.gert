@@ -15,7 +15,10 @@ calc_electrify_residential_heating(
 )
 }
 \arguments{
-\item{.boiler_to_heat_pump_efficiency_ratio}{}
+\item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
+Default is \code{1}.}
+
+\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 
@@ -42,21 +45,17 @@ ghg.sp::calc_electrify_residential_heating(
 }
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

@@ -1,24 +1,31 @@
 #' @title Calculate Strategy Electrify Commercial Heating
-#' @family building_energy_module
+#' @family Buildings
 #'
-#' @description `calc_electrify_commercial_heating` calculates the effect of electrifying
+#' @description `calc_electrify_commercial_heating` calculates
+#' the effect of electrifying
 #' commercial buildings on greenhouse gas emissions.
 #'
-#' @param .electrified_buildings_pct Numeric. A number between `0` and `1`.
+#' @inheritParams run_scenario_building
+#' @param .electrified_buildings_pct **Numeric**. A number between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
-#'      Default is `0.40`
-#' @param .natural_gas_for_water_heating_pct Numeric. A number between `0` and `1`.
+#'      Default is `0.40`.
+#' @param .non_res_natural_gas_for_water_heating_pct **Numeric**. A number between `0` and `1`.
 #'      The percent of natural gas that is commonly used for heating water in commercial buildings.
-#'      Default is `0.20`
-#' @param .natural_gas_for_space_heating_pct Numeric. A number between `0` and `1`.
+#'      Default is `0.20`.
+#' @param .non_res_natural_gas_for_space_heating_pct **Numeric**. A number between `0` and `1`.
 #'      The percent of natural gas that is commonly used for space heating in commercial buildings.
-#'      Default is `0.69`
-#' @param .boiler_to_heat_pump_efficiency_ratio Numeric.
-#' The ratio of boiler to heat pump efficiency
-#'      Default is `1.59362`
+#'      Default is `0.69`.
 #' @param .enviro_factors
 #'
-#' @return
+#' @return **Tibble**
+#'     A table with columns `year`, `ctu_name`, `population`,
+#'    `residential_mwh`,
+#'    `residential_electricity_emissions_kg_co`,
+#'    `residential_therms`, and
+#'    `residential_natural_gas_emissions_kg_co` with the modified values
+#'    to reflect building electrification.
+#'
+#'
 #' @export
 #'
 #' @examples

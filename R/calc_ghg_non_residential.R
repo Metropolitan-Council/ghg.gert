@@ -1,5 +1,5 @@
 #' @title Calculate Non-Residential Building Emissions
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `calc_ghg_non_residential()` calculates total energy demand and emissions from
 #' workers for industrial and commercial sectors by city/township.

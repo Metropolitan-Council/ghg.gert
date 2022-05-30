@@ -1,12 +1,11 @@
 #' @title Calculate Strategy Electrify Residential Heating
-#' @family building_energy_module
+#' @family Buildings
 #'
 #'
-#' @param res_tb
 #' @param .additional_electrified_residential_buildings_pct
-#' @param .natural_gas_for_space_heating_pct
-#' @param .natural_gas_for_water_heating_pct
-#' @param .boiler_to_heat_pump_efficiency_ratio
+#' @param .res_natural_gas_for_space_heating_pct
+#' @param .res_natural_gas_for_water_heating_pct
+#' @inheritParams run_scenario_building
 #'
 #' @return
 #' @export

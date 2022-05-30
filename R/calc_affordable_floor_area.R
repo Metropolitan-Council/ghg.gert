@@ -1,21 +1,31 @@
 #' @title Calculate Affordable Floor Area Effects
-#' @family building_energy_module
+#' @family Buildings
 #'
-#' @description `calc_affordable_floor_area` calculates the reduction in single family
-#' floor area from increased energy prices.
+#' @description `calc_affordable_floor_area` calculates the forecasted reduction in single family
+#' floor area from increased energy prices by city/township.
 #'
+#' @inheritParams run_scenario_building
 #' @param .single_family_floor_area_growth_pct **Numeric**. A number between `0` and `1`.
 #'       Percentage of single family floor area that gets reduced due to increase energy prices.
 #'       Default is `0.05`.
 #'       Should not be greater than 0.05 or *%5*.
 #'
 #' @return **Tibble**.
-#'       A table with field `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
-#'       `single_family_units` for the `var` column.
+#'       `single_family_units` for the `var` column when `year == 2040`relative
+#'       to the residential inputs table.
+#'
 #' @export
 #'
 #' @examples
+#' \donotrun{
+#' library(ghg.sp)
+#'
+#' ghg.sp::calc_affordable_floor_area
+#'      res_tb = building_data$residential,
+#'      .single_family_floor_area_growth_pct = 0.05
+#' }
 calc_affordable_floor_area <-
   function(res_tb,
            .single_family_floor_area_growth_pct) {

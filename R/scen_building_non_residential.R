@@ -1,5 +1,5 @@
 #' @title Calculate Scenario Building Non-Residential
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `scen_building_non_residential` compiles all the strategies related to
 #' non-residential buildings.

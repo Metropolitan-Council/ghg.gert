@@ -14,11 +14,12 @@ Default is \code{0.50}.}
 \value{
 \strong{Tibble}.
 A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
-Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}.
+Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}
+relative to residential inputs table.
 }
 \description{
 \code{adj_unit_counts()} adjusts single and multifamily unit count forecast by city/township
-in residential input table
+from residential inputs table.
 }
 \examples{
 \donotrun{
@@ -31,21 +32,17 @@ ghg.sp::adj_unit_counts(
 }
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

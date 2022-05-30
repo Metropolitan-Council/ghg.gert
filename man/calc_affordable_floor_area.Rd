@@ -14,30 +14,36 @@ Should not be greater than 0.05 or \emph{\%5}.}
 }
 \value{
 \strong{Tibble}.
-A table with field \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
-\code{single_family_units} for the \code{var} column.
+\code{single_family_units} for the \code{var} column when \code{year == 2040}relative
+to the residential inputs table.
 }
 \description{
-\code{calc_affordable_floor_area} calculates the reduction in single family
-floor area from increased energy prices.
+\code{calc_affordable_floor_area} calculates the forecasted reduction in single family
+floor area from increased energy prices by city/township.
+}
+\examples{
+\donotrun{
+library(ghg.sp)
+
+ghg.sp::calc_affordable_floor_area
+     res_tb = building_data$residential,
+     .single_family_floor_area_growth_pct = 0.05
+}
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

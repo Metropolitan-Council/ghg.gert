@@ -32,24 +32,31 @@ run_scenario_building(
 )
 }
 \arguments{
+\item{non_res_tb}{table with non-residential data.
+Default is \code{building_data$non_residential}}
+
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.electrified_buildings_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}}
+Default is \code{0.40}.}
 
-\item{.boiler_to_heat_pump_efficiency_ratio}{Numeric.
-The ratio of boiler to heat pump efficiency
-Default is \code{1.59362}}
+\item{.non_res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percent of natural gas that is commonly used for heating water in commercial buildings.
+Default is \code{0.20}.}
+
+\item{.non_res_natural_gas_for_space_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percent of natural gas that is commonly used for space heating in commercial buildings.
+Default is \code{0.69}.}
 
 \item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}
+Default is \code{1}.
 S}
 
 \item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
@@ -79,31 +86,61 @@ Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
 
 \item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 }
 \value{
-
+\strong{Tibble}.
+Returns a table with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+The table is the output of the building energy module, any modification to
+the inputs of the building energy module must be specified as an argument
+to the function \code{run_scenario_building()}
 }
 \description{
 \code{run_scenario_building} produces the outputs of the building energy module of the
 Metropolitan Council Greenhouse Gas Scenario Planning Tool.
 }
+\examples{
+\donotrun{
+run_scenario_building <-
+function(res_tb = building_data$residential,
+         non_res_tb = building_data$non_residential,
+         res_tb_bau = building_data$residential,
+         non_res_tb_bau = building_data$non_residential,
+         .enviro_factors = enviro_factors,
+         .electrified_buildings_pct = 0.40,
+         .non_res_natural_gas_for_water_heating_pct = 0.20,
+         .non_res_natural_gas_for_space_heating_pct =  0.69,
+         .boiler_to_heat_pump_efficiency_ratio =  1.59362,
+         .commercial_smart_grid_pct = 1.00,
+         .industrial_smart_grid_pct = 1.00,
+         .smart_grid_energy_reduction_pct = 1.00,
+         .new_homes_to_multifamily_pct = 0.50,
+         .existing_high_efficiency_buildings_pct = 0.80,
+         .home_behavior_change_pct = 1.00,
+         .single_family_floor_area_growth_pct = 0.05,
+         .new_homes_affected_pct = 0.30,
+         .new_homes_leed_gold_pct = 0.50,
+         .existing_home_retrofit_pct = 0.80,
+         .existing_home_ultra_retrofit_pct = 0.20,
+         .res_natural_gas_for_space_heating_pct = 0.71,
+         .res_natural_gas_for_water_heating_pct = 0.24,
+         .additional_electrified_residential_buildings_pct = 0.45,
+         .grid_decarbonization_pct = 1)
+}
+
+}
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

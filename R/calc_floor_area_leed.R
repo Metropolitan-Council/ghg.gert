@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area LEED
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `calc_floor_area_leed()` adjusts single and multifamily average
 #' floor area forecast in accordance with LEED reduction.
@@ -15,7 +15,8 @@
 #' @return **Tibble**.
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and
-#'       `single_family_average_floor_area_sqft_ctu` records for column `var`.
+#'       `single_family_average_floor_area_sqft_ctu` records for column `var`
+#'       when `year == 2040` relative to the residential inputs table.
 #'
 #' @export
 #'

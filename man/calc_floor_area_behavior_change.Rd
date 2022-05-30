@@ -22,7 +22,8 @@ Default is \code{1.00}.}
 A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted
 \code{single_family_average_floor_area_sqft_ctu} and
-\code{multifamily_average_floor_area_sqft_county} records for column \code{var}.
+\code{multifamily_average_floor_area_sqft_county} records for column \code{var}
+when \code{year == 2040} relative to the residential inputs table.
 }
 \description{
 \code{calc_floor_area_behavior_change()} adjusts residential floor area
@@ -41,21 +42,17 @@ ghg.sp::calc_floor_area_behavior_change(
 }
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

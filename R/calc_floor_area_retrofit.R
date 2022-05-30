@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area Retrofit
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `calc_floor_area_retrofit()` adjusts single and multifamily average
 #' floor area forecast under the assumptio of energy use reduction due to home
@@ -21,7 +21,8 @@
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units`,
 #'       `single_family_average_floor_area_sqft_ctu`, `multifamily_units`, and
-#'       `multifamily_average_floor_area_sqft_county` records for column `var`.
+#'       `multifamily_average_floor_area_sqft_county` records for column `var`
+#'       when `year == 2040` relative to the residential inputs table.
 #' @export
 #'
 #' @examples
@@ -41,8 +42,8 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
 
-  check_argument_pct(.existing_home_retrofit_pct, 0,1)
-  check_argument_pct(.existing_home_ultra_retrofit_pct, 0,1)
+  ghg.sp::check_argument_pct(.existing_home_retrofit_pct, 0,1)
+  ghg.sp::check_argument_pct(.existing_home_ultra_retrofit_pct, 0,1)
 
   # browser()
   if (.existing_home_retrofit_pct == 0) {

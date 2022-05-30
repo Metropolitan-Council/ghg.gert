@@ -1,5 +1,5 @@
 #' @title Run Building Energy Scenarios
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `run_scenario_building` produces the outputs of the building energy module of the
 #' Metropolitan Council Greenhouse Gas Scenario Planning Tool.
@@ -7,9 +7,42 @@
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
 #'
+#' @return **Tibble**.
+#'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
+#'       The table is the output of the building energy module, any modification to
+#'       the inputs of the building energy module must be specified as an argument
+#'       to the function `run_scenario_building()`
 #'
-#' @return
 #' @export
+#'
+#' @examples
+#' \donotrun{
+#' run_scenario_building <-
+#' function(res_tb = building_data$residential,
+#'          non_res_tb = building_data$non_residential,
+#'          res_tb_bau = building_data$residential,
+#'          non_res_tb_bau = building_data$non_residential,
+#'          .enviro_factors = enviro_factors,
+#'          .electrified_buildings_pct = 0.40,
+#'          .non_res_natural_gas_for_water_heating_pct = 0.20,
+#'          .non_res_natural_gas_for_space_heating_pct =  0.69,
+#'          .boiler_to_heat_pump_efficiency_ratio =  1.59362,
+#'          .commercial_smart_grid_pct = 1.00,
+#'          .industrial_smart_grid_pct = 1.00,
+#'          .smart_grid_energy_reduction_pct = 1.00,
+#'          .new_homes_to_multifamily_pct = 0.50,
+#'          .existing_high_efficiency_buildings_pct = 0.80,
+#'          .home_behavior_change_pct = 1.00,
+#'          .single_family_floor_area_growth_pct = 0.05,
+#'          .new_homes_affected_pct = 0.30,
+#'          .new_homes_leed_gold_pct = 0.50,
+#'          .existing_home_retrofit_pct = 0.80,
+#'          .existing_home_ultra_retrofit_pct = 0.20,
+#'          .res_natural_gas_for_space_heating_pct = 0.71,
+#'          .res_natural_gas_for_water_heating_pct = 0.24,
+#'          .additional_electrified_residential_buildings_pct = 0.45,
+#'          .grid_decarbonization_pct = 1)
+#' }
 #'
 run_scenario_building <-
   function(res_tb = building_data$residential,
@@ -17,7 +50,6 @@ run_scenario_building <-
            res_tb_bau = building_data$residential,
            non_res_tb_bau = building_data$non_residential,
            .enviro_factors = enviro_factors,
-
            #non-residential
              #electrification
            .electrified_buildings_pct = 0.40,

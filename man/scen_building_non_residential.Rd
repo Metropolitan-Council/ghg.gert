@@ -5,11 +5,11 @@
 \title{Calculate Scenario Building Non-Residential}
 \usage{
 scen_building_non_residential(
-  tb,
+  non_res_tb,
   non_res_tb_bau,
   .electrified_buildings_pct,
-  .natural_gas_for_water_heating_pct,
-  .natural_gas_for_space_heating_pct,
+  .non_res_natural_gas_for_water_heating_pct,
+  .non_res_natural_gas_for_space_heating_pct,
   .boiler_to_heat_pump_efficiency_ratio,
   .commercial_smart_grid_pct,
   .industrial_smart_grid_pct,
@@ -20,34 +20,33 @@ scen_building_non_residential(
 )
 }
 \arguments{
-\item{.electrified_buildings_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{non_res_tb}{table with non-residential data.
+Default is \code{building_data$non_residential}}
+
+\item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}}
+Default is \code{0.40}.}
 
-\item{.natural_gas_for_water_heating_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}}
+Default is \code{0.20}.}
 
-\item{.natural_gas_for_space_heating_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_space_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}}
-
-\item{.boiler_to_heat_pump_efficiency_ratio}{Numeric.
-The ratio of boiler to heat pump efficiency
-Default is \code{1.59362}}
+Default is \code{0.69}.}
 
 \item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}
+Default is \code{1}.
 S}
 
 \item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -63,11 +62,11 @@ non-residential buildings.
 library(ghg.sp)
 
 ghg.sp::scen_building_non_residential(
-     tb = building_data$non_residential,
+     non_res_tb = building_data$non_residential,
      non_res_tb_bau = building_data$non_residential,
      .electrified_buildings_pct = 0.40,
-     .natural_gas_for_water_heating_pct = 0.20,
-     .natural_gas_for_space_heating_pct = 0.69,
+     .non_res_natural_gas_for_water_heating_pct = 0.20,
+     .non_res_natural_gas_for_space_heating_pct = 0.69,
      .boiler_to_heat_pump_efficiency_ratio = 1.59362,
      .commercial_smart_grid_pct = 1.00,
      .industrial_smart_grid_pct = 1.00,
@@ -79,21 +78,17 @@ ghg.sp::scen_building_non_residential(
 }
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

@@ -12,7 +12,7 @@ calc_ghg_non_residential(
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
-  .enviro_factors = enviro_factors
+  .enviro_factors
 )
 }
 \arguments{
@@ -20,17 +20,17 @@ calc_ghg_non_residential(
 Default is \code{building_data$non_residential}}
 
 \item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}
+Default is \code{1}.
 S}
 
 \item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}}
+Default is \code{1}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -42,21 +42,17 @@ Default is \code{1}}
 workers for industrial and commercial sectors by city/township.
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

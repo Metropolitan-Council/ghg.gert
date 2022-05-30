@@ -7,37 +7,40 @@
 calc_electrify_commercial_heating(
   non_res_tb,
   .electrified_buildings_pct,
-  .natural_gas_for_water_heating_pct,
-  .natural_gas_for_space_heating_pct,
+  .non_res_natural_gas_for_water_heating_pct,
+  .non_res_natural_gas_for_space_heating_pct,
   .boiler_to_heat_pump_efficiency_ratio,
   .grid_decarbonization_pct,
   .enviro_factors
 )
 }
 \arguments{
-\item{.electrified_buildings_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}}
+Default is \code{0.40}.}
 
-\item{.natural_gas_for_water_heating_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}}
+Default is \code{0.20}.}
 
-\item{.natural_gas_for_space_heating_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_space_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}}
-
-\item{.boiler_to_heat_pump_efficiency_ratio}{Numeric.
-The ratio of boiler to heat pump efficiency
-Default is \code{1.59362}}
+Default is \code{0.69}.}
 
 \item{.enviro_factors}{}
 }
 \value{
-
+\strong{Tibble}
+A table with columns \code{year}, \code{ctu_name}, \code{population},
+\code{residential_mwh},
+\code{residential_electricity_emissions_kg_co},
+\code{residential_therms}, and
+\code{residential_natural_gas_emissions_kg_co} with the modified values
+to reflect building electrification.
 }
 \description{
-\code{calc_electrify_commercial_heating} calculates the effect of electrifying
+\code{calc_electrify_commercial_heating} calculates
+the effect of electrifying
 commercial buildings on greenhouse gas emissions.
 }
 \examples{
@@ -55,29 +58,25 @@ ghg.sp::calc_electrify_commercial_heating(
     ),
     .grid_decarbonization_pct = 0.8,
     .electrified_buildings_pct = 0.40,
-    .natural_gas_for_water_heating_pct = 0.20,
-    .natural_gas_for_space_heating_pct = 0.69,
+    .non_res_natural_gas_for_water_heating_pct = 0.20,
+    .non_res_natural_gas_for_space_heating_pct = 0.69,
     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
     .enviro_factors = enviro_factors
 )
 }
 }
 \seealso{
-Other building_energy_module: 
+Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential_x}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()},
 \code{\link{scen_building_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}

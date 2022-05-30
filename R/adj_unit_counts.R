@@ -1,13 +1,21 @@
 #' @title Adjust Residential Building Unit Counts
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `adj_unit_counts()` adjusts single and multifamily unit count forecast by city/township
-#' in residential input table
+#' from residential inputs table.
 #'
 #' @inheritParams run_scenario_building
+#'
 #' @param .new_homes_to_multifamily_pct **Numeric**. A number between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
 #'      Default is `0.50`.
+#'
+#' @return **Tibble**.
+#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`
+#'       relative to residential inputs table.
+#'
+#' @export
 #'
 #' @examples
 #' \donotrun{
@@ -18,13 +26,6 @@
 #'      .new_homes_to_multifamily_pct = 0.50
 #' )
 #' }
-#' @inheritParams scen_building_residential
-#' @return **Tibble**.
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
-#'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`.
-#' @export
-#'
-#'
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
 adj_unit_counts <- function(res_tb,

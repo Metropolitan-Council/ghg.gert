@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area Energy Intensity Reduction from Behavior Change
-#' @family building_energy_module
+#' @family Buildings
 #'
 #' @description `calc_floor_area_behavior_change()` adjusts residential floor area
 #'      by city/township based on proportion of households that change
@@ -15,7 +15,8 @@
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted
 #'       `single_family_average_floor_area_sqft_ctu` and
-#'       `multifamily_average_floor_area_sqft_county` records for column `var`.
+#'       `multifamily_average_floor_area_sqft_county` records for column `var`
+#'       when `year == 2040` relative to the residential inputs table.
 #'
 #' @export
 #'
