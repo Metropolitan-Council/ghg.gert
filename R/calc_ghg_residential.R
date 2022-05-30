@@ -85,6 +85,7 @@ calc_ghg_residential <- function(res_tb,
       dplyr::select(
         ctu_name,
         year,
+        population,
         residential_mwh,
         residential_electricity_emissions_kg_co,
         residential_therms,

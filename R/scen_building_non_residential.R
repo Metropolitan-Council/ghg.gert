@@ -35,7 +35,7 @@ scen_building_non_residential <-
     )
     # tb02 calculates conversion to electric heating
     tb02 <- calc_electrify_commercial_heating(
-      tb = tb01,
+      non_res_tb = tb01,
       .electrified_buildings_pct = .electrified_buildings_pct,
       .natural_gas_for_water_heating_pct = .natural_gas_for_water_heating_pct,
       .natural_gas_for_space_heating_pct = .natural_gas_for_space_heating_pct,
@@ -43,7 +43,12 @@ scen_building_non_residential <-
       .enviro_factors = .enviro_factors
     )
     # tb03 calculates non residential renewable natural gas emissions reduction
-    tb03 <- calc_non_res_renewable_ng(tb = tb02) %>%
+    tb03 <- calc_non_res_renewable_ng(
+      non_res_tb = tb02,
+      .enviro_factors = .enviro_factors)
+
+    tb04 <-
+      tb03 %>%
       tidyr::pivot_longer(
         cols = !ctu_name,
         names_to = c("var", "scen", "year"),
@@ -64,6 +69,6 @@ scen_building_non_residential <-
         )
       )
 
-    return(tb03)
+    return(tb04)
 
   }

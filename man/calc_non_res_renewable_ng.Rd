@@ -4,7 +4,7 @@
 \alias{calc_non_res_renewable_ng}
 \title{Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions}
 \usage{
-calc_non_res_renewable_ng(tb, .enviro_factors = .enviro_factors)
+calc_non_res_renewable_ng(non_res_tb, .enviro_factors = .enviro_factors)
 }
 \value{
 
@@ -18,7 +18,7 @@ text...
 \examples{
 \donotrun{
 ghg.sp::calc_non_res_renewable_ng(
-     tb =
+     non_res_tb =
      .enviro_factors = enviro_factors
 )
 }

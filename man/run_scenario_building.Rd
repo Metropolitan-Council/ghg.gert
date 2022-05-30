@@ -7,13 +7,16 @@
 run_scenario_building(
   res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,
+  res_tb_bau = building_data$residential,
+  non_res_tb_bau = building_data$non_residential,
   .enviro_factors = enviro_factors,
   .electrified_buildings_pct = 0.4,
-  .natural_gas_for_water_heating_pct = 0.2,
-  .natural_gas_for_space_heating_pct = 0.69,
+  .non_res_natural_gas_for_water_heating_pct = 0.2,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
   .boiler_to_heat_pump_efficiency_ratio = 1.59362,
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
   .new_homes_to_multifamily_pct = 0.5,
   .existing_high_efficiency_buildings_pct = 0.8,
   .home_behavior_change_pct = 1,
@@ -22,7 +25,9 @@ run_scenario_building(
   .new_homes_leed_gold_pct = 0.5,
   .existing_home_retrofit_pct = 0.8,
   .existing_home_ultra_retrofit_pct = 0.2,
-  .smart_grid_energy_reduction_pct = 1,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .additional_electrified_residential_buildings_pct = 0.45,
   .grid_decarbonization_pct = 1
 )
 }
@@ -33,14 +38,6 @@ run_scenario_building(
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}}
 
-\item{.natural_gas_for_water_heating_pct}{Numeric. A number between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}}
-
-\item{.natural_gas_for_space_heating_pct}{Numeric. A number between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}}
-
 \item{.boiler_to_heat_pump_efficiency_ratio}{Numeric.
 The ratio of boiler to heat pump efficiency
 Default is \code{1.59362}}
@@ -50,6 +47,10 @@ Default is \code{1}}
 
 \item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
 Default is \code{1}}
+
+\item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
+Default is \code{1}
+S}
 
 \item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
@@ -76,10 +77,6 @@ Default is \code{0.80}.}
 \item{.existing_home_ultra_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
-
-\item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}
-S}
 
 \item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
 Default is \code{1}}

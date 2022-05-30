@@ -9,27 +9,31 @@
 #' @examples
 #' \donotrun{
 #' ghg.sp::calc_non_res_renewable_ng(
-#'      tb =
+#'      non_res_tb =
 #'      .enviro_factors = enviro_factors
 #' )
 #' }
 #'
 calc_non_res_renewable_ng <-
-  function(tb,
+  function(non_res_tb,
            .enviro_factors = .enviro_factors) {
-    tb %>%
+    new_non_res_tb <-
+      tb %>%
       dplyr::mutate(
         reduced_therms =
-          (industrial_therms.scen.2040 +
-             commercial_therms.scen.2040) -
           (commercial_therms.bau.2040 +
-             industrial_therms.bau.2040)
+             industrial_therms.bau.2040) -
+          (industrial_therms.scen.2040 +
+             commercial_therms.scen.2040)
+
       ) %>%
       dplyr::mutate(
         commercial_natural_gas_emissions_kg_co.scen.2040 =
           ((commercial_therms.bau.2040 + industrial_therms.bau.2040) -
-             (reduced_therms - 78 * population.bau.2040)
+             (reduced_therms - (78 * population.bau.2040))
           ) *
           .enviro_factors$KG_CO2E_PER_THERM_FORECAST
       )
+
+    return(new_non_res_tb)
   }

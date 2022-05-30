@@ -4,7 +4,12 @@
 \alias{calc_ghg_residential}
 \title{Calculate Residential Building Emissions}
 \usage{
-calc_ghg_residential(res_tb, .grid_decarbonization_pct, .enviro_factors)
+calc_ghg_residential(
+  res_tb,
+  res_tb_bau,
+  .grid_decarbonization_pct,
+  .enviro_factors
+)
 }
 \arguments{
 \item{res_tb}{table, table with residential building data.}
@@ -27,6 +32,7 @@ library(ghg.sp)
 
 ghg.sp::calc_ghg_residential(
      res_tb = building_data$residential,
+     res_tb_bau = building_data$residential,
      .grid_decarbonization_pct = 1,
      .enviro_factors = enviro_factors
 )

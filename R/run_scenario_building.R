@@ -48,6 +48,7 @@ run_scenario_building <-
     res <-
       scen_building_residential(
       tb = res_tb,
+      res_tb_bau = res_tb_bau,
       .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
       .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
       .home_behavior_change_pct = .home_behavior_change_pct,
@@ -55,6 +56,10 @@ run_scenario_building <-
       .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
       .existing_home_retrofit_pct = .existing_home_retrofit_pct,
       .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+      .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
+      .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
+      .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
+      .boiler_to_heat_pump_efficiency_ratio = .boiler_to_heat_pump_efficiency_ratio,
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors
     )

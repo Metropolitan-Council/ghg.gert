@@ -21,24 +21,24 @@
 #'           .grid_decarbonization_pct = 0.80,
 #'           .enviro_factors = enviro_factors),
 #'      .additional_electrified_residential_buildings_pct = 0.45,
-#'      .natural_gas_for_space_heating_pct = 0.71,
-#'      .natural_gas_for_water_heating_pct = 0.24,
+#'      .res_natural_gas_for_space_heating_pct = 0.71,
+#'      .res_natural_gas_for_water_heating_pct = 0.24,
 #'      .boiler_to_heat_pump_efficiency_ratio = 1.59362,
 #'      .grid_decarbonization_pct = 0.80,
 #'      .enviro_factors = enviro_factors
 #' )
 #' }
-calc_electrify_residential_heating <- function(tb,
+calc_electrify_residential_heating <- function(res_tb,
                                                .additional_electrified_residential_buildings_pct,
-                                               .natural_gas_for_space_heating_pct,
-                                               .natural_gas_for_water_heating_pct,
+                                               .res_natural_gas_for_space_heating_pct,
+                                               .res_natural_gas_for_water_heating_pct,
                                                .boiler_to_heat_pump_efficiency_ratio,
                                                .grid_decarbonization_pct,
                                                .enviro_factors) {
 
 
 
-  new_res_tb <- tb %>%
+  new_res_tb <- res_tb %>%
     mutate(
       gas_savings_pct =
         1 - ((residential_therms.bau.2040 - residential_therms.scen.2040)
@@ -51,14 +51,14 @@ calc_electrify_residential_heating <- function(tb,
         (
           reduced_therms
           * gas_savings_pct
-          * .natural_gas_for_space_heating_pct
+          * .res_natural_gas_for_space_heating_pct
           * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
         )
       -
         (
           reduced_therms
           * gas_savings_pct
-          * .natural_gas_for_space_heating_pct
+          * .res_natural_gas_for_space_heating_pct
           * .boiler_to_heat_pump_efficiency_ratio
         )
       * .enviro_factors$KG_CO2E_PER_MHW_FORECAST
@@ -70,14 +70,14 @@ calc_electrify_residential_heating <- function(tb,
           (
             reduced_therms
             * gas_savings_pct
-            * .natural_gas_for_water_heating_pct
+            * .res_natural_gas_for_water_heating_pct
             * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
           )
           -
             (
               reduced_therms
               * gas_savings_pct
-              * .natural_gas_for_water_heating_pct
+              * .res_natural_gas_for_water_heating_pct
               * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
             )
           / 1

@@ -6,6 +6,7 @@
 \usage{
 calc_ghg_non_residential(
   non_res_tb,
+  non_res_tb_bau,
   .commercial_smart_grid_pct,
   .industrial_smart_grid_pct,
   .smart_grid_energy_reduction_pct,
