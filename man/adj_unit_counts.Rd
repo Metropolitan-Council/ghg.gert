@@ -7,17 +7,17 @@
 adj_unit_counts(res_tb, .new_homes_to_multifamily_pct)
 }
 \arguments{
-\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}
-Percentage of new single-family homes to instead be built as multifamily homes
-Default is \code{0.50}}
+\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of new single-family homes to instead be built as multifamily homes.
+Default is \code{0.50}.}
 }
 \value{
-A tibble.
-A table with field \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
-Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for field \code{var}.
+\strong{Tibble}.
+A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}.
 }
 \description{
-Adjust single and multifamily unit count forecast by city/township
+\code{adj_unit_counts()} adjusts single and multifamily unit count forecast by city/township
 in residential input table
 }
 \examples{
@@ -28,12 +28,13 @@ ghg.sp::adj_unit_counts(
      res_tb = building_data$residential,
      .new_homes_to_multifamily_pct = 0.50
 )
-
 }
 }
 \seealso{
 Other building_energy_module: 
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},

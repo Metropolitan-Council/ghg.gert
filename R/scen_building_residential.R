@@ -86,5 +86,9 @@ scen_building_residential <-
       .enviro_factors = .enviro_factors
     )
 
+    #tb07 <- calc_electrify_residential_heating()
+
+    #tb08 <- calc_residential_renewable_ng()
+
     return(tb06)
   }

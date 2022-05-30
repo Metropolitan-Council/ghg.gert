@@ -11,14 +11,18 @@ calc_floor_area_behavior_change(
 )
 }
 \arguments{
-\item{.home_behavior_change_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}}
+Default is \code{1.00}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\strong{Tibble}.
+A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted
+\code{single_family_average_floor_area_sqft_ctu} and
+\code{multifamily_average_floor_area_sqft_county} records for column \code{var}.
 }
 \description{
 \code{calc_floor_area_behavior_change()} adjusts residential floor area
@@ -35,12 +39,13 @@ ghg.sp::calc_floor_area_behavior_change(
   .enviro_factors = enviro_factors
 )
 }
-
 }
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},

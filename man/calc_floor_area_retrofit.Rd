@@ -12,22 +12,27 @@ calc_floor_area_retrofit(
 )
 }
 \arguments{
-\item{.existing_home_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
-The percentage of existing homes retrofitted to reduce energy usage by 33\%.
-Default is \code{0.8}}
+\item{.existing_home_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
+Default is \code{0.80}.}
 
-\item{.existing_home_ultra_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
-The percentage of existing homes retrofitted to reduce energy usage by 66\%.
-Default is \code{0.2}}
+\item{.existing_home_ultra_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
+Default is \code{0.20}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\strong{Tibble}
+A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted \code{single_family_units},
+\code{single_family_average_floor_area_sqft_ctu}, \code{multifamily_units}, and
+\code{multifamily_average_floor_area_sqft_county} records for column \code{var}.
 }
 \description{
 \code{calc_floor_area_retrofit()} adjusts single and multifamily average
-floor area forecast in accordance with LEED reduction
+floor area forecast under the assumptio of energy use reduction due to home
+retrofits.
 }
 \details{
 Uses the average single family floor area in 2018
@@ -38,8 +43,8 @@ library(ghg.sp)
 
 ghg.sp::calc_floor_area_retrofit(
   res_tb = building_data$residential,
-  .existing_home_retrofit_pct = 0.8,
-  .existing_home_ultra_retrofit_pct = 0.2,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
   .enviro_factors = enviro_factors
 )
 }
@@ -48,7 +53,9 @@ ghg.sp::calc_floor_area_retrofit(
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},

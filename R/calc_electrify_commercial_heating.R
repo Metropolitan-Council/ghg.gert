@@ -33,49 +33,62 @@
 #'}
 calc_electrify_commercial_heating <-
   function(tb,
-           .electrified_buildings_pct = .electrified_buildings_pct,
-           .natural_gas_for_water_heating_pct = .natural_gas_for_water_heating_pct,
-           .natural_gas_for_space_heating_pct = .natural_gas_for_space_heating_pct,
-           .boiler_to_heat_pump_efficiency_ratio = .boiler_to_heat_pump_efficiency_ratio,
-           .enviro_factors = .enviro_factors) {
+           .electrified_buildings_pct,
+           .natural_gas_for_water_heating_pct,
+           .natural_gas_for_space_heating_pct,
+           .boiler_to_heat_pump_efficiency_ratio,
+           .grid_decarbonization_pct,
+           .enviro_factors) {
     new_non_res_tb <- tb %>%
       dplyr::mutate(
         reduced_therms =
           commercial_therms.bau.2040 * .electrified_buildings_pct,
-        gas_savings_pct = 1 - commercial_therms.scen.2040 / commercial_therms.bau.2040,
+        gas_savings_pct =
+          1 - ((commercial_therms.bau.2040 - commercial_therms.scen.2040)
+               / commercial_therms.scen.2040
+          ),
         commercial_natural_gas_emissions_kg_co.scen.2040 =
 
           (
             reduced_therms *
               gas_savings_pct *
               .natural_gas_for_space_heating_pct *
-              kg_per_therm.scen.2040
+              enviro_factors$KG_CO2E_PER_THERM_FORECAST
           )
         - (
           reduced_therms *
             gas_savings_pct *
             .natural_gas_for_space_heating_pct *
             .boiler_to_heat_pump_efficiency_ratio *
-            .enviro_factors$THERM_TO_MWH *
-            kg_per_mwh.scen.2040 *
-            0.2
+
+            (
+              enviro_factors$KG_CO2E_PER_MHW_FORECAST
+              * (1 - .grid_decarbonization_pct)
+              * .enviro_factors$THERM_TO_MWH
+            )
         )
         + (
           reduced_therms
+          * gas_savings_pct
           * .natural_gas_for_water_heating_pct
-          * kg_per_therm.scen.2040 *
-            gas_savings_pct
+          * enviro_factors$KG_CO2E_PER_THERM_FORECAST
+
         )
         - ((
-          reduced_therms *
-            .natural_gas_for_water_heating_pct *
-            kg_per_therm.scen.2040 *
-            gas_savings_pct
+          reduced_therms
+          * gas_savings_pct
+          * .natural_gas_for_water_heating_pct
+          * enviro_factors$KG_CO2E_PER_THERM_FORECAST
+
         ) /
-          (1 *
-             kg_per_mwh.scen.2040 *
-             .enviro_factors$THERM_TO_MWH *
-             0.2)
+          (
+            1 *
+              (
+                enviro_factors$KG_CO2E_PER_MHW_FORECAST *
+                  (1 - grid_decarbonization_pct)
+              )
+            * .enviro_factors$THERM_TO_MWH
+          )
         )
       )
 

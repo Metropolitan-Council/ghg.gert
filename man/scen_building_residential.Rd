@@ -18,13 +18,13 @@ scen_building_residential(
 )
 }
 \arguments{
-\item{tb}{Tibble.
+\item{tb}{\strong{Tibble}.
 Data table with residential building attributes. Package provided
 dataset \code{building_energy$residential} is suitable and the default value.}
 
-\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}
-Percentage of new single-family homes to instead be built as multifamily homes
-Default is \code{0.50}}
+\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of new single-family homes to instead be built as multifamily homes.
+Default is \code{0.50}.}
 
 \item{.single_family_floor_area_growth_pct}{Numeric. A number between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
@@ -36,22 +36,22 @@ households that will respond to increased energy costs by decreasing
 home size.
 Default is \code{0.30}}
 
-\item{.new_homes_leed_gold_pct}{Numeric. A number between \code{0} and \code{1}
-The percentage of new single-family homes built according to LEED Gold standards.
+\item{.new_homes_leed_gold_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.5}}
 
-\item{.existing_home_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
-The percentage of existing homes retrofitted to reduce energy usage by 33\%.
-Default is \code{0.8}}
+\item{.existing_home_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
+Default is \code{0.80}.}
 
-\item{.existing_home_ultra_retrofit_pct}{Numeric. A number between \code{0} and \code{1}.
-The percentage of existing homes retrofitted to reduce energy usage by 66\%.
-Default is \code{0.2}}
+\item{.existing_home_ultra_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
+Default is \code{0.20}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-Tibble.
+\strong{Tibble}.
 }
 \description{
 \code{scen_building_residential()} calculates the effect of the residential building
@@ -78,7 +78,9 @@ ghg.sp::scen_building_residential(
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},

@@ -7,18 +7,21 @@
 calc_floor_area_leed(res_tb, .new_homes_leed_gold_pct, .enviro_factors)
 }
 \arguments{
-\item{.new_homes_leed_gold_pct}{Numeric. A number between \code{0} and \code{1}
-The percentage of new single-family homes built according to LEED Gold standards.
+\item{.new_homes_leed_gold_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.5}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-data table
+\strong{Tibble}.
+A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+Table contains adjusted \code{single_family_units} and
+\code{single_family_average_floor_area_sqft_ctu} records for column \code{var}.
 }
 \description{
-\code{calc_floor_area_leed()} adjusts single and multifamily average floor area forecast in
-accordance with LEED reduction
+\code{calc_floor_area_leed()} adjusts single and multifamily average
+floor area forecast in accordance with LEED reduction.
 }
 \details{
 Uses the average single family floor area in 2018
@@ -38,7 +41,9 @@ ghg.sp::calc_floor_area_leed(
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},

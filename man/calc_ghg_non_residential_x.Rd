@@ -31,7 +31,9 @@ workers for industrial and commercial sectors
 \seealso{
 Other building_energy_module: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},

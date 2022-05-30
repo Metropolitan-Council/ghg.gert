@@ -10,14 +10,34 @@ calc_affordable_floor_area(res_tb, .single_family_floor_area_growth_pct)
 \item{.single_family_floor_area_growth_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of single family floor area that gets reduced due to increase energy prices.
 Default is \code{0.05}.
-Should not be greater than 0.05 or \%5.}
+Should not be greater than 0.05 or \emph{\%5}.}
 }
 \value{
-a Tibble.
+\strong{Tibble}.
 A table with field \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
 \code{single_family_units} for the \code{var} column.
 }
 \description{
-Calculate Affordable Floor Area Effects
+\code{calc_affordable_floor_area} calculates the reduction in single family
+floor area from increased energy prices.
 }
+\seealso{
+Other building_energy_module: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_floor_area_behavior_change}()},
+\code{\link{calc_floor_area_growth}()},
+\code{\link{calc_floor_area_leed}()},
+\code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_non_residential_x}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()},
+\code{\link{scen_building_residential}()}
+}
+\concept{building_energy_module}

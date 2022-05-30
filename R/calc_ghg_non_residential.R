@@ -22,7 +22,8 @@
 #' @example
 #' \donotrun{
 #' calc_ghg_non_residential(
-#' non_res_tb = building_data$non_residential
+#'      non_res_tb = building_data$non_residential,
+#'      non_res_tb_bau = building_data$non_residential,
 #'      .industrial_smart_grid_pct = 1,
 #'      .commercial_smart_grid_pct = 1,
 #'      .grid_decarbonization_pct = 1,
@@ -33,6 +34,7 @@
 #' }
 calc_ghg_non_residential <-
   function(non_res_tb,
+           non_res_tb_bau,
            .commercial_smart_grid_pct,
            .industrial_smart_grid_pct,
            .smart_grid_energy_reduction_pct,
@@ -127,7 +129,7 @@ calc_ghg_non_residential <-
 
     emis_bau <-
       emis(
-        tb = non_res_tb,
+        tb = non_res_tb_bau,
         grid_decarb = 0,
         commercial_smart_grid_pct = 1,
         industrial_smart_grid_pct = 1,
