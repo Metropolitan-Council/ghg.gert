@@ -1,5 +1,8 @@
 # fix bus fuel efficiency
 library(councilR)
+pkgload::load_all()
+library(dplyr)
+library(ggplot2)
 ggplot2::theme_set(
   if(testthat:::on_ci() == TRUE){
     theme_minimal()
@@ -78,7 +81,7 @@ ggplot(aes(x = year,
   geom_point() +
   geom_line() +
   geom_text(nudge_y = 0.1,
-            size = 3.5,
+            size = 4.6,
             check_overlap = T) +
   theme(legend.position = "bottom") +
   labs(title = "Bus fuel economy",

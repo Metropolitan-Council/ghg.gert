@@ -1,5 +1,7 @@
 pkgload::load_all()
 library(councilR)
+library(dplyr)
+library(ggplot2)
 ggplot2::theme_set(
   if(testthat:::on_ci() == TRUE){
     theme_minimal()
@@ -18,10 +20,14 @@ bus_stock_old <- transportation_data$passenger %>%
   group_by(year, var) %>%
   summarize(n_bus = sum(value))
 
+
+n_bus_per_year <- 2 # avg two new buses each year
+
 bus_year_estimate <- tibble(
-  year = unique(transportation_data$passenger$year),
-  n_bus = seq(865, by = 10, length = 9)
-)
+  year = seq(from = 2015, to = 2050, by =  1) %>% as.character(),
+  n_bus = seq(from = 865, to = 1250, length = 36)
+) %>%
+  filter(year %in% transportation_data$passenger$year)
 
 new_stock <- transportation_data$passenger %>%
   filter(
@@ -77,22 +83,26 @@ bus_year_estimate %>%
   ) %>%
   bind_rows(bus_stock_old %>%
               mutate(version = "Original")) %>%
-  ggplot(aes(x = year,
+  ggplot(aes(x = as.numeric(year),
              y = n_bus,
              group = var,
              color = var,
              fill = var,
-             label = n_bus)) +
+             label = round(n_bus))) +
   geom_point() +
   geom_line() +
-  geom_text(nudge_y = 100) +
+  geom_text(nudge_y = 100,
+            size = 4.5,
+            check_overlap = T) +
   # geom_area(position = "stack") +
   facet_wrap(~version,
              nrow = 2) +
   scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(n.breaks = 7) +
   labs(title = "Regional bus fleet",
        y = "Buses",
-       x = "Year") +
+       x = "Year",
+       caption = Sys.Date()) +
   theme(legend.position = "bottom")
 
 ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
