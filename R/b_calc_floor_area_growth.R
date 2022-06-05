@@ -1,19 +1,22 @@
 #' @title Calculate Floor Area Growth
-#' @family building_energy_module
+#' @family Residential
+#' @family Buildings
 #'
-#' @description Adjust single and multifamily average floor area
-#' forecast in residential table. Allows the user to specify the percentage
-#' increase in single family floor areas, and the percentage of homes
-#' affected.
+#' @description `calc_floor_area_growth()` adjusts single and multifamily average floor area
+#'      forecast in residential table. Allows the user to specify the percentage
+#'      increase in single family floor areas, and the percentage of homes
+#'      affected.
 #'
-#' @param .single_family_floor_area_growth_pct Numeric. A number between `0` and `1`.
-#' Percentage growth rate in single family home floor area.
-#'      Default is `0.05`
-#' @param .new_homes_affected_pct Numeric. A number between `0` and `1`.
-#' Percentage of all new single-family
-#' households that will respond to increased energy costs by decreasing
-#' home size.
-#'      Default is `0.30`
+#' @param .single_family_floor_area_growth_pct **Numeric**.
+#'      A number between `0` and `1`.
+#'      Percentage growth rate in single family home floor area.
+#'      Default is `0.05`.
+#' @param .new_homes_affected_pct **Numeric**.
+#'      A number between `0` and `1`.
+#'      Percentage of all new single-family
+#'      households that will respond to increased energy costs by decreasing
+#'      home size.
+#'      Default is `0.30`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario_transportation

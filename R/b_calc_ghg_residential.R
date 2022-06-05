@@ -3,11 +3,11 @@
 #' @family Residential
 #'
 #' @description `calc_ghg_residential()` estimates total energy demand
-#' and emissions from the residential building sector by city/township
-#' for the user specified scenario, and the business-as-usual scenario.
+#'      and emissions from the residential building sector by city/township
+#'      for the user specified scenario, and the business-as-usual scenario.
 #' @note `calc_ghg_residential` estimates the building energy demand and emissions
-#' based on the floor area assumptions. For a function that compiles all
-#' residential strategies refer to `scen_residential_building`.
+#'      based on the floor area assumptions. For a function that compiles all
+#'      residential strategies refer to `scen_residential_building`.
 #'
 #' @param res_tb **Tibble**.
 #'      Table, table with residential building data.
@@ -24,7 +24,7 @@
 #'    `residential_natural_gas_emissions_kg_co`
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' library(ghg.sp)
 #'
 #' ghg.sp::calc_ghg_residential(

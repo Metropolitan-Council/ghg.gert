@@ -4,7 +4,6 @@
 #' @description `calc_carbon_sequestration_per_ctu` calculates the total carbon sequestration
 #' per hectares by land cover type by city/township.
 #'
-#' @inheritParams calc_parking_lot_land_cover
 #' @param .impervious_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of impervious land cover.
 #'      Default is `0` C/ha/year.

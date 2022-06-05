@@ -11,7 +11,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 check_argument_pct <- function(arg, left, right) {
 
   arg_name <- deparse(substitute(arg))

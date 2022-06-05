@@ -12,7 +12,7 @@
 #' @note `calc_non_res_renewable_ng` is called within `scen_building_non_residential()`
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' library(ghg.sp)
 #'
 #' ghg.sp::calc_non_res_renewable_ng(

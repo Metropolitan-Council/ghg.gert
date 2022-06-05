@@ -4,7 +4,7 @@
 #'
 #' @description `scen_building_non_residential` compiles all the strategies related to
 #' non-residential buildings.
-#' @note To run the Building Energy Module, refer to function `run_scenario_transportation_building()`
+#' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'
 #' @inheritParams calc_existing_comm_building_efficiency
 #' @inheritParams calc_ghg_non_residential
@@ -13,36 +13,39 @@
 #'
 #'
 #' @param non_res_tb **Tibble**.
-#'     Data table with residential building attributes. Package provided.
-#'     Dataset `building_energy$residential` is suitable and the default value.
-#'     `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
-#'     `non_res_tb` is used as the input for the decarbonization scenario.
+#'      Data table with non-residential building attributes. Package provided.
+#'      Dataset `building_data$non_residential` is suitable and the default value.
+#'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
+#'      `non_res_tb` is used as the input for the decarbonization scenario.
 #' @param non_res_tb_bau **Tibble**.
-#'     Data table with residential building attributes. Package provided.
-#'     Dataset `building_energy$residential` is suitable and the default value.
-#'     `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
-#'     `non_res_tb` is used as the input for the decarbonization scenario.
+#'      Data table with non-residential building attributes. Package provided.
+#'      Dataset `building_data$non_residential` is suitable and the default value.
+#'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
+#'      `non_res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @return **Tibble**.
-#' Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
-#' The output of the non-residential portion of the Building Energy Module of the
-#' *Metropolitan Council GHG Scenario Planning Tool*.
+#'      Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
+#'      The output of the non-residential portion of the Building Energy Module of the
+#'      *Metropolitan Council GHG Scenario Planning Tool*.
 #'
-#' @field `ctu_name` **Character**.
-#' Name of the city/township.
-#' @field `year` **Numeric**.
-#' Year.
-#' @field `var` **Charcter**. Can be `commercial_mwh`, `industrial_mwh`, `commercial_therms`,`industrial_therms`,
-#' `commercial_electricity_emissions_kg_co`,`industrial_electricity_emissions_kg_co`, `commercial_natural_gas_emissions_kg_co`,
-#' `industrial_natural_gas_emissions_kg_co`, or `total_industrial_commercial_emissions`.
-#' @field `value` **Numeric**. The numeric value of `var`.
-#' @field `scen` **Charcter**. Can be `bau` which means Business as Usual or `scenario` which means, the user specified
-#' decarbonization scenario.
+#' @field ctu_name **Character**.
+#'      Name of the city/township.
+#' @field year **Numeric**.
+#'      Year.
+#' @field var **Charcter**.
+#'      Can be `commercial_mwh`, `industrial_mwh`, `commercial_therms`, `industrial_therms`, `commercial_electricity_emissions_kg_co`,
+#'      `industrial_electricity_emissions_kg_co`, `commercial_natural_gas_emissions_kg_co`, `industrial_natural_gas_emissions_kg_co`,
+#'      or `total_industrial_commercial_emissions`.
+#' @field value **Numeric**.
+#'      The numeric value of `var`.
+#' @field scen **Charcter**.
+#'      Can be `bau` which means Business as Usual or `scenario` which means, the user specified
+#'      decarbonization scenario.
 #'
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' library(ghg.sp)
 #'
 #' ghg.sp::scen_building_non_residential(

@@ -5,12 +5,20 @@
 #' @description `calc_residential_renewable_ng` calculates the impact on residential
 #'       building emissions from transitioning natural gas to renewable natural gas.
 #'
-#' @inheritParams run_scenario_transportation_building
+#' @inheritParams run_scenario_building
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(ghg.sp)
+#'
+#' ghg.sp::calc_residential_renewable_ng(
+#'      res_tb = building_data$residential,
+#'      .enviro_factors = enviro_factors
+#' )
+#' }
 calc_residential_renewable_ng <-
   function(res_tb,
            .enviro_factors = .enviro_factors) {

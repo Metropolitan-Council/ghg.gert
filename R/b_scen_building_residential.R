@@ -3,7 +3,7 @@
 #'
 #' @description `scen_building_residential()` calculates the effect of the residential building
 #' strategies within the building energy module.
-#' @note To run the Building Energy Module, refer to function `run_scenario_transportation_building()`
+#' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'
 #' @param res_tb **Tibble**.
 #'     Data table with residential building attributes. Package provided.

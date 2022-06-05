@@ -14,7 +14,7 @@
 #' The percentage of natural gas that is commonly used for water heating in residential
 #' buildings.
 #'
-#' @inheritParams run_scenario_transportation_building
+#' @inheritParams run_scenario_building
 #'
 #' @return **Tibble**.
 #' Data table with output of electrify residential heating.
@@ -22,7 +22,7 @@
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' library(ghg.sp)
 #'
 #' ghg.sp::calc_electrify_residential_heating(

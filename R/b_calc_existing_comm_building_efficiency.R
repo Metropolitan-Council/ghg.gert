@@ -3,20 +3,29 @@
 #' @family Buildings
 #'
 #' @description `calc_existing_comm_building_efficiency` helps to calculate the reduced
-#' emissions from implementing high energy efficiency retrofits to existing buildings.
-#' Given that the main determinant of energy efficiency is the number of workers, this
-#' function reduces the number of workers.
+#'      emissions from implementing high energy efficiency retrofits to existing buildings.
+#'      Given that the main determinant of energy efficiency is the number of workers, this
+#'      function reduces the number of workers.
 #'
-#' @param .existing_high_efficiency_buildings_pct **Numeric**. A number between `0` and 1.
+#' @param .existing_high_efficiency_buildings_pct **Numeric**.
+#'      A number between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
 #'      Default is `0.8`.
 #'
 #' @return **Tibble**.
-#' The adjusted values for the non residential input table to reflect commercial building
-#' energy efficiency.
+#'      The adjusted values for the non residential input table to reflect commercial building
+#'      energy efficiency.
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(ghg.sp)
+#'
+#' ghg.sp::calc_existing_comm_building_efficiency(
+#'      non_res_tb = building_data$non_residential,
+#'      .existing_high_efficiency_buildings_pct = 0.80
+#' )
+#' }
 calc_existing_comm_building_efficiency <-
   function(non_res_tb = building_data$non_residential,
            .existing_high_efficiency_buildings_pct) {

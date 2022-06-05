@@ -5,7 +5,7 @@
 #' @description `adj_unit_counts()` adjusts single and multifamily unit count forecast by city/township
 #' from residential inputs table.
 #'
-#' @inheritParams run_scenario_transportation_building
+#' @inheritParams run_scenario_building
 #'
 #' @param .new_homes_to_multifamily_pct **Numeric**. A number between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' library(ghg.sp)
 #'
 #' ghg.sp::adj_unit_counts(

@@ -6,7 +6,7 @@
 #' the effect of electrifying
 #' commercial buildings on greenhouse gas emissions by city/township for the specified scenario.
 #'
-#' @inheritParams run_scenario_transportation_building
+#' @inheritParams run_scenario_building
 #' @param .electrified_buildings_pct **Numeric**. A number between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
 #'      Default is `0.40`.
@@ -30,7 +30,7 @@
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' ghg.sp::calc_electrify_commercial_heating(
 #'     non_res_tb = calc_ghg_non_residential(
 #'           non_res_tb = building_data$non_residential,

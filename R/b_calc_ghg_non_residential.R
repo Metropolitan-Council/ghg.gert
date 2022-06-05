@@ -14,9 +14,9 @@
 #'      Default is `1`.
 #' @param .commercial_smart_grid_pct **Numeric**.
 #'      A number between `0` and `1`.
-#'      Default is `1`.
 #'      The percentage of commercial buildings that would be on the smart grid for the
 #'      specified scenario.
+#'      Default is `1`.
 #' @param .grid_decarbonization_pct **Numeric**.
 #'      A number between `0` and `1`.
 #'      Default is `1`.
@@ -28,8 +28,10 @@
 #' @return
 #' @export
 #'
-#' @example
-#' \donotrun{
+#' @examples
+#' \dontrun{
+#' library(ghg.sp)
+#'
 #' calc_ghg_non_residential(
 #'      non_res_tb = building_data$non_residential,
 #'      non_res_tb_bau = building_data$non_residential,

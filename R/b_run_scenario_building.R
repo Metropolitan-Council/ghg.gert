@@ -1,24 +1,25 @@
 #' @title Run Building Energy Scenarios
 #' @family Buildings
 #'
-#' @description `run_scenario_transportation_building` produces the outputs of the building energy module of the
+#' @description `run_scenario_building` produces the outputs of the building energy module of the
 #' Metropolitan Council Greenhouse Gas Scenario Planning Tool by city/township for the specified scenario
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
-#' @param grid_decarbonization_pct **Numeric**. A number between `0` and `1`.
+#' @param .grid_decarbonization_pct **Numeric**.
+#'       A number between `0` and `1`.
 #'
 #' @return **Tibble**.
 #'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'       The table is the output of the building energy module, any modification to
 #'       the inputs of the building energy module must be specified as an argument
-#'       to the function `run_scenario_transportation_building()`
+#'       to the function `run_scenario_building()`
 #'
 #' @export
 #'
 #' @examples
-#' \donotrun{
-#' run_scenario_transportation_building <-
+#' \dontrun{
+#' run_scenario_building <-
 #' function(res_tb = building_data$residential,
 #'          non_res_tb = building_data$non_residential,
 #'          res_tb_bau = building_data$residential,
@@ -45,7 +46,7 @@
 #'          .grid_decarbonization_pct = 1)
 #' }
 #'
-run_scenario_transportation_building <-
+run_scenario_building <-
   function(res_tb = building_data$residential,
            non_res_tb = building_data$non_residential,
            res_tb_bau = building_data$residential,

@@ -103,9 +103,9 @@ Next, we will go in depth on the two main tables of `building_data.rda`
 
 ## Running the module 
 
-The `ghg.sp::run_scenario_transportation_building()` function compiles all of the strategies for the Building Energy Module and produces an output table. 
+The `ghg.sp::run_scenario_building()` function compiles all of the strategies for the Building Energy Module and produces an output table. 
 
-`ghg.sp::run_scenario_transportation_building()` call two separate functions:
+`ghg.sp::run_scenario_building()` call two separate functions:
 
 * `ghg.sp::scen_building_residential()`
 * `ghg.sp::scen_building_commercial()`

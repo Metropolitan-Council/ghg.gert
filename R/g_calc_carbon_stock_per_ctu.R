@@ -2,57 +2,56 @@
 #' @family Land Use
 #'
 #' @description `calc_carbon_stock_per_ctu()` calculates the carbon stock per land cover type by city/township
-#' under the selected scenario parameters
+#'      under the selected scenario parameters
 #'
-#' @inheritParams calc_parking_lot_land_cover()
 #' @param .impervious_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of impervious surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `33` megagrams of carbon per hectare.
+#'      The estimated carbon stock of impervious surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `33`.
 #' @param .grass_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `74.04` megagrams of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `74.04`.
 #' @param .trees_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of trees surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `115` megagrams of carbon per hectare.
+#'      The estimated carbon stock of trees surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `115`.
 #' @param .water_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of water surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `0` megagrams of carbon per hectare.
+#'      The estimated carbon stock of water surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `0`.
 #' @param .barren_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of barren surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `5` megagrams of carbon per hectare.
+#'      The estimated carbon stock of barren surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `5`.
 #' @param .forest_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of forest surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `117` megagrammes of carbon per hectare.
+#'      The estimated carbon stock of forest surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `117`.
 #' @param .shrub_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of shrub surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `49` megagrams of carbon per hectare.
+#'      The estimated carbon stock of shrub surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `49`.
 #' @param .grassland_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `49` megagrammes of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `49`.
 #' @param .agriculture_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `41` megagrams of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `41`.
 #' @param .woody_wetland_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `117` megagrams of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `117`.
 #' @param .wetland_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `296.75` megagrams of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `296.75`.
 #' @param .parking_lot_stock_mg_c_per_hectare **Numeric**.
-#' The estimated carbon stock of grass surfaces in Mg
-#' (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `33` megagrams of carbon per hectare.
+#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
+#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
+#'      Default is `33`.
 #'
 #' @return
 #' @export
@@ -89,7 +88,7 @@ calc_carbon_stock_per_ctu <-
            .wetland_stock_mg_c_per_hectare,
            .parking_lot_stock_mg_c_per_hectare) {
     carbon_stock_per_ctu <-
-      calc_parking_lot_land_cover() %>%
+      ghg.sp::calc_parking_lot_land_cover() %>%
       mutate(
         grass = grass * .grass_stock_mg_c_per_hectare,
         impervious = impervious * .impervious_stock_mg_c_per_hectare,
