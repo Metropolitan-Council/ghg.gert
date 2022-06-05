@@ -32,8 +32,29 @@ run_scenario_building(
 )
 }
 \arguments{
-\item{non_res_tb}{table with non-residential data.
-Default is \code{building_data$non_residential}}
+\item{res_tb}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{res_tb} is used as the input for the decarbonization scenario.}
+
+\item{non_res_tb}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
+
+\item{res_tb_bau}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{res_tb} is used as the input for the decarbonization scenario.}
+
+\item{non_res_tb_bau}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 
@@ -49,19 +70,33 @@ Default is \code{0.20}.}
 The percent of natural gas that is commonly used for space heating in commercial buildings.
 Default is \code{0.69}.}
 
-\item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.commercial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
 Default is \code{1}.
-S}
+The percentage of commercial buildings that would be on the smart grid for the
+specified scenario.}
+
+\item{.industrial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+The percentage of industrial buildings that would be on the smart grid for the
+specified scenario.
+Default is \code{1}.}
+
+\item{.smart_grid_energy_reduction_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+Default is \code{1}.}
 
 \item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.50}.}
+
+\item{.existing_high_efficiency_buildings_pct}{\strong{Numeric}. A number between \code{0} and 1.
+Percent of existing commercial buildings are LEED Gold.
+Default is \code{0.8}.}
+
+\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of households that change behavior to reduce household emissions.
+Default is \code{1.00}.}
 
 \item{.single_family_floor_area_growth_pct}{Numeric. A number between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
@@ -85,8 +120,17 @@ Default is \code{0.80}.}
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
 
-\item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
+\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of natural gas that is commonly used for water heating in residential
+buildings.}
+
+\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of buildings that would
+be electrified under the specified scenario.}
+
+\item{.grid_decarbonization_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.}
+
+\item{grid_decarbonization_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.}
 }
 \value{
 \strong{Tibble}.
@@ -97,7 +141,7 @@ to the function \code{run_scenario_building()}
 }
 \description{
 \code{run_scenario_building} produces the outputs of the building energy module of the
-Metropolitan Council Greenhouse Gas Scenario Planning Tool.
+Metropolitan Council Greenhouse Gas Scenario Planning Tool by city/township for the specified scenario
 }
 \examples{
 \donotrun{
@@ -135,12 +179,13 @@ Other Buildings:
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{scen_building_non_residential}()},
-\code{\link{scen_building_residential}()}
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{scen_building_non_residential}()}
 }
 \concept{Buildings}

@@ -20,8 +20,17 @@ scen_building_non_residential(
 )
 }
 \arguments{
-\item{non_res_tb}{table with non-residential data.
-Default is \code{building_data$non_residential}}
+\item{non_res_tb}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
+
+\item{non_res_tb_bau}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -35,27 +44,63 @@ Default is \code{0.20}.}
 The percent of natural gas that is commonly used for space heating in commercial buildings.
 Default is \code{0.69}.}
 
-\item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.commercial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
 Default is \code{1}.
-S}
+The percentage of commercial buildings that would be on the smart grid for the
+specified scenario.}
 
-\item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.industrial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+The percentage of industrial buildings that would be on the smart grid for the
+specified scenario.
 Default is \code{1}.}
+
+\item{.smart_grid_energy_reduction_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+Default is \code{1}.}
+
+\item{.grid_decarbonization_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+Default is \code{1}.}
+
+\item{.existing_high_efficiency_buildings_pct}{\strong{Numeric}. A number between \code{0} and 1.
+Percent of existing commercial buildings are LEED Gold.
+Default is \code{0.8}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-A tibble.
+\strong{Tibble}.
+Data table with columns \code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+The output of the non-residential portion of the Building Energy Module of the
+\emph{Metropolitan Council GHG Scenario Planning Tool}.
 }
 \description{
 \code{scen_building_non_residential} compiles all the strategies related to
 non-residential buildings.
+}
+\section{Fields}{
+
+\describe{
+\item{\code{`ctu_name`}}{\strong{Character}.
+Name of the city/township.}
+
+\item{\code{`year`}}{\strong{Numeric}.
+Year.}
+
+\item{\code{`var`}}{\strong{Charcter}. Can be \code{commercial_mwh}, \code{industrial_mwh}, \code{commercial_therms},\code{industrial_therms},
+\code{commercial_electricity_emissions_kg_co},\code{industrial_electricity_emissions_kg_co}, \code{commercial_natural_gas_emissions_kg_co},
+\code{industrial_natural_gas_emissions_kg_co}, or \code{total_industrial_commercial_emissions}.}
+
+\item{\code{`value`}}{\strong{Numeric}. The numeric value of \code{var}.}
+
+\item{\code{`scen`}}{\strong{Charcter}. Can be \code{bau} which means Business as Usual or \code{scenario} which means, the user specified
+decarbonization scenario.}
+}}
+
+\note{
+To run the Building Energy Module, refer to function \code{run_scenario_building()}
 }
 \examples{
 \donotrun{
@@ -78,17 +123,25 @@ ghg.sp::scen_building_non_residential(
 }
 }
 \seealso{
+Other Commercial/Industrial: 
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_non_res_renewable_ng}()}
+
 Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_residential}()}
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()}
 }
 \concept{Buildings}
+\concept{Commercial/Industrial}

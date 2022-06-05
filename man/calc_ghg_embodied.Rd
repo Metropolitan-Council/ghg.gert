@@ -21,20 +21,27 @@ calc_ghg_embodied(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{current mode}
+\item{.mode}{Current mode.}
 
-\item{.sales_mode}{character, sales name for calculation of embodied emissions of new vehicles.
-Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PHEVSales"}, \code{"BEVSales"},}
+\item{.sales_mode}{\strong{Character}.
+Sales name for calculation of embodied emissions of new vehicles.
+Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PHEVSales"}, or \code{"BEVSales"}.}
 
 \item{.fuel_type}{fuel source for current mode}
 
-\item{.class}{vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"}, \code{"PHEV"},  or \code{"BEV"}}
+\item{.class}{\strong{Character}.
+Vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"}, \code{"PHEV"},  or \code{"BEV"}.}
 
-\item{.transit_avo_pct}{percent change in transit AVO. Default is \code{0}}
+\item{.transit_avo_pct}{\strong{Numeric}.
+Percent change in transit AVO.
+Default is \code{0}.}
 
-\item{.mitigation_tb}{mitigation output table for results. Default is \code{0}}
+\item{.mitigation_tb}{\strong{Tibble}.
+Mitigation output table for results.
+Default is \code{0}}
 
-\item{.bau_tb}{output table for results. Default is \code{0}}
+\item{.bau_tb}{Output table for results.
+Default is \code{0}}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -50,15 +57,13 @@ a) generated in a different jurisdiction and/or
 b) similarly affected by changes in local grid mix
 }
 \seealso{
-Other transportation: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{calc_ghg_direct}()}
 }
-\concept{transportation}
+\concept{Transportation}

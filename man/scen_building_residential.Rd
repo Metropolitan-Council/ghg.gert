@@ -5,7 +5,7 @@
 \title{Calculate Residential Building Strategies}
 \usage{
 scen_building_residential(
-  tb = res_tb,
+  res_tb = res_tb,
   res_tb_bau = res_tb_bau,
   .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
   .single_family_floor_area_growth_pct,
@@ -23,9 +23,17 @@ scen_building_residential(
 )
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided
-dataset \code{building_energy$residential} is suitable and the default value.}
+\item{res_tb}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{res_tb} is used as the input for the decarbonization scenario.}
+
+\item{res_tb_bau}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
@@ -53,14 +61,52 @@ Default is \code{0.80}.}
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
 
+\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+Percentage of households that change behavior to reduce household emissions.
+Default is \code{1.00}.}
+
+\item{.grid_decarbonization_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.}
+
+\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of buildings that would
+be electrified under the specified scenario.}
+
+\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of natural gas that is commonly used for water heating in residential
+buildings.}
+
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \strong{Tibble}.
+Data table with columns \code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+The output of the non-residential portion of the Building Energy Module of the
+Metropolitan Council GHG Scenario Planning Tool.
 }
 \description{
 \code{scen_building_residential()} calculates the effect of the residential building
 strategies within the building energy module.
+}
+\section{Fields}{
+
+\describe{
+\item{\code{`ctu_name`}}{\strong{Character}.
+Name of the city/township.}
+
+\item{\code{`year`}}{\strong{Numeric}.
+Year.}
+
+\item{\code{`var`}}{\strong{Charcter}. Can be \code{residential_mwh}, \code{residential_therms}, \code{residential_electricity_emissions_kg_co},
+or \code{residential_natural_gas_emissions_kg_co}.}
+
+\item{\code{`value`}}{\strong{Numeric}. The numeric value of \code{var}.}
+
+\item{\code{`scen`}}{\strong{Charcter}. Can be \code{bau} which means Business as Usual or \code{scenario} which means, the user specified
+decarbonization scenario.}
+}}
+
+\note{
+To run the Building Energy Module, refer to function \code{run_scenario_transportation_building()}
 }
 \examples{
 \dontrun{
@@ -84,18 +130,4 @@ ghg.sp::scen_building_residential(
 )
 }
 }
-\seealso{
-Other Buildings: 
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
-}
-\concept{Buildings}
+\concept{Buildings, Residential}

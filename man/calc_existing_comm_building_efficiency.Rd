@@ -10,23 +10,41 @@ calc_existing_comm_building_efficiency(
 )
 }
 \arguments{
-\item{.existing_high_efficiency_buildings_pct}{Numeric. A number between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold
-Default is \code{0.8}}
+\item{.existing_high_efficiency_buildings_pct}{\strong{Numeric}. A number between \code{0} and 1.
+Percent of existing commercial buildings are LEED Gold.
+Default is \code{0.8}.}
 }
 \value{
-A tibble.
+\strong{Tibble}.
+The adjusted values for the non residential input table to reflect commercial building
+energy efficiency.
 }
 \description{
 \code{calc_existing_comm_building_efficiency} helps to calculate the reduced
-emissions from impementing high energy efficiency retrofits to existing buildings.
+emissions from implementing high energy efficiency retrofits to existing buildings.
 Given that the main determinant of energy efficiency is the number of workers, this
 function reduces the number of workers.
 }
 \seealso{
-Other building_energy_module: 
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_ghg_non_residential_x}()},
-\code{\link{calc_non_res_renewable_ng}()}
+Other Commercial/Industrial: 
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{scen_building_non_residential}()}
+
+Other Buildings: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_floor_area_behavior_change}()},
+\code{\link{calc_floor_area_leed}()},
+\code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()}
 }
-\concept{building_energy_module}
+\concept{Buildings}
+\concept{Commercial/Industrial}

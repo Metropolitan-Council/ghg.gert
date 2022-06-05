@@ -30,9 +30,7 @@ workers for industrial and commercial sectors
 }
 \seealso{
 Other building_energy_module: 
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_non_res_renewable_ng}()}
+\code{\link{calc_floor_area_growth}()}
 }
 \concept{building_energy_module}
 \concept{buildings}

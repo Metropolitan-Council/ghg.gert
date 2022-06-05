@@ -7,6 +7,12 @@
 calc_affordable_floor_area(res_tb, .single_family_floor_area_growth_pct)
 }
 \arguments{
+\item{res_tb}{\strong{Tibble}.
+Data table with residential building attributes. Package provided.
+Dataset \code{building_energy$residential} is suitable and the default value.
+\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{res_tb} is used as the input for the decarbonization scenario.}
+
 \item{.single_family_floor_area_growth_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
 Percentage of single family floor area that gets reduced due to increase energy prices.
 Default is \code{0.05}.
@@ -33,17 +39,24 @@ ghg.sp::calc_affordable_floor_area
 }
 }
 \seealso{
+Other Residential: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_ghg_residential}()}
+
 Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()},
-\code{\link{scen_building_residential}()}
+\code{\link{scen_building_non_residential}()}
 }
 \concept{Buildings}
+\concept{Residential}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_ghg_direct.R
 \name{calc_ghg_direct}
 \alias{calc_ghg_direct}
-\title{Calculate direct emissions}
+\title{Calculate Direct Emissions}
 \usage{
 calc_ghg_direct(
   tb_vmt,
@@ -16,21 +16,24 @@ calc_ghg_direct(
 )
 }
 \arguments{
-\item{tb_vmt}{output VMT table}
+\item{tb_vmt}{\strong{Tibble}.
+Output VMT table}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{current mode}
+\item{.mode}{Current mode.}
 
-\item{.fuel_type}{current fuel type for mode}
+\item{.fuel_type}{Current fuel type for mode.}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{miles per gallon for mode}
+\item{.miles_per_gallon}{\strong{Numeric}.
+Miles per Gallon for Mode.}
 
-\item{.is_av}{logical, whether the mode is AV. AV has a different
+\item{.is_av}{\strong{Logical}.
+Whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
@@ -40,18 +43,16 @@ Default is \code{FALSE}.}
 
 }
 \description{
-Calculate direct emissions
+Calculate Direct Emissions
 }
 \seealso{
-Other transportation: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{calc_ghg_embodied}()}
 }
-\concept{transportation}
+\concept{Transportation}

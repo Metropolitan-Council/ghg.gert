@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_fuel_cost_mile.R
 \name{calc_fuel_cost_mile}
 \alias{calc_fuel_cost_mile}
-\title{Calculate fuel cost per mile}
+\title{Calculate Fuel Cost Per Mile}
 \usage{
 calc_fuel_cost_mile(
   tb,
@@ -19,13 +19,15 @@ calc_fuel_cost_mile(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{current mode}
+\item{.mode}{Current mode.}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario. Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{miles per gallon for current mode}
+\item{.miles_per_gallon}{\strong{Numeric}.
+Miles per gallon for current mode}
 
-\item{.fuel_cost_gallon}{fuel cost per gallon for current mode}
+\item{.fuel_cost_gallon}{\strong{Numeric}.
+Fuel cost per gallon for current mode}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -33,18 +35,16 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.
 }
 \description{
-Calculate fuel cost per mile
+Calculate Fuel Cost Per Mile
 }
 \seealso{
-Other transportation: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{calc_ghg_embodied}()}
 }
-\concept{transportation}
+\concept{Transportation}

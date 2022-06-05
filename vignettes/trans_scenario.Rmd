@@ -57,7 +57,7 @@ st_paul_freight <- transportation_data$freight %>%
 ## Business as usual
 
 ```{r}
-bau_summary <- run_scenario(pass_tb = st_paul_pass,
+bau_summary <- run_scenario_transportation(pass_tb = st_paul_pass,
                             freight_tb = st_paul_freight,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
@@ -74,7 +74,7 @@ bau_pldv <-  bau_summary$passenger_all %>%
 ### Land use  
 
 ```{r}
-mitigation_lu <-  run_scenario(
+mitigation_lu <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use",
@@ -101,7 +101,7 @@ mitigation_lu <-  run_scenario(
 
 
 ```{r}
-mitigation_trans <-  run_scenario(
+mitigation_trans <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",
@@ -124,7 +124,7 @@ mitigation_trans <-  run_scenario(
 
 
 ```{r, message=FALSE}
-mitigation_ev <-  run_scenario(
+mitigation_ev <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_veh_electric",
@@ -149,7 +149,7 @@ mit_ev_pldv <-  mitigation_ev$passenger_all %>%
 ### Road price  
 
 ```{r}
-mitigation_road_price<-  run_scenario(
+mitigation_road_price<-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_road_price",
@@ -168,7 +168,7 @@ mitigation_road_price<-  run_scenario(
 ### Telework  
 
 ```{r}
-mitigation_telework <-  run_scenario(
+mitigation_telework <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_telework",
@@ -182,7 +182,7 @@ mitigation_telework <-  run_scenario(
 ### Land use and transit improvements  
 
 ```{r}
-mitigation_lu_transit <-  run_scenario(
+mitigation_lu_transit <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use_and_transit",
@@ -205,7 +205,7 @@ mitigation_lu_transit <-  run_scenario(
 ### Road pricing and telework
 
 ```{r}
-mitigation_road_telework <-  run_scenario(
+mitigation_road_telework <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_road_price_and_telework",

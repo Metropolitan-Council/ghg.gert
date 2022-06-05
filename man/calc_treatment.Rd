@@ -23,14 +23,8 @@ Interpolate treatments across years
 }
 \seealso{
 Other transportation: 
-\code{\link{calc_cost}()},
-\code{\link{calc_drs_sales}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{run_scenario_transportation}()}
 }
 \concept{transportation}

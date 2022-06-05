@@ -57,7 +57,7 @@ Default is \code{FALSE}.}
 the current land use scenario being explored
 Default is \code{"compact_dev_with_drs"}}
 
-\item{.conservation_tillage_scen}{Character.
+\item{.conservation_tillage_scen}{\strong{Character}.
 The type of conservation tillage scenario to be explored.
 Default is \code{current_conservation_tillage}. The options are:
 \itemize{
@@ -69,21 +69,24 @@ relative to the baseline year.
 tillage.
 }}
 
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{Numeric.
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{\strong{Numeric}.
 Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
-Default is \code{12.50} kilograms of carbon dioxide equivalent (CO2e) per gallon of diesel
-* \verb{Hilman and Ramaswami, 2009}}
+Default is \code{12.50}.
+* \verb{Hilman and Ramaswami, 2009}.}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{Numeric.
-Default is \code{0.102} million grams of carbon dioxide equivalent (CO2e) per hectare
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{\strong{Numeric}.
+Million grams of carbon dioxide equivalent (CO2e) per hectare.
+Default is \code{0.102}.
 * \verb{United States Department of Agriculture}}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{Numeric..
-Default is \code{41} million grams of carbon (C) per hectare
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{\strong{Numeric}.
+Million grams of carbon (C) per hectare.
+Default is \code{41}.
 * \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
 
-\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{Numeric.
-Default is \code{1.54}}
+\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{\strong{Numeric}.
+Maximum SOC acumulation per hectare under reduced or no till agriculture.
+Default is \code{1.54}.}
 
 \item{.parking_lot_reduction_percentage}{Numeric.
 A value between 0 and 1.
@@ -91,110 +94,110 @@ specifies the percentage reduction of parking lot
 area to be explored under the current scenario
 Default is \code{0.8}.}
 
-\item{.impervious_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.impervious_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of impervious land cover.
-Default is \code{0} C/ha/year}
+Default is \code{0} C/ha/year.}
 
-\item{.grass_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.grass_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of grass land cover.
-Default is \code{-0.42} C/ha/year}
+Default is \code{-0.42} C/ha/year.}
 
-\item{.trees_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.trees_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of trees land cover.
 Default is \code{-1.27} C/ha/year}
 
-\item{.water_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.water_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of water land cover.
-Default is \code{0} C/ha/year}
+Default is \code{0} C/ha/year.}
 
-\item{.barren_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.barren_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of barren land cover.
-Default is \code{-0.014} Mg C/ha/year}
+Default is \code{-0.014} Mg C/ha/year.}
 
-\item{.forest_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.forest_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of forest land cover.
-Default is \code{-0.625} Mg C/ha/year}
+Default is \code{-0.625} Mg C/ha/year.}
 
-\item{.shrub_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.shrub_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of shrub land cover.
-Default is \code{-0.287} Mg C/ha/year}
+Default is \code{-0.287} Mg C/ha/year.}
 
-\item{.grassland_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.grassland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of grassland land cover.
-Default is \code{-0.287} Mg C/ha/year}
+Default is \code{-0.287} Mg C/ha/year.}
 
-\item{.agriculture_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.agriculture_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-Default is \code{-0.19} Mg C/ha/year}
+Default is \code{-0.19} Mg C/ha/year.}
 
-\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-Default is \code{-0.625} Mg C/ha/year}
+Default is \code{-0.625} Mg C/ha/year.}
 
-\item{.wetland_sequest_mg_c_per_hectare_per_year}{Numeric.
+\item{.wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of wetland land cover.
-Default is \code{-1.493} Mg C/ha/year}
+Default is \code{-1.493} Mg C/ha/year.}
 
-\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{Numerict.
+\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-Default is \code{0} Mg C/ha/year}
+Default is \code{0} Mg C/ha/year.}
 
-\item{.impervious_stock_mg_c_per_hectare}{Numeric.
+\item{.impervious_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of impervious surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{33} megagrams of carbon per hectare.}
 
-\item{.grass_stock_mg_c_per_hectare}{Numeric.
+\item{.grass_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{74.04} megagrams of carbon per hectare.}
 
-\item{.trees_stock_mg_c_per_hectare}{Numeric.
+\item{.trees_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of trees surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{115} megagrams of carbon per hectare.}
 
-\item{.water_stock_mg_c_per_hectare}{Numeric.
+\item{.water_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of water surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{0} megagrams of carbon per hectare.}
 
-\item{.barren_stock_mg_c_per_hectare}{Numeric.
+\item{.barren_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of barren surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{5} megagrams of carbon per hectare.}
 
-\item{.forest_stock_mg_c_per_hectare}{Numeric.
+\item{.forest_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of forest surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{117} megagrammes of carbon per hectare.}
 
-\item{.shrub_stock_mg_c_per_hectare}{Numeric.
+\item{.shrub_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of shrub surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{49} megagrams of carbon per hectare.}
 
-\item{.grassland_stock_mg_c_per_hectare}{Numeric.
+\item{.grassland_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{49} megagrammes of carbon per hectare.}
 
-\item{.agriculture_stock_mg_c_per_hectare}{Numeric.
+\item{.agriculture_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{41} megagrams of carbon per hectare.}
 
-\item{.woody_wetland_stock_mg_c_per_hectare}{Numeric.
+\item{.woody_wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{117} megagrams of carbon per hectare.}
 
-\item{.wetland_stock_mg_c_per_hectare}{Numeric.
+\item{.wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{296.75} megagrams of carbon per hectare.}
 
-\item{.parking_lot_stock_mg_c_per_hectare}{Numeric.
+\item{.parking_lot_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of grass surfaces in Mg
 (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
 Default is \code{33} megagrams of carbon per hectare.}
@@ -208,9 +211,6 @@ infrastructure module.
 }
 \seealso{
 Other land_use_module: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_city}()},
 \code{\link{calc_land_cover_by_land_use}()},

@@ -20,17 +20,22 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{.pass_tb}{passenger input table. Default is \code{transportation_data$passenger}.}
+\item{.pass_tb}{\strong{Tibble}.
+Passenger input table. Default is \code{transportation_data$passenger}.}
 
-\item{.freight_tb}{freight input table. Default is \code{transportation_data$freight}.}
+\item{.freight_tb}{\strong{Tibble}
+freight input table. Default is \code{transportation_data$freight}.}
 
-\item{.bev_pct_sales}{percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+\item{.bev_pct_sales}{\strong{Numeric}. A number between \code{0} and \code{1.}
+Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
 Default is \code{0}.}
 
-\item{.phev_pct_sales}{percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+\item{.phev_pct_sales}{\strong{Numeric}. A number between \code{0} and \code{1.}
+Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
 Default is \code{0}.}
 
-\item{.hev_pct_sales}{percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+\item{.hev_pct_sales}{\strong{Numeric}.  A number between \code{0} and \code{1.}
+Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
 Default is \code{0}.}
 
 \item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
@@ -40,7 +45,8 @@ Default is \code{0}}
 
 \item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
-\item{.drs_pct}{percent of trips/fleet that is dynamic ride sharing (DRS).
+\item{.drs_pct}{\strong{Numeric}.  A number between \code{0} and \code{1.}
+Percent of trips/fleet that is dynamic ride sharing (DRS).
 Default is \code{0}.}
 
 \item{.av_pct}{percent of trips made by AV. Default is \code{0}}
@@ -88,4 +94,15 @@ on the time of day and location. However, it could also be a straight fee per mi
 is paid to an insurance provider in place of a flat insurance rate. The main difference is
 whether the driver would prefer to pay the cost to a government agency or insurance provider.
 }
-\concept{transportation, stock adjustments}
+\seealso{
+Other Transportation: 
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel_use}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()}
+}
+\concept{Stock Adjustments}
+\concept{Transportation}

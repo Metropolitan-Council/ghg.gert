@@ -21,15 +21,13 @@ Numeric between 0 and 1.  Default is \code{0}}
 Calculate dynamic ride sharing stock sales
 }
 \seealso{
-Other transportation: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{calc_ghg_embodied}()}
 }
-\concept{transportation}
+\concept{Transportation}

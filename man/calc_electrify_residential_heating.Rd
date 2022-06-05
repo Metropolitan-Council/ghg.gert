@@ -15,16 +15,23 @@ calc_electrify_residential_heating(
 )
 }
 \arguments{
-\item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
+\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of buildings that would
+be electrified under the specified scenario.}
 
-\item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+The percentage of natural gas that is commonly used for water heating in residential
+buildings.}
+
+\item{.grid_decarbonization_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.}
 }
 \value{
-
+\strong{Tibble}.
+Data table with output of electrify residential heating.
 }
 \description{
-Calculate Strategy Electrify Residential Heating
+\code{calc_electrify_residential_heating} calculates the impact of electrifying
+heat in the residential sector by city/township for the specified scenario.
 }
 \examples{
 \donotrun{
@@ -45,17 +52,24 @@ ghg.sp::calc_electrify_residential_heating(
 }
 }
 \seealso{
+Other Residential: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_ghg_residential}()}
+
 Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()},
-\code{\link{scen_building_residential}()}
+\code{\link{scen_building_non_residential}()}
 }
 \concept{Buildings}
+\concept{Residential}

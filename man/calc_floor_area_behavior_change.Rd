@@ -47,12 +47,13 @@ Other Buildings:
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()},
-\code{\link{scen_building_residential}()}
+\code{\link{scen_building_non_residential}()}
 }
 \concept{Buildings}

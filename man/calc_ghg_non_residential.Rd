@@ -19,17 +19,24 @@ calc_ghg_non_residential(
 \item{non_res_tb}{table with non-residential data.
 Default is \code{building_data$non_residential}}
 
-\item{.commercial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{Numeric. A number between \code{0} and \code{1}.
-Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.commercial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
 Default is \code{1}.
-S}
+The percentage of commercial buildings that would be on the smart grid for the
+specified scenario.}
 
-\item{.grid_decarbonization_pct}{Numeric. A number between \code{0} and \code{1}.
+\item{.industrial_smart_grid_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+The percentage of industrial buildings that would be on the smart grid for the
+specified scenario.
+Default is \code{1}.}
+
+\item{.smart_grid_energy_reduction_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+Default is \code{1}.}
+
+\item{.grid_decarbonization_pct}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
 Default is \code{1}.}
 
 \item{.enviro_factors}{list of environmental factors. Default is \code{enviro_factors}, included in this package.}
@@ -39,20 +46,28 @@ Default is \code{1}.}
 }
 \description{
 \code{calc_ghg_non_residential()} calculates total energy demand and emissions from
-workers for industrial and commercial sectors by city/township.
+workers for industrial and commercial sectors by city/township for the specified scenario.
 }
 \seealso{
+Other Commercial/Industrial: 
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{scen_building_non_residential}()}
+
 Other Buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()},
-\code{\link{scen_building_residential}()}
+\code{\link{scen_building_non_residential}()}
 }
 \concept{Buildings}
+\concept{Commercial/Industrial}

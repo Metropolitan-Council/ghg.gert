@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_cost.R
 \name{calc_cost}
 \alias{calc_cost}
-\title{Calculate cost estimates in millions of dollars}
+\title{Cost Estimates in Millions of US Dollars}
 \usage{
 calc_cost(
   tb_vmt,
@@ -15,11 +15,13 @@ calc_cost(
 \arguments{
 \item{tb_vmt}{VMT input table}
 
-\item{.mode}{current mode}
+\item{.mode}{Current mode.}
 
-\item{.price}{character, price variable. Options include \code{"SIPrice"}}
+\item{.price}{\strong{Character}
+Price variable. Options include \code{"SIPrice"}}
 
-\item{.is_av}{logical, whether the mode is AV. AV has a different
+\item{.is_av}{\strong{Logical}.
+Whether the mode is AV. AV has a different
 MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
@@ -29,18 +31,16 @@ Default is \code{FALSE}.}
 
 }
 \description{
-Calculate cost estimates in millions of dollars
+\code{calc_cost} estimates the cost in US dollars of the current mode distribution.
 }
 \seealso{
-Other transportation: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{readline_check}()},
-\code{\link{run_scenario}()}
+\code{\link{calc_ghg_embodied}()}
 }
-\concept{transportation}
+\concept{Transportation}
