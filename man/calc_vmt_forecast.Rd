@@ -144,6 +144,15 @@ Other Transportation:
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{check_inputs}()},
-\code{\link{readline_check}()}
+\code{\link{readline_check}()},
+\code{\link{scen_autonomous_vehicle}()},
+\code{\link{scen_freight_rail}()},
+\code{\link{scen_freight_truck}()},
+\code{\link{scen_passenger_light_duty}()},
+\code{\link{scen_school_bus}()},
+\code{\link{scen_transit_bus}()},
+\code{\link{scen_transit_rail}()},
+\code{\link{scen_walk_bike}()},
+\code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{Transportation}

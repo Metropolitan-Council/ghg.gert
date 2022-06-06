@@ -1,8 +1,9 @@
 #' @title Calculate Carbon Sequestration by City/Township
 #' @family Land Use
+#' @family GHG Emissions
 #'
 #' @description `calc_carbon_sequestration_per_ctu` calculates the total carbon sequestration
-#' per hectares by land cover type by city/township.
+#'      per hectares by land cover type by city/township.
 #'
 #' @param .impervious_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of impervious land cover.
@@ -18,28 +19,28 @@
 #'      Default is `0` C/ha/year.
 #' @param .barren_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of barren land cover.
-#'      Default is `-0.014` Mg C/ha/year.
+#'      Default is `-0.014`.
 #' @param .forest_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of forest land cover.
-#'      Default is `-0.625` Mg C/ha/year.
+#'      Default is `-0.625`.
 #' @param .shrub_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of shrub land cover.
-#'      Default is `-0.287` Mg C/ha/year.
+#'      Default is `-0.287`.
 #' @param .grassland_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of grassland land cover.
-#'      Default is `-0.287` Mg C/ha/year.
+#'      Default is `-0.287`.
 #' @param .agriculture_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-#'      Default is `-0.19` Mg C/ha/year.
+#'      Default is `-0.19`.
 #' @param .woody_wetland_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-#'      Default is `-0.625` Mg C/ha/year.
+#'      Default is `-0.625`.
 #' @param .wetland_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of wetland land cover.
-#'      Default is `-1.493` Mg C/ha/year.
+#'      Default is `-1.493`.
 #' @param .parking_lot_sequest_mg_c_per_hectare_per_year **Numeric**.
 #'      Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-#'      Default is `0` Mg C/ha/year.
+#'      Default is `0`.
 #'
 #' @return **Tibble**
 #'

@@ -1,10 +1,12 @@
 #' @title  Calculate strategy effects on vehicle miles traveled.
-
-#' Calculate annual energy outlook (AEO) multipliers for each forecast year
+#' @family Transportation
+#' @family VMT Effects
+#'
+#' @description `vmt_annual_energy_outlook()` calculates annual energy outlook (AEO)
+#' multipliers for each forecast year.
 #'
 #' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.
 #' @export
-#' @family VMT effects
 #' @importFrom tidyr pivot_wider
 vmt_annual_energy_outlook <- function(tb,
                                       .mode,

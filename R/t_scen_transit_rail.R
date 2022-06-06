@@ -1,9 +1,10 @@
-#' @title Calculate scenario for passenger rail
+#' @title Calculate Scenario for Passenger Rail
+#' @family Passenger
+#' @family Transportation
+#'
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
-#' @family transportation results, passenger, transit
 #'
 #' @return
 #' @export

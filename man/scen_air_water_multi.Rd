@@ -120,9 +120,4 @@ Default is \code{elast_5d} included in this package.}
 \description{
 Calculate scenario for freight multi-modal, air, and water transportation
 }
-\seealso{
-Other transportation results, freight: 
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()}
-}
 \concept{transportation results, freight}

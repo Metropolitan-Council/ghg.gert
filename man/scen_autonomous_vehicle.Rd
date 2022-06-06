@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_scen_autonomous_vehicle.R
 \name{scen_autonomous_vehicle}
 \alias{scen_autonomous_vehicle}
-\title{Calculate scenario for autonomous vehicles (AVs)}
+\title{Calculate Scenario for Autonomous Vehicles (AVs)}
 \usage{
 scen_autonomous_vehicle(
   .pass_tb = transportation_data$passenger,
@@ -118,13 +118,37 @@ Default is \code{elast_5d} included in this package.}
 
 }
 \description{
-Calculate scenario for autonomous vehicles (AVs)
+Calculate Scenario for Autonomous Vehicles (AVs)
 }
 \seealso{
-Other transportation results, passenger: 
+Other Transportation: 
+\code{\link{adj_fleet_shares}()},
+\code{\link{calc_av_sales}()},
+\code{\link{calc_cost}()},
+\code{\link{calc_drs_sales}()},
+\code{\link{calc_fuel_cost_mile}()},
+\code{\link{calc_fuel_use}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_vmt_forecast_drs}()},
+\code{\link{calc_vmt_forecast}()},
+\code{\link{check_inputs}()},
+\code{\link{readline_check}()},
+\code{\link{scen_freight_rail}()},
+\code{\link{scen_freight_truck}()},
 \code{\link{scen_passenger_light_duty}()},
 \code{\link{scen_school_bus}()},
+\code{\link{scen_transit_bus}()},
+\code{\link{scen_transit_rail}()},
+\code{\link{scen_walk_bike}()},
+\code{\link{vmt_annual_energy_outlook}()}
+
+Other Passenger: 
+\code{\link{scen_passenger_light_duty}()},
+\code{\link{scen_school_bus}()},
+\code{\link{scen_transit_rail}()},
 \code{\link{scen_walk_bike}()}
 }
-\concept{transportation results, passenger}
+\concept{Passenger}
+\concept{Transportation}
 \keyword{passenger}

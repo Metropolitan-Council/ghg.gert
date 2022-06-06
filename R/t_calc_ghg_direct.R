@@ -1,4 +1,5 @@
-#' @title Calculate Direct Emissions
+#' @title Calculate Transportation Direct Emissions
+#' @family GHG Emissions
 #' @family Transportation
 #'
 #' @param tb_vmt **Tibble**.

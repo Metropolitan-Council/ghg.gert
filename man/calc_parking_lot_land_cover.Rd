@@ -6,9 +6,9 @@
 \usage{
 calc_parking_lot_land_cover(
   tb,
-  .parking_lot_reduction_percentage,
   .luse_scen,
   .scenario,
+  .parking_lot_reduction_percentage,
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare,
@@ -16,15 +16,9 @@ calc_parking_lot_land_cover(
 )
 }
 \arguments{
-\item{tb}{Tibble.
+\item{tb}{\strong{Tibble}.
 The input dataset to be used.
 Default is \code{land_use_data}}
-
-\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
-The percentage reduction of parking lot
-area to be explored under the current scenario.
-Default is \code{0.8}.}
 
 \item{.luse_scen}{\strong{Character}.
 The current land use scenario being explored
@@ -32,6 +26,20 @@ Default is \code{"compact_dev_with_drs"}}
 
 \item{.scenario}{\strong{Character}.
 Default is \code{"bau"}}
+
+\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+The percentage reduction of parking lot
+area to be explored under the current scenario.
+Default is \code{0.8}.}
+
+\item{.tree_planting_per_capita}{\strong{Numeric}.
+Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{0.26}.}
+
+\item{.tree_planting_per_hectare}{\strong{Numeric}.
+Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{247}.}
 
 \item{detail}{\strong{Logical}.
 A \code{TRUE} or \code{FALSE} argument.
@@ -55,13 +63,13 @@ library(ghg.sp)
 
 ghg.sp::calc_parking_lot_land_cover(
       tb = land_use_data,
-      detail = FALSE,
+      .scenario = "bau",
+      .luse_scen = "compact_dev_with_drs",
       .tree_planting_intervention = "tree_planting_on_all_pervious",
       .tree_planting_per_capita = 0.26,
       .tree_planting_per_hectare = 247,
       .parking_lot_reduction_percentage = 0.8,
-      .luse_scen = "compact_dev_with_drs",
-      .scenario = "bau"
+      detail = FALSE
 )
 }
 }
@@ -74,6 +82,7 @@ Other Land Use:
 \code{\link{calc_land_cover_by_city}()},
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
 }
 \concept{Land Use}

@@ -2,13 +2,14 @@
 #' @family Transportation
 #' @family Autonomous Vehicles
 #'
-#' @describeIn `calc_av_sales` replaces both sales and stock because need to replace
+#' @description `calc_av_sales` replaces both sales and stock because need to replace
 #'     faster than previous stock turnover in order to match
 #'     AV market penetration.
+#'
+#' @inheritParams calc_vmt_forecast
 #' @param tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`, `value`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
 #'    Must have `"AVStock"` variable.
-#'  @inheritParams calc_vmt_forecast
 #'
 #' @return
 #' @export

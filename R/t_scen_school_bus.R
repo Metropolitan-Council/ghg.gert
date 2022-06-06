@@ -1,9 +1,9 @@
-#' Calculate scenario for school buses
+#' @title Calculate Scenario for School Buses
+#' @family Passenger
+#' @family Transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
-#' @family transportation results, passenger
 #'
 #' @return
 #' @export

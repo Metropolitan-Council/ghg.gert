@@ -1,4 +1,5 @@
-#' @title Calculate embodied (indirect) emissions
+#' @title Calculate Embodied (Indirect) Emissions
+#' @family GHG Emissions
 #' @family Transportation
 #'
 #' @param .sales_mode **Character**.
@@ -12,10 +13,10 @@
 #'     Default is `0`.
 #' @param .mitigation_tb **Tibble**.
 #'     Mitigation output table for results.
-#'     Default is `0`
+#'     Default is `0`.
 #' @param .bau_tb
 #'     Output table for results.
-#'     Default is `0`
+#'     Default is `0`.
 #' @inheritParams calc_ghg_direct
 #'
 #'

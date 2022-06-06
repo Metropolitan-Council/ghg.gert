@@ -38,35 +38,35 @@ Default is \code{0} C/ha/year.}
 
 \item{.barren_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of barren land cover.
-Default is \code{-0.014} Mg C/ha/year.}
+Default is \code{-0.014}.}
 
 \item{.forest_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of forest land cover.
-Default is \code{-0.625} Mg C/ha/year.}
+Default is \code{-0.625}.}
 
 \item{.shrub_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of shrub land cover.
-Default is \code{-0.287} Mg C/ha/year.}
+Default is \code{-0.287}.}
 
 \item{.grassland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of grassland land cover.
-Default is \code{-0.287} Mg C/ha/year.}
+Default is \code{-0.287}.}
 
 \item{.agriculture_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-Default is \code{-0.19} Mg C/ha/year.}
+Default is \code{-0.19}.}
 
 \item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-Default is \code{-0.625} Mg C/ha/year.}
+Default is \code{-0.625}.}
 
 \item{.wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of wetland land cover.
-Default is \code{-1.493} Mg C/ha/year.}
+Default is \code{-1.493}.}
 
 \item{.parking_lot_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-Default is \code{0} Mg C/ha/year.}
+Default is \code{0}.}
 }
 \value{
 \strong{Tibble}
@@ -111,6 +111,15 @@ Other Land Use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
+
+Other GHG Emissions: 
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()}
 }
+\concept{GHG Emissions}
 \concept{Land Use}

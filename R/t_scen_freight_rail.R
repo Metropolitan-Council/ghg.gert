@@ -1,10 +1,9 @@
-#'
-#' Calculate scenario for freight rail
+#' @title Calculate Scenario for Freight Rail
+#' @family Freight
+#' @family Transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
-#' @family transportation results, freight
 #'
 #' @return
 #' @export

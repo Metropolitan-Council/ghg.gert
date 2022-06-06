@@ -74,6 +74,14 @@ Other Residential:
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_residential_renewable_ng}()}
+
+Other GHG Emissions: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_non_residential}()}
 }
 \concept{Buildings}
+\concept{GHG Emissions}
 \concept{Residential}

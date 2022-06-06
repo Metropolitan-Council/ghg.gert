@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_ghg_embodied.R
 \name{calc_ghg_embodied}
 \alias{calc_ghg_embodied}
-\title{Calculate embodied (indirect) emissions}
+\title{Calculate Embodied (Indirect) Emissions}
 \usage{
 calc_ghg_embodied(
   tb,
@@ -38,10 +38,10 @@ Default is \code{0}.}
 
 \item{.mitigation_tb}{\strong{Tibble}.
 Mitigation output table for results.
-Default is \code{0}}
+Default is \code{0}.}
 
 \item{.bau_tb}{Output table for results.
-Default is \code{0}}
+Default is \code{0}.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
@@ -50,7 +50,7 @@ Default is \code{enviro_factors}, included in this package.}
 
 }
 \description{
-Calculate embodied (indirect) emissions
+Calculate Embodied (Indirect) Emissions
 }
 \note{
 \code{ER} or \code{EM} doesn't impact results because we can assume electricity is
@@ -58,6 +58,13 @@ a) generated in a different jurisdiction and/or
 b) similarly affected by changes in local grid mix
 }
 \seealso{
+Other GHG Emissions: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()}
+
 Other Transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
@@ -69,6 +76,16 @@ Other Transportation:
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{check_inputs}()},
-\code{\link{readline_check}()}
+\code{\link{readline_check}()},
+\code{\link{scen_autonomous_vehicle}()},
+\code{\link{scen_freight_rail}()},
+\code{\link{scen_freight_truck}()},
+\code{\link{scen_passenger_light_duty}()},
+\code{\link{scen_school_bus}()},
+\code{\link{scen_transit_bus}()},
+\code{\link{scen_transit_rail}()},
+\code{\link{scen_walk_bike}()},
+\code{\link{vmt_annual_energy_outlook}()}
 }
+\concept{GHG Emissions}
 \concept{Transportation}

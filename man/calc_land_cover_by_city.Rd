@@ -7,7 +7,7 @@
 calc_land_cover_by_city(tb, .luse_scen, .scenario)
 }
 \arguments{
-\item{tb}{Tibble.
+\item{tb}{\strong{Tibble}.
 The input dataset to be used.
 Default is \code{land_use_data}}
 
@@ -45,6 +45,7 @@ Other Land Use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
 }
 \concept{Land Use}

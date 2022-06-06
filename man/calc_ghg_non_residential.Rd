@@ -87,6 +87,14 @@ Other Buildings:
 \code{\link{calc_residential_renewable_ng}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
+
+Other GHG Emissions: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_residential}()}
 }
 \concept{Buildings}
 \concept{Commercial/Industrial}
+\concept{GHG Emissions}

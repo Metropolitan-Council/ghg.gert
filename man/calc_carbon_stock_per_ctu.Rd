@@ -5,6 +5,9 @@
 \title{Calculate Carbon Stock by City/Township}
 \usage{
 calc_carbon_stock_per_ctu(
+  tb,
+  .scenario,
+  .luse_scen,
   .impervious_stock_mg_c_per_hectare,
   .grass_stock_mg_c_per_hectare,
   .trees_stock_mg_c_per_hectare,
@@ -16,7 +19,12 @@ calc_carbon_stock_per_ctu(
   .agriculture_stock_mg_c_per_hectare,
   .woody_wetland_stock_mg_c_per_hectare,
   .wetland_stock_mg_c_per_hectare,
-  .parking_lot_stock_mg_c_per_hectare
+  .parking_lot_stock_mg_c_per_hectare,
+  .tree_planting_intervention,
+  .tree_planting_per_capita,
+  .tree_planting_per_hectare,
+  .parking_lot_reduction_percentage,
+  detail
 )
 }
 \arguments{
@@ -92,6 +100,9 @@ under the selected scenario parameters
  library(ghg.sp)
 
  calc_carbon_stock_per_ctu(
+     tb = land_use_data,
+     .scenario = "bau",
+     .luse_scen = "compact_dev_with_drs",
      .impervious_stock_mg_c_per_hectare = 33,
      .grass_stock_mg_c_per_hectare = 77.04,
      .trees_stock_mg_c_per_hectare = 115,
@@ -103,7 +114,11 @@ under the selected scenario parameters
      .agriculture_stock_mg_c_per_hectare = 41,
      .woody_wetland_stock_mg_c_per_hectare = 117,
      .wetland_stock_mg_c_per_hectare = 296.75,
-     .parking_lot_stock_mg_c_per_hectare = 33)
+     .parking_lot_stock_mg_c_per_hectare = 33,
+     .tree_planting_intervention = "tree_planting_on_all_pervious",
+     .tree_planting_per_capita = 0.26,
+     .tree_planting_per_hectare = 247,
+     .parking_lot_reduction_percentage = 0.8)
 }
 }
 \seealso{
@@ -115,6 +130,15 @@ Other Land Use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{scen_green_infrastructure}()}
+
+Other GHG Emissions: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()}
 }
+\concept{GHG Emissions}
 \concept{Land Use}

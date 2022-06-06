@@ -1,5 +1,6 @@
 #' @title Calculate Carbon Stock by City/Township
 #' @family Land Use
+#' @family GHG Emissions
 #'
 #' @description `calc_carbon_stock_per_ctu()` calculates the carbon stock per land cover type by city/township
 #'      under the selected scenario parameters
@@ -61,6 +62,9 @@
 #'  library(ghg.sp)
 #'
 #'  calc_carbon_stock_per_ctu(
+#'      tb = land_use_data,
+#'      .scenario = "bau",
+#'      .luse_scen = "compact_dev_with_drs",
 #'      .impervious_stock_mg_c_per_hectare = 33,
 #'      .grass_stock_mg_c_per_hectare = 77.04,
 #'      .trees_stock_mg_c_per_hectare = 115,
@@ -72,10 +76,17 @@
 #'      .agriculture_stock_mg_c_per_hectare = 41,
 #'      .woody_wetland_stock_mg_c_per_hectare = 117,
 #'      .wetland_stock_mg_c_per_hectare = 296.75,
-#'      .parking_lot_stock_mg_c_per_hectare = 33)
+#'      .parking_lot_stock_mg_c_per_hectare = 33,
+#'      .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'      .tree_planting_per_capita = 0.26,
+#'      .tree_planting_per_hectare = 247,
+#'      .parking_lot_reduction_percentage = 0.8)
 #' }
 calc_carbon_stock_per_ctu <-
-  function(.impervious_stock_mg_c_per_hectare,
+  function(tb,
+           .scenario,
+           .luse_scen,
+           .impervious_stock_mg_c_per_hectare,
            .grass_stock_mg_c_per_hectare,
            .trees_stock_mg_c_per_hectare,
            .water_stock_mg_c_per_hectare,
@@ -86,10 +97,24 @@ calc_carbon_stock_per_ctu <-
            .agriculture_stock_mg_c_per_hectare,
            .woody_wetland_stock_mg_c_per_hectare,
            .wetland_stock_mg_c_per_hectare,
-           .parking_lot_stock_mg_c_per_hectare) {
+           .parking_lot_stock_mg_c_per_hectare,
+           .tree_planting_intervention,
+           .tree_planting_per_capita,
+           .tree_planting_per_hectare,
+           .parking_lot_reduction_percentage,
+           detail
+           ){
     carbon_stock_per_ctu <-
-      ghg.sp::calc_parking_lot_land_cover() %>%
-      mutate(
+
+      ghg.sp::calc_parking_lot_land_cover(tb = tb,
+                                          .scenario = .scenario,
+                                          .luse_scen = .luse_scen,
+                                          .tree_planting_intervention = .tree_planting_intervention,
+                                          .tree_planting_per_capita = .tree_planting_per_capita,
+                                          .tree_planting_per_hectare = .tree_planting_per_hectare,
+                                          .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+                                          detail = detail) %>%
+      dplyr::mutate(
         grass = grass * .grass_stock_mg_c_per_hectare,
         impervious = impervious * .impervious_stock_mg_c_per_hectare,
         trees = trees * .trees_stock_mg_c_per_hectare,

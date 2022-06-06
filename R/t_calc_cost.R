@@ -1,6 +1,7 @@
 #' @title Cost Estimates in Millions of US Dollars
-#' @description `calc_cost` estimates the cost in US dollars of the current mode distribution.
 #' @family Transportation
+#'
+#' @description `calc_cost` estimates the cost in US dollars of the current mode distribution.
 #'
 #' @param tb_vmt VMT input table
 #' @param .price **Character**

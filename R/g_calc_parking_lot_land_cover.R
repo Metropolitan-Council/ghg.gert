@@ -29,20 +29,20 @@
 #'
 #' ghg.sp::calc_parking_lot_land_cover(
 #'       tb = land_use_data,
-#'       detail = FALSE,
+#'       .scenario = "bau",
+#'       .luse_scen = "compact_dev_with_drs",
 #'       .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'       .tree_planting_per_capita = 0.26,
 #'       .tree_planting_per_hectare = 247,
 #'       .parking_lot_reduction_percentage = 0.8,
-#'       .luse_scen = "compact_dev_with_drs",
-#'       .scenario = "bau"
+#'       detail = FALSE
 #' )
 #' }
 calc_parking_lot_land_cover <-
   function(tb,
-           .parking_lot_reduction_percentage,
            .luse_scen,
            .scenario,
+           .parking_lot_reduction_percentage,
            .tree_planting_intervention,
            .tree_planting_per_capita,
            .tree_planting_per_hectare,

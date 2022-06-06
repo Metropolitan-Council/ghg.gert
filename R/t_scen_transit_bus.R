@@ -1,9 +1,10 @@
-#' @title Calculate scenario for transit buses
+#' @title Calculate Scenario for Transit Buses
+#' @family Transit
+#' @family Transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
 #'
-#' @family transportation results, passenger, transit
 #'
 #' @return
 #' @export

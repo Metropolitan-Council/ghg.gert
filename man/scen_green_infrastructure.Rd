@@ -5,46 +5,47 @@
 \title{Run Green Infrastructure Module}
 \usage{
 scen_green_infrastructure(
-  tb = land_use_data.rda,
-  detail = FALSE,
-  .luse_scen = "compact_dev_with_drs",
-  .conservation_tillage_scen = "current_conservation_tillage",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-  .tree_planting_intervention = "tree_planting_on_all_pervious",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0.8,
-  .impervious_sequest_mg_c_per_hectare_per_year = 0,
-  .grass_sequest_mg_c_per_hectare_per_year = -0.42,
-  .trees_sequest_mg_c_per_hectare_per_year = -1.27,
-  .water_sequest_mg_c_per_hectare_per_year = 0,
-  .barren_sequest_mg_c_per_hectare_per_year = -0.014,
-  .forest_sequest_mg_c_per_hectare_per_year = -0.625,
-  .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
-  .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
-  .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
-  .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
-  .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
-  .parking_lot_sequest_mg_c_per_hectare_per_year = 0,
-  .impervious_stock_mg_c_per_hectare = 33,
-  .grass_stock_mg_c_per_hectare = 77.04,
-  .trees_stock_mg_c_per_hectare = 115,
-  .water_stock_mg_c_per_hectare = 0,
-  .barren_stock_mg_c_per_hectare = 5,
-  .forest_stock_mg_c_per_hectare = 117,
-  .shrub_stock_mg_c_per_hectare = 49,
-  .grassland_stock_mg_c_per_hectare = 49,
-  .agriculture_stock_mg_c_per_hectare = 41,
-  .woody_wetland_stock_mg_c_per_hectare = 117,
-  .wetland_stock_mg_c_per_hectare = 296.75,
-  .parking_lot_stock_mg_c_per_hectare = 33
+  tb,
+  detail,
+  .scenario,
+  .luse_scen,
+  .conservation_tillage_scen,
+  .w2w_diesel_emission_factor_kg_co2e_per_gal,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare,
+  .agricultural_land_carbon_stock_mg_c_per_hectare,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag,
+  .tree_planting_intervention,
+  .tree_planting_per_capita,
+  .tree_planting_per_hectare,
+  .parking_lot_reduction_percentage,
+  .impervious_sequest_mg_c_per_hectare_per_year,
+  .grass_sequest_mg_c_per_hectare_per_year,
+  .trees_sequest_mg_c_per_hectare_per_year,
+  .water_sequest_mg_c_per_hectare_per_year,
+  .barren_sequest_mg_c_per_hectare_per_year,
+  .forest_sequest_mg_c_per_hectare_per_year,
+  .shrub_sequest_mg_c_per_hectare_per_year,
+  .grassland_sequest_mg_c_per_hectare_per_year,
+  .agriculture_sequest_mg_c_per_hectare_per_year,
+  .woody_wetland_sequest_mg_c_per_hectare_per_year,
+  .wetland_sequest_mg_c_per_hectare_per_year,
+  .parking_lot_sequest_mg_c_per_hectare_per_year,
+  .impervious_stock_mg_c_per_hectare,
+  .grass_stock_mg_c_per_hectare,
+  .trees_stock_mg_c_per_hectare,
+  .water_stock_mg_c_per_hectare,
+  .barren_stock_mg_c_per_hectare,
+  .forest_stock_mg_c_per_hectare,
+  .shrub_stock_mg_c_per_hectare,
+  .grassland_stock_mg_c_per_hectare,
+  .agriculture_stock_mg_c_per_hectare,
+  .woody_wetland_stock_mg_c_per_hectare,
+  .wetland_stock_mg_c_per_hectare,
+  .parking_lot_stock_mg_c_per_hectare
 )
 }
 \arguments{
-\item{tb}{Tibble.
+\item{tb}{\strong{Tibble}.
 The input dataset to be used.
 Default is \code{land_use_data}}
 
@@ -52,6 +53,9 @@ Default is \code{land_use_data}}
 If \code{TRUE}, returns a table with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
+
+\item{.scenario}{\strong{Character}.
+Default is \code{"bau"}}
 
 \item{.luse_scen}{\strong{Character}.
 The current land use scenario being explored
@@ -88,6 +92,14 @@ Default is \code{41}.
 Maximum SOC acumulation per hectare under reduced or no till agriculture.
 Default is \code{1.54}.}
 
+\item{.tree_planting_per_capita}{\strong{Numeric}.
+Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{0.26}.}
+
+\item{.tree_planting_per_hectare}{\strong{Numeric}.
+Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{247}.}
+
 \item{.parking_lot_reduction_percentage}{\strong{Numeric}.
 A number between \code{0} and \code{1}.
 The percentage reduction of parking lot
@@ -112,35 +124,35 @@ Default is \code{0} C/ha/year.}
 
 \item{.barren_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of barren land cover.
-Default is \code{-0.014} Mg C/ha/year.}
+Default is \code{-0.014}.}
 
 \item{.forest_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of forest land cover.
-Default is \code{-0.625} Mg C/ha/year.}
+Default is \code{-0.625}.}
 
 \item{.shrub_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of shrub land cover.
-Default is \code{-0.287} Mg C/ha/year.}
+Default is \code{-0.287}.}
 
 \item{.grassland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of grassland land cover.
-Default is \code{-0.287} Mg C/ha/year.}
+Default is \code{-0.287}.}
 
 \item{.agriculture_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-Default is \code{-0.19} Mg C/ha/year.}
+Default is \code{-0.19}.}
 
 \item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-Default is \code{-0.625} Mg C/ha/year.}
+Default is \code{-0.625}.}
 
 \item{.wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of wetland land cover.
-Default is \code{-1.493} Mg C/ha/year.}
+Default is \code{-1.493}.}
 
 \item{.parking_lot_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
 Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-Default is \code{0} Mg C/ha/year.}
+Default is \code{0}.}
 
 \item{.impervious_stock_mg_c_per_hectare}{\strong{Numeric}.
 The estimated carbon stock of impervious surfaces in megagrams of carbon per hectare
@@ -209,4 +221,60 @@ Default is \code{33}.}
 \code{scen_green_infrastrucutre} generates the outputs of the land use and green
 infrastructure module.
 }
-\concept{land_use_module}
+\examples{
+\dontrun{
+library(ghg.sp)
+
+ghg.sp::scen_green_infrastructure(
+     tb = land_use_data.rda,
+     detail = FALSE,
+     .luse_scen = "compact_dev_with_drs",
+     .scenario = "bau",
+     .conservation_tillage_scen = "current_conservation_tillage",
+     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+     .tree_planting_intervention = "tree_planting_on_all_pervious",
+     .tree_planting_per_capita = 0.26,
+     .tree_planting_per_hectare = 247,
+     .parking_lot_reduction_percentage = 0.8,
+     .impervious_sequest_mg_c_per_hectare_per_year = 0,
+     .grass_sequest_mg_c_per_hectare_per_year = -0.42,
+     .trees_sequest_mg_c_per_hectare_per_year = -1.27,
+     .water_sequest_mg_c_per_hectare_per_year = 0,
+     .barren_sequest_mg_c_per_hectare_per_year = -0.014,
+     .forest_sequest_mg_c_per_hectare_per_year = -0.625,
+     .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
+     .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
+     .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
+     .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
+     .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
+     .parking_lot_sequest_mg_c_per_hectare_per_year = 0,
+     .impervious_stock_mg_c_per_hectare = 33,
+     .grass_stock_mg_c_per_hectare = 77.04,
+     .trees_stock_mg_c_per_hectare = 115,
+     .water_stock_mg_c_per_hectare = 0,
+     .barren_stock_mg_c_per_hectare = 5,
+     .forest_stock_mg_c_per_hectare = 117,
+     .shrub_stock_mg_c_per_hectare = 49,
+     .grassland_stock_mg_c_per_hectare = 49,
+     .agriculture_stock_mg_c_per_hectare = 41,
+     .woody_wetland_stock_mg_c_per_hectare = 117,
+     .wetland_stock_mg_c_per_hectare = 296.75,
+     .parking_lot_stock_mg_c_per_hectare = 33)
+}
+}
+\seealso{
+Other Land Use: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_conservation_tillage}()},
+\code{\link{calc_land_by_development_type}()},
+\code{\link{calc_land_cover_by_city}()},
+\code{\link{calc_land_cover_by_land_use}()},
+\code{\link{calc_parking_lot_land_cover}()},
+\code{\link{calc_scen_land_use}()},
+\code{\link{calc_tree_planting_land_cover}()}
+}
+\concept{Land Use}

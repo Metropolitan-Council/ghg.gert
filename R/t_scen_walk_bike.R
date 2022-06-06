@@ -1,11 +1,11 @@
-#' Title
+#' @title Scenario for Walk and Bike
+#' @family Passenger
+#' @family Transportation
 #'
-#' Calculate scenario for walk and bike
+#' @description `scen_walk_bike()` calculates scenario for walk and bike.
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
-#' @family transportation results, passenger
 #'
 #' @return
 #' @export
