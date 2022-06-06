@@ -85,21 +85,21 @@ non-residential buildings.
 \section{Fields}{
 
 \describe{
-\item{\code{`ctu_name`}}{\strong{Character}.
+\item{\code{ctu_name}}{\strong{Character}.
 Name of the city/township.}
 
-\item{\code{`year`}}{\strong{Numeric}.
+\item{\code{year}}{\strong{Numeric}.
 Year.}
 
 \item{\code{var}}{\strong{Charcter}.
 Can be \code{commercial_mwh}, \code{industrial_mwh}, \code{commercial_therms}, \code{industrial_therms}, \code{commercial_electricity_emissions_kg_co},
 \code{industrial_electricity_emissions_kg_co}, \code{commercial_natural_gas_emissions_kg_co}, \code{industrial_natural_gas_emissions_kg_co},
-and \code{total_industrial_commercial_emissions}.}
+or \code{total_industrial_commercial_emissions}.}
 
-\item{\code{`value`}}{\strong{Numeric}.
+\item{\code{value}}{\strong{Numeric}.
 The numeric value of \code{var}.}
 
-\item{\code{`scen`}}{\strong{Charcter}.
+\item{\code{scen}}{\strong{Charcter}.
 Can be \code{bau} which means Business as Usual or \code{scenario} which means, the user specified
 decarbonization scenario.}
 }}

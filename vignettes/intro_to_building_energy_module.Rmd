@@ -5,7 +5,7 @@ author:
   - name: Mauricio Leon
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{intro_to_building_energy_module}
+  %\VignetteIndexEntry{Introduction to Building Energy Module}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -138,19 +138,11 @@ building_data$residential %>%
 ### Residential Variables
 
 <!--  TABLE STARTS HERE -->
-| var                                          | description                                                         | 2018                                                                                       | 2040                                                                                               |
-|----------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| `population`                                 | Population by CTU                                                   | From Metropolitan Council Community Profiles                                               | From Metropolitan Council Community Profiles                                                       |
-| `households`                                 | Households by CTU                                                   | From Metropolitan Council Community Profiles                                               | From Metropolitan Council Community Profiles                                                       |
-| `multifamily_units`                          | Number of Multifamily Units by CTU                                  | From Metropolitan Council Community Profiles                                               | From an Unpublished UrbanSim Forecast of Different Demographic Variables                           |
-| `single_family_units`                        | Number of Single Family Units by CTU                                | From Metropolitan Council Community Profiles                                               | From an Unpublished UrbanSim Forecast of Different Demographic Variables                           |
-| `single_family_average_floor_area_sqft_ctu`  | Average Size of Single Family Houses in Square Feet  by CTU         | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
-| `multifamily_average_floor_area_sqft_ctu`    | Average Size of Multifamily Houses by CTU                           | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
-| `multifamily_average_floor_area_sqft_county` | Average Size of Multifamily Houses by County                        | From ZTRAX                                                                                 | Extrapolation of Household Size from ZTRAX Historic Data                                           |
-| `kwh_per_floor_area`                         | Kilowatt Hours per Total Square Feet by CTU  per Year               | From Electricity Use Data (see section on Energy Data) Divided By Total Floor Area         | From 2018 Electricity Use Data (see section on Energy Data) Divided By Forecasted Total Floor Area |
-| `therms_per_floor_area`                      | Therms per Total Floor Area in Square Feet by CTU per Year          | From Natural Gas Consumption Data (see section on Energy Data)  Divide by Total Floor Area | From 2018 Natural Gas Consumption Data (see section on Energy Data)  Divide by Total Floor Area    |
-| `residential_mwh`                            | Total Residential Megawatt Hours Consumption by CTU per Year        | From Electricity Use Data (see section on Energy Data)                                     | `kwh_per_floor_area` for 2018 multiplied by Forecasted Total Floor Area                            |
-| `residential_therms`                         | Total Residential Therms of Natural Gas Consumption by CTU per Year | From Natural Gas Consumption Data (see section on Energy Data)                             | `therms_per_floor_area` for 2018 multiplied by Forecasted Total Floor Area                         |
+```{r echo=FALSE}
+library(knitr)
+kable(residential_variables)
+```
+
 <!--  TABLE ENDS HERE -->
 
 ### Residential Strategies 
@@ -229,19 +221,11 @@ building_data$non_residential %>%
 
 #### Non-Residential Variables
 <!--  TABLE STARTS HERE -->
-| var                           | description                                                  | 2018                                          | 2040                                          |
-|-------------------------------|--------------------------------------------------------------|-----------------------------------------------|-----------------------------------------------|
-| `total_jobs`                  | Total Number of Jobs by CTU                                  | From Metropolitan Council Community Profiles	 | From Metropolitan Council Community Profiles	 |
-| `commercial_jobs`             | Total Number of Commercial Jobs by CTU                       | From Census Quarterly                         | text                                          |
-| `industrial_jobs`             | Total Numebr of Industrial Jobs by CTU                       | text                                          | text                                          |
-| `commercial_mwh`              | Commercial Megawatt Hour Consumption by CTU per Year         | text                                          | text                                          |
-| `industrial_mwh`              | Industrial Megawatt Hour Consumption by CTU per Year         | text                                          | text                                          |
-| `commercial_therms`           | Commercial Therms of Natural Gas Consumption by CTU per Year | text                                          | text                                          |
-| `industrial_therms`           | Industrial Therms of Natural Gas Consumption by CTU per Year | text                                          | text                                          |
-| `commercial_therm_per_worker` | `commercial_therms` divided by `commercial_jobs`             | text                                          | text                                          |
-| `industrial_therm_per_worker` | `industrial_therms` divided by `industrial_jobs`             | text                                          | text                                          |
-| `commercial_mwh_per_worker`   | `industrial_mwh` divided by `industrial_jobs`                | text                                          | text                                          |
-| `industrial_mwh_per_worker`   | `commercial_mwh` divided by `commercial_jobs`                | text                                          | text                                          |
+```{r}
+library(knitr)
+kable(non_residential_variables)
+```
+
 <!--  TABLE ENDS HERE -->
 
 ### Non-Residential Strategies
