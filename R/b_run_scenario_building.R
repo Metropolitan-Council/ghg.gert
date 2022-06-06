@@ -80,7 +80,7 @@ run_scenario_building <-
            .grid_decarbonization_pct = 1) {
     res <-
       scen_building_residential(
-        tb = res_tb,
+        res_tb = res_tb,
         res_tb_bau = res_tb_bau,
         .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
         .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,

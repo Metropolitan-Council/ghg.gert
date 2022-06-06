@@ -7,7 +7,6 @@
 #'      defined in the argument `.parking_lot_reduction_percentage`
 #'
 #' @inheritParams calc_tree_planting_land_cover
-#'
 #' @param .parking_lot_reduction_percentage **Numeric**.
 #'      A number between `0` and `1`.
 #'      The percentage reduction of parking lot

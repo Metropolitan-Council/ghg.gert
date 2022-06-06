@@ -5,7 +5,6 @@
 #' stocks by city/township
 #'
 #' @inheritParams calc_parking_lot_land_cover
-#'
 #' @param .conservation_tillage_scen **Character**.
 #' The type of conservation tillage scenario to be explored.
 #' Default is `current_conservation_tillage`. The options are:

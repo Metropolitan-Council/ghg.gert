@@ -6,7 +6,7 @@
 #'      (urban expansion, urban infill, and exurban development) for different land
 #'      use scenarios at the city/township scale
 #'
-#' @param tb Tibble.
+#' @param tb **Tibble**.
 #'      The input dataset to be used.
 #'      Default is `land_use_data`
 #' @param .scenario **Character**.
