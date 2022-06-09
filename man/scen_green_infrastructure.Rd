@@ -2,95 +2,44 @@
 % Please edit documentation in R/g_scen_green_infrastructure.R
 \name{scen_green_infrastructure}
 \alias{scen_green_infrastructure}
-\title{Run Green Infrastructure Module}
+\title{Prepare Green Infrastructure Module}
 \usage{
 scen_green_infrastructure(
   tb,
   detail,
-  .scenario,
-  .luse_scen,
-  .conservation_tillage_scen,
+  .urban_form_scenario,
+  .conservation_tillage_intervention,
   .w2w_diesel_emission_factor_kg_co2e_per_gal,
   .avoided_emissions_tractor_use_mg_co2e_per_hectare,
-  .agricultural_land_carbon_stock_mg_c_per_hectare,
   .maximum_soc_accumation_under_reduced_or_no_till_ag,
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare,
   .parking_lot_reduction_percentage,
-  .impervious_sequest_mg_c_per_hectare_per_year,
-  .grass_sequest_mg_c_per_hectare_per_year,
-  .trees_sequest_mg_c_per_hectare_per_year,
-  .water_sequest_mg_c_per_hectare_per_year,
-  .barren_sequest_mg_c_per_hectare_per_year,
-  .forest_sequest_mg_c_per_hectare_per_year,
-  .shrub_sequest_mg_c_per_hectare_per_year,
-  .grassland_sequest_mg_c_per_hectare_per_year,
-  .agriculture_sequest_mg_c_per_hectare_per_year,
-  .woody_wetland_sequest_mg_c_per_hectare_per_year,
-  .wetland_sequest_mg_c_per_hectare_per_year,
-  .parking_lot_sequest_mg_c_per_hectare_per_year,
-  .impervious_stock_mg_c_per_hectare,
-  .grass_stock_mg_c_per_hectare,
-  .trees_stock_mg_c_per_hectare,
-  .water_stock_mg_c_per_hectare,
-  .barren_stock_mg_c_per_hectare,
-  .forest_stock_mg_c_per_hectare,
-  .shrub_stock_mg_c_per_hectare,
-  .grassland_stock_mg_c_per_hectare,
-  .agriculture_stock_mg_c_per_hectare,
-  .woody_wetland_stock_mg_c_per_hectare,
-  .wetland_stock_mg_c_per_hectare,
-  .parking_lot_stock_mg_c_per_hectare
+  .agricultural_land_carbon_stock_mg_c_per_hectare
 )
 }
 \arguments{
 \item{tb}{\strong{Tibble}.
-The input dataset to be used.
-Default is \code{land_use_data}}
+The input dataset to be used.}
 
 \item{detail}{\strong{Logical}.
-If \code{TRUE}, returns a table with more detailed fields. Recommended
+A \code{TRUE} or \code{FALSE} argument.
+If \code{detail == TRUE} the function
+returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 
-\item{.scenario}{\strong{Character}.
-Default is \code{"bau"}}
-
-\item{.luse_scen}{\strong{Character}.
-The current land use scenario being explored
-Default is \code{"compact_dev_with_drs"}}
-
-\item{.conservation_tillage_scen}{\strong{Character}.
-The type of conservation tillage scenario to be explored.
-Default is \code{current_conservation_tillage}. The options are:
+\item{.urban_form_scenario}{\strong{Character}.
+The current land use scenario being explored.
+Default is \code{"bau"}.
+The options are:
 \itemize{
-\item \code{current_conservation_tillage} it maintains the per county levels of conservation tillage
-relative to the baseline year.
-\item \code{double_conservation_tillage} it doubles the per county levels of conservation tillage
-relative to the baseline year.
-\item \code{maximum_conservation_tillage} it assumes that all agricultural land implements conservation
-tillage.
+\item \code{"bau"}: the business as usual scenario.
+\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
+\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
+\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
-
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{\strong{Numeric}.
-Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
-Default is \code{12.50}.
-* \verb{Hilman and Ramaswami, 2009}.}
-
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{\strong{Numeric}.
-Million grams of carbon dioxide equivalent (CO2e) per hectare.
-Default is \code{0.102}.
-* \verb{United States Department of Agriculture}}
-
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{\strong{Numeric}.
-Million grams of carbon (C) per hectare.
-Default is \code{41}.
-* \verb{Tran et al., 2015} https://doi.org/10.1073/pnas.1512542112}
-
-\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{\strong{Numeric}.
-Maximum SOC acumulation per hectare under reduced or no till agriculture.
-Default is \code{1.54}.}
 
 \item{.tree_planting_per_capita}{\strong{Numeric}.
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -105,120 +54,12 @@ A number between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
-
-\item{.impervious_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of impervious land cover.
-Default is \code{0} C/ha/year.}
-
-\item{.grass_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of grass land cover.
-Default is \code{-0.42} C/ha/year.}
-
-\item{.trees_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of trees land cover.
-Default is \code{-1.27} C/ha/year}
-
-\item{.water_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of water land cover.
-Default is \code{0} C/ha/year.}
-
-\item{.barren_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of barren land cover.
-Default is \code{-0.014}.}
-
-\item{.forest_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of forest land cover.
-Default is \code{-0.625}.}
-
-\item{.shrub_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of shrub land cover.
-Default is \code{-0.287}.}
-
-\item{.grassland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of grassland land cover.
-Default is \code{-0.287}.}
-
-\item{.agriculture_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of agriculture land cover.
-Default is \code{-0.19}.}
-
-\item{.woody_wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of woody wetland land cover.
-Default is \code{-0.625}.}
-
-\item{.wetland_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of wetland land cover.
-Default is \code{-1.493}.}
-
-\item{.parking_lot_sequest_mg_c_per_hectare_per_year}{\strong{Numeric}.
-Megagrams of carbon sequestration per hectare per year of parking lot land cover.
-Default is \code{0}.}
-
-\item{.impervious_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of impervious surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{33}.}
-
-\item{.grass_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{74.04}.}
-
-\item{.trees_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of trees surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{115}.}
-
-\item{.water_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of water surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{0}.}
-
-\item{.barren_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of barren surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{5}.}
-
-\item{.forest_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of forest surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{117}.}
-
-\item{.shrub_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of shrub surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{49}.}
-
-\item{.grassland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{49}.}
-
-\item{.agriculture_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{41}.}
-
-\item{.woody_wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{117}.}
-
-\item{.wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{296.75}.}
-
-\item{.parking_lot_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{33}.}
 }
 \value{
 
 }
 \description{
-\code{scen_green_infrastrucutre} generates the outputs of the land use and green
+\code{scen_green_infrastructure} generates the outputs of the land use and green
 infrastructure module.
 }
 \examples{
@@ -226,43 +67,18 @@ infrastructure module.
 library(ghg.sp)
 
 ghg.sp::scen_green_infrastructure(
-     tb = land_use_data.rda,
+     tb = land_use_data,
      detail = FALSE,
-     .luse_scen = "compact_dev_with_drs",
-     .scenario = "bau",
-     .conservation_tillage_scen = "current_conservation_tillage",
+     .urban_form_scenario = "bau",
+     .conservation_tillage_intervention = "current_conservation_tillage",
      .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
      .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
      .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
      .tree_planting_intervention = "tree_planting_on_all_pervious",
      .tree_planting_per_capita = 0.26,
      .tree_planting_per_hectare = 247,
      .parking_lot_reduction_percentage = 0.8,
-     .impervious_sequest_mg_c_per_hectare_per_year = 0,
-     .grass_sequest_mg_c_per_hectare_per_year = -0.42,
-     .trees_sequest_mg_c_per_hectare_per_year = -1.27,
-     .water_sequest_mg_c_per_hectare_per_year = 0,
-     .barren_sequest_mg_c_per_hectare_per_year = -0.014,
-     .forest_sequest_mg_c_per_hectare_per_year = -0.625,
-     .shrub_sequest_mg_c_per_hectare_per_year = -0.287,
-     .grassland_sequest_mg_c_per_hectare_per_year = -0.287,
-     .agriculture_sequest_mg_c_per_hectare_per_year = -0.19,
-     .woody_wetland_sequest_mg_c_per_hectare_per_year = -0.625,
-     .wetland_sequest_mg_c_per_hectare_per_year = -1.493,
-     .parking_lot_sequest_mg_c_per_hectare_per_year = 0,
-     .impervious_stock_mg_c_per_hectare = 33,
-     .grass_stock_mg_c_per_hectare = 77.04,
-     .trees_stock_mg_c_per_hectare = 115,
-     .water_stock_mg_c_per_hectare = 0,
-     .barren_stock_mg_c_per_hectare = 5,
-     .forest_stock_mg_c_per_hectare = 117,
-     .shrub_stock_mg_c_per_hectare = 49,
-     .grassland_stock_mg_c_per_hectare = 49,
-     .agriculture_stock_mg_c_per_hectare = 41,
-     .woody_wetland_stock_mg_c_per_hectare = 117,
-     .wetland_stock_mg_c_per_hectare = 296.75,
-     .parking_lot_stock_mg_c_per_hectare = 33)
+     .agricultural_land_carbon_stock_mg_c_per_hectare = 3)
 }
 }
 \seealso{
@@ -275,6 +91,7 @@ Other Land Use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+\code{\link{calc_tree_planting_land_cover}()},
+\code{\link{run_scenario_land_use}()}
 }
 \concept{Land Use}

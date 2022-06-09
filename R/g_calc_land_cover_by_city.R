@@ -17,15 +17,13 @@
 #'
 #' ghg.sp::calc_land_cover_by_city(
 #'     tb = land_use_data,
-#'     .luse_scen = "compact_dev_with_drs",
-#'     .scenario = "bau")
+#'     .urban_form_scenario = "bau"
+#' )
 #' }
 calc_land_cover_by_city <- function(tb,
-                                    .luse_scen,
-                                    .scenario) {
+                                    .urban_form_scenario) {
   calc_land_cover_by_land_use(tb = tb,
-                              .luse_scen = .luse_scen,
-                              .scenario = .scenario) %>%
+                              .urban_form_scenario = .urban_form_scenario) %>%
     group_by(ctu_name, year, land_cover_description_2) %>%
     summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
 }

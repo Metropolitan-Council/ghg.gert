@@ -1,20 +1,21 @@
 #' @title Calculate Land by Development Type
 #' @family Land Use
 #'
-#' @description ``calc_land_by_development_type()` calculates the hectares of
+#' @description `calc_land_by_development_type()` calculates the hectares of
 #'      land by different development types
-#'      (urban expansion, urban infill, and exurban development) for different land
-#'      use scenarios at the city/township scale
+#'      (urban expansion, urban infill, and exurban development) for  the selected land
+#'      use (urban form) scenario at the city/township scale .
 #'
 #' @param tb **Tibble**.
-#'      The input dataset to be used.
-#'      Default is `land_use_data`
-#' @param .scenario **Character**.
-#'      Default is `"bau"`
-#' @param .luse_scen **Character**.
-#'      The current land use scenario being explored
-#'      Default is `"compact_dev_with_drs"`
-#'
+#' The input dataset to be used.
+#' @param .urban_form_scenario **Character**.
+#' The current land use scenario being explored.
+#' Default is `"bau"`.
+#' The options are:
+#' * `"bau"`: the business as usual scenario.
+#' * `"post_covid_sprawl"`: post covid sprawl scenario.
+#' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
+#' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
 #' @return **Tibble**.
 #'      A list of tables with the estimated hectares by different development
 #'      types (urban expansion, urban infill, and exurban development) for different
@@ -28,16 +29,20 @@
 #'
 #' ghg.sp::calc_land_by_development_type(
 #'     tb = land_use_data,
-#'     .scenario = "bau",
-#'     .luse_scen = "compact_dev_with_drs")
+#'     .urban_form_scenario = "bau")
 #' }
 calc_land_by_development_type <-
   function(tb,
-           .scenario,
-           .luse_scen) {
+           .urban_form_scenario) {
+
+
+    match.arg(arg = .urban_form_scenario, choices = c("compact_dev_with_drs",
+                                            "bau",
+                                            "post_covid_sprawl",
+                                            "compact_development_with_drs"))
 
     luse_scenario_params <- tb$scenario_parameters %>%
-      dplyr::filter(scenario_description_2 == .scenario)
+      dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
     land_by_development_type <- tb$land_by_development_type
 
@@ -103,7 +108,7 @@ calc_land_by_development_type <-
       )
 
     land_by_development_type$scenario_mixed_use_mf_new <-
-      (if (.luse_scen == "compact_dev_with_drs") {
+      (if (.urban_form_scenario == "compact_dev_with_drs") {
         scenario_mixed_use_mf_new_1 %>%
           dplyr::mutate(
             scenario_mixed_use_mf_new.urban_infill =

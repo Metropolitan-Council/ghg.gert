@@ -4,35 +4,36 @@
 \alias{calc_land_cover_by_land_use}
 \title{Calculate Land Cover by Land Use by City/Township}
 \usage{
-calc_land_cover_by_land_use(tb, .scenario, .luse_scen)
+calc_land_cover_by_land_use(tb, .urban_form_scenario)
 }
 \arguments{
 \item{tb}{\strong{Tibble}.
-The input dataset to be used.
-Default is \code{land_use_data}}
+The input dataset to be used.}
 
-\item{.scenario}{\strong{Character}.
-Default is \code{"bau"}}
-
-\item{.luse_scen}{\strong{Character}.
-The current land use scenario being explored
-Default is \code{"compact_dev_with_drs"}}
+\item{.urban_form_scenario}{\strong{Character}.
+The current land use scenario being explored.
+Default is \code{"bau"}.
+The options are:
+\itemize{
+\item \code{"bau"}: the business as usual scenario.
+\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
+\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
+\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
+}}
 }
 \value{
 \strong{Tibble}.
 A long table with the percent of land cover for each land use type for each city*/township
 }
 \description{
-\code{calc_land_cover_by_land_use} calculates the land cover by land use type for each community,
-using the bridge table "land_cover_percentages_filled"
-for the selected land use scenario.
+\code{calc_land_cover_by_land_use()} calculates the land cover by land use type for each community,
+using the bridge table "land_cover_percentages_filled" for the selected land use scenario.
 }
 \examples{
 \dontrun{
 ghg.sp::calc_land_cover_by_land_use(
-      tb = land_use_data,
-      .scenario = "bau",
-      .luse_scen = "compact_dev_with_drs")
+     tb = land_use_data,
+     .urban_form_scenario = "bau")
 }
 }
 \seealso{
@@ -45,6 +46,7 @@ Other Land Use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
+\code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
 \concept{Land Use}

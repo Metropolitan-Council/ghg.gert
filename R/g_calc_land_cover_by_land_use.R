@@ -1,29 +1,26 @@
 #' @title Calculate Land Cover by Land Use by City/Township
 #' @family Land Use
 #'
-#' @description  `calc_land_cover_by_land_use` calculates the land cover by land use type for each community,
-#'      using the bridge table "land_cover_percentages_filled"
-#'      for the selected land use scenario.
+#' @description  `calc_land_cover_by_land_use()` calculates the land cover by land use type for each community,
+#'      using the bridge table "land_cover_percentages_filled" for the selected land use scenario.
 #'
 #' @inheritParams calc_scen_land_use
 #'
 #' @return **Tibble**.
 #'      A long table with the percent of land cover for each land use type for each city*/township
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' ghg.sp::calc_land_cover_by_land_use(
-#'       tb = land_use_data,
-#'       .scenario = "bau",
-#'       .luse_scen = "compact_dev_with_drs")
+#'      tb = land_use_data,
+#'      .urban_form_scenario = "bau")
 #' }
 calc_land_cover_by_land_use <- function(tb,
-                                        .scenario,
-                                        .luse_scen) {
+                                        .urban_form_scenario) {
 
-  match.arg(arg = .scenario, choices = c("bau"))
-  match.arg(arg = .luse_scen, choices = c("compact_dev_with_drs"))
+
 
   land_cover_by_land_use <-
     dplyr::bind_rows(
@@ -44,8 +41,7 @@ calc_land_cover_by_land_use <- function(tb,
           ),
         calc_scen_land_use(
           tb = tb,
-          .scenario = .scenario,
-          .luse_scen = .luse_scen
+          .urban_form_scenario = .urban_form_scenario
         ),
         by = c("ctu_name", "description_2")
       ) %>%

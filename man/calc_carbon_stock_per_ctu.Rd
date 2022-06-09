@@ -6,87 +6,54 @@
 \usage{
 calc_carbon_stock_per_ctu(
   tb,
-  .scenario,
-  .luse_scen,
-  .impervious_stock_mg_c_per_hectare,
-  .grass_stock_mg_c_per_hectare,
-  .trees_stock_mg_c_per_hectare,
-  .water_stock_mg_c_per_hectare,
-  .barren_stock_mg_c_per_hectare,
-  .forest_stock_mg_c_per_hectare,
-  .shrub_stock_mg_c_per_hectare,
-  .grassland_stock_mg_c_per_hectare,
-  .agriculture_stock_mg_c_per_hectare,
-  .woody_wetland_stock_mg_c_per_hectare,
-  .wetland_stock_mg_c_per_hectare,
-  .parking_lot_stock_mg_c_per_hectare,
+  .urban_form_scenario,
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare,
   .parking_lot_reduction_percentage,
+  .conservation_tillage_intervention,
+  .w2w_diesel_emission_factor_kg_co2e_per_gal,
+  .agricultural_land_carbon_stock_mg_c_per_hectare,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare,
   detail
 )
 }
 \arguments{
-\item{.impervious_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of impervious surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{33}.}
+\item{tb}{\strong{Tibble}.
+The input dataset to be used.}
 
-\item{.grass_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{74.04}.}
+\item{.urban_form_scenario}{\strong{Character}.
+The current land use scenario being explored.
+Default is \code{"bau"}.
+The options are:
+\itemize{
+\item \code{"bau"}: the business as usual scenario.
+\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
+\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
+\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
+}}
 
-\item{.trees_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of trees surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{115}.}
+\item{.tree_planting_per_capita}{\strong{Numeric}.
+Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{0.26}.}
 
-\item{.water_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of water surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{0}.}
+\item{.tree_planting_per_hectare}{\strong{Numeric}.
+Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{247}.}
 
-\item{.barren_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of barren surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{5}.}
+\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
+A number between \code{0} and \code{1}.
+The percentage reduction of parking lot
+area to be explored under the current scenario.
+Default is \code{0.8}.}
 
-\item{.forest_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of forest surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{117}.}
-
-\item{.shrub_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of shrub surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{49}.}
-
-\item{.grassland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{49}.}
-
-\item{.agriculture_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{41}.}
-
-\item{.woody_wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{117}.}
-
-\item{.wetland_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{296.75}.}
-
-\item{.parking_lot_stock_mg_c_per_hectare}{\strong{Numeric}.
-The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-(1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-Default is \code{33}.}
+\item{detail}{\strong{Logical}.
+A \code{TRUE} or \code{FALSE} argument.
+If \code{detail == TRUE} the function
+returns a tibble with more detailed fields. Recommended
+for debugging.
+Default is \code{FALSE}.}
 }
 \value{
 
@@ -96,29 +63,23 @@ Default is \code{33}.}
 under the selected scenario parameters
 }
 \examples{
- \dontrun{
- library(ghg.sp)
+\dontrun{
+library(ghg.sp)
 
- calc_carbon_stock_per_ctu(
+ghg.sp::calc_carbon_stock_per_ctu(
      tb = land_use_data,
-     .scenario = "bau",
-     .luse_scen = "compact_dev_with_drs",
-     .impervious_stock_mg_c_per_hectare = 33,
-     .grass_stock_mg_c_per_hectare = 77.04,
-     .trees_stock_mg_c_per_hectare = 115,
-     .water_stock_mg_c_per_hectare = 0,
-     .barren_stock_mg_c_per_hectare = 5,
-     .forest_stock_mg_c_per_hectare = 117,
-     .shrub_stock_mg_c_per_hectare = 49,
-     .grassland_stock_mg_c_per_hectare = 49,
-     .agriculture_stock_mg_c_per_hectare = 41,
-     .woody_wetland_stock_mg_c_per_hectare = 117,
-     .wetland_stock_mg_c_per_hectare = 296.75,
-     .parking_lot_stock_mg_c_per_hectare = 33,
+     .urban_form_scenario = "bau",
      .tree_planting_intervention = "tree_planting_on_all_pervious",
      .tree_planting_per_capita = 0.26,
      .tree_planting_per_hectare = 247,
-     .parking_lot_reduction_percentage = 0.8)
+     .parking_lot_reduction_percentage = 0.8,
+     .conservation_tillage_intervention = "current_conservation_tillage",
+     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+     detail = FALSE
+)
 }
 }
 \seealso{
@@ -131,6 +92,7 @@ Other Land Use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
+\code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 
 Other GHG Emissions: 

@@ -4,19 +4,22 @@
 \alias{calc_land_by_development_type}
 \title{Calculate Land by Development Type}
 \usage{
-calc_land_by_development_type(tb, .scenario, .luse_scen)
+calc_land_by_development_type(tb, .urban_form_scenario)
 }
 \arguments{
 \item{tb}{\strong{Tibble}.
-The input dataset to be used.
-Default is \code{land_use_data}}
+The input dataset to be used.}
 
-\item{.scenario}{\strong{Character}.
-Default is \code{"bau"}}
-
-\item{.luse_scen}{\strong{Character}.
-The current land use scenario being explored
-Default is \code{"compact_dev_with_drs"}}
+\item{.urban_form_scenario}{\strong{Character}.
+The current land use scenario being explored.
+Default is \code{"bau"}.
+The options are:
+\itemize{
+\item \code{"bau"}: the business as usual scenario.
+\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
+\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
+\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
+}}
 }
 \value{
 \strong{Tibble}.
@@ -25,10 +28,10 @@ types (urban expansion, urban infill, and exurban development) for different
 land use scenarios.
 }
 \description{
-``calc_land_by_development_type()` calculates the hectares of
+\code{calc_land_by_development_type()} calculates the hectares of
 land by different development types
-(urban expansion, urban infill, and exurban development) for different land
-use scenarios at the city/township scale
+(urban expansion, urban infill, and exurban development) for  the selected land
+use (urban form) scenario at the city/township scale .
 }
 \examples{
 \dontrun{
@@ -36,8 +39,7 @@ library(ghg.sp)
 
 ghg.sp::calc_land_by_development_type(
     tb = land_use_data,
-    .scenario = "bau",
-    .luse_scen = "compact_dev_with_drs")
+    .urban_form_scenario = "bau")
 }
 }
 \seealso{
@@ -50,6 +52,7 @@ Other Land Use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
+\code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
 \concept{Land Use}

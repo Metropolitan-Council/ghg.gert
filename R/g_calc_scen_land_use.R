@@ -16,27 +16,22 @@
 #'
 #' ghg.sp::calc_scen_land_use(
 #'      tb =  land_use_data,
-#'      .scenario = "bau",
-#'      .luse_scen = "compact_dev_with_drs")
+#'      .urban_form_scenario = "bau")
 #' }
 calc_scen_land_use <- function(tb,
-                               .scenario,
-                               .luse_scen) {
+                               .urban_form_scenario) {
   bind_rows(
     calc_land_by_development_type(
       tb = tb,
-      .scenario = .scenario,
-      .luse_scen = .luse_scen
+      .urban_form_scenario = .urban_form_scenario
     )$scenario_mixed_use_mf_new,
     calc_land_by_development_type(
       tb = tb,
-      .scenario = .scenario,
-      .luse_scen = .luse_scen
+      .urban_form_scenario = .urban_form_scenario
     )$scenario_other_zoning,
     calc_land_by_development_type(
       tb = tb,
-      .scenario = .scenario,
-      .luse_scen = .luse_scen
+      .urban_form_scenario = .urban_form_scenario
     )$scenario_total
   ) %>%
     # Increase mixed use / residential

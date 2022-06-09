@@ -29,19 +29,17 @@
 #'
 #' ghg.sp::calc_parking_lot_land_cover(
 #'       tb = land_use_data,
-#'       .scenario = "bau",
-#'       .luse_scen = "compact_dev_with_drs",
+#'       .urban_form_scenario = "bau",
+#'       .parking_lot_reduction_percentage = 0.8,
 #'       .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'       .tree_planting_per_capita = 0.26,
 #'       .tree_planting_per_hectare = 247,
-#'       .parking_lot_reduction_percentage = 0.8,
 #'       detail = FALSE
 #' )
 #' }
 calc_parking_lot_land_cover <-
   function(tb,
-           .luse_scen,
-           .scenario,
+           .urban_form_scenario,
            .parking_lot_reduction_percentage,
            .tree_planting_intervention,
            .tree_planting_per_capita,
@@ -50,8 +48,7 @@ calc_parking_lot_land_cover <-
     parking_lot_land_cover <-
       calc_tree_planting_land_cover(
         tb = tb,
-        .luse_scen = .luse_scen,
-        .scenario =  .scenario,
+        .urban_form_scenario = .urban_form_scenario,
         .tree_planting_intervention = .tree_planting_intervention,
         .tree_planting_per_capita = .tree_planting_per_capita,
         .tree_planting_per_hectare = .tree_planting_per_hectare,
@@ -62,10 +59,10 @@ calc_parking_lot_land_cover <-
           case_when(
             year == 2016 ~ parking_lot,
             year == 2040 &
-              .luse_scen == "compact_dev_with_drs"  ~
+              .urban_form_scenario == "compact_dev_with_drs"  ~
               (parking_lot * (1 - .parking_lot_reduction_percentage)),
             year == 2040 &
-              .luse_scen != "compact_dev_with_drs" ~
+              .urban_form_scenario != "compact_dev_with_drs" ~
               parking_lot
           ),
         decreased_parking_lot = parking_lot - parking_lot_2,

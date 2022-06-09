@@ -5,128 +5,81 @@
 #' @description `calc_carbon_stock_per_ctu()` calculates the carbon stock per land cover type by city/township
 #'      under the selected scenario parameters
 #'
-#' @param .impervious_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of impervious surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `33`.
-#' @param .grass_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `74.04`.
-#' @param .trees_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of trees surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `115`.
-#' @param .water_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of water surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `0`.
-#' @param .barren_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of barren surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `5`.
-#' @param .forest_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of forest surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `117`.
-#' @param .shrub_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of shrub surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `49`.
-#' @param .grassland_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `49`.
-#' @param .agriculture_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `41`.
-#' @param .woody_wetland_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `117`.
-#' @param .wetland_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `296.75`.
-#' @param .parking_lot_stock_mg_c_per_hectare **Numeric**.
-#'      The estimated carbon stock of grass surfaces in megagrams of carbon per hectare
-#'      (1 megagram = 1 tonne = 1 metric ton) of carbon per hectare.
-#'      Default is `33`.
+#' @inheritParams calc_parking_lot_land_cover
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#'  \dontrun{
-#'  library(ghg.sp)
+#' \dontrun{
+#' library(ghg.sp)
 #'
-#'  calc_carbon_stock_per_ctu(
+#' ghg.sp::calc_carbon_stock_per_ctu(
 #'      tb = land_use_data,
-#'      .scenario = "bau",
-#'      .luse_scen = "compact_dev_with_drs",
-#'      .impervious_stock_mg_c_per_hectare = 33,
-#'      .grass_stock_mg_c_per_hectare = 77.04,
-#'      .trees_stock_mg_c_per_hectare = 115,
-#'      .water_stock_mg_c_per_hectare = 0,
-#'      .barren_stock_mg_c_per_hectare = 5,
-#'      .forest_stock_mg_c_per_hectare = 117,
-#'      .shrub_stock_mg_c_per_hectare = 49,
-#'      .grassland_stock_mg_c_per_hectare = 49,
-#'      .agriculture_stock_mg_c_per_hectare = 41,
-#'      .woody_wetland_stock_mg_c_per_hectare = 117,
-#'      .wetland_stock_mg_c_per_hectare = 296.75,
-#'      .parking_lot_stock_mg_c_per_hectare = 33,
+#'      .urban_form_scenario = "bau",
 #'      .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'      .tree_planting_per_capita = 0.26,
 #'      .tree_planting_per_hectare = 247,
-#'      .parking_lot_reduction_percentage = 0.8)
+#'      .parking_lot_reduction_percentage = 0.8,
+#'      .conservation_tillage_intervention = "current_conservation_tillage",
+#'      .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+#'      .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+#'      .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+#'      .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+#'      detail = FALSE
+#' )
 #' }
 calc_carbon_stock_per_ctu <-
   function(tb,
-           .scenario,
-           .luse_scen,
-           .impervious_stock_mg_c_per_hectare,
-           .grass_stock_mg_c_per_hectare,
-           .trees_stock_mg_c_per_hectare,
-           .water_stock_mg_c_per_hectare,
-           .barren_stock_mg_c_per_hectare,
-           .forest_stock_mg_c_per_hectare,
-           .shrub_stock_mg_c_per_hectare,
-           .grassland_stock_mg_c_per_hectare,
-           .agriculture_stock_mg_c_per_hectare,
-           .woody_wetland_stock_mg_c_per_hectare,
-           .wetland_stock_mg_c_per_hectare,
-           .parking_lot_stock_mg_c_per_hectare,
+           .urban_form_scenario,
            .tree_planting_intervention,
            .tree_planting_per_capita,
            .tree_planting_per_hectare,
            .parking_lot_reduction_percentage,
-           detail
-           ){
-    carbon_stock_per_ctu <-
+           .conservation_tillage_intervention,
+           .w2w_diesel_emission_factor_kg_co2e_per_gal,
+           .agricultural_land_carbon_stock_mg_c_per_hectare ,
+           .maximum_soc_accumation_under_reduced_or_no_till_ag,
+           .avoided_emissions_tractor_use_mg_co2e_per_hectare,
+           detail) {
 
-      ghg.sp::calc_parking_lot_land_cover(tb = tb,
-                                          .scenario = .scenario,
-                                          .luse_scen = .luse_scen,
-                                          .tree_planting_intervention = .tree_planting_intervention,
-                                          .tree_planting_per_capita = .tree_planting_per_capita,
-                                          .tree_planting_per_hectare = .tree_planting_per_hectare,
-                                          .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-                                          detail = detail) %>%
+    calc_conservation_tillage(
+      tb = tb,
+      detail = detail,
+      .urban_form_scenario = .urban_form_scenario,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .conservation_tillage_intervention = .conservation_tillage_intervention,
+      .w2w_diesel_emission_factor_kg_co2e_per_gal = .w2w_diesel_emission_factor_kg_co2e_per_gal,
+      .avoided_emissions_tractor_use_mg_co2e_per_hectare = .avoided_emissions_tractor_use_mg_co2e_per_hectare,
+      .agricultural_land_carbon_stock_mg_c_per_hectare = .agricultural_land_carbon_stock_mg_c_per_hectare,
+      .maximum_soc_accumation_under_reduced_or_no_till_ag = .maximum_soc_accumation_under_reduced_or_no_till_ag,
+      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare
+    )
+
+    carbon_stock_per_ctu <- calc_parking_lot_land_cover(
+        tb = tb,
+        .urban_form_scenario = .urban_form_scenario,
+        .tree_planting_intervention = .tree_planting_intervention,
+        .tree_planting_per_capita = .tree_planting_per_capita,
+        .tree_planting_per_hectare = .tree_planting_per_hectare,
+        .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+        detail = detail
+      ) %>%
       dplyr::mutate(
-        grass = grass * .grass_stock_mg_c_per_hectare,
-        impervious = impervious * .impervious_stock_mg_c_per_hectare,
-        trees = trees * .trees_stock_mg_c_per_hectare,
-        water = water * .water_stock_mg_c_per_hectare,
-        barren = barren * .barren_stock_mg_c_per_hectare,
-        forest = forest * .forest_stock_mg_c_per_hectare,
-        shrub = shrub * .shrub_stock_mg_c_per_hectare,
-        grassland = grassland * .grassland_stock_mg_c_per_hectare,
-        agriculture = agriculture * .agriculture_stock_mg_c_per_hectare,
-        woody_wetland = woody_wetland * .woody_wetland_stock_mg_c_per_hectare,
-        wetland = wetland * .wetland_stock_mg_c_per_hectare,
-        parking_lot = parking_lot * .parking_lot_stock_mg_c_per_hectare
+        grass = grass * carbon_stock_factors$GRASS_STOCK_MG_C_PER_HECTARE,
+        impervious = impervious * carbon_stock_factors$IMPERVIOUS_STOCK_MG_C_PER_HECTARE,
+        trees = trees * carbon_stock_factors$TREES_STOCK_MG_C_PER_HECTARE,
+        water = water * carbon_stock_factors$WATER_STOCK_MG_C_PER_HECTARE,
+        barren = barren * carbon_stock_factors$BARREN_STOCK_MG_C_PER_HECTARE,
+        forest = forest * carbon_stock_factors$FOREST_STOCK_MG_C_PER_HECTARE,
+        shrub = shrub * carbon_stock_factors$SHRUB_STOCK_MG_C_PER_HECTARE,
+        grassland = grassland * carbon_stock_factors$GRASSLAND_STOCK_MG_C_PER_HECTARE,
+        agriculture = agriculture * carbon_stock_factors$AGRICULTURE_STOCK_MG_C_PER_HECTARE,
+        woody_wetland = woody_wetland * carbon_stock_factors$WOODY_WETLAND_STOCK_MG_C_PER_HECTARE,
+        wetland = wetland * carbon_stock_factors$WETLAND_STOCK_MG_C_PER_HECTARE,
+        parking_lot = parking_lot * carbon_stock_factors$PARKING_LOT_STOCK_MG_C_PER_HECTARE
       )
     return(carbon_stock_per_ctu)
   }

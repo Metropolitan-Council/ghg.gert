@@ -7,8 +7,7 @@
 calc_tree_planting_land_cover(
   tb,
   detail,
-  .luse_scen,
-  .scenario,
+  .urban_form_scenario,
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare
@@ -16,20 +15,23 @@ calc_tree_planting_land_cover(
 }
 \arguments{
 \item{tb}{\strong{Tibble}.
-The input dataset to be used.
-Default is \code{land_use_data}}
+The input dataset to be used.}
 
 \item{detail}{\strong{Logical}.
 If \code{TRUE}, returns a table with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 
-\item{.luse_scen}{\strong{Character}.
-The current land use scenario being explored
-Default is \code{"compact_dev_with_drs"}}
-
-\item{.scenario}{\strong{Character}.
-Default is \code{"bau"}}
+\item{.urban_form_scenario}{\strong{Character}.
+The current land use scenario being explored.
+Default is \code{"bau"}.
+The options are:
+\itemize{
+\item \code{"bau"}: the business as usual scenario.
+\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
+\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
+\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
+}}
 
 \item{.tree_planting_per_capita}{\strong{Numeric}.
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -43,10 +45,10 @@ Default is \code{247}.}
 Specifies the type of tree planting.
 intervention to be explored under the current scenario.
 The options are:
-* \code{tree_planting_on_all_pervious}: Assumes that all pervious surfaces are converted to tree canopy.
-* \code{double}: Assumes double the tree canopy relative.
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
 to the baseline year.
-* \code{match_la_million_trees_goal}: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
 Default is \code{tree_planting_on_all_pervious}.}
 }
 \value{
@@ -65,8 +67,7 @@ library(ghg.sp)
 ghg.sp::calc_tree_planting_land_cover(
     tb = land_use_data,
     detail = FALSE,
-    .luse_scen = "compact_dev_with_drs",
-    .scenario = "bau",
+    .urban_form_scenario = "bau",
     .tree_planting_intervention = "tree_planting_on_all_pervious",
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247)
@@ -82,6 +83,7 @@ Other Land Use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
+\code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
 \concept{Land Use}

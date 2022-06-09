@@ -2,17 +2,17 @@
 #' @family Land Use
 #'
 #' @description `calc_tree_planting_land_cover()` recalculates the hectares of land by
-#' land cover type by city/township under a tree planting scenario.
+#'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
 #' @param tree_panting_intervention **Character**.
 #'     Specifies the type of tree planting.
 #'     intervention to be explored under the current scenario.
 #'     The options are:
-#'      * `tree_planting_on_all_pervious`: Assumes that all pervious surfaces are converted to tree canopy.
-#'      * `double`: Assumes double the tree canopy relative.
+#'      * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
+#'      * `"double"`: Assumes double the tree canopy relative.
 #'      to the baseline year.
-#'      * `match_la_million_trees_goal`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
+#'      * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
 #'      Default is `tree_planting_on_all_pervious`.
 #' @param .tree_planting_per_capita **Numeric**.
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -38,8 +38,7 @@
 #' ghg.sp::calc_tree_planting_land_cover(
 #'     tb = land_use_data,
 #'     detail = FALSE,
-#'     .luse_scen = "compact_dev_with_drs",
-#'     .scenario = "bau",
+#'     .urban_form_scenario = "bau",
 #'     .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'     .tree_planting_per_capita = 0.26,
 #'     .tree_planting_per_hectare = 247)
@@ -49,14 +48,21 @@
 calc_tree_planting_land_cover <-
   function(tb,
            detail,
-           .luse_scen,
-           .scenario,
+           .urban_form_scenario,
            .tree_planting_intervention,
            .tree_planting_per_capita,
            .tree_planting_per_hectare) {
     land_cover_by_city <- calc_land_cover_by_city(tb = tb,
-                                                  .luse_scen = .luse_scen,
-                                                  .scenario = .scenario)
+                                                  .urban_form_scenario = .urban_form_scenario)
+
+    match.arg(
+      arg = .tree_planting_intervention,
+      choices = c(
+        "tree_planting_on_all_pervious",
+        "double",
+        "match_la_million_trees_goal"
+      )
+    )
 
     total_plantable_area <-
       land_cover_by_city %>%
