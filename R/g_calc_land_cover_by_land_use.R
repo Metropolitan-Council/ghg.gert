@@ -31,6 +31,8 @@ calc_land_cover_by_land_use <- function(tb,
         dplyr::transmute(land_cover_land_use_hectares =
                            percent_land_cover_type  * hectares) %>%
         dplyr::mutate(year = 2016),
+
+
       dplyr::right_join(
         tb$land_cover_percentages_filled %>%
           dplyr::select(
@@ -38,11 +40,13 @@ calc_land_cover_by_land_use <- function(tb,
             description_2,
             land_cover_description_2,
             percent_land_cover_type
-          ),
+        ),
         calc_scen_land_use(
           tb = tb,
           .urban_form_scenario = .urban_form_scenario
-        ),
+        ) %>%
+        dplyr::group_by(ctu_name, description_2) %>%
+        dplyr::summarise(scenario_hectares = sum(scenario_hectares)),
         by = c("ctu_name", "description_2")
       ) %>%
         dplyr::group_by(ctu_name,

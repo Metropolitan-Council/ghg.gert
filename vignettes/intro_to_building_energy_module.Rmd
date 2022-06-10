@@ -36,8 +36,7 @@ The GHG mitigation strategies included in the Building Energy Module include:
 
 ### Residential Strategies
 
-1. **Metroplitan Council's Planned Land Use**: Multi-family housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily
-housing in accordance with the *Metropolitan Council 2040 Planned Land Use* estimates.
+1. **Metroplitan Council's Planned Land Use**: Multi-family housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily housing in accordance with the *Metropolitan Council 2040 Planned Land Use* estimates.
 
 2. **More Compact Residential Buildings (B.R1)**: This strategy goes beyond the *Metropolitan Council’s 2040 Planned Land Use*, by assuming that *50%* of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
 

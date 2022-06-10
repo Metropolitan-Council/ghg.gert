@@ -5,15 +5,15 @@
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
-#' @param tree_panting_intervention **Character**.
-#'     Specifies the type of tree planting.
-#'     intervention to be explored under the current scenario.
-#'     The options are:
-#'      * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
-#'      * `"double"`: Assumes double the tree canopy relative.
-#'      to the baseline year.
-#'      * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
-#'      Default is `tree_planting_on_all_pervious`.
+#' @param .tree_panting_intervention **Character**.
+#' Specifies the type of tree planting.
+#' intervention to be explored under the current scenario.
+#' The options are:
+#' * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
+#' * `"double"`: Assumes double the tree canopy relative.
+#' to the baseline year.
+#' * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
+#' Default is `tree_planting_on_all_pervious`.
 #' @param .tree_planting_per_capita **Numeric**.
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
@@ -39,7 +39,7 @@
 #'     tb = land_use_data,
 #'     detail = FALSE,
 #'     .urban_form_scenario = "bau",
-#'     .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'     .tree_planting_intervention = "match_la_million_trees_goal",
 #'     .tree_planting_per_capita = 0.26,
 #'     .tree_planting_per_hectare = 247)
 #' }

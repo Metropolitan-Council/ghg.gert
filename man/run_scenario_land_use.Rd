@@ -62,7 +62,7 @@ Run Scenario Land Use
 \dontrun{
 library(ghg.sp)
 
-ghgs.sp::run_scenario_land_use <- function(tb = land_use_data,
+ghg.sp::run_scenario_land_use(tb = land_use_data,
      .urban_form_scenario = "bau",
      .conservation_tillage_intervention = "current_conservation_tillage",
      .tree_planting_intervention = "tree_planting_on_all_pervious",

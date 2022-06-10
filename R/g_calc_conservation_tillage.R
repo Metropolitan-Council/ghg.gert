@@ -103,7 +103,8 @@ calc_conservation_tillage <-
         baseline_carbon_stock_mg_c_per_hectare = agriculture_hectares_year_2016 *
           .agricultural_land_carbon_stock_mg_c_per_hectare,
         bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare =
-          agriculture_hectares_year_2040
+          agriculture_hectares_year_2040 *
+          .agricultural_land_carbon_stock_mg_c_per_hectare
       )
 
     conservation_tillage_carbon_stocks_mg_c <-

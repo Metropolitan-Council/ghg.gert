@@ -41,15 +41,17 @@ Default is \code{0.26}.}
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{tree_panting_intervention}{\strong{Character}.
+\item{.tree_panting_intervention}{\strong{Character}.
 Specifies the type of tree planting.
 intervention to be explored under the current scenario.
 The options are:
-* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
-* \code{"double"}: Assumes double the tree canopy relative.
+\itemize{
+\item \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+\item \code{"double"}: Assumes double the tree canopy relative.
 to the baseline year.
-* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
-Default is \code{tree_planting_on_all_pervious}.}
+\item \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
+Default is \code{tree_planting_on_all_pervious}.
+}}
 }
 \value{
 \strong{Tibble}.
@@ -68,7 +70,7 @@ ghg.sp::calc_tree_planting_land_cover(
     tb = land_use_data,
     detail = FALSE,
     .urban_form_scenario = "bau",
-    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_intervention = "match_la_million_trees_goal",
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247)
 }
