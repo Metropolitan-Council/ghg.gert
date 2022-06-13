@@ -26,10 +26,20 @@ The module allows users to explore strategies for decarbonization within the lan
 The GHG mitgation strategies included in the Land Use & Green Infrastructure Module include:
 
 
-1. **Increase Tree Canopy (LU.1)**: The impact of changing the urban form of the city/township to more compact development. 
-2. **Increase Tree Canopy (LU.2)**: The impact of increasing the tree canopy area of the city/township by a given amount. 
-2. **Reduced Parking Lot Area (LU3)**: The impact of reducing the parking lot area of the city/township by a given percentage. 
-3. **Conservation Tillage (LU4)**: The impact of conservation tillage on the emissions of agricultural land of the city/township. 
+1. **Urban Form (LU.1)**: The impact of changing the urban form (the land use and land cover composition) of the city/township to more compact residential and mixed use development. Reduction of greenhouse gas emissions occurs when there is more land available to greenery rather than impervious surfaces. 
+2. **Increase Tree Canopy (LU.2)**: The impact of increasing the tree canopy area of the city/township by a given amount. For example, what is the effect of planting trees on all pervious surfaces available in the city/township. 
+3. **Reduced Parking Lot Area (LU3)**: The impact of reducing the parking lot area of the city/township by a given percentage. Reducing parking lot increases the availability of surface area for tree planting. 
+4. **Conservation Tillage (LU4)**: The impact of conservation tillage on the emissions of agricultural land of the city/township. Sustainable agriculture practice can have a significant effect on a city /township emissions. 
+
+Some key concept to understand the Land Use Module are the following:
+
+* Land Use
+* Land Cover
+* Conservation Tillage
+* Development Types
+* Exurban Development
+* Urban Infill Development
+* Urban Expansion Development 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
@@ -47,7 +57,7 @@ library(knitr)
 
 ## Land Use and Land Cover Data
 
-The package provided `land_use_data.rda` data set is required for the land use module to run.
+The package provided `land_use_data.rda` dataset is required for the land use module to run.
 To explore the dataset, run the following command:
 `ghg.sp::land_use_data`.
 
@@ -66,8 +76,8 @@ The following is a description of the content of all input tables of the land us
 contained in the `land_use_data` dataset.
 
 **$ctu_county**: 
-Shows the relationship between city/townships and county. 
-For example: What county is Lake Elmo within?
+Table shows the relationship between city/townships and county. 
+*For example: What county is Lake Elmo within?*
 ```{r echo=FALSE}
 land_use_data$ctu_county %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
@@ -76,8 +86,8 @@ land_use_data$ctu_county %>%
 ```
 
 **$ctu_forecast**: 
-Shows the demographic forecasts for city/township from Community Profiles.
-For example: What is the forecast population of Lake Elmo in 2040?
+Table shows the demographic forecasts for city/township from Community Profiles.
+*For example: What is the forecast population of Lake Elmo in 2040?*
 ```{r echo=FALSE}
 land_use_data$ctu_forecast %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
@@ -86,16 +96,17 @@ land_use_data$ctu_forecast %>%
 ```
 
 **$scenario_parameters**: 
-Provides key parameters for the different urban form scenarios of the land use module.
+Table provides key parameters for the different urban form scenarios of the land use module.
 These parameters show relative assumed proportions for the the intensity of land by three development types: *exurban development*, *urban expansion*, and *urban infill*. These parameter vary for each of the scenario available to the user. 
+*For example, a value of 0.5 will represent half of the given development type for the given scenario. A value of 2 will represent double. *
 ```{r echo=FALSE}
 land_use_data$scenario_parameters %>%
   kable()
 ```
 
 **$land_cover_percentages_filled**: 
-Shows the percentage of land use by land cover type in the Metropolitan Region. 
-For example: What percent of impervious surfaces can be classified single family residential?
+Table shows the percentage of land use by land cover type in the Metropolitan Region. 
+*For example: What percent of impervious surfaces can be classified single family residential in the city of Lake Elmo?*
 ```{r echo=FALSE}
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
@@ -105,7 +116,8 @@ land_use_data$land_cover_percentages_filled %>%
 ```
 
 **$land_composition_ctu**: 
-provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
+Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
+*For example: What percentage or what number of hectares of exurban development land area corresponds to parking lot surfaces within agricultural in the city of Lake Elmo for the forecast year 2040?*
 ```{r echo=FALSE}
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
@@ -114,7 +126,10 @@ land_use_data$land_composition_ctu %>%
   kable()
 ```
 
-**$current_conservation_tillage_county**
+**$current_conservation_tillage_county**:
+Tables shows the percent of agricultural land that is managed with conservation tillage by county. This is a necessary assumption for the conservation tillage strategy. 
+*Data comes from the Census of Agriculture (2017).*
+*For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201?*
 ```{r echo=FALSE}
 land_use_data$current_conservation_tillage_county %>%
   head(., n = 10) %>%
@@ -122,21 +137,30 @@ land_use_data$current_conservation_tillage_county %>%
 ```
 
 **$land_by_development_type_sum_bau**:
+Table shows the forecast total number of hectares by city/township for the business as usual scenario. 
+*For example: What is the forecast number of hectare for the city of Lake Elmo in 2040?*
 ```{r echo=FALSE}
 land_use_data$land_by_development_type_sum_bau %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10) %>%
   kable()
 ```
 
 **$multifamily_mixed_area**: 
-estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
+Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
+*For example: What is the forecast hectares of multifamily or mixed use land use for the year 2040 for the city of Lake Elmo?*
 ```{r echo=FALSE}
 land_use_data$multifamily_mixed_area %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10) %>%
   kable()
 ```
 
 ## Functions
+
+The impact of different land use and greenery strategies is estimated using a series of functions with arguments provided by the user.
+
+The key principle is of this model is that different land cover types have different carbon stock and sequestration value. By altering the composition of a city/township, we could observe higher or lower overall carbon stocks or sequestration value per year. 
 
 ### Functions to Calculate Urban Form Strategy. 
 
@@ -145,19 +169,20 @@ For help run the following command `?ghg.sp::calc_by_development_type()`
 This function is intermediary and does not provide the final result. 
 
 `ghg.sp::calc_by_development_type()` 
-provides a series of scenarios of land use by development type.
-The tool will pick up one of the different tables available in 
-response to argument `.urban_form_scenario`.
+The function returns a table with the land composition of different urban form scenarios of land use by development type.
+
+The tool will  perform a series of calculations in 
+response to different values of argument `.urban_form_scenario`.
 For example, if the selected input is `"bau"`, or the business as usual, 
 the tool will select the table it needs. 
 
 The possible scenarios to select on the `.urban_form_scenario` argument include:
 * `"bau"`: the business as usual scenario.
-* `"post_covid_sprawl"`: post covid sprawl scenario.
+* `"post_covid_sprawl"`: post-covid sprawl scenario.
 * `"compact_development_beyond_bau"`: compact development beyond the business as usual scenario.
 * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
 
-The following code prints the name of intermediary tables produced by function `ghg.sp::calc_by_development_type()`
+The following code prints the value of function `ghg.sp::calc_by_development_type()` filtered to show only the city of Lake Elmo. 
 ```{r}
 ghg.sp::calc_land_by_development_type(tb = land_use_data,
                                       .urban_form_scenario = "bau") %>%
@@ -188,8 +213,7 @@ ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
 ```
 
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
-This function return the urban form scenario land composition in hectares without adding additional 
-strategies. 
+This function returns the urban form scenario land composition in hectares without adding additional strategies. This is the last function used to estimate the impact of urban form changes alone.  
 ```{r}
 ghg.sp::calc_land_cover_by_city(tb = land_use_data,
                                 .urban_form_scenario = "bau") %>%
@@ -201,8 +225,7 @@ ghg.sp::calc_land_cover_by_city(tb = land_use_data,
 
 ### Function to Calculate Tree Planting Strategy
 
-Having calculate the hectares of land cover under the selected urban form scenario, we now will add
-the change  to the land composition  that is cause by implement a tree planting strategy. 
+Having calculated the hectares of land cover under the selected urban form scenario, we now will add the change to the land composition  that is cause by implement a tree planting strategy. 
 
 Function `ghg.sp::calc_tree_planting_land_cover()`.
 ```{r}
