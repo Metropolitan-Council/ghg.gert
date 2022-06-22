@@ -53,7 +53,7 @@ All the functions for the Land Use Module are contained within the `ghg.sp` pack
 ```{r setup}
 library(ghg.sp)
 library(knitr)
-
+library(councilR)
 
 dl_ctu <- FALSE
 
@@ -72,7 +72,8 @@ if (dl_ctu == TRUE) {
     sf::st_drop_geometry() %>%
     ungroup() %>%
     transmute(ctu_name = CTU_NAME,
-           comdes = COMDESNAME)
+           comdes = COMDESNAME) %>%
+    mutate(ctu_name = if_else(ctu_name == "Credit River", "Credit River Twp.", ctu_name))
   fs::file_delete("society_thrive_msp2040_com_des.gpkg")
   
   save(comdes, file = "./comdes.rda")
@@ -126,11 +127,32 @@ Table shows the demographic forecasts for city/township from Community Profiles.
 ```{r echo=FALSE}
 land_use_data$ctu_forecast %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10)  %>%
+  # head(., n = 10)  %>%
   kable()
+```
 
-land_use_data$ctu_forecast %>%
+*For example: How are people, households, and jobs going to change across the region?*
+```{r}
+# ee tests
+test <- land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name")
+
+test %>% #filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
+  group_split(metric) %>%
+  purrr::map(
+  ~ggplot(aes(x = year, 
+              y = value), 
+          data = .) + 
+  geom_line(aes(group = ctu_name), col = "grey80") +
+    stat_summary() +
+  facet_wrap(~comdes, scales = "free_y") +
+  theme_council_open() +
+    labs(y = "", x = "", col = "", fill = "", shape = "",
+         title = .$metric) +
+    theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 6),
+    legend.spacing.y = unit(0, 'cm')))
 ```
 
 **$scenario_parameters**: 
