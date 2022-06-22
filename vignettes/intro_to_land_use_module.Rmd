@@ -53,6 +53,32 @@ All the functions for the Land Use Module are contained within the `ghg.sp` pack
 ```{r setup}
 library(ghg.sp)
 library(knitr)
+
+
+dl_ctu <- FALSE
+
+if (dl_ctu == TRUE) {
+  temp <- tempfile()
+  download.file(
+    "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_thrive_msp2040_com_des/gpkg_society_thrive_msp2040_com_des.zip",
+    destfile = temp
+  )
+  comdes <-
+    sf::read_sf(unzip(temp, "society_thrive_msp2040_com_des.gpkg")) %>%
+    # sf::st_drop_geometry() %>% count(CTU_NAME) %>% filter(n > 1) #there are some ctus with multiple designations; get the biggest one
+    group_by(CTU_NAME) %>%
+    mutate(max_area = max(Shape_Area)) %>%
+    filter(Shape_Area == max_area) %>% 
+    sf::st_drop_geometry() %>%
+    ungroup() %>%
+    transmute(ctu_name = CTU_NAME,
+           comdes = COMDESNAME)
+  fs::file_delete("society_thrive_msp2040_com_des.gpkg")
+  
+  save(comdes, file = "./comdes.rda")
+} else {
+  load("./comdes.rda")
+}
 ```
 
 ## Land Use and Land Cover Data
@@ -102,6 +128,9 @@ land_use_data$ctu_forecast %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10)  %>%
   kable()
+
+land_use_data$ctu_forecast %>%
+  full_join(comdes, by = "ctu_name")
 ```
 
 **$scenario_parameters**: 
