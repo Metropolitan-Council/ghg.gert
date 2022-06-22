@@ -53,38 +53,6 @@ All the functions for the Land Use Module are contained within the `ghg.sp` pack
 ```{r setup}
 library(ghg.sp)
 library(knitr)
-library(councilR)
-
-dl_ctu <- FALSE
-
-if (dl_ctu == TRUE) {
-  temp <- tempfile()
-  download.file(
-    "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_thrive_msp2040_com_des/gpkg_society_thrive_msp2040_com_des.zip",
-    destfile = temp
-  )
-  comdes <-
-    sf::read_sf(unzip(temp, "society_thrive_msp2040_com_des.gpkg")) %>%
-    # sf::st_drop_geometry() %>% count(CTU_NAME) %>% filter(n > 1) #there are some ctus with multiple designations; get the biggest one
-    group_by(CTU_NAME) %>%
-    mutate(max_area = max(Shape_Area)) %>%# filter(CTU_NAME %in% c("Empire Twp.", "Independence"))
-    mutate(flag = case_when(CTU_NAME %in% c("Empire Twp.", "Independence") & 
-                              COMDESNAME == "Emerging Suburban Edge" ~ 1,
-                            CTU_NAME %in% c("Empire Twp.", "Independence") & 
-                              COMDESNAME != "Emerging Suburban Edge" ~ NA_real_,
-                            Shape_Area == max_area ~ 1)) %>%
-    filter(flag == 1) %>%
-    sf::st_drop_geometry() %>%
-    ungroup() %>%
-    transmute(ctu_name = CTU_NAME,
-           comdes = COMDESNAME) %>%
-    mutate(ctu_name = if_else(ctu_name == "Credit River", "Credit River Twp.", ctu_name))
-  fs::file_delete("society_thrive_msp2040_com_des.gpkg")
-  
-  save(comdes, file = "./comdes.rda")
-} else {
-  load("./comdes.rda")
-}
 ```
 
 ## Land Use and Land Cover Data
@@ -115,15 +83,6 @@ land_use_data$ctu_county %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10) %>%
   kable()
-
-# # ee test
-# library(tidyverse); library(ghg.sp)
-# land_use_data$ctu_county %>%
-#   count(ctu_name) %>%
-#   filter(n > 1)
-# 
-# land_use_data$ctu_county %>% 
-#   filter(ctu_name == "St. Anthony")
 ```
 
 **$ctu_forecast**: 
@@ -136,34 +95,6 @@ land_use_data$ctu_forecast %>%
   kable()
 ```
 
-*For example: How are people, households, and jobs going to change across the region?*
-```{r}
-# ee tests
-test <- land_use_data$ctu_forecast %>%
-  full_join(comdes, by = "ctu_name")
-
-test %>% #filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
-  group_split(metric) %>%
-  purrr::map(
-  ~ggplot(aes(x = year, 
-              y = value), 
-          data = .) + 
-  geom_line(aes(group = ctu_name), col = "grey80") +
-    stat_summary(fun.data = mean_se, size = .25) +
-  facet_wrap(~comdes, scales = "free_y") +
-  theme_council_open() +
-    labs(y = "", x = "", col = "", fill = "", shape = "",
-         title = .$metric) +
-    theme(
-    legend.position = "bottom",
-    legend.text = element_text(size = 6),
-    legend.spacing.y = unit(0, 'cm')))
-
-test %>%
-  filter(str_detect(comdes, "Agricul"), 
-         str_detect(metric, "house")) %>%
-  arrange(-value)
-```
 
 **$scenario_parameters**: 
 Table provides key parameters for the different urban form scenarios of the land use module.
