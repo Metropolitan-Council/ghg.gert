@@ -23,7 +23,7 @@ The module allows users to explore strategies for decarbonization within the lan
 
 ## Strategies
 
-The GHG mitgation strategies included in the Land Use & Green Infrastructure Module include:
+The GHG mitigation strategies included in the Land Use & Green Infrastructure Module include:
 
 
 1. **Urban Form (LU.1)**: The impact of changing the urban form (the land use and land cover composition) of the city/township to more compact residential and mixed use development. Reduction of greenhouse gas emissions occurs when there is more land available to greenery rather than impervious surfaces. 
