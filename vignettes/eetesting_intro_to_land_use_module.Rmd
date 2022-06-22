@@ -159,10 +159,19 @@ test %>% #filter(!is.na(metric)) %>% #these nas are coming from some ctus missin
     legend.text = element_text(size = 6),
     legend.spacing.y = unit(0, 'cm')))
 
+library(ghg.sp); library(tidyverse)
+load("./comdes.rda")
+test <- land_use_data$ctu_forecast %>%
+  full_join(comdes, by = "ctu_name")
+
 test %>%
-  filter(str_detect(comdes, "Agricul"), 
-         str_detect(metric, "house")) %>%
-  arrange(-value)
+  # filter(str_detect(comdes, "Agricul")
+  #        # str_detect(metric, "house")
+  #        ) %>%
+  pivot_wider(names_from = year, values_from = value) %>%
+  filter(`2010` > `2040`) %>%
+  select(ctu_name, metric, `2010`, `2040`) %>%
+  mutate(difference = `2040` - `2010`)
 ```
 
 **$scenario_parameters**: 
