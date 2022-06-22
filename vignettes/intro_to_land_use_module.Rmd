@@ -83,6 +83,15 @@ land_use_data$ctu_county %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10) %>%
   kable()
+
+# # ee test
+# library(tidyverse); library(ghg.sp)
+# land_use_data$ctu_county %>%
+#   count(ctu_name) %>%
+#   filter(n > 1)
+# 
+# land_use_data$ctu_county %>% 
+#   filter(ctu_name == "St. Anthony")
 ```
 
 **$ctu_forecast**: 
