@@ -8,20 +8,20 @@
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
-#' @param .industrial_smart_grid_pct **Numeric**.
+#' @param .industrial_smart_grid_pct numeric, 
 #'      A number between `0` and `1`.
 #'      The percentage of industrial buildings that would be on the smart grid for the
 #'      specified scenario.
 #'      Default is `1`.
-#' @param .commercial_smart_grid_pct **Numeric**.
+#' @param .commercial_smart_grid_pct numeric, 
 #'      A number between `0` and `1`.
 #'      The percentage of commercial buildings that would be on the smart grid for the
 #'      specified scenario.
 #'      Default is `1`.
-#' @param .grid_decarbonization_pct **Numeric**.
+#' @param .grid_decarbonization_pct numeric, 
 #'      A number between `0` and `1`.
 #'      Default is `1`.
-#' @param .smart_grid_energy_reduction_pct **Numeric**.
+#' @param .smart_grid_energy_reduction_pct numeric, 
 #'      A number between `0` and `1`.
 #'      Default is `1`.
 #' @inheritParams run_scenario_transportation

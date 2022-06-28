@@ -7,13 +7,13 @@
 #' commercial buildings on greenhouse gas emissions by city/township for the specified scenario.
 #'
 #' @inheritParams run_scenario_building
-#' @param .electrified_buildings_pct **Numeric**. A number between `0` and `1`.
+#' @param .electrified_buildings_pct numeric,  A number between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
 #'      Default is `0.40`.
-#' @param .non_res_natural_gas_for_water_heating_pct **Numeric**. A number between `0` and `1`.
+#' @param .non_res_natural_gas_for_water_heating_pct numeric,  A number between `0` and `1`.
 #'      The percent of natural gas that is commonly used for heating water in commercial buildings.
 #'      Default is `0.20`.
-#' @param .non_res_natural_gas_for_space_heating_pct **Numeric**. A number between `0` and `1`.
+#' @param .non_res_natural_gas_for_space_heating_pct numeric,  A number between `0` and `1`.
 #'      The percent of natural gas that is commonly used for space heating in commercial buildings.
 #'      Default is `0.69`.
 #' @param .enviro_factors

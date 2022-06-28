@@ -4,7 +4,7 @@
 #' @description `calc_floor_area_leed()` adjusts single and multifamily average
 #' floor area forecast in accordance with LEED reduction.
 #'
-#' @param .new_homes_leed_gold_pct **Numeric**. A number between `0` and `1`.
+#' @param .new_homes_leed_gold_pct numeric,  A number between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
 #'      Default is `0.5`
 #' @inheritParams run_scenario_transportation

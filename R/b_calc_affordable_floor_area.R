@@ -6,7 +6,7 @@
 #' floor area from increased energy prices by city/township.
 #'
 #' @inheritParams run_scenario_building
-#' @param .single_family_floor_area_growth_pct **Numeric**. A number between `0` and `1`.
+#' @param .single_family_floor_area_growth_pct numeric,  A number between `0` and `1`.
 #'       Percentage of single family floor area that gets reduced due to increase energy prices.
 #'       Default is `0.05`.
 #'       Should not be greater than 0.05 or *%5*.

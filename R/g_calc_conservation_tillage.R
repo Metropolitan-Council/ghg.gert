@@ -14,19 +14,19 @@
 #'      relative to the baseline year.
 #'      * `"maximum_conservation_tillage"` it assumes that all agricultural land implements conservation
 #'      tillage.
-#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal **Numeric**.
+#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal numeric, 
 #'      Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 #'      Default is `12.50`.
 #'      * `Hilman and Ramaswami, 2009`.
-#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare **Numeric**.
+#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare numeric, 
 #'      Million grams of carbon dioxide equivalent (CO2e) per hectare.
 #'      From `United States Department of Agriculture`
 #'      Default is `0.102`.
-#' @param .agricultural_land_carbon_stock_mg_c_per_hectare **Numeric**.
+#' @param .agricultural_land_carbon_stock_mg_c_per_hectare numeric, 
 #'      Million grams of carbon (C) per hectare.
 #'      From [`Tran et al., 2015`](https://doi.org/10.1073/pnas.1512542112)
 #'      Default is `41`.
-#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag **Numeric**.
+#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag numeric, 
 #'      Maximum SOC acumulation per hectare under reduced or no till agriculture.
 #'      Default is `1.54`.
 #'

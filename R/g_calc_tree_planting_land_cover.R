@@ -14,10 +14,10 @@
 #' to the baseline year.
 #' * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
 #' Default is `tree_planting_on_all_pervious`.
-#' @param .tree_planting_per_capita **Numeric**.
+#' @param .tree_planting_per_capita numeric, 
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
-#' @param .tree_planting_per_hectare **Numeric**.
+#' @param .tree_planting_per_hectare numeric, 
 #'      Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `247`.
 #' @param detail **Logical**.

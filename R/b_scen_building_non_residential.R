@@ -30,13 +30,13 @@
 #'
 #' @field ctu_name **Character**.
 #'      Name of the city/township.
-#' @field year **Numeric**.
+#' @field year numeric, 
 #'      Year.
 #' @field var **Charcter**.
 #'      Can be `commercial_mwh`, `industrial_mwh`, `commercial_therms`, `industrial_therms`, `commercial_electricity_emissions_kg_co`,
 #'      `industrial_electricity_emissions_kg_co`, `commercial_natural_gas_emissions_kg_co`, `industrial_natural_gas_emissions_kg_co`,
 #'      or `total_industrial_commercial_emissions`.
-#' @field value **Numeric**.
+#' @field value numeric, 
 #'      The numeric value of `var`.
 #' @field scen **Charcter**.
 #'      Can be `bau` which means Business as Usual or `scenario` which means, the user specified

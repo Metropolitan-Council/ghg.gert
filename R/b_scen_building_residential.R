@@ -33,11 +33,11 @@
 #'
 #' @field `ctu_name` **Character**.
 #' Name of the city/township.
-#' @field `year` **Numeric**.
+#' @field `year` numeric, 
 #' Year.
 #' @field `var` **Charcter**. Can be `residential_mwh`, `residential_therms`, `residential_electricity_emissions_kg_co`,
 #' or `residential_natural_gas_emissions_kg_co`.
-#' @field `value` **Numeric**. The numeric value of `var`.
+#' @field `value` numeric,  The numeric value of `var`.
 #' @field `scen` **Charcter**. Can be `bau` which means Business as Usual or `scenario` which means, the user specified
 #' decarbonization scenario.
 #'

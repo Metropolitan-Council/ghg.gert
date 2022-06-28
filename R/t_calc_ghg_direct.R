@@ -5,13 +5,9 @@
 #' @param tb_vmt **Tibble**.
 #'      Output VMT table
 #' @param .mode
-#'      Current mode.
-#' @param .fuel_type
-#'      Current fuel type for mode.
-#' @param .miles_per_gallon **Numeric**.
-#'     Miles per Gallon for Mode.
-#' @param .is_av **Logical**.
-#'     Whether the mode is AV. AV has a different
+#' @param .miles_per_gallon numeric, miles per gallon for mode.
+#' @param .is_av logical, whether the mode is AV.
+#'     AV has a different MPG due to efficiency gains from automation of drive cycle.
 #'     MPG due to efficiency gains from automation of drive cycle.
 #'     Default is `FALSE`.
 #' @inheritParams calc_vmt_forecast

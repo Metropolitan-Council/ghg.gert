@@ -8,7 +8,7 @@
 #' @param .fuel_type fuel source for current mode
 #' @param .class **Character**.
 #'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`.
-#' @param .transit_avo_pct **Numeric**.
+#' @param .transit_avo_pct numeric, 
 #'     Percent change in transit AVO.
 #'     Default is `0`.
 #' @param .mitigation_tb **Tibble**.

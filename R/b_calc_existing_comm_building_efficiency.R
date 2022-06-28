@@ -7,7 +7,7 @@
 #'      Given that the main determinant of energy efficiency is the number of workers, this
 #'      function reduces the number of workers.
 #'
-#' @param .existing_high_efficiency_buildings_pct **Numeric**.
+#' @param .existing_high_efficiency_buildings_pct numeric, 
 #'      A number between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
 #'      Default is `0.8`.
