@@ -1,7 +1,7 @@
 #' @title Calculate Parking Lot Intervention Effect on Land Cover
 #' @family Land Use
 #'
-#' @description `calc_parking_lot_land_cover()` recalculates the change in land cover types
+#' @description recalculates the change in land cover types
 #'      by city when implementing a
 #'      parking lot reduction intervention, the percent reduction of parking lot area is
 #'      defined in the argument `.parking_lot_reduction_percentage`

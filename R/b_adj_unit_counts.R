@@ -2,7 +2,7 @@
 #' @family Residential
 #' @family Buildings
 #'
-#' @description `adj_unit_counts()` adjusts single and multifamily unit count forecast by city/township
+#' @description adjusts single and multifamily unit count forecast by city/township
 #' from residential inputs table.
 #'
 #' @inheritParams run_scenario_building

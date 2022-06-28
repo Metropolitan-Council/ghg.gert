@@ -1,7 +1,7 @@
 #' @title Calculate Floor Area LEED
 #' @family Buildings
 #'
-#' @description `calc_floor_area_leed()` adjusts single and multifamily average
+#' @description adjusts single and multifamily average
 #' floor area forecast in accordance with LEED reduction.
 #'
 #' @param .new_homes_leed_gold_pct numeric,  A number between `0` and `1`.

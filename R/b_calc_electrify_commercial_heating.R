@@ -2,9 +2,9 @@
 #' @family Commercial/Industrial
 #' @family Buildings
 #'
-#' @description `calc_electrify_commercial_heating` calculates
-#' the effect of electrifying
-#' commercial buildings on greenhouse gas emissions by city/township for the specified scenario.
+#' @description Calculates the effect of electrifying
+#'     commercial buildings on greenhouse gas emissions by city/township
+#'     for the specified scenario.
 #'
 #' @inheritParams run_scenario_building
 #' @param .electrified_buildings_pct numeric,  A number between `0` and `1`.

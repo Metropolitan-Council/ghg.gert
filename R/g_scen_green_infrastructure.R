@@ -1,13 +1,12 @@
 #' @title Prepare Green Infrastructure Module
 #' @family Land Use
 #'
-#' @description `scen_green_infrastructure` generates the outputs of the land use and green
+#' @description  generates the outputs of the land use and green
 #' infrastructure module.
 #'
 #' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
 #'
-#' @return
 #' @export
 #'
 #' @examples

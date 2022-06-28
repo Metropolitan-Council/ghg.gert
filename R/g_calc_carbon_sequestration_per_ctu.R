@@ -2,7 +2,7 @@
 #' @family Land Use
 #' @family GHG Emissions
 #'
-#' @description `calc_carbon_sequestration_per_ctu` calculates the total carbon sequestration
+#' @description calculates the total carbon sequestration
 #'      per hectares by land cover type by city/township.
 #'
 #'

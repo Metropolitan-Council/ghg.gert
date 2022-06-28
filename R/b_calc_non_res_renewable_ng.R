@@ -2,14 +2,14 @@
 #' @family Commercial/Industrial
 #' @family Buildings
 #'
-#' @description `calc_non_res_renewable_ng` calculates the impact of transitioning to
+#' @description Calculates the impact of transitioning to
 #' renewable natural gas on greenhouse gas emissions by city/township for the
 #' specified scenario.
 #'
 #' @return **Tibble**.
 #' @export
 #'
-#' @note `calc_non_res_renewable_ng` is called within `scen_building_non_residential()`
+#' @note `calc_non_res_renewable_ng()` is called within `scen_building_non_residential()`
 #'
 #' @examples
 #' \dontrun{

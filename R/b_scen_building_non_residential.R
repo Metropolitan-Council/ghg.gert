@@ -2,7 +2,7 @@
 #' @family Commercial/Industrial
 #' @family Buildings
 #'
-#' @description `scen_building_non_residential` compiles all the strategies related to
+#' @description compiles all the strategies related to
 #' non-residential buildings.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'

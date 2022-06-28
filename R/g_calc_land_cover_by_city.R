@@ -1,7 +1,7 @@
 #' @title Calculate Land Cover by City/Township
 #' @family Land Use
 #'
-#' @description `calc_land_cover_by_city()` takes the output of the function
+#' @description  takes the output of the function
 #'      `calc_land_cover_by_land_use()` and
 #'      calculates the total land cover (hectares) by type for each community.
 #'

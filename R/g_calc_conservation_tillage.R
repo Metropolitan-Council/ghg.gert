@@ -1,7 +1,7 @@
 #' @title Calculate Conservation Tillage by City/Township
 #' @family Land Use
 #'
-#' @description `calc_conservation_tillage()` calculates the impact of conservation tillage scenarios on carbon
+#' @description Calculates the impact of conservation tillage scenarios on carbon
 #'      stocks by city/township
 #'
 #' @inheritParams calc_parking_lot_land_cover

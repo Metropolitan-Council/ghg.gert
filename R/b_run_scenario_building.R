@@ -1,7 +1,7 @@
 #' @title Run Building Energy Scenarios
 #' @family Buildings
 #'
-#' @description `run_scenario_building` produces the outputs of the building energy module of the
+#' @description produces the outputs of the building energy module of the
 #' Metropolitan Council Greenhouse Gas Scenario Planning Tool by city/township for the specified scenario
 #'
 #' @inheritParams scen_building_residential

@@ -1,7 +1,7 @@
 #' @title Calculate Residential Building Strategies
 #' @family Buildings, Residential
 #'
-#' @description `scen_building_residential()` calculates the effect of the residential building
+#' @description calculates the effect of the residential building
 #' strategies within the building energy module.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'

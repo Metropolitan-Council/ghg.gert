@@ -2,7 +2,7 @@
 #' @family Residential
 #' @family Buildings
 #'
-#' @description `calc_affordable_floor_area` calculates the forecasted reduction in single family
+#' @description  Calculates the forecasted reduction in single family
 #' floor area from increased energy prices by city/township.
 #'
 #' @inheritParams run_scenario_building

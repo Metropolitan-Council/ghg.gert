@@ -2,7 +2,7 @@
 #' @family Transportation
 #' @family VMT Effects
 #'
-#' @description `vmt_annual_energy_outlook()` calculates annual energy outlook (AEO)
+#' @description calculates annual energy outlook (AEO)
 #' multipliers for each forecast year.
 #'
 #' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.

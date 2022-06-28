@@ -1,7 +1,7 @@
 #' @title Calculate Scenario Land Use
 #' @family Land Use
 #'
-#' @description `calc_scen_land_use()` calculates the land use type in hectares
+#' @description Calculates the land use type in hectares
 #'       for all cities/townships for the selected scenario.
 #'
 #' @inheritParams calc_land_by_development_type

@@ -2,7 +2,7 @@
 #' @family Residential
 #' @family Buildings
 #'
-#' @description `calc_floor_area_growth()` adjusts single and multifamily average floor area
+#' @description  adjusts single and multifamily average floor area
 #'      forecast in residential table. Allows the user to specify the percentage
 #'      increase in single family floor areas, and the percentage of homes
 #'      affected.

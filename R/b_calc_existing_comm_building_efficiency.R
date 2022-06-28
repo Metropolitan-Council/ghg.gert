@@ -2,7 +2,7 @@
 #' @family Commercial/Industrial
 #' @family Buildings
 #'
-#' @description `calc_existing_comm_building_efficiency` helps to calculate the reduced
+#' @description helps to calculate the reduced
 #'      emissions from implementing high energy efficiency retrofits to existing buildings.
 #'      Given that the main determinant of energy efficiency is the number of workers, this
 #'      function reduces the number of workers.

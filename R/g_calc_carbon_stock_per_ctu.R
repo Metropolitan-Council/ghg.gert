@@ -2,7 +2,7 @@
 #' @family Land Use
 #' @family GHG Emissions
 #'
-#' @description `calc_carbon_stock_per_ctu()` calculates the carbon stock per land cover type by city/township
+#' @description Calculates the carbon stock per land cover type by city/township
 #'      under the selected scenario parameters
 #'
 #' @inheritParams calc_parking_lot_land_cover

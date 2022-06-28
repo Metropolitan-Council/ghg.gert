@@ -1,7 +1,7 @@
 #' @title Calculate Land by Development Type
 #' @family Land Use
 #'
-#' @description `calc_land_by_development_type()` calculates the hectares of
+#' @description calculates the hectares of
 #'      land by different development types
 #'      (urban expansion, urban infill, and exurban development) for  the selected land
 #'      use (urban form) scenario at the city/township scale .

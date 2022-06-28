@@ -2,7 +2,7 @@
 #' @family Transportation
 #' @family Autonomous Vehicles
 #'
-#' @description `calc_av_sales` replaces both sales and stock because need to replace
+#' @description Replaces both sales and stock because need to replace
 #'     faster than previous stock turnover in order to match
 #'     AV market penetration.
 #'

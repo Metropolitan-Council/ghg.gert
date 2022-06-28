@@ -2,7 +2,7 @@
 #' @family Residential
 #' @family Buildings
 #'
-#' @description `calc_residential_renewable_ng` calculates the impact on residential
+#' @description calculates the impact on residential
 #'       building emissions from transitioning natural gas to renewable natural gas.
 #'
 #' @inheritParams run_scenario_building

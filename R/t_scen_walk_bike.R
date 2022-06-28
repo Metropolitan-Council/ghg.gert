@@ -2,12 +2,11 @@
 #' @family Passenger
 #' @family Transportation
 #'
-#' @description `scen_walk_bike()` calculates scenario for walk and bike.
+#' @description calculates scenario for walk and bike.
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return
 #' @export
 #'
 #' @importFrom emo ji

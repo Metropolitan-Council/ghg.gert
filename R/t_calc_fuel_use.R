@@ -4,7 +4,7 @@
 #' @inheritParams calc_ghg_direct
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all
 #' @importFrom tidyselect all_of

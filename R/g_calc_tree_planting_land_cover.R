@@ -1,7 +1,7 @@
 #' @title Calculate Tree Planting Land Cover by City/Township
 #' @family Land Use
 #'
-#' @description `calc_tree_planting_land_cover()` recalculates the hectares of land by
+#' @description recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
