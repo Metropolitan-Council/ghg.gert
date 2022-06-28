@@ -2,13 +2,12 @@
 #' @family GHG Emissions
 #' @family Transportation
 #'
-#' @param tb_vmt **Tibble**.
-#'      Output VMT table
-#' @param .mode
+#' @param tb_vmt [tibble::tibble()], output VMT table
+#' @param .mode character, given transportation mode.
+#' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
 #' @param .is_av logical, whether the mode is AV.
 #'     AV has a different MPG due to efficiency gains from automation of drive cycle.
-#'     MPG due to efficiency gains from automation of drive cycle.
 #'     Default is `FALSE`.
 #' @inheritParams calc_vmt_forecast
 #'
