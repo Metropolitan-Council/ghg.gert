@@ -180,11 +180,11 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
 
 
   school_bus <- list(
-    "vmt" =  vmt_all,
-    "dir_ghg" =  dir_ghg_all,
+    "vmt" = vmt_all,
+    "dir_ghg" = dir_ghg_all,
     "emb_ghg" = emb_ghg_all,
     "fuel_use" = fuel_use_all,
-    "cost"  = cost_all
+    "cost" = cost_all
   )
 
   usethis::ui_done(paste("School bus", emo::ji("school")))

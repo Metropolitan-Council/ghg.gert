@@ -34,8 +34,6 @@
 calc_floor_area_leed <- function(res_tb,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
-
-
   if (.new_homes_leed_gold_pct == 0) {
     warning("No change in new single family home energy efficiency")
     return(res_tb)
@@ -68,21 +66,27 @@ calc_floor_area_leed <- function(res_tb,
       ) %>%
       dplyr::mutate(new_forecast = year_2040 * .enviro_factors$LEED_GOLD_REDUCTION_PCT) %>%
       dplyr::left_join(new_units, by = "ctu_name") %>%
-      dplyr::mutate(new_weighted_mean_forecast =
-                      weighted.mean(
-                        c(year_2018,
-                          new_forecast,
-                          year_2040),
-                        c(
-                          1 - prop_of_all_new,
-                          prop_of_all_new * .new_homes_leed_gold_pct,
-                          prop_of_all_new * (1 - .new_homes_leed_gold_pct)
-                        )
-                      ))
+      dplyr::mutate(
+        new_weighted_mean_forecast =
+          weighted.mean(
+            c(
+              year_2018,
+              new_forecast,
+              year_2040
+            ),
+            c(
+              1 - prop_of_all_new,
+              prop_of_all_new * .new_homes_leed_gold_pct,
+              prop_of_all_new * (1 - .new_homes_leed_gold_pct)
+            )
+          )
+      )
 
     new_leed_avg_floor_area <- res_tb %>%
-      dplyr::filter(var %in% c("single_family_average_floor_area_sqft_ctu"),
-                    year == 2040) %>%
+      dplyr::filter(
+        var %in% c("single_family_average_floor_area_sqft_ctu"),
+        year == 2040
+      ) %>%
       dplyr::left_join(new_leed_floor_area, by = c("ctu_name", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))

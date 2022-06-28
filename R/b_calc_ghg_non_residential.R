@@ -26,14 +26,14 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_non_residential(
-#'      non_res_tb = building_data$non_residential,
-#'      non_res_tb_bau = building_data$non_residential,
-#'      .industrial_smart_grid_pct = 1,
-#'      .commercial_smart_grid_pct = 1,
-#'      .grid_decarbonization_pct = 1,
-#'      .smart_grid_energy_reduction_pct = 1,
-#'      .enviro_factors = enviro_factors,
-#'      .existing_high_efficiency_buildings_pct = 0.8
+#'   non_res_tb = building_data$non_residential,
+#'   non_res_tb_bau = building_data$non_residential,
+#'   .industrial_smart_grid_pct = 1,
+#'   .commercial_smart_grid_pct = 1,
+#'   .grid_decarbonization_pct = 1,
+#'   .smart_grid_energy_reduction_pct = 1,
+#'   .enviro_factors = enviro_factors,
+#'   .existing_high_efficiency_buildings_pct = 0.8
 #' )
 #' }
 calc_ghg_non_residential <-
@@ -45,7 +45,6 @@ calc_ghg_non_residential <-
            .grid_decarbonization_pct,
            .existing_high_efficiency_buildings_pct,
            .enviro_factors) {
-
     emis <-
       function(tb,
                grid_decarb,
@@ -89,14 +88,12 @@ calc_ghg_non_residential <-
             # electric emissions
             commercial_electricity_emissions_kg_co =
               commercial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
-
             industrial_electricity_emissions_kg_co =
               industrial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
             # therm emissions
 
             commercial_natural_gas_emissions_kg_co =
               commercial_therms * kg_per_therm,
-
             industrial_natural_gas_emissions_kg_co =
               industrial_therms * kg_per_therm,
             total_industrial_commercial_emissions = sum(
@@ -142,7 +139,8 @@ calc_ghg_non_residential <-
     emis_strategy <-
       emis(
         tb = calc_existing_comm_building_efficiency(non_res_tb,
-                                                    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct),
+          .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
+        ),
         grid_decarb = .grid_decarbonization_pct,
         commercial_smart_grid_pct = .commercial_smart_grid_pct,
         industrial_smart_grid_pct = .industrial_smart_grid_pct,
@@ -167,5 +165,4 @@ calc_ghg_non_residential <-
       )
 
     return(emis_final)
-
   }

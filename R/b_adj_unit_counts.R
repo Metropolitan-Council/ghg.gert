@@ -23,28 +23,30 @@
 #' library(ghg.sp)
 #'
 #' adj_unit_counts(
-#'      res_tb = building_data$residential,
-#'      .new_homes_to_multifamily_pct = 0.50
+#'   res_tb = building_data$residential,
+#'   .new_homes_to_multifamily_pct = 0.50
 #' )
 #' }
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
 adj_unit_counts <- function(res_tb,
                             .new_homes_to_multifamily_pct) {
-
-
   if (.new_homes_to_multifamily_pct <= 0) {
     warning("No single family homes instead built as multifamily homes.")
     return(res_tb)
   }
   n_new_homes <-
     res_tb %>%
-    dplyr::filter(var %in% c("multifamily_units",
-                             "single_family_units")) %>%
+    dplyr::filter(var %in% c(
+      "multifamily_units",
+      "single_family_units"
+    )) %>%
     dplyr::group_by(ctu_name, var) %>%
     tidyr::pivot_wider(names_from = c(var, year), values_from = value, names_sep = ".") %>%
-    dplyr::mutate(new_sf_homes = single_family_units.2040 - single_family_units.2018,
-                  new_mf_homes = multifamily_units.2040 - multifamily_units.2018)
+    dplyr::mutate(
+      new_sf_homes = single_family_units.2040 - single_family_units.2018,
+      new_mf_homes = multifamily_units.2040 - multifamily_units.2018
+    )
   # some CTUs are going to decrease the number of single family units
   # over the next few decades. Remedy this by replacing all negative
   # unit counts with 0.
@@ -60,14 +62,19 @@ adj_unit_counts <- function(res_tb,
 
 
   new_units <- res_tb %>%
-    dplyr::filter(var %in% c("multifamily_units",
-                             "single_family_units"),
-                  year == 2040) %>%
+    dplyr::filter(
+      var %in% c(
+        "multifamily_units",
+        "single_family_units"
+      ),
+      year == 2040
+    ) %>%
     dplyr::left_join(sf_now_mf, by = "ctu_name") %>%
     # if multifamily, add the now-multifamily units
     # if single family, subtract the now-multifamily units
     dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
-                                 value - now_mf)) %>%
+      value - now_mf
+    )) %>%
     dplyr::select(names(res_tb))
 
   # anti_join to replace original values

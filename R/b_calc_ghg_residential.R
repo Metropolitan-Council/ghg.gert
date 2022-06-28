@@ -29,10 +29,10 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_residential(
-#'      res_tb = building_data$residential,
-#'      res_tb_bau = building_data$residential,
-#'      .grid_decarbonization_pct = 1,
-#'      .enviro_factors = enviro_factors
+#'   res_tb = building_data$residential,
+#'   res_tb_bau = building_data$residential,
+#'   .grid_decarbonization_pct = 1,
+#'   .enviro_factors = enviro_factors
 #' )
 #' }
 #' @export
@@ -41,9 +41,8 @@ calc_ghg_residential <- function(res_tb,
                                  res_tb_bau,
                                  .grid_decarbonization_pct,
                                  .enviro_factors) {
-
   emis <- function(tb,
-                   grid_decarb){
+                   grid_decarb) {
     tb %>%
       dplyr::filter(
         var %in% c(
@@ -138,5 +137,4 @@ calc_ghg_residential <- function(res_tb,
     )
 
   return(emis_final)
-
 }

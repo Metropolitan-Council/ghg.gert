@@ -86,22 +86,28 @@ calc_floor_area_growth <- function(res_tb,
       ) %>%
       dplyr::mutate(new_forecast = (.single_family_floor_area_growth_pct * year_2018) + year_2018) %>%
       dplyr::left_join(res_tb_units, by = "ctu_name") %>%
-      dplyr::mutate(new_weighted_mean_forecast =
-                      weighted.mean(
-                        c(year_2018,
-                          new_forecast,
-                          year_2040),
-                        c(
-                          1 - prop_of_all_new,
-                          prop_of_all_new * .new_homes_affected_pct,
-                          prop_of_all_new * (1 - .new_homes_affected_pct)
-                        )
-                      ))
+      dplyr::mutate(
+        new_weighted_mean_forecast =
+          weighted.mean(
+            c(
+              year_2018,
+              new_forecast,
+              year_2040
+            ),
+            c(
+              1 - prop_of_all_new,
+              prop_of_all_new * .new_homes_affected_pct,
+              prop_of_all_new * (1 - .new_homes_affected_pct)
+            )
+          )
+      )
 
 
     new_res_avg_floor_area <- res_tb %>%
-      dplyr::filter(var %in% c("single_family_average_floor_area_sqft_ctu"),
-                    year == 2040) %>%
+      dplyr::filter(
+        var %in% c("single_family_average_floor_area_sqft_ctu"),
+        year == 2040
+      ) %>%
       dplyr::left_join(new_avg_floor_area, by = c("ctu_name", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))

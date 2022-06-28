@@ -470,9 +470,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   hev_brt_emb_ghg <-
     calc_ghg_embodied(
-      tb =  .pass_tb,
-      .mode =  mode,
-      .sales_mode =  "HEVSales",
+      tb = .pass_tb,
+      .mode = mode,
+      .sales_mode = "HEVSales",
       .fuel_type = "BU-HEV-EMB",
       .class = class,
       .transit_avo_pct, hev_brt_vmt,

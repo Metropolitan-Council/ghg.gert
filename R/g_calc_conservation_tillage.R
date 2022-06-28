@@ -38,19 +38,20 @@
 #' library(ghg.sp)
 #'
 #' calc_conservation_tillage(
-#'     tb = land_use_data,
-#'     .urban_form_scenario = "bau",
-#'     .conservation_tillage_intervention = "current_conservation_tillage",
-#'     .tree_planting_intervention = "tree_planting_on_all_pervious",
-#'     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-#'     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-#'     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-#'     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-#'     .tree_planting_per_capita = 0.26,
-#'     .tree_planting_per_hectare = 247,
-#'     .parking_lot_reduction_percentage = 0.8,
-#'     detail = FALSE)
-#'  }
+#'   tb = land_use_data,
+#'   .urban_form_scenario = "bau",
+#'   .conservation_tillage_intervention = "current_conservation_tillage",
+#'   .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+#'   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+#'   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+#'   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+#'   .tree_planting_per_capita = 0.26,
+#'   .tree_planting_per_hectare = 247,
+#'   .parking_lot_reduction_percentage = 0.8,
+#'   detail = FALSE
+#' )
+#' }
 calc_conservation_tillage <-
   function(tb,
            .conservation_tillage_intervention,
@@ -64,7 +65,6 @@ calc_conservation_tillage <-
            .tree_planting_per_capita,
            .tree_planting_per_hectare,
            .urban_form_scenario) {
-
     match.arg(
       arg = .conservation_tillage_intervention,
       choices = c(
@@ -85,26 +85,29 @@ calc_conservation_tillage <-
         .urban_form_scenario = .urban_form_scenario
       ) %>%
       right_join(.,
-                 tb$ctu_county,
-                 by = "ctu_name") %>%
+        tb$ctu_county,
+        by = "ctu_name"
+      ) %>%
       right_join(.,
-                 tb$current_conservation_tillage_county,
-                 by = "co_name") %>%
+        tb$current_conservation_tillage_county,
+        by = "co_name"
+      ) %>%
       dplyr::select(ctu_name, co_name, year, agriculture) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = agriculture,
-        names_prefix = 'agriculture_hectares_year_'
+        names_prefix = "agriculture_hectares_year_"
       ) %>%
       right_join(.,
-                 tb$current_conservation_tillage_county,
-                 by = "co_name") %>%
+        tb$current_conservation_tillage_county,
+        by = "co_name"
+      ) %>%
       dplyr::mutate(
         baseline_carbon_stock_mg_c_per_hectare = agriculture_hectares_year_2016 *
           .agricultural_land_carbon_stock_mg_c_per_hectare,
         bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare =
           agriculture_hectares_year_2040 *
-          .agricultural_land_carbon_stock_mg_c_per_hectare
+            .agricultural_land_carbon_stock_mg_c_per_hectare
       )
 
     conservation_tillage_carbon_stocks_mg_c <-
@@ -117,49 +120,43 @@ calc_conservation_tillage <-
                   .maximum_soc_accumation_under_reduced_or_no_till_ag *
                   .agricultural_land_carbon_stock_mg_c_per_hectare
               )
-            + (
-              agriculture_hectares_year_2040 * (1 - current_conservation_tillage_percent)
-            )
-            * .agricultural_land_carbon_stock_mg_c_per_hectare,
-
+              + (
+                  agriculture_hectares_year_2040 * (1 - current_conservation_tillage_percent)
+                )
+                * .agricultural_land_carbon_stock_mg_c_per_hectare,
             carbon_stock_change_from_conservation_ag_mg_c =
 
               current_conservation_tillage_mg_c -
-              bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
-
+                bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
             reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
               0
           )
-
       } else if (.conservation_tillage_intervention == "double_conservation_tillage") {
         baseline_bau %>%
           dplyr::mutate(
             current_conservation_tillage_mg_c =
               (
                 agriculture_hectares_year_2040 * (current_conservation_tillage_percent *
-                                                    2) *
+                  2) *
                   .maximum_soc_accumation_under_reduced_or_no_till_ag *
                   .agricultural_land_carbon_stock_mg_c_per_hectare
               )
-            + (agriculture_hectares_year_2040 * (
-              1 - (current_conservation_tillage_percent * 2)
-            ))
-            * .agricultural_land_carbon_stock_mg_c_per_hectare,
-
+              + (agriculture_hectares_year_2040 * (
+                  1 - (current_conservation_tillage_percent * 2)
+                ))
+                * .agricultural_land_carbon_stock_mg_c_per_hectare,
             carbon_stock_change_from_conservation_ag_mg_c =
 
               current_conservation_tillage_mg_c -
-              bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
-
+                bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
             reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
               (
-                agriculture_hectares_year_2040  *
+                agriculture_hectares_year_2040 *
                   .avoided_emissions_tractor_use_mg_co2e_per_hectare *
                   (current_conservation_tillage_percent * 2) -
                   current_conservation_tillage_percent
               ) *
-              -1
-
+                -1
           )
       } else {
         baseline_bau %>%
@@ -170,25 +167,21 @@ calc_conservation_tillage <-
                   .maximum_soc_accumation_under_reduced_or_no_till_ag *
                   .agricultural_land_carbon_stock_mg_c_per_hectare
               )
-            + (
-              agriculture_hectares_year_2040 *
-                .agricultural_land_carbon_stock_mg_c_per_hectare
-            ),
-
+              + (
+                  agriculture_hectares_year_2040 *
+                    .agricultural_land_carbon_stock_mg_c_per_hectare
+                ),
             carbon_stock_change_from_conservation_ag_mg_c =
 
               current_conservation_tillage_mg_c -
-              bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
-
+                bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
             reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
               (
-                agriculture_hectares_year_2040  *
-                  .avoided_emissions_tractor_use_mg_co2e_per_hectare *   -1
+                agriculture_hectares_year_2040 *
+                  .avoided_emissions_tractor_use_mg_co2e_per_hectare * -1
               )
-
           )
       }
 
     return(conservation_tillage_carbon_stocks_mg_c)
-
   }

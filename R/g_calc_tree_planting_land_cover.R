@@ -5,7 +5,7 @@
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
-#' @param .tree_panting_intervention character, 
+#' @param .tree_panting_intervention character,
 #' Specifies the type of tree planting.
 #' intervention to be explored under the current scenario.
 #' The options are:
@@ -36,15 +36,15 @@
 #' library(ghg.sp)
 #'
 #' calc_tree_planting_land_cover(
-#'     tb = land_use_data,
-#'     detail = FALSE,
-#'     .urban_form_scenario = "bau",
-#'     .tree_planting_intervention = "match_la_million_trees_goal",
-#'     .tree_planting_per_capita = 0.26,
-#'     .tree_planting_per_hectare = 247)
+#'   tb = land_use_data,
+#'   detail = FALSE,
+#'   .urban_form_scenario = "bau",
+#'   .tree_planting_intervention = "match_la_million_trees_goal",
+#'   .tree_planting_per_capita = 0.26,
+#'   .tree_planting_per_hectare = 247
+#' )
 #' }
-
-
+#'
 calc_tree_planting_land_cover <-
   function(tb,
            detail,
@@ -52,8 +52,10 @@ calc_tree_planting_land_cover <-
            .tree_planting_intervention,
            .tree_planting_per_capita,
            .tree_planting_per_hectare) {
-    land_cover_by_city <- calc_land_cover_by_city(tb = tb,
-                                                  .urban_form_scenario = .urban_form_scenario)
+    land_cover_by_city <- calc_land_cover_by_city(
+      tb = tb,
+      .urban_form_scenario = .urban_form_scenario
+    )
 
     match.arg(
       arg = .tree_planting_intervention,
@@ -69,12 +71,12 @@ calc_tree_planting_land_cover <-
       dplyr::group_by(ctu_name, year) %>%
       tidyr::pivot_wider(names_from = land_cover_description_2, values_from = land_cover_hectares) %>%
       dplyr::mutate(
-        plantable_area_hectares = (grass +  barren + shrub + grassland + agriculture),
+        plantable_area_hectares = (grass + barren + shrub + grassland + agriculture),
         total_trees_hectares = (trees + forest + woody_wetland),
         total_area_hectares = (
-          grass +  barren + shrub + grassland
-          + agriculture + trees + forest + woody_wetland
-          + impervious + water + wetland
+          grass + barren + shrub + grassland
+            + agriculture + trees + forest + woody_wetland
+            + impervious + water + wetland
         )
       ) %>%
       dplyr::ungroup()
@@ -88,12 +90,13 @@ calc_tree_planting_land_cover <-
       dplyr::rename(population = value) %>%
       dplyr::full_join(
         land_cover_by_city %>%
-          dplyr::filter(land_cover_description_2 == "trees",
-                        year == 2040) %>%
+          dplyr::filter(
+            land_cover_description_2 == "trees",
+            year == 2040
+          ) %>%
           # to check: are you aware that Brooklyn Center has NAs for tree cover?
           # land_cover_by_city %>% filter(ctu_name == "Brooklyn Center", land_cover_description_2 == "trees" )
-          dplyr::select(-c(land_cover_description_2))
-        ,
+          dplyr::select(-c(land_cover_description_2)),
         by = "ctu_name"
       ) %>%
       # total tree canopy hectares
@@ -109,8 +112,10 @@ calc_tree_planting_land_cover <-
           total_plantable_area %>%
             dplyr::filter(year == 2040) %>%
             dplyr::select(-c(year)) %>%
-            dplyr::rename(pervious_surface_hectares =
-                            plantable_area_hectares)
+            dplyr::rename(
+              pervious_surface_hectares =
+                plantable_area_hectares
+            )
         ),
         by = "ctu_name"
       ) %>%
@@ -123,55 +128,59 @@ calc_tree_planting_land_cover <-
       dplyr::transmute(
         match_los_angeles_million_trees_plan_percent =
           (LA_goal_hectares +
-             total_tree_canopy_hectares) /
-          total_tree_canopy_hectares,
+            total_tree_canopy_hectares) /
+            total_tree_canopy_hectares,
         tree_planting_on_all_pervious_sufaces_percent =
           (pervious_surface_hectares + total_tree_canopy_hectares) /
-          total_tree_canopy_hectares,
+            total_tree_canopy_hectares,
       ) %>%
       dplyr::ungroup()
 
     tree_planting_land_cover <-
       total_plantable_area %>%
       dplyr::right_join(.,
-                        tree_planting_scenario,
-                        by = "ctu_name") %>%
+        tree_planting_scenario,
+        by = "ctu_name"
+      ) %>%
       dplyr::mutate(
         max_trees = total_area_hectares - woody_wetland - forest - impervious - wetland,
         trees =
           dplyr::if_else(year == 2016,
-                         trees,
-                         (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
-                           dplyr::if_else(
-                             #need to add choice of main parameter
-                             trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
-                             trees * tree_planting_on_all_pervious_sufaces_percent,
-                             max_trees
-                           )
-                         } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
-                           dplyr::if_else(
-                             #need to add choice of main parameter
-                             trees * match_los_angeles_million_trees_plan_percent < max_trees,
-                             trees * match_los_angeles_million_trees_plan_percent,
-                             max_trees
-                           )
-                         } else if (.tree_planting_intervention == "double") {
-                           dplyr::if_else(
-                             trees * match_los_angeles_million_trees_plan_percent < max_trees,
-                             trees * match_los_angeles_million_trees_plan_percent,
-                             max_trees
-                           )
-                         }))
+            trees,
+            (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
+              dplyr::if_else(
+                # need to add choice of main parameter
+                trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
+                trees * tree_planting_on_all_pervious_sufaces_percent,
+                max_trees
+              )
+            } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
+              dplyr::if_else(
+                # need to add choice of main parameter
+                trees * match_los_angeles_million_trees_plan_percent < max_trees,
+                trees * match_los_angeles_million_trees_plan_percent,
+                max_trees
+              )
+            } else if (.tree_planting_intervention == "double") {
+              dplyr::if_else(
+                trees * match_los_angeles_million_trees_plan_percent < max_trees,
+                trees * match_los_angeles_million_trees_plan_percent,
+                max_trees
+              )
+            })
+          )
       ) %>%
       dplyr::mutate(total_scenario_tree = trees + forest + woody_wetland) %>%
       dplyr::mutate(total_bau_tree = total_trees_hectares) %>%
       dplyr::mutate(increased_tree = total_scenario_tree - total_bau_tree) %>%
-      dplyr::mutate(scaling_factor =
-                      dplyr::if_else(
-                        increased_tree > 0,
-                        (plantable_area_hectares  - increased_tree) / plantable_area_hectares ,
-                        1
-                      )) %>%
+      dplyr::mutate(
+        scaling_factor =
+          dplyr::if_else(
+            increased_tree > 0,
+            (plantable_area_hectares - increased_tree) / plantable_area_hectares,
+            1
+          )
+      ) %>%
       dplyr::mutate(dplyr::across(
         .cols = c(grass, water, barren, shrub, grassland, agriculture),
         ~ dplyr::if_else(
@@ -179,7 +188,7 @@ calc_tree_planting_land_cover <-
           .x,
           dplyr::if_else(.x * scaling_factor < 1, 0, .x * scaling_factor)
         )
-      ))  %>%
+      )) %>%
       dplyr::ungroup()
 
     tree_planting_land_cover_short <-
@@ -205,9 +214,7 @@ calc_tree_planting_land_cover <-
 
     return(if (detail == TRUE) {
       tree_planting_land_cover
-    }
-    else{
+    } else {
       tree_planting_land_cover_short
     })
-
   }

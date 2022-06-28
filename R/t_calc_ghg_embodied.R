@@ -41,19 +41,22 @@ calc_ghg_embodied <- function(tb,
     ghg_factor_current <- factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       dplyr::select(source,
-                    year,
-                    ghg_value = value,)
+        year,
+        ghg_value = value,
+      )
 
     tb_current <- tb %>%
       dplyr::filter(mode == .mode, var == .sales_mode) %>%
       dplyr::select(dplyr::everything(),
-                    sales_value = value) %>%
+        sales_value = value
+      ) %>%
       dplyr::mutate(class = .class)
 
 
     ghg <- dplyr::left_join(tb_current,
-                            ghg_factor_current,
-                            by = c("year")) %>%
+      ghg_factor_current,
+      by = c("year")
+    ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(ghg_embodied = (sales_value * ghg_value) / 1000) %>%
       dplyr::select(
@@ -81,7 +84,7 @@ calc_ghg_embodied <- function(tb,
       .mitigation_tb <- .mitigation_tb %>%
         dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ case_when(
           (mode == .mode & class == .class & .x == 0) ~ 1,
-          TRUE ~ .x / 10 ^ 5
+          TRUE ~ .x / 10^5
         )))
 
 
@@ -93,9 +96,11 @@ calc_ghg_embodied <- function(tb,
         )))
 
       bau_vals <- .bau_tb %>%
-        dplyr::filter(mode == .mode,
-                      class == .class,
-                      output == "VMT") %>%
+        dplyr::filter(
+          mode == .mode,
+          class == .class,
+          output == "VMT"
+        ) %>%
         dplyr::select(tidyselect::all_of(YRS))
 
       mit_vals <- .mitigation_tb %>%
@@ -108,11 +113,13 @@ calc_ghg_embodied <- function(tb,
           1 + .transit_avo_pct
         )), 0) + 1)
     }
-  } else if (.mode %in% c("MM",
-                          "SUT",
-                          "CUT",
-                          "AIR",
-                          "WAT")) {
+  } else if (.mode %in% c(
+    "MM",
+    "SUT",
+    "CUT",
+    "AIR",
+    "WAT"
+  )) {
     stop("Embodied emissions only calculated for passenger type")
   } else {
     # browser()
@@ -123,8 +130,10 @@ calc_ghg_embodied <- function(tb,
 
 
     sales <- tb %>%
-      dplyr::filter(mode == .mode,
-                    var == .sales_mode) %>%
+      dplyr::filter(
+        mode == .mode,
+        var == .sales_mode
+      ) %>%
       unique() %>%
       mutate(class = .class) %>%
       dplyr::select(
@@ -142,19 +151,21 @@ calc_ghg_embodied <- function(tb,
     }
 
     ghg <- dplyr::left_join(sales,
-                            ghg_factors_current,
-                            by = "year") %>%
+      ghg_factors_current,
+      by = "year"
+    ) %>%
       dplyr::mutate(ghg_embodied = (sales_value * ghg_value) / 1000) %>%
       dplyr::select(type,
-                    ghg_embodied_source,
-                    # scenario,
-                    mode,
-                    class,
-                    ctu = ctu,
-                    year,
-                    # aeo_scen,
-                    aeo_mode,
-                    ghg_embodied) %>%
+        ghg_embodied_source,
+        # scenario,
+        mode,
+        class,
+        ctu = ctu,
+        year,
+        # aeo_scen,
+        aeo_mode,
+        ghg_embodied
+      ) %>%
       unique()
   }
 

@@ -98,9 +98,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         av_adj = dplyr::case_when(
           year %in% c("2015", "2018", "2020") ~ 1,
           (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-          1 + .enviro_factors$BUS_AV * .av_pct,
+            1 + .enviro_factors$BUS_AV * .av_pct,
           (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-          1 + .enviro_factors$RAIL_AV * .av_pct,
+            1 + .enviro_factors$RAIL_AV * .av_pct,
           TRUE ~ 1
         )
       ) %>%

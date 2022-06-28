@@ -14,18 +14,19 @@
 #' library(ghg.sp)
 #'
 #' scen_green_infrastructure(
-#'      tb = land_use_data,
-#'      detail = FALSE,
-#'      .urban_form_scenario = "bau",
-#'      .conservation_tillage_intervention = "current_conservation_tillage",
-#'      .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-#'      .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-#'      .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-#'      .tree_planting_intervention = "tree_planting_on_all_pervious",
-#'      .tree_planting_per_capita = 0.26,
-#'      .tree_planting_per_hectare = 247,
-#'      .parking_lot_reduction_percentage = 0.8,
-#'      .agricultural_land_carbon_stock_mg_c_per_hectare = 3)
+#'   tb = land_use_data,
+#'   detail = FALSE,
+#'   .urban_form_scenario = "bau",
+#'   .conservation_tillage_intervention = "current_conservation_tillage",
+#'   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+#'   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+#'   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+#'   .tree_planting_intervention = "tree_planting_on_all_pervious",
+#'   .tree_planting_per_capita = 0.26,
+#'   .tree_planting_per_hectare = 247,
+#'   .parking_lot_reduction_percentage = 0.8,
+#'   .agricultural_land_carbon_stock_mg_c_per_hectare = 3
+#' )
 #' }
 scen_green_infrastructure <- function(tb,
                                       detail,
@@ -38,8 +39,7 @@ scen_green_infrastructure <- function(tb,
                                       .tree_planting_per_capita,
                                       .tree_planting_per_hectare,
                                       .parking_lot_reduction_percentage,
-                                      .agricultural_land_carbon_stock_mg_c_per_hectare){
-
+                                      .agricultural_land_carbon_stock_mg_c_per_hectare) {
   calc_carbon_sequestration_per_ctu(
     tb = tb,
     .urban_form_scenario = .urban_form_scenario,
@@ -64,6 +64,4 @@ scen_green_infrastructure <- function(tb,
     .urban_form_scenario = .urban_form_scenario,
     detail = detail
   )
-
 }
-

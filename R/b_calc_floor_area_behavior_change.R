@@ -31,10 +31,8 @@
 #' )
 #' }
 calc_floor_area_behavior_change <- function(res_tb,
-                                           .home_behavior_change_pct,
-                                           .enviro_factors) {
-
-
+                                            .home_behavior_change_pct,
+                                            .enviro_factors) {
   if (.home_behavior_change_pct == 0) {
     warning("No change in household behavior.")
     return(res_tb)
@@ -50,13 +48,19 @@ calc_floor_area_behavior_change <- function(res_tb,
       dplyr::group_by(ctu_name, var) %>%
       tidyr::pivot_wider(names_from = year, values_from = value) %>%
       dplyr::mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`)) %>%
-      dplyr::mutate(new_weighted_mean_forecast =
-                      weighted.mean(c(new_forecast,
-                                      `2040`),
-                                    c(
-                                      .home_behavior_change_pct,
-                                      (1 - .home_behavior_change_pct)
-                                    )))
+      dplyr::mutate(
+        new_weighted_mean_forecast =
+          weighted.mean(
+            c(
+              new_forecast,
+              `2040`
+            ),
+            c(
+              .home_behavior_change_pct,
+              (1 - .home_behavior_change_pct)
+            )
+          )
+      )
     new_fla <- res_tb %>%
       dplyr::filter(
         var %in% c(
@@ -75,6 +79,5 @@ calc_floor_area_behavior_change <- function(res_tb,
       dplyr::bind_rows(new_fla)
 
     return(new_res_tb_fin)
-
   }
 }

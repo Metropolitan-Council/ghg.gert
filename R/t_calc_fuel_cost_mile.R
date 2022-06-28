@@ -1,9 +1,9 @@
 #' @title Calculate Fuel Cost Per Mile
 #' @family Transportation
 #'
-#' @param .miles_per_gallon numeric, 
+#' @param .miles_per_gallon numeric,
 #'      Miles per gallon for current mode
-#' @param .fuel_cost_gallon numeric, 
+#' @param .fuel_cost_gallon numeric,
 #'      Fuel cost per gallon for current mode
 #' @inheritParams calc_cost
 #' @inheritParams calc_ghg_direct

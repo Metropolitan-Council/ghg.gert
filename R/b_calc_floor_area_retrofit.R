@@ -49,14 +49,18 @@ calc_floor_area_retrofit <- function(res_tb,
     return(res_tb)
   } else if (.existing_home_retrofit_pct != 0) {
     existing_units <- res_tb %>%
-      dplyr::filter(var %in% c("single_family_units",
-                               "multifamily_units")) %>%
+      dplyr::filter(var %in% c(
+        "single_family_units",
+        "multifamily_units"
+      )) %>%
       dplyr::group_by(ctu_name, var) %>%
       tidyr::pivot_wider(names_from = year, values_from = value, names_prefix = "year_") %>%
-      dplyr::mutate(existing_units = year_2018,
-                    # existing_pct_retrofit = existing_units * .existing_home_retrofit_pct,
-                    # proportion of homes in 2040 that were built before 2018
-                    prop_of_all_existing = existing_units / year_2040) %>%
+      dplyr::mutate(
+        existing_units = year_2018,
+        # existing_pct_retrofit = existing_units * .existing_home_retrofit_pct,
+        # proportion of homes in 2040 that were built before 2018
+        prop_of_all_existing = existing_units / year_2040
+      ) %>%
       dplyr::select(ctu_name, var, prop_of_all_existing) %>%
       dplyr::ungroup() %>%
       pivot_wider(
