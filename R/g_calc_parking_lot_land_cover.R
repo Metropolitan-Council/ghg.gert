@@ -8,7 +8,7 @@
 #'
 #' @inheritParams calc_tree_planting_land_cover
 #' @param .parking_lot_reduction_percentage numeric,
-#'      A number between `0` and `1`.
+#'      a value between `0` and `1`.
 #'      The percentage reduction of parking lot
 #'      area to be explored under the current scenario.
 #'      Default is `0.8`.

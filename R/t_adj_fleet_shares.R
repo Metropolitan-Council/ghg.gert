@@ -37,20 +37,20 @@
 #'     whether the driver would prefer to pay the cost to a government agency or insurance provider.
 #'
 #'
-#' @param .bev_pct_sales numeric,  A number between `0` and `1.`
+#' @param .bev_pct_sales numeric,  a value between `0` and `1.`
 #' Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
 #'      Default is `0`.
-#' @param .phev_pct_sales numeric,  A number between `0` and `1.`
+#' @param .phev_pct_sales numeric,  a value between `0` and `1.`
 #' Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
 #'      Default is `0`.
-#' @param .hev_pct_sales  numeric,   A number between `0` and `1.`
+#' @param .hev_pct_sales  numeric,   a value between `0` and `1.`
 #' Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
 #'      Default is `0`.
 #' @param .pass_tb [tibble::tibble()].
 #' Passenger input table. Default is `transportation_data$passenger`.
 #' @param .freight_tb [tibble::tibble()]
 #' freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct numeric,   A number between `0` and `1.`
+#' @param .drs_pct numeric,   a value between `0` and `1.`
 #' Percent of trips/fleet that is dynamic ride sharing (DRS).
 #'     Default is `0`.
 #' @inheritParams calc_vmt_forecast

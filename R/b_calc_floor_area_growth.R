@@ -8,11 +8,11 @@
 #'      affected.
 #'
 #' @param .single_family_floor_area_growth_pct numeric,
-#'      A number between `0` and `1`.
+#'      a value between `0` and `1`.
 #'      Percentage growth rate in single family home floor area.
 #'      Default is `0.05`.
 #' @param .new_homes_affected_pct numeric,
-#'      A number between `0` and `1`.
+#'      a value between `0` and `1`.
 #'      Percentage of all new single-family
 #'      households that will respond to increased energy costs by decreasing
 #'      home size.

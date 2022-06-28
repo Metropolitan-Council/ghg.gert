@@ -5,10 +5,10 @@
 #' floor area forecast under the assumptio of energy use reduction due to home
 #' retrofits.
 #'
-#' @param .existing_home_retrofit_pct numeric,  A number between `0` and `1`.
+#' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
 #'      Default is `0.80`.
-#' @param .existing_home_ultra_retrofit_pct numeric,  A number between `0` and `1`.
+#' @param .existing_home_ultra_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *66%*.
 #'      Default is `0.20`.
 #'

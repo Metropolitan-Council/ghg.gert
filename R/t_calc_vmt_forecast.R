@@ -16,7 +16,7 @@
 #' @param .aeo_scenario selected EIA Annual Energy Outlook scenario.
 #'      Default is `"REF"`
 #' @param .drs_pct **Numeric***.
-#'      A number between 0 and 1.
+#'      a value 0 and 1.
 #'      Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
 #'      Default is `0`.
 #' @param .phev_electric **Logical**

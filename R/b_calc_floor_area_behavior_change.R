@@ -5,7 +5,7 @@
 #'      by city/township based on proportion of households that change
 #'      behavior to reduce energy use.
 #'
-#' @param .home_behavior_change_pct numeric,  A number between `0` and `1`.
+#' @param .home_behavior_change_pct numeric,  a value between `0` and `1`.
 #'      Percentage of households that change behavior to reduce household emissions.
 #'      Default is `1.00`.
 #'

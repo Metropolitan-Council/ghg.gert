@@ -4,13 +4,13 @@
 #' @description Calculates the impact of electrifying
 #' heat in the residential sector by city/township for the specified scenario.
 #'
-#' @param .additional_electrified_residential_buildings_pct numeric,  A number between `0` and `1`.
+#' @param .additional_electrified_residential_buildings_pct numeric,  a value between `0` and `1`.
 #' The percentage of buildings that would
 #' be electrified under the specified scenario.
-#' @param .res_natural_gas_for_water_heating_pct numeric,  A number between `0` and `1`.
+#' @param .res_natural_gas_for_water_heating_pct numeric,  a value between `0` and `1`.
 #' The percentage of natural gas that is commonly used for space heating in residential
 #' buildings.
-#' @param .res_natural_gas_for_water_heating_pct numeric,  A number between `0` and `1`.
+#' @param .res_natural_gas_for_water_heating_pct numeric,  a value between `0` and `1`.
 #' The percentage of natural gas that is commonly used for water heating in residential
 #' buildings.
 #'

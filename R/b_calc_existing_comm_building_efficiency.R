@@ -8,7 +8,7 @@
 #'      function reduces the number of workers.
 #'
 #' @param .existing_high_efficiency_buildings_pct numeric,
-#'      A number between `0` and 1.
+#'      a value between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
 #'      Default is `0.8`.
 #'

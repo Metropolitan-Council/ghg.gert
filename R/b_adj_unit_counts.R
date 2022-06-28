@@ -7,7 +7,7 @@
 #'
 #' @inheritParams run_scenario_building
 #'
-#' @param .new_homes_to_multifamily_pct numeric,  A number between `0` and `1`.
+#' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
 #'      Default is `0.50`.
 #'

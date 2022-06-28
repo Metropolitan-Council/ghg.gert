@@ -45,7 +45,7 @@ vmt_annual_energy_outlook <- function(tb,
 
 #' Calculate autonomous vehicle multiplier
 #'
-#' @param .av_pct percent of trips made by AV. Default is `0`
+#' @param .av_pct numeric, percent of trips made by AV. Default is `0`
 
 #' @return table with columns `year`, `ctu`, `av_adj`
 #' @export
