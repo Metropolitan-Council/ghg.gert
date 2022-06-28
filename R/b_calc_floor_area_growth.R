@@ -30,7 +30,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_floor_area_growth(
+#' calc_floor_area_growth(
 #'   res_tb = building_data$residential,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.30,

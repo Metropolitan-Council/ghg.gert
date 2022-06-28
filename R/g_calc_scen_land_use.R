@@ -14,7 +14,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_scen_land_use(
+#' calc_scen_land_use(
 #'      tb =  land_use_data,
 #'      .urban_form_scenario = "bau")
 #' }

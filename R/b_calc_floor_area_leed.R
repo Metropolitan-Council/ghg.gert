@@ -24,7 +24,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_floor_area_leed(
+#' calc_floor_area_leed(
 #'   res_tb = building_data$residential,
 #'   .new_homes_leed_gold_pct = 0.5,
 #'   .enviro_factors = enviro_factors

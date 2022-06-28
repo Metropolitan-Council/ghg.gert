@@ -28,7 +28,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_ghg_residential(
+#' calc_ghg_residential(
 #'      res_tb = building_data$residential,
 #'      res_tb_bau = building_data$residential,
 #'      .grid_decarbonization_pct = 1,

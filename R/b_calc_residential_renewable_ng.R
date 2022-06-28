@@ -14,7 +14,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_residential_renewable_ng(
+#' calc_residential_renewable_ng(
 #'      res_tb = building_data$residential,
 #'      .enviro_factors = enviro_factors
 #' )

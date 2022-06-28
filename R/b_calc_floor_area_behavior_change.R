@@ -24,7 +24,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_floor_area_behavior_change(
+#' calc_floor_area_behavior_change(
 #'   res_tb = building_data$residential,
 #'   .home_behavior_change_pct = 1.00,
 #'   .enviro_factors = enviro_factors

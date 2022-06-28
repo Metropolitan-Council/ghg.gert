@@ -37,7 +37,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_conservation_tillage(
+#' calc_conservation_tillage(
 #'     tb = land_use_data,
 #'     .urban_form_scenario = "bau",
 #'     .conservation_tillage_intervention = "current_conservation_tillage",

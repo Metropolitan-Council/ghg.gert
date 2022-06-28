@@ -14,7 +14,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_carbon_stock_per_ctu(
+#' calc_carbon_stock_per_ctu(
 #'      tb = land_use_data,
 #'      .urban_form_scenario = "bau",
 #'      .tree_planting_intervention = "tree_planting_on_all_pervious",

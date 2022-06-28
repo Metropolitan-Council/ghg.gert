@@ -22,7 +22,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::adj_unit_counts(
+#' adj_unit_counts(
 #'      res_tb = building_data$residential,
 #'      .new_homes_to_multifamily_pct = 0.50
 #' )

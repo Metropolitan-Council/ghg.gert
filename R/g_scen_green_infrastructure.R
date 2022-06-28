@@ -14,7 +14,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::scen_green_infrastructure(
+#' scen_green_infrastructure(
 #'      tb = land_use_data,
 #'      detail = FALSE,
 #'      .urban_form_scenario = "bau",

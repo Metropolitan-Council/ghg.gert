@@ -29,7 +29,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_floor_area_retrofit(
+#' calc_floor_area_retrofit(
 #'   res_tb = building_data$residential,
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,

@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_land_by_development_type(
+#' calc_land_by_development_type(
 #'     tb = land_use_data,
 #'     .urban_form_scenario = "bau")
 #' }

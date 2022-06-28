@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_parking_lot_land_cover(
+#' calc_parking_lot_land_cover(
 #'       tb = land_use_data,
 #'       .urban_form_scenario = "bau",
 #'       .parking_lot_reduction_percentage = 0.8,

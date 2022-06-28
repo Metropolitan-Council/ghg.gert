@@ -21,7 +21,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_existing_comm_building_efficiency(
+#' calc_existing_comm_building_efficiency(
 #'      non_res_tb = building_data$non_residential,
 #'      .existing_high_efficiency_buildings_pct = 0.80
 #' )

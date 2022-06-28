@@ -23,15 +23,13 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_affordable_floor_area
+#' calc_affordable_floor_area
 #'      res_tb = building_data$residential,
 #'      .single_family_floor_area_growth_pct = 0.05
 #' }
 calc_affordable_floor_area <-
   function(res_tb,
            .single_family_floor_area_growth_pct) {
-
-    check_argument_pct(.single_family_floor_area_growth_pct, 0,1)
 
     if (.single_family_floor_area_growth_pct > 0.05) {
       warning("Single Family Floor Area Growth Cannot Be Greater than %5")

@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' ghg.sp::calc_land_cover_by_land_use(
+#' calc_land_cover_by_land_use(
 #'      tb = land_use_data,
 #'      .urban_form_scenario = "bau")
 #' }

@@ -35,7 +35,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_tree_planting_land_cover(
+#' calc_tree_planting_land_cover(
 #'     tb = land_use_data,
 #'     detail = FALSE,
 #'     .urban_form_scenario = "bau",

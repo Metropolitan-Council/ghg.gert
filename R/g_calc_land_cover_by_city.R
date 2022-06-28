@@ -15,7 +15,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_land_cover_by_city(
+#' calc_land_cover_by_city(
 #'     tb = land_use_data,
 #'     .urban_form_scenario = "bau"
 #' )

@@ -47,7 +47,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::scen_building_residential(
+#' scen_building_residential(
 #'      tb = building_data$residential,
 #'      res_tb_bau = building_data$residential,
 #'      .new_homes_to_multifamily_pct = 0.50,
