@@ -5,7 +5,7 @@
 #' @param tb input table
 #'
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #' @importFrom dplyr select filter case_when
 #'

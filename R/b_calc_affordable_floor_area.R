@@ -11,7 +11,7 @@
 #'       Default is `0.05`.
 #'       Should not be greater than 0.05 or *%5*.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
 #'       `single_family_units` for the `var` column when `year == 2040`relative

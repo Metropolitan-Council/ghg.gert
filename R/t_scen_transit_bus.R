@@ -6,7 +6,6 @@
 #' @inheritParams calc_vmt_forecast
 #'
 #'
-#' @return
 #' @export
 #'
 #' @importFrom emo ji

@@ -2,16 +2,16 @@
 #' @family GHG Emissions
 #' @family Transportation
 #'
-#' @param .sales_mode **Character**.
+#' @param .sales_mode character,
 #'     Sales name for calculation of embodied emissions of new vehicles.
 #'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, or `"BEVSales"`.
 #' @param .fuel_type fuel source for current mode
-#' @param .class **Character**.
+#' @param .class character,
 #'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`.
-#' @param .transit_avo_pct numeric, 
+#' @param .transit_avo_pct numeric,
 #'     Percent change in transit AVO.
 #'     Default is `0`.
-#' @param .mitigation_tb **Tibble**.
+#' @param .mitigation_tb [tibble::tibble()].
 #'     Mitigation output table for results.
 #'     Default is `0`.
 #' @param .bau_tb
@@ -24,7 +24,6 @@
 #'  a) generated in a different jurisdiction and/or
 #'  b) similarly affected by changes in local grid mix
 #'
-#' @return
 #' @export
 #' @importFrom dplyr filter select case_when mutate across rowwise everything
 #' @importFrom tidyselect all_of

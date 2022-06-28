@@ -12,31 +12,31 @@
 #' @inheritParams calc_non_res_renewable_ng
 #'
 #'
-#' @param non_res_tb **Tibble**.
+#' @param non_res_tb [tibble::tibble()].
 #'      Data table with non-residential building attributes. Package provided.
 #'      Dataset `building_data$non_residential` is suitable and the default value.
 #'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
-#' @param non_res_tb_bau **Tibble**.
+#' @param non_res_tb_bau [tibble::tibble()].
 #'      Data table with non-residential building attributes. Package provided.
 #'      Dataset `building_data$non_residential` is suitable and the default value.
 #'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'      Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
 #'      The output of the non-residential portion of the Building Energy Module of the
 #'      *Metropolitan Council GHG Scenario Planning Tool*.
 #'
-#' @field ctu_name **Character**.
+#' @field ctu_name character, 
 #'      Name of the city/township.
-#' @field year numeric, 
+#' @field year numeric,
 #'      Year.
 #' @field var **Charcter**.
 #'      Can be `commercial_mwh`, `industrial_mwh`, `commercial_therms`, `industrial_therms`, `commercial_electricity_emissions_kg_co`,
 #'      `industrial_electricity_emissions_kg_co`, `commercial_natural_gas_emissions_kg_co`, `industrial_natural_gas_emissions_kg_co`,
 #'      or `total_industrial_commercial_emissions`.
-#' @field value numeric, 
+#' @field value numeric,
 #'      The numeric value of `var`.
 #' @field scen **Charcter**.
 #'      Can be `bau` which means Business as Usual or `scenario` which means, the user specified

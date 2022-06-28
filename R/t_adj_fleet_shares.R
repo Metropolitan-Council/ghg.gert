@@ -46,16 +46,16 @@
 #' @param .hev_pct_sales  numeric,   A number between `0` and `1.`
 #' Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
 #'      Default is `0`.
-#' @param .pass_tb **Tibble**.
+#' @param .pass_tb [tibble::tibble()].
 #' Passenger input table. Default is `transportation_data$passenger`.
-#' @param .freight_tb **Tibble**
+#' @param .freight_tb [tibble::tibble()]
 #' freight input table. Default is `transportation_data$freight`.
 #' @param .drs_pct numeric,   A number between `0` and `1.`
 #' Percent of trips/fleet that is dynamic ride sharing (DRS).
 #'     Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @importFrom tidyselect all_of

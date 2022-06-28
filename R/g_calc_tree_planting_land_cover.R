@@ -5,7 +5,7 @@
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
-#' @param .tree_panting_intervention **Character**.
+#' @param .tree_panting_intervention character, 
 #' Specifies the type of tree planting.
 #' intervention to be explored under the current scenario.
 #' The options are:
@@ -14,10 +14,10 @@
 #' to the baseline year.
 #' * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
 #' Default is `tree_planting_on_all_pervious`.
-#' @param .tree_planting_per_capita numeric, 
+#' @param .tree_planting_per_capita numeric,
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
-#' @param .tree_planting_per_hectare numeric, 
+#' @param .tree_planting_per_hectare numeric,
 #'      Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `247`.
 #' @param detail **Logical**.
@@ -25,7 +25,7 @@
 #'      for debugging.
 #'      Default is `FALSE`.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'      `calc_tree_planting_land_cover()` returns table with hectares of land by land cover type after a tree planting scenario
 #'      for each city/township. Set argumnet `detail` to `TRUE` for a more detailed table.
 #'

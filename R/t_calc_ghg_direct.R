@@ -11,7 +11,12 @@
 #'     Default is `FALSE`.
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return
+#' @return [tibble::tibble()] with column names
+#'     - `type`
+#'     - `scenario`
+#'     - `mode`
+#'     - `class`
+#'     - ...
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all left_join
 #' @importFrom tidyr pivot_wider

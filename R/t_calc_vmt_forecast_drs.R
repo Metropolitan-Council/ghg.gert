@@ -5,14 +5,14 @@
 #' @description Dynamic ride sharing vehicle miles traveled is calculated by population,
 #'     not existing and projected VMT.
 #'
-#' @param .drs_pct numeric, 
+#' @param .drs_pct numeric,
 #'      Percent of trips by dynamic ride sharing (DRS)
 #' @param .class vehicle class for current mode
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams calc_drs_sales
 #'
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @importFrom tidyselect all_of

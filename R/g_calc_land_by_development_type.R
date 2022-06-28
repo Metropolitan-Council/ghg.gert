@@ -6,9 +6,9 @@
 #'      (urban expansion, urban infill, and exurban development) for  the selected land
 #'      use (urban form) scenario at the city/township scale .
 #'
-#' @param tb **Tibble**.
+#' @param tb [tibble::tibble()].
 #' The input dataset to be used.
-#' @param .urban_form_scenario **Character**.
+#' @param .urban_form_scenario character, 
 #' The current land use scenario being explored.
 #' Default is `"bau"`.
 #' The options are:
@@ -16,7 +16,7 @@
 #' * `"post_covid_sprawl"`: post covid sprawl scenario.
 #' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
 #' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'      A list of tables with the estimated hectares by different development
 #'      types (urban expansion, urban infill, and exurban development) for different
 #'      land use scenarios.

@@ -11,7 +11,7 @@
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
 #'    Must have `"AVStock"` variable.
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #' @importFrom dplyr select filter across cur_column
 #'

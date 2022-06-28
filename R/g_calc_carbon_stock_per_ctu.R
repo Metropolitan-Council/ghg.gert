@@ -7,7 +7,7 @@
 #'
 #' @inheritParams calc_parking_lot_land_cover
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @examples

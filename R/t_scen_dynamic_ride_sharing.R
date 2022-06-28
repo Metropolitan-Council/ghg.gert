@@ -3,7 +3,7 @@
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_drs_sales
 #' @inheritParams calc_vmt_forecast_drs
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @family transportation, dynamic ride share

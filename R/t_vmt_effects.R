@@ -123,9 +123,8 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   }
 }
 
-#' Calculate dynamic ride sharing effect
+#' @title Calculate dynamic ride sharing effect
 #'
-#' @return
 #' @export
 #' @details
 #'
@@ -259,10 +258,10 @@ vmt_land_use_change <- function(.type,
   return(comb_5d_elast)
 }
 
-#' Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
+#' @title Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
-#' @param .parking_price measured in dollars per hour. Default is `0`.
-#' @param .freight_parking_price measured in dollars per hour. Default is `0`.
+#' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
+#' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #' @return a table with
 #' @export
@@ -605,7 +604,6 @@ vmt_road_policy <- function(.pass_tb,
 #' Calculate telework multiplier
 #' @param .telework_pct additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is `0`
 #' @inheritParams calc_vmt_forecast
-#' @return
 #' @export
 #' @family VMT effects
 #' @details

@@ -5,7 +5,7 @@
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #' @importFrom usethis ui_done
 #' @importFrom emo ji

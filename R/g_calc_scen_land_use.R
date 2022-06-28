@@ -7,7 +7,7 @@
 #' @inheritParams calc_land_by_development_type
 #'
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @examples

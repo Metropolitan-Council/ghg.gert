@@ -7,7 +7,6 @@
 #'
 #' @inheritParams run_scenario_building
 #'
-#' @return
 #' @export
 #'
 #' @examples

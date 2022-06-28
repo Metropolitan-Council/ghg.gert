@@ -6,7 +6,7 @@
 #'      per hectares by land cover type by city/township.
 #'
 #'
-#' @return **Tibble**
+#' @return [tibble::tibble()]
 #'
 #' @export
 #'

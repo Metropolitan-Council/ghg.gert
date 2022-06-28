@@ -6,10 +6,10 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
-#' @param .grid_decarbonization_pct numeric, 
+#' @param .grid_decarbonization_pct numeric,
 #'       A number between `0` and `1`.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'       The table is the output of the building energy module, any modification to
 #'       the inputs of the building energy module must be specified as an argument

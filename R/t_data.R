@@ -102,9 +102,8 @@
 "elast_5d"
 
 #' @title Annual energy outlook, cost, and greenhouse gas factors
+#' @description  Annual energy outlook, cost, and greenhouse gas factors
 #'     by scenario, mode, year, and source
-#'
-#'
 #' @format A named list of three tibbles
 #' \describe{
 #'   \item{aeo}{tibble with columns `aeo_scen`, `mode`, `metric`, `year`, `value`}
@@ -118,7 +117,6 @@
 
 
 #' @title A list of transportation and freight data input tables
-#'
 #'
 #' @format A named list of two tibbles
 #' \describe{
@@ -186,8 +184,7 @@
 # db_table_names -----
 "db_table_names"
 
-#' @title North American Industry Classification System (NAICS) and
-#'      Local Employment Dynamics (LED) codes
+#' @title North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes
 #'
 #' @format Nested, named list
 #' \describe{

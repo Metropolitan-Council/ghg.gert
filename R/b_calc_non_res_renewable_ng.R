@@ -6,7 +6,7 @@
 #' renewable natural gas on greenhouse gas emissions by city/township for the
 #' specified scenario.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #' @export
 #'
 #' @note `calc_non_res_renewable_ng()` is called within `scen_building_non_residential()`

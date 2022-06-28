@@ -11,7 +11,7 @@
 #'
 #' @inheritParams run_scenario_transportation
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted
 #'       `single_family_average_floor_area_sqft_ctu` and

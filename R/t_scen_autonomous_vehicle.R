@@ -7,7 +7,7 @@
 #'
 #' @keywords passenger
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @importFrom emo ji

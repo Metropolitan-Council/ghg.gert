@@ -5,12 +5,12 @@
 #' strategies within the building energy module.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'
-#' @param res_tb **Tibble**.
+#' @param res_tb [tibble::tibble()].
 #'     Data table with residential building attributes. Package provided.
 #'     Dataset `building_energy$residential` is suitable and the default value.
 #'     `res_tb_bau` is only used for the "business as usual" scenario, in contrast
 #'     `res_tb` is used as the input for the decarbonization scenario.
-#' @param res_tb_bau **Tibble**.
+#' @param res_tb_bau [tibble::tibble()].
 #'     Data table with residential building attributes. Package provided.
 #'     Dataset `building_energy$residential` is suitable and the default value.
 #'     `res_tb_bau` is only used for the "business as usual" scenario, in contrast
@@ -26,14 +26,14 @@
 #' @inheritParams calc_residential_renewable_ng
 #'
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #' Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
 #' The output of the non-residential portion of the Building Energy Module of the
 #' Metropolitan Council GHG Scenario Planning Tool.
 #'
-#' @field `ctu_name` **Character**.
+#' @field `ctu_name` character, 
 #' Name of the city/township.
-#' @field `year` numeric, 
+#' @field `year` numeric,
 #' Year.
 #' @field `var` **Charcter**. Can be `residential_mwh`, `residential_therms`, `residential_electricity_emissions_kg_co`,
 #' or `residential_natural_gas_emissions_kg_co`.

@@ -17,7 +17,7 @@
 #' @details
 #'    Uses the average single family floor area in 2018
 #'
-#' @return **Tibble**
+#' @return [tibble::tibble()]
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units`,
 #'       `single_family_average_floor_area_sqft_ctu`, `multifamily_units`, and

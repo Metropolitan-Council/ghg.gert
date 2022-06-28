@@ -7,7 +7,6 @@
 #'
 #' @inheritParams calc_land_cover_by_land_use
 #'
-#' @return
 #'
 #' @export
 #'

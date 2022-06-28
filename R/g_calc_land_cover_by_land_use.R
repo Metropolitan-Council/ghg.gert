@@ -6,7 +6,7 @@
 #'
 #' @inheritParams calc_scen_land_use
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'      A long table with the percent of land cover for each land use type for each city*/township
 #'
 #' @export

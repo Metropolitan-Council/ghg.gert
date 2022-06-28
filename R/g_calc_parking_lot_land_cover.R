@@ -7,7 +7,7 @@
 #'      defined in the argument `.parking_lot_reduction_percentage`
 #'
 #' @inheritParams calc_tree_planting_land_cover
-#' @param .parking_lot_reduction_percentage numeric, 
+#' @param .parking_lot_reduction_percentage numeric,
 #'      A number between `0` and `1`.
 #'      The percentage reduction of parking lot
 #'      area to be explored under the current scenario.
@@ -19,7 +19,7 @@
 #'      for debugging.
 #'      Default is `FALSE`.
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #'
 #' @export
 #'

@@ -1,12 +1,11 @@
 #'
-#' Calculate scenario for freight multi-modal, air, and water transportation
+#' @title Calculate scenario for freight multi-modal, air, and water transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
 #'
 #' @family transportation results, freight
 #'
-#' @return
 #' @export
 #'
 #' @importFrom emo ji

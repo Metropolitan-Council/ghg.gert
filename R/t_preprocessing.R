@@ -5,7 +5,7 @@
 #' @param num_inits TODO
 #' @param num_yrs number of forecast years
 #'
-#' @return
+#' @return [tibble::tibble()] with column names...
 #' @export
 #' @family transportation
 #'
@@ -28,7 +28,7 @@ calc_treatment <- function(treat_list,
 #' @param num_inits TODO
 #' @param num_yrs number of forecast years
 #'
-#' @return
+#' @return list
 #' @export
 #' @keywords internal
 #'

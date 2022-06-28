@@ -16,7 +16,7 @@
 #'
 #' @inheritParams run_scenario_building
 #'
-#' @return **Tibble**.
+#' @return [tibble::tibble()].
 #' Data table with output of electrify residential heating.
 #'
 #' @export

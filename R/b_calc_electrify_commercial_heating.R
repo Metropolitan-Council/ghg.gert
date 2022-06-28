@@ -18,7 +18,7 @@
 #'      Default is `0.69`.
 #' @param .enviro_factors
 #'
-#' @return **Tibble**
+#' @return [tibble::tibble()]
 #'     A table with columns `year`, `ctu_name`, `population`,
 #'    `residential_mwh`,
 #'    `residential_electricity_emissions_kg_co`,
