@@ -34,6 +34,7 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
+  check_inputs("parking_lot_reduction_percentage", .parking_lot_reduction_percentage)
 
   land_use <- scen_green_infrastructure(
     tb = tb,

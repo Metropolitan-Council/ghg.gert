@@ -86,7 +86,8 @@ check_inputs <- function(name, value) {
     "res_natural_gas_for_water_heating_pct",
     "additional_electrified_residential_buildings_pct",
     #grid
-    "grid_decarbonization_pct"
+    "grid_decarbonization_pct",
+    "parking_lot_reduction_percentage"
   )) {
     if (value > 1 | value < 0) {
       stop(paste("Enter a valid", name, "value between 0 and 1"))
