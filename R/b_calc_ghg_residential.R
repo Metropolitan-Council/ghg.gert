@@ -42,8 +42,6 @@ calc_ghg_residential <- function(res_tb,
                                  .grid_decarbonization_pct,
                                  .enviro_factors) {
 
-  ghg.sp::check_argument_pct(.grid_decarbonization_pct, 0,1)
-
   emis <- function(tb,
                    grid_decarb){
     tb %>%

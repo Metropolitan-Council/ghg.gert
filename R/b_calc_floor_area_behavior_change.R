@@ -34,7 +34,6 @@ calc_floor_area_behavior_change <- function(res_tb,
                                            .home_behavior_change_pct,
                                            .enviro_factors) {
 
-  ghg.sp::check_argument_pct(.home_behavior_change_pct, 0,1)
 
   if (.home_behavior_change_pct == 0) {
     warning("No change in household behavior.")

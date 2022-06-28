@@ -32,7 +32,6 @@
 adj_unit_counts <- function(res_tb,
                             .new_homes_to_multifamily_pct) {
 
-  ghg.sp::check_argument_pct(.new_homes_to_multifamily_pct, 0,1)
 
   if (.new_homes_to_multifamily_pct <= 0) {
     warning("No single family homes instead built as multifamily homes.")

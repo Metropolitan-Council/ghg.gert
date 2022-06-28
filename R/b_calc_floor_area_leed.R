@@ -35,7 +35,6 @@ calc_floor_area_leed <- function(res_tb,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
 
-  ghg.sp::check_argument_pct(.new_homes_leed_gold_pct, 0,1)
 
   if (.new_homes_leed_gold_pct == 0) {
     warning("No change in new single family home energy efficiency")

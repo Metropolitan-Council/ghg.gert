@@ -42,8 +42,6 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
 
-  ghg.sp::check_argument_pct(.existing_home_retrofit_pct, 0,1)
-  ghg.sp::check_argument_pct(.existing_home_ultra_retrofit_pct, 0,1)
 
   # browser()
   if (.existing_home_retrofit_pct == 0) {
