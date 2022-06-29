@@ -7,33 +7,32 @@
 calc_affordable_floor_area(res_tb, .single_family_floor_area_growth_pct)
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and the
+default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.single_family_floor_area_growth_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.single_family_floor_area_growth_pct}{numeric, a value between \code{0} and \code{1}.
 Percentage of single family floor area that gets reduced due to increase energy prices.
 Default is \code{0.05}.
 Should not be greater than 0.05 or \emph{\%5}.}
 }
 \value{
-\strong{Tibble}.
-A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+\code{\link[tibble:tibble]{tibble::tibble()}}. A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
 \code{single_family_units} for the \code{var} column when \code{year == 2040}relative
 to the residential inputs table.
 }
 \description{
-\code{calc_affordable_floor_area} calculates the forecasted reduction in single family
+Calculates forecasted reduction in single family
 floor area from increased energy prices by city/township.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_affordable_floor_area
+calc_affordable_floor_area
      res_tb = building_data$residential,
      .single_family_floor_area_growth_pct = 0.05
 }
@@ -46,7 +45,7 @@ Other Residential:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_residential_renewable_ng}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -62,5 +61,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Residential}
+\concept{buildings}

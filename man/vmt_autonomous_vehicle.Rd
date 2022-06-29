@@ -12,7 +12,7 @@ vmt_autonomous_vehicle(
 )
 }
 \arguments{
-\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 }
 \value{
 table with columns \code{year}, \code{ctu}, \code{av_adj}

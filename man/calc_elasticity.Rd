@@ -16,7 +16,7 @@ calc_elasticity(elas_list, elas, num_inits, num_yrs)
 \item{num_yrs}{number of forecast years}
 }
 \value{
-
+list
 }
 \description{
 Interpolate elasticities across years

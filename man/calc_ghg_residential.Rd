@@ -12,14 +12,14 @@ calc_ghg_residential(
 )
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns
 \code{ctu_name},
 \code{year},
@@ -30,29 +30,29 @@ A table with columns
 \code{residential_natural_gas_emissions_kg_co}
 }
 \description{
-\code{calc_ghg_residential()} estimates total energy demand
+estimates total energy demand
 and emissions from the residential building sector by city/township
 for the user specified scenario, and the business-as-usual scenario.
 }
 \note{
-\code{calc_ghg_residential} estimates the building energy demand and emissions
+\code{calc_ghg_residential()} estimates the building energy demand and emissions
 based on the floor area assumptions. For a function that compiles all
-residential strategies refer to \code{scen_residential_building}.
+residential strategies refer to \code{\link[=scen_residential_building]{scen_residential_building()}}.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_ghg_residential(
-     res_tb = building_data$residential,
-     res_tb_bau = building_data$residential,
-     .grid_decarbonization_pct = 1,
-     .enviro_factors = enviro_factors
+calc_ghg_residential(
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
+  .grid_decarbonization_pct = 1,
+  .enviro_factors = enviro_factors
 )
 }
 }
 \seealso{
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -75,13 +75,13 @@ Other Residential:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_residential_renewable_ng}()}
 
-Other GHG Emissions: 
+Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()}
 }
-\concept{Buildings}
-\concept{GHG Emissions}
 \concept{Residential}
+\concept{buildings}
+\concept{emissions}

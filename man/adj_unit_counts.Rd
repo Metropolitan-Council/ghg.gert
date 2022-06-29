@@ -7,33 +7,33 @@
 adj_unit_counts(res_tb, .new_homes_to_multifamily_pct)
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and the
+default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.50}.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}
 relative to residential inputs table.
 }
 \description{
-\code{adj_unit_counts()} adjusts single and multifamily unit count forecast by city/township
+adjusts single and multifamily unit count forecast by city/township
 from residential inputs table.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::adj_unit_counts(
-     res_tb = building_data$residential,
-     .new_homes_to_multifamily_pct = 0.50
+adj_unit_counts(
+  res_tb = building_data$residential,
+  .new_homes_to_multifamily_pct = 0.50
 )
 }
 }
@@ -45,7 +45,7 @@ Other Residential:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_residential_renewable_ng}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -61,5 +61,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Residential}
+\concept{buildings}

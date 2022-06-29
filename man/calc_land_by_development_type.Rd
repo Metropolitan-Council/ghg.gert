@@ -7,10 +7,10 @@
 calc_land_by_development_type(tb, .urban_form_scenario)
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -22,13 +22,13 @@ The options are:
 }}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A list of tables with the estimated hectares by different development
 types (urban expansion, urban infill, and exurban development) for different
 land use scenarios.
 }
 \description{
-\code{calc_land_by_development_type()} calculates the hectares of
+calculates the hectares of
 land by different development types
 (urban expansion, urban infill, and exurban development) for  the selected land
 use (urban form) scenario at the city/township scale .
@@ -37,13 +37,14 @@ use (urban form) scenario at the city/township scale .
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_land_by_development_type(
-    tb = land_use_data,
-    .urban_form_scenario = "bau")
+calc_land_by_development_type(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+)
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -55,4 +56,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

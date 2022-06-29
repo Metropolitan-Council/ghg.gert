@@ -7,10 +7,10 @@
 calc_scen_land_use(tb, .urban_form_scenario)
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -22,23 +22,24 @@ The options are:
 }}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-\code{calc_scen_land_use()} calculates the land use type in hectares
+Calculates the land use type in hectares
 for all cities/townships for the selected scenario.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_scen_land_use(
-     tb =  land_use_data,
-     .urban_form_scenario = "bau")
+calc_scen_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+)
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -50,4 +51,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

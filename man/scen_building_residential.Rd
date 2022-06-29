@@ -23,58 +23,57 @@ scen_building_residential(
 )
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and the
+default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{res_tb_bau}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
-\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{res_tb} is used as the input for the decarbonization scenario.}
+\item{res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and
+the default value. \code{res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.50}.}
 
-\item{.single_family_floor_area_growth_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.single_family_floor_area_growth_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
 Default is \code{0.05}.}
 
-\item{.new_homes_affected_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.new_homes_affected_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
 Default is \code{0.30}.}
 
-\item{.new_homes_leed_gold_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.5}}
 
-\item{.existing_home_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
 Default is \code{0.80}.}
 
-\item{.existing_home_ultra_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
 
-\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{1.00}.}
 
-\item{.grid_decarbonization_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric,
+a value between \code{0} and \code{1}.}
 
-\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
-\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of natural gas that is commonly used for water heating in residential
 buildings.}
 
@@ -82,33 +81,22 @@ buildings.}
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-\strong{Tibble}.
-Data table with columns \code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
-The output of the non-residential portion of the Building Energy Module of the
-Metropolitan Council GHG Scenario Planning Tool.
+\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
+\code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `ctu_name` character,  Name of the city/township.
+ @field `year` numeric, Year.
+ @field `var` character,. Can be `residential_mwh`, `residential_therms`,
+      `residential_electricity_emissions_kg_co`,
+      or `residential_natural_gas_emissions_kg_co`.
+ @field value, numeric. The numeric value of `var`.
+ @field scen, character. One of  `bau` or `scenario`
+}\if{html}{\out{</div>}}
 }
 \description{
-\code{scen_building_residential()} calculates the effect of the residential building
+calculates the effect of the residential building
 strategies within the building energy module.
 }
-\section{Fields}{
-
-\describe{
-\item{\code{`ctu_name`}}{\strong{Character}.
-Name of the city/township.}
-
-\item{\code{`year`}}{\strong{Numeric}.
-Year.}
-
-\item{\code{`var`}}{\strong{Charcter}. Can be \code{residential_mwh}, \code{residential_therms}, \code{residential_electricity_emissions_kg_co},
-or \code{residential_natural_gas_emissions_kg_co}.}
-
-\item{\code{`value`}}{\strong{Numeric}. The numeric value of \code{var}.}
-
-\item{\code{`scen`}}{\strong{Charcter}. Can be \code{bau} which means Business as Usual or \code{scenario} which means, the user specified
-decarbonization scenario.}
-}}
-
 \note{
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
 }
@@ -116,7 +104,7 @@ To run the Building Energy Module, refer to function \code{run_scenario_building
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::scen_building_residential(
+scen_building_residential(
      tb = building_data$residential,
      res_tb_bau = building_data$residential,
      .new_homes_to_multifamily_pct = 0.50,
@@ -134,4 +122,4 @@ ghg.sp::scen_building_residential(
 )
 }
 }
-\concept{Buildings, Residential}
+\concept{buildings, Residential}

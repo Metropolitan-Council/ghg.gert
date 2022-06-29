@@ -7,21 +7,21 @@
 calc_non_res_renewable_ng(non_res_tb, .enviro_factors = .enviro_factors)
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 }
 \description{
-\code{calc_non_res_renewable_ng} calculates the impact of transitioning to
+Calculates the impact of transitioning to
 renewable natural gas on greenhouse gas emissions by city/township for the
 specified scenario.
 }
 \note{
-\code{calc_non_res_renewable_ng} is called within \code{scen_building_non_residential()}
+\code{calc_non_res_renewable_ng()} is called within \code{scen_building_non_residential()}
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_non_res_renewable_ng(
+calc_non_res_renewable_ng(
      non_res_tb = calc_ghg_non_residential(
           non_res_tb = building_data$non_residential,
           non_res_tb_bau = building_data$non_residential,
@@ -38,13 +38,7 @@ ghg.sp::calc_non_res_renewable_ng(
 
 }
 \seealso{
-Other Commercial/Industrial: 
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{scen_building_non_residential}()}
-
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -60,5 +54,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Commercial/Industrial}
+\concept{buildings}

@@ -19,34 +19,24 @@ calc_ghg_non_residential(
 \item{non_res_tb}{table with non-residential data.
 Default is \code{building_data$non_residential}}
 
-\item{.commercial_smart_grid_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
 The percentage of commercial buildings that would be on the smart grid for the
 specified scenario.
 Default is \code{1}.}
 
-\item{.industrial_smart_grid_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
 The percentage of industrial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
+pecified scenario. Default is \code{1}.}
 
-\item{.smart_grid_energy_reduction_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
-Default is \code{1}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
 
-\item{.grid_decarbonization_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
-Default is \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 }
-\value{
-
-}
 \description{
-\code{calc_ghg_non_residential()} calculates total energy demand and emissions from
+calculates total energy demand and emissions from
 workers for industrial and commercial sectors by city/township for the specified scenario.
 }
 \examples{
@@ -54,25 +44,24 @@ workers for industrial and commercial sectors by city/township for the specified
 library(ghg.sp)
 
 calc_ghg_non_residential(
-     non_res_tb = building_data$non_residential,
-     non_res_tb_bau = building_data$non_residential,
-     .industrial_smart_grid_pct = 1,
-     .commercial_smart_grid_pct = 1,
-     .grid_decarbonization_pct = 1,
-     .smart_grid_energy_reduction_pct = 1,
-     .enviro_factors = enviro_factors,
-     .existing_high_efficiency_buildings_pct = 0.8
+  non_res_tb = building_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
+  .industrial_smart_grid_pct = 1,
+  .commercial_smart_grid_pct = 1,
+  .grid_decarbonization_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .enviro_factors = enviro_factors,
+  .existing_high_efficiency_buildings_pct = 0.8
 )
 }
 }
 \seealso{
-Other Commercial/Industrial: 
+Other commercial-industrial: 
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -88,13 +77,13 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 
-Other GHG Emissions: 
+Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_residential}()}
 }
-\concept{Buildings}
-\concept{Commercial/Industrial}
-\concept{GHG Emissions}
+\concept{buildings}
+\concept{commercial-industrial}
+\concept{emissions}

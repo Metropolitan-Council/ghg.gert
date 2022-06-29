@@ -7,10 +7,10 @@
 calc_land_cover_by_city(tb, .urban_form_scenario)
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -21,11 +21,8 @@ The options are:
 \item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
 }
-\value{
-
-}
 \description{
-\code{calc_land_cover_by_city()} takes the output of the function
+takes the output of the function
 \code{calc_land_cover_by_land_use()} and
 calculates the total land cover (hectares) by type for each community.
 }
@@ -33,14 +30,14 @@ calculates the total land cover (hectares) by type for each community.
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_land_cover_by_city(
-    tb = land_use_data,
-    .urban_form_scenario = "bau"
+calc_land_cover_by_city(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
 )
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -52,4 +49,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

@@ -10,9 +10,6 @@ vmt_dynamic_ride_share_reduction(
   .enviro_factors = enviro_factors
 )
 }
-\value{
-
-}
 \description{
 Calculate dynamic ride sharing effect
 }

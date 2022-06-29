@@ -20,10 +20,10 @@ run_scenario_land_use(
 )
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -34,16 +34,16 @@ The options are:
 \item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
 
-\item{.tree_planting_per_capita}{\strong{Numeric}.
+\item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
 
-\item{.tree_planting_per_hectare}{\strong{Numeric}.
+\item{.tree_planting_per_hectare}{numeric,
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric,
+a value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
@@ -62,22 +62,24 @@ Run Scenario Land Use
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::run_scenario_land_use(tb = land_use_data,
-     .urban_form_scenario = "bau",
-     .conservation_tillage_intervention = "current_conservation_tillage",
-     .tree_planting_intervention = "tree_planting_on_all_pervious",
-     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-     .tree_planting_per_capita = 0.26,
-     .tree_planting_per_hectare = 247,
-     .parking_lot_reduction_percentage = 0.8,
-     detail = FALSE)
+run_scenario_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+)
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -89,4 +91,4 @@ Other Land Use:
 \code{\link{calc_tree_planting_land_cover}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

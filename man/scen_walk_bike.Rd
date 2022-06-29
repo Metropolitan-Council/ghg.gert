@@ -59,9 +59,9 @@ Default is \code{0}}
 
 \item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
-\item{.parking_price}{measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
-\item{.freight_parking_price}{measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
@@ -69,11 +69,11 @@ congested miles in MSP). Default is \code{0}}
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
 \item{.drs_pct}{\strong{Numeric}*.
-A number between 0 and 1.
+a value 0 and 1.
 Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
 Default is \code{0}.}
 
-\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
 \item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
 
@@ -114,20 +114,17 @@ Default is \code{elast} included in this package.}
 \item{.elast_5d}{table of 5D elasticities.
 Default is \code{elast_5d} included in this package.}
 }
-\value{
-
-}
 \description{
-\code{scen_walk_bike()} calculates scenario for walk and bike.
+calculates scenario for walk and bike.
 }
 \seealso{
-Other Passenger: 
+Other passenger: 
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_passenger_light_duty}()},
 \code{\link{scen_school_bus}()},
 \code{\link{scen_transit_rail}()}
 
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -136,10 +133,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -149,5 +146,5 @@ Other Transportation:
 \code{\link{scen_transit_rail}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{Passenger}
-\concept{Transportation}
+\concept{passenger}
+\concept{transportation}

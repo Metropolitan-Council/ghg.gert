@@ -11,18 +11,18 @@ calc_av_sales(tb, .av_pct)
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.
 Must have \code{"AVStock"} variable.}
 
-\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-\code{calc_av_sales} replaces both sales and stock because need to replace
+Replaces both sales and stock because need to replace
 faster than previous stock turnover in order to match
 AV market penetration.
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
@@ -30,10 +30,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -45,4 +45,4 @@ Other Transportation:
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{Autonomous Vehicles}
-\concept{Transportation}
+\concept{transportation}

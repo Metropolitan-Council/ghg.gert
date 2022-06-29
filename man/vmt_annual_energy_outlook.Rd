@@ -15,11 +15,11 @@ vmt_annual_energy_outlook(
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.
 }
 \description{
-\code{vmt_annual_energy_outlook()} calculates annual energy outlook (AEO)
+calculates annual energy outlook (AEO)
 multipliers for each forecast year.
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -28,10 +28,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -41,5 +41,5 @@ Other Transportation:
 \code{\link{scen_transit_rail}()},
 \code{\link{scen_walk_bike}()}
 }
-\concept{Transportation}
 \concept{VMT Effects}
+\concept{transportation}

@@ -3,8 +3,7 @@
 \docType{data}
 \name{factor_values}
 \alias{factor_values}
-\title{Annual energy outlook, cost, and greenhouse gas factors
-by scenario, mode, year, and source}
+\title{Annual energy outlook, cost, and greenhouse gas factors}
 \format{
 A named list of three tibbles
 \describe{

@@ -12,19 +12,19 @@ calc_floor_area_growth(
 )
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and the
+default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.single_family_floor_area_growth_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.single_family_floor_area_growth_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
 Default is \code{0.05}.}
 
-\item{.new_homes_affected_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.new_homes_affected_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
@@ -37,7 +37,7 @@ Default is \code{enviro_factors}, included in this package.}
 data table
 }
 \description{
-\code{calc_floor_area_growth()} adjusts single and multifamily average floor area
+adjusts single and multifamily average floor area
 forecast in residential table. Allows the user to specify the percentage
 increase in single family floor areas, and the percentage of homes
 affected.
@@ -49,7 +49,7 @@ Uses the average single family floor area in 2018
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_floor_area_growth(
+calc_floor_area_growth(
   res_tb = building_data$residential,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.30,
@@ -66,7 +66,7 @@ Other Residential:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_residential_renewable_ng}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -82,5 +82,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Residential}
+\concept{buildings}

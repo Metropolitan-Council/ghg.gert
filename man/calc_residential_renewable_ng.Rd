@@ -6,20 +6,17 @@
 \usage{
 calc_residential_renewable_ng(res_tb, .enviro_factors = .enviro_factors)
 }
-\value{
-
-}
 \description{
-\code{calc_residential_renewable_ng} calculates the impact on residential
+calculates the impact on residential
 building emissions from transitioning natural gas to renewable natural gas.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_residential_renewable_ng(
-     res_tb = building_data$residential,
-     .enviro_factors = enviro_factors
+calc_residential_renewable_ng(
+  res_tb = building_data$residential,
+  .enviro_factors = enviro_factors
 )
 }
 }
@@ -31,7 +28,7 @@ Other Residential:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_ghg_residential}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -47,5 +44,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Residential}
+\concept{buildings}

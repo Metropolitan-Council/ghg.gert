@@ -20,21 +20,21 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{.pass_tb}{\strong{Tibble}.
+\item{.pass_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Passenger input table. Default is \code{transportation_data$passenger}.}
 
-\item{.freight_tb}{\strong{Tibble}
+\item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}
 freight input table. Default is \code{transportation_data$freight}.}
 
-\item{.bev_pct_sales}{\strong{Numeric}. A number between \code{0} and \code{1.}
+\item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
 Default is \code{0}.}
 
-\item{.phev_pct_sales}{\strong{Numeric}. A number between \code{0} and \code{1.}
+\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
 Default is \code{0}.}
 
-\item{.hev_pct_sales}{\strong{Numeric}.  A number between \code{0} and \code{1.}
+\item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
 Default is \code{0}.}
 
@@ -45,11 +45,11 @@ Default is \code{0}}
 
 \item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
 
-\item{.drs_pct}{\strong{Numeric}.  A number between \code{0} and \code{1.}
+\item{.drs_pct}{numeric,   a value between \code{0} and \code{1.}
 Percent of trips/fleet that is dynamic ride sharing (DRS).
 Default is \code{0}.}
 
-\item{.av_pct}{percent of trips made by AV. Default is \code{0}}
+\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
 \item{.elast}{table of elasticities.
 Default is \code{elast} included in this package.}
@@ -58,14 +58,16 @@ Default is \code{elast} included in this package.}
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
 Match what the user input for sales in the final forecast year rather
 than the defaults from MA3TFleet held fixed in all cases.
 AV/DRS scenarios adjust the sales
 total up, but they adjust the existing stock down to match total stock
-in each year.\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
+in each year.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
 Distribute personal vehicle VMT between the different powertrains.
 Ratio of vehicle stocks by powertrain type.
 If the user inputs a different percent for BEV, update vehicles by existing
@@ -86,7 +88,7 @@ If
 DRS, AV, estimated sales,
 and existing vehicles to estimate future stock. Freight data is dependent on passenger
 data,
-}
+}\if{html}{\out{</div>}}
 }
 \note{
 This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.
@@ -97,7 +99,7 @@ is paid to an insurance provider in place of a flat insurance rate. The main dif
 whether the driver would prefer to pay the cost to a government agency or insurance provider.
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
@@ -105,10 +107,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -120,4 +122,4 @@ Other Transportation:
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{Stock Adjustments}
-\concept{Transportation}
+\concept{transportation}

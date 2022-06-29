@@ -10,7 +10,7 @@ calc_drs_sales(tb, .drs_pct, .enviro_factors = enviro_factors)
 \item{tb}{input table}
 
 \item{.drs_pct}{\strong{Numeric}*.
-A number between 0 and 1.
+a value 0 and 1.
 Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
 Default is \code{0}.}
 
@@ -18,13 +18,13 @@ Default is \code{0}.}
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
 Calculate dynamic ride sharing stock sales
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -32,10 +32,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -46,4 +46,4 @@ Other Transportation:
 \code{\link{scen_walk_bike}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{Transportation}
+\concept{transportation}

@@ -11,7 +11,7 @@ calc_floor_area_behavior_change(
 )
 }
 \arguments{
-\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{1.00}.}
 
@@ -19,7 +19,7 @@ Default is \code{1.00}.}
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted
 \code{single_family_average_floor_area_sqft_ctu} and
@@ -27,7 +27,7 @@ Table contains adjusted
 when \code{year == 2040} relative to the residential inputs table.
 }
 \description{
-\code{calc_floor_area_behavior_change()} adjusts residential floor area
+adjusts residential floor area
 by city/township based on proportion of households that change
 behavior to reduce energy use.
 }
@@ -35,7 +35,7 @@ behavior to reduce energy use.
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_floor_area_behavior_change(
+calc_floor_area_behavior_change(
   res_tb = building_data$residential,
   .home_behavior_change_pct = 1.00,
   .enviro_factors = enviro_factors
@@ -43,7 +43,7 @@ ghg.sp::calc_floor_area_behavior_change(
 }
 }
 \seealso{
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -59,4 +59,4 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
+\concept{buildings}

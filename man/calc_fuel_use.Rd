@@ -15,37 +15,34 @@ calc_fuel_use(
 )
 }
 \arguments{
-\item{tb_vmt}{\strong{Tibble}.
-Output VMT table}
+\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, given transportation mode.}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{\strong{Numeric}.
-Miles per Gallon for Mode.}
+\item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
-\item{.is_av}{\strong{Logical}.
-Whether the mode is AV. AV has a different
-MPG due to efficiency gains from automation of drive cycle.
+\item{.is_av}{logical, whether the mode is AV.
+AV has a different MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
 Calculate Use of Fuel in Thousands of Gallons or Thousands of kWh
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -53,10 +50,10 @@ Other Transportation:
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -67,4 +64,4 @@ Other Transportation:
 \code{\link{scen_walk_bike}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{Transportation}
+\concept{transportation}

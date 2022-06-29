@@ -16,46 +16,48 @@ calc_ghg_direct(
 )
 }
 \arguments{
-\item{tb_vmt}{\strong{Tibble}.
-Output VMT table}
+\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, given transportation mode.}
 
-\item{.fuel_type}{Current fuel type for mode.}
+\item{.fuel_type}{character, fuel type for given mode.}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{\strong{Numeric}.
-Miles per Gallon for Mode.}
+\item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
-\item{.is_av}{\strong{Logical}.
-Whether the mode is AV. AV has a different
-MPG due to efficiency gains from automation of drive cycle.
+\item{.is_av}{logical, whether the mode is AV.
+AV has a different MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names
+- \code{type}
+- \code{scenario}
+- \code{mode}
+- \code{class}
+- ...
 }
 \description{
 Calculate Transportation Direct Emissions
 }
 \seealso{
-Other GHG Emissions: 
+Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()}
 
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -63,10 +65,10 @@ Other Transportation:
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -77,5 +79,5 @@ Other Transportation:
 \code{\link{scen_walk_bike}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{GHG Emissions}
-\concept{Transportation}
+\concept{emissions}
+\concept{transportation}

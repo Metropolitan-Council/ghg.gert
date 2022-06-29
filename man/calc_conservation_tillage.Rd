@@ -20,10 +20,10 @@ calc_conservation_tillage(
 )
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.conservation_tillage_intervention}{\strong{Character}.
+\item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
 Default is \code{current_conservation_tillage}. The options are:
 * \code{"current_conservation_tillage"} it maintains the per county levels of conservation tillage
@@ -33,27 +33,27 @@ relative to the baseline year.
 * \code{"maximum_conservation_tillage"} it assumes that all agricultural land implements conservation
 tillage.}
 
-\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{\strong{Numeric}.
+\item{.w2w_diesel_emission_factor_kg_co2e_per_gal}{numeric,
 Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
 Default is \code{12.50}.
 * \verb{Hilman and Ramaswami, 2009}.}
 
-\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{\strong{Numeric}.
+\item{.avoided_emissions_tractor_use_mg_co2e_per_hectare}{numeric,
 Million grams of carbon dioxide equivalent (CO2e) per hectare.
 From \verb{United States Department of Agriculture}
 Default is \code{0.102}.}
 
-\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{\strong{Numeric}.
+\item{.agricultural_land_carbon_stock_mg_c_per_hectare}{numeric,
 Million grams of carbon (C) per hectare.
 From \href{https://doi.org/10.1073/pnas.1512542112}{\verb{Tran et al., 2015}}
 Default is \code{41}.}
 
-\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{\strong{Numeric}.
+\item{.maximum_soc_accumation_under_reduced_or_no_till_ag}{numeric,
 Maximum SOC acumulation per hectare under reduced or no till agriculture.
 Default is \code{1.54}.}
 
-\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric,
+a value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
@@ -65,15 +65,15 @@ returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 
-\item{.tree_planting_per_capita}{\strong{Numeric}.
+\item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
 
-\item{.tree_planting_per_hectare}{\strong{Numeric}.
+\item{.tree_planting_per_hectare}{numeric,
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -85,33 +85,34 @@ The options are:
 }}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-\code{calc_conservation_tillage()} calculates the impact of conservation tillage scenarios on carbon
+Calculates the impact of conservation tillage scenarios on carbon
 stocks by city/township
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_conservation_tillage(
-    tb = land_use_data,
-    .urban_form_scenario = "bau",
-    .conservation_tillage_intervention = "current_conservation_tillage",
-    .tree_planting_intervention = "tree_planting_on_all_pervious",
-    .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-    .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-    .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-    .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-    .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247,
-    .parking_lot_reduction_percentage = 0.8,
-    detail = FALSE)
- }
+calc_conservation_tillage(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+)
+}
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_land_by_development_type}()},
@@ -123,4 +124,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

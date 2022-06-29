@@ -15,25 +15,25 @@ calc_electrify_commercial_heating(
 )
 }
 \arguments{
-\item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}.}
 
-\item{.non_res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for heating water in commercial buildings.
 Default is \code{0.20}.}
 
-\item{.non_res_natural_gas_for_space_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for space heating in commercial buildings.
 Default is \code{0.69}.}
 
-\item{.grid_decarbonization_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric,
+a value between \code{0} and \code{1}.}
 
 \item{.enviro_factors}{}
 }
 \value{
-\strong{Tibble}
+\code{\link[tibble:tibble]{tibble::tibble()}}
 A table with columns \code{year}, \code{ctu_name}, \code{population},
 \code{residential_mwh},
 \code{residential_electricity_emissions_kg_co},
@@ -42,40 +42,40 @@ A table with columns \code{year}, \code{ctu_name}, \code{population},
 to reflect building electrification.
 }
 \description{
-\code{calc_electrify_commercial_heating} calculates
-the effect of electrifying
-commercial buildings on greenhouse gas emissions by city/township for the specified scenario.
+Calculates the effect of electrifying
+commercial buildings on greenhouse gas emissions by city/township
+for the specified scenario.
 }
 \examples{
 \dontrun{
-ghg.sp::calc_electrify_commercial_heating(
-    non_res_tb = calc_ghg_non_residential(
-          non_res_tb = building_data$non_residential,
-          non_res_tb_bau = building_data$non_residential,
-          .industrial_smart_grid_pct = 1,
-          .commercial_smart_grid_pct = 1,
-          .grid_decarbonization_pct = 0.8,
-          .smart_grid_energy_reduction_pct = 1,
-          .enviro_factors = enviro_factors,
-          .existing_high_efficiency_buildings_pct = 0.8
-    ),
+library(ghg.sp)
+calc_electrify_commercial_heating(
+  non_res_tb = calc_ghg_non_residential(
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
     .grid_decarbonization_pct = 0.8,
-    .electrified_buildings_pct = 0.40,
-    .non_res_natural_gas_for_water_heating_pct = 0.20,
-    .non_res_natural_gas_for_space_heating_pct = 0.69,
-    .boiler_to_heat_pump_efficiency_ratio = 1.59362,
-    .enviro_factors = enviro_factors
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 0.8
+  ),
+  .grid_decarbonization_pct = 0.8,
+  .electrified_buildings_pct = 0.40,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+  .enviro_factors = enviro_factors
 )
 }
 }
 \seealso{
-Other Commercial/Industrial: 
+Other commercial-industrial: 
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -91,5 +91,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
-\concept{Commercial/Industrial}
+\concept{buildings}
+\concept{commercial-industrial}

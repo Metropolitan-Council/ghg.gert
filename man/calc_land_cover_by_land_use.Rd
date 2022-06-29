@@ -7,10 +7,10 @@
 calc_land_cover_by_land_use(tb, .urban_form_scenario)
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -22,7 +22,7 @@ The options are:
 }}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A long table with the percent of land cover for each land use type for each city*/township
 }
 \description{
@@ -31,13 +31,14 @@ using the bridge table "land_cover_percentages_filled" for the selected land use
 }
 \examples{
 \dontrun{
-ghg.sp::calc_land_cover_by_land_use(
-     tb = land_use_data,
-     .urban_form_scenario = "bau")
+calc_land_cover_by_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+)
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -49,4 +50,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

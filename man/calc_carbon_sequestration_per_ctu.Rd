@@ -15,31 +15,30 @@ calc_carbon_sequestration_per_ctu(
 )
 }
 \value{
-\strong{Tibble}
+\code{\link[tibble:tibble]{tibble::tibble()}}
 }
 \description{
-\code{calc_carbon_sequestration_per_ctu} calculates the total carbon sequestration
+calculates the total carbon sequestration
 per hectares by land cover type by city/township.
 }
 \examples{
-
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_carbon_sequestration_per_ctu(
-     tb = land_use_data,
-     .urban_form_scenario = "bau",
-     .tree_planting_intervention = "tree_planting_on_all_pervious",
-     .tree_planting_per_capita = 0.26,
-     .tree_planting_per_hectare = 247,
-     .parking_lot_reduction_percentage = 0.80,
-     detail = FALSE
-     )
+calc_carbon_sequestration_per_ctu(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.80,
+  detail = FALSE
+)
 }
 
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
@@ -51,12 +50,12 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 
-Other GHG Emissions: 
+Other emissions: 
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()}
 }
-\concept{GHG Emissions}
-\concept{Land Use}
+\concept{emissions}
+\concept{land use}

@@ -3,8 +3,7 @@
 \docType{data}
 \name{naics_codes}
 \alias{naics_codes}
-\title{North American Industry Classification System (NAICS) and
-Local Employment Dynamics (LED) codes}
+\title{North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes}
 \format{
 Nested, named list
 \describe{
@@ -20,8 +19,7 @@ for the LED dataset}
 naics_codes
 }
 \description{
-North American Industry Classification System (NAICS) and
-Local Employment Dynamics (LED) codes
+North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes
 }
 \examples{
 library(ghg.sp)

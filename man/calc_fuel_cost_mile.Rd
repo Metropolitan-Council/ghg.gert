@@ -19,15 +19,15 @@ calc_fuel_cost_mile(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, given transportation mode.}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{\strong{Numeric}.
+\item{.miles_per_gallon}{numeric,
 Miles per gallon for current mode}
 
-\item{.fuel_cost_gallon}{\strong{Numeric}.
+\item{.fuel_cost_gallon}{numeric,
 Fuel cost per gallon for current mode}
 
 \item{.enviro_factors}{list of environmental factors.
@@ -40,7 +40,7 @@ a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_c
 Calculate Fuel Cost Per Mile
 }
 \seealso{
-Other Transportation: 
+Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
@@ -48,10 +48,10 @@ Other Transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{check_inputs}()},
-\code{\link{readline_check}()},
+\code{\link{run_scenario_transportation}()},
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
@@ -62,4 +62,4 @@ Other Transportation:
 \code{\link{scen_walk_bike}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{Transportation}
+\concept{transportation}

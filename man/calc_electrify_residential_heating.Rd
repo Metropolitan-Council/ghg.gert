@@ -15,40 +15,41 @@ calc_electrify_residential_heating(
 )
 }
 \arguments{
-\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
-\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of natural gas that is commonly used for water heating in residential
 buildings.}
 
-\item{.grid_decarbonization_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric,
+a value between \code{0} and \code{1}.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with output of electrify residential heating.
 }
 \description{
-\code{calc_electrify_residential_heating} calculates the impact of electrifying
+Calculates the impact of electrifying
 heat in the residential sector by city/township for the specified scenario.
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_electrify_residential_heating(
-     res_tb = calc_ghg_residential(
-          res_tb = building_data$residential,
-          .grid_decarbonization_pct = 0.80,
-          .enviro_factors = enviro_factors),
-     .additional_electrified_residential_buildings_pct = 0.45,
-     .res_natural_gas_for_space_heating_pct = 0.71,
-     .res_natural_gas_for_water_heating_pct = 0.24,
-     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
-     .grid_decarbonization_pct = 0.80,
-     .enviro_factors = enviro_factors
+calc_electrify_residential_heating(
+  res_tb = calc_ghg_residential(
+    res_tb = building_data$residential,
+    .grid_decarbonization_pct = 0.80,
+    .enviro_factors = enviro_factors
+  ),
+  .additional_electrified_residential_buildings_pct = 0.45,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+  .grid_decarbonization_pct = 0.80,
+  .enviro_factors = enviro_factors
 )
 }
 }
@@ -60,7 +61,7 @@ Other Residential:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_residential_renewable_ng}()}
 
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -76,5 +77,5 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
 \concept{Residential}
+\concept{buildings}

@@ -7,7 +7,7 @@
 calc_floor_area_leed(res_tb, .new_homes_leed_gold_pct, .enviro_factors)
 }
 \arguments{
-\item{.new_homes_leed_gold_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.5}}
 
@@ -15,14 +15,14 @@ Default is \code{0.5}}
 Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted \code{single_family_units} and
 \code{single_family_average_floor_area_sqft_ctu} records for column \code{var}
 when \code{year == 2040} relative to the residential inputs table.
 }
 \description{
-\code{calc_floor_area_leed()} adjusts single and multifamily average
+adjusts single and multifamily average
 floor area forecast in accordance with LEED reduction.
 }
 \details{
@@ -32,7 +32,7 @@ Uses the average single family floor area in 2018
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_floor_area_leed(
+calc_floor_area_leed(
   res_tb = building_data$residential,
   .new_homes_leed_gold_pct = 0.5,
   .enviro_factors = enviro_factors
@@ -41,7 +41,7 @@ ghg.sp::calc_floor_area_leed(
 
 }
 \seealso{
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -57,4 +57,4 @@ Other Buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
+\concept{buildings}

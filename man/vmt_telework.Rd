@@ -14,9 +14,6 @@ vmt_telework(.pass_tb, .mode, .telework_pct, .enviro_factors = enviro_factors)
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 }
-\value{
-
-}
 \description{
 Calculate telework multiplier
 }

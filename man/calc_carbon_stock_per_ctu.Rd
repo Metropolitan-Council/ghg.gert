@@ -20,10 +20,10 @@ calc_carbon_stock_per_ctu(
 )
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -34,16 +34,16 @@ The options are:
 \item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
 
-\item{.tree_planting_per_capita}{\strong{Numeric}.
+\item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
 
-\item{.tree_planting_per_hectare}{\strong{Numeric}.
+\item{.tree_planting_per_hectare}{numeric,
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric,
+a value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
@@ -56,34 +56,34 @@ for debugging.
 Default is \code{FALSE}.}
 }
 \value{
-
+\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-\code{calc_carbon_stock_per_ctu()} calculates the carbon stock per land cover type by city/township
+Calculates the carbon stock per land cover type by city/township
 under the selected scenario parameters
 }
 \examples{
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_carbon_stock_per_ctu(
-     tb = land_use_data,
-     .urban_form_scenario = "bau",
-     .tree_planting_intervention = "tree_planting_on_all_pervious",
-     .tree_planting_per_capita = 0.26,
-     .tree_planting_per_hectare = 247,
-     .parking_lot_reduction_percentage = 0.8,
-     .conservation_tillage_intervention = "current_conservation_tillage",
-     .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-     .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-     .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-     .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-     detail = FALSE
+calc_carbon_stock_per_ctu(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  detail = FALSE
 )
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
@@ -95,12 +95,12 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 
-Other GHG Emissions: 
+Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()}
 }
-\concept{GHG Emissions}
-\concept{Land Use}
+\concept{emissions}
+\concept{land use}

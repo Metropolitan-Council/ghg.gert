@@ -15,10 +15,10 @@ calc_parking_lot_land_cover(
 )
 }
 \arguments{
-\item{tb}{\strong{Tibble}.
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.urban_form_scenario}{\strong{Character}.
+\item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
@@ -29,17 +29,17 @@ The options are:
 \item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
 
-\item{.parking_lot_reduction_percentage}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric,
+a value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
 
-\item{.tree_planting_per_capita}{\strong{Numeric}.
+\item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
 
-\item{.tree_planting_per_hectare}{\strong{Numeric}.
+\item{.tree_planting_per_hectare}{numeric,
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
@@ -51,10 +51,10 @@ for debugging.
 Default is \code{FALSE}.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 }
 \description{
-\code{calc_parking_lot_land_cover()} recalculates the change in land cover types
+recalculates the change in land cover types
 by city when implementing a
 parking lot reduction intervention, the percent reduction of parking lot area is
 defined in the argument \code{.parking_lot_reduction_percentage}
@@ -63,19 +63,19 @@ defined in the argument \code{.parking_lot_reduction_percentage}
 \dontrun{
 library(ghg.sp)
 
-ghg.sp::calc_parking_lot_land_cover(
-      tb = land_use_data,
-      .urban_form_scenario = "bau",
-      .parking_lot_reduction_percentage = 0.8,
-      .tree_planting_intervention = "tree_planting_on_all_pervious",
-      .tree_planting_per_capita = 0.26,
-      .tree_planting_per_hectare = 247,
-      detail = FALSE
+calc_parking_lot_land_cover(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .parking_lot_reduction_percentage = 0.8,
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  detail = FALSE
 )
 }
 }
 \seealso{
-Other Land Use: 
+Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
@@ -87,4 +87,4 @@ Other Land Use:
 \code{\link{run_scenario_land_use}()},
 \code{\link{scen_green_infrastructure}()}
 }
-\concept{Land Use}
+\concept{land use}

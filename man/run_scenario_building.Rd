@@ -32,152 +32,149 @@ run_scenario_building(
 )
 }
 \arguments{
-\item{res_tb}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and the
+default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb}{\strong{Tibble}.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided.
 Dataset \code{building_data$non_residential} is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{res_tb_bau}{\strong{Tibble}.
-Data table with residential building attributes. Package provided.
-Dataset \code{building_energy$residential} is suitable and the default value.
-\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{res_tb} is used as the input for the decarbonization scenario.}
+\item{res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and
+the default value. \code{res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb_bau}{\strong{Tibble}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential} is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.enviro_factors}{list of environmental factors.
 Default is \code{enviro_factors}, included in this package.}
 
-\item{.electrified_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}.}
 
-\item{.non_res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for heating water in commercial buildings.
 Default is \code{0.20}.}
 
-\item{.non_res_natural_gas_for_space_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
 The percent of natural gas that is commonly used for space heating in commercial buildings.
 Default is \code{0.69}.}
 
-\item{.commercial_smart_grid_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
 The percentage of commercial buildings that would be on the smart grid for the
 specified scenario.
 Default is \code{1}.}
 
-\item{.industrial_smart_grid_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
 The percentage of industrial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
+pecified scenario. Default is \code{1}.}
 
-\item{.smart_grid_energy_reduction_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
-Default is \code{1}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
 
-\item{.new_homes_to_multifamily_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.50}.}
 
-\item{.existing_high_efficiency_buildings_pct}{\strong{Numeric}.
-A number between \code{0} and 1.
+\item{.existing_high_efficiency_buildings_pct}{numeric,
+a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0.8}.}
 
-\item{.home_behavior_change_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{1.00}.}
 
-\item{.single_family_floor_area_growth_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.single_family_floor_area_growth_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.
 Default is \code{0.05}.}
 
-\item{.new_homes_affected_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.
+\item{.new_homes_affected_pct}{numeric,
+a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
 Default is \code{0.30}.}
 
-\item{.new_homes_leed_gold_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.5}}
 
-\item{.existing_home_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
 Default is \code{0.80}.}
 
-\item{.existing_home_ultra_retrofit_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.20}.}
 
-\item{.res_natural_gas_for_water_heating_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of natural gas that is commonly used for water heating in residential
 buildings.}
 
-\item{.additional_electrified_residential_buildings_pct}{\strong{Numeric}. A number between \code{0} and \code{1}.
+\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
-\item{.grid_decarbonization_pct}{\strong{Numeric}.
-A number between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric,
+a value between \code{0} and \code{1}.}
 }
 \value{
-\strong{Tibble}.
+\code{\link[tibble:tibble]{tibble::tibble()}}.
 Returns a table with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 The table is the output of the building energy module, any modification to
 the inputs of the building energy module must be specified as an argument
 to the function \code{run_scenario_building()}
 }
 \description{
-\code{run_scenario_building} produces the outputs of the building energy module of the
-Metropolitan Council Greenhouse Gas Scenario Planning Tool by city/township for the specified scenario
+produces the outputs of the building energy module of the
+Metropolitan Council Greenhouse Gas Scenario Planning Tool by
+city/township for the specified scenario
 }
 \examples{
 \dontrun{
-run_scenario_building <-
-function(res_tb = building_data$residential,
-         non_res_tb = building_data$non_residential,
-         res_tb_bau = building_data$residential,
-         non_res_tb_bau = building_data$non_residential,
-         .enviro_factors = enviro_factors,
-         .electrified_buildings_pct = 0.40,
-         .non_res_natural_gas_for_water_heating_pct = 0.20,
-         .non_res_natural_gas_for_space_heating_pct =  0.69,
-         .boiler_to_heat_pump_efficiency_ratio =  1.59362,
-         .commercial_smart_grid_pct = 1.00,
-         .industrial_smart_grid_pct = 1.00,
-         .smart_grid_energy_reduction_pct = 1.00,
-         .new_homes_to_multifamily_pct = 0.50,
-         .existing_high_efficiency_buildings_pct = 0.80,
-         .home_behavior_change_pct = 1.00,
-         .single_family_floor_area_growth_pct = 0.05,
-         .new_homes_affected_pct = 0.30,
-         .new_homes_leed_gold_pct = 0.50,
-         .existing_home_retrofit_pct = 0.80,
-         .existing_home_ultra_retrofit_pct = 0.20,
-         .res_natural_gas_for_space_heating_pct = 0.71,
-         .res_natural_gas_for_water_heating_pct = 0.24,
-         .additional_electrified_residential_buildings_pct = 0.45,
-         .grid_decarbonization_pct = 1)
+
+library(ghg.sp)
+run_scenario_building(
+  res_tb = building_data$residential,
+  non_res_tb = building_data$non_residential,
+  res_tb_bau = building_data$residential,
+  non_res_tb_bau = building_data$non_residential,
+  .enviro_factors = enviro_factors,
+  .electrified_buildings_pct = 0.40,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+  .commercial_smart_grid_pct = 1.00,
+  .industrial_smart_grid_pct = 1.00,
+  .smart_grid_energy_reduction_pct = 1.00,
+  .new_homes_to_multifamily_pct = 0.50,
+  .existing_high_efficiency_buildings_pct = 0.80,
+  .home_behavior_change_pct = 1.00,
+  .single_family_floor_area_growth_pct = 0.05,
+  .new_homes_affected_pct = 0.30,
+  .new_homes_leed_gold_pct = 0.50,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .additional_electrified_residential_buildings_pct = 0.45,
+  .grid_decarbonization_pct = 1
+)
 }
 
 }
 \seealso{
-Other Buildings: 
+Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_commercial_heating}()},
@@ -193,4 +190,4 @@ Other Buildings:
 \code{\link{calc_residential_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Buildings}
+\concept{buildings}
