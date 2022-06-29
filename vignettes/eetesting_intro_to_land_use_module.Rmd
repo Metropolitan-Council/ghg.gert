@@ -3,7 +3,7 @@ title: "Introduction to the Green Infrastructure & Land Use Module"
 author: Mauricio Leon, Senior Researcher, Metropolitan Council
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to the Green Infrastructure & Land Use Module}
+  %\VignetteIndexEntry{Ellen-Edits Introduction to the Green Infrastructure & Land Use Module}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -54,10 +54,10 @@ All the functions for the Land Use Module are contained within the `ghg.sp` pack
 library(ghg.sp)
 library(knitr)
 library(councilR)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 
-dl_ctu <- FALSE
-
-if (dl_ctu == TRUE) {
   temp <- tempfile()
   download.file(
     "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_thrive_msp2040_com_des/gpkg_society_thrive_msp2040_com_des.zip",
@@ -77,14 +77,10 @@ if (dl_ctu == TRUE) {
     sf::st_drop_geometry() %>%
     ungroup() %>%
     transmute(ctu_name = CTU_NAME,
-           comdes = COMDESNAME) %>%
+              comdes = COMDESNAME) %>%
     mutate(ctu_name = if_else(ctu_name == "Credit River", "Credit River Twp.", ctu_name))
   fs::file_delete("society_thrive_msp2040_com_des.gpkg")
   
-  save(comdes, file = "./comdes.rda")
-} else {
-  load("./comdes.rda")
-}
 ```
 
 ## Land Use and Land Cover Data
@@ -142,22 +138,24 @@ land_use_data$ctu_forecast %>%
 test <- land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name")
 
-test %>% #filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
+test %>% 
+  filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
   group_split(metric) %>%
   purrr::map(
-  ~ggplot(aes(x = year, 
-              y = value), 
-          data = .) + 
-  geom_line(aes(group = ctu_name), col = "grey80") +
-    stat_summary(fun.data = mean_se, size = .25) +
-  facet_wrap(~comdes, scales = "free_y") +
-  theme_council_open() +
-    labs(y = "", x = "", col = "", fill = "", shape = "",
-         title = .$metric) +
-    theme(
-    legend.position = "bottom",
-    legend.text = element_text(size = 6),
-    legend.spacing.y = unit(0, 'cm')))
+    ~ggplot(aes(x = year, 
+                y = value), 
+            data = .) + 
+      geom_line(aes(group = ctu_name),
+                col = "grey80") +
+      stat_summary(fun.data = mean_se, size = .25) +
+      facet_wrap(~comdes, scales = "free_y") +
+      theme_council_open() +
+      labs(y = "", x = "", col = "", fill = "", shape = "",
+           title = .$metric) +
+      theme(
+        legend.position = "bottom",
+        legend.text = element_text(size = 6),
+        legend.spacing.y = unit(0, 'cm')))
 
 #some areas are losing people/jobs
 test %>%
