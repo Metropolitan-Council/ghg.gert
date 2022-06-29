@@ -27,10 +27,8 @@ usethis::use_data(land_use_data, overwrite = T)
 # land_use_data$carbon_stock_by_cover_type <-
 #   p_carbon_stock_by_cover_type
 
-#land_use_data$summed_land_use_2016 <- p_summed_land_use_2016
+# land_use_data$summed_land_use_2016 <- p_summed_land_use_2016
 
 # land_use_data$ctu_land_use_hectares <- t_ctu_land_use_hectares
 
 # land_use_data$land_cover_percentages <- p_land_cover_percentages
-
-

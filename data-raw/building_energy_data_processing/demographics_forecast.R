@@ -43,7 +43,7 @@ p_county_average_annual_growth_multifamily_sqft <-
 ## -------------------------------------------------------------------------------------------
 p_county_average_floor_area_multifamily_forecast <-
   p_county_average_floor_area_multifamily %>%
-  left_join(p_county_average_annual_growth_multifamily_sqft, by="co_name") %>%
+  left_join(p_county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
   mutate(
     value =
       case_when(
@@ -100,7 +100,7 @@ p_ctu_emp_forecast <-
       )
   ) %>%
   group_by(ctu_name, year, metric) %>%
-  summarise(value = sum(emp, na.rm = T), .groups="keep")
+  summarise(value = sum(emp, na.rm = T), .groups = "keep")
 
 
 ## ----housing stock--------------------------------------------------------------------------
@@ -115,8 +115,8 @@ p_housing_stock_ctu_forecast <- t_forecast_lu_ctu %>%
 ## ----average building area single family----------------------------------------------------
 p_ctu_average_floor_area_single_family_forecast <-
   p_ctu_average_floor_area_single_family %>%
-  left_join(t_ctu_county, by="ctu_name") %>%
-  left_join(p_county_average_annual_growth_single_family_sqft, by="co_name") %>%
+  left_join(t_ctu_county, by = "ctu_name") %>%
+  left_join(p_county_average_annual_growth_single_family_sqft, by = "co_name") %>%
   select(-co_name) %>%
   group_by(ctu_name) %>%
   mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%
@@ -138,8 +138,8 @@ p_ctu_average_floor_area_single_family_forecast <-
 ## -------------------------------------------------------------------------------------------
 p_ctu_average_floor_area_multifamily_forecast <-
   p_ctu_average_floor_area_multifamily %>%
-  left_join(t_ctu_county, by="ctu_name") %>%
-  left_join(p_county_average_annual_growth_multifamily_sqft, by="co_name") %>%
+  left_join(t_ctu_county, by = "ctu_name") %>%
+  left_join(p_county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
   select(-co_name) %>%
   group_by(ctu_name) %>%
   mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%

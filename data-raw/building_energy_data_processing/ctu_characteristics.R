@@ -17,8 +17,10 @@ p_ctu_characteristics_forecast %>%
 
 ctu_characteristics <- p_ctu_characteristics_forecast %>%
   as_tibble() %>%
-  pivot_wider(names_from = metric,
-              values_from = value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  ) %>%
   select(
     ctu_name,
     year,
@@ -31,8 +33,10 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
   ) %>%
   group_by(ctu_name, year) %>%
   bind_rows(p_ctu_characteristics %>%
-              pivot_wider(names_from = metric,
-                          values_from = value))
+    pivot_wider(
+      names_from = metric,
+      values_from = value
+    ))
 
 
 # join with residential -----
@@ -96,7 +100,7 @@ ctu_w_nonres <- ctu_w_res %>%
 # finish up -----
 
 residential <- ctu_w_nonres %>%
-  mutate(metric=recode(metric, "SFD_Units"="single_family_units", "MF_Units"="multifamily_units")) %>%
+  mutate(metric = recode(metric, "SFD_Units" = "single_family_units", "MF_Units" = "multifamily_units")) %>%
   filter(metric %in% c(
     "households",
     "population",
@@ -132,7 +136,6 @@ residential <- ctu_w_nonres %>%
 non_residential <- ctu_w_nonres %>%
   filter(metric %in% c(
     "population",
-
     "industrial_jobs",
     "commercial_jobs",
     "total_jobs",

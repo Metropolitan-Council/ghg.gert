@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------------------------------------------------
 v_scenario <-
   t_scenario_parameters %>%
-  dplyr::filter(scenario_description_2 ==  params$scenario)
+  dplyr::filter(scenario_description_2 == params$scenario)
 
 
 ## ------------------------------------------------------------------------------------------------------------

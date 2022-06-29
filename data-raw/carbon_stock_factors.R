@@ -21,6 +21,3 @@ carbon_stock_factors <- list(
 
 
 usethis::use_data(carbon_stock_factors, overwrite = TRUE)
-
-
-

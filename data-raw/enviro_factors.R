@@ -33,7 +33,6 @@ enviro_factors <- list(
   BEHAVIOR_CHANGE_REDUCTION_PCT = 0.11,
   SMART_GRID_EFFICIENCY_PCT = 0.11,
   THERM_TO_MWH = 0.0293
-
 )
 
 

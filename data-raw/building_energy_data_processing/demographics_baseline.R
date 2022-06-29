@@ -131,7 +131,7 @@ p_ctu_commercial_jobs <-
 ## -------------------------------------------------------------------------------------------
 p_ctu_housing_stock <-
   t_forecast_lu_ctu %>%
-  filter(metric %in% c("SFD_Units", "MF_Units"))  %>%
+  filter(metric %in% c("SFD_Units", "MF_Units")) %>%
   filter(year == 2018) %>%
   group_by(ctu_name, year)
 
@@ -169,7 +169,7 @@ p_ctu_average_floor_area_multifamily <-
 ## ----------
 # TODO resolve CTUs that fall in more than one county
 p_ctu_county <- p_county_characteristics %>%
-  left_join(t_ctu_county, by="co_name") %>%
+  left_join(t_ctu_county, by = "co_name") %>%
   filter(metric == "multifamily_average_floor_area_sqft_county") %>%
   group_by(ctu_name, year, metric) %>%
   select(ctu_name, year, metric, value) %>%
