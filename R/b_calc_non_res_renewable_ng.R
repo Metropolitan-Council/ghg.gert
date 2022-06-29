@@ -1,6 +1,6 @@
 #' @title Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions
 #' @family Commercial/Industrial
-#' @family Buildings
+#' @family buildings
 #'
 #' @description Calculates the impact of transitioning to
 #' renewable natural gas on greenhouse gas emissions by city/township for the

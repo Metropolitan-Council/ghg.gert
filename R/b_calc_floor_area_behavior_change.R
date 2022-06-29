@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area Energy Intensity Reduction from Behavior Change
-#' @family Buildings
+#' @family buildings
 #'
 #' @description adjusts residential floor area
 #'      by city/township based on proportion of households that change

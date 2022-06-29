@@ -1,5 +1,5 @@
 #' @title Calculate Vehicle Miles Traveled by Mode and Power Train
-#' @family Transportation
+#' @family transportation
 #'
 #' @param .scenario **Character**
 #'      Scenario name. JUST A LABEL

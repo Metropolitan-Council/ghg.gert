@@ -1,5 +1,5 @@
 #' @title Run Building Energy Scenarios
-#' @family Buildings
+#' @family buildings
 #'
 #' @description produces the outputs of the building energy module of the
 #'     Metropolitan Council Greenhouse Gas Scenario Planning Tool by

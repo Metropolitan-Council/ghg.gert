@@ -1,6 +1,6 @@
 #' @title Scenario for Walk and Bike
-#' @family Passenger
-#' @family Transportation
+#' @family passenger
+#' @family transportation
 #'
 #' @description calculates scenario for walk and bike.
 #'

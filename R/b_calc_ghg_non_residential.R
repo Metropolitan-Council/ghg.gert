@@ -1,7 +1,7 @@
 #' @title Calculate Non-Residential Building Emissions
-#' @family Commercial/Industrial
-#' @family Buildings
-#' @family GHG Emissions
+#' @family commercial-industrial
+#' @family buildings
+#' @family emissions
 #'
 #' @description calculates total energy demand and emissions from
 #' workers for industrial and commercial sectors by city/township for the specified scenario.

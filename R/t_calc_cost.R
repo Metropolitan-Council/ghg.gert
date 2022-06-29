@@ -1,5 +1,5 @@
 #' @title Cost Estimates in Millions of US Dollars
-#' @family Transportation
+#' @family transportation
 #'
 #' @description estimates the cost in US dollars of the current mode distribution.
 #'

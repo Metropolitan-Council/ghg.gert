@@ -1,5 +1,5 @@
 #' @title Calculate dynamic ride sharing stock sales
-#' @family Transportation
+#' @family transportation
 #'
 #' @inheritParams calc_vmt_forecast
 #' @param tb input table

@@ -1,6 +1,6 @@
 #' @title Calculate Floor Area Growth
 #' @family Residential
-#' @family Buildings
+#' @family buildings
 #'
 #' @description  adjusts single and multifamily average floor area
 #'      forecast in residential table. Allows the user to specify the percentage

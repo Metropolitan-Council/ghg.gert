@@ -1,5 +1,5 @@
 #' @title  Calculate strategy effects on vehicle miles traveled.
-#' @family Transportation
+#' @family transportation
 #' @family VMT Effects
 #'
 #' @description calculates annual energy outlook (AEO)

@@ -1,6 +1,6 @@
 #' @title Adjust fleet power train distribution before running scenario
 #' @family Stock Adjustments
-#' @family Transportation
+#' @family transportation
 #'
 #' @description  Match what the user input for sales in the final forecast year rather
 #'     than the defaults from MA3TFleet held fixed in all cases.

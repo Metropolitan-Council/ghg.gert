@@ -1,5 +1,5 @@
 #' @title Calculate Land Cover by City/Township
-#' @family Land Use
+#' @family land use
 #'
 #' @description  takes the output of the function
 #'      `calc_land_cover_by_land_use()` and

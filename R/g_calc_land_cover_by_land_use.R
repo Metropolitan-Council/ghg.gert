@@ -1,5 +1,5 @@
 #' @title Calculate Land Cover by Land Use by City/Township
-#' @family Land Use
+#' @family land use
 #'
 #' @description  `calc_land_cover_by_land_use()` calculates the land cover by land use type for each community,
 #'      using the bridge table "land_cover_percentages_filled" for the selected land use scenario.

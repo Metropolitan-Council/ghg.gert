@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area LEED
-#' @family Buildings
+#' @family buildings
 #'
 #' @description adjusts single and multifamily average
 #' floor area forecast in accordance with LEED reduction.

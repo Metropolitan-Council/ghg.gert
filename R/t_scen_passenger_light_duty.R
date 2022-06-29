@@ -1,6 +1,6 @@
 #' @title Calculate Scenario for Passenger Light-Duty Vehicles
-#' @family Passenger
-#' @family Transportation
+#' @family passenger
+#' @family transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast

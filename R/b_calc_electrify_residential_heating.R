@@ -1,6 +1,6 @@
 #' @title Calculate Strategy Electrify Residential Heating
 #' @family Residential
-#' @family Buildings
+#' @family buildings
 #' @description Calculates the impact of electrifying
 #' heat in the residential sector by city/township for the specified scenario.
 #'

@@ -1,6 +1,6 @@
 #' @title Calculate Residential Renewable Natural Gas
 #' @family Residential
-#' @family Buildings
+#' @family buildings
 #'
 #' @description calculates the impact on residential
 #'       building emissions from transitioning natural gas to renewable natural gas.

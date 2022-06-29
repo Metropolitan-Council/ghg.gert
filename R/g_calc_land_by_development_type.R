@@ -1,5 +1,5 @@
 #' @title Calculate Land by Development Type
-#' @family Land Use
+#' @family land use
 #'
 #' @description calculates the hectares of
 #'      land by different development types

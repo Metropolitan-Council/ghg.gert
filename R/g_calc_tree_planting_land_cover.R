@@ -1,5 +1,5 @@
 #' @title Calculate Tree Planting Land Cover by City/Township
-#' @family Land Use
+#' @family land use
 #'
 #' @description recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.

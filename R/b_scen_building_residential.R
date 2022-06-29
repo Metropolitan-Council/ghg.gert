@@ -1,5 +1,5 @@
 #' @title Calculate Residential Building Strategies
-#' @family Buildings, Residential
+#' @family buildings, Residential
 #'
 #' @description calculates the effect of the residential building
 #'     strategies within the building energy module.

@@ -1,6 +1,6 @@
 #' @title Calculate Scenario for Freight Trucks
 #' @family Freight
-#' @family Transportation
+#' @family transportation
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast

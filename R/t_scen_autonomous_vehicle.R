@@ -1,6 +1,6 @@
 #' @title Calculate Scenario for Autonomous Vehicles (AVs)
-#' @family Transportation
-#' @family Passenger
+#' @family transportation
+#' @family passenger
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast

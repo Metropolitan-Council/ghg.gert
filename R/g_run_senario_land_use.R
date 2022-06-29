@@ -1,5 +1,5 @@
 #' @title Run Scenario Land Use
-#' @family Land Use
+#' @family land use
 #'
 #' @inheritParams scen_green_infrastructure
 #'

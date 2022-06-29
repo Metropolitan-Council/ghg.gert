@@ -1,5 +1,5 @@
 #' Calculate Use of Fuel in Thousands of Gallons or Thousands of kWh
-#' @family Transportation
+#' @family transportation
 #'
 #' @inheritParams calc_ghg_direct
 #' @inheritParams calc_vmt_forecast

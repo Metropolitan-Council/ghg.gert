@@ -1,5 +1,5 @@
 #' @title Calculate Conservation Tillage by City/Township
-#' @family Land Use
+#' @family land use
 #'
 #' @description Calculates the impact of conservation tillage scenarios on carbon
 #'      stocks by city/township

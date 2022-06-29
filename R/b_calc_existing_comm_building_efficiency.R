@@ -1,6 +1,6 @@
 #' @title Calculate Existing Commercial Buildings Efficiency
-#' @family Commercial/Industrial
-#' @family Buildings
+#' @family commercial-industrial
+#' @family buildings
 #'
 #' @description helps to calculate the reduced
 #'      emissions from implementing high energy efficiency retrofits to existing buildings.

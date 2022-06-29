@@ -1,5 +1,5 @@
 #' @title Prepare Green Infrastructure Module
-#' @family Land Use
+#' @family land use
 #'
 #' @description  generates the outputs of the land use and green
 #' infrastructure module.

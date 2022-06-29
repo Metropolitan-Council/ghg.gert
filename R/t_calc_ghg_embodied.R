@@ -1,6 +1,6 @@
 #' @title Calculate Embodied (Indirect) Emissions
-#' @family GHG Emissions
-#' @family Transportation
+#' @family emissions
+#' @family transportation
 #'
 #' @param .sales_mode character,
 #'     Sales name for calculation of embodied emissions of new vehicles.

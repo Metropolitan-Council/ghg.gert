@@ -1,5 +1,5 @@
 #' @title Calculate Scenario Land Use
-#' @family Land Use
+#' @family land use
 #'
 #' @description Calculates the land use type in hectares
 #'       for all cities/townships for the selected scenario.

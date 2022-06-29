@@ -1,6 +1,6 @@
 #' @title Calculate Dynamic Ride Sharing VMT
 #' @family Dynamic Ride Share
-#' @family Transportation
+#' @family transportation
 #'
 #' @description Dynamic ride sharing vehicle miles traveled is calculated by population,
 #'     not existing and projected VMT.

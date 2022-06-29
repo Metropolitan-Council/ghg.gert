@@ -1,6 +1,6 @@
 #' @title Calculate Scenario Building Non-Residential
-#' @family Commercial/Industrial
-#' @family Buildings
+#' @family commercial-industrial
+#' @family buildings
 #'
 #' @description compiles all the strategies related to
 #' non-residential buildings.

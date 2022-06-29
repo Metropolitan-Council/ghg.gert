@@ -1,6 +1,6 @@
 #' @title Calculate Strategy Electrify Commercial Heating
-#' @family Commercial/Industrial
-#' @family Buildings
+#' @family commercial-industrial
+#' @family buildings
 #'
 #' @description Calculates the effect of electrifying
 #'     commercial buildings on greenhouse gas emissions by city/township

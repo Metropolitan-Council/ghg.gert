@@ -1,6 +1,6 @@
 #' @title Calculate Transportation Direct Emissions
-#' @family GHG Emissions
-#' @family Transportation
+#' @family emissions
+#' @family transportation
 #'
 #' @param tb_vmt [tibble::tibble()], output VMT table
 #' @param .mode character, given transportation mode.

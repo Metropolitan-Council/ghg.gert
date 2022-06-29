@@ -1,5 +1,5 @@
 #' @title Calculate Floor Area Retrofit
-#' @family Buildings
+#' @family buildings
 #'
 #' @description adjusts single and multifamily average
 #' floor area forecast under the assumptio of energy use reduction due to home

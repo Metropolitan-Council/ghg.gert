@@ -1,6 +1,6 @@
 #' @title Calculate Affordable Floor Area Effects
 #' @family Residential
-#' @family Buildings
+#' @family buildings
 #'
 #' @description  Calculates forecasted reduction in single family
 #' floor area from increased energy prices by city/township.

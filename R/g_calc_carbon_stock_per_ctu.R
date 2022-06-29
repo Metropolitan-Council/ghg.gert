@@ -1,6 +1,6 @@
 #' @title Calculate Carbon Stock by City/Township
-#' @family Land Use
-#' @family GHG Emissions
+#' @family land use
+#' @family emissions
 #'
 #' @description Calculates the carbon stock per land cover type by city/township
 #'      under the selected scenario parameters

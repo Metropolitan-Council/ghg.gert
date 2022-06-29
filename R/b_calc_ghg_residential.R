@@ -1,7 +1,7 @@
 #' @title Calculate Residential Building Emissions
-#' @family Buildings
+#' @family buildings
 #' @family Residential
-#' @family GHG Emissions
+#' @family emissions
 #'
 #' @description estimates total energy demand
 #'      and emissions from the residential building sector by city/township

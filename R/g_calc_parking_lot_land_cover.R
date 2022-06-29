@@ -1,5 +1,5 @@
 #' @title Calculate Parking Lot Intervention Effect on Land Cover
-#' @family Land Use
+#' @family land use
 #'
 #' @description recalculates the change in land cover types
 #'      by city when implementing a

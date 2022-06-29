@@ -1,5 +1,5 @@
 #' @title Calculate AV stock sales
-#' @family Transportation
+#' @family transportation
 #' @family Autonomous Vehicles
 #'
 #' @description Replaces both sales and stock because need to replace

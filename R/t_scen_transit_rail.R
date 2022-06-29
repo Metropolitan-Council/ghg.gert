@@ -1,6 +1,6 @@
 #' @title Calculate Scenario for Passenger Rail
-#' @family Passenger
-#' @family Transportation
+#' @family passenger
+#' @family transportation
 #'
 #'
 #' @inheritParams run_scenario_transportation
