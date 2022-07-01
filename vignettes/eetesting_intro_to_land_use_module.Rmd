@@ -1,63 +1,36 @@
 ---
-title: "Introduction to the Green Infrastructure & Land Use Module"
-author: Mauricio Leon, Senior Researcher, Metropolitan Council
+title: "Implications of Green Infrastructure & Land Use"
+author: Ellen
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Ellen-Edits Introduction to the Green Infrastructure & Land Use Module}
+  %\VignetteIndexEntry{Implications of Green Infrastructure & Land Use}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-## Background
-
-The *Metropolitan Council Greenhouse Gas Scenario Planning Tool* estimates business-as-usual greenhouse gas emissions and greenhouse gas mitigation strategies by city/township for the Twin Cities Region. The tool covers greenhouse gas emissions from the transportation, building energy, and land use sectors.
-
-## Land Use & Green Infrastructure Module
-
-The Land Use & Green Infrastructure Module of the *Metropolitan Council Greenhouse Gas Scenario Planning Tool* 
-consists of a modified version of the *Zero Carbon Calculator for Communities* created by the Sustainable Healthy 
-Cities Network (SHCN). The original concept of the tool was provided by SHCN as a Microsoft Excel Spreadsheet submitted to the Metropolitan Council on October of 2021, which 
-was later adapted into an R Package. 
-
-The module allows users to explore strategies for decarbonization within the land use and greenery of communities.
-
-## Strategies
-
-The GHG mitigation strategies included in the Land Use & Green Infrastructure Module include:
-
-
-1. **Urban Form (LU.1)**: The impact of changing the urban form (the land use and land cover composition) of the city/township to more compact residential and mixed use development. Reduction of greenhouse gas emissions occurs when there is more land available to greenery rather than impervious surfaces. 
-2. **Increase Tree Canopy (LU.2)**: The impact of increasing the tree canopy area of the city/township by a given amount. For example, what is the effect of planting trees on all pervious surfaces available in the city/township. 
-3. **Reduced Parking Lot Area (LU3)**: The impact of reducing the parking lot area of the city/township by a given percentage. Reducing parking lot increases the availability of surface area for tree planting. 
-4. **Conservation Tillage (LU4)**: The impact of conservation tillage on the emissions of agricultural land of the city/township. Sustainable agriculture practice can have a significant effect on a city /township emissions. 
-
-Some key concept to understand the Land Use Module are the following:
-
-* Land Use
-* Land Cover
-* Conservation Tillage
-* Development Types
-* Exurban Development
-* Urban Infill Development
-* Urban Expansion Development 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>")
 options(rmarkdown.html_vignette.check_title = FALSE)
-```
 
-# Techical Walkthrough
-
-All the functions for the Land Use Module are contained within the `ghg.sp` package.
-```{r setup}
 library(ghg.sp)
 library(knitr)
 library(councilR)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(tidyverse)
+```
 
+
+## Implications of Land Use & Green Infrastructure Module
+
+This document tests and synthesizes some outcomes of the land use and green infrastructure modules. A compliment to the introduction vignette; think of the introduction vignette as being the textbook "chapter," and this implications vignette is the "worked examples" at the end of the chapter.  
+
+For simplicity, most implications will be aggregated at the community designation level which is a framework for organizing the communities across the region into broad groups. 
+
+
+```{r commmunity-designations}
   temp <- tempfile()
   download.file(
     "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_thrive_msp2040_com_des/gpkg_society_thrive_msp2040_com_des.zip",
@@ -65,12 +38,11 @@ library(tidyr)
   )
   comdes <-
     sf::read_sf(unzip(temp, "society_thrive_msp2040_com_des.gpkg")) %>%
-    # sf::st_drop_geometry() %>% count(CTU_NAME) %>% filter(n > 1) #there are some ctus with multiple designations; get the biggest one
     group_by(CTU_NAME) %>%
-    mutate(max_area = max(Shape_Area)) %>%# filter(CTU_NAME %in% c("Empire Twp.", "Independence"))
-    mutate(flag = case_when(CTU_NAME %in% c("Empire Twp.", "Independence") & 
+    mutate(max_area = max(Shape_Area)) %>% #there are some ctus with multiple designations; assign the designation to the most land area
+    mutate(flag = case_when(CTU_NAME %in% c("Empire Twp.", "Independence") &  #not the biggest land area
                               COMDESNAME == "Emerging Suburban Edge" ~ 1,
-                            CTU_NAME %in% c("Empire Twp.", "Independence") & 
+                            CTU_NAME %in% c("Empire Twp.", "Independence") & #not the biggest land area
                               COMDESNAME != "Emerging Suburban Edge" ~ NA_real_,
                             Shape_Area == max_area ~ 1)) %>%
     filter(flag == 1) %>%
@@ -85,41 +57,22 @@ library(tidyr)
 
 ## Land Use and Land Cover Data
 
-The package provided `land_use_data.rda` dataset is required for the land use module to run.
-To explore the dataset, run the following command:
-`ghg.sp::land_use_data`.
-
-The source of these tables is the `Emissions` database of the Metropolitan Council. 
-
-Most of these tables are derived from GIS analysis of the 2016 Generalized Land Use as well as the Land Cover of the Metropolitan Region. 
-
-The following code provides a list of the tables within the `land_use_data` dataset.
-```{r}
-names(land_use_data) %>%
-  kable(col.names = "tables within `land_use_data`")
-```
-
 ### Table Descriptions
 The following is a description of the content of all input tables of the land use module, which are
 contained in the `land_use_data` dataset.
 
 **$ctu_county**: 
 Table shows the relationship between city/townships and county. 
-*For example: What county is Lake Elmo within?*
+
+*Are there any city/townships which span counties?*
+
 ```{r echo=FALSE}
 land_use_data$ctu_county %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
-  kable()
+  count(ctu_name) %>%
+  filter(n > 1)
 
-# # ee test
-# library(tidyverse); library(ghg.sp)
-# land_use_data$ctu_county %>%
-#   count(ctu_name) %>%
-#   filter(n > 1)
-# 
-# land_use_data$ctu_county %>% 
-#   filter(ctu_name == "St. Anthony")
+land_use_data$ctu_county %>%
+  filter(ctu_name == "St. Anthony")
 ```
 
 **$ctu_forecast**: 
