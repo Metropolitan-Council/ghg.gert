@@ -151,6 +151,7 @@ land_use_data$ctu_forecast %>%
 
 TODO: what checks should be done here?
 
+*Test: why all scneario_description_1 have exurban_development ==0 ?*
 
 ```{r echo=FALSE}
 land_use_data$scenario_parameters %>%
@@ -173,6 +174,11 @@ if (nrow(
 } else {
   print("Land cover sums to either 0% or 100%.")
 }
+```
+
+```{r}
+#| fig.width = 6,
+#| fig.height = 4
 
 land_use_data$land_cover_percentages_filled %>% 
   group_by(ctu_name) %>%
@@ -191,14 +197,15 @@ land_use_data$land_cover_percentages_filled %>%
 
 TODO: Does this make sense as-is or is some post-processing in order?
 
-1) Is it okay that some descriptions have NO data (like railway)? Should these be zeros instead of NA's?
-2) Should agricultural land cover get set to zero in non-agricultural descriptions?
-3) Should open_water description be filled with 100% water land cover? 
+1) Is it okay that some descriptions have NO data (like railway)? 
+2) It seems like zero may be more appropriate than NA's - update those?
+3) Should agricultural land cover get set to zero in non-agricultural descriptions (i.e., why is agricultural land cover in "retail and other commercial" land use)?
+4) Should open_water description be filled with 100% water land cover? 
 
 ```{r echo=FALSE}
 #| fig.cap = "Lake Elmo land cover.",
 #| fig.width = 7,
-#| fig.height = 6
+#| fig.height = 8
 
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
@@ -208,7 +215,13 @@ land_use_data$land_cover_percentages_filled %>%
   theme_council_open() +
   coord_flip() +
   labs(x = "") +
-  facet_wrap(~ctu_name)
+  facet_wrap(~ctu_name) +
+  theme(legend.position = "bottom") +
+    guides(
+    col = guide_legend(nrow = 4, byrow = TRUE),
+    fill = guide_legend(nrow = 4, byrow = TRUE),
+    shape = guide_legend(nrow = 4, byrow = TRUE)
+  )
 ```
 
 *Test: What does land cover look like by community designation?*
@@ -220,11 +233,12 @@ TODO: Are we good here or need to do post processing?
 3) One agricultural community has 100% of single_family_attached land use being "agricultural" land cover? Should things like this get reclassified?
 4) It looks like "water" land cover NEVER makes up any of the "open_water" land use? Should that get changed??
 5) What else does this figure show that might be indicative of some needed post processing? 
+6) Why do agricultural communities have railway AND major_railway land uses? Can these two be combined?
 
 ```{r}
 #| fig.cap = "Land cover by community designation.",
-#| fig.width = 7,
-#| fig.height = 8
+#| fig.width = 8,
+#| fig.height = 12
 
 land_use_data$land_cover_percentages_filled %>%
     full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
@@ -236,20 +250,131 @@ land_use_data$land_cover_percentages_filled %>%
   # theme(axis.text = element_text(angle = 40)) +
   facet_wrap(~comdes) +
   coord_flip() +
-  scale_color_brewer(palette = "Paired")
+  scale_color_brewer(palette = "Paired") +
+  theme(legend.position = "bottom") +
+    guides(
+    col = guide_legend(nrow = 4, byrow = TRUE),
+    fill = guide_legend(nrow = 4, byrow = TRUE),
+    shape = guide_legend(nrow = 4, byrow = TRUE)
+  )
 
 ```
 
 
 **$land_composition_ctu**: 
 Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
-*For example: What percentage or what number of hectares of exurban development land area corresponds to parking lot surfaces within agricultural in the city of Lake Elmo for the forecast year 2040?*
-```{r echo=FALSE}
+
+*Test: How does Lake Elmo's land use/cover change based on the type of development?*
+
+1) If we look only at the land use/covers which change from 2016 to 2040, the "exurban development" type doesn't affect the percent of ANY land use/cover in Lake Elmo. Is there a multiplier / parameter missing somewhere? 
+2) Does it make sense that "urban_infill" only impacts "railway" and "retail_and_other_commercial" while the "urban_expansion" doesn't affect those two land cover/uses?
+
+```{r}
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(year == 2040) %>%
-  head(., n = 60) %>%
+  select(-total_hectares, -hectares) %>%
+  pivot_wider(names_from = year, values_from = percent) %>%
+  mutate(change = `2040` - `2016`) %>%
+  filter(change != 0) %>%
   kable()
+```
+*Test: Do the different development types change land use/cover in logical ways?*
+
+1) Urban Expansion makes Lake Elmo go from less than 5% single family detached homes in 2016 to over 80% single family detached homes in 2040. It seems like either the 2016 number could be an underestimate, or the 2040 number is an over estimate - maybe check on that? Does it make sense that urban expansion would "consume" all "park_recreational_or_preserve"? I can see consumption of agricultural and undeveloped land, but based on what I know from Paul, the parks stay parks. 
+
+```{r echo=FALSE}
+#| fig.cap = "Development changes Lake Elmo land use/cover.",
+#| fig.width = 8,
+#| fig.height = 6
+
+land_use_data$land_composition_ctu %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = as.character(year), y = percent, fill = description_2)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~development_name) +
+  theme_council_open() +
+  labs(y = "", x = "",
+       title = "Lake Elmo",
+       subtitle = "All land cover/uses") 
+
+land_use_data$land_composition_ctu %>%
+  dplyr::filter(ctu_name == "Lake Elmo",
+                percent >= .05) %>%
+  ggplot(aes(x = as.character(year), y = percent, fill = description_2)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~development_name) +
+  theme_council_open() +
+  labs(y = "", x = "",
+       title = "Lake Elmo",
+      subtitle = "For land cover/uses which make up 5% or more") +
+  scale_fill_brewer(palette = "Paired")
+
+```
+
+*Test: What about development scenarios on other communities?*
+
+1) Brooklyn Center is showing up twice in this `land_use_data$land_composition_ctu` database...please update so there's only one value for each year/develpoment_name/description_2 for Brooklyn Center so that we know which value to refer to!
+
+```{r echo=FALSE}
+
+land_use_data$land_composition_ctu %>%
+  select(-total_hectares, -percent) %>%
+    dplyr::group_by(ctu_name, development_name, description_2, year) %>%
+    dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+    dplyr::filter(n > 1L) %>%
+  kable()
+
+```
+
+
+So EXCLUDING Brooklyn Center and looking at all other communities (and onlythe land uses/covers which changed by 5% or more):
+
+1) Urban infill only changes retail and railway in all communities? 
+2) Should urban expansion change (decrease) airport land use/cover in urban center areas (bu over 50%)? It seems like this values should be pretty constant.
+3) Under what conditions does urban expansion decrease single family attached, detached, and multifamily residential? In some instances these values are below zero indicating LOSS of this land cover/use.
+
+```{r}
+#| fig.cap = "Development changes Lake Elmo land use/cover.",
+#| fig.width = 8,
+#| fig.height = 6
+
+  land_use_data$land_composition_ctu %>%
+  select(-total_hectares, -hectares) %>%
+  filter(ctu_name != "Brooklyn Center") %>% #filter(description_2 == "farmstead") %>%
+  pivot_wider(names_from = year, values_from = percent) %>%
+  mutate(change = `2040` - `2016`) %>%
+  filter(abs(change) >= .05) %>%
+  left_join(comdes, by = "ctu_name") %>%
+  ggplot(aes(x = description_2, y = change, col = comdes, group = ctu_name)) +
+  geom_point()+
+  facet_wrap(~development_name, scales = "free") +
+  coord_flip() +
+  theme_council_open() +
+  scale_color_brewer(palette = "Paired") +
+  theme(legend.position = "bottom") +
+  geom_hline(yintercept = 0) +
+    guides(
+    col = guide_legend(nrow = 4, byrow = TRUE),
+    fill = guide_legend(nrow = 4, byrow = TRUE),
+    shape = guide_legend(nrow = 4, byrow = TRUE)
+  ) +
+  labs(y = "Change in percent of land use/cover from 2016 to 2040\n(positive values indicate EXPANSION of land use type by 2040,\nnegative values indicate LOSS of land use type by 2040", x = "")
+
+
+```
+
+4) Why do communities gain farmstead with urban expansion? It seems like agricultural should be lost, especially if the land use/cover of farmstead was zero in 2016. 
+
+```{r}
+land_use_data$land_composition_ctu %>%
+  select(-total_hectares, -hectares) %>%
+  filter(ctu_name != "Brooklyn Center") %>% filter(description_2 == "farmstead") %>%
+  pivot_wider(names_from = year, values_from = percent) %>%
+  mutate(change = `2040` - `2016`) %>%
+  filter(abs(change) >= .05, `2016` == 0) %>%
+  left_join(comdes, by = "ctu_name") %>%
+  kable()
+
 ```
 
 **$current_conservation_tillage_county**:
