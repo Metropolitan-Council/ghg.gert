@@ -100,8 +100,8 @@ if (land_use_data$ctu_forecast %>%
 *Test: Does it look like people, households, and jobs are changing at a reasonable rate?*
 ```{r}
 #| fig.cap = "Lines show ctu-level data and forecasts. Black points and error bars show the mean +- 1 standard error.",
-#| out.width= "6in",  
-#| fig.asp = .6
+#| fig.width = 6,
+#| fig.height = 6
 
 # ee tests
 test <- land_use_data$ctu_forecast %>%
