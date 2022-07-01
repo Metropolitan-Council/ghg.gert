@@ -21,6 +21,9 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(tidyverse)
+
+`%not_in%` <- Negate(`%in%`)
+
 ```
 
 
@@ -100,7 +103,7 @@ if (land_use_data$ctu_forecast %>%
 *Test: Does it look like people, households, and jobs are changing at a reasonable rate?*
 ```{r}
 #| fig.cap = "Lines show ctu-level data and forecasts. Black points and error bars show the mean +- 1 standard error.",
-#| fig.width = 6,
+#| fig.width = 7,
 #| fig.height = 6
 
 # ee tests
@@ -139,32 +142,104 @@ land_use_data$ctu_forecast %>%
   filter(`2010` > `2040`) %>%
   select(ctu_name, metric, `2010`, `2040`) %>%
   mutate(difference = `2040` - `2010`) %>%
-  split(.$metric) %>%
+  # split(.$metric) %>%
   kable()
 ```
 
 
 **$scenario_parameters**: 
-Table provides key parameters for the different urban form scenarios of the land use module.
-These parameters show relative assumed proportions for the the intensity of land by three development types: *exurban development*, *urban expansion*, and *urban infill*. These parameter vary for each of the scenario available to the user. 
-*For example, a value of 0.5 will represent half of the given development type for the given scenario. A value of 2 will represent double. *
+
+TODO: what checks should be done here?
+
+
 ```{r echo=FALSE}
 land_use_data$scenario_parameters %>%
   kable()
 ```
 
 **$land_cover_percentages_filled**: 
-Table shows the percentage of land use by land cover type in the Metropolitan Region. 
-*For example: What percent of impervious surfaces can be classified single family residential in the city of Lake Elmo?*
+
+
+*Test: Does land cover sum to 100%? Does total land area look okay?*
+
 ```{r echo=FALSE}
+if (nrow(
+  land_use_data$land_cover_percentages_filled %>% 
+  group_by(ctu_name, description_2) %>%
+  summarise(sum = sum(land_cover_percent, na.rm = T)) %>%
+  filter(round(sum,3) %not_in% c(0,1))
+) > 0) {
+  print("Looks like there are probably land cover issues")
+} else {
+  print("Land cover sums to either 0% or 100%.")
+}
+
+land_use_data$land_cover_percentages_filled %>% 
+  group_by(ctu_name) %>%
+  summarise(total_area = sum(hectares)) %>%
+  arrange(total_area) %>%
+  ggplot(aes(x = total_area)) +
+  geom_histogram() +
+  theme_council_open() +
+  scale_x_continuous(labels = scales::comma) +
+  labs(y = "", x = "total land area (hectares)", 
+       title = "Does total land area in ctus look okay?")
+```
+
+
+*Test: What does Lake Elmo's land cover look like?*
+
+TODO: Does this make sense as-is or is some post-processing in order?
+
+1) Is it okay that some descriptions have NO data (like railway)? Should these be zeros instead of NA's?
+2) Should agricultural land cover get set to zero in non-agricultural descriptions?
+3) Should open_water description be filled with 100% water land cover? 
+
+```{r echo=FALSE}
+#| fig.cap = "Lake Elmo land cover.",
+#| fig.width = 7,
+#| fig.height = 6
+
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(land_cover_description_2 == "parking_lot") %>%
-  # head(., n = 15) %>%
-  kable()
+  ggplot(aes(x = description_2, y = land_cover_percent, fill = land_cover_description_2)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_council_open() +
+  coord_flip() +
+  labs(x = "") +
+  facet_wrap(~ctu_name)
+```
 
+*Test: What does land cover look like by community designation?*
+
+TODO: Are we good here or need to do post processing?
+
+1) Why does 'seasonal vacation', 'extractive' exist in "urban centers"? 
+2) What about "farmstead" in urban? 
+3) One agricultural community has 100% of single_family_attached land use being "agricultural" land cover? Should things like this get reclassified?
+4) It looks like "water" land cover NEVER makes up any of the "open_water" land use? Should that get changed??
+5) What else does this figure show that might be indicative of some needed post processing? 
+
+```{r}
+#| fig.cap = "Land cover by community designation.",
+#| fig.width = 7,
+#| fig.height = 8
+
+land_use_data$land_cover_percentages_filled %>%
+    full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
+  ggplot(aes(x = description_2, y = land_cover_percent, col = land_cover_description_2, group = ctu_name)) +
+  geom_point() + 
+  scale_fill_brewer(palette = "Paired") +
+  theme_council_open() +
+  labs(x = "") +
+  # theme(axis.text = element_text(angle = 40)) +
+  facet_wrap(~comdes) +
+  coord_flip() +
+  scale_color_brewer(palette = "Paired")
 
 ```
+
 
 **$land_composition_ctu**: 
 Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
