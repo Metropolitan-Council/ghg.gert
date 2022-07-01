@@ -77,6 +77,9 @@ contained in the `land_use_data` dataset.
 
 **$ctu_county**: 
 Table shows the relationship between city/townships and county. 
+
+<!-- TODO: Describe county assignment. How/why are cities/townships which span counties assigned to a single county? See github issue. -->
+
 *For example: What county is Lake Elmo within?*
 ```{r echo=FALSE}
 land_use_data$ctu_county %>%
