@@ -10,7 +10,8 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
-                      comment = "#>")
+                      comment = "#>",
+                      echo = F)
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ghg.sp)
@@ -64,34 +65,50 @@ contained in the `land_use_data` dataset.
 **$ctu_county**: 
 Table shows the relationship between city/townships and county. 
 
-*Are there any city/townships which span counties?*
+*Test: Are there any city/townships which span counties?*
 
 ```{r echo=FALSE}
-land_use_data$ctu_county %>%
+multiple_cos <- land_use_data$ctu_county %>%
   count(ctu_name) %>%
   filter(n > 1)
 
-land_use_data$ctu_county %>%
-  filter(ctu_name == "St. Anthony")
+if (nrow(multiple_cos) < 1) {
+  print("County assignment is okay!")
+} else {
+  print ("Figure out county assignment for these ctus: ")
+  land_use_data$ctu_county %>%
+    filter(ctu_name %in% c(multiple_cos$ctu_name)) %>%
+    kable()
+}
 ```
 
 **$ctu_forecast**: 
 Table shows the demographic forecasts for city/township from Community Profiles.
-*For example: What is the forecast population of Lake Elmo in 2040?*
+
+*Test: Does Lake Elmo population match 2020 census data?*
 ```{r echo=FALSE}
-land_use_data$ctu_forecast %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  # head(., n = 10)  %>%
-  kable()
+if (land_use_data$ctu_forecast %>%
+  dplyr::filter(ctu_name == "Lake Elmo",
+                year == 2020,
+                metric == "population") %>% .$value == 11335) {
+  print("Yes, looks like the table is pulling the most recent census data. Do check on the forecast, which is (unfortuantely) only accessible via a website download right now; https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx")
+} else {
+  print("Database probably needs to be updated")
+}
 ```
 
-*For example: How are people, households, and jobs going to change across the region?*
+*Test: Does it look like people, households, and jobs are changing at a reasonable rate?*
 ```{r}
+#| fig.cap = "Lines show ctu-level data and forecasts. Black points and error bars show the mean +- 1 standard error.",
+#| out.width= "6in",  
+#| fig.asp = .6
+
 # ee tests
 test <- land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name")
 
-test %>% 
+land_use_data$ctu_forecast %>%
+  full_join(comdes, by = "ctu_name") %>% 
   filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
   group_split(metric) %>%
   purrr::map(
@@ -110,13 +127,22 @@ test %>%
         legend.text = element_text(size = 6),
         legend.spacing.y = unit(0, 'cm')))
 
+```
+
+*Test: Which areas are losing people, jobs or households? Does anything fancy with respect to land annexations need to be considered?*
+```{r}
+
 #some areas are losing people/jobs
-test %>%
+land_use_data$ctu_forecast %>%
+  full_join(comdes, by = "ctu_name") %>%
   pivot_wider(names_from = year, values_from = value) %>%
   filter(`2010` > `2040`) %>%
   select(ctu_name, metric, `2010`, `2040`) %>%
-  mutate(difference = `2040` - `2010`)
+  mutate(difference = `2040` - `2010`) %>%
+  split(.$metric) %>%
+  kable()
 ```
+
 
 **$scenario_parameters**: 
 Table provides key parameters for the different urban form scenarios of the land use module.
