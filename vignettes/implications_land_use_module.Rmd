@@ -708,7 +708,7 @@ Moving on...
 
 ```{r}
 #| fig.width = 8,
-#| fig.height = 8
+#| fig.height = 5
 #| 
 output <- 
   c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
@@ -738,28 +738,155 @@ output %>%
 
 ### Function to Calculate Tree Planting Strategy
 
-Having calculated the hectares of land cover under the selected urban form scenario, we now will add the change to the land composition  that is cause by implement a tree planting strategy. 
-
 Function `ghg.sp::calc_tree_planting_land_cover()`.
+
+*Test: meh, still the compact_dev_with_drs issue.*
+
+1) It looks like the tree planting on all pervious surfaces increases tree cover - great! But the "double" and "match la million trees goal" don't seem different? Should they be? If they aren't different, can the "double" intervention get changed to "triple" or something else that WILL produce different results? I guess the two strategies just seem redundant right now (so simply deleting one strategy would also work!).
+2) In year 2040, I don't think that the total hectares in Lake Elmo should be changing. This seems NOT a multiplier issue, but rather an issue that if MORE land cover is taken up by trees...another land cover must DECREASE (like a scale that needs to be balanced). What land uses will you decrease if tree planting intensifies???
+
 ```{r}
-ghg.sp::calc_tree_planting_land_cover(
-  tb = land_use_data,
-  detail = FALSE,
-  .urban_form_scenario = "bau",
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247
-)  %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(year == 2040) %>%
-  tidyr::pivot_longer(
-    names_to = "var",
-    values_to = "value",
-    cols = -c("ctu_name", "year")
-  ) %>%
-  head(., n = 15) %>%
-  kable()
+
+c("tree_planting_on_all_pervious",
+        "double",
+        "match_la_million_trees_goal")
+
+la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+                                                      detail = FALSE,
+                                              .urban_form_scenario = .x,
+                                              .tree_planting_intervention = "match_la_million_trees_goal",
+                                              .tree_planting_per_capita = 0.26,
+                                              .tree_planting_per_hectare = 247) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "match_la_million_trees_goal")
+
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+                                                      detail = FALSE,
+                                              .urban_form_scenario = .x,
+                                              .tree_planting_intervention = "double",
+                                              .tree_planting_per_capita = 0.26,
+                                              .tree_planting_per_hectare = 247) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "double")
+
+pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+                                                      detail = FALSE,
+                                              .urban_form_scenario = .x,
+                                              .tree_planting_intervention = "tree_planting_on_all_pervious",
+                                              .tree_planting_per_capita = 0.26,
+                                              .tree_planting_per_hectare = 247) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "tree_planting_on_all_pervious")
+
+la_goal %>%
+  bind_rows(double_goal) %>%
+  bind_rows(pervious_goal) %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
+    ggplot(aes(x = intervention, y = hectares, fill = landcover)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(year~scenario_description_2) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo") +
+  # coord_flip() +
+  labs(x = "")
+
+
+# detail_y <- c(land_use_data$scenario_parameters$scenario_description_2[c(1)]) %>%
+#     purrr::set_names() %>%
+#     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+#                                                       detail = T,
+#                                               .urban_form_scenario = .x,
+#                                               .tree_planting_intervention = "match_la_million_trees_goal",
+#                                               .tree_planting_per_capita = 0.26,
+#                                               .tree_planting_per_hectare = 247) 
+#                  ) %>%
+#   bind_rows(.id = "scenario_description_2") %>%
+#   mutate(intervention = "match_la_million_trees_goal") 
+# 
+# detail_n <- c(land_use_data$scenario_parameters$scenario_description_2[c(1)]) %>%
+#     purrr::set_names() %>%
+#     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+#                                                       detail = F,
+#                                               .urban_form_scenario = .x,
+#                                               .tree_planting_intervention = "match_la_million_trees_goal",
+#                                               .tree_planting_per_capita = 0.26,
+#                                               .tree_planting_per_hectare = 247) 
+#                  ) %>%
+#   bind_rows(.id = "scenario_description_2") %>%
+#   mutate(intervention = "match_la_million_trees_goal") 
+# 
+# detail_y; detail_n
 ```
+
+3) Why doesn't modifying the `.tree_planting_per_capita` function change the output for trees? Here showing for the tree planting on all pervious intervention.
+
+```{r}
+pervious_goal_percapita <- seq(0,5, .5) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+                                                      detail = FALSE,
+                                              .urban_form_scenario = "bau",
+                                              .tree_planting_intervention = "tree_planting_on_all_pervious",
+                                              .tree_planting_per_capita = .x,
+                                              .tree_planting_per_hectare = 247) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "tree_planting_on_all_pervious_bau")
+
+pervious_goal_percapita %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
+    ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~year) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(subtitle = "Lake Elmo",
+       x = "", title = "modifying `.tree_planting_per_capita` parameter")
+```
+
+4) Additioanlly, why doesn't modifying the `.tree_planting_per_hectare` function change the output for trees?
+
+```{r}
+pervious_goal_perhectare <- seq(0, 500, 100) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
+                                                      detail = FALSE,
+                                              .urban_form_scenario = "bau",
+                                              .tree_planting_intervention = "tree_planting_on_all_pervious",
+                                              .tree_planting_per_capita = 0.26,
+                                              .tree_planting_per_hectare = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "tree_planting_on_all_pervious_bau")
+
+pervious_goal_perhectare %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
+    ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~year) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(subtitle = "Lake Elmo",
+       x = "", title = "modifying `.tree_planting_per_hectare` parameter")
+```
+
+
 
 ### Function to Calcuate Parking Lot Reduction Strategy
 
