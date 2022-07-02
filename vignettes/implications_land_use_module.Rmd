@@ -506,6 +506,10 @@ land_use_data$land_composition_ctu %>%
 
 
 ```{r}
+#| fig.cap = "Total hectares, multifamily mixed area.",
+#| fig.width = 5,
+#| fig.height = 4
+
 land_use_data$multifamily_mixed_area  %>%
   rename(multifamily_mixed_area__hectares = hectares) %>%
   left_join(comdes, by = "ctu_name") %>%
@@ -536,35 +540,94 @@ For help run the following command `?ghg.sp::calc_by_development_type()`
 This function is intermediary and does not provide the final result. 
 
 `ghg.sp::calc_by_development_type()` 
-The function returns a table with the land composition of different urban form scenarios of land use by development type.
 
-The tool will  perform a series of calculations in 
-response to different values of argument `.urban_form_scenario`.
-For example, if the selected input is `"bau"`, or the business as usual, 
-the tool will select the table it needs. 
+*TEST: this function is breaking for scenario `compact_dev_with_drs`*
 
-The possible scenarios to select on the `.urban_form_scenario` argument include:
-* `"bau"`: the business as usual scenario.
-* `"post_covid_sprawl"`: post-covid sprawl scenario.
-* `"compact_development_beyond_bau"`: compact development beyond the business as usual scenario.
-* `"compact_development_with_drs"`: compact development with dynamic ride sharing.
 
-The following code prints the value of function `ghg.sp::calc_by_development_type()` filtered to show only the city of Lake Elmo. 
+```{r, echo = T}
+
+# run for every scenario description
+c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_by_development_type(tb = land_use_data,
+                                              .urban_form_scenario = .x) %>%
+                 mutate(scenario_description_2 = paste(.x)))
+
+```
+
+But if we do some checks without the breaking scenario...
+
+*TEST: Does it make sense that the difference between exurban_development, urban_expansion, and urban_infill are ALWAYS greater than the difference between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
+
+1) I'm feeling a little overwhelmed with the number of times I'm seeing "scenarios" - what's the difference between the c(exurban_development, urban_expansion, and urban_infill) scenarios and the c("bau", "post_covid_sprawl", and "compact_dev_with_drs") scenarios? Is there a synonym for scenarios that can be used for one of these options to add some clarity? 
+2) Does it make sense that the "scenario_mixed_use_compact_zoning_park" and "scenario_mixed_use_mf_new" only appear in the "exurban_development" scenario? 
+3) Does it make sense that the "bau_mixed_use_compact_zoning" scenario only appears in the "exurban_development" scenario?
+
 ```{r}
-ghg.sp::calc_land_by_development_type(tb = land_use_data,
-                                      .urban_form_scenario = "bau") %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  kable()
+#| fig.cap = "Scenarios x scenarios.",
+#| fig.width = 5,
+#| fig.height = 4
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_by_development_type(tb = land_use_data,
+                                              .urban_form_scenario = .x) #%>%
+                 # mutate(scenario_description_2 = paste(.x))
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+
+output %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = development_name, y = hectares, fill = scenario)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~scenario_description_2) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo")
+
 ```
 
 The second function is `ghg.sp::calc_scen_land_use()`
-The following code runs the `ghg.sp::calc_scen_land_use()` for the `"bau"` or business as usual scenario. 
+
+*Test: again, this function breaks for the "compact_dev_with_drs" scenario.*
+
 ```{r}
-ghg.sp::calc_scen_land_use(tb =  land_use_data,
-                           .urban_form_scenario = "bau") %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 70) %>%
-  kable()
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+```
+
+But moving past that...
+
+1) Why is the output of this function (calc_scen_land_use) called "scenario_hectares" while the output of the previous function (calc_land_by_development_type) was simply "hectares"? Could they both become "hectares" for consistency's sake? 
+2) Why does "compact_dev_with_drs" have zero hectares for the exurban_development and urban_expansion? 
+3) Why are the land cover hectares different across the different scenarios here? Is the calc_scen_land_use function assuming that Lake Elmo's total amount of land will change based on the scenarios (i.e. is the function multiplying a scaling factor through the total hectares rather than through the PERCENT of hectares?)
+
+```{r}
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+
+
+output %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = development_name, y = scenario_hectares, fill = description_2)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~scenario_description_2) +
+  theme_council_open() +
+  # scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo")
+
 ```
 
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
