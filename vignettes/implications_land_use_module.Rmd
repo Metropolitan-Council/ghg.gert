@@ -594,13 +594,13 @@ The second function is `ghg.sp::calc_scen_land_use()`
 *Test: again, this function breaks for the "compact_dev_with_drs" scenario.*
 
 ```{r}
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-    purrr::set_names() %>% 
-    purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
-                                              .urban_form_scenario = .x) 
-                 ) %>%
-  bind_rows(.id = "scenario_description_2")
+# output <- 
+#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+#     purrr::set_names() %>% 
+#     purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
+#                                               .urban_form_scenario = .x) 
+#                  ) %>%
+#   bind_rows(.id = "scenario_description_2")
 ```
 
 But moving past that...
@@ -640,13 +640,13 @@ The third function is `ghg.sp::calc_land_cover_by_land_use()`
 
 
 ```{r}
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-    purrr::set_names() %>% 
-    purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
-                                              .urban_form_scenario = .x) 
-                 ) %>%
-  bind_rows(.id = "scenario_description_2")
+# output <- 
+#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+#     purrr::set_names() %>% 
+#     purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
+#                                               .urban_form_scenario = .x) 
+#                  ) %>%
+#   bind_rows(.id = "scenario_description_2")
 ```
 
 Moving on...
@@ -691,13 +691,13 @@ The fourth function is `ghg.sp::calc_land_cover_by_city()`
 
 
 ```{r}
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-    purrr::set_names() %>% 
-    purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                              .urban_form_scenario = .x) 
-                 ) %>%
-  bind_rows(.id = "scenario_description_2")
+# output <- 
+#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+#     purrr::set_names() %>% 
+#     purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
+#                                               .urban_form_scenario = .x) 
+#                  ) %>%
+#   bind_rows(.id = "scenario_description_2")
 ```
 
 Moving on...
@@ -746,7 +746,9 @@ Function `ghg.sp::calc_tree_planting_land_cover()`.
 2) In year 2040, I don't think that the total hectares in Lake Elmo should be changing. This seems NOT a multiplier issue, but rather an issue that if MORE land cover is taken up by trees...another land cover must DECREASE (like a scale that needs to be balanced). What land uses will you decrease if tree planting intensifies???
 
 ```{r}
-
+#| fig.width = 8,
+#| fig.height = 5
+#| 
 c("tree_planting_on_all_pervious",
         "double",
         "match_la_million_trees_goal")
@@ -833,6 +835,8 @@ la_goal %>%
 3) Why doesn't modifying the `.tree_planting_per_capita` function change the output for trees? Here showing for the tree planting on all pervious intervention.
 
 ```{r}
+#| fig.width = 8,
+#| fig.height = 5
 pervious_goal_percapita <- seq(0,5, .5) %>%
     purrr::set_names() %>%
     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
@@ -861,6 +865,8 @@ pervious_goal_percapita %>%
 4) Additioanlly, why doesn't modifying the `.tree_planting_per_hectare` function change the output for trees?
 
 ```{r}
+#| fig.width = 8,
+#| fig.height = 5
 pervious_goal_perhectare <- seq(0, 500, 100) %>%
     purrr::set_names() %>%
     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
@@ -890,36 +896,103 @@ pervious_goal_perhectare %>%
 
 ### Function to Calcuate Parking Lot Reduction Strategy
 
-Having calculate the hectares of land cover under the selected urban form and tree planting scenario, we now will add the change to the land composition that is cause by implementing a reduced parking lot strategy. 
-
 Function `ghg.sp::calc_parking_lot_land_cover()`.
+
+1) hmmm, not seeing the reduction in parking lots with this function....
+
 ```{r}
-ghg.sp::calc_parking_lot_land_cover(
-  tb = land_use_data,
-  .urban_form_scenario = "bau",
-  .parking_lot_reduction_percentage = 0.8,
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  detail = FALSE
-)  %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(year == 2040) %>%
-  tidyr::pivot_longer(
-    names_to = "var",
-    values_to = "value",
-    cols = -c("ctu_name", "year")
+#| fig.width = 8,
+#| fig.height = 8
+la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+      tb = land_use_data,
+      .urban_form_scenario = .x,
+     .parking_lot_reduction_percentage = 0.8,
+     .tree_planting_intervention = "match_la_million_trees_goal",
+     .tree_planting_per_capita = 0.26,
+     .tree_planting_per_hectare = 247,
+      detail = FALSE
+  )
   ) %>%
-  head(., n = 15) %>%
-  kable()
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "match_la_million_trees_goal")
+
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+      tb = land_use_data,
+      .urban_form_scenario = .x,
+     .parking_lot_reduction_percentage = 0.8,
+     .tree_planting_intervention = "double",
+     .tree_planting_per_capita = 0.26,
+     .tree_planting_per_hectare = 247,
+      detail = FALSE
+  )
+  ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "double")
+
+
+pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+      tb = land_use_data,
+      .urban_form_scenario = .x,
+     .parking_lot_reduction_percentage = 0.8,
+     .tree_planting_intervention = "tree_planting_on_all_pervious",
+     .tree_planting_per_capita = 0.26,
+     .tree_planting_per_hectare = 247,
+      detail = FALSE
+  )
+  ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "tree_planting_on_all_pervious")
+
+la_goal %>%
+  bind_rows(double_goal) %>%
+  bind_rows(pervious_goal) %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
+    ggplot(aes(x = intervention, y = hectares, fill = landcover)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(year~scenario_description_2) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo") +
+  # coord_flip() +
+  labs(x = "")
+
+
+
+
 ```
 
 ### Function to Calculate Conservation Tillage Strategy
 
+*tests: a couple things seem to be going on here...*
+
+1) Why does agricultural_hectares decrease in year 2040 if the scenario is "compact_dev_with_drs"? Similarly, why does agricultural_hectares increase with "post_covid_sprawl" by year 2040?
+2) Why are the other parameters (in the second figure) not associated with a year? 
+3) Should something like "reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year" be set at zero for baseline year (2016), and then the value be multiplied by years (so year X - current year) to translate this into an annual measurement? Basically the question is how are these numbers going to be associated with a year so that emissions (reductions) can be shown? 
+4) Because the amount of agricultural land increases sharply with the post_covid_sprawl in year 2040, it seems like some other variables are also behaving strangely. For instance, the "current_conservation_tillage_mg_c" is also much higher for post_covid_sprawl than it is for the bau. Shouldn't baseline (aka "current") be the same for both? This same comment holds true for the strange 2040 numbers in the compact_dev_with_drs (the numbers are so low!).
+
 ```{r}
-ghg.sp::calc_conservation_tillage(
+#| fig.width = 8,
+#| fig.height = 8
+# choices = c(
+#         "current_conservation_tillage",
+#         "double_conservation_tillage",
+#         "maximum_conservation_tillage"
+#       )
+
+
+current_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_conservation_tillage(
   tb = land_use_data,
-  .urban_form_scenario = "bau",
+  .urban_form_scenario = .x,
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
@@ -930,17 +1003,95 @@ ghg.sp::calc_conservation_tillage(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
   detail = FALSE
-)  %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  )
+  ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "current_conservation_tillage")
+
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_conservation_tillage(
+  tb = land_use_data,
+  .urban_form_scenario = .x,
+  .conservation_tillage_intervention = "double_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+  )
+  ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "double_conservation_tillage")
+
+
+max_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::calc_conservation_tillage(
+  tb = land_use_data,
+  .urban_form_scenario = .x,
+  .conservation_tillage_intervention = "maximum_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+  )
+  ) %>%
+  bind_rows(.id = "scenario_description_2") %>%
+  mutate(intervention = "maximum_conservation_tillage")
+
+current_goal %>%
+  bind_rows(double_goal) %>%
+  bind_rows(max_goal) %>%
+  filter(ctu_name == "Lake Elmo") %>%
   tidyr::pivot_longer(
     names_to = "var",
     values_to = "value",
-    cols = -c("ctu_name", "co_name")
-  ) %>%
-  head(., n = 15) %>%
-  kable()
+    cols = -c(ctu_name, co_name, scenario_description_2, intervention)) %>%
+  filter(str_detect(var, "_year_")) %>%
+    ggplot(aes(x = var, y = value, fill = intervention)) + 
+  geom_bar(stat = "identity", position = position_dodge(width = .9)) +
+  facet_wrap(~scenario_description_2) +
+  theme_bw() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24, hjust = 1)) +
+  labs(title = "Ag hectares",
+       subtitle = "Lake Elmo",
+       x = "", y = "hectares")
+
+current_goal %>%
+  bind_rows(double_goal) %>%
+  bind_rows(max_goal) %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  tidyr::pivot_longer(
+    names_to = "var",
+    values_to = "value",
+    cols = -c(ctu_name, co_name, scenario_description_2, intervention)) %>%
+  filter(!str_detect(var, "_year_")) %>%
+    ggplot(aes(x = var, y = value, fill = intervention)) + 
+  geom_bar(stat = "identity", position = position_dodge(width = .9)) +
+  facet_wrap(~scenario_description_2) +
+  theme_bw() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24, hjust = 1)) +
+  labs(subtitle = "Lake Elmo",
+       x = "", y = "")
+
 ```
 
+
+# EE ALSO STOP REVIEW HERE
+ 
+ 
 ---
 
 # STOP REVIEW HERE 
