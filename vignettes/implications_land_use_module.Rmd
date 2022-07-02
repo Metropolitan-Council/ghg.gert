@@ -566,7 +566,7 @@ But if we do some checks without the breaking scenario...
 3) Does it make sense that the "bau_mixed_use_compact_zoning" scenario only appears in the "exurban_development" scenario?
 
 ```{r}
-#| fig.width = 5,
+#| fig.width = 8,
 #| fig.height = 4
 output <- 
   c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
@@ -980,7 +980,7 @@ la_goal %>%
 
 ```{r}
 #| fig.width = 8,
-#| fig.height = 8
+#| fig.height = 6
 # choices = c(
 #         "current_conservation_tillage",
 #         "double_conservation_tillage",
