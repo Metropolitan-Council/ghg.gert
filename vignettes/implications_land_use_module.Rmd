@@ -547,11 +547,13 @@ This function is intermediary and does not provide the final result.
 ```{r, echo = T}
 
 # run for every scenario description
-c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
     purrr::set_names() %>% 
     purrr::map(~ghg.sp::calc_land_by_development_type(tb = land_use_data,
-                                              .urban_form_scenario = .x) %>%
-                 mutate(scenario_description_2 = paste(.x)))
+                                              .urban_form_scenario = .x) #%>%
+                 # mutate(scenario_description_2 = paste(.x))
+                 ) %>%
+  bind_rows(.id = "scenario_description_2") #its a bit confusing, but .id must equal the column name in the list that distinguises the different scenarios; so in this case it is from scenario_parameters$scenario_description_2; and called scenario_description_2
 
 ```
 
@@ -564,7 +566,6 @@ But if we do some checks without the breaking scenario...
 3) Does it make sense that the "bau_mixed_use_compact_zoning" scenario only appears in the "exurban_development" scenario?
 
 ```{r}
-#| fig.cap = "Scenarios x scenarios.",
 #| fig.width = 5,
 #| fig.height = 4
 output <- 
@@ -609,6 +610,9 @@ But moving past that...
 3) Why are the land cover hectares different across the different scenarios here? Is the calc_scen_land_use function assuming that Lake Elmo's total amount of land will change based on the scenarios (i.e. is the function multiplying a scaling factor through the total hectares rather than through the PERCENT of hectares?)
 
 ```{r}
+#| fig.width = 8,
+#| fig.height = 6
+#| 
 output <- 
   c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
     purrr::set_names() %>% 
@@ -631,27 +635,106 @@ output %>%
 ```
 
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
-The following code runs the `ghg.sp::calc_land_cover_by_land_use()` for the `"bau"` or business as usual scenario.
+
+*Test: yeeeep, breaking for the compact_dev_with_drs scenario....*
+
+
 ```{r}
-ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
-                                    .urban_form_scenario = "bau") %>%
-  dplyr::filter(year == 2040) %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(land_cover_description_2 == 	"forest") %>%
-  head(., n = 25)  %>%
-  kable()
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
 ```
 
-The fourth function is `ghg.sp::calc_land_cover_by_city()`
-This function returns the urban form scenario land composition in hectares without adding additional strategies. This is the last function used to estimate the impact of urban form changes alone.  
+Moving on...
+
+1) Why is the output of this function (calc_scen_land_use) called "land_cover_land_use_hectares"? **Recommendation: introduce a new column to all these exports! Consider "output_type" and "hectares" ...that way you can put "land cover land use" or whatever else might distinguish these, and know that the numeric value will be hectares in all cases (since the column will be simply labeled "hectares"!)**
+2) Why does "compact_dev_with_drs" have way less land_cover_land_use_hectares in year 2040 as compared to year 2016? Is Lake Elmo loosing land? 
+3) Why does "post_covid_sprawl" give Lake Elmo way more land in 2040 as compared to year 2016? Again it seems like a multiplier might be getting applied in the wrong place? Why would the total land base (total land_cover_land_use_hectares) change between years within one city? It does make sense that the ALLOCATION of land use/cover would change, but the TOTAL hectares seem like it should remain constant.
+
 ```{r}
-ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                .urban_form_scenario = "bau") %>%
-  dplyr::filter(year == 2040) %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 15) %>%
-  kable()
+#| fig.width = 8,
+#| fig.height = 8
+#| 
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+
+
+output %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = description_2, y = land_cover_land_use_hectares, fill = land_cover_description_2)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(year~scenario_description_2) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo") +
+  coord_flip() +
+  labs(x = "")
+
 ```
+
+
+
+
+The fourth function is `ghg.sp::calc_land_cover_by_city()`
+
+*Test: still, breaking for the compact_dev_with_drs scenario....*
+
+
+```{r}
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+```
+
+Moving on...
+
+1) Again, consider the "land_cover_hectares" variable name...how/why is this different than the "land_cover_land_use_hectares" variable name in the previous function (calc_land_cover_by_city)?
+2) Why is Lake Elmo getting more land under the post_covid_sprawl in year 2040? 
+3) Why is Lake Elmo getting less land under the compact_dev_with_drs in year 2040?
+
+```{r}
+#| fig.width = 8,
+#| fig.height = 8
+#| 
+output <- 
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+    purrr::set_names() %>% 
+    purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
+                                              .urban_form_scenario = .x) 
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+
+
+output %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_description_2)) + 
+  geom_bar(stat = "identity") +
+  facet_wrap(~scenario_description_2) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  # theme(axis.text.x = element_text(angle = 24)) +
+  labs(title = "Lake Elmo") +
+  # coord_flip() +
+  labs(x = "")
+
+```
+
+
+
 
 ### Function to Calculate Tree Planting Strategy
 
