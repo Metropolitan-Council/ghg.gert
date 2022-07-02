@@ -96,7 +96,7 @@ if (land_use_data$ctu_forecast %>%
                 metric == "population") %>% .$value == 11335) {
   print("Yes, looks like the table is pulling the most recent census data. Do check on the forecast, which is (unfortuantely) only accessible via a website download right now; https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx")
 } else {
-  print("Database probably needs to be updated")
+  print("Database doesn't match 2020 census data on community profiles; database probably needs to be updated")
 }
 ```
 
@@ -149,9 +149,8 @@ land_use_data$ctu_forecast %>%
 
 **$scenario_parameters**: 
 
-TODO: what checks should be done here?
+*Test: why do all scneario_description_1 have exurban_development ==0 ?*
 
-*Test: why all scneario_description_1 have exurban_development ==0 ?*
 
 ```{r echo=FALSE}
 land_use_data$scenario_parameters %>%
@@ -193,9 +192,7 @@ land_use_data$land_cover_percentages_filled %>%
 ```
 
 
-*Test: What does Lake Elmo's land cover look like?*
-
-TODO: Does this make sense as-is or is some post-processing in order?
+*Test: What does Lake Elmo's land cover look like? Do these values make sense as-is or is some post-processing in order?*
 
 1) Is it okay that some descriptions have NO data (like railway)? 
 2) It seems like zero may be more appropriate than NA's - update those?
@@ -224,9 +221,7 @@ land_use_data$land_cover_percentages_filled %>%
   )
 ```
 
-*Test: What does land cover look like by community designation?*
-
-TODO: Are we good here or need to do post processing?
+*Test: What does land cover look like by community designation? Are we good here or need to do post processing?*
 
 1) Why does 'seasonal vacation', 'extractive' exist in "urban centers"? 
 2) What about "farmstead" in urban? 
@@ -380,12 +375,82 @@ land_use_data$land_composition_ctu %>%
 
 **$current_conservation_tillage_county**:
 Tables shows the percent of agricultural land that is managed with conservation tillage by county. This is a necessary assumption for the conservation tillage strategy. 
-*Data comes from the Census of Agriculture (2017).*
-*For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201?*
+
+*Test: Just with my background, these numbers seemed pretty low to me. For instance, check out [this high level report from the USDA on conservation tillage numbers](https://www.ers.usda.gov/webdocs/publications/90201/eib197_summary.pdf?v=8320.9); you'll see that across the US, over 60% of corn is in conservation tillage and over 70% of beans are in conservation tillage (and these are the two main crops grown in MN). So I went directly to the USDA's data (via API), and got some pretty different numbers. These values should be updated in the database!*
+
+
+To get raw USDA data
+- Get an API key from USDA: https://quickstats.nass.usda.gov/api
+- Enter in the console: `usethis::edit_r_environ()`
+- When the `.Renviron` file comes up in the editor, type: `USDA_KEY="KEY GOES HERE, INSIDE QUOTES"`
+- Save and close the `.Renviron` file.
+- Restart R.
+
+
 ```{r echo=FALSE}
-land_use_data$current_conservation_tillage_county %>%
-  head(., n = 10) %>%
-  kable()
+get_usda <- FALSE
+
+if(get_usda == TRUE) {
+mn_conservation_tillage_fxn <- function(.county){
+  raw <- httr::GET(paste0(
+  "http://quickstats.nass.usda.gov/api/api_GET/?key=",
+  Sys.getenv("USDA_KEY"),
+  "&source_desc=CENSUS",
+  "&commodity_desc=PRACTICES",
+  "&class_desc=LAND%20USE,%20CROPLAND",
+  "&unit_desc=ACRES",
+  "&agg_level_desc=COUNTY",#STATE",
+  "&county_name=", .county, #WASHINGTON",
+  "&domain_desc=TOTAL",
+  "&year=2017",
+  "&state_alpha=MN&format=JSON"))
+
+  parsed <- jsonlite::fromJSON(httr::content(x = raw, as="text"))$data
+  
+  return(parsed)
+}
+
+mn_conservation_tillage_raw <-
+  mn_conservation_tillage_fxn("ANOKA") %>%
+  bind_rows(mn_conservation_tillage_fxn("CARVER")) %>%
+  bind_rows(mn_conservation_tillage_fxn("DAKOTA")) %>%
+  bind_rows(mn_conservation_tillage_fxn("HENNEPIN")) %>%
+  bind_rows(mn_conservation_tillage_fxn("RAMSEY")) %>%
+  bind_rows(mn_conservation_tillage_fxn("SCOTT")) %>%
+  bind_rows(mn_conservation_tillage_fxn("WASHINGTON"))
+
+usda_data <- mn_conservation_tillage_raw %>%
+  mutate(Value = as.numeric(gsub(",", "", Value))) %>%
+  filter(prodn_practice_desc != "COVER CROP PLANTED, (EXCL CRP)") %>%
+  select(county_name, prodn_practice_desc, Value) %>%
+  group_by(county_name) %>%
+  mutate(total_acres = sum(Value),
+         percent = Value / total_acres) %>%
+  mutate(tillage = if_else(prodn_practice_desc %in% 
+                             c("CONSERVATION TILLAGE, (EXCL NO-TILL)",
+                               "CONSERVATION TILLAGE, NO-TILL"),
+                           "conservation tillage", "conventional")) %>%
+  group_by(county_name, tillage) %>%
+  summarise(current_conservation_tillage_percent = sum(percent)) %>%
+  filter(tillage == "conservation tillage") %>%
+  mutate(source = "USDA API",
+         co_name = stringr::str_to_title(county_name)) 
+save(usda_data, file = "./usda_data.rda")
+} else {
+  load("./usda_data.rda")
+}
+
+usda_data %>%
+  bind_rows(land_use_data$current_conservation_tillage_county %>%
+              mutate(source = "GHG database")) %>%
+  ggplot(aes(y = fct_rev(co_name), 
+             x = current_conservation_tillage_percent,
+             col = source)) +
+  geom_point() +
+  theme_council_open() +
+  labs(y = "", x = "Conservation tillage percent")
+
+
 ```
 
 **$land_by_development_type_sum_bau**:
