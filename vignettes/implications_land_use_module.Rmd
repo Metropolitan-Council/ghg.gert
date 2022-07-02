@@ -388,6 +388,11 @@ To get raw USDA data
 
 
 ```{r echo=FALSE}
+#| fig.cap = "Comparison of conservation tillage numbers from USDA versus from database.",
+#| fig.width = 5,
+#| fig.height = 3
+
+
 get_usda <- FALSE
 
 if(get_usda == TRUE) {
@@ -455,10 +460,12 @@ usda_data %>%
 
 **$land_by_development_type_sum_bau**:
 Table shows the forecast total number of hectares by city/township for the business as usual scenario. 
+
 *Test: Why does the BAU scenario have land areas that are in some cases a lot different than the sum of land area in the `land_use_data` database?*
 
 1) Yay Hiltop land areas look to be the same!
 2) Why would are area like Landfall have 201 hectares in 2016 but only 16 in the 2040 business as usual scenario?
+3) Would recommend trying to reduce redundancy in databases - if you can get at the numbers in `land_by_development_type_sum_bau` by summing disaggregated numbers in `land_cover_percentages_filled` you'll eventually have fewer places where inevitable typos or errors happen.
 
 ```{r echo=FALSE}
 
@@ -472,17 +479,48 @@ land_use_data$land_cover_percentages_filled %>%
 ```
 
 
-# ELLEN ENDING CHECKS HERE FOR NOW
+<!-- # ELLEN ENDING CHECKS HERE FOR NOW -->
 
 
 **$multifamily_mixed_area**: 
 Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
-*For example: What is the forecast hectares of multifamily or mixed use land use for the year 2040 for the city of Lake Elmo?*
+
+*Test: why do the values for multifamily differ between the `multifamily_mixed_area` and `land_composition_ctu` (where description_2 == "multifamily" and year == "2040") tables? It would be good to have a describe how/why these two things are different (I'm not sure I know).*
+
 ```{r echo=FALSE}
-land_use_data$multifamily_mixed_area %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
+land_use_data$multifamily_mixed_area  %>%
+  rename(multifamily_mixed_area__hectares = hectares) %>%
+  # left_join(comdes, by = "ctu_name")  %>%
+  full_join(
+land_use_data$land_composition_ctu %>%
+  filter(str_detect(description_2, "multi")) %>%
+  filter(year == 2040) %>%
+  rename(land_composition_ctu__multifamily2040__hectares = hectares)
+) %>%
+  select(-description_2, -total_hectares, -percent, -year) %>%
+  filter(ctu_name == "Lake Elmo") %>%
   kable()
+```
+
+*Test: Does it make sense that exurban development scenario has nearly 6 times more multifamily mixed area than does urban infill? Does it make sense that urban expansion basically has no change in the total hectares in multifamily mixed area? I'm not sure, but it could be good to describe what these different scenarios mean so that people reading the vignette understand a bit more and can contextualize their understanding.*
+
+
+```{r}
+land_use_data$multifamily_mixed_area  %>%
+  rename(multifamily_mixed_area__hectares = hectares) %>%
+  left_join(comdes, by = "ctu_name") %>%
+  group_by(comdes, development_name) %>%
+  summarise(hectares = sum(multifamily_mixed_area__hectares)) %>%
+  ggplot(aes(x = development_name, y = hectares, fill = comdes)) +
+  geom_bar(stat = "identity") +
+  # facet_wrap(~comdes) +
+  theme_council_open() +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(labels = scales::comma)+
+  labs(y = "", x = "", 
+       title = "Total hectares, multifamily_mixed_area")
+  # coord_flip()
+
 ```
 
 ## Functions
