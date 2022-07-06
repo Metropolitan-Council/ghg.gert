@@ -37,77 +37,76 @@
 #'   detail = FALSE
 #' )
 #' }
-calc_parking_lot_land_cover <-
-  function(tb,
-           .urban_form_scenario,
-           .parking_lot_reduction_percentage,
-           .tree_planting_intervention,
-           .tree_planting_per_capita,
-           .tree_planting_per_hectare,
-           detail = FALSE) {
-    parking_lot_land_cover <-
-      calc_tree_planting_land_cover(
-        tb = tb,
-        .urban_form_scenario = .urban_form_scenario,
-        .tree_planting_intervention = .tree_planting_intervention,
-        .tree_planting_per_capita = .tree_planting_per_capita,
-        .tree_planting_per_hectare = .tree_planting_per_hectare,
-        detail = FALSE
-      ) %>%
-      dplyr::mutate(
-        parking_lot_2 =
-          case_when(
-            year == 2016 ~ parking_lot,
-            year == 2040 &
-              .urban_form_scenario == "compact_dev_with_drs" ~
-              (parking_lot * (1 - .parking_lot_reduction_percentage)),
-            year == 2040 &
-              .urban_form_scenario != "compact_dev_with_drs" ~
-              parking_lot
-          ),
-        decreased_parking_lot = parking_lot - parking_lot_2,
-        scaling_factor = (total_area_hectares + decreased_parking_lot) / total_area_hectares
-      ) %>%
-      dplyr::mutate(dplyr::across(
-        .cols = c(
-          impervious,
-          grass,
-          trees,
-          barren,
-          forest,
-          shrub,
-          grassland,
-          agriculture,
-          woody_wetland,
-          wetland
+calc_parking_lot_land_cover <- function(tb,
+                                        .urban_form_scenario,
+                                        .parking_lot_reduction_percentage,
+                                        .tree_planting_intervention,
+                                        .tree_planting_per_capita,
+                                        .tree_planting_per_hectare,
+                                        detail = FALSE) {
+  parking_lot_land_cover <-
+    calc_tree_planting_land_cover(
+      tb = tb,
+      .urban_form_scenario = .urban_form_scenario,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare,
+      detail = FALSE
+    ) %>%
+    dplyr::mutate(
+      parking_lot_2 =
+        case_when(
+          year == 2016 ~ parking_lot,
+          year == 2040 &
+            .urban_form_scenario == "compact_dev_with_drs" ~
+            (parking_lot * (1 - .parking_lot_reduction_percentage)),
+          year == 2040 &
+            .urban_form_scenario != "compact_dev_with_drs" ~
+            parking_lot
         ),
-        ~ .x * scaling_factor
-      )) %>%
-      dplyr::mutate(parking_lot = parking_lot_2)
-
-    parking_lot_land_cover_short <-
-      parking_lot_land_cover %>%
-      select(
-        ctu_name,
-        year,
-        agriculture,
+      decreased_parking_lot = parking_lot - parking_lot_2,
+      scaling_factor = (total_area_hectares + decreased_parking_lot) / total_area_hectares
+    ) %>%
+    dplyr::mutate(dplyr::across(
+      .cols = c(
+        impervious,
+        grass,
+        trees,
         barren,
         forest,
-        grass,
-        grassland,
-        impervious,
-        parking_lot,
         shrub,
-        trees,
-        water,
-        wetland,
+        grassland,
+        agriculture,
         woody_wetland,
-        total_area_hectares
-      )
+        wetland
+      ),
+      ~ .x * scaling_factor
+    )) %>%
+    dplyr::mutate(parking_lot = parking_lot_2)
 
-    return(if (detail == TRUE) {
-      parking_lot_land_cover
-    } else {
-      parking_lot_land_cover_short
-    })
-  }
+  parking_lot_land_cover_short <-
+    parking_lot_land_cover %>%
+    select(
+      ctu_name,
+      year,
+      agriculture,
+      barren,
+      forest,
+      grass,
+      grassland,
+      impervious,
+      parking_lot,
+      shrub,
+      trees,
+      water,
+      wetland,
+      woody_wetland,
+      total_area_hectares
+    )
+
+  return(if (detail == TRUE) {
+    parking_lot_land_cover
+  } else {
+    parking_lot_land_cover_short
+  })
+}

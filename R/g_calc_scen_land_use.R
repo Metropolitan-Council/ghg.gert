@@ -22,16 +22,13 @@
 calc_scen_land_use <- function(tb,
                                .urban_form_scenario) {
 
-  ## ------------------------------------------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
-  ## ------------------------------------------------------------------------------------------------------------
   calc_land_by_development_type(
     tb = tb,
     .urban_form_scenario = .urban_form_scenario
   ) %>%
-    ## ------------------------------------------------------------------------------------------------------------
     # increase mixed use / residential
     tidyr::pivot_wider(
       data = .,
@@ -39,7 +36,6 @@ calc_scen_land_use <- function(tb,
       names_from = c(scenario),
       values_from = c(hectares)
     ) %>%
-    ## ------------------------------------------------------------------------------------------------------------
     # scaling factor
     dplyr::mutate(
       scaling_factor =
@@ -49,7 +45,6 @@ calc_scen_land_use <- function(tb,
           1
         )
     ) %>%
-    ## ------------------------------------------------------------------------------------------------------------
     base::merge(
       .,
       # tb$land_composition_ctu %>%
@@ -59,13 +54,12 @@ calc_scen_land_use <- function(tb,
 
 
       (tb$land_composition_ctu %>%
-        dplyr::filter(year == 2040)),
+         dplyr::filter(year == 2040)),
       by = c(
         "ctu_name",
         "development_name"
       )
     ) %>%
-    ## ------------------------------------------------------------------------------------------------------------
     dplyr::mutate(
       scenario_hectares =
         dplyr::case_when(
@@ -78,10 +72,10 @@ calc_scen_land_use <- function(tb,
             )
           ) ~ ((hectares + ((percent * scenario_total) - hectares
           )) * luse_scenario_params$urban_expansion_relative_to_bau
-            + (scenario_mixed_use_mf_new / 4)),
+          + (scenario_mixed_use_mf_new / 4)),
           (description_2 == "park_recreational_or_preserve") ~
             ((hectares + ((percent * scenario_total) - hectares))
-            * luse_scenario_params$urban_expansion_relative_to_bau),
+             * luse_scenario_params$urban_expansion_relative_to_bau),
           description_2 %in% c(
             "agricultural",
             "airport",
