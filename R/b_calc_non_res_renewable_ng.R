@@ -30,7 +30,8 @@
 #' )
 #' }
 #'
-calc_non_res_renewable_ng <- function(non_res_tb, .enviro_factors = .enviro_factors) {
+calc_non_res_renewable_ng <- function(non_res_tb,
+                                      .enviro_factors = .enviro_factors) {
 
   new_non_res_tb <- non_res_tb %>%
     dplyr::mutate(
