@@ -1,18 +1,14 @@
 ---
 title: "Implications of Green Infrastructure & Land Use"
-author: Ellen
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Implications of Green Infrastructure & Land Use}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+author: Ellen, Liz
+output: rmarkdown::html_document
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>",
                       echo = F)
-options(rmarkdown.html_vignette.check_title = FALSE)
+# options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ghg.sp)
 library(knitr)
