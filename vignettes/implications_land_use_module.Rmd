@@ -167,7 +167,7 @@ land_use_data$ctu_forecast %>%
 
 **$scenario_parameters**: 
 
-*Q: why do all scneario_description_1 have exurban_development ==0 ?*
+*Q: why do all scenario_description_1 have exurban_development ==0 ?*
 
 
 ```{r echo=FALSE}
@@ -177,6 +177,8 @@ land_use_data$scenario_parameters %>%
 
 **$land_cover_percentages_filled**: 
 
+What is the most root data source? Milnar and Ramaswani, 2020?
+
 
 *Q: Does land cover sum to 100%?* 
 
@@ -184,7 +186,7 @@ land_use_data$scenario_parameters %>%
 if (nrow(
   land_use_data$land_cover_percentages_filled %>% 
   group_by(ctu_name, description_2) %>%
-  summarise(sum = sum(land_cover_percent, na.rm = T)) %>%
+  summarise(sum = sum(land_cover_percent, na.rm = T), .groups = "keep") %>%
   filter(round(sum,3) %not_in% c(0,1))
 ) > 0) {
   print("Looks like there are probably land cover issues")
@@ -203,7 +205,7 @@ ee thoughts --> yup, looks okay
 
 land_use_data$land_cover_percentages_filled %>% 
   group_by(ctu_name) %>%
-  summarise(total_area = sum(hectares)) %>%
+  summarise(total_area = sum(hectares), .groups = "keep") %>%
   arrange(total_area) %>%
   ggplot(aes(x = total_area)) +
   geom_histogram() +
@@ -234,10 +236,11 @@ land_use_data$land_cover_percentages_filled %>%
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   coord_flip() +
-  labs(x = "") +
+  labs(x = "",
+       y = "Land Use") +
   facet_wrap(~ctu_name) +
   theme(legend.position = "bottom") +
-    guides(
+  guides(
     col = guide_legend(nrow = 4, byrow = TRUE),
     fill = guide_legend(nrow = 4, byrow = TRUE),
     shape = guide_legend(nrow = 4, byrow = TRUE)
@@ -259,9 +262,12 @@ land_use_data$land_cover_percentages_filled %>%
 #| fig.height = 12
 
 land_use_data$land_cover_percentages_filled %>%
-    full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
-  ggplot(aes(x = description_2, y = land_cover_percent, col = land_cover_description_2, group = ctu_name)) +
-  geom_point() + 
+  full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
+  ggplot(aes(x = description_2, 
+             y = land_cover_percent, 
+             col = land_cover_description_2, 
+             group = ctu_name)) +
+  geom_point(alpha = 0.5) + 
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   labs(x = "") +
@@ -270,7 +276,7 @@ land_use_data$land_cover_percentages_filled %>%
   coord_flip() +
   scale_color_brewer(palette = "Paired") +
   theme(legend.position = "bottom") +
-    guides(
+  guides(
     col = guide_legend(nrow = 4, byrow = TRUE),
     fill = guide_legend(nrow = 4, byrow = TRUE),
     shape = guide_legend(nrow = 4, byrow = TRUE)
@@ -282,6 +288,8 @@ land_use_data$land_cover_percentages_filled %>%
 **$land_composition_ctu**: 
 Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
 
+What is the root data source?
+
 *Q: How does Lake Elmo's land use/cover change based on the type of development?*
 
 1) If we look only at the land use/covers which change from 2016 to 2040, the "exurban development" type doesn't affect the percent of ANY land use/cover in Lake Elmo. Is there a multiplier / parameter missing somewhere? 
@@ -289,7 +297,8 @@ Table provides the percentages of land use composition categorized in to three t
 
 ```{r}
 land_use_data$land_composition_ctu %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  dplyr::filter(ctu_name %in% c("Lake Elmo",
+                                "St. Paul")) %>%
   select(-total_hectares, -hectares) %>%
   pivot_wider(names_from = year, values_from = percent) %>%
   mutate(change = `2040` - `2016`) %>%
@@ -327,29 +336,28 @@ land_use_data$land_composition_ctu %>%
   theme_council_open() +
   labs(y = "", x = "",
        title = "Lake Elmo",
-      subtitle = "For land cover/uses which make up 5% or more") +
+       subtitle = "For land cover/uses which make up 5% or more") +
   scale_fill_brewer(palette = "Paired")
 
 ```
 
 *Q: What about development scenarios on other communities?*
 
-1) Brooklyn Center is showing up twice in this `land_use_data$land_composition_ctu` database. Please update so there's only one value for each year/develpoment_name/description_2 for Brooklyn Center so that we know which value to refer to! As an FYI, Brooklyn Center *is* "falling out" of the analysis at later steps because of this issue - once there is only one entry for Brooklyn Center in this `land_consumption_ctu` table, this should be resolved. 
+1) Brooklyn Center is showing up twice in this `land_use_data$land_composition_ctu` database. Please update so there's only one value for each year/development_name/description_2 for Brooklyn Center so that we know which value to refer to! As an FYI, Brooklyn Center *is* "falling out" of the analysis at later steps because of this issue - once there is only one entry for Brooklyn Center in this `land_consumption_ctu` table, this should be resolved. 
 
 ```{r echo=FALSE}
 
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -percent) %>%
-    dplyr::group_by(ctu_name, development_name, description_2, year) %>%
-    dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-    dplyr::filter(n > 1L) %>%
+  dplyr::group_by(ctu_name, development_name, description_2, year) %>%
+  dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+  dplyr::filter(n > 1L) %>%
   head() %>%
   kable()
-
 ```
 
 
-So EXCLUDING Brooklyn Center and looking at all other communities (and onlythe land uses/covers which changed by 5% or more):
+So EXCLUDING Brooklyn Center and looking at all other communities (and only the land uses/covers which changed by 5% or more):
 
 1) Urban infill only changes retail and railway in all communities? 
 2) Should urban expansion change (decrease) airport land use/cover in urban center areas (bu over 50%)? It seems like this values should be pretty constant.
@@ -360,7 +368,7 @@ So EXCLUDING Brooklyn Center and looking at all other communities (and onlythe l
 #| fig.width = 8,
 #| fig.height = 6
 
-  land_use_data$land_composition_ctu %>%
+land_use_data$land_composition_ctu %>%
   select(-total_hectares, -hectares) %>%
   filter(ctu_name != "Brooklyn Center") %>% #filter(description_2 == "farmstead") %>%
   pivot_wider(names_from = year, values_from = percent) %>%
@@ -495,7 +503,7 @@ Table shows the forecast total number of hectares by city/township for the busin
 
 *Q: Why does the BAU scenario have land areas that are in some cases a lot different than the sum of land area in the `land_use_data` database?*
 
-1) Yay Hiltop land areas look to be the same!
+1) Yay Hilltop land areas look to be the same!
 2) Why would are area like Landfall have 201 total hectares in 2016 but only 16 total hectares in the 2040 business as usual scenario?
 3) Would recommend trying to reduce redundancy in databases - if you can get at the numbers in `land_by_development_type_sum_bau` by summing disaggregated numbers in `land_cover_percentages_filled` you'll eventually have fewer places where inevitable typos or errors happen.
 
@@ -517,7 +525,7 @@ land_use_data$land_cover_percentages_filled %>%
 **$multifamily_mixed_area**: 
 Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
 
-*Q: why do the values for multifamily differ between the `multifamily_mixed_area` and `land_composition_ctu` tables (where description_2 == "multifamily" and year == "2040" for the land_composition_ctu table)? It would be good to have a describe how/why these two things are different (I'm not sure I know), or maybe an upate to the database is needed.*
+*Q: why do the values for multifamily differ between the `multifamily_mixed_area` and `land_composition_ctu` tables (where description_2 == "multifamily" and year == "2040" for the land_composition_ctu table)? It would be good to have a describe how/why these two things are different (I'm not sure I know), or maybe an update to the database is needed.*
 
 ```{r echo=FALSE, message = F}
 land_use_data$multifamily_mixed_area  %>%
@@ -891,7 +899,7 @@ pervious_goal_percapita %>%
        x = "", title = "modifying `.tree_planting_per_capita` parameter")
 ```
 
-4) Additioanlly, why doesn't modifying the `.tree_planting_per_hectare` function change the output for trees?
+4) Additionally, why doesn't modifying the `.tree_planting_per_hectare` function change the output for trees?
 
 ```{r}
 #| fig.width = 8,
