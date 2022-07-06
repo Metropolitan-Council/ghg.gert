@@ -1126,10 +1126,11 @@ current_goal %>%
 ```
 
 
-# EE ALSO STOP REVIEW HERE
+# Additional comments  
 
-
----
+- In **$scenario_parameters** can you explain why all scneario_description_1 have exurban_development == 0? If exurban_development doesn't vary between the scenarios, can this parameter simply be removed? Or does a new scenario need to get created that leverages this exurban development?
+- PS, you probably want to get rid of the number suffix on the column names; ie "scneario_description_1" becomes "scneario_description". There is also a typo where scneario should be scENario; not sure where all you refer to this though, so I'll let you fix it because you'll know where all to check and update the name to make sure that fixing the typo doesn't break stuff.
+- Which year is the current_conservation_tillage_county data pulling? The document says: For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201? Is this 2017 (date on the ag census) or another year?
 
 # STOP REVIEW HERE 
 
