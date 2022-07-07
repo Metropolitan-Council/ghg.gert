@@ -28,9 +28,6 @@ p_ctu_nonresidential_energy_baseline %>%
 "kwh_per_floor_area" <- "residential_kwh_per_floor_area_forecast"
 "therms_per_floor_area" <- "residential_therms_per_floor_area_forecast"
 
-# mutate(residential_mwh = residential_kwh_forecast / 1000 )
-
-
 ctu_non_residential_energy <-
   p_ctu_nonresidential_energy_baseline %>%
   pivot_wider(

@@ -1,8 +1,7 @@
 ---
 title: "Introduction to Building Energy Module"
 subtitle: "Adapted from the Zero Energy Carbon for Communities Tool by the Sustainable Healthy Cities Network"
-author: 
-  - name: Mauricio Leon
+author: Mauricio Leon, Senior Researcher, Metropolitan Council
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to Building Energy Module}
@@ -10,18 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-# Background
+## Background
 
 The *Metropolitan Council Greenhouse Gas Scenario Planning Tool* estimates business-as-usual greenhouse gas emissions and greenhouse gas mitigation strategies by city/township for the Twin Cities Region. The tool covers greenhouse gas emissions from the transportation, building energy, and land use sectors.
 
-# Building Energy Module
+## Building Energy Module
 
 The Building Energy Module of the *Metropolitan Council Greenhouse Gas Scenario Planning Tool* 
 consists of a modified version of the *Zero Carbon Calculator for Communities* created by the Sustainable Healthy 
@@ -36,45 +28,38 @@ The GHG mitigation strategies included in the Building Energy Module include:
 
 ### Residential Strategies
 
-1. **Metroplitan Council's Planned Land Use**: Multi-family housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily housing in accordance with the *Metropolitan Council 2040 Planned Land Use* estimates.
-
-2. **More Compact Residential Buildings (B.R1)**: This strategy goes beyond the *Metropolitan Council’s 2040 Planned Land Use*, by assuming that *50%* of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
-
+1. **Metropolitan Council's Planned Land Use**: Multifamily housing effects from the planned land use by the Metropolitan Council. This strategy consists of an estimate of the GHG emissions impact of increasing multifamily housing in accordance with the *Metropolitan Council 2040 Planned Land Use* estimates.
+2. **More Compact Residential Buildings (B.R1)**: This strategy goes beyond the *Metropolitan Council’s 2040 Planned Land Use*, by assuming that *50%* of all new single-family construction will now become multifamily, with the multifamily homes having smaller square footage. 
 3. **Increase Affordable Floor Area (B.R2)**: This strategy assumes that about *50%* of the single-family homes will respond to increased energy prices by decreasing their living space. 
-
 4. **Make New Homes LEED-Gold (B.R3)**: This strategy calculates the effect of *50%* of new homes being constructed to LEED Gold standards.
-
-5. **Retrofit Existing Homes to High Energy Efficiency (B.R4)**:This strategy focuses on existing homes and assumes *80%* of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by *33%*, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewables, so they conflate renewables with efficiency. 
-
+5. **Retrofit Existing Homes to High Energy Efficiency (B.R4)**:This strategy focuses on existing homes and assumes *80%* of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by *33%*, which is mid-way between the trends in EUI already seen, and a passive house standard. Most of these cases have on-site energy use for renewable, so they conflate renewable with efficiency. 
 6. **Retrofit Existing Homes to Passive-House (B.R5)**: The remaining *20%* of homes from strategy B.R4 are retrofitted to high passive house standards, which results in *66%* reduction in energy use intensity.
-
 7. **Implement Behavioral & Smart Nudges (B.R6)**:  This strategy assumes that all homes receive effective messages which encourage them to reduce energy use via nudges such as in-home display and smart meters. Such nudges can reduce household energy use by *11%*, based on Gilbert et al. (ACEEE 2010). We only apply this reduction to remaining electricity and gas after the building efficiency strategies. 
-
 8. **Electrify Heating on Residential Buildings (B.R7)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, *59%* of households will use electric heating, based on the Net-Zero America report. Currently, *14%* of households already use electricity for heating, according to American Community Survey estimates (in Washington county). Therefore, a transition of *45%* of homes to electric heating (*59%*-*14%*) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, *71%* of annual household gas is used for space heating, and *24%* of gas is used for water heating, according to the Residential Energy Consumption Survey (RECS) (2015)
-
 9. **Increase Renewable Natural Gas on Residential Buildings (B.R8)**: For this strategy, the remaining homes that do not transition to electric space and water heating are assumed to switch to renewable natural gas, based on the State of Minnesota’s policy to aggregate all waste-to-energy project towards renewable natural gas. This includes municipal solid waste.
 
 ### Commmercial & Industrial Strategies
 
 9. **Retrofit Existing Commercial Buildings (B.C1)**: This strategy models the reduction in energy use intensity (EUI) that will result if *80%* of existing commercial buildings use performance-based energy efficiency strategies (many recent studies have shown that performance-based assessment is better than LEED certification), which is assumed to reduce EUI by *25%*-*50%*, based on case studies from the Minnesota SB program. 
-
 10. **Smart Grid Efficiency for Commercial Buildings (B.C2)**: Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately *11%*, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO<sub>2</sub> Benefits.” This *11%* will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to *100%* of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. Note: All commercial and industrial energy use is computed on the basis of employees, not square footage.
-
 11. **Smart Grid Efficiency for Industrial Buildings (B.C3)**: Smart grid and technologies are projected to reduce industrial electricity use by *11%*.
-
 12. **Electrifying Heating for Commercial Buildings (B.C4)**: This equation calculates reduction in energy use and GHG emissions due to electrifying heating in commercial buildings which is currently being done with natural gas and propane (ex. switching to electricity-based ground source heat pumps and tankless water heaters). Using CBECS data, in the 2018 baseline, *70%* of commercial buildings in the Midwest are using either gas or propane; approximately 19% are primarily on electricity for heating. We model that the *19%* will increase to *59%*, similar to the residential assumption, in the Net-Zero America report. Therefore, a transition of 40% of commercial buildings to electric heating (*59%*-*19%*) will have the modeled effects on GHG emissions. In Minnesota, approximately *69%* of gas is used for space heating, according to a Navigant Consulting report (2009).
-
 
 ### Grid-Level Strategies
 
 13. **Increase Grid Decarbonization (B.G1)**: This strategy demonstrates the impact of grid decarbonization after all the efficiency reductions are subtracted to yield the final electricity demand estimate. Note: Switching to electricity is shown as a separate scenario after grid decarbonization.
 
+## Key Concepts
+* Smart Grid
+* Renewable Natural Gas
+* Planned Land Use
+
 # Techical Walkthrough
 
 All the functions for the Building Energy Module are contained within the `ghg.sp` package.
-
 ```{r setup}
 library(ghg.sp)
+library(tidyverse)
 ```
 
 ## Source Datasets
@@ -118,7 +103,6 @@ Each of these functions, in turn call sequent functions to obtain the estimate o
 names(building_data$residential)
 ```
 
-
 The following chunk prints the main key variables for the building energy module for
 the city of Lake Elmo
 
@@ -141,27 +125,82 @@ building_data$residential %>%
 library(knitr)
 kable(residential_variables)
 ```
-
 <!--  TABLE ENDS HERE -->
 
 ### Residential Strategies 
 
 #### Strategy B.R1: More Compact Residential Buildings 
 
-This strategy goes beyond the Metroplitan Council’s 2040 Planned Land Use, by assuming that *50%* of all new single-family construction will now become multi-family, with the multi-family homes having smaller square footage. 
+This strategy goes beyond the Metropolitan Council’s 2040 Planned Land Use, by assuming that *50%* of all new single-family construction will now become multifamily, with the multifamily homes having smaller square footage. 
 
 The main function related to this strategy is `ghg.sp::adj_unit_counts()` which allows to specify the percentage of single family homes to be converted to multifamily. 
+
+```{r}
+ghg.sp::adj_unit_counts(res_tb = building_data$residential,
+                        .new_homes_to_multifamily_pct = 0.50) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
 
 #### Strategy B.R2: Increase Affordable Floor Area
 
 This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space.
 
+```{r}
+ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
+                                   .single_family_floor_area_growth_pct = 0.05) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
 
 #### Strategy B.R3: Make New Homes LEED-Gold
 
 This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_leed()` which allows to specify the number of new homes to turn into LEED Gold. 
+
+```{r}
+ghg.sp::calc_floor_area_leed(
+  res_tb = building_data$residential,
+  .new_homes_leed_gold_pct = 0.5,
+  .enviro_factors = enviro_factors
+) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
 
 #### Strategy B.R4: Retrofit Existing Homes to High Energy Efficiency
 
@@ -171,28 +210,108 @@ The main function involved in this strategy is `ghg.sp::calc_floor_area_retrofit
 
 **Note**: Strategy **B.R5** & **B.R6** are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
 
+```{r}
+ghg.sp::calc_floor_area_retrofit(
+  res_tb = building_data$residential,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
+  .enviro_factors = enviro_factors
+) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
+
 #### Strategy B.R5: Retrofit Existing Homes to Passive-House
 
 This strategy assumes that the remaining *20%* of homes from strategy B.R5 are retrofitted to high passive house standards, which results in *66%* reduction in energy use intensity.
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_retrofit()` which allows to specify the number of existing homes to be retrofit.
 
-**Note**: Strategy **B.R5** & **B.R6** are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
+**Note**: Strategy **B.R4** & **B.R5** are carried simultaneously by function `ghg.sp::calc_floor_area_retrofit()`. 
+
+```{r}
+ghg.sp::calc_floor_area_retrofit(
+  res_tb = building_data$residential,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
+  .enviro_factors = enviro_factors
+)  %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
 
 #### Strategy B.R6: Implement Behavioral & Smart Nudges 
 
 This strategy assumes that all homes receive effective messages which encourage them to reduce energy use via nudges such as in-home display and smart meters. Such nudges can reduce household energy use by *11%*, based on **Gilbert et al. (ACEEE 2010)**. We only apply this reduction to remaining electricity and gas after the building efficiency strategies. 
 
-The main function involved in this strategy is `ghg.sp::calc_floor_area_behavior_change()` which allows to specify the number of existing homes to be retrofit. 
+The main function involved in this strategy is `ghg.sp::calc_floor_area_behavior_change()`. 
 
 **Note**: Strategy B.R7 is based on the outputs (if any) from strategies B.R5 and B.R6.  
 
+```{r}
+ghg.sp::calc_floor_area_behavior_change(
+  res_tb = building_data$residential,
+  .home_behavior_change_pct = 1.00,
+  .enviro_factors = enviro_factors
+)   %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    var %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_county"
+    )
+  ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
 
 #### Strategy B.R7: Electrify Heating on Residential Buildings 
 
 This strategy calculates reduction in energy use and GHG emissions due to electrifying heating in households (ex. switching to ground source heat pumps and tankless water heaters), assuming that by 2040, *59%* of households will use electric heating, based on the Net-Zero America report. Currently, *14%* of households already use electricity for heating, according to American Community Survey estimates (in Washington County). Therefore, a transition of *45%* of homes to electric heating (*59%*-*14%*) will have the modeled effects on GHG emissions. Note: In regions of Minnesota, *71%* of annual household gas is used for space heating, and *24%* of gas is used for water heating, according to the [Residential Energy Consumption Survey (RECS)](https://www.eia.gov/consumption/residential/data/2015/)
 
 The main function involved in this strategy is `calc_electrify_residential_heating()`
+
+```{r}
+ghg.sp::calc_electrify_residential_heating(
+     res_tb = calc_ghg_residential(
+          res_tb = building_data$residential,
+          .grid_decarbonization_pct = 0.80,
+          .enviro_factors = enviro_factors),
+     .additional_electrified_residential_buildings_pct = 0.45,
+     .res_natural_gas_for_space_heating_pct = 0.71,
+     .res_natural_gas_for_water_heating_pct = 0.24,
+     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+     .grid_decarbonization_pct = 0.80,
+     .enviro_factors = enviro_factors
+)
+```
+
 
 #### Strategy B.R8: Increase Renewable Natural Gas on Residential Buildings
 
@@ -235,6 +354,15 @@ This strategy models the reduction in energy use intensity (EUI) that will resul
 
 The main function involved in this strategy is `ghg.sp::calc_existing_comm_building_efficiency()`
 
+```{r}
+ghg.sp::calc_existing_comm_building_efficiency(
+  non_res_tb = building_data$non_residential,
+  .existing_high_efficiency_buildings_pct = 0.80
+) %>%
+  dplyr::filter(ctu_name == "Lake Elmo")
+```
+
+
 #### Strategy B.C2: Smart Grid Efficiency for Commercial Buildings
 
 Achieving a net-zero grid requires transitioning to a smart grid. While the smart grid often helps in managing the load, studies have also shown that it can reduce energy use by approximately *11%*, based on PNNL’s “The Smart Grid: An Estimation of the Energy and CO<sub>2</sub> Benefits.” This *11%* will apply across the board to anyone connected to the electricity grid. In this strategy and the next, we applied this percentage reduction to *100%* of the electricity use. This strategy applies to commercial buildings because the residential reductions are already incorporated in the previous strategy. 
@@ -258,4 +386,8 @@ The main function involved in this strategy is `calc_electrify_commercial_heatin
 ### Baseline Energy Consumption Data 
 
 The electricity and natural consumption data used for the Building Energy Module might come from more than one source. The module requires energy consumption to be broken down into sector (residential, commercial, and industrial). Such breakdown, is difficult to access from utility companies or other databases. Hence, the Greenhouse Gas Scenario Planning Tool selects the best data or estimate available for a community. 
+
+```{r}
+
+```
 
