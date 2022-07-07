@@ -542,7 +542,7 @@ land_use_data$multifamily_mixed_area  %>%
   kable()
 ```
 
-*Q: Does it make sense that exurban development scenario has nearly 6 times more multifamily mixed area than does urban infill? Does it make sense that urban expansion basically has no change in the total hectares in multifamily mixed area? I'm not sure, but it could be good to describe what these different scenarios mean so that people reading the vignette understand a bit more and can contextualize their understanding.*
+*Q: Does it make sense that exurban development scenario has nearly 6 times more multifamily mixed area than does urban infill (for instance, the diversified rural communities have ~20,000 hectares of multifamily_mixed_area in the exurban development scenario, but barely any multifamily_mixed_area in the urban expansion or urban infill scenarios)? Does it make sense that urban expansion basically has no change in the total hectares in multifamily mixed area? I'm not sure, but it could be good to describe what these different scenarios mean so that people reading the vignette understand a bit more and can contextualize their understanding.*
 
 
 ```{r, message = F}
