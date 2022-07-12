@@ -25,7 +25,7 @@ library(tidyverse)
 
 ## Implications of Land Use & Green Infrastructure Module
 
-This document tests and synthesizes some outcomes of the land use and green infrastructure modules. A compliment to the introduction vignette; think of the introduction vignette as being the textbook "chapter," and this implications vignette is the "worked examples" at the end of the chapter.  
+This document tests and synthesizes some outcomes of the land use and green infrastructure module. A compliment to the introduction vignette; think of the introduction vignette as being the textbook "chapter," and this implications vignette is the "worked examples" at the end of the chapter.  
 
 For simplicity, most implications will be aggregated at the community designation level which is a framework for organizing the communities across the region into broad groups. 
 

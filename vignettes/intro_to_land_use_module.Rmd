@@ -1,5 +1,6 @@
 ---
 title: "Introduction to the Green Infrastructure & Land Use Module"
+subtitle: "Adapted from the Zero Energy Carbon for Communities Tool by the Sustainable Healthy Cities Network"
 author: Mauricio Leon, Senior Researcher, Metropolitan Council
 output: rmarkdown::html_vignette
 vignette: >
@@ -24,13 +25,17 @@ The module allows users to explore strategies for decarbonization within the lan
 ## Strategies
 
 The GHG mitigation strategies included in the Land Use & Green Infrastructure Module include:
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 1. **Urban Form (LU.1)**: The impact of changing the urban form (the land use and land cover composition) of the city/township to more compact residential and mixed use development. Reduction of greenhouse gas emissions occurs when there is more land available to greenery rather than impervious surfaces. 
 2. **Increase Tree Canopy (LU.2)**: The impact of increasing the tree canopy area of the city/township by a given amount. For example, what is the effect of planting trees on all pervious surfaces available in the city/township. 
 3. **Reduced Parking Lot Area (LU3)**: The impact of reducing the parking lot area of the city/township by a given percentage. Reducing parking lot increases the availability of surface area for tree planting. 
 4. **Conservation Tillage (LU4)**: The impact of conservation tillage on the emissions of agricultural land of the city/township. Sustainable agriculture practice can have a significant effect on a city /township emissions. 
 
+## Key Concepts
 Some key concept to understand the Land Use Module are the following:
 
 * Land Use
@@ -306,12 +311,8 @@ ghg.sp::calc_conservation_tillage(
 ```
 
 ---
-
 # STOP REVIEW HERE 
-
-
 ----
-
 
 ```{r}
 ghg.sp::calc_carbon_stock_per_ctu(

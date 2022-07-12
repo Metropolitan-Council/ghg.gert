@@ -67,7 +67,7 @@ library(tidyverse)
 The `building_data.rda` is a preloaded dataset that includes cleaned datasets to 
 run the building energy module of the `ghg.sp` package. 
 
-The R scripts to produce `building_data.rda` can be found on the `/raw-data folder` of the `ghg.sp` package.
+The R scripts to produce `building_data.rda` can be found on the `/raw-data` folder of the `ghg.sp` package.
 
 The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
 database, on the Council's Microsoft SQL Server. 
@@ -299,16 +299,18 @@ The main function involved in this strategy is `calc_electrify_residential_heati
 
 ```{r}
 ghg.sp::calc_electrify_residential_heating(
-     res_tb = calc_ghg_residential(
-          res_tb = building_data$residential,
-          .grid_decarbonization_pct = 0.80,
-          .enviro_factors = enviro_factors),
-     .additional_electrified_residential_buildings_pct = 0.45,
-     .res_natural_gas_for_space_heating_pct = 0.71,
-     .res_natural_gas_for_water_heating_pct = 0.24,
-     .boiler_to_heat_pump_efficiency_ratio = 1.59362,
-     .grid_decarbonization_pct = 0.80,
-     .enviro_factors = enviro_factors
+  res_tb = calc_ghg_residential(
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .grid_decarbonization_pct = 0.80,
+    .enviro_factors = enviro_factors
+  ),
+  .additional_electrified_residential_buildings_pct = 0.45,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
+  .grid_decarbonization_pct = 0.80,
+  .enviro_factors = enviro_factors
 )
 ```
 
