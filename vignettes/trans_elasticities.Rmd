@@ -99,7 +99,7 @@ park_alt_elast <- purrr::map(park_seq,
 ```{r vmt-alt}
 tictoc::tic("VMT alternates")
 vmt_alt_results <- purrr::map(vmt_alt_elast, function(x){
-  scen <- run_scenario(
+  scen <- run_scenario_transportation(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -124,7 +124,7 @@ tictoc::toc()
 ```{r gas-alt}
 tictoc::tic("Gas alternates")
 gas_alt_results <- purrr::map(gas_alt_elast, function(x){
-  scen <- run_scenario(
+  scen <- run_scenario_transportation(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -148,7 +148,7 @@ tictoc::toc()
 ```{r cong-alt}
 tictoc::tic("Congestion alternates")
 cong_alt_results <- purrr::map(cong_alt_elast, function(x){
-  scen <- run_scenario(
+  scen <- run_scenario_transportation(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",
@@ -172,7 +172,7 @@ tictoc::toc()
 ```{r parking-alt}
 tictoc::tic("Parking alternates")
 park_alt_results <- purrr::map(park_alt_elast, function(x){
-  scen <- run_scenario(
+  scen <- run_scenario_transportation(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "strategy_road_price",

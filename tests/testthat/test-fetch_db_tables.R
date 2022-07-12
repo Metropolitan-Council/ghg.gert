@@ -3,7 +3,7 @@
 testthat::expect_error(
   fetch_db_tables(
     local = FALSE,
-    module = "1"
+    module = "mod_1"
   )
 )
 
@@ -22,7 +22,7 @@ testthat::skip_if(is.null(getOption("councilR.pwd")))
 
 
 mod_2 <- fetch_db_tables(
-  module = "2"
+  module = "mod_2"
 )
 
 testthat::expect_equal(length(mod_2), 3)

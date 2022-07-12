@@ -21,7 +21,18 @@ enviro_factors <- list(
   MAX_5D_DR = -0.25,
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
-  MARG_TELEWORK = -2.749 / 100 # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+  MARG_TELEWORK = -2.749 / 100, # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+  # TODO document these values in R/data.R
+  KG_CO2E_PER_THERM_BASELINE = 5.31,
+  KG_CO2E_PER_THERM_FORECAST = 5.31,
+  KG_CO2E_PER_MHW_BASELINE = 566.4,
+  KG_CO2E_PER_MHW_FORECAST = 566.4,
+  LEED_GOLD_REDUCTION_PCT = 0.64,
+  EXISTING_HOME_RETROFIT_REDUCTION_PCT = 0.33,
+  EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT = 0.66,
+  BEHAVIOR_CHANGE_REDUCTION_PCT = 0.11,
+  SMART_GRID_EFFICIENCY_PCT = 0.11,
+  THERM_TO_MWH = 0.0293
 )
 
 

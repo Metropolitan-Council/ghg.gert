@@ -8,3 +8,5 @@
 inst/doc
 /doc/
 /Meta/
+
+vignettes/trans_scenario_shiny_cache/

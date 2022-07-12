@@ -8,16 +8,30 @@
 [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.sp/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.sp/actions)
 <!-- badges: end -->
 
-The goal of ghg.sp is to …
+The goal of `{ghg.sp}` is to quantify the effects of climate change
+mitigation strategies on future greenhouse gas emissions for every
+city/township unit in the Twin Cities metro. Focus areas include
+transportation, building energy, and carbon sequestration.
 
 ## Installation
 
-You can install the development version of ghg.sp from
-[GitHub](https://github.com/) with:
+Ensure your git credentials set up for accessing internal-only Council
+repositories.
+
+You can install the development version of `{ghg.sp}` from
+[GitHub](https://github.com/Metropolitan-Council/ghg.sp) with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("Metropolitan-Council/ghg.sp")
+```
+
+`{ghg.sp}` requires a few packages only available on GitHub. Install
+them separately
+
+``` r
+remotes::install_github("hadley/emo")
+remotes::install_github("Metropolitan-Council/councilR")
 ```
 
 ## Related repositories
