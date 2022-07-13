@@ -1,9 +1,3 @@
-# import tables
-## -------------------------------------------------------------------------------------------
-t_electricity_residential_ctu <- import_from_emissions("metro_energy.vw_electricity_residential_ctu")
-t_natural_gas_residential_ctu <- import_from_emissions("metro_energy.vw_natural_gas_residential_ctu")
-
-
 # residential baseline
 ## -------------------------------------------------------------------------------------------
 p_electricity_residential_ctu <-
