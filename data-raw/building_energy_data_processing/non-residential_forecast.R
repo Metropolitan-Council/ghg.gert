@@ -1,5 +1,4 @@
 # non residential forecast
-
 ## -------------------------------------------------------------------------------------------
 p_nonresidential_energy_forecast_1 <-
   bind_rows(
