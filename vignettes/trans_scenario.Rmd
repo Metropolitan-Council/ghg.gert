@@ -99,7 +99,7 @@ mitigation_lu <-  run_scenario_transportation(
 
 
 ```{r}
-mitigation_trans <-  run_scenario(
+mitigation_trans <-  run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",

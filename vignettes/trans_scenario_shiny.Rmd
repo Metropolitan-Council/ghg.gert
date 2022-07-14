@@ -40,7 +40,7 @@ st_paul_freight <- transportation_data$freight %>%
 
 
 ```{r}
-bau_summary <- run_scenario(pass_tb = st_paul_pass,
+bau_summary <- run_scenario_transportation(pass_tb = st_paul_pass,
                             freight_tb = st_paul_freight,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
@@ -120,7 +120,7 @@ plotOutput("passenger_vmt")
 
 calc_scen_vals <- reactive({
   
-  mitigation_scen <-  run_scenario(
+  mitigation_scen <-  run_scenario_transportation(
     pass_tb = st_paul_pass,
     freight_tb = st_paul_freight,
     .scenario = "user_input",
