@@ -2,12 +2,12 @@
 % Please edit documentation in R/b_adj_unit_counts.R
 \name{adj_unit_counts}
 \alias{adj_unit_counts}
-\title{Adjust Residential Building Unit Counts}
+\title{Adjust residential Building Unit Counts}
 \usage{
 adj_unit_counts(res_tb, .new_homes_to_multifamily_pct)
 }
 \arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with residential building attributes.
 Package provided dataset \code{building_energy$residential} is suitable and the
 default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
@@ -38,7 +38,7 @@ adj_unit_counts(
 }
 }
 \seealso{
-Other Residential: 
+Other residential: 
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_floor_area_growth}()},
@@ -61,5 +61,5 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Residential}
 \concept{buildings}
+\concept{residential}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_land_cover_by_city.R
 \name{calc_land_cover_by_city}
 \alias{calc_land_cover_by_city}
-\title{Calculate Land Cover by City/Township}
+\title{Calculate land cover by city/township}
 \usage{
 calc_land_cover_by_city(tb, .urban_form_scenario)
 }
@@ -22,7 +22,7 @@ The options are:
 }}
 }
 \description{
-takes the output of the function
+Takes the output of
 \code{calc_land_cover_by_land_use()} and
 calculates the total land cover (hectares) by type for each community.
 }

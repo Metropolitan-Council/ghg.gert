@@ -2,7 +2,7 @@
 % Please edit documentation in R/x_check_inputs.R
 \name{check_inputs}
 \alias{check_inputs}
-\title{Check Input Parameters}
+\title{Check input iarameters}
 \usage{
 check_inputs(name, value)
 }
@@ -15,7 +15,7 @@ check_inputs(name, value)
 Error if values do not pass
 }
 \description{
-Check Input Parameters
+Check input iarameters
 }
 \examples{
 

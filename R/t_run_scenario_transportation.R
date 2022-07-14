@@ -107,14 +107,14 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-      .payd_fee > 0 |
-      .drs_pct > 0 |
-      .drs_pct > 0 |
-      .gas_tax > 0 |
-      .av_pct > 0 |
-      .bev_pct_sales > 0 |
-      .hev_pct_sales > 0 |
-      .phev_pct_sales > 0) {
+    .payd_fee > 0 |
+    .drs_pct > 0 |
+    .drs_pct > 0 |
+    .gas_tax > 0 |
+    .av_pct > 0 |
+    .bev_pct_sales > 0 |
+    .hev_pct_sales > 0 |
+    .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -603,10 +603,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-                           by = c(
-                             "type", "scenario", "ctu",
-                             "year", "mode", "aeo_mode", "class"
-                           )
+    by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )
   )
 
   freight <- list(
@@ -622,9 +622,9 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario,
-             direct = dir_ghg,
-             embodied = ghg_embodied,
-             mode
+        direct = dir_ghg,
+        embodied = ghg_embodied,
+        mode
       ) %>%
       unique() %>%
       mutate(
@@ -639,7 +639,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario, mode,
-             direct = dir_ghg
+        direct = dir_ghg
       ) %>%
       unique() %>%
       mutate(

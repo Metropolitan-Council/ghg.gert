@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_tree_planting_land_cover.R
 \name{calc_tree_planting_land_cover}
 \alias{calc_tree_planting_land_cover}
-\title{Calculate Tree Planting Land Cover by City/Township}
+\title{Calculate tree planting land cover by city/township}
 \usage{
 calc_tree_planting_land_cover(
   tb,
@@ -17,7 +17,7 @@ calc_tree_planting_land_cover(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{detail}{\strong{Logical}.
+\item{detail}{logical,
 If \code{TRUE}, returns a table with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
@@ -41,25 +41,22 @@ Default is \code{0.26}.}
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.tree_panting_intervention}{character,
-Specifies the type of tree planting.
-intervention to be explored under the current scenario.
-The options are:
-\itemize{
-\item \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
-\item \code{"double"}: Assumes double the tree canopy relative.
+\item{.tree_panting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
 to the baseline year.
-\item \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
-Default is \code{tree_planting_on_all_pervious}.
-}}
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+Default is \code{tree_planting_on_all_pervious}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
 \code{calc_tree_planting_land_cover()} returns table with hectares of land by land cover type after a tree planting scenario
-for each city/township. Set argumnet \code{detail} to \code{TRUE} for a more detailed table.
+for each city/township. Set argument \code{detail} to \code{TRUE} for a more detailed table.
 }
 \description{
-recalculates the hectares of land by
+Recalculates the hectares of land by
 land cover type by city/township under a tree planting scenario.
 }
 \examples{

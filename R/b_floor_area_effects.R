@@ -510,10 +510,10 @@ calc_affordable_floor_area <- function(res_tb,
       dplyr::mutate(
         reduction_floor_area =
           0.5
-        * (
-          single_family_average_floor_area_sqft_ctu.2040 - (1 + .single_family_floor_area_growth_pct) *
-            single_family_average_floor_area_sqft_ctu.2018
-        ),
+          * (
+              single_family_average_floor_area_sqft_ctu.2040 - (1 + .single_family_floor_area_growth_pct) *
+                single_family_average_floor_area_sqft_ctu.2018
+            ),
         value = single_family_units.2040 - reduction_floor_area
       ) %>%
       dplyr::mutate(
@@ -525,12 +525,11 @@ calc_affordable_floor_area <- function(res_tb,
         .,
         res_tb %>%
           dplyr::filter(var != "single_family_units" &
-                          year == 2040)
+            year == 2040)
       ) %>%
       bind_rows(., res_tb %>%
-                  dplyr::filter(year == 2018))
+        dplyr::filter(year == 2018))
 
     return(new_res_tb)
   }
 }
-

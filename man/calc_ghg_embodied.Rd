@@ -43,8 +43,7 @@ Default is \code{0}.}
 \item{.bau_tb}{Output table for results.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions

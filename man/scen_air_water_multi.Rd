@@ -41,8 +41,7 @@ scen_air_water_multi(
 \item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.scenario}{\strong{Character}
-Scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{.electric_scenario}{electricity scenario}
 
@@ -71,10 +70,8 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.drs_pct}{\strong{Numeric}*.
-a value 0 and 1.
-Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-Default is \code{0}.}
+\item{.drs_pct}{numeric, percent of trips by auto or transit that are
+now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
@@ -108,14 +105,11 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.elast_5d}{table of 5D elasticities.
-Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \description{
 Calculate scenario for freight multi-modal, air, and water transportation

@@ -3,11 +3,13 @@ library(councilR)
 library(dplyr)
 library(ggplot2)
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-    councilR::theme_council(use_showtext = T,
-                            use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
 
@@ -24,7 +26,7 @@ bus_stock_old <- transportation_data$passenger %>%
 n_bus_per_year <- 2 # avg two new buses each year
 
 bus_year_estimate <- tibble(
-  year = seq(from = 2015, to = 2050, by =  1) %>% as.character(),
+  year = seq(from = 2015, to = 2050, by = 1) %>% as.character(),
   n_bus = seq(from = 865, to = 1250, length = 36)
 ) %>%
   filter(year %in% transportation_data$passenger$year)
@@ -54,21 +56,23 @@ new_stock <- transportation_data$passenger %>%
 
 
 # generate 0s for all other bus fuel types
-blank_alt_buses <- purrr::map_dfr(c("HEVStock", "BEVStock"), function(x){
+blank_alt_buses <- purrr::map_dfr(c("HEVStock", "BEVStock"), function(x) {
   new_stock %>%
-    mutate(value = 0,
-           var = x)
+    mutate(
+      value = 0,
+      var = x
+    )
 })
 
 new_stock_all <- new_stock %>%
   bind_rows(new_stock %>% # reassign TotStock to BCIStock
-              mutate(var = "TotStock")) %>%
+    mutate(var = "TotStock")) %>%
   bind_rows(blank_alt_buses)
 
 
 new_pass <- transportation_data$passenger %>%
   anti_join(new_stock_all,
-            by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
+    by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
   ) %>%
   bind_rows(new_stock_all)
 
@@ -78,34 +82,42 @@ usethis::use_data(transportation_data, overwrite = T)
 
 
 bus_year_estimate %>%
-  mutate(var = "All",
-         version = "Update"
+  mutate(
+    var = "All",
+    version = "Update"
   ) %>%
   bind_rows(bus_stock_old %>%
-              mutate(version = "Original")) %>%
-  ggplot(aes(x = as.numeric(year),
-             y = n_bus,
-             group = var,
-             color = var,
-             fill = var,
-             label = round(n_bus))) +
+    mutate(version = "Original")) %>%
+  ggplot(aes(
+    x = as.numeric(year),
+    y = n_bus,
+    group = var,
+    color = var,
+    fill = var,
+    label = round(n_bus)
+  )) +
   geom_point() +
   geom_line() +
-  geom_text(nudge_y = 100,
-            size = 4.5,
-            check_overlap = T) +
+  geom_text(
+    nudge_y = 100,
+    size = 4.5,
+    check_overlap = T
+  ) +
   # geom_area(position = "stack") +
   facet_wrap(~version,
-             nrow = 2) +
+    nrow = 2
+  ) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(n.breaks = 7) +
-  labs(title = "Regional bus fleet",
-       y = "Buses",
-       x = "Year",
-       caption = Sys.Date()) +
+  labs(
+    title = "Regional bus fleet",
+    y = "Buses",
+    x = "Year",
+    caption = Sys.Date()
+  ) +
   theme(legend.position = "bottom")
 
 ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
-       width = 10,
-       height = 8)
-
+  width = 10,
+  height = 8
+)

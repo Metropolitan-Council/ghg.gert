@@ -20,7 +20,6 @@
 #' }
 calc_land_cover_by_land_use <- function(tb,
                                         .urban_form_scenario) {
-
   land_cover_by_land_use <- tb$land_cover_percentages_filled %>%
     dplyr::group_by(
       ctu_name,

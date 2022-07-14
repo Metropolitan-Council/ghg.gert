@@ -19,16 +19,15 @@ vmt_vehicle_occupancy(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.stock}{Stock for current mode.}
+\item{.stock}{character, stock for current mode}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 table with columns \code{ctu}, \code{year}, \code{occupancy_adj}

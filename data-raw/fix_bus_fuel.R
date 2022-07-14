@@ -4,11 +4,13 @@ pkgload::load_all()
 library(dplyr)
 library(ggplot2)
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-    councilR::theme_council(use_showtext = T,
-                            use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
 bus_fuel_economy <- tibble::tribble(
@@ -44,54 +46,72 @@ fuel_eco_predict <- tibble(year = seq(max(bus_fuel_economy$year), 2050)) %>%
 
 
 new_bus_mpg <- fuel_eco_predict %>%
-  mutate(fleet_mpg =
-           c(predict(linear_mod, fuel_eco_predict))) %>%
+  mutate(
+    fleet_mpg =
+      c(predict(linear_mod, fuel_eco_predict))
+  ) %>%
   filter(year %in% transportation_data$passenger$year) %>%
   mutate(new_fleet_mpg = ifelse(is.na(total_fleet_mpg), fleet_mpg, total_fleet_mpg))
 
 existing_bus_mpg <- transportation_data$passenger %>%
-  filter(var == "BCIMPG",
-         mode == "BU") %>%
+  filter(
+    var == "BCIMPG",
+    mode == "BU"
+  ) %>%
   select(var, year, value) %>%
   unique() %>%
   arrange(year)
 
-bind_rows(new_bus_mpg %>%
-            mutate(year = as.numeric(year),
-                   fleet_mpg = new_fleet_mpg,
-                   version = "Predicted, fleet mpg ~ year") %>%
-            select(year, fleet_mpg, version),
-          bus_fuel_economy %>%
-            mutate(year = as.numeric(year),
-                   fleet_mpg = total_fleet_mpg,
-                   version = "Observed") %>%
-            select(year, fleet_mpg, version),
-          existing_bus_mpg %>%
-            mutate(year = as.numeric(year),
-              fleet_mpg = value,
-                  version = "SHCN, diesel") %>%
-            select(year, fleet_mpg, version)
+bind_rows(
+  new_bus_mpg %>%
+    mutate(
+      year = as.numeric(year),
+      fleet_mpg = new_fleet_mpg,
+      version = "Predicted, fleet mpg ~ year"
+    ) %>%
+    select(year, fleet_mpg, version),
+  bus_fuel_economy %>%
+    mutate(
+      year = as.numeric(year),
+      fleet_mpg = total_fleet_mpg,
+      version = "Observed"
+    ) %>%
+    select(year, fleet_mpg, version),
+  existing_bus_mpg %>%
+    mutate(
+      year = as.numeric(year),
+      fleet_mpg = value,
+      version = "SHCN, diesel"
+    ) %>%
+    select(year, fleet_mpg, version)
 ) %>%
-ggplot(aes(x = year,
-           y = fleet_mpg,
-           group = version,
-           color = version,
-           # fill = var,
-           label = round(fleet_mpg, 1))) +
+  ggplot(aes(
+    x = year,
+    y = fleet_mpg,
+    group = version,
+    color = version,
+    # fill = var,
+    label = round(fleet_mpg, 1)
+  )) +
   geom_point() +
   geom_line() +
-  geom_text(nudge_y = 0.1,
-            size = 4.6,
-            check_overlap = T) +
+  geom_text(
+    nudge_y = 0.1,
+    size = 4.6,
+    check_overlap = T
+  ) +
   theme(legend.position = "bottom") +
-  labs(title = "Bus fuel economy",
-       y = stringr::str_wrap("Fleet, miles per gallon", 10))
-  # geom_text(nudge_y = 100) +
-  # geom_area(position = "stack") +
-  # facet_wrap(~version,
-  #            nrow = 2)
+  labs(
+    title = "Bus fuel economy",
+    y = stringr::str_wrap("Fleet, miles per gallon", 10)
+  )
+# geom_text(nudge_y = 100) +
+# geom_area(position = "stack") +
+# facet_wrap(~version,
+#            nrow = 2)
 
 
 ggsave("data-raw/peer_review/figs/corrected_bus_fuel.png",
-       width = 11,
-       height = 6)
+  width = 11,
+  height = 6
+)

@@ -21,9 +21,9 @@ vmt_road_policy(
 )
 }
 \arguments{
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.tb_fuel_cost_mile}{table with fuel cost per mile}
+\item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}
 
 \item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
@@ -37,17 +37,13 @@ congested miles in MSP). Default is \code{0}}
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.stock}{Stock for current mode.}
+\item{.stock}{character, stock for current mode}
 
-\item{.phev_electric}{\strong{Logical}
-Is the current PHEV distinction electric.
-Default is \code{FALSE}.}
+\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 }
 \value{
 a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},

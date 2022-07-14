@@ -11,9 +11,9 @@ vmt_stock_proportion(.tb, .mode, .stock)
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.stock}{Stock for current mode.}
+\item{.stock}{character, stock for current mode}
 }
 \value{
 table with columns \code{ctu}, \code{year}, \code{mode}, and \code{mode_stock_adj}

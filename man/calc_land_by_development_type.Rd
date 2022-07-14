@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_land_by_development_type.R
 \name{calc_land_by_development_type}
 \alias{calc_land_by_development_type}
-\title{Calculate Land by Development Type}
+\title{Calculate land by development type}
 \usage{
 calc_land_by_development_type(tb, .urban_form_scenario)
 }
@@ -28,7 +28,7 @@ types (urban expansion, urban infill, and exurban development) for different
 land use scenarios.
 }
 \description{
-calculates the hectares of
+Calculates the hectares of
 land by different development types
 (urban expansion, urban infill, and exurban development) for  the selected land
 use (urban form) scenario at the city/township scale .

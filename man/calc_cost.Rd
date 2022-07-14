@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_cost.R
 \name{calc_cost}
 \alias{calc_cost}
-\title{Cost Estimates in Millions of US Dollars}
+\title{Calculate cost estimates in millions of dollars}
 \usage{
 calc_cost(
   tb_vmt,
@@ -17,18 +17,16 @@ calc_cost(
 
 \item{.mode}{character, given transportation mode.}
 
-\item{.price}{\strong{Character}
-Price variable. Options include \code{"SIPrice"}}
+\item{.price}{character, price variable. Options include \code{"SIPrice"}}
 
 \item{.is_av}{logical, whether the mode is AV.
 AV has a different MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
-estimates the cost in US dollars of the current mode distribution.
+Calculate cost estimates in millions of dollars
 }
 \seealso{
 Other transportation: 

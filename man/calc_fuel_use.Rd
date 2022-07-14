@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_fuel_use.R
 \name{calc_fuel_use}
 \alias{calc_fuel_use}
-\title{Calculate Use of Fuel in Thousands of Gallons or Thousands of kWh}
+\title{Calculate use of fuel in thousands of gallons or thousands of kWh}
 \usage{
 calc_fuel_use(
   tb_vmt,
@@ -23,7 +23,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, given transportation mode.}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
@@ -32,14 +32,10 @@ Default is \code{"REF"}}
 AV has a different MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
-}
-\value{
-\code{\link[tibble:tibble]{tibble::tibble()}} with column names...
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
-Calculate Use of Fuel in Thousands of Gallons or Thousands of kWh
+Calculate use of fuel in thousands of gallons or thousands of kWh
 }
 \seealso{
 Other transportation: 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_scen_land_use.R
 \name{calc_scen_land_use}
 \alias{calc_scen_land_use}
-\title{Calculate Scenario Land Use}
+\title{Calculate scenario land use}
 \usage{
 calc_scen_land_use(tb, .urban_form_scenario)
 }

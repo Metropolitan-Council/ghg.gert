@@ -49,14 +49,15 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.scenario}{\strong{Character}
-Scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{.electric_scenario}{electricity scenario}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
 
-\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 
 \item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
 Default is \code{0}}
@@ -66,7 +67,7 @@ Default is \code{0}}
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
@@ -77,10 +78,8 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.drs_pct}{\strong{Numeric}*.
-a value 0 and 1.
-Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-Default is \code{0}.}
+\item{.drs_pct}{numeric, percent of trips by auto or transit that are
+now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
@@ -126,14 +125,11 @@ Default is \code{0}.}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.elast_5d}{table of 5D elasticities.
-Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.

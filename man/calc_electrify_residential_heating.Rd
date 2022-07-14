@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_calc_electrify_residential_heating.R
 \name{calc_electrify_residential_heating}
 \alias{calc_electrify_residential_heating}
-\title{Calculate Strategy Electrify Residential Heating}
+\title{Calculate strategy electrify residential heating}
 \usage{
 calc_electrify_residential_heating(
   res_tb,
@@ -56,7 +56,7 @@ calc_electrify_residential_heating(
 }
 }
 \seealso{
-Other Residential: 
+Other residential: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_floor_area_growth}()},
@@ -79,5 +79,5 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Residential}
 \concept{buildings}
+\concept{residential}

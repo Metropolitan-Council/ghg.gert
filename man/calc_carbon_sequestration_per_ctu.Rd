@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_carbon_sequestration_per_ctu.R
 \name{calc_carbon_sequestration_per_ctu}
 \alias{calc_carbon_sequestration_per_ctu}
-\title{Calculate Carbon Sequestration by City/Township}
+\title{Calculate carbon sequestration by city/township}
 \usage{
 calc_carbon_sequestration_per_ctu(
   tb,
@@ -18,7 +18,7 @@ calc_carbon_sequestration_per_ctu(
 \code{\link[tibble:tibble]{tibble::tibble()}}
 }
 \description{
-calculates the total carbon sequestration
+Calculates the total carbon sequestration
 per hectares by land cover type by city/township.
 }
 \examples{

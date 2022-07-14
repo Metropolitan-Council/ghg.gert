@@ -2,12 +2,12 @@
 % Please edit documentation in R/b_calc_residential_renewable_ng.R
 \name{calc_residential_renewable_ng}
 \alias{calc_residential_renewable_ng}
-\title{Calculate Residential Renewable Natural Gas}
+\title{Calculate residential renewable natural gas}
 \usage{
 calc_residential_renewable_ng(res_tb, .enviro_factors = .enviro_factors)
 }
 \description{
-calculates the impact on residential
+Calculates the impact on residential
 building emissions from transitioning natural gas to renewable natural gas.
 }
 \examples{
@@ -21,7 +21,7 @@ calc_residential_renewable_ng(
 }
 }
 \seealso{
-Other Residential: 
+Other residential: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -44,5 +44,5 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Residential}
 \concept{buildings}
+\concept{residential}

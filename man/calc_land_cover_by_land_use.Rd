@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_land_cover_by_land_use.R
 \name{calc_land_cover_by_land_use}
 \alias{calc_land_cover_by_land_use}
-\title{Calculate Land Cover by Land Use by City/Township}
+\title{Calculate land cover by land use and city/township}
 \usage{
 calc_land_cover_by_land_use(tb, .urban_form_scenario)
 }
@@ -26,7 +26,7 @@ The options are:
 A long table with the percent of land cover for each land use type for each city*/township
 }
 \description{
-\code{calc_land_cover_by_land_use()} calculates the land cover by land use type for each community,
+Calculates the land cover by land use type for each community,
 using the bridge table "land_cover_percentages_filled" for the selected land use scenario.
 }
 \examples{

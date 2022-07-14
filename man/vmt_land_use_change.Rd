@@ -42,11 +42,9 @@ Numeric between -1 and 1. Default is \code{0}}
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
 Numeric between -1 and 1. Default is \code{0}}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast_5d}{table of 5D elasticities.
-Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 a table with columns \code{year}, \code{type}, and \code{land_use_adj}
