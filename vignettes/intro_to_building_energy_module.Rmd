@@ -59,7 +59,9 @@ The GHG mitigation strategies included in the Building Energy Module include:
 All the functions for the Building Energy Module are contained within the `ghg.sp` package.
 ```{r setup}
 library(ghg.sp)
-library(tidyverse)
+library(knitr)
+library(tidyr)
+library(dplyr)
 ```
 
 ## Source Datasets
@@ -342,7 +344,6 @@ building_data$non_residential %>%
 #### Non-Residential Variables
 <!--  TABLE STARTS HERE -->
 ```{r}
-library(knitr)
 kable(non_residential_variables)
 ```
 
