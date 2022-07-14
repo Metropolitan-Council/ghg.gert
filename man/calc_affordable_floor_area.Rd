@@ -33,8 +33,9 @@ floor area from increased energy prices by city/township.
 library(ghg.sp)
 
 calc_affordable_floor_area
+ghg.sp::calc_affordable_floor_area(
      res_tb = building_data$residential,
-     .single_family_floor_area_growth_pct = 0.05
+     .single_family_floor_area_growth_pct = 0.05)
 }
 }
 \seealso{
