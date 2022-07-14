@@ -1,9 +1,9 @@
 # import tables
 ## -------------------------------------------------------------------------------------------
-t_ztrax_building_sqft <- import_from_emissions("metro_sp_mod_2.vw_ztrax_building_sqft")
-t_emp_forecast_county <- import_from_emissions("metro_demographic.vw_emp_forecast_county")
-t_ctu_forecast <- import_from_emissions("metro_sp_mod_1.vw_ctu_forecast")
-t_emp_forecast_ctu <- import_from_emissions("metro_demographic.vw_emp_forecast_ctu")
+t_ztrax_building_sqft <- import_from_emissions("metro_energy.vw_ztrax_building_sqft")
+t_emp_forecast_county <- import_from_emissions("metro_demographic.vw_emp_forecast_industry_county")
+t_ctu_forecast <- import_from_emissions("metro_demographic.vw_ctu_forecast")
+t_emp_forecast_ctu <- import_from_emissions("metro_demographic.vw_emp_forecast_industry_ctu")
 
 # baseline demographics
 ## -------------------------------------------------------------------------------------------
