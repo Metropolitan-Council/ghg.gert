@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for Autonomous Vehicles (AVs)
+#' @title Calculate scenario for autonomous vehicles (AVs)
 #' @family transportation
 #' @family passenger
 #'
@@ -17,8 +17,8 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
                                     .electric_scenario = "ER",
                                     .aeo_scenario = "REF",
                                     .transit_avo_pct = 0,
-                                    .pldv_avo_pct = 0,
                                     .transit_rider_pct = 0,
+                                    .pldv_avo_pct = 0,
                                     .vmt_fee = 0,
                                     .payd_fee = 0,
                                     .gas_tax = 0,

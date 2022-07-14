@@ -10,13 +10,17 @@
 #' @param .drs_fuel_type input dynamic ride sharing (DRS) fuel type. Default is `0`.
 #' @param .av_fuel_type input AV fuel type
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
+#'
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams adj_fleet_shares
+#'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
+#'
 #' @export
 #' @importFrom dplyr filter select case_when across bind_rows cur_column
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
+#'
 #' @family transportation
 run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         freight_tb = transportation_data$freight,
@@ -24,6 +28,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
                                         .transit_avo_pct = 0,
+                                        .pldv_avo_pct = 0,
                                         .transit_rider_pct = 0,
                                         .vmt_fee = 0,
                                         .payd_fee = 0,
@@ -57,7 +62,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     "vmt_fee",
     "payd_fee",
     "parking_price",
-    "transit_avo_pct",
+    ".transit_avo_pct",
     "transit_rider_pct",
     "av_pct",
     "drs_pct",
@@ -102,14 +107,14 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .drs_pct > 0 |
-    .drs_pct > 0 |
-    .gas_tax > 0 |
-    .av_pct > 0 |
-    .bev_pct_sales > 0 |
-    .hev_pct_sales > 0 |
-    .phev_pct_sales > 0) {
+      .payd_fee > 0 |
+      .drs_pct > 0 |
+      .drs_pct > 0 |
+      .gas_tax > 0 |
+      .av_pct > 0 |
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0 |
+      .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -145,6 +150,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -179,6 +185,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -213,6 +220,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -246,6 +254,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -280,6 +289,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -314,6 +324,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -347,6 +358,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -384,6 +396,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -419,6 +432,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -454,6 +468,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -588,10 +603,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-    by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )
+                           by = c(
+                             "type", "scenario", "ctu",
+                             "year", "mode", "aeo_mode", "class"
+                           )
   )
 
   freight <- list(
@@ -607,9 +622,9 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario,
-        direct = dir_ghg,
-        embodied = ghg_embodied,
-        mode
+             direct = dir_ghg,
+             embodied = ghg_embodied,
+             mode
       ) %>%
       unique() %>%
       mutate(
@@ -624,7 +639,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario, mode,
-        direct = dir_ghg
+             direct = dir_ghg
       ) %>%
       unique() %>%
       mutate(
