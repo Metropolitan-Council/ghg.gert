@@ -1,4 +1,4 @@
-#' @title Calculate Strategy Electrify Commercial Heating
+#' @title Calculate strategy electrify commercial heating
 #' @family commercial-industrial
 #' @family buildings
 #'

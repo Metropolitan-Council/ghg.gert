@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for Passenger Light-Duty Vehicles
+#' @title Calculate scenario for passenger light-duty vehicles
 #' @family passenger
 #' @family transportation
 #'

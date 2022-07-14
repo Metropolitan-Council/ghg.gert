@@ -1,5 +1,5 @@
-#' @title Calculate Scenario for Freight Rail
-#' @family Freight
+#' @title Calculate scenario for freight rail
+#' @family freight
 #' @family transportation
 #'
 #' @inheritParams run_scenario_transportation

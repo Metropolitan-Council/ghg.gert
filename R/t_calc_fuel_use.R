@@ -1,10 +1,9 @@
-#' Calculate Use of Fuel in Thousands of Gallons or Thousands of kWh
-#' @family transportation
+#' @title Calculate use of fuel in thousands of gallons or thousands of kWh
 #'
 #' @inheritParams calc_ghg_direct
 #' @inheritParams calc_vmt_forecast
 #'
-#' @return [tibble::tibble()] with column names...
+#' @family transportation
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all
 #' @importFrom tidyselect all_of

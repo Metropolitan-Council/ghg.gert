@@ -1,4 +1,4 @@
-#' @title Calculate Transportation Direct Emissions
+#' @title Calculate transportation direct emissions
 #' @family emissions
 #' @family transportation
 #'

@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for Freight Trucks
+#' @title Calculate scenario for freight trucks
 #' @family Freight
 #' @family transportation
 #'

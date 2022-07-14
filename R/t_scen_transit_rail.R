@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for Passenger Rail
+#' @title Calculate scenario for passenger rail
 #' @family passenger
 #' @family transportation
 #'

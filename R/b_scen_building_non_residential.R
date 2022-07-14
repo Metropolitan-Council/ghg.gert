@@ -1,4 +1,4 @@
-#' @title Calculate Scenario Building Non-Residential
+#' @title Calculate scenario building non-residential
 #' @family commercial-industrial
 #' @family buildings
 #'

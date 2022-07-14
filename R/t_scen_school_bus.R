@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for School Buses
+#' @title Calculate scenario for school buses
 #' @family passenger
 #' @family transportation
 #'

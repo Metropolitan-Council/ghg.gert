@@ -1,7 +1,7 @@
-#' @title Prepare Green Infrastructure Module
+#' @title Prepare green infrastructure module
 #' @family land use
 #'
-#' @description  generates the outputs of the land use and green
+#' @description  Generates the outputs of the land use and green
 #' infrastructure module.
 #'
 #' @inheritParams calc_carbon_sequestration_per_ctu

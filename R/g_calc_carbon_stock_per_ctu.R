@@ -1,4 +1,4 @@
-#' @title Calculate Carbon Stock by City/Township
+#' @title Calculate carbon stock by city/township
 #' @family land use
 #' @family emissions
 #'

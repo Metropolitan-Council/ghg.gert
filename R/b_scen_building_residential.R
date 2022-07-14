@@ -1,11 +1,11 @@
-#' @title Calculate Residential Building Strategies
-#' @family buildings, Residential
+#' @title Calculate residential building strategies
+#' @family buildings, residential
 #'
-#' @description calculates the effect of the residential building
+#' @description Calculates the effect of the residential building
 #'     strategies within the building energy module.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'
-#' @param res_tb [tibble::tibble()], Data table with residential building attributes.
+#' @param res_tb [tibble::tibble()], data table with residential building attributes.
 #'      Package provided dataset `building_energy$residential` is suitable and the
 #'      default value.
 #'     `res_tb_bau` is only used for the "business as usual" scenario, in contrast
@@ -117,7 +117,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .enviro_factors = .enviro_factors
   )
 
-  #B.R (Electrify Residential Buildings)
+  #B.R (Electrify residential Buildings)
   tb07 <- calc_electrify_residential_heating(
     res_tb = tb06,
     .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,

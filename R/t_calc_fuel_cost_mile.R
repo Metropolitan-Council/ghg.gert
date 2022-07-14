@@ -1,4 +1,4 @@
-#' @title Calculate Fuel Cost Per Mile
+#' @title Calculate fuel cost per mile
 #' @family transportation
 #'
 #' @param .miles_per_gallon numeric,

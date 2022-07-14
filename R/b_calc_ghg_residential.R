@@ -1,9 +1,9 @@
-#' @title Calculate Residential Building Emissions
+#' @title Calculate residential building emissions
 #' @family buildings
-#' @family Residential
+#' @family residential
 #' @family emissions
 #'
-#' @description estimates total energy demand
+#' @description Estimates total energy demand
 #'      and emissions from the residential building sector by city/township
 #'      for the user specified scenario, and the business-as-usual scenario.
 #' @note `calc_ghg_residential()` estimates the building energy demand and emissions

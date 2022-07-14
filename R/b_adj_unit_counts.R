@@ -1,5 +1,5 @@
-#' @title Adjust Residential Building Unit Counts
-#' @family Residential
+#' @title Adjust residential Building Unit Counts
+#' @family residential
 #' @family buildings
 #'
 #' @description adjusts single and multifamily unit count forecast by city/township
