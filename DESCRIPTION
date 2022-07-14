@@ -30,11 +30,14 @@ Imports:
     usethis (>= 2.0.1)
 Suggests: 
     councilR (>= 0.1.0.9001),
+    curl (>= 4.3.2),
+    fs (>= 1.5.2),
     ggplot2 (>= 3.3.5),
     gt (>= 0.4.0),
     knitr (>= 1.34),
     rmarkdown (>= 2.10),
     scales (>= 1.1.1),
+    sf (>= 1.0.7),
     testthat (>= 3.0.0),
     wesanderson (>= 0.3.6)
 VignetteBuilder: 
