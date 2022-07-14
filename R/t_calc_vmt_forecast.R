@@ -169,7 +169,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -291,7 +293,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -337,7 +341,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           pass_ld_vmt =
             (miles_traveled -
-              (active_transportation_adj * transit_adj)) *
+              (active_transportation_adj * (transit_adj*mode_stock_adj))) *
               av_adj * aeo_adj *
               vmt_fee_adj * cong_adjust * gas_adj *
               telework_adj * land_use_adj *
@@ -434,7 +438,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = "PLDV",
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       at_adjustment <- tb %>%
@@ -495,7 +501,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -582,7 +590,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -684,7 +694,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       tb_fin <- left_join(tb_vmt, veh_occupancy, c("year", "ctu")) %>%
@@ -723,7 +735,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -762,7 +776,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
