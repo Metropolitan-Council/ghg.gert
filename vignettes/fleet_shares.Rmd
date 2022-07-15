@@ -287,8 +287,8 @@ ggplot(bu_stock %>%
        caption = paste0(my_caption, " Source: Metro Transit Facts and National Transit Database"))  +
   theme(legend.position = "bottom")
 
-ggsave("../data-raw/peer_review/figs/bus_stock.png",
-      width = 10,
-      height = 8)
+# ggsave("../data-raw/peer_review/figs/bus_stock.png",
+      # width = 10,
+      # height = 8)
 ```
 
