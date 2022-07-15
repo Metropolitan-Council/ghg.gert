@@ -82,7 +82,7 @@ p_ctu_population_forecast <-
 
 ## ----industrial workers---------------------------------------------------------------------
 p_ctu_emp_forecast <-
-  t_emp_forecast_ctu %>%
+  t_emp_forecast_industry_ctu %>%
   filter(year == 2040) %>%
   dplyr::group_by(ctu_name, year, indlabel) %>%
   dplyr::mutate(
