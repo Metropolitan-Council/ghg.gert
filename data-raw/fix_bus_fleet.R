@@ -1,3 +1,5 @@
+# Re-assign all bus powertrains to diesel -----
+
 pkgload::load_all()
 library(councilR)
 library(dplyr)
@@ -16,7 +18,7 @@ ggplot2::theme_set(
 bus_stock_old <- transportation_data$passenger %>%
   filter(
     str_detect(var, "Stock"),
-    mode == "BU",
+    mode %in% c("BU", "BRT"),
     var != "TotStock"
   ) %>%
   group_by(year, var) %>%
@@ -31,10 +33,54 @@ bus_year_estimate <- tibble(
 ) %>%
   filter(year %in% transportation_data$passenger$year)
 
+
+bus_year_estimate %>%
+  mutate(
+    var = "All",
+    version = "Update"
+  ) %>%
+  bind_rows(bus_stock_old %>%
+              mutate(version = "Original")) %>%
+  ggplot(aes(
+    x = as.numeric(year),
+    y = n_bus,
+    group = var,
+    color = var,
+    fill = var,
+    label = round(n_bus)
+  )) +
+  geom_point() +
+  geom_line() +
+  geom_text(
+    nudge_y = 100,
+    size = 4.5,
+    check_overlap = T
+  ) +
+  # geom_area(position = "stack") +
+  facet_wrap(~version,
+             nrow = 2
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(n.breaks = 7) +
+  labs(
+    title = "Regional bus fleet",
+    y = "Buses",
+    x = "Year",
+    caption = paste0("BRT included. ", Sys.Date())
+  ) +
+  theme(legend.position = "bottom")
+
+ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
+       width = 10,
+       height = 8
+)
+
+# apply changes to transportation_data -----
+
 new_stock <- transportation_data$passenger %>%
   filter(
     var == "PMT",
-    mode == "AT"
+    mode == "AT" # all active transportation
   ) %>%
   group_by(year) %>%
   mutate(region_pmt = sum(value)) %>%
@@ -64,6 +110,7 @@ blank_alt_buses <- purrr::map_dfr(c("HEVStock", "BEVStock"), function(x) {
     )
 })
 
+# new stock,  join back to passenger -----
 new_stock_all <- new_stock %>%
   bind_rows(new_stock %>% # reassign TotStock to BCIStock
     mutate(var = "TotStock")) %>%
@@ -80,44 +127,3 @@ transportation_data$passenger <- new_pass
 
 usethis::use_data(transportation_data, overwrite = T)
 
-
-bus_year_estimate %>%
-  mutate(
-    var = "All",
-    version = "Update"
-  ) %>%
-  bind_rows(bus_stock_old %>%
-    mutate(version = "Original")) %>%
-  ggplot(aes(
-    x = as.numeric(year),
-    y = n_bus,
-    group = var,
-    color = var,
-    fill = var,
-    label = round(n_bus)
-  )) +
-  geom_point() +
-  geom_line() +
-  geom_text(
-    nudge_y = 100,
-    size = 4.5,
-    check_overlap = T
-  ) +
-  # geom_area(position = "stack") +
-  facet_wrap(~version,
-    nrow = 2
-  ) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_x_continuous(n.breaks = 7) +
-  labs(
-    title = "Regional bus fleet",
-    y = "Buses",
-    x = "Year",
-    caption = Sys.Date()
-  ) +
-  theme(legend.position = "bottom")
-
-ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
-  width = 10,
-  height = 8
-)
