@@ -8,3 +8,7 @@ source("data-raw/fix_bus_fleet.R")
 
 # building energy
 source("data-raw/naics_codes.R")
+
+write_csv(transportation_data$passenger, "data-raw/csv_copies/transportation_data_passenger.csv")
+
+write_csv(transportation_data$freight, "data-raw/csv_copies/transportation_data_freight.csv")
