@@ -234,6 +234,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
 
+      # All transit
       at_adjustment <- tb %>%
         filter(mode == "AT", var == .variable) %>%
         select(ctu, year, active_transportation_adj = value)
@@ -340,8 +341,7 @@ calc_vmt_forecast <- function(.scenario,
         rowwise() %>%
         mutate(
           pass_ld_vmt =
-            (miles_traveled -
-              (active_transportation_adj * (transit_adj*mode_stock_adj))) *
+            (miles_traveled - transit_adj) *
               av_adj * aeo_adj *
               vmt_fee_adj * cong_adjust * gas_adj *
               telework_adj * land_use_adj *
