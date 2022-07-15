@@ -48,7 +48,8 @@ Some key concept to understand the Land Use Module are the following:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
-                      comment = "#>")
+                      comment = "#>",
+                      eval = FALSE) # FIX THIS LATER
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 

@@ -6,6 +6,7 @@
 \usage{
 calc_electrify_residential_heating(
   res_tb,
+  res_tb_bau,
   .additional_electrified_residential_buildings_pct,
   .res_natural_gas_for_space_heating_pct,
   .res_natural_gas_for_water_heating_pct,
@@ -41,6 +42,7 @@ library(ghg.sp)
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
     res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
   ),
