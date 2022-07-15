@@ -40,7 +40,7 @@ bus_year_estimate %>%
     version = "Update"
   ) %>%
   bind_rows(bus_stock_old %>%
-              mutate(version = "Original")) %>%
+    mutate(version = "Original")) %>%
   ggplot(aes(
     x = as.numeric(year),
     y = n_bus,
@@ -58,7 +58,7 @@ bus_year_estimate %>%
   ) +
   # geom_area(position = "stack") +
   facet_wrap(~version,
-             nrow = 2
+    nrow = 2
   ) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(n.breaks = 7) +
@@ -71,8 +71,8 @@ bus_year_estimate %>%
   theme(legend.position = "bottom")
 
 ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
-       width = 10,
-       height = 8
+  width = 10,
+  height = 8
 )
 
 # apply changes to transportation_data -----
@@ -126,4 +126,3 @@ new_pass <- transportation_data$passenger %>%
 transportation_data$passenger <- new_pass
 
 usethis::use_data(transportation_data, overwrite = T)
-

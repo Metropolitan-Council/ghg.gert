@@ -73,7 +73,6 @@ mitigation_lu <- run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05
   # .pldv_avo_pct = 0.05
-
 ) %>%
   suppressMessages()
 
@@ -194,8 +193,8 @@ ggplot(
   )
 
 ggsave("./data-raw/peer_review/figs/scen_run.png",
-       width = 8,
-       height = 6
+  width = 8,
+  height = 6
 )
 
 

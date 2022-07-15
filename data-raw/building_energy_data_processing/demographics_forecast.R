@@ -48,7 +48,7 @@ p_county_average_floor_area_multifamily_forecast <-
     value =
       case_when(
         mean_growth_rate * (2040 - 2018) > 0.15 ~ value + (value *
-                                                             0.15),
+          0.15),
         mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
       ),
     year = 2040
