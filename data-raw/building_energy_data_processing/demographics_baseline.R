@@ -1,13 +1,3 @@
-# import tables
-## -------------------------------------------------------------------------------------------
-t_ztrax_sqft_summary_county <- import_from_emissions("metro_sp_mod_2.ztrax_sqft_summary_county")
-t_led_industry_county <- import_from_emissions("metro_demographic.vw_led_industry_county")
-t_ctu_population <- import_from_emissions("metro_demographic.vw_ctu_population")
-t_ctu_qcew_ctu <- import_from_emissions("metro_demographic.vw_qcew_ctu")
-t_forecast_lu_ctu <- import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
-t_ztrax_sqft_summary_ctu <- import_from_emissions("metro_sp_mod_2.vw_ztrax_sqft_summary_ctu")
-t_ctu_county <- import_from_emissions("metro_demographic.vw_ctu_county")
-
 # baseline demographics
 ## -------------------------------------------------------------------------------------------
 p_county_average_floor_area_single_family <-

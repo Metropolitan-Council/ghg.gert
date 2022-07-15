@@ -1,10 +1,3 @@
-# import tables
-## -------------------------------------------------------------------------------------------
-t_ztrax_building_sqft <- import_from_emissions("metro_sp_mod_2.vw_ztrax_building_sqft")
-t_emp_forecast_county <- import_from_emissions("metro_demographic.vw_emp_forecast_county")
-t_ctu_forecast <- import_from_emissions("metro_sp_mod_1.vw_ctu_forecast")
-t_emp_forecast_ctu <- import_from_emissions("metro_demographic.vw_emp_forecast_ctu")
-
 # baseline demographics
 ## -------------------------------------------------------------------------------------------
 p_county_average_annual_growth_single_family_sqft <-
@@ -89,7 +82,7 @@ p_ctu_population_forecast <-
 
 ## ----industrial workers---------------------------------------------------------------------
 p_ctu_emp_forecast <-
-  t_emp_forecast_ctu %>%
+  t_emp_forecast_industry_ctu %>%
   filter(year == 2040) %>%
   dplyr::group_by(ctu_name, year, indlabel) %>%
   dplyr::mutate(

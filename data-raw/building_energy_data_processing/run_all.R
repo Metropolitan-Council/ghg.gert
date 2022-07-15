@@ -5,6 +5,9 @@ library(purrr)
 library(ghg.sp)
 library(councilR)
 
+#import tables
+source("data-raw/building_energy_data_processing/import_tables.R")
+
 # demographic
 source("data-raw/building_energy_data_processing/demographics_baseline.R")
 source("data-raw/building_energy_data_processing/demographics_forecast.R")

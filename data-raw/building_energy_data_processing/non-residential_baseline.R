@@ -1,18 +1,4 @@
-# import tables
-## -------------------------------------------------------------------------------------------
-t_eia_electricity_servicewide <- import_from_emissions("metro_energy.vw_eia_electricity_servicewide")
-t_mndoc_electricity_county <- import_from_emissions("metro_energy.vw_mndoc_electricity_county")
-t_intersect_landuse_utility_service_area_county <- import_from_emissions("metro_energy.vw_intersect_landuse_utility_service_area_county")
-t_eia_energy_consumption_state <- import_from_emissions("state_energy.eia_energy_consumption_state")
-t_intersect_landuse_utility_service_area_ctu <- import_from_emissions("metro_energy.vw_intersect_landuse_utility_service_area_ctu")
-t_state_qcew <- import_from_emissions("state_demographic.vw_state_qcew")
-t_county <- import_from_emissions("state_demographic.county")
-t_utility_electricity_by_ctu <- import_from_emissions("metro_energy.vw_utility_electricity_by_ctu")
-t_nrel_energy_consumption_ctu <- import_from_emissions("metro_energy.vw_nrel_energy_consumption_ctu")
-t_utility_natural_gas_by_ctu <- import_from_emissions("metro_energy.vw_utility_natural_gas_by_ctu")
-
 # non-residential baseline
-
 ## ----electric serviewide customer ratio of utilities----------------------------------------
 p_servicewide_customer_class_ratio <-
   t_eia_electricity_servicewide %>%

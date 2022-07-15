@@ -83,6 +83,8 @@ if (nrow(multiple_cos) < 1) {
 
 ```
 
+**We have responded to issue #37 on GitHub. We will not address this issue until the proper table is created for all of research.**
+
 2. Additionally! Please *REMOVE* county columns from all other databases associated with this project! For instance, the `db_tables$t_housing_stock_ctu` table has both ctu_name and co_name columns. If ONLY the `ctu_county` table contains the county information, that means that you will only have to consider this issue (county assignments) once instead of multiple times (yay!). Then this "global" information (ctu and county assignment) can just be joined into other tables and you will be confident in the accuracy of the assignment. 
 
 ```{r}
@@ -94,6 +96,8 @@ db_tables$t_housing_stock_ctu %>%
   head()
 
 ```
+
+*R: On 7/13/2020 Mauricio removed the county name column from tables where it wasn't needed.*
 
 **$ctu_forecast**: 
 Table shows the demographic forecasts for city/township from Community Profiles.
