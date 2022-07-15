@@ -7,7 +7,8 @@ ggplot2::theme_set(
   councilR::theme_council(
     use_showtext = T,
     use_manual_font_sizes = T
-  )
+  ) +
+    theme(plot.caption.position = "plot")
 )
 
 
@@ -42,9 +43,9 @@ bau_summary <- run_scenario_transportation(
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF"
-)
+) %>%
+  suppressMessages()
 
-undebug(calc_vmt_forecast)
 
 # browser()
 mitigation_trans <- run_scenario_transportation(
@@ -54,7 +55,7 @@ mitigation_trans <- run_scenario_transportation(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .transit_avo_pct = 0.10,
-  # .transit_rider_pct = 0.10,
+  .transit_rider_pct = 0.10,
   .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()
@@ -71,10 +72,12 @@ mitigation_lu <- run_scenario_transportation(
   .land_use_diversity_pct_change = 0.05,
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05
+  # .pldv_avo_pct = 0.05
+
 ) %>%
   suppressMessages()
 
-debug(vmt_transit_ridership)
+# debug(vmt_transit_ridership)
 mitigation_lu_transit <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
@@ -87,7 +90,8 @@ mitigation_lu_transit <- run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_avo_pct = 0.10,
-  .transit_rider_pct = 0.10
+  .transit_rider_pct = 0.10,
+  .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()
 
@@ -133,13 +137,14 @@ ggplot(
   ) +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Region PLDV, AV miles traveled",
+    title = "Region",
+    subtitle = "passenger car vehicle miles traveled",
     color = ""
   )
 
 ggsave("./data-raw/peer_review/figs/scen_run.png",
-       width = 8,
-       height = 6
+  width = 8,
+  height = 6
 )
 
 
