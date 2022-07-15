@@ -59,8 +59,7 @@ Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
-Default is \code{0}}
+\item{.transit_rider_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
 
 \item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 
