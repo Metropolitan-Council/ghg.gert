@@ -1,8 +1,8 @@
-#' @title Calculate Carbon Sequestration by City/Township
+#' @title Calculate carbon sequestration by city/township
 #' @family land use
 #' @family emissions
 #'
-#' @description calculates the total carbon sequestration
+#' @description Calculates the total carbon sequestration
 #'      per hectares by land cover type by city/township.
 #'
 #'

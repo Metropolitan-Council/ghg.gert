@@ -20,11 +20,9 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{.pass_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Passenger input table. Default is \code{transportation_data$passenger}.}
+\item{.pass_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}. Passenger input table. Default is \code{transportation_data$passenger}.}
 
-\item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}
-freight input table. Default is \code{transportation_data$freight}.}
+\item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} #' freight input table. Default is \code{transportation_data$freight}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
@@ -43,19 +41,16 @@ Default is \code{0}.}
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
-\item{.drs_pct}{numeric,   a value between \code{0} and \code{1.}
-Percent of trips/fleet that is dynamic ride sharing (DRS).
-Default is \code{0}.}
+\item{.drs_pct}{numeric,   a value between \code{0} and \code{1.} Percent of trips/fleet
+that is dynamic ride sharing (DRS). Default is \code{0}.}
 
 \item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
@@ -121,5 +116,5 @@ Other transportation:
 \code{\link{scen_walk_bike}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
-\concept{Stock Adjustments}
+\concept{stock adjustments}
 \concept{transportation}

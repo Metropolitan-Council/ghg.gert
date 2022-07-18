@@ -1,8 +1,8 @@
-#' @title Scenario for Walk and Bike
+#' @title Scenario for walk and bike
 #' @family passenger
 #' @family transportation
 #'
-#' @description calculates scenario for walk and bike.
+#' @description Calculates scenario for walk and bike.
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
@@ -17,6 +17,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .electric_scenario = "ER",
                            .aeo_scenario = "REF",
                            .transit_avo_pct = 0,
+                           .pldv_avo_pct = 0,
                            .transit_rider_pct = 0,
                            .vmt_fee = 0,
                            .payd_fee = 0,

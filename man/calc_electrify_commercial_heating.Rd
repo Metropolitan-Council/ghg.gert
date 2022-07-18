@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_calc_electrify_commercial_heating.R
 \name{calc_electrify_commercial_heating}
 \alias{calc_electrify_commercial_heating}
-\title{Calculate Strategy Electrify Commercial Heating}
+\title{Calculate strategy electrify commercial heating}
 \usage{
 calc_electrify_commercial_heating(
   non_res_tb,
@@ -73,6 +73,7 @@ calc_electrify_commercial_heating(
 Other commercial-industrial: 
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 
 Other buildings: 

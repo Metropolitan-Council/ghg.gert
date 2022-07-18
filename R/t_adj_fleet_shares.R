@@ -1,5 +1,5 @@
 #' @title Adjust fleet power train distribution before running scenario
-#' @family Stock Adjustments
+#' @family stock adjustments
 #' @family transportation
 #'
 #' @description  Match what the user input for sales in the final forecast year rather
@@ -38,21 +38,18 @@
 #'
 #'
 #' @param .bev_pct_sales numeric,  a value between `0` and `1.`
-#' Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
-#'      Default is `0`.
-#' @param .phev_pct_sales numeric,  a value between `0` and `1.`
-#' Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
-#'      Default is `0`.
-#' @param .hev_pct_sales  numeric,   a value between `0` and `1.`
-#' Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
-#'      Default is `0`.
-#' @param .pass_tb [tibble::tibble()].
-#' Passenger input table. Default is `transportation_data$passenger`.
-#' @param .freight_tb [tibble::tibble()]
-#' freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct numeric,   a value between `0` and `1.`
-#' Percent of trips/fleet that is dynamic ride sharing (DRS).
+#'     Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
 #'     Default is `0`.
+#' @param .phev_pct_sales numeric,  a value between `0` and `1.`
+#'    Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+#'    Default is `0`.
+#' @param .hev_pct_sales  numeric,   a value between `0` and `1.`
+#'    Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+#'    Default is `0`.
+#' @param .pass_tb [tibble::tibble()]. Passenger input table. Default is `transportation_data$passenger`.
+#' @param .freight_tb [tibble::tibble()] #' freight input table. Default is `transportation_data$freight`.
+#' @param .drs_pct numeric,   a value between `0` and `1.` Percent of trips/fleet
+#'      that is dynamic ride sharing (DRS). Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @return [tibble::tibble()] with column names...
@@ -309,6 +306,37 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   if (.bev_pct_sales > 0 | .phev_pct_sales > 0 | .hev_pct_sales > 0) {
     # browser()
     ## passenger-----
+
+    sales_elast <- tibble::tibble(
+      year = unique(pass_tb$year),
+      bev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas = .bev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        ),
+      hev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas = .hev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        ),
+      phev_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(pass_tb$year)))),
+          elas = .phev_pct_sales,
+          num_inits = 3,
+          num_yrs = length(unique(pass_tb$year)) - 3
+        )
+    ) %>%
+      mutate(
+        si_ci_elast = 1 - (bev_elast + phev_elast + hev_elast),
+        si_ci_elast = ifelse(year %in% c("2015", "2018", "2020"), 1, si_ci_elast)
+      )
+
+
     ### sales ------
 
     pass_tb_sales <- pass_tb %>%
@@ -409,7 +437,43 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       unique()
 
 
-    ### apply portions to get actual sales
+    # pass_sales_portions <- pass_tb_sales_w_fin %>%
+    #   dplyr::rowwise() %>%
+    #   dplyr::left_join(sales_elast, by = "year") %>%
+    #   rowwise() %>%
+    #   dplyr::mutate(
+    #     ptb_si = si_ci_elast * (SISales / (SISales + CISales)), # * (SISales / TotSales),
+    #     ptb_ci = si_ci_elast * (CISales / (CISales + SISales)) , # * (CISales / TotSales),
+    #     ptb_hev = hev_elast, # (hev_elast) * (HEVSales / TotSales),
+    #     ptb_phev = phev_elast, # (phev_elast) * (PHEVSales / TotSales),
+    #     ptb_bev = bev_elast, # (bev_elast) * (BEVSales / TotSales),
+    #     # total sales of each type
+    #     ptb_tot_sales =
+    #       ptb_si +
+    #       ptb_ci +
+    #       ptb_hev +
+    #       ptb_phev +
+    #       ptb_bev
+    #   ) %>%
+    #   dplyr::mutate(
+    #     # new portion of total sales for each type
+    #     new_si_portion = ptb_si / ptb_tot_sales,
+    #     new_ci_portion = ptb_ci / ptb_tot_sales,
+    #     new_hev_portion = ptb_hev / ptb_tot_sales,
+    #     new_phev_portion = ptb_phev / ptb_tot_sales,
+    #     new_bev_portion = ptb_bev / ptb_tot_sales
+    #   ) %>%
+    #   dplyr::mutate(
+    #     sum_check =
+    #       new_si_portion +
+    #       new_ci_portion +
+    #       new_bev_portion +
+    #       new_hev_portion +
+    #       new_phev_portion
+    #   ) %>%
+    #   unique()
+
+    ### apply portions to get actual number of vehicles sold
     ptb_sales_new <- pass_tb %>%
       dplyr::filter(
         # year %in% c("2025", "2030", "2035", "2040", "2045", "2050"),
@@ -429,6 +493,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
           ),
         by = c("mode", "ctu", "year", "aeo_mode", "type")
       ) %>%
+      # rowwise() %>%
       dplyr::mutate(new_val = dplyr::case_when(
         # calculate new absolute sales value for each
         !year %in% c("2015", "2018", "2020") & var == "SISales" ~ TotSales * new_si_portion,
@@ -449,7 +514,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
     ### exist -----
-    # get OLD sales and existing values
+    # get OLD (previous year) sales and existing values
     pass_exist_old <- pass_tb %>%
       dplyr::filter(
         # year %in% c("2025", "2030", "2035", "2040", "2045",
@@ -547,6 +612,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
+        # Stock  = Existing + Sales
         BEVStock = BEVExist + BEVSales,
         PHEVStock = PHEVExist + PHEVSales,
         HEVStock = HEVExist + HEVSales,

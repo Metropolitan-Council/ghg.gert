@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_calc_ghg_non_residential.R
 \name{calc_ghg_non_residential}
 \alias{calc_ghg_non_residential}
-\title{Calculate Non-Residential Building Emissions}
+\title{Calculate non-residential building emissions}
 \usage{
 calc_ghg_non_residential(
   non_res_tb,
@@ -32,11 +32,10 @@ pecified scenario. Default is \code{1}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
-calculates total energy demand and emissions from
+Calculates total energy demand and emissions from
 workers for industrial and commercial sectors by city/township for the specified scenario.
 }
 \examples{
@@ -59,6 +58,7 @@ calc_ghg_non_residential(
 Other commercial-industrial: 
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 
 Other buildings: 

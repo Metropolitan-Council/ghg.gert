@@ -13,13 +13,34 @@ si_vmt_test <- tibble::tribble(
   "P", "SIStock", "BAU", "St. Paul", "2050", "PLDV", "LDV", 17.7590876643119, "SI"
 )
 
+# .pldv_avo_pct == 0 ----
+si_veh_test_none <- vmt_vehicle_occupancy(
+  tb = transportation_data$passenger,
+  .tb_vmt = si_vmt_test,
+  .mode = "PLDV",
+  .stock = "SIStock",
+  .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  filter(ctu == "St. Paul")
 
+testthat::expect_equal(
+  si_veh_test_none$occupancy_adj,
+  c(
+    1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679,
+    1.23679, 1.23679
+  )
+)
+
+# PLDV occupancy of 5% ----
 si_veh_test <- vmt_vehicle_occupancy(
   tb = transportation_data$passenger,
   .tb_vmt = si_vmt_test,
   .mode = "PLDV",
   .stock = "SIStock",
   .transit_avo_pct = 0,
+  .pldv_avo_pct = 0.05,
   .enviro_factors = enviro_factors
 ) %>%
   filter(ctu == "St. Paul")
@@ -27,7 +48,7 @@ si_veh_test <- vmt_vehicle_occupancy(
 testthat::expect_equal(
   si_veh_test$occupancy_adj,
   c(
-    1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679,
-    1.23679, 1.23679
+    1.23679, 1.23679, 1.23679, 1.24709658333333, 1.25740316666667,
+    1.26770975, 1.27801633333333, 1.28832291666667, 1.2986295
   )
 )

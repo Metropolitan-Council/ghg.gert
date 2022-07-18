@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_scen_building_non_residential.R
 \name{scen_building_non_residential}
 \alias{scen_building_non_residential}
-\title{Calculate Scenario Building Non-Residential}
+\title{Calculate scenario building non-residential}
 \usage{
 scen_building_non_residential(
   non_res_tb,
@@ -61,8 +61,7 @@ a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0.8}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -113,7 +112,8 @@ scen_building_non_residential(
 Other commercial-industrial: 
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_ghg_non_residential}()}
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_non_res_renewable_ng}()}
 
 Other buildings: 
 \code{\link{adj_unit_counts}()},

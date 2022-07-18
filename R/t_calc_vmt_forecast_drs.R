@@ -1,13 +1,11 @@
-#' @title Calculate Dynamic Ride Sharing VMT
-#' @family Dynamic Ride Share
+#' @title Calculate dynamic ride sharing VMT
 #' @family transportation
 #'
 #' @description Dynamic ride sharing vehicle miles traveled is calculated by population,
 #'     not existing and projected VMT.
 #'
-#' @param .drs_pct numeric,
-#'      Percent of trips by dynamic ride sharing (DRS)
-#' @param .class vehicle class for current mode
+#' @param .drs_pct numeric percent of trips by dynamic ride sharing (DRS)
+#' @param .class character, vehicle class for current mode
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams calc_drs_sales
 #'
@@ -27,6 +25,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .aeo_scenario = "REF",
                                   .transit_avo_pct = 0,
                                   .transit_rider_pct = 0,
+                                  .pldv_avo_pct = 0,
                                   .vmt_fee = 0,
                                   .payd_fee = 0,
                                   .gas_tax = 0,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_scen_walk_bike.R
 \name{scen_walk_bike}
 \alias{scen_walk_bike}
-\title{Scenario for Walk and Bike}
+\title{Scenario for walk and bike}
 \usage{
 scen_walk_bike(
   .pass_tb = transportation_data$passenger,
@@ -10,6 +10,7 @@ scen_walk_bike(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
   .transit_rider_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -40,24 +41,24 @@ scen_walk_bike(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.scenario}{\strong{Character}
-Scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{.electric_scenario}{electricity scenario}
 
 \item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
 
-\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
-Default is \code{0}}
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+
+\item{.transit_rider_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
 
 \item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
@@ -68,10 +69,8 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.drs_pct}{\strong{Numeric}*.
-a value 0 and 1.
-Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-Default is \code{0}.}
+\item{.drs_pct}{numeric, percent of trips by auto or transit that are
+now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
 
@@ -105,23 +104,21 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.elast_5d}{table of 5D elasticities.
-Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \description{
-calculates scenario for walk and bike.
+Calculates scenario for walk and bike.
 }
 \seealso{
 Other passenger: 
 \code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_passenger_light_duty}()},
 \code{\link{scen_school_bus}()},
+\code{\link{scen_transit_bus}()},
 \code{\link{scen_transit_rail}()}
 
 Other transportation: 

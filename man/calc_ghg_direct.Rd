@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_ghg_direct.R
 \name{calc_ghg_direct}
 \alias{calc_ghg_direct}
-\title{Calculate Transportation Direct Emissions}
+\title{Calculate transportation direct emissions}
 \usage{
 calc_ghg_direct(
   tb_vmt,
@@ -26,7 +26,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.fuel_type}{character, fuel type for given mode.}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
@@ -35,8 +35,7 @@ Default is \code{"REF"}}
 AV has a different MPG due to efficiency gains from automation of drive cycle.
 Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names
@@ -47,7 +46,7 @@ Default is \code{enviro_factors}, included in this package.}
 - ...
 }
 \description{
-Calculate Transportation Direct Emissions
+Calculate transportation direct emissions
 }
 \seealso{
 Other emissions: 

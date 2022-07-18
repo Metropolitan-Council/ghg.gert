@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for Passenger Light-Duty Vehicles
+#' @title Calculate scenario for passenger light-duty vehicles
 #' @family passenger
 #' @family transportation
 #'
@@ -14,6 +14,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
                                       .transit_avo_pct = 0,
+                                      .pldv_avo_pct = 0,
                                       .transit_rider_pct = 0,
                                       .vmt_fee = 0,
                                       .payd_fee = 0,
@@ -98,6 +99,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .tb_fuel_cost_mile = si_fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -184,6 +186,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .tb_fuel_cost_mile = ci_fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -274,6 +277,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
       .transit_rider_pct = .transit_rider_pct,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
@@ -360,6 +364,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .tb_fuel_cost_mile = fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -401,6 +406,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .tb_fuel_cost_mile = fcm_electric,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
+    .pldv_avo_pct = .pldv_avo_pct,
     .transit_rider_pct = .transit_rider_pct,
     .vmt_fee = .vmt_fee,
     .payd_fee = .payd_fee,
@@ -453,7 +459,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
 
 
-  ## gas ghg direct -----
+  ### gas ghg direct -----
   phev_ghg_gas <- calc_ghg_direct(
     tb_vmt = phev_vmt_gas,
     tb = .pass_tb,
@@ -480,7 +486,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors
   )
 
-  ## electric ghg direct -----
+  ### electric ghg direct -----
   phev_ghg_electric <- calc_ghg_direct(
     tb_vmt = phev_vmt_electric,
     tb = .pass_tb,
@@ -582,6 +588,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
       .transit_rider_pct = .transit_rider_pct,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,

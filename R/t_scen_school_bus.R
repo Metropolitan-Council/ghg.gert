@@ -1,4 +1,4 @@
-#' @title Calculate Scenario for School Buses
+#' @title Calculate scenario for school buses
 #' @family passenger
 #' @family transportation
 #'
@@ -14,6 +14,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
                             .transit_avo_pct = 0,
+                            .pldv_avo_pct = 0,
                             .transit_rider_pct = 0,
                             .vmt_fee = 0,
                             .payd_fee = 0,

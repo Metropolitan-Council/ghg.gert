@@ -1,0 +1,219 @@
+---
+title: "Transportation Scenario"
+date: "`r Sys.Date()`"
+output: 
+  flexdashboard::flex_dashboard:
+      theme: 
+          version: 4
+          bootswatch: flatly
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      cache = T)
+library(shiny)
+library(ghg.sp)
+library(dplyr)
+library(ggplot2)
+library(councilR)
+ggplot2::theme_set(
+  councilR::theme_council(use_showtext = T,
+                          use_manual_font_sizes = T))
+```
+
+
+
+```{r}
+st_paul_pass <- transportation_data$passenger %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+
+st_paul_freight <- transportation_data$freight %>% 
+  filter(ctu %in% c("St. Paul",
+                    "All"),
+         !year %in% c("2045",
+                      "2050"))
+```
+
+
+```{r}
+bau_summary <- run_scenario_transportation(pass_tb = st_paul_pass,
+                            freight_tb = st_paul_freight,
+                            .scenario = "BAU",
+                            .electric_scenario = "ER",
+                            .aeo_scenario = "REF") %>% 
+  suppressMessages()
+
+```
+
+
+Column {.sidebar}
+--------------------------------------------------------------------------------
+```{r eruptions, echo=FALSE}
+
+inputPanel(
+  
+  shiny::wellPanel(
+    shiny::h4("Land use"),
+    
+    sliderInput("pop_dens_pct_change",
+                label = "Pct change in population density",
+                min = 0, max = 1, value = 0, step = 0.05),
+    
+    sliderInput("emp_dens_pct_change",
+                label = "Pct change in employment density",
+                min = 0.0, max = 1, value = 0, step = 0.05),
+    
+  ),
+  
+  shiny::wellPanel(
+    shiny::h4("Passenger vehicles"),
+    sliderInput("pldv_avo_pct",
+                label = "% change in avg passenger light-duty vehicle occupancy",
+                min = 0.0, max = 1, value = 0, step = 0.05),
+    
+    
+    sliderInput("parking_price",
+                label = "Parking price per hour",
+                min = 0, max = 200, value = 0, step = 10),
+    
+    sliderInput("bev_pct_sales",
+                label = "% BEV sales",
+                min = 0.0, max = 1, value = 0, step = 0.05),
+    
+    sliderInput("hev_pct_sales",
+                label = "%HEV sales",
+                min = 0.0, max = 1, value = 0, step = 0.05),
+    
+    sliderInput("phev_pct_sales",
+                label = "% PHEV sales",
+                min = 0.0, max = 1, value = 0, step = 0.05)
+  ),
+  
+  sliderInput("transit_avo",
+              label = "% change in transit avg. veh occupancy",
+              min = 0.0, max = 1, value = 0, step = 0.05),
+  
+  sliderInput("transit_rider_pct",
+              label = "% change in transit ridership",
+              min = 0.0, max = 1, value = 0, step = 0.05)
+)
+
+```
+Column 
+----------------------
+```{r}
+br()
+br()
+actionButton(inputId = "go_button",
+               label = "Go")
+
+plotOutput("passenger_emissions")
+plotOutput("passenger_vmt")
+
+```
+
+```{r, context = "server"}
+
+calc_scen_vals <- reactive({
+  
+  mitigation_scen <-  run_scenario_transportation(
+    pass_tb = st_paul_pass,
+    freight_tb = st_paul_freight,
+    .scenario = "user_input",
+    .electric_scenario = "ER",
+    .aeo_scenario = "REF", 
+    .pop_dens_pct_change = input$pop_dens_pct_change,
+    .emp_dens_pct_change = input$emp_dens_pct_change,
+    # .land_use_diversity_pct_change = 0.05,
+    # .intersection_design_pct_change = 0.05,
+    # .job_access_pct_change = 0.05,
+    .transit_dist_pct_change = -0.05,
+    # .comb_5d_impact_pct_change = 0.2,
+    .transit_avo = input$transit_avo,
+    .transit_rider_pct = input$transit_rider_pct,
+    .pldv_avo_pct = input$pldv_avo_pct,
+    .bev_pct_sales = input$bev_pct_sales,
+    .hev_pct_sales = input$hev_pct_sales,
+    .phev_pct_sales = input$phev_pct_sales,
+    .parking_price = input$parking_price
+  ) %>% 
+    suppressMessages()
+  
+  all_scen_passenger_av <- purrr::map_dfr(
+    list(
+      bau_summary,
+      mitigation_scen
+    ),
+    function(x){
+      x$passenger_all %>% 
+        filter(mode %in% c("AV", "PLDV", "DRS"
+                           # "BU" #"BRT",
+                           # "RU", "RI"
+        )) %>%
+        group_by(year, scenario) %>% 
+        summarize(dir_ghg = sum(dir_ghg, na.rm = T),
+                  .groups = "keep")
+    }
+  )
+  
+  
+  all_scen_passenger_vmt <- purrr::map_dfr(
+  list(bau_summary,
+       mitigation_scen
+  ),
+  function(x){
+    x$passenger_all %>% 
+      filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
+      group_by(year, scenario) %>% 
+      summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
+  }
+)
+
+  
+  
+  return(list(all_scen_passenger_av,
+              all_scen_passenger_vmt))
+  
+})
+
+observeEvent(input$go_button, {
+  
+  output$passenger_emissions <- renderPlot({
+    
+    ggplot(calc_scen_vals()[[1]],
+           aes(x = year,
+               y = dir_ghg,
+               color = scenario,
+               group = scenario)) +
+      geom_point(size = 2) +
+      geom_line(alpha = 0.5,
+                size = 1) +
+      scale_y_continuous(limits = c(400, 750)) +
+    labs(title = "All Passenger Light-Duty Vehicle Emissions")
+    
+  })
+  
+  output$passenger_vmt <- renderPlot({
+    
+    ggplot(calc_scen_vals()[[2]],
+       aes(x = year,
+           y = vmt/1000000,
+           color = scenario,
+           group = scenario)) +
+  # facet_wrap(~class) +
+  geom_point() +
+  geom_line(alpha = 0.5,
+            size = 1.1) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "All Passenger Light-Duty Vehicle Miles Traveled",
+       y = "VMT")
+  })
+})
+```
+
+
+

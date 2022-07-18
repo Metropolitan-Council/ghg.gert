@@ -1,5 +1,5 @@
-#' @title Calculate Scenario for Freight Rail
-#' @family Freight
+#' @title Calculate scenario for freight rail
+#' @family freight
 #' @family transportation
 #'
 #' @inheritParams run_scenario_transportation
@@ -16,6 +16,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
                               .transit_avo_pct = 0,
+                              .pldv_avo_pct = 0,
                               .transit_rider_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,

@@ -2,15 +2,6 @@
 # Business as usual scenario testing -----
 
 # passenger si ------
-si_fcm_test <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
-  .fuel_cost_gallon = 239.8,
-  .av_pct = 0
-)
-
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
@@ -18,7 +9,7 @@ si_vmt <- calc_vmt_forecast(
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -67,7 +58,7 @@ walk_vmt <- calc_vmt_forecast(
   .mode = "WALK",
   .stock = "",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -111,23 +102,13 @@ testthat::test_that("BAU walk VMT correct", {
 
 # passenger ci -----
 
-fcm_test <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
-  .fuel_cost_gallon = 239.8,
-  .av_pct = 0
-)
-
-
 ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "CIStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -204,15 +185,6 @@ ru_vmt <- calc_vmt_forecast(
 
 
 # bus ci ------
-si_fcm_test <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon =  "CIMPG",
-  .fuel_cost_gallon = 239.8,
-  .av_pct = 0
-)
-
 
 bus_ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
@@ -220,7 +192,7 @@ bus_ci_vmt <- calc_vmt_forecast(
   .mode = "BU",
   .stock = "BCIStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = si_fcm_test,
+  .tb_fuel_cost_mile = ci_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -249,12 +221,15 @@ bus_ci_vmt <- calc_vmt_forecast(
     class = "CI"
   )
 
+# dput(bus_ci_vmt$vmt)
+
 testthat::test_that("BAU, Bus diesel correct", {
   testthat::expect_equal(
     bus_ci_vmt$vmt,
     c(
-      0.0432390267944989, 0.0456038250339743, 0.0471835867863932,
-      0.0394933475175338, 0.0105744943524505, 0, 0, 0, 0
+      0.0492444471826237, 0.0530249199213927, 0.0555452350776528,
+      0.0585347829277734, 0.061524330777894, 0.0646616717722909, 0.0677990127666879,
+      0.0709363537523273, 0.0740736947467242
     )
   )
 })
@@ -270,7 +245,7 @@ phev_vmt <- calc_vmt_forecast(
   .mode = "PLDV",
   .stock = "PHEVStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
@@ -316,6 +291,20 @@ testthat::expect_error(calc_vmt_forecast(
   .mode = "DRS",
   .stock = "BEVStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test,
+  .tb_fuel_cost_mile = si_fcm_test,
   .aeo_scenario = "REF"
 ))
+
+
+
+bus_ci_vmt <- calc_vmt_forecast(
+  .scenario = "bus_ci",
+  tb = st_paul_passenger,
+  .mode = "BU",
+  .stock = "BCIStock",
+  .variable = "PMT",
+  .tb_fuel_cost_mile = si_fcm_test,
+  .aeo_scenario = "REF",
+  .transit_avo_pct = 0,
+  .transit_rider_pct = .10
+)

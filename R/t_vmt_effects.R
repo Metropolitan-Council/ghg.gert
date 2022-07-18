@@ -2,7 +2,7 @@
 #' @family transportation
 #' @family VMT Effects
 #'
-#' @description calculates annual energy outlook (AEO)
+#' @description Calculates annual energy outlook (AEO)
 #' multipliers for each forecast year.
 #'
 #' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.
@@ -19,7 +19,7 @@ vmt_annual_energy_outlook <- function(tb,
 
   # browser()
   tb_fin <- tb %>%
-    filter(mode == .mode) %>%
+    dplyr::filter(mode == .mode) %>%
     unique() %>%
     tidyr::pivot_wider(
       names_from = var,
@@ -32,7 +32,7 @@ vmt_annual_energy_outlook <- function(tb,
       metric == "VMT",
       mode == unique(tb_fin$aeo_mode)
     ) %>%
-    select(
+    dplyr::select(
       year,
       metric,
       # everything(),
@@ -69,16 +69,31 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
     dplyr::select(year, ctu, av_share = value) %>%
     dplyr::distinct()
 
+  av_elast <-
+    tibble(
+      year = unique(.pass_tb$year),
+      elast_av =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(.pass_tb$year)))),
+          elas = .av_pct,
+          num_inits = 3,
+          num_yrs = length(unique(.pass_tb$year)) - 3
+        )
+    )
+
   if (nrow(tb_avshare) == 0) {
     stop("Make sure you are using the correct input table")
   }
 
   if (.mode == "PLDV") {
     # increase in AV usage will increase PLDV VMT
+    # AVs are PLDV, so reduce conventional PLDV VMT
+    # AV VMT will increase proportionally
     av_return <- tb_avshare %>%
+      left_join(av_elast, by = "year") %>%
       rowwise() %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (av_share * .av_pct),
+        .av_pct > 0 ~ 1 - (av_share * elast_av),
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
@@ -93,14 +108,15 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   )) {
     # increase in AV usage will decrease transit VMT
     av_return <- .pass_tb %>%
+      left_join(av_elast, by = "year") %>%
       # rowwise() %>%
       mutate(
         av_adj = dplyr::case_when(
           year %in% c("2015", "2018", "2020") ~ 1,
           (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-            1 + .enviro_factors$BUS_AV * .av_pct,
+            1 + .enviro_factors$BUS_AV * elast_av,
           (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-            1 + .enviro_factors$RAIL_AV * .av_pct,
+            1 + .enviro_factors$RAIL_AV * elast_av,
           TRUE ~ 1
         )
       ) %>%
@@ -112,8 +128,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
   } else if (.mode == "AV") {
     # browser()
     av_return <- tb_avshare %>%
+      left_join(av_elast, by = "year") %>%
       mutate(av_adj = case_when(
-        .av_pct > 0 ~ av_share * .av_pct,
+        .av_pct > 0 ~ av_share * elast_av,
         TRUE ~ 1
       )) %>%
       select(year, ctu, av_adj) %>%
@@ -215,15 +232,16 @@ vmt_land_use_change <- function(.type,
   }
   # browser()
   max_value <- if (.type == "DRIVE") {
-    .enviro_factors$MAX_5D_DR
+    1 + .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
-    .enviro_factors$MAX_5D_TRANS
+    1 + .enviro_factors$MAX_5D_TRANS
   } else {
-    .enviro_factors$MAX_5D_ACT
+    1 + .enviro_factors$MAX_5D_ACT
   }
 
   comb_5d_elast <- .elast_5d %>%
     filter(type == .type) %>%
+    rowwise() %>%
     mutate(
       n_population_density = 1 + .pop_dens_pct_change * .data$population_density,
       n_employment_density = 1 + .emp_dens_pct_change * .data$employment_density,
@@ -245,9 +263,13 @@ vmt_land_use_change <- function(.type,
     ) %>%
     rowwise() %>%
     mutate(
-      land_use_adj = ifelse(product_all < max_value,
-        1 + max_value,
-        product_all
+      land_use_adj = case_when(
+        .type == "DRIVE" & product_all < max_value ~ max_value,
+        .type %in% c(
+          "WALK",
+          "TRANSIT"
+        ) & product_all > max_value ~ max_value,
+        TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
         land_use_adj
@@ -325,7 +347,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       mutate(
         park_price_adj =
-          1 + .parking_price / PARK * park_elast
+          1 + (.parking_price / PARK) * park_elast
         # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
       select(year, ctu, park_price_adj)
@@ -343,7 +365,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       mutate(
         park_price_adj =
-          1 + .parking_price / PARK * park_transit
+          1 + (.parking_price / PARK) * park_transit
       ) %>%
       select(year, ctu, park_price_adj)
   } else if (.mode == "SUT") {
@@ -373,7 +395,7 @@ vmt_parking_policy <- function(tb,
 #' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 #'      Default is `0`
-#' @param .gas_tax Gas tax tax in dollars per mile. Default is `0`
+#' @param .gas_tax Gas tax in dollars per mile. Default is `0`
 #' @param .cong_price Congestion price in dollars per mile (only applies to an approximation of
 #'     congested miles in MSP). Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
@@ -713,8 +735,25 @@ vmt_stock_proportion <- function(.tb,
 
 
 #' Calculate transit ridership adjustment for each forecast year
-#' @param .transit_rider_pct transit ridership % adjustment. Numeric between -1 and 1.
-#'      Default is `0`
+#' @param .transit_rider_pct numeric, change in transit ridership % adjustment. Default is `0`.
+#'
+#' @description
+#'     Transit ridership increase assumes that transit vehicles
+#'     are traveling further to fulfill demand. As opposed to
+#'     `.transit_avo_pct`, an increase in ridership implies
+#'     additional **vehicle** miles traveled.
+#'
+#'     `.transit_rider_pct` indicates the overall effect by
+#'     the final forecast year. The increase is spread evenly
+#'     over the intermediate years.
+#'
+#'    - If `.mode` is `"PLDV"` or `"AV"`, value returned is
+#'        the number of passenger vehicle miles traveled
+#'        decreased when transit ridership
+#'        is increased (i.e., 7,000 passenger VMT).
+#'    - If `.mode` is `"BS"`, `"BU"`, `"BRT"`, `"RU"`, or `"RI"`, value returned
+#'        is the proportion of increase in transit VMT (i.e., 1.2).
+#'
 #' @inheritParams calc_vmt_forecast
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
@@ -727,7 +766,7 @@ vmt_transit_ridership <- function(tb,
   transit_rider_elast <-
     tibble(
       year = unique(tb$year),
-      .elast =
+      elast_new =
         calc_elasticity(
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_rider_pct,
@@ -736,16 +775,24 @@ vmt_transit_ridership <- function(tb,
         )
     )
 
+  additional_transit <- tb %>%
+    filter(mode == "AT", var == "PMT") %>%
+    select(ctu, year, all_transit = value) %>%
+    left_join(transit_rider_elast, by = c("year")) %>%
+    mutate(all_transit_plus = all_transit * elast_new)
+
 
   if (.mode %in% c(
     "PLDV",
     "AV"
   )) {
+    # browser()
     tb %>%
       select(year, ctu) %>%
       unique() %>%
-      left_join(transit_rider_elast, by = c("year")) %>%
-      mutate(transit_adj = .elast * .enviro_factors$PLDV_TRANSIT_RATIO) %>%
+      left_join(additional_transit, by = c("year", "ctu")) %>%
+      mutate(transit_adj = (all_transit_plus * .enviro_factors$PLDV_TRANSIT_RATIO)) %>%
+      # mutate(transit_adj = (all_transit_plus)) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -759,7 +806,7 @@ vmt_transit_ridership <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(transit_rider_elast, by = c("year")) %>%
-      mutate(transit_adj = 1 + .elast) %>%
+      mutate(transit_adj = 1 + elast_new) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
       return()
@@ -768,10 +815,30 @@ vmt_transit_ridership <- function(tb,
 
 #' Calculate vehicle occupancy multiplier
 #'
-#' @param .transit_avo_pct transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
+#' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @return table with columns `ctu`, `year`, `occupancy_adj`
 #' @export
+#'
+#'
+#' @description
+#'     Transit vehicle occupancy increase assumes that
+#'     more people are riding transit. As opposed to
+#'     `.transit_ridership_pct`, an increase in occupancy implies
+#'     additional **passenger** miles traveled, with no implied
+#'     change in vehicle miles traveled.
+#'
+#'     Passenger vehicle occupancy increase assumes that
+#'     the average number of people in a car increases. As opposed to
+#'     an increase in  passenger occupancy implies
+#'     additional **passenger** miles traveled, with no implied
+#'     change in passenger vehicle miles traveled.
+#'
+#'     `.transit_avo_pct` and `.pldv_avo_pct` indicate
+#'     the overall effect by the final forecast year.
+#'     The total increase is spread evenly
+#'     over the intermediate years.
 #' @details
 #'
 #' \loadmathjax
@@ -790,13 +857,12 @@ vmt_vehicle_occupancy <- function(tb,
                                   .mode,
                                   .stock,
                                   .transit_avo_pct,
+                                  .pldv_avo_pct,
                                   .enviro_factors = enviro_factors) {
   # browser()
 
 
   # some modes apply the same AVO to all CTUs
-
-
   if (.mode %in% c("PLDV", "AV")) {
     pldv_occupancy <- tb %>%
       filter(
@@ -807,7 +873,24 @@ vmt_vehicle_occupancy <- function(tb,
         occupancy_adj = value
       ) %>%
       unique()
-    return(pldv_occupancy)
+
+    pldv_avo_elast <- tibble(
+      year = unique(tb$year),
+      avo_elast =
+        calc_elasticity(
+          elas_list = c(rep(0, length(unique(tb$year)))),
+          elas = .pldv_avo_pct,
+          num_inits = 3,
+          num_yrs = length(unique(tb$year)) - 3
+        )
+    )
+
+    occ_return <- pldv_occupancy %>%
+      left_join(pldv_avo_elast, by = "year") %>%
+      rowwise() %>%
+      mutate(occupancy_adj = occupancy_adj * (1 + avo_elast))
+
+    return(occ_return)
   } else if (.mode %in% c(
     "BU",
     "BRT",
@@ -866,6 +949,7 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
+    # return same value, no change
     tb_mode_totstock <- tb %>%
       filter(
         mode == .mode,

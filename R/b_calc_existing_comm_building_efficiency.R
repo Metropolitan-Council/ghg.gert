@@ -1,8 +1,8 @@
-#' @title Calculate Existing Commercial Buildings Efficiency
+#' @title Calculate existing commercial buildings efficiency
 #' @family commercial-industrial
 #' @family buildings
 #'
-#' @description helps to calculate the reduced
+#' @description Helps to calculate the reduced
 #'      emissions from implementing high energy efficiency retrofits to existing buildings.
 #'      Given that the main determinant of energy efficiency is the number of workers, this
 #'      function reduces the number of workers.
@@ -26,8 +26,8 @@
 #'   .existing_high_efficiency_buildings_pct = 0.80
 #' )
 #' }
-calc_existing_comm_building_efficiency <-function(non_res_tb = building_data$non_residential,
-                                                  .existing_high_efficiency_buildings_pct) {
+calc_existing_comm_building_efficiency <- function(non_res_tb = building_data$non_residential,
+                                                   .existing_high_efficiency_buildings_pct) {
   new_non_res_tb <-
     non_res_tb %>%
     dplyr::filter(var %in% c("commercial_jobs")) %>%
@@ -39,8 +39,8 @@ calc_existing_comm_building_efficiency <-function(non_res_tb = building_data$non
     dplyr::mutate(
       reduction_energy_use_intensity =
         .existing_high_efficiency_buildings_pct
-      * commercial_jobs.2018
-      * 0.25,
+        * commercial_jobs.2018
+          * 0.25,
       value = commercial_jobs.2040 - reduction_energy_use_intensity,
       var = "commercial_jobs",
       year = 2040
@@ -50,10 +50,10 @@ calc_existing_comm_building_efficiency <-function(non_res_tb = building_data$non
       .,
       non_res_tb %>%
         filter(var != "commercial_jobs" &
-                 year == 2040)
+          year == 2040)
     ) %>%
     bind_rows(., non_res_tb %>%
-                filter(year == 2018))
+      filter(year == 2018))
 
   return(new_non_res_tb)
 }

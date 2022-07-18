@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_vmt_forecast.R
 \name{calc_vmt_forecast}
 \alias{calc_vmt_forecast}
-\title{Calculate Vehicle Miles Traveled by Mode and Power Train}
+\title{Calculate vehicle miles traveled by mode and power train}
 \usage{
 calc_vmt_forecast(
   .scenario,
@@ -14,6 +14,7 @@ calc_vmt_forecast(
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_rider_pct = 0,
+  .pldv_avo_pct = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
@@ -39,36 +40,35 @@ calc_vmt_forecast(
 )
 }
 \arguments{
-\item{.scenario}{\strong{Character}
-Scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. JUST A LABEL}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.stock}{Stock for current mode.}
+\item{.stock}{character, stock for current mode}
 
-\item{.variable}{\strong{Character}
-Variable name - e.g., "VMT"}
+\item{.variable}{character, variable name - e.g., "VMT"}
 
-\item{.tb_fuel_cost_mile}{table with fuel cost per mile}
+\item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
-Default is \code{0}}
+\item{.transit_rider_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
+
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 
 \item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 Default is \code{0}}
 
-\item{.gas_tax}{Gas tax tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP). Default is \code{0}}
@@ -77,10 +77,8 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
-\item{.drs_pct}{\strong{Numeric}*.
-a value 0 and 1.
-Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-Default is \code{0}.}
+\item{.drs_pct}{numeric, percent of trips by auto or transit that are
+now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
 
 \item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
 
@@ -112,25 +110,20 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is \code{0}}
 
-\item{.phev_electric}{\strong{Logical}
-Is the current PHEV distinction electric.
-Default is \code{FALSE}.}
+\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.elast_5d}{table of 5D elasticities.
-Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
 with \code{vmt} in thousands
 }
 \description{
-Calculate Vehicle Miles Traveled by Mode and Power Train
+Calculate vehicle miles traveled by mode and power train
 }
 \seealso{
 Other transportation: 

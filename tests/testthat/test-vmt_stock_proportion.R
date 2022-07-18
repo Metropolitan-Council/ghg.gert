@@ -53,15 +53,15 @@ testthat::expect_equal(
   ),
   tibble::tribble(
     ~ctu, ~year, ~mode, ~mode_stock_adj,
-    "St. Paul", "2015", "BU", 0.878048780487805,
-    "St. Paul", "2018", "BU", 0.860045146726862,
-    "St. Paul", "2020", "BU", 0.849462365591398,
-    "St. Paul", "2025", "BU", 0.674698795180723,
-    "St. Paul", "2030", "BU", 0.171875,
-    "St. Paul", "2035", "BU", 0,
-    "St. Paul", "2040", "BU", 0,
-    "St. Paul", "2045", "BU", 0,
-    "St. Paul", "2050", "BU", 0
+    "St. Paul", "2015", "BU", 1,
+    "St. Paul", "2018", "BU", 1,
+    "St. Paul", "2020", "BU", 1,
+    "St. Paul", "2025", "BU", 1,
+    "St. Paul", "2030", "BU", 1,
+    "St. Paul", "2035", "BU", 1,
+    "St. Paul", "2040", "BU", 1,
+    "St. Paul", "2045", "BU", 1,
+    "St. Paul", "2050", "BU", 1
   )
 )
 

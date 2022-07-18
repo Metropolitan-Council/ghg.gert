@@ -2,7 +2,7 @@
 #'
 #' @format A named list of 19 values.
 #' \describe{
-#'   \item{PLDV_TRANSIT_RATIO}{ 100 transit trips replace 47 LDV trips (APTA, 2009)}
+#'   \item{PLDV_TRANSIT_RATIO}{ 100 transit trips replace 47 LDV trips (Ewing and Hamidi, 2014)}
 #'   \item{SI_FUEL_COST_GAL}{Gasoline fuel cost in cents per gal
 #'       https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm
 #'       (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)}
@@ -173,7 +173,6 @@
 #'   \item{state_demos}{named list of 2 table names}
 #'   \item{metro_energy}{named list of 9 table names}
 #'   \item{state_energy}{named list of 1 table name}
-
 #' }
 #'
 #' @family datasets

@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_calc_existing_comm_building_efficiency.R
 \name{calc_existing_comm_building_efficiency}
 \alias{calc_existing_comm_building_efficiency}
-\title{Calculate Existing Commercial Buildings Efficiency}
+\title{Calculate existing commercial buildings efficiency}
 \usage{
 calc_existing_comm_building_efficiency(
   non_res_tb = building_data$non_residential,
@@ -21,7 +21,7 @@ The adjusted values for the non residential input table to reflect commercial bu
 energy efficiency.
 }
 \description{
-helps to calculate the reduced
+Helps to calculate the reduced
 emissions from implementing high energy efficiency retrofits to existing buildings.
 Given that the main determinant of energy efficiency is the number of workers, this
 function reduces the number of workers.
@@ -40,6 +40,7 @@ calc_existing_comm_building_efficiency(
 Other commercial-industrial: 
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
 \code{\link{scen_building_non_residential}()}
 
 Other buildings: 

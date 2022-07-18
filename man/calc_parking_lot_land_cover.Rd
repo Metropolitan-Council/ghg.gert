@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_parking_lot_land_cover.R
 \name{calc_parking_lot_land_cover}
 \alias{calc_parking_lot_land_cover}
-\title{Calculate Parking Lot Intervention Effect on Land Cover}
+\title{Calculate parking lot intervention effect on land cover}
 \usage{
 calc_parking_lot_land_cover(
   tb,
@@ -29,8 +29,7 @@ The options are:
 \item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
 }}
 
-\item{.parking_lot_reduction_percentage}{numeric,
-a value between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
@@ -43,8 +42,7 @@ Default is \code{0.26}.}
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{detail}{\strong{Logical}.
-A \code{TRUE} or \code{FALSE} argument.
+\item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
@@ -54,7 +52,7 @@ Default is \code{FALSE}.}
 \code{\link[tibble:tibble]{tibble::tibble()}}.
 }
 \description{
-recalculates the change in land cover types
+Recalculates the change in land cover types
 by city when implementing a
 parking lot reduction intervention, the percent reduction of parking lot area is
 defined in the argument \code{.parking_lot_reduction_percentage}

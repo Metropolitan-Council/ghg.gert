@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_run_senario_land_use.R
 \name{run_scenario_land_use}
 \alias{run_scenario_land_use}
-\title{Run Scenario Land Use}
+\title{Run land use scenario}
 \usage{
 run_scenario_land_use(
   tb = land_use_data,
@@ -42,21 +42,19 @@ Default is \code{0.26}.}
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.parking_lot_reduction_percentage}{numeric,
-a value between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
 
-\item{detail}{\strong{Logical}.
-A \code{TRUE} or \code{FALSE} argument.
+\item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 }
 \description{
-Run Scenario Land Use
+Run land use scenario
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_calc_conservation_tillage.R
 \name{calc_conservation_tillage}
 \alias{calc_conservation_tillage}
-\title{Calculate Conservation Tillage by City/Township}
+\title{Calculate conservation tillage by city/township}
 \usage{
 calc_conservation_tillage(
   tb,
@@ -52,14 +52,12 @@ Default is \code{41}.}
 Maximum SOC acumulation per hectare under reduced or no till agriculture.
 Default is \code{1.54}.}
 
-\item{.parking_lot_reduction_percentage}{numeric,
-a value between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
 
-\item{detail}{\strong{Logical}.
-A \code{TRUE} or \code{FALSE} argument.
+\item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.

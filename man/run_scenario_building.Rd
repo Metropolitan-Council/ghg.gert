@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_run_scenario_building.R
 \name{run_scenario_building}
 \alias{run_scenario_building}
-\title{Run Building Energy Scenarios}
+\title{Run building energy scenarios}
 \usage{
 run_scenario_building(
   res_tb = building_data$residential,
@@ -32,7 +32,7 @@ run_scenario_building(
 )
 }
 \arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with residential building attributes.
+\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with residential building attributes.
 Package provided dataset \code{building_energy$residential} is suitable and the
 default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
@@ -54,8 +54,7 @@ Data table with non-residential building attributes. Package provided dataset \c
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -136,8 +135,7 @@ the inputs of the building energy module must be specified as an argument
 to the function \code{run_scenario_building()}
 }
 \description{
-produces the outputs of the building energy module of the
-Metropolitan Council Greenhouse Gas Scenario Planning Tool by
+Produces the outputs of the building energy module by
 city/township for the specified scenario
 }
 \examples{

@@ -1,4 +1,4 @@
-#' @title Check Input Parameters
+#' @title Check input iarameters
 #'
 #' @param name parameter name
 #' @param value parameter value

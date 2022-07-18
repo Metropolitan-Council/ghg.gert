@@ -1,7 +1,7 @@
-#' @title Calculate Land by Development Type
+#' @title Calculate land by development type
 #' @family land use
 #'
-#' @description calculates the hectares of
+#' @description Calculates the hectares of
 #'      land by different development types
 #'      (urban expansion, urban infill, and exurban development) for  the selected land
 #'      use (urban form) scenario at the city/township scale .
@@ -74,21 +74,21 @@ calc_land_by_development_type <- function(tb,
   scenario_total <-
     land_by_development_type$bau_total %>%
     base::merge(.,
-                tb$land_by_development_type_sum_bau,
-                by = "ctu_name"
+      tb$land_by_development_type_sum_bau,
+      by = "ctu_name"
     ) %>%
     tidyr::pivot_wider(.,
-                       names_from = development_name,
-                       values_from = hectares
+      names_from = development_name,
+      values_from = hectares
     ) %>%
     dplyr::mutate(
       urban_expansion =
         dplyr::if_else
-      (
-        urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
-        urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau,
-        total_hectares_bau - urban_infill
-      )
+        (
+          urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau < total_hectares_bau - urban_infill,
+          urban_expansion * luse_scenario_params$urban_expansion_relative_to_bau,
+          total_hectares_bau - urban_infill
+        )
     ) %>%
     dplyr::mutate(
       exurban_development =
@@ -97,9 +97,9 @@ calc_land_by_development_type <- function(tb,
     dplyr::mutate(scenario = "scenario_total") %>%
     select(., -c(total_hectares_bau)) %>%
     tidyr::pivot_longer(.,
-                        cols = 3:5,
-                        names_to = "development_name",
-                        values_to = "hectares"
+      cols = 3:5,
+      names_to = "development_name",
+      values_to = "hectares"
     )
 
   # Scenario Mixed Use MF (new) ----
@@ -180,15 +180,15 @@ calc_land_by_development_type <- function(tb,
     dplyr::mutate(
       scenario_other_zoning.urban_expansion =
         scenario_total.urban_expansion -
-        scenario_mixed_use_mf_new.urban_expansion -
-        scenario_mixed_use_compact_zoning_park.urban_expansion,
+          scenario_mixed_use_mf_new.urban_expansion -
+          scenario_mixed_use_compact_zoning_park.urban_expansion,
       scenario_other_zoning.urban_infill =
         scenario_total.urban_infill -
-        scenario_mixed_use_mf_new.urban_infill -
-        scenario_mixed_use_compact_zoning_park.urban_infill,
+          scenario_mixed_use_mf_new.urban_infill -
+          scenario_mixed_use_compact_zoning_park.urban_infill,
       scenario_other_zoning.exurban_development =
         scenario_total.exurban_development -
-        scenario_mixed_use_mf_new.exurban_development
+          scenario_mixed_use_mf_new.exurban_development
     ) %>%
     tidyr::pivot_longer(
       .,

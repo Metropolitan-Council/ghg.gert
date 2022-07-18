@@ -10,6 +10,7 @@ vmt_vehicle_occupancy(
   .mode,
   .stock,
   .transit_avo_pct,
+  .pldv_avo_pct,
   .enviro_factors = enviro_factors
 )
 }
@@ -18,20 +19,37 @@ vmt_vehicle_occupancy(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.stock}{Stock for current mode.}
+\item{.stock}{character, stock for current mode}
 
-\item{.transit_avo_pct}{transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 table with columns \code{ctu}, \code{year}, \code{occupancy_adj}
 }
 \description{
-Calculate vehicle occupancy multiplier
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Transit vehicle occupancy increase assumes that
+more people are riding transit. As opposed to
+`.transit_ridership_pct`, an increase in occupancy implies
+additional **passenger** miles traveled, with no implied
+change in vehicle miles traveled.
+
+Passenger vehicle occupancy increase assumes that
+the average number of people in a car increases. As opposed to
+an increase in  passenger occupancy implies
+additional **passenger** miles traveled, with no implied
+change in passenger vehicle miles traveled.
+
+`.transit_avo_pct` and `.pldv_avo_pct` indicate
+the overall effect by the final forecast year.
+The total increase is spread evenly
+over the intermediate years.
+}\if{html}{\out{</div>}}
 }
 \details{
 \loadmathjax

@@ -1,5 +1,7 @@
 ## code to prepare `transportation` dataset goes here
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(readr)
 
 pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
   unique() %>%
@@ -169,5 +171,7 @@ testthat::expect_equal(
     175867.3
   )
 )
+
+# waldo::compare(ghg.sp::transportation_data, transportation_data)
 
 usethis::use_data(transportation_data, overwrite = TRUE)

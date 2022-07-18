@@ -1,9 +1,9 @@
-#' @title Calculate Non-Residential Building Emissions
+#' @title Calculate non-residential building emissions
 #' @family commercial-industrial
 #' @family buildings
 #' @family emissions
 #'
-#' @description calculates total energy demand and emissions from
+#' @description Calculates total energy demand and emissions from
 #' workers for industrial and commercial sectors by city/township for the specified scenario.
 #'
 #' @param non_res_tb table with non-residential data.
@@ -138,7 +138,7 @@ calc_ghg_non_residential <- function(non_res_tb,
   emis_strategy <-
     emis(
       tb = calc_existing_comm_building_efficiency(non_res_tb,
-                                                  .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
+        .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
       ),
       grid_decarb = .grid_decarbonization_pct,
       commercial_smart_grid_pct = .commercial_smart_grid_pct,

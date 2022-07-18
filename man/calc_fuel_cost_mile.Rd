@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_calc_fuel_cost_mile.R
 \name{calc_fuel_cost_mile}
 \alias{calc_fuel_cost_mile}
-\title{Calculate Fuel Cost Per Mile}
+\title{Calculate fuel cost per mile}
 \usage{
 calc_fuel_cost_mile(
   tb,
@@ -21,7 +21,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, given transportation mode.}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario.
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric,
@@ -30,14 +30,13 @@ Miles per gallon for current mode}
 \item{.fuel_cost_gallon}{numeric,
 Fuel cost per gallon for current mode}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.
 }
 \description{
-Calculate Fuel Cost Per Mile
+Calculate fuel cost per mile
 }
 \seealso{
 Other transportation: 

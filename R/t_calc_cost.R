@@ -1,15 +1,13 @@
-#' @title Cost Estimates in Millions of US Dollars
-#' @family transportation
-#'
-#' @description estimates the cost in US dollars of the current mode distribution.
+#' @title Calculate cost estimates in millions of dollars
 #'
 #' @param tb_vmt VMT input table
-#' @param .price **Character**
-#' Price variable. Options include `"SIPrice"`
+#' @param .price character, price variable. Options include `"SIPrice"`
 #' @inheritParams calc_ghg_direct
 #'
+#' @family transportation
 #' @export
-#' @importFrom dplyr filter select
+#' @importFrom dplyr filter select mutate
+#'
 calc_cost <- function(tb_vmt,
                       .mode,
                       .price,

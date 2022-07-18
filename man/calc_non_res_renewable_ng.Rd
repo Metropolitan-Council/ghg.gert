@@ -2,12 +2,12 @@
 % Please edit documentation in R/b_calc_non_res_renewable_ng.R
 \name{calc_non_res_renewable_ng}
 \alias{calc_non_res_renewable_ng}
-\title{Calculate Renewable Natural Gas Impact on Non-Residential Building Emissions}
+\title{Calculate renewable natural gas impact on non-residential building emissions}
 \usage{
 calc_non_res_renewable_ng(non_res_tb, .enviro_factors = .enviro_factors)
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
+\code{\link[tibble:tibble]{tibble::tibble()}}
 }
 \description{
 Calculates the impact of transitioning to
@@ -22,22 +22,28 @@ specified scenario.
 library(ghg.sp)
 
 calc_non_res_renewable_ng(
-     non_res_tb = calc_ghg_non_residential(
-          non_res_tb = building_data$non_residential,
-          non_res_tb_bau = building_data$non_residential,
-          .industrial_smart_grid_pct = 1,
-          .commercial_smart_grid_pct = 1,
-          .grid_decarbonization_pct = 0.8,
-          .smart_grid_energy_reduction_pct = 1,
-          .enviro_factors = enviro_factors,
-          .existing_high_efficiency_buildings_pct = 0.8
-    )
-     .enviro_factors = enviro_factors
+  non_res_tb = calc_ghg_non_residential(
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
+    .grid_decarbonization_pct = 0.8,
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 0.8
+  ),
+  .enviro_factors = enviro_factors
 )
 }
 
 }
 \seealso{
+Other commercial-industrial: 
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{scen_building_non_residential}()}
+
 Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
@@ -54,5 +60,5 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }
-\concept{Commercial/Industrial}
 \concept{buildings}
+\concept{commercial-industrial}

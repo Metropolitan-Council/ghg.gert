@@ -17,22 +17,35 @@ vmt_transit_ridership(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.mode}{Current mode.}
+\item{.mode}{character, current mode}
 
-\item{.transit_rider_pct}{transit ridership \% adjustment. Numeric between -1 and 1.
-Default is \code{0}}
+\item{.transit_rider_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
 
-\item{.elast}{table of elasticities.
-Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
 }
 \description{
-Calculate transit ridership adjustment for each forecast year
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Transit ridership increase assumes that transit vehicles
+are traveling further to fulfill demand. As opposed to
+`.transit_avo_pct`, an increase in ridership implies
+additional **vehicle** miles traveled.
+
+`.transit_rider_pct` indicates the overall effect by
+the final forecast year. The increase is spread evenly
+over the intermediate years.
+}\if{html}{\out{</div>}}
+\itemize{
+\item If \code{.mode} is \code{"PLDV"} or \code{"AV"}, value returned is
+the number of passenger vehicle miles traveled
+decreased when transit ridership
+is increased (i.e., 7,000 passenger VMT).
+\item If \code{.mode} is \code{"BS"}, \code{"BU"}, \code{"BRT"}, \code{"RU"}, or \code{"RI"}, value returned
+is the proportion of increase in transit VMT (i.e., 1.2).
+}
 }
 \seealso{
 Other VMT effects: 

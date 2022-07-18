@@ -1,33 +1,21 @@
-#' @title Calculate Vehicle Miles Traveled by Mode and Power Train
-#' @family transportation
+#' @title Calculate vehicle miles traveled by mode and power train
 #'
-#' @param .scenario **Character**
-#'      Scenario name. JUST A LABEL
+#' @param .scenario character, scenario name. JUST A LABEL
 #' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided datasets `transportation_data$passenger` or
 #'    `transportation_data$freight` are suitable.
-#' @param .mode
-#'      Current mode.
-#' @param .stock
-#'      Stock for current mode.
-#' @param .variable **Character**
-#'      Variable name - e.g., "VMT"
-#' @param .tb_fuel_cost_mile table with fuel cost per mile
-#' @param .aeo_scenario selected EIA Annual Energy Outlook scenario.
+#' @param .mode character, current mode
+#' @param .stock character, stock for current mode
+#' @param .variable character, variable name - e.g., "VMT"
+#' @param .tb_fuel_cost_mile table, table with fuel cost per mile
+#' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
 #'      Default is `"REF"`
-#' @param .drs_pct **Numeric***.
-#'      a value 0 and 1.
-#'      Percent of trips by auto or transit that are now by dynamic ride sharing (DRS).
-#'      Default is `0`.
-#' @param .phev_electric **Logical**
-#'      Is the current PHEV distinction electric.
-#'      Default is `FALSE`.
-#' @param .enviro_factors list of environmental factors.
-#'      Default is `enviro_factors`, included in this package.
-#' @param .elast table of elasticities.
-#'      Default is `elast` included in this package.
-#' @param .elast_5d table of 5D elasticities.
-#'      Default is `elast_5d` included in this package.
+#' @param .drs_pct numeric, percent of trips by auto or transit that are
+#'     now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is `0`
+#' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
+#' @param .enviro_factors list, environmental factors. Default is `enviro_factors`, included in this package.
+#' @param .elast table of elasticities. Default is `elast` included in this package.
+#' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams vmt_parking_policy
@@ -43,6 +31,7 @@
 #' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
 #'     with `vmt` in thousands
 #' @export
+#' @family transportation
 #'
 #'
 #' @importFrom dplyr filter select case_when
@@ -57,6 +46,7 @@ calc_vmt_forecast <- function(.scenario,
                               .aeo_scenario = "REF",
                               .transit_avo_pct = 0,
                               .transit_rider_pct = 0,
+                              .pldv_avo_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,
                               .gas_tax = 0,
@@ -179,7 +169,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -242,6 +234,7 @@ calc_vmt_forecast <- function(.scenario,
       )
 
 
+      # All transit
       at_adjustment <- tb %>%
         filter(mode == "AT", var == .variable) %>%
         select(ctu, year, active_transportation_adj = value)
@@ -301,7 +294,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       autonomous_adjust <- vmt_autonomous_vehicle(
@@ -346,8 +341,7 @@ calc_vmt_forecast <- function(.scenario,
         rowwise() %>%
         mutate(
           pass_ld_vmt =
-            (miles_traveled -
-              (active_transportation_adj * transit_adj)) *
+            (miles_traveled - transit_adj) *
               av_adj * aeo_adj *
               vmt_fee_adj * cong_adjust * gas_adj *
               telework_adj * land_use_adj *
@@ -444,7 +438,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = "PLDV",
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       at_adjustment <- tb %>%
@@ -505,7 +501,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -592,7 +590,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       fc_adjustments <- vmt_road_policy(
@@ -694,7 +694,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       tb_fin <- left_join(tb_vmt, veh_occupancy, c("year", "ctu")) %>%
@@ -733,7 +735,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
 
@@ -772,7 +776,9 @@ calc_vmt_forecast <- function(.scenario,
         .tb_vmt = tb_vmt,
         .mode = .mode,
         .stock = .stock,
-        .transit_avo_pct = .transit_avo_pct
+        .transit_avo_pct = .transit_avo_pct,
+        .pldv_avo_pct = .pldv_avo_pct,
+        .enviro_factors = .enviro_factors
       )
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
@@ -855,7 +861,9 @@ calc_vmt_forecast <- function(.scenario,
       .tb_vmt = tb_vmt,
       .mode = .mode,
       .stock = .stock,
-      .transit_avo_pct = .transit_avo_pct
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .enviro_factors = .enviro_factors
     )
 
     tb_fin <- tb_vmt %>%

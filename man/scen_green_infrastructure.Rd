@@ -2,7 +2,7 @@
 % Please edit documentation in R/g_scen_green_infrastructure.R
 \name{scen_green_infrastructure}
 \alias{scen_green_infrastructure}
-\title{Prepare Green Infrastructure Module}
+\title{Prepare green infrastructure module}
 \usage{
 scen_green_infrastructure(
   tb,
@@ -23,8 +23,7 @@ scen_green_infrastructure(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{detail}{\strong{Logical}.
-A \code{TRUE} or \code{FALSE} argument.
+\item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
@@ -49,14 +48,13 @@ Default is \code{0.26}.}
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
 
-\item{.parking_lot_reduction_percentage}{numeric,
-a value between \code{0} and \code{1}.
+\item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
 }
 \description{
-generates the outputs of the land use and green
+Generates the outputs of the land use and green
 infrastructure module.
 }
 \examples{

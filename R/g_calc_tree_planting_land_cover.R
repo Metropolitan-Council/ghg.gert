@@ -1,33 +1,32 @@
-#' @title Calculate Tree Planting Land Cover by City/Township
+#' @title Calculate tree planting land cover by city/township
 #' @family land use
 #'
-#' @description recalculates the hectares of land by
+#' @description Recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @inheritParams calc_land_cover_by_city
-#' @param .tree_panting_intervention character,
-#' Specifies the type of tree planting.
-#' intervention to be explored under the current scenario.
-#' The options are:
-#' * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
-#' * `"double"`: Assumes double the tree canopy relative.
-#' to the baseline year.
-#' * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to Los Angeles Million Tree Goal.
-#' Default is `tree_planting_on_all_pervious`.
+#' @param .tree_panting_intervention character, specifies the type of tree planting.
+#'     intervention to be explored under the current scenario. options are:
+#'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
+#'     * `"double"`: Assumes double the tree canopy relative.
+#'         to the baseline year.
+#'     * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to
+#'         Los Angeles Million Tree Goal.
+#'     Default is `tree_planting_on_all_pervious`.
 #' @param .tree_planting_per_capita numeric,
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
 #' @param .tree_planting_per_hectare numeric,
 #'      Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `247`.
-#' @param detail **Logical**.
+#' @param detail logical,
 #'      If `TRUE`, returns a table with more detailed fields. Recommended
 #'      for debugging.
 #'      Default is `FALSE`.
 #'
 #' @return [tibble::tibble()].
 #'      `calc_tree_planting_land_cover()` returns table with hectares of land by land cover type after a tree planting scenario
-#'      for each city/township. Set argumnet `detail` to `TRUE` for a more detailed table.
+#'      for each city/township. Set argument `detail` to `TRUE` for a more detailed table.
 #'
 #' @export
 #'
@@ -74,8 +73,8 @@ calc_tree_planting_land_cover <- function(tb,
       total_trees_hectares = (trees + forest + woody_wetland),
       total_area_hectares = (
         grass + barren + shrub + grassland
-        + agriculture + trees + forest + woody_wetland
-        + impervious + water + wetland
+          + agriculture + trees + forest + woody_wetland
+          + impervious + water + wetland
       )
     ) %>%
     dplyr::ungroup()
@@ -127,46 +126,46 @@ calc_tree_planting_land_cover <- function(tb,
     dplyr::transmute(
       match_los_angeles_million_trees_plan_percent =
         (LA_goal_hectares +
-           total_tree_canopy_hectares) /
-        total_tree_canopy_hectares,
+          total_tree_canopy_hectares) /
+          total_tree_canopy_hectares,
       tree_planting_on_all_pervious_sufaces_percent =
         (pervious_surface_hectares + total_tree_canopy_hectares) /
-        total_tree_canopy_hectares,
+          total_tree_canopy_hectares,
     ) %>%
     dplyr::ungroup()
 
   tree_planting_land_cover <-
     total_plantable_area %>%
     dplyr::right_join(.,
-                      tree_planting_scenario,
-                      by = "ctu_name"
+      tree_planting_scenario,
+      by = "ctu_name"
     ) %>%
     dplyr::mutate(
       max_trees = total_area_hectares - woody_wetland - forest - impervious - wetland,
       trees =
         dplyr::if_else(year == 2016,
-                       trees,
-                       (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
-                         dplyr::if_else(
-                           # need to add choice of main parameter
-                           trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
-                           trees * tree_planting_on_all_pervious_sufaces_percent,
-                           max_trees
-                         )
-                       } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
-                         dplyr::if_else(
-                           # need to add choice of main parameter
-                           trees * match_los_angeles_million_trees_plan_percent < max_trees,
-                           trees * match_los_angeles_million_trees_plan_percent,
-                           max_trees
-                         )
-                       } else if (.tree_planting_intervention == "double") {
-                         dplyr::if_else(
-                           trees * match_los_angeles_million_trees_plan_percent < max_trees,
-                           trees * match_los_angeles_million_trees_plan_percent,
-                           max_trees
-                         )
-                       })
+          trees,
+          (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
+            dplyr::if_else(
+              # need to add choice of main parameter
+              trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
+              trees * tree_planting_on_all_pervious_sufaces_percent,
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
+            dplyr::if_else(
+              # need to add choice of main parameter
+              trees * match_los_angeles_million_trees_plan_percent < max_trees,
+              trees * match_los_angeles_million_trees_plan_percent,
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "double") {
+            dplyr::if_else(
+              trees * match_los_angeles_million_trees_plan_percent < max_trees,
+              trees * match_los_angeles_million_trees_plan_percent,
+              max_trees
+            )
+          })
         )
     ) %>%
     dplyr::mutate(total_scenario_tree = trees + forest + woody_wetland) %>%

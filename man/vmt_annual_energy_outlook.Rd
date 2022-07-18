@@ -15,7 +15,7 @@ vmt_annual_energy_outlook(
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.
 }
 \description{
-calculates annual energy outlook (AEO)
+Calculates annual energy outlook (AEO)
 multipliers for each forecast year.
 }
 \seealso{

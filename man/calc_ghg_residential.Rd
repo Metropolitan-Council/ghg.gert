@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_calc_ghg_residential.R
 \name{calc_ghg_residential}
 \alias{calc_ghg_residential}
-\title{Calculate Residential Building Emissions}
+\title{Calculate residential building emissions}
 \usage{
 calc_ghg_residential(
   res_tb,
@@ -15,8 +15,7 @@ calc_ghg_residential(
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}
 
-\item{.enviro_factors}{list of environmental factors.
-Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -30,7 +29,7 @@ A table with columns
 \code{residential_natural_gas_emissions_kg_co}
 }
 \description{
-estimates total energy demand
+Estimates total energy demand
 and emissions from the residential building sector by city/township
 for the user specified scenario, and the business-as-usual scenario.
 }
@@ -68,7 +67,7 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 
-Other Residential: 
+Other residential: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -82,6 +81,6 @@ Other emissions:
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()}
 }
-\concept{Residential}
 \concept{buildings}
 \concept{emissions}
+\concept{residential}
