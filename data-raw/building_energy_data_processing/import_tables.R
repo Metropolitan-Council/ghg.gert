@@ -28,8 +28,8 @@ t_ctu_county <-
 t_ztrax_building_sqft <-
   import_from_emissions("metro_energy.vw_ztrax_building_sqft")
 
-t_emp_forecast_county <-
-  import_from_emissions("metro_demographic.vw_emp_forecast_county")
+t_emp_forecast_industry_county <-
+  import_from_emissions("metro_demographic.vw_emp_forecast_industry_county")
 
 t_ctu_forecast <-
   import_from_emissions("metro_demographic.vw_ctu_forecast")
