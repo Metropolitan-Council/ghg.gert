@@ -54,7 +54,6 @@ p_county_characteristics <-
 # CTU ----
 
 ## -------------------------------------------------------------------------------------------
-# TODO resolve CTUs that fall in multiple counties
 p_ctu_population <-
   t_ctu_population %>%
   select(ctu_name, year, population, households) %>%
@@ -67,7 +66,8 @@ p_ctu_population <-
   ) %>%
   group_by(ctu_name, year, metric) %>%
   summarise(value = sum(value, na.rm = T), .groups = "keep")
-
+# portions of a city that fall in more than one county
+# are aggregated.
 
 ## -------------------------------------------------------------------------------------------
 p_ctu_jobs <-
@@ -157,15 +157,15 @@ p_ctu_average_floor_area_multifamily <-
 ## -------------------------------------------------------------------------------------------
 
 ## ----------
-# TODO resolve CTUs that fall in more than one county
 p_ctu_county <- p_county_characteristics %>%
   left_join(t_ctu_county, by = "co_name") %>%
   filter(metric == "multifamily_average_floor_area_sqft_county") %>%
   group_by(ctu_name, year, metric) %>%
+  mutate(value = value * pct_population) %>%
   select(ctu_name, year, metric, value) %>%
   dplyr::group_by(ctu_name, year, metric) %>%
-  dplyr::summarise(value = mean(value), .groups = "keep")
-
+  dplyr::summarise(value = sum(value), .groups = "keep")
+# uses weighted average based on population
 
 #----------
 p_ctu_characteristics <-
