@@ -113,15 +113,17 @@ land_area <- metc_counties %>%
 ctu_county <- st_drop_geometry(ctu_boundary) %>% #take the full ctu information (with ctu_ids)
   full_join(pop) %>% #add population percents
   left_join(land_area) %>%  #add in the percent land area
-  mutate(pct_land_area = if_else(n_counties == 1, 1, pct_land_area)) #clean up errors due to slivers
+  mutate(pct_land_area = if_else(n_counties == 1, 1, pct_land_area)) %>% #clean up errors due to slivers
+  select(-ctu_name, -co_name) %>%
+  mutate(ctu_id = as.integer(ctu_id),
+         co_code = as.integer(co_code))
 
 
-ctu_county %>% group_by(ctu_name) %>%
+ctu_county %>% group_by(ctu_id) %>%
   mutate(check_land_area = sum(pct_land_area),
          check_pop = sum(pct_population)) %>%
   filter(check_pop != 1 | check_land_area != 1)
 
 usethis::use_data(ctu_county, overwrite = TRUE)
-
 ```
 
