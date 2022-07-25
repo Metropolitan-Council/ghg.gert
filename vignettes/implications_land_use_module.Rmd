@@ -63,7 +63,7 @@ contained in the `land_use_data` dataset.
 **$ctu_county**: 
 Table shows the relationship between city/townships and county. 
 
-*Q: Are there any city/townships which span multiple counties?* 
+*Q1: Are there any city/townships which span multiple counties?* 
 
 1. GitHub [issue #17](https://github.com/Metropolitan-Council/ghg.sp/issues/17) gives suggestions as to how these CTUs should be handled. One option here would be to consider ADDING a column (percent_coverage?) so that it is clear how county assignment will happen (esp. when Matt suggests using a weighted mean when county-level averages are needed). 
 
@@ -77,13 +77,13 @@ if (nrow(multiple_cos) < 1) {
 } else {
   print ("Figure out county assignment for these ctus: ")
   land_use_data$ctu_county %>%
-    filter(ctu_name %in% c(multiple_cos$ctu_name)) %>%
-    kable()
+    filter(ctu_name %in% c(multiple_cos$ctu_name))
 }
 
 ```
 
-**We have responded to issue #37 on GitHub. We will not address this issue until the proper table is created for all of research.**
+Q1.1 ML Response on 7/25/2022:
+**Laine McNamara created a table that species the percentage of land and population for each portion of a city that falls within multiple counties. This allows to sum the weighted averages of each portion and resolves the highlighted issue **
 
 2. Additionally! Please *REMOVE* county columns from all other databases associated with this project! For instance, the `db_tables$t_housing_stock_ctu` table has both ctu_name and co_name columns. If ONLY the `ctu_county` table contains the county information, that means that you will only have to consider this issue (county assignments) once instead of multiple times (yay!). Then this "global" information (ctu and county assignment) can just be joined into other tables and you will be confident in the accuracy of the assignment. 
 
@@ -97,12 +97,15 @@ db_tables$t_housing_stock_ctu %>%
 
 ```
 
-*R: On 7/13/2020 Mauricio removed the county name column from tables where it wasn't needed.*
+Q1.2. ML Response on 7/25/2022: 
+**Mauricio removed the county name column from tables where it wasn't needed.**
+
+---
 
 **$ctu_forecast**: 
 Table shows the demographic forecasts for city/township from Community Profiles.
 
-*Q: Does Lake Elmo population match 2020 census data?*
+*Q2: Does Lake Elmo population match 2020 census data?*
 
 ```{r echo=FALSE}
 if (land_use_data$ctu_forecast %>%
@@ -114,8 +117,12 @@ if (land_use_data$ctu_forecast %>%
   print("Database doesn't match 2020 census data on community profiles; database probably needs to be updated")
 }
 ```
+Q2 ML Response on 7/25/2022: 
+**This issue is in the process of being resolved. Sean Molloy is creating a connection between the ORACLE SQL Fred Database and the Emissions database on Microsoft SQL.**
 
-*Q: Does it look like people, households, and jobs are changing at a reasonable rate?*
+---
+
+*Q3: Does it look like people, households, and jobs are changing at a reasonable rate?*
 
 ee thoughts --> yeah, this mostly looks okay. Check out a ctus that are losing people/jobs in table below.
 
@@ -150,40 +157,53 @@ land_use_data$ctu_forecast %>%
 
 ```
 
-*Q: Which areas are losing people, jobs or households?*
+ML Response on 7/25/2022: **We use the forecasts of population, households, and jobs forecast available on Community Profiles. It is outside the scope of this project to resolve issues with the forecasting of these demographic factors, and it is an issue to be relayed to the Urbanfootprint team**
+
+---
+
+*Q4: Which areas are losing people, jobs or households?*
 
 1) Does this make sense? Or does something fancy with respect to land annexations need to be considered?
 
 ```{r}
-
 #some areas are losing people/jobs
 land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name") %>%
   pivot_wider(names_from = year, values_from = value) %>%
   filter(`2010` > `2040`) %>%
   select(ctu_name, metric, `2010`, `2040`) %>%
-  mutate(difference = `2040` - `2010`) %>%
-  # split(.$metric) %>%
-  kable()
+  mutate(difference = `2040` - `2010`)
 ```
 
+
+Q4 ML Response on 7/25/2022: 
+**Same response as in the previous questions**
+
+---
 
 **$scenario_parameters**: 
 
-*Q: why do all scenario_description_1 have exurban_development ==0 ?*
-
+*Q5: why do all scenario_description_1 have exurban_development ==0 ?*
 
 ```{r echo=FALSE}
-land_use_data$scenario_parameters %>%
-  kable()
+land_use_data$scenario_parameters
 ```
+
+Q5 ML Response on 7/25/2022:
+**The SHCN Team did not include a scenario where there is growth in the exurbs. Technically, we could come up with a different development scenario that has different ratios between the different development types**
+
+---
 
 **$land_cover_percentages_filled**: 
 
-What is the most root data source? Milnar and Ramaswani, 2020?
+*Q6 What is the most root data source? Milnar and Ramaswani, 2020?*
 
+Q6 ML Response on 7/25/2022:
+**I am not sure, someone should find out**
 
-*Q: Does land cover sum to 100%?* 
+---
+
+*Q7: Does land cover sum to 100%?* 
 
 ```{r echo=FALSE}
 if (nrow(
@@ -198,7 +218,12 @@ if (nrow(
 }
 ```
 
-*Q: Does total land area look okay?*
+Q7 ML Response on 7/25/2022:
+**Yes, it sums to 1 or 0**
+
+---
+
+*Q8: Does total land area look okay?*
 
 ee thoughts --> yup, looks okay
 
@@ -218,8 +243,12 @@ land_use_data$land_cover_percentages_filled %>%
        title = "Does total land area in ctus look okay?")
 ```
 
+Q8 ML Response on 7/25/2022:
+**Yes, it looks okay**
 
-*Q: What does Lake Elmo's land cover look like? Do these values make sense as-is or is some post-processing in order?*
+---
+
+*Q9: What does Lake Elmo's land cover look like? Do these values make sense as-is or is some post-processing in order?*
 
 1) Is it okay that some descriptions have NO data (like railway)? 
 2) It seems like zero may be more appropriate than NA's - update those?
@@ -250,7 +279,35 @@ land_use_data$land_cover_percentages_filled %>%
   )
 ```
 
-*Q: What does land cover look like by community designation? Are we good here or need to do post processing?* There is a lot going on in this figure, but I'm using it for high-level red-flag checks. It might be worth unpacking this a bit more once these initial questions are answered and/or data updates made. 
+Q9 ML Response on 7/25/2022:
+**upon some review I believe that the "land_cover" column in the "land_cover_percentages_filled" is not being actively used, so it might be a good idea to delete or un-select it. I believe the relevant column on that table is "percent_land_cover_type. Notice the difference when I run the same chart with "percent_land_cover_type" (below) The difference in resolutions between the land use and land cover source datasets could be the reason why you might always get small percentages of land cover that seem out of place.** 
+
+```{r echo=FALSE, message = F}
+#| fig.cap = "Lake Elmo land cover.",
+#| fig.width = 7,
+#| fig.height = 8
+
+land_use_data$land_cover_percentages_filled %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  ggplot(aes(x = description_2, y = percent_land_cover_type, fill = land_cover_description_2)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_council_open() +
+  coord_flip() +
+  labs(x = "",
+       y = "Land Use") +
+  facet_wrap(~ctu_name) +
+  theme(legend.position = "bottom") +
+  guides(
+    col = guide_legend(nrow = 4, byrow = TRUE),
+    fill = guide_legend(nrow = 4, byrow = TRUE),
+    shape = guide_legend(nrow = 4, byrow = TRUE)
+  )
+```
+
+---
+
+*Q10: What does land cover look like by community designation? Are we good here or need to do post processing?* There is a lot going on in this figure, but I'm using it for high-level red-flag checks. It might be worth unpacking this a bit more once these initial questions are answered and/or data updates made. 
 
 1) Why does 'seasonal vacation', 'extractive' exist in "urban centers"? Can this be set to zero and/or re-calculated? 
 2) Why does "farmstead" occur in urban communities? Again, can this be set to zero or recalculated? (Or simply just confirmed and/or checked via a map??)
@@ -287,13 +344,17 @@ land_use_data$land_cover_percentages_filled %>%
 
 ```
 
+Q10 ML Response on 7/25/2022:
+**Combining categories might not be a cost effective task granted that it adds complexity to an already complex tool. As explained in response to Q10 the "land_cover_percent" of the "land_cover_percentages_filled" is probably a residual column that might need to be deleted or unselected. Furthermore, consider that the land use data is available at the parcel level, and the land cover data isn't. For this reason there might be a single family attached unit in a rural community, but the intersection tool with GIS loses some of the fine detail.**
+
+---
 
 **$land_composition_ctu**: 
 Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
 
 What is the root data source?
 
-*Q: How does Lake Elmo's land use/cover change based on the type of development?*
+*Q11: How does Lake Elmo's land use/cover change based on the type of development?*
 
 1) If we look only at the land use/covers which change from 2016 to 2040, the "exurban development" type doesn't affect the percent of ANY land use/cover in Lake Elmo. Is there a multiplier / parameter missing somewhere? 
 2) Does it make sense that "urban_infill" only impacts "railway" and "retail_and_other_commercial" while the "urban_expansion" doesn't affect those two land cover/uses?
@@ -305,8 +366,7 @@ land_use_data$land_composition_ctu %>%
   select(-total_hectares, -hectares) %>%
   pivot_wider(names_from = year, values_from = percent) %>%
   mutate(change = `2040` - `2016`) %>%
-  filter(change != 0) %>%
-  kable()
+  filter(change != 0)
 ```
 
 *Q: Do the different development types change land use/cover in logical ways?* The first figure shows all land uses, the second zooms in on land cover/uses which make up 5% or more of the land base. 
@@ -409,9 +469,7 @@ land_use_data$land_composition_ctu %>%
   left_join(comdes, by = "ctu_name") %>%
   rename(`2016 hectares` = `2016`,
          `2040 hectares` = `2040`,
-         change_hectares = change) %>%
-  kable()
-
+         change_hectares = change)
 ```
 
 **$current_conservation_tillage_county**:
@@ -1134,6 +1192,10 @@ current_goal %>%
 - In **$scenario_parameters** can you explain why all scneario_description_1 have exurban_development == 0? If exurban_development doesn't vary between the scenarios, can this parameter simply be removed? Or does a new scenario need to get created that leverages this exurban development?
 - PS, you probably want to get rid of the number suffix on the column names; ie "scneario_description_1" becomes "scneario_description". There is also a typo where scneario should be scENario; not sure where all you refer to this though, so I'll let you fix it because you'll know where all to check and update the name to make sure that fixing the typo doesn't break stuff.
 - Which year is the current_conservation_tillage_county data pulling? The document says: For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201? Is this 2017 (date on the ag census) or another year?
+
+
+
+
 
 # STOP REVIEW HERE 
 
