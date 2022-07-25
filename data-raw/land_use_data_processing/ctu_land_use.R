@@ -20,15 +20,3 @@ land_use_data$land_by_development_type <- p_land_by_development_type
 land_use_data$multifamily_mixed_area <- p_multifamily_mixed_area
 
 usethis::use_data(land_use_data, overwrite = T)
-
-# land_use_data$land_use_by_cover_type_percent <-
-#   p_land_use_by_cover_type_percent
-
-# land_use_data$carbon_stock_by_cover_type <-
-#   p_carbon_stock_by_cover_type
-
-# land_use_data$summed_land_use_2016 <- p_summed_land_use_2016
-
-# land_use_data$ctu_land_use_hectares <- t_ctu_land_use_hectares
-
-# land_use_data$land_cover_percentages <- p_land_cover_percentages
