@@ -38,6 +38,8 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   detail = FALSE) {
   check_inputs("parking_lot_reduction_percentage", .parking_lot_reduction_percentage)
 
+  browser()
+
   land_use <- scen_green_infrastructure(
     tb = tb,
     detail = detail,
