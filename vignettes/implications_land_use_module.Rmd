@@ -2,6 +2,9 @@
 title: "Implications of Green Infrastructure & Land Use"
 author: Ellen, Liz
 output: rmarkdown::html_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}
@@ -21,13 +24,17 @@ library(tidyr)
 
 ```
 
-
 ## Implications of Land Use & Green Infrastructure Module
 
-This document tests and synthesizes some outcomes of the land use and green infrastructure module. A compliment to the introduction vignette; think of the introduction vignette as being the textbook "chapter," and this implications vignette is the "worked examples" at the end of the chapter.  
+This document tests and synthesizes some outcomes of the land use and
+green infrastructure module. A compliment to the introduction vignette;
+think of the introduction vignette as being the textbook "chapter," and
+this implications vignette is the "worked examples" at the end of the
+chapter.
 
-For simplicity, most implications will be aggregated at the community designation level which is a framework for organizing the communities across the region into broad groups. 
-
+For simplicity, most implications will be aggregated at the community
+designation level which is a framework for organizing the communities
+across the region into broad groups.
 
 ```{r commmunity-designations}
 temp <- tempfile()
@@ -57,15 +64,21 @@ fs::file_delete("society_thrive_msp2040_com_des.gpkg")
 ## Land Use and Land Cover Data
 
 ### `land_use_data` Table Descriptions
-The following is a description of the content of all input tables of the land use module, which are
-contained in the `land_use_data` dataset.
 
-**$ctu_county**: 
-Table shows the relationship between city/townships and county. 
+The following is a description of the content of all input tables of the
+land use module, which are contained in the `land_use_data` dataset.
 
-*Q1: Are there any city/townships which span multiple counties?* 
+**\$ctu_county**: Table shows the relationship between city/townships
+and county.
 
-1. GitHub [issue #17](https://github.com/Metropolitan-Council/ghg.sp/issues/17) gives suggestions as to how these CTUs should be handled. One option here would be to consider ADDING a column (percent_coverage?) so that it is clear how county assignment will happen (esp. when Matt suggests using a weighted mean when county-level averages are needed). 
+*Q1: Are there any city/townships which span multiple counties?*
+
+1.  GitHub [issue
+    #17](https://github.com/Metropolitan-Council/ghg.sp/issues/17) gives
+    suggestions as to how these CTUs should be handled. One option here
+    would be to consider ADDING a column (percent_coverage?) so that it
+    is clear how county assignment will happen (esp. when Matt suggests
+    using a weighted mean when county-level averages are needed).
 
 ```{r echo=FALSE}
 multiple_cos <- land_use_data$ctu_county %>%
@@ -82,10 +95,20 @@ if (nrow(multiple_cos) < 1) {
 
 ```
 
-Q1.1 ML Response on 7/25/2022:
-**Laine McNamara created a table that species the percentage of land and population for each portion of a city that falls within multiple counties. This allows to sum the weighted averages of each portion and resolves the highlighted issue **
+> Q1.1 ML Response on 7/25/2022: **Laine McNamara created a table that
+> species the percentage of land and population for each portion of a
+> city that falls within multiple counties. This allows to sum the
+> weighted averages of each portion and resolves the highlighted issue**
 
-2. Additionally! Please *REMOVE* county columns from all other databases associated with this project! For instance, the `db_tables$t_housing_stock_ctu` table has both ctu_name and co_name columns. If ONLY the `ctu_county` table contains the county information, that means that you will only have to consider this issue (county assignments) once instead of multiple times (yay!). Then this "global" information (ctu and county assignment) can just be joined into other tables and you will be confident in the accuracy of the assignment. 
+2.  Additionally! Please *REMOVE* county columns from all other
+    databases associated with this project! For instance, the
+    `db_tables$t_housing_stock_ctu` table has both ctu_name and co_name
+    columns. If ONLY the `ctu_county` table contains the county
+    information, that means that you will only have to consider this
+    issue (county assignments) once instead of multiple times (yay!).
+    Then this "global" information (ctu and county assignment) can just
+    be joined into other tables and you will be confident in the
+    accuracy of the assignment.
 
 ```{r}
 
@@ -97,13 +120,13 @@ db_tables$t_housing_stock_ctu %>%
 
 ```
 
-Q1.2. ML Response on 7/25/2022: 
-**Mauricio removed the county name column from tables where it wasn't needed.**
+> Q1.2. ML Response on 7/25/2022: **Mauricio removed the county name
+> column from tables where it wasn't needed.**
 
----
+------------------------------------------------------------------------
 
-**$ctu_forecast**: 
-Table shows the demographic forecasts for city/township from Community Profiles.
+**\$ctu_forecast**: Table shows the demographic forecasts for
+city/township from Community Profiles.
 
 *Q2: Does Lake Elmo population match 2020 census data?*
 
@@ -117,14 +140,18 @@ if (land_use_data$ctu_forecast %>%
   print("Database doesn't match 2020 census data on community profiles; database probably needs to be updated")
 }
 ```
-Q2 ML Response on 7/25/2022: 
-**This issue is in the process of being resolved. Sean Molloy is creating a connection between the ORACLE SQL Fred Database and the Emissions database on Microsoft SQL.**
 
----
+> Q2 ML Response on 7/25/2022: **This issue is in the process of being
+> resolved. Sean Molloy is creating a connection between the ORACLE SQL
+> Fred Database and the Emissions database on Microsoft SQL.**
 
-*Q3: Does it look like people, households, and jobs are changing at a reasonable rate?*
+------------------------------------------------------------------------
 
-ee thoughts --> yeah, this mostly looks okay. Check out a ctus that are losing people/jobs in table below.
+*Q3: Does it look like people, households, and jobs are changing at a
+reasonable rate?*
+
+ee thoughts --> yeah, this mostly looks okay. Check out a ctus that are
+losing people/jobs in table below.
 
 ```{r, message = F}
 #| fig.cap = "Lines show ctu-level data and forecasts. Black points and error bars show the mean +- 1 standard error.",
@@ -157,13 +184,18 @@ land_use_data$ctu_forecast %>%
 
 ```
 
-ML Response on 7/25/2022: **We use the forecasts of population, households, and jobs forecast available on Community Profiles. It is outside the scope of this project to resolve issues with the forecasting of these demographic factors, and it is an issue to be relayed to the Urbanfootprint team**
+> Q3 ML Response on 7/25/2022: **We use the forecasts of population,
+> households, and jobs forecast available on Community Profiles. It is
+> outside the scope of this project to resolve issues with the
+> forecasting of these demographic factors, and it is an issue to be
+> relayed to the Urbanfootprint team**
 
----
+------------------------------------------------------------------------
 
 *Q4: Which areas are losing people, jobs or households?*
 
-1) Does this make sense? Or does something fancy with respect to land annexations need to be considered?
+1)  Does this make sense? Or does something fancy with respect to land
+    annexations need to be considered?
 
 ```{r}
 #some areas are losing people/jobs
@@ -175,13 +207,12 @@ land_use_data$ctu_forecast %>%
   mutate(difference = `2040` - `2010`)
 ```
 
+> Q4 ML Response on 7/25/2022: **Same response as in the previous
+> questions**
 
-Q4 ML Response on 7/25/2022: 
-**Same response as in the previous questions**
+------------------------------------------------------------------------
 
----
-
-**$scenario_parameters**: 
+**\$scenario_parameters**:
 
 *Q5: why do all scenario_description_1 have exurban_development ==0 ?*
 
@@ -189,21 +220,23 @@ Q4 ML Response on 7/25/2022:
 land_use_data$scenario_parameters
 ```
 
-Q5 ML Response on 7/25/2022:
-**The SHCN Team did not include a scenario where there is growth in the exurbs. Technically, we could come up with a different development scenario that has different ratios between the different development types**
+> Q5 ML Response on 7/25/2022: **The SHCN Team did not include a
+> scenario where there is growth in the exurbs. Technically, we could
+> come up with a different development scenario that has different
+> ratios between the different development types**
 
----
+------------------------------------------------------------------------
 
-**$land_cover_percentages_filled**: 
+**\$land_cover_percentages_filled**:
 
 *Q6 What is the most root data source? Milnar and Ramaswani, 2020?*
 
-Q6 ML Response on 7/25/2022:
-**I am not sure, someone should find out**
+> Q6 ML Response on 7/25/2022: **I am not sure, someone should find
+> out**
 
----
+------------------------------------------------------------------------
 
-*Q7: Does land cover sum to 100%?* 
+*Q7: Does land cover sum to 100%?*
 
 ```{r echo=FALSE}
 if (nrow(
@@ -218,10 +251,9 @@ if (nrow(
 }
 ```
 
-Q7 ML Response on 7/25/2022:
-**Yes, it sums to 1 or 0**
+> Q7 ML Response on 7/25/2022: **Yes, it sums to 1 or 0**
 
----
+------------------------------------------------------------------------
 
 *Q8: Does total land area look okay?*
 
@@ -243,18 +275,26 @@ land_use_data$land_cover_percentages_filled %>%
        title = "Does total land area in ctus look okay?")
 ```
 
-Q8 ML Response on 7/25/2022:
-**Yes, it looks okay**
+> Q8 ML Response on 7/25/2022: **Yes, it looks okay**
 
----
+------------------------------------------------------------------------
 
-*Q9: What does Lake Elmo's land cover look like? Do these values make sense as-is or is some post-processing in order?*
+*Q9: What does Lake Elmo's land cover look like? Do these values make
+sense as-is or is some post-processing in order?*
 
-1) Is it okay that some descriptions have NO data (like railway)? 
-2) It seems like zero may be more appropriate than NA's - update those?
-3) Should agricultural land cover get set to zero in non-agricultural descriptions (i.e., why is agricultural land cover in "retail and other commercial" land use)?
-4) Should open_water description be filled with 100% water land cover? I do think that the wetland and woody_wetland land covers also seem appropriate, but am unsure why nearly 50% of "open water" is forest land cover, for instance. 
-5) What is the difference between railway and major_railway? There is no highway equivalent (yes there is major_highway, but no plain "highway") - can the railroad stuff get condensed/collapsed/simplified like the highway stuff?
+1)  Is it okay that some descriptions have NO data (like railway)?
+2)  It seems like zero may be more appropriate than NA's - update those?
+3)  Should agricultural land cover get set to zero in non-agricultural
+    descriptions (i.e., why is agricultural land cover in "retail and
+    other commercial" land use)?
+4)  Should open_water description be filled with 100% water land cover?
+    I do think that the wetland and woody_wetland land covers also seem
+    appropriate, but am unsure why nearly 50% of "open water" is forest
+    land cover, for instance.
+5)  What is the difference between railway and major_railway? There is
+    no highway equivalent (yes there is major_highway, but no plain
+    "highway") - can the railroad stuff get
+    condensed/collapsed/simplified like the highway stuff?
 
 ```{r echo=FALSE, message = F}
 #| fig.cap = "Lake Elmo land cover.",
@@ -279,8 +319,15 @@ land_use_data$land_cover_percentages_filled %>%
   )
 ```
 
-Q9 ML Response on 7/25/2022:
-**upon some review I believe that the "land_cover" column in the "land_cover_percentages_filled" is not being actively used, so it might be a good idea to delete or un-select it. I believe the relevant column on that table is "percent_land_cover_type. Notice the difference when I run the same chart with "percent_land_cover_type" (below) The difference in resolutions between the land use and land cover source datasets could be the reason why you might always get small percentages of land cover that seem out of place.** 
+> Q9 ML Response on 7/25/2022: **upon some review I believe that the
+> "land_cover" column in the "land_cover_percentages_filled" table is
+> not being actively used, so it might be a good idea to delete or
+> un-select it. I believe the relevant column on that table is
+> "percent_land_cover_type". Notice the difference when I run the same
+> chart with "percent_land_cover_type" (below). In addition, the
+> difference in resolutions between the land use and land cover source
+> data sets could be the reason why you might always get small
+> percentages of land cover that seem out of place.**
 
 ```{r echo=FALSE, message = F}
 #| fig.cap = "Lake Elmo land cover.",
@@ -305,16 +352,28 @@ land_use_data$land_cover_percentages_filled %>%
   )
 ```
 
----
+------------------------------------------------------------------------
 
-*Q10: What does land cover look like by community designation? Are we good here or need to do post processing?* There is a lot going on in this figure, but I'm using it for high-level red-flag checks. It might be worth unpacking this a bit more once these initial questions are answered and/or data updates made. 
+*Q10: What does land cover look like by community designation? Are we
+good here or need to do post processing?* There is a lot going on in
+this figure, but I'm using it for high-level red-flag checks. It might
+be worth unpacking this a bit more once these initial questions are
+answered and/or data updates made.
 
-1) Why does 'seasonal vacation', 'extractive' exist in "urban centers"? Can this be set to zero and/or re-calculated? 
-2) Why does "farmstead" occur in urban communities? Again, can this be set to zero or recalculated? (Or simply just confirmed and/or checked via a map??)
-3) One agricultural community has 100% of single_family_attached land use being "agricultural" land cover? Should things like this get reclassified?
-4) It looks like "water" land cover *NEVER* makes up any of the "open_water" land use? Should that get changed??
-5) What else does this figure show that might be indicative of some needed post processing? 
-6) Why do agricultural communities have railway AND major_railway land uses? Can these two be combined?
+1)  Why does 'seasonal vacation', 'extractive' exist in "urban centers"?
+    Can this be set to zero and/or re-calculated?
+2)  Why does "farmstead" occur in urban communities? Again, can this be
+    set to zero or recalculated? (Or simply just confirmed and/or
+    checked via a map??)
+3)  One agricultural community has 100% of single_family_attached land
+    use being "agricultural" land cover? Should things like this get
+    reclassified?
+4)  It looks like "water" land cover *NEVER* makes up any of the
+    "open_water" land use? Should that get changed??
+5)  What else does this figure show that might be indicative of some
+    needed post processing?
+6)  Why do agricultural communities have railway AND major_railway land
+    uses? Can these two be combined?
 
 ```{r, message = F}
 #| fig.cap = "Land cover by community designation.",
@@ -344,20 +403,34 @@ land_use_data$land_cover_percentages_filled %>%
 
 ```
 
-Q10 ML Response on 7/25/2022:
-**Combining categories might not be a cost effective task granted that it adds complexity to an already complex tool. As explained in response to Q10 the "land_cover_percent" of the "land_cover_percentages_filled" is probably a residual column that might need to be deleted or unselected. Furthermore, consider that the land use data is available at the parcel level, and the land cover data isn't. For this reason there might be a single family attached unit in a rural community, but the intersection tool with GIS loses some of the fine detail.**
+> Q10 ML Response on 7/25/2022: **Combining categories might not be a
+> cost effective task granted that it adds complexity to an already
+> complex tool. As explained in response to Q10 the "land_cover_percent"
+> of the "land_cover_percentages_filled" is probably a residual column
+> that might need to be deleted or unselected. Furthermore, consider
+> that the land use data is available at the parcel level, and the land
+> cover data isn't. For this reason there might be a single family
+> attached unit in a rural community, but the intersection tool with GIS
+> loses some of the fine detail.**
 
----
+------------------------------------------------------------------------
 
-**$land_composition_ctu**: 
-Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
+**\$land_composition_ctu**: Table provides the percentages of land use
+composition categorized in to three types of development: *exurban
+development*, *urban expansion*, and *urban infill*.
 
 What is the root data source?
 
-*Q11: How does Lake Elmo's land use/cover change based on the type of development?*
+*Q11: How does Lake Elmo's land use/cover change based on the type of
+development?*
 
-1) If we look only at the land use/covers which change from 2016 to 2040, the "exurban development" type doesn't affect the percent of ANY land use/cover in Lake Elmo. Is there a multiplier / parameter missing somewhere? 
-2) Does it make sense that "urban_infill" only impacts "railway" and "retail_and_other_commercial" while the "urban_expansion" doesn't affect those two land cover/uses?
+1)  If we look only at the land use/covers which change from 2016 to
+    2040, the "exurban development" type doesn't affect the percent of
+    ANY land use/cover in Lake Elmo. Is there a multiplier / parameter
+    missing somewhere?
+2)  Does it make sense that "urban_infill" only impacts "railway" and
+    "retail_and_other_commercial" while the "urban_expansion" doesn't
+    affect those two land cover/uses?
 
 ```{r}
 land_use_data$land_composition_ctu %>%
@@ -369,11 +442,32 @@ land_use_data$land_composition_ctu %>%
   filter(change != 0)
 ```
 
-*Q: Do the different development types change land use/cover in logical ways?* The first figure shows all land uses, the second zooms in on land cover/uses which make up 5% or more of the land base. 
+> Q11 ML Response on 7/25/2022: **Both questions are related directly to
+> the methodology of the land use module, which I did not develop, we
+> could list this as a potential area to improve. I do not have the
+> technical criteria to make the best decision.**
 
-1) Urban Expansion makes Lake Elmo go from less than 5% single family detached homes in 2016 to over 80% single family detached homes in 2040. It seems like either the 2016 number could be an underestimate, or the 2040 number is an over estimate - maybe check on that? 
-2) Does it make sense that the urban expansion scenario would "consume" all "park_recreational_or_preserve"? I can see consumption of agricultural and undeveloped land, but based on what I know from Paul, the parks stay parks. 
-3) Why is the 2016 land cover/use different across the different scenarios? I was under the impression that the starting point was the same for all scenarios (and that the land use/cover amounts came from observed, on-the-ground data in 2016), and that it was only *future* years where the scenarios really came into play. What am I missing, or does the 2016 land cover/use need to be updated? 
+---
+
+*Q12: Do the different development types change land use/cover in
+logical ways?* The first figure shows all land uses, the second zooms in
+on land cover/uses which make up 5% or more of the land base.
+
+1)  Urban Expansion makes Lake Elmo go from less than 5% single family
+    detached homes in 2016 to over 80% single family detached homes
+    in 2040. It seems like either the 2016 number could be an
+    underestimate, or the 2040 number is an over estimate - maybe check
+    on that?
+2)  Does it make sense that the urban expansion scenario would "consume"
+    all "park_recreational_or_preserve"? I can see consumption of
+    agricultural and undeveloped land, but based on what I know from
+    Paul, the parks stay parks.
+3)  Why is the 2016 land cover/use different across the different
+    scenarios? I was under the impression that the starting point was
+    the same for all scenarios (and that the land use/cover amounts came
+    from observed, on-the-ground data in 2016), and that it was only
+    *future* years where the scenarios really came into play. What am I
+    missing, or does the 2016 land cover/use need to be updated?
 
 ```{r echo=FALSE}
 #| fig.cap = "Development changes Lake Elmo land use/cover.",
@@ -404,9 +498,26 @@ land_use_data$land_composition_ctu %>%
 
 ```
 
+> Q12 ML Response on 7/25/2022: **I suspect that there might be a
+> misinterpretation of what we mean by the categories "urban
+> development", "exurban development" and "urban infill". These are not
+> scenarios, but a way of adding land use together.**
+>
+> **The short answer is yes, they tested a scenario where undeveloped
+> and agricultural land is turned in to housing.**
+
+---
+
 *Q: What about development scenarios on other communities?*
 
-1) Brooklyn Center is showing up twice in this `land_use_data$land_composition_ctu` database. Please update so there's only one value for each year/development_name/description_2 for Brooklyn Center so that we know which value to refer to! As an FYI, Brooklyn Center *is* "falling out" of the analysis at later steps because of this issue - once there is only one entry for Brooklyn Center in this `land_consumption_ctu` table, this should be resolved. 
+1)  Brooklyn Center is showing up twice in this
+    `land_use_data$land_composition_ctu` database. Please update so
+    there's only one value for each year/development_name/description_2
+    for Brooklyn Center so that we know which value to refer to! As an
+    FYI, Brooklyn Center *is* "falling out" of the analysis at later
+    steps because of this issue - once there is only one entry for
+    Brooklyn Center in this `land_consumption_ctu` table, this should be
+    resolved.
 
 ```{r echo=FALSE}
 
@@ -419,12 +530,16 @@ land_use_data$land_composition_ctu %>%
   kable()
 ```
 
+So EXCLUDING Brooklyn Center and looking at all other communities (and
+only the land uses/covers which changed by 5% or more):
 
-So EXCLUDING Brooklyn Center and looking at all other communities (and only the land uses/covers which changed by 5% or more):
-
-1) Urban infill only changes retail and railway in all communities? 
-2) Should urban expansion change (decrease) airport land use/cover in urban center areas (bu over 50%)? It seems like this values should be pretty constant.
-3) Under what conditions does urban expansion decrease single family attached, detached, and multifamily residential? In some instances these values are below zero indicating LOSS of this land cover/use.
+1)  Urban infill only changes retail and railway in all communities?
+2)  Should urban expansion change (decrease) airport land use/cover in
+    urban center areas (bu over 50%)? It seems like this values should
+    be pretty constant.
+3)  Under what conditions does urban expansion decrease single family
+    attached, detached, and multifamily residential? In some instances
+    these values are below zero indicating LOSS of this land cover/use.
 
 ```{r}
 #| fig.cap = "Development changes land use/cover - entire region.",
@@ -457,7 +572,10 @@ land_use_data$land_composition_ctu %>%
 
 ```
 
-4) Why do communities gain farmstead with urban expansion? It seems like agricultural should be lost, especially if the land use/cover of farmstead was zero in 2016. The below table is showing the change in number of hectares of farmstead land cover/use.
+4)  Why do communities gain farmstead with urban expansion? It seems
+    like agricultural should be lost, especially if the land use/cover
+    of farmstead was zero in 2016. The below table is showing the change
+    in number of hectares of farmstead land cover/use.
 
 ```{r}
 land_use_data$land_composition_ctu %>%
@@ -472,21 +590,31 @@ land_use_data$land_composition_ctu %>%
          change_hectares = change)
 ```
 
-**$current_conservation_tillage_county**:
-Tables shows the percent of agricultural land that is managed with conservation tillage by county. This is a necessary assumption for the conservation tillage strategy. 
+**\$current_conservation_tillage_county**: Tables shows the percent of
+agricultural land that is managed with conservation tillage by county.
+This is a necessary assumption for the conservation tillage strategy.
 
-*Q: Just with my background, these numbers seemed pretty low to me. For instance, check out [this high level report from the USDA on conservation tillage numbers](https://www.ers.usda.gov/webdocs/publications/90201/eib197_summary.pdf?v=8320.9); you'll see that across the US, over 60% of corn is in conservation tillage and over 70% of beans are in conservation tillage (and these are the two main crops grown in MN). So I went directly to the USDA's data (via API), and got some pretty different numbers.*
+*Q: Just with my background, these numbers seemed pretty low to me. For
+instance, check out [this high level report from the USDA on
+conservation tillage
+numbers](https://www.ers.usda.gov/webdocs/publications/90201/eib197_summary.pdf?v=8320.9);
+you'll see that across the US, over 60% of corn is in conservation
+tillage and over 70% of beans are in conservation tillage (and these are
+the two main crops grown in MN). So I went directly to the USDA's data
+(via API), and got some pretty different numbers.*
 
-1) Please update the GHG database values so that they match USDA Census values for conservation tillage (see figure below)! If the definition of conservation tillage varies between the USDA and this project, that should also be explained (and am happy to help confirm that the correct numbers are being used - the api thing can be a little tricky, feel free to ask for help!). 
+1)  Please update the GHG database values so that they match USDA Census
+    values for conservation tillage (see figure below)! If the
+    definition of conservation tillage varies between the USDA and this
+    project, that should also be explained (and am happy to help confirm
+    that the correct numbers are being used - the api thing can be a
+    little tricky, feel free to ask for help!).
 
-
-To get raw USDA data
-- Get an API key from USDA: https://quickstats.nass.usda.gov/api
-- Enter in the console: `usethis::edit_r_environ()`
-- When the `.Renviron` file comes up in the editor, type: `USDA_KEY="KEY GOES HERE, INSIDE QUOTES"`
-- Save and close the `.Renviron` file.
-- Restart R.
-
+To get raw USDA data - Get an API key from USDA:
+<https://quickstats.nass.usda.gov/api> - Enter in the console:
+`usethis::edit_r_environ()` - When the `.Renviron` file comes up in the
+editor, type: `USDA_KEY="KEY GOES HERE, INSIDE QUOTES"` - Save and close
+the `.Renviron` file. - Restart R.
 
 ```{r echo=FALSE}
 #| fig.cap = "Comparison of conservation tillage numbers from USDA versus from database.",
@@ -559,14 +687,21 @@ usda_data %>%
 
 ```
 
-**$land_by_development_type_sum_bau**:
-Table shows the forecast total number of hectares by city/township for the business as usual scenario. 
+**\$land_by_development_type_sum_bau**: Table shows the forecast total
+number of hectares by city/township for the business as usual scenario.
 
-*Q: Why does the BAU scenario have land areas that are in some cases a lot different than the sum of land area in the `land_use_data` database?*
+*Q: Why does the BAU scenario have land areas that are in some cases a
+lot different than the sum of land area in the `land_use_data`
+database?*
 
-1) Yay Hilltop land areas look to be the same!
-2) Why would are area like Landfall have 201 total hectares in 2016 but only 16 total hectares in the 2040 business as usual scenario?
-3) Would recommend trying to reduce redundancy in databases - if you can get at the numbers in `land_by_development_type_sum_bau` by summing disaggregated numbers in `land_cover_percentages_filled` you'll eventually have fewer places where inevitable typos or errors happen.
+1)  Yay Hilltop land areas look to be the same!
+2)  Why would are area like Landfall have 201 total hectares in 2016 but
+    only 16 total hectares in the 2040 business as usual scenario?
+3)  Would recommend trying to reduce redundancy in databases - if you
+    can get at the numbers in `land_by_development_type_sum_bau` by
+    summing disaggregated numbers in `land_cover_percentages_filled`
+    you'll eventually have fewer places where inevitable typos or errors
+    happen.
 
 ```{r echo=FALSE, message = F}
 
@@ -579,14 +714,19 @@ land_use_data$land_cover_percentages_filled %>%
   kable()
 ```
 
-
 <!-- # ELLEN ENDING CHECKS HERE FOR NOW -->
 
+**\$multifamily_mixed_area**: Table show the estimate of the number of
+hectares of multifamily mixed area by city/township for three
+development types: *exurban development*, *urban expansion*, and *urban
+infill*.
 
-**$multifamily_mixed_area**: 
-Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
-
-*Q: why do the values for multifamily differ between the `multifamily_mixed_area` and `land_composition_ctu` tables (where description_2 == "multifamily" and year == "2040" for the land_composition_ctu table)? It would be good to have a describe how/why these two things are different (I'm not sure I know), or maybe an update to the database is needed.*
+*Q: why do the values for multifamily differ between the
+`multifamily_mixed_area` and `land_composition_ctu` tables (where
+description_2 == "multifamily" and year == "2040" for the
+land_composition_ctu table)? It would be good to have a describe how/why
+these two things are different (I'm not sure I know), or maybe an update
+to the database is needed.*
 
 ```{r echo=FALSE, message = F}
 land_use_data$multifamily_mixed_area  %>%
@@ -603,8 +743,16 @@ land_use_data$multifamily_mixed_area  %>%
   kable()
 ```
 
-*Q: Does it make sense that exurban development scenario has nearly 6 times more multifamily mixed area than does urban infill (for instance, the diversified rural communities have ~20,000 hectares of multifamily_mixed_area in the exurban development scenario, but barely any multifamily_mixed_area in the urban expansion or urban infill scenarios)? Does it make sense that urban expansion basically has no change in the total hectares in multifamily mixed area? I'm not sure, but it could be good to describe what these different scenarios mean so that people reading the vignette understand a bit more and can contextualize their understanding.*
-
+*Q: Does it make sense that exurban development scenario has nearly 6
+times more multifamily mixed area than does urban infill (for instance,
+the diversified rural communities have \~20,000 hectares of
+multifamily_mixed_area in the exurban development scenario, but barely
+any multifamily_mixed_area in the urban expansion or urban infill
+scenarios)? Does it make sense that urban expansion basically has no
+change in the total hectares in multifamily mixed area? I'm not sure,
+but it could be good to describe what these different scenarios mean so
+that people reading the vignette understand a bit more and can
+contextualize their understanding.*
 
 ```{r, message = F}
 #| fig.cap = "Total hectares, multifamily mixed area.",
@@ -630,17 +778,21 @@ land_use_data$multifamily_mixed_area  %>%
 
 ## Functions
 
-The impact of different land use and greenery strategies is estimated using a series of functions with arguments provided by the user.
+The impact of different land use and greenery strategies is estimated
+using a series of functions with arguments provided by the user.
 
-The key principle is of this model is that different land cover types have different carbon stock and sequestration value. By altering the composition of a city/township, we could observe higher or lower overall carbon stocks or sequestration value per year. 
+The key principle is of this model is that different land cover types
+have different carbon stock and sequestration value. By altering the
+composition of a city/township, we could observe higher or lower overall
+carbon stocks or sequestration value per year.
 
-### Functions to Calculate Urban Form Strategy. 
+### Functions to Calculate Urban Form Strategy.
 
-`ghg.sp::calc_by_development_type()` 
+`ghg.sp::calc_by_development_type()`
 
 *TEST: this function is breaking for scenario `compact_dev_with_drs`*
 
-1) Please ensure this function runs for all scenarios!
+1)  Please ensure this function runs for all scenarios!
 
 ```{r, echo = T, include=F, eval =F}
 
@@ -657,11 +809,21 @@ c(land_use_data$scenario_parameters$scenario_description_2) %>%
 
 But if we do some checks without the breaking scenario...
 
-*Q: Does it make sense that the difference between exurban_development, urban_expansion, and urban_infill are ALWAYS greater than the difference between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
+*Q: Does it make sense that the difference between exurban_development,
+urban_expansion, and urban_infill are ALWAYS greater than the difference
+between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
 
-1) I'm feeling a little overwhelmed with the number of times I'm seeing "scenarios" - what's the difference between the c(exurban_development, urban_expansion, and urban_infill) scenarios and the c("bau", "post_covid_sprawl", and "compact_dev_with_drs") scenarios? Is there a synonym for scenarios that can be used for one of these options to add some clarity? 
-2) Does it make sense that the "scenario_mixed_use_compact_zoning_park" and "scenario_mixed_use_mf_new" only appear in the "exurban_development" scenario? 
-3) Does it make sense that the "bau_mixed_use_compact_zoning" scenario only appears in the "exurban_development" scenario?
+1)  I'm feeling a little overwhelmed with the number of times I'm seeing
+    "scenarios" - what's the difference between the
+    c(exurban_development, urban_expansion, and urban_infill) scenarios
+    and the c("bau", "post_covid_sprawl", and "compact_dev_with_drs")
+    scenarios? Is there a synonym for scenarios that can be used for one
+    of these options to add some clarity?
+2)  Does it make sense that the "scenario_mixed_use_compact_zoning_park"
+    and "scenario_mixed_use_mf_new" only appear in the
+    "exurban_development" scenario?
+3)  Does it make sense that the "bau_mixed_use_compact_zoning" scenario
+    only appears in the "exurban_development" scenario?
 
 ```{r}
 #| fig.width = 8,
@@ -689,7 +851,8 @@ output %>%
 
 The second function is `ghg.sp::calc_scen_land_use()`
 
-*Test: again, this function breaks for the "compact_dev_with_drs" scenario.*
+*Test: again, this function breaks for the "compact_dev_with_drs"
+scenario.*
 
 ```{r}
 # output <- 
@@ -703,9 +866,17 @@ The second function is `ghg.sp::calc_scen_land_use()`
 
 But moving past that...
 
-1) Why is the output of this function (calc_scen_land_use) called "scenario_hectares" while the output of the previous function (calc_land_by_development_type) was simply "hectares"? Could they both become "hectares" for consistency's sake? 
-2) Why does "compact_dev_with_drs" have zero hectares for the exurban_development and urban_expansion? 
-3) Why are the land cover hectares different across the different scenarios here? Is the calc_scen_land_use function assuming that Lake Elmo's total amount of land will change based on the scenarios (i.e. is the function multiplying a scaling factor through the total hectares rather than through the PERCENT of hectares?)
+1)  Why is the output of this function (calc_scen_land_use) called
+    "scenario_hectares" while the output of the previous function
+    (calc_land_by_development_type) was simply "hectares"? Could they
+    both become "hectares" for consistency's sake?
+2)  Why does "compact_dev_with_drs" have zero hectares for the
+    exurban_development and urban_expansion?
+3)  Why are the land cover hectares different across the different
+    scenarios here? Is the calc_scen_land_use function assuming that
+    Lake Elmo's total amount of land will change based on the scenarios
+    (i.e. is the function multiplying a scaling factor through the total
+    hectares rather than through the PERCENT of hectares?)
 
 ```{r}
 #| fig.width = 8,
@@ -736,7 +907,6 @@ The third function is `ghg.sp::calc_land_cover_by_land_use()`
 
 *Test: yeeeep, breaking for the compact_dev_with_drs scenario....*
 
-
 ```{r}
 # output <- 
 #   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
@@ -749,9 +919,21 @@ The third function is `ghg.sp::calc_land_cover_by_land_use()`
 
 Moving on...
 
-1) Why is the output of this function (calc_scen_land_use) called "land_cover_land_use_hectares"? **Recommendation: introduce a new column to all these exports! Consider "output_type" and "hectares" ...that way you can put "land cover land use" or whatever else might distinguish these, and know that the numeric value will be hectares in all cases (since the column will be simply labeled "hectares"!)**
-2) Why does "compact_dev_with_drs" have way less land_cover_land_use_hectares in year 2040 as compared to year 2016? Is Lake Elmo loosing land? 
-3) Why does "post_covid_sprawl" give Lake Elmo way more land in 2040 as compared to year 2016? Again it seems like a multiplier might be getting applied in the wrong place? Why would the total land base (total land_cover_land_use_hectares) change between years within one city? It does make sense that the ALLOCATION of land use/cover would change, but the TOTAL hectares seem like it should remain constant.
+1)  Why is the output of this function (calc_scen_land_use) called
+    "land_cover_land_use_hectares"? **Recommendation: introduce a new
+    column to all these exports! Consider "output_type" and "hectares"
+    ...that way you can put "land cover land use" or whatever else might
+    distinguish these, and know that the numeric value will be hectares
+    in all cases (since the column will be simply labeled "hectares"!)**
+2)  Why does "compact_dev_with_drs" have way less
+    land_cover_land_use_hectares in year 2040 as compared to year 2016?
+    Is Lake Elmo loosing land?
+3)  Why does "post_covid_sprawl" give Lake Elmo way more land in 2040 as
+    compared to year 2016? Again it seems like a multiplier might be
+    getting applied in the wrong place? Why would the total land base
+    (total land_cover_land_use_hectares) change between years within one
+    city? It does make sense that the ALLOCATION of land use/cover would
+    change, but the TOTAL hectares seem like it should remain constant.
 
 ```{r}
 #| fig.width = 8,
@@ -780,13 +962,9 @@ output %>%
 
 ```
 
-
-
-
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
 
 *Test: still, breaking for the compact_dev_with_drs scenario....*
-
 
 ```{r}
 # output <- 
@@ -800,9 +978,13 @@ The fourth function is `ghg.sp::calc_land_cover_by_city()`
 
 Moving on...
 
-1) Again, consider the "land_cover_hectares" variable name...how/why is this different than the "land_cover_land_use_hectares" variable name in the previous function (calc_land_cover_by_city)?
-2) Why is Lake Elmo getting more land under the post_covid_sprawl in year 2040? 
-3) Why is Lake Elmo getting less land under the compact_dev_with_drs in year 2040?
+1)  Again, consider the "land_cover_hectares" variable name...how/why is
+    this different than the "land_cover_land_use_hectares" variable name
+    in the previous function (calc_land_cover_by_city)?
+2)  Why is Lake Elmo getting more land under the post_covid_sprawl in
+    year 2040?
+3)  Why is Lake Elmo getting less land under the compact_dev_with_drs in
+    year 2040?
 
 ```{r}
 #| fig.width = 8,
@@ -831,17 +1013,24 @@ output %>%
 
 ```
 
-
-
-
 ### Function to Calculate Tree Planting Strategy
 
 Function `ghg.sp::calc_tree_planting_land_cover()`.
 
 *Test: meh, still the compact_dev_with_drs issue.*
 
-1) It looks like the tree planting on all pervious surfaces increases tree cover - great! But the "double" and "match la million trees goal" don't seem different? Should they be? If they aren't different, can the "double" intervention get changed to "triple" or something else that WILL produce different results? I guess the two strategies just seem redundant right now (so simply deleting one strategy would also work!).
-2) In year 2040, I don't think that the total hectares in Lake Elmo should be changing. This seems NOT a multiplier issue, but rather an issue that if MORE land cover is taken up by trees...another land cover must DECREASE (like a scale that needs to be balanced). What land uses will you decrease if tree planting intensifies???
+1)  It looks like the tree planting on all pervious surfaces increases
+    tree cover - great! But the "double" and "match la million trees
+    goal" don't seem different? Should they be? If they aren't
+    different, can the "double" intervention get changed to "triple" or
+    something else that WILL produce different results? I guess the two
+    strategies just seem redundant right now (so simply deleting one
+    strategy would also work!).
+2)  In year 2040, I don't think that the total hectares in Lake Elmo
+    should be changing. This seems NOT a multiplier issue, but rather an
+    issue that if MORE land cover is taken up by trees...another land
+    cover must DECREASE (like a scale that needs to be balanced). What
+    land uses will you decrease if tree planting intensifies???
 
 ```{r, message = F}
 #| fig.width = 8,
@@ -930,7 +1119,9 @@ la_goal %>%
 # detail_y; detail_n
 ```
 
-3) Why doesn't modifying the `.tree_planting_per_capita` function change the output for trees? Here showing for the tree planting on all pervious intervention.
+3)  Why doesn't modifying the `.tree_planting_per_capita` function
+    change the output for trees? Here showing for the tree planting on
+    all pervious intervention.
 
 ```{r}
 #| fig.width = 8,
@@ -960,7 +1151,8 @@ pervious_goal_percapita %>%
        x = "", title = "modifying `.tree_planting_per_capita` parameter")
 ```
 
-4) Additionally, why doesn't modifying the `.tree_planting_per_hectare` function change the output for trees?
+4)  Additionally, why doesn't modifying the `.tree_planting_per_hectare`
+    function change the output for trees?
 
 ```{r}
 #| fig.width = 8,
@@ -990,13 +1182,12 @@ pervious_goal_perhectare %>%
        x = "", title = "modifying `.tree_planting_per_hectare` parameter")
 ```
 
-
-
 ### Function to Calcuate Parking Lot Reduction Strategy
 
 Function `ghg.sp::calc_parking_lot_land_cover()`.
 
-1) hmmm, not seeing the reduction in parking lots with this function....
+1)  hmmm, not seeing the reduction in parking lots with this
+    function....
 
 ```{r}
 #| fig.width = 8,
@@ -1071,10 +1262,26 @@ la_goal %>%
 
 *Q's: a couple things seem to be going on here...*
 
-1) Why does agricultural_hectares decrease in year 2040 if the scenario is "compact_dev_with_drs"? Similarly, why does agricultural_hectares increase with "post_covid_sprawl" by year 2040?
-2) Why are the other parameters (in the second figure) not associated with a year? 
-3) Should something like "reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year" be set at zero for baseline year (2016), and then the value be multiplied by years (so year X - current year) to translate this into an annual measurement? Basically the question is how are these numbers going to be associated with a year so that emissions (reductions) can be shown? 
-4) Because the amount of agricultural land increases sharply with the post_covid_sprawl in year 2040, it seems like some other variables are also behaving strangely. For instance, the "current_conservation_tillage_mg_c" is also much higher for post_covid_sprawl than it is for the bau. Shouldn't baseline (aka "current") be the same for both? This same comment holds true for the strange 2040 numbers in the compact_dev_with_drs (the numbers are so low!).
+1)  Why does agricultural_hectares decrease in year 2040 if the scenario
+    is "compact_dev_with_drs"? Similarly, why does agricultural_hectares
+    increase with "post_covid_sprawl" by year 2040?
+2)  Why are the other parameters (in the second figure) not associated
+    with a year?
+3)  Should something like
+    "reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year"
+    be set at zero for baseline year (2016), and then the value be
+    multiplied by years (so year X - current year) to translate this
+    into an annual measurement? Basically the question is how are these
+    numbers going to be associated with a year so that emissions
+    (reductions) can be shown?
+4)  Because the amount of agricultural land increases sharply with the
+    post_covid_sprawl in year 2040, it seems like some other variables
+    are also behaving strangely. For instance, the
+    "current_conservation_tillage_mg_c" is also much higher for
+    post_covid_sprawl than it is for the bau. Shouldn't baseline (aka
+    "current") be the same for both? This same comment holds true for
+    the strange 2040 numbers in the compact_dev_with_drs (the numbers
+    are so low!).
 
 ```{r}
 #| fig.width = 8,
@@ -1186,22 +1393,27 @@ current_goal %>%
 
 ```
 
+# Additional comments
 
-# Additional comments  
+-   In **\$scenario_parameters** can you explain why all
+    scneario_description_1 have exurban_development == 0? If
+    exurban_development doesn't vary between the scenarios, can this
+    parameter simply be removed? Or does a new scenario need to get
+    created that leverages this exurban development?
+-   PS, you probably want to get rid of the number suffix on the column
+    names; ie "scneario_description_1" becomes "scneario_description".
+    There is also a typo where scneario should be scENario; not sure
+    where all you refer to this though, so I'll let you fix it because
+    you'll know where all to check and update the name to make sure that
+    fixing the typo doesn't break stuff.
+-   Which year is the current_conservation_tillage_county data pulling?
+    The document says: For example: What percentage of agricultural land
+    was using conservation tillage in the Washington County in 201? Is
+    this 2017 (date on the ag census) or another year?
 
-- In **$scenario_parameters** can you explain why all scneario_description_1 have exurban_development == 0? If exurban_development doesn't vary between the scenarios, can this parameter simply be removed? Or does a new scenario need to get created that leverages this exurban development?
-- PS, you probably want to get rid of the number suffix on the column names; ie "scneario_description_1" becomes "scneario_description". There is also a typo where scneario should be scENario; not sure where all you refer to this though, so I'll let you fix it because you'll know where all to check and update the name to make sure that fixing the typo doesn't break stuff.
-- Which year is the current_conservation_tillage_county data pulling? The document says: For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201? Is this 2017 (date on the ag census) or another year?
+# STOP REVIEW HERE
 
-
-
-
-
-# STOP REVIEW HERE 
-
-
-----
-
+------------------------------------------------------------------------
 
 ```{r}
 ghg.sp::calc_carbon_stock_per_ctu(
@@ -1222,4 +1434,3 @@ ghg.sp::calc_carbon_stock_per_ctu(
   head(., n = 10) %>%
   kable()
 ```
-
