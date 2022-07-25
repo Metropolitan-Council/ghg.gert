@@ -20,44 +20,45 @@
 #' }
 calc_land_cover_by_land_use <- function(tb,
                                         .urban_form_scenario) {
-  land_cover_by_land_use <- tb$land_cover_percentages_filled %>%
-    dplyr::group_by(
-      ctu_name,
-      description_2,
-      land_cover_description_2
-    ) %>%
-    dplyr::transmute(
-      land_cover_land_use_hectares =
-        percent_land_cover_type * hectares
-    ) %>%
-    dplyr::mutate(year = 2016) %>%
-    dplyr::right_join(
+  land_cover_by_land_use <-
+    bind_rows(
       tb$land_cover_percentages_filled %>%
+        dplyr::group_by(ctu_name,
+                        description_2,
+                        land_cover_description_2) %>%
+        dplyr::transmute(land_cover_land_use_hectares =
+                           percent_land_cover_type * hectares) %>%
+        dplyr::mutate(year = 2016),
+
+
+      dplyr::right_join(
+        tb$land_cover_percentages_filled %>%
+          dplyr::select(
+            ctu_name,
+            description_2,
+            land_cover_description_2,
+            percent_land_cover_type
+          ),
+        calc_scen_land_use(tb = tb,
+                           .urban_form_scenario = .urban_form_scenario) %>%
+          dplyr::group_by(ctu_name, description_2) %>%
+          dplyr::summarise(scenario_hectares = sum(scenario_hectares)),
+        by = c("ctu_name", "description_2")
+      ) %>%
+        dplyr::group_by(ctu_name,
+                        description_2,
+                        land_cover_description_2) %>%
+        dplyr::mutate(land_cover_land_use_hectares =
+                        percent_land_cover_type * scenario_hectares) %>%
+        dplyr::mutate(year = 2040) %>%
         dplyr::select(
           ctu_name,
+          year,
           description_2,
           land_cover_description_2,
-          percent_land_cover_type
-        ),
-      calc_scen_land_use(
-        tb = tb,
-        .urban_form_scenario = .urban_form_scenario
-      ) %>%
-        dplyr::group_by(ctu_name, description_2) %>%
-        dplyr::summarise(scenario_hectares = sum(scenario_hectares)),
-      by = c("ctu_name", "description_2")
-    ) %>%
-    dplyr::group_by(
-      ctu_name,
-      description_2,
-      land_cover_description_2
-    ) %>%
-    dplyr::transmute(
-      land_cover_land_use_hectares =
-        percent_land_cover_type * scenario_hectares
-    ) %>%
-    dplyr::mutate(year = 2040)
-
+          land_cover_land_use_hectares
+        )
+    )
 
   return(land_cover_by_land_use)
 }
