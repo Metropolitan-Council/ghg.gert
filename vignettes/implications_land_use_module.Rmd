@@ -447,7 +447,7 @@ land_use_data$land_composition_ctu %>%
 > could list this as a potential area to improve. I do not have the
 > technical criteria to make the best decision.**
 
----
+------------------------------------------------------------------------
 
 *Q12: Do the different development types change land use/cover in
 logical ways?* The first figure shows all land uses, the second zooms in
@@ -495,7 +495,6 @@ land_use_data$land_composition_ctu %>%
        title = "Lake Elmo",
        subtitle = "For land cover/uses which make up 5% or more") +
   scale_fill_brewer(palette = "Paired")
-
 ```
 
 > Q12 ML Response on 7/25/2022: **I suspect that there might be a
@@ -506,9 +505,9 @@ land_use_data$land_composition_ctu %>%
 > **The short answer is yes, they tested a scenario where undeveloped
 > and agricultural land is turned in to housing.**
 
----
+------------------------------------------------------------------------
 
-*Q: What about development scenarios on other communities?*
+*Q13: What about development scenarios on other communities?*
 
 1)  Brooklyn Center is showing up twice in this
     `land_use_data$land_composition_ctu` database. Please update so
@@ -526,9 +525,10 @@ land_use_data$land_composition_ctu %>%
   dplyr::group_by(ctu_name, development_name, description_2, year) %>%
   dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
   dplyr::filter(n > 1L) %>%
-  head() %>%
-  kable()
+  head()
 ```
+
+> Q13 ML Response on 7/26/2022: ****
 
 So EXCLUDING Brooklyn Center and looking at all other communities (and
 only the land uses/covers which changed by 5% or more):
@@ -739,8 +739,7 @@ land_use_data$multifamily_mixed_area  %>%
       rename(land_composition_ctu__multifamily2040__hectares = hectares)
   ) %>%
   select(-description_2, -total_hectares, -percent, -year) %>%
-  filter(ctu_name == "Lake Elmo") %>%
-  kable()
+  filter(ctu_name == "Lake Elmo")
 ```
 
 *Q: Does it make sense that exurban development scenario has nearly 6

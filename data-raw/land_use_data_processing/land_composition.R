@@ -27,6 +27,8 @@ p_carbon_stock_by_cover_type <-
 ## ------------------------------------------------------------------------------------------------------------
 p_land_composition_ctu <-
   t_ctu_land_use_hectares %>%
+  group_by(ctu_name, development_name, year, description, description_2) %>%
+  summarise(hectares = sum(hectares)) %>%
   base::merge(
     .,
     (
@@ -37,12 +39,9 @@ p_land_composition_ctu <-
     ),
     by = c("ctu_name", "development_name", "year")
   ) %>%
-  dplyr::mutate(
-    percent =
-      hectares /
-        total_hectares
-  )
-
+  dplyr::mutate(percent =
+                  hectares /
+                  total_hectares)
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_by_development_type_sum_bau <-
