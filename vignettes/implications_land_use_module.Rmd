@@ -1442,3 +1442,38 @@ ghg.sp::calc_carbon_stock_per_ctu(
   head(., n = 10) %>%
   kable()
 ```
+
+# TODO
+- ML: update intro_to_land_use_module.Rmd to talk about hierarchical structure different functions
+  -take away: run_scenario_land_use() is the main function! everything else is supporting, building up to that main function
+- EE: push through the ag conservation tillage number updates
+  - ML: let EE know if there are other ag/forest things; plus share documents 
+  
+# run_scenario_land_use()
+
+1. fxn is breaking with .urban_form_scenario == "compact_development_beyond_bau"
+2. looking at why the total acres are changing over time and with the different scenarios. 
+  - ideas; percents vs hecatares?
+
+
+```{r}
+output <-
+  # c(land_use_data$scenario_parameters$scenario_description_2) %>%
+    c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+    purrr::set_names() %>%
+    purrr::map(~ghg.sp::run_scenario_land_use(tb = land_use_data,
+                                              .urban_form_scenario = .x)
+                 ) %>%
+  bind_rows(.id = "scenario_description_2")
+
+output %>%
+  filter(ctu_name == "Lake Elmo") %>%
+  pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares)) %>%
+  ggplot(aes(x = as.factor(year), y = hectares, fill = landcover)) +
+  geom_bar(stat = "identity", position = "stack") +
+  facet_wrap(~scenario_description_2) +
+  theme_council_open()
+```
+
+
+
