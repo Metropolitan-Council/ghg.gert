@@ -19,6 +19,7 @@ library(councilR)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(tidyverse)
 
 `%not_in%` <- Negate(`%in%`)
 
@@ -528,10 +529,11 @@ land_use_data$land_composition_ctu %>%
   head()
 ```
 
-> Q13 ML Response on 7/26/2022: ****
+> Q13 ML Response on 7/26/2022: **Issue has been resolved. Duplicate
+> rows were removed**
 
-So EXCLUDING Brooklyn Center and looking at all other communities (and
-only the land uses/covers which changed by 5% or more):
+Q14: So EXCLUDING Brooklyn Center and looking at all other communities
+(and only the land uses/covers which changed by 5% or more):
 
 1)  Urban infill only changes retail and railway in all communities?
 2)  Should urban expansion change (decrease) airport land use/cover in
@@ -568,8 +570,6 @@ land_use_data$land_composition_ctu %>%
   ) +
   labs(title = "Change in land use over time across scenarios - all ctus.", 
        y = "Change in percent of land use/cover from 2016 to 2040\n(positive values indicate EXPANSION of land use type by 2040,\nnegative values indicate LOSS of land use type by 2040", x = "")
-
-
 ```
 
 4)  Why do communities gain farmstead with urban expansion? It seems
@@ -577,8 +577,7 @@ land_use_data$land_composition_ctu %>%
     of farmstead was zero in 2016. The below table is showing the change
     in number of hectares of farmstead land cover/use.
 
-```{r}
-land_use_data$land_composition_ctu %>%
+```{r}land_use_data$land_composition_ctu %>%}
   select(-total_hectares, -percent) %>%
   filter(ctu_name != "Brooklyn Center") %>% filter(description_2 == "farmstead") %>%
   pivot_wider(names_from = year, values_from = hectares) %>%
@@ -590,12 +589,18 @@ land_use_data$land_composition_ctu %>%
          change_hectares = change)
 ```
 
+> Q14 ML Response on 7/27/2022: **The categories Urban Expansion, Urban
+> Infill, and Exurban Development are not scenarios of any kind, what
+> they are is a method for lumping land uses together as to explore
+> urban form scenario such as 'compact development' and 'planned land
+> use'. They offer a way of determining land uses that are changeable.**
+
 **\$current_conservation_tillage_county**: Tables shows the percent of
 agricultural land that is managed with conservation tillage by county.
 This is a necessary assumption for the conservation tillage strategy.
 
-*Q: Just with my background, these numbers seemed pretty low to me. For
-instance, check out [this high level report from the USDA on
+*Q15: Just with my background, these numbers seemed pretty low to me.
+For instance, check out [this high level report from the USDA on
 conservation tillage
 numbers](https://www.ers.usda.gov/webdocs/publications/90201/eib197_summary.pdf?v=8320.9);
 you'll see that across the US, over 60% of corn is in conservation
@@ -687,10 +692,12 @@ usda_data %>%
 
 ```
 
+> Q15 ML Response on 7/27/2022: **Feel free to implement this change**
+
 **\$land_by_development_type_sum_bau**: Table shows the forecast total
 number of hectares by city/township for the business as usual scenario.
 
-*Q: Why does the BAU scenario have land areas that are in some cases a
+*Q16: Why does the BAU scenario have land areas that are in some cases a
 lot different than the sum of land area in the `land_use_data`
 database?*
 
@@ -710,9 +717,11 @@ land_use_data$land_cover_percentages_filled %>%
   summarise(land_cover_percentages_filled = sum(hectares), .groups = "keep") %>%
   arrange(land_cover_percentages_filled) %>%
   full_join(land_use_data$land_by_development_type_sum_bau) %>%
-  head() %>%
-  kable()
+  head()
 ```
+
+> Q16 ML Response on 7/27/2022: **Please be specific about your
+> recommended action.**
 
 <!-- # ELLEN ENDING CHECKS HERE FOR NOW -->
 
