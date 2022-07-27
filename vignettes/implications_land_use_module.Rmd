@@ -577,17 +577,7 @@ land_use_data$land_composition_ctu %>%
     of farmstead was zero in 2016. The below table is showing the change
     in number of hectares of farmstead land cover/use.
 
-```{r}land_use_data$land_composition_ctu %>%}
-  select(-total_hectares, -percent) %>%
-  filter(ctu_name != "Brooklyn Center") %>% filter(description_2 == "farmstead") %>%
-  pivot_wider(names_from = year, values_from = hectares) %>%
-  mutate(change = `2040` - `2016`) %>%
-  filter(abs(change) >= .05, `2016` == 0) %>%
-  left_join(comdes, by = "ctu_name") %>%
-  rename(`2016 hectares` = `2016`,
-         `2040 hectares` = `2040`,
-         change_hectares = change)
-```
+`` {r}land_use_data$land_composition_ctu %>%}   select(-total_hectares, -percent) %>%   filter(ctu_name != "Brooklyn Center") %>% filter(description_2 == "farmstead") %>%   pivot_wider(names_from = year, values_from = hectares) %>%   mutate(change = `2040` - `2016`) %>%   filter(abs(change) >= .05, `2016` == 0) %>%   left_join(comdes, by = "ctu_name") %>%   rename(`2016 hectares` = `2016`,          `2040 hectares` = `2040`,          change_hectares = change) ``
 
 > Q14 ML Response on 7/27/2022: **The categories Urban Expansion, Urban
 > Infill, and Exurban Development are not scenarios of any kind, what
@@ -1444,17 +1434,25 @@ ghg.sp::calc_carbon_stock_per_ctu(
 ```
 
 # TODO
-- ML: update intro_to_land_use_module.Rmd to talk about hierarchical structure different functions
-  -take away: run_scenario_land_use() is the main function! everything else is supporting, building up to that main function
-- EE: push through the ag conservation tillage number updates
-  - ML: let EE know if there are other ag/forest things; plus share documents 
-  
+
+-   ML: update intro_to_land_use_module.Rmd to talk about hierarchical
+    structure different functions -take away: run_scenario_land_use() is
+    the main function! everything else is supporting, building up to
+    that main function
+
+-   EE: push through the ag conservation tillage number updates
+
+    -   ML: let EE know if there are other ag/forest things; plus share
+        documents
+
 # run_scenario_land_use()
 
-1. fxn is breaking with .urban_form_scenario == "compact_development_beyond_bau"
-2. looking at why the total acres are changing over time and with the different scenarios. 
-  - ideas; percents vs hecatares?
+1.  fxn is breaking with .urban_form_scenario ==
+    "compact_development_beyond_bau"
+2.  looking at why the total acres are changing over time and with the
+    different scenarios.
 
+-   ideas; percents vs hecatares?
 
 ```{r}
 output <-
@@ -1474,6 +1472,3 @@ output %>%
   facet_wrap(~scenario_description_2) +
   theme_council_open()
 ```
-
-
-
