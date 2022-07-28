@@ -189,7 +189,7 @@ land_use_data$ctu_forecast %>%
 > households, and jobs forecast available on Community Profiles. It is
 > outside the scope of this project to resolve issues with the
 > forecasting of these demographic factors, and it is an issue to be
-> relayed to the Urbanfootprint team**
+> relayed to the UrbanSim team**
 
 ------------------------------------------------------------------------
 
@@ -501,7 +501,7 @@ land_use_data$land_composition_ctu %>%
 > Q12 ML Response on 7/25/2022: **I suspect that there might be a
 > misinterpretation of what we mean by the categories "urban
 > development", "exurban development" and "urban infill". These are not
-> scenarios, but a way of adding land use together.**
+> scenarios, but a way of lumping land use types together for further analysis.**
 >
 > **The short answer is yes, they tested a scenario where undeveloped
 > and agricultural land is turned in to housing.**
@@ -720,7 +720,7 @@ hectares of multifamily mixed area by city/township for three
 development types: *exurban development*, *urban expansion*, and *urban
 infill*.
 
-*Q: why do the values for multifamily differ between the
+*Q17: why do the values for multifamily differ between the
 `multifamily_mixed_area` and `land_composition_ctu` tables (where
 description_2 == "multifamily" and year == "2040" for the
 land_composition_ctu table)? It would be good to have a describe how/why
@@ -741,7 +741,10 @@ land_use_data$multifamily_mixed_area  %>%
   filter(ctu_name == "Lake Elmo")
 ```
 
-*Q: Does it make sense that exurban development scenario has nearly 6
+> Q17 ML Response on 7/27/2022: **The model requires to separate multifamily/mixed area from the rest. This is just an intermediary 
+table that is hard to interpret by itself. It is an intermediary step to produce urban form scenarios.** 
+
+*Q18: Does it make sense that exurban development scenario has nearly 6
 times more multifamily mixed area than does urban infill (for instance,
 the diversified rural communities have \~20,000 hectares of
 multifamily_mixed_area in the exurban development scenario, but barely
