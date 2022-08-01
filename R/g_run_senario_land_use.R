@@ -27,7 +27,7 @@
 run_scenario_land_use <- function(tb = land_use_data,
                                   .urban_form_scenario = "bau",
                                   .conservation_tillage_intervention = "current_conservation_tillage",
-                                  .tree_planting_intervention = "tree_planting_on_all_pervious",
+                                  .tree_planting_intervention = "match_la_million_trees_goal",
                                   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
                                   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
                                   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
@@ -37,8 +37,6 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
   check_inputs("parking_lot_reduction_percentage", .parking_lot_reduction_percentage)
-
-  browser()
 
   land_use <- scen_green_infrastructure(
     tb = tb,
