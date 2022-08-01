@@ -276,15 +276,15 @@ ghg.sp::calc_parking_lot_land_cover(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   detail = FALSE
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(year == 2040) %>%
   tidyr::pivot_longer(
     names_to = "var",
     values_to = "value",
     cols = -c("ctu_name", "year")
   ) %>%
-  head(., n = 15)
+  head(., n = 30)
+
 ```
 
 ### Function to Calculate Conservation Tillage Strategy
@@ -293,7 +293,7 @@ ghg.sp::calc_parking_lot_land_cover(
 ghg.sp::calc_conservation_tillage(
   tb = land_use_data,
   .urban_form_scenario = "bau",
-  .conservation_tillage_intervention = "double_conservation_tillage",
+  .conservation_tillage_intervention = "maximum_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
@@ -313,9 +313,7 @@ ghg.sp::calc_conservation_tillage(
   head(., n = 15)
 ```
 
----
-# STOP REVIEW HERE 
-----
+### Function to Calculate Carbon Stock per City/Township
 
 ```{r}
 ghg.sp::calc_carbon_stock_per_ctu(
@@ -329,10 +327,108 @@ ghg.sp::calc_carbon_stock_per_ctu(
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
+  detail = FALSE
+) %>%
+  dplyr::filter(ctu_name == "Lake Elmo")
+```
+
+### Function to Calculate Carbon Sequestration per City/Township
+```{r}
+calc_carbon_sequestration_per_ctu(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.80,
   detail = FALSE
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 10)
 ```
 
+### Function to Provide Summary of Carbon Sequestration and Carbon Stock per City/Township
+```{r}
+scen_green_infrastructure(
+  tb = land_use_data,
+  detail = FALSE,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3
+) %>%
+  dplyr::filter(ctu_name == "Lake Elmo")
+```
+
+### Main function to Run Scenario 
+```{r}
+run_scenario_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+) %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  head(., n = 10) 
+```
+
+
+```{r}
+dplyr::bind_rows(
+  calc_carbon_sequestration_per_ctu(
+    tb = land_use_data,
+    .urban_form_scenario = "bau",
+    .tree_planting_intervention = "match_la_million_trees_goal",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247,
+    .parking_lot_reduction_percentage = 0.80,
+    detail = FALSE
+  ) %>%
+    dplyr::rename(year = year.2040) %>%
+    tidyr::pivot_longer(
+      cols = -c(ctu_name, year),
+      names_to = "metric_detail",
+      values_to = "value"
+    ) %>%
+    dplyr::mutate(metric = "seq_mg_c_per_year") %>%
+    tidyr::unite('metric', c(metric_detail, metric), remove = FALSE) %>%
+    dplyr::select(ctu_name, year, metric, value),
+  ghg.sp::calc_carbon_stock_per_ctu(
+    tb = land_use_data,
+    .urban_form_scenario = "bau",
+    .tree_planting_intervention = "match_la_million_trees_goal",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247,
+    .parking_lot_reduction_percentage = 0.8,
+    .conservation_tillage_intervention = "current_conservation_tillage",
+    .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
+    .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
+    .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+    .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
+    detail = FALSE
+  ) %>%
+    tidyr::pivot_longer(
+      cols = -c(ctu_name, year),
+      names_to = "metric_detail",
+      values_to = "value"
+    ) %>%
+    dplyr::mutate(metric = "stock_mg_c_per_ha") %>%
+    tidyr::unite('metric', c(metric_detail, metric), remove = FALSE) %>%
+    dplyr::select(ctu_name, year, metric, value)
+)
+```

@@ -41,7 +41,6 @@ calc_carbon_sequestration_per_ctu <- function(tb,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
     detail = FALSE
   ) %>%
-    dplyr::group_by(ctu_name) %>%
     tidyr::pivot_wider(
       names_from = year,
       values_from = !ctu_name,

@@ -78,6 +78,7 @@ calc_carbon_stock_per_ctu <- function(tb,
       woody_wetland = woody_wetland * carbon_stock_factors$WOODY_WETLAND_STOCK_MG_C_PER_HECTARE,
       wetland = wetland * carbon_stock_factors$WETLAND_STOCK_MG_C_PER_HECTARE,
       parking_lot = parking_lot * carbon_stock_factors$PARKING_LOT_STOCK_MG_C_PER_HECTARE
-    )
+    ) %>%
+    dplyr::select(-c(total_area_hectares))
   return(carbon_stock_per_ctu)
 }
