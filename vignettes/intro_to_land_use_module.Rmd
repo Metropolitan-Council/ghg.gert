@@ -25,10 +25,6 @@ The module allows users to explore strategies for decarbonization within the lan
 ## Strategies
 
 The GHG mitigation strategies included in the Land Use & Green Infrastructure Module include:
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 1. **Urban Form (LU.1)**: The impact of changing the urban form (the land use and land cover composition) of the city/township to more compact residential and mixed use development. Reduction of greenhouse gas emissions occurs when there is more land available to greenery rather than impervious surfaces. 
 2. **Increase Tree Canopy (LU.2)**: The impact of increasing the tree canopy area of the city/township by a given amount. For example, what is the effect of planting trees on all pervious surfaces available in the city/township. 
@@ -61,6 +57,23 @@ library(ghg.sp)
 library(knitr)
 ```
 
+## Hierarchical Structure
+It is strongly recommended to first understand how the `ghg.sp` package is structured. The package consists of three modules, of which the Land Use Module is one of the three. Each model can be operated independently of each other. The model performs a sequence of functions in a sequential order to obtain a given output. For the Land Use Module, the sequence of functions is as follows:
+
+1. `calc_land_by_development_type()`
+2. `calc_scen_land_use()`
+3. `calc_land_cover_by_land_use()`
+4. `calc_land_cover_by_city()`
+5. `calc_tree_planting_land_cover()`
+6. `calc_parking_lot_land_cover()`
+7. `calc_conservation_tillage()`
+8. `calc_carbon_sequest_per_ctu()`
+9. `calc_carbon_stock_per_ctu()`
+10. `scen_green_infrastructure()`
+11. `run_scenario_land_use()`
+
+Function `run_scenario_land_use()` sits at the top of the module, and hence, it is recommended to explore this function first. 
+
 ## Land Use and Land Cover Data
 
 The package provided `land_use_data.rda` dataset is required for the land use module to run.
@@ -84,14 +97,11 @@ contained in the `land_use_data` dataset.
 **$ctu_county**: 
 Table shows the relationship between city/townships and county. 
 
-<!-- TODO: Describe county assignment. How/why are cities/townships which span counties assigned to a single county? See github issue. -->
-
 *For example: What county is Lake Elmo within?*
 ```{r echo=FALSE}
 land_use_data$ctu_county %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
-  kable()
+  head(., n = 10)
 ```
 
 **$ctu_forecast**: 
@@ -99,9 +109,7 @@ Table shows the demographic forecasts for city/township from Community Profiles.
 *For example: What is the forecast population of Lake Elmo in 2040?*
 ```{r echo=FALSE}
 land_use_data$ctu_forecast %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  # head(., n = 10)  %>%
-  kable()
+  dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
 
@@ -110,8 +118,7 @@ Table provides key parameters for the different urban form scenarios of the land
 These parameters show relative assumed proportions for the the intensity of land by three development types: *exurban development*, *urban expansion*, and *urban infill*. These parameter vary for each of the scenario available to the user. 
 *For example, a value of 0.5 will represent half of the given development type for the given scenario. A value of 2 will represent double. *
 ```{r echo=FALSE}
-land_use_data$scenario_parameters %>%
-  kable()
+land_use_data$scenario_parameters
 ```
 
 **$land_cover_percentages_filled**: 
@@ -121,8 +128,7 @@ Table shows the percentage of land use by land cover type in the Metropolitan Re
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::filter(land_cover_description_2 == "parking_lot") %>%
-  head(., n = 15) %>%
-  kable()
+  head(., n = 15)
 ```
 
 **$land_composition_ctu**: 
@@ -132,8 +138,7 @@ Table provides the percentages of land use composition categorized in to three t
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::filter(year == 2040) %>%
-  head(., n = 60) %>%
-  kable()
+  head(., n = 60)
 ```
 
 **$current_conservation_tillage_county**:
@@ -142,8 +147,7 @@ Tables shows the percent of agricultural land that is managed with conservation 
 *For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201?*
 ```{r echo=FALSE}
 land_use_data$current_conservation_tillage_county %>%
-  head(., n = 10) %>%
-  kable()
+  head(., n = 10)
 ```
 
 **$land_by_development_type_sum_bau**:
@@ -280,8 +284,7 @@ ghg.sp::calc_parking_lot_land_cover(
     values_to = "value",
     cols = -c("ctu_name", "year")
   ) %>%
-  head(., n = 15) %>%
-  kable()
+  head(., n = 15)
 ```
 
 ### Function to Calculate Conservation Tillage Strategy
@@ -290,10 +293,10 @@ ghg.sp::calc_parking_lot_land_cover(
 ghg.sp::calc_conservation_tillage(
   tb = land_use_data,
   .urban_form_scenario = "bau",
-  .conservation_tillage_intervention = "current_conservation_tillage",
+  .conservation_tillage_intervention = "double_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
+  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
   .tree_planting_per_capita = 0.26,
@@ -307,8 +310,7 @@ ghg.sp::calc_conservation_tillage(
     values_to = "value",
     cols = -c("ctu_name", "co_name")
   ) %>%
-  head(., n = 15) %>%
-  kable()
+  head(., n = 15)
 ```
 
 ---
@@ -331,7 +333,6 @@ ghg.sp::calc_carbon_stock_per_ctu(
   detail = FALSE
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
-  kable()
+  head(., n = 10)
 ```
 
