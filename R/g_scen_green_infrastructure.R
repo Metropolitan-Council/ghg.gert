@@ -91,17 +91,5 @@ scen_green_infrastructure <- function(tb,
       tree_planting_intervention = .tree_planting_intervention,
       parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
       conservation_tillage_intervention = .conservation_tillage_intervention
-    ) %>%
-    dplyr::select(
-      ctu_name,
-      year,
-      urban_form_scenario,
-      tree_planting_intervention,
-      parking_lot_reduction_percentage,
-      conservation_tillage_intervention,
-      metric,
-      detail,
-      metric_detail,
-      value
     )
 }

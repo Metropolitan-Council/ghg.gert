@@ -36,7 +36,8 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-  check_inputs("parking_lot_reduction_percentage", .parking_lot_reduction_percentage)
+  check_inputs("parking_lot_reduction_percentage",
+               .parking_lot_reduction_percentage)
 
   land_use <- scen_green_infrastructure(
     tb = tb,
@@ -54,7 +55,16 @@ run_scenario_land_use <- function(tb = land_use_data,
   )
 
   land_use_module_output <-
-    land_use
+    land_use %>%
+    dplyr::group_by(ctu_name,
+                    year,
+                    detail,
+                    urban_form_scenario,
+                    tree_planting_intervention,
+                    conservation_tillage_intervention,
+                    parking_lot_reduction_percentage,
+    ) %>%
+    dplyr::summarise(value = sum(value), .groups = 'drop')
 
   return(land_use_module_output)
 }
