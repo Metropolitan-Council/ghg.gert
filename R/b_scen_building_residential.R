@@ -72,7 +72,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .additional_electrified_residential_buildings_pct,
                                       .res_natural_gas_for_space_heating_pct,
                                       .res_natural_gas_for_water_heating_pct,
-                                      .boiler_to_heat_pump_efficiency_ratio,
+
                                       .enviro_factors = enviro_factors) {
   # browser()
 
@@ -123,7 +123,6 @@ scen_building_residential <- function(res_tb = res_tb,
     .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
     .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
     .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
-    .boiler_to_heat_pump_efficiency_ratio = .boiler_to_heat_pump_efficiency_ratio,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors
   )

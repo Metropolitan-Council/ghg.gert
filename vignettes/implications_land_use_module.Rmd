@@ -37,7 +37,7 @@ For simplicity, most implications will be aggregated at the community
 designation level which is a framework for organizing the communities
 across the region into broad groups.
 
-```{r commmunity-designations}
+```{r commmunity-designations, message=FALSE}
 temp <- tempfile()
 download.file(
   "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_thrive_msp2040_com_des/gpkg_society_thrive_msp2040_com_des.zip",
@@ -68,6 +68,8 @@ fs::file_delete("society_thrive_msp2040_com_des.gpkg")
 
 The following is a description of the content of all input tables of the
 land use module, which are contained in the `land_use_data` dataset.
+
+---
 
 **\$ctu_county**: Table shows the relationship between city/townships
 and county.
@@ -101,6 +103,8 @@ if (nrow(multiple_cos) < 1) {
 > city that falls within multiple counties. This allows to sum the
 > weighted averages of each portion and resolves the highlighted issue**
 
+---
+
 2.  Additionally! Please *REMOVE* county columns from all other
     databases associated with this project! For instance, the
     `db_tables$t_housing_stock_ctu` table has both ctu_name and co_name
@@ -112,7 +116,6 @@ if (nrow(multiple_cos) < 1) {
     accuracy of the assignment.
 
 ```{r}
-
 db_tables$t_housing_stock_ctu %>%
   filter(year == 2018,
          ctu_name == "St. Anthony") %>%
@@ -125,7 +128,6 @@ db_tables$t_housing_stock_ctu %>%
 > column from tables where it wasn't needed.**
 
 ------------------------------------------------------------------------
-
 **\$ctu_forecast**: Table shows the demographic forecasts for
 city/township from Community Profiles.
 
@@ -209,7 +211,7 @@ land_use_data$ctu_forecast %>%
 ```
 
 > Q4 ML Response on 7/25/2022: **Same response as in the previous
-> questions**
+> question 3**
 
 ------------------------------------------------------------------------
 
@@ -520,7 +522,6 @@ land_use_data$land_composition_ctu %>%
     resolved.
 
 ```{r echo=FALSE}
-
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -percent) %>%
   dplyr::group_by(ctu_name, development_name, description_2, year) %>%
@@ -531,6 +532,8 @@ land_use_data$land_composition_ctu %>%
 
 > Q13 ML Response on 7/26/2022: **Issue has been resolved. Duplicate
 > rows were removed**
+
+---
 
 Q14: So EXCLUDING Brooklyn Center and looking at all other communities
 (and only the land uses/covers which changed by 5% or more):
@@ -584,6 +587,8 @@ land_use_data$land_composition_ctu %>%
 > they are is a method for lumping land uses together as to explore
 > urban form scenario such as 'compact development' and 'planned land
 > use'. They offer a way of determining land uses that are changeable.**
+
+---
 
 **\$current_conservation_tillage_county**: Tables shows the percent of
 agricultural land that is managed with conservation tillage by county.
@@ -684,6 +689,8 @@ usda_data %>%
 
 > Q15 ML Response on 7/27/2022: **Feel free to implement this change**
 
+---
+
 **\$land_by_development_type_sum_bau**: Table shows the forecast total
 number of hectares by city/township for the business as usual scenario.
 
@@ -712,6 +719,8 @@ land_use_data$land_cover_percentages_filled %>%
 
 > Q16 ML Response on 7/27/2022: **Please be specific about your
 > recommended action.**
+
+---
 
 <!-- # ELLEN ENDING CHECKS HERE FOR NOW -->
 
@@ -744,6 +753,8 @@ land_use_data$multifamily_mixed_area  %>%
 > Q17 ML Response on 7/27/2022: **The model requires to separate multifamily/mixed area from the rest. This is just an intermediary 
 table that is hard to interpret by itself. It is an intermediary step to produce urban form scenarios.** 
 
+---
+
 *Q18: Does it make sense that exurban development scenario has nearly 6
 times more multifamily mixed area than does urban infill (for instance,
 the diversified rural communities have \~20,000 hectares of
@@ -774,8 +785,10 @@ land_use_data$multifamily_mixed_area  %>%
   labs(y = "", x = "", 
        title = "Total hectares, multifamily_mixed_area")
 # coord_flip()
-
 ```
+> Q18 ML Response on 8/3/2022: **Question relates to confusion about the meaning of development types**
+
+
 
 ## Functions
 
@@ -789,6 +802,8 @@ carbon stocks or sequestration value per year.
 
 ### Functions to Calculate Urban Form Strategy.
 
+---
+
 `ghg.sp::calc_by_development_type()`
 
 *TEST: this function is breaking for scenario `compact_dev_with_drs`*
@@ -796,7 +811,6 @@ carbon stocks or sequestration value per year.
 1)  Please ensure this function runs for all scenarios!
 
 ```{r, echo = T, include=F, eval =F}
-
 # run for every scenario description
 c(land_use_data$scenario_parameters$scenario_description_2) %>% 
   purrr::set_names() %>% 
@@ -805,12 +819,11 @@ c(land_use_data$scenario_parameters$scenario_description_2) %>%
              # mutate(scenario_description_2 = paste(.x))
   ) %>%
   bind_rows(.id = "scenario_description_2") #its a bit confusing, but .id must equal the column name in the list that distinguishes the different scenarios; so in this case it is from scenario_parameters$scenario_description_2; and called scenario_description_2
-
 ```
 
 But if we do some checks without the breaking scenario...
 
-*Q: Does it make sense that the difference between exurban_development,
+*Q19: Does it make sense that the difference between exurban_development,
 urban_expansion, and urban_infill are ALWAYS greater than the difference
 between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
 
@@ -825,6 +838,8 @@ between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
     "exurban_development" scenario?
 3)  Does it make sense that the "bau_mixed_use_compact_zoning" scenario
     only appears in the "exurban_development" scenario?
+    
+> Q18 ML Response on 8/3/2022: Fixed the issue that was causing the breaking of the function when argument `compact_dev_with_drs` was passed. You are right the whole issue with what "exurban" "urban_expansion" and "urban_infill" needs to be better explained on the documentation. 
 
 ```{r}
 #| fig.width = 8,
@@ -851,21 +866,6 @@ output %>%
 ```
 
 The second function is `ghg.sp::calc_scen_land_use()`
-
-*Test: again, this function breaks for the "compact_dev_with_drs"
-scenario.*
-
-```{r}
-# output <- 
-#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-#     purrr::set_names() %>% 
-#     purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
-#                                               .urban_form_scenario = .x) 
-#                  ) %>%
-#   bind_rows(.id = "scenario_description_2")
-```
-
-But moving past that...
 
 1)  Why is the output of this function (calc_scen_land_use) called
     "scenario_hectares" while the output of the previous function
@@ -905,20 +905,6 @@ output %>%
 ```
 
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
-
-*Test: yeeeep, breaking for the compact_dev_with_drs scenario....*
-
-```{r}
-# output <- 
-#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-#     purrr::set_names() %>% 
-#     purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
-#                                               .urban_form_scenario = .x) 
-#                  ) %>%
-#   bind_rows(.id = "scenario_description_2")
-```
-
-Moving on...
 
 1)  Why is the output of this function (calc_scen_land_use) called
     "land_cover_land_use_hectares"? **Recommendation: introduce a new
@@ -960,24 +946,9 @@ output %>%
   labs(title = "Lake Elmo") +
   coord_flip() +
   labs(x = "")
-
 ```
 
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
-
-*Test: still, breaking for the compact_dev_with_drs scenario....*
-
-```{r}
-# output <- 
-#   c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-#     purrr::set_names() %>% 
-#     purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-#                                               .urban_form_scenario = .x) 
-#                  ) %>%
-#   bind_rows(.id = "scenario_description_2")
-```
-
-Moving on...
 
 1)  Again, consider the "land_cover_hectares" variable name...how/why is
     this different than the "land_cover_land_use_hectares" variable name
@@ -1017,8 +988,6 @@ output %>%
 ### Function to Calculate Tree Planting Strategy
 
 Function `ghg.sp::calc_tree_planting_land_cover()`.
-
-*Test: meh, still the compact_dev_with_drs issue.*
 
 1)  It looks like the tree planting on all pervious surfaces increases
     tree cover - great! But the "double" and "match la million trees
@@ -1091,33 +1060,6 @@ la_goal %>%
   labs(title = "Lake Elmo") +
   # coord_flip() +
   labs(x = "")
-
-
-# detail_y <- c(land_use_data$scenario_parameters$scenario_description_2[c(1)]) %>%
-#     purrr::set_names() %>%
-#     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-#                                                       detail = T,
-#                                               .urban_form_scenario = .x,
-#                                               .tree_planting_intervention = "match_la_million_trees_goal",
-#                                               .tree_planting_per_capita = 0.26,
-#                                               .tree_planting_per_hectare = 247) 
-#                  ) %>%
-#   bind_rows(.id = "scenario_description_2") %>%
-#   mutate(intervention = "match_la_million_trees_goal") 
-# 
-# detail_n <- c(land_use_data$scenario_parameters$scenario_description_2[c(1)]) %>%
-#     purrr::set_names() %>%
-#     purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-#                                                       detail = F,
-#                                               .urban_form_scenario = .x,
-#                                               .tree_planting_intervention = "match_la_million_trees_goal",
-#                                               .tree_planting_per_capita = 0.26,
-#                                               .tree_planting_per_hectare = 247) 
-#                  ) %>%
-#   bind_rows(.id = "scenario_description_2") %>%
-#   mutate(intervention = "match_la_million_trees_goal") 
-# 
-# detail_y; detail_n
 ```
 
 3)  Why doesn't modifying the `.tree_planting_per_capita` function

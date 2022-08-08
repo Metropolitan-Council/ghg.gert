@@ -47,7 +47,6 @@
 #'   .electrified_buildings_pct = 0.40,
 #'   .non_res_natural_gas_for_water_heating_pct = 0.20,
 #'   .non_res_natural_gas_for_space_heating_pct = 0.69,
-#'   .boiler_to_heat_pump_efficiency_ratio = 1.59362,
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
@@ -55,7 +54,6 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                                               .electrified_buildings_pct,
                                               .non_res_natural_gas_for_water_heating_pct,
                                               .non_res_natural_gas_for_space_heating_pct,
-                                              .boiler_to_heat_pump_efficiency_ratio,
                                               .grid_decarbonization_pct,
                                               .enviro_factors) {
   new_non_res_tb <-
@@ -79,7 +77,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
             reduced_therms *
               gas_savings_pct *
               .non_res_natural_gas_for_space_heating_pct *
-              .boiler_to_heat_pump_efficiency_ratio *
+              enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO *
 
               (
                 enviro_factors$KG_CO2E_PER_MHW_FORECAST
