@@ -37,10 +37,10 @@ calc_land_by_development_type <- function(tb,
   match.arg(
     arg = .urban_form_scenario,
     choices = c(
-      "compact_dev_with_drs",
       "bau",
       "post_covid_sprawl",
-      "compact_development_with_drs"
+      "compact_dev_with_drs",
+      "compact_dev_beyond_bau"
     )
   )
 

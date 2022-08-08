@@ -59,7 +59,6 @@ The GHG mitigation strategies included in the Building Energy Module include:
 All the functions for the Building Energy Module are contained within the `ghg.sp` package.
 ```{r setup}
 library(ghg.sp)
-library(knitr)
 library(tidyr)
 library(dplyr)
 ```
@@ -79,6 +78,7 @@ The following chunk shows the names of the tables contained in `building_data.rd
 ```{r}
 names(building_data)
 ```
+
 As seen above, the `building_data` dataset contains two tables. 
 `residential` and `non_residential`.
 
@@ -124,8 +124,7 @@ building_data$residential %>%
 
 <!--  TABLE STARTS HERE -->
 ```{r echo=FALSE}
-library(knitr)
-kable(residential_variables)
+residential_variables
 ```
 <!--  TABLE ENDS HERE -->
 
@@ -310,7 +309,6 @@ ghg.sp::calc_electrify_residential_heating(
   .additional_electrified_residential_buildings_pct = 0.45,
   .res_natural_gas_for_space_heating_pct = 0.71,
   .res_natural_gas_for_water_heating_pct = 0.24,
-  .boiler_to_heat_pump_efficiency_ratio = 1.59362,
   .grid_decarbonization_pct = 0.80,
   .enviro_factors = enviro_factors
 )

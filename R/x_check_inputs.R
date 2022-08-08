@@ -66,7 +66,6 @@ check_inputs <- function(name, value) {
     "electrified_buildings_pct",
     "non_res_natural_gas_for_water_heating_pct",
     "non_res_natural_gas_for_space_heating_pct",
-    "boiler_to_heat_pump_efficiency_ratio",
     # smartgrid
     "commercial_smart_grid_pct",
     "industrial_smart_grid_pct",

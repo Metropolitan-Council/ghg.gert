@@ -34,7 +34,8 @@ enviro_factors <- list(
   EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT = 0.66,
   BEHAVIOR_CHANGE_REDUCTION_PCT = 0.11,
   SMART_GRID_EFFICIENCY_PCT = 0.11,
-  THERM_TO_MWH = 0.0293
+  THERM_TO_MWH = 0.0293,
+  BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO = 1.59362
 )
 
 waldo::compare(ghg.sp::enviro_factors, enviro_factors)
