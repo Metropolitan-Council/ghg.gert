@@ -1,0 +1,111 @@
+---
+title: "building_energy_module_inputs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{building_energy_module_inputs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Techical Walkthrough
+
+All the functions for the Building Energy Module are contained within the `ghg.sp` package.
+```{r setup}
+library(ghg.sp)
+library(tidyr)
+library(dplyr)
+```
+
+## Source Datasets
+
+The `building_data.rda` is a preloaded dataset that includes cleaned datasets to 
+run the building energy module of the `ghg.sp` package. 
+
+The R scripts to produce `building_data.rda` can be found on the `/raw-data` folder of the `ghg.sp` package.
+
+The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
+database, on the Council's Microsoft SQL Server. 
+
+The following chunk shows the names of the tables contained in `building_data.rda` dataset.
+
+```{r}
+names(building_data)
+```
+
+As seen above, the `building_data` dataset contains two tables. 
+`residential` and `non_residential`.
+
+These two tables contain all the key variables necessary to run the functions of the building
+energy module. 
+
+Next, we will go in depth on the two main tables of `building_data.rda`
+
+## Running the module 
+
+The `ghg.sp::run_scenario_building()` function compiles all of the strategies for the Building Energy Module and produces an output table. 
+
+`ghg.sp::run_scenario_building()` call two separate functions:
+
+* `ghg.sp::scen_building_residential()`
+* `ghg.sp::scen_building_commercial()`
+
+
+Each of these functions, in turn call sequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
+
+### Residential Energy
+
+```{r}
+names(building_data$residential)
+```
+
+The following chunk prints the main key variables for the building energy module for
+the city of Lake Elmo
+
+Note that when there is missing data for the `multifamily_average_floor_area_sqft_ctu` the 
+package will refer to the county wide average. 
+
+```{r}
+building_data$residential %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
+
+### Residential Variables
+
+<!--  TABLE STARTS HERE -->
+```{r echo=FALSE}
+residential_variables
+```
+<!--  TABLE ENDS HERE -->
+
+### Non-Residential Energy 
+
+The following chunk prints the key input variables for the commercial/industrial strategies 
+under the building energy module. 
+
+```{r}
+building_data$non_residential %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  tidyr::pivot_wider(names_from = year, values_from = value) %>%
+  dplyr::select(ctu_name, var, `2018`, `2040`) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate_if(is.numeric, round, 2)
+```
+
+#### Non-Residential Variables
+<!--  TABLE STARTS HERE -->
+```{r}
+non_residential_variables
+```
+
+<!--  TABLE ENDS HERE -->

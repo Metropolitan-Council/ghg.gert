@@ -1,0 +1,127 @@
+---
+title: "Land Use Module - Inputs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{land_use_module_inputs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Techical Walkthrough
+
+All the functions for the Land Use Module are contained within the `ghg.sp` package.
+
+```{r setup}
+library(ghg.sp)
+```
+
+
+## Hierarchical Structure
+It is strongly recommended to first understand how the `ghg.sp` package is structured. The package consists of three modules, of which the Land Use Module is one of the three. Each model can be operated independently of each other. The model performs a sequence of functions in a sequential order to obtain a given output. For the Land Use Module, the sequence of functions is as follows:
+
+1. `calc_land_by_development_type()`
+2. `calc_scen_land_use()`
+3. `calc_land_cover_by_land_use()`
+4. `calc_land_cover_by_city()`
+5. `calc_tree_planting_land_cover()`
+6. `calc_parking_lot_land_cover()`
+7. `calc_conservation_tillage()`
+8. `calc_carbon_sequest_per_ctu()`
+9. `calc_carbon_stock_per_ctu()`
+10. `run_scenario_land_use()`
+
+Function `ghg.sp::run_scenario_land_use()` sits at the top of the module, and hence, it is recommended to explore this function first. 
+
+
+## Land Use and Land Cover Data
+
+The package provided `land_use_data.rda` dataset is required for the land use module to run.
+To explore the dataset, run the following command:
+`ghg.sp::land_use_data`.
+
+The source of these tables is the `Emissions` database of the Metropolitan Council. 
+
+Most of these tables are derived from GIS analysis of the 2016 Generalized Land Use as well as the Land Cover of the Metropolitan Region. 
+
+The following code provides a list of the tables within the `land_use_data` dataset.
+```{r}
+names(land_use_data)
+```
+
+### Table Descriptions
+The following is a description of the content of all input tables of the land use module, which are
+contained in the `land_use_data` dataset.
+
+**$ctu_county**: 
+Table shows the relationship between city/townships and county. 
+
+*For example: What county is Lake Elmo within?*
+```{r echo=FALSE}
+land_use_data$ctu_county %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  head(., n = 10)
+```
+
+**$ctu_forecast**: 
+Table shows the demographic forecasts for city/township from Community Profiles.
+*For example: What is the forecast population of Lake Elmo in 2040?*
+```{r echo=FALSE}
+land_use_data$ctu_forecast %>%
+  dplyr::filter(ctu_name == "Lake Elmo")
+```
+
+**$scenario_parameters**: 
+Table provides key parameters for the different urban form scenarios of the land use module.
+These parameters show relative assumed proportions for the the intensity of land by three development types: *exurban development*, *urban expansion*, and *urban infill*. These parameter vary for each of the scenario available to the user. 
+*For example, a value of 0.5 will represent half of the given development type for the given scenario. A value of 2 will represent double. *
+```{r echo=FALSE}
+land_use_data$scenario_parameters
+```
+
+**$land_cover_percentages_filled**: 
+Table shows the percentage of land use by land cover type in the Metropolitan Region. 
+*For example: What percent of impervious surfaces can be classified single family residential in the city of Lake Elmo?*
+```{r echo=FALSE}
+land_use_data$land_cover_percentages_filled %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  dplyr::filter(land_cover_description_2 == "parking_lot") %>%
+  head(., n = 15)
+```
+
+**$land_composition_ctu**: 
+Table provides the percentages of land use composition categorized in to three types of development: *exurban development*, *urban expansion*, and *urban infill*. 
+*For example: What percentage or what number of hectares of exurban development land area corresponds to parking lot surfaces within agricultural in the city of Lake Elmo for the forecast year 2040?*
+```{r echo=FALSE}
+land_use_data$land_composition_ctu %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  dplyr::filter(year == 2040) %>%
+  head(., n = 60)
+```
+
+**$current_conservation_tillage_county**:
+Tables shows the percent of agricultural land that is managed with conservation tillage by county. This is a necessary assumption for the conservation tillage strategy. 
+*Data comes from the Census of Agriculture (2017).*
+*For example: What percentage of agricultural land was using conservation tillage in the Washington County in 201?*
+```{r echo=FALSE}
+land_use_data$current_conservation_tillage_county %>%
+  head(., n = 10)
+```
+
+**$land_by_development_type_sum_bau**:
+Table shows the forecast total number of hectares by city/township for the business as usual scenario. 
+*For example: What is the forecast number of hectare for the city of Lake Elmo in 2040?*
+```{r echo=FALSE}
+land_use_data$land_by_development_type_sum_bau %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  head(., n = 10)
+```
+
+**$multifamily_mixed_area**: 
+Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
+*For example: What is the forecast hectares of multifamily or mixed use land use for the year 2040 for the city of Lake Elmo?*
+```{r echo=FALSE}
+land_use_data$multifamily_mixed_area %>%
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
+  head(., n = 10)
+```

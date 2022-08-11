@@ -47,8 +47,7 @@ Other land use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use}()},
-\code{\link{scen_green_infrastructure}()}
+\code{\link{run_scenario_land_use}()}
 
 Other emissions: 
 \code{\link{calc_carbon_stock_per_ctu}()},
