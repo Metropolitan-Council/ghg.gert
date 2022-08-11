@@ -86,8 +86,7 @@ Most of these tables are derived from GIS analysis of the 2016 Generalized Land 
 
 The following code provides a list of the tables within the `land_use_data` dataset.
 ```{r}
-names(land_use_data) %>%
-  kable(col.names = "tables within `land_use_data`")
+names(land_use_data)
 ```
 
 ### Table Descriptions
@@ -156,8 +155,7 @@ Table shows the forecast total number of hectares by city/township for the busin
 ```{r echo=FALSE}
 land_use_data$land_by_development_type_sum_bau %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
-  kable()
+  head(., n = 10)
 ```
 
 **$multifamily_mixed_area**: 
@@ -166,8 +164,7 @@ Table show the estimate of the number of hectares of multifamily mixed area by c
 ```{r echo=FALSE}
 land_use_data$multifamily_mixed_area %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) %>%
-  kable()
+  head(., n = 10)
 ```
 
 ## Functions
@@ -200,8 +197,7 @@ The following code prints the value of function `ghg.sp::calc_by_development_typ
 ```{r}
 ghg.sp::calc_land_by_development_type(tb = land_use_data,
                                       .urban_form_scenario = "bau") %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  kable()
+  dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
 The second function is `ghg.sp::calc_scen_land_use()`
@@ -210,8 +206,7 @@ The following code runs the `ghg.sp::calc_scen_land_use()` for the `"bau"` or bu
 ghg.sp::calc_scen_land_use(tb =  land_use_data,
                            .urban_form_scenario = "bau") %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 70) %>%
-  kable()
+  head(., n = 70)
 ```
 
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
@@ -222,8 +217,7 @@ ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
   dplyr::filter(year == 2040) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::filter(land_cover_description_2 == 	"forest") %>%
-  head(., n = 25)  %>%
-  kable()
+  head(., n = 25)
 ```
 
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
@@ -233,8 +227,7 @@ ghg.sp::calc_land_cover_by_city(tb = land_use_data,
                                 .urban_form_scenario = "bau") %>%
   dplyr::filter(year == 2040) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 15) %>%
-  kable()
+  head(., n = 15)
 ```
 
 ### Function to Calculate Tree Planting Strategy
@@ -258,8 +251,7 @@ ghg.sp::calc_tree_planting_land_cover(
     values_to = "value",
     cols = -c("ctu_name", "year")
   ) %>%
-  head(., n = 15) %>%
-  kable()
+  head(., n = 15)
 ```
 
 ### Function to Calcuate Parking Lot Reduction Strategy
@@ -282,8 +274,7 @@ ghg.sp::calc_parking_lot_land_cover(
     names_to = "var",
     values_to = "value",
     cols = -c("ctu_name", "year")
-  ) %>%
-  head(., n = 30)
+  )
 
 ```
 
@@ -295,10 +286,6 @@ ghg.sp::calc_conservation_tillage(
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "maximum_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
@@ -324,10 +311,6 @@ ghg.sp::calc_carbon_stock_per_ctu(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
   .conservation_tillage_intervention = "current_conservation_tillage",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
   detail = FALSE
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
@@ -335,7 +318,7 @@ ghg.sp::calc_carbon_stock_per_ctu(
 
 ### Function to Calculate Carbon Sequestration per City/Township
 ```{r}
-calc_carbon_sequestration_per_ctu(
+ghg.sp::calc_carbon_sequestration_per_ctu(
   tb = land_use_data,
   .urban_form_scenario = "bau",
   .tree_planting_intervention = "match_la_million_trees_goal",
@@ -350,34 +333,26 @@ calc_carbon_sequestration_per_ctu(
 
 ### Function to Provide Summary of Carbon Sequestration and Carbon Stock per City/Township
 ```{r}
-scen_green_infrastructure(
+ghg.sp::scen_green_infrastructure(
   tb = land_use_data,
   detail = FALSE,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
   .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0.8,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3
+  .parking_lot_reduction_percentage = 0.8
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
 ### Main function to Run Scenario 
 ```{r}
-run_scenario_land_use(
+ghg.sp::run_scenario_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,

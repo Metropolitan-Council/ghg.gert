@@ -1,19 +1,15 @@
 run_all_modules <- function(){
-  run_scenario_land_use(
+  land_use <- run_scenario_land_use(
     tb = land_use_data,
     .urban_form_scenario = "bau",
     .conservation_tillage_intervention = "current_conservation_tillage",
     .tree_planting_intervention = "tree_planting_on_all_pervious",
-    .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-    .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-    .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-    .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0.8,
     detail = FALSE
   )
-  run_scenario_building(
+  buildings <- run_scenario_building(
     res_tb = building_data$residential,
     non_res_tb = building_data$non_residential,
     res_tb_bau = building_data$residential,
@@ -38,7 +34,7 @@ run_all_modules <- function(){
     .additional_electrified_residential_buildings_pct = 0.45,
     .grid_decarbonization_pct = 1
   )
-  run_scenario_transportation(
+  transp <- run_scenario_transportation(
     pass_tb = transportation_data$passenger,
     freight_tb = transportation_data$freight,
     .scenario = "BAU",
