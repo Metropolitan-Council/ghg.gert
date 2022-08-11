@@ -8,11 +8,7 @@ run_scenario_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
-  .tree_planting_intervention = "tree_planting_on_all_pervious",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.5,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+  .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
@@ -65,10 +61,7 @@ run_scenario_land_use(
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
@@ -86,7 +79,6 @@ Other land use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{scen_green_infrastructure}()}
+\code{\link{calc_tree_planting_land_cover}()}
 }
 \concept{land use}

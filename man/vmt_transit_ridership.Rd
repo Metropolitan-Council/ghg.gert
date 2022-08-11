@@ -29,7 +29,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
 }
 \description{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{Transit ridership increase assumes that transit vehicles
+\preformatted{Transit ridership increase assumes that transit vehicles
 are traveling further to fulfill demand. As opposed to
 `.transit_avo_pct`, an increase in ridership implies
 additional **vehicle** miles traveled.
@@ -37,7 +37,7 @@ additional **vehicle** miles traveled.
 `.transit_rider_pct` indicates the overall effect by
 the final forecast year. The increase is spread evenly
 over the intermediate years.
-}\if{html}{\out{</div>}}
+}
 \itemize{
 \item If \code{.mode} is \code{"PLDV"} or \code{"AV"}, value returned is
 the number of passenger vehicle miles traveled
