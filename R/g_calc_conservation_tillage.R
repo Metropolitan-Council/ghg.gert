@@ -14,21 +14,6 @@
 #'      relative to the baseline year.
 #'      * `"maximum_conservation_tillage"` it assumes that all agricultural land implements conservation
 #'      tillage.
-#' @param .w2w_diesel_emission_factor_kg_co2e_per_gal numeric,
-#'      Well-to-well diesel emissions factor in kg of carbon dioxide equivalent (CO2e) per gallon
-#'      Default is `12.50`.
-#'      * `Hilman and Ramaswami, 2009`.
-#' @param .avoided_emissions_tractor_use_mg_co2e_per_hectare numeric,
-#'      Million grams of carbon dioxide equivalent (CO2e) per hectare.
-#'      From `United States Department of Agriculture`
-#'      Default is `0.102`.
-#' @param .agricultural_land_carbon_stock_mg_c_per_hectare numeric,
-#'      Million grams of carbon (C) per hectare.
-#'      From [`Tran et al., 2015`](https://doi.org/10.1073/pnas.1512542112)
-#'      Default is `41`.
-#' @param .maximum_soc_accumation_under_reduced_or_no_till_ag numeric,
-#'      Maximum SOC acumulation per hectare under reduced or no till agriculture.
-#'      Default is `1.54`.
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
@@ -42,10 +27,6 @@
 #'   .urban_form_scenario = "bau",
 #'   .conservation_tillage_intervention = "current_conservation_tillage",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
-#'   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-#'   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.102,
-#'   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-#'   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247,
 #'   .parking_lot_reduction_percentage = 0.8,
@@ -54,10 +35,6 @@
 #' }
 calc_conservation_tillage <- function(tb,
                                       .conservation_tillage_intervention,
-                                      .w2w_diesel_emission_factor_kg_co2e_per_gal,
-                                      .avoided_emissions_tractor_use_mg_co2e_per_hectare,
-                                      .agricultural_land_carbon_stock_mg_c_per_hectare,
-                                      .maximum_soc_accumation_under_reduced_or_no_till_ag,
                                       .parking_lot_reduction_percentage,
                                       detail,
                                       .tree_planting_intervention,
@@ -103,10 +80,10 @@ calc_conservation_tillage <- function(tb,
     ) %>%
     dplyr::mutate(
       baseline_carbon_stock_mg_c_per_hectare = agriculture_hectares_year_2016 *
-        .agricultural_land_carbon_stock_mg_c_per_hectare,
+        enviro_factors$AGRI_LAND_CARBON_STOCK,
       bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare =
         agriculture_hectares_year_2040 *
-          .agricultural_land_carbon_stock_mg_c_per_hectare
+          enviro_factors$AGRI_LAND_CARBON_STOCK
     )
 
   conservation_tillage_carbon_stocks_mg_c <-
@@ -116,13 +93,13 @@ calc_conservation_tillage <- function(tb,
           conservation_tillage_mg_c =
             (
               agriculture_hectares_year_2040 * current_conservation_tillage_percent *
-                .maximum_soc_accumation_under_reduced_or_no_till_ag *
-                .agricultural_land_carbon_stock_mg_c_per_hectare
+                enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+                enviro_factors$AGRI_LAND_CARBON_STOCK
             )
             + (
                 agriculture_hectares_year_2040 * (1 - current_conservation_tillage_percent)
               )
-              * .agricultural_land_carbon_stock_mg_c_per_hectare,
+              * enviro_factors$AGRI_LAND_CARBON_STOCK,
           carbon_stock_change_from_conservation_ag_mg_c =
 
             conservation_tillage_mg_c -
@@ -136,13 +113,13 @@ calc_conservation_tillage <- function(tb,
           conservation_tillage_mg_c =
             (
               agriculture_hectares_year_2040 * (current_conservation_tillage_percent*2) *
-                .maximum_soc_accumation_under_reduced_or_no_till_ag *
-                .agricultural_land_carbon_stock_mg_c_per_hectare
+                enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+                enviro_factors$AGRI_LAND_CARBON_STOCK
             )
             + (agriculture_hectares_year_2040 * (
                 1 - (current_conservation_tillage_percent*2)
               ))
-              * .agricultural_land_carbon_stock_mg_c_per_hectare,
+              * enviro_factors$AGRI_LAND_CARBON_STOCK,
           carbon_stock_change_from_conservation_ag_mg_c =
 
             conservation_tillage_mg_c -
@@ -151,7 +128,7 @@ calc_conservation_tillage <- function(tb,
           reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
             (
               agriculture_hectares_year_2040 *
-                .avoided_emissions_tractor_use_mg_co2e_per_hectare *
+                enviro_factors$AVOIDED_EMISSIONS_TRACTOR_USE *
                 ((current_conservation_tillage_percent*2) -
                 (current_conservation_tillage_percent))
             )*-1
@@ -162,12 +139,12 @@ calc_conservation_tillage <- function(tb,
           conservation_tillage_mg_c =
             (
               agriculture_hectares_year_2040 *
-                .maximum_soc_accumation_under_reduced_or_no_till_ag *
-                .agricultural_land_carbon_stock_mg_c_per_hectare
+                enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+                enviro_factors$AGRI_LAND_CARBON_STOCK
             ),
             # + (
             #     agriculture_hectares_year_2040 *
-            #       .agricultural_land_carbon_stock_mg_c_per_hectare
+            #       enviro_factors$AGRI_LAND_CARBON_STOCK
             #   ),
           carbon_stock_change_from_conservation_ag_mg_c =
 
@@ -177,7 +154,7 @@ calc_conservation_tillage <- function(tb,
           reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
             (
               (agriculture_hectares_year_2040 *
-                .avoided_emissions_tractor_use_mg_co2e_per_hectare) *
+                enviro_factors$AVOIDED_EMISSIONS_TRACTOR_USE) *
                 (1 - current_conservation_tillage_percent) * -1
             )
         )
