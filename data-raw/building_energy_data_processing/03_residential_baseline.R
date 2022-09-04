@@ -1,5 +1,6 @@
-# residential baseline
-## -------------------------------------------------------------------------------------------
+# RESIDENTIAL ENERGY BASELINE -----
+
+## ----- get electricity by ctu from 'Emissions' ------
 p_electricity_residential_ctu <-
   t_electricity_residential_ctu %>%
   mutate(
@@ -15,12 +16,12 @@ p_electricity_residential_ctu <-
   select(ctu_name, year, residential_mwh, residential_elec_emis_t_co2e) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
-    cols = c("residential_mwh", "residential_elec_emis_t_co2e"),
-    names_to = "metric"
+    cols = c("residential_mwh",
+             "residential_elec_emis_t_co2e"),
+    names_to = "var"
   )
 
-
-## -------------------------------------------------------------------------------------------
+## ----- get nat gas by ctu from 'Emissions'------
 p_natural_gas_residential_ctu <-
   t_natural_gas_residential_ctu %>%
   mutate(
@@ -42,16 +43,16 @@ p_natural_gas_residential_ctu <-
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("residential_ng_therms", "residential_ng_emis_t_co2e"),
-    names_to = "metric"
+    names_to = "var"
   )
 
 
-## -------------------------------------------------------------------------------------------
+## ----- estimate residential kwh/sqft -----
 p_residential_kwh_per_sqft <-
   bind_rows(
     p_electricity_residential_ctu,
     p_ctu_characteristics %>%
-      filter(metric %in% c(
+      filter(var %in% c(
         "SFD_Units",
         "single_family_average_floor_area_sqft_ctu",
         "MF_Units",
@@ -60,7 +61,7 @@ p_residential_kwh_per_sqft <-
   ) %>%
   unique() %>%
   group_by(ctu_name, year) %>%
-  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
+  pivot_wider(names_from = "var", values_from = "value", values_fn = mean) %>%
   mutate(kwh_per_floor_area = (residential_mwh / ((
     SFD_Units * single_family_average_floor_area_sqft_ctu) +
     (MF_Units * multifamily_average_floor_area_sqft_county))) *
@@ -69,17 +70,17 @@ p_residential_kwh_per_sqft <-
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("kwh_per_floor_area"),
-    names_to = "metric"
+    names_to = "var"
   )
 
 
-## -------------------------------------------------------------------------------------------
+## ----- estimate residential therms/sqft ----
 p_residential_therms_per_sqft <-
   bind_rows(
     p_natural_gas_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
+  pivot_wider(names_from = "var", values_from = "value", values_fn = mean) %>%
   mutate(therms_per_floor_area = (residential_ng_therms / ((
     SFD_Units * single_family_average_floor_area_sqft_ctu
   ) +
@@ -91,43 +92,43 @@ p_residential_therms_per_sqft <-
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("therms_per_floor_area"),
-    names_to = "metric"
+    names_to = "var"
   )
 
 
-## -------------------------------------------------------------------------------------------
+## ---- estimate residential kwh/household -----
 p_residential_kwh_per_household <-
   bind_rows(
     p_electricity_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
+  pivot_wider(names_from = "var", values_from = "value", values_fn = mean) %>%
   mutate(residential_mwh_per_households = residential_mwh / households) %>%
   select(ctu_name, year, residential_mwh_per_households) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
     cols = c("residential_mwh_per_households"),
-    names_to = "metric"
+    names_to = "var"
   )
 
 
-## -------------------------------------------------------------------------------------------
+## ----- estimate residnetial  therms/household ----
 p_residential_therms_per_household <-
   bind_rows(
     p_natural_gas_residential_ctu,
     p_ctu_characteristics
   ) %>%
-  pivot_wider(names_from = "metric", values_from = "value", values_fn = mean) %>%
+  pivot_wider(names_from = "var", values_from = "value", values_fn = mean) %>%
   mutate(residential_therms_per_households = residential_ng_therms / households) %>%
   group_by(ctu_name, year) %>%
   select(ctu_name, year, residential_therms_per_households) %>%
   pivot_longer(
     cols = c("residential_therms_per_households"),
-    names_to = "metric"
+    names_to = "var"
   )
 
 
-## -------------------------------------------------------------------------------------------
+## ---- return variables residential energy baseline -----
 p_ctu_residential_energy_baseline <-
   bind_rows(
     p_electricity_residential_ctu,

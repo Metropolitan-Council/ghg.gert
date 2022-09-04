@@ -1,4 +1,4 @@
-# list of 7 counties that make the metro area
+# 7 COUNTIES OF THE METRO REGION -----
 l_metro_counties <-
   c(
     "Anoka",
@@ -11,10 +11,10 @@ l_metro_counties <-
   )
 
 
-# NAICS codes -----
+# NAICS CODES -----
 
 naics_codes <- list(
-  commerical = c(
+  commercial = c(
     "NAICS 44; 722",
     "NAICS 51-55",
     "NAICS 61",

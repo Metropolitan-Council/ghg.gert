@@ -3,7 +3,7 @@
 
 p_ctu_residential_energy_forecast %>%
   select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(metric, "_forecast")) %>%
+  # filter(stringr::str_detect(var, "_forecast")) %>%
   unique()
 View
 
@@ -17,7 +17,7 @@ View
 p_ctu_residential_energy_baseline %>%
   ungroup() %>%
   select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(metric, "therm")) %>%
+  # filter(stringr::str_detect(var, "therm")) %>%
   unique()
 # residential_mhw
 
@@ -31,7 +31,7 @@ p_ctu_residential_energy_baseline %>%
 ctu_residential_energy <-
   p_ctu_residential_energy_forecast %>%
   pivot_wider(
-    names_from = metric,
+    names_from = var,
     values_from = value
   ) %>%
   select(ctu_name, year,
@@ -41,7 +41,7 @@ ctu_residential_energy <-
   bind_rows(
     p_ctu_residential_energy_baseline %>%
       pivot_wider(
-        names_from = metric,
+        names_from = var,
         values_from = value
       ) %>%
       select(ctu_name, year, kwh_per_floor_area, therms_per_floor_area)
