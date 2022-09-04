@@ -102,5 +102,5 @@ all_vars <- c(
   "residential_kwh",
   "residential_therms_per_floor_area",
   "residential_therms",
-  "commerical_ng_therms"
+  "commercial_ng_therms"
 )

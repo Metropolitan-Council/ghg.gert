@@ -1,24 +1,24 @@
 # ctu_residential_characteristics
 
-
 p_ctu_characteristics %>%
   ungroup() %>%
   select(-ctu_name, -year, -value) %>%
-  # filter(stringr::str_detect(metric, "_forecast")) %>%
+  # filter(stringr::str_detect(var, "_forecast")) %>%
   unique()
 
 
 p_ctu_characteristics_forecast %>%
   select(-ctu_name, -year, -value) %>%
   as_tibble() %>%
-  # filter(stringr::str_detect(metric, "_forecast")) %>%
+  # filter(stringr::str_detect(var, "_forecast")) %>%
   unique()
 
 
 ctu_characteristics <- p_ctu_characteristics_forecast %>%
   as_tibble() %>%
+  distinct() %>%
   pivot_wider(
-    names_from = metric,
+    names_from = var,
     values_from = value
   ) %>%
   select(
@@ -34,7 +34,7 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
   group_by(ctu_name, year) %>%
   bind_rows(p_ctu_characteristics %>%
     pivot_wider(
-      names_from = metric,
+      names_from = var,
       values_from = value
     ))
 
@@ -91,8 +91,8 @@ ctu_w_nonres <- ctu_w_res %>%
   arrange(ctu_name) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
-    cols = 3:32,
-    names_to = "metric"
+    cols = 3:last_col(),
+    names_to = "var"
   ) %>%
   unique()
 
@@ -100,8 +100,8 @@ ctu_w_nonres <- ctu_w_res %>%
 # finish up -----
 
 residential <- ctu_w_nonres %>%
-  mutate(metric = recode(metric, "SFD_Units" = "single_family_units", "MF_Units" = "multifamily_units")) %>%
-  filter(metric %in% c(
+  mutate(var = recode(var, "SFD_Units" = "single_family_units", "MF_Units" = "multifamily_units")) %>%
+  filter(var %in% c(
     "households",
     "population",
     "multifamily_units",
@@ -130,11 +130,10 @@ residential <- ctu_w_nonres %>%
     # "residential_mwh_per_households",
     # "residential_therms_per_households",
   )) %>%
-  rename("var" = "metric") %>%
   unique()
 
 non_residential <- ctu_w_nonres %>%
-  filter(metric %in% c(
+  filter(var %in% c(
     "population",
     "industrial_jobs",
     "commercial_jobs",
@@ -148,14 +147,4 @@ non_residential <- ctu_w_nonres %>%
     "industrial_therm_per_worker",
     "commercial_therm_per_worker"
   )) %>%
-  rename("var" = "metric") %>%
   unique()
-
-
-building_data <-
-  list(
-    "residential" = residential,
-    "non_residential" = non_residential
-  )
-
-usethis::use_data(building_data, overwrite = T)

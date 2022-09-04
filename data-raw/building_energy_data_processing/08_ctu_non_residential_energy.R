@@ -1,28 +1,15 @@
 # residential ----
 
-
 p_ctu_nonresidential_energy_forecast %>%
   select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(metric, "_forecast")) %>%
+  # filter(stringr::str_detect(var, "_forecast")) %>%
   unique()
-
-# residential_kwh_per_floor_area_forecast
-# residential_kwh_forecast
-
-# residential_therms_per_floor_area_forecast
-# residential_therms_forecast
-
 
 p_ctu_nonresidential_energy_baseline %>%
   ungroup() %>%
   select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(metric, "therm")) %>%
+  # filter(stringr::str_detect(var, "therm")) %>%
   unique()
-# residential_mhw
-
-
-
-
 
 # common variables
 "kwh_per_floor_area" <- "residential_kwh_per_floor_area_forecast"
@@ -31,13 +18,13 @@ p_ctu_nonresidential_energy_baseline %>%
 ctu_non_residential_energy <-
   p_ctu_nonresidential_energy_baseline %>%
   pivot_wider(
-    names_from = metric,
+    names_from = var,
     values_from = value
   ) %>%
   bind_rows(
     p_ctu_nonresidential_energy_forecast %>%
       pivot_wider(
-        names_from = metric,
+        names_from = var,
         values_from = value
       )
   )
