@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(ghg.sp)
-library(tidyverse)
+library(dplyr)
 library(ggplot2)
 ```
 
