@@ -26,7 +26,7 @@ library(ggplot2)
 Assume bussiness as usual scenario with the following interventions
 - 80% parking lot reduction
 - tree planting on all pervious surfaces
-- the tree planting per capita and per hectare are not used when you use the "tree_planting_on_all_previous" intervention. These arguments are only used when .tree_planting_intervention = "match_la_million_trees_goal".
+- the `tree planting per capita` and `per hectare` are not used when you use the "tree_planting_on_all_previous" intervention. These arguments are only used when .tree_planting_intervention = "match_la_million_trees_goal".
 ```{r}
 parkinglot <- calc_parking_lot_land_cover(
   tb = land_use_data,
@@ -49,13 +49,14 @@ ggplot(parkinglot, aes(fill=var, y=value, x=year)) +
     geom_bar(position="stack", stat="identity")
 ```
 
+Tree planting on all pervious surfaces is a wacky assumption, but it serves to show the basic idea behind the land use strategies. 
 
-## EXAMPLE 2
+## EXAMPLE 2: A more plausible scenario.
 
 Assume bussiness as usual scenario with the following interventions
 - 0% parking lot reduction
 - matches la tree planting goal 
-- the tree planting per capita and per hectare are not used when you use the "tree_planting_on_all_previous" intervention. These arguments are only used when .tree_planting_intervention = "match_la_million_trees_goal".
+- the `tree planting per capita` and `per hectare` are not used when you define the "tree_planting_on_all_previous" intervention as an argumnet. These arguments are only used when .tree_planting_intervention = "match_la_million_trees_goal".
 ```{r}
 parkinglot2 <- calc_parking_lot_land_cover(
   tb = land_use_data,
@@ -70,6 +71,7 @@ parkinglot2 <- calc_parking_lot_land_cover(
   dplyr::select(-c(total_area_hectares)) %>%
   tidyr::pivot_longer(names_to = "var", cols = 3:last_col(), values_to = "value")
 ```
+
 
 
 ```{r}

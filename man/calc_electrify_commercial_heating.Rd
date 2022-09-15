@@ -14,12 +14,6 @@ calc_electrify_commercial_heating(
 )
 }
 \arguments{
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
-
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}.}
