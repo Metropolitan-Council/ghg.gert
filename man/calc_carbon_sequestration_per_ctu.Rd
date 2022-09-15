@@ -23,6 +23,7 @@ per hectares by land cover type by city/township.
 }
 \examples{
 \dontrun{
+
 library(ghg.sp)
 
 calc_carbon_sequestration_per_ctu(
