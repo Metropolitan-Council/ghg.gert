@@ -5,8 +5,19 @@ output: html_document
 date: "2022-09-20"
 ---
 
+```{css, echo=FALSE}
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+pre[class] {
+  max-height: 100px;
+}
+```
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(echo = T)
 
 library(dplyr)
 library(ggplot2)
@@ -17,7 +28,7 @@ library(councilR)
 The existing **\$current_conservation_tillage_county** tables gives the percent of
 agricultural land that is managed with conservation tillage by county.
 
-```{r, save-old-data, echo = F}
+```{r, save-old-data}
 ARCHIVE_current_conservation_tillage_county <- tibble::tribble(
   ~co_name, ~current_conservation_tillage_percent,
   "Anoka", 0.08815018,
