@@ -1,0 +1,138 @@
+---
+title: "Conservation Tillage data from USDA"
+author: Ellen
+output: html_document
+date: "2022-09-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+
+library(dplyr)
+library(ggplot2)
+library(ghg.sp)
+library(councilR)
+```
+
+The existing **\$current_conservation_tillage_county** tables gives the percent of
+agricultural land that is managed with conservation tillage by county.
+
+```{r, save-old-data, echo = F}
+ARCHIVE_current_conservation_tillage_county <- tibble::tribble(
+  ~co_name, ~current_conservation_tillage_percent,
+  "Anoka", 0.08815018,
+  "Carver", 0.28413933,
+  "Dakota", 0.10034745,
+  "Hennepin", 0.04441539,
+  "Ramsey", 0.13178295,
+  "Scott", 0.01036328,
+  "Washington", 0.10532122
+)
+```
+
+
+These numbers seemed suspiciously low to me.
+For instance, check out [this high level report from the USDA on
+conservation tillage numbers](https://www.ers.usda.gov/webdocs/publications/90201/eib197_summary.pdf?v=8320.9);
+you'll see that across the US, over 60% of corn is in conservation
+tillage and over 70% of beans are in conservation tillage (and these are
+the two main crops grown in MN). So I went directly to the USDA's data
+(via API), and got some pretty different numbers.
+
+**I am recommending that the GHG database values be updated to match USDA Census
+    values for conservation tillage. **
+    
+The processed data is saved as `/data/usda_data.rda`, but can also be directly downloaded via the USDA API. 
+
+1. Get an API key from USDA: <https://quickstats.nass.usda.gov/api> 
+2. Enter in the console:
+`usethis::edit_r_environ()`
+3. When the `.Renviron` file comes up in the
+editor, type: `USDA_KEY="KEY GOES HERE, INSIDE QUOTES"` 
+4. Save and close the `.Renviron` file. 
+5. Restart R.
+
+```{r process-usda}
+
+process_usda <- FALSE
+
+if (process_usda == TRUE) {
+  mn_conservation_tillage_fxn <- function(.county) {
+    raw <- httr::GET(paste0(
+      "http://quickstats.nass.usda.gov/api/api_GET/?key=",
+      Sys.getenv("USDA_KEY"),
+      "&source_desc=CENSUS",
+      "&commodity_desc=PRACTICES",
+      "&class_desc=LAND%20USE,%20CROPLAND",
+      "&unit_desc=ACRES",
+      "&agg_level_desc=COUNTY", # STATE",
+      "&county_name=", .county, # WASHINGTON",
+      "&domain_desc=TOTAL",
+      "&year=2017",
+      "&state_alpha=MN&format=JSON"
+    ))
+
+    parsed <- jsonlite::fromJSON(httr::content(x = raw, as = "text"))$data
+
+    return(parsed)
+  }
+
+  mn_conservation_tillage_raw <-
+    mn_conservation_tillage_fxn("ANOKA") %>%
+    bind_rows(mn_conservation_tillage_fxn("CARVER")) %>%
+    bind_rows(mn_conservation_tillage_fxn("DAKOTA")) %>%
+    bind_rows(mn_conservation_tillage_fxn("HENNEPIN")) %>%
+    bind_rows(mn_conservation_tillage_fxn("RAMSEY")) %>%
+    bind_rows(mn_conservation_tillage_fxn("SCOTT")) %>%
+    bind_rows(mn_conservation_tillage_fxn("WASHINGTON"))
+
+  usda_data <- mn_conservation_tillage_raw %>%
+    mutate(Value = as.numeric(gsub(",", "", Value))) %>%
+    filter(prodn_practice_desc != "COVER CROP PLANTED, (EXCL CRP)") %>%
+    select(county_name, prodn_practice_desc, Value) %>%
+    group_by(county_name) %>%
+    mutate(
+      total_acres = sum(Value),
+      percent = Value / total_acres
+    ) %>%
+    mutate(tillage = if_else(prodn_practice_desc %in%
+      c(
+        "CONSERVATION TILLAGE, (EXCL NO-TILL)",
+        "CONSERVATION TILLAGE, NO-TILL"
+      ),
+    "conservation tillage", "conventional"
+    )) %>%
+    group_by(county_name, tillage) %>%
+    summarise(current_conservation_tillage_percent = sum(percent), .groups = "keep") %>%
+    filter(tillage == "conservation tillage") %>%
+    mutate(
+      source = "USDA API",
+      co_name = stringr::str_to_title(county_name)
+    ) %>%
+    ungroup() %>%
+    select(co_name, current_conservation_tillage_percent)
+  save(usda_data, file = paste0(here::here(), "/data/usda_data.rda"))
+} else {
+  load(paste0(here::here(), "/data/usda_data.rda"))
+}
+```
+  
+  
+```{r conservation-tillage-fig}
+#| fig.asp = .5
+
+usda_data %>%
+  mutate(source = "USDA API") %>%
+  bind_rows(ARCHIVE_current_conservation_tillage_county %>% # land_use_data$current_conservation_tillage_county %>%
+    mutate(source = "GHG database")) %>%
+  ggplot(aes(
+    y = forcats::fct_rev(co_name),
+    x = current_conservation_tillage_percent,
+    col = source, pch = source
+  )) +
+  geom_point() +
+  scale_color_manual(values = c(councilR::colors$cdGreen, councilR::colors$councilBlue)) +
+  theme_council_open() +
+  labs(y = "", x = "", title = "Conservation tillage", col = "", pch = "") +
+  scale_x_continuous(labels = scales::percent)
+```
