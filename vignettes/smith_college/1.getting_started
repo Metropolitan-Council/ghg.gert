@@ -1,0 +1,36 @@
+---
+title: "1. getting started"
+author: "Leon Mendez, Mauricio"
+date: "2022-09-21"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install the required packages
+
+Hello Smith College capstone group! We normally work on RMarkdown when we prototype some analysis or just want to make some quick visual.
+
+The fist step for you to get started will be to create a clone of the github repo on your computer.
+
+To do this, you use some software, such as Github Desktop and go to "Add", "Clone Repository..." and enter the url of the repo.
+
+
+https://github.com/Metropolitan-Council/ghg.sp.git
+
+Note that his would only work once you have been granted access to the branch "smith.capsone"
+
+Once you have cloned the repository, you need to open the R project "ghg.sp"
+
+Assuming you dont run into any issues, go ahead and install the required packages:
+
+```{r}
+remotes::install_github("hadley/emo")
+remotes::install_github("Metropolitan-Council/councilR")
+```
+
+Now try to "build" package. It is likely that you might run into some issue, if you can't solve it by yourselves, make sure to bring it to our next meeting.
+
+See you on Thursday!

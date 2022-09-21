@@ -42,7 +42,6 @@ parkinglot <- calc_parking_lot_land_cover(
   tidyr::pivot_longer(names_to = "var", cols = 3:last_col(), values_to = "value")
 ```
 
-
 ```{r}
 ggplot(parkinglot, aes(fill=var, y=value, x=year)) + 
     xlab("year") + ylab("hectares") +
@@ -71,8 +70,6 @@ parkinglot2 <- calc_parking_lot_land_cover(
   dplyr::select(-c(total_area_hectares)) %>%
   tidyr::pivot_longer(names_to = "var", cols = 3:last_col(), values_to = "value")
 ```
-
-
 
 ```{r}
 ggplot(parkinglot2, aes(fill=var, y=value, x=year)) + 

@@ -10,7 +10,6 @@
 #'
 #' check_inputs("electric_scenario", "ER")
 #' check_inputs("transit_avo_pct", 0)
-#'
 check_inputs <- function(name, value) {
   if (name == "electric_scenario") {
     if (!value %in% c("ER", "EM")) {

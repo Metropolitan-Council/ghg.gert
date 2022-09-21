@@ -24,8 +24,10 @@ p_commercial_industrial_electricity_mwh_xcel <-
 ## ---- get xcel energy intensity per customer class ----
 p_xcel_energy_electricity <-
   p_ctu_characteristics %>%
-  filter(var %in% c("commercial_jobs",
-                    "industrial_jobs")) %>%
+  filter(var %in% c(
+    "commercial_jobs",
+    "industrial_jobs"
+  )) %>%
   mutate(
     state_mwh_per_worker =
       case_when(
@@ -58,8 +60,10 @@ p_xcel_energy_electricity <-
     )
   ) %>%
   select(ctu_name, year, commercial_mwh_xcel, industrial_mwh_xcel) %>%
-  pivot_longer(cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
-               names_to = "var") %>%
+  pivot_longer(
+    cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
+    names_to = "var"
+  ) %>%
   filter(is.na(value) == FALSE)
 
 
@@ -67,15 +71,19 @@ p_xcel_energy_electricity <-
 p_nrel_electricity_ctu <-
   t_nrel_energy_consumption_ctu %>%
   filter(sector %in% c("industrial", "commercial")) %>%
-  filter(source == "elec",
-         year == "2018") %>%
+  filter(
+    source == "elec",
+    year == "2018"
+  ) %>%
   select(ctu_name, year, sector, consumption_mmbtu) %>%
   mutate(value = consumption_mmbtu * 0.29307107) %>%
-  mutate(var =
-           case_when(
-             (sector == "industrial") ~ "industrial_mwh_nrel",
-             (sector == "commercial") ~ "commercial_mwh_nrel",
-           )) %>%
+  mutate(
+    var =
+      case_when(
+        (sector == "industrial") ~ "industrial_mwh_nrel",
+        (sector == "commercial") ~ "commercial_mwh_nrel",
+      )
+  ) %>%
   select(ctu_name, year, var, value)
 
 
@@ -83,10 +91,12 @@ p_nrel_electricity_ctu <-
 p_nonresidential_naturalgas_ctu <-
   t_utility_natural_gas_by_ctu %>%
   filter(year == 2018) %>%
-  filter(customer_class_name %in% c("Business",
-                                    #"Industrial",
-                                    #"Commercial",
-                                    "Non-Residential")) %>%
+  filter(customer_class_name %in% c(
+    "Business",
+    # "Industrial",
+    # "Commercial",
+    "Non-Residential"
+  )) %>%
   group_by(ctu_name, year) %>%
   summarise(
     mcf_per_year = sum(mcf_per_year, na.rm = T),
@@ -100,8 +110,10 @@ p_nonresidential_naturalgas_ctu <-
 ## ----- dissagregate commercial and industrial natural gas utility data ----
 p_commercial_and_industrial_natural_gas_ctu <-
   p_ctu_characteristics %>%
-  filter(var %in% c("commercial_jobs",
-                    "industrial_jobs")) %>%
+  filter(var %in% c(
+    "commercial_jobs",
+    "industrial_jobs"
+  )) %>%
   mutate(
     state_therms_per_worker =
       case_when(
@@ -116,7 +128,7 @@ p_commercial_and_industrial_natural_gas_ctu <-
         (var == "industrial_jobs") ~ "expected_industrial_therms"
       ),
     value = value * state_therms_per_worker
-  )  %>%
+  ) %>%
   group_by(ctu_name, year) %>%
   select(ctu_name, year, var, value) %>%
   pivot_wider(names_from = var, values_from = value) %>%
@@ -134,8 +146,10 @@ p_commercial_and_industrial_natural_gas_ctu <-
     )
   ) %>%
   select(ctu_name, year, commercial_therms, industrial_therms) %>%
-  pivot_longer(cols = c(commercial_therms, industrial_therms),
-               names_to = "var") %>%
+  pivot_longer(
+    cols = c(commercial_therms, industrial_therms),
+    names_to = "var"
+  ) %>%
   filter(is.na(value) == FALSE)
 
 
@@ -143,15 +157,19 @@ p_commercial_and_industrial_natural_gas_ctu <-
 p_nrel_natural_gas_ctu <-
   t_nrel_energy_consumption_ctu %>%
   filter(sector %in% c("industrial", "commercial")) %>%
-  filter(source == "ng",
-         year == "2018") %>%
+  filter(
+    source == "ng",
+    year == "2018"
+  ) %>%
   select(ctu_name, year, sector, consumption_mmbtu) %>%
   mutate(value = consumption_mmbtu * 10) %>%
-  mutate(var =
-           case_when(
-             (sector == "industrial") ~ "industrial_therms_nrel",
-             (sector == "commercial") ~ "commercial_therms_nrel",
-           )) %>%
+  mutate(
+    var =
+      case_when(
+        (sector == "industrial") ~ "industrial_therms_nrel",
+        (sector == "commercial") ~ "commercial_therms_nrel",
+      )
+  ) %>%
   select(ctu_name, year, var, value) %>%
   unique()
 
@@ -233,5 +251,7 @@ p_ctu_nonresidential_energy_per_worker <-
 
 ## -------------------------------------------------------------------------------------------
 p_ctu_nonresidential_energy_baseline <-
-  bind_rows(p_ctu_nonresidential_energy_baseline_1,
-            p_ctu_nonresidential_energy_per_worker)
+  bind_rows(
+    p_ctu_nonresidential_energy_baseline_1,
+    p_ctu_nonresidential_energy_per_worker
+  )

@@ -7,18 +7,28 @@
 # ---- electric utility servicewide percent sales by customer class -----
 p_servicewide_customer_class_ratio <-
   t_eia_electricity_servicewide %>%
-  dplyr::filter(customer_class_name %in% c("Residential",
-                                           "Commercial",
-                                           "Industrial")) %>%
-  dplyr::mutate(mwh_per_year =
-                  case_when(is.na(mwh_per_year) ~ 0,
-                            mwh_per_year > -1 ~ mwh_per_year)) %>%
-  dplyr::select(utility_name,
-                customer_class_name,
-                mwh_per_year) %>%
+  dplyr::filter(customer_class_name %in% c(
+    "Residential",
+    "Commercial",
+    "Industrial"
+  )) %>%
+  dplyr::mutate(
+    mwh_per_year =
+      case_when(
+        is.na(mwh_per_year) ~ 0,
+        mwh_per_year > -1 ~ mwh_per_year
+      )
+  ) %>%
+  dplyr::select(
+    utility_name,
+    customer_class_name,
+    mwh_per_year
+  ) %>%
   group_by(utility_name) %>%
-  pivot_wider(names_from = customer_class_name,
-              values_from = mwh_per_year) %>%
+  pivot_wider(
+    names_from = customer_class_name,
+    values_from = mwh_per_year
+  ) %>%
   dplyr::mutate(
     Total = sum(Residential, Commercial, Industrial),
     servicewide_percent_residential = Residential / Total,
@@ -37,9 +47,10 @@ p_servicewide_customer_class_ratio <-
 p_temp_mndoc_electricity_county <-
   t_mndoc_electricity_county %>%
   dplyr::left_join(.,
-                   t_county %>%
-                     dplyr::select(co_name, mn_doc_co_code),
-                   by = "mn_doc_co_code") %>%
+    t_county %>%
+      dplyr::select(co_name, mn_doc_co_code),
+    by = "mn_doc_co_code"
+  ) %>%
   dplyr::filter(year == 2018) %>%
   dplyr::filter(
     co_name %in% c(
@@ -72,11 +83,15 @@ p_customer_class_ratio_by_area <-
   dplyr::select(co_name, utility_name, type, acres) %>%
   dplyr::group_by(co_name, utility_name, type) %>%
   dplyr::summarise(acres = sum(acres), .groups = "drop") %>%
-  tidyr::pivot_wider(names_from = type,
-                     values_from = acres,
-                     values_fill = 0) %>%
-  dplyr::mutate(commercial = commercial,
-                industrial = agriculture + industrial) %>%
+  tidyr::pivot_wider(
+    names_from = type,
+    values_from = acres,
+    values_fill = 0
+  ) %>%
+  dplyr::mutate(
+    commercial = commercial,
+    industrial = agriculture + industrial
+  ) %>%
   dplyr::select(co_name, utility_name, commercial, industrial, residential) %>%
   dplyr::mutate(
     total = commercial + industrial + residential,
@@ -97,11 +112,13 @@ p_customer_class_ratio_by_area <-
 ## ----MNDOC countywide energy consumption customer class estimate----------------------------
 p_mndoc_customer_class_estimate <-
   dplyr::right_join(p_mndoc_electricity_county_utility,
-                    p_servicewide_customer_class_ratio,
-                    by = "utility_name") %>%
+    p_servicewide_customer_class_ratio,
+    by = "utility_name"
+  ) %>%
   right_join(.,
-             p_customer_class_ratio_by_area,
-             by = c("utility_name", "co_name")) %>%
+    p_customer_class_ratio_by_area,
+    by = c("utility_name", "co_name")
+  ) %>%
   mutate(
     percent_residential = (
       servicewide_percent_residential + residential_percent_by_area
@@ -140,20 +157,24 @@ p_county_electricity <-
 
 ## ----- estimate county MWh/worker (commercial and industrial) ----
 p_mwh_per_worker_county <-
-  bind_rows(p_county_electricity,
-            p_county_characteristics %>%
-              filter(
-                var %in% c("commercial_workers_county", "industrial_workers_county")
-              )) %>%
+  bind_rows(
+    p_county_electricity,
+    p_county_characteristics %>%
+      filter(
+        var %in% c("commercial_workers_county", "industrial_workers_county")
+      )
+  ) %>%
   pivot_wider(names_from = "var", values_from = "value") %>%
   mutate(
     commercial_mwh_per_worker_county = commercial_mwh_county / commercial_workers_county,
     industrial_mwh_per_worker_county = industrial_mwh_county / industrial_workers_county
   ) %>%
-  select(co_name,
-         year,
-         commercial_mwh_per_worker_county,
-         industrial_mwh_per_worker_county) %>%
+  select(
+    co_name,
+    year,
+    commercial_mwh_per_worker_county,
+    industrial_mwh_per_worker_county
+  ) %>%
   pivot_longer(
     cols = c(
       "commercial_mwh_per_worker_county",

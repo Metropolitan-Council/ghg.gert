@@ -30,8 +30,10 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-  check_inputs("parking_lot_reduction_percentage",
-               .parking_lot_reduction_percentage)
+  check_inputs(
+    "parking_lot_reduction_percentage",
+    .parking_lot_reduction_percentage
+  )
 
   land_use <- dplyr::bind_rows(
     calc_carbon_sequestration_per_ctu(
@@ -50,10 +52,9 @@ run_scenario_land_use <- function(tb = land_use_data,
         values_to = "value"
       ) %>%
       dplyr::mutate(metric = "seq_mg_c_per_year") %>%
-      tidyr::unite('metric', c(metric_detail, metric), remove = FALSE) %>%
+      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
       dplyr::select(ctu_name, year, metric, value) %>%
       dplyr::mutate(detail = "sequestration"),
-
     calc_carbon_stock_per_ctu(
       tb = tb,
       .conservation_tillage_intervention = .conservation_tillage_intervention,
@@ -70,10 +71,9 @@ run_scenario_land_use <- function(tb = land_use_data,
         values_to = "value"
       ) %>%
       dplyr::mutate(metric = "stock_mg_c_per_ha") %>%
-      tidyr::unite('metric', c(metric_detail, metric), remove = FALSE) %>%
+      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
       dplyr::select(ctu_name, year, metric, value) %>%
       dplyr::mutate(detail = "stock")
-
   ) %>%
     dplyr::mutate(
       urban_form_scenario = .urban_form_scenario,
@@ -93,7 +93,7 @@ run_scenario_land_use <- function(tb = land_use_data,
       conservation_tillage_intervention,
       parking_lot_reduction_percentage,
     ) %>%
-    dplyr::summarise(value = sum(value), .groups = 'drop')
+    dplyr::summarise(value = sum(value), .groups = "drop")
 
   return(land_use_module_output)
 }

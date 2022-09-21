@@ -112,26 +112,26 @@ calc_conservation_tillage <- function(tb,
         dplyr::mutate(
           conservation_tillage_mg_c =
             (
-              agriculture_hectares_year_2040 * (current_conservation_tillage_percent*2) *
+              agriculture_hectares_year_2040 * (current_conservation_tillage_percent * 2) *
                 enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
                 enviro_factors$AGRI_LAND_CARBON_STOCK
             )
             + (agriculture_hectares_year_2040 * (
-                1 - (current_conservation_tillage_percent*2)
+                1 - (current_conservation_tillage_percent * 2)
               ))
               * enviro_factors$AGRI_LAND_CARBON_STOCK,
           carbon_stock_change_from_conservation_ag_mg_c =
 
             conservation_tillage_mg_c -
               bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
-          #tractor
+          # tractor
           reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
             (
               agriculture_hectares_year_2040 *
                 enviro_factors$AVOIDED_EMISSIONS_TRACTOR_USE *
-                ((current_conservation_tillage_percent*2) -
-                (current_conservation_tillage_percent))
-            )*-1
+                ((current_conservation_tillage_percent * 2) -
+                  (current_conservation_tillage_percent))
+            ) * -1
         )
     } else if (.conservation_tillage_intervention == "maximum_conservation_tillage") {
       baseline_bau %>%
@@ -142,15 +142,15 @@ calc_conservation_tillage <- function(tb,
                 enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
                 enviro_factors$AGRI_LAND_CARBON_STOCK
             ),
-            # + (
-            #     agriculture_hectares_year_2040 *
-            #       enviro_factors$AGRI_LAND_CARBON_STOCK
-            #   ),
+          # + (
+          #     agriculture_hectares_year_2040 *
+          #       enviro_factors$AGRI_LAND_CARBON_STOCK
+          #   ),
           carbon_stock_change_from_conservation_ag_mg_c =
 
             conservation_tillage_mg_c -
               bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare,
-          #tractor
+          # tractor
           reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year =
             (
               (agriculture_hectares_year_2040 *

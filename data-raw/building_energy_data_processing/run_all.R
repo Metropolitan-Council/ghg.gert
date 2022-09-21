@@ -5,7 +5,7 @@ library(purrr)
 library(ghg.sp)
 library(councilR)
 
-#import tables
+# import tables
 source("data-raw/building_energy_data_processing/naics_codes.R")
 source("data-raw/building_energy_data_processing/00_import_tables.R")
 
