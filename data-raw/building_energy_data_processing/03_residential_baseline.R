@@ -16,8 +16,10 @@ p_electricity_residential_ctu <-
   select(ctu_name, year, residential_mwh, residential_elec_emis_t_co2e) %>%
   group_by(ctu_name, year) %>%
   pivot_longer(
-    cols = c("residential_mwh",
-             "residential_elec_emis_t_co2e"),
+    cols = c(
+      "residential_mwh",
+      "residential_elec_emis_t_co2e"
+    ),
     names_to = "var"
   )
 

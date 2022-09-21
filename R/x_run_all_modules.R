@@ -1,4 +1,4 @@
-run_all_modules <- function(){
+run_all_modules <- function() {
   land_use <- run_scenario_land_use(
     tb = land_use_data,
     .urban_form_scenario = "bau",

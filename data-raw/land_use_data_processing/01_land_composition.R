@@ -39,9 +39,11 @@ p_land_composition_ctu <-
     ),
     by = c("ctu_name", "development_name", "year")
   ) %>%
-  dplyr::mutate(percent =
-                  hectares /
-                  total_hectares)
+  dplyr::mutate(
+    percent =
+      hectares /
+        total_hectares
+  )
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_by_development_type_sum_bau <-

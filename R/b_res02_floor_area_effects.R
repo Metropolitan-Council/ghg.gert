@@ -310,42 +310,42 @@ calc_floor_area_retrofit <- function(res_tb,
         new_weighted_mean_forecast =
           case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
-              weighted.mean(
-                c(
-                  year_2040,
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
-                  ),
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
-                  )
+            weighted.mean(
+              c(
+                year_2040,
+                year_2040 - (
+                  year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
                 ),
-                c(
-                  1 - proportion_existing_single_family_units,
-                  # new homes
-                  proportion_existing_single_family_units * .existing_home_retrofit_pct,
-                  # existing homes, retrofitted
-                  proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
-                ) # existing homes, ultra retrofitted
-              ),
-            var == "multifamily_average_floor_area_sqft_county" ~
-              weighted.mean(
-                c(
-                  year_2040,
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
-                  ),
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
-                  )
-                ),
-                # existing homes, ultra retrofitted
-                c(
-                  1 - proportion_existing_multifamily_units,
-                  proportion_existing_multifamily_units * .existing_home_retrofit_pct,
-                  proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
+                year_2040 - (
+                  year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
                 )
+              ),
+              c(
+                1 - proportion_existing_single_family_units,
+                # new homes
+                proportion_existing_single_family_units * .existing_home_retrofit_pct,
+                # existing homes, retrofitted
+                proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
+              ) # existing homes, ultra retrofitted
+            ),
+            var == "multifamily_average_floor_area_sqft_county" ~
+            weighted.mean(
+              c(
+                year_2040,
+                year_2040 - (
+                  year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+                ),
+                year_2040 - (
+                  year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                )
+              ),
+              # existing homes, ultra retrofitted
+              c(
+                1 - proportion_existing_multifamily_units,
+                proportion_existing_multifamily_units * .existing_home_retrofit_pct,
+                proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
               )
+            )
           )
       )
 

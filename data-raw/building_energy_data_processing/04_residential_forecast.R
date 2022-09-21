@@ -7,21 +7,23 @@ p_ctu_residential_electricity_forecast <-
   ungroup() %>%
   select(-c(year)) %>%
   bind_rows(p_ctu_characteristics_forecast %>%
-              select(-c(year)) %>%
-              filter(
-                var %in% c(
-                  "SFD_Units",
-                  "single_family_average_floor_area_sqft_ctu",
-                  "MF_Units",
-                  "multifamily_average_floor_area_sqft_county"
-                )
-              )) %>%
-  pivot_wider(names_from = "var",
-              values_from = "value",
-              values_fn = mean) %>%
+    select(-c(year)) %>%
+    filter(
+      var %in% c(
+        "SFD_Units",
+        "single_family_average_floor_area_sqft_ctu",
+        "MF_Units",
+        "multifamily_average_floor_area_sqft_county"
+      )
+    )) %>%
+  pivot_wider(
+    names_from = "var",
+    values_from = "value",
+    values_fn = mean
+  ) %>%
   mutate(residential_kwh_per_floor_area_forecast = kwh_per_floor_area * 0.8) %>%
   mutate(total_residential_kwh_forecast = (((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                              (MF_Units * multifamily_average_floor_area_sqft_county)
+    (MF_Units * multifamily_average_floor_area_sqft_county)
   ) * residential_kwh_per_floor_area_forecast)) %>%
   mutate(year = 2040) %>%
   select(
@@ -46,7 +48,7 @@ p_residential_natural_gas_forecast_ctu <-
   ungroup() %>%
   select(-c(year)) %>%
   bind_rows(., p_ctu_characteristics_forecast %>%
-              select(-c(year))) %>%
+    select(-c(year))) %>%
   dplyr::group_by(ctu_name, var) %>%
   dplyr::distinct() %>%
   pivot_wider(names_from = "var", values_from = "value") %>%
@@ -54,7 +56,7 @@ p_residential_natural_gas_forecast_ctu <-
   mutate(residential_therms_per_floor_area_forecast = therms_per_floor_area * 1) %>%
   mutate(
     total_residential_therms_forecast = (((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                            (MF_Units * multifamily_average_floor_area_sqft_county)
+      (MF_Units * multifamily_average_floor_area_sqft_county)
     ) * residential_therms_per_floor_area_forecast)
   ) %>%
   mutate(year = 2040) %>%
@@ -75,6 +77,7 @@ p_residential_natural_gas_forecast_ctu <-
 
 ## ---- compile residential energy use forecast ----
 p_ctu_residential_energy_forecast <-
-  bind_rows(p_ctu_residential_electricity_forecast,
-            p_residential_natural_gas_forecast_ctu)
-
+  bind_rows(
+    p_ctu_residential_electricity_forecast,
+    p_residential_natural_gas_forecast_ctu
+  )

@@ -30,7 +30,6 @@
 #'   .electrified_buildings_pct = 0.40,
 #'   .non_res_natural_gas_for_water_heating_pct = 0.20,
 #'   .non_res_natural_gas_for_space_heating_pct = 0.69,
-
 #'   .commercial_smart_grid_pct = 1.00,
 #'   .industrial_smart_grid_pct = 1.00,
 #'   .smart_grid_energy_reduction_pct = 1.00,
@@ -59,7 +58,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .electrified_buildings_pct = 0.40,
                                   .non_res_natural_gas_for_water_heating_pct = 0.20,
                                   .non_res_natural_gas_for_space_heating_pct = 0.69,
-
                                   # smartgrid
                                   .commercial_smart_grid_pct = 1.00,
                                   .industrial_smart_grid_pct = 1.00,

@@ -29,26 +29,30 @@ p_employees_by_type_state <-
   t_state_qcew %>%
   filter(year == 2018) %>%
   select(state_name, year, naicstitle, emp) %>%
-  mutate(type =
-           case_when(
-             (
-               naicstitle %in% c("Natural Resources and Mining",
-                                 "Construction",
-                                 "Manufacturing")
-             ) ~ "industrial_employees_state",
-             (
-               naicstitle %in% c(
-                 "Trade, Transportation and Utilities",
-                 "Information",
-                 "Financial Activities",
-                 "Professional and Business Services",
-                 "Education and Health Services",
-                 "Leisure and Hospitality",
-                 "Other Services",
-                 "Public Administration"
-               )
-             ) ~ "commercial_employees_state"
-           )) %>%
+  mutate(
+    type =
+      case_when(
+        (
+          naicstitle %in% c(
+            "Natural Resources and Mining",
+            "Construction",
+            "Manufacturing"
+          )
+        ) ~ "industrial_employees_state",
+        (
+          naicstitle %in% c(
+            "Trade, Transportation and Utilities",
+            "Information",
+            "Financial Activities",
+            "Professional and Business Services",
+            "Education and Health Services",
+            "Leisure and Hospitality",
+            "Other Services",
+            "Public Administration"
+          )
+        ) ~ "commercial_employees_state"
+      )
+  ) %>%
   group_by(state_name, year, type) %>%
   summarise(value = sum(emp), .groups = "keep") %>%
   rename(var = type)
@@ -56,8 +60,10 @@ p_employees_by_type_state <-
 
 ## ---- estimate energy intensity of worker at the state scale -------
 p_mwh_per_worker_state <-
-  bind_rows(p_electricity_consumption_by_customer_class_state,
-            p_employees_by_type_state) %>%
+  bind_rows(
+    p_electricity_consumption_by_customer_class_state,
+    p_employees_by_type_state
+  ) %>%
   pivot_wider(values_from = "value", names_from = "var") %>%
   mutate(
     commercial_mwh_per_worker_state = (
@@ -98,8 +104,10 @@ p_natural_gas_consumption_by_customer_class_state <-
 
 ## ---- obtain therms/worker (commercial/industrial) at the state scale ------
 p_therms_per_worker_state <-
-  bind_rows(p_natural_gas_consumption_by_customer_class_state,
-            p_employees_by_type_state) %>%
+  bind_rows(
+    p_natural_gas_consumption_by_customer_class_state,
+    p_employees_by_type_state
+  ) %>%
   pivot_wider(values_from = "value", names_from = "var") %>%
   mutate(
     commercial_therms_per_worker_state = (((natural_gas_commercial_consumption_mmcf * 1e+6) * 0.01
