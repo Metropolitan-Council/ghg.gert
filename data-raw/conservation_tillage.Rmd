@@ -122,7 +122,7 @@ if (process_usda == TRUE) {
     ) %>%
     ungroup() %>%
     select(co_name, county_code, current_conservation_tillage_percent) %>%
-    rename(county_id = county_code)
+    rename(co_code = county_code)
   save(usda_data, file = paste0(here::here(), "/data/usda_data.rda"))
 } else {
   load(paste0(here::here(), "/data/usda_data.rda"))
