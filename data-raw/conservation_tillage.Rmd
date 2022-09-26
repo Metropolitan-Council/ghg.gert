@@ -100,8 +100,8 @@ if (process_usda == TRUE) {
   usda_data <- mn_conservation_tillage_raw %>%
     mutate(Value = as.numeric(gsub(",", "", Value))) %>%
     filter(prodn_practice_desc != "COVER CROP PLANTED, (EXCL CRP)") %>%
-    select(county_name, prodn_practice_desc, Value) %>%
-    group_by(county_name) %>%
+    select(county_name, county_code, prodn_practice_desc, Value) %>%
+    group_by(county_name, county_code) %>%
     mutate(
       total_acres = sum(Value),
       percent = Value / total_acres
@@ -113,7 +113,7 @@ if (process_usda == TRUE) {
       ),
     "conservation tillage", "conventional"
     )) %>%
-    group_by(county_name, tillage) %>%
+    group_by(county_name, county_code, tillage) %>%
     summarise(current_conservation_tillage_percent = sum(percent), .groups = "keep") %>%
     filter(tillage == "conservation tillage") %>%
     mutate(
@@ -121,7 +121,8 @@ if (process_usda == TRUE) {
       co_name = stringr::str_to_title(county_name)
     ) %>%
     ungroup() %>%
-    select(co_name, current_conservation_tillage_percent)
+    select(co_name, county_code, current_conservation_tillage_percent) %>%
+    rename(county_id = county_code)
   save(usda_data, file = paste0(here::here(), "/data/usda_data.rda"))
 } else {
   load(paste0(here::here(), "/data/usda_data.rda"))
