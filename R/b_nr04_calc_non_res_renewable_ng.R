@@ -5,6 +5,7 @@
 #' @description Calculates the impact of transitioning to
 #'     renewable natural gas on greenhouse gas emissions by city/township for the
 #'     specified scenario.
+#'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @return [tibble::tibble()]
 #' @export

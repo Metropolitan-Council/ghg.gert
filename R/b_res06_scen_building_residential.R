@@ -4,6 +4,7 @@
 #' @description Calculates the effect of the residential building
 #'     strategies within the building energy module.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
+#'     For more details, see `vignette("building_energy_module_inputs_residential")`
 #'
 #' @param res_tb [tibble::tibble()], data table with residential building attributes.
 #'      Package provided dataset `building_energy$residential` is suitable and the

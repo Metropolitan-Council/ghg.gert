@@ -5,6 +5,7 @@
 #' @description Calculates the effect of electrifying
 #'     commercial buildings on greenhouse gas emissions by city/township
 #'     for the specified scenario.
+#'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @inheritParams run_scenario_building
 #' @param .electrified_buildings_pct numeric,  a value between `0` and `1`.

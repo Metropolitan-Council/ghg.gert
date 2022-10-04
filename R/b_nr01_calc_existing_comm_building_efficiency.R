@@ -6,6 +6,7 @@
 #'      emissions from implementing high energy efficiency retrofits to existing buildings.
 #'      Given that the main determinant of energy efficiency is the number of workers, this
 #'      function reduces the number of workers.
+#'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @param .existing_high_efficiency_buildings_pct numeric,
 #'      a value between `0` and 1.

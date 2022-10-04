@@ -5,6 +5,7 @@
 #' @description compiles all the strategies related to
 #' non-residential buildings.
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
+#'     For more details, see `vignette("building_energy_module_inputs_non_residential")`
 #'
 #' @inheritParams calc_existing_comm_building_efficiency
 #' @inheritParams calc_ghg_non_residential

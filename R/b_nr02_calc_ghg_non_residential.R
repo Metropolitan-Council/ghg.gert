@@ -4,7 +4,9 @@
 #' @family emissions
 #'
 #' @description Calculates total energy demand and emissions from
-#' workers for industrial and commercial sectors by city/township for the specified scenario.
+#'     workers for industrial and commercial sectors by city/township for
+#'     the specified scenario.
+#'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
