@@ -166,6 +166,9 @@ calc_electrify_commercial_heating(
 
 #### Strategy B.C5 Renewable Natual Gas
 
+The main function involved in this strategy is
+`calc_non_res_renewable_ng()`
+
 ```{r}
 calc_non_res_renewable_ng(
   non_res_tb = calc_ghg_non_residential(
