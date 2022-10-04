@@ -60,7 +60,9 @@ Match what the user input for sales in the final forecast year rather
 than the defaults from MA3TFleet held fixed in all cases.
 AV/DRS scenarios adjust the sales
 total up, but they adjust the existing stock down to match total stock
-in each year.\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
+in each year.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
 Distribute personal vehicle VMT between the different powertrains.
 Ratio of vehicle stocks by powertrain type.
 If the user inputs a different percent for BEV, update vehicles by existing
@@ -81,7 +83,7 @@ If
 DRS, AV, estimated sales,
 and existing vehicles to estimate future stock. Freight data is dependent on passenger
 data,
-}
+}\if{html}{\out{</div>}}
 }
 \note{
 This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.

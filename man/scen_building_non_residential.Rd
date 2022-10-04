@@ -65,7 +65,9 @@ Default is \code{0.8}.}
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with columns \code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
-The output of the non-residential portion of the Building Energy Module of the.\preformatted{ @field ctu_name character, Name of the city/township.
+The output of the non-residential portion of the Building Energy Module of the.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field ctu_name character, Name of the city/township.
  @field year, numeric, Year.
  @field var character, one of `commercial_mwh`, `industrial_mwh`,
      `commercial_therms`, `industrial_therms`,
@@ -76,7 +78,7 @@ The output of the non-residential portion of the Building Energy Module of the.\
      or `total_industrial_commercial_emissions`.
  @field value, numeric. The numeric value of `var`.
  @field scen, character. One of  `bau` or `scenario`
-}
+}\if{html}{\out{</div>}}
 }
 \description{
 compiles all the strategies related to
