@@ -86,6 +86,7 @@ non-residential buildings.
 }
 \note{
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
+For more details, see \code{vignette("building_energy_module_inputs_non_residential")}
 }
 \examples{
 \dontrun{

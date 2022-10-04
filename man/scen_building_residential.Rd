@@ -97,6 +97,7 @@ strategies within the building energy module.
 }
 \note{
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
+For more details, see \code{vignette("building_energy_module_inputs_residential")}
 }
 \examples{
 \dontrun{

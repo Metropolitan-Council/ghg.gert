@@ -44,6 +44,7 @@ to reflect building electrification.
 Calculates the effect of electrifying
 commercial buildings on greenhouse gas emissions by city/township
 for the specified scenario.
+For more details, see \code{vignette("building_energy_module_outputs_non_residential")}
 }
 \examples{
 \dontrun{

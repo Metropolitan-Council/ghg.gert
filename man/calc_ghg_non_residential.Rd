@@ -36,7 +36,9 @@ pecified scenario. Default is \code{1}.}
 }
 \description{
 Calculates total energy demand and emissions from
-workers for industrial and commercial sectors by city/township for the specified scenario.
+workers for industrial and commercial sectors by city/township for
+the specified scenario.
+For more details, see \code{vignette("building_energy_module_outputs_non_residential")}
 }
 \examples{
 \dontrun{

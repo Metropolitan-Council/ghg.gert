@@ -13,6 +13,7 @@ calc_non_res_renewable_ng(non_res_tb, .enviro_factors = .enviro_factors)
 Calculates the impact of transitioning to
 renewable natural gas on greenhouse gas emissions by city/township for the
 specified scenario.
+For more details, see \code{vignette("building_energy_module_outputs_non_residential")}
 }
 \note{
 \code{calc_non_res_renewable_ng()} is called within \code{scen_building_non_residential()}

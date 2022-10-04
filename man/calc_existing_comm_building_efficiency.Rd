@@ -25,6 +25,7 @@ Helps to calculate the reduced
 emissions from implementing high energy efficiency retrofits to existing buildings.
 Given that the main determinant of energy efficiency is the number of workers, this
 function reduces the number of workers.
+For more details, see \code{vignette("building_energy_module_outputs_non_residential")}
 }
 \examples{
 \dontrun{
