@@ -159,7 +159,7 @@ This strategy assumes that all homes receive effective messages which encourage 
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_behavior_change()`. 
 
-**Note**: Strategy B.R7 is based on the outputs (if any) from strategies B.R5 and B.R6.  
+**Note**: Strategy B.R7 is dependent on the outputs (if any) from strategies B.R5 and B.R6.  
 
 ```{r}
 ghg.sp::calc_floor_area_behavior_change(

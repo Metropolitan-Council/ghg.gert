@@ -19,7 +19,6 @@ library(councilR)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
-library(tidyverse)
 
 `%not_in%` <- Negate(`%in%`)
 
