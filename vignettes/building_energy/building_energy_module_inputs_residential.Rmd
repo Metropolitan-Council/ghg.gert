@@ -1,5 +1,5 @@
 ---
-title: "building_energy_module_inputs_residential"
+title: "Building Energy Inputs - Residential"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{building_energy_module_inputs_residential}
@@ -33,8 +33,6 @@ The R scripts to produce `building_data.rda` can be found on the `/data-raw` fol
 The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
 database, on the Council's Microsoft SQL Server. 
 
-The following chunk shows the names of the tables contained in `building_data.rda` dataset.
-
 ```{r}
 names(building_data)
 ```
@@ -42,8 +40,7 @@ names(building_data)
 As seen above, the `building_data` dataset contains two tables. 
 `residential` and `non_residential`.
 
-These two tables contain all the key variables necessary to run the functions of the building
-energy module. 
+These two tables contain all the key variables necessary to run the functions of the building energy module. 
 
 Next, we will go in depth on the two main tables of `building_data.rda`
 
@@ -57,7 +54,7 @@ The `ghg.sp::run_scenario_building()` function compiles all of the strategies fo
 * `ghg.sp::scen_building_commercial()`
 
 
-Each of these functions, in turn call sequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
+Each of these functions, in turn call subsequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
 
 ### Residential Energy
 

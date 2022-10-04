@@ -1,5 +1,5 @@
 ---
-title: "building_energy_module_outputs_residential"
+title: "Building Energy Outputs - Residential"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{building_energy_module_outputs_residential}

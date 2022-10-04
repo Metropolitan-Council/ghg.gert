@@ -1,5 +1,5 @@
 ---
-title: "building_energy_module_inputs_non_residential"
+title: "Building Energy Inputs - Non-residential"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{building_energy_module_inputs_non_residential}
@@ -18,15 +18,12 @@ library(dplyr)
 
 ## Source Datasets
 
-The `building_data.rda` is a preloaded dataset that includes cleaned tables to 
+The `building_data.rda` is a preloaded dataset that includes cleaned datasets to 
 run the building energy module of the `ghg.sp` package. 
 
-The R scripts to clean and produce `building_data.rda` can be found on the `/data-raw` folder of the `ghg.sp` package.
+The R scripts to produce `building_data.rda` can be found on the `/data-raw` folder of the `ghg.sp` package.
 
-The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
-database, on the Council's Microsoft SQL Server. 
-
-The following chunk shows the names of the tables contained in `building_data.rda` dataset.
+The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions` database, on the Council's Microsoft SQL Server. 
 
 ```{r}
 names(building_data)
@@ -35,8 +32,7 @@ names(building_data)
 As seen above, the `building_data` dataset contains two tables. 
 `residential` and `non_residential`.
 
-These two tables contain all the key variables necessary to run the functions of the building
-energy module, with the exception of a few user-defined arguments. 
+These two tables contain all the key variables necessary to run the functions of the building energy module. 
 
 Next, we will go in depth on the two main tables of `building_data.rda`
 
@@ -50,14 +46,14 @@ The `ghg.sp::run_scenario_building()` function compiles all of the strategies fo
 * `ghg.sp::scen_building_commercial()`
 
 
-Each of these functions, in turn call sequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
+Each of these functions, in turn call subsequent functions to obtain the estimate of greenhouse gas emissions under the scenarios specified by the end-user.
+
 
 ### Non-Residential Energy 
 
-The following chunk prints the key input variables for the commercial/industrial strategies 
-under the building energy module. 
+The following chunk prints the key input variables for the commercial/industrial strategies under the building energy module. 
 
-```{r}
+```{r building}
 building_data$non_residential %>% 
   dplyr::filter(ctu_name == "Minneapolis") %>%
   tidyr::pivot_wider(names_from = year, values_from = value) %>%
@@ -67,8 +63,7 @@ building_data$non_residential %>%
 ```
 
 #### Non-Residential Variables
-<!--  TABLE STARTS HERE -->
-```{r}
+
+```{r table-non-residential-variables}
 non_residential_variables
 ```
-<!--  TABLE ENDS HERE -->
