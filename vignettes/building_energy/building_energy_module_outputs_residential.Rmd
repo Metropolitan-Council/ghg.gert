@@ -68,7 +68,7 @@ ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
 
 #### Strategy B.R3: Make New Homes LEED-Gold
 
-This strategy calculates the effect of 50% of new homes being constructed to LEED Gold standards.
+This strategy calculates the effect of 50% of new homes being constructed to [LEED Gold](https://www.usgbc.org/leed) standards.
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_leed()` which allows to specify the number of new homes to turn into LEED Gold. 
 
