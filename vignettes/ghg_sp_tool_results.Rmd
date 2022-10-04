@@ -22,8 +22,8 @@ library(ggplot2)
 
 # Building Energy Module 
 
-In this chunk, I am running the outputs of the building energy module for the city of Minnneapolis using only the default parameters. 
-```{r}
+In this chunk, I am running the outputs of the building energy module for the city of Minneapolis using only the default parameters. 
+```{r minneapolis-building-energy}
 minneapolis_building_energy <-
   run_scenario_building(
     res_tb = building_data$residential,
@@ -52,13 +52,12 @@ minneapolis_building_energy <-
   ) %>%
   dplyr::filter(ctu_name == "Minneapolis")
 ```
-printing the outputs of the previous step in a table format
-```{r}
+
+```{r table-minneapolis-building-energy}
 minneapolis_building_energy
 ```
 
-creating the static stacked bar chart
-```{r}
+```{r plot-minneapolis-building-energy}
 minneapolis_building_energy_mwh <- 
   minneapolis_building_energy %>%
   ungroup %>%
