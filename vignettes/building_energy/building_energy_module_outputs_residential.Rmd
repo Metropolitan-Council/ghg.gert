@@ -95,7 +95,7 @@ ghg.sp::calc_floor_area_leed(
 
 #### Strategy B.R4: Retrofit Existing Homes to High Energy Efficiency
 
-This strategy focuses on existing homes and assumes *80%* of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by *33%*, which is mid-way between the trends in EUI already seen, and a passive-house standard. Most of these cases have on-site energy use for renewable electricity, so they conflate renewable electricity with efficiency. 
+This strategy focuses on existing homes and assumes *80%* of them are retrofitted to performance-based high energy efficiency standards, which reduce energy use by *33%*. This is a middle path between LEED Gold and between the trends in EUI already seen, and a passive-house standard.  Most of these cases have on-site energy use for renewable electricity, so they conflate renewable electricity with efficiency. 
 
 The main function involved in this strategy is `ghg.sp::calc_floor_area_retrofit()` which allows to specify the number of existing homes to be retrofit. 
 
