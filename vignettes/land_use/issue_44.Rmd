@@ -1,8 +1,8 @@
 ---
-title: "issue_44"
+title: "Land Use Examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{issue_44}
+  %\VignetteIndexEntry{land_use_examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -28,7 +28,7 @@ library(dplyr)
 The `building_data.rda` is a preloaded dataset that includes cleaned datasets to 
 run the building energy module of the `ghg.sp` package. 
 
-The R scripts to produce `building_data.rda` can be found on the `/raw-data` folder of the `ghg.sp` package.
+The R scripts to produce `building_data.rda` can be found on the `/data-raw` folder of the `ghg.sp` package.
 
 The source tables for producing the `building_data.rda` are stored in the Metropolitan Council `Emissions`
 database, on the Council's Microsoft SQL Server. 
