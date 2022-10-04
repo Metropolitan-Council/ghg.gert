@@ -133,7 +133,7 @@ calc_ghg_non_residential <- function(non_res_tb,
       grid_decarb = 0,
       commercial_smart_grid_pct = 1,
       industrial_smart_grid_pct = 1,
-      smart_grid_decarb = 1
+      smart_grid_decarb = 0
     )
   emis_strategy <-
     emis(

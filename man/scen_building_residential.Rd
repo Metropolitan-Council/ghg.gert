@@ -80,14 +80,16 @@ buildings.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
-\code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.\preformatted{ @field `ctu_name` character,  Name of the city/township.
+\code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `ctu_name` character,  Name of the city/township.
  @field `year` numeric, Year.
  @field `var` character,. Can be `residential_mwh`, `residential_therms`,
       `residential_electricity_emissions_kg_co`,
       or `residential_natural_gas_emissions_kg_co`.
  @field value, numeric. The numeric value of `var`.
  @field scen, character. One of  `bau` or `scenario`
-}
+}\if{html}{\out{</div>}}
 }
 \description{
 Calculates the effect of the residential building

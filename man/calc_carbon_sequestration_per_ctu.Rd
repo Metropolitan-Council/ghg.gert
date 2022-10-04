@@ -19,7 +19,8 @@ calc_carbon_sequestration_per_ctu(
 }
 \description{
 Calculates the total carbon sequestration
-per hectares by land cover type by city/township.
+as megagrams of carbon
+per hectare by land cover type by city/township.
 }
 \examples{
 \dontrun{
