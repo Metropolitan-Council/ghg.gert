@@ -243,7 +243,7 @@ land_use_data$scenario_parameters
 ```{r echo=FALSE}
 if (nrow(
   land_use_data$land_cover_percentages_filled %>% 
-  group_by(ctu_name, description_2) %>%
+  group_by(ctu_name, land_use_description) %>%
   summarise(sum = sum(land_cover_percent, na.rm = T), .groups = "keep") %>%
   filter(round(sum,3) %not_in% c(0,1))
 ) > 0) {
@@ -305,7 +305,7 @@ sense as-is or is some post-processing in order?*
 
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = description_2, y = land_cover_percent, fill = land_cover_description_2)) +
+  ggplot(aes(x = land_use_description, y = land_cover_percent, fill = land_cover_description_2)) +
   geom_bar(stat = "identity") +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
@@ -338,7 +338,7 @@ land_use_data$land_cover_percentages_filled %>%
 
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = description_2, y = percent_land_cover_type, fill = land_cover_description_2)) +
+  ggplot(aes(x = land_use_description, y = percent_land_cover_type, fill = land_cover_description_2)) +
   geom_bar(stat = "identity") +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
@@ -385,7 +385,7 @@ answered and/or data updates made.
 
 land_use_data$land_cover_percentages_filled %>%
   full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
-  ggplot(aes(x = description_2, 
+  ggplot(aes(x = land_use_description, 
              y = land_cover_percent, 
              col = land_cover_description_2, 
              group = ctu_name)) +
@@ -479,7 +479,7 @@ on land cover/uses which make up 5% or more of the land base.
 
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = as.character(year), y = percent, fill = description_2)) +
+  ggplot(aes(x = as.character(year), y = percent, fill = land_use_description)) +
   geom_bar(stat = "identity") +
   facet_wrap(~development_name) +
   theme_council_open() +
@@ -490,7 +490,7 @@ land_use_data$land_composition_ctu %>%
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo",
                 percent >= .05) %>%
-  ggplot(aes(x = as.character(year), y = percent, fill = description_2)) +
+  ggplot(aes(x = as.character(year), y = percent, fill = land_use_description)) +
   geom_bar(stat = "identity") +
   facet_wrap(~development_name) +
   theme_council_open() +
@@ -514,7 +514,7 @@ land_use_data$land_composition_ctu %>%
 
 1)  Brooklyn Center is showing up twice in this
     `land_use_data$land_composition_ctu` database. Please update so
-    there's only one value for each year/development_name/description_2
+    there's only one value for each year/development_name/land_use_description
     for Brooklyn Center so that we know which value to refer to! As an
     FYI, Brooklyn Center *is* "falling out" of the analysis at later
     steps because of this issue - once there is only one entry for
@@ -524,7 +524,7 @@ land_use_data$land_composition_ctu %>%
 ```{r echo=FALSE}
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -percent) %>%
-  dplyr::group_by(ctu_name, development_name, description_2, year) %>%
+  dplyr::group_by(ctu_name, development_name, land_use_description, year) %>%
   dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
   dplyr::filter(n > 1L) %>%
   head()
@@ -553,12 +553,12 @@ Q14: So EXCLUDING Brooklyn Center and looking at all other communities
 
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -hectares) %>%
-  filter(ctu_name != "Brooklyn Center") %>% #filter(description_2 == "farmstead") %>%
+  filter(ctu_name != "Brooklyn Center") %>% #filter(land_use_description == "farmstead") %>%
   pivot_wider(names_from = year, values_from = percent) %>%
   mutate(change = `2040` - `2016`) %>%
   filter(abs(change) >= .05) %>%
   left_join(comdes, by = "ctu_name") %>%
-  ggplot(aes(x = description_2, y = change, col = comdes, group = ctu_name)) +
+  ggplot(aes(x = land_use_description, y = change, col = comdes, group = ctu_name)) +
   geom_point(alpha = 0.5)+
   facet_wrap(~development_name, scales = "free") +
   coord_flip() +
@@ -580,7 +580,7 @@ land_use_data$land_composition_ctu %>%
     of farmstead was zero in 2016. The below table is showing the change
     in number of hectares of farmstead land cover/use.
 
-`` {r}land_use_data$land_composition_ctu %>%}   select(-total_hectares, -percent) %>%   filter(ctu_name != "Brooklyn Center") %>% filter(description_2 == "farmstead") %>%   pivot_wider(names_from = year, values_from = hectares) %>%   mutate(change = `2040` - `2016`) %>%   filter(abs(change) >= .05, `2016` == 0) %>%   left_join(comdes, by = "ctu_name") %>%   rename(`2016 hectares` = `2016`,          `2040 hectares` = `2040`,          change_hectares = change) ``
+`` {r}land_use_data$land_composition_ctu %>%}   select(-total_hectares, -percent) %>%   filter(ctu_name != "Brooklyn Center") %>% filter(land_use_description == "farmstead") %>%   pivot_wider(names_from = year, values_from = hectares) %>%   mutate(change = `2040` - `2016`) %>%   filter(abs(change) >= .05, `2016` == 0) %>%   left_join(comdes, by = "ctu_name") %>%   rename(`2016 hectares` = `2016`,          `2040 hectares` = `2040`,          change_hectares = change) ``
 
 > Q14 ML Response on 7/27/2022: **The categories Urban Expansion, Urban
 > Infill, and Exurban Development are not scenarios of any kind, what
@@ -731,7 +731,7 @@ infill*.
 
 *Q17: why do the values for multifamily differ between the
 `multifamily_mixed_area` and `land_composition_ctu` tables (where
-description_2 == "multifamily" and year == "2040" for the
+land_use_description == "multifamily" and year == "2040" for the
 land_composition_ctu table)? It would be good to have a describe how/why
 these two things are different (I'm not sure I know), or maybe an update
 to the database is needed.*
@@ -742,11 +742,11 @@ land_use_data$multifamily_mixed_area  %>%
   # left_join(comdes, by = "ctu_name")  %>%
   full_join(
     land_use_data$land_composition_ctu %>%
-      filter(str_detect(description_2, "multi")) %>%
+      filter(str_detect(land_use_description, "multi")) %>%
       filter(year == 2040) %>%
       rename(land_composition_ctu__multifamily2040__hectares = hectares)
   ) %>%
-  select(-description_2, -total_hectares, -percent, -year) %>%
+  select(-land_use_description, -total_hectares, -percent, -year) %>%
   filter(ctu_name == "Lake Elmo")
 ```
 
@@ -894,7 +894,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = development_name, y = scenario_hectares, fill = description_2)) + 
+  ggplot(aes(x = development_name, y = scenario_hectares, fill = land_use_description)) + 
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +
@@ -937,7 +937,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = description_2, y = land_cover_land_use_hectares, fill = land_cover_description_2)) + 
+  ggplot(aes(x = land_use_description, y = land_cover_land_use_hectares, fill = land_cover_description_2)) + 
   geom_bar(stat = "identity") +
   facet_wrap(year~scenario_description_2) +
   theme_council_open() +

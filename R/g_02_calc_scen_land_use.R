@@ -47,7 +47,7 @@ calc_scen_land_use <- function(tb,
     base::merge(
       .,
       # tb$land_composition_ctu %>%
-      #   group_by(ctu_name, development_name, description_2) %>%
+      #   group_by(ctu_name, development_name, land_use_description) %>%
       #   pivot_longer(cols = c("hectares", "total_hectares", "percent")) %>%
       #   pivot_wider(names_from = c("name", "year"), values_from = "value", names_sep = ".", values_fn = sum)
 
@@ -63,7 +63,7 @@ calc_scen_land_use <- function(tb,
       scenario_hectares =
         dplyr::case_when(
           (
-            description_2 %in% c(
+            land_use_description %in% c(
               "multifamily",
               "mixed_use_residential",
               "mixed_use_industrial",
@@ -72,10 +72,10 @@ calc_scen_land_use <- function(tb,
           ) ~ ((hectares + ((percent * scenario_total) - hectares
           )) * luse_scenario_params$urban_expansion_relative_to_bau
             + (scenario_mixed_use_mf_new / 4)),
-          (description_2 == "park_recreational_or_preserve") ~
+          (land_use_description == "park_recreational_or_preserve") ~
           ((hectares + ((percent * scenario_total) - hectares))
           * luse_scenario_params$urban_expansion_relative_to_bau),
-          description_2 %in% c(
+          land_use_description %in% c(
             "agricultural",
             "airport",
             "extractive",
@@ -103,13 +103,13 @@ calc_scen_land_use <- function(tb,
     dplyr::select(c(
       "ctu_name",
       "development_name",
-      "description_2",
+      "land_use_description",
       "scenario_hectares"
     )) %>%
     dplyr::group_by(
       ctu_name,
       development_name,
-      description_2
+      land_use_description
     ) %>%
     dplyr::summarise(
       scenario_hectares = sum(scenario_hectares),
