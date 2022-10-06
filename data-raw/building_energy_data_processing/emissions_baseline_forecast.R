@@ -90,7 +90,7 @@ p_forecast_fin <-
     natural_gas_emissions_kg_co2e =
       ((total_residential_therms_forecast) +
         (
-          commerical_ng_therms_forecast +
+          commercial_ng_therms_forecast +
             industrial_ng_therms_forecast
         )
       ) * v_kg_co2e_per_therm_forecast_bau

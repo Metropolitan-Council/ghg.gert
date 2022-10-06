@@ -219,9 +219,9 @@ calc_vmt_forecast <- function(.scenario,
           left_join(phev_proportion) %>%
           mutate(miles_traveled = case_when(
             .phev_electric == TRUE ~
-              miles_traveled * phev_prop_electric,
+            miles_traveled * phev_prop_electric,
             .phev_electric == FALSE ~
-              miles_traveled * (1 - phev_prop_electric)
+            miles_traveled * (1 - phev_prop_electric)
           )) %>%
           select(names(tb_vmt))
       }

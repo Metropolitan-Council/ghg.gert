@@ -1,7 +1,8 @@
 #' @title Run land use scenario
 #' @family land use
 #'
-#' @inheritParams scen_green_infrastructure
+#' @inheritParams calc_carbon_sequestration_per_ctu
+#' @inheritParams calc_carbon_stock_per_ctu
 #'
 #' @export
 #'
@@ -14,10 +15,7 @@
 #'   .urban_form_scenario = "bau",
 #'   .conservation_tillage_intervention = "current_conservation_tillage",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
-#'   .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
 #'   .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-#'   .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-#'   .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247,
 #'   .parking_lot_reduction_percentage = 0.8,
@@ -27,34 +25,75 @@
 run_scenario_land_use <- function(tb = land_use_data,
                                   .urban_form_scenario = "bau",
                                   .conservation_tillage_intervention = "current_conservation_tillage",
-                                  .tree_planting_intervention = "tree_planting_on_all_pervious",
-                                  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-                                  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
-                                  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-                                  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
+                                  .tree_planting_intervention = "match_la_million_trees_goal",
                                   .tree_planting_per_capita = 0.26,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-  check_inputs("parking_lot_reduction_percentage", .parking_lot_reduction_percentage)
-
-  land_use <- scen_green_infrastructure(
-    tb = tb,
-    detail = detail,
-    .urban_form_scenario = .urban_form_scenario,
-    .conservation_tillage_intervention = .conservation_tillage_intervention,
-    .agricultural_land_carbon_stock_mg_c_per_hectare = .agricultural_land_carbon_stock_mg_c_per_hectare,
-    .w2w_diesel_emission_factor_kg_co2e_per_gal = .w2w_diesel_emission_factor_kg_co2e_per_gal,
-    .avoided_emissions_tractor_use_mg_co2e_per_hectare = .avoided_emissions_tractor_use_mg_co2e_per_hectare,
-    .maximum_soc_accumation_under_reduced_or_no_till_ag = .maximum_soc_accumation_under_reduced_or_no_till_ag,
-    .tree_planting_intervention = .tree_planting_intervention,
-    .tree_planting_per_capita = .tree_planting_per_capita,
-    .tree_planting_per_hectare = .tree_planting_per_hectare,
-    .parking_lot_reduction_percentage = .parking_lot_reduction_percentage
+  check_inputs(
+    "parking_lot_reduction_percentage",
+    .parking_lot_reduction_percentage
   )
 
+  land_use <- dplyr::bind_rows(
+    calc_carbon_sequestration_per_ctu(
+      tb = tb,
+      .urban_form_scenario = .urban_form_scenario,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare,
+      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      detail = detail
+    ) %>%
+      dplyr::rename(year = year.2040) %>%
+      tidyr::pivot_longer(
+        cols = -c(ctu_name, year),
+        names_to = "metric_detail",
+        values_to = "value"
+      ) %>%
+      dplyr::mutate(metric = "seq_mg_c_per_year") %>%
+      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
+      dplyr::select(ctu_name, year, metric, value) %>%
+      dplyr::mutate(detail = "sequestration"),
+    calc_carbon_stock_per_ctu(
+      tb = tb,
+      .conservation_tillage_intervention = .conservation_tillage_intervention,
+      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare,
+      .urban_form_scenario = .urban_form_scenario,
+      detail = detail
+    ) %>%
+      tidyr::pivot_longer(
+        cols = -c(ctu_name, year),
+        names_to = "metric_detail",
+        values_to = "value"
+      ) %>%
+      dplyr::mutate(metric = "stock_mg_c_per_ha") %>%
+      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
+      dplyr::select(ctu_name, year, metric, value) %>%
+      dplyr::mutate(detail = "stock")
+  ) %>%
+    dplyr::mutate(
+      urban_form_scenario = .urban_form_scenario,
+      tree_planting_intervention = .tree_planting_intervention,
+      parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      conservation_tillage_intervention = .conservation_tillage_intervention
+    )
+
   land_use_module_output <-
-    land_use
+    land_use %>%
+    dplyr::group_by(
+      ctu_name,
+      year,
+      detail,
+      urban_form_scenario,
+      tree_planting_intervention,
+      conservation_tillage_intervention,
+      parking_lot_reduction_percentage,
+    ) %>%
+    dplyr::summarise(value = sum(value), .groups = "drop")
 
   return(land_use_module_output)
 }

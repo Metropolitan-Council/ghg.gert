@@ -1,0 +1,74 @@
+---
+title: "ghg_sp_tool_results"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ghg_sp_tool_results}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ghg.sp)
+library(dplyr)
+library(ggplot2)
+```
+
+# Building Energy Module 
+
+In this chunk, I am running the outputs of the building energy module for the city of Minneapolis using only the default parameters. 
+```{r minneapolis-building-energy}
+minneapolis_building_energy <-
+  run_scenario_building(
+    res_tb = building_data$residential,
+    non_res_tb = building_data$non_residential,
+    res_tb_bau = building_data$residential,
+    non_res_tb_bau = building_data$non_residential,
+    .enviro_factors = enviro_factors,
+    .electrified_buildings_pct = 0.4,
+    .non_res_natural_gas_for_water_heating_pct = 0.2,
+    .non_res_natural_gas_for_space_heating_pct = 0.69,
+    .commercial_smart_grid_pct = 1,
+    .industrial_smart_grid_pct = 1,
+    .smart_grid_energy_reduction_pct = 1,
+    .new_homes_to_multifamily_pct = 0.5,
+    .existing_high_efficiency_buildings_pct = 0.8,
+    .home_behavior_change_pct = 1,
+    .single_family_floor_area_growth_pct = 0.05,
+    .new_homes_affected_pct = 0.3,
+    .new_homes_leed_gold_pct = 0.5,
+    .existing_home_retrofit_pct = 0.8,
+    .existing_home_ultra_retrofit_pct = 0.2,
+    .res_natural_gas_for_space_heating_pct = 0.71,
+    .res_natural_gas_for_water_heating_pct = 0.24,
+    .additional_electrified_residential_buildings_pct = 0.45,
+    .grid_decarbonization_pct = 1
+  ) %>%
+  dplyr::filter(ctu_name == "Minneapolis")
+```
+
+```{r table-minneapolis-building-energy}
+minneapolis_building_energy
+```
+
+```{r plot-minneapolis-building-energy}
+minneapolis_building_energy_mwh <- 
+  minneapolis_building_energy %>%
+  ungroup %>%
+  dplyr::select(var, scen, year, value) %>%
+  dplyr::filter(var %in% c('residential_mwh', 'commercial_mwh', 'industrial_mwh'))
+
+
+ggplot(minneapolis_building_energy_mwh %>% filter(scen == "bau"), aes(fill=var, y=value, x=year)) + 
+    geom_bar(position="stack", stat="identity")
+
+ggplot(minneapolis_building_energy_mwh %>% filter(scen == "scen"), aes(fill=var, y=value, x=year)) + 
+    geom_bar(position="stack", stat="identity")
+```
+

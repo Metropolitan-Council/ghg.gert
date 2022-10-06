@@ -12,10 +12,6 @@ calc_carbon_stock_per_ctu(
   .tree_planting_per_hectare,
   .parking_lot_reduction_percentage,
   .conservation_tillage_intervention,
-  .w2w_diesel_emission_factor_kg_co2e_per_gal,
-  .agricultural_land_carbon_stock_mg_c_per_hectare,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare,
   detail
 )
 }
@@ -72,10 +68,6 @@ calc_carbon_stock_per_ctu(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
   .conservation_tillage_intervention = "current_conservation_tillage",
-  .w2w_diesel_emission_factor_kg_co2e_per_gal = 12.50,
-  .agricultural_land_carbon_stock_mg_c_per_hectare = 3,
-  .maximum_soc_accumation_under_reduced_or_no_till_ag = 1.54,
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
   detail = FALSE
 )
 }
@@ -90,8 +82,7 @@ Other land use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use}()},
-\code{\link{scen_green_infrastructure}()}
+\code{\link{run_scenario_land_use}()}
 
 Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},

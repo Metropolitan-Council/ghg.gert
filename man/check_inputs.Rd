@@ -21,5 +21,4 @@ Check input iarameters
 
 check_inputs("electric_scenario", "ER")
 check_inputs("transit_avo_pct", 0)
-
 }

@@ -34,7 +34,13 @@ enviro_factors <- list(
   EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT = 0.66,
   BEHAVIOR_CHANGE_REDUCTION_PCT = 0.11,
   SMART_GRID_EFFICIENCY_PCT = 0.11,
-  THERM_TO_MWH = 0.0293
+  THERM_TO_MWH = 0.0293,
+  BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO = 1.59362,
+  # Land Use
+  AGRI_LAND_CARBON_STOCK = 3, # Mega grams CO2e per hectare https://www.pnas.org/doi/10.1073/pnas.1512542112
+  MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT = 1.54, # https://www.nature.com/articles/s41598-019-47861-7
+  W2W_DIESEL_EMISSIONS_FACTOR = 12.50, # in Kilograms of CO2e per gallon https://pubs.acs.org/doi/pdf/10.1021/es9024194
+  AVOIDED_EMISSIONS_TRACTOR_USE = 0.1016 # in Mega grams CO2e per hectare https://www.usda.gov/media/blog/2017/11/30/saving-money-time-and-soil-economics-no-till-farming
 )
 
 waldo::compare(ghg.sp::enviro_factors, enviro_factors)
