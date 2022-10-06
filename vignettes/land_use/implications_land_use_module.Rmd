@@ -305,7 +305,7 @@ sense as-is or is some post-processing in order?*
 
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = land_use_type, y = land_cover_percent, fill = land_cover_description_2)) +
+  ggplot(aes(x = land_use_type, y = land_cover_percent, fill = land_cover_type)) +
   geom_bar(stat = "identity") +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
@@ -338,7 +338,7 @@ land_use_data$land_cover_percentages_filled %>%
 
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = land_use_type, y = percent_land_cover_type, fill = land_cover_description_2)) +
+  ggplot(aes(x = land_use_type, y = percent_land_cover_type, fill = land_cover_type)) +
   geom_bar(stat = "identity") +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
@@ -387,7 +387,7 @@ land_use_data$land_cover_percentages_filled %>%
   full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
   ggplot(aes(x = land_use_type, 
              y = land_cover_percent, 
-             col = land_cover_description_2, 
+             col = land_cover_type, 
              group = ctu_name)) +
   geom_point(alpha = 0.5) + 
   scale_fill_brewer(palette = "Paired") +
@@ -937,7 +937,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = land_use_type, y = land_cover_land_use_hectares, fill = land_cover_description_2)) + 
+  ggplot(aes(x = land_use_type, y = land_cover_land_use_hectares, fill = land_cover_type)) + 
   geom_bar(stat = "identity") +
   facet_wrap(year~scenario_description_2) +
   theme_council_open() +
@@ -973,7 +973,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_description_2)) + 
+  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_type)) + 
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +

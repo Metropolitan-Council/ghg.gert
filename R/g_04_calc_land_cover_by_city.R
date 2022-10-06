@@ -25,6 +25,6 @@ calc_land_cover_by_city <- function(tb,
     tb = tb,
     .urban_form_scenario = .urban_form_scenario
   ) %>%
-    group_by(ctu_name, year, land_cover_description_2) %>%
+    group_by(ctu_name, year, land_cover_type) %>%
     summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
 }

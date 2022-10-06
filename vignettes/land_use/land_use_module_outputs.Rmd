@@ -67,7 +67,7 @@ ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
                                     .urban_form_scenario = "bau") %>%
   dplyr::filter(year == 2040) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(land_cover_description_2 == 	"forest") %>%
+  dplyr::filter(land_cover_type == 	"forest") %>%
   head(., n = 25)
 ```
 

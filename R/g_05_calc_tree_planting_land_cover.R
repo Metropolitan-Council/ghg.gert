@@ -67,7 +67,7 @@ calc_tree_planting_land_cover <- function(tb,
   total_plantable_area <-
     land_cover_by_city %>%
     dplyr::group_by(ctu_name, year) %>%
-    tidyr::pivot_wider(names_from = land_cover_description_2, values_from = land_cover_hectares) %>%
+    tidyr::pivot_wider(names_from = land_cover_type, values_from = land_cover_hectares) %>%
     dplyr::mutate(
       plantable_area_hectares = (grass + barren + shrub + grassland + agriculture),
       total_trees_hectares = (trees + forest + woody_wetland),
@@ -89,12 +89,12 @@ calc_tree_planting_land_cover <- function(tb,
     dplyr::full_join(
       land_cover_by_city %>%
         dplyr::filter(
-          land_cover_description_2 == "trees",
+          land_cover_type == "trees",
           year == 2040
         ) %>%
         # to check: are you aware that Brooklyn Center has NAs for tree cover?
-        # land_cover_by_city %>% filter(ctu_name == "Brooklyn Center", land_cover_description_2 == "trees" )
-        dplyr::select(-c(land_cover_description_2)),
+        # land_cover_by_city %>% filter(ctu_name == "Brooklyn Center", land_cover_type == "trees" )
+        dplyr::select(-c(land_cover_type)),
       by = "ctu_name"
     ) %>%
     # total tree canopy hectares

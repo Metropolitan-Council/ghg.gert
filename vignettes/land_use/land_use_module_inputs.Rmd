@@ -90,11 +90,11 @@ land_use_data$scenario_parameters
 #| 
 # land_use_data$land_cover_percentages_filled %>%
 #   dplyr::filter(ctu_name == "Lake Elmo") %>%
-#   dplyr::filter(land_cover_description_2 == "parking_lot") %>%
+#   dplyr::filter(land_cover_type == "parking_lot") %>%
 #   head(., n = 15)
 land_use_data$land_cover_percentages_filled %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = land_use_type, y = percent_land_cover_type, fill = land_cover_description_2)) +
+  ggplot(aes(x = land_use_type, y = percent_land_cover_type, fill = land_cover_type)) +
   geom_bar(stat = "identity") +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
