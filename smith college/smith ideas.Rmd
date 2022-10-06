@@ -1,0 +1,78 @@
+---
+title: "Smith College discussions"
+output: rmarkdown::html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+Thinking about data, and what to do. 
+
+```{r
+example <- run_scenario_transportation(
+  pass_tb = transportation_data$passenger,
+  freight_tb = transportation_data$freight,
+  .scenario = "BAU",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF",
+  .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
+  .transit_rider_pct = 0,
+  .vmt_fee = 0,
+  .payd_fee = 0,
+  .gas_tax = 0,
+  .parking_price = 0,
+  .freight_parking_price = 0,
+  .cong_price = 0,
+  .freight_vmt_fee = 0,
+  .drs_pct = 0,
+  .av_pct = 0,
+  .drs_fuel_type = "",
+  .av_fuel_type = "",
+  .pop_dens_pct_change = 0,
+  .emp_dens_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
+  .intersection_design_pct_change = 0,
+  .job_access_pct_change = 0,
+  .transit_dist_pct_change = 0,
+  .comb_5d_impact_pct_change = 0,
+  .telework_pct = 0,
+  .bev_pct_sales = 0,
+  .phev_pct_sales = 0,
+  .hev_pct_sales = 0,
+  .mit_bau_summary = 0,
+  .enviro_factors = enviro_factors,
+  .elast = elast,
+  .elast_5d = elast_5d
+)
+
+example$app_data
+
+```
+
+# October 6
+
+
+key question = how do cities meaningfully reduce emissions from the transportaion sector
+output data --> use the `example$app_data` to start and answer that question
+
+
+subquestions, and examples
+
+- what types of interventions are most impactful for each of the cities across the region (`example$app_data$ctu`)? 
+  - Think about statistical significance here (anovas, likely --> emissions ~ scenario * year * community_type)
+  - multivariate modeling (associated visualizations)
+- clustering analysis (e.x. for baseline year and also for ending year (2040))
+  - what if communities do the most impactful intervention; do the clusters change? 
+  - do [community desginations](https://gisdata.mn.gov/dataset/us-mn-state-metc-society-thrive-msp2040-com-des) resonate with similar emissions from transportation sector?
+- based on demographic patterns across the region, are particular groups likely to be disproportionately impacted by any of the scenarios? 
+  - (as an idea; kind of loose, but the [equity considerations data](https://metrocouncil.org/Data-and-Maps/Research-and-Data/Place-based-Equity-Research.aspx) might be of use)
+
+## Plan for sprints
+
+### Sprint 1
+
+### Sprint 2
+
+### Sprint 3
+
