@@ -136,7 +136,7 @@ city/township from Community Profiles.
 if (land_use_data$ctu_forecast %>%
     dplyr::filter(ctu_name == "Lake Elmo",
                   year == 2020,
-                  metric == "population") %>% .$value == 11335) {
+                  var == "population") %>% .$value == 11335) {
   print("Yes, looks like the table is pulling the most recent census data. Do check on the forecast, which is (unfortuantely) only accessible via a website download right now; https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx")
 } else {
   print("Database doesn't match 2020 census data on community profiles; database probably needs to be updated")
@@ -166,8 +166,8 @@ test <- land_use_data$ctu_forecast %>%
 
 land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name") %>% 
-  filter(!is.na(metric)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
-  group_split(metric) %>%
+  filter(!is.na(var)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
+  group_split(var) %>%
   purrr::map(
     ~ggplot(aes(x = year, 
                 y = value), 
@@ -178,7 +178,7 @@ land_use_data$ctu_forecast %>%
       facet_wrap(~comdes, scales = "free_y") +
       theme_council_open() +
       labs(y = "", x = "", col = "", fill = "", shape = "",
-           title = .$metric) +
+           title = .$var) +
       theme(
         legend.position = "bottom",
         legend.text = element_text(size = 6),
@@ -205,7 +205,7 @@ land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name") %>%
   pivot_wider(names_from = year, values_from = value) %>%
   filter(`2010` > `2040`) %>%
-  select(ctu_name, metric, `2010`, `2040`) %>%
+  select(ctu_name, var, `2010`, `2040`) %>%
   mutate(difference = `2040` - `2010`)
 ```
 
@@ -344,7 +344,8 @@ land_use_data$land_cover_percentages_filled %>%
   theme_council_open() +
   coord_flip() +
   labs(x = "",
-       y = "Land Use") +
+       y = "Land Use",
+       caption = paste0(Sys.Date())) +
   facet_wrap(~ctu_name) +
   theme(legend.position = "bottom") +
   guides(
