@@ -27,7 +27,8 @@ t_land_cover_types <-
   import_from_emissions("metro_land.land_cover_types")
 
 t_land_use_2016_types <-
-  import_from_emissions("metro_land.land_use_2016_types")
+  import_from_emissions("metro_land.land_use_2016_types") %>%
+  rename("land_use_type" = "description_2")
 
 t_scenario_parameters <-
   import_from_emissions("metro_land.scenario_parameters")
