@@ -48,7 +48,7 @@ calc_scen_land_use <- function(tb,
       .,
       # tb$land_composition_ctu %>%
       #   group_by(ctu_name, development_type, land_use_description) %>%
-      #   pivot_longer(cols = c("hectares", "total_hectares", "percent")) %>%
+      #   pivot_longer(cols = c("hectares", "total_hectares", "percent_of_hectares")) %>%
       #   pivot_wider(names_from = c("name", "year"), values_from = "value", names_sep = ".", values_fn = sum)
 
 
@@ -69,11 +69,11 @@ calc_scen_land_use <- function(tb,
               "mixed_use_industrial",
               "mixed_use_commercial"
             )
-          ) ~ ((hectares + ((percent * scenario_total) - hectares
+          ) ~ ((hectares + ((percent_of_hectares * scenario_total) - hectares
           )) * luse_scenario_params$urban_expansion_relative_to_bau
             + (scenario_mixed_use_mf_new / 4)),
           (land_use_description == "park_recreational_or_preserve") ~
-          ((hectares + ((percent * scenario_total) - hectares))
+          ((hectares + ((percent_of_hectares * scenario_total) - hectares))
           * luse_scenario_params$urban_expansion_relative_to_bau),
           land_use_description %in% c(
             "agricultural",
@@ -95,7 +95,7 @@ calc_scen_land_use <- function(tb,
             "single_family_detached",
             "undeveloped"
           ) ~ (((
-            hectares + ((percent * scenario_total) - hectares)
+            hectares + ((percent_of_hectares * scenario_total) - hectares)
           ) * luse_scenario_params$urban_expansion_relative_to_bau)
           * scaling_factor)
         )

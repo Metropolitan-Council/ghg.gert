@@ -11,7 +11,7 @@ land_use_data$land_cover_percentages_filled <-
 
 land_use_data$land_composition_ctu <- p_land_composition_ctu
 
-land_use_data$land_by_development_type_sum_bau <- p_land_by_development_type_sum_bau
+land_use_data$ctu_land_use_hectares <- t_ctu_land_use_hectares
 
 land_use_data$current_conservation_tillage_county <- t_current_conservation_tillage_county
 

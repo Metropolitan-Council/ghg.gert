@@ -440,7 +440,7 @@ land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name %in% c("Lake Elmo",
                                 "St. Paul")) %>%
   select(-total_hectares, -hectares) %>%
-  pivot_wider(names_from = year, values_from = percent) %>%
+  pivot_wider(names_from = year, values_from = percent_of_hectares) %>%
   mutate(change = `2040` - `2016`) %>%
   filter(change != 0)
 ```
@@ -479,7 +479,7 @@ on land cover/uses which make up 5% or more of the land base.
 
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = as.character(year), y = percent, fill = land_use_type)) +
+  ggplot(aes(x = as.character(year), y = percent_of_hectares, fill = land_use_type)) +
   geom_bar(stat = "identity") +
   facet_wrap(~development_type) +
   theme_council_open() +
@@ -489,8 +489,8 @@ land_use_data$land_composition_ctu %>%
 
 land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo",
-                percent >= .05) %>%
-  ggplot(aes(x = as.character(year), y = percent, fill = land_use_type)) +
+                percent_of_hectares >= .05) %>%
+  ggplot(aes(x = as.character(year), y = percent_of_hectares, fill = land_use_type)) +
   geom_bar(stat = "identity") +
   facet_wrap(~development_type) +
   theme_council_open() +
@@ -523,7 +523,7 @@ land_use_data$land_composition_ctu %>%
 
 ```{r echo=FALSE}
 land_use_data$land_composition_ctu %>%
-  select(-total_hectares, -percent) %>%
+  select(-total_hectares, -percent_of_hectares) %>%
   dplyr::group_by(ctu_name, development_type, land_use_type, year) %>%
   dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
   dplyr::filter(n > 1L) %>%
@@ -554,7 +554,7 @@ Q14: So EXCLUDING Brooklyn Center and looking at all other communities
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -hectares) %>%
   filter(ctu_name != "Brooklyn Center") %>% #filter(land_use_type == "farmstead") %>%
-  pivot_wider(names_from = year, values_from = percent) %>%
+  pivot_wider(names_from = year, values_from = percent_of_hectares) %>%
   mutate(change = `2040` - `2016`) %>%
   filter(abs(change) >= .05) %>%
   left_join(comdes, by = "ctu_name") %>%
@@ -580,7 +580,7 @@ land_use_data$land_composition_ctu %>%
     of farmstead was zero in 2016. The below table is showing the change
     in number of hectares of farmstead land cover/use.
 
-`` {r}land_use_data$land_composition_ctu %>%}   select(-total_hectares, -percent) %>%   filter(ctu_name != "Brooklyn Center") %>% filter(land_use_type == "farmstead") %>%   pivot_wider(names_from = year, values_from = hectares) %>%   mutate(change = `2040` - `2016`) %>%   filter(abs(change) >= .05, `2016` == 0) %>%   left_join(comdes, by = "ctu_name") %>%   rename(`2016 hectares` = `2016`,          `2040 hectares` = `2040`,          change_hectares = change) ``
+`` {r}land_use_data$land_composition_ctu %>%}   select(-total_hectares, -percent_of_hectares) %>%   filter(ctu_name != "Brooklyn Center") %>% filter(land_use_type == "farmstead") %>%   pivot_wider(names_from = year, values_from = hectares) %>%   mutate(change = `2040` - `2016`) %>%   filter(abs(change) >= .05, `2016` == 0) %>%   left_join(comdes, by = "ctu_name") %>%   rename(`2016 hectares` = `2016`,          `2040 hectares` = `2040`,          change_hectares = change) ``
 
 > Q14 ML Response on 7/27/2022: **The categories Urban Expansion, Urban
 > Infill, and Exurban Development are not scenarios of any kind, what
@@ -719,6 +719,8 @@ land_use_data$land_cover_percentages_filled %>%
 
 > Q16 ML Response on 7/27/2022: **Please be specific about your
 > recommended action.**
+
+$land_by_development_type_sum_bau was removed to reduce steps. 
 
 ---
 

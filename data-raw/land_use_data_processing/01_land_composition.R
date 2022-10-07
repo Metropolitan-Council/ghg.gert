@@ -8,20 +8,6 @@ p_land_use_by_cover_type_percent <-
   dplyr::ungroup() %>%
   dplyr::select(-c(total_area_m2))
 
-
-## ------------------------------------------------------------------------------------------------------------
-p_carbon_stock_by_cover_type <-
-  p_land_use_by_cover_type_percent %>%
-  base::merge(.,
-              t_general_carbon_values,
-              by = "land_cover_type") %>%
-  dplyr::mutate(
-    carbon_stock_by_cover_type_mg_c_per_ha =
-      (percent_of_total_area *
-         stock_mg_c_per_ha)
-  )
-
-
 ## ------------------------------------------------------------------------------------------------------------
 p_land_composition_ctu <-
   t_ctu_land_use_hectares %>%
@@ -41,18 +27,17 @@ p_land_composition_ctu <-
     ),
     by = c("ctu_name", "development_type", "year")
   ) %>%
-  dplyr::mutate(percent =
+  dplyr::mutate(percent_of_hectares =
                   hectares /
                   total_hectares)
 
 ## ------------------------------------------------------------------------------------------------------------
-p_land_by_development_type_sum_bau <-
-  t_ctu_land_use_hectares %>%
-  dplyr::filter(year == 2040) %>%
-  dplyr::group_by(ctu_name) %>%
-  dplyr::summarise(total_hectares_bau = sum(hectares)) %>%
-  dplyr::ungroup()
-
+# p_land_by_development_type_sum_bau <-
+#   t_ctu_land_use_hectares %>%
+#   dplyr::filter(year == 2040) %>%
+#   dplyr::group_by(ctu_name) %>%
+#   dplyr::summarise(total_hectares_bau = sum(hectares)) %>%
+#   dplyr::ungroup()
 
 ## ------------------------------------------------------------------------------------------------------------
 p_land_cover_percentages <-
@@ -86,22 +71,20 @@ p_land_cover_percentages_filled <-
         base::merge(.,
                     t_land_use_2016_types %>%
                       dplyr::select(land_use_type)) %>%
-        base::merge(
-          .,
-          t_land_cover_types %>%
-            dplyr::select(land_cover_type)
-        ) %>% left_join(
-          .,
-          p_land_cover_percentages,
-          by = c("ctu_name",
-                 "land_use_type",
-                 "land_cover_type")
-        ) %>% dplyr::left_join(
-          .,
-          p_land_use_by_cover_type_percent,
-          by = c("land_use_type",
-                 "land_cover_type")
-        ) %>%
+        base::merge(.,
+                    t_land_cover_types %>%
+                      dplyr::select(land_cover_type)) %>% left_join(
+                        .,
+                        p_land_cover_percentages,
+                        by = c("ctu_name",
+                               "land_use_type",
+                               "land_cover_type")
+                      ) %>% dplyr::left_join(
+                        .,
+                        p_land_use_by_cover_type_percent,
+                        by = c("land_use_type",
+                               "land_cover_type")
+                      ) %>%
         dplyr::mutate(
           land_cover_percent2 =
             dplyr::case_when(

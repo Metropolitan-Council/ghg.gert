@@ -130,15 +130,6 @@ land_use_data$current_conservation_tillage_county %>%
   head(., n = 10)
 ```
 
-**$land_by_development_type_sum_bau**:
-Table shows the forecast total number of hectares by city/township for the business as usual scenario. 
-*For example: What is the forecast number of hectare for the city of Lake Elmo in 2040?*
-```{r echo=FALSE}
-land_use_data$land_by_development_type_sum_bau %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10)
-```
-
 **$multifamily_mixed_area**: 
 Table show the estimate of the number of hectares of multifamily mixed area by city/township for three development types: *exurban development*, *urban expansion*, and *urban infill*.
 *For example: What is the forecast hectares of multifamily or mixed use land use for the year 2040 for the city of Lake Elmo?*
