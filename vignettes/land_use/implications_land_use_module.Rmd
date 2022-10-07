@@ -481,7 +481,7 @@ land_use_data$land_composition_ctu %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   ggplot(aes(x = as.character(year), y = percent, fill = land_use_type)) +
   geom_bar(stat = "identity") +
-  facet_wrap(~development_name) +
+  facet_wrap(~development_type) +
   theme_council_open() +
   labs(y = "", x = "",
        title = "Lake Elmo",
@@ -492,7 +492,7 @@ land_use_data$land_composition_ctu %>%
                 percent >= .05) %>%
   ggplot(aes(x = as.character(year), y = percent, fill = land_use_type)) +
   geom_bar(stat = "identity") +
-  facet_wrap(~development_name) +
+  facet_wrap(~development_type) +
   theme_council_open() +
   labs(y = "", x = "",
        title = "Lake Elmo",
@@ -514,7 +514,7 @@ land_use_data$land_composition_ctu %>%
 
 1)  Brooklyn Center is showing up twice in this
     `land_use_data$land_composition_ctu` database. Please update so
-    there's only one value for each year/development_name/land_use_type
+    there's only one value for each year/development_type/land_use_type
     for Brooklyn Center so that we know which value to refer to! As an
     FYI, Brooklyn Center *is* "falling out" of the analysis at later
     steps because of this issue - once there is only one entry for
@@ -524,7 +524,7 @@ land_use_data$land_composition_ctu %>%
 ```{r echo=FALSE}
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -percent) %>%
-  dplyr::group_by(ctu_name, development_name, land_use_type, year) %>%
+  dplyr::group_by(ctu_name, development_type, land_use_type, year) %>%
   dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
   dplyr::filter(n > 1L) %>%
   head()
@@ -560,7 +560,7 @@ land_use_data$land_composition_ctu %>%
   left_join(comdes, by = "ctu_name") %>%
   ggplot(aes(x = land_use_type, y = change, col = comdes, group = ctu_name)) +
   geom_point(alpha = 0.5)+
-  facet_wrap(~development_name, scales = "free") +
+  facet_wrap(~development_type, scales = "free") +
   coord_flip() +
   theme_council_open() +
   scale_color_brewer(palette = "Paired") +
@@ -774,9 +774,9 @@ contextualize their understanding.*
 land_use_data$multifamily_mixed_area  %>%
   rename(multifamily_mixed_area__hectares = hectares) %>%
   left_join(comdes, by = "ctu_name") %>%
-  group_by(comdes, development_name) %>%
+  group_by(comdes, development_type) %>%
   summarise(hectares = sum(multifamily_mixed_area__hectares), .groups = "keep") %>%
-  ggplot(aes(x = development_name, y = hectares, fill = comdes)) +
+  ggplot(aes(x = development_type, y = hectares, fill = comdes)) +
   geom_bar(stat = "identity") +
   # facet_wrap(~comdes) +
   theme_council_open() +
@@ -855,7 +855,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = development_name, y = hectares, fill = scenario)) + 
+  ggplot(aes(x = development_type, y = hectares, fill = scenario)) + 
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +
@@ -894,7 +894,7 @@ output <-
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = development_name, y = scenario_hectares, fill = land_use_type)) + 
+  ggplot(aes(x = development_type, y = scenario_hectares, fill = land_use_type)) + 
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +

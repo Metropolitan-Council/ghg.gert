@@ -5,7 +5,8 @@ p_land_use_by_cover_type_percent <-
   dplyr::mutate(percent_of_total_area =
                   (total_area_m2 /
                      sum(total_area_m2))) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::select(-c(total_area_m2))
 
 
 ## ------------------------------------------------------------------------------------------------------------
@@ -24,21 +25,21 @@ p_carbon_stock_by_cover_type <-
 ## ------------------------------------------------------------------------------------------------------------
 p_land_composition_ctu <-
   t_ctu_land_use_hectares %>%
-  group_by(ctu_name, development_name, year, description, land_use_type) %>%
+  group_by(ctu_name, development_type, year, land_use_type) %>%
   summarise(hectares = sum(hectares, na.rm = TRUE),
             .groups = "drop") %>%
   base::merge(
     .,
     (
       t_ctu_land_use_hectares %>%
-        dplyr::group_by(ctu_name, development_name, year) %>%
+        dplyr::group_by(ctu_name, development_type, year) %>%
         dplyr::summarise(
           total_hectares = sum(hectares, na.rm = TRUE),
           .groups = "drop"
         ) %>%
         dplyr::ungroup()
     ),
-    by = c("ctu_name", "development_name", "year")
+    by = c("ctu_name", "development_type", "year")
   ) %>%
   dplyr::mutate(percent =
                   hectares /
@@ -132,7 +133,7 @@ p_land_cover_percentages_filled <-
 ## ------------------------------------------------------------------------------------------------------------
 p_multifamily_mixed_area <-
   t_ctu_land_use_hectares %>%
-  dplyr::group_by(ctu_name, development_name) %>%
+  dplyr::group_by(ctu_name, development_type) %>%
   dplyr::filter(year == 2040) %>%
   dplyr::filter(
     land_use_type %in% c(
@@ -154,7 +155,7 @@ p_land_by_development_type <- c()
 p_land_by_development_type$bau_total <-
   t_ctu_land_use_hectares %>%
   dplyr::filter(year == 2040) %>%
-  dplyr::group_by(ctu_name, development_name) %>%
+  dplyr::group_by(ctu_name, development_type) %>%
   dplyr::summarise(hectares = sum(hectares), .groups = "drop") %>%
   dplyr::mutate(scenario = "bau")
 
