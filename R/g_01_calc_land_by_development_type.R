@@ -34,6 +34,9 @@
 #' }
 calc_land_by_development_type <- function(tb,
                                           .urban_form_scenario) {
+
+
+# -------------------------------------------------------------------------
   match.arg(
     arg = .urban_form_scenario,
     choices = c(
@@ -44,31 +47,38 @@ calc_land_by_development_type <- function(tb,
     )
   )
 
+# -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
-  land_by_development_type <- c()
-
-
-# bau total ---------------------------------------------------------------
-
-  land_by_development_type$bau_total <-
+# -------------------------------------------------------------------------
+  bau_total <-
     tb$ctu_land_use_hectares %>%
     dplyr::filter(year == 2040) %>%
     dplyr::group_by(ctu_name, development_type) %>%
     dplyr::summarise(hectares = sum(hectares), .groups = "drop") %>%
     dplyr::mutate(scenario = "bau")
 
-  # BAU Mixed Use/Compact Zoning/Park
-  land_by_development_type$bau_mixed_use_compact_zoning_park <-
-    p_multifamily_mixed_area %>%
+
+# -------------------------------------------------------------------------
+  bau_mixed_use_compact_zoning_park <-
+    tb$ctu_land_use_hectares %>%
+    dplyr::group_by(ctu_name, development_type) %>%
+    dplyr::filter(year == 2040) %>%
+    dplyr::filter(
+      land_use_type %in% c(
+        "park_recreational_or_preserve",
+        "mixed_use_commercial",
+        "mixed_use_industrial",
+        "mixed_use_residential",
+        "multifamily"
+      )
+    ) %>%
+    dplyr::summarise(hectares = sum(hectares), .groups = "drop") %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(scenario = "bau_mixed_use_compact_zoning")
 
-  # BAU Mixed Use Compact Zoning Park ----
-  bau_mixed_use_compact_zoning_park <-
-    land_by_development_type$bau_mixed_use_compact_zoning_park
-
-  # Scenario Mixed Use Compact Zoning Park-----
+# -------------------------------------------------------------------------
   scenario_mixed_use_compact_zoning_park <-
     (tb$p_multifamily_mixed_area <-
        tb$ctu_land_use_hectares %>%
@@ -95,9 +105,10 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::mutate(scenario = "scenario_mixed_use_compact_zoning_park")
 
-  # Scenario Total ----
+
+# -------------------------------------------------------------------------
   scenario_total <-
-    land_by_development_type$bau_total %>%
+    bau_total %>%
     base::merge(
       .,
       (
@@ -130,7 +141,7 @@ calc_land_by_development_type <- function(tb,
                         names_to = "development_type",
                         values_to = "hectares")
 
-  # Scenario Mixed Use MF (new) ----
+# -------------------------------------------------------------------------
   scenario_mixed_use_mf_new_1 <-
     bind_rows(bau_total,
               scenario_total,
@@ -148,8 +159,8 @@ calc_land_by_development_type <- function(tb,
         luse_scenario_params$urban_expansion
     )
 
-  # Scenario Mixed Use Multifamily New ----
-  scenario_mixed_use_mf_new <-
+# -------------------------------------------------------------------------
+    scenario_mixed_use_mf_new <-
     (if (.urban_form_scenario == "compact_dev_with_drs") {
       scenario_mixed_use_mf_new_1 %>%
         dplyr::mutate(
@@ -190,7 +201,7 @@ calc_land_by_development_type <- function(tb,
         filter(scenario == "scenario_mixed_use_mf_new")
     })
 
-  # Scenario Other Zoning -----
+# -------------------------------------------------------------------------
   scenario_other_zoning <-
     bind_rows(
       scenario_total,
@@ -225,7 +236,8 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     filter(scenario == "scenario_other_zoning")
 
-  # return -----
+
+# -------------------------------------------------------------------------
   new_land_by_development_type <-
     bind_rows(
       bau_total,
@@ -235,5 +247,7 @@ calc_land_by_development_type <- function(tb,
       scenario_other_zoning,
       scenario_total
     )
+
+# -------------------------------------------------------------------------
   return(new_land_by_development_type)
 }

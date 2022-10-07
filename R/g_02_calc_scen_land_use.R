@@ -21,15 +21,15 @@
 #' }
 calc_scen_land_use <- function(tb,
                                .urban_form_scenario) {
+
+# -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
   calc_land_by_development_type(tb = tb,
                                 .urban_form_scenario = .urban_form_scenario) %>%
 
-
-    # increase mixed use / residential ----------------------------------------
-
+# -------------------------------------------------------------------------
   tidyr::pivot_wider(
     data = .,
     id_cols = c(ctu_name, development_type),
