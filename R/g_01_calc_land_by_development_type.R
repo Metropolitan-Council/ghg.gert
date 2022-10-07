@@ -47,11 +47,13 @@ calc_land_by_development_type <- function(tb,
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
-
   land_by_development_type <- tb$land_by_development_type
 
   ## BAU Total ----
   bau_total <- land_by_development_type$bau_total
+
+# bau total ---------------------------------------------------------------
+
 
   # BAU Mixed Use Compact Zoning Park ----
   bau_mixed_use_compact_zoning_park <-

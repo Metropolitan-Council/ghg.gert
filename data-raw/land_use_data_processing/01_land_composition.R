@@ -32,16 +32,6 @@ p_land_composition_ctu <-
                   total_hectares)
 
 ## ------------------------------------------------------------------------------------------------------------
-# p_land_cover_percentages <-
-#   t_ctu_land_use_2016_land_cover %>%
-#   dplyr::group_by(ctu_name, land_use_type) %>%
-#   dplyr::mutate(total_hectares = sum(hectares)) %>%
-#   dplyr::ungroup() %>%
-#   dplyr::group_by(ctu_name, land_use_type, land_cover_type) %>%
-#   dplyr::transmute(land_cover_percent = hectares / total_hectares) %>%
-#   dplyr::ungroup()
-
-## ------------------------------------------------------------------------------------------------------------
 p_summed_land_use_2016 <-
   t_ctu_land_use_hectares %>%
   dplyr::filter(year == 2016) %>%

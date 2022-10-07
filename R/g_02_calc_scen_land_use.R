@@ -28,7 +28,10 @@ calc_scen_land_use <- function(tb,
     tb = tb,
     .urban_form_scenario = .urban_form_scenario
   ) %>%
-    # increase mixed use / residential
+
+
+# increase mixed use / residential ----------------------------------------
+
     tidyr::pivot_wider(
       data = .,
       id_cols = c(ctu_name, development_type),
@@ -46,12 +49,6 @@ calc_scen_land_use <- function(tb,
     ) %>%
     base::merge(
       .,
-      # tb$land_composition_ctu %>%
-      #   group_by(ctu_name, development_type, land_use_description) %>%
-      #   pivot_longer(cols = c("hectares", "total_hectares", "percent_of_hectares")) %>%
-      #   pivot_wider(names_from = c("name", "year"), values_from = "value", names_sep = ".", values_fn = sum)
-
-
       (tb$land_composition_ctu %>%
         dplyr::filter(year == 2040)),
       by = c(
