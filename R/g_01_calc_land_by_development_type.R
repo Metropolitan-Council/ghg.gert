@@ -47,13 +47,20 @@ calc_land_by_development_type <- function(tb,
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
-  land_by_development_type <- tb$land_by_development_type
+  p_land_by_development_type <- c()
 
-  ## BAU Total ----
-  bau_total <- land_by_development_type$bau_total
+  # BAU Total
+  land_by_development_type$bau_total <-
+    tb$ctu_land_use_hectares %>%
+    dplyr::filter(year == 2040) %>%
+    dplyr::group_by(ctu_name, development_type) %>%
+    dplyr::summarise(hectares = sum(hectares), .groups = "drop") %>%
+    dplyr::mutate(scenario = "bau")
 
-# bau total ---------------------------------------------------------------
-
+  # BAU Mixed Use/Compact Zoning/Park
+  land_by_development_type$bau_mixed_use_compact_zoning_park <-
+    p_multifamily_mixed_area %>%
+    dplyr::mutate(scenario = "bau_mixed_use_compact_zoning")
 
   # BAU Mixed Use Compact Zoning Park ----
   bau_mixed_use_compact_zoning_park <-
@@ -61,7 +68,21 @@ calc_land_by_development_type <- function(tb,
 
   # Scenario Mixed Use Compact Zoning Park-----
   scenario_mixed_use_compact_zoning_park <-
-    tb$multifamily_mixed_area %>%
+    (tb$p_multifamily_mixed_area <-
+       tb$ctu_land_use_hectares %>%
+       dplyr::group_by(ctu_name, development_type) %>%
+       dplyr::filter(year == 2040) %>%
+       dplyr::filter(
+         land_use_type %in% c(
+           "park_recreational_or_preserve",
+           "mixed_use_commercial",
+           "mixed_use_industrial",
+           "mixed_use_residential",
+           "multifamily"
+         )
+       ) %>%
+       dplyr::summarise(hectares = sum(hectares), .groups = "drop") %>%
+       dplyr::ungroup())%>%
     dplyr::mutate(
       hectares =
         dplyr::if_else(
