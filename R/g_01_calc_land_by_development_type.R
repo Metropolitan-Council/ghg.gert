@@ -47,9 +47,11 @@ calc_land_by_development_type <- function(tb,
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == .urban_form_scenario)
 
-  p_land_by_development_type <- c()
+  land_by_development_type <- c()
 
-  # BAU Total
+
+# bau total ---------------------------------------------------------------
+
   land_by_development_type$bau_total <-
     tb$ctu_land_use_hectares %>%
     dplyr::filter(year == 2040) %>%
