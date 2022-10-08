@@ -50,11 +50,15 @@ calc_tree_planting_land_cover <- function(tb,
                                           .tree_planting_intervention,
                                           .tree_planting_per_capita,
                                           .tree_planting_per_hectare) {
-  land_cover_by_city <- calc_land_cover_by_city(
-    tb = tb,
-    .urban_form_scenario = .urban_form_scenario
-  )
 
+# -------------------------------------------------------------------------
+  land_cover_by_city <-   calc_land_cover_by_land_use(tb = tb,
+                                                      .urban_form_scenario = .urban_form_scenario) %>%
+    group_by(ctu_name, year, land_cover_type) %>%
+    summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
+
+
+# -------------------------------------------------------------------------
   match.arg(
     arg = .tree_planting_intervention,
     choices = c(
@@ -64,6 +68,7 @@ calc_tree_planting_land_cover <- function(tb,
     )
   )
 
+# -------------------------------------------------------------------------
   total_plantable_area <-
     land_cover_by_city %>%
     dplyr::group_by(ctu_name, year) %>%
@@ -79,7 +84,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
-
+# -------------------------------------------------------------------------
   tree_planting_factors <-
     tb$ctu_forecast %>%
     dplyr::filter(metric == "population") %>%
@@ -119,7 +124,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
-
+# -------------------------------------------------------------------------
   tree_planting_scenario <-
     tree_planting_factors %>%
     dplyr::group_by(ctu_name) %>%
@@ -134,6 +139,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
+# -------------------------------------------------------------------------
   tree_planting_land_cover <-
     total_plantable_area %>%
     dplyr::right_join(.,
@@ -189,6 +195,8 @@ calc_tree_planting_land_cover <- function(tb,
     )) %>%
     dplyr::ungroup()
 
+
+# -------------------------------------------------------------------------
   tree_planting_land_cover_short <-
     tree_planting_land_cover %>%
     dplyr::select(
@@ -210,6 +218,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
+# -------------------------------------------------------------------------
   return(if (detail == TRUE) {
     tree_planting_land_cover
   } else {

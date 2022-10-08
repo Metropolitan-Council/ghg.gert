@@ -74,11 +74,11 @@ ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
 This function returns the urban form scenario land composition in hectares without adding additional strategies. This is the last function used to estimate the impact of urban form changes alone.  
 ```{r}
-ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                .urban_form_scenario = "bau") %>%
-  dplyr::filter(year == 2040) %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 15)
+# ghg.sp::calc_land_cover_by_city(tb = land_use_data,
+#                                 .urban_form_scenario = "bau") %>%
+#   dplyr::filter(year == 2040) %>%
+#   dplyr::filter(ctu_name == "Lake Elmo") %>%
+#   head(., n = 15)
 ```
 
 ### Function to Calculate Tree Planting Strategy

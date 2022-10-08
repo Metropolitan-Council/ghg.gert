@@ -964,26 +964,26 @@ The fourth function is `ghg.sp::calc_land_cover_by_city()`
 #| fig.width = 8,
 #| fig.height = 5
 #| 
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                              .urban_form_scenario = .x) 
-  ) %>%
-  bind_rows(.id = "scenario_description_2")
-
-
-output %>%
-  filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_type)) + 
-  geom_bar(stat = "identity") +
-  facet_wrap(~scenario_description_2) +
-  theme_council_open() +
-  scale_fill_brewer(palette = "Paired") +
-  # theme(axis.text.x = element_text(angle = 24)) +
-  labs(title = "Lake Elmo") +
-  # coord_flip() +
-  labs(x = "")
+# output <- 
+#   c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
+#   purrr::set_names() %>% 
+#   purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
+#                                               .urban_form_scenario = .x) 
+#   ) %>%
+#   bind_rows(.id = "scenario_description_2")
+# 
+# 
+# output %>%
+#   filter(ctu_name == "Lake Elmo") %>%
+#   ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_type)) + 
+#   geom_bar(stat = "identity") +
+#   facet_wrap(~scenario_description_2) +
+#   theme_council_open() +
+#   scale_fill_brewer(palette = "Paired") +
+#   # theme(axis.text.x = element_text(angle = 24)) +
+#   labs(title = "Lake Elmo") +
+#   # coord_flip() +
+#   labs(x = "")
 
 ```
 

@@ -15,20 +15,6 @@ calc_parking_lot_land_cover(
 )
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
-
-\item{.urban_form_scenario}{character,
-The current land use scenario being explored.
-Default is \code{"bau"}.
-The options are:
-\itemize{
-\item \code{"bau"}: the business as usual scenario.
-\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
-\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
-\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
-}}
-
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
@@ -78,7 +64,6 @@ Other land use:
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_city}()},
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
