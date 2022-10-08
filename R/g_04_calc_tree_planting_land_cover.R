@@ -87,9 +87,9 @@ calc_tree_planting_land_cover <- function(tb,
 # -------------------------------------------------------------------------
   tree_planting_factors <-
     tb$ctu_forecast %>%
-    dplyr::filter(metric == "population") %>%
+    dplyr::filter(var == "population") %>%
     dplyr::filter(year == 2040) %>%
-    dplyr::select(-c(year, metric)) %>%
+    dplyr::select(-c(year, var)) %>%
     dplyr::rename(population = value) %>%
     dplyr::full_join(
       land_cover_by_city %>%

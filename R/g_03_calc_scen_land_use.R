@@ -80,11 +80,11 @@ calc_scen_land_use <- function(tb,
           scenario_other_zoning / scenario_total,
           1
         )
-    ) %>%
+    )
 
     # -------------------------------------------------------------------------
 
-  calc_scen_land_use <-
+  scen_land_use <-
     add_scaling_factor %>%
     base::merge(
       .,
@@ -97,7 +97,7 @@ calc_scen_land_use <- function(tb,
     dplyr::mutate(scenario_hectares =
                     dplyr::case_when(
                       (
-                        land_use_description %in% c(
+                        land_use_type %in% c(
                           "multifamily",
                           "mixed_use_residential",
                           "mixed_use_industrial",
@@ -107,12 +107,12 @@ calc_scen_land_use <- function(tb,
                       )) * luse_scenario_params$urban_expansion_relative_to_bau
                       + (scenario_mixed_use_mf_new / 4)
                       ),
-                      (land_use_description == "park_recreational_or_preserve") ~
+                      (land_use_type == "park_recreational_or_preserve") ~
                         ((hectares + ((percent_of_hectares * scenario_total) - hectares
                         ))
                         * luse_scenario_params$urban_expansion_relative_to_bau
                         ),
-                      land_use_description %in% c(
+                      land_use_type %in% c(
                         "agricultural",
                         "airport",
                         "extractive",
@@ -140,18 +140,18 @@ calc_scen_land_use <- function(tb,
     dplyr::select(c(
       "ctu_name",
       "development_type",
-      "land_use_description",
+      "land_use_type",
       "scenario_hectares"
     )) %>%
     dplyr::group_by(ctu_name,
                     development_type,
-                    land_use_description) %>%
+                    land_use_type) %>%
     dplyr::summarise(scenario_hectares = sum(scenario_hectares),
                      .groups = "drop") %>%
     dplyr::group_by(ctu_name)
 
   # -------------------------------------------------------------------------
 
-  return(calc_scen_land_use)
+  return(scen_land_use)
 
 }

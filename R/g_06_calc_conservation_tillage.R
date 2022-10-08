@@ -68,15 +68,7 @@ calc_conservation_tillage <- function(tb,
 
 # -------------------------------------------------------------------------
   baseline_bau <-
-    parking_lot_land_cover(
-      tb = tb,
-      detail = detail,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      .urban_form_scenario = .urban_form_scenario
-    ) %>%
+    parking_lot_land_cover %>%
     right_join(.,
                tb$ctu_county,
                by = "ctu_name") %>%
@@ -159,10 +151,6 @@ calc_conservation_tillage <- function(tb,
                 enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
                 enviro_factors$AGRI_LAND_CARBON_STOCK
             ),
-          # + (
-          #     agriculture_hectares_year_2040 *
-          #       enviro_factors$AGRI_LAND_CARBON_STOCK
-          #   ),
           carbon_stock_change_from_conservation_ag_mg_c =
 
             conservation_tillage_mg_c -

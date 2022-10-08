@@ -71,22 +71,22 @@ run_scenario_land_use <- function(tb = land_use_data,
       dplyr::rename(year = year.2040) %>%
       tidyr::pivot_longer(
         cols = -c(ctu_name, year),
-        names_to = "metric_detail",
+        names_to = "var_detail",
         values_to = "value"
       ) %>%
-      dplyr::mutate(metric = "seq_mg_c_per_year") %>%
-      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
-      dplyr::select(ctu_name, year, metric, value) %>%
+      dplyr::mutate(var = "seq_mg_c_per_year") %>%
+      tidyr::unite("var", c(var_detail, var), remove = FALSE) %>%
+      dplyr::select(ctu_name, year, var, value) %>%
       dplyr::mutate(detail = "sequestration"),
     carbon_stock_per_ctu %>%
       tidyr::pivot_longer(
         cols = -c(ctu_name, year),
-        names_to = "metric_detail",
+        names_to = "var_detail",
         values_to = "value"
       ) %>%
-      dplyr::mutate(metric = "stock_mg_c_per_ha") %>%
-      tidyr::unite("metric", c(metric_detail, metric), remove = FALSE) %>%
-      dplyr::select(ctu_name, year, metric, value) %>%
+      dplyr::mutate(var = "stock_mg_c_per_ha") %>%
+      tidyr::unite("var", c(var_detail, var), remove = FALSE) %>%
+      dplyr::select(ctu_name, year, var, value) %>%
       dplyr::mutate(detail = "stock")
   ) %>%
     dplyr::mutate(
