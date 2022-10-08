@@ -1,19 +1,3 @@
-# ctu_residential_characteristics
-
-p_ctu_characteristics %>%
-  ungroup() %>%
-  select(-ctu_name, -year, -value) %>%
-  # filter(stringr::str_detect(var, "_forecast")) %>%
-  unique()
-
-
-p_ctu_characteristics_forecast %>%
-  select(-ctu_name, -year, -value) %>%
-  as_tibble() %>%
-  # filter(stringr::str_detect(var, "_forecast")) %>%
-  unique()
-
-
 ctu_characteristics <- p_ctu_characteristics_forecast %>%
   as_tibble() %>%
   distinct() %>%
@@ -38,15 +22,6 @@ ctu_characteristics <- p_ctu_characteristics_forecast %>%
       values_from = value
     ))
 
-
-# join with residential -----
-
-# kg_co2e_per_mwh
-
-
-# v_kg_co2e_per_mwh_baseline_bau
-
-
 ctu_w_res <- ctu_characteristics %>%
   left_join(ctu_residential_energy, c("ctu_name", "year")) %>%
   mutate(
@@ -68,10 +43,6 @@ ctu_w_res <- ctu_characteristics %>%
       residential_therms * enviro_factors$KG_CO2E_PER_THERM_BASELINE
   ) %>%
   unique()
-
-# filter(ctu_char_emission, is.na(residential_floor_area_per_capita))
-
-## join with non-residential energy -----
 
 
 ctu_w_nonres <- ctu_w_res %>%

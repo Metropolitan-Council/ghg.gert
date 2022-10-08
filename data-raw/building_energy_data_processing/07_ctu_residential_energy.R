@@ -1,33 +1,3 @@
-# residential ----
-
-
-p_ctu_residential_energy_forecast %>%
-  select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(var, "_forecast")) %>%
-  unique()
-View
-
-# residential_kwh_per_floor_area_forecast
-# residential_kwh_forecast
-
-# residential_therms_per_floor_area_forecast
-# residential_therms_forecast
-
-
-p_ctu_residential_energy_baseline %>%
-  ungroup() %>%
-  select(-ctu_name, -value) %>%
-  # filter(stringr::str_detect(var, "therm")) %>%
-  unique()
-# residential_mhw
-
-# common variables
-"kwh_per_floor_area" <- "residential_kwh_per_floor_area_forecast"
-"therms_per_floor_area" <- "residential_therms_per_floor_area_forecast"
-
-# mutate(residential_mwh = residential_kwh_forecast / 1000 )
-
-
 ctu_residential_energy <-
   p_ctu_residential_energy_forecast %>%
   pivot_wider(
