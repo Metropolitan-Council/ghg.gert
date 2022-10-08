@@ -7,12 +7,26 @@
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data) {
 
+# -------------------------------------------------------------------------
+
+
     statewide_nonresidential_energy <-
       get_statewide_non_residential_energy()
+
+# -------------------------------------------------------------------------
+
+
     county_nonresidential_baseline <-
-      get_by_county_non_residential_energy()
+      get_by_county_non_residential_energy_baseline()
+
+# -------------------------------------------------------------------------
+
+
     xcel_energy_electricity <-
-      get_by_ctu_non_residential_xcel_energy()
+      get_by_ctu_non_residential_xcel_energy_baseline()
+
+# -------------------------------------------------------------------------
+
 
     ## ---- obtain mwh/year for commercial workers for the state ----
     commercial_mwh_per_worker_state <-
@@ -38,6 +52,8 @@ get_non_residential_energy_baseline <-
       filter(var == "industrial_therms_per_worker_state") %>%
       select(value)
 
+
+# -------------------------------------------------------------------------
 
     # NON-RESIDENTIAL ENERGY BASELINE ----
     # CTU ----

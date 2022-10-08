@@ -6,6 +6,9 @@
 #' @examples
 calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 
+
+# -------------------------------------------------------------------------
+
   # NREL data: used in instances where there is not enough data to calculate using employment energy intensity
   nrel_nonresidential_energy_forecast <-
     tb$nrel_energy_consumption_ctu %>%
@@ -83,6 +86,8 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data){
           values_from = value
         )
     )
+
+  return(ctu_non_residential_energy)
 
 
 }

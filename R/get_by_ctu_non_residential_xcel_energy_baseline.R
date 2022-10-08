@@ -4,7 +4,7 @@
 #' @export
 #'
 #' @examples
-get_ctu_non_residential_xcel_energy <-
+get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data) {
     ## ---- check if community is served by more than 90% Xcel Energy ----
     xcel_energy_percent <-

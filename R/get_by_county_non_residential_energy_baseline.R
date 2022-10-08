@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-get_by_county_non_residential_energy <- function(tb = building_energy_data) {
+get_by_county_non_residential_energy_baseline <- function(tb = building_energy_data) {
   # NON-RESIDENTIAL ENERGY BASELINE ----
   # COUNTY ----
 
