@@ -1,8 +1,14 @@
-calc_non_residential_energy_forecast <- function(){
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 
   # NREL data: used in instances where there is not enough data to calculate using employment energy intensity
   nrel_nonresidential_energy_forecast <-
-    nrel_energy_consumption_ctu %>%
+    tb$nrel_energy_consumption_ctu %>%
     mutate(unit = case_when(
       source == "elec" ~ "mwh_nrel",
       source == "ng" ~ "therms_nrel"
@@ -58,6 +64,24 @@ calc_non_residential_energy_forecast <- function(){
         "commercial_mwh_per_worker"
       ),
       names_to = "var"
+    )
+
+  # common variables
+  "kwh_per_floor_area" <- "residential_kwh_per_floor_area_forecast"
+  "therms_per_floor_area" <- "residential_therms_per_floor_area_forecast"
+
+  ctu_non_residential_energy <-
+    ctu_nonresidential_energy_baseline %>%
+    pivot_wider(
+      names_from = var,
+      values_from = value
+    ) %>%
+    bind_rows(
+      ctu_nonresidential_energy_forecast %>%
+        pivot_wider(
+          names_from = var,
+          values_from = value
+        )
     )
 
 

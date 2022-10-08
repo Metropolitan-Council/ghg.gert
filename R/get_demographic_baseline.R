@@ -1,4 +1,12 @@
-get_demographic_baseline <- function(){
+#' Get Demographic Baseline
+#'
+#' @param tb
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_demographic_baseline <- function(tb = building_energy_data){
 
   # COUNTY DEMOGRAPHIC BASELINE ----
 

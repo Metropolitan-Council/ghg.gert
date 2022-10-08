@@ -1,26 +1,26 @@
-ctu_characteristics <- p_ctu_characteristics_forecast %>%
-  as_tibble() %>%
-  distinct() %>%
-  pivot_wider(
-    names_from = var,
-    values_from = value
-  ) %>%
-  select(
-    ctu_name,
-    year,
-    population,
-    households,
-    total_jobs = jobs,
-    commercial_jobs = commercial_emp_forecast,
-    industrial_jobs = industrial_emp_forecast,
-    everything()
-  ) %>%
-  group_by(ctu_name, year) %>%
-  bind_rows(p_ctu_characteristics %>%
-    pivot_wider(
-      names_from = var,
-      values_from = value
-    ))
+# ctu_characteristics <- p_ctu_characteristics_forecast %>%
+#   as_tibble() %>%
+#   distinct() %>%
+#   pivot_wider(
+#     names_from = var,
+#     values_from = value
+#   ) %>%
+#   select(
+#     ctu_name,
+#     year,
+#     population,
+#     households,
+#     total_jobs = jobs,
+#     commercial_jobs = commercial_emp_forecast,
+#     industrial_jobs = industrial_emp_forecast,
+#     everything()
+#   ) %>%
+#   group_by(ctu_name, year) %>%
+#   bind_rows(p_ctu_characteristics %>%
+#     pivot_wider(
+#       names_from = var,
+#       values_from = value
+#     ))
 
 ctu_w_res <- ctu_characteristics %>%
   left_join(ctu_residential_energy, c("ctu_name", "year")) %>%

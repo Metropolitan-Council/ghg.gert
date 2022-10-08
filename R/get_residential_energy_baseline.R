@@ -1,3 +1,9 @@
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_residential_energy_baseline <- function(){
 
   # RESIDENTIAL ENERGY BASELINE -----
@@ -137,6 +143,8 @@ get_residential_energy_baseline <- function(){
       residential_kwh_per_household,
       residential_therms_per_household
     )
+
+  return(ctu_residential_energy_baseline)
 
 
 }
