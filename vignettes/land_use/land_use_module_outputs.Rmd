@@ -129,7 +129,11 @@ ghg.sp::calc_parking_lot_land_cover(
 
 ```
 
-### Function to Calculate Conservation Tillage Strategy
+### Function to Calculate Conservation Tillage Strategy  
+
+Calculates the impact of conservation tillage scenarios on carbon stocks by city/township
+
+
 ```{r}
 ghg.sp::calc_conservation_tillage(
   tb = land_use_data,
