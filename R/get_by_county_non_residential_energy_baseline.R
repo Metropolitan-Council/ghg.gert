@@ -7,6 +7,8 @@
 #'
 #' @examples
 get_by_county_non_residential_energy_baseline <- function(tb = building_energy_data) {
+
+  county_characteristics <- get_residential_energy_baseline()
   # NON-RESIDENTIAL ENERGY BASELINE ----
   # COUNTY ----
 

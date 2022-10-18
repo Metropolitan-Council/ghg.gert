@@ -1,4 +1,4 @@
-#' Title
+#' @title Get Non Residential Xcel Energy by City/Township
 #'
 #' @return
 #' @export
@@ -6,6 +6,7 @@
 #' @examples
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data) {
+
     ## ---- check if community is served by more than 90% Xcel Energy ----
     xcel_energy_percent <-
       tb$intersect_landuse_utility_service_area_ctu %>%
