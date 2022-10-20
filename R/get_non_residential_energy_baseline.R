@@ -180,18 +180,18 @@ get_non_residential_energy_baseline <-
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_per_worker <-
-      bind_rows(ctu_nonresidential_energy_baseline_1,
+      dplyr::bind_rows(ctu_nonresidential_energy_baseline_1,
                 ctu_characteristics %>%
                   filter(var %in% c("commercial_jobs", "industrial_jobs"))) %>%
-      pivot_wider(names_from = "var", values_from = "value") %>%
-      rowwise() %>%
-      mutate(
+      tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         commercial_therm_per_worker = commercial_therms / commercial_jobs,
         industrial_therm_per_worker = industrial_therms / industrial_jobs,
         commercial_mwh_per_worker = commercial_mwh / commercial_jobs,
         industrial_mwh_per_worker = industrial_mwh / industrial_jobs
       ) %>%
-      select(
+      dplyr::select(
         ctu_name,
         year,
         commercial_therm_per_worker,
@@ -199,7 +199,7 @@ get_non_residential_energy_baseline <-
         commercial_mwh_per_worker,
         industrial_mwh_per_worker
       ) %>%
-      pivot_longer(
+      dplyr::pivot_longer(
         cols = c(
           "commercial_therm_per_worker",
           "industrial_therm_per_worker",
@@ -212,7 +212,8 @@ get_non_residential_energy_baseline <-
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_baseline <-
       bind_rows(ctu_nonresidential_energy_baseline_1,
-                ctu_nonresidential_energy_per_worker)
+                ctu_nonresidential_energy_per_worker) %>%
+      tibble::as.tibble()
 
     return(ctu_nonresidential_energy_baseline)
 

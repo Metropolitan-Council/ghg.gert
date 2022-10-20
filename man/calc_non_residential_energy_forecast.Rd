@@ -2,10 +2,10 @@
 % Please edit documentation in R/calc_non_residential_energy_forecast.R
 \name{calc_non_residential_energy_forecast}
 \alias{calc_non_residential_energy_forecast}
-\title{Title}
+\title{Calculate Non Residential Energy Forecast}
 \usage{
 calc_non_residential_energy_forecast(tb = building_energy_data)
 }
 \description{
-Title
+Calculate Non Residential Energy Forecast
 }

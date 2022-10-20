@@ -1,4 +1,4 @@
-#' Title
+#' @title Calculate Non Residential Energy Forecast
 #'
 #' @return
 #' @export
@@ -6,44 +6,47 @@
 #' @examples
 calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 
+  ctu_characteristics_forecast <- calc_demographic_forecast()
+  ctu_nonresidential_energy_baseline <- get_non_residential_energy_baseline()
+
 
 # -------------------------------------------------------------------------
 
   # NREL data: used in instances where there is not enough data to calculate using employment energy intensity
   nrel_nonresidential_energy_forecast <-
     tb$nrel_energy_consumption_ctu %>%
-    mutate(unit = case_when(
+    dplyr::mutate(unit = case_when(
       source == "elec" ~ "mwh_nrel",
       source == "ng" ~ "therms_nrel"
     )) %>%
-    mutate(value = case_when(
+    dplyr::mutate(value = case_when(
       source == "elec" ~ consumption_mmbtu * 0.293071,
       source == "ng" ~ consumption_mmbtu * 10
     )) %>%
-    unite("var", c(sector, unit), remove = FALSE) %>%
-    filter(year %in% c(2040)) %>%
-    select(ctu_name, year, var, value)
+    tidyr::unite("var", c(sector, unit), remove = FALSE) %>%
+    dplyr::filter(year %in% c(2040)) %>%
+    dplyr::select(ctu_name, year, var, value)
 
   # non residential forecast
   ## -------------------------------------------------------------------------------------------
   ctu_nonresidential_energy_forecast <-
-    bind_rows(
+    dplyr::bind_rows(
       ctu_characteristics_forecast,
       ctu_nonresidential_energy_baseline,
       nrel_nonresidential_energy_forecast
     ) %>%
-    select(-c("year")) %>%
-    distinct() %>%
-    pivot_wider(names_from = "var", values_from = "value") %>%
-    rowwise() %>%
-    mutate(
+    dplyr::select(-c("year")) %>%
+    dplyr::distinct() %>%
+    tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(
       commercial_mwh = if_else(is.na(commercial_mwh_per_worker * commercial_emp_forecast) == FALSE, commercial_mwh_per_worker * commercial_emp_forecast, commercial_mwh_nrel),
       commercial_therms = if_else(is.na(commercial_therm_per_worker * commercial_emp_forecast) == FALSE, commercial_therm_per_worker * commercial_emp_forecast, commercial_therms_nrel),
       industrial_mwh = if_else(is.na(industrial_mwh_per_worker * industrial_emp_forecast) == FALSE, industrial_mwh_per_worker * industrial_emp_forecast, industrial_mwh_nrel),
       industrial_therms = if_else(is.na(industrial_therm_per_worker * industrial_emp_forecast) == FALSE, industrial_therm_per_worker * industrial_emp_forecast, industrial_therms_nrel),
       year = 2040
     ) %>%
-    select(
+    dplyr::select(
       ctu_name,
       year,
       commercial_mwh,
@@ -55,7 +58,7 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data){
       commercial_therm_per_worker,
       commercial_mwh_per_worker
     ) %>%
-    pivot_longer(
+    tidyr::pivot_longer(
       cols = c(
         "commercial_mwh",
         "commercial_therms",
@@ -75,13 +78,13 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 
   ctu_non_residential_energy <-
     ctu_nonresidential_energy_baseline %>%
-    pivot_wider(
+    tidyr::pivot_wider(
       names_from = var,
       values_from = value
     ) %>%
-    bind_rows(
+    dplyr::bind_rows(
       ctu_nonresidential_energy_forecast %>%
-        pivot_wider(
+        tidyr::pivot_wider(
           names_from = var,
           values_from = value
         )

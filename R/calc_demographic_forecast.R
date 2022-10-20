@@ -147,7 +147,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   ## ---- get housing stock forecast from 'Emissions' ----
   housing_stock_ctu_forecast <- tb$forecast_lu_ctu %>%
     dplyr::filter(year == 2040,
-           ctu_name %in% unique(t_ctu_forecast$ctu_name),
+           ctu_name %in% unique(tb$ctu_forecast$ctu_name),
            var %in% (c("SFD_Units", "MF_Units")))
 
   ## ----- estimate single family average floor area from ZTRAX ----
@@ -220,7 +220,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
 
   ## ----get county forecast for avg multifamily floor area for when ctu equivalent is missing ----
   ctu_county_forecast <- county_characteristics_forecast %>%
-    dplyr::left_join(t_ctu_county, by = "co_name") %>%
+    dplyr::left_join(tb$ctu_county, by = "co_name") %>%
     dplyr::filter(var == "multifamily_average_floor_area_sqft_county") %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::summarize(value = mean(value), .groups = "keep") %>%

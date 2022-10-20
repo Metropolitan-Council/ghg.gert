@@ -4,7 +4,7 @@
 \alias{get_residential_energy_baseline}
 \title{Title}
 \usage{
-get_residential_energy_baseline()
+get_residential_energy_baseline(tb = building_energy_data)
 }
 \description{
 Title
