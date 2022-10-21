@@ -6,8 +6,7 @@
 #' @export
 get_by_county_non_residential_energy_baseline <-
   function(tb = building_energy_data) {
-    county_characteristics <- get_demographic_baseline() %>%
-      tibble::as_tibble()
+    county_characteristics <- get_demographic_baseline()$county
 
     # NON-RESIDENTIAL ENERGY BASELINE ----
     # COUNTY ----
@@ -22,13 +21,13 @@ get_by_county_non_residential_energy_baseline <-
                                                "Commercial",
                                                "Industrial")) %>%
       dplyr::mutate(mwh_per_year =
-                      case_when(is.na(mwh_per_year) ~ 0,
+                      dplyr::case_when(is.na(mwh_per_year) ~ 0,
                                 mwh_per_year > -1 ~ mwh_per_year)) %>%
       dplyr::select(utility_name,
                     customer_class_name,
                     mwh_per_year) %>%
-      group_by(utility_name) %>%
-      pivot_wider(names_from = customer_class_name,
+      dplyr::group_by(utility_name) %>%
+      tidyr::pivot_wider(names_from = customer_class_name,
                   values_from = mwh_per_year) %>%
       dplyr::mutate(
         Total = sum(Residential, Commercial, Industrial),
@@ -98,7 +97,7 @@ get_by_county_non_residential_energy_baseline <-
         residential_percent_by_area = residential / total
       ) %>%
       dplyr::filter(total > 50) %>%
-      select(
+      dplyr::select(
         co_name,
         utility_name,
         commercial_percent_by_area,
@@ -112,10 +111,10 @@ get_by_county_non_residential_energy_baseline <-
       dplyr::right_join(mndoc_electricity_county_utility,
                         servicewide_customer_class_ratio,
                         by = "utility_name") %>%
-      right_join(.,
+      dplyr::right_join(.,
                  customer_class_ratio_by_area,
                  by = c("utility_name", "co_name")) %>%
-      mutate(
+      dplyr::mutate(
         percent_residential = (
           servicewide_percent_residential + residential_percent_by_area
         ) / 2,
@@ -143,7 +142,7 @@ get_by_county_non_residential_energy_baseline <-
     ## ----- estimate countywide energy consumption by customer class ----
     county_electricity <-
       mndoc_customer_class_estimate %>%
-      pivot_longer(
+      tidyr::pivot_longer(
         cols = c(
           "residential_mwh_county",
           "commercial_mwh_county",
@@ -151,29 +150,29 @@ get_by_county_non_residential_energy_baseline <-
         ),
         names_to = "var"
       ) %>%
-      mutate(year = 2018) %>%
-      select(co_name, year, var, value)
+      dplyr::mutate(year = 2018) %>%
+      dplyr::select(co_name, year, var, value)
 
 
     ## ----- estimate county MWh/worker (commercial and industrial) ----
     mwh_per_worker_county <-
-      bind_rows(county_electricity,
+      dplyr::bind_rows(county_electricity,
                 county_characteristics %>%
-                  filter(
+                  dplyr::filter(
                     var %in% c("commercial_workers_county", "industrial_workers_county")
                   )) %>%
-      pivot_wider(names_from = "var", values_from = "value") %>%
-      mutate(
+      tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
+      dplyr::mutate(
         commercial_mwh_per_worker_county = commercial_mwh_county / commercial_workers_county,
         industrial_mwh_per_worker_county = industrial_mwh_county / industrial_workers_county
       ) %>%
-      select(
+      dplyr::select(
         co_name,
         year,
         commercial_mwh_per_worker_county,
         industrial_mwh_per_worker_county
       ) %>%
-      pivot_longer(
+      tidyr::pivot_longer(
         cols = c(
           "commercial_mwh_per_worker_county",
           "industrial_mwh_per_worker_county"

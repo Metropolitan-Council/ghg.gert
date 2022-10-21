@@ -7,14 +7,14 @@
 get_residential_energy_baseline <-
   function(tb = building_energy_data) {
 
-    ctu_characteristics <- get_demographic_baseline()
+    ctu_characteristics <- get_demographic_baseline()$ctu
 
     # RESIDENTIAL ENERGY BASELINE -----
     ## ----- get electricity by ctu from 'Emissions' ------
     electricity_residential_ctu <-
       tb$electricity_residential_ctu %>%
       dplyr::mutate(
-        residential_mwh = case_when(
+        residential_mwh = dplyr::case_when(
           (actual_residential_mwh > 1) ~ actual_residential_mwh,
           (is.na(actual_residential_mwh)) ~ est_residential_mwh
         ),
@@ -61,7 +61,7 @@ get_residential_energy_baseline <-
     residential_kwh_per_sqft <-
       dplyr::bind_rows(electricity_residential_ctu,
                 ctu_characteristics %>%
-                  filter(
+                  dplyr::filter(
                     var %in% c(
                       "SFD_Units",
                       "single_family_average_floor_area_sqft_ctu",

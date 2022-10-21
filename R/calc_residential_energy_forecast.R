@@ -7,7 +7,7 @@
 calc_residential_energy_forecast <-
   function(tb = building_energy_data) {
     ctu_residential_energy_baseline <- get_residential_energy_baseline()
-    ctu_characteristics_forecast <- calc_demographic_forecast()
+    ctu_characteristics_forecast <- calc_demographic_forecast()$ctu
 
     # RESIDENTIAL ENERGY FORECAST ----
 
@@ -18,8 +18,8 @@ calc_residential_energy_forecast <-
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(ctu_characteristics_forecast %>%
-                         select(-c(year)) %>%
-                         filter(
+                         dplyr::select(-c(year)) %>%
+                         dplyr::filter(
                            var %in% c(
                              "SFD_Units",
                              "single_family_average_floor_area_sqft_ctu",
@@ -59,7 +59,7 @@ calc_residential_energy_forecast <-
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(., ctu_characteristics_forecast %>%
-                         select(-c(year))) %>%
+                         dplyr::select(-c(year))) %>%
       dplyr::group_by(ctu_name, var) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value") %>%

@@ -1,4 +1,4 @@
-#' Calculate Demographic Forecast
+#' @title Calculate Demographic Forecast
 #'
 #' @return
 #' @export
@@ -6,26 +6,25 @@
 #' @examples
 calc_demographic_forecast <- function(tb = building_energy_data) {
   # COUNTY DEMOGRAPHIC FORECAST ----
-
+  demographic_characteristics_forecast <- c()
   # -------------------------------------------------------------------------
 
   ## ---- estimate avg growth in single family floor area -----
   county_average_annual_growth_single_family_sqft <-
     tb$ztrax_building_sqft %>%
     dplyr::filter(year_built > 1991,
-           residential_type %in% c("single_family_residential")
-           ) %>%
+                  residential_type %in% c("single_family_residential")) %>%
     dplyr::group_by(co_name) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
-      diff_year = year_built - lag(year_built),
+      diff_year = year_built - dplyr::lag(year_built),
       # Difference in time (just in case there are gaps)
-      diff_growth = average_building_sqft - lag(average_building_sqft),
+      diff_growth = average_building_sqft - dplyr::lag(average_building_sqft),
       # Difference in route between years
       rate_percent = (diff_growth / diff_year) / average_building_sqft
     ) %>% # growth rate in percent
-    summarise(mean_growth_rate = mean(rate_percent, na.rm = TRUE),
-              .groups = "keep")
+    dplyr::summarise(mean_growth_rate = mean(rate_percent, na.rm = TRUE),
+                     .groups = "keep")
 
 
   # -------------------------------------------------------------------------
@@ -38,9 +37,9 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::group_by(co_name) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
-      diff_year = year_built - lag(year_built),
+      diff_year = year_built - dplyr::lag(year_built),
       # Difference in time (just in case there are gaps)
-      diff_growth = average_building_sqft - lag(average_building_sqft),
+      diff_growth = average_building_sqft - dplyr::lag(average_building_sqft),
       # Difference in route between years
       rate_percent = (diff_growth / diff_year) / average_building_sqft
     ) %>% # growth rate in percent
@@ -79,7 +78,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::left_join(county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
     dplyr::mutate(
       value =
-        case_when(
+        dplyr::case_when(
           mean_growth_rate * (2040 - 2018) > 0.15 ~ value + (value * 0.15),
           mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
         ),
@@ -96,7 +95,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::filter(year == 2040) %>%
     dplyr::group_by(co_name, year, indlabel) %>%
     dplyr::mutate(var =
-             case_when(
+             dplyr::case_when(
                (
                  indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"
                ),
@@ -133,7 +132,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::filter(year == 2040) %>%
     dplyr::group_by(ctu_name, year, indlabel) %>%
     dplyr::mutate(var =
-                    case_when(
+                    dplyr::case_when(
                       (
                         indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast"
                       ),
@@ -186,7 +185,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::group_by(ctu_name) %>%
     dplyr::mutate(
       value =
-        case_when(
+        dplyr::case_when(
           mean_growth_rate * (2040 - 2018) > 0.15 ~ value + (value * 0.15),
           mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
         ),
@@ -208,7 +207,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::group_by(ctu_name) %>%
     dplyr::mutate(
       value =
-        case_when(
+        dplyr::case_when(
           mean_growth_rate * (2040 - 2018) > 0.15 ~ value + (value * 0.15),
           mean_growth_rate * (2040 - 2018) < 0.15 ~ value + (value * mean_growth_rate)
         ),
@@ -228,7 +227,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
 
 
   ## ----- compile forecast of ctu demographic characteristics -----
-  ctu_characteristics_forecast <-
+  demographic_characteristics_forecast$ctu <-
     dplyr::bind_rows(
       ctu_population_forecast,
       housing_stock_ctu_forecast,
@@ -238,24 +237,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
       ctu_county_forecast
     ) %>%
     tibble::as_tibble()
-  #   distinct() %>%
-  #   pivot_wider(names_from = var,
-  #               values_from = value) %>%
-  #   select(
-  #     ctu_name,
-  #     year,
-  #     population,
-  #     households,
-  #     total_jobs = jobs,
-  #     commercial_jobs = commercial_emp_forecast,
-  #     industrial_jobs = industrial_emp_forecast,
-  #     everything()
-  #   ) %>%
-  #   group_by(ctu_name, year) %>%
-  #   bind_rows(ctu_characteristics %>%
-  #               pivot_wider(names_from = var,
-  #                           values_from = value))
 
-  return(ctu_characteristics_forecast)
+  return(demographic_characteristics_forecast)
 
 }

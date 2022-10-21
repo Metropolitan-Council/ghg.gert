@@ -7,7 +7,7 @@
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data) {
 
-    ctu_characteristics <- get_demographic_baseline()
+    ctu_characteristics <- get_demographic_baseline()$ctu
 
     statewide_nonresidential_energy <-
       get_statewide_non_residential_energy()
@@ -35,7 +35,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     is_served_by_mostly_xcel <-
       xcel_energy_percent %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(is_excel = if_else(percent > 0.90, TRUE, FALSE))
+      dplyr::mutate(is_excel = dplyr::if_else(percent > 0.90, TRUE, FALSE))
 
     ## ---- get xcel energy mwh/year for the 'business' category ----
     commercial_industrial_electricity_mwh_xcel <-
@@ -50,12 +50,12 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
                                "industrial_jobs")) %>%
       dplyr::mutate(
         state_mwh_per_worker =
-          case_when(
+          dplyr::case_when(
             (var == "commercial_jobs") ~ commercial_mwh_per_worker_state,
             (var == "industrial_jobs") ~ industrial_mwh_per_worker_state
           ),
         var =
-          case_when(
+          dplyr::case_when(
             (var == "commercial_jobs") ~ "expected_commercial_mwh",
             (var == "industrial_jobs") ~ "expected_industrial_mwh"
           ),

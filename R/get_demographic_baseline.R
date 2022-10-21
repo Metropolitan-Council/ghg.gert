@@ -5,6 +5,7 @@
 #' @export
 get_demographic_baseline <- function(tb = building_energy_data) {
   # COUNTY DEMOGRAPHIC BASELINE ----
+  demographic_characteristics <- c()
 
   ## ----- get average floor area for single family from ZTRAX in 'Emissions' -----
   county_average_floor_area_single_family <-
@@ -33,7 +34,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     dplyr::filter(year == 2018) %>%
     dplyr::filter(jw_indicator == "W") %>%
     dplyr::mutate(var =
-             case_when(
+             dplyr::case_when(
                (industry %in% naics_codes$led_commercial) ~ "commercial_workers_county",
                (industry %in% naics_codes$led_industrial) ~ "industrial_workers_county"
              )) %>%
@@ -42,7 +43,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     dplyr::summarise(value = sum(count, na.rm = T), .groups = "keep")
 
   ## ---- compile county baseline demographic characteristic -----
-  county_characteristics <-
+  demographic_characteristics$county <-
     dplyr::bind_rows(
       county_average_floor_area_single_family,
       county_average_floor_area_multifamily,
@@ -112,7 +113,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     dplyr::filter(year == 2018) %>%
     dplyr::select(ctu_name, year, naicstitle, emp) %>%
     dplyr::group_by(ctu_name, year) %>%
-    summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
+    dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
     dplyr::mutate(var = "commercial_jobs") %>%
     dplyr::select(ctu_name, year, var, value)
 
@@ -150,7 +151,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
 
 
   ## ---- get county multifamily floor area for when ctu equivalent is missing ----
-  ctu_county <- county_characteristics %>%
+  ctu_county <- demographic_characteristics$county %>%
     dplyr::left_join(tb$ctu_county, by = "co_name") %>%
     dplyr::filter(var == "multifamily_average_floor_area_sqft_county") %>%
     dplyr::group_by(ctu_name, year, var) %>%
@@ -161,7 +162,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
   # uses weighted average based on population
 
   #---- compile ctu demographic baseline characterics -----
-  ctu_characteristics <-
+  demographic_characteristics$ctu <-
     dplyr::bind_rows(
       ctu_population,
       ctu_jobs,
@@ -174,6 +175,6 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     ) %>%
     unique()
 
-  return(ctu_characteristics)
+  return(demographic_characteristics)
 
 }
