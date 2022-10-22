@@ -57,7 +57,7 @@ calc_ghg_residential <- function(res_tb,
         )
       ) %>%
       dplyr::group_by(ctu_name, year, var) %>%
-      tidyr::pivot_wider(names_from = "var", values_from = value) %>%
+      tidyr::pivot_wider(names_from = "var", values_from = value, values_fn = sum) %>%
       dplyr::mutate(
         kg_per_mwh = dplyr::case_when(
           year < 2040 ~ .enviro_factors$KG_CO2E_PER_MHW_BASELINE,

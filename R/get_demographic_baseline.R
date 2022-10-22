@@ -121,8 +121,12 @@ get_demographic_baseline <- function(tb = building_energy_data) {
   ## ----- get forecast of single and multifamily units from 'Emissions' ----
   ctu_housing_stock <-
     tb$forecast_lu_ctu %>%
-    dplyr::filter(var %in% c("SFD_Units", "MF_Units")) %>%
-    dplyr::filter(year == 2018) %>%
+    dplyr::filter(var %in% c("SFD_Units", "MF_Units"),
+                  year == 2018) %>%
+    dplyr::mutate(var =
+                    dplyr::case_when((var == "MF_Units") ~ "multifamily_units",
+                                     (var == "SFD_Units") ~ "single_family_units"
+                    )) %>%
     dplyr::group_by(ctu_name, year)
 
 

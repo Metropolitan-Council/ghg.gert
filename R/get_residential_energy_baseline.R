@@ -63,9 +63,9 @@ get_residential_energy_baseline <-
                 ctu_characteristics %>%
                   dplyr::filter(
                     var %in% c(
-                      "SFD_Units",
+                      "single_family_units",
                       "single_family_average_floor_area_sqft_ctu",
-                      "MF_Units",
+                      "multifamily_units",
                       "multifamily_average_floor_area_sqft_county"
                     )
                   )) %>%
@@ -74,8 +74,8 @@ get_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = "var",
                   values_from = "value",
                   values_fn = mean) %>%
-      dplyr::mutate(kwh_per_floor_area = (residential_mwh / ((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                                        (MF_Units * multifamily_average_floor_area_sqft_county)
+      dplyr::mutate(kwh_per_floor_area = (residential_mwh / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+                                                        (multifamily_units * multifamily_average_floor_area_sqft_county)
       )) *
         1000) %>%
       dplyr::select(ctu_name, year, kwh_per_floor_area) %>%
@@ -90,8 +90,8 @@ get_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = "var",
                   values_from = "value",
                   values_fn = mean) %>%
-      dplyr::mutate(therms_per_floor_area = (residential_ng_therms / ((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                                                 (MF_Units * multifamily_average_floor_area_sqft_county)
+      dplyr::mutate(therms_per_floor_area = (residential_ng_therms / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+                                                                 (multifamily_units * multifamily_average_floor_area_sqft_county)
       ))) %>%
       dplyr::select(ctu_name, year, therms_per_floor_area) %>%
       dplyr::group_by(ctu_name, year) %>%

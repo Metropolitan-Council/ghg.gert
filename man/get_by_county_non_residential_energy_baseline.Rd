@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_by_county_non_residential_energy_baseline.R
 \name{get_by_county_non_residential_energy_baseline}
 \alias{get_by_county_non_residential_energy_baseline}
-\title{Title}
+\title{Get by County Non Residential Energy}
 \usage{
 get_by_county_non_residential_energy_baseline(tb = building_energy_data)
 }
@@ -10,5 +10,5 @@ get_by_county_non_residential_energy_baseline(tb = building_energy_data)
 \item{tb}{}
 }
 \description{
-Title
+Get by County Non Residential Energy
 }

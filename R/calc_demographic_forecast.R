@@ -146,8 +146,12 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   ## ---- get housing stock forecast from 'Emissions' ----
   housing_stock_ctu_forecast <- tb$forecast_lu_ctu %>%
     dplyr::filter(year == 2040,
-           ctu_name %in% unique(tb$ctu_forecast$ctu_name),
-           var %in% (c("SFD_Units", "MF_Units")))
+                  ctu_name %in% unique(tb$ctu_forecast$ctu_name),
+                  var %in% (c("SFD_Units", "MF_Units")))  %>%
+    dplyr::mutate(var =
+                    dplyr::case_when((var == "MF_Units") ~ "multifamily_units",
+                                     (var == "SFD_Units") ~ "single_family_units"
+                    ))
 
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-

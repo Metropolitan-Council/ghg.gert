@@ -21,9 +21,9 @@ calc_residential_energy_forecast <-
                          dplyr::select(-c(year)) %>%
                          dplyr::filter(
                            var %in% c(
-                             "SFD_Units",
+                             "single_family_units",
                              "single_family_average_floor_area_sqft_ctu",
-                             "MF_Units",
+                             "multifamily_units",
                              "multifamily_average_floor_area_sqft_county"
                            )
                          )) %>%
@@ -32,8 +32,12 @@ calc_residential_energy_forecast <-
                          values_fn = mean) %>%
       dplyr::mutate(
         residential_kwh_per_floor_area_forecast = kwh_per_floor_area * 0.8,
-        total_residential_kwh_forecast = (((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                             (MF_Units * multifamily_average_floor_area_sqft_county)
+        total_residential_kwh_forecast = (((
+          single_family_units * single_family_average_floor_area_sqft_ctu
+        ) +
+          (
+            multifamily_units * multifamily_average_floor_area_sqft_county
+          )
         ) * residential_kwh_per_floor_area_forecast),
         year = 2040
       ) %>%
@@ -66,8 +70,12 @@ calc_residential_energy_forecast <-
       # assumption that natural gas per floor area stays static
       dplyr::mutate(residential_therms_per_floor_area_forecast = therms_per_floor_area * 1) %>%
       dplyr::mutate(
-        total_residential_therms_forecast = (((SFD_Units * single_family_average_floor_area_sqft_ctu) +
-                                                (MF_Units * multifamily_average_floor_area_sqft_county)
+        total_residential_therms_forecast = (((
+          single_family_units * single_family_average_floor_area_sqft_ctu
+        ) +
+          (
+            multifamily_units * multifamily_average_floor_area_sqft_county
+          )
         ) * residential_therms_per_floor_area_forecast)
       ) %>%
       dplyr::mutate(year = 2040) %>%
