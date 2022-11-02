@@ -70,8 +70,8 @@ ghg.sp::calc_ghg_residential(
 # need to decide how to make this one shorter
 ghg.sp::calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
-    res_tb = compile_bau_building_energy()$residential,
-    res_tb_bau = compile_bau_building_energy()$residential,
+    res_tb = building_energy_bau_data$residential,
+    res_tb_bau = building_energy_bau_data$residential,
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
   ),
@@ -84,7 +84,7 @@ ghg.sp::calc_electrify_residential_heating(
 
 # not working
 ghg.sp::calc_residential_renewable_ng(
-  res_tb = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
   .enviro_factors = enviro_factors
 )
 
@@ -106,6 +106,8 @@ ghg.sp::calc_electrify_commercial_heating(
   .non_res_natural_gas_for_space_heating_pct = 0.69,
   .enviro_factors = enviro_factors
 )
+
+
 
 ## all of the above work
 
