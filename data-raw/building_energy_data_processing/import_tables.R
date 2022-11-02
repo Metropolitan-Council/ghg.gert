@@ -85,8 +85,6 @@ building_energy_data$nrel_energy_consumption_ctu <-
 building_energy_data$utility_natural_gas_by_ctu <-
   import_from_emissions("metro_energy.vw_utility_natural_gas_by_ctu")
 
-
 # -------------------------------------------------------------------------
-
 
 usethis::use_data(building_energy_data, overwrite = T)
