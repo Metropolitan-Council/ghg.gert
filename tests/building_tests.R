@@ -1,53 +1,111 @@
 library(ghg.sp)
 
 # business as usual
+# instead of running all these function we use the .rdata file: "building_energy_bau_data"
+
 ghg.sp::get_demographic_baseline(tb = building_energy_data)
+
 ghg.sp::calc_demographic_forecast(tb = building_energy_data)
+
 ghg.sp::get_residential_energy_baseline(tb = building_energy_data)
+
 ghg.sp::calc_residential_energy_forecast(tb = building_energy_data)
+
 ghg.sp::get_by_ctu_non_residential_xcel_energy_baseline(tb = building_energy_data)
+
 ghg.sp::get_by_county_non_residential_energy_baseline(tb = building_energy_data)
+
 ghg.sp::get_statewide_non_residential_energy(tb = building_energy_data)
+
 ghg.sp::get_non_residential_energy_baseline(tb = building_energy_data)
+
 ghg.sp::calc_non_residential_energy_forecast(tb = building_energy_data)
+
 ghg.sp::compile_bau_building_energy(tb = building_energy_data)
 
 # strategies
 ## residential
-ghg.sp::adj_unit_counts(res_tb = compile_bau_building_energy()$residential,
+ghg.sp::adj_unit_counts(res_tb = building_energy_bau_data$residential,
                         .new_homes_to_multifamily_pct = 0.50)
+
 ghg.sp::calc_affordable_floor_area(
-  res_tb  = compile_bau_building_energy()$residential,
+  res_tb  = building_energy_bau_data$residential,
   .single_family_floor_area_growth_pct = 0.05
 )
+
 ghg.sp::calc_floor_area_leed(
-  res_tb = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
   .new_homes_leed_gold_pct = 0.5,
   .enviro_factors = enviro_factors
 )
+
 ghg.sp::calc_floor_area_retrofit(
-  res_tb = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .enviro_factors = enviro_factors
 )
+
 ghg.sp::calc_floor_area_retrofit(
-  res_tb = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .enviro_factors = enviro_factors
 )
+
 ghg.sp::calc_floor_area_behavior_change(
-  res_tb = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
   .home_behavior_change_pct = 1.00,
   .enviro_factors = enviro_factors
 )
+
+# need to decide how to make this one shorter
 ghg.sp::calc_ghg_residential(
-  res_tb = compile_bau_building_energy()$residential,
-  res_tb_bau = compile_bau_building_energy()$residential,
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
   .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors
 )
 
+# need to decide how to make this one shorter
+ghg.sp::calc_electrify_residential_heating(
+  res_tb = calc_ghg_residential(
+    res_tb = compile_bau_building_energy()$residential,
+    res_tb_bau = compile_bau_building_energy()$residential,
+    .grid_decarbonization_pct = 0.80,
+    .enviro_factors = enviro_factors
+  ),
+  .additional_electrified_residential_buildings_pct = 0.45,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .grid_decarbonization_pct = 0.80,
+  .enviro_factors = enviro_factors
+);
+
+# not working
+ghg.sp::calc_residential_renewable_ng(
+  res_tb = compile_bau_building_energy()$residential,
+  .enviro_factors = enviro_factors
+)
+
 # non_residential
+ghg.sp::calc_electrify_commercial_heating(
+  non_res_tb = calc_ghg_non_residential(
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
+    .grid_decarbonization_pct = 0.8,
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 0.8
+  ),
+  .grid_decarbonization_pct = 0.8,
+  .electrified_buildings_pct = 0.40,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .enviro_factors = enviro_factors
+)
+
+## all of the above work
 
