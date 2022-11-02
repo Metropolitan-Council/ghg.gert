@@ -134,12 +134,6 @@ calc_ghg_residential <- function(res_tb,
                     into = c("var", "scen"),
                     sep = "\\.")
 
-  # %>%
-  #   tidyr::pivot_wider(
-  #     names_from = c(var, year),
-  #     values_from = value,
-  #     names_sep = "."
-  #   )
 
   return(emis_final)
 }
