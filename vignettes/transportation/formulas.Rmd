@@ -45,7 +45,7 @@ pass_ld_vmt = (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj 
 
 ###### Transit  
 
-For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.sp::enviro_factors$PLDV_TRANSIT_RATIO`
+For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.sp::enviro_factors$TRANSIT_SERVICE_ELAST`
 
 $$ adj_{transit} = VMT_{transit} \times \Delta service \times 0.47  $$
 

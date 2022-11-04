@@ -792,7 +792,7 @@ vmt_transit_service <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(additional_transit, by = c("year", "ctu")) %>%
-      mutate(transit_adj = (all_transit_plus * .enviro_factors$PLDV_TRANSIT_RATIO)) %>%
+      mutate(transit_adj = (all_transit_plus * .enviro_factors$TRANSIT_SERVICE_ELAST)) %>%
       # mutate(transit_adj = (all_transit_plus)) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
