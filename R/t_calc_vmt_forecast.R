@@ -22,7 +22,7 @@
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
 #' @inheritParams vmt_autonomous_vehicle
-#' @inheritParams vmt_transit_ridership
+#' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams vmt_telework
 #'
@@ -120,7 +120,7 @@ calc_vmt_forecast <- function(.scenario,
 
       # transit ridership adjustment
       # distributes final % increase across years
-      trans_rider <- vmt_transit_ridership(
+      trans_rider <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
         .transit_service_pct = .transit_service_pct,
@@ -245,7 +245,7 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
-      trans_rider <- vmt_transit_ridership(
+      trans_rider <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
         .transit_service_pct = .transit_service_pct,
@@ -447,7 +447,7 @@ calc_vmt_forecast <- function(.scenario,
         filter(mode == "AT", var == .variable) %>%
         select(year, ctu, at_adjust = value)
 
-      trans_rider <- vmt_transit_ridership(
+      trans_rider <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
         .transit_service_pct = .transit_service_pct,

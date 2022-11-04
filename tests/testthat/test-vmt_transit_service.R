@@ -2,7 +2,7 @@ enviro_factors_edit <- enviro_factors
 
 enviro_factors_edit$PLDV_TRANSIT_RATIO <- 47 / 100
 
-pass_trans <- vmt_transit_ridership(
+pass_trans <- vmt_transit_service(
   tb = st_paul_passenger,
   .mode = "PLDV",
   .transit_service_pct = 0.10,
@@ -26,7 +26,7 @@ testthat::expect_equal(
 )
 
 testthat::expect_equal(
-  vmt_transit_ridership(
+  vmt_transit_service(
     tb = st_paul_passenger,
     .mode = "BU",
     .transit_service_pct = 0.1,
@@ -48,7 +48,7 @@ testthat::expect_equal(
 
 
 testthat::expect_equal(
-  vmt_transit_ridership(
+  vmt_transit_service(
     tb = st_paul_passenger,
     .mode = "RI",
     .transit_service_pct = 0.1,

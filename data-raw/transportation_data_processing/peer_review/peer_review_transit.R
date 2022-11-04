@@ -76,7 +76,7 @@ mitigation_lu <- run_scenario_transportation(
 ) %>%
   suppressMessages()
 
-# debug(vmt_transit_ridership)
+# debug(vmt_transit_service)
 mitigation_lu_transit <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,

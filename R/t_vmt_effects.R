@@ -758,7 +758,7 @@ vmt_stock_proportion <- function(.tb,
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #' @family VMT effects
-vmt_transit_ridership <- function(tb,
+vmt_transit_service <- function(tb,
                                   .mode,
                                   .transit_service_pct,
                                   .elast = elast,
