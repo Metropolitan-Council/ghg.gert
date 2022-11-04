@@ -413,7 +413,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       "cost" = cost_all
     )
   } else {
-
     # return a basic shell with NA values
     vmt_all <- .pass_tb %>%
       dplyr::select(ctu, year) %>%

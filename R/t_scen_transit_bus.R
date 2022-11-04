@@ -128,8 +128,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   ci_emb_ghg <-
     calc_ghg_embodied(
       tb = .pass_tb,
-      .mode =   mode,
-      .sales_mode =  "BCISales",
+      .mode = mode,
+      .sales_mode = "BCISales",
       .fuel_type = "BU-BCI-EMB",
       .class = class,
       .transit_avo_pct = .transit_avo_pct,

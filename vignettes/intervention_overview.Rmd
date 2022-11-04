@@ -29,14 +29,15 @@ library(councilR)
 library(emo)
 
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-      councilR::theme_council(use_showtext = T,
-                          use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
-
 ```
 
 
@@ -75,7 +76,6 @@ Land use strategies are interdependent.
 
 
 ```{r}
-
 ```
 
 

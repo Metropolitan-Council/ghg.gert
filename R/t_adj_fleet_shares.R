@@ -74,7 +74,6 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .av_pct = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-
   # browser()
 
   .pass_tb <- .pass_tb %>% unique()
@@ -571,12 +570,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         phev_new_adj,
         bev_new_adj
       ) %>%
-      dplyr::right_join(pass_tb %>%
-        dplyr::filter(
-          mode == "PLDV",
-          stringr::str_detect(var, "Exist")
-        ),
-      by = c("mode", "ctu", "year", "aeo_mode", "type")
+      dplyr::right_join(
+        pass_tb %>%
+          dplyr::filter(
+            mode == "PLDV",
+            stringr::str_detect(var, "Exist")
+          ),
+        by = c("mode", "ctu", "year", "aeo_mode", "type")
       ) %>%
       dplyr::mutate(
         value = dplyr::case_when(

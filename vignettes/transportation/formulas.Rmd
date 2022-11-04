@@ -34,8 +34,7 @@ $y$ is the given year
 $n$ is the number of vehicles with fuel type $f$ and travel mode $m$.  
 
 ```{r}
-pass_ld_vmt = (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj * telework_adj * land_use_adj * park_price_adj) / occupancy_adj) * mode_stock_adj  
-
+pass_ld_vmt <- (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj * telework_adj * land_use_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
 ```
 
 
@@ -75,7 +74,7 @@ $elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total
 Users can include EITHER VMT fees or PAYD fees, not both. 
 
 ```{r}
-1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast  
+1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast
 ```
 
 
@@ -91,7 +90,7 @@ $elast_{cong}$ is the elasticity or effect size of per mile pricing during conge
 
 ```{r}
 1 + ((.cong_price / fuel_time_cost_mile) *
-                             .enviro_factors$CONG_VMT) * cong_elast
+  .enviro_factors$CONG_VMT) * cong_elast
 ```
 
 ###### Gas taxes    

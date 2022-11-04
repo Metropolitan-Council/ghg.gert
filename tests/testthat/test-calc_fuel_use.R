@@ -117,7 +117,7 @@ fcm_test_hev <- calc_fuel_cost_mile(
   st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
-  .miles_per_gallon =  "HEVMPG",
+  .miles_per_gallon = "HEVMPG",
   .fuel_cost_gallon = enviro_factors$SI_FUEL_COST_GAL,
   .av_pct = 0
 )

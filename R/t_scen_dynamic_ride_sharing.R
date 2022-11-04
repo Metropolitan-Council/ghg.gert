@@ -163,7 +163,6 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
           .enviro_factors = .enviro_factors
         )
     } else if (.drs_fuel_type == "PHEV") {
-
       ## DRS Plug-in hybrid -----
       stock <- "DRSStock"
       mpg <- "PHEVMPG"

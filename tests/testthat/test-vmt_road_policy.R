@@ -3,7 +3,7 @@ fcm_test <- calc_fuel_cost_mile(
   st_paul_passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
+  .miles_per_gallon = "SIMPG",
   .fuel_cost_gallon = 239.8 / 100,
   .av_pct = 0
 )

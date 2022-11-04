@@ -46,16 +46,20 @@ The possible scenarios to select on the `.urban_form_scenario` argument include:
 
 The following code prints the value of function `ghg.sp::calc_by_development_type()` filtered to show only the city of Lake Elmo. 
 ```{r}
-ghg.sp::calc_land_by_development_type(tb = land_use_data,
-                                      .urban_form_scenario = "bau") %>%
+ghg.sp::calc_land_by_development_type(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
 The second function is `ghg.sp::calc_scen_land_use()`
 The following code runs the `ghg.sp::calc_scen_land_use()` for the `"bau"` or business as usual scenario. 
 ```{r}
-ghg.sp::calc_scen_land_use(tb =  land_use_data,
-                           .urban_form_scenario = "bau") %>%
+ghg.sp::calc_scen_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 70)
 ```
@@ -63,19 +67,23 @@ ghg.sp::calc_scen_land_use(tb =  land_use_data,
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
 The following code runs the `ghg.sp::calc_land_cover_by_land_use()` for the `"bau"` or business as usual scenario.
 ```{r}
-ghg.sp::calc_land_cover_by_land_use(tb =  land_use_data,
-                                    .urban_form_scenario = "bau") %>%
+ghg.sp::calc_land_cover_by_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
   dplyr::filter(year == 2040) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  dplyr::filter(land_cover_description_2 == 	"forest") %>%
+  dplyr::filter(land_cover_description_2 == "forest") %>%
   head(., n = 25)
 ```
 
 The fourth function is `ghg.sp::calc_land_cover_by_city()`
 This function returns the urban form scenario land composition in hectares without adding additional strategies. This is the last function used to estimate the impact of urban form changes alone.  
 ```{r}
-ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                .urban_form_scenario = "bau") %>%
+ghg.sp::calc_land_cover_by_city(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
   dplyr::filter(year == 2040) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   head(., n = 15)
@@ -94,7 +102,7 @@ ghg.sp::calc_tree_planting_land_cover(
   .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::filter(year == 2040) %>%
   tidyr::pivot_longer(
@@ -126,7 +134,6 @@ ghg.sp::calc_parking_lot_land_cover(
     values_to = "value",
     cols = -c("ctu_name", "year")
   )
-
 ```
 
 ### Function to Calculate Conservation Tillage Strategy  
@@ -144,7 +151,7 @@ ghg.sp::calc_conservation_tillage(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
   detail = FALSE
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   tidyr::pivot_longer(
     names_to = "var",
@@ -197,5 +204,5 @@ ghg.sp::run_scenario_land_use(
   detail = FALSE
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  head(., n = 10) 
+  head(., n = 10)
 ```

@@ -40,7 +40,6 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .enviro_factors = enviro_factors,
                                  .elast = elast,
                                  .elast_5d = elast_5d) {
-
   # Multimodal -----
 
   type <- "F"

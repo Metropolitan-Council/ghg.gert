@@ -114,9 +114,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         av_adj = dplyr::case_when(
           year %in% c("2015", "2018", "2020") ~ 1,
           (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-          1 + .enviro_factors$BUS_AV * elast_av,
+            1 + .enviro_factors$BUS_AV * elast_av,
           (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-          1 + .enviro_factors$RAIL_AV * elast_av,
+            1 + .enviro_factors$RAIL_AV * elast_av,
           TRUE ~ 1
         )
       ) %>%
@@ -316,8 +316,6 @@ vmt_parking_policy <- function(tb,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
-
-
   # current parking prices
   park_price_current <- tb %>%
     filter(
@@ -341,9 +339,10 @@ vmt_parking_policy <- function(tb,
     "AV"
   )) {
     park_return <- park_price_current %>%
-      left_join(.elast %>%
-        select(year, park_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, park_elast),
+        by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -359,9 +358,10 @@ vmt_parking_policy <- function(tb,
     "DRS"
   )) {
     park_return <- park_price_current %>%
-      left_join(.elast %>%
-        select(year, park_transit),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, park_transit),
+        by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -533,9 +533,10 @@ vmt_road_policy <- function(.pass_tb,
       )
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(.elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, freight_vmt_elast),
+        by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
@@ -548,9 +549,10 @@ vmt_road_policy <- function(.pass_tb,
   } else if (.mode == "CUT") {
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(.elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, freight_vmt_elast),
+        by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
@@ -760,10 +762,10 @@ vmt_stock_proportion <- function(.tb,
 #' @export
 #' @family VMT effects
 vmt_transit_service <- function(tb,
-                                  .mode,
-                                  .transit_service_pct,
-                                  .elast = elast,
-                                  .enviro_factors = enviro_factors) {
+                                .mode,
+                                .transit_service_pct,
+                                .elast = elast,
+                                .enviro_factors = enviro_factors) {
   transit_rider_elast <-
     tibble(
       year = unique(tb$year),

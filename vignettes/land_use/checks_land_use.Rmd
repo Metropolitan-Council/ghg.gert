@@ -9,9 +9,11 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE,
-                      comment = "#>",
-                      eval = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ghg.sp)
@@ -41,11 +43,9 @@ if (dl_ctu == TRUE) {
     filter(Shape_Area == max_area)
   fs::file_delete("society_thrive_msp2040_com_des.gpkg")
 }
-
 ```
 
 
 ```{r}
 land_use_data$ctu_forecast
-
 ```

@@ -31,11 +31,13 @@ library(wesanderson)
 library(councilR)
 
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-    councilR::theme_council(use_showtext = T,
-                            use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
 
@@ -81,31 +83,33 @@ bau_pldv_sales <- transportation_data$passenger %>%
     mode == "PLDV",
     var != "TotSales"
   ) %>%
-  group_by(year, var) %>% 
-  summarize(value = sum(value)) %>% 
-  mutate(scenario = "BAU") %>% 
-  bind_rows(adj_sales$pass %>% 
-              filter(
-                str_detect(var, "Sales"),
-                mode == "PLDV",
-                var != "TotSales"
-              ) %>%
-              group_by(year, var) %>% 
-              summarize(value = sum(value)) %>% 
-              mutate(scenario = "Sales Adjusted"))
+  group_by(year, var) %>%
+  summarize(value = sum(value)) %>%
+  mutate(scenario = "BAU") %>%
+  bind_rows(adj_sales$pass %>%
+    filter(
+      str_detect(var, "Sales"),
+      mode == "PLDV",
+      var != "TotSales"
+    ) %>%
+    group_by(year, var) %>%
+    summarize(value = sum(value)) %>%
+    mutate(scenario = "Sales Adjusted"))
 
 
 
 
-ggplot(data = bau_pldv_sales, 
-       aes(
-         x = year,
-         y = value,
-         color = var,
-         fill = var,
-         group = var
-       )) +
-  facet_wrap(~scenario ) +
+ggplot(
+  data = bau_pldv_sales,
+  aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )
+) +
+  facet_wrap(~scenario) +
   geom_area() +
   scale_fill_manual(
     name = "Powertrain",
@@ -120,9 +124,10 @@ ggplot(data = bau_pldv_sales,
     )
   ) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "Passenger personal vehicle sales",
-       y = "Sales") 
-
+  labs(
+    title = "Passenger personal vehicle sales",
+    y = "Sales"
+  )
 ```
 
 ```{r}
@@ -133,29 +138,31 @@ bau_pldv_stock <- transportation_data$passenger %>%
     var != "TotStock"
   ) %>%
   ungroup() %>%
-  group_by(year, var) %>% 
-  summarize(value = sum(value)) %>% 
-  mutate(scenario = "BAU") %>% 
-  bind_rows(adj_sales$pass %>% 
-              filter(
-                str_detect(var, "Stock"),
-                mode == "PLDV",
-                var != "TotStock"
-              ) %>%
-              group_by(year, var) %>% 
-              summarize(value = sum(value)) %>% 
-              mutate(scenario = "Sales Adjusted"))
+  group_by(year, var) %>%
+  summarize(value = sum(value)) %>%
+  mutate(scenario = "BAU") %>%
+  bind_rows(adj_sales$pass %>%
+    filter(
+      str_detect(var, "Stock"),
+      mode == "PLDV",
+      var != "TotStock"
+    ) %>%
+    group_by(year, var) %>%
+    summarize(value = sum(value)) %>%
+    mutate(scenario = "Sales Adjusted"))
 
 
 
-ggplot(data = bau_pldv_stock,
-       aes(
-         x = year,
-         y = value,
-         color = var,
-         fill = var,
-         group = var
-       )) +
+ggplot(
+  data = bau_pldv_stock,
+  aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )
+) +
   geom_area() +
   facet_wrap(~scenario) +
   # geom_area(position = "fill") +
@@ -172,46 +179,49 @@ ggplot(data = bau_pldv_stock,
     )
   ) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "Passenger personal vehicle stock",
-       y = "Vehicles")
-
+  labs(
+    title = "Passenger personal vehicle stock",
+    y = "Vehicles"
+  )
 ```
 
 ## Transit vehicles    
 
 ```{r}
 
-bu_stock <- 
+bu_stock <-
   transportation_data$passenger %>%
   filter(
     str_detect(var, "Stock"),
     mode == "BU",
     var != "TotStock"
   ) %>%
-  group_by(year, var) %>% 
-  summarize(value = sum(value)) %>%   
-  mutate(scenario = "BAU") %>% 
+  group_by(year, var) %>%
+  summarize(value = sum(value)) %>%
+  mutate(scenario = "BAU") %>%
   bind_rows(adj_sales$pass %>%
-              filter(
-                str_detect(var, "Stock"),
-                mode == "BU",
-                var != "TotStock"
-              ) %>%
-              group_by(year, var) %>% 
-              summarize(value = sum(value)) %>%   
-              mutate(scenario = "Sales Adjusted"))
+    filter(
+      str_detect(var, "Stock"),
+      mode == "BU",
+      var != "TotStock"
+    ) %>%
+    group_by(year, var) %>%
+    summarize(value = sum(value)) %>%
+    mutate(scenario = "Sales Adjusted"))
 
 
-ggplot(bu_stock, 
-       aes(
-  x = year,
-  y = value,
-  color = var,
-  fill = var,
-  group = var
-)) +
+ggplot(
+  bu_stock,
+  aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )
+) +
   geom_area(position = "stack") +
-  facet_wrap(~scenario)+
+  facet_wrap(~scenario) +
   # geom_area(position = "fill") +
   scale_fill_manual(
     name = "Powertrain",
@@ -227,31 +237,33 @@ ggplot(bu_stock,
     )
   ) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "Bus vehicle stock",
-       y = "Vehicles",
-       x = "Year")  +
+  labs(
+    title = "Bus vehicle stock",
+    y = "Vehicles",
+    x = "Year"
+  ) +
   theme(legend.position = "bottom")
-
-
 ```
 
 
 ```{r}
 
-bus_stock_total <- bu_stock %>% 
-  filter(scenario == "BAU") %>% 
-  group_by(year, scenario) %>% 
+bus_stock_total <- bu_stock %>%
+  filter(scenario == "BAU") %>%
+  group_by(year, scenario) %>%
   summarize(value = round(sum(value)))
 
-ggplot(bu_stock %>% 
-         filter(scenario == "BAU"), 
-       aes(
-  x = year,
-  y = value,
-  color = var,
-  fill = var,
-  group = var
-)) +
+ggplot(
+  bu_stock %>%
+    filter(scenario == "BAU"),
+  aes(
+    x = year,
+    y = value,
+    color = var,
+    fill = var,
+    group = var
+  )
+) +
   geom_area(position = "stack") +
   # facet_wrap(~scenario)+
   # geom_area(position = "fill") +
@@ -262,7 +274,7 @@ ggplot(bu_stock %>%
     labels = c(
       "BEVStock" = "Electric",
       "CIStock" = "Diesel",
-            "BCIStock" = "Diesel",
+      "BCIStock" = "Diesel",
       "HEVStock" = "Hybrid",
       "PHEVStock" = "Plug-in hybrid",
       "SIStock" = "Gasoline"
@@ -272,23 +284,31 @@ ggplot(bu_stock %>%
   geom_point(
     inherit.aes = FALSE,
     data = bus_stock_total,
-            aes(x = year,
-                y = value)) +
+    aes(
+      x = year,
+      y = value
+    )
+  ) +
   geom_text(
     inherit.aes = FALSE,
     data = bus_stock_total,
-            aes(x = year,
-                y = value,
-                label =  value),
-    nudge_y = 80) +
-  labs(title = "Bus vehicle stock",
-       y = "Vehicles",
-       x = "Year",
-       caption = paste0(my_caption, " Source: Metro Transit Facts and National Transit Database"))  +
+    aes(
+      x = year,
+      y = value,
+      label = value
+    ),
+    nudge_y = 80
+  ) +
+  labs(
+    title = "Bus vehicle stock",
+    y = "Vehicles",
+    x = "Year",
+    caption = paste0(my_caption, " Source: Metro Transit Facts and National Transit Database")
+  ) +
   theme(legend.position = "bottom")
 
 # ggsave("../data-raw/peer_review/figs/bus_stock.png",
-      # width = 10,
-      # height = 8)
+# width = 10,
+# height = 8)
 ```
 
