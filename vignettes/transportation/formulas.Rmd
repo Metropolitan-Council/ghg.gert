@@ -13,11 +13,12 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = FALSE
+  echo = TRUE,
+  eval = FALSE
 )
 ```
 
-```{r setup}
+```{r setup, echo = FALSE}
 library(ghg.sp)
 ```
 
@@ -32,16 +33,21 @@ $$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo}
 $y$ is the given year   
 $n$ is the number of vehicles with fuel type $f$ and travel mode $m$.  
 
+```{r}
 pass_ld_vmt = (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj * telework_adj * land_use_adj * park_price_adj) / occupancy_adj) * mode_stock_adj  
+
+```
+
+
 
 
 ##### Adjustments {.tabset}
 
 ###### Transit  
 
-For passenger VMT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.sp::enviro_factors$PLDV_TRANSIT_RATIO`
+For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.sp::enviro_factors$PLDV_TRANSIT_RATIO`
 
-$$ adj_{transit} = VMT_{transit} \times \Delta ridership \times 0.47  $$
+$$ adj_{transit} = VMT_{transit} \times \Delta service \times 0.47  $$
 
 ###### Autonomous vehicles  
 
@@ -68,8 +74,10 @@ $elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total
 
 Users can include EITHER VMT fees or PAYD fees, not both. 
 
-
+```{r}
 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast  
+```
+
 
 ###### Congestion fees    
 
@@ -81,9 +89,10 @@ $fuel$ is the cost of fuel in dollars per mile fuel type $f$
 $time$ is estimated cost of time in dollars per mile, `r ghg.sp::enviro_factors$TIME_COST_MI`   
 $elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods, `r ghg.sp::elast$cong_elast[9]`.     
 
-
+```{r}
 1 + ((.cong_price / fuel_time_cost_mile) *
                              .enviro_factors$CONG_VMT) * cong_elast
+```
 
 ###### Gas taxes    
 
@@ -93,8 +102,10 @@ $EV$ is either 0 or 1, dependent on the fuel type $f$
 $elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r ghg.sp::elast$gas_elast[9]` on vehicle miles traveled.     
 
 
-
+```{r}
 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
+```
+
 
 ###### Telework    
 
