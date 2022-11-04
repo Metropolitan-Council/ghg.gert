@@ -17,7 +17,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
                                     .electric_scenario = "ER",
                                     .aeo_scenario = "REF",
                                     .transit_avo_pct = 0,
-                                    .transit_rider_pct = 0,
+                                    .transit_service_pct = 0,
                                     .pldv_avo_pct = 0,
                                     .vmt_fee = 0,
                                     .payd_fee = 0,
@@ -105,7 +105,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .aeo_scenario = .aeo_scenario,
           .transit_avo_pct = .transit_avo_pct,
           .pldv_avo_pct = .pldv_avo_pct,
-          .transit_rider_pct = .transit_rider_pct,
+          .transit_service_pct = .transit_service_pct,
           .vmt_fee = .vmt_fee,
           .payd_fee = .payd_fee,
           .gas_tax = .gas_tax,
@@ -193,7 +193,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
 
       phev_vmtg <- calc_vmt_forecast(
         .scenario, av_passenger_tb, mode, stock,
-        var, fcm, .aeo_scenario, .transit_avo_pct, .transit_rider_pct,
+        var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
         .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
@@ -215,7 +215,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       phev_vmte <- calc_vmt_forecast(
         .scenario, av_passenger_tb, mode,
         stock, var, fcm, .aeo_scenario,
-        .transit_avo_pct, .transit_rider_pct, .vmt_fee, .payd_fee,
+        .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
         .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
         .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
@@ -329,7 +329,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
           .tb_fuel_cost_mile = fcm,
           .aeo_scenario = .aeo_scenario,
           .av_pct = .av_pct,
-          .transit_avo_pct, .transit_rider_pct,
+          .transit_avo_pct, .transit_service_pct,
           .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
           .drs_pct,
           .freight_vmt_fee, .pop_dens_pct_change,
@@ -413,7 +413,6 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       "cost" = cost_all
     )
   } else {
-
     # return a basic shell with NA values
     vmt_all <- .pass_tb %>%
       dplyr::select(ctu, year) %>%

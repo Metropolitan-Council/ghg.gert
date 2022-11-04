@@ -87,7 +87,7 @@ land_use_data$scenario_parameters
 #| fig.cap = "Lake Elmo land cover and land use.",
 #| fig.width = 7,
 #| fig.height = 8
-#| 
+#|
 # land_use_data$land_cover_percentages_filled %>%
 #   dplyr::filter(ctu_name == "Lake Elmo") %>%
 #   dplyr::filter(land_cover_description_2 == "parking_lot") %>%
@@ -99,15 +99,17 @@ land_use_data$land_cover_percentages_filled %>%
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   coord_flip() +
-  labs(x = "Land Cover", y = "",
-       fill = "Land Use") +
+  labs(
+    x = "Land Cover", y = "",
+    fill = "Land Use"
+  ) +
   facet_wrap(~ctu_name) +
   theme(legend.position = "bottom") +
   guides(
     col = guide_legend(nrow = 4, byrow = TRUE),
     fill = guide_legend(nrow = 4, byrow = TRUE),
     shape = guide_legend(nrow = 4, byrow = TRUE)
-  )+
+  ) +
   scale_y_continuous(labels = scales::percent)
 ```
 

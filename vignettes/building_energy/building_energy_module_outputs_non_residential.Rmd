@@ -49,7 +49,7 @@ ghg.sp::calc_existing_comm_building_efficiency(
   .existing_high_efficiency_buildings_pct = 0.80
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
-  tidyr::pivot_wider(names_from = year, values_from = value) 
+  tidyr::pivot_wider(names_from = year, values_from = value)
 ```
 
 #### Strategy B.C2: Smart Grid Efficiency for Commercial Buildings
@@ -83,13 +83,13 @@ $$
 calc_ghg_non_residential(
   non_res_tb = building_data$non_residential,
   non_res_tb_bau = building_data$non_residential,
- .industrial_smart_grid_pct = 1,
- .commercial_smart_grid_pct = 1,
- .grid_decarbonization_pct = 1,
- .smart_grid_energy_reduction_pct = 1,
- .enviro_factors = enviro_factors,
- .existing_high_efficiency_buildings_pct = 0.8
-) %>% 
+  .industrial_smart_grid_pct = 1,
+  .commercial_smart_grid_pct = 1,
+  .grid_decarbonization_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .enviro_factors = enviro_factors,
+  .existing_high_efficiency_buildings_pct = 0.8
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   tidyr::pivot_longer(cols = !ctu_name, names_to = "var")
 ```
@@ -122,8 +122,8 @@ calc_ghg_non_residential(
   .existing_high_efficiency_buildings_pct = 0.8
 ) %>%
   tidyr::pivot_longer(cols = !ctu_name) %>%
-  tidyr::separate(name, sep = "\\.", into = c("var", "scen", "year") )  %>%
-  tidyr::pivot_wider(names_from = year, values_from = value) 
+  tidyr::separate(name, sep = "\\.", into = c("var", "scen", "year")) %>%
+  tidyr::pivot_wider(names_from = year, values_from = value)
 ```
 
 #### Strategy B.C4: Electrifying Heating for Commercial Buildings
@@ -182,7 +182,7 @@ calc_non_res_renewable_ng(
     .existing_high_efficiency_buildings_pct = 0.8
   ),
   .enviro_factors = enviro_factors
-) %>% 
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   tidyr::pivot_longer(cols = !ctu_name, names_to = "var")
 ```
@@ -199,9 +199,9 @@ ghg.sp::run_scenario_building(
   .electrified_buildings_pct = 0.4,
   .non_res_natural_gas_for_water_heating_pct = 0.2,
   .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct =  0.5,
+  .commercial_smart_grid_pct = 0.5,
   .industrial_smart_grid_pct = 0.5,
-  .smart_grid_energy_reduction_pct = 0, 
+  .smart_grid_energy_reduction_pct = 0,
   .new_homes_to_multifamily_pct = 0.5,
   .existing_high_efficiency_buildings_pct = 0.8,
   .home_behavior_change_pct = 1,
@@ -214,6 +214,6 @@ ghg.sp::run_scenario_building(
   .res_natural_gas_for_water_heating_pct = 0.24,
   .additional_electrified_residential_buildings_pct = 0.45,
   .grid_decarbonization_pct = 0.5
-) %>%  
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```

@@ -3,24 +3,23 @@
 library(tidyverse)
 
 
-emission_sources <- read_csv("data-raw/indices/sources-wDef.csv") %>%
+emission_sources <- read_csv("data-raw/transportation_data_processing/indices/sources-wDef.csv") %>%
   as_tibble()
 
 
-variables <- read_csv("data-raw/indices/variables-wDef.csv") %>%
+variables <- read_csv("data-raw/transportation_data_processing/indices/variables-wDef.csv") %>%
   as_tibble() %>%
   mutate(var_name = stringr::str_replace_all(var_name, "SAV", "DRS"))
 
 
-
-modes <- read_csv("data-raw/indices/mode-wDef.csv") %>%
+modes <- read_csv("data-raw/transportation_data_processing/indices/mode-wDef.csv") %>%
   as_tibble()
 
 
-aeo_desc <- read_csv("data-raw/indices/aeo_descriptions.csv") %>%
+aeo_desc <- read_csv("data-raw/transportation_data_processing/indices/aeo_descriptions.csv") %>%
   as_tibble()
 
-uni_sources <- read.csv("data-raw/indices/unique_sources.csv") %>%
+uni_sources <- read.csv("data-raw/transportation_data_processing/indices/unique_sources.csv") %>%
   as_tibble()
 
 

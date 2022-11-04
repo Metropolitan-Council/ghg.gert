@@ -24,7 +24,7 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .tb_fuel_cost_mile,
                                   .aeo_scenario = "REF",
                                   .transit_avo_pct = 0,
-                                  .transit_rider_pct = 0,
+                                  .transit_service_pct = 0,
                                   .pldv_avo_pct = 0,
                                   .vmt_fee = 0,
                                   .payd_fee = 0,
@@ -48,7 +48,6 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .enviro_factors = enviro_factors,
                                   .elast = elast,
                                   .elast_5d = elast_5d) {
-
   # dynamic ride share ----
   # browser()
 

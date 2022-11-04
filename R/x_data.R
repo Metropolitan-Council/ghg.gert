@@ -2,7 +2,8 @@
 #'
 #' @format A named list of 19 values.
 #' \describe{
-#'   \item{PLDV_TRANSIT_RATIO}{ 100 transit trips replace 47 LDV trips (Ewing and Hamidi, 2014)}
+#'   \item{TRANSIT_SERVICE_ELAST}{Effect of increase in transit service on
+#'       increase in transit ridership and decrease in PLDV. Citation forthcoming.}
 #'   \item{SI_FUEL_COST_GAL}{Gasoline fuel cost in cents per gal
 #'       https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm
 #'       (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)}
@@ -65,7 +66,7 @@
 #'   \item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
 #'   \item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
 #'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV VMT price. Affects VMT.
-#'       (Litman 2019. https://www.vtpi.org/elasticities.pdf)}
+#'       (Litman 2019). https://www.vtpi.org/elasticities.pdf}
 #'   \item{park_active}{Elasticity for parking price effect on active transportation VMT TRACE (1999)}
 #'   \item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
 #' }

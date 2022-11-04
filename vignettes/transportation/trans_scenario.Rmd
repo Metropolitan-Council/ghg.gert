@@ -30,43 +30,59 @@ library(wesanderson)
 library(councilR)
 
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-    councilR::theme_council(use_showtext = T,
-                            use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
-
 ```
 
 ```{r}
-st_paul_pass <- transportation_data$passenger %>% 
-  filter(ctu %in% c("St. Paul",
-                    "All"),
-         !year %in% c("2045",
-                      "2050"))
+st_paul_pass <- transportation_data$passenger %>%
+  filter(
+    ctu %in% c(
+      "St. Paul",
+      "All"
+    ),
+    !year %in% c(
+      "2045",
+      "2050"
+    )
+  )
 
-st_paul_freight <- transportation_data$freight %>% 
-  filter(ctu %in% c("St. Paul",
-                    "All"),
-         !year %in% c("2045",
-                      "2050"))
+st_paul_freight <- transportation_data$freight %>%
+  filter(
+    ctu %in% c(
+      "St. Paul",
+      "All"
+    ),
+    !year %in% c(
+      "2045",
+      "2050"
+    )
+  )
 ```
 
 ## Business as usual
 
 ```{r}
-bau_summary <- run_scenario_transportation(pass_tb = st_paul_pass,
-                            freight_tb = st_paul_freight,
-                            .scenario = "BAU",
-                            .electric_scenario = "ER",
-                            .aeo_scenario = "REF")
+bau_summary <- run_scenario_transportation(
+  pass_tb = st_paul_pass,
+  freight_tb = st_paul_freight,
+  .scenario = "BAU",
+  .electric_scenario = "ER",
+  .aeo_scenario = "REF"
+)
 
-bau_pldv <-  bau_summary$passenger_all %>%
-  filter((mode %in% c("AV", "PLDV",
-                      "DRS"))) 
-
+bau_pldv <- bau_summary$passenger_all %>%
+  filter((mode %in% c(
+    "AV", "PLDV",
+    "DRS"
+  )))
 ```
 
 ## Interventions  
@@ -74,12 +90,12 @@ bau_pldv <-  bau_summary$passenger_all %>%
 ### Land use  
 
 ```{r}
-mitigation_lu <-  run_scenario_transportation(
+mitigation_lu <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .pop_dens_pct_change = 0.05,
   .emp_dens_pct_change = 0.05,
   # .land_use_diversity_pct_change = 0.05,
@@ -87,28 +103,28 @@ mitigation_lu <-  run_scenario_transportation(
   # .job_access_pct_change = 0.05,
   .transit_dist_pct_change = -0.05
   # .comb_5d_impact_pct_change = 0.2
-) %>% 
+) %>%
   suppressMessages()
 ```
 
 ### Transit improvements   
 
 - Increase average vehicle occupancy by 10% by 2040
-- Increase transit ridership by 10% by 2040
+- Increase transit service by 10% by 2040
 - Increase passenger light duty vehicle occupancy by 10%
 
 
 ```{r}
-mitigation_trans <-  run_scenario_transportation(
+mitigation_trans <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
-  .transit_avo = 0.10,
-  .transit_rider_pct = 0.10,
-  .pldv_avo_pct = 0.10
-) %>% 
+  .aeo_scenario = "REF",
+  .transit_avo = 0.10
+  # .transit_service_pct = 0.10,
+  # .pldv_avo_pct = 0.10
+) %>%
   suppressMessages()
 ```
 
@@ -121,14 +137,14 @@ mitigation_trans <-  run_scenario_transportation(
 
 
 ```{r, message=FALSE}
-mitigation_ev <-  run_scenario_transportation(
+mitigation_ev <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_veh_electric",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .bev_pct_sales = 0.6,
-  .hev_pct_sales =  0.1,
+  .hev_pct_sales = 0.1,
   .phev_pct_sales = 0.05
   # .av_pct = 0.10,
   # .av_fuel_type = "BEV"
@@ -136,53 +152,50 @@ mitigation_ev <-  run_scenario_transportation(
   suppressMessages()
 
 
-mit_ev_pldv <-  mitigation_ev$passenger_all %>%
-  filter(mode %in% c("AV", "PLDV", "DRS")) 
-
+mit_ev_pldv <- mitigation_ev$passenger_all %>%
+  filter(mode %in% c("AV", "PLDV", "DRS"))
 ```
 
 ### Road price  
 
 ```{r}
-mitigation_road_price<-  run_scenario_transportation(
+mitigation_road_price <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_road_price",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .parking_price = 44,
   .freight_parking_price = 2,
   .vmt_fee = 0.05
-  
-)  %>% 
+) %>%
   suppressMessages()
-
 ```
 
 
 ### Telework  
 
 ```{r}
-mitigation_telework <-  run_scenario_transportation(
+mitigation_telework <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_telework",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .telework_pct = 0.10
-)  %>% 
+) %>%
   suppressMessages()
 ```
 
 ### Land use and transit improvements  
 
 ```{r}
-mitigation_lu_transit <-  run_scenario_transportation(
+mitigation_lu_transit <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use_and_transit",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .pop_dens_pct_change = 0.05,
   .emp_dens_pct_change = 0.05,
   # .land_use_diversity_pct_change = 0.05,
@@ -191,10 +204,10 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .transit_dist_pct_change = -0.05,
   # .comb_5d_impact_pct_change = 0.2,
   .transit_avo = 0.2,
-  # .transit_rider_pct = 0.10,
+  # .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.1,
   .parking_price = 44
-)  %>% 
+) %>%
   suppressMessages()
 ```
 
@@ -202,17 +215,17 @@ mitigation_lu_transit <-  run_scenario_transportation(
 ### Road pricing and telework
 
 ```{r}
-mitigation_road_telework <-  run_scenario_transportation(
+mitigation_road_telework <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_road_price_and_telework",
   .electric_scenario = "ER",
-  .aeo_scenario = "REF", 
+  .aeo_scenario = "REF",
   .parking_price = 44,
   .freight_parking_price = 2,
   .vmt_fee = 0.05,
   .telework_pct = 0.10
-)  %>% 
+) %>%
   suppressMessages()
 ```
 
@@ -223,68 +236,87 @@ mitigation_road_telework <-  run_scenario_transportation(
 
 ```{r}
 all_scen_passenger_av <- purrr::map_dfr(
-  list(bau_summary,
-       mitigation_ev,
-       mitigation_trans,
-       mitigation_lu,
-       mitigation_telework,
-       mitigation_lu_transit,
-       mitigation_road_price,
-       mitigation_road_telework
+  list(
+    bau_summary,
+    mitigation_ev,
+    mitigation_trans,
+    mitigation_lu,
+    mitigation_telework,
+    mitigation_lu_transit,
+    mitigation_road_price,
+    mitigation_road_telework
   ),
-  function(x){
-    x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV", "DRS"
-                         # "BU", "BRT",
-                         # "RU", "RI"
-                         )) %>%
-      group_by(year, scenario) %>% 
-      summarize(dir_ghg = sum(dir_ghg, na.rm = T),
-                .groups = "keep")
+  function(x) {
+    x$passenger_all %>%
+      filter(mode %in% c(
+        "AV", "PLDV", "DRS"
+        # "BU", "BRT",
+        # "RU", "RI"
+      )) %>%
+      group_by(year, scenario) %>%
+      summarize(
+        dir_ghg = sum(dir_ghg, na.rm = T),
+        .groups = "keep"
+      )
   }
 )
 
-ggplot(all_scen_passenger_av,
-       aes(x = year,
-           y = dir_ghg,
-           color = scenario,
-           group = scenario)) +
+ggplot(
+  all_scen_passenger_av,
+  aes(
+    x = year,
+    y = dir_ghg,
+    color = scenario,
+    group = scenario
+  )
+) +
   geom_point() +
-  geom_line(alpha = 0.5,
-            size = 1) +
-  labs(title = "All Passenger Travel Emissions")
+  geom_line(
+    alpha = 0.5,
+    size = 1
+  ) +
+  labs(title = "All Passenger Vehicle Travel Emissions")
 ```
 
 
 ```{r}
 purrr::map_dfr(
-  list(bau_summary,
-       mitigation_ev,
-       # mitigation_trans
-       # mitigation_lu,
-       mitigation_telework
-       # mitigation_road_price
+  list(
+    bau_summary,
+    mitigation_ev,
+    # mitigation_trans
+    # mitigation_lu,
+    mitigation_telework
+    # mitigation_road_price
   ),
-  function(x){
-    x$passenger_all %>% 
-      filter(mode %in% c("AV", "PLDV",
-                         "DRS" ,"BU", "BRT",
-                         "RI", "RU"),
-             !is.na(ghg_embodied_source)) %>%
-      group_by(year, scenario, ghg_embodied_source)  %>% 
+  function(x) {
+    x$passenger_all %>%
+      filter(
+        mode %in% c(
+          "AV", "PLDV",
+          "DRS", "BU", "BRT",
+          "RI", "RU"
+        ),
+        !is.na(ghg_embodied_source)
+      ) %>%
+      group_by(year, scenario, ghg_embodied_source) %>%
       summarize(ghg_embodied = sum(ghg_embodied, na.rm = T), .groups = "keep")
   }
-)  %>% 
-  
+) %>%
   ggplot(
-    aes(x = year,
-        y = ghg_embodied,
-        color = scenario,
-        group = scenario)) +
+    aes(
+      x = year,
+      y = ghg_embodied,
+      color = scenario,
+      group = scenario
+    )
+  ) +
   facet_wrap(~ghg_embodied_source) +
   geom_point() +
-  geom_line(alpha = 0.5,
-            size = 1) +
+  geom_line(
+    alpha = 0.5,
+    size = 1
+  ) +
   labs(title = "All Passenger Vehicle Embodied Emissions") +
   theme(legend.position = "bottom")
 ```
@@ -293,35 +325,45 @@ purrr::map_dfr(
 
 ```{r}
 all_scen_passenger_vmt <- purrr::map_dfr(
-  list(bau_summary,
-       mitigation_ev,
-       mitigation_trans,
-       mitigation_lu,
-       mitigation_telework,
-       mitigation_lu_transit,
-       mitigation_road_price,
-       mitigation_road_telework
+  list(
+    bau_summary,
+    mitigation_ev,
+    mitigation_trans,
+    mitigation_lu,
+    mitigation_telework,
+    mitigation_lu_transit,
+    mitigation_road_price,
+    mitigation_road_telework
   ),
-  function(x){
-    x$passenger_all %>% 
-      filter(mode %in% c("PLDV", "AV", "DRS")) %>% 
-      group_by(year, scenario) %>% 
+  function(x) {
+    x$passenger_all %>%
+      filter(mode %in% c("PLDV", "AV", "DRS")) %>%
+      group_by(year, scenario) %>%
       summarize(vmt = sum(vmt, na.rm = T), .groups = "keep")
   }
 )
 
-ggplot(all_scen_passenger_vmt,
-       aes(x = year,
-           y = vmt/1000000,
-           color = scenario,
-           group = scenario)) +
+ggplot(
+  all_scen_passenger_vmt,
+  aes(
+    x = year,
+    y = vmt / 1000000,
+    color = scenario,
+    group = scenario
+  )
+) +
   # facet_wrap(~class) +
   geom_point() +
-  geom_line(alpha = 0.5,
-            size = 1.1) +
+  geom_line(
+    alpha = 0.5,
+    size = 1.1
+  ) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "All Passenger Vehicle Miles Traveled",
-       y = "VMT")
+  labs(
+    title = "All Passenger Vehicle MT",
+    y = "VMT",
+    caption = "Includes PLDV"
+  )
 ```
 
 
@@ -330,31 +372,38 @@ ggplot(all_scen_passenger_vmt,
 
 ```{r}
 all_scen_freight_em <- purrr::map_dfr(
-  list(bau_summary,
-       mitigation_ev,
-       mitigation_trans,
-       mitigation_lu,
-       mitigation_telework,
-       mitigation_road_price,
-       mitigation_lu_transit,
-       mitigation_road_telework
+  list(
+    bau_summary,
+    mitigation_ev,
+    mitigation_trans,
+    mitigation_lu,
+    mitigation_telework,
+    mitigation_road_price,
+    mitigation_lu_transit,
+    mitigation_road_telework
   ),
-  function(x){
-    x$freight_all %>% 
-      group_by(year, scenario) %>% 
+  function(x) {
+    x$freight_all %>%
+      group_by(year, scenario) %>%
       summarize(dir_ghg = sum(dir_ghg, na.rm = T), .groups = "keep")
   }
 )
 
-ggplot(all_scen_freight_em,
-       aes(x = year,
-           y = dir_ghg,
-           color = scenario,
-           group = scenario)) +
+ggplot(
+  all_scen_freight_em,
+  aes(
+    x = year,
+    y = dir_ghg,
+    color = scenario,
+    group = scenario
+  )
+) +
   # facet_wrap(~class) +
   geom_point() +
-  geom_line(alpha = 0.5,
-            size = 1.1) +
+  geom_line(
+    alpha = 0.5,
+    size = 1.1
+  ) +
   scale_y_continuous(labels = scales::comma) +
   labs(title = "All Freight Emissions")
 ```
@@ -363,38 +412,47 @@ ggplot(all_scen_freight_em,
 
 ```{r}
 app_out <- purrr::map_dfr(
-  list(bau_summary,
-       mitigation_ev,
-       mitigation_trans,
-       mitigation_lu,
-       mitigation_telework,
-       mitigation_road_price,
-       mitigation_lu_transit,
-       mitigation_road_telework
+  list(
+    bau_summary,
+    mitigation_ev,
+    mitigation_trans,
+    mitigation_lu,
+    mitigation_telework,
+    mitigation_road_price,
+    mitigation_lu_transit,
+    mitigation_road_telework
   ),
-  function(x){
+  function(x) {
     x$app_data
   }
-) %>% 
-  ungroup() %>% 
-  rowwise() %>% 
-  mutate(mode = case_when(
-    mode %in% c("PLDV", "AV", "DRS") ~ "personal vehicles",
-    mode %in% c("WALK", "BIKE") ~ "walk and bike",
-    mode %in% c("BU", "BRT", "BS", "RU", "RI") ~ "public transit",
-    mode %in% c("CUT", "SUT") ~ "trucks",
-    mode %in% c("MM", "AIR", "WAT", "FR") ~ "other freight"),
-    submodule = paste0(submodule, " - ", mode)) %>% 
-  group_by(ctu, year, scenario, module, submodule, name) %>% 
-  summarize(value = sum(value, na.rm = T), .groups = "keep") %>% 
-  ungroup() %>% 
-  mutate(type = ifelse(scenario == "BAU", "bau_forecast",
-                       scenario),
-         ctu = "Hollywood",
-         ctu_id = "99999",
-         metric = "emissions_tonnes_co2e") %>% 
-  select(ctu_id, ctu_name = ctu, year, module,
-         submodule, type, source = name, metric, value)
+) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(
+    mode = case_when(
+      mode %in% c("PLDV", "AV", "DRS") ~ "personal vehicles",
+      mode %in% c("WALK", "BIKE") ~ "walk and bike",
+      mode %in% c("BU", "BRT", "BS", "RU", "RI") ~ "public transit",
+      mode %in% c("CUT", "SUT") ~ "trucks",
+      mode %in% c("MM", "AIR", "WAT", "FR") ~ "other freight"
+    ),
+    submodule = paste0(submodule, " - ", mode)
+  ) %>%
+  group_by(ctu, year, scenario, module, submodule, name) %>%
+  summarize(value = sum(value, na.rm = T), .groups = "keep") %>%
+  ungroup() %>%
+  mutate(
+    type = ifelse(scenario == "BAU", "bau_forecast",
+      scenario
+    ),
+    ctu = "Hollywood",
+    ctu_id = "99999",
+    metric = "emissions_tonnes_co2e"
+  ) %>%
+  select(ctu_id,
+    ctu_name = ctu, year, module,
+    submodule, type, source = name, metric, value
+  )
 
 write.csv(app_out, "../vignettes/app_sample.csv", row.names = FALSE)
 ```

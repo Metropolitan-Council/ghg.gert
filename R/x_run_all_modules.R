@@ -42,7 +42,7 @@ run_all_modules <- function() {
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
     .pldv_avo_pct = 0,
-    .transit_rider_pct = 0,
+    .transit_service_pct = 0,
     .vmt_fee = 0,
     .payd_fee = 0,
     .gas_tax = 0,

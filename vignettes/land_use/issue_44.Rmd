@@ -37,15 +37,16 @@ parkinglot <- calc_parking_lot_land_cover(
   .tree_planting_per_hectare = 247,
   detail = FALSE
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::select(-c(total_area_hectares)) %>%
   tidyr::pivot_longer(names_to = "var", cols = 3:last_col(), values_to = "value")
 ```
 
 ```{r}
-ggplot(parkinglot, aes(fill=var, y=value, x=year)) + 
-    xlab("year") + ylab("hectares") +
-    geom_bar(position="stack", stat="identity")
+ggplot(parkinglot, aes(fill = var, y = value, x = year)) +
+  xlab("year") +
+  ylab("hectares") +
+  geom_bar(position = "stack", stat = "identity")
 ```
 
 Tree planting on all pervious surfaces is a wacky assumption, but it serves to show the basic idea behind the land use strategies. 
@@ -66,13 +67,14 @@ parkinglot2 <- calc_parking_lot_land_cover(
   .tree_planting_per_hectare = 247,
   detail = FALSE
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo") %>% 
+  dplyr::filter(ctu_name == "Lake Elmo") %>%
   dplyr::select(-c(total_area_hectares)) %>%
   tidyr::pivot_longer(names_to = "var", cols = 3:last_col(), values_to = "value")
 ```
 
 ```{r}
-ggplot(parkinglot2, aes(fill=var, y=value, x=year)) + 
-    xlab("year") + ylab("hectares") +
-    geom_bar(position="stack", stat="identity")
+ggplot(parkinglot2, aes(fill = var, y = value, x = year)) +
+  xlab("year") +
+  ylab("hectares") +
+  geom_bar(position = "stack", stat = "identity")
 ```
