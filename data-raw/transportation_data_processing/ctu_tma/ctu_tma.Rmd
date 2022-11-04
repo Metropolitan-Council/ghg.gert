@@ -40,8 +40,7 @@ download.file(
   destfile = temp
 )
 unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
-ctu <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
-  select(CTU_NAME) %>%
+ctu <- st_read(temp2, query = 'SELECT CTU_NAME FROM CTUs') %>%
   sf::st_transform(26915)
 
 ##### transit market areas
