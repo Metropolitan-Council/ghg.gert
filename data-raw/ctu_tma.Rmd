@@ -1,0 +1,79 @@
+---
+title: "City-specific transit market areas"
+author: Ellen
+output: html_document
+date: "2022-11-04"
+---
+
+```{css, echo=FALSE}
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+pre[class] {
+  max-height: 100px;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+
+library(dplyr)
+library(ggplot2)
+library(sf)
+```
+
+Cities (ctu) need to be identified by the highest transit market area (tma).
+
+The processed data is saved as `/data/ctu_tma.rda`.
+This script walks through the processing and creation of the data.
+
+1. Get ctu and tma geographies, and intersect them.
+
+```{r intersect-geographies}
+##### ctus
+temp <- tempfile()
+temp2 <- tempfile()
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/bdry_metro_counties_and_ctus/shp_bdry_metro_counties_and_ctus.zip",
+  destfile = temp
+)
+unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
+ctu <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
+  select(CTU_NAME) %>%
+  sf::st_transform(26915)
+
+##### transit market areas
+temp <- tempfile()
+download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_transit_market_areas/gpkg_trans_transit_market_areas.zip", destfile = temp)
+tma <- sf::read_sf(unzip(temp, "trans_transit_market_areas.gpkg")) %>%
+  group_by(MarketArea) %>%
+  summarize(do_union = TRUE) %>%
+  st_transform(26915)
+fs::file_delete("trans_transit_market_areas.gpkg")
+
+
+##### intersect and save
+ctu_tma <- ctu %>%
+  st_intersection(tma) %>%
+  st_drop_geometry() %>%
+  mutate(MarketArea = as.numeric(MarketArea)) %>%
+  group_by(CTU_NAME) %>%
+  summarise(max_tma = min(MarketArea))
+
+save(ctu_tma, file = paste0(here::here(), "/data/ctu_tma.rda"))
+```
+
+2. Map the result
+
+```{r map}
+
+ctu_tma %>%
+  full_join(ctu) %>%
+  st_as_sf() %>%
+  ggplot() +
+  geom_sf(aes(fill = as.character(max_tma))) +
+  theme_void() +
+  scale_fill_brewer(palette = "Paired", name = "TMA")
+```
