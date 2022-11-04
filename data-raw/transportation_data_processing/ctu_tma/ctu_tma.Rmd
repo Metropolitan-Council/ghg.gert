@@ -61,7 +61,7 @@ ctu_tma <- ctu %>%
   group_by(CTU_NAME) %>%
   summarise(max_tma = min(MarketArea))
 
-save(ctu_tma, file = paste0("ctu_tma.rda"))
+save(ctu_tma, file = file.path(here::here(), "data/ctu_tma.rda"))
 ```
 
 2. Map the result
