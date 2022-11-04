@@ -33,15 +33,15 @@ This script walks through the processing and creation of the data.
 
 ```{r intersect-geographies}
 ##### ctus
-ctu_url <-"https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/bdry_metro_counties_and_ctus/shp_bdry_metro_counties_and_ctus.zip"
+ctu_url <- "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/bdry_metro_counties_and_ctus/shp_bdry_metro_counties_and_ctus.zip"
 download.file(ctu_url, file.path(tempdir(), basename(ctu_url)))
-unzip(zipfile = file.path(tempdir(), basename(ctu_url)), exdir = tempdir()) 
+unzip(zipfile = file.path(tempdir(), basename(ctu_url)), exdir = tempdir())
 # list.files(tempdir())
-ctu <- st_read(tempdir(), query = 'SELECT CTU_NAME FROM CTUs') %>%
+ctu <- st_read(tempdir(), query = "SELECT CTU_NAME FROM CTUs") %>%
   sf::st_transform(26915)
 
 ##### transit market areas
-tma_url <-"https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_transit_market_areas/gpkg_trans_transit_market_areas.zip"
+tma_url <- "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_transit_market_areas/gpkg_trans_transit_market_areas.zip"
 download.file(tma_url, file.path(tempdir(), basename(tma_url)))
 tma <- sf::read_sf(unzip(temp, "trans_transit_market_areas.gpkg")) %>%
   group_by(MarketArea) %>%
