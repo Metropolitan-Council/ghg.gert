@@ -35,22 +35,14 @@ ggplot2::theme_set(
   if(testthat:::on_ci() == TRUE){
     theme_minimal()
   } else {
-      councilR::theme_council(use_showtext = T,
-                          use_manual_font_sizes = T)
+    councilR::theme_council(use_showtext = T,
+                            use_manual_font_sizes = T)
   }
 )
 
 ```
 
 Goal - we need to have the existing values for every CTU for each land use
-
-```{r db-tables, echo = FALSE, eval = FALSE}
-mod_1 <- fetch_db_tables(module = "1")
-mod_2 <- fetch_db_tables(module = "2")
-mod_3 <- fetch_db_tables(module = "3")
-metro_demo <- fetch_db_tables(module =  "metro_demographic")
-state_demo <- fetch_db_tables(module = "state_demographic")
-```
 
 ## Population and Employment density
 
@@ -80,23 +72,22 @@ pop_density %>%
 ### Housing/population     
 
 ```{r eval = FALSE, echo = FALSE}
-metro_demo$vw_ctu_population %>% 
+import_from_emissions("metro_demographic.vw_ctu_population") %>% 
   filter(year == "2016") %>% 
   left_join(
-
-mod_1$vw_ctu_land_use_hectares %>% 
-  dplyr::left_join(mod_1$land_use_2016_types) %>% 
-  dplyr::mutate(is_developed =case_when(description_2 %in% c(
-    "agricultural",
-    "open_water",
-    "park_recreational_or_preserve",
-    "undeveloped"                          
-  ) ~ "undeveloped_sq_mi",
-  TRUE ~ "developed_sq_mi")) %>% 
-  group_by(ctu_name, is_developed) %>% 
-  summarize(total_area_sq_mi = sum(hectares) * 2.471) %>% 
-  tidyr::pivot_wider(names_from = is_developed,
-                     values_from = total_area_sq_mi)) %>% 
+    import_from_emissions("metro_land.vw_ctu_land_use_hectares") %>% 
+      dplyr::left_join(  import_from_emissions("metro_land.land_use_2016_types")) %>% 
+      dplyr::mutate(is_developed =case_when(description_2 %in% c(
+        "agricultural",
+        "open_water",
+        "park_recreational_or_preserve",
+        "undeveloped"                          
+      ) ~ "undeveloped_sq_mi",
+      TRUE ~ "developed_sq_mi")) %>% 
+      group_by(ctu_name, is_developed) %>% 
+      summarize(total_area_sq_mi = sum(hectares) * 2.471) %>% 
+      tidyr::pivot_wider(names_from = is_developed,
+                         values_from = total_area_sq_mi)) %>% 
   mutate(pop_density_developed = population/developed_sq_mi) %>%
   arrange(ctu_name) %>% View
 ```
@@ -113,16 +104,16 @@ where $S$ entropy, $LU$ is the proportion of land devoted to land use type $i$. 
 
 ```{r tab-entropy, echo = FALSE}
 tibble::tribble(
-            ~CTU, ~`2015`, ~`2020`, ~`2025`, ~`2030`, ~`2035`, ~`2040`, ~`2045`, ~`2050`,
-     "Lake Elmo",    0.44,    0.46,    0.48,     0.5,    0.51,    0.53,    0.55,    0.57,
-     "Shoreview",    0.41,    0.42,    0.43,    0.44,    0.46,    0.48,     0.5,    0.53,
-      "St. Paul",    0.62,    0.61,    0.59,    0.58,    0.59,    0.61,    0.63,    0.64
-     ) %>% 
+  ~CTU, ~`2015`, ~`2020`, ~`2025`, ~`2030`, ~`2035`, ~`2040`, ~`2045`, ~`2050`,
+  "Lake Elmo",    0.44,    0.46,    0.48,     0.5,    0.51,    0.53,    0.55,    0.57,
+  "Shoreview",    0.41,    0.42,    0.43,    0.44,    0.46,    0.48,     0.5,    0.53,
+  "St. Paul",    0.62,    0.61,    0.59,    0.58,    0.59,    0.61,    0.63,    0.64
+) %>% 
   gt::gt(
     caption = "Current and forecasted land used entropy by CTU",
     rowname_col = "CTU"
   ) %>% 
-    gt::opt_row_striping()
+  gt::opt_row_striping()
 
 ```
 
@@ -161,9 +152,9 @@ SHCN did not provide complete data for average minimum distance to transit stops
 
 
 1. Pull point level residential building data  
-    - Jason pulled data from OpenStreetMaps (OSM) and filtered to use only residential buildings (exactly which key values is unknown). We could replicate this using `{osmdata}`, but we don't have as  much familiarity and confidence in the OSM building data
-    - **Best option** Another option would be to use the metro [AddressPoints](https://gisdata.mn.gov/dataset/us-mn-state-metrogis-loc-address-points) data. These include point location and official address for all occupiable units and any other official addresses. The `RESIDENCE` field could be used to filter. The data is also vetted by each county, which ensures some additional data quality.  
-    - Yet another option is to go down to the parcel level. The data here will be more detailed, but much more difficult to use and reliably identify residential building types.   
+- Jason pulled data from OpenStreetMaps (OSM) and filtered to use only residential buildings (exactly which key values is unknown). We could replicate this using `{osmdata}`, but we don't have as  much familiarity and confidence in the OSM building data
+- **Best option** Another option would be to use the metro [AddressPoints](https://gisdata.mn.gov/dataset/us-mn-state-metrogis-loc-address-points) data. These include point location and official address for all occupiable units and any other official addresses. The `RESIDENCE` field could be used to filter. The data is also vetted by each county, which ensures some additional data quality.  
+- Yet another option is to go down to the parcel level. The data here will be more detailed, but much more difficult to use and reliably identify residential building types.   
 1. Pull transit stops point data (from GTFS, GISLibrary, etc).
 1. For each residence point, find the nearest transit stop using `sf::st_nearest()` and index the residence - stop pair.  
 1. For each residence-stop pair, calculate the distance between each residence-stop pair using `sf::st_distance()`.
