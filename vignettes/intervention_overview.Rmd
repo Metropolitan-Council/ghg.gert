@@ -60,7 +60,7 @@ Particularly important is the electrification of autonomous vehicles. Autonomous
 
 #### System improvements  
 
-System improvements include increasing overall ridership and increasing the average vehicle occupancy.  
+System improvements include increasing overall transit service and increasing the average vehicle occupancy.  
 
 #### Land use 
 
@@ -99,7 +99,7 @@ Increase in these values = decrease in PLDV VMT
     - + Intersection design (increase % of intersections with 3+ ways)
     - - Minimum distance to transit stop from residential building   
     - + Job accessibility via transit (jobs located within one mile of the home)
-- Transit ridership  
+- Transit service  
 - Vehicle automation  
 - Dynamic ride sharing (contextual)  
 - Annual energy outlook (contextual)

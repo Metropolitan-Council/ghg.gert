@@ -94,7 +94,7 @@ mitigation_lu <-  run_scenario_transportation(
 ### Transit improvements   
 
 - Increase average vehicle occupancy by 10% by 2040
-- Increase transit ridership by 10% by 2040
+- Increase transit service by 10% by 2040
 - Increase passenger light duty vehicle occupancy by 10%
 
 

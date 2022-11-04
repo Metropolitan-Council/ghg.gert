@@ -98,7 +98,7 @@ inputPanel(
               min = 0.0, max = 1, value = 0, step = 0.05),
   
   sliderInput("transit_rider_pct",
-              label = "% change in transit ridership",
+              label = "% change in transit service",
               min = 0.0, max = 1, value = 0, step = 0.05)
 )
 

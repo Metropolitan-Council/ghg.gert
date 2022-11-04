@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_vmt_effects.R
 \name{vmt_transit_service}
 \alias{vmt_transit_service}
-\title{Calculate transit ridership adjustment for each forecast year}
+\title{Calculate transit service adjustment for each forecast year}
 \usage{
 vmt_transit_service(
   tb,
@@ -19,7 +19,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.transit_service_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
@@ -29,9 +29,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
 }
 \description{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{Transit ridership increase assumes that transit vehicles
-are traveling further to fulfill demand. As opposed to
-`.transit_avo_pct`, an increase in ridership implies
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Transit service increase assumes that the base level of
+transit service has increased (more lines, more buses,
+more frequency, etc). As opposed to
+`.transit_avo_pct`, an increase in transit service implies
 additional **vehicle** miles traveled.
 
 `.transit_service_pct` indicates the overall effect by
@@ -41,7 +42,7 @@ over the intermediate years.
 \itemize{
 \item If \code{.mode} is \code{"PLDV"} or \code{"AV"}, value returned is
 the number of passenger vehicle miles traveled
-decreased when transit ridership
+decreased when transit service
 is increased (i.e., 7,000 passenger VMT).
 \item If \code{.mode} is \code{"BS"}, \code{"BU"}, \code{"BRT"}, \code{"RU"}, or \code{"RI"}, value returned
 is the proportion of increase in transit VMT (i.e., 1.2).

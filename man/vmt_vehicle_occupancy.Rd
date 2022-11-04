@@ -35,13 +35,13 @@ table with columns \code{ctu}, \code{year}, \code{occupancy_adj}
 \description{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Transit vehicle occupancy increase assumes that
 more people are riding transit. As opposed to
-`.transit_ridership_pct`, an increase in occupancy implies
+`.transit_service_pct`, an increase in occupancy implies
 additional **passenger** miles traveled, with no implied
 change in vehicle miles traveled.
 
 Passenger vehicle occupancy increase assumes that
-the average number of people in a car increases. As opposed to
-an increase in  passenger occupancy implies
+the average number of people in a car increases.
+An increase in  passenger occupancy implies
 additional **passenger** miles traveled, with no implied
 change in passenger vehicle miles traveled.
 

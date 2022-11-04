@@ -734,13 +734,14 @@ vmt_stock_proportion <- function(.tb,
 
 
 
-#' Calculate transit ridership adjustment for each forecast year
-#' @param .transit_service_pct numeric, change in transit ridership % adjustment. Default is `0`.
+#' Calculate transit service adjustment for each forecast year
+#' @param .transit_service_pct numeric, change in transit service % adjustment. Default is `0`.
 #'
 #' @description
-#'     Transit ridership increase assumes that transit vehicles
-#'     are traveling further to fulfill demand. As opposed to
-#'     `.transit_avo_pct`, an increase in ridership implies
+#'     Transit service increase assumes that the base level of
+#'     transit service has increased (more lines, more buses,
+#'     more frequency, etc). As opposed to
+#'     `.transit_avo_pct`, an increase in transit service implies
 #'     additional **vehicle** miles traveled.
 #'
 #'     `.transit_service_pct` indicates the overall effect by
@@ -749,7 +750,7 @@ vmt_stock_proportion <- function(.tb,
 #'
 #'    - If `.mode` is `"PLDV"` or `"AV"`, value returned is
 #'        the number of passenger vehicle miles traveled
-#'        decreased when transit ridership
+#'        decreased when transit service
 #'        is increased (i.e., 7,000 passenger VMT).
 #'    - If `.mode` is `"BS"`, `"BU"`, `"BRT"`, `"RU"`, or `"RI"`, value returned
 #'        is the proportion of increase in transit VMT (i.e., 1.2).
@@ -825,13 +826,13 @@ vmt_transit_service <- function(tb,
 #' @description
 #'     Transit vehicle occupancy increase assumes that
 #'     more people are riding transit. As opposed to
-#'     `.transit_ridership_pct`, an increase in occupancy implies
+#'     `.transit_service_pct`, an increase in occupancy implies
 #'     additional **passenger** miles traveled, with no implied
 #'     change in vehicle miles traveled.
 #'
 #'     Passenger vehicle occupancy increase assumes that
-#'     the average number of people in a car increases. As opposed to
-#'     an increase in  passenger occupancy implies
+#'     the average number of people in a car increases.
+#'     An increase in  passenger occupancy implies
 #'     additional **passenger** miles traveled, with no implied
 #'     change in passenger vehicle miles traveled.
 #'

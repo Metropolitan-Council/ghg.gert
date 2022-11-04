@@ -189,7 +189,7 @@ ggplot(
   labs(
     title = "Region transit vehicle miles traveled",
     color = "",
-    caption = "We would expect to see VMT decrease when the transit AVO increases (more people in vehicle, more PMT) and the VMT to increase when transit ridership increases (more vehicle miles traveled)"
+    caption = "We would expect to see VMT decrease when the transit AVO increases (more people in vehicle, more PMT) and the VMT to increase when transit service increases (more vehicle miles traveled)"
   )
 
 ggsave("./data-raw/peer_review/figs/scen_run.png",
