@@ -252,7 +252,7 @@ ggplot(all_scen_passenger_av,
   geom_point() +
   geom_line(alpha = 0.5,
             size = 1) +
-  labs(title = "All Passenger Travel Emissions")
+  labs(title = "All Passenger Vehicle Travel Emissions")
 ```
 
 
@@ -320,8 +320,9 @@ ggplot(all_scen_passenger_vmt,
   geom_line(alpha = 0.5,
             size = 1.1) +
   scale_y_continuous(labels = scales::comma) +
-  labs(title = "All Passenger Vehicle Miles Traveled",
-       y = "VMT")
+  labs(title = "All Passenger Vehicle MT",
+       y = "VMT",
+       caption = "Includes PLDV")
 ```
 
 
