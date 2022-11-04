@@ -766,7 +766,7 @@ vmt_transit_service <- function(tb,
                                 .transit_service_pct,
                                 .elast = elast,
                                 .enviro_factors = enviro_factors) {
-  transit_rider_elast <-
+  transit_service_elast <-
     tibble(
       year = unique(tb$year),
       elast_new =
@@ -781,7 +781,7 @@ vmt_transit_service <- function(tb,
   additional_transit <- tb %>%
     filter(mode == "AT", var == "PMT") %>%
     select(ctu, year, all_transit = value) %>%
-    left_join(transit_rider_elast, by = c("year")) %>%
+    left_join(transit_service_elast, by = c("year")) %>%
     mutate(all_transit_plus = all_transit * elast_new)
 
 
@@ -808,7 +808,7 @@ vmt_transit_service <- function(tb,
     tb %>%
       select(year, ctu) %>%
       unique() %>%
-      left_join(transit_rider_elast, by = c("year")) %>%
+      left_join(transit_service_elast, by = c("year")) %>%
       mutate(transit_adj = 1 + elast_new) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
