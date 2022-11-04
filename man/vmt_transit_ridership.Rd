@@ -7,7 +7,7 @@
 vmt_transit_ridership(
   tb,
   .mode,
-  .transit_rider_pct,
+  .transit_service_pct,
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -19,7 +19,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.transit_rider_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit ridership \% adjustment. Default is \code{0}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
@@ -34,7 +34,7 @@ are traveling further to fulfill demand. As opposed to
 `.transit_avo_pct`, an increase in ridership implies
 additional **vehicle** miles traveled.
 
-`.transit_rider_pct` indicates the overall effect by
+`.transit_service_pct` indicates the overall effect by
 the final forecast year. The increase is spread evenly
 over the intermediate years.
 }\if{html}{\out{</div>}}

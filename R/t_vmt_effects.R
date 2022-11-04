@@ -735,7 +735,7 @@ vmt_stock_proportion <- function(.tb,
 
 
 #' Calculate transit ridership adjustment for each forecast year
-#' @param .transit_rider_pct numeric, change in transit ridership % adjustment. Default is `0`.
+#' @param .transit_service_pct numeric, change in transit ridership % adjustment. Default is `0`.
 #'
 #' @description
 #'     Transit ridership increase assumes that transit vehicles
@@ -743,7 +743,7 @@ vmt_stock_proportion <- function(.tb,
 #'     `.transit_avo_pct`, an increase in ridership implies
 #'     additional **vehicle** miles traveled.
 #'
-#'     `.transit_rider_pct` indicates the overall effect by
+#'     `.transit_service_pct` indicates the overall effect by
 #'     the final forecast year. The increase is spread evenly
 #'     over the intermediate years.
 #'
@@ -760,7 +760,7 @@ vmt_stock_proportion <- function(.tb,
 #' @family VMT effects
 vmt_transit_ridership <- function(tb,
                                   .mode,
-                                  .transit_rider_pct,
+                                  .transit_service_pct,
                                   .elast = elast,
                                   .enviro_factors = enviro_factors) {
   transit_rider_elast <-
@@ -769,7 +769,7 @@ vmt_transit_ridership <- function(tb,
       elast_new =
         calc_elasticity(
           elas_list = c(rep(0, length(unique(tb$year)))),
-          elas = .transit_rider_pct,
+          elas = .transit_service_pct,
           num_inits = 3,
           num_yrs = length(unique(tb$year)) - 3
         )

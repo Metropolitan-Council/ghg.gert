@@ -55,7 +55,7 @@ mitigation_trans <- run_scenario_transportation(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .transit_avo_pct = 0.10,
-  .transit_rider_pct = 0.10,
+  .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()
@@ -89,7 +89,7 @@ mitigation_lu_transit <- run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_avo_pct = 0.10,
-  .transit_rider_pct = 0.10,
+  .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()

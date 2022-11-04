@@ -105,9 +105,9 @@ mitigation_trans <-  run_scenario_transportation(
   .scenario = "strategy_improve_transit",
   .electric_scenario = "ER",
   .aeo_scenario = "REF", 
-  .transit_avo = 0.10,
-  .transit_rider_pct = 0.10,
-  .pldv_avo_pct = 0.10
+  .transit_avo = 0.10
+  # .transit_service_pct = 0.10,
+  # .pldv_avo_pct = 0.10
 ) %>% 
   suppressMessages()
 ```
@@ -191,7 +191,7 @@ mitigation_lu_transit <-  run_scenario_transportation(
   .transit_dist_pct_change = -0.05,
   # .comb_5d_impact_pct_change = 0.2,
   .transit_avo = 0.2,
-  # .transit_rider_pct = 0.10,
+  # .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.1,
   .parking_price = 44
 )  %>% 

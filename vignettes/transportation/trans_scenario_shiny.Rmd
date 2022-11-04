@@ -134,7 +134,7 @@ calc_scen_vals <- reactive({
     .transit_dist_pct_change = -0.05,
     # .comb_5d_impact_pct_change = 0.2,
     .transit_avo = input$transit_avo,
-    .transit_rider_pct = input$transit_rider_pct,
+    .transit_service_pct = input$transit_rider_pct,
     .pldv_avo_pct = input$pldv_avo_pct,
     .bev_pct_sales = input$bev_pct_sales,
     .hev_pct_sales = input$hev_pct_sales,

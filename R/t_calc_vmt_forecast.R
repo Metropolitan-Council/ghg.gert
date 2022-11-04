@@ -45,7 +45,7 @@ calc_vmt_forecast <- function(.scenario,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
                               .transit_avo_pct = 0,
-                              .transit_rider_pct = 0,
+                              .transit_service_pct = 0,
                               .pldv_avo_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,
@@ -123,7 +123,7 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast,
         .enviro_factors = .enviro_factors
       )
@@ -248,7 +248,7 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast,
         .enviro_factors = .enviro_factors
       )
@@ -450,7 +450,7 @@ calc_vmt_forecast <- function(.scenario,
       trans_rider <- vmt_transit_ridership(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast
       )
 
