@@ -11,7 +11,7 @@ library(tidyverse)
 # write.csv(unique_sources, "data-raw/indices/unique_sources.csv")
 
 # returned from Jason -----
-uni_sources <- read.csv("~/Documents/MetC_Locals/CD/ghg.sp/data-raw/indices/unique_sources.csv")
+uni_sources <- read.csv("data-raw/transportation_data_processing/indices/unique_sources.csv")
 
 
 

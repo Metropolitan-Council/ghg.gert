@@ -3,13 +3,13 @@ library(dplyr)
 library(tidyr)
 library(readr)
 
-pass_transpo <- read_csv("data-raw/pass_transpo_dat.csv") %>%
+pass_transpo <- read_csv("data-raw/transportation_data_processing/pass_transpo_dat.csv") %>%
   unique() %>%
   arrange(ctu) %>%
   mutate_at(4:12, as.numeric) %>%
   mutate_at(4:12, round, digits = 8)
 
-pass_transpo_new <- read_csv("data-raw/pass_transpo_dat_new.csv") %>%
+pass_transpo_new <- read_csv("data-raw/transportation_data_processing/pass_transpo_dat_new.csv") %>%
   unique() %>%
   arrange(ctu) %>%
   mutate_at(4:12, as.numeric) %>%
@@ -38,7 +38,7 @@ pass_transpo <- pass_transpo_new
 #     )
 #   ))
 
-freight_transpo <- read_csv("data-raw/freight_transpo_dat.csv") %>%
+freight_transpo <- read_csv("data-raw/transportation_data_processing/freight_transpo_dat.csv") %>%
   unique()
 
 
