@@ -13,15 +13,21 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' calc_residential_renewable_ng(
-#'   res_tb = building_data$residential,
-#'   .enviro_factors = enviro_factors
+#' ghg.sp::calc_residential_renewable_ng(
+#'     res_tb = ghg.sp::calc_ghg_residential(
+#'       res_tb = building_energy_bau_data$residential,
+#'       res_tb_bau = building_energy_bau_data$residential,
+#'       .grid_decarbonization_pct = 1,
+#'      .enviro_factors = enviro_factors),
+#' .enviro_factors = enviro_factors
 #' )
 #' }
 calc_residential_renewable_ng <- function(res_tb,
                                           .enviro_factors = .enviro_factors) {
+
   new_res_tb <-
     res_tb %>%
+    tidyr::pivot_wider(., names_from = c(var, scen, year), names_sep = ".", values_from = value) %>%
     dplyr::mutate(
       reduced_therms =
         (residential_therms.bau.2040
@@ -34,7 +40,15 @@ calc_residential_renewable_ng <- function(res_tb,
             reduced_therms - (78 * population.bau.2040)
           )) *
           .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-    )
+    ) %>%
+    tidyr::pivot_longer(
+      names_to = "var",
+      values_to = "value",
+      cols = -c(ctu_name)
+    ) %>%
+    tidyr::separate(col = var,
+                    into = c("var", "scen", "year"),
+                    sep = "\\.")
 
   return(new_res_tb)
 }

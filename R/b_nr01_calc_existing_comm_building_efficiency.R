@@ -23,11 +23,11 @@
 #' library(ghg.sp)
 #'
 #' calc_existing_comm_building_efficiency(
-#'   non_res_tb = building_data$non_residential,
+#'   non_res_tb = building_energy_bau_data$non_residential,
 #'   .existing_high_efficiency_buildings_pct = 0.80
 #' )
 #' }
-calc_existing_comm_building_efficiency <- function(non_res_tb = building_data$non_residential,
+calc_existing_comm_building_efficiency <- function(non_res_tb = building_energy_bau_data$non_residential,
                                                    .existing_high_efficiency_buildings_pct) {
   new_non_res_tb <-
     non_res_tb %>%
@@ -46,15 +46,15 @@ calc_existing_comm_building_efficiency <- function(non_res_tb = building_data$no
       var = "commercial_jobs",
       year = 2040
     ) %>%
-    select(ctu_name, year, var, value) %>%
-    bind_rows(
+    dplyr::select(ctu_name, year, var, value) %>%
+    dplyr::bind_rows(
       .,
       non_res_tb %>%
-        filter(var != "commercial_jobs" &
+        dplyr::filter(var != ("commercial_jobs"),
           year == 2040)
     ) %>%
-    bind_rows(., non_res_tb %>%
-      filter(year == 2018))
+    dplyr::bind_rows(., non_res_tb %>%
+      dplyr::filter(year == 2018))
 
   return(new_non_res_tb)
 }

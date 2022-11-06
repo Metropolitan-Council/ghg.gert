@@ -41,10 +41,10 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data){
     tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      commercial_mwh = dplyr::if_else(is.na(commercial_mwh_per_worker * commercial_emp_forecast) == FALSE, commercial_mwh_per_worker * commercial_emp_forecast, commercial_mwh_nrel),
-      commercial_therms = dplyr::if_else(is.na(commercial_therm_per_worker * commercial_emp_forecast) == FALSE, commercial_therm_per_worker * commercial_emp_forecast, commercial_therms_nrel),
-      industrial_mwh = dplyr::if_else(is.na(industrial_mwh_per_worker * industrial_emp_forecast) == FALSE, industrial_mwh_per_worker * industrial_emp_forecast, industrial_mwh_nrel),
-      industrial_therms = dplyr::if_else(is.na(industrial_therm_per_worker * industrial_emp_forecast) == FALSE, industrial_therm_per_worker * industrial_emp_forecast, industrial_therms_nrel),
+      commercial_mwh = dplyr::if_else(is.na(commercial_mwh_per_worker * commercial_jobs) == FALSE, commercial_mwh_per_worker * commercial_jobs, commercial_mwh_nrel),
+      commercial_therms = dplyr::if_else(is.na(commercial_therm_per_worker * commercial_jobs) == FALSE, commercial_therm_per_worker * commercial_jobs, commercial_therms_nrel),
+      industrial_mwh = dplyr::if_else(is.na(industrial_mwh_per_worker * industrial_jobs) == FALSE, industrial_mwh_per_worker * industrial_jobs, industrial_mwh_nrel),
+      industrial_therms = dplyr::if_else(is.na(industrial_therm_per_worker * industrial_jobs) == FALSE, industrial_therm_per_worker * industrial_jobs, industrial_therms_nrel),
       year = 2040
     ) %>%
     dplyr::select(

@@ -134,10 +134,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     dplyr::mutate(var =
                     dplyr::case_when(
                       (
-                        indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast"
+                        indlabel %in% naics_codes$industrial ~ "industrial_jobs"
                       ),
                       (
-                        indlabel %in% naics_codes$commercial ~ "commercial_emp_forecast"
+                        indlabel %in% naics_codes$commercial ~ "commercial_jobs"
                       )
                     )) %>%
     dplyr::group_by(ctu_name, year, var) %>%
