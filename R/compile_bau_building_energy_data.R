@@ -7,7 +7,7 @@
 #'
 #' @examples
 compile_bau_building_energy <-
-  function(tb = building_energy_data) {
+  function(tb = building_energy_data, ctu_selection = "all") {
     building_data <- c()
 
     demographic_baseline <- ghg.sp::get_demographic_baseline()$ctu
@@ -17,19 +17,44 @@ compile_bau_building_energy <-
     non_residential_energy_baseline <- ghg.sp::get_non_residential_energy_baseline(tb = tb)
     non_residential_energy_forecast <- ghg.sp::calc_non_residential_energy_forecast(tb = tb)
 
-    building_data$residential <- dplyr::bind_rows(
-      demographic_baseline,
-      demographic_forecast,
-      residential_energy_baseline,
-      residential_energy_forecast
-    )
 
-    building_data$non_residential <- dplyr::bind_rows(
-      demographic_baseline,
-      demographic_forecast,
-      non_residential_energy_baseline,
-      residential_energy_forecast
-    )
+    if (ctu_selection == "all"){
+
+
+      building_data$residential <- dplyr::bind_rows(
+        demographic_baseline,
+        demographic_forecast,
+        residential_energy_baseline,
+        residential_energy_forecast
+      ) %>%
+        dplyr::ungroup()
+
+      building_data$non_residential <- dplyr::bind_rows(
+        demographic_baseline,
+        demographic_forecast,
+        non_residential_energy_baseline,
+        non_residential_energy_forecast
+      ) %>%
+        dplyr::ungroup()
+    }
+    else {
+      building_data$residential <- dplyr::bind_rows(
+        demographic_baseline,
+        demographic_forecast,
+        residential_energy_baseline,
+        residential_energy_forecast
+      ) %>% dplyr::filter(ctu_name == ctu_selection) %>%
+        dplyr::ungroup()
+
+      building_data$non_residential <- dplyr::bind_rows(
+        demographic_baseline,
+        demographic_forecast,
+        non_residential_energy_baseline,
+        non_residential_energy_forecast
+      ) %>% dplyr::filter(ctu_name == ctu_selection) %>%
+        dplyr::ungroup()
+
+    }
 
     return(building_data)
 

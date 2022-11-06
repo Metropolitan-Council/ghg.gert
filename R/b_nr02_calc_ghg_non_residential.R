@@ -28,8 +28,8 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_non_residential(
-#'   non_res_tb = building_data$non_residential,
-#'   non_res_tb_bau = building_energy_baudata$non_residential,
+#'   non_res_tb = building_energy_bau_data$non_residential,
+#'   non_res_tb_bau = building_energy_bau_data$non_residential,
 #'   .industrial_smart_grid_pct = 1,
 #'   .commercial_smart_grid_pct = 1,
 #'   .grid_decarbonization_pct = 1,
@@ -78,8 +78,8 @@ calc_ghg_non_residential <- function(non_res_tb,
         ) %>%
         dplyr::mutate(
           # mw hours
-          commercial_mwh = (commercial_jobs * commercial_smart_grid_pct) * commercial_mwh_per_worker,
-          industrial_mwh = (industrial_jobs * industrial_smart_grid_pct) * industrial_mwh_per_worker,
+          commercial_mwh = (commercial_jobs * .commercial_smart_grid_pct) * commercial_mwh_per_worker,
+          industrial_mwh = (industrial_jobs * .industrial_smart_grid_pct) * industrial_mwh_per_worker,
 
           # therms
           commercial_therms = commercial_jobs * commercial_therm_per_worker,

@@ -14,7 +14,7 @@ calc_residential_energy_forecast <-
     ## ----- estimate residential electricity use from floor area energy intensity -----
     ctu_residential_electricity_forecast <-
       ctu_residential_energy_baseline %>%
-      dplyr::filter(var == "kwh_per_floor_area") %>%
+      dplyr::filter(var == "residential_kwh_per_floor_area") %>%
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(ctu_characteristics_forecast %>%
@@ -31,25 +31,25 @@ calc_residential_energy_forecast <-
                          values_from = "value",
                          values_fn = mean) %>%
       dplyr::mutate(
-        residential_kwh_per_floor_area_forecast = kwh_per_floor_area * 0.8,
+        residential_kwh_per_floor_area = residential_kwh_per_floor_area * 0.8,
         total_residential_kwh_forecast = (((
           single_family_units * single_family_average_floor_area_sqft_ctu
         ) +
           (
             multifamily_units * multifamily_average_floor_area_sqft_county
           )
-        ) * residential_kwh_per_floor_area_forecast),
+        ) * residential_kwh_per_floor_area),
         year = 2040
       ) %>%
       dplyr::select(
         ctu_name,
         year,
-        residential_kwh_per_floor_area_forecast,
+        residential_kwh_per_floor_area,
         total_residential_kwh_forecast
       ) %>%
       tidyr::pivot_longer(
         cols = c(
-          "residential_kwh_per_floor_area_forecast",
+          "residential_kwh_per_floor_area",
           "total_residential_kwh_forecast"
         ),
         names_to = "var"
@@ -59,7 +59,7 @@ calc_residential_energy_forecast <-
     ## ----- estimate residential natural gas use from floor area energy intensity -----
     residential_natural_gas_forecast_ctu <-
       ctu_residential_energy_baseline %>%
-      dplyr::filter(var == "therms_per_floor_area") %>%
+      dplyr::filter(var == "residential_therms_per_floor_area") %>%
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(., ctu_characteristics_forecast %>%
@@ -68,7 +68,7 @@ calc_residential_energy_forecast <-
       dplyr::distinct() %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
       # assumption that natural gas per floor area stays static
-      dplyr::mutate(residential_therms_per_floor_area_forecast = therms_per_floor_area * 1) %>%
+      dplyr::mutate(residential_therms_per_floor_area = residential_therms_per_floor_area * 1) %>%
       dplyr::mutate(
         total_residential_therms_forecast = (((
           single_family_units * single_family_average_floor_area_sqft_ctu
@@ -76,18 +76,18 @@ calc_residential_energy_forecast <-
           (
             multifamily_units * multifamily_average_floor_area_sqft_county
           )
-        ) * residential_therms_per_floor_area_forecast)
+        ) * residential_therms_per_floor_area)
       ) %>%
       dplyr::mutate(year = 2040) %>%
       dplyr::select(
         ctu_name,
         year,
-        residential_therms_per_floor_area_forecast,
+        residential_therms_per_floor_area,
         total_residential_therms_forecast
       ) %>%
       tidyr::pivot_longer(
         cols = c(
-          "residential_therms_per_floor_area_forecast",
+          "residential_therms_per_floor_area",
           "total_residential_therms_forecast"
         ),
         names_to = "var"

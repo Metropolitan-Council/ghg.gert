@@ -111,9 +111,14 @@ ghg.sp::scen_building_residential(
 ghg.sp::calc_existing_comm_building_efficiency(
   non_res_tb = building_energy_bau_data$non_residential,
   .existing_high_efficiency_buildings_pct = 0.80
-)
+) %>%
+  tidyr::pivot_wider(
+    names_from = c("var", "year"),
+    values_from = "value",
+    names_sep = "."
+  )
 
-ghg.sp::calc_ghg_non_residential(
+check <- ghg.sp::calc_ghg_non_residential(
   non_res_tb = ghg.sp::calc_existing_comm_building_efficiency(
     non_res_tb = building_energy_bau_data$non_residential,
     .existing_high_efficiency_buildings_pct = 0.80
@@ -125,7 +130,13 @@ ghg.sp::calc_ghg_non_residential(
   .smart_grid_energy_reduction_pct = 1,
   .enviro_factors = enviro_factors,
   .existing_high_efficiency_buildings_pct = 0.8
-)
+) %>%
+  tidyr::pivot_wider(
+    names_from = c("var", "year"),
+    values_from = "value",
+    names_sep = "."
+  )
+
 
 
 ghg.sp::calc_electrify_commercial_heating(
@@ -161,16 +172,7 @@ ghg.sp::calc_non_res_renewable_ng(
 )
 
 ghg.sp::scen_building_non_residential(
-  non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
-    .grid_decarbonization_pct = 0.8,
-    .smart_grid_energy_reduction_pct = 1,
-    .enviro_factors = enviro_factors,
-    .existing_high_efficiency_buildings_pct = 0.8
-  ),
+  non_res_tb = ,
   non_res_tb_bau = building_energy_bau_data$non_residential,
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,

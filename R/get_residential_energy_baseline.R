@@ -74,13 +74,13 @@ get_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = "var",
                   values_from = "value",
                   values_fn = mean) %>%
-      dplyr::mutate(kwh_per_floor_area = (residential_mwh / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+      dplyr::mutate(residential_kwh_per_floor_area = (residential_mwh / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
                                                         (multifamily_units * multifamily_average_floor_area_sqft_county)
       )) *
         1000) %>%
-      dplyr::select(ctu_name, year, kwh_per_floor_area) %>%
+      dplyr::select(ctu_name, year, residential_kwh_per_floor_area) %>%
       dplyr::group_by(ctu_name, year) %>%
-      tidyr::pivot_longer(cols = c("kwh_per_floor_area"),
+      tidyr::pivot_longer(cols = c("residential_kwh_per_floor_area"),
                    names_to = "var")
 
     ## ----- estimate residential therms/sqft ----
@@ -90,12 +90,12 @@ get_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = "var",
                   values_from = "value",
                   values_fn = mean) %>%
-      dplyr::mutate(therms_per_floor_area = (residential_ng_therms / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+      dplyr::mutate(residential_therms_per_floor_area = (residential_ng_therms / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
                                                                  (multifamily_units * multifamily_average_floor_area_sqft_county)
       ))) %>%
-      dplyr::select(ctu_name, year, therms_per_floor_area) %>%
+      dplyr::select(ctu_name, year, residential_therms_per_floor_area) %>%
       dplyr::group_by(ctu_name, year) %>%
-      tidyr::pivot_longer(cols = c("therms_per_floor_area"),
+      tidyr::pivot_longer(cols = c("residential_therms_per_floor_area"),
                    names_to = "var")
 
     ## ---- estimate residential kwh/household -----
