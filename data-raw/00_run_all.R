@@ -3,6 +3,7 @@ source("data-raw/transportation_data_processing/transportation_data.R")
 
 source("data-raw/transportation_data_processing/fix_bus_fleet.R")
 source("data-raw/transportation_data_processing/fix_bus_pmt.R")
+source("data-raw/transportation_data_processing/fix_bus_avo.R")
 # source("data-raw/transportation_data_processing/fix_bus_fuel.R")
 source("data-raw/transportation_data_processing/transportation_index.R")
 
