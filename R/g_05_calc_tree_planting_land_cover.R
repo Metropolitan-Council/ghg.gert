@@ -4,7 +4,6 @@
 #' @description Recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
-#' @inheritParams calc_land_cover_by_city
 #' @param .tree_panting_intervention character, specifies the type of tree planting.
 #'     intervention to be explored under the current scenario. options are:
 #'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.

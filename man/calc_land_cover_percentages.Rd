@@ -2,10 +2,10 @@
 % Please edit documentation in R/g_01_calc_land_cover_percentages.R
 \name{calc_land_cover_percentages}
 \alias{calc_land_cover_percentages}
-\title{Calculate Baseline Land Cover / Land Use Percentages by CTU}
+\title{Calculate Baseline Land Cover Land Use Percentages by CTU}
 \usage{
 calc_land_cover_percentages(tb = land_use_data)
 }
 \description{
-Calculate Baseline Land Cover / Land Use Percentages by CTU
+Calculate Baseline Land Cover Land Use Percentages by CTU
 }

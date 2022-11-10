@@ -1,9 +1,6 @@
-#' Calculate Baseline Land Cover / Land Use Percentages by CTU
+#' @title Calculate Baseline Land Cover Land Use Percentages by CTU
 #'
-#' @return
-#' @export
 #'
-#' @examples
 calc_land_cover_percentages <- function(tb = land_use_data) {
   # -------------------------------------------------------------------------
 

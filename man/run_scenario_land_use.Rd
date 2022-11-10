@@ -47,7 +47,6 @@ run_scenario_land_use(
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
-  .avoided_emissions_tractor_use_mg_co2e_per_hectare = 0.0102,
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
