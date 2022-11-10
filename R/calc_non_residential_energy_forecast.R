@@ -1,9 +1,6 @@
 #' @title Calculate Non Residential Energy Forecast
 #'
-#' @return
-#' @export
 #'
-#' @examples
 calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 
   ctu_characteristics_forecast <- calc_demographic_forecast()$ctu

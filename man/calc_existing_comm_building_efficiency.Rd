@@ -5,7 +5,7 @@
 \title{Calculate existing commercial buildings efficiency}
 \usage{
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_data$non_residential,
+  non_res_tb = building_energy_bau_data$non_residential,
   .existing_high_efficiency_buildings_pct
 )
 }
@@ -32,7 +32,7 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 library(ghg.sp)
 
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_data$non_residential,
+  non_res_tb = building_energy_bau_data$non_residential,
   .existing_high_efficiency_buildings_pct = 0.80
 )
 }

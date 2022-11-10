@@ -49,7 +49,8 @@ the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
 \item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential} is suitable and the default value.
+Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
+is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 

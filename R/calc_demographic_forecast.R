@@ -1,9 +1,6 @@
 #' @title Calculate Demographic Forecast
 #'
-#' @return
-#' @export
-#'
-#' @examples
+
 calc_demographic_forecast <- function(tb = building_energy_data) {
   # COUNTY DEMOGRAPHIC FORECAST ----
   demographic_characteristics_forecast <- c()

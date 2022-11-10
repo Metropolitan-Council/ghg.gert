@@ -104,8 +104,8 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 library(ghg.sp)
 
 scen_building_residential(
-  tb = building_data$residential,
-  res_tb_bau = building_data$residential,
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
   .new_homes_to_multifamily_pct = 0.50,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.50,

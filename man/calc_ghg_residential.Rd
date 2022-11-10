@@ -43,8 +43,8 @@ residential strategies refer to \code{\link[=scen_residential_building]{scen_res
 library(ghg.sp)
 
 calc_ghg_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
   .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors
 )
