@@ -27,8 +27,10 @@ This strategy goes beyond the Metropolitan Council’s 2040 Planned Land Use, by
 The main function related to this strategy is `ghg.sp::adj_unit_counts()` which allows to specify the percentage of single family homes to be converted to multifamily. 
 
 ```{r}
-ghg.sp::adj_unit_counts(res_tb = building_data$residential,
-                        .new_homes_to_multifamily_pct = 0.50) %>%
+ghg.sp::adj_unit_counts(
+  res_tb = building_data$residential,
+  .new_homes_to_multifamily_pct = 0.50
+) %>%
   dplyr::filter(
     ctu_name == "Lake Elmo",
     var %in% c(
@@ -49,8 +51,10 @@ ghg.sp::adj_unit_counts(res_tb = building_data$residential,
 This strategy assumes that about 50% of the single-family homes will respond to increased energy prices by decreasing their living space.
 
 ```{r}
-ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
-                                   .single_family_floor_area_growth_pct = 0.05) %>%
+ghg.sp::calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .single_family_floor_area_growth_pct = 0.05
+) %>%
   dplyr::filter(
     ctu_name == "Lake Elmo",
     var %in% c(
@@ -137,7 +141,7 @@ ghg.sp::calc_floor_area_retrofit(
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   dplyr::filter(
     ctu_name == "Lake Elmo",
     var %in% c(
@@ -166,7 +170,7 @@ ghg.sp::calc_floor_area_behavior_change(
   res_tb = building_data$residential,
   .home_behavior_change_pct = 1.00,
   .enviro_factors = enviro_factors
-)   %>%
+) %>%
   dplyr::filter(
     ctu_name == "Lake Elmo",
     var %in% c(

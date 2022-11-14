@@ -58,17 +58,17 @@ minneapolis_building_energy
 ```
 
 ```{r plot-minneapolis-building-energy}
-minneapolis_building_energy_mwh <- 
+minneapolis_building_energy_mwh <-
   minneapolis_building_energy %>%
-  ungroup %>%
+  ungroup() %>%
   dplyr::select(var, scen, year, value) %>%
-  dplyr::filter(var %in% c('residential_mwh', 'commercial_mwh', 'industrial_mwh'))
+  dplyr::filter(var %in% c("residential_mwh", "commercial_mwh", "industrial_mwh"))
 
 
-ggplot(minneapolis_building_energy_mwh %>% filter(scen == "bau"), aes(fill=var, y=value, x=year)) + 
-    geom_bar(position="stack", stat="identity")
+ggplot(minneapolis_building_energy_mwh %>% filter(scen == "bau"), aes(fill = var, y = value, x = year)) +
+  geom_bar(position = "stack", stat = "identity")
 
-ggplot(minneapolis_building_energy_mwh %>% filter(scen == "scen"), aes(fill=var, y=value, x=year)) + 
-    geom_bar(position="stack", stat="identity")
+ggplot(minneapolis_building_energy_mwh %>% filter(scen == "scen"), aes(fill = var, y = value, x = year)) +
+  geom_bar(position = "stack", stat = "identity")
 ```
 

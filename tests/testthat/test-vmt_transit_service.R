@@ -1,11 +1,11 @@
 enviro_factors_edit <- enviro_factors
 
-enviro_factors_edit$PLDV_TRANSIT_RATIO <- 47 / 100
+enviro_factors_edit$TRANSIT_SERVICE_ELAST <- 47 / 100
 
-pass_trans <- vmt_transit_ridership(
+pass_trans <- vmt_transit_service(
   tb = st_paul_passenger,
   .mode = "PLDV",
-  .transit_rider_pct = 0.10,
+  .transit_service_pct = 0.10,
   .enviro_factors = enviro_factors_edit
 )
 
@@ -26,10 +26,10 @@ testthat::expect_equal(
 )
 
 testthat::expect_equal(
-  vmt_transit_ridership(
+  vmt_transit_service(
     tb = st_paul_passenger,
     .mode = "BU",
-    .transit_rider_pct = 0.1,
+    .transit_service_pct = 0.1,
     .enviro_factors = enviro_factors_edit
   ),
   tibble::tribble(
@@ -48,10 +48,10 @@ testthat::expect_equal(
 
 
 testthat::expect_equal(
-  vmt_transit_ridership(
+  vmt_transit_service(
     tb = st_paul_passenger,
     .mode = "RI",
-    .transit_rider_pct = 0.1,
+    .transit_service_pct = 0.1,
     .enviro_factors = enviro_factors_edit
   ),
   tibble::tribble(

@@ -64,10 +64,10 @@ calc_parking_lot_land_cover <- function(tb,
           year == 2016 ~ parking_lot,
           year == 2040 &
             .urban_form_scenario == "compact_dev_with_drs" ~
-          (parking_lot * (1 - .parking_lot_reduction_percentage)),
+            (parking_lot * (1 - .parking_lot_reduction_percentage)),
           year == 2040 &
             .urban_form_scenario != "compact_dev_with_drs" ~
-          parking_lot
+            parking_lot
         ),
       decreased_parking_lot = parking_lot - parking_lot_2,
       scaling_factor = (total_area_hectares + decreased_parking_lot) / total_area_hectares

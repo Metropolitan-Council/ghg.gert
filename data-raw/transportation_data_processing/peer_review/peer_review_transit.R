@@ -55,7 +55,7 @@ mitigation_trans <- run_scenario_transportation(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .transit_avo_pct = 0.10,
-  .transit_rider_pct = 0.10,
+  .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()
@@ -76,7 +76,7 @@ mitigation_lu <- run_scenario_transportation(
 ) %>%
   suppressMessages()
 
-# debug(vmt_transit_ridership)
+# debug(vmt_transit_service)
 mitigation_lu_transit <- run_scenario_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
@@ -89,7 +89,7 @@ mitigation_lu_transit <- run_scenario_transportation(
   .intersection_design_pct_change = 0.05,
   .job_access_pct_change = 0.05,
   .transit_avo_pct = 0.10,
-  .transit_rider_pct = 0.10,
+  .transit_service_pct = 0.10,
   .pldv_avo_pct = 0.05
 ) %>%
   suppressMessages()
@@ -189,7 +189,7 @@ ggplot(
   labs(
     title = "Region transit vehicle miles traveled",
     color = "",
-    caption = "We would expect to see VMT decrease when the transit AVO increases (more people in vehicle, more PMT) and the VMT to increase when transit ridership increases (more vehicle miles traveled)"
+    caption = "We would expect to see VMT decrease when the transit AVO increases (more people in vehicle, more PMT) and the VMT to increase when transit service increases (more vehicle miles traveled)"
   )
 
 ggsave("./data-raw/peer_review/figs/scen_run.png",

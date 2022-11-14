@@ -53,7 +53,6 @@ calc_floor_area_growth(
   .enviro_factors = enviro_factors
 )
 }
-
 }
 \seealso{
 Other residential: 

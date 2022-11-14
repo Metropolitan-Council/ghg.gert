@@ -45,7 +45,7 @@ check_inputs <- function(name, value) {
     "hev_pct_sales",
     "phev_pct_sales",
     "drs_pct_trip",
-    "transit_rider_pct",
+    "transit_service_pct",
     "av_pct",
     "drs_pct",
     "emp_dens_pct_change",

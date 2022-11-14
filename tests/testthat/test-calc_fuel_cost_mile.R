@@ -6,7 +6,7 @@ fcm <- calc_fuel_cost_mile(
   transportation_data$passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
-  .miles_per_gallon =  "SIMPG",
+  .miles_per_gallon = "SIMPG",
   .fuel_cost_gallon = 239.8,
   .av_pct = 0
 ) %>%
@@ -28,7 +28,7 @@ fcm <- calc_fuel_cost_mile(
   transportation_data$passenger,
   .mode = "PLDV",
   .aeo_scenario = "REF",
-  .miles_per_gallon =  "CIMPG",
+  .miles_per_gallon = "CIMPG",
   .fuel_cost_gallon = 264,
   .av_pct = 0
 )

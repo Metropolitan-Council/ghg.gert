@@ -69,7 +69,7 @@ Note that when there is missing data for the `multifamily_average_floor_area_sqf
 package will refer to the county wide average. 
 
 ```{r}
-building_data$residential %>% 
+building_data$residential %>%
   dplyr::filter(ctu_name == "Lake Elmo") %>%
   tidyr::pivot_wider(names_from = year, values_from = value) %>%
   dplyr::select(ctu_name, var, `2018`, `2040`) %>%

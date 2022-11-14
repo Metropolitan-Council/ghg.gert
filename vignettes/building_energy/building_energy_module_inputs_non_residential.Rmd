@@ -40,7 +40,7 @@ Each of these functions, in turn call subsequent functions to obtain the estimat
 The following chunk prints the key input variables for the commercial/industrial strategies under the building energy module. 
 
 ```{r building}
-building_data$non_residential %>% 
+building_data$non_residential %>%
   dplyr::filter(ctu_name == "Minneapolis") %>%
   tidyr::pivot_wider(names_from = year, values_from = value) %>%
   dplyr::select(ctu_name, var, `2018`, `2040`) %>%
