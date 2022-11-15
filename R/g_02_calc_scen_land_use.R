@@ -73,8 +73,8 @@ calc_scen_land_use <- function(tb,
           )) * luse_scenario_params$urban_expansion_relative_to_bau
             + (scenario_mixed_use_mf_new / 4)),
           (description_2 == "park_recreational_or_preserve") ~
-          ((hectares + ((percent * scenario_total) - hectares))
-          * luse_scenario_params$urban_expansion_relative_to_bau),
+            ((hectares + ((percent * scenario_total) - hectares))
+            * luse_scenario_params$urban_expansion_relative_to_bau),
           description_2 %in% c(
             "agricultural",
             "airport",

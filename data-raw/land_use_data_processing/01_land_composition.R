@@ -28,13 +28,13 @@ p_carbon_stock_by_cover_type <-
 p_land_composition_ctu <-
   t_ctu_land_use_hectares %>%
   group_by(ctu_name, development_name, year, description, description_2) %>%
-  summarise(hectares = sum(hectares, na.rm=TRUE), .groups = "drop") %>%
+  summarise(hectares = sum(hectares, na.rm = TRUE), .groups = "drop") %>%
   base::merge(
     .,
     (
       t_ctu_land_use_hectares %>%
         dplyr::group_by(ctu_name, development_name, year) %>%
-        dplyr::summarise(total_hectares = sum(hectares, na.rm=TRUE), .groups = "drop") %>%
+        dplyr::summarise(total_hectares = sum(hectares, na.rm = TRUE), .groups = "drop") %>%
         dplyr::ungroup()
     ),
     by = c("ctu_name", "development_name", "year")

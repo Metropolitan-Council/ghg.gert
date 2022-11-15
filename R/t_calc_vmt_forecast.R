@@ -22,7 +22,7 @@
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
 #' @inheritParams vmt_autonomous_vehicle
-#' @inheritParams vmt_transit_ridership
+#' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams vmt_telework
 #'
@@ -45,7 +45,7 @@ calc_vmt_forecast <- function(.scenario,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
                               .transit_avo_pct = 0,
-                              .transit_rider_pct = 0,
+                              .transit_service_pct = 0,
                               .pldv_avo_pct = 0,
                               .vmt_fee = 0,
                               .payd_fee = 0,
@@ -95,7 +95,7 @@ calc_vmt_forecast <- function(.scenario,
       "RI"
     )) {
       # transit bus and rail -----
-      # If it's a transit mode, then apply the ridership and average vehicle occupancy factors (including cross elasticity from PLDV fees)
+      # If it's a transit mode, then apply transit service and average vehicle occupancy factors (including cross elasticity from PLDV fees)
 
       # browser()
 
@@ -118,12 +118,12 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
-      # transit ridership adjustment
+      # transit service adjustment
       # distributes final % increase across years
-      trans_rider <- vmt_transit_ridership(
+      trans_service <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast,
         .enviro_factors = .enviro_factors
       )
@@ -182,7 +182,7 @@ calc_vmt_forecast <- function(.scenario,
 
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
-        left_join(trans_rider, by = c("ctu", "year")) %>%
+        left_join(trans_service, by = c("ctu", "year")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
@@ -219,9 +219,9 @@ calc_vmt_forecast <- function(.scenario,
           left_join(phev_proportion) %>%
           mutate(miles_traveled = case_when(
             .phev_electric == TRUE ~
-            miles_traveled * phev_prop_electric,
+              miles_traveled * phev_prop_electric,
             .phev_electric == FALSE ~
-            miles_traveled * (1 - phev_prop_electric)
+              miles_traveled * (1 - phev_prop_electric)
           )) %>%
           select(names(tb_vmt))
       }
@@ -245,10 +245,10 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
-      trans_rider <- vmt_transit_ridership(
+      trans_service <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast,
         .enviro_factors = .enviro_factors
       )
@@ -326,7 +326,7 @@ calc_vmt_forecast <- function(.scenario,
       # * mode_stock_adj
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
-        left_join(trans_rider, by = c("ctu", "year")) %>%
+        left_join(trans_service, by = c("ctu", "year")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
@@ -447,17 +447,17 @@ calc_vmt_forecast <- function(.scenario,
         filter(mode == "AT", var == .variable) %>%
         select(year, ctu, at_adjust = value)
 
-      trans_rider <- vmt_transit_ridership(
+      trans_service <- vmt_transit_service(
         tb = tb,
         .mode = .mode,
-        .transit_rider_pct = .transit_rider_pct,
+        .transit_service_pct = .transit_service_pct,
         .elast = .elast
       )
 
       tb_fin <- tb_vmt %>%
         left_join(ann_energy_outlook, by = c("year")) %>%
         left_join(at_adjustment, by = c("year", "ctu")) %>%
-        left_join(trans_rider, by = c("year", "ctu")) %>%
+        left_join(trans_service, by = c("year", "ctu")) %>%
         left_join(fc_adjustments, by = c("ctu", "year")) %>%
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%

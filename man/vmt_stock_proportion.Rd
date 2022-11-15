@@ -29,7 +29,7 @@ Other VMT effects:
 \code{\link{vmt_parking_policy}()},
 \code{\link{vmt_road_policy}()},
 \code{\link{vmt_telework}()},
-\code{\link{vmt_transit_ridership}()},
+\code{\link{vmt_transit_service}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }
 \concept{VMT effects}

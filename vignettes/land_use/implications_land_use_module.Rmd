@@ -8,9 +8,11 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE,
-                      comment = "#>",
-                      echo = F)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = F
+)
 # options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ghg.sp)
@@ -21,7 +23,6 @@ library(ggplot2)
 library(tidyr)
 
 `%not_in%` <- Negate(`%in%`)
-
 ```
 
 ## Implications of Land Use & Green Infrastructure Module
@@ -45,20 +46,23 @@ download.file(
 comdes <-
   sf::read_sf(unzip(temp, "society_thrive_msp2040_com_des.gpkg")) %>%
   group_by(CTU_NAME) %>%
-  mutate(max_area = max(Shape_Area)) %>% #there are some ctus with multiple designations; assign the designation to the most land area
-  mutate(flag = case_when(CTU_NAME %in% c("Empire Twp.", "Independence") &  #not the biggest land area
-                            COMDESNAME == "Emerging Suburban Edge" ~ 1,
-                          CTU_NAME %in% c("Empire Twp.", "Independence") & #not the biggest land area
-                            COMDESNAME != "Emerging Suburban Edge" ~ NA_real_,
-                          Shape_Area == max_area ~ 1)) %>%
+  mutate(max_area = max(Shape_Area)) %>% # there are some ctus with multiple designations; assign the designation to the most land area
+  mutate(flag = case_when(
+    CTU_NAME %in% c("Empire Twp.", "Independence") & # not the biggest land area
+      COMDESNAME == "Emerging Suburban Edge" ~ 1,
+    CTU_NAME %in% c("Empire Twp.", "Independence") & # not the biggest land area
+      COMDESNAME != "Emerging Suburban Edge" ~ NA_real_,
+    Shape_Area == max_area ~ 1
+  )) %>%
   filter(flag == 1) %>%
   sf::st_drop_geometry() %>%
   ungroup() %>%
-  transmute(ctu_name = CTU_NAME,
-            comdes = COMDESNAME) %>%
+  transmute(
+    ctu_name = CTU_NAME,
+    comdes = COMDESNAME
+  ) %>%
   mutate(ctu_name = if_else(ctu_name == "Credit River", "Credit River Twp.", ctu_name))
 fs::file_delete("society_thrive_msp2040_com_des.gpkg")
-
 ```
 
 ## Land Use and Land Cover Data
@@ -90,11 +94,10 @@ multiple_cos <- land_use_data$ctu_county %>%
 if (nrow(multiple_cos) < 1) {
   print("County assignment is okay!")
 } else {
-  print ("Figure out county assignment for these ctus: ")
+  print("Figure out county assignment for these ctus: ")
   land_use_data$ctu_county %>%
     filter(ctu_name %in% c(multiple_cos$ctu_name))
 }
-
 ```
 
 > Q1.1 ML Response on 7/25/2022: **Laine McNamara created a table that
@@ -116,11 +119,12 @@ if (nrow(multiple_cos) < 1) {
 
 ```{r}
 db_tables$t_housing_stock_ctu %>%
-  filter(year == 2018,
-         ctu_name == "St. Anthony") %>%
+  filter(
+    year == 2018,
+    ctu_name == "St. Anthony"
+  ) %>%
   select(ctu_name, co_name) %>%
   head()
-
 ```
 
 > Q1.2. ML Response on 7/25/2022: **Mauricio removed the county name
@@ -134,9 +138,11 @@ city/township from Community Profiles.
 
 ```{r echo=FALSE}
 if (land_use_data$ctu_forecast %>%
-    dplyr::filter(ctu_name == "Lake Elmo",
-                  year == 2020,
-                  var == "population") %>% .$value == 11335) {
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    year == 2020,
+    var == "population"
+  ) %>% .$value == 11335) {
   print("Yes, looks like the table is pulling the most recent census data. Do check on the forecast, which is (unfortuantely) only accessible via a website download right now; https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx")
 } else {
   print("Database doesn't match 2020 census data on community profiles; database probably needs to be updated")
@@ -165,25 +171,33 @@ test <- land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name")
 
 land_use_data$ctu_forecast %>%
-  full_join(comdes, by = "ctu_name") %>% 
-  filter(!is.na(var)) %>% #these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
+  full_join(comdes, by = "ctu_name") %>%
+  filter(!is.na(var)) %>% # these nas are coming from some ctus missing data (hilltop, rogers, ft snelling), keeping in to check progress
   group_split(var) %>%
   purrr::map(
-    ~ggplot(aes(x = year, 
-                y = value), 
-            data = .) + 
+    ~ ggplot(
+      aes(
+        x = year,
+        y = value
+      ),
+      data = .
+    ) +
       geom_line(aes(group = ctu_name),
-                col = "grey80") +
+        col = "grey80"
+      ) +
       stat_summary(fun.data = mean_se, size = .25) +
       facet_wrap(~comdes, scales = "free_y") +
       theme_council_open() +
-      labs(y = "", x = "", col = "", fill = "", shape = "",
-           title = .$var) +
+      labs(
+        y = "", x = "", col = "", fill = "", shape = "",
+        title = .$var
+      ) +
       theme(
         legend.position = "bottom",
         legend.text = element_text(size = 6),
-        legend.spacing.y = unit(0, 'cm')))
-
+        legend.spacing.y = unit(0, "cm")
+      )
+  )
 ```
 
 > Q3 ML Response on 7/25/2022: **We use the forecasts of population,
@@ -200,7 +214,7 @@ land_use_data$ctu_forecast %>%
     annexations need to be considered?
 
 ```{r}
-#some areas are losing people/jobs
+# some areas are losing people/jobs
 land_use_data$ctu_forecast %>%
   full_join(comdes, by = "ctu_name") %>%
   pivot_wider(names_from = year, values_from = value) %>%
@@ -242,10 +256,10 @@ land_use_data$scenario_parameters
 
 ```{r echo=FALSE}
 if (nrow(
-  land_use_data$land_cover_percentages_filled %>% 
-  group_by(ctu_name, description_2) %>%
-  summarise(sum = sum(land_cover_percent, na.rm = T), .groups = "keep") %>%
-  filter(round(sum,3) %not_in% c(0,1))
+  land_use_data$land_cover_percentages_filled %>%
+    group_by(ctu_name, description_2) %>%
+    summarise(sum = sum(land_cover_percent, na.rm = T), .groups = "keep") %>%
+    filter(round(sum, 3) %not_in% c(0, 1))
 ) > 0) {
   print("Looks like there are probably land cover issues")
 } else {
@@ -265,7 +279,7 @@ ee thoughts --> yup, looks okay
 #| fig.width = 6,
 #| fig.height = 4
 
-land_use_data$land_cover_percentages_filled %>% 
+land_use_data$land_cover_percentages_filled %>%
   group_by(ctu_name) %>%
   summarise(total_area = sum(hectares), .groups = "keep") %>%
   arrange(total_area) %>%
@@ -273,8 +287,10 @@ land_use_data$land_cover_percentages_filled %>%
   geom_histogram() +
   theme_council_open() +
   scale_x_continuous(labels = scales::comma) +
-  labs(y = "", x = "total land area (hectares)", 
-       title = "Does total land area in ctus look okay?")
+  labs(
+    y = "", x = "total land area (hectares)",
+    title = "Does total land area in ctus look okay?"
+  )
 ```
 
 > Q8 ML Response on 7/25/2022: **Yes, it looks okay**
@@ -310,8 +326,10 @@ land_use_data$land_cover_percentages_filled %>%
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   coord_flip() +
-  labs(x = "",
-       y = "Land Use") +
+  labs(
+    x = "",
+    y = "Land Use"
+  ) +
   facet_wrap(~ctu_name) +
   theme(legend.position = "bottom") +
   guides(
@@ -343,9 +361,11 @@ land_use_data$land_cover_percentages_filled %>%
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   coord_flip() +
-  labs(x = "",
-       y = "Land Use",
-       caption = paste0(Sys.Date())) +
+  labs(
+    x = "",
+    y = "Land Use",
+    caption = paste0(Sys.Date())
+  ) +
   facet_wrap(~ctu_name) +
   theme(legend.position = "bottom") +
   guides(
@@ -384,12 +404,14 @@ answered and/or data updates made.
 #| fig.height = 12
 
 land_use_data$land_cover_percentages_filled %>%
-  full_join(comdes, by = "ctu_name") %>% #filter(comdes == "Urban Center") %>%
-  ggplot(aes(x = description_2, 
-             y = land_cover_percent, 
-             col = land_cover_description_2, 
-             group = ctu_name)) +
-  geom_point(alpha = 0.5) + 
+  full_join(comdes, by = "ctu_name") %>% # filter(comdes == "Urban Center") %>%
+  ggplot(aes(
+    x = description_2,
+    y = land_cover_percent,
+    col = land_cover_description_2,
+    group = ctu_name
+  )) +
+  geom_point(alpha = 0.5) +
   scale_fill_brewer(palette = "Paired") +
   theme_council_open() +
   labs(x = "") +
@@ -403,7 +425,6 @@ land_use_data$land_cover_percentages_filled %>%
     fill = guide_legend(nrow = 4, byrow = TRUE),
     shape = guide_legend(nrow = 4, byrow = TRUE)
   )
-
 ```
 
 > Q10 ML Response on 7/25/2022: **Combining categories might not be a
@@ -437,8 +458,10 @@ development?*
 
 ```{r}
 land_use_data$land_composition_ctu %>%
-  dplyr::filter(ctu_name %in% c("Lake Elmo",
-                                "St. Paul")) %>%
+  dplyr::filter(ctu_name %in% c(
+    "Lake Elmo",
+    "St. Paul"
+  )) %>%
   select(-total_hectares, -hectares) %>%
   pivot_wider(names_from = year, values_from = percent) %>%
   mutate(change = `2040` - `2016`) %>%
@@ -483,20 +506,26 @@ land_use_data$land_composition_ctu %>%
   geom_bar(stat = "identity") +
   facet_wrap(~development_name) +
   theme_council_open() +
-  labs(y = "", x = "",
-       title = "Lake Elmo",
-       subtitle = "All land cover/uses") 
+  labs(
+    y = "", x = "",
+    title = "Lake Elmo",
+    subtitle = "All land cover/uses"
+  )
 
 land_use_data$land_composition_ctu %>%
-  dplyr::filter(ctu_name == "Lake Elmo",
-                percent >= .05) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    percent >= .05
+  ) %>%
   ggplot(aes(x = as.character(year), y = percent, fill = description_2)) +
   geom_bar(stat = "identity") +
   facet_wrap(~development_name) +
   theme_council_open() +
-  labs(y = "", x = "",
-       title = "Lake Elmo",
-       subtitle = "For land cover/uses which make up 5% or more") +
+  labs(
+    y = "", x = "",
+    title = "Lake Elmo",
+    subtitle = "For land cover/uses which make up 5% or more"
+  ) +
   scale_fill_brewer(palette = "Paired")
 ```
 
@@ -553,13 +582,13 @@ Q14: So EXCLUDING Brooklyn Center and looking at all other communities
 
 land_use_data$land_composition_ctu %>%
   select(-total_hectares, -hectares) %>%
-  filter(ctu_name != "Brooklyn Center") %>% #filter(description_2 == "farmstead") %>%
+  filter(ctu_name != "Brooklyn Center") %>% # filter(description_2 == "farmstead") %>%
   pivot_wider(names_from = year, values_from = percent) %>%
   mutate(change = `2040` - `2016`) %>%
   filter(abs(change) >= .05) %>%
   left_join(comdes, by = "ctu_name") %>%
   ggplot(aes(x = description_2, y = change, col = comdes, group = ctu_name)) +
-  geom_point(alpha = 0.5)+
+  geom_point(alpha = 0.5) +
   facet_wrap(~development_name, scales = "free") +
   coord_flip() +
   theme_council_open() +
@@ -571,8 +600,10 @@ land_use_data$land_composition_ctu %>%
     fill = guide_legend(nrow = 4, byrow = TRUE),
     shape = guide_legend(nrow = 4, byrow = TRUE)
   ) +
-  labs(title = "Change in land use over time across scenarios - all ctus.", 
-       y = "Change in percent of land use/cover from 2016 to 2040\n(positive values indicate EXPANSION of land use type by 2040,\nnegative values indicate LOSS of land use type by 2040", x = "")
+  labs(
+    title = "Change in land use over time across scenarios - all ctus.",
+    y = "Change in percent of land use/cover from 2016 to 2040\n(positive values indicate EXPANSION of land use type by 2040,\nnegative values indicate LOSS of land use type by 2040", x = ""
+  )
 ```
 
 4)  Why do communities gain farmstead with urban expansion? It seems
@@ -624,8 +655,8 @@ the `.Renviron` file. - Restart R.
 
 get_usda <- FALSE
 
-if(get_usda == TRUE) {
-  mn_conservation_tillage_fxn <- function(.county){
+if (get_usda == TRUE) {
+  mn_conservation_tillage_fxn <- function(.county) {
     raw <- httr::GET(paste0(
       "http://quickstats.nass.usda.gov/api/api_GET/?key=",
       Sys.getenv("USDA_KEY"),
@@ -633,17 +664,18 @@ if(get_usda == TRUE) {
       "&commodity_desc=PRACTICES",
       "&class_desc=LAND%20USE,%20CROPLAND",
       "&unit_desc=ACRES",
-      "&agg_level_desc=COUNTY",#STATE",
-      "&county_name=", .county, #WASHINGTON",
+      "&agg_level_desc=COUNTY", # STATE",
+      "&county_name=", .county, # WASHINGTON",
       "&domain_desc=TOTAL",
       "&year=2017",
-      "&state_alpha=MN&format=JSON"))
-    
-    parsed <- jsonlite::fromJSON(httr::content(x = raw, as="text"))$data
-    
+      "&state_alpha=MN&format=JSON"
+    ))
+
+    parsed <- jsonlite::fromJSON(httr::content(x = raw, as = "text"))$data
+
     return(parsed)
   }
-  
+
   mn_conservation_tillage_raw <-
     mn_conservation_tillage_fxn("ANOKA") %>%
     bind_rows(mn_conservation_tillage_fxn("CARVER")) %>%
@@ -652,23 +684,30 @@ if(get_usda == TRUE) {
     bind_rows(mn_conservation_tillage_fxn("RAMSEY")) %>%
     bind_rows(mn_conservation_tillage_fxn("SCOTT")) %>%
     bind_rows(mn_conservation_tillage_fxn("WASHINGTON"))
-  
+
   usda_data <- mn_conservation_tillage_raw %>%
     mutate(Value = as.numeric(gsub(",", "", Value))) %>%
     filter(prodn_practice_desc != "COVER CROP PLANTED, (EXCL CRP)") %>%
     select(county_name, prodn_practice_desc, Value) %>%
     group_by(county_name) %>%
-    mutate(total_acres = sum(Value),
-           percent = Value / total_acres) %>%
-    mutate(tillage = if_else(prodn_practice_desc %in% 
-                               c("CONSERVATION TILLAGE, (EXCL NO-TILL)",
-                                 "CONSERVATION TILLAGE, NO-TILL"),
-                             "conservation tillage", "conventional")) %>%
+    mutate(
+      total_acres = sum(Value),
+      percent = Value / total_acres
+    ) %>%
+    mutate(tillage = if_else(prodn_practice_desc %in%
+      c(
+        "CONSERVATION TILLAGE, (EXCL NO-TILL)",
+        "CONSERVATION TILLAGE, NO-TILL"
+      ),
+    "conservation tillage", "conventional"
+    )) %>%
     group_by(county_name, tillage) %>%
     summarise(current_conservation_tillage_percent = sum(percent), .groups = "keep") %>%
     filter(tillage == "conservation tillage") %>%
-    mutate(source = "USDA API",
-           co_name = stringr::str_to_title(county_name)) 
+    mutate(
+      source = "USDA API",
+      co_name = stringr::str_to_title(county_name)
+    )
   save(usda_data, file = "./usda_data.rda")
 } else {
   load("./usda_data.rda")
@@ -676,15 +715,15 @@ if(get_usda == TRUE) {
 
 usda_data %>%
   bind_rows(land_use_data$current_conservation_tillage_county %>%
-              mutate(source = "GHG database")) %>%
-  ggplot(aes(y = fct_rev(co_name), 
-             x = current_conservation_tillage_percent,
-             col = source)) +
+    mutate(source = "GHG database")) %>%
+  ggplot(aes(
+    y = fct_rev(co_name),
+    x = current_conservation_tillage_percent,
+    col = source
+  )) +
   geom_point() +
   theme_council_open() +
   labs(y = "", x = "Conservation tillage percent")
-
-
 ```
 
 > Q15 ML Response on 7/27/2022: **Feel free to implement this change**
@@ -709,7 +748,7 @@ database?*
 
 ```{r echo=FALSE, message = F}
 
-land_use_data$land_cover_percentages_filled %>% 
+land_use_data$land_cover_percentages_filled %>%
   group_by(ctu_name) %>%
   summarise(land_cover_percentages_filled = sum(hectares), .groups = "keep") %>%
   arrange(land_cover_percentages_filled) %>%
@@ -737,7 +776,7 @@ these two things are different (I'm not sure I know), or maybe an update
 to the database is needed.*
 
 ```{r echo=FALSE, message = F}
-land_use_data$multifamily_mixed_area  %>%
+land_use_data$multifamily_mixed_area %>%
   rename(multifamily_mixed_area__hectares = hectares) %>%
   # left_join(comdes, by = "ctu_name")  %>%
   full_join(
@@ -771,7 +810,7 @@ contextualize their understanding.*
 #| fig.width = 5,
 #| fig.height = 4
 
-land_use_data$multifamily_mixed_area  %>%
+land_use_data$multifamily_mixed_area %>%
   rename(multifamily_mixed_area__hectares = hectares) %>%
   left_join(comdes, by = "ctu_name") %>%
   group_by(comdes, development_name) %>%
@@ -781,9 +820,11 @@ land_use_data$multifamily_mixed_area  %>%
   # facet_wrap(~comdes) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
-  scale_y_continuous(labels = scales::comma)+
-  labs(y = "", x = "", 
-       title = "Total hectares, multifamily_mixed_area")
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    y = "", x = "",
+    title = "Total hectares, multifamily_mixed_area"
+  )
 # coord_flip()
 ```
 > Q18 ML Response on 8/3/2022: **Question relates to confusion about the meaning of development types**
@@ -812,13 +853,16 @@ carbon stocks or sequestration value per year.
 
 ```{r, echo = T, include=F, eval =F}
 # run for every scenario description
-c(land_use_data$scenario_parameters$scenario_description_2) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_land_by_development_type(tb = land_use_data,
-                                                    .urban_form_scenario = .x) #%>%
-             # mutate(scenario_description_2 = paste(.x))
+c(land_use_data$scenario_parameters$scenario_description_2) %>%
+  purrr::set_names() %>%
+  purrr::map(
+    ~ ghg.sp::calc_land_by_development_type(
+      tb = land_use_data,
+      .urban_form_scenario = .x
+    ) # %>%
+    # mutate(scenario_description_2 = paste(.x))
   ) %>%
-  bind_rows(.id = "scenario_description_2") #its a bit confusing, but .id must equal the column name in the list that distinguishes the different scenarios; so in this case it is from scenario_parameters$scenario_description_2; and called scenario_description_2
+  bind_rows(.id = "scenario_description_2") # its a bit confusing, but .id must equal the column name in the list that distinguishes the different scenarios; so in this case it is from scenario_parameters$scenario_description_2; and called scenario_description_2
 ```
 
 But if we do some checks without the breaking scenario...
@@ -844,25 +888,27 @@ between "bau", "post_covid_sprawl", and "compact_dev_with_drs"?*
 ```{r}
 #| fig.width = 8,
 #| fig.height = 4
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_land_by_development_type(tb = land_use_data,
-                                                    .urban_form_scenario = .x) #%>%
-             # mutate(scenario_description_2 = paste(.x))
+output <-
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
+  purrr::set_names() %>%
+  purrr::map(
+    ~ ghg.sp::calc_land_by_development_type(
+      tb = land_use_data,
+      .urban_form_scenario = .x
+    ) # %>%
+    # mutate(scenario_description_2 = paste(.x))
   ) %>%
   bind_rows(.id = "scenario_description_2")
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = development_name, y = hectares, fill = scenario)) + 
+  ggplot(aes(x = development_name, y = hectares, fill = scenario)) +
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
   labs(title = "Lake Elmo")
-
 ```
 
 The second function is `ghg.sp::calc_scen_land_use()`
@@ -882,26 +928,26 @@ The second function is `ghg.sp::calc_scen_land_use()`
 ```{r}
 #| fig.width = 8,
 #| fig.height = 6
-#| 
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_scen_land_use(tb = land_use_data,
-                                         .urban_form_scenario = .x) 
-  ) %>%
+#|
+output <-
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
+  purrr::set_names() %>%
+  purrr::map(~ ghg.sp::calc_scen_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = .x
+  )) %>%
   bind_rows(.id = "scenario_description_2")
 
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = development_name, y = scenario_hectares, fill = description_2)) + 
+  ggplot(aes(x = development_name, y = scenario_hectares, fill = description_2)) +
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +
   # scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
   labs(title = "Lake Elmo")
-
 ```
 
 The third function is `ghg.sp::calc_land_cover_by_land_use()`
@@ -925,21 +971,22 @@ The third function is `ghg.sp::calc_land_cover_by_land_use()`
 ```{r}
 #| fig.width = 8,
 #| fig.height = 8
-#| 
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
-                                                  .urban_form_scenario = .x) 
-  ) %>%
+#|
+output <-
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
+  purrr::set_names() %>%
+  purrr::map(~ ghg.sp::calc_land_cover_by_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = .x
+  )) %>%
   bind_rows(.id = "scenario_description_2")
 
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = description_2, y = land_cover_land_use_hectares, fill = land_cover_description_2)) + 
+  ggplot(aes(x = description_2, y = land_cover_land_use_hectares, fill = land_cover_description_2)) +
   geom_bar(stat = "identity") +
-  facet_wrap(year~scenario_description_2) +
+  facet_wrap(year ~ scenario_description_2) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
@@ -961,19 +1008,20 @@ The fourth function is `ghg.sp::calc_land_cover_by_city()`
 ```{r}
 #| fig.width = 8,
 #| fig.height = 5
-#| 
-output <- 
-  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-  purrr::set_names() %>% 
-  purrr::map(~ghg.sp::calc_land_cover_by_city(tb = land_use_data,
-                                              .urban_form_scenario = .x) 
-  ) %>%
+#|
+output <-
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
+  purrr::set_names() %>%
+  purrr::map(~ ghg.sp::calc_land_cover_by_city(
+    tb = land_use_data,
+    .urban_form_scenario = .x
+  )) %>%
   bind_rows(.id = "scenario_description_2")
 
 
 output %>%
   filter(ctu_name == "Lake Elmo") %>%
-  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_description_2)) + 
+  ggplot(aes(x = as.character(year), y = land_cover_hectares, fill = land_cover_description_2)) +
   geom_bar(stat = "identity") +
   facet_wrap(~scenario_description_2) +
   theme_council_open() +
@@ -982,7 +1030,6 @@ output %>%
   labs(title = "Lake Elmo") +
   # coord_flip() +
   labs(x = "")
-
 ```
 
 ### Function to Calculate Tree Planting Strategy
@@ -1005,44 +1052,49 @@ Function `ghg.sp::calc_tree_planting_land_cover()`.
 ```{r, message = F}
 #| fig.width = 8,
 #| fig.height = 5
-#| 
-c("tree_planting_on_all_pervious",
+#|
+c(
+  "tree_planting_on_all_pervious",
   "double",
-  "match_la_million_trees_goal")
+  "match_la_million_trees_goal"
+)
 
-la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-                                                    detail = FALSE,
-                                                    .urban_form_scenario = .x,
-                                                    .tree_planting_intervention = "match_la_million_trees_goal",
-                                                    .tree_planting_per_capita = 0.26,
-                                                    .tree_planting_per_hectare = 247) 
-  ) %>%
+  purrr::map(~ ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .urban_form_scenario = .x,
+    .tree_planting_intervention = "match_la_million_trees_goal",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "match_la_million_trees_goal")
 
-double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-                                                    detail = FALSE,
-                                                    .urban_form_scenario = .x,
-                                                    .tree_planting_intervention = "double",
-                                                    .tree_planting_per_capita = 0.26,
-                                                    .tree_planting_per_hectare = 247) 
-  ) %>%
+  purrr::map(~ ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .urban_form_scenario = .x,
+    .tree_planting_intervention = "double",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "double")
 
-pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-                                                    detail = FALSE,
-                                                    .urban_form_scenario = .x,
-                                                    .tree_planting_intervention = "tree_planting_on_all_pervious",
-                                                    .tree_planting_per_capita = 0.26,
-                                                    .tree_planting_per_hectare = 247) 
-  ) %>%
+  purrr::map(~ ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .urban_form_scenario = .x,
+    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "tree_planting_on_all_pervious")
 
@@ -1051,9 +1103,9 @@ la_goal %>%
   bind_rows(pervious_goal) %>%
   filter(ctu_name == "Lake Elmo") %>%
   pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
-  ggplot(aes(x = intervention, y = hectares, fill = landcover)) + 
+  ggplot(aes(x = intervention, y = hectares, fill = landcover)) +
   geom_bar(stat = "identity") +
-  facet_wrap(year~scenario_description_2) +
+  facet_wrap(year ~ scenario_description_2) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
@@ -1069,29 +1121,32 @@ la_goal %>%
 ```{r}
 #| fig.width = 8,
 #| fig.height = 5
-pervious_goal_percapita <- seq(0,5, .5) %>%
+pervious_goal_percapita <- seq(0, 5, .5) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-                                                    detail = FALSE,
-                                                    .urban_form_scenario = "bau",
-                                                    .tree_planting_intervention = "tree_planting_on_all_pervious",
-                                                    .tree_planting_per_capita = .x,
-                                                    .tree_planting_per_hectare = 247) 
-  ) %>%
+  purrr::map(~ ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .urban_form_scenario = "bau",
+    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_per_capita = .x,
+    .tree_planting_per_hectare = 247
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "tree_planting_on_all_pervious_bau")
 
 pervious_goal_percapita %>%
   filter(ctu_name == "Lake Elmo") %>%
   pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
-  ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) + 
+  ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) +
   geom_bar(stat = "identity") +
   facet_wrap(~year) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
-  labs(subtitle = "Lake Elmo",
-       x = "", title = "modifying `.tree_planting_per_capita` parameter")
+  labs(
+    subtitle = "Lake Elmo",
+    x = "", title = "modifying `.tree_planting_per_capita` parameter"
+  )
 ```
 
 4)  Additionally, why doesn't modifying the `.tree_planting_per_hectare`
@@ -1102,27 +1157,30 @@ pervious_goal_percapita %>%
 #| fig.height = 5
 pervious_goal_perhectare <- seq(0, 500, 100) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_tree_planting_land_cover(tb = land_use_data,
-                                                    detail = FALSE,
-                                                    .urban_form_scenario = "bau",
-                                                    .tree_planting_intervention = "tree_planting_on_all_pervious",
-                                                    .tree_planting_per_capita = 0.26,
-                                                    .tree_planting_per_hectare = .x) 
-  ) %>%
+  purrr::map(~ ghg.sp::calc_tree_planting_land_cover(
+    tb = land_use_data,
+    detail = FALSE,
+    .urban_form_scenario = "bau",
+    .tree_planting_intervention = "tree_planting_on_all_pervious",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = .x
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "tree_planting_on_all_pervious_bau")
 
 pervious_goal_perhectare %>%
   filter(ctu_name == "Lake Elmo") %>%
   pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
-  ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) + 
+  ggplot(aes(x = scenario_description_2, y = hectares, fill = landcover)) +
   geom_bar(stat = "identity") +
   facet_wrap(~year) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
-  labs(subtitle = "Lake Elmo",
-       x = "", title = "modifying `.tree_planting_per_hectare` parameter")
+  labs(
+    subtitle = "Lake Elmo",
+    x = "", title = "modifying `.tree_planting_per_hectare` parameter"
+  )
 ```
 
 ### Function to Calcuate Parking Lot Reduction Strategy
@@ -1135,9 +1193,9 @@ Function `ghg.sp::calc_parking_lot_land_cover()`.
 ```{r}
 #| fig.width = 8,
 #| fig.height = 8
-la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+  purrr::map(~ ghg.sp::calc_parking_lot_land_cover(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .parking_lot_reduction_percentage = 0.8,
@@ -1145,14 +1203,13 @@ la_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)])
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "match_la_million_trees_goal")
 
-double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+  purrr::map(~ ghg.sp::calc_parking_lot_land_cover(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .parking_lot_reduction_percentage = 0.8,
@@ -1160,15 +1217,14 @@ double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "double")
 
 
-pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_parking_lot_land_cover(
+  purrr::map(~ ghg.sp::calc_parking_lot_land_cover(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .parking_lot_reduction_percentage = 0.8,
@@ -1176,8 +1232,7 @@ pervious_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:
     .tree_planting_per_capita = 0.26,
     .tree_planting_per_hectare = 247,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "tree_planting_on_all_pervious")
 
@@ -1186,19 +1241,15 @@ la_goal %>%
   bind_rows(pervious_goal) %>%
   filter(ctu_name == "Lake Elmo") %>%
   pivot_longer(names_to = "landcover", values_to = "hectares", -c(scenario_description_2:year, total_area_hectares, intervention)) %>%
-  ggplot(aes(x = intervention, y = hectares, fill = landcover)) + 
+  ggplot(aes(x = intervention, y = hectares, fill = landcover)) +
   geom_bar(stat = "identity") +
-  facet_wrap(year~scenario_description_2) +
+  facet_wrap(year ~ scenario_description_2) +
   theme_council_open() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24)) +
   labs(title = "Lake Elmo") +
   # coord_flip() +
   labs(x = "")
-
-
-
-
 ```
 
 ### Function to Calculate Conservation Tillage Strategy
@@ -1236,9 +1287,9 @@ la_goal %>%
 #       )
 
 
-current_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+current_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_conservation_tillage(
+  purrr::map(~ ghg.sp::calc_conservation_tillage(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .conservation_tillage_intervention = "current_conservation_tillage",
@@ -1247,14 +1298,13 @@ current_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2
     .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0.8,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "current_conservation_tillage")
 
-double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_conservation_tillage(
+  purrr::map(~ ghg.sp::calc_conservation_tillage(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .conservation_tillage_intervention = "double_conservation_tillage",
@@ -1263,15 +1313,14 @@ double_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,
     .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0.8,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "double_conservation_tillage")
 
 
-max_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]) %>%
+max_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_conservation_tillage(
+  purrr::map(~ ghg.sp::calc_conservation_tillage(
     tb = land_use_data,
     .urban_form_scenario = .x,
     .conservation_tillage_intervention = "maximum_conservation_tillage",
@@ -1280,8 +1329,7 @@ max_goal <- c(land_use_data$scenario_parameters$scenario_description_2[c(1:2,4)]
     .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0.8,
     detail = FALSE
-  )
-  ) %>%
+  )) %>%
   bind_rows(.id = "scenario_description_2") %>%
   mutate(intervention = "maximum_conservation_tillage")
 
@@ -1292,17 +1340,20 @@ current_goal %>%
   tidyr::pivot_longer(
     names_to = "var",
     values_to = "value",
-    cols = -c(ctu_name, co_name, scenario_description_2, intervention)) %>%
+    cols = -c(ctu_name, co_name, scenario_description_2, intervention)
+  ) %>%
   filter(str_detect(var, "_year_")) %>%
-  ggplot(aes(x = var, y = value, fill = intervention)) + 
+  ggplot(aes(x = var, y = value, fill = intervention)) +
   geom_bar(stat = "identity", position = position_dodge(width = .9)) +
   facet_wrap(~scenario_description_2) +
   theme_bw() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24, hjust = 1)) +
-  labs(title = "Ag hectares",
-       subtitle = "Lake Elmo",
-       x = "", y = "hectares")
+  labs(
+    title = "Ag hectares",
+    subtitle = "Lake Elmo",
+    x = "", y = "hectares"
+  )
 
 current_goal %>%
   bind_rows(double_goal) %>%
@@ -1311,17 +1362,19 @@ current_goal %>%
   tidyr::pivot_longer(
     names_to = "var",
     values_to = "value",
-    cols = -c(ctu_name, co_name, scenario_description_2, intervention)) %>%
+    cols = -c(ctu_name, co_name, scenario_description_2, intervention)
+  ) %>%
   filter(!str_detect(var, "_year_")) %>%
-  ggplot(aes(x = var, y = value, fill = intervention)) + 
+  ggplot(aes(x = var, y = value, fill = intervention)) +
   geom_bar(stat = "identity", position = position_dodge(width = .9)) +
   facet_wrap(~scenario_description_2) +
   theme_bw() +
   scale_fill_brewer(palette = "Paired") +
   theme(axis.text.x = element_text(angle = 24, hjust = 1)) +
-  labs(subtitle = "Lake Elmo",
-       x = "", y = "")
-
+  labs(
+    subtitle = "Lake Elmo",
+    x = "", y = ""
+  )
 ```
 
 # Additional comments
@@ -1386,11 +1439,12 @@ ghg.sp::calc_carbon_stock_per_ctu(
 ```{r}
 output <-
   # c(land_use_data$scenario_parameters$scenario_description_2) %>%
-    c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>% 
-    purrr::set_names() %>%
-    purrr::map(~ghg.sp::run_scenario_land_use(tb = land_use_data,
-                                              .urban_form_scenario = .x)
-                 ) %>%
+  c(land_use_data$scenario_parameters$scenario_description_2[c(1:2, 4)]) %>%
+  purrr::set_names() %>%
+  purrr::map(~ ghg.sp::run_scenario_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = .x
+  )) %>%
   bind_rows(.id = "scenario_description_2")
 
 output %>%

@@ -114,9 +114,9 @@ vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         av_adj = dplyr::case_when(
           year %in% c("2015", "2018", "2020") ~ 1,
           (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-          1 + .enviro_factors$BUS_AV * elast_av,
+            1 + .enviro_factors$BUS_AV * elast_av,
           (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-          1 + .enviro_factors$RAIL_AV * elast_av,
+            1 + .enviro_factors$RAIL_AV * elast_av,
           TRUE ~ 1
         )
       ) %>%
@@ -316,8 +316,6 @@ vmt_parking_policy <- function(tb,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
-
-
   # current parking prices
   park_price_current <- tb %>%
     filter(
@@ -341,9 +339,10 @@ vmt_parking_policy <- function(tb,
     "AV"
   )) {
     park_return <- park_price_current %>%
-      left_join(.elast %>%
-        select(year, park_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, park_elast),
+        by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -359,9 +358,10 @@ vmt_parking_policy <- function(tb,
     "DRS"
   )) {
     park_return <- park_price_current %>%
-      left_join(.elast %>%
-        select(year, park_transit),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, park_transit),
+        by = "year"
       ) %>%
       mutate(
         park_price_adj =
@@ -533,9 +533,10 @@ vmt_road_policy <- function(.pass_tb,
       )
   } else if (.mode == "SUT") {
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(.elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, freight_vmt_elast),
+        by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
@@ -548,9 +549,10 @@ vmt_road_policy <- function(.pass_tb,
   } else if (.mode == "CUT") {
     # browser()
     fc_return <- .tb_fuel_cost_mile %>%
-      left_join(.elast %>%
-        select(year, freight_vmt_elast),
-      by = "year"
+      left_join(
+        .elast %>%
+          select(year, freight_vmt_elast),
+        by = "year"
       ) %>%
       mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$F_TIME_COST_MI,
@@ -734,22 +736,23 @@ vmt_stock_proportion <- function(.tb,
 
 
 
-#' Calculate transit ridership adjustment for each forecast year
-#' @param .transit_rider_pct numeric, change in transit ridership % adjustment. Default is `0`.
+#' Calculate transit service adjustment for each forecast year
+#' @param .transit_service_pct numeric, change in transit service % adjustment. Default is `0`.
 #'
 #' @description
-#'     Transit ridership increase assumes that transit vehicles
-#'     are traveling further to fulfill demand. As opposed to
-#'     `.transit_avo_pct`, an increase in ridership implies
+#'     Transit service increase assumes that the base level of
+#'     transit service has increased (more lines, more buses,
+#'     more frequency, etc). As opposed to
+#'     `.transit_avo_pct`, an increase in transit service implies
 #'     additional **vehicle** miles traveled.
 #'
-#'     `.transit_rider_pct` indicates the overall effect by
+#'     `.transit_service_pct` indicates the overall effect by
 #'     the final forecast year. The increase is spread evenly
 #'     over the intermediate years.
 #'
 #'    - If `.mode` is `"PLDV"` or `"AV"`, value returned is
 #'        the number of passenger vehicle miles traveled
-#'        decreased when transit ridership
+#'        decreased when transit service
 #'        is increased (i.e., 7,000 passenger VMT).
 #'    - If `.mode` is `"BS"`, `"BU"`, `"BRT"`, `"RU"`, or `"RI"`, value returned
 #'        is the proportion of increase in transit VMT (i.e., 1.2).
@@ -758,18 +761,18 @@ vmt_stock_proportion <- function(.tb,
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #' @family VMT effects
-vmt_transit_ridership <- function(tb,
-                                  .mode,
-                                  .transit_rider_pct,
-                                  .elast = elast,
-                                  .enviro_factors = enviro_factors) {
-  transit_rider_elast <-
+vmt_transit_service <- function(tb,
+                                .mode,
+                                .transit_service_pct,
+                                .elast = elast,
+                                .enviro_factors = enviro_factors) {
+  transit_service_elast <-
     tibble(
       year = unique(tb$year),
       elast_new =
         calc_elasticity(
           elas_list = c(rep(0, length(unique(tb$year)))),
-          elas = .transit_rider_pct,
+          elas = .transit_service_pct,
           num_inits = 3,
           num_yrs = length(unique(tb$year)) - 3
         )
@@ -778,7 +781,7 @@ vmt_transit_ridership <- function(tb,
   additional_transit <- tb %>%
     filter(mode == "AT", var == "PMT") %>%
     select(ctu, year, all_transit = value) %>%
-    left_join(transit_rider_elast, by = c("year")) %>%
+    left_join(transit_service_elast, by = c("year")) %>%
     mutate(all_transit_plus = all_transit * elast_new)
 
 
@@ -791,7 +794,7 @@ vmt_transit_ridership <- function(tb,
       select(year, ctu) %>%
       unique() %>%
       left_join(additional_transit, by = c("year", "ctu")) %>%
-      mutate(transit_adj = (all_transit_plus * .enviro_factors$PLDV_TRANSIT_RATIO)) %>%
+      mutate(transit_adj = (all_transit_plus * .enviro_factors$TRANSIT_SERVICE_ELAST)) %>%
       # mutate(transit_adj = (all_transit_plus)) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
@@ -805,7 +808,7 @@ vmt_transit_ridership <- function(tb,
     tb %>%
       select(year, ctu) %>%
       unique() %>%
-      left_join(transit_rider_elast, by = c("year")) %>%
+      left_join(transit_service_elast, by = c("year")) %>%
       mutate(transit_adj = 1 + elast_new) %>%
       select(year, ctu, transit_adj) %>%
       unique() %>%
@@ -825,13 +828,13 @@ vmt_transit_ridership <- function(tb,
 #' @description
 #'     Transit vehicle occupancy increase assumes that
 #'     more people are riding transit. As opposed to
-#'     `.transit_ridership_pct`, an increase in occupancy implies
+#'     `.transit_service_pct`, an increase in occupancy implies
 #'     additional **passenger** miles traveled, with no implied
 #'     change in vehicle miles traveled.
 #'
 #'     Passenger vehicle occupancy increase assumes that
-#'     the average number of people in a car increases. As opposed to
-#'     an increase in  passenger occupancy implies
+#'     the average number of people in a car increases.
+#'     An increase in  passenger occupancy implies
 #'     additional **passenger** miles traveled, with no implied
 #'     change in passenger vehicle miles traveled.
 #'
