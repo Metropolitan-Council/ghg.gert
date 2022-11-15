@@ -1,7 +1,7 @@
 #' @title Compile Building Energy Data
 #'
-#' @param tb
-#'
+#' @param tb Tibble.
+#' @export
 compile_bau_building_energy <-
   function(tb = building_energy_data, ctu_selection = "all") {
     building_data <- c()

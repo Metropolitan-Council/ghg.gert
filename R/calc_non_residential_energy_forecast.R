@@ -1,4 +1,5 @@
 #' @title Calculate Non Residential Energy Forecast
+#' @export
 
 calc_non_residential_energy_forecast <- function(tb = building_energy_data){
 

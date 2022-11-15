@@ -1,5 +1,5 @@
 #' @title Get Non Residential Xcel Energy by City/Township
-#'
+#' @export
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data) {
 

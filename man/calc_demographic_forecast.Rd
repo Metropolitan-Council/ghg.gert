@@ -6,6 +6,12 @@
 \usage{
 calc_demographic_forecast(tb = building_energy_data)
 }
+\arguments{
+\item{tb}{Tibble.}
+}
+\value{
+Tibble
+}
 \description{
-Calculate Demographic Forecast
+Calculates demographic forecast caractheristics by CTU
 }

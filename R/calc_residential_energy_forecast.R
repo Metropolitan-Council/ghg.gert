@@ -1,5 +1,5 @@
 #' @title Calculate Residential Energy Forecast
-#'
+#' @export
 calc_residential_energy_forecast <-
   function(tb = building_energy_data) {
     ctu_residential_energy_baseline <- get_residential_energy_baseline()

@@ -7,7 +7,7 @@
 compile_bau_building_energy(tb = building_energy_data, ctu_selection = "all")
 }
 \arguments{
-\item{tb}{}
+\item{tb}{Tibble.}
 }
 \description{
 Compile Building Energy Data

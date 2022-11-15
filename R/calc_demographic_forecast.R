@@ -1,5 +1,11 @@
 #' @title Calculate Demographic Forecast
+#' @description Calculates demographic forecast caractheristics by CTU
 #'
+#' @param tb Tibble.
+#' @return Tibble
+#' @export
+
+
 
 calc_demographic_forecast <- function(tb = building_energy_data) {
   # COUNTY DEMOGRAPHIC FORECAST ----
