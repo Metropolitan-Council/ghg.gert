@@ -4,7 +4,6 @@
 #' @description Recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
-#' @inheritParams calc_land_cover_by_city
 #' @param .tree_panting_intervention character, specifies the type of tree planting.
 #'     intervention to be explored under the current scenario. options are:
 #'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
@@ -50,11 +49,15 @@ calc_tree_planting_land_cover <- function(tb,
                                           .tree_planting_intervention,
                                           .tree_planting_per_capita,
                                           .tree_planting_per_hectare) {
-  land_cover_by_city <- calc_land_cover_by_city(
-    tb = tb,
-    .urban_form_scenario = .urban_form_scenario
-  )
 
+# -------------------------------------------------------------------------
+  land_cover_by_city <-   calc_land_cover_by_land_use(tb = tb,
+                                                      .urban_form_scenario = .urban_form_scenario) %>%
+    group_by(ctu_name, year, land_cover_type) %>%
+    summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
+
+
+# -------------------------------------------------------------------------
   match.arg(
     arg = .tree_planting_intervention,
     choices = c(
@@ -64,10 +67,11 @@ calc_tree_planting_land_cover <- function(tb,
     )
   )
 
+# -------------------------------------------------------------------------
   total_plantable_area <-
     land_cover_by_city %>%
     dplyr::group_by(ctu_name, year) %>%
-    tidyr::pivot_wider(names_from = land_cover_description_2, values_from = land_cover_hectares) %>%
+    tidyr::pivot_wider(names_from = land_cover_type, values_from = land_cover_hectares) %>%
     dplyr::mutate(
       plantable_area_hectares = (grass + barren + shrub + grassland + agriculture),
       total_trees_hectares = (trees + forest + woody_wetland),
@@ -79,22 +83,22 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
-
+# -------------------------------------------------------------------------
   tree_planting_factors <-
     tb$ctu_forecast %>%
-    dplyr::filter(metric == "population") %>%
+    dplyr::filter(var == "population") %>%
     dplyr::filter(year == 2040) %>%
-    dplyr::select(-c(year, metric)) %>%
+    dplyr::select(-c(year, var)) %>%
     dplyr::rename(population = value) %>%
     dplyr::full_join(
       land_cover_by_city %>%
         dplyr::filter(
-          land_cover_description_2 == "trees",
+          land_cover_type == "trees",
           year == 2040
         ) %>%
         # to check: are you aware that Brooklyn Center has NAs for tree cover?
-        # land_cover_by_city %>% filter(ctu_name == "Brooklyn Center", land_cover_description_2 == "trees" )
-        dplyr::select(-c(land_cover_description_2)),
+        # land_cover_by_city %>% filter(ctu_name == "Brooklyn Center", land_cover_type == "trees" )
+        dplyr::select(-c(land_cover_type)),
       by = "ctu_name"
     ) %>%
     # total tree canopy hectares
@@ -119,7 +123,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
-
+# -------------------------------------------------------------------------
   tree_planting_scenario <-
     tree_planting_factors %>%
     dplyr::group_by(ctu_name) %>%
@@ -134,6 +138,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
+# -------------------------------------------------------------------------
   tree_planting_land_cover <-
     total_plantable_area %>%
     dplyr::right_join(.,
@@ -189,6 +194,8 @@ calc_tree_planting_land_cover <- function(tb,
     )) %>%
     dplyr::ungroup()
 
+
+# -------------------------------------------------------------------------
   tree_planting_land_cover_short <-
     tree_planting_land_cover %>%
     dplyr::select(
@@ -210,6 +217,7 @@ calc_tree_planting_land_cover <- function(tb,
     ) %>%
     dplyr::ungroup()
 
+# -------------------------------------------------------------------------
   return(if (detail == TRUE) {
     tree_planting_land_cover
   } else {

@@ -14,24 +14,10 @@ calc_tree_planting_land_cover(
 )
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
-
 \item{detail}{logical,
 If \code{TRUE}, returns a table with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
-
-\item{.urban_form_scenario}{character,
-The current land use scenario being explored.
-Default is \code{"bau"}.
-The options are:
-\itemize{
-\item \code{"bau"}: the business as usual scenario.
-\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
-\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
-\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
-}}
 
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -80,7 +66,6 @@ Other land use:
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_city}()},
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},

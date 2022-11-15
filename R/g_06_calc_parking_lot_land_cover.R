@@ -42,15 +42,22 @@ calc_parking_lot_land_cover <- function(tb,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
                                         detail = FALSE) {
+
+
+# -------------------------------------------------------------------------
+  tree_parking_land_cover <- calc_tree_planting_land_cover(
+    tb = tb,
+    .urban_form_scenario = .urban_form_scenario,
+    .tree_planting_intervention = .tree_planting_intervention,
+    .tree_planting_per_capita = .tree_planting_per_capita,
+    .tree_planting_per_hectare = .tree_planting_per_hectare,
+    detail = FALSE
+  )
+
+
+# -------------------------------------------------------------------------
   parking_lot_land_cover <-
-    calc_tree_planting_land_cover(
-      tb = tb,
-      .urban_form_scenario = .urban_form_scenario,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      detail = FALSE
-    ) %>%
+    tree_parking_land_cover %>%
     dplyr::mutate(
       parking_lot_2 =
         case_when(
@@ -82,6 +89,8 @@ calc_parking_lot_land_cover <- function(tb,
     )) %>%
     dplyr::mutate(parking_lot = parking_lot_2)
 
+
+# -------------------------------------------------------------------------
   parking_lot_land_cover_short <-
     parking_lot_land_cover %>%
     select(
@@ -101,6 +110,9 @@ calc_parking_lot_land_cover <- function(tb,
       woody_wetland,
       total_area_hectares
     )
+
+
+# -------------------------------------------------------------------------
 
   return(if (detail == TRUE) {
     parking_lot_land_cover
