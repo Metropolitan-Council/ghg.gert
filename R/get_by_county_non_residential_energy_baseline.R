@@ -1,9 +1,6 @@
 #' @title Get by County Non Residential Energy
 #'
-#' @param tb
-#'
-#' @return
-#' @export
+
 get_by_county_non_residential_energy_baseline <-
   function(tb = building_energy_data) {
     county_characteristics <- get_demographic_baseline()$county

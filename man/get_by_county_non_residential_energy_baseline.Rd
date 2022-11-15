@@ -6,9 +6,6 @@
 \usage{
 get_by_county_non_residential_energy_baseline(tb = building_energy_data)
 }
-\arguments{
-\item{tb}{}
-}
 \description{
 Get by County Non Residential Energy
 }

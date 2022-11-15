@@ -1,9 +1,5 @@
-#' Title
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#' @title Get Residential Energy Baseline
+
 get_residential_energy_baseline <-
   function(tb = building_energy_data) {
 

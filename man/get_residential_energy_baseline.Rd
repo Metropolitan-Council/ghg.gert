@@ -2,10 +2,10 @@
 % Please edit documentation in R/get_residential_energy_baseline.R
 \name{get_residential_energy_baseline}
 \alias{get_residential_energy_baseline}
-\title{Title}
+\title{Get Residential Energy Baseline}
 \usage{
 get_residential_energy_baseline(tb = building_energy_data)
 }
 \description{
-Title
+Get Residential Energy Baseline
 }
