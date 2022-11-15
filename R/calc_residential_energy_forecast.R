@@ -14,18 +14,20 @@ calc_residential_energy_forecast <-
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(ctu_characteristics_forecast %>%
-                         dplyr::select(-c(year)) %>%
-                         dplyr::filter(
-                           var %in% c(
-                             "single_family_units",
-                             "single_family_average_floor_area_sqft_ctu",
-                             "multifamily_units",
-                             "multifamily_average_floor_area_sqft_county"
-                           )
-                         )) %>%
-      tidyr::pivot_wider(names_from = "var",
-                         values_from = "value",
-                         values_fn = mean) %>%
+        dplyr::select(-c(year)) %>%
+        dplyr::filter(
+          var %in% c(
+            "single_family_units",
+            "single_family_average_floor_area_sqft_ctu",
+            "multifamily_units",
+            "multifamily_average_floor_area_sqft_county"
+          )
+        )) %>%
+      tidyr::pivot_wider(
+        names_from = "var",
+        values_from = "value",
+        values_fn = mean
+      ) %>%
       dplyr::mutate(
         residential_kwh_per_floor_area = residential_kwh_per_floor_area * 0.8,
         total_residential_kwh_forecast = (((
@@ -59,7 +61,7 @@ calc_residential_energy_forecast <-
       dplyr::ungroup() %>%
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(., ctu_characteristics_forecast %>%
-                         dplyr::select(-c(year))) %>%
+        dplyr::select(-c(year))) %>%
       dplyr::group_by(ctu_name, var) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
@@ -92,9 +94,10 @@ calc_residential_energy_forecast <-
 
     ## ---- compile residential energy use forecast ----
     ctu_residential_energy_forecast <-
-      dplyr::bind_rows(ctu_residential_electricity_forecast,
-                       residential_natural_gas_forecast_ctu)
+      dplyr::bind_rows(
+        ctu_residential_electricity_forecast,
+        residential_natural_gas_forecast_ctu
+      )
 
     return(ctu_residential_energy_forecast)
-
   }

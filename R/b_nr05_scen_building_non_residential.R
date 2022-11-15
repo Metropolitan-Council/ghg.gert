@@ -71,9 +71,7 @@ scen_building_non_residential <- function(non_res_tb,
                                           .grid_decarbonization_pct,
                                           .existing_high_efficiency_buildings_pct,
                                           .enviro_factors) {
-
-
-  tb01 <-ghg.sp::calc_existing_comm_building_efficiency(
+  tb01 <- ghg.sp::calc_existing_comm_building_efficiency(
     non_res_tb = building_energy_bau_data$non_residential,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
   )
@@ -106,7 +104,7 @@ scen_building_non_residential <- function(non_res_tb,
   )
 
   tb05 <-
-    tb04  %>%
+    tb04 %>%
     dplyr::filter(
       var %in% c(
         "commercial_mwh",

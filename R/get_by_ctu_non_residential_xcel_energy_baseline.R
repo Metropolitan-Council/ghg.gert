@@ -2,7 +2,6 @@
 #' @export
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data) {
-
     ctu_characteristics <- get_demographic_baseline()$ctu
 
     statewide_nonresidential_energy <-
@@ -11,12 +10,12 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     commercial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "commercial_mwh_per_worker_state")
-        %>% select(value)
+          %>% select(value)
       )[, 1]
     industrial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "industrial_mwh_per_worker_state")
-        %>% select(value)
+          %>% select(value)
       )[, 1]
 
     ## ---- check if community is served by more than 90% Xcel Energy ----
@@ -36,14 +35,18 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     ## ---- get xcel energy mwh/year for the 'business' category ----
     commercial_industrial_electricity_mwh_xcel <-
       tb$utility_electricity_by_ctu %>%
-      dplyr::filter(customer_class_name == "Business",
-                    year == 2018)
+      dplyr::filter(
+        customer_class_name == "Business",
+        year == 2018
+      )
 
     ## ---- get xcel energy intensity per customer class ----
     xcel_energy_electricity <-
       ctu_characteristics %>%
-      dplyr::filter(var %in% c("commercial_jobs",
-                               "industrial_jobs")) %>%
+      dplyr::filter(var %in% c(
+        "commercial_jobs",
+        "industrial_jobs"
+      )) %>%
       dplyr::mutate(
         state_mwh_per_worker =
           dplyr::case_when(
@@ -74,10 +77,11 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
         )
       ) %>%
       dplyr::select(ctu_name, year, commercial_mwh_xcel, industrial_mwh_xcel) %>%
-      tidyr::pivot_longer(cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
-                          names_to = "var") %>%
+      tidyr::pivot_longer(
+        cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
+        names_to = "var"
+      ) %>%
       dplyr::filter(is.na(value) == FALSE)
 
     return(xcel_energy_electricity)
-
   }

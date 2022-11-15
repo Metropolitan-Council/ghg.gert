@@ -15,8 +15,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   ## ---- estimate avg growth in single family floor area -----
   county_average_annual_growth_single_family_sqft <-
     tb$ztrax_building_sqft %>%
-    dplyr::filter(year_built > 1991,
-                  residential_type %in% c("single_family_residential")) %>%
+    dplyr::filter(
+      year_built > 1991,
+      residential_type %in% c("single_family_residential")
+    ) %>%
     dplyr::group_by(co_name) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
@@ -26,8 +28,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
       # Difference in route between years
       rate_percent = (diff_growth / diff_year) / average_building_sqft
     ) %>% # growth rate in percent
-    dplyr::summarise(mean_growth_rate = mean(rate_percent, na.rm = TRUE),
-                     .groups = "keep")
+    dplyr::summarise(
+      mean_growth_rate = mean(rate_percent, na.rm = TRUE),
+      .groups = "keep"
+    )
 
 
   # -------------------------------------------------------------------------
@@ -35,8 +39,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   ## ----- estimate avg growth in single family floor area ----
   county_average_annual_growth_multifamily_sqft <-
     tb$ztrax_building_sqft %>%
-    dplyr::filter(year_built > 1991,
-           residential_type %in% c("condominium")) %>%
+    dplyr::filter(
+      year_built > 1991,
+      residential_type %in% c("condominium")
+    ) %>%
     dplyr::group_by(co_name) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
@@ -46,8 +52,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
       # Difference in route between years
       rate_percent = (diff_growth / diff_year) / average_building_sqft
     ) %>% # growth rate in percent
-    dplyr::summarise(mean_growth_rate = mean(rate_percent, na.rm = TRUE),
-              .groups = "keep")
+    dplyr::summarise(
+      mean_growth_rate = mean(rate_percent, na.rm = TRUE),
+      .groups = "keep"
+    )
 
 
   # -------------------------------------------------------------------------
@@ -56,8 +64,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   county_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_county %>%
     dplyr::filter(property_land_use == "Condominium") %>%
-    dplyr::mutate(var = "multifamily_average_floor_area_sqft_county",
-           year = 2018) %>%
+    dplyr::mutate(
+      var = "multifamily_average_floor_area_sqft_county",
+      year = 2018
+    ) %>%
     dplyr::rename(value = mean_sqft) %>%
     dplyr::select(co_name, year, var, value)
 
@@ -68,8 +78,10 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     tb$ztrax_sqft_summary_county %>%
     dplyr::filter(property_land_use == "Single family residential") %>%
     dplyr::group_by(co_name) %>%
-    dplyr::mutate(var = "single_family_average_floor_area_sqft_county",
-                  year = 2018) %>%
+    dplyr::mutate(
+      var = "single_family_average_floor_area_sqft_county",
+      year = 2018
+    ) %>%
     dplyr::rename(value = mean_sqft) %>%
     dplyr::select(co_name, year, var, value)
 
@@ -77,7 +89,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   # -------------------------------------------------------------------------
 
   county_average_floor_area_multifamily_forecast <-
-    county_average_floor_area_multifamily  %>%
+    county_average_floor_area_multifamily %>%
     dplyr::left_join(county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
     dplyr::mutate(
       value =
@@ -97,15 +109,17 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     tb$emp_forecast_industry_county %>%
     dplyr::filter(year == 2040) %>%
     dplyr::group_by(co_name, year, indlabel) %>%
-    dplyr::mutate(var =
-             dplyr::case_when(
-               (
-                 indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"
-               ),
-               (
-                 indlabel %in% naics_codes$commercial ~ "commercial_emp_forecast_county"
-               )
-             )) %>%
+    dplyr::mutate(
+      var =
+        dplyr::case_when(
+          (
+            indlabel %in% naics_codes$industrial ~ "industrial_emp_forecast_county"
+          ),
+          (
+            indlabel %in% naics_codes$commercial ~ "commercial_emp_forecast_county"
+          )
+        )
+    ) %>%
     dplyr::group_by(co_name, year, var) %>%
     dplyr::summarise(value = sum(emp, na.rm = T), .groups = "keep")
 
@@ -115,11 +129,13 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
 
   ## ----- compile county forecast of demographic characteristics ----
   county_characteristics_forecast <-
-    dplyr::bind_rows(county_average_floor_area_multifamily_forecast,
-              county_emp_forecast)
+    dplyr::bind_rows(
+      county_average_floor_area_multifamily_forecast,
+      county_emp_forecast
+    )
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
 
   # CTU DEMOGRAPHIC FORECAST -----
 
@@ -134,27 +150,34 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     tb$emp_forecast_industry_ctu %>%
     dplyr::filter(year == 2040) %>%
     dplyr::group_by(ctu_name, year, indlabel) %>%
-    dplyr::mutate(var =
-                    dplyr::case_when(
-                      (
-                        indlabel %in% naics_codes$industrial ~ "industrial_jobs"
-                      ),
-                      (
-                        indlabel %in% naics_codes$commercial ~ "commercial_jobs"
-                      )
-                    )) %>%
+    dplyr::mutate(
+      var =
+        dplyr::case_when(
+          (
+            indlabel %in% naics_codes$industrial ~ "industrial_jobs"
+          ),
+          (
+            indlabel %in% naics_codes$commercial ~ "commercial_jobs"
+          )
+        )
+    ) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::summarise(value = sum(emp, na.rm = T), .groups = "keep")
 
   ## ---- get housing stock forecast from 'Emissions' ----
   housing_stock_ctu_forecast <- tb$forecast_lu_ctu %>%
-    dplyr::filter(year == 2040,
-                  ctu_name %in% unique(tb$ctu_forecast$ctu_name),
-                  var %in% (c("SFD_Units", "MF_Units")))  %>%
-    dplyr::mutate(var =
-                    dplyr::case_when((var == "MF_Units") ~ "multifamily_units",
-                                     (var == "SFD_Units") ~ "single_family_units"
-                    ))
+    dplyr::filter(
+      year == 2040,
+      ctu_name %in% unique(tb$ctu_forecast$ctu_name),
+      var %in% (c("SFD_Units", "MF_Units"))
+    ) %>%
+    dplyr::mutate(
+      var =
+        dplyr::case_when(
+          (var == "MF_Units") ~ "multifamily_units",
+          (var == "SFD_Units") ~ "single_family_units"
+        )
+    )
 
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-
@@ -163,9 +186,11 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     unique() %>%
     dplyr::filter(property_land_use == "Single family residential") %>%
     dplyr::group_by(ctu_name) %>%
-    dplyr::mutate(var = "single_family_average_floor_area_sqft_ctu",
-           year = 2018,
-           value = mean(mean_sqft, na.rm = T)) %>%
+    dplyr::mutate(
+      var = "single_family_average_floor_area_sqft_ctu",
+      year = 2018,
+      value = mean(mean_sqft, na.rm = T)
+    ) %>%
     dplyr::select(ctu_name, year, var, value)
 
   ## ---- get average multifamily floor area from ZTRAX ----
@@ -246,5 +271,4 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
     tibble::as_tibble()
 
   return(demographic_characteristics_forecast)
-
 }

@@ -33,26 +33,30 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data) {
     tb$state_qcew %>%
     dplyr::filter(year == 2018) %>%
     dplyr::select(state_name, year, naicstitle, emp) %>%
-    dplyr::mutate(type =
-                    case_when(
-                      (
-                        naicstitle %in% c("Natural Resources and Mining",
-                                          "Construction",
-                                          "Manufacturing")
-                      ) ~ "industrial_employees_state",
-                      (
-                        naicstitle %in% c(
-                          "Trade, Transportation and Utilities",
-                          "Information",
-                          "Financial Activities",
-                          "Professional and Business Services",
-                          "Education and Health Services",
-                          "Leisure and Hospitality",
-                          "Other Services",
-                          "Public Administration"
-                        )
-                      ) ~ "commercial_employees_state"
-                    )) %>%
+    dplyr::mutate(
+      type =
+        case_when(
+          (
+            naicstitle %in% c(
+              "Natural Resources and Mining",
+              "Construction",
+              "Manufacturing"
+            )
+          ) ~ "industrial_employees_state",
+          (
+            naicstitle %in% c(
+              "Trade, Transportation and Utilities",
+              "Information",
+              "Financial Activities",
+              "Professional and Business Services",
+              "Education and Health Services",
+              "Leisure and Hospitality",
+              "Other Services",
+              "Public Administration"
+            )
+          ) ~ "commercial_employees_state"
+        )
+    ) %>%
     dplyr::group_by(state_name, year, type) %>%
     dplyr::summarise(value = sum(emp), .groups = "keep") %>%
     dplyr::rename(var = type)
@@ -60,8 +64,10 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data) {
 
   ## ---- estimate energy intensity of worker at the state scale -------
   mwh_per_worker_state <-
-    dplyr::bind_rows(electricity_consumption_by_customer_class_state,
-              employees_by_type_state) %>%
+    dplyr::bind_rows(
+      electricity_consumption_by_customer_class_state,
+      employees_by_type_state
+    ) %>%
     tidyr::pivot_wider(values_from = "value", names_from = "var") %>%
     dplyr::mutate(
       commercial_mwh_per_worker_state = (
@@ -102,8 +108,10 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data) {
 
   ## ---- obtain therms/worker (commercial/industrial) at the state scale ------
   therms_per_worker_state <-
-    dplyr::bind_rows(natural_gas_consumption_by_customer_class_state,
-                     employees_by_type_state) %>%
+    dplyr::bind_rows(
+      natural_gas_consumption_by_customer_class_state,
+      employees_by_type_state
+    ) %>%
     tidyr::pivot_wider(values_from = "value", names_from = "var") %>%
     dplyr::mutate(
       commercial_therms_per_worker_state = (((natural_gas_commercial_consumption_mmcf * 1e+6) * 0.01
@@ -135,5 +143,4 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data) {
     )
 
   return(state_nonresidential_energy)
-
 }

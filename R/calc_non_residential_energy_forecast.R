@@ -1,20 +1,23 @@
 #' @title Calculate Non Residential Energy Forecast
 #' @export
 
-calc_non_residential_energy_forecast <- function(tb = building_energy_data){
-
+calc_non_residential_energy_forecast <- function(tb = building_energy_data) {
   ctu_characteristics_forecast <- calc_demographic_forecast()$ctu
   ctu_nonresidential_energy_baseline <- get_non_residential_energy_baseline()
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
 
   # NREL data: used in instances where there is not enough data to calculate using employment energy intensity
   nrel_nonresidential_energy_forecast <-
     tb$nrel_energy_consumption_ctu %>%
-    dplyr::mutate(unit =
-                    dplyr::case_when(source == "elec" ~ "mwh_nrel",
-                                     source == "ng" ~ "therms_nrel")) %>%
+    dplyr::mutate(
+      unit =
+        dplyr::case_when(
+          source == "elec" ~ "mwh_nrel",
+          source == "ng" ~ "therms_nrel"
+        )
+    ) %>%
     dplyr::mutate(
       value = dplyr::case_when(
         source == "elec" ~ consumption_mmbtu * 0.293071,
@@ -71,6 +74,4 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data){
     )
 
   return(ctu_nonresidential_energy_forecast)
-
-
 }

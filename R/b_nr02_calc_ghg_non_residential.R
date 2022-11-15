@@ -159,9 +159,11 @@ calc_ghg_non_residential <- function(non_res_tb,
       values_to = "value",
       cols = -c(ctu_name, year)
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen"),
-                    sep = "\\.")
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen"),
+      sep = "\\."
+    )
 
-    return(emis_final)
+  return(emis_final)
 }

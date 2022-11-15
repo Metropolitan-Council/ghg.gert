@@ -25,11 +25,15 @@ ghg.sp::compile_bau_building_energy(tb = building_energy_data)
 
 # strategies
 ## residential
-ghg.sp::adj_unit_counts(res_tb = building_energy_bau_data$residential,
-                        .new_homes_to_multifamily_pct = 0.50)
+ghg.sp::adj_unit_counts(
+  res_tb = building_energy_bau_data$residential,
+  .new_homes_to_multifamily_pct = 0.50
+)
 
-ghg.sp::calc_affordable_floor_area(res_tb  = building_energy_bau_data$residential,
-                                   .single_family_floor_area_growth_pct = 0.05)
+ghg.sp::calc_affordable_floor_area(
+  res_tb = building_energy_bau_data$residential,
+  .single_family_floor_area_growth_pct = 0.05
+)
 
 ghg.sp::calc_floor_area_leed(
   res_tb = building_energy_bau_data$residential,

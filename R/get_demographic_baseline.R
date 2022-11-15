@@ -13,8 +13,10 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     dplyr::select(co_name, property_land_use, mean_sqft) %>%
     dplyr::filter(property_land_use == "Single family residential") %>%
     dplyr::group_by(co_name) %>%
-    dplyr::mutate(var = "single_family_average_floor_area_sqft_county",
-                  year = 2018) %>%
+    dplyr::mutate(
+      var = "single_family_average_floor_area_sqft_county",
+      year = 2018
+    ) %>%
     dplyr::rename(value = mean_sqft) %>%
     dplyr::select(co_name, year, var, value)
 
@@ -23,8 +25,10 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     tb$ztrax_sqft_summary_county %>%
     dplyr::select(co_name, property_land_use, mean_sqft) %>%
     dplyr::filter(property_land_use == "Condominium") %>%
-    dplyr::mutate(var = "multifamily_average_floor_area_sqft_county",
-                  year = 2018) %>%
+    dplyr::mutate(
+      var = "multifamily_average_floor_area_sqft_county",
+      year = 2018
+    ) %>%
     dplyr::rename(value = mean_sqft) %>%
     dplyr::select(co_name, year, var, value)
 
@@ -33,11 +37,13 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     tb$led_industry_county %>%
     dplyr::filter(year == 2018) %>%
     dplyr::filter(jw_indicator == "W") %>%
-    dplyr::mutate(var =
-             dplyr::case_when(
-               (industry %in% naics_codes$led_commercial) ~ "commercial_workers_county",
-               (industry %in% naics_codes$led_industrial) ~ "industrial_workers_county"
-             )) %>%
+    dplyr::mutate(
+      var =
+        dplyr::case_when(
+          (industry %in% naics_codes$led_commercial) ~ "commercial_workers_county",
+          (industry %in% naics_codes$led_industrial) ~ "industrial_workers_county"
+        )
+    ) %>%
     dplyr::select(co_name, year, var, count) %>%
     dplyr::group_by(co_name, year, var) %>%
     dplyr::summarise(value = sum(count, na.rm = T), .groups = "keep")
@@ -121,12 +127,17 @@ get_demographic_baseline <- function(tb = building_energy_data) {
   ## ----- get forecast of single and multifamily units from 'Emissions' ----
   ctu_housing_stock <-
     tb$forecast_lu_ctu %>%
-    dplyr::filter(var %in% c("SFD_Units", "MF_Units"),
-                  year == 2018) %>%
-    dplyr::mutate(var =
-                    dplyr::case_when((var == "MF_Units") ~ "multifamily_units",
-                                     (var == "SFD_Units") ~ "single_family_units"
-                    )) %>%
+    dplyr::filter(
+      var %in% c("SFD_Units", "MF_Units"),
+      year == 2018
+    ) %>%
+    dplyr::mutate(
+      var =
+        dplyr::case_when(
+          (var == "MF_Units") ~ "multifamily_units",
+          (var == "SFD_Units") ~ "single_family_units"
+        )
+    ) %>%
     dplyr::group_by(ctu_name, year)
 
 
@@ -137,9 +148,11 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     unique() %>%
     dplyr::filter(property_land_use == "Single family residential") %>%
     dplyr::group_by(ctu_name) %>%
-    dplyr::mutate(var = "single_family_average_floor_area_sqft_ctu",
-           year = 2018,
-           value = mean(mean_sqft, na.rm = T)) %>%
+    dplyr::mutate(
+      var = "single_family_average_floor_area_sqft_ctu",
+      year = 2018,
+      value = mean(mean_sqft, na.rm = T)
+    ) %>%
     dplyr::select(ctu_name, year, var, value)
 
 
@@ -148,8 +161,10 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     tb$ztrax_sqft_summary_ctu %>%
     dplyr::select(ctu_name, property_land_use, mean_sqft) %>%
     dplyr::filter(stringr::str_detect(property_land_use, "Condominium")) %>%
-    dplyr::mutate(var = "multifamily_average_floor_area_sqft_ctu",
-           year = 2018) %>%
+    dplyr::mutate(
+      var = "multifamily_average_floor_area_sqft_ctu",
+      year = 2018
+    ) %>%
     dplyr::rename(value = mean_sqft) %>%
     dplyr::select(ctu_name, year, var, value)
 
@@ -180,5 +195,4 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     unique()
 
   return(demographic_characteristics)
-
 }

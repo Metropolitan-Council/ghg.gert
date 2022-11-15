@@ -268,8 +268,6 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
-
-
   # browser()
   if (.existing_home_retrofit_pct == 0) {
     warning("No change in existing home energy efficiency")
@@ -305,51 +303,53 @@ calc_floor_area_retrofit <- function(res_tb,
         )
       ) %>%
       dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(names_from = year,
-                         values_from = value,
-                         names_prefix = "year_",
-                         values_fn = sum) %>%
+      tidyr::pivot_wider(
+        names_from = year,
+        values_from = value,
+        names_prefix = "year_",
+        values_fn = sum
+      ) %>%
       dplyr::left_join(existing_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
           case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
-            weighted.mean(
-              c(
-                year_2040,
-                year_2040 - (
-                  year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+              weighted.mean(
+                c(
+                  year_2040,
+                  year_2040 - (
+                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+                  ),
+                  year_2040 - (
+                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                  )
                 ),
-                year_2040 - (
-                  year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
-                )
+                c(
+                  1 - proportion_existing_single_family_units,
+                  # new homes
+                  proportion_existing_single_family_units * .existing_home_retrofit_pct,
+                  # existing homes, retrofitted
+                  proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
+                ) # existing homes, ultra retrofitted
               ),
-              c(
-                1 - proportion_existing_single_family_units,
-                # new homes
-                proportion_existing_single_family_units * .existing_home_retrofit_pct,
-                # existing homes, retrofitted
-                proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
-              ) # existing homes, ultra retrofitted
-            ),
             var == "multifamily_average_floor_area_sqft_county" ~
-            weighted.mean(
-              c(
-                year_2040,
-                year_2040 - (
-                  year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+              weighted.mean(
+                c(
+                  year_2040,
+                  year_2040 - (
+                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+                  ),
+                  year_2040 - (
+                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                  )
                 ),
-                year_2040 - (
-                  year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
+                # existing homes, ultra retrofitted
+                c(
+                  1 - proportion_existing_multifamily_units,
+                  proportion_existing_multifamily_units * .existing_home_retrofit_pct,
+                  proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
                 )
-              ),
-              # existing homes, ultra retrofitted
-              c(
-                1 - proportion_existing_multifamily_units,
-                proportion_existing_multifamily_units * .existing_home_retrofit_pct,
-                proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
               )
-            )
           )
       )
 
@@ -426,9 +426,11 @@ calc_floor_area_behavior_change <- function(res_tb,
         )
       ) %>%
       dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(names_from = year,
-                         values_from = value,
-                         values_fn = sum) %>%
+      tidyr::pivot_wider(
+        names_from = year,
+        values_from = value,
+        values_fn = sum
+      ) %>%
       dplyr::mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`)) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
@@ -507,7 +509,7 @@ calc_affordable_floor_area <- function(res_tb,
           "single_family_average_floor_area_sqft_ctu",
           "single_family_units"
         )
-      )  %>%
+      ) %>%
       tidyr::pivot_wider(
         names_from = c(var, year),
         values_from = value,

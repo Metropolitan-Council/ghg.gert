@@ -76,7 +76,7 @@ ghg.sp::get_non_residential_energy_baseline(tb = building_energy_data) %>%
 ```
 
 ```{r}
-ghg.sp::calc_non_residential_energy_forecast(tb = building_energy_data)  %>%
+ghg.sp::calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
@@ -92,7 +92,7 @@ ghg.sp::compile_bau_building_energy(tb = building_energy_data, ctu_selection = "
 
 ```{r}
 ghg.sp::calc_affordable_floor_area(
-  res_tb  = building_energy_bau_data$residential,
+  res_tb = building_energy_bau_data$residential,
   .single_family_floor_area_growth_pct = 0.05
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
@@ -123,7 +123,7 @@ ghg.sp::calc_floor_area_behavior_change(
   res_tb = building_energy_bau_data$residential,
   .home_behavior_change_pct = 1.00,
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
@@ -169,7 +169,7 @@ ghg.sp::calc_residential_renewable_ng(
     .enviro_factors = enviro_factors
   ),
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
@@ -201,7 +201,7 @@ ghg.sp::calc_ghg_non_residential(
   .smart_grid_energy_reduction_pct = 1,
   .enviro_factors = enviro_factors,
   .existing_high_efficiency_buildings_pct = 0.8
-) 
+)
 ```
 
 ```{r}
@@ -238,7 +238,7 @@ ghg.sp::calc_non_res_renewable_ng(
     .existing_high_efficiency_buildings_pct = 0.8
   ),
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
@@ -256,7 +256,7 @@ ghg.sp::scen_building_non_residential(
   .grid_decarbonization_pct = 0.80,
   .existing_high_efficiency_buildings_pct = 0.80,
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 

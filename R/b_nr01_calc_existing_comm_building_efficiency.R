@@ -50,8 +50,10 @@ calc_existing_comm_building_efficiency <- function(non_res_tb = building_energy_
     dplyr::bind_rows(
       .,
       non_res_tb %>%
-        dplyr::filter(var != ("commercial_jobs"),
-          year == 2040)
+        dplyr::filter(
+          var != ("commercial_jobs"),
+          year == 2040
+        )
     ) %>%
     dplyr::bind_rows(., non_res_tb %>%
       dplyr::filter(year == 2018))

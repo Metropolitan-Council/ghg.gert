@@ -14,17 +14,17 @@
 #' library(ghg.sp)
 #'
 #' ghg.sp::calc_residential_renewable_ng(
-#'     res_tb = ghg.sp::calc_ghg_residential(
-#'       res_tb = building_energy_bau_data$residential,
-#'       res_tb_bau = building_energy_bau_data$residential,
-#'       .grid_decarbonization_pct = 1,
-#'      .enviro_factors = enviro_factors),
-#' .enviro_factors = enviro_factors
+#'   res_tb = ghg.sp::calc_ghg_residential(
+#'     res_tb = building_energy_bau_data$residential,
+#'     res_tb_bau = building_energy_bau_data$residential,
+#'     .grid_decarbonization_pct = 1,
+#'     .enviro_factors = enviro_factors
+#'   ),
+#'   .enviro_factors = enviro_factors
 #' )
 #' }
 calc_residential_renewable_ng <- function(res_tb,
                                           .enviro_factors = .enviro_factors) {
-
   new_res_tb <-
     res_tb %>%
     tidyr::pivot_wider(., names_from = c(var, scen, year), names_sep = ".", values_from = value) %>%
@@ -46,9 +46,11 @@ calc_residential_renewable_ng <- function(res_tb,
       values_to = "value",
       cols = -c(ctu_name)
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen", "year"),
-                    sep = "\\.")
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
+    )
 
   return(new_res_tb)
 }

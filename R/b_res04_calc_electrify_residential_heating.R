@@ -99,9 +99,11 @@ calc_electrify_residential_heating <- function(res_tb,
       names_to = "var",
       values_to = "value"
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen", "year"),
-                    sep = "\\.")
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
+    )
 
 
   return(new_res_tb)

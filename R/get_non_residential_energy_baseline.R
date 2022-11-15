@@ -2,7 +2,6 @@
 #' @export
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data) {
-
     statewide_nonresidential_energy <-
       ghg.sp::get_statewide_non_residential_energy()
 
@@ -46,25 +45,31 @@ get_non_residential_energy_baseline <-
     nrel_electricity_ctu <-
       tb$nrel_energy_consumption_ctu %>%
       dplyr::filter(sector %in% c("industrial", "commercial")) %>%
-      dplyr::filter(source == "elec",
-             year == "2018") %>%
+      dplyr::filter(
+        source == "elec",
+        year == "2018"
+      ) %>%
       dplyr::select(ctu_name, year, sector, consumption_mmbtu) %>%
       dplyr::mutate(value = consumption_mmbtu * 0.29307107) %>%
-      dplyr::mutate(var =
-               dplyr::case_when(
-                 (sector == "industrial") ~ "industrial_mwh_nrel",
-                 (sector == "commercial") ~ "commercial_mwh_nrel",
-               )) %>%
+      dplyr::mutate(
+        var =
+          dplyr::case_when(
+            (sector == "industrial") ~ "industrial_mwh_nrel",
+            (sector == "commercial") ~ "commercial_mwh_nrel",
+          )
+      ) %>%
       dplyr::select(ctu_name, year, var, value)
 
     ## ---- get available utility natural gas data from 'Emissions' ----
     nonresidential_naturalgas_ctu <-
       tb$utility_natural_gas_by_ctu %>%
       dplyr::filter(year == 2018) %>%
-      dplyr::filter(customer_class_name %in% c("Business",
-                                        # "Industrial",
-                                        # "Commercial",
-                                        "Non-Residential")) %>%
+      dplyr::filter(customer_class_name %in% c(
+        "Business",
+        # "Industrial",
+        # "Commercial",
+        "Non-Residential"
+      )) %>%
       dplyr::group_by(ctu_name, year) %>%
       dplyr::summarise(
         mcf_per_year = sum(mcf_per_year, na.rm = T),
@@ -78,8 +83,10 @@ get_non_residential_energy_baseline <-
     ## ----- dissagregate commercial and industrial natural gas utility data ----
     commercial_and_industrial_natural_gas_ctu <-
       ctu_characteristics %>%
-      dplyr::filter(var %in% c("commercial_jobs",
-                        "industrial_jobs")) %>%
+      dplyr::filter(var %in% c(
+        "commercial_jobs",
+        "industrial_jobs"
+      )) %>%
       dplyr::mutate(
         state_therms_per_worker =
           dplyr::case_when(
@@ -112,17 +119,21 @@ get_non_residential_energy_baseline <-
         )
       ) %>%
       dplyr::select(ctu_name, year, commercial_therms, industrial_therms) %>%
-      tidyr::pivot_longer(cols = c(commercial_therms, industrial_therms),
-                   names_to = "var") %>%
+      tidyr::pivot_longer(
+        cols = c(commercial_therms, industrial_therms),
+        names_to = "var"
+      ) %>%
       dplyr::filter(is.na(value) == FALSE)
 
 
     ## ---- get NREL natural gas consumption data ----
     nrel_natural_gas_ctu <-
       tb$nrel_energy_consumption_ctu %>%
-      dplyr::filter(sector %in% c("industrial", "commercial"),
-                    source == "ng",
-                    year == "2018") %>%
+      dplyr::filter(
+        sector %in% c("industrial", "commercial"),
+        source == "ng",
+        year == "2018"
+      ) %>%
       dplyr::select(ctu_name, year, sector, consumption_mmbtu) %>%
       dplyr::mutate(
         value = consumption_mmbtu * 10,
@@ -178,9 +189,11 @@ get_non_residential_energy_baseline <-
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_per_worker <-
-      dplyr::bind_rows(ctu_nonresidential_energy_baseline_1,
-                ctu_characteristics %>%
-                  dplyr::filter(var %in% c("commercial_jobs", "industrial_jobs"))) %>%
+      dplyr::bind_rows(
+        ctu_nonresidential_energy_baseline_1,
+        ctu_characteristics %>%
+          dplyr::filter(var %in% c("commercial_jobs", "industrial_jobs"))
+      ) %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
@@ -209,10 +222,11 @@ get_non_residential_energy_baseline <-
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_baseline <-
-      bind_rows(ctu_nonresidential_energy_baseline_1,
-                ctu_nonresidential_energy_per_worker) %>%
+      bind_rows(
+        ctu_nonresidential_energy_baseline_1,
+        ctu_nonresidential_energy_per_worker
+      ) %>%
       tibble::as_tibble()
 
     return(ctu_nonresidential_energy_baseline)
-
   }
