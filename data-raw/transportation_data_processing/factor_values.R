@@ -2,9 +2,9 @@
 
 library(tidyverse)
 
-aeo <- read_csv("data-raw/factors/aeo_factor_dat.csv") # Average Energy Outlook
-cost <- read_csv("data-raw/factors/cost_factor_dat.csv")
-ghg <- read_csv("data-raw/factors/ghg_factor_dat.csv")
+aeo <- read_csv("data-raw/transportation_data_processing/factors/aeo_factor_dat.csv") # Average Energy Outlook
+cost <- read_csv("data-raw/transportation_data_processing/factors/cost_factor_dat.csv")
+ghg <- read_csv("data-raw/transportation_data_processing/factors/ghg_factor_dat.csv")
 
 
 # AEO recognizes that there is uncertainty in the macroeconomic future

@@ -12,6 +12,6 @@ source("data-raw/transportation_data_processing/transportation_index.R")
 source("data-raw/building_energy_data_processing/naics_codes.R")
 
 
-write_csv(transportation_data$passenger, "data-raw/csv_copies/transportation_data_passenger.csv")
+write_csv(transportation_data$passenger, "data-raw/transportation_data_processing/csv_copies/transportation_data_passenger.csv")
 
-write_csv(transportation_data$freight, "data-raw/csv_copies/transportation_data_freight.csv")
+write_csv(transportation_data$freight, "data-raw/transportation_data_processing/csv_copies/transportation_data_freight.csv")
