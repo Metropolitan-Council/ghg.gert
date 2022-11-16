@@ -47,7 +47,8 @@ calc_electrify_residential_heating <- function(res_tb,
                                                .grid_decarbonization_pct,
                                                .enviro_factors) {
   new_res_tb <- res_tb %>%
-    mutate(
+    tidyr::pivot_wider(id_cols = c(ctu_name), names_from = c(var, scen, year), values_from = value, names_sep = ".") %>%
+    dplyr::mutate(
       gas_savings_pct =
         1 - ((residential_therms.bau.2040 - residential_therms.scen.2040)
         / residential_therms.scen.2040
@@ -92,7 +93,18 @@ calc_electrify_residential_heating <- function(res_tb,
                 * (1 - .grid_decarbonization_pct)
                 * .enviro_factors$THERM_TO_MWH
           )
+    ) %>%
+    tidyr::pivot_longer(
+      cols = c(2:last_col()),
+      names_to = "var",
+      values_to = "value"
+    ) %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
     )
+
 
   return(new_res_tb)
 }

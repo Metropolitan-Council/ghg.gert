@@ -34,12 +34,12 @@
 #' \dontrun{
 #' library(ghg.sp)
 #' calc_electrify_commercial_heating(
-#'   non_res_tb = calc_ghg_non_residential(
-#'     non_res_tb = building_data$non_residential,
-#'     non_res_tb_bau = building_data$non_residential,
+#'   non_res_tb = ghg.sp::calc_ghg_non_residential(
+#'     non_res_tb = building_energy_bau_data$non_residential,
+#'     non_res_tb_bau = building_energy_bau_data$non_residential,
 #'     .industrial_smart_grid_pct = 1,
 #'     .commercial_smart_grid_pct = 1,
-#'     .grid_decarbonization_pct = 0.8,
+#'     .grid_decarbonization_pct = 1,
 #'     .smart_grid_energy_reduction_pct = 1,
 #'     .enviro_factors = enviro_factors,
 #'     .existing_high_efficiency_buildings_pct = 0.8
@@ -59,6 +59,11 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                                               .enviro_factors) {
   new_non_res_tb <-
     non_res_tb %>%
+    tidyr::pivot_wider(
+      names_from = c("var", "scen", "year"),
+      values_from = "value",
+      names_sep = "."
+    ) %>%
     dplyr::mutate(
       reduced_therms =
         commercial_therms.bau.2040 * .electrified_buildings_pct,
@@ -109,7 +114,18 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                 * .enviro_factors$THERM_TO_MWH
             )
           )
+    ) %>%
+    tidyr::pivot_longer(
+      names_to = "var",
+      values_to = "value",
+      cols = -c(ctu_name)
+    ) %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
     )
+
 
   return(new_non_res_tb)
 }

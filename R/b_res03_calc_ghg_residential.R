@@ -29,8 +29,8 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
+#'   res_tb = building_energy_bau_data$residential,
+#'   res_tb_bau = building_energy_bau_data$residential,
 #'   .grid_decarbonization_pct = 1,
 #'   .enviro_factors = enviro_factors
 #' )
@@ -50,14 +50,14 @@ calc_ghg_residential <- function(res_tb,
           "single_family_units",
           "multifamily_units",
           "population",
-          "kwh_per_floor_area",
-          "therms_per_floor_area",
+          "residential_kwh_per_floor_area",
+          "residential_therms_per_floor_area",
           "single_family_average_floor_area_sqft_ctu",
           "multifamily_average_floor_area_sqft_county"
         )
       ) %>%
       dplyr::group_by(ctu_name, year, var) %>%
-      tidyr::pivot_wider(names_from = "var", values_from = value) %>%
+      tidyr::pivot_wider(names_from = "var", values_from = value, values_fn = sum) %>%
       dplyr::mutate(
         kg_per_mwh = dplyr::case_when(
           year < 2040 ~ .enviro_factors$KG_CO2E_PER_MHW_BASELINE,
@@ -78,11 +78,11 @@ calc_ghg_residential <- function(res_tb,
       )
       / population) %>%
       dplyr::mutate(
-        residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area / 1000),
+        residential_mwh = population * residential_floor_area_per_capita * (residential_kwh_per_floor_area / 1000),
         residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 - grid_decarb))
       ) %>%
       dplyr::mutate(
-        residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
+        residential_therms = population * residential_floor_area_per_capita * residential_therms_per_floor_area,
         residential_natural_gas_emissions_kg_co =
           residential_therms * kg_per_therm
       ) %>%
@@ -130,11 +130,12 @@ calc_ghg_residential <- function(res_tb,
       values_to = "value",
       cols = -c(ctu_name, year)
     ) %>%
-    tidyr::pivot_wider(
-      names_from = c(var, year),
-      values_from = value,
-      names_sep = "."
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen"),
+      sep = "\\."
     )
+
 
   return(emis_final)
 }

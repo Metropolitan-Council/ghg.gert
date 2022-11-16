@@ -79,7 +79,7 @@ import_from_emissions("metro_demographic.vw_ctu_population") %>%
     import_from_emissions("metro_land.vw_ctu_land_use_hectares") %>%
       dplyr::left_join(import_from_emissions("metro_land.land_use_2016_types")) %>%
       dplyr::mutate(is_developed = case_when(
-        description_2 %in% c(
+        land_use_type %in% c(
           "agricultural",
           "open_water",
           "park_recreational_or_preserve",
