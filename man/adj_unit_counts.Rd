@@ -43,7 +43,7 @@ from residential inputs table.
 library(ghg.sp)
 
 adj_unit_counts(
-  res_tb = building_data$residential,
+  res_tb = compile_bau_building_energy_data$residential,
   .new_homes_to_multifamily_pct = 0.50
 )
 }
@@ -51,7 +51,7 @@ adj_unit_counts(
 library(ghg.sp)
 
 adj_unit_counts(
-  res_tb = building_data$residential,
+  res_tb = compile_bau_building_energy()$residential,
   .new_homes_to_multifamily_pct = 0.50
 )
 }

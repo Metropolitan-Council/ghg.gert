@@ -34,6 +34,11 @@
 calc_non_res_renewable_ng <- function(non_res_tb,
                                       .enviro_factors = .enviro_factors) {
   new_non_res_tb <- non_res_tb %>%
+    tidyr::pivot_wider(
+      names_from = c("var", "scen", "year"),
+      values_from = "value",
+      names_sep = "."
+    ) %>%
     dplyr::mutate(
       reduced_therms =
         (commercial_therms.bau.2040 +
@@ -47,6 +52,16 @@ calc_non_res_renewable_ng <- function(non_res_tb,
           (reduced_therms - (78 * population.bau.2040))
         ) *
           .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+    ) %>%
+    tidyr::pivot_longer(
+      names_to = "var",
+      values_to = "value",
+      cols = -c(ctu_name)
+    ) %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
     )
 
   return(new_non_res_tb)

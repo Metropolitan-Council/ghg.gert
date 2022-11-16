@@ -21,8 +21,8 @@ vars_residential <- c(
   # multiplier
   "residential_elec_emis_t_co2e",
   "residential_ng_emis_t_co2e",
-  "kwh_per_floor_area",
-  "therms_per_floor_area",
+  "residential_kwh_per_floor_area",
+  "residential_therms_per_floor_area",
   "residential_kwh_per_floor_area",
   "residential_therms_per_floor_area",
 
@@ -78,8 +78,8 @@ all_vars <- c(
   "residential_elec_emis_t_co2e",
   "residential_ng_therms",
   "residential_ng_emis_t_co2e",
-  "kwh_per_floor_area",
-  "therms_per_floor_area",
+  "residential_kwh_per_floor_area",
+  "residential_therms_per_floor_area",
   "residential_mwh_per_households",
   "residential_therms_per_households",
   "commercial_mwh",

@@ -19,7 +19,8 @@
 #'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
 #' @param non_res_tb_bau [tibble::tibble()].
-#'      Data table with non-residential building attributes. Package provided dataset `building_data$non_residential` is suitable and the default value.
+#'      Data table with non-residential building attributes. Package provided dataset `building_data$non_residential`
+#'      is suitable and the default value.
 #'      `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
 #'
@@ -70,9 +71,14 @@ scen_building_non_residential <- function(non_res_tb,
                                           .grid_decarbonization_pct,
                                           .existing_high_efficiency_buildings_pct,
                                           .enviro_factors) {
+  tb01 <- ghg.sp::calc_existing_comm_building_efficiency(
+    non_res_tb = building_energy_bau_data$non_residential,
+    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
+  )
+
   # tb01 calculates energy efficiency reduction
-  tb01 <- calc_ghg_non_residential(
-    non_res_tb = non_res_tb,
+  tb02 <- ghg.sp::calc_ghg_non_residential(
+    non_res_tb = tb01,
     non_res_tb_bau = non_res_tb_bau,
     .commercial_smart_grid_pct = .commercial_smart_grid_pct,
     .industrial_smart_grid_pct = .industrial_smart_grid_pct,
@@ -82,28 +88,23 @@ scen_building_non_residential <- function(non_res_tb,
     .enviro_factors = .enviro_factors
   )
   # tb02 calculates conversion to electric heating
-  tb02 <- calc_electrify_commercial_heating(
-    non_res_tb = tb01,
+  tb03 <- ghg.sp::calc_electrify_commercial_heating(
+    non_res_tb = tb02,
     .electrified_buildings_pct = .electrified_buildings_pct,
     .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
     .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors
   )
+
   # tb03 calculates non residential renewable natural gas emissions reduction
-  tb03 <- calc_non_res_renewable_ng(
-    non_res_tb = tb02,
+  tb04 <- ghg.sp::calc_non_res_renewable_ng(
+    non_res_tb = tb03,
     .enviro_factors = .enviro_factors
   )
 
-  tb04 <-
-    tb03 %>%
-    tidyr::pivot_longer(
-      cols = !ctu_name,
-      names_to = c("var", "scen", "year"),
-      names_sep = "[.]",
-      values_to = "value"
-    ) %>%
+  tb05 <-
+    tb04 %>%
     dplyr::filter(
       var %in% c(
         "commercial_mwh",

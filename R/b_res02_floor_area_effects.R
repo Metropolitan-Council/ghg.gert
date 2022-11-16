@@ -37,7 +37,7 @@
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
-#' @importFrom stats weighted.mean
+#'
 calc_floor_area_growth <- function(res_tb,
                                    .single_family_floor_area_growth_pct,
                                    .new_homes_affected_pct,
@@ -88,7 +88,7 @@ calc_floor_area_growth <- function(res_tb,
       dplyr::left_join(res_tb_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          stats::weighted.mean(
+          weighted.mean(
             c(
               year_2018,
               new_forecast,
@@ -184,13 +184,14 @@ calc_floor_area_leed <- function(res_tb,
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
-        names_prefix = "year_"
+        names_prefix = "year_",
+        values_fn = sum
       ) %>%
       dplyr::mutate(new_forecast = year_2040 * .enviro_factors$LEED_GOLD_REDUCTION_PCT) %>%
       dplyr::left_join(new_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          stats::weighted.mean(
+          weighted.mean(
             c(
               year_2018,
               new_forecast,
@@ -302,13 +303,18 @@ calc_floor_area_retrofit <- function(res_tb,
         )
       ) %>%
       dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(names_from = year, values_from = value, names_prefix = "year_") %>%
+      tidyr::pivot_wider(
+        names_from = year,
+        values_from = value,
+        names_prefix = "year_",
+        values_fn = sum
+      ) %>%
       dplyr::left_join(existing_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
           case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
-              stats::weighted.mean(
+              weighted.mean(
                 c(
                   year_2040,
                   year_2040 - (
@@ -327,7 +333,7 @@ calc_floor_area_retrofit <- function(res_tb,
                 ) # existing homes, ultra retrofitted
               ),
             var == "multifamily_average_floor_area_sqft_county" ~
-              stats::weighted.mean(
+              weighted.mean(
                 c(
                   year_2040,
                   year_2040 - (
@@ -420,11 +426,15 @@ calc_floor_area_behavior_change <- function(res_tb,
         )
       ) %>%
       dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(names_from = year, values_from = value) %>%
+      tidyr::pivot_wider(
+        names_from = year,
+        values_from = value,
+        values_fn = sum
+      ) %>%
       dplyr::mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`)) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          stats::weighted.mean(
+          weighted.mean(
             c(
               new_forecast,
               `2040`
@@ -503,7 +513,8 @@ calc_affordable_floor_area <- function(res_tb,
       tidyr::pivot_wider(
         names_from = c(var, year),
         values_from = value,
-        names_sep = "."
+        names_sep = ".",
+        values_fn = sum
       ) %>%
       dplyr::mutate(
         reduction_floor_area =
