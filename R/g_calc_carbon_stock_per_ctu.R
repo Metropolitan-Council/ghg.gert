@@ -33,40 +33,52 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
                                       detail) {
-  calc_conservation_tillage(
-    tb = tb,
-    detail = detail,
-    .urban_form_scenario = .urban_form_scenario,
-    .tree_planting_intervention = .tree_planting_intervention,
-    .conservation_tillage_intervention = .conservation_tillage_intervention,
-    .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-    .tree_planting_per_capita = .tree_planting_per_capita,
-    .tree_planting_per_hectare = .tree_planting_per_hectare
-  )
+  csf <- carbon_stock_factors
 
-  carbon_stock_per_ctu <- calc_parking_lot_land_cover(
-    tb = tb,
-    .urban_form_scenario = .urban_form_scenario,
-    .tree_planting_intervention = .tree_planting_intervention,
-    .tree_planting_per_capita = .tree_planting_per_capita,
-    .tree_planting_per_hectare = .tree_planting_per_hectare,
-    .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-    detail = detail
-  ) %>%
+  # -------------------------------------------------------------------------
+  conservation_tillage <-
+    calc_conservation_tillage(
+      tb = tb,
+      detail = detail,
+      .urban_form_scenario = .urban_form_scenario,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .conservation_tillage_intervention = .conservation_tillage_intervention,
+      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare
+    )
+
+
+  # -------------------------------------------------------------------------
+  parking_lot_land_cover <-
+    calc_parking_lot_land_cover(
+      tb = tb,
+      .urban_form_scenario = .urban_form_scenario,
+      .tree_planting_intervention = .tree_planting_intervention,
+      .tree_planting_per_capita = .tree_planting_per_capita,
+      .tree_planting_per_hectare = .tree_planting_per_hectare,
+      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+      detail = detail
+    )
+
+  # -------------------------------------------------------------------------
+  carbon_stock_per_ctu <- parking_lot_land_cover %>%
     dplyr::mutate(
-      grass = grass * carbon_stock_factors$GRASS_STOCK_MG_C_PER_HECTARE,
-      impervious = impervious * carbon_stock_factors$IMPERVIOUS_STOCK_MG_C_PER_HECTARE,
-      trees = trees * carbon_stock_factors$TREES_STOCK_MG_C_PER_HECTARE,
-      water = water * carbon_stock_factors$WATER_STOCK_MG_C_PER_HECTARE,
-      barren = barren * carbon_stock_factors$BARREN_STOCK_MG_C_PER_HECTARE,
-      forest = forest * carbon_stock_factors$FOREST_STOCK_MG_C_PER_HECTARE,
-      shrub = shrub * carbon_stock_factors$SHRUB_STOCK_MG_C_PER_HECTARE,
-      grassland = grassland * carbon_stock_factors$GRASSLAND_STOCK_MG_C_PER_HECTARE,
-      agriculture = agriculture * carbon_stock_factors$AGRICULTURE_STOCK_MG_C_PER_HECTARE,
-      woody_wetland = woody_wetland * carbon_stock_factors$WOODY_WETLAND_STOCK_MG_C_PER_HECTARE,
-      wetland = wetland * carbon_stock_factors$WETLAND_STOCK_MG_C_PER_HECTARE,
-      parking_lot = parking_lot * carbon_stock_factors$PARKING_LOT_STOCK_MG_C_PER_HECTARE
+      grass = grass * csf$GRASS_STOCK_MG_C_PER_HECTARE,
+      impervious = impervious * csf$IMPERVIOUS_STOCK_MG_C_PER_HECTARE,
+      trees = trees * csf$TREES_STOCK_MG_C_PER_HECTARE,
+      water = water * csf$WATER_STOCK_MG_C_PER_HECTARE,
+      barren = barren * csf$BARREN_STOCK_MG_C_PER_HECTARE,
+      forest = forest * csf$FOREST_STOCK_MG_C_PER_HECTARE,
+      shrub = shrub * csf$SHRUB_STOCK_MG_C_PER_HECTARE,
+      grassland = grassland * csf$GRASSLAND_STOCK_MG_C_PER_HECTARE,
+      agriculture = agriculture * csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE,
+      woody_wetland = woody_wetland * csf$WOODY_WETLAND_STOCK_MG_C_PER_HECTARE,
+      wetland = wetland * csf$WETLAND_STOCK_MG_C_PER_HECTARE,
+      parking_lot = parking_lot * csf$PARKING_LOT_STOCK_MG_C_PER_HECTARE
     ) %>%
     dplyr::select(-c(total_area_hectares))
+
+  # -------------------------------------------------------------------------
   return(carbon_stock_per_ctu)
 }
