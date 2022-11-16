@@ -36,5 +36,5 @@ gn_tma <- st_intersection(geo_nodes_sf, tmas)
 setDT(gn_tma)
 gn_tma[, "geometry" := NULL]
 
-avo <- gn_tma[apc[!is.na(dist_mi)], on = "geo_node_id"][, .(.N, avo = weighted.mean(departure_load, dist_mi)), keyby = c("MarketArea")]
+avo <- gn_tma[apc[!is.na(dist_mi)], on = "geo_node_id"][, .(.N, avo = stats::weighted.mean(departure_load, dist_mi)), keyby = c("MarketArea")]
 fwrite(avo, file.path("data", "avo.csv"))
