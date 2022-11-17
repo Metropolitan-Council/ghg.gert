@@ -29,9 +29,7 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-
-
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   carbon_sequestration_per_ctu <-
     calc_carbon_sequestration_per_ctu(
       tb = tb,
@@ -44,7 +42,7 @@ run_scenario_land_use <- function(tb = land_use_data,
     )
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   carbon_stock_per_ctu <-
     calc_carbon_stock_per_ctu(
       tb = tb,
@@ -57,14 +55,14 @@ run_scenario_land_use <- function(tb = land_use_data,
       detail = detail
     )
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   check_inputs(
     "parking_lot_reduction_percentage",
     .parking_lot_reduction_percentage
   )
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   land_use <- dplyr::bind_rows(
     carbon_sequestration_per_ctu %>%
       dplyr::rename(year = year.2040) %>%
@@ -95,7 +93,7 @@ run_scenario_land_use <- function(tb = land_use_data,
       conservation_tillage_intervention = .conservation_tillage_intervention
     )
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   land_use_module_output <-
     land_use %>%
     dplyr::group_by(
@@ -110,7 +108,6 @@ run_scenario_land_use <- function(tb = land_use_data,
     dplyr::summarise(value = sum(value), .groups = "drop")
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   return(land_use_module_output)
-
 }

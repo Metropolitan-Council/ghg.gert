@@ -34,13 +34,11 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                                               .tree_planting_per_capita,
                                               .tree_planting_per_hectare,
                                               detail = FALSE) {
+  # -------------------------------------------------------------------------
 
+  csf <- carbon_sequestration_factors
 
-# -------------------------------------------------------------------------
-
-csf <- carbon_sequestration_factors
-
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   parking_lot_land_cover <- calc_parking_lot_land_cover(
     tb = tb,
     .urban_form_scenario = .urban_form_scenario,
@@ -51,7 +49,7 @@ csf <- carbon_sequestration_factors
     detail = FALSE
   )
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
 
   carbon_sequestration_per_ctu <-
     parking_lot_land_cover %>%

@@ -42,9 +42,7 @@ calc_parking_lot_land_cover <- function(tb,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
                                         detail = FALSE) {
-
-
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,
     .urban_form_scenario = .urban_form_scenario,
@@ -55,7 +53,7 @@ calc_parking_lot_land_cover <- function(tb,
   )
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   parking_lot_land_cover <-
     tree_parking_land_cover %>%
     dplyr::mutate(
@@ -90,7 +88,7 @@ calc_parking_lot_land_cover <- function(tb,
     dplyr::mutate(parking_lot = parking_lot_2)
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   parking_lot_land_cover_short <-
     parking_lot_land_cover %>%
     select(
@@ -112,7 +110,7 @@ calc_parking_lot_land_cover <- function(tb,
     )
 
 
-# -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
 
   return(if (detail == TRUE) {
     parking_lot_land_cover
