@@ -124,12 +124,12 @@ calc_affordable_floor_area(
 
 ### Calculate LEED floor area
 
-Cities can adopt strict building codes requiring new homes to achieve LEED- Gold standards. We assumed 50% of new homes (single- and multi-family homes) to be LEED-Gold with both electricity and gas EUI reduced 64%. Cities can adjust the percentage of new homes achieving this standard.
+Cities can adopt strict building codes requiring new homes to achieve LEED- Gold standards. We assumed `50%` of new homes (single- and multi-family homes) to be LEED-Gold with both electricity and gas EUI reduced `64%`. Cities can adjust the percentage of new homes achieving this standard.
 
 `x` is the percent of new single family homes that are LEED certified.
 
 $$
-S_2sqft= (units_{2040}^{sf} - units_{2018}^{sf}) \cdot x \cdot (S_1sqft \cdot 0.64) \cdot \bar{sqft}_{2018})
+S_2sqft= (units_{2040}^{sf} - units_{2018}^{sf}) \cdot x \cdot (S_1sqft \cdot 0.64 \cdot \bar{sqft}_{2018}^{sf})
 $$
 
 ```{r}
@@ -143,6 +143,15 @@ calc_floor_area_leed(
 
 ### Calculate Residential Floor Area Retrofit
 
+Cities can retrofit existing homes to be energy efficient. We assume 80% of existing homes with energy use intensity reduced by 33%. Cities can adjust the percentage of existing homes to be retrofitted.
+
+`x` is ...
+
+`y` is ...
+
+$$
+S_3sqft = (units_{2018}^{sf} \cdot x \cdot 0.33 \cdot \bar{sqft}_{2018}^{sf} ) + (units_{2018}^{mf} \cdot y \cdot 0.33 \cdot \bar{sqft}_{2018}^{mf})
+$$
 
 ```{r}
 calc_floor_area_retrofit(
@@ -154,6 +163,10 @@ calc_floor_area_retrofit(
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
+### Calculate Floor Area Behavior Change
+
+Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by 11%. The default is 100% of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
+
 ```{r}
 calc_floor_area_behavior_change(
   res_tb = building_energy_bau_data$residential,
@@ -163,7 +176,10 @@ calc_floor_area_behavior_change(
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
-needs review
+### Calculate GHG Residential
+
+Due to decarbonizing the grid, the emission factor of electricity decreases from 568 kg CO2e/MWh (2018 Minnesota state level) to 113 kgCO2e/MWh. This change is fixed by the grid.
+
 ```{r}
 calc_ghg_residential(
   res_tb = building_energy_bau_data$residential,
@@ -177,7 +193,8 @@ building_energy_bau_data$residential %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 
-needs review
+
+
 ```{r}
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
