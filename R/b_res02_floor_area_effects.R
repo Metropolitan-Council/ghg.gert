@@ -38,6 +38,7 @@
 #' )
 #' }
 #'
+#' @importFrom stats weighted.mean
 calc_floor_area_growth <- function(res_tb,
                                    .single_family_floor_area_growth_pct,
                                    .new_homes_affected_pct,
@@ -88,7 +89,7 @@ calc_floor_area_growth <- function(res_tb,
       dplyr::left_join(res_tb_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          weighted.mean(
+          stats::weighted.mean(
             c(
               year_2018,
               new_forecast,
@@ -191,7 +192,7 @@ calc_floor_area_leed <- function(res_tb,
       dplyr::left_join(new_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          weighted.mean(
+          stats::weighted.mean(
             c(
               year_2018,
               new_forecast,
@@ -314,7 +315,7 @@ calc_floor_area_retrofit <- function(res_tb,
         new_weighted_mean_forecast =
           case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
-              weighted.mean(
+              stats::weighted.mean(
                 c(
                   year_2040,
                   year_2040 - (
@@ -333,7 +334,7 @@ calc_floor_area_retrofit <- function(res_tb,
                 ) # existing homes, ultra retrofitted
               ),
             var == "multifamily_average_floor_area_sqft_county" ~
-              weighted.mean(
+              stats::weighted.mean(
                 c(
                   year_2040,
                   year_2040 - (
@@ -434,7 +435,7 @@ calc_floor_area_behavior_change <- function(res_tb,
       dplyr::mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`)) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          weighted.mean(
+          stats::weighted.mean(
             c(
               new_forecast,
               `2040`
