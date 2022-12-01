@@ -1,8 +1,13 @@
 #' @title Get Demographic Baseline
+#' @family buildings
 #'
-#' @param tb
+#' @description Compiles the demographic characteristics from the 'Emissions' database
+#'     required for running the building energy module.
+#'
+#' @inheritParams run_scenario_transportation
 #'
 #' @export
+#'
 get_demographic_baseline <- function(tb = building_energy_data) {
   # COUNTY DEMOGRAPHIC BASELINE ----
   demographic_characteristics <- c()

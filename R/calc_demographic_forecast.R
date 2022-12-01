@@ -1,10 +1,19 @@
 #' @title Calculate Demographic Forecast
-#' @description Calculates demographic forecast caractheristics by CTU
+#' @family buildings
 #'
-#' @param tb Tibble.
-#' @return Tibble
+#' @description Calculates demographic forecast characteristics by CTU.
+#'
+#' @return [tibble::tibble()]
+#'
+#' @inheritParams run_scenario_transportation
+#'
 #' @export
-
+#'
+#' @examples
+#' \dontrun{
+#' library(ghg.sp)
+#' calc_demographic_forecast(tb = building_energy_data)$ctu
+#' }
 
 
 calc_demographic_forecast <- function(tb = building_energy_data) {
