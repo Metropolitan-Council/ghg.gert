@@ -1,0 +1,226 @@
+---
+title: "Minneapolis Greenhouse Gas Emissions Scenario Planning"
+author: "Metropolitan Council"
+format:
+  html:
+    toc: true
+    html-math-method: katex
+    css: styles.css
+    mainfont: "Helvetica"
+    df-print: kable
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>", echo = FALSE, fig.width = 6
+)
+```
+
+```{r}
+#| echo: false
+#| message: false
+library(ghg.sp)
+library(tidyverse)
+```
+
+```{r}
+#| echo: false
+#| message: false
+options(scipen = 1, digits = 2)
+```
+
+```{r}
+#| echo: false
+#| message: false
+variables <-
+  data.frame(
+    var = c(
+      "households",
+      "population",
+      "total_jobs",
+      "commercial_jobs",
+      "industrial_jobs",
+      "single_family_units",
+      "multifamily_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "multifamily_average_floor_area_sqft_ctu",
+      "single_family_average_floor_area_sqft_county",
+      "multifamily_average_floor_area_sqft_county",
+      "commercial_workers_county",
+      "industrial_workers_county"
+    ),
+    desc = c(
+      "Households",
+      "Population",
+      "Total Jobs",
+      "Commercial Jobs",
+      "Industrial Jobs",
+      "Number of Single Family Units",
+      "Number of Multifamily Units",
+      "Single Family Average Floor Area (ft^2)",
+      "Multifamily Average Floor Area (ft^2)",
+      "Single Family Average Floor Area for the County (ft^2)",
+      "Multifamily Average Floor Area for the County (ft^2)",
+      "Commercial Jobs",
+      "Industrial Jobs"
+    )
+  )
+```
+
+
+
+
+## Summary 
+
+The current report presents the forecast of greenhouse gas emissions for the City of Minneapolis under a Business as Usual Scenario, as well as a porfolio of potential actions to reduce the forecasted emissions. There might be differences between the greenhouse gas emissions estimates in this report and the emissions reported in Minneapolis Greenhouse Gas Inventory. 
+
+## 1. Introduction
+
+Cities across the Minnesota Metro Region have long recognized the urgency of taking action to reduce greenhouse gas emissions and increase community resilience towards climate change. 
+
+The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning.. The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals. This document is intended to help the City of Minneapolis through climate planning and help the City move toward equitable and accelerated implementation of climate goal.
+
+To alter the input assumptions on this report please contact the Metropolitan Council (mauricio.leon\@metc.state.mn.us)
+
+### 1.1 Greenhouse Gas Emissions
+
+Greenhouse gases are gases that trap heat in the Earth's atmosphere and contribute to global warming. The most common greenhouse gases are carbon dioxide, methane, and nitrous oxide.
+
+Human activities have been the primary driver of climate change by releasing greenhouse gaseses in large amounts. Combustion of fossil fuels (e.g., coal, oil, and gas) releases greenhouse gases, which trap heat in the atmosphere, causing temperatures to rise.
+
+The primary sources of emissions in cities come from building energy use (electricity and natural gas), transportation (gas and diesel), and waste (methane at landfills or combustion for energy generation).
+
+Greenhouse gas (GHG) inventories help cities set goals and track emissions over time. The Metropolitan Council is working on providing GHG inventories for all local governments in the region. The Regional Indicators Initiative also provides GHG inventories for many cities in the state.
+
+The transportation sector, which includes cars, trucks, ships, and airplanes, is the largest source of carbon dioxide emissions in the United States, followed by the electricity and heat production sector and the industrial sector. Other sources of greenhouse gas emissions in the United States include agriculture, waste, and industrial processes.
+
+### 1.2 Impact of Climate Change in Minnesota
+
+Climate change is already occurring and impacting Minnesotans. As the Earth's temperature continues to rise, these changes are expected to increase and intensify. Vulnerable populations, infrastructure, and natural systems will be most impacted. The Minnesota Pollution Control Agency highlights the following observations and potential impacts:
+
+-   Temperatures are rising. Nights are warming faster than days.
+-   Winter is warming faster than summer.
+-   Increase in average number of days above 100°F.
+-   Less frequency of extreme cold.
+-   Increased freeze/thaw cycles, stressing infrastructure.
+-   Increased drought cycles.
+-   More intense flooding.
+-   Extreme storm events.
+-   Impacts on ecosystem.
+
+### 1.3 Scenario Planning
+
+Scenario planning, also known as scenario analysis, is a strategic planning method that is used to make flexible long-term plans. It is a way of thinking about and preparing for the future by considering possible future events and their potential impact on a city or region. Scenario planning involves creating multiple possible future scenarios, or "what if" scenarios, and then considering how to respond to each one. This allows organizations to be more flexible and adaptable in the face of uncertainty and change.
+
+The Metropolitan Council has developed a Greenhouse Gas Scenario Planning Tool to help metro cities determine pathways to achieving emissions reductions. The Tool builds upon the DECAL model created by the Sustainable Healthy Cities Network in with the support and funding of Metropolitan Council. 
+
+The Tool looks at strategies across multiple sectors and calculates the emissions reductions that can be expected from successful implementation. These sectors include compact land use, mobility, buildings, waste, and green infrastructure and trees.
+
+The scenario planning tool will be offered on an easy-to-use online platform. Cities can use this tool to identify solutions tailored to their communities by testing different scenarios across strategies.
+
+The following report compiles results for the City of Minneapolis based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council.
+
+The residential energy sector corresponds to about \_\_ percent of Minneapolis Greenhouse Gas Emissions
+
+## 2. Demographic Assumptions
+
+#### 2.1 City-level Demographic Assumptions 
+
+The households, population, and jobs data is obtained from the Metropolitan Council, which in terms obtains it from the US Census and American Community Survey (ACS) a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. 
+
+##### Table 1
+```{r}
+#| echo: false
+get_demographic_baseline(tb = building_energy_data)$ctu %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  dplyr::left_join(., variables, by = "var") %>%
+  dplyr::select(c(desc, value)) %>%
+  dplyr::rename("Variables" = "desc",
+                "Value" = "value") %>%
+  knitr::kable(caption = "Basic Demographic Assumptions for City of Minneapolis for 2018")
+```
+
+In cases when there are data gaps the Greeenhouse Gas Scenario Planning Tool defaults to county level assumptions.
+
+##### Table 2
+
+```{r}
+#| echo: false
+get_demographic_baseline(tb = building_energy_data)$county %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(co_name == "Hennepin") %>%
+  dplyr::left_join(., variables, by = "var") %>%
+  dplyr::select(c(desc, value)) %>%
+  dplyr::rename("Variables" = "desc",
+                "Value" = "value") %>%
+  knitr::kable(caption = "Hennepin County Demographic Assumptions for 2018")
+```
+
+#### 2.2 City-level Demographic Forecast
+
+The residential energy consumption was forecasted using the total floor area for 2040. 
+
+```{r}
+#| echo: false
+calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis")  %>%
+  dplyr::left_join(., variables, by = "var") %>%
+  dplyr::select(c(desc, value)) %>%
+  dplyr::rename("Variables" = "desc",
+                "Value" = "value") %>%
+  knitr::kable(caption = "Forecast Demographic Assumptions for City of Minneapolis for 2018")
+```
+
+```{r}
+#| echo: false
+df <- bind_rows(
+  get_demographic_baseline(tb = building_energy_data)$ctu %>%
+  dplyr::filter(ctu_name == "Minneapolis"),
+  calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+  dplyr::filter(ctu_name == "Minneapolis")
+) %>% filter(var == "population")
+
+p<-ggplot(data=df, aes(x=year, y=value)) +
+  geom_bar(stat="identity")
+
+p + theme(panel.background = element_blank())
+```
+
+## 3. Reducing Emissions in the Building Energy Sector
+
+Strategies to reduce emissions in the building and land use sectors include, building more efficiently, decarbonizing electricity and natural gas, electrifying heat, using sustainable construction practices, changing behaviors, and using the land to help store carbon.
+
+The emissions from electricity were calculated using an emissions factor of ___ per MWh of electricity. 
+
+### 3.1 Residential Energy Assumptions
+
+The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. 
+
+```{r}
+ghg.sp::get_residential_energy_baseline() %>%
+    dplyr::filter(ctu_name == "Minneapolis")
+```
+
+
+
+
+### 3.1 Energy Efficiency and Compact Development
+
+## 4. Reducing Emissions in the Transportation Sector
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+## Reducing Emmission from the Land Use Sector
+
+The Metropolitan Council has developed guides for each of the strategies listed at right. Links will be added when the guides are made avail
+
+
