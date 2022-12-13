@@ -8,6 +8,7 @@ format:
     css: styles.css
     mainfont: "Helvetica"
     df-print: kable
+---ss
 ---
 
 ```{r, include=FALSE}
@@ -29,6 +30,25 @@ library(kableExtra)
 #| echo: false
 #| message: false
 options(scipen = 1, digits = 2)
+
+
+kableformat <- function(data, .caption) {
+  data %>%
+    dplyr::left_join(., variables, by = "var") %>%
+    dplyr::select(c(desc, value)) %>%
+    dplyr::rename("Variables" = "desc",
+                  "Value" = "value") %>%
+    kableExtra::kable(
+      caption = .caption,
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(html_font = "Arial",
+                              full_width = F,
+                              font_size = 12)
+}
+
 ```
 
 ```{r variables}
@@ -58,7 +78,9 @@ variables <-
       "residential_kwh_per_floor_area",
       "residential_therms_per_floor_area",
       "residential_mwh_per_households",
-      "residential_therms_per_households"
+      "residential_therms_per_households",
+      "total_residential_kwh_forecast",
+      "total_residential_therms_forecast"	
     ),
     desc = c(
       "Households",
@@ -82,7 +104,9 @@ variables <-
       "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)",
       "Residential Therms per Floor Area (therms/ft<sup>2</sup>)",
       "Residential Electricity per Household (KWh/household)",
-      "Residential Therms per Floor Household (therms/household)"
+      "Residential Therms per Floor Household (therms/household)",
+      "Residential Electricity - Forecast (MWh)",
+      "Residential Natural Gas - Forecast (Therms)"
     )
   )
 ```
@@ -152,12 +176,7 @@ The households, population, and jobs data is obtained from the Metropolitan Coun
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == "Minneapolis") %>%
-  dplyr::left_join(., variables, by = "var") %>%
-  dplyr::select(c(desc, value)) %>%
-  dplyr::rename("Variables" = "desc",
-                "Value" = "value") %>%
-  knitr::kable(caption = "Basic Demographic Assumptions for City of Minneapolis for 2018",
-               format.args = list(big.mark = ","))
+  kableformat(., "Basic Demographic Assumptions for City of Minneapolis for 2018")
 ```
 
 In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. Table 2 shows the relevant assumptions for Hennepin County.
@@ -169,12 +188,7 @@ In cases when there are data gaps for city-level data, the Greenhouse Gas Scenar
 get_demographic_baseline(tb = building_energy_data)$county %>%
   dplyr::ungroup() %>%
   dplyr::filter(co_name == "Hennepin") %>%
-  dplyr::left_join(., variables, by = "var") %>%
-  dplyr::select(c(desc, value)) %>%
-  dplyr::rename("Variables" = "desc",
-                "Value" = "value") %>%
-  knitr::kable(caption = "Basic Demographic Assumptions Hennepin County for 2018",
-               format.args = list(big.mark = ","))
+  kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")  
 ```
 
 #### 2.2 City-level Demographic Forecast
@@ -190,13 +204,7 @@ The floor area assumption are an extrapolation of recent historic trends in floo
 calc_demographic_forecast(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == "Minneapolis")  %>%
-  dplyr::left_join(., variables, by = "var") %>%
-  dplyr::select(c(desc, value)) %>%
-  dplyr::rename("Variables" = "desc",
-                "Value" = "value") %>%
-  knitr::kable(caption = "Forecast Demographic Assumptions for City of Minneapolis for 2040",
-               format.args = list(big.mark = ",")) %>% 
-  kableExtra::kable_classic(html_font = "Arial", full_width = F, font_size = 12) 
+  kableformat(., .caption = "Forecast Demographic Assumptions for City of Minneapolis for 2040")
 ```
 
 Figure 1 shows the comparisson of population for the City of Minneapolis in 2018 with the 2040 forecast.
@@ -222,13 +230,17 @@ p + theme(panel.background = element_blank())
 
 ## 3. Reducing Emissions in the Building Energy Sector
 
-Strategies to reduce emissions in the building and land use sectors include, building more efficiently, decarbonizing electricity and natural gas, electrifying heat, using sustainable construction practices, changing behaviors, and using the land to help store carbon.
+Strategies to reduce emissions in the building energy sector include, increasing efficiency, decarbonizing electricity, electrifying heat, using sustainable construction practices, and changing behaviors.
 
 The emissions from electricity were calculated using an emissions factor of \_\_\_ per MWh of electricity.
 
 ### 3.1 Residential Energy Assumptions
 
-The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use.
+The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.
+
+#### 3.1.1 Residential Energy Baseline
+
+Table 4 shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
 
 ##### Table 4
 
@@ -237,24 +249,45 @@ The biggest share of residential electricity use is typically for heating and co
 ghg.sp::get_residential_energy_baseline() %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == "Minneapolis") %>%
-  dplyr::left_join(., variables, by = "var") %>%
-  dplyr::select(c(desc, value)) %>%
-  dplyr::rename("Variables" = "desc",
-                "Value" = "value") %>%
-  kableExtra::kable(caption = "Residential Energy Assumption for Minneapolis 2018",
-                    format = "html",
-                    escape = FALSE,
-               format.args = list(big.mark = ",")) %>%
-  kableExtra::kable_classic(html_font = "Arial", full_width = F, font_size = 12)  
+  kableformat(., .caption = "Residential Energy Assumption for Minneapolis 2018")
 ```
 
-### 3.1 Energy Efficiency and Compact Development
+#### 3.1.2 Residential Energy Forecast
+
+Table 5 shows the forecast assumption for the residential energy sector.
+
+##### Table 5
+
+```{r tab5}
+#| echo: false
+ghg.sp::calc_residential_energy_forecast() %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%   kableformat(., .caption = "Residential Energy Assumption for Minneapolis 2018")
+
+```
+
+## 3.2 Residential Energy Strategies
+
+### 3.2 Reducing Residential Floor Area
+
+#### Affordable Floor Area
+
+Cities can control the size of new single-family homes to reduce energy use. The growth of the single-family home size is reduced from 15% to 5% to make the new single-family home smaller. We apply this impact to 50% of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+
+#### New Home Efficiency
+
+Cities can adopt strict building codes requiring new homes to achieve LEEDGold standards. We assumed 50% of new homes (single- and multi-family homes) to be LEED-Gold with both electricity and gas EUI reduced 64%. Cities can adjust the percentage of new homes achieving this standard.
+
+Existing home: 80% reduced EUI by 33%
+
+Cities can retrofit existing homes to be energy efficient. We assume 80% of existing homes with energy use intensity reduced by 33%. Cities can adjust the percentage of existing homes to be retrofitted.
 
 ## 4. Reducing Emissions in the Transportation Sector
 
 You can add options to executable code like this
 
-Table
+##### Table
 
 ```{r tabx}
 #| echo: false
@@ -274,3 +307,31 @@ The Metropolitan Council has developed guides for each of the strategies listed 
 ```{r}
 
 ```
+
+## Glossary
+
+Single-family housing
+
+Single-family housing
+
+:   an independent residential structure that sits on its own land and is designed to be used as a single dwelling unit, without shared walls or utilities.
+
+• Multi-family housing: A building, or a complex with several buildings, that contains multiple separate housing units for residential inhabitants.
+
+• Compact buildings: buildings designed to reduce sprawl and use land and resources more efficiently
+
+• Home retrofits: Renovations or equipment installed in existing homes to increase their energy efficiency
+
+• EUI: Energy use intensity; expresses a building's energy use as a function of its size or other characteristics
+
+• Affordable floor area: amount of floor area in an affordable housing unit
+
+• LEED: Leadership in Energy and Environmental Design; the most widely used green building rating system in the world.
+
+• Passive Buildings: structures adhering to a highly energy efficient building standard that also promotes indoor comfort and acoustic insulation.
+
+• Smart Meters: an electronic device that records information such as consumption of electric energy, voltage levels, current, and power factor and communicates the information to the consumer and electricity suppliers.
+
+• Electric-based heat pumps: An air source heat pump that uses a small amount of energy to transfer a large amount of heat, without emitting greenhouse gases.
+
+• Renewable Natural Gas: A type of fuel that is produced through the decomposition of organic matter and processed to purity standards that match that of conventional natural gas.
