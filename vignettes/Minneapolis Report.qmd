@@ -47,7 +47,6 @@ kableformat <- function(data, .caption) {
                               full_width = F,
                               font_size = 12)
 }
-
 ```
 
 ```{r variables}
@@ -219,10 +218,10 @@ df <- dplyr::bind_rows(
     dplyr::filter(ctu_name == "Minneapolis")
 ) %>% dplyr::filter(var == "population")
 
-p <- ggplot(data = df, aes(x = as.character(year), y = value)) +
-  geom_bar(stat = "identity")
-
-p + theme(panel.background = element_blank())
+# make ggplot2 barplot with dataset 'df' and x-axis 'year' and y-axis 'value', with year being a factor
+ ggplot(df, aes(x = as.factor(year), y = value)) +
+   geom_bar(stat = "identity") +
+   theme(panel.background = element_blank())
 ```
 
 ------------------------------------------------------------------------
@@ -268,19 +267,75 @@ ghg.sp::calc_residential_energy_forecast() %>%
 
 ## 3.2 Residential Energy Strategies
 
-### 3.2 Reducing Residential Floor Area
+### 3.2 Reducing Residential Floor Area and Improving Efficiency
 
-#### Affordable Floor Area
+#### 3.2.1 Affordable Floor Area
 
 Cities can control the size of new single-family homes to reduce energy use. The growth of the single-family home size is reduced from 15% to 5% to make the new single-family home smaller. We apply this impact to 50% of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 
-#### New Home Efficiency
+```{r}
+#| echo: false
+ghg.sp::calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .single_family_floor_area_growth_pct = 0.05) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Affordable Floor Area Assumptions for Minneapolis 2018")
+```
 
-Cities can adopt strict building codes requiring new homes to achieve LEEDGold standards. We assumed 50% of new homes (single- and multi-family homes) to be LEED-Gold with both electricity and gas EUI reduced 64%. Cities can adjust the percentage of new homes achieving this standard.
+#### 3.2.2 New Home Efficiency
+
+Cities can adopt strict building codes requiring new homes to achieve LEED Gold standards. We assumed 50% of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas EUI reduced 64%. Cities can adjust the percentage of new homes achieving this standard.
 
 Existing home: 80% reduced EUI by 33%
+```{r}
+ghg.sp::calc_floor_area_leed(
+  res_tb = building_data$residential,
+   .new_homes_leed_gold_pct = 0.5,
+   .enviro_factors = enviro_factors) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    var %in% c(
+       "multifamily_average_floor_area_sqft_county", 
+       "multifamily_units",
+       "single_family_units",
+       "single_family_average_floor_area_sqft_ctu"
+       )) %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "New Home Efficiency Minneapolis 2040")
+``` 
+
+#### 3.2.3 Existing Home Efficiency
 
 Cities can retrofit existing homes to be energy efficient. We assume 80% of existing homes with energy use intensity reduced by 33%. Cities can adjust the percentage of existing homes to be retrofitted.
+
+```{r}
+ghg.sp:: calc_floor_area_retrofit(
+   res_tb = building_data$residential,
+   .existing_home_retrofit_pct = 0.80,
+   .existing_home_ultra_retrofit_pct = 0.20,
+   .enviro_factors = enviro_factors ) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    var %in% c(
+       "multifamily_average_floor_area_sqft_county", 
+       "multifamily_units",
+       "single_family_units",
+       "single_family_average_floor_area_sqft_ctu"
+       )) %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Existing Home Efficiency Minneapolis 2018")
+```
+
+
+### 3.3 Reducing Non Residential Energy Use
+
+
+
+
+
 
 ## 4. Reducing Emissions in the Transportation Sector
 
