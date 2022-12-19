@@ -10,6 +10,8 @@ format:
     df-print: kable
 ---
 
+# Minneapolis Greenhouse Gas Emissions Scenario Planning
+
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
   comment = "#>", echo = FALSE, fig.width = 6
@@ -78,7 +80,25 @@ variables <-
       "residential_mwh_per_households",
       "residential_therms_per_households",
       "total_residential_kwh_forecast",
-      "total_residential_therms_forecast"	
+      "total_residential_therms_forecast",
+      "commercial_mwh", 
+      "commercial_therms", 
+      "industrial_mwh", 
+      "industrial_therms", 
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_therm_per_worker",  
+      "industrial_therm_per_worker",
+      "commercial_elec_emis_t_co2e",  
+      "commercial_ng_emis_t_co2e", 
+      "industrial_elec_emis_t_co2e",
+      "industrial_ng_emis_t_co2e",
+      "kg_per_mwh",
+      "kg_per_therm",
+      "residential_electricity_emissions_kg_co",
+      "residential_natural_gas_emissions_kg_co",
+      "residential_therms",
+      "total_residential_emissions"
     ),
     desc = c(
       "Households",
@@ -104,22 +124,42 @@ variables <-
       "Residential Electricity per Household (KWh/household)",
       "Residential Therms per Floor Household (therms/household)",
       "Residential Electricity - Forecast (MWh)",
-      "Residential Natural Gas - Forecast (Therms)"
+      "Residential Natural Gas - Forecast (Therms)",
+      "Commercial Electricity (MWh)",
+      "Commercial Natural Gas (Therms)",
+      "Industrial Electricity (MWh)",
+      "Industrial Natural Gas (Therms)",
+      "Commercial Electricity per Worker (KWh/worker)",
+      "Industrial Electricity per Worker (KWh/worker)",
+      "Commercial Natural Gas per Worker (therms/worker)",
+      "Industrial Natural Gas per Worker (therms/worker)",
+      "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e)",
+      "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e)",
+      "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e)",
+      "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e)",
+      "Emissions Factor for Electricity (kg/MWh)",
+      "Emissions Factor for Natural Gas (kg/therm)",
+      "Residential Electricity Emissions (kg CO<sub>2</sub>)",
+      "Residential Natural Gas Emissions (kg CO<sub>2</sub>)",
+      "Residential Natural Gas (therms)",
+      "Total Residential Emissions (kg CO<sub>2</sub>)"
     )
   )
 ```
 
+## Disclaimer 
+
+The purpose of this report is to attempt to estimate the potential of greenhouse gas mitigation strategies at the City scale. The report should be used to inform conversations and for educational purposes. However, the information presented does not represent any formal recommendations or policy decisions.
+
 ## Executive Summary
 
-The current report presents a portfolio of strategies that the City of Minneapolis could take to reduce greenhouse gas emissions under a Business as Usual Scenario. The strategies can be categorized into three sectors 1) stationary energy, 2) transportation, and 3) land use and forestry. There might be differences between this report's greenhouse gas emissions estimates and the emissions reported in Minneapolis Greenhouse Gas Inventory.
+The current report was prepared by the Metropolitan Council for the City of Minneapolis. The report presents a portfolio of strategies that the City of Minneapolis could take to reduce greenhouse gas emissions under a Business as Usual Scenario. The strategies can be categorized into three sectors 1) stationary energy, 2) transportation, and 3) land use and forestry. There might be differences between this report's greenhouse gas emissions estimates and the emissions reported in the Minneapolis Greenhouse Gas Inventory. This is because the report relies in a different methodology to estimate emissions. 
 
 ## 1. Introduction
 
 Cities across the Minnesota Metro Region have recognized the urgency of taking action to reduce greenhouse gas emissions and increase community resilience towards climate change.
 
-The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning.
-
-The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals. This report is intended to support the City of Minneapolis to consider potential strategies for decarbonization.
+The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning. The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals. This report is intended to support the City of Minneapolis to consider potential strategies for decarbonization.
 
 To alter the input assumptions on this report please contact the Metropolitan Council (mauricio.leon\@metc.state.mn.us).
 
@@ -177,7 +217,7 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
   kableformat(., "Basic Demographic Assumptions for City of Minneapolis for 2018")
 ```
 
-In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. Table 2 shows the relevant assumptions for Hennepin County.
+In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. `Table 2` shows the relevant assumptions for Hennepin County.
 
 ##### Table 2
 
@@ -255,25 +295,32 @@ ghg.sp::get_residential_energy_baseline() %>%
 Table 5 shows the forecast assumption for the residential energy sector.
 
 ##### Table 5
-
 ```{r tab5}
 #| echo: false
 ghg.sp::calc_residential_energy_forecast() %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == "Minneapolis") %>%
   dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%   kableformat(., .caption = "Residential Energy Assumption for Minneapolis 2018")
-
 ```
 
 ## 3.2 Residential Energy Strategies
 
-### 3.2 Reducing Residential Floor Area and Improving Efficiency
+### 3.2.1 Reducing Residential Floor Area and Improving Efficiency
 
-#### 3.2.1 Affordable Floor Area
+#### 3.2.1.a Affordable Floor Area
 
-Cities can control the size of new single-family homes to reduce energy use. The growth of the single-family home size is reduced from 15% to 5% to make the new single-family home smaller. We apply this impact to 50% of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+Cities can control the size of new single-family homes to reduce energy use. 
 
-```{r}
+The growth of the single-family home size is reduced from 15% to 5% to make the new single-family home smaller. We apply this impact to 50% of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+
+##### Equation 1
+$$
+S_1sqft_{2040}^{sf} = (units_{2040}^{sf} - units_{2018}^{sf}) \cdot X_1 \cdot (\bar{sqft}_{2040}^{sf}- ( 1 + \frac{\Delta sqft}{year}) \cdot \bar{sqft}_{2018})
+$$
+
+##### Table 6
+
+```{r tab6}
 #| echo: false
 ghg.sp::calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -283,12 +330,17 @@ ghg.sp::calc_affordable_floor_area(
   kableformat(., .caption = "Affordable Floor Area Assumptions for Minneapolis 2018")
 ```
 
-#### 3.2.2 New Home Efficiency
+#### 3.2.1.b New Home Efficiency
 
-Cities can adopt strict building codes requiring new homes to achieve LEED Gold standards. We assumed 50% of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas EUI reduced 64%. Cities can adjust the percentage of new homes achieving this standard.
+Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. 
 
-Existing home: 80% reduced EUI by 33%
-```{r}
+Cities can adjust the percentage of new homes achieving this standard.
+
+Existing home: `80%` reduced EUI by `33%`.
+
+##### Table 7
+```{r tab7}
+#| echo: false
 ghg.sp::calc_floor_area_leed(
   res_tb = building_data$residential,
    .new_homes_leed_gold_pct = 0.5,
@@ -306,11 +358,22 @@ ghg.sp::calc_floor_area_leed(
   kableformat(., .caption = "New Home Efficiency Minneapolis 2040")
 ``` 
 
-#### 3.2.3 Existing Home Efficiency
+##### Equation 2
+$$
+S_2sqft_{2040}^{sf} = (units_{2040}^{sf} - units_{2018}^{sf}) \cdot x \cdot (S_1sqft \cdot 0.64 \cdot \bar{sqft}_{2018}^{sf})
+$$
 
-Cities can retrofit existing homes to be energy efficient. We assume 80% of existing homes with energy use intensity reduced by 33%. Cities can adjust the percentage of existing homes to be retrofitted.
+#### 3.2.1.c Existing Home Efficiency
 
-```{r}
+Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. 
+
+Cities can adjust the percentage of existing homes to be retrofitted.
+
+
+##### Table 8
+
+```{r tab8}
+#| echo: false
 ghg.sp:: calc_floor_area_retrofit(
    res_tb = building_data$residential,
    .existing_home_retrofit_pct = 0.80,
@@ -326,66 +389,279 @@ ghg.sp:: calc_floor_area_retrofit(
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
   dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Existing Home Efficiency Minneapolis 2018")
+  kableformat(., .caption = "Existing Home Efficiency Minneapolis 2040")
 ```
 
+### 3.2.1.d Behavior Change
+
+Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. 
+
+Cities can adjust this participation rate accordingly.
+
+##### Equation 4
+$$ S_4sqft = X_1 \cdot population_{2040} \cdot S_3sqft/person_{2040}^{residential} \cdot 0.11 $$
+
+##### Table 9
+
+```{r tab9}
+#| echo: false
+ghg.sp::calc_floor_area_behavior_change(res_tb = building_data$residential,
+   .home_behavior_change_pct = 1.00,
+   .enviro_factors = enviro_factors) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    var %in% c(
+       "multifamily_average_floor_area_sqft_county", 
+       "multifamily_units",
+       "single_family_units",
+       "single_family_average_floor_area_sqft_ctu"
+       )) %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Behavior Change Minneapolis 2040")
+```
+
+### 3.2.2 Decarbonize Residential Energy Use
+
+Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. 
+
+This change is fixed by the grid.
+
+$$
+S_5kgCO_2e = (population_{2040} \cdot S_4sqft/person_{2040}^{residential} \cdot kWh/sqft_{residential}^{2040}) \cdot [(kg CO_2e/MWh_{2040}^{electricity} \cdot 1 \times 10^{-3} kWh) \cdot X_1]
+$$
+
+```{r tab10}
+#| echo: false
+calc_ghg_residential(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  .grid_decarbonization_pct = 0.8,
+  .enviro_factors = enviro_factors
+) %>% 
+  dplyr::ungroup() %>%
+  dplyr::filter(
+    year == 2040) %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
+```
+
+### 3.2.3 Electrifying Residential Heating
+
+`59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. 
+
+Cities can adjust the percentage of homes participated in electrifying heating.
+
+```{r tab11}
+#| echo: false
+ghg.sp::calc_electrify_residential_heating(
+  res_tb = calc_ghg_residential(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  .grid_decarbonization_pct = 0.8,
+  .enviro_factors = enviro_factors
+   ),
+   .additional_electrified_residential_buildings_pct = 0.45,
+   .res_natural_gas_for_space_heating_pct = 0.71,
+   .res_natural_gas_for_water_heating_pct = 0.24,
+   .grid_decarbonization_pct = 0.80,
+   .enviro_factors = enviro_factors) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    ctu_name == "Minneapolis",
+    scen == "scen") %>%
+  kableformat(., .caption = "Electrify Residential Heating Minneapolis 2040")
+```
 
 ### 3.3 Reducing Non Residential Energy Use
 
+Non-residential energy use corresponds to commercial and industrial buildings. The estimate of non-residential energy use is based on the square footage of commercial and industrial buildings and employment forecasts. 
 
+#### 3.3.1 Non Residential Energy Baseline
 
+Table 6 shows the basic assumptions about non residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
 
+##### Table 12
+```{r tab12}
+#| echo = FALSE
+ghg.sp::get_non_residential_energy_baseline(
+  tb = building_energy_data) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Non Residential Energy Baseline Minneapolis 2018")
+```
+
+#### 3.3.2 Non Residential Energy Forecast
+
+`Table 7` shows the forecast assumptions for non residential electricity and natural gas use for the City of Minneapolis.
+
+##### Table 13
+
+```{r tab13}
+#| echo = FALSE
+ghg.sp::calc_non_residential_energy_forecast(
+  tb = building_energy_data) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis") %>%
+  kableformat(., .caption = "Non Residential Energy Forecast Minneapolis 2040")
+```
+
+#### 3.3.3 Non Residential Energy Strategies
+
+##### Table 14
+
+```{r tab14}
+#| echo = FALSE
+#| message = FALSE
+ghg.sp::calc_electrify_commercial_heating(
+  non_res_tb = ghg.sp::calc_ghg_non_residential(
+    non_res_tb = building_energy_bau_data$non_residential,
+    non_res_tb_bau = building_energy_bau_data$non_residential,
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
+    .grid_decarbonization_pct = 1,
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 0.8
+  ),
+  .grid_decarbonization_pct = 0.8,
+  .electrified_buildings_pct = 0.40,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .enviro_factors = enviro_factors
+) %>% 
+  dplyr::ungroup() %>%
+  dplyr::filter(ctu_name == "Minneapolis",
+  year == 2040,
+  scen == "scen") %>%
+  kableformat(., .caption = "Electrify Commercial Heating Minneapolis 2040")
+```
 
 
 ## 4. Reducing Emissions in the Transportation Sector
 
-You can add options to executable code like this
+The inputs for the transportation sector baseliene and forecast are:
 
-##### Table
+* Passenger Miles Traveled (PMT) forecasts from Metroplitan Council Regional Transportation Demand Model (RTDM)
+* Average vehicle occupancy by mode
+* MA3T stock turnover and adoption forecasts by powertrain: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric
+
+
+### 4.1 Transportation Baseline
+
+```{r}
+ghg.sp::transportation_index$modes
+```
+
+#### 4.1.1 Passenger Transportation
+
+##### Table 
 
 ```{r tabx}
 #| echo: false
-transportation_data$passenger %>%
-  dplyr::filter(ctu %in% c("Minneapolis"),
-                var == "TotStock",
-                year == 2018) %>%
-  kableExtra::kable(caption = "2018",
-               format.args = list(big.mark = ","))  %>%
-  kableExtra::kable_classic(html_font = "Arial", full_width = F, font_size = 12)
+ghg.sp::transportation_data$passenger %>%
+  dplyr::filter(ctu == "Minneapolis",
+                var == "PMT",
+                year == 2018) %>% 
+  dplyr::left_join(., 
+                ghg.sp::transportation_index$modes,
+                by = c("mode" = "mode_abbrev")) %>%
+  dplyr::select(mode_description_1, value) %>%
+  dplyr::rename("var" = "mode_description_1") %>%
+  dplyr::rename("Variables" = "var",
+                  "Value" = "value") %>%
+  kableExtra::kable(
+      caption = "Passenger Miles Traveled by Mode Minneapolis 2018",
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(html_font = "Arial",
+                              full_width = F,
+                              font_size = 12)
 ```
 
-## 5. Reducing Emission from the Land Use Sector
+##### Table
 
-The Metropolitan Council has developed guides for each of the strategies listed at right. Links will be added when the guides are made avail
+#### 4.1.2 Freight Transportation
+
+```{r}
+ghg.sp::transportation_data$freight %>%
+  dplyr::filter(ctu == "Minneapolis",
+                var == "TMT",
+                year == 2018) %>% 
+  dplyr::left_join(., 
+                ghg.sp::transportation_index$modes,
+                by = c("mode" = "mode_abbrev")) %>%
+  dplyr::select(mode_description_1, value)  %>%
+  dplyr::rename("var" = "mode_description_1") %>%
+  dplyr::rename("Variables" = "var",
+                  "Value" = "value") %>%
+  kableExtra::kable(
+      caption = "Freight Miles Traveled by Mode Minneapolis 2018",
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(html_font = "Arial",
+                              full_width = F,
+                              font_size = 12)
+```
+
+### 4.2 Transportation Forecast
+
+#### 4.2.1 Passenger Transportation Forecast
+
+##### Table
+```{r tabx}
+#| echo: false
+ghg.sp::transportation_data$passenger %>%
+  dplyr::filter(ctu == "Minneapolis",
+                var == "PMT",
+                year == 2040) %>% 
+  dplyr::left_join(., 
+                ghg.sp::transportation_index$modes,
+                by = c("mode" = "mode_abbrev")) %>%
+  dplyr::select(mode_description_1, value) %>%
+  dplyr::rename("var" = "mode_description_1") %>%
+  dplyr::rename("Variables" = "var",
+                  "Value" = "value") %>%
+  kableExtra::kable(
+      caption = "Passenger Miles Traveled by Mode Minneapolis 2040 Forecast",
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(html_font = "Arial",
+                              full_width = F,
+                              font_size = 12)
+```
+
+#### 4.3 Transportation Strategies
+
+#### 4.3.1 Land Use Strategies
+
+Increasing density decreases travel distances and encourages the use of transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
+
+
 
 ```{r}
 
 ```
 
-## Glossary
 
-Single-family housing
 
-Single-family housing
+## 5. Reducing Emission from Land Use and Forestry
 
-:   an independent residential structure that sits on its own land and is designed to be used as a single dwelling unit, without shared walls or utilities.
+The Metropolitan Council has developed guides for each of the strategies listed at right. Links will be added when the guides are made avail
 
-• Multi-family housing: A building, or a complex with several buildings, that contains multiple separate housing units for residential inhabitants.
+### 5.1 Land Use Baseline
 
-• Compact buildings: buildings designed to reduce sprawl and use land and resources more efficiently
+```{r}
+development_types <- ghg.sp::calc_land_by_development_type(tb = land_use_data,
+   .urban_form_scenario = "bau") %>%
+  dplyr::filter(ctu_name == "Minneapolis") 
+```
 
-• Home retrofits: Renovations or equipment installed in existing homes to increase their energy efficiency
 
-• EUI: Energy use intensity; expresses a building's energy use as a function of its size or other characteristics
-
-• Affordable floor area: amount of floor area in an affordable housing unit
-
-• LEED: Leadership in Energy and Environmental Design; the most widely used green building rating system in the world.
-
-• Passive Buildings: structures adhering to a highly energy efficient building standard that also promotes indoor comfort and acoustic insulation.
-
-• Smart Meters: an electronic device that records information such as consumption of electric energy, voltage levels, current, and power factor and communicates the information to the consumer and electricity suppliers.
-
-• Electric-based heat pumps: An air source heat pump that uses a small amount of energy to transfer a large amount of heat, without emitting greenhouse gases.
-
-• Renewable Natural Gas: A type of fuel that is produced through the decomposition of organic matter and processed to purity standards that match that of conventional natural gas.
