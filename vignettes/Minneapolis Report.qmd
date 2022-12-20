@@ -1,6 +1,10 @@
 ---
-title: "Minneapolis Greenhouse Gas Emissions Scenario Planning"
+title: "Greenhouse Gas Emissions Scenario Planning"
 author: "Metropolitan Council"
+date: "January 2023"
+params:
+    ctu_selection: "Minneapolis"
+    county_selection: "Hennepin"
 format:
   html:
     toc: true
@@ -10,7 +14,7 @@ format:
     df-print: kable
 ---
 
-# Minneapolis Greenhouse Gas Emissions Scenario Planning
+# City of `r params$ctu_selection`
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
@@ -31,7 +35,6 @@ library(kableExtra)
 #| echo: false
 #| message: false
 options(scipen = 1, digits = 2)
-
 
 kableformat <- function(data, .caption) {
   data %>%
@@ -147,33 +150,31 @@ variables <-
   )
 ```
 
-## Disclaimer 
+![](img/2788.jpg)
 
-The purpose of this report is to attempt to estimate the potential of greenhouse gas mitigation strategies at the City scale. The report should be used to inform conversations and for educational purposes. However, the information presented does not represent any formal recommendations or policy decisions.
+## Disclaimer
+
+This report aims to evaluate the effectiveness of greenhouse gas mitigation strategies at the city level. It is intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
 
 ## Executive Summary
 
-The current report was prepared by the Metropolitan Council for the City of Minneapolis. The report presents a portfolio of strategies that the City of Minneapolis could take to reduce greenhouse gas emissions under a Business as Usual Scenario. The strategies can be categorized into three sectors 1) stationary energy, 2) transportation, and 3) land use and forestry. There might be differences between this report's greenhouse gas emissions estimates and the emissions reported in the Minneapolis Greenhouse Gas Inventory. This is because the report relies in a different methodology to estimate emissions. 
+The Research Unit of Community Development at the Metropolitan Council has prepared the following report, which presents a range of strategies that the City of Minneapolis could adopt to reduce greenhouse gas emissions under a "Business as Usual" scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry. It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the `r params$ctu_selection` Greenhouse Gas Inventory due to differences in methodology. The strategies included in this report were decided in a series of stakeholder meetings conducted in 2020.
 
 ## 1. Introduction
 
-Cities across the Minnesota Metro Region have recognized the urgency of taking action to reduce greenhouse gas emissions and increase community resilience towards climate change.
+### 1.1 Overview
 
-The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning. The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals. This report is intended to support the City of Minneapolis to consider potential strategies for decarbonization.
+Cities throughout the Minnesota Metro Region are well aware of the pressing need to reduce greenhouse gas emissions and enhance the resilience of their communities in the face of climate change. In recognition of this urgency, many of these cities have already begun implementing various strategies and initiatives to reduce their carbon footprint and increase their ability to withstand the impacts of a changing climate. These efforts range from adopting renewable energy sources and energy-efficient technologies to implementing transportation policies that encourage using electric or low-emissions vehicles to promote land use practices that support the retention and expansion of natural habitats. By taking action at the local level, local governments in the Twin Cities contribute to the global effort to mitigate the worst effects of climate change and build a more sustainable future for all.
 
-To alter the input assumptions on this report please contact the Metropolitan Council (mauricio.leon\@metc.state.mn.us).
+The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning. The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals. This report aims to support the City of `r params$ctu_selection` in considering potential strategies for reducing carbon emissions.
 
-### 1.1 Greenhouse Gas Emissions
+### 1.2 Greenhouse Gas Emissions
 
-Greenhouse gases (GHG) trap heat in the Earth's atmosphere and contribute to global warming. Carbon dioxide, methane, and nitrous oxide are the most common greenhouse gases.
+Greenhouse gases (GHG) trap heat in the atmosphere and contribute to global warming. Carbon dioxide, methane, and nitrous oxide are the most common greenhouse gases. Human activities have been the primary driver of climate change by releasing greenhouse gases in large amounts. Combustion of fossil fuels (e.g., coal, oil, and gas) releases greenhouse gases, which trap heat in the atmosphere, causing temperatures to rise.
 
-Human activities have been the primary driver of climate change by releasing greenhouse gases in large amounts. Combustion of fossil fuels (e.g., coal, oil, and gas) releases greenhouse gases, which trap heat in the atmosphere, causing temperatures to rise.
+The primary sources of emissions in cities come from building energy use (electricity and natural gas), transportation (gas and diesel), and waste (methane at landfills or combustion for energy generation). The transportation sector, which includes cars, trucks, ships, and airplanes, is the largest source of carbon dioxide emissions in the United States, followed by the electricity and heat production and industrial sectors. Other sources of greenhouse gas emissions in the United States include agriculture, waste, and industrial processes.
 
-The primary sources of emissions in cities come from building energy use (electricity and natural gas), transportation (gas and diesel), and waste (methane at landfills or combustion for energy generation).
-
-The transportation sector, which includes cars, trucks, ships, and airplanes, is the largest source of carbon dioxide emissions in the United States, followed by the electricity and heat production and industrial sectors. Other sources of greenhouse gas emissions in the United States include agriculture, waste, and industrial processes.
-
-### 1.2 Impact of Climate Change in Minnesota
+### 1.3 Impact of Climate Change in Minnesota
 
 Climate change is already occurring and impacting Minnesotans. As the Earth's temperature continues to rise, these changes are expected to increase and intensify. Vulnerable populations, infrastructure, and natural systems will be most impacted. The Minnesota Pollution Control Agency highlights the following observations and potential impacts:
 
@@ -187,25 +188,33 @@ Climate change is already occurring and impacting Minnesotans. As the Earth's te
 -   Extreme storm events.
 -   Impacts on ecosystem.
 
-### 1.3 Scenario Planning
-
-Scenario planning, also known as scenario analysis, is a method to make flexible long-term plans. It is a way of thinking about and preparing for the future by considering possible events and their potential impact on a city or region. Scenario planning involves creating multiple possible future scenarios and then considering how to respond to each one. This method allows organizations to be more flexible and adaptable in uncertainty and change.
+### 1.4 Scenario Planning
 
 The Metropolitan Council has developed a Greenhouse Gas Scenario Planning Tool to help metro cities determine pathways to achieving emissions reductions. The Tool builds upon the DECAL model created by the Sustainable Healthy Cities Network with the support and funding of the Metropolitan Council.
 
-The Tool looks at strategies across multiple sectors and calculates the emissions reductions that can result from successful implementation. These sectors include compact land use, mobility, buildings, waste, and green infrastructure.
+Scenario planning is a method to make flexible long-term plans. It is a way of thinking about and preparing for the future by considering possible events and their potential impact on a city or region. Scenario planning involves creating multiple possible future scenarios and then considering how to respond to each one. This method allows organizations to be more flexible and adaptable in uncertainty and change.
+
+The Greenhouse Gas Scenario Planning Tool looks at strategies across multiple sectors and calculates the emissions reductions that can result from successful implementation. These sectors include compact land use, mobility, buildings, waste, and green infrastructure.
 
 The Metropolitan Council will offer the scenario planning tool on an easy-to-use online platform. Cities can use this tool to identify solutions tailored to their communities by testing different scenarios across strategies.
 
-The following report compiles results for the City of Minneapolis based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council.
+The following report compiles results for the City of `r params$ctu_selection` based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council.
 
 ## 2. Demographic Assumptions
 
 The Greenhouse Gas Scenario Planning Tool uses the best available demographic assumptions for cities in the Metropolitan Region in order to forecast the emissions in 2040.
 
+Some common predictor of greenhouse gas emissions at the city scale include:
+
+1.  ***Population density*****:** Higher population densities tend to be associated with higher energy consumption, as more people require energy to power their homes and businesses.
+2.  ***Economic activity*****:** Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+3.  ***Urban form:*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation.
+4.  ***Climate:*** The climate of a city can also play a role in energy consumption. In colder regions, for example, more energy may be needed for heating, while in hotter regions, more energy may be needed for air conditioning.
+5.  ***Energy efficiency:*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall.
+
 #### 2.1 City-level Demographic Assumptions
 
-The households, population, and jobs data is obtained from the Metropolitan Council, which in terms obtains it from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS) a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population.
+The population, households, and employment numbers are obtained from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS) a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population.
 
 ##### Table 1
 
@@ -213,8 +222,8 @@ The households, population, and jobs data is obtained from the Metropolitan Coun
 #| echo: false
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., "Basic Demographic Assumptions for City of Minneapolis for 2018")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., paste("Basic Demographic Assumptions for", params$ctu_selection, "for 2018"))
 ```
 
 In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. `Table 2` shows the relevant assumptions for Hennepin County.
@@ -231,7 +240,7 @@ get_demographic_baseline(tb = building_energy_data)$county %>%
 
 #### 2.2 City-level Demographic Forecast
 
-The Metropolitan Council generates a forecast of population, households, and employment for all cities in the seven county metropolitan region.
+As part of its duties, the Metropolitan Council generates a forecast of population, households, and employment for all cities within this region. The forecast is created using a tool called the REMI PI Model. This model is a computer-based forecasting system that uses data on various economic, demographic, and social factors to project future population, household, and employment trends in a given area. The Metropolitan Council uses this forecast to help plan for the future needs of the region and its cities, including infrastructure, housing, and other resources.
 
 The floor area assumption are an extrapolation of recent historic trends in floor area growth.
 
@@ -241,11 +250,11 @@ The floor area assumption are an extrapolation of recent historic trends in floo
 #| echo: false
 calc_demographic_forecast(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis")  %>%
-  kableformat(., .caption = "Forecast Demographic Assumptions for City of Minneapolis for 2040")
+  dplyr::filter(ctu_name == params$ctu_selection)  %>%
+  kableformat(., .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040"))
 ```
 
-Figure 1 shows the comparisson of population for the City of Minneapolis in 2018 with the 2040 forecast.
+Figure 1 shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ##### Figure 1
 
@@ -253,24 +262,22 @@ Figure 1 shows the comparisson of population for the City of Minneapolis in 2018
 #| echo: false
 df <- dplyr::bind_rows(
   get_demographic_baseline(tb = building_energy_data)$ctu %>%
-    dplyr::filter(ctu_name == "Minneapolis"),
+    dplyr::filter(ctu_name == params$ctu_selection),
   calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-    dplyr::filter(ctu_name == "Minneapolis")
+    dplyr::filter(ctu_name == params$ctu_selection)
 ) %>% dplyr::filter(var == "population")
 
 # make ggplot2 barplot with dataset 'df' and x-axis 'year' and y-axis 'value', with year being a factor
  ggplot(df, aes(x = as.factor(year), y = value)) +
-   geom_bar(stat = "identity") +
-   theme(panel.background = element_blank())
+   geom_bar(stat = "identity", width = 0.4, color = "blue", fill = "blue") +
+   theme(panel.background = element_blank()) + 
+   xlab("Year") +
+   ylab("Population")
 ```
-
-------------------------------------------------------------------------
 
 ## 3. Reducing Emissions in the Building Energy Sector
 
 Strategies to reduce emissions in the building energy sector include, increasing efficiency, decarbonizing electricity, electrifying heat, using sustainable construction practices, and changing behaviors.
-
-The emissions from electricity were calculated using an emissions factor of \_\_\_ per MWh of electricity.
 
 ### 3.1 Residential Energy Assumptions
 
@@ -278,7 +285,7 @@ The biggest share of residential electricity use is typically for heating and co
 
 #### 3.1.1 Residential Energy Baseline
 
-Table 4 shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
+`Table 4` shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 for the City of `r params$ctu_selection`.
 
 ##### Table 4
 
@@ -286,34 +293,50 @@ Table 4 shows the basic assumptions about electricity and natural gas use for th
 #| echo: false
 ghg.sp::get_residential_energy_baseline() %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Residential Energy Assumption for Minneapolis 2018")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste("Residential Energy Assumption for", params$ctu_selection, "for 2018"))
 ```
 
 #### 3.1.2 Residential Energy Forecast
 
-Table 5 shows the forecast assumption for the residential energy sector.
+`Table 5` shows the forecast assumption for the residential energy sector.
 
 ##### Table 5
+
 ```{r tab5}
 #| echo: false
 ghg.sp::calc_residential_energy_forecast() %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%   kableformat(., .caption = "Residential Energy Assumption for Minneapolis 2018")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%   kableformat(., .caption = paste("Residential Energy Forecast for", params$ctu_selection, "for 2040"))
 ```
 
 ## 3.2 Residential Energy Strategies
 
 ### 3.2.1 Reducing Residential Floor Area and Improving Efficiency
 
+The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
+
+-   *Zoning regulations*: A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+
+-   *Incentives*: a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+
+-   *Impact fees*: Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
+
+-   *Design guidelines*: Cities can develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes or to ensure that new homes are compatible with the character of the surrounding neighborhood.
+
+Cities have a range of tools at their disposal to control the size of new single family homes and to encourage the construction of smaller, more efficient homes.
+
 #### 3.2.1.a Affordable Floor Area
 
-Cities can control the size of new single-family homes to reduce energy use. 
+***About this strategy:***
 
-The growth of the single-family home size is reduced from 15% to 5% to make the new single-family home smaller. We apply this impact to 50% of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+Cities can control the size of new single-family homes to reduce energy use.
+
+The growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 
 ##### Equation 1
+
 $$
 S_1sqft_{2040}^{sf} = (units_{2040}^{sf} - units_{2018}^{sf}) \cdot X_1 \cdot (\bar{sqft}_{2040}^{sf}- ( 1 + \frac{\Delta sqft}{year}) \cdot \bar{sqft}_{2018})
 $$
@@ -326,19 +349,26 @@ ghg.sp::calc_affordable_floor_area(
   res_tb = building_data$residential,
   .single_family_floor_area_growth_pct = 0.05) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Affordable Floor Area Assumptions for Minneapolis 2018")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste("New Single-Family Home Floor Area for", params$ctu_selection, "for 2040"))
 ```
 
 #### 3.2.1.b New Home Efficiency
 
-Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. 
+LEED (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet LEED standards are designed and constructed to be energy efficient and to use fewer natural resources.
 
-Cities can adjust the percentage of new homes achieving this standard.
+The amount of energy savings that can be achieved through LEED certification will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the U.S. Green Building Council, buildings that are designed to meet LEED Gold standards typically achieve energy savings of at least 25% compared to conventional buildings.
 
-Existing home: `80%` reduced EUI by `33%`.
+> ***About this strategy:***
+>
+> Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`.
+>
+> Cities can adjust the percentage of new homes achieving this standard.
+>
+> Existing home: `80%` reduced EUI by `33%`.
 
 ##### Table 7
+
 ```{r tab7}
 #| echo: false
 ghg.sp::calc_floor_area_leed(
@@ -354,21 +384,35 @@ ghg.sp::calc_floor_area_leed(
        "single_family_units",
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "New Home Efficiency Minneapolis 2040")
-``` 
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste(c("New Home Efficiency", params$ctu_selection, "2040")))
+```
 
 ##### Equation 2
+
 $$
 S_2sqft_{2040}^{sf} = (units_{2040}^{sf} - units_{2018}^{sf}) \cdot x \cdot (S_1sqft \cdot 0.64 \cdot \bar{sqft}_{2018}^{sf})
 $$
 
 #### 3.2.1.c Existing Home Efficiency
 
-Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. 
+There are multiple ways in which a city, like `r params$ctu_selection`, can promote the retrofit of existing homes to gain energy efficiency. Some examples include:
 
-Cities can adjust the percentage of existing homes to be retrofitted.
+-   *Offer financial incentives:* Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits.
 
+-   *Develop education and outreach programs*: Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives.
+
+-   *Establish building codes and regulations*: Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
+
+-   *Implement energy audits*: Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
+
+-   *Partner with local organizations*: Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
+
+> ***About this strategy:***
+>
+> Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`.
+>
+> Cities can adjust the percentage of existing homes to be retrofitted.
 
 ##### Table 8
 
@@ -388,17 +432,20 @@ ghg.sp:: calc_floor_area_retrofit(
        "single_family_units",
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Existing Home Efficiency Minneapolis 2040")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste(c("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ### 3.2.1.d Behavior Change
 
-Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. 
-
-Cities can adjust this participation rate accordingly.
+> ***About this strategy:***
+>
+> Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions.
+>
+> Cities can adjust this participation rate accordingly.
 
 ##### Equation 4
+
 $$ S_4sqft = X_1 \cdot population_{2040} \cdot S_3sqft/person_{2040}^{residential} \cdot 0.11 $$
 
 ##### Table 9
@@ -417,13 +464,13 @@ ghg.sp::calc_floor_area_behavior_change(res_tb = building_data$residential,
        "single_family_units",
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Behavior Change Minneapolis 2040")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste(c("Behavior Change", params$ctu_selection, "2040")))
 ```
 
 ### 3.2.2 Decarbonize Residential Energy Use
 
-Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. 
+Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh.
 
 This change is fixed by the grid.
 
@@ -442,13 +489,15 @@ calc_ghg_residential(
   dplyr::ungroup() %>%
   dplyr::filter(
     year == 2040) %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
   kableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
 ### 3.2.3 Electrifying Residential Heating
 
-`59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. 
+Electricity can be generated from a variety of sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to using fossil fuels such as natural gas, propane, and oil.
+
+For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating.
 
 Cities can adjust the percentage of homes participated in electrifying heating.
 
@@ -469,32 +518,33 @@ ghg.sp::calc_electrify_residential_heating(
   dplyr::ungroup() %>%
   dplyr::filter(
     year == 2040,
-    ctu_name == "Minneapolis",
+    ctu_name == params$ctu_selection,
     scen == "scen") %>%
-  kableformat(., .caption = "Electrify Residential Heating Minneapolis 2040")
+  kableformat(., .caption = paste(c("Electrifying Residential Heating", params$ctu_selection, "2040"))
 ```
 
 ### 3.3 Reducing Non Residential Energy Use
 
-Non-residential energy use corresponds to commercial and industrial buildings. The estimate of non-residential energy use is based on the square footage of commercial and industrial buildings and employment forecasts. 
+Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings. It is important to accurately predict non-residential energy use as it plays a significant role in the overall energy demand of a region. In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
 
 #### 3.3.1 Non Residential Energy Baseline
 
-Table 6 shows the basic assumptions about non residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
+`Table 12` shows the basic assumptions about non-residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
 
 ##### Table 12
+
 ```{r tab12}
 #| echo = FALSE
 ghg.sp::get_non_residential_energy_baseline(
   tb = building_energy_data) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Non Residential Energy Baseline Minneapolis 2018")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste(c("Non Residential Energy Baseline", params$ctu_selection, "2018"))
 ```
 
 #### 3.3.2 Non Residential Energy Forecast
 
-`Table 7` shows the forecast assumptions for non residential electricity and natural gas use for the City of Minneapolis.
+`Table 13` shows the forecast assumptions for non-residential electricity and natural gas use for the City of Minneapolis.
 
 ##### Table 13
 
@@ -503,17 +553,18 @@ ghg.sp::get_non_residential_energy_baseline(
 ghg.sp::calc_non_residential_energy_forecast(
   tb = building_energy_data) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis") %>%
-  kableformat(., .caption = "Non Residential Energy Forecast Minneapolis 2040")
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  kableformat(., .caption = paste(c("Non Residential Energy Forecast", params$ctu_selection, "2040")))
 ```
 
 #### 3.3.3 Non Residential Energy Strategies
+
+#### 3.3.3.1
 
 ##### Table 14
 
 ```{r tab14}
 #| echo = FALSE
-#| message = FALSE
 ghg.sp::calc_electrify_commercial_heating(
   non_res_tb = ghg.sp::calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
@@ -532,23 +583,28 @@ ghg.sp::calc_electrify_commercial_heating(
   .enviro_factors = enviro_factors
 ) %>% 
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == "Minneapolis",
+  dplyr::filter(ctu_name == params$ctu_selection,
   year == 2040,
   scen == "scen") %>%
-  kableformat(., .caption = "Electrify Commercial Heating Minneapolis 2040")
+  kableformat(., .caption = paste(c("Electrifying Commercial Heating", params$ctu_selection, "2040"))
 ```
 
+------------------------------------------------------------------------
 
 ## 4. Reducing Emissions in the Transportation Sector
 
-The inputs for the transportation sector baseliene and forecast are:
+![](img/2724.jpg)
 
-* Passenger Miles Traveled (PMT) forecasts from Metroplitan Council Regional Transportation Demand Model (RTDM)
-* Average vehicle occupancy by mode
-* MA3T stock turnover and adoption forecasts by powertrain: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric
-
+The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an auto-centric manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
 
 ### 4.1 Transportation Baseline
+
+The inputs for the transportation sector baseline and forecast are:
+
+-   Passenger Miles Traveled (PMT) forecasts from Metropolitan Council Regional Transportation Demand Model (RTDM).
+    -   A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
+-   Average vehicle occupancy by mode
+-   MA3T stock turnover and adoption forecasts by "powertrain": SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric
 
 ```{r}
 ghg.sp::transportation_index$modes
@@ -556,12 +612,12 @@ ghg.sp::transportation_index$modes
 
 #### 4.1.1 Passenger Transportation
 
-##### Table 
+##### Table
 
-```{r tabx}
+```{r}
 #| echo: false
 ghg.sp::transportation_data$passenger %>%
-  dplyr::filter(ctu == "Minneapolis",
+  dplyr::filter(ctu == params$ctu_selection,
                 var == "PMT",
                 year == 2018) %>% 
   dplyr::left_join(., 
@@ -588,7 +644,7 @@ ghg.sp::transportation_data$passenger %>%
 
 ```{r}
 ghg.sp::transportation_data$freight %>%
-  dplyr::filter(ctu == "Minneapolis",
+  dplyr::filter(ctu == params$ctu_selection,
                 var == "TMT",
                 year == 2018) %>% 
   dplyr::left_join(., 
@@ -614,10 +670,11 @@ ghg.sp::transportation_data$freight %>%
 #### 4.2.1 Passenger Transportation Forecast
 
 ##### Table
+
 ```{r tabx}
 #| echo: false
 ghg.sp::transportation_data$passenger %>%
-  dplyr::filter(ctu == "Minneapolis",
+  dplyr::filter(ctu == params$ctu_selection,
                 var == "PMT",
                 year == 2040) %>% 
   dplyr::left_join(., 
@@ -644,15 +701,17 @@ ghg.sp::transportation_data$passenger %>%
 
 Increasing density decreases travel distances and encourages the use of transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 
-
-
 ```{r}
 
 ```
 
-
-
 ## 5. Reducing Emission from Land Use and Forestry
+
+The Metropolitan Council has identified policies that guide land use and regional development. Among these policies are:
+
+-   Building in Resilience: Promote sensitive land use and development patterns to acheive Minnesota's adopted greenhouse gas emissions reduction goals at the regional scale and to develop local resiliency to the impacts of climate change.
+
+-   Natural Resources Protection:
 
 The Metropolitan Council has developed guides for each of the strategies listed at right. Links will be added when the guides are made avail
 
@@ -661,7 +720,5 @@ The Metropolitan Council has developed guides for each of the strategies listed 
 ```{r}
 development_types <- ghg.sp::calc_land_by_development_type(tb = land_use_data,
    .urban_form_scenario = "bau") %>%
-  dplyr::filter(ctu_name == "Minneapolis") 
+  dplyr::filter(ctu_name == params$ctu_selection) 
 ```
-
-
