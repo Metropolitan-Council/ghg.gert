@@ -18,7 +18,8 @@ format:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-  comment = "#>", echo = FALSE, fig.width = 6
+  comment = "#>", echo = FALSE, 
+  fig.width = 6
 )
 ```
 
@@ -54,100 +55,71 @@ kableformat <- function(data, .caption) {
 }
 ```
 
-```{r variables}
+```{r}
 #| echo: false
 #| message: false
-variables <-
-  data.frame(
-    var = c(
-      "households",
-      "population",
-      "total_jobs",
-      "jobs",
-      "commercial_jobs",
-      "industrial_jobs",
-      "single_family_units",
-      "multifamily_units",
-      "single_family_average_floor_area_sqft_ctu",
-      "multifamily_average_floor_area_sqft_ctu",
-      "single_family_average_floor_area_sqft_county",
-      "multifamily_average_floor_area_sqft_county",
-      "commercial_workers_county",
-      "industrial_workers_county",
-      "residential_mwh",
-      "residential_ng_therms",
-      "residential_elec_emis_t_co2e",
-      "residential_ng_emis_t_co2e",
-      "residential_kwh_per_floor_area",
-      "residential_therms_per_floor_area",
-      "residential_mwh_per_households",
-      "residential_therms_per_households",
-      "total_residential_kwh_forecast",
-      "total_residential_therms_forecast",
-      "commercial_mwh", 
-      "commercial_therms", 
-      "industrial_mwh", 
-      "industrial_therms", 
-      "commercial_mwh_per_worker",
-      "industrial_mwh_per_worker",
-      "commercial_therm_per_worker",  
-      "industrial_therm_per_worker",
-      "commercial_elec_emis_t_co2e",  
-      "commercial_ng_emis_t_co2e", 
-      "industrial_elec_emis_t_co2e",
-      "industrial_ng_emis_t_co2e",
-      "kg_per_mwh",
-      "kg_per_therm",
-      "residential_electricity_emissions_kg_co",
-      "residential_natural_gas_emissions_kg_co",
-      "residential_therms",
-      "total_residential_emissions"
-    ),
-    desc = c(
-      "Households",
-      "Population",
-      "Jobs",
-      "Total Jobs",
-      "Commercial Jobs",
-      "Industrial Jobs",
-      "Number of Single Family Units",
-      "Number of Multifamily Units",
-      "Single Family Average Floor Area (ft<sup>2</sup>)",
-      "Multifamily Average Floor Area (ft<sup>2</sup>)",
-      "Single Family Average Floor Area for the County (ft<sup>2</sup>)",
-      "Multifamily Average Floor Area for the County (ft<sup>2</sup>)",
-      "Commercial Jobs",
-      "Industrial Jobs",
-      "Residential Electricity (MWh)",
-      "Residential Natural Gas (Therms)",
-      "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)",
-      "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)",
-      "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)",
-      "Residential Therms per Floor Area (therms/ft<sup>2</sup>)",
-      "Residential Electricity per Household (KWh/household)",
-      "Residential Therms per Floor Household (therms/household)",
-      "Residential Electricity - Forecast (MWh)",
-      "Residential Natural Gas - Forecast (Therms)",
-      "Commercial Electricity (MWh)",
-      "Commercial Natural Gas (Therms)",
-      "Industrial Electricity (MWh)",
-      "Industrial Natural Gas (Therms)",
-      "Commercial Electricity per Worker (KWh/worker)",
-      "Industrial Electricity per Worker (KWh/worker)",
-      "Commercial Natural Gas per Worker (therms/worker)",
-      "Industrial Natural Gas per Worker (therms/worker)",
-      "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e)",
-      "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e)",
-      "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e)",
-      "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e)",
-      "Emissions Factor for Electricity (kg/MWh)",
-      "Emissions Factor for Natural Gas (kg/therm)",
-      "Residential Electricity Emissions (kg CO<sub>2</sub>)",
-      "Residential Natural Gas Emissions (kg CO<sub>2</sub>)",
-      "Residential Natural Gas (therms)",
-      "Total Residential Emissions (kg CO<sub>2</sub>)"
-    )
+variables <- rbind(
+  
+  # baseline
+  data.frame(var = "population", desc = "Population"),
+  data.frame(var = "households", desc = "Households"),
+  data.frame(var = "jobs", desc = "Jobs"),
+  data.frame(var = "total_jobs", desc = "Jobs"),
+  # residential
+  data.frame(var = "single_family_units", desc = "Number of Single Family Units"),
+  data.frame(var = "single_family_average_floor_area_sqft_ctu", desc = "Single Family Average Floor Area (ft<sup>2</sup>)"),
+  data.frame(var = "single_family_average_floor_area_sqft_county", desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"),
+  data.frame(var = "multifamily_units", desc = "Number of Multifamily Units"),
+  data.frame(var = "multifamily_average_floor_area_sqft_ctu", desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"),
+  data.frame(var = "multifamily_average_floor_area_sqft_county", desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"),
+  # commercial_industrial
+  data.frame(var = "commercial_jobs", desc = "Commercial Jobs"),
+  data.frame(var = "industrial_jobs", desc = "Industrial Jobs"),
+  data.frame(var = "commercial_workers_county", desc = "Commercial Jobs"),
+  data.frame(var = "industrial_workers_county", desc = "Industrial Jobs"),
+  
+  # enegy
+  data.frame(var = "elec_emis_factor_kg_mwh", desc = "Emissions Factor for Electricity (kg/MWh)"),
+  data.frame(var = "ng_emis_factor_kg_therm", desc = "Emissions Factor for Natural Gas (kg/therm)"),
+  
+  # energy baseline (residential, electricity)
+  data.frame(var = "residential_mwh", desc = "Residential Electricity (MWh)"),
+  data.frame(var = "residential_kwh_per_floor_area", desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"),
+  data.frame(var = "residential_mwh_per_households", desc = "Residential Electricity per Household (MWh/household)"),
+  data.frame(var = "residential_elec_emis_t_co2e", desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"),
+   # energy baseline (residential, natural gas)
+  data.frame(var = "residential_therms", desc = "Residential Natural Gas (Therms)"),
+  data.frame(var = "residential_ng_therms", desc = "Residential Natural Gas (Therms)"),
+  data.frame(var = "residential_therms_per_floor_area", desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"),
+  data.frame(var = "residential_therms_per_households", desc = "Residential Therms per Household (therms/household)"),
+  data.frame(var = "residential_ng_emis_t_co2e", desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"),
+  # energy forecast (residential, electricity)
+  data.frame(var = "total_residential_kwh_forecast", desc = "Residential Electricity - Forecast (MWh)"),
+  data.frame(var = "residential_electricity_emissions_kg_co", desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"),
+  # energy forecast (residential, natural_gas)
+  data.frame(var = "total_residential_therms_forecast", desc = "Residential Natural Gas - Forecast (Therms)"),
+  data.frame(var = "residential_natural_gas_emissions_kg_co", desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"),
+  # energy baseline (commercial, electricity)
+  data.frame(var = "commercial_mwh", desc = "Commercial Electricity (MWh)"),
+  data.frame(var = "commercial_elec_kwh_per_worker", desc = "Commercial Electricity per Worker (KWh/worker)"),
+  data.frame(var = "commercial_elec_emis_t_co2e", desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
+  # energy baseline (commercial, natural_gas)
+  data.frame(var = "commercial_ng_therms", desc = "Commercial Natural Gas (Therms)"),
+  data.frame(var = "commercial_ng_therms_per_worker", desc = "Commercial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "commercial_ng_emis_t_co2e", desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  # energy baseline (industrial, electricity)
+  data.frame(var = "industrial_mwh", desc = "Industrial Electricity (MWh)"),
+  data.frame(var = "industrial_elec_kwh_per_worker", desc = "Industrial Electricity per Worker (KWh/worker)"),
+  data.frame(var = "industrial_elec_emis_t_co2e", desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
+  # energy baseline (industrial, natural_gas)
+  data.frame(var = "industrial_ng_therms", desc = "Industrial Natural Gas (Therms)"),
+  data.frame(var = "industrial_ng_therms_per_worker", desc = "Industrial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "industrial_ng_emis_t_co2e", desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  
+  data.frame(var = "total_residential_emis_t_co2e", desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)")
+  
   )
+
 ```
 
 ![](img/2788.jpg)
@@ -206,10 +178,10 @@ The Greenhouse Gas Scenario Planning Tool uses the best available demographic as
 
 Some common predictor of greenhouse gas emissions at the city scale include:
 
-1.  ***Population density*****:** Higher population densities tend to be associated with higher energy consumption, as more people require energy to power their homes and businesses.
-2.  ***Economic activity*****:** Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
-3.  ***Urban form:*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation.
-4.  ***Climate:*** The climate of a city can also play a role in energy consumption. In colder regions, for example, more energy may be needed for heating, while in hotter regions, more energy may be needed for air conditioning.
+1.  ***Population Density*****:** Minneapolis, the largest city in Minnesota, has a high population density. This means that there are a lot of people living in a relatively small area compare to other cities in the region. Higher population densities are often associated with increased energy consumption, as residents need to use energy for their daily activities and to power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
+2.  ***Economic Activity*****:** Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+3.  ***Urban Form:*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation.
+4.  ***Climate:*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. In colder regions, for example, more energy may be needed for heating, while in hotter regions, more energy may be needed for air conditioning.
 5.  ***Energy efficiency:*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall.
 
 #### 2.1 City-level Demographic Assumptions
@@ -225,6 +197,7 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
   kableformat(., paste("Basic Demographic Assumptions for", params$ctu_selection, "for 2018"))
 ```
+<br>
 
 In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. `Table 2` shows the relevant assumptions for Hennepin County.
 
@@ -237,6 +210,7 @@ get_demographic_baseline(tb = building_energy_data)$county %>%
   dplyr::filter(co_name == "Hennepin") %>%
   kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")  
 ```
+<br>
 
 #### 2.2 City-level Demographic Forecast
 
@@ -253,12 +227,13 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
   dplyr::filter(ctu_name == params$ctu_selection)  %>%
   kableformat(., .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040"))
 ```
+<br>
 
 Figure 1 shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ##### Figure 1
 
-```{r fig1}
+```{r fig1, fig.align='center'}
 #| echo: false
 df <- dplyr::bind_rows(
   get_demographic_baseline(tb = building_energy_data)$ctu %>%
@@ -269,11 +244,14 @@ df <- dplyr::bind_rows(
 
 # make ggplot2 barplot with dataset 'df' and x-axis 'year' and y-axis 'value', with year being a factor
  ggplot(df, aes(x = as.factor(year), y = value)) +
-   geom_bar(stat = "identity", width = 0.4, color = "blue", fill = "blue") +
-   theme(panel.background = element_blank()) + 
+   geom_bar(stat = "identity", width = 0.4, color = "black", fill = "black") +
+   theme(panel.background = element_rect(fill = "white"),
+         panel.grid = element_blank(),
+         axis.title = element_text(size = 14)) + 
    xlab("Year") +
    ylab("Population")
 ```
+<br>
 
 ## 3. Reducing Emissions in the Building Energy Sector
 
@@ -296,6 +274,7 @@ ghg.sp::get_residential_energy_baseline() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
   kableformat(., .caption = paste("Residential Energy Assumption for", params$ctu_selection, "for 2018"))
 ```
+<br>
 
 #### 3.1.2 Residential Energy Forecast
 
@@ -308,32 +287,42 @@ ghg.sp::get_residential_energy_baseline() %>%
 ghg.sp::calc_residential_energy_forecast() %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%   kableformat(., .caption = paste("Residential Energy Forecast for", params$ctu_selection, "for 2040"))
+  dplyr::mutate(value = dplyr::if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
+  kableformat(.,
+              .caption = paste(
+                "Residential Energy Forecast for",
+                params$ctu_selection,
+                "for 2040"
+              ))
 ```
+<br>
 
 ## 3.2 Residential Energy Strategies
 
 ### 3.2.1 Reducing Residential Floor Area and Improving Efficiency
 
-The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
-
--   *Zoning regulations*: A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
-
--   *Incentives*: a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
-
--   *Impact fees*: Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
-
--   *Design guidelines*: Cities can develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes or to ensure that new homes are compatible with the character of the surrounding neighborhood.
-
 Cities have a range of tools at their disposal to control the size of new single family homes and to encourage the construction of smaller, more efficient homes.
 
-#### 3.2.1.a Affordable Floor Area
+The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
+
+-   *Design guidelines*: Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota’s B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot. 
+-   *Zoning regulations*: The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+-   *Incentives*: a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+-   *Impact fees*: Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
+
+#### 3.2.1.a Strategy: Promote Affordable Floor Area
+
+If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, prices may increase as demand outstrips supply.
+
+New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient. 
 
 ***About this strategy:***
 
-Cities can control the size of new single-family homes to reduce energy use.
+About this strategy
 
-The growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability.
+
+For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 
 ##### Equation 1
 
@@ -345,15 +334,29 @@ $$
 
 ```{r tab6}
 #| echo: false
-ghg.sp::calc_affordable_floor_area(
-  res_tb = building_data$residential,
-  .single_family_floor_area_growth_pct = 0.05) %>%
+ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
+                                   .single_family_floor_area_growth_pct = 0.05) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("New Single-Family Home Floor Area for", params$ctu_selection, "for 2040"))
+  dplyr::filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  kableformat(.,
+              .caption = paste(
+                "New Single-Family Home Floor Area for",
+                params$ctu_selection,
+                "for 2040"
+              ))
 ```
+<br>
 
-#### 3.2.1.b New Home Efficiency
+#### 3.2.1.b Strategy: Promote New Homes Energy Efficiency
 
 LEED (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet LEED standards are designed and constructed to be energy efficient and to use fewer natural resources.
 
@@ -361,10 +364,8 @@ The amount of energy savings that can be achieved through LEED certification wil
 
 > ***About this strategy:***
 >
+> Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED.
 > Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`.
->
-> Cities can adjust the percentage of new homes achieving this standard.
->
 > Existing home: `80%` reduced EUI by `33%`.
 
 ##### Table 7
@@ -373,20 +374,23 @@ The amount of energy savings that can be achieved through LEED certification wil
 #| echo: false
 ghg.sp::calc_floor_area_leed(
   res_tb = building_data$residential,
-   .new_homes_leed_gold_pct = 0.5,
-   .enviro_factors = enviro_factors) %>%
+  .new_homes_leed_gold_pct = 0.5,
+  .enviro_factors = enviro_factors
+) %>%
   dplyr::ungroup() %>%
   dplyr::filter(
     year == 2040,
     var %in% c(
-       "multifamily_average_floor_area_sqft_county", 
-       "multifamily_units",
-       "single_family_units",
-       "single_family_average_floor_area_sqft_ctu"
-       )) %>%
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste(c("New Home Efficiency", params$ctu_selection, "2040")))
+  kableformat(., .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
+<br>
 
 ##### Equation 2
 
@@ -394,24 +398,18 @@ $$
 S_2sqft_{2040}^{sf} = (units_{2040}^{sf} - units_{2018}^{sf}) \cdot x \cdot (S_1sqft \cdot 0.64 \cdot \bar{sqft}_{2018}^{sf})
 $$
 
-#### 3.2.1.c Existing Home Efficiency
+#### 3.2.1.c Strategy: Increase Existing Homes Energy Efficiency
 
 There are multiple ways in which a city, like `r params$ctu_selection`, can promote the retrofit of existing homes to gain energy efficiency. Some examples include:
 
 -   *Offer financial incentives:* Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits.
-
 -   *Develop education and outreach programs*: Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives.
-
 -   *Establish building codes and regulations*: Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
-
 -   *Implement energy audits*: Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
-
 -   *Partner with local organizations*: Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
 
 > ***About this strategy:***
->
 > Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`.
->
 > Cities can adjust the percentage of existing homes to be retrofitted.
 
 ##### Table 8
@@ -433,10 +431,10 @@ ghg.sp:: calc_floor_area_retrofit(
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste(c("Existing Home Efficiency", params$ctu_selection, "2040"))
+  kableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
-### 3.2.1.d Behavior Change
+### 3.2.1.d Promote Behavior Change for Residential Energy Efficiency
 
 > ***About this strategy:***
 >
@@ -465,10 +463,15 @@ ghg.sp::calc_floor_area_behavior_change(res_tb = building_data$residential,
        "single_family_average_floor_area_sqft_ctu"
        )) %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste(c("Behavior Change", params$ctu_selection, "2040")))
+  kableformat(., .caption = paste("Behavior Change", params$ctu_selection, "2040"))
 ```
+<br>
 
 ### 3.2.2 Decarbonize Residential Energy Use
+
+The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
+
+About this strategy:
 
 Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh.
 
@@ -480,22 +483,36 @@ $$
 
 ```{r tab10}
 #| echo: false
-calc_ghg_residential(
+ghg.sp::calc_ghg_residential(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
   .grid_decarbonization_pct = 0.8,
   .enviro_factors = enviro_factors
-) %>% 
+) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(
-    year == 2040) %>%
-  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  dplyr::filter(ctu_name == params$ctu_selection,
+                year == 2040,
+                scen == "scen",
+                var %in% c("residential_mwh",
+                           "residential_electricity_emissions_kg_co",
+                           "residential_therms",
+                           "residential_natural_gas_emissions_kg_co"
+                )) %>%
   kableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
+<br>
 
 ### 3.2.3 Electrifying Residential Heating
 
-Electricity can be generated from a variety of sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to using fossil fuels such as natural gas, propane, and oil.
+The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will decarbonize the overall grid to 80% relative to 2018 levels, consistent with Xcel Energy’s plans to achieve a net-zero power grid by 2050. 
+
+Switching to more efficient electric heat pumps and tankless water heaters with a net zero-carbon future electric grid can significantly reduce emissions. 
+
+Only around 14% of homes in MN have adopted these new technologies.2 The scenario planning tool projects that by 2050, 59% of residential and commercial buildings will switch to electrically driven heat pumps,3 which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiencies of the heat pump derived from pilot tests in Minnesota,4 so the results are more realistic for our region. National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.
+
+Electricity can be generated from various sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to fossil fuels such as natural gas, propane, and oil.
+
+About this strategy:
 
 For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating.
 
@@ -520,12 +537,15 @@ ghg.sp::calc_electrify_residential_heating(
     year == 2040,
     ctu_name == params$ctu_selection,
     scen == "scen") %>%
-  kableformat(., .caption = paste(c("Electrifying Residential Heating", params$ctu_selection, "2040"))
+  kableformat(., .caption = paste("Electrifying Residential Heating", params$ctu_selection, "2040"))
 ```
+<br>
 
 ### 3.3 Reducing Non Residential Energy Use
 
-Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings. It is important to accurately predict non-residential energy use as it plays a significant role in the overall energy demand of a region. In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
+Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings. 
+
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
 
 #### 3.3.1 Non Residential Energy Baseline
 
@@ -539,8 +559,9 @@ ghg.sp::get_non_residential_energy_baseline(
   tb = building_energy_data) %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste(c("Non Residential Energy Baseline", params$ctu_selection, "2018"))
+  kableformat(., .caption = paste("Non Residential Energy Baseline", params$ctu_selection, "2018"))
 ```
+<br>
 
 #### 3.3.2 Non Residential Energy Forecast
 
@@ -554,12 +575,13 @@ ghg.sp::calc_non_residential_energy_forecast(
   tb = building_energy_data) %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste(c("Non Residential Energy Forecast", params$ctu_selection, "2040")))
+  kableformat(., .caption = paste("Non Residential Energy Forecast", params$ctu_selection, "2040"))
 ```
+<br>
 
 #### 3.3.3 Non Residential Energy Strategies
 
-#### 3.3.3.1
+#### 3.3.3.1 Stategy: Electrify Non Residential Heating
 
 ##### Table 14
 
@@ -586,35 +608,39 @@ ghg.sp::calc_electrify_commercial_heating(
   dplyr::filter(ctu_name == params$ctu_selection,
   year == 2040,
   scen == "scen") %>%
-  kableformat(., .caption = paste(c("Electrifying Commercial Heating", params$ctu_selection, "2040"))
+  kableformat(., .caption = paste("Electrifying Commercial Heating", params$ctu_selection, "2040"))
 ```
-
-------------------------------------------------------------------------
+<br>
 
 ## 4. Reducing Emissions in the Transportation Sector
 
 ![](img/2724.jpg)
 
-The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an auto-centric manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
+The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
+
+Instead, when land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the efficiency of the transportation system.
+
+
 
 ### 4.1 Transportation Baseline
 
 The inputs for the transportation sector baseline and forecast are:
 
 -   Passenger Miles Traveled (PMT) forecasts from Metropolitan Council Regional Transportation Demand Model (RTDM).
-    -   A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
+-   A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
 -   Average vehicle occupancy by mode
--   MA3T stock turnover and adoption forecasts by "powertrain": SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric
+-   MA3T stock turnover and adoption forecasts by "powertrain": SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric.
 
 ```{r}
 ghg.sp::transportation_index$modes
 ```
+<br>
 
 #### 4.1.1 Passenger Transportation
 
-##### Table
+##### Table 15
 
-```{r}
+```{r tab15}
 #| echo: false
 ghg.sp::transportation_data$passenger %>%
   dplyr::filter(ctu == params$ctu_selection,
@@ -637,6 +663,7 @@ ghg.sp::transportation_data$passenger %>%
                               full_width = F,
                               font_size = 12)
 ```
+<br>
 
 ##### Table
 
@@ -664,6 +691,7 @@ ghg.sp::transportation_data$freight %>%
                               full_width = F,
                               font_size = 12)
 ```
+<br>
 
 ### 4.2 Transportation Forecast
 
@@ -699,6 +727,10 @@ ghg.sp::transportation_data$passenger %>%
 
 #### 4.3.1 Land Use Strategies
 
+Transportation and land use policy are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is difficult and does not immediately lead to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the “five D’s” (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
+
+#### 4.3.1.1
+
 Increasing density decreases travel distances and encourages the use of transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 
 ```{r}
@@ -706,6 +738,8 @@ Increasing density decreases travel distances and encourages the use of transit,
 ```
 
 ## 5. Reducing Emission from Land Use and Forestry
+
+Land use change can release carbon stock stored in land — for example, when urban impervious surfaces like asphalt roads and neighborhoods expand onto lands previously covered by forests or agriculture. This results in net carbon emissions from land. At the same time, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sink (negative emissions). 
 
 The Metropolitan Council has identified policies that guide land use and regional development. Among these policies are:
 
@@ -718,7 +752,13 @@ The Metropolitan Council has developed guides for each of the strategies listed 
 ### 5.1 Land Use Baseline
 
 ```{r}
-development_types <- ghg.sp::calc_land_by_development_type(tb = land_use_data,
+ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
    .urban_form_scenario = "bau") %>%
-  dplyr::filter(ctu_name == params$ctu_selection) 
+  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(land_cover_type) %>%
+  dplyr::summarise(hecatares = sum(land_cover_land_use_hectares))
 ```
+
+
+
