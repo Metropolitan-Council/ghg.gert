@@ -27,15 +27,13 @@ knitr::opts_chunk$set(
 ```{r}
 #| echo: false
 #| message: false
+
 library(ghg.sp)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
-```
+library(shiny)
 
-```{r}
-#| echo: false
-#| message: false
 options(scipen = 1, digits = 2)
 
 kableformat <- function(data, .caption) {
@@ -88,7 +86,7 @@ variables <- rbind(
   data.frame(var = "residential_kwh_per_floor_area", desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"),
   data.frame(var = "residential_mwh_per_households", desc = "Residential Electricity per Household (MWh/household)"),
   data.frame(var = "residential_elec_emis_t_co2e", desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"),
-   # energy baseline (residential, natural gas)
+  # energy baseline (residential, natural gas)
   data.frame(var = "residential_therms", desc = "Residential Natural Gas (Therms)"),
   data.frame(var = "residential_ng_therms", desc = "Residential Natural Gas (Therms)"),
   data.frame(var = "residential_therms_per_floor_area", desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"),
@@ -131,7 +129,7 @@ variables <- rbind(
 
 ```
 
-![](img/2788.jpg)
+![](Minneapolis%20Report_files/img/2788.jpg)
 
 ## Disclaimer
 
@@ -157,7 +155,9 @@ The primary sources of emissions in cities come from building energy use (electr
 
 ### 1.3 Impact of Climate Change in Minnesota
 
-Climate change is already occurring and impacting Minnesotans. As the Earth's temperature continues to rise, these changes are expected to increase and intensify. Vulnerable populations, infrastructure, and natural systems will be most impacted. The Minnesota Pollution Control Agency highlights the following observations and potential impacts:
+The climate in Minnesota is changing, leading to more extreme rain events, heat waves, and drought. These changes will have significant impacts on transportation, wastewater services, and water resources in the region. More extreme rain events will lead to more erosion, rainwater runoff, and flooding, which can disrupt transportation operations and damage sewer and stormwater systems. Extreme heat events will increase the demand for water, leading to higher energy use, treatment costs, and lower efficiency in water supply systems. Drought will lead to lower groundwater levels, stressed water resources, and more algal blooms and fish kills. These impacts will disproportionately affect marginalized communities and will require the region to adapt and become more resilient to these changes.
+
+The Minnesota Pollution Control Agency highlights the following observations and potential impacts:
 
 -   Temperatures are rising. Nights are warming faster than days.
 -   Winter is warming faster than summer.
@@ -231,7 +231,7 @@ get_demographic_baseline(tb = building_energy_data)$county %>%
 
 As part of its duties, the Metropolitan Council generates a forecast of population, households, and employment for all cities within this region. The forecast is created using a tool called the REMI PI Model. This model is a computer-based forecasting system that uses data on various economic, demographic, and social factors to project future population, household, and employment trends in a given area. The Metropolitan Council uses this forecast to help plan for the future needs of the region and its cities, including infrastructure, housing, and other resources.
 
-The floor area assumption are an extrapolation of recent historic trends in floor area growth.
+The floor area assumption are an extrapolation of recent historic trends in floor area growth using data from the County Assessor and Zillow.
 
 ##### Table 3
 
@@ -245,41 +245,18 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
 
 <br>
 
-Figure 1 shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
+`Figure 1` shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ##### Figure 1
 
+```{r}
+shiny::selectInput("variable", "Select a variable:",
+  choices = c("Population" = "population", 
+              "Households" = "households"))
+shiny::plotOutput("plot")
+```
+
 ```{r fig1, fig.align='center'}
-#| echo: false
-# dplyr::bind_rows(
-#   get_demographic_baseline(tb = building_energy_data)$ctu %>%
-#     dplyr::filter(ctu_name == params$ctu_selection),
-#   calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-#     dplyr::filter(ctu_name == params$ctu_selection)
-# ) %>% dplyr::filter(var == "population") %>%
-#   ggplot(., aes(x = as.factor(year), y = value)) +
-#   geom_bar(
-#     stat = "identity",
-#     width = 0.4,
-#     color = "black",
-#     fill = "black"
-#   ) +
-#   theme(
-#     panel.background = element_rect(fill = "white"),
-#     panel.grid = element_blank(),
-#     axis.title = element_text(size = 14)
-#   ) +
-#   xlab("Year") +
-#   ylab("Population")
-```
-
-```{r}
-selectInput("variable", "Select a variable:",
-  choices = c("Population" = "population", "Households" = "households"))
-plotOutput("plot")
-```
-
-```{r}
 #| context: data
 #| include: false
 ctu_selection <- params$ctu_selection
@@ -317,13 +294,13 @@ output$plot <- renderPlot({
 
 ## 3. Reducing Emissions in the Building Energy Sector
 
-Strategies to reduce emissions in the building energy sector include, increasing efficiency, decarbonizing electricity, electrifying heat, using sustainable construction practices, and changing behaviors.
+There are several strategies that can be employed to reduce emissions in the building energy sector, including improving efficiency, transitioning to low-carbon electricity sources, electrifying heating systems, adopting sustainable construction practices, and changing behaviors to use energy more efficiently.
 
 **Xcel Energy**
 
-Electricity in Minneapolis is served by Xcel Energy. In their report "Building a Carbon Free Future" in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
+When it comes to reducing emissions in the building sector, the electricity grid plays a major role.
 
-Xcel Energy recognizes that significant changes are needed in order to achieve reliable, affordable carbon-free electricity and is seeking partnerships to drive advancements in technology and policy. The company plans to position itself and its customers for success in a low-carbon future and provide long-term value to stakeholders through collaboration and innovation.
+Electricity in Minneapolis is served by Xcel Energy. In their report "Building a Carbon Free Future" in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
 
 ### 3.1 Residential Energy Assumptions
 
@@ -371,22 +348,22 @@ ghg.sp::calc_residential_energy_forecast() %>%
 
 ### 3.2.1 Reducing Residential Floor Area and Improving Efficiency
 
+Energy consumption is directly correlate to the floor area of a residential unit. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
+
 The *Minneapolis 2040 Comprehensive Plan* aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. Currently the plan is facing criticism and legal challenges, including a recent court decision halting enforcement of the plan on environmental grounds. Despite this, single family zoning remains a significant strategy to consider in how the city could meet its ambitious climate goals.
 
 Cities have a range of tools at their disposal to control the size of new single family homes and to encourage the construction of smaller, more efficient homes.
 
 The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
 
--   *Design guidelines*: Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
--   *Zoning regulations*: The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
--   *Incentives*: a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
--   *Fees*: Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
+-   ***Design guidelines*****:** Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
+-   ***Zoning regulations*****:** The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+-   ***Incentives*****:** a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+-   ***Fees*****:** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 
 #### 3.2.1.a Strategy: Promote Affordable Floor Area
 
-If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, prices may increase as demand outstrips supply.
-
-New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
+If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
 
 > **About this strategy:** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 
@@ -402,7 +379,7 @@ $$sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{s
 
 -   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
 
--    $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 
 -   $\bar{sqft}_{2018}$: The average floor area of single-family homes in the community in 2018.
 
@@ -439,7 +416,7 @@ ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
 
 The amount of energy savings that can be achieved through *LEED* certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the U.S. Green Building Council, buildings that are designed to meet *LEED* Gold standards typically achieve energy savings of at least 25% compared to conventional buildings.
 
-We use LEED Gold for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
+The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
 
 > ***About this strategy:*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. Existing home: `80%` reduced EUI by `33%`.
 
@@ -488,11 +465,11 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 
 There are multiple ways in which a city, like `r params$ctu_selection`, can promote the retrofit of existing homes to gain energy efficiency. Some examples include:
 
--   *Develop education and outreach programs*: Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives. According to the Center for Energy and Environment (CEEE) [the Energy Disclosure Program](https://www.mncee.org/energy-disclosure-impact-report-january-2020-through-june-2022) in Minneapolis aims to increase consumer awareness of energy performance in single-family homes in order to encourage the adoption of energy efficiency improvements. The program has been in place since January 2020 and is a part of the city's Truth in Sale of Housing (TISH) pre-sale inspection process. It involves gathering data on key energy efficiency attributes such as insulation and heating equipment, and communicating the results to home sellers and buyers in an Energy Disclosure Report. The program is being implemented in partnership with the Center for Energy and Environment and CenterPoint Energy, and this report summarizes findings from the first 30 months of programming.
--   *Offer financial incentives:* Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits.
--   *Establish building codes and regulations*: Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
--   *Implement energy audits*: Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
--   *Partner with local organizations*: Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
+-   ***Develop education and outreach programs*****:** Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives. According to the Center for Energy and Environment (CEEE) [the Energy Disclosure Program](https://www.mncee.org/energy-disclosure-impact-report-january-2020-through-june-2022) in Minneapolis aims to increase consumer awareness of energy performance in single-family homes in order to encourage the adoption of energy efficiency improvements. The program has been in place since January 2020 and is a part of the city's Truth in Sale of Housing (TISH) pre-sale inspection process. It involves gathering data on key energy efficiency attributes such as insulation and heating equipment, and communicating the results to home sellers and buyers in an Energy Disclosure Report. The program is being implemented in partnership with the Center for Energy and Environment and CenterPoint Energy, and this report summarizes findings from the first 30 months of programming.
+-   ***Offer financial incentives:*** Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits.
+-   ***Establish building codes and regulations*****:** Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
+-   ***Implement energy audits*****:** Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
+-   ***Partner with local organizations*****:** Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
 
 > ***About this strategy:*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
 
@@ -538,16 +515,6 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 
 > ***About this strategy:*** Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
 
-##### Equation 4
-
-$$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/population_{2040} * 0.11 $$
-
--   $0.11$: The percentage reduction in household energy use as a result of smart nudges. $X$: The percentage of homes that change their behavior for energy efficiency.
-
--   $population_{2040}$: The total population in 2040.
-
--   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
-
 ##### Table 9
 
 ```{r tab9}
@@ -570,15 +537,23 @@ ghg.sp::calc_floor_area_behavior_change(res_tb = building_data$residential,
 
 <br>
 
+##### Equation 4
+
+$$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/population_{2040} * 0.11 $$
+
+-   $0.11$: The percentage reduction in household energy use as a result of smart nudges. $X$: The percentage of homes that change their behavior for energy efficiency.
+
+-   $population_{2040}$: The total population in 2040.
+
+-   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
+
 ### 3.2.2 Decarbonize Residential Energy Use
 
 The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
 
 > ***About this strategy***: Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.
 
-$$
-S_5kgCO_2e = (population_{2040} \cdot S_4sqft/person_{2040}^{residential} \cdot kWh/sqft_{residential}^{2040}) \cdot [(kg CO_2e/MWh_{2040}^{electricity} \cdot 1 \times 10^{-3} kWh) \cdot X_1]
-$$ \###### Table 10
+\##### Table 10
 
 ```{r tab10}
 #| echo: false
@@ -589,18 +564,25 @@ ghg.sp::calc_ghg_residential(
   .enviro_factors = enviro_factors
 ) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == params$ctu_selection,
-                year == 2040,
-                scen == "scen",
-                var %in% c("residential_mwh",
-                           "residential_electricity_emissions_kg_co",
-                           "residential_therms",
-                           "residential_natural_gas_emissions_kg_co"
-                )) %>%
+  dplyr::filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    )
+  ) %>%
   kableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
 <br>
+
+$$
+S_5kgCO_2e = (population_{2040} \cdot S_4sqft/person_{2040}^{residential} \cdot kWh/sqft_{residential}^{2040}) \cdot [(kg CO_2e/MWh_{2040}^{electricity} \cdot 1 \times 10^{-3} kWh) \cdot X_1]
+$$
 
 ### 3.2.3 Electrifying Residential Heating
 
@@ -612,34 +594,36 @@ Only around 14% of homes in MN have adopted these new technologies.2 The scenari
 
 Electricity can be generated from various sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to fossil fuels such as natural gas, propane, and oil.
 
-About this strategy:
-
-For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating.
-
-Cities can adjust the percentage of homes participated in electrifying heating.
+**About this strategy:** For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
 
 ###### Table 11
 
 ```{r tab11}
 #| echo: false
+#| warning: false
 ghg.sp::calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
-  .grid_decarbonization_pct = 0.8,
+    res_tb = building_energy_bau_data$residential,
+    res_tb_bau = building_energy_bau_data$residential,
+    .grid_decarbonization_pct = 0.8,
+    .enviro_factors = enviro_factors
+  ),
+  .additional_electrified_residential_buildings_pct = 0.45,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .grid_decarbonization_pct = 0.80,
   .enviro_factors = enviro_factors
-   ),
-   .additional_electrified_residential_buildings_pct = 0.45,
-   .res_natural_gas_for_space_heating_pct = 0.71,
-   .res_natural_gas_for_water_heating_pct = 0.24,
-   .grid_decarbonization_pct = 0.80,
-   .enviro_factors = enviro_factors) %>%
+) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(
-    year == 2040,
-    ctu_name == params$ctu_selection,
-    scen == "scen") %>%
-  kableformat(., .caption = paste("Electrifying Residential Heating", params$ctu_selection, "2040"))
+  dplyr::filter(year == 2040,
+                ctu_name == params$ctu_selection,
+                scen == "scen") %>%
+  kableformat(.,
+              .caption = paste(
+                "Electrifying Residential Heating",
+                params$ctu_selection,
+                "2040"
+              ))
 ```
 
 <br>
@@ -650,16 +634,6 @@ Non-residential energy use refers to the energy consumption of commercial and in
 
 In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
 
-#### Conservation Improvement Program
-
-The Conservation Improvement Program (CIP) is a policy in Minnesota that aims to improve energy efficiency and conservation in households and businesses. It is funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce, Division of Energy Resources (DER). Implementors of CIP include the Center for Energy and Environment (CEE) and Home Energy Squad.
-
-CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air-conditioning cycling programs. The requirements for investor-owned utilities (IOUs) and consumer-owned utilities (COUs) are different, with more stringent requirements for IOUs due to their status as natural monopolies. According to the American Council for an Energy-Efficient Economy's 2022 State Energy Efficiency Scorecard, Minnesota's electric efficiency program spending in 2021 was \$174 million, with net incremental electricity savings of 955 thousand MWh, and natural gas efficiency program spending was \$71 million, with net incremental natural gas and delivered fuel savings of 3.3 million MMBtu. Fresh Energy, a non-profit organization, has been actively involved in the development and implementation of CIP, including advocating for improvements to cost-effectiveness tests and working to advance equity in energy efficiency programs.
-
-**The Eco Act**
-
-The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.
-
 #### 3.3.1 Non Residential Energy Baseline
 
 `Table 12` shows the basic assumptions about non-residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
@@ -668,11 +642,11 @@ The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims
 
 ```{r tab12}
 #| echo = FALSE
-ghg.sp::get_non_residential_energy_baseline(
-  tb = building_energy_data) %>%
+ghg.sp::get_non_residential_energy_baseline(tb = building_energy_data) %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("Non Residential Energy Baseline", params$ctu_selection, "2018"))
+  kableformat(.,
+              .caption = paste("Non Residential Energy Baseline", params$ctu_selection, "2018"))
 ```
 
 <br>
@@ -685,16 +659,36 @@ ghg.sp::get_non_residential_energy_baseline(
 
 ```{r tab13}
 #| echo = FALSE
-ghg.sp::calc_non_residential_energy_forecast(
-  tb = building_energy_data) %>%
+ghg.sp::calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   dplyr::ungroup() %>%
   dplyr::filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("Non-Residential Energy Forecast", params$ctu_selection, "2040"))
+  kableformat(.,
+              .caption = paste(
+                "Non-Residential Energy Forecast",
+                params$ctu_selection,
+                "2040"
+              ))
 ```
 
 <br>
 
 #### 3.3.3 Non-Residential Energy Strategies
+
+Some existing programs include:
+
+**Conservation Improvement Programs**
+
+The Conservation Improvement Program (CIP) is a policy in Minnesota that aims to improve energy efficiency and conservation in households and businesses. It is funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce, Division of Energy Resources (DER). Implementors of CIP include the Center for Energy and Environment (CEE) and Home Energy Squad.
+
+CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air-conditioning cycling programs. The requirements for investor-owned utilities (IOUs) and consumer-owned utilities (COUs) are different, with more stringent requirements for IOUs due to their status as natural monopolies. According to the American Council for an Energy-Efficient Economy's 2022 State Energy Efficiency Scorecard, Minnesota's electric efficiency program spending in 2021 was \$174 million, with net incremental electricity savings of 955 thousand MWh, and natural gas efficiency program spending was \$71 million, with net incremental natural gas and delivered fuel savings of 3.3 million MMBtu. Fresh Energy, a non-profit organization, has been actively involved in the development and implementation of CIP, including advocating for improvements to cost-effectiveness tests and working to advance equity in energy efficiency programs.
+
+**The Eco Act**
+
+The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.
+
+**SB2030**
+
+The Minnesota *SB2030* program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building's energy use.
 
 #### 3.3.3.1 Stategy: Electrify Non-Residential Heating
 
@@ -718,26 +712,35 @@ ghg.sp::calc_electrify_commercial_heating(
   .non_res_natural_gas_for_water_heating_pct = 0.20,
   .non_res_natural_gas_for_space_heating_pct = 0.69,
   .enviro_factors = enviro_factors
-) %>% 
+) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == params$ctu_selection,
-  year == 2040,
-  scen == "scen",
-  var %in% c("commercial_mwh_per_worker",
-             "industrial_mwh_per_worker",
-             "commercial_mwh",
-             "industrial_mwh",
-             "commercial_therms",
-             "industrial_therms",
-             "total_industrial_commercial_emissions")) %>%
-  kableformat(., .caption = paste("Electrifying Commercial Heating", params$ctu_selection, "2040"))
+  dplyr::filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  kableformat(.,
+              .caption = paste(
+                "Electrifying Commercial Heating",
+                params$ctu_selection,
+                "2040"
+              ))
 ```
 
 <br>
 
 ## 4. Reducing Emissions in the Transportation Sector
 
-![](img/2724.jpg)
+![](Minneapolis%20Report_files/img/2724.jpg)
 
 The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
 
@@ -771,23 +774,23 @@ Public transit options include urban and interurban buses and rails, with the op
 ghg.sp::transportation_data$passenger %>%
   dplyr::filter(ctu == params$ctu_selection,
                 var == "PMT",
-                year == 2018) %>% 
-  dplyr::left_join(., 
-                ghg.sp::transportation_index$modes,
-                by = c("mode" = "mode_abbrev")) %>%
+                year == 2018) %>%
+  dplyr::left_join(.,
+                   ghg.sp::transportation_index$modes,
+                   by = c("mode" = "mode_abbrev")) %>%
   dplyr::select(mode_description_1, value) %>%
   dplyr::rename("var" = "mode_description_1") %>%
   dplyr::rename("Variables" = "var",
-                  "Value" = "value") %>%
+                "Value" = "value") %>%
   kableExtra::kable(
-      caption = "Passenger Miles Traveled by Mode Minneapolis 2018",
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(html_font = "Arial",
-                              full_width = F,
-                              font_size = 12)
+    caption = "Passenger Miles Traveled by Mode Minneapolis 2018",
+    format = "html",
+    escape = FALSE,
+    format.args = list(big.mark = ",", digits = 6)
+  ) %>%
+  kableExtra::kable_classic(html_font = "Arial",
+                            full_width = F,
+                            font_size = 12)
 ```
 
 <br>
@@ -853,7 +856,7 @@ ghg.sp::transportation_data$passenger %>%
 
 #### 4.3 Transportation Strategies
 
-#### 4.3.1 Land Use Strategies
+#### 4.3.1 Transportation Land Use Strategies
 
 Transportation and land use policy are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is difficult and does not immediately lead to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the "five D's" (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
 
