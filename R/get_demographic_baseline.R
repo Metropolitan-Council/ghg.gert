@@ -1,10 +1,14 @@
 #' @title Get Demographic Baseline
 #' @family buildings
-#'
 #' @description Compiles the demographic characteristics from the 'Emissions' database
 #'     required for running the building energy module.
+#'     The purpose of this function is to calculate various demographic characteristics at the county and CTU level,
+#'     including the average floor area of single family and multifamily properties,
+#'     the number of commercial and industrial workers, the population and number of households, and the number of jobs by industry.
+#'     These characteristics are stored in a list and returned by the function.
 #'
 #' @inheritParams run_scenario_transportation
+#' @return Tibble.
 #'
 #' @export
 #'
@@ -87,7 +91,7 @@ get_demographic_baseline <- function(tb = building_energy_data) {
     dplyr::filter(year == 2018) %>%
     dplyr::select(ctu_name, year, emp) %>%
     dplyr::rename(value = emp) %>%
-    dplyr::mutate(var = "total_jobs") %>%
+    dplyr::mutate(var = "jobs") %>%
     dplyr::select(ctu_name, year, var, value)
 
 
@@ -144,7 +148,6 @@ get_demographic_baseline <- function(tb = building_energy_data) {
         )
     ) %>%
     dplyr::group_by(ctu_name, year)
-
 
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-

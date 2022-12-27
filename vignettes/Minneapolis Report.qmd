@@ -27,7 +27,6 @@ knitr::opts_chunk$set(
 ```{r}
 #| echo: false
 #| message: false
-
 library(ghg.sp)
 library(tidyverse)
 library(knitr)
@@ -60,70 +59,126 @@ kableformat <- function(data, .caption) {
 variables <- rbind(
   
   # baseline
-  data.frame(var = "population", desc = "Population"),
-  data.frame(var = "households", desc = "Households"),
-  data.frame(var = "jobs", desc = "Jobs"),
-  data.frame(var = "total_jobs", desc = "Jobs"),
+  data.frame(var = "population", 
+             desc = "Population"),
+  data.frame(var = "households", 
+             desc = "Households"),
+  data.frame(var = "jobs", 
+             desc = "Jobs"),
+  
   # residential
-  data.frame(var = "single_family_units", desc = "Number of Single Family Units"),
-  data.frame(var = "single_family_average_floor_area_sqft_ctu", desc = "Single Family Average Floor Area (ft<sup>2</sup>)"),
-  data.frame(var = "single_family_average_floor_area_sqft_county", desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"),
-  data.frame(var = "multifamily_units", desc = "Number of Multifamily Units"),
-  data.frame(var = "multifamily_average_floor_area_sqft_ctu", desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"),
-  data.frame(var = "multifamily_average_floor_area_sqft_county", desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"),
+  data.frame(var = "single_family_units", 
+             desc = "Number of Single Family Units"),
+  data.frame(var = "single_family_average_floor_area_sqft_ctu", 
+             desc = "Single Family Average Floor Area (ft<sup>2</sup>)"),
+  data.frame(var = "single_family_average_floor_area_sqft_county", 
+             desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"),
+  data.frame(var = "multifamily_units", 
+             desc = "Number of Multifamily Units"),
+  data.frame(var = "multifamily_average_floor_area_sqft_ctu", 
+             desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"),
+  data.frame(var = "multifamily_average_floor_area_sqft_county", 
+             desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"),
+  
   # commercial_industrial
-  data.frame(var = "commercial_jobs", desc = "Commercial Jobs"),
-  data.frame(var = "industrial_jobs", desc = "Industrial Jobs"),
-  data.frame(var = "commercial_workers_county", desc = "Commercial Jobs"),
-  data.frame(var = "industrial_workers_county", desc = "Industrial Jobs"),
+  data.frame(var = "commercial_jobs", 
+             desc = "Commercial Jobs"),
+  data.frame(var = "industrial_jobs", 
+             desc = "Industrial Jobs"),
+  data.frame(var = "commercial_workers_county", 
+             desc = "Commercial Jobs"),
+  data.frame(var = "industrial_workers_county", 
+             desc = "Industrial Jobs"),
   
   # enegy
-  data.frame(var = "elec_emis_factor_kg_mwh", desc = "Emissions Factor for Electricity (kg/MWh)"),
-  data.frame(var = "ng_emis_factor_kg_therm", desc = "Emissions Factor for Natural Gas (kg/therm)"),
+  data.frame(var = "elec_emis_factor_kg_mwh", 
+             desc = "Emissions Factor for Electricity (kg/MWh)"),
+  data.frame(var = "ng_emis_factor_kg_therm", 
+             desc = "Emissions Factor for Natural Gas (kg/therm)"),
   
   # energy baseline (residential, electricity)
-  data.frame(var = "residential_mwh", desc = "Residential Electricity (MWh)"),
-  data.frame(var = "residential_kwh_per_floor_area", desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"),
-  data.frame(var = "residential_mwh_per_households", desc = "Residential Electricity per Household (MWh/household)"),
-  data.frame(var = "residential_elec_emis_t_co2e", desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"),
-  # energy baseline (residential, natural gas)
-  data.frame(var = "residential_therms", desc = "Residential Natural Gas (Therms)"),
-  data.frame(var = "residential_ng_therms", desc = "Residential Natural Gas (Therms)"),
-  data.frame(var = "residential_therms_per_floor_area", desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"),
-  data.frame(var = "residential_therms_per_households", desc = "Residential Therms per Household (therms/household)"),
-  data.frame(var = "residential_ng_emis_t_co2e", desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"),
-  # energy forecast (residential, electricity)
-  data.frame(var = "total_residential_kwh_forecast", desc = "Residential Electricity - Forecast (MWh)"),
-  data.frame(var = "residential_electricity_emissions_kg_co", desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"),
-  # energy forecast (residential, natural_gas)
-  data.frame(var = "total_residential_therms_forecast", desc = "Residential Natural Gas - Forecast (Therms)"),
-  data.frame(var = "residential_natural_gas_emissions_kg_co", desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"),
-  # energy baseline (commercial, electricity)
-  data.frame(var = "commercial_mwh", desc = "Commercial Electricity (MWh)"),
-  data.frame(var = "commercial_mwh_per_worker", desc = "Commercial Electricity per Worker (MWh/worker)"),
-  data.frame(var = "commercial_elec_kwh_per_worker", desc = "Commercial Electricity per Worker (KWh/worker)"),
-  data.frame(var = "commercial_elec_emis_t_co2e", desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
-  # energy baseline (commercial, natural_gas)
+  data.frame(var = "residential_mwh", 
+             desc = "Residential Electricity (MWh)"),
+  data.frame(var = "residential_kwh_per_floor_area", 
+             desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"),
+  data.frame(var = "residential_mwh_per_households", 
+             desc = "Residential Electricity per Household (MWh/household)"),
+  data.frame(var = "residential_elec_emis_t_co2e", 
+             desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"),
   
-  data.frame(var = "commercial_therms", desc = "Commercial Natural Gas (Therms)"),
-  data.frame(var = "commercial_ng_therms", desc = "Commercial Natural Gas (Therms)"),
-  data.frame(var = "commercial_ng_therms_per_worker", desc = "Commercial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "commercial_therm_per_worker", desc = "Commercial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "commercial_ng_emis_t_co2e", desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  # energy baseline (residential, natural gas)
+  data.frame(var = "residential_therms", 
+             desc = "Residential Natural Gas (Therms)"),
+  data.frame(var = "residential_ng_therms", 
+             desc = "Residential Natural Gas (Therms)"),
+  data.frame(var = "residential_therms_per_floor_area", 
+             desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"),
+  data.frame(var = "residential_therms_per_households", 
+             desc = "Residential Therms per Household (therms/household)"),
+  data.frame(var = "residential_ng_emis_t_co2e", 
+             desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"),
+  
+  # energy forecast (residential, electricity)
+  data.frame(var = "total_residential_kwh_forecast", 
+             desc = "Residential Electricity - Forecast (MWh)"),
+  data.frame(var = "residential_electricity_emissions_kg_co", 
+             desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"),
+  
+  # energy forecast (residential, natural_gas)
+  data.frame(var = "total_residential_therms_forecast", 
+             desc = "Residential Natural Gas - Forecast (Therms)"),
+  data.frame(var = "residential_natural_gas_emissions_kg_co", 
+             desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"),
+  
+  # energy baseline (commercial, electricity)
+  data.frame(var = "commercial_mwh", 
+             desc = "Commercial Electricity (MWh)"),
+  data.frame(var = "commercial_mwh_per_worker", 
+             desc = "Commercial Electricity per Worker (MWh/worker)"),
+  data.frame(var = "commercial_elec_kwh_per_worker", 
+             desc = "Commercial Electricity per Worker (KWh/worker)"),
+  data.frame(var = "commercial_elec_emis_t_co2e", 
+             desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
+  
+  # energy baseline (commercial, natural_gas)
+  data.frame(var = "commercial_therms", 
+             desc = "Commercial Natural Gas (Therms)"),
+  data.frame(var = "commercial_ng_therms", 
+             desc = "Commercial Natural Gas (Therms)"),
+  data.frame(var = "commercial_ng_therms_per_worker", 
+             desc = "Commercial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "commercial_therm_per_worker", 
+             desc = "Commercial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "commercial_ng_emis_t_co2e", 
+             desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  
   # energy baseline (industrial, electricity)
-  data.frame(var = "industrial_mwh", desc = "Industrial Electricity (MWh)"),
-  data.frame(var = "industrial_elec_kwh_per_worker", desc = "Industrial Electricity per Worker (KWh/worker)"),
-  data.frame(var = "industrial_mwh_per_worker", desc = "Industrial Electricity per Worker (MWh/worker)"),
-  data.frame(var = "industrial_elec_emis_t_co2e", desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
+  data.frame(var = "industrial_mwh", 
+             desc = "Industrial Electricity (MWh)"),
+  data.frame(var = "industrial_elec_kwh_per_worker", 
+             desc = "Industrial Electricity per Worker (KWh/worker)"),
+  data.frame(var = "industrial_mwh_per_worker", 
+             desc = "Industrial Electricity per Worker (MWh/worker)"),
+  data.frame(var = "industrial_elec_emis_t_co2e", 
+             desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
+  
   # energy baseline (industrial, natural_gas)
-  data.frame(var = "industrial_therms", desc = "Industrial Natural Gas (Therms)"),
-  data.frame(var = "industrial_ng_therms", desc = "Industrial Natural Gas (Therms)"),
-  data.frame(var = "industrial_ng_therms_per_worker", desc = "Industrial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "industrial_therm_per_worker", desc = "Industrial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "industrial_ng_emis_t_co2e", desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  data.frame(var = "industrial_therms", 
+             desc = "Industrial Natural Gas (Therms)"),
+  data.frame(var = "industrial_ng_therms", 
+             desc = "Industrial Natural Gas (Therms)"),
+  data.frame(var = "industrial_ng_therms_per_worker", 
+             desc = "Industrial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "industrial_therm_per_worker", 
+             desc = "Industrial Natural Gas per Worker (therms/worker)"),
+  data.frame(var = "industrial_ng_emis_t_co2e", 
+             desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
+  
   # energy emissions totals
-  data.frame(var = "total_residential_emissions", desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)"),
-  data.frame(var = "total_industrial_commercial_emissions", desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)")
+  data.frame(var = "total_residential_emissions", 
+             desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)"),
+  data.frame(var = "total_industrial_commercial_emissions", 
+             desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)")
   
   )
 
@@ -157,18 +212,6 @@ The primary sources of emissions in cities come from building energy use (electr
 
 The climate in Minnesota is changing, leading to more extreme rain events, heat waves, and drought. These changes will have significant impacts on transportation, wastewater services, and water resources in the region. More extreme rain events will lead to more erosion, rainwater runoff, and flooding, which can disrupt transportation operations and damage sewer and stormwater systems. Extreme heat events will increase the demand for water, leading to higher energy use, treatment costs, and lower efficiency in water supply systems. Drought will lead to lower groundwater levels, stressed water resources, and more algal blooms and fish kills. These impacts will disproportionately affect marginalized communities and will require the region to adapt and become more resilient to these changes.
 
-The Minnesota Pollution Control Agency highlights the following observations and potential impacts:
-
--   Temperatures are rising. Nights are warming faster than days.
--   Winter is warming faster than summer.
--   Increase in average number of days above 100°F.
--   Less frequency of extreme cold.
--   Increased freeze/thaw cycles, stressing infrastructure.
--   Increased drought cycles.
--   More intense flooding.
--   Extreme storm events.
--   Impacts on ecosystem.
-
 ### 1.4 Scenario Planning
 
 The Metropolitan Council has developed a Greenhouse Gas Scenario Planning Tool to help metro cities determine pathways to achieving emissions reductions. The Tool builds upon the DECAL model created by the Sustainable Healthy Cities Network with the support and funding of the Metropolitan Council.
@@ -189,7 +232,7 @@ Some common predictor of greenhouse gas emissions at the city scale include:
 
 1.  ***Population Density*****:** Minneapolis, the largest city in Minnesota, has a high population density. This means that there are a more people living in a relatively small area compared to other cities in the region. Higher population densities are often associated with increased energy consumption, as residents need to use energy for their daily activities and to power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
 
-2.  ***Economic Activity*****:** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp). The Twin Cities region ranks 8th on the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+2.  ***Economic Activity*****:** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th on the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
 
 3.  ***Urban Form:*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation.
 
@@ -207,7 +250,8 @@ The population, households, and employment numbers are obtained from the [US Cen
 #| echo: false
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == params$ctu_selection) %>%
+  dplyr::filter(ctu_name == params$ctu_selection,
+                var != "multifamily_average_floor_area_sqft_county") %>%
   kableformat(., paste("Basic Demographic Assumptions for", params$ctu_selection, "for 2018"))
 ```
 
@@ -239,7 +283,8 @@ The floor area assumption are an extrapolation of recent historic trends in floo
 #| echo: false
 calc_demographic_forecast(tb = building_energy_data)$ctu %>%
   dplyr::ungroup() %>%
-  dplyr::filter(ctu_name == params$ctu_selection)  %>%
+  dplyr::filter(ctu_name == params$ctu_selection,
+                var != "multifamily_average_floor_area_sqft_county")  %>%
   kableformat(., .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040"))
 ```
 
@@ -298,9 +343,9 @@ There are several strategies that can be employed to reduce emissions in the bui
 
 **Xcel Energy**
 
-When it comes to reducing emissions in the building sector, the electricity grid plays a major role.
+When it comes to reducing emissions in the building sector, the electricity grid, and the percent that it is supplied by renewable sources plays a major role.
 
-Electricity in Minneapolis is served by Xcel Energy. In their report "Building a Carbon Free Future" in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
+Electricity in Minneapolis is served by Xcel Energy. In their report "*Building a Carbon Free Future*" in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
 
 ### 3.1 Residential Energy Assumptions
 
@@ -323,6 +368,10 @@ ghg.sp::get_residential_energy_baseline() %>%
 <br>
 
 #### 3.1.2 Residential Energy Forecast
+
+The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of the population size, and an extrapolating the historical floor area growth rate for the last ten years (based on 2018).
+
+The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing over time. It is calculated by dividing the change in floor area from one year to the next by the initial floor area. For example, if the floor area of a residential area increased by 10% from one year to the next, the floor area growth rate would be 10%.
 
 `Table 5` shows the forecast assumption for the residential energy sector.
 
@@ -348,7 +397,7 @@ ghg.sp::calc_residential_energy_forecast() %>%
 
 ### 3.2.1 Reducing Residential Floor Area and Improving Efficiency
 
-Energy consumption is directly correlate to the floor area of a residential unit. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
+Energy consumption is directly correlated to the floor area of a residential unit. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
 
 The *Minneapolis 2040 Comprehensive Plan* aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. Currently the plan is facing criticism and legal challenges, including a recent court decision halting enforcement of the plan on environmental grounds. Despite this, single family zoning remains a significant strategy to consider in how the city could meet its ambitious climate goals.
 
@@ -513,6 +562,8 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 
 ### 3.2.1.d Promote Behavior Change for Residential Energy Efficiency
 
+implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
+
 > ***About this strategy:*** Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
 
 ##### Table 9
@@ -553,7 +604,7 @@ The energy grid could become cleaner by increasing the use of renewable energy s
 
 > ***About this strategy***: Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.
 
-\##### Table 10
+Table 10
 
 ```{r tab10}
 #| echo: false
@@ -581,7 +632,7 @@ ghg.sp::calc_ghg_residential(
 <br>
 
 $$
-S_5kgCO_2e = (population_{2040} \cdot S_4sqft/person_{2040}^{residential} \cdot kWh/sqft_{residential}^{2040}) \cdot [(kg CO_2e/MWh_{2040}^{electricity} \cdot 1 \times 10^{-3} kWh) \cdot X_1]
+S_5kgCO_2e = (population_{2040} \cdot S_4sqft/person_{2040}^{residential} \cdot kWh/sqft_{residential}^{2040}) 
 $$
 
 ### 3.2.3 Electrifying Residential Heating
@@ -755,12 +806,6 @@ The inputs for the transportation sector baseline and forecast are:
 -   Average vehicle occupancy by mode
 -   MA3T stock turnover and adoption forecasts by "powertrain": SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric.
 
-```{r}
-ghg.sp::transportation_index$modes
-```
-
-<br>
-
 #### 4.1.1 Passenger Transportation
 
 The Minneapolis-Saint Paul (MSP) region is heavily reliant on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline, and battery electric vehicles.
@@ -862,7 +907,7 @@ Transportation and land use policy are reliant on each other. Segregated and low
 
 The Metropolitan Council Transportation Policy Plan, discusses the need for communities to consider the connections between land use and transportation as the region undergoes change in the coming years. It mentions that it is not feasible to expand the highway system in a sustainable way and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment is occurring in already developed areas and that new growth is happening in suburban edge and emerging suburban edge communities, which puts stress on the regional highway system. The plan suggests that planners should focus on incorporating multimodal travel options, such as transit, walking, and biking, into land use and design in order to address issues like congestion, climate change, equity, and livability.
 
-#### 4.3.1.1
+##### 4.3.1.1
 
 Increasing density decreases travel distances and encourages the use of transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 
@@ -872,11 +917,23 @@ Increasing density decreases travel distances and encourages the use of transit,
 
 #### 4.3.2 Vehicle Electrification
 
-The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles (EVs) on greenhouse gas (GHG) emissions in the Minneapolis-St. Paul metropolitan region.
+The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles (EVs) on greenhouse gas emissions in the Minneapolis-St. Paul metropolitan region.
 
 The Tool uses data from the Market Acceptance of Advanced Automotive Technologies model to forecast EV market penetration in the region, and considers the GHG intensity of the region's electricity grid in calculating the GHG impact of EVs.
 
 The Tool also accounts for the fact that plug-in hybrid EVs may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for EVs to reduce GHG emissions in the region and inform policy decisions related to EV adoption.
+
+#### 4.3.3 Public Transit
+
+
+
+#### 4.3.4 Telework 
+
+#### 4.3.5 Road Pricing
+
+#### 4.3.5 Parking Policy  
+
+
 
 ## 5. Reducing Emission from Land Use and Forestry
 
@@ -890,7 +947,7 @@ The Metropolitan Council has identified policies that guide land use and regiona
 
 The Metropolitan Council has developed guides for each of the strategies listed at right. Links will be added when the guides are made avail
 
-### 5.1 Land Use Baseline
+### 5.1 Land Use and Forestry Baseline
 
 ```{r}
 ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
@@ -900,3 +957,10 @@ ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
   dplyr::group_by(land_cover_type) %>%
   dplyr::summarise(hecatares = sum(land_cover_land_use_hectares))
 ```
+
+### 5.2 Land Use and Forestry Forecast
+
+```{r}
+
+```
+
