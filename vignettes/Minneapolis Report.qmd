@@ -181,7 +181,6 @@ variables <- rbind(
              desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)")
   
   )
-
 ```
 
 ![](Minneapolis%20Report_files/img/2788.jpg)
@@ -925,15 +924,11 @@ The Tool also accounts for the fact that plug-in hybrid EVs may operate in both 
 
 #### 4.3.3 Public Transit
 
-
-
-#### 4.3.4 Telework 
+#### 4.3.4 Telework
 
 #### 4.3.5 Road Pricing
 
-#### 4.3.5 Parking Policy  
-
-
+#### 4.3.5 Parking Policy
 
 ## 5. Reducing Emission from Land Use and Forestry
 
@@ -963,4 +958,3 @@ ghg.sp::calc_land_cover_by_land_use(tb = land_use_data,
 ```{r}
 
 ```
-
