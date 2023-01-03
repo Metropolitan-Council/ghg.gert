@@ -15,7 +15,9 @@ output:
     df-print: kable
     css: styles.css
     html-math-method: katex
-runtime: shiny
+    self-contained: true
+# runtime: shiny
+self_contained: true
 mainfont: "Helvetica"
 ---
 
@@ -23,7 +25,7 @@ mainfont: "Helvetica"
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-  comment = "#>", echo = FALSE, 
+  comment = "#>", echo = FALSE,
   fig.width = 6
 )
 ```
@@ -43,17 +45,21 @@ kableformat <- function(data, .caption) {
   data %>%
     left_join(., variables, by = "var") %>%
     select(c(desc, value)) %>%
-    rename("Variables" = "desc",
-                  "Value" = "value") %>%
+    rename(
+      "Variables" = "desc",
+      "Value" = "value"
+    ) %>%
     kableExtra::kable(
       caption = .caption,
       format = "html",
       escape = FALSE,
       format.args = list(big.mark = ",", digits = 6)
     ) %>%
-    kableExtra::kable_classic(html_font = "Arial",
-                              full_width = F,
-                              font_size = 12)
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
 }
 ```
 
@@ -61,130 +67,225 @@ kableformat <- function(data, .caption) {
 #| echo: false
 #| message: false
 variables <- rbind(
-  
+
   # baseline
-  data.frame(var = "population", 
-             desc = "Population"),
-  data.frame(var = "households", 
-             desc = "Households"),
-  data.frame(var = "jobs", 
-             desc = "Jobs"),
-  
+  data.frame(
+    var = "population",
+    desc = "Population"
+  ),
+  data.frame(
+    var = "households",
+    desc = "Households"
+  ),
+  data.frame(
+    var = "jobs",
+    desc = "Jobs"
+  ),
+
   # residential
-  data.frame(var = "single_family_units", 
-             desc = "Number of Single Family Units"),
-  data.frame(var = "single_family_average_floor_area_sqft_ctu", 
-             desc = "Single Family Average Floor Area (ft<sup>2</sup>)"),
-  data.frame(var = "single_family_average_floor_area_sqft_county", 
-             desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"),
-  data.frame(var = "multifamily_units", 
-             desc = "Number of Multifamily Units"),
-  data.frame(var = "multifamily_average_floor_area_sqft_ctu", 
-             desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"),
-  data.frame(var = "multifamily_average_floor_area_sqft_county", 
-             desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"),
-  
+  data.frame(
+    var = "single_family_units",
+    desc = "Number of Single Family Units"
+  ),
+  data.frame(
+    var = "single_family_average_floor_area_sqft_ctu",
+    desc = "Single Family Average Floor Area (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "single_family_average_floor_area_sqft_county",
+    desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "multifamily_units",
+    desc = "Number of Multifamily Units"
+  ),
+  data.frame(
+    var = "multifamily_average_floor_area_sqft_ctu",
+    desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "multifamily_average_floor_area_sqft_county",
+    desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"
+  ),
+
   # commercial_industrial
-  data.frame(var = "commercial_jobs", 
-             desc = "Commercial Jobs"),
-  data.frame(var = "industrial_jobs", 
-             desc = "Industrial Jobs"),
-  data.frame(var = "commercial_workers_county", 
-             desc = "Commercial Jobs"),
-  data.frame(var = "industrial_workers_county", 
-             desc = "Industrial Jobs"),
-  
+  data.frame(
+    var = "commercial_jobs",
+    desc = "Commercial Jobs"
+  ),
+  data.frame(
+    var = "industrial_jobs",
+    desc = "Industrial Jobs"
+  ),
+  data.frame(
+    var = "commercial_workers_county",
+    desc = "Commercial Jobs"
+  ),
+  data.frame(
+    var = "industrial_workers_county",
+    desc = "Industrial Jobs"
+  ),
+
   # enegy
-  data.frame(var = "elec_emis_factor_kg_mwh", 
-             desc = "Emissions Factor for Electricity (kg/MWh)"),
-  data.frame(var = "ng_emis_factor_kg_therm", 
-             desc = "Emissions Factor for Natural Gas (kg/therm)"),
-  
+  data.frame(
+    var = "elec_emis_factor_kg_mwh",
+    desc = "Emissions Factor for Electricity (kg/MWh)"
+  ),
+  data.frame(
+    var = "ng_emis_factor_kg_therm",
+    desc = "Emissions Factor for Natural Gas (kg/therm)"
+  ),
+
   # energy baseline (residential, electricity)
-  data.frame(var = "residential_mwh", 
-             desc = "Residential Electricity (MWh)"),
-  data.frame(var = "residential_kwh_per_floor_area", 
-             desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"),
-  data.frame(var = "residential_mwh_per_households", 
-             desc = "Residential Electricity per Household (MWh/household)"),
-  data.frame(var = "residential_elec_emis_t_co2e", 
-             desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"),
-  
+  data.frame(
+    var = "residential_mwh",
+    desc = "Residential Electricity (MWh)"
+  ),
+  data.frame(
+    var = "residential_kwh_per_floor_area",
+    desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "residential_mwh_per_households",
+    desc = "Residential Electricity per Household (MWh/household)"
+  ),
+  data.frame(
+    var = "residential_elec_emis_t_co2e",
+    desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+
   # energy baseline (residential, natural gas)
-  data.frame(var = "residential_therms", 
-             desc = "Residential Natural Gas (Therms)"),
-  data.frame(var = "residential_ng_therms", 
-             desc = "Residential Natural Gas (Therms)"),
-  data.frame(var = "residential_therms_per_floor_area", 
-             desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"),
-  data.frame(var = "residential_therms_per_households", 
-             desc = "Residential Therms per Household (therms/household)"),
-  data.frame(var = "residential_ng_emis_t_co2e", 
-             desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"),
-  
+  data.frame(
+    var = "residential_therms",
+    desc = "Residential Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "residential_ng_therms",
+    desc = "Residential Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "residential_therms_per_floor_area",
+    desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "residential_therms_per_households",
+    desc = "Residential Therms per Household (therms/household)"
+  ),
+  data.frame(
+    var = "residential_ng_emis_t_co2e",
+    desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+
   # energy forecast (residential, electricity)
-  data.frame(var = "total_residential_kwh_forecast", 
-             desc = "Residential Electricity - Forecast (MWh)"),
-  data.frame(var = "residential_electricity_emissions_kg_co", 
-             desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"),
-  
+  data.frame(
+    var = "total_residential_kwh_forecast",
+    desc = "Residential Electricity - Forecast (MWh)"
+  ),
+  data.frame(
+    var = "residential_electricity_emissions_kg_co",
+    desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"
+  ),
+
   # energy forecast (residential, natural_gas)
-  data.frame(var = "total_residential_therms_forecast", 
-             desc = "Residential Natural Gas - Forecast (Therms)"),
-  data.frame(var = "residential_natural_gas_emissions_kg_co", 
-             desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"),
-  
+  data.frame(
+    var = "total_residential_therms_forecast",
+    desc = "Residential Natural Gas - Forecast (Therms)"
+  ),
+  data.frame(
+    var = "residential_natural_gas_emissions_kg_co",
+    desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"
+  ),
+
   # energy baseline (commercial, electricity)
-  data.frame(var = "commercial_mwh", 
-             desc = "Commercial Electricity (MWh)"),
-  data.frame(var = "commercial_mwh_per_worker", 
-             desc = "Commercial Electricity per Worker (MWh/worker)"),
-  data.frame(var = "commercial_elec_kwh_per_worker", 
-             desc = "Commercial Electricity per Worker (KWh/worker)"),
-  data.frame(var = "commercial_elec_emis_t_co2e", 
-             desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
-  
+  data.frame(
+    var = "commercial_mwh",
+    desc = "Commercial Electricity (MWh)"
+  ),
+  data.frame(
+    var = "commercial_mwh_per_worker",
+    desc = "Commercial Electricity per Worker (MWh/worker)"
+  ),
+  data.frame(
+    var = "commercial_elec_kwh_per_worker",
+    desc = "Commercial Electricity per Worker (KWh/worker)"
+  ),
+  data.frame(
+    var = "commercial_elec_emis_t_co2e",
+    desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+
   # energy baseline (commercial, natural_gas)
-  data.frame(var = "commercial_therms", 
-             desc = "Commercial Natural Gas (Therms)"),
-  data.frame(var = "commercial_ng_therms", 
-             desc = "Commercial Natural Gas (Therms)"),
-  data.frame(var = "commercial_ng_therms_per_worker", 
-             desc = "Commercial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "commercial_therm_per_worker", 
-             desc = "Commercial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "commercial_ng_emis_t_co2e", 
-             desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
-  
+  data.frame(
+    var = "commercial_therms",
+    desc = "Commercial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "commercial_ng_therms",
+    desc = "Commercial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "commercial_ng_therms_per_worker",
+    desc = "Commercial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "commercial_therm_per_worker",
+    desc = "Commercial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "commercial_ng_emis_t_co2e",
+    desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+
   # energy baseline (industrial, electricity)
-  data.frame(var = "industrial_mwh", 
-             desc = "Industrial Electricity (MWh)"),
-  data.frame(var = "industrial_elec_kwh_per_worker", 
-             desc = "Industrial Electricity per Worker (KWh/worker)"),
-  data.frame(var = "industrial_mwh_per_worker", 
-             desc = "Industrial Electricity per Worker (MWh/worker)"),
-  data.frame(var = "industrial_elec_emis_t_co2e", 
-             desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"),
-  
+  data.frame(
+    var = "industrial_mwh",
+    desc = "Industrial Electricity (MWh)"
+  ),
+  data.frame(
+    var = "industrial_elec_kwh_per_worker",
+    desc = "Industrial Electricity per Worker (KWh/worker)"
+  ),
+  data.frame(
+    var = "industrial_mwh_per_worker",
+    desc = "Industrial Electricity per Worker (MWh/worker)"
+  ),
+  data.frame(
+    var = "industrial_elec_emis_t_co2e",
+    desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+
   # energy baseline (industrial, natural_gas)
-  data.frame(var = "industrial_therms", 
-             desc = "Industrial Natural Gas (Therms)"),
-  data.frame(var = "industrial_ng_therms", 
-             desc = "Industrial Natural Gas (Therms)"),
-  data.frame(var = "industrial_ng_therms_per_worker", 
-             desc = "Industrial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "industrial_therm_per_worker", 
-             desc = "Industrial Natural Gas per Worker (therms/worker)"),
-  data.frame(var = "industrial_ng_emis_t_co2e", 
-             desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"),
-  
+  data.frame(
+    var = "industrial_therms",
+    desc = "Industrial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "industrial_ng_therms",
+    desc = "Industrial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "industrial_ng_therms_per_worker",
+    desc = "Industrial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "industrial_therm_per_worker",
+    desc = "Industrial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "industrial_ng_emis_t_co2e",
+    desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+
   # energy emissions totals
-  data.frame(var = "total_residential_emissions", 
-             desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)"),
-  data.frame(var = "total_industrial_commercial_emissions", 
-             desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)")
-  
+  data.frame(
+    var = "total_residential_emissions",
+    desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+  data.frame(
+    var = "total_industrial_commercial_emissions",
+    desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)"
   )
+)
 
 councilmembers <- data.frame(
   name = c(
@@ -238,11 +339,11 @@ Metropolitan Council Members
 
 ```{r fig.align = 'center'}
 knitr::kable(
-  list(councilmembers[1:9,], councilmembers[10:18,]),
+  list(councilmembers[1:9, ], councilmembers[10:18, ]),
   booktabs = TRUE,
   col.names = NULL,
   row.names = FALSE
-) 
+)
 ```
 
 -------------------------------------------------------------------------
@@ -365,12 +466,14 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
     ctu_name == params$ctu_selection,
     var != "multifamily_average_floor_area_sqft_county"
   ) %>%
-  kableformat(.,
-              paste(
-                "Basic Demographic Assumptions for",
-                params$ctu_selection,
-                "for 2018"
-              ))
+  kableformat(
+    .,
+    paste(
+      "Basic Demographic Assumptions for",
+      params$ctu_selection,
+      "for 2018"
+    )
+  )
 ```
 
 <br>
@@ -384,7 +487,7 @@ In cases when there are data gaps for city-level data, the Greenhouse Gas Scenar
 get_demographic_baseline(tb = building_energy_data)$county %>%
   ungroup() %>%
   filter(co_name == params$county_selection) %>%
-  kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")  
+  kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")
 ```
 
 <br>
@@ -402,9 +505,10 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
   filter(
     ctu_name == params$ctu_selection,
     var != "multifamily_average_floor_area_sqft_county"
-  )  %>%
+  ) %>%
   kableformat(.,
-              .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040"))
+    .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040")
+  )
 ```
 
 <br>
@@ -414,22 +518,23 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
 ##### Figure 2.1
 
 ```{r fig2.1control, fig.align='center'}
-selectInput(
-  "variable",
-  "Select a variable:",
-  choices = c("Population" = "population",
-              "Households" = "households")
-)
+# selectInput(
+#   "variable",
+#   "Select a variable:",
+#   choices = c("Population" = "population",
+#               "Households" = "households")
+# )
 ```
 
 ```{r fig2.1, fig.align='center'}
-output$plot <- renderPlot({
+plot_demo <- function(variable) {
   bind_rows(
     get_demographic_baseline(tb = building_energy_data)$ctu %>%
       filter(ctu_name == "Minneapolis"),
     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
       filter(ctu_name == "Minneapolis")
-  ) %>% filter(var == input$variable) %>%
+  ) %>%
+    filter(var == variable) %>%
     ggplot(., aes(x = as.factor(year), y = value)) +
     geom_bar(
       stat = "identity",
@@ -443,10 +548,11 @@ output$plot <- renderPlot({
       axis.title = element_text(size = 14)
     ) +
     xlab("Year") +
-    ylab(input$variable)
-})
+    ylab(variable)
+}
 
-plotOutput("plot")
+plot_demo("population")
+plot_demo("households")
 ```
 
 <br>
@@ -479,11 +585,12 @@ get_residential_energy_baseline() %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-              .caption = paste(
-                "Residential Energy Assumption for",
-                params$ctu_selection,
-                "for 2018"
-              ))
+    .caption = paste(
+      "Residential Energy Assumption for",
+      params$ctu_selection,
+      "for 2018"
+    )
+  )
 ```
 
 <br>
@@ -505,11 +612,12 @@ calc_residential_energy_forecast() %>%
   filter(ctu_name == params$ctu_selection) %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
   kableformat(.,
-              .caption = paste(
-                "Residential Energy Forecast for",
-                params$ctu_selection,
-                "for 2040"
-              ))
+    .caption = paste(
+      "Residential Energy Forecast for",
+      params$ctu_selection,
+      "for 2040"
+    )
+  )
 ```
 
 <br>
@@ -559,8 +667,10 @@ $$sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{s
 
 ```{r tab3.3}
 #| echo: false
-calc_affordable_floor_area(res_tb = building_data$residential,
-                                   .single_family_floor_area_growth_pct = 0.05) %>%
+calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .single_family_floor_area_growth_pct = 0.05
+) %>%
   ungroup() %>%
   filter(
     ctu_name == params$ctu_selection,
@@ -573,11 +683,12 @@ calc_affordable_floor_area(res_tb = building_data$residential,
     )
   ) %>%
   kableformat(.,
-              .caption = paste(
-                "New Single-Family Home Floor Area for",
-                params$ctu_selection,
-                "for 2040"
-              ))
+    .caption = paste(
+      "New Single-Family Home Floor Area for",
+      params$ctu_selection,
+      "for 2040"
+    )
+  )
 ```
 
 <br>
@@ -654,20 +765,22 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 
 ```{r tab3.5}
 #| echo: false
- calc_floor_area_retrofit(
-   res_tb = building_data$residential,
-   .existing_home_retrofit_pct = 0.80,
-   .existing_home_ultra_retrofit_pct = 0.20,
-   .enviro_factors = enviro_factors ) %>%
+calc_floor_area_retrofit(
+  res_tb = building_data$residential,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
+  .enviro_factors = enviro_factors
+) %>%
   ungroup() %>%
   filter(
     year == 2040,
     var %in% c(
-       "multifamily_average_floor_area_sqft_county", 
-       "multifamily_units",
-       "single_family_units",
-       "single_family_average_floor_area_sqft_ctu"
-       )) %>%
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
@@ -695,18 +808,21 @@ implementing efficient messaging, in-home energy displays, and smart meters can 
 
 ```{r tab3.6}
 #| echo: false
-calc_floor_area_behavior_change(res_tb = building_data$residential,
-   .home_behavior_change_pct = 1.00,
-   .enviro_factors = enviro_factors) %>%
+calc_floor_area_behavior_change(
+  res_tb = building_data$residential,
+  .home_behavior_change_pct = 1.00,
+  .enviro_factors = enviro_factors
+) %>%
   ungroup() %>%
   filter(
     year == 2040,
     var %in% c(
-       "multifamily_average_floor_area_sqft_county", 
-       "multifamily_units",
-       "single_family_units",
-       "single_family_average_floor_area_sqft_ctu"
-       )) %>%
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(., .caption = paste("Behavior Change", params$ctu_selection, "2040"))
 ```
@@ -794,15 +910,18 @@ calc_electrify_residential_heating(
   .enviro_factors = enviro_factors
 ) %>%
   ungroup() %>%
-  filter(year == 2040,
-         ctu_name == params$ctu_selection,
-         scen == "scen") %>%
+  filter(
+    year == 2040,
+    ctu_name == params$ctu_selection,
+    scen == "scen"
+  ) %>%
   kableformat(.,
-              .caption = paste(
-                "Electrifying Residential Heating",
-                params$ctu_selection,
-                "2040"
-              ))
+    .caption = paste(
+      "Electrifying Residential Heating",
+      params$ctu_selection,
+      "2040"
+    )
+  )
 ```
 
 <br>
@@ -825,7 +944,8 @@ get_non_residential_energy_baseline(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-              .caption = paste("Non Residential Energy Baseline", params$ctu_selection, "2018"))
+    .caption = paste("Non Residential Energy Baseline", params$ctu_selection, "2018")
+  )
 ```
 
 <br>
@@ -842,11 +962,12 @@ calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-              .caption = paste(
-                "Non-Residential Energy Forecast",
-                params$ctu_selection,
-                "2040"
-              ))
+    .caption = paste(
+      "Non-Residential Energy Forecast",
+      params$ctu_selection,
+      "2040"
+    )
+  )
 ```
 
 <br>
@@ -908,11 +1029,12 @@ calc_electrify_commercial_heating(
     )
   ) %>%
   kableformat(.,
-              .caption = paste(
-                "Electrifying Commercial Heating",
-                params$ctu_selection,
-                "2040"
-              ))
+    .caption = paste(
+      "Electrifying Commercial Heating",
+      params$ctu_selection,
+      "2040"
+    )
+  )
 ```
 
 <br>
@@ -945,25 +1067,32 @@ The region’s transportation carbon emissions are calculated based on data on v
 ```{r tab4.1}
 #| echo: false
 transportation_data$passenger %>%
-  filter(ctu == params$ctu_selection,
-                var == "PMT",
-                year == 2018) %>%
+  filter(
+    ctu == params$ctu_selection,
+    var == "PMT",
+    year == 2018
+  ) %>%
   left_join(.,
-                   transportation_index$modes,
-                   by = c("mode" = "mode_abbrev")) %>%
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
+  ) %>%
   select(mode_description_1, value) %>%
   rename("var" = "mode_description_1") %>%
-  rename("Variables" = "var",
-                "Value" = "value") %>%
+  rename(
+    "Variables" = "var",
+    "Value" = "value"
+  ) %>%
   kableExtra::kable(
     caption = "Passenger Miles Traveled by Mode Minneapolis 2018",
     format = "html",
     escape = FALSE,
     format.args = list(big.mark = ",", digits = 6)
   ) %>%
-  kableExtra::kable_classic(html_font = "Arial",
-                            full_width = F,
-                            font_size = 12)
+  kableExtra::kable_classic(
+    html_font = "Arial",
+    full_width = F,
+    font_size = 12
+  )
 ```
 
 <br>
@@ -978,25 +1107,32 @@ The region's freight transportation system is facing challenges, including conge
 
 ```{r tab4.2}
 transportation_data$freight %>%
-  filter(ctu == params$ctu_selection,
-                var == "TMT",
-                year == 2018) %>% 
-  left_join(., 
-                transportation_index$modes,
-                by = c("mode" = "mode_abbrev")) %>%
-  select(mode_description_1, value)  %>%
+  filter(
+    ctu == params$ctu_selection,
+    var == "TMT",
+    year == 2018
+  ) %>%
+  left_join(.,
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
+  ) %>%
+  select(mode_description_1, value) %>%
   rename("var" = "mode_description_1") %>%
-  rename("Variables" = "var",
-                  "Value" = "value") %>%
+  rename(
+    "Variables" = "var",
+    "Value" = "value"
+  ) %>%
   kableExtra::kable(
-      caption = "Freight Miles Traveled by Mode Minneapolis 2018",
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(html_font = "Arial",
-                              full_width = F,
-                              font_size = 12)
+    caption = "Freight Miles Traveled by Mode Minneapolis 2018",
+    format = "html",
+    escape = FALSE,
+    format.args = list(big.mark = ",", digits = 6)
+  ) %>%
+  kableExtra::kable_classic(
+    html_font = "Arial",
+    full_width = F,
+    font_size = 12
+  )
 ```
 
 <br>
@@ -1010,25 +1146,32 @@ transportation_data$freight %>%
 ```{r tab17}
 #| echo: false
 transportation_data$passenger %>%
-  filter(ctu == params$ctu_selection,
-                var == "PMT",
-                year == 2040) %>% 
-  left_join(., 
-                transportation_index$modes,
-                by = c("mode" = "mode_abbrev")) %>%
+  filter(
+    ctu == params$ctu_selection,
+    var == "PMT",
+    year == 2040
+  ) %>%
+  left_join(.,
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
+  ) %>%
   select(mode_description_1, value) %>%
   rename("var" = "mode_description_1") %>%
-  rename("Variables" = "var",
-                  "Value" = "value") %>%
+  rename(
+    "Variables" = "var",
+    "Value" = "value"
+  ) %>%
   kableExtra::kable(
-      caption = "Passenger Miles Traveled by Mode Minneapolis 2040 Forecast",
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(html_font = "Arial",
-                              full_width = F,
-                              font_size = 12)
+    caption = "Passenger Miles Traveled by Mode Minneapolis 2040 Forecast",
+    format = "html",
+    escape = FALSE,
+    format.args = list(big.mark = ",", digits = 6)
+  ) %>%
+  kableExtra::kable_classic(
+    html_font = "Arial",
+    full_width = F,
+    font_size = 12
+  )
 ```
 
 #### 4.2.2 Freight Transportation Forecast
@@ -1038,25 +1181,32 @@ transportation_data$passenger %>%
 ```{r tab18}
 #| echo: false
 transportation_data$freight %>%
-  filter(ctu == params$ctu_selection,
-                var == "TMT",
-                year == 2040) %>% 
-  left_join(., 
-                transportation_index$modes,
-                by = c("mode" = "mode_abbrev")) %>%
+  filter(
+    ctu == params$ctu_selection,
+    var == "TMT",
+    year == 2040
+  ) %>%
+  left_join(.,
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
+  ) %>%
   select(mode_description_1, value) %>%
   rename("var" = "mode_description_1") %>%
-  rename("Variables" = "var",
-                  "Value" = "value") %>%
+  rename(
+    "Variables" = "var",
+    "Value" = "value"
+  ) %>%
   kableExtra::kable(
-      caption = "Freight Miles Traveled by Mode Minneapolis 2040 Forecast",
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(html_font = "Arial",
-                              full_width = F,
-                              font_size = 12)
+    caption = "Freight Miles Traveled by Mode Minneapolis 2040 Forecast",
+    format = "html",
+    escape = FALSE,
+    format.args = list(big.mark = ",", digits = 6)
+  ) %>%
+  kableExtra::kable_classic(
+    html_font = "Arial",
+    full_width = F,
+    font_size = 12
+  )
 ```
 
 #### 4.3 Transportation Strategies
@@ -1076,7 +1226,7 @@ Increasing density decreases travel distances and encourages transit, cycling, a
 ##### Table 4.5
 
 ```{r tab19}
-#vmt_land_use_change()
+# vmt_land_use_change()
 ```
 
 #### 4.3.2 Vehicle Electrification
@@ -1090,7 +1240,7 @@ The Tool also accounts for the fact that plug-in hybrid electric vehicles may op
 ##### Table 4.6
 
 ```{r tab4.6}
-#vmt_annual_energy_outlook()
+# vmt_annual_energy_outlook()
 ```
 
 #### 4.3.3 Public Transit
@@ -1100,7 +1250,7 @@ According to the Minneapolis Transportation Action Plan (TAP), transit is essent
 ##### Table 4.7
 
 ```{r tab4.7}
-#vmt_transit_service()
+# vmt_transit_service()
 ```
 
 #### 4.3.4 Telework
@@ -1110,7 +1260,7 @@ Telework is working from home, reducing or eliminating the need to commute. In 2
 ##### Table 4.8
 
 ```{r tab4.8}
-#vmt_telework()
+# vmt_telework()
 ```
 
 #### 4.3.5 Road Pricing
@@ -1122,7 +1272,7 @@ The scenario planning model includes three alternatives for road pricing. The fi
 ##### Table 4.9
 
 ```{r tab4.9}
-#vmt_road_policy()
+# vmt_road_policy()
 ```
 
 #### 4.3.5 Parking Policy
@@ -1130,7 +1280,7 @@ The scenario planning model includes three alternatives for road pricing. The fi
 Parking is an essential component of the transportation system. A lack of parking can result in additional miles traveled from vehicles searching for a parking spot and can account for up to 30% of vehicles in downtown traffic.1 The most common strategies for controlling parking demand are increasing its price and restricting parking time. One increasingly common strategy is addressing the underlying parking requirements in buildings. While promising, empirical evidence of the impact of such policies on transportation demand remains to be sparse. Like road pricing, travelers respond to parking pricing by changing their vehicle miles traveled. The scenario planning model includes the ability to specify a change in the average price of parking and to project its effect on vehicle miles traveled.
 
 ```{r tab4.10}
-#vmt_parking_policy()
+# vmt_parking_policy()
 ```
 
 ![](images//4482.jpg)
@@ -1148,8 +1298,10 @@ A high-resolution land cover map was generated for the Met Council region for th
 ##### Table 5.1
 
 ```{r tab5.1}
-calc_land_cover_by_land_use(tb = land_use_data,
-   .urban_form_scenario = "bau") %>%
+calc_land_cover_by_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
   filter(ctu_name == params$ctu_selection) %>%
   ungroup() %>%
   group_by(land_cover_type) %>%
@@ -1161,13 +1313,11 @@ calc_land_cover_by_land_use(tb = land_use_data,
 ##### Table 5.2
 
 ```{r tab5.2}
-
 ```
 
 ### 5.2 Land Use and Forestry Forecast
 
 ```{r}
-
 ```
 
 ### 5.3 Land Use and Forestry Strategies
