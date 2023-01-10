@@ -6,22 +6,24 @@ params:
     ctu_selection: "Minneapolis"
     county_selection: "Hennepin"
 output: 
-  html_document:
+  bookdown::html_document2:
     toc: true
     toc_float:
       collapsed: false
       smooth_scroll: false
     toc_depth: 3
+    number_sections: true
     df-print: kable
     css: styles.css
     html-math-method: katex
     self-contained: true
+bibliography: ../../references.bib
 # runtime: shiny
 self_contained: true
 mainfont: "Helvetica"
 ---
 
-## Prepared for the City of `r params$ctu_selection`
+*Prepared for the City of `r params$ctu_selection`*
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
@@ -41,6 +43,10 @@ library(shiny)
 
 options(scipen = 1, digits = 2)
 
+```
+
+```{r, kableformat}
+#| echo: false
 kableformat <- function(data, .caption) {
   data %>%
     left_join(., variables, by = "var") %>%
@@ -63,11 +69,11 @@ kableformat <- function(data, .caption) {
 }
 ```
 
-```{r}
+```{r variables}
 #| echo: false
 #| message: false
 variables <- rbind(
-
+  
   # baseline
   data.frame(
     var = "population",
@@ -81,7 +87,7 @@ variables <- rbind(
     var = "jobs",
     desc = "Jobs"
   ),
-
+  
   # residential
   data.frame(
     var = "single_family_units",
@@ -107,7 +113,7 @@ variables <- rbind(
     var = "multifamily_average_floor_area_sqft_county",
     desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"
   ),
-
+  
   # commercial_industrial
   data.frame(
     var = "commercial_jobs",
@@ -125,7 +131,7 @@ variables <- rbind(
     var = "industrial_workers_county",
     desc = "Industrial Jobs"
   ),
-
+  
   # enegy
   data.frame(
     var = "elec_emis_factor_kg_mwh",
@@ -135,7 +141,7 @@ variables <- rbind(
     var = "ng_emis_factor_kg_therm",
     desc = "Emissions Factor for Natural Gas (kg/therm)"
   ),
-
+  
   # energy baseline (residential, electricity)
   data.frame(
     var = "residential_mwh",
@@ -153,7 +159,7 @@ variables <- rbind(
     var = "residential_elec_emis_t_co2e",
     desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
   ),
-
+  
   # energy baseline (residential, natural gas)
   data.frame(
     var = "residential_therms",
@@ -175,7 +181,7 @@ variables <- rbind(
     var = "residential_ng_emis_t_co2e",
     desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"
   ),
-
+  
   # energy forecast (residential, electricity)
   data.frame(
     var = "total_residential_kwh_forecast",
@@ -185,7 +191,7 @@ variables <- rbind(
     var = "residential_electricity_emissions_kg_co",
     desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"
   ),
-
+  
   # energy forecast (residential, natural_gas)
   data.frame(
     var = "total_residential_therms_forecast",
@@ -195,7 +201,7 @@ variables <- rbind(
     var = "residential_natural_gas_emissions_kg_co",
     desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"
   ),
-
+  
   # energy baseline (commercial, electricity)
   data.frame(
     var = "commercial_mwh",
@@ -213,7 +219,7 @@ variables <- rbind(
     var = "commercial_elec_emis_t_co2e",
     desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"
   ),
-
+  
   # energy baseline (commercial, natural_gas)
   data.frame(
     var = "commercial_therms",
@@ -235,7 +241,7 @@ variables <- rbind(
     var = "commercial_ng_emis_t_co2e",
     desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
   ),
-
+  
   # energy baseline (industrial, electricity)
   data.frame(
     var = "industrial_mwh",
@@ -253,7 +259,7 @@ variables <- rbind(
     var = "industrial_elec_emis_t_co2e",
     desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"
   ),
-
+  
   # energy baseline (industrial, natural_gas)
   data.frame(
     var = "industrial_therms",
@@ -275,7 +281,7 @@ variables <- rbind(
     var = "industrial_ng_emis_t_co2e",
     desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
   ),
-
+  
   # energy emissions totals
   data.frame(
     var = "total_residential_emissions",
@@ -346,7 +352,7 @@ knitr::kable(
 )
 ```
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ::: {#top_container style="display: grid;     grid-template-columns: 1fr 1fr;     grid-gap: 0px; margin-top: 30px"}
 ![](images/map.jpg){#top_left style="float: left" width="85%"}
@@ -402,7 +408,7 @@ The Metropolitan Council will offer the scenario planning tool on an easy-to-use
 
 The following report compiles the City of `r params$ctu_selection` results based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council.
 
-## Summary of Stakeholder Engagement
+## Stakeholder Engagement
 
 In April and May of 2022, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
 
@@ -439,15 +445,15 @@ The Greenhouse Gas Scenario Planning Tool uses the best available demographic as
 Some common predictors of greenhouse gas emissions at the city scale include:
 
 ::: facts
--   ***Population Density*****:** Minneapolis, the largest city in Minnesota, has a high population density. Higher density means more people live in a relatively small area compared to other regions' cities. Higher population densities are often associated with increased energy consumption, as residents need to use energy for daily activities and power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
+-   ***Population Density*** Minneapolis, the largest city in Minnesota, has a high population density. Higher density means more people live in a relatively small area compared to other regions' cities. Higher population densities are often associated with increased energy consumption, as residents need to use energy for daily activities and power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
 
--   ***Economic Activity*****:** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+-   ***Economic Activity*** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
 
--   ***Urban Planning:*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.
+-   ***Urban Planning*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.
 
--   ***Extreme Climate:*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.
+-   ***Extreme Climate*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.
 
--   ***Energy efficiency:*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
+-   ***Energy efficiency*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
 :::
 
 <br>
@@ -501,13 +507,13 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
     var != "multifamily_average_floor_area_sqft_county"
   ) %>%
   kableformat(.,
-    .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040")
+              .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040")
   )
 ```
 
 <br>
 
-**Figure \@ref(fig:fig-demos)** shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ```{r fig-inputs, fig.align='center'}
 # selectInput(
@@ -518,7 +524,7 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
 # )
 ```
 
-```{r fig-demos}
+```{r figure-demographics}
 #| fig.align = 'center'
 plot_demo <- function(variable) {
   bind_rows(
@@ -552,7 +558,7 @@ plot_demo("households")
 
 ![](images//3090.jpg)
 
-# Reducing Emissions in the Building Energy Sector
+# Reducing Emissions in the Building Energy Sector 
 
 There are several strategies that can be employed to reduce emissions in the building energy sector, including improving efficiency, transitioning to low-carbon electricity sources, electrifying heating systems, adopting sustainable construction practices, and changing behaviors to use energy more efficiently.
 
@@ -576,11 +582,11 @@ get_residential_energy_baseline() %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-    .caption = paste(
-      "Residential Energy Assumption for",
-      params$ctu_selection,
-      "for 2018"
-    )
+              .caption = paste(
+                "Residential Energy Assumption for",
+                params$ctu_selection,
+                "for 2018"
+              )
   )
 ```
 
@@ -601,19 +607,19 @@ calc_residential_energy_forecast() %>%
   filter(ctu_name == params$ctu_selection) %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
   kableformat(.,
-    .caption = paste(
-      "Residential Energy Forecast for",
-      params$ctu_selection,
-      "for 2040"
-    )
+              .caption = paste(
+                "Residential Energy Forecast for",
+                params$ctu_selection,
+                "for 2040"
+              )
   )
 ```
 
 <br>
 
-# Residential Energy Strategies
+### Residential Energy Strategies
 
-## Reducing Residential Floor Area and Improving Efficiency
+#### Reducing Residential Floor Area and Improving Efficiency
 
 Energy consumption is directly correlated to the floor area of a residential unit. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
 
@@ -624,32 +630,39 @@ Cities have a range of tools at their disposal to control the size of new single
 The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
 
 ::: facts
--   ***Design guidelines*****:** Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
+-   ***Design guidelines******* Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
 
--   ***Zoning regulations*****:** The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+-   ***Zoning regulations*** The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
 
--   ***Incentives*****:** a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+-   ***Incentives*** a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
 
--   ***Fees*****:** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
+-   ***Fees*** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 :::
 
-### Strategy: Promote Affordable Floor Area
+#### Promote Affordable Floor Area
 
 If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
 
 ::: about_strategy
-***About this strategy:*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 :::
 
 \begin{equation}
+sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)   (\#eq:sqft_units_2040)
+\end{equation}
 
-$$sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)$$
+where
 
 -   $(1+X)$: The rate of growth in single-family floor area in square feet per year.
+
 -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040. $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
+
 -   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
+
 -   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
+
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+
 -   $\bar{sqft}_{2018}$: The average floor area of single-family homes in the community in 2018.
 
 ```{r tab-new-single-family-home-area}
@@ -671,17 +684,17 @@ calc_affordable_floor_area(
     )
   ) %>%
   kableformat(.,
-    .caption = paste(
-      "New Single-Family Home Floor Area for",
-      params$ctu_selection,
-      "for 2040"
-    )
+              .caption = paste(
+                "New Single-Family Home Floor Area for",
+                params$ctu_selection,
+                "for 2040"
+              )
   )
 ```
 
 <br>
 
-### Strategy: Promote New Homes Energy Efficiency
+#### Promote New Homes Energy Efficiency
 
 *LEED* (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet *LEED* standards are designed and constructed to be energy efficient and to use fewer natural resources.
 
@@ -690,7 +703,7 @@ The amount of energy savings that can be achieved through *LEED* certifications 
 The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
 
 ::: about_strategy
-***About this strategy:*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. Existing home: `80%` reduced EUI by `33%`.
+***About this strategy*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. Existing home: `80%` reduced EUI by `33%`.
 :::
 
 ```{r tab-new-home-efficiency}
@@ -725,24 +738,24 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
 
-### Strategy: Increase Existing Homes Energy Efficiency
+#### Increase Existing Homes Energy Efficiency
 
 There are multiple ways in which a city, like `r params$ctu_selection`, can promote the retrofit of existing homes to gain energy efficiency. Some examples include:
 
 ::: facts
--   ***Develop education and outreach programs*****:** Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives. According to the Center for Energy and Environment (CEEE) [the Energy Disclosure Program](https://www.mncee.org/energy-disclosure-impact-report-january-2020-through-june-2022) in Minneapolis aims to increase consumer awareness of energy performance in single-family homes in order to encourage the adoption of energy efficiency improvements. The program has been in place since January 2020 and is a part of the city's Truth in Sale of Housing (TISH) pre-sale inspection process. It involves gathering data on key energy efficiency attributes such as insulation and heating equipment, and communicating the results to home sellers and buyers in an Energy Disclosure Report. The program is being implemented in partnership with the Center for Energy and Environment and CenterPoint Energy, and this report summarizes findings from the first 30 months of programming.
+-   ***Develop education and outreach programs******* Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives. According to the Center for Energy and Environment (CEEE) [the Energy Disclosure Program](https://www.mncee.org/energy-disclosure-impact-report-january-2020-through-june-2022) in Minneapolis aims to increase consumer awareness of energy performance in single-family homes in order to encourage the adoption of energy efficiency improvements. The program has been in place since January 2020 and is a part of the city's Truth in Sale of Housing (TISH) pre-sale inspection process. It involves gathering data on key energy efficiency attributes such as insulation and heating equipment, and communicating the results to home sellers and buyers in an Energy Disclosure Report. The program is being implemented in partnership with the Center for Energy and Environment and CenterPoint Energy, and this report summarizes findings from the first 30 months of programming.
 
--   ***Offer financial incentives:*** Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits. The City of Minneapolis, offers incentives and [rebates for homeowners](https://www2.minneapolismn.gov/business-services/licenses-permits-inspections/construction-permits-certificates/construction-code-rules-enforcement/incentives-rebates/) for replacing less efficient equipment.
+-   ***Offer financial incentives*** Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits. The City of Minneapolis, offers incentives and [rebates for homeowners](https://www2.minneapolismn.gov/business-services/licenses-permits-inspections/construction-permits-certificates/construction-code-rules-enforcement/incentives-rebates/) for replacing less efficient equipment.
 
--   ***Establish building codes and regulations*****:** Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
+-   ***Establish building codes and regulations******* Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
 
--   ***Implement energy audits*****:** Minneapolis residents might be eligible for program such as the Home Energy Squads which free visits by energy auditors to income qualifying households. Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
+-   ***Implement energy audits******* Minneapolis residents might be eligible for program such as the Home Energy Squads which free visits by energy auditors to income qualifying households. Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
 
--   ***Partner with local organizations*****:** Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
+-   ***Partner with local organizations******* Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
 :::
 
 ::: about_strategy
-***About this strategy:*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
+***About this strategy*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
 :::
 
 ```{r tab-existing-home-efficiency}
@@ -776,12 +789,12 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
-### Strategy: Promote Behavior Change for Residential Energy Efficiency
+#### Promote Behavior Change for Residential Energy Efficiency
 
 implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
 
 ::: about_strategy
-***About this strategy:*** Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
+***About this strategy*** Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
 :::
 
 ```{r tab-behavior-change}
@@ -814,7 +827,7 @@ $$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/populati
 -   $population_{2040}$: The total population in 2040.
 -   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
 
-## Decarbonize Residential Energy Use
+#### Decarbonize Residential Energy Use
 
 The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
 
@@ -851,7 +864,7 @@ $$
 kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{residential}^{2040}) 
 $$
 
-## Electrifying Residential Heating
+#### Electrifying Residential Heating
 
 The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will decarbonize the overall grid to 80% relative to 2018 levels, consistent with Xcel Energy's plans to achieve a net-zero power grid by 2050.
 
@@ -862,7 +875,7 @@ Only around 14% of homes in MN have adopted these new technologies.2 The scenari
 Electricity can be generated from various sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to fossil fuels such as natural gas, propane, and oil.
 
 ::: about_strategy
-**About this strategy:** For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
+**About this strategy** For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
 :::
 
 ```{r tab-electrify-residential-heating}
@@ -888,11 +901,11 @@ calc_electrify_residential_heating(
     scen == "scen"
   ) %>%
   kableformat(.,
-    .caption = paste(
-      "Electrifying Residential Heating",
-      params$ctu_selection,
-      "2040"
-    )
+              .caption = paste(
+                "Electrifying Residential Heating",
+                params$ctu_selection,
+                "2040"
+              )
   )
 ```
 
@@ -914,7 +927,7 @@ get_non_residential_energy_baseline(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-    .caption = paste("Non-Residential Energy Baseline", params$ctu_selection, "2018")
+              .caption = paste("Non-Residential Energy Baseline", params$ctu_selection, "2018")
   )
 ```
 
@@ -930,11 +943,11 @@ calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   kableformat(.,
-    .caption = paste(
-      "Non-Residential Energy Forecast",
-      params$ctu_selection,
-      "2040"
-    )
+              .caption = paste(
+                "Non-Residential Energy Forecast",
+                params$ctu_selection,
+                "2040"
+              )
   )
 ```
 
@@ -958,7 +971,7 @@ The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims
 
 The Minnesota *SB2030* program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building's energy use.
 
-#### Stategy: Electrify Non-Residential Heating
+#### Electrify Non-Residential Heating
 
 ```{r tab-electrify-commmercial-heating}
 #| echo = FALSE
@@ -995,11 +1008,11 @@ calc_electrify_commercial_heating(
     )
   ) %>%
   kableformat(.,
-    .caption = paste(
-      "Electrifying Commercial Heating",
-      params$ctu_selection,
-      "2040"
-    )
+              .caption = paste(
+                "Electrifying Commercial Heating",
+                params$ctu_selection,
+                "2040"
+              )
   )
 ```
 
@@ -1017,20 +1030,6 @@ Instead, when land use and transportation systems are designed to work together,
 
 Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] provide a framework for urban planning tools for greenhouse gas (GHG) mitigation as shown in as four key levers of action based on the framework developed in previous work by the UN International Resource Panel [@swillingWeightCitiesResource2018]. 
 
-Similar to the 3Rs of waste management, the first lever represents a reduction of land use through **compact urban development (CUD)**. 
-
-Lever 2 focuses on **technological solutions** in a single infrastructure system (e.g., vehicle fuel efficiency and electrification). 
-
-Lever 3 encompasses improvements from synergistic solutions between **infrastructure systems**. The final lever is policy to change **individual and business behavior**.  
-
-- **Lever 1** Compact urban development–land use strategies reducing demand for infrastructure services 
-- **Lever 2** Infrastructure technology strategies making demand and supply more efficient  
-- **Lever 3** Cross-infrastructure strategies leveraging circular economy strategies enhanced by compact development  
-- **Lever 4** Policy and behavior change strategies affecting behaviors of individuals (and businesses) using infrastructure services  
-
-
-A combination of the above levers is necessary to reach decarbonization targets. Given the residency time of GHG emissions, the cumulative emissions over a forecast horizon (i.e., between today and 2050) means that the response time of a lever is a critical factor. Lever 1, CUD, requires changes in land use that will take many years (if not decades) to enact.
-
 It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively. 
 
 
@@ -1039,13 +1038,11 @@ It is found that transit and car-sharing become cost-effective beyond a density 
 The Council is in the process of verifying data sources for all inputs and values.  
 
 
-
-
 The inputs for the transportation sector baseline and forecast are:
 
 -   **Passenger Miles Traveled** (PMT) forecasts from Metropolitan Council [Regional Transportation Demand Model (RTDM)](https://metrocouncil.org/Transportation/Performance/Travel-Forecasting.aspx).
--   **The Transportation Demand Model:** A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
--   **Average vehicle occupancy by mode**.
+-   **The Transportation Demand Model** A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
+-   **Average vehicle occupancy by mode**
 -   **MA3T stock turnover and adoption forecasts by "powertrain"**: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric. [MA3T](https://teem.ornl.gov/ma3t.shtml) stands for Market Acceptance of Advanced Automotive Technologies (MA3T) and it allows to simulate the diverse purchasing behaviors among individuals in the market place.
 
 ### Annual Energy Outlook (AEO)  
@@ -1054,10 +1051,10 @@ In addition to the inclusion of the strategies outlined, alternative future scen
 
 The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].    
 
-  1. **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.  
-  2. **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.  
-  3. **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.  
-  4. **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.  
+1. **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.  
+2. **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.  
+3. **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.  
+4. **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.  
 
 
 The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
@@ -1079,37 +1076,6 @@ In the case of PHEV, there is a need to consider the fraction of VMT driven in e
 The regional model provides PMT totals for auto, transit, bike, and walk modes. PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
 
 
-```{r tab-passenger-miles-traveled}
-#| echo: false
-transportation_data$passenger %>%
-  filter(
-    ctu == params$ctu_selection,
-    var == "PMT",
-    year == 2018
-  ) %>%
-  left_join(.,
-    transportation_index$modes,
-    by = c("mode" = "mode_abbrev")
-  ) %>%
-  select(mode_description_1, value) %>%
-  rename("var" = "mode_description_1") %>%
-  rename(
-    "Variables" = "var",
-    "Value" = "value"
-  ) %>%
-  kableExtra::kable(
-    caption = "Passenger Miles Traveled by Mode Minneapolis 2018",
-    format = "html",
-    escape = FALSE,
-    format.args = list(big.mark = ",", digits = 6)
-  ) %>%
-  kableExtra::kable_classic(
-    html_font = "Arial",
-    full_width = F,
-    font_size = 12
-  )
-```
-
 <br>
 
 ### Freight 
@@ -1126,17 +1092,18 @@ transportation_data$freight %>%
     year == 2018
   ) %>%
   left_join(.,
-    transportation_index$modes,
-    by = c("mode" = "mode_abbrev")
+            transportation_index$modes,
+            by = c("mode" = "mode_abbrev")
   ) %>%
   select(mode_description_1, value) %>%
   rename("var" = "mode_description_1") %>%
   rename(
-    "Variables" = "var",
+    "Mode" = "var",
     "Value" = "value"
   ) %>%
+  mutate(Value = round(Value, digits = 0)) %>% 
   kableExtra::kable(
-    caption = "Freight Miles Traveled by Mode Minneapolis 2018",
+    caption = paste0("Freight Miles Traveled by Mode ", params$ctu_selection, " 2018"),
     format = "html",
     escape = FALSE,
     format.args = list(big.mark = ",", digits = 6)
@@ -1150,30 +1117,30 @@ transportation_data$freight %>%
 
 <br>
 
-## Transportation Forecast
+## Transportation Baseline and Forecast
 
-### Passenger Forecast
-
-```{r tab-passenger-miles-traveled-forecast}
+```{r tab-passenger-miles-traveled}
 #| echo: false
 transportation_data$passenger %>%
   filter(
     ctu == params$ctu_selection,
     var == "PMT",
-    year == 2040
+    year %in% c(2018, 2040)
   ) %>%
   left_join(.,
-    transportation_index$modes,
-    by = c("mode" = "mode_abbrev")
+            transportation_index$modes,
+            by = c("mode" = "mode_abbrev")
   ) %>%
-  select(mode_description_1, value) %>%
+  select(mode_description_1, value, year) %>%
   rename("var" = "mode_description_1") %>%
   rename(
-    "Variables" = "var",
+    "Mode" = "var",
     "Value" = "value"
   ) %>%
+  mutate(Value = round(Value, digits = 0)) %>% 
+  tidyr::pivot_wider(names_from = year, values_from = Value) %>% 
   kableExtra::kable(
-    caption = "Passenger Miles Traveled by Mode Minneapolis 2040 Forecast",
+    caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection, "  2040 Forecast"),
     format = "html",
     escape = FALSE,
     format.args = list(big.mark = ",", digits = 6)
@@ -1185,7 +1152,6 @@ transportation_data$passenger %>%
   )
 ```
 
-### Freight Forecast
 
 ```{r tab-freight-miles-traveled-forecast}
 #| echo: false
@@ -1193,20 +1159,21 @@ transportation_data$freight %>%
   filter(
     ctu == params$ctu_selection,
     var == "TMT",
-    year == 2040
+    year %in% c(2018, 2040)
   ) %>%
   left_join(.,
-    transportation_index$modes,
-    by = c("mode" = "mode_abbrev")
+            transportation_index$modes,
+            by = c("mode" = "mode_abbrev")
   ) %>%
-  select(mode_description_1, value) %>%
+  select(mode_description_1, value, year) %>%
   rename("var" = "mode_description_1") %>%
   rename(
-    "Variables" = "var",
+    "Mode" = "var",
     "Value" = "value"
   ) %>%
+  tidyr::pivot_wider(names_from = year, values_from = Value) %>% 
   kableExtra::kable(
-    caption = "Freight Miles Traveled by Mode Minneapolis 2040 Forecast",
+    caption = paste0("Freight Miles Traveled by Mode - ", params$ctu_selection),
     format = "html",
     escape = FALSE,
     format.args = list(big.mark = ",", digits = 6)
@@ -1218,13 +1185,18 @@ transportation_data$freight %>%
   )
 ```
 
-### Transportation Strategies
 
+::: facts
 **Embodied Emissions**
 
-Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by [@Chester_Horvath_2009] and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
+Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath ([@Chester_Horvath_2009]) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
+:::
 
-#### Land Use
+## Interventions/Strategies
+
+The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.
+
+### Land Use
 
 Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the "five D's" (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
 
@@ -1233,12 +1205,55 @@ The Metropolitan Council Transportation Policy Plan discusses the need for commu
 Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 
 ```{r, tab-land-use-effects}
+ghg.sp::elast_5d %>%
+  dplyr::filter(year == "2050") %>%
+  mutate(type = stringr::str_to_title(type)) %>%
+  select(
+    `Mode` = type,
+    `Population density` = population_density,
+    `Employment density` = employment_density,
+    `Land use diversity` = diversity,
+    `Intersection design` = design,
+    `Job accessability by transit` = job_access,
+    `Distance to transit` = distance
+  ) %>%
+  tidyr::pivot_longer(
+    names_to = "Land Use Adjustment",
+    values_to = "Effect on miles traveled by 2050",
+    cols = 2:7
+  ) %>%
+  mutate(
+    `Multiplier relative to BAU` =
+      ifelse(`Land Use Adjustment` == "Distance to transit", -0.1, 0.1)
+  ) %>%
+  select(
+    Mode, `Land Use Adjustment`, `Multiplier relative to BAU`,
+    `Effect on miles traveled by 2050`
+  ) %>%
+  rowwise() %>%
+  mutate(across(c(3, 4), function(x) {
+    ifelse(x != "NA",
+           paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
+           x
+    )
+  })) %>%
+  gt::gt(
+    id = "land-use-effects",
+    caption = "Land use adjustment values",
+    rowname_col = "`Land Use Adjustment`",
+    groupname_col = "Mode"
+  ) %>%
+  gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+
 
 ```{r tab-land-use-change}
 # vmt_land_use_change()
 ```
 
-#### Vehicle Electrification
+### Vehicle Electrification
 
 The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.
 
@@ -1250,44 +1265,97 @@ The Tool also accounts for the fact that plug-in hybrid electric vehicles may op
 # vmt_annual_energy_outlook()
 ```
 
-#### Public Transit
+### Public Transit
 
-According to the Minneapolis Transportation Action Plan (TAP), transit is essential for the city's multimodal transportation system. Transit contributes to economic competitiveness by attracting businesses, private investment, and top talent. Over 30,000 (16.5%) households in the city do not have access to or choose not to own a personal car, with the highest concentration of car-free individuals living in neighborhoods around downtown Minneapolis. The TAP aims to improve the coverage, speed, and reliability of transit service through a partnership with the Metropolitan Council and by defining clear priorities, goals, and actions for the city. The goal is to increase the number of transit trips from 13% in 2019 to 25% by 2030. Transit must be convenient, reliable, and frequent and effectively reduce trips made by single-occupancy vehicles to achieve these goals.
+According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minneapolismn.gov/), transit is essential for the city's multimodal transportation system. Transit contributes to economic competitiveness by attracting businesses, private investment, and top talent. Over 30,000 (16.5%) households in the city do not have access to or choose not to own a personal car, with the highest concentration of car-free individuals living in neighborhoods around downtown Minneapolis. The TAP aims to improve the coverage, speed, and reliability of transit service through a partnership with the Metropolitan Council and by defining clear priorities, goals, and actions for the city. The goal is to increase the number of transit trips from 13% in 2019 to 25% by 2030. Transit must be convenient, reliable, and frequent and effectively reduce trips made by single-occupancy vehicles to achieve these goals.
 
 ```{r tab-transit-service}
 # vmt_transit_service()
 ```
 
-#### Telework
+### Telework
 
 Telework is working from home, reducing or eliminating the need to commute. In 2020, an estimated 35% of jobs in the United States could be performed from home, varying by metropolitan area. In Minneapolis and St. Paul, approximately 38-52% of jobs can be completed through telework.1 In a first approximation, telework eliminates commute vehicle miles traveled, which can reduce greenhouse gas emissions. However, the net effect on vehicle miles traveled, and household greenhouse gas production must also be considered. Recent studies that include energy associated with working from home find an effective reduction of about 2.5-3% in household CO2 emissions per telework day.
 
 ```{r}
+help(vmt_telework, package = ghg.sp)
+```
+
 
 ```{r tab-vmt-telework}
 # vmt_telework()
 ```
 
-#### Road Pricing
+### Road Pricing
 
 In the future, road pricing will likely be an essential component of transportation policy. Road pricing is key for automated vehicles and dynamic ride-sharing policies because it helps address the increased vehicle miles traveled projected to occur with adopting these technologies. Furthermore, road pricing provides an alternative revenue stream to the gas tax as vehicle efficiency increases and electric vehicle adoption grows.
 
-The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.1
-
+The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.  
 
 ```{r tab-road-policy}
 # vmt_road_policy()
 ```
 
-#### Parking Policy
+### Parking Policy
 
-Parking is an essential component of the transportation system. A lack of parking can result in additional miles traveled from vehicles searching for a parking spot and can account for up to 30% of vehicles in downtown traffic.1 The most common strategies for controlling parking demand are increasing its price and restricting parking time. One increasingly common strategy is addressing the underlying parking requirements in buildings. While promising, empirical evidence of the impact of such policies on transportation demand remains to be sparse. Like road pricing, travelers respond to parking pricing by changing their vehicle miles traveled. The scenario planning model includes the ability to specify a change in the average price of parking and to project its effect on vehicle miles traveled.
+Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes. 
 
-```{r tab4.10}
-# vmt_parking_policy()
+The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table \@ref(tab:tab-parking-price-effects)).  
+
+
+The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019]. 
+
+\begin{equation}
+adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} 
+(\#eq:parking_price_adj)
+\end{equation}
+
+$price_y$ is the price of parking on dollars per hour in year $y$  
+$price_{y = 2018}$ is the price of parking in dollars per hour in 2018   
+$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.  
+
+
+Values derived from @TRACE_1999 and referenced in  @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.  
+
+```{r, tab-parking-price-effects}
+ghg.sp::elast %>%
+  dplyr::filter(year == "2050") %>% 
+  select(year, contains("park")) %>% 
+  tidyr::pivot_longer(
+    # names_to = "Increase in parking price",
+    values_to = "Effect on miles traveled by 2050",
+    cols = 2:4
+  ) %>% 
+  mutate(`Mode` = case_when(name == "park_elast" ~ "Automobile",
+                            name == "park_active" ~ "Walking and cycling",
+                            name == "park_transit" ~ "Transit")) %>% 
+  mutate(
+    `Increase in parking price relative to baseline` = 0.1,
+    "Increase in parking price" = name
+  ) %>%
+  select(
+    Mode,
+    `Increase in parking price relative to baseline`,
+    `Effect on miles traveled by 2050`
+  ) %>% 
+  rowwise() %>%
+  mutate(across(c(2:3), function(x) {
+    ifelse(x != "NA",
+           paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
+           x
+    )
+  })) %>%
+  gt::gt(
+    id = "parking-price-effects",
+    caption = "Parking price adjustment values"
+  ) %>%
+  gt::tab_source_note(gt::md("TRACE 1999")) %>% 
+  gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
 ```
 
 ![](images//4482.jpg)
+
 
 # Reducing Emission from Land Use and Forestry
 
@@ -1370,6 +1438,11 @@ $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
 
 ## Glossary
 
-## 6. Conclusion
+<!-- ## Appendix  -->
+```{r child="appendix.Rmd"}
 
-## Glossary
+```
+
+# References
+
+<div id="refs"></div>
