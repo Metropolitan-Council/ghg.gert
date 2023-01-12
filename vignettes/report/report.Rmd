@@ -466,6 +466,8 @@ The Metropolitan Council, as part of its responsibilities, produces a forecast o
 
 ```{r tab-demographic-assumptions}
 #| echo: false
+#| message: false
+
 # City level 2018
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   ungroup() %>%
@@ -575,49 +577,51 @@ Electricity in Minneapolis is served by Xcel Energy. In their report *Building a
 
 ## Residential Energy Assumptions
 
-The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.
+The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building. 
 
-### Residential Energy Baseline
-
-**Table \@ref(tab:tab-residential-energy-assumption)** shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 for the City of `r params$ctu_selection`.
-
-```{r tab-residential-energy-assumption}
-#| echo: false
-get_residential_energy_baseline() %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste(
-                "Residential Energy Assumption for",
-                params$ctu_selection,
-                "for 2018"
-              )
-  )
-```
-
-<br>
-
-### Residential Energy Forecast
+**Table \@ref(tab:tab-residential-energy)** shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040. 
 
 The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of the population size, and an extrapolating the historical floor area growth rate for the last ten years (based on 2018).
 
 The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing over time. It is calculated by dividing the change in floor area from one year to the next by the initial floor area. For example, if the floor area of a residential area increased by 10% from one year to the next, the floor area growth rate would be 10%.
 
-**Table \@ref(tab:tab-residential-energy-forecast)** shows the forecast assumption for the residential energy sector.
-
-```{r tab-residential-energy-forecast}
+```{r tab-residential-energy}
 #| echo: false
-calc_residential_energy_forecast() %>%
+#| message: false
+#city baseline
+get_residential_energy_baseline() %>%
+  ungroup() %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2018" = value) %>%
+  
+  #city forcast
+  full_join(
+    calc_residential_energy_forecast() %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
-  kableformat(.,
-              .caption = paste(
-                "Residential Energy Forecast for",
-                params$ctu_selection,
-                "for 2040"
-              )
-  )
+    left_join(., variables, by = "var") %>%
+    mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)
+  ) %>%
+
+    # format
+    kableExtra::kable(
+      caption = paste0("Residential Energy for ", params$ctu_selection),
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
 ```
 
 <br>
