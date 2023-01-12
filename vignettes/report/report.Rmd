@@ -40,6 +40,7 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(shiny)
+library(patchwork)
 
 options(scipen = 1, digits = 2)
 
@@ -458,62 +459,66 @@ Some common predictors of greenhouse gas emissions at the city scale include:
 
 <br>
 
-## Demographic Baseline
+We obtained baseline 2018 values for population, households, and employment from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table \@ref(tab:tab-demographic-assumptions)**).
 
-We obtained the population, households, and employment numbers from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population.
+The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
+
 
 ```{r tab-demographic-assumptions}
 #| echo: false
+# City level 2018
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   ungroup() %>%
   filter(
     ctu_name == params$ctu_selection,
     var != "multifamily_average_floor_area_sqft_county"
   ) %>%
-  kableformat(
-    .,
-    paste(
-      "Basic Demographic Assumptions for",
-      params$ctu_selection,
-      "for 2018"
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "{params$ctu_selection} 2018" := value) %>%
+  
+  # County level 2018
+  full_join(
+    get_demographic_baseline(tb = building_energy_data)$county %>%
+      ungroup() %>%
+      filter(co_name == params$county_selection) %>%
+      left_join(., variables, by = "var") %>%
+      mutate(desc = str_remove_all(desc, " for the County")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+         "{params$county_selection} Co. 2018" := value)) %>%
+  
+  # city 2040
+  full_join(
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      ungroup() %>%
+      filter(
+        ctu_name == params$ctu_selection,
+        var != "multifamily_average_floor_area_sqft_county") %>%
+      left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "{params$ctu_selection} 2040" := value)) %>%
+  
+  # format
+  
+    kableExtra::kable(
+      caption = paste0("Demographics for ", params$ctu_selection),
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
     )
-  )
+  
 ```
-
 <br>
 
-In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. **Table \@ref(tab:tab-demographic-assumptions-county) ** shows the relevant assumptions for `r params$county_selection` County.
-
-```{r tab-demographic-assumptions-county}
-#| echo: false
-get_demographic_baseline(tb = building_energy_data)$county %>%
-  ungroup() %>%
-  filter(co_name == params$county_selection) %>%
-  kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")
-```
-
-<br>
-
-### Demographic Forecast
-
-The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
-
-```{r tab-demographic-forecast}
-#| echo: false
-calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-  ungroup() %>%
-  filter(
-    ctu_name == params$ctu_selection,
-    var != "multifamily_average_floor_area_sqft_county"
-  ) %>%
-  kableformat(.,
-              .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040")
-  )
-```
-
-<br>
-
-**Figure \@ref(fig:figure-demographics)** shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population for `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ```{r fig-inputs, fig.align='center'}
 # selectInput(
@@ -529,9 +534,9 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
 plot_demo <- function(variable) {
   bind_rows(
     get_demographic_baseline(tb = building_energy_data)$ctu %>%
-      filter(ctu_name == "Minneapolis"),
+      filter(ctu_name == params$ctu_selection),
     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-      filter(ctu_name == "Minneapolis")
+      filter(ctu_name == params$ctu_selection)
   ) %>%
     filter(var == variable) %>%
     ggplot(., aes(x = as.factor(year), y = value)) +
@@ -546,12 +551,12 @@ plot_demo <- function(variable) {
       panel.grid = element_blank(),
       axis.title = element_text(size = 14)
     ) +
-    xlab("Year") +
-    ylab(variable)
+    labs(x = "", y = "", title = str_to_title(variable)) +
+    scale_y_continuous(labels = scales::label_comma())
 }
 
-plot_demo("population")
-plot_demo("households")
+plot_demo("population") + plot_demo("households")
+
 ```
 
 <br>
