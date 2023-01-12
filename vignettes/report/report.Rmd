@@ -1087,38 +1087,7 @@ The regional model provides PMT totals for auto, transit, bike, and walk modes. 
 
 The Twin Cities region is a critical transportation hub for the upper Midwest, serving as a distribution center for Minnesota, Wisconsin, North and South Dakota, and eastern Montana. The region is served by five modes of freight transportation: trucks, railroads, barges, air freight, and pipelines. These modes play a crucial role in supporting the region's economic competitiveness and quality of life by allowing residents to access the goods and materials they need and enabling businesses to distribute their products.
 
-The region's freight transportation system is facing challenges, including congestion, lack of capacity, and infrastructure deficiencies, which need to be addressed to ensure the system's continued effectiveness. The Metropolitan Council works closely with the Minnesota Department of Transportation and other partners to ensure that the regional freight system supports a thriving and sustainable economy. Many freight-related improvements are the responsibility of private owners and operators of transportation modes and freight terminal facilities, although public investments in infrastructure also play a role
-
-```{r tab-freight-miles-traveled}
-transportation_data$freight %>%
-  filter(
-    ctu == params$ctu_selection,
-    var == "TMT",
-    year == 2018
-  ) %>%
-  left_join(.,
-            transportation_index$modes,
-            by = c("mode" = "mode_abbrev")
-  ) %>%
-  select(mode_description_1, value) %>%
-  rename("var" = "mode_description_1") %>%
-  rename(
-    "Mode" = "var",
-    "Value" = "value"
-  ) %>%
-  mutate(Value = round(Value, digits = 0)) %>% 
-  kableExtra::kable(
-    caption = paste0("Freight Miles Traveled by Mode ", params$ctu_selection, " 2018"),
-    format = "html",
-    escape = FALSE,
-    format.args = list(big.mark = ",", digits = 6)
-  ) %>%
-  kableExtra::kable_classic(
-    html_font = "Arial",
-    full_width = F,
-    font_size = 12
-  )
-```
+The region's freight transportation system is facing challenges, including congestion, lack of capacity, and infrastructure deficiencies, which need to be addressed to ensure the system's continued effectiveness. The Metropolitan Council works closely with the Minnesota Department of Transportation and other partners to ensure that the regional freight system supports a thriving and sustainable economy. Many freight-related improvements are the responsibility of private owners and operators of transportation modes and freight terminal facilities, although public investments in infrastructure also play a role.
 
 <br>
 
