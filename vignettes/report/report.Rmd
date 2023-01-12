@@ -520,7 +520,7 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
 ```
 <br>
 
-**Figure \@ref(fig:figure-demographics)** shows the comparison of population for `r params$ctu_selection` in 2018 with the 2040 forecast.
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ```{r fig-inputs, fig.align='center'}
 # selectInput(
@@ -532,6 +532,7 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
 ```
 
 ```{r figure-demographics}
+#| fig.cap = "Baseline and forecaseted population and households.", 
 #| fig.align = 'center'
 plot_demo <- function(variable) {
   bind_rows(
