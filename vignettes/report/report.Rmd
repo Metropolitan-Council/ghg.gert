@@ -926,39 +926,46 @@ Non-residential energy use refers to the energy consumption of commercial and in
 
 In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
 
-### Non-Residential Energy Baseline
+**Table \@ref(tab:tab-non-residential-energy)** shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
 
-\@\@ shows the basic assumptions about non-residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
-
-```{r tab-non-residential-energy-baseline}
-#| echo = FALSE
+```{r tab-non-residential-energy}
+#| echo: false
+#| message: false
+#city baseline
 get_non_residential_energy_baseline(tb = building_energy_data) %>%
   ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste("Non-Residential Energy Baseline", params$ctu_selection, "2018")
-  )
-```
-
-<br>
-
-### Non-Residential Energy Forecast
-
-**Table \@ref(tab:tab-non-residential-energy-forecast)** shows the forecast assumptions for non-residential electricity and natural gas use for the City of Minneapolis.
-
-```{r tab-non-residential-energy-forecast}
-#| echo = FALSE
-calc_non_residential_energy_forecast(tb = building_energy_data) %>%
+  filter(ctu_name == params$ctu_selection)  %>%
+  left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2018" = value) %>%
+  
+  #city forcast
+  full_join(
+    calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste(
-                "Non-Residential Energy Forecast",
-                params$ctu_selection,
-                "2040"
-              )
-  )
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)
+  ) %>%
+
+    # format
+    kableExtra::kable(
+      caption = paste0("Non-Residential Energy for ", params$ctu_selection),
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
 ```
+
 
 <br>
 
