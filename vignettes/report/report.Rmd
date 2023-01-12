@@ -924,7 +924,7 @@ calc_electrify_residential_heating(
 
 Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.
 
-In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
 
 **Table \@ref(tab:tab-non-residential-energy)** shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
 
