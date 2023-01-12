@@ -1,7 +1,7 @@
 ---
 title: "Greenhouse Gas Emissions Scenario Planning"
 author: "Metropolitan Council"
-date: "January 2023"
+date: "`r format(Sys.time(), '%B %Y')`"
 params:
     ctu_selection: "Minneapolis"
     county_selection: "Hennepin"
