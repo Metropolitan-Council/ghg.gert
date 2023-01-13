@@ -710,7 +710,7 @@ seq(0.01, 0.05, .01) %>%
   purrr::set_names() %>%
   purrr::map(~ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
                                                     .single_family_floor_area_growth_pct = .x) 
-  ) %>% bind_rows(.id = ".single_family_floor_area_growth_pct") %>%
+  ) %>% bind_rows(.id = "level") %>%
   filter(
     ctu_name == params$ctu_selection,
     var %in% c(
@@ -725,8 +725,8 @@ seq(0.01, 0.05, .01) %>%
   mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
       rename("Variables" = desc) %>%#,
              # "2040" = value)
-  mutate(`.single_family_floor_area_growth_pct` = paste0(as.numeric(`.single_family_floor_area_growth_pct`) * 100, "%")) %>%
-  ggplot(aes(x = year, y = value, color = `.single_family_floor_area_growth_pct`)) +
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
   geom_line() +
   facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
   scale_x_continuous(breaks = c(2018, 2040)) +
@@ -786,6 +786,52 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 -   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
+
+
+*Figure @\ref(fig:fig-new-leed-homes) could be a static or interactive figure. Some questions about the parameters/results 1) Again, it seems like the electricity/gas use is more influenced by year rather than reductions due to building LEED Gold certified buildings...for the purpose of the report, should this strategy be replaced with one that has a bigger impact on energy use? 2) Again, t is unclear why the number of single family units decreases - the strategy description suggests that only floor area should decrease - is this a naming typo?*
+
+```{r fig-new-leed-homes}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
+#| fig.align = 'center'
+
+seq(0.1, 0.5, .1) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_floor_area_leed(
+    res_tb = building_data$residential,
+   .new_homes_leed_gold_pct = .x,
+   .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
+  labs(x = "", y = "", color = "Percentage of\nnew single family\nhomes built to\nLEED Gold standards") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 #### Increase Existing Homes Energy Efficiency
 
