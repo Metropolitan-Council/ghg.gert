@@ -1225,7 +1225,7 @@ The Minnesota *SB2030* program is focused on reducing emissions in commercial, i
 #### Electrify Non-Residential Heating
 
 ```{r tab-electrify-commmercial-heating}
-#| echo = FALSE
+#| echo = FALSE,
 #| message = FALSE
 calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
@@ -1503,8 +1503,30 @@ help(vmt_telework, package = ghg.sp)
 ```
 
 
-```{r tab-vmt-telework}
+*Figure \@ref(fig:fig-telework) could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
+
+```{r fig-telework}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of telworking.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
 # vmt_telework()
+telework_ctu %>%
+  mutate(level = paste0(as.numeric(pct) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  # scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = "Percentage of\nworkers teleworking") +
+  facet_wrap(~type) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
 ```
 
 ### Road Pricing
