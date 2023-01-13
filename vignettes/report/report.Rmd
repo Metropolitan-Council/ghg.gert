@@ -505,12 +505,13 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
              "{params$ctu_selection} 2040" := value)) %>%
   
   # format
-  
+    mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
+
     kableExtra::kable(
       caption = paste0("Demographics for ", params$ctu_selection),
       format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
+      escape = FALSE
+      # format.args = list(big.mark = ",", digits = 6)
     ) %>%
     kableExtra::kable_classic(
       html_font = "Arial",
@@ -608,13 +609,14 @@ get_residential_energy_baseline() %>%
       rename("Variables" = desc,
              "2040" = value)
   ) %>%
+  mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
 
     # format
     kableExtra::kable(
       caption = paste0("Residential Energy for ", params$ctu_selection),
       format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
+      escape = FALSE#,
+      # format.args = list(big.mark = ",", digits = 6)
     ) %>%
     kableExtra::kable_classic(
       html_font = "Arial",
