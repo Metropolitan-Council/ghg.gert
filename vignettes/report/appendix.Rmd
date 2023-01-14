@@ -1,3 +1,8 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 # (APPENDIX) Appendix {-}
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -7,6 +12,7 @@ library(magrittr)
 library(dplyr)
 library(DT)
 library(ghg.sp)
+library(rsvg)
 ```
 
 
