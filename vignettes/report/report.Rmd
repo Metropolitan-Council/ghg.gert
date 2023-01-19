@@ -1,11 +1,16 @@
 ---
 title: "Greenhouse Gas Emissions Scenario Planning"
 author: "Metropolitan Council"
-date: "January 2023"
+date: "`r format(Sys.time(), '%B %Y')`"
 params:
     ctu_selection: "Minneapolis"
     county_selection: "Hennepin"
+    desired_format: "docx" # or "html" / "docx"
 output: 
+  bookdown::word_document2:
+    reference_docx: "wordtemplate.docx"
+    toc: true
+    toc_depth: 3
   bookdown::html_document2:
     toc: true
     toc_float:
@@ -40,21 +45,19 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(shiny)
+library(patchwork)
 
 options(scipen = 1, digits = 2)
+load(file = file.path(here::here(),"data-raw/transportation_report_data.rda"))
 
 ```
 
-```{r, kableformat}
+```{r, table-formatting}
 #| echo: false
-kableformat <- function(data, .caption) {
+
+if (params$desired_format == "html") {
+tableformat <- function(data, .caption) {
   data %>%
-    left_join(., variables, by = "var") %>%
-    select(c(desc, value)) %>%
-    rename(
-      "Variables" = "desc",
-      "Value" = "value"
-    ) %>%
     kableExtra::kable(
       caption = .caption,
       format = "html",
@@ -67,6 +70,18 @@ kableformat <- function(data, .caption) {
       font_size = 12
     )
 }
+} else {
+  tableformat <- function(data, .caption){
+   data %>%
+  flextable::flextable() %>%
+  flextable::autofit(add_w = 0, add_h = 0) %>%
+      flextable::set_table_properties(layout = "autofit") %>%
+      flextable::fontsize(size = 9, part = "all") %>%
+      flextable::align(align = "center", part = "header", i = 1) %>%
+  flextable::set_caption(.caption)
+  }
+}
+    
 ```
 
 ```{r variables}
@@ -344,12 +359,20 @@ councilmembers <- data.frame(
 Metropolitan Council Members
 
 ```{r fig.align = 'center'}
-knitr::kable(
-  list(councilmembers[1:9, ], councilmembers[10:18, ]),
-  booktabs = TRUE,
-  col.names = NULL,
-  row.names = FALSE
-)
+councilmember_df <-
+  list(councilmembers[1:9,], councilmembers[10:18,])
+
+if (params$desired_format == "html") {
+  councilmember_df %>%
+    knitr::kable(booktabs = TRUE,
+                 col.names = NULL,
+                 row.names = FALSE)
+} else {
+  data.frame(councilmember_df) %>%
+    flextable::flextable() %>%
+    flextable::autofit() %>%
+    flextable::delete_part(part = "header")
+}
 ```
 
 ------------------------------------------------------------------------
@@ -458,62 +481,57 @@ Some common predictors of greenhouse gas emissions at the city scale include:
 
 <br>
 
-## Demographic Baseline
+We obtained baseline 2018 values for population, households, and employment from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table \@ref(tab:tab-demographic-assumptions)**).
 
-We obtained the population, households, and employment numbers from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population.
+The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
+
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ```{r tab-demographic-assumptions}
 #| echo: false
+#| message: false
+
+# City level 2018
 get_demographic_baseline(tb = building_energy_data)$ctu %>%
   ungroup() %>%
   filter(
     ctu_name == params$ctu_selection,
     var != "multifamily_average_floor_area_sqft_county"
   ) %>%
-  kableformat(
-    .,
-    paste(
-      "Basic Demographic Assumptions for",
-      params$ctu_selection,
-      "for 2018"
-    )
-  )
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "{params$ctu_selection} 2018" := value) %>%
+  
+  # County level 2018
+  full_join(
+    get_demographic_baseline(tb = building_energy_data)$county %>%
+      ungroup() %>%
+      filter(co_name == params$county_selection) %>%
+      left_join(., variables, by = "var") %>%
+      mutate(desc = str_remove_all(desc, " for the County")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+         "{params$county_selection} Co. 2018" := value)) %>%
+  
+  # city 2040
+  full_join(
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      ungroup() %>%
+      filter(
+        ctu_name == params$ctu_selection,
+        var != "multifamily_average_floor_area_sqft_county") %>%
+      left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "{params$ctu_selection} 2040" := value)) %>%
+  
+  # format
+    mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
+
+  tableformat(.caption = paste0("Demographics for ", params$ctu_selection))
+  
 ```
-
-<br>
-
-In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions. **Table \@ref(tab:tab-demographic-assumptions-county) ** shows the relevant assumptions for `r params$county_selection` County.
-
-```{r tab-demographic-assumptions-county}
-#| echo: false
-get_demographic_baseline(tb = building_energy_data)$county %>%
-  ungroup() %>%
-  filter(co_name == params$county_selection) %>%
-  kableformat(., "Basic Demographic Assumptions Hennepin County for 2018")
-```
-
-<br>
-
-### Demographic Forecast
-
-The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
-
-```{r tab-demographic-forecast}
-#| echo: false
-calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-  ungroup() %>%
-  filter(
-    ctu_name == params$ctu_selection,
-    var != "multifamily_average_floor_area_sqft_county"
-  ) %>%
-  kableformat(.,
-              .caption = paste("Demographic Forecast for", params$ctu_selection, "for 2040")
-  )
-```
-
-<br>
-
-**Figure \@ref(fig:figure-demographics)** shows the comparison of population for the City of `r params$ctu_selection` in 2018 with the 2040 forecast.
 
 ```{r fig-inputs, fig.align='center'}
 # selectInput(
@@ -525,13 +543,14 @@ calc_demographic_forecast(tb = building_energy_data)$ctu %>%
 ```
 
 ```{r figure-demographics}
+#| fig.cap = "Baseline and forecaseted population and households.", 
 #| fig.align = 'center'
 plot_demo <- function(variable) {
   bind_rows(
     get_demographic_baseline(tb = building_energy_data)$ctu %>%
-      filter(ctu_name == "Minneapolis"),
+      filter(ctu_name == params$ctu_selection),
     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-      filter(ctu_name == "Minneapolis")
+      filter(ctu_name == params$ctu_selection)
   ) %>%
     filter(var == variable) %>%
     ggplot(., aes(x = as.factor(year), y = value)) +
@@ -546,12 +565,12 @@ plot_demo <- function(variable) {
       panel.grid = element_blank(),
       axis.title = element_text(size = 14)
     ) +
-    xlab("Year") +
-    ylab(variable)
+    labs(x = "", y = "", title = str_to_title(variable)) +
+    scale_y_continuous(labels = scales::label_comma())
 }
 
-plot_demo("population")
-plot_demo("households")
+plot_demo("population") + plot_demo("households")
+
 ```
 
 <br>
@@ -570,49 +589,42 @@ Electricity in Minneapolis is served by Xcel Energy. In their report *Building a
 
 ## Residential Energy Assumptions
 
-The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.
+The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building. 
 
-### Residential Energy Baseline
-
-**Table \@ref(tab:tab-residential-energy-assumption)** shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 for the City of `r params$ctu_selection`.
-
-```{r tab-residential-energy-assumption}
-#| echo: false
-get_residential_energy_baseline() %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste(
-                "Residential Energy Assumption for",
-                params$ctu_selection,
-                "for 2018"
-              )
-  )
-```
-
-<br>
-
-### Residential Energy Forecast
+**Table \@ref(tab:tab-residential-energy)** shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040. 
 
 The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of the population size, and an extrapolating the historical floor area growth rate for the last ten years (based on 2018).
 
 The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing over time. It is calculated by dividing the change in floor area from one year to the next by the initial floor area. For example, if the floor area of a residential area increased by 10% from one year to the next, the floor area growth rate would be 10%.
 
-**Table \@ref(tab:tab-residential-energy-forecast)** shows the forecast assumption for the residential energy sector.
-
-```{r tab-residential-energy-forecast}
+```{r tab-residential-energy}
 #| echo: false
-calc_residential_energy_forecast() %>%
+#city baseline
+get_residential_energy_baseline() %>%
+  ungroup() %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2018" = value) %>%
+  
+  #city forcast
+  full_join(
+    calc_residential_energy_forecast() %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
-  kableformat(.,
-              .caption = paste(
-                "Residential Energy Forecast for",
-                params$ctu_selection,
-                "for 2040"
-              )
-  )
+    left_join(., variables, by = "var") %>%
+    mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value),
+  by = "Variables"
+  ) %>%
+  mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6))))  %>%
+
+  tableformat(.caption = paste0("Residential Energy for ", params$ctu_selection))
+    
 ```
 
 <br>
@@ -667,8 +679,28 @@ where
 
 ```{r tab-new-single-family-home-area}
 #| echo: false
-#| 
+
 calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .single_family_floor_area_growth_pct = 0.05
+) %>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2018,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  )%>%
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "2018" = value) %>%
+  
+  full_join(calc_affordable_floor_area(
   res_tb = building_data$residential,
   .single_family_floor_area_growth_pct = 0.05
 ) %>%
@@ -682,14 +714,61 @@ calc_affordable_floor_area(
       "single_family_units",
       "single_family_average_floor_area_sqft_ctu"
     )
-  ) %>%
-  kableformat(.,
+  )%>%
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "2040" = value),
+ by = "Variables") %>%
+  
+  tableformat(.,
               .caption = paste(
                 "New Single-Family Home Floor Area for",
-                params$ctu_selection,
-                "for 2040"
+                params$ctu_selection
               )
   )
+
+```
+
+*Figure \@ref(fig:fig-affordable-floor-area) could be a static or interactive figure. However, there do appear to be some questions about the parameters/results? The biggest issue is that I can't get the `run_scenario_building()` function to run without errors? Because I think(?) that is really the key function that we need to run here.  It is a bit unclear to me why the table (above) is not coming from running that larger `run_scenario_building` function, but instead coming from the the `calc_affordable_floor_area()` function. The plot below is made with the `calc_affordable_floor_area` function. Other, smaller issues are: 1) The box above suggest that the floor area can be reduced by 15%, but running the equation produces an error where "Warning: Single family floor area growth cannot be greater than %5". This is why you see only small floor area reductions in the figure. 2) It seems like the electricity/gas use is more influenced by year rather than reductions in floor area...for the purpose of the report, should this strategy be replaced with one that has a bigger impact on energy use? 3) It is unclear why the number of single family units decreases - the strategy description suggests that only floor area should decrease - is this a naming typo?*
+
+```{r fig-affordable-floor-area}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of single family floor area reduced due to increased energy prices.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+seq(0.01, 0.05, .01) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
+                                                    .single_family_floor_area_growth_pct = .x) 
+  ) %>% bind_rows(.id = "level") %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    )) %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
+  labs(x = "", y = "", color = "Percentage of\nsingle family\nfloor area\nreduced due to\nincreased energy\nprices") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
 ```
 
 <br>
@@ -724,7 +803,11 @@ calc_floor_area_leed(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(., .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 <br>
@@ -737,6 +820,53 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 -   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
+
+
+*Figure \@ref(fig:fig-new-leed-homes) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-new-leed-homes}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+
+seq(0.1, 0.5, .1) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_floor_area_leed(
+    res_tb = building_data$residential,
+   .new_homes_leed_gold_pct = .x,
+   .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
+  labs(x = "", y = "", color = "Percentage of\nnew single family\nhomes built to\nLEED Gold standards") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 #### Increase Existing Homes Energy Efficiency
 
@@ -777,7 +907,11 @@ calc_floor_area_retrofit(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})$$
@@ -788,6 +922,55 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 -   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
 -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
+
+
+*Figure \@ref(fig:fig-existing-home-efficiency) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-existing-home-efficiency}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of existing homes retrofitted to be more energy efficient.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+
+seq(0.2, 1, .2) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_floor_area_retrofit(
+    res_tb = building_data$residential,
+    .existing_home_retrofit_pct = .x,
+    .existing_home_ultra_retrofit_pct = 0.20,
+    .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = "Percentage of\nexisting single family\nretrofitted to\nreduce energy use\nby 33%") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 #### Promote Behavior Change for Residential Energy Efficiency
 
@@ -815,7 +998,11 @@ calc_floor_area_behavior_change(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-  kableformat(., .caption = paste("Behavior Change", params$ctu_selection, "2040"))
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(., .caption = paste("Behavior Change", params$ctu_selection, "2040"))
 ```
 
 <br>
@@ -826,6 +1013,54 @@ $$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/populati
 -   $X$: The percentage of homes that change their behavior for energy efficiency.
 -   $population_{2040}$: The total population in 2040.
 -   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
+
+*Figure \@ref(fig:fig-behavior-change) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-behavior-change}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of existing homes retrofitted to be more energy efficient.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+
+seq(0.2, 1, .2) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_floor_area_behavior_change(
+  res_tb = building_data$residential,
+  .home_behavior_change_pct = .x,
+  .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = "Percentage of\nhomes reducing\nenergy use\nvia behavior\nchange") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+
+```
+
 
 #### Decarbonize Residential Energy Use
 
@@ -855,7 +1090,11 @@ calc_ghg_residential(
       "residential_natural_gas_emissions_kg_co"
     )
   ) %>%
-  kableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
 <br>
@@ -863,6 +1102,55 @@ calc_ghg_residential(
 $$
 kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{residential}^{2040}) 
 $$
+
+
+*Figure \@ref(fig:fig-decarbonize-residential-energy) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-decarbonize-residential-energy}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of decarbonizing the grid.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+
+seq(0.2, 1, .2) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_ghg_residential(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  .grid_decarbonization_pct = .x,
+  .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    scen == "scen",
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co",
+      "total_residential_emissions"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "<sub>2</sub>", "2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = "Percentage of\ngrid which is\ndecarbonized") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 #### Electrifying Residential Heating
 
@@ -900,7 +1188,11 @@ calc_electrify_residential_heating(
     ctu_name == params$ctu_selection,
     scen == "scen"
   ) %>%
-  kableformat(.,
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(.,
               .caption = paste(
                 "Electrifying Residential Heating",
                 params$ctu_selection,
@@ -909,47 +1201,93 @@ calc_electrify_residential_heating(
   )
 ```
 
+
+*Figure \@ref(fig:fig-electrify-residential-heating) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-electrify-residential-heating}
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of electrififying residential buildings. Grid decarbonization is held constant at 80%, natural gas for space heating held at 71% and natural gas for water heating at 24% (the constants are the same as in the above table).", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6,
+#| warning= FALSE
+
+a <- seq(0.2, 1, .2) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_electrify_residential_heating(
+  res_tb = calc_ghg_residential(
+    res_tb = building_energy_bau_data$residential,
+    res_tb_bau = building_energy_bau_data$residential,
+    .grid_decarbonization_pct = 0.8,
+    .enviro_factors = enviro_factors
+  ),
+  .additional_electrified_residential_buildings_pct = .x,
+  .res_natural_gas_for_space_heating_pct = 0.71,
+  .res_natural_gas_for_water_heating_pct = 0.24,
+  .grid_decarbonization_pct = 0.80,
+  .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    scen == "scen",
+    var != "population")  %>%
+  left_join(., variables, by = "var")# %>%
+ a %>% mutate(desc = str_replace_all(desc, "<sub>2</sub>", "2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = value, color = level, group = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = "Percentage of\nresidential heating\nelectrified") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
 <br>
 
 ## Non-Residential Energy Assumptions
 
 Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.
 
-In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help the City of Minneapolis make informed decisions about energy efficiency and conservation efforts.
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
 
-### Non-Residential Energy Baseline
+**Table \@ref(tab:tab-non-residential-energy)** shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
 
-\@\@ shows the basic assumptions about non-residential electricity and natural gas use for the baseline year of 2018 for the City of Minneapolis.
-
-```{r tab-non-residential-energy-baseline}
-#| echo = FALSE
+```{r tab-non-residential-energy}
+#| echo: false
+#| message: false
+#city baseline
 get_non_residential_energy_baseline(tb = building_energy_data) %>%
   ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste("Non-Residential Energy Baseline", params$ctu_selection, "2018")
-  )
-```
-
-<br>
-
-### Non-Residential Energy Forecast
-
-**Table \@ref(tab:tab-non-residential-energy-forecast)** shows the forecast assumptions for non-residential electricity and natural gas use for the City of Minneapolis.
-
-```{r tab-non-residential-energy-forecast}
-#| echo = FALSE
-calc_non_residential_energy_forecast(tb = building_energy_data) %>%
+  filter(ctu_name == params$ctu_selection)  %>%
+  left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2018" = value) %>%
+  
+  #city forcast
+  full_join(
+    calc_non_residential_energy_forecast(tb = building_energy_data) %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
-  kableformat(.,
-              .caption = paste(
-                "Non-Residential Energy Forecast",
-                params$ctu_selection,
-                "2040"
-              )
-  )
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)
+  )  %>%
+  tableformat(.,
+              .caption = paste("Non-Residential Energy for ", params$ctu_selection)
+    )
 ```
+
 
 <br>
 
@@ -1007,7 +1345,12 @@ calc_electrify_commercial_heating(
       "total_industrial_commercial_emissions"
     )
   ) %>%
-  kableformat(.,
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)  %>%
+  tableformat(.,
               .caption = paste(
                 "Electrifying Commercial Heating",
                 params$ctu_selection,
@@ -1082,38 +1425,7 @@ The regional model provides PMT totals for auto, transit, bike, and walk modes. 
 
 The Twin Cities region is a critical transportation hub for the upper Midwest, serving as a distribution center for Minnesota, Wisconsin, North and South Dakota, and eastern Montana. The region is served by five modes of freight transportation: trucks, railroads, barges, air freight, and pipelines. These modes play a crucial role in supporting the region's economic competitiveness and quality of life by allowing residents to access the goods and materials they need and enabling businesses to distribute their products.
 
-The region's freight transportation system is facing challenges, including congestion, lack of capacity, and infrastructure deficiencies, which need to be addressed to ensure the system's continued effectiveness. The Metropolitan Council works closely with the Minnesota Department of Transportation and other partners to ensure that the regional freight system supports a thriving and sustainable economy. Many freight-related improvements are the responsibility of private owners and operators of transportation modes and freight terminal facilities, although public investments in infrastructure also play a role
-
-```{r tab-freight-miles-traveled}
-transportation_data$freight %>%
-  filter(
-    ctu == params$ctu_selection,
-    var == "TMT",
-    year == 2018
-  ) %>%
-  left_join(.,
-            transportation_index$modes,
-            by = c("mode" = "mode_abbrev")
-  ) %>%
-  select(mode_description_1, value) %>%
-  rename("var" = "mode_description_1") %>%
-  rename(
-    "Mode" = "var",
-    "Value" = "value"
-  ) %>%
-  mutate(Value = round(Value, digits = 0)) %>% 
-  kableExtra::kable(
-    caption = paste0("Freight Miles Traveled by Mode ", params$ctu_selection, " 2018"),
-    format = "html",
-    escape = FALSE,
-    format.args = list(big.mark = ",", digits = 6)
-  ) %>%
-  kableExtra::kable_classic(
-    html_font = "Arial",
-    full_width = F,
-    font_size = 12
-  )
-```
+The region's freight transportation system is facing challenges, including congestion, lack of capacity, and infrastructure deficiencies, which need to be addressed to ensure the system's continued effectiveness. The Metropolitan Council works closely with the Minnesota Department of Transportation and other partners to ensure that the regional freight system supports a thriving and sustainable economy. Many freight-related improvements are the responsibility of private owners and operators of transportation modes and freight terminal facilities, although public investments in infrastructure also play a role.
 
 <br>
 
@@ -1138,18 +1450,10 @@ transportation_data$passenger %>%
     "Value" = "value"
   ) %>%
   mutate(Value = round(Value, digits = 0)) %>% 
-  tidyr::pivot_wider(names_from = year, values_from = Value) %>% 
-  kableExtra::kable(
-    caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection, "  2040 Forecast"),
-    format = "html",
-    escape = FALSE,
-    format.args = list(big.mark = ",", digits = 6)
-  ) %>%
-  kableExtra::kable_classic(
-    html_font = "Arial",
-    full_width = F,
-    font_size = 12
-  )
+  
+  tableformat(.caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection, "  2040 Forecast"))
+
+
 ```
 
 
@@ -1171,18 +1475,9 @@ transportation_data$freight %>%
     "Mode" = "var",
     "Value" = "value"
   ) %>%
-  tidyr::pivot_wider(names_from = year, values_from = Value) %>% 
-  kableExtra::kable(
-    caption = paste0("Freight Miles Traveled by Mode - ", params$ctu_selection),
-    format = "html",
-    escape = FALSE,
-    format.args = list(big.mark = ",", digits = 6)
-  ) %>%
-  kableExtra::kable_classic(
-    html_font = "Arial",
-    full_width = F,
-    font_size = 12
-  )
+  tidyr::pivot_wider(names_from = year, values_from = Value)  %>% 
+  
+  tableformat(.caption = paste0("Freight Miles Traveled by Mode - ", params$ctu_selection))
 ```
 
 
@@ -1253,6 +1548,36 @@ ghg.sp::elast_5d %>%
 # vmt_land_use_change()
 ```
 
+
+
+```{r fig-landuse}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of population density (aka land use) change.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
+# vmt_telework()
+density_ctu %>%
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+                     breaks = c("-100%", "-50%", "0%", "50%", "100%")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\npopulation density\nadjustment (%)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
+
+
 ### Vehicle Electrification
 
 The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.
@@ -1261,8 +1586,30 @@ The Tool uses data from the Market Acceptance of Advanced Automotive Technologie
 
 The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.
 
-```{r tab-annual-energy-outlook}
+```{r fig-bev}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
 # vmt_annual_energy_outlook()
+bev_ctu %>%
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
 ```
 
 ### Public Transit
@@ -1273,6 +1620,34 @@ According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minne
 # vmt_transit_service()
 ```
 
+
+```{r fig-transitservice}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of transit service.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
+# vmt_telework()
+telework_ctu %>%
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\ntransit service\nadjustment (%)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
+
 ### Telework
 
 Telework is working from home, reducing or eliminating the need to commute. In 2020, an estimated 35% of jobs in the United States could be performed from home, varying by metropolitan area. In Minneapolis and St. Paul, approximately 38-52% of jobs can be completed through telework.1 In a first approximation, telework eliminates commute vehicle miles traveled, which can reduce greenhouse gas emissions. However, the net effect on vehicle miles traveled, and household greenhouse gas production must also be considered. Recent studies that include energy associated with working from home find an effective reduction of about 2.5-3% in household CO2 emissions per telework day.
@@ -1282,8 +1657,32 @@ help(vmt_telework, package = ghg.sp)
 ```
 
 
-```{r tab-vmt-telework}
+*Figure \@ref(fig:fig-telework) could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
+
+```{r fig-telework}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of telworking.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
 # vmt_telework()
+telework_ctu %>%
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nteleworking (%)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
 ```
 
 ### Road Pricing
@@ -1295,6 +1694,37 @@ The scenario planning model includes three alternatives for road pricing. The fi
 ```{r tab-road-policy}
 # vmt_road_policy()
 ```
+
+
+*Figure \@ref(fig:fig-roadprice) could be a static or interactive figure. However, nothing seems to matter...*
+
+```{r fig-roadprice}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different levels of road pricing.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
+
+roadprice_ctu %>%
+  mutate(level = paste0("$", as.numeric(param))) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
+                     # ,breaks = c("20%", "40%", "60%", "80%", "100%")
+                     ) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\ncongestion price\n($ per mile)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 ### Parking Policy
 
@@ -1353,6 +1783,37 @@ ghg.sp::elast %>%
   gt::opt_row_striping() %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
+
+
+*Figure \@ref(fig:fig-parkingprice) could be a static or interactive figure. However, nothing seems to matter...*
+
+```{r fig-parkingprice}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for levels of parking pricing.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
+
+parking_ctu %>%
+  mutate(level = paste0("$", as.numeric(param))) %>%
+  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+                                   ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
+                     # ,breaks = c("20%", "40%", "60%", "80%", "100%")
+                     ) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nparking price\n($ per hour)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      # panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```
+
 
 ![](images//4482.jpg)
 
