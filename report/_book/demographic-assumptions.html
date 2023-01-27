@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Demographic Assumptions | Greenhouse Gas Emissions Scenario Planning</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Demographic Assumptions | Greenhouse Gas Emissions Scenario Planning" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Demographic Assumptions | Greenhouse Gas Emissions Scenario Planning" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Metropolitan Council" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="building-energy.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.2/tabwid.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li><a href="section.html#section" id="toc-section"></a>
+<ul>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html"><i class="fa fa-check"></i>Metropolitan Council</a></li>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html#executive-summary"><i class="fa fa-check"></i>Executive Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>1.1</b> Overview</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#greenhouse-gas-emissions"><i class="fa fa-check"></i><b>1.2</b> Greenhouse Gas Emissions</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#impact-of-climate-change-in-minnesota"><i class="fa fa-check"></i><b>1.3</b> Impact of Climate Change in Minnesota</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#scenario-planning"><i class="fa fa-check"></i><b>1.4</b> Scenario Planning</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#stakeholder-engagement"><i class="fa fa-check"></i><b>1.5</b> Stakeholder Engagement</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="introduction.html"><a href="introduction.html#vehicle-electrification"><i class="fa fa-check"></i><b>1.5.1</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="1.5.2" data-path="introduction.html"><a href="introduction.html#grid-renewables"><i class="fa fa-check"></i><b>1.5.2</b> Grid Renewables</a></li>
+<li class="chapter" data-level="1.5.3" data-path="introduction.html"><a href="introduction.html#building-retrofits"><i class="fa fa-check"></i><b>1.5.3</b> Building Retrofits</a></li>
+<li class="chapter" data-level="1.5.4" data-path="introduction.html"><a href="introduction.html#mixed-use-development"><i class="fa fa-check"></i><b>1.5.4</b> Mixed-Use Development</a></li>
+<li class="chapter" data-level="1.5.5" data-path="introduction.html"><a href="introduction.html#building-codes"><i class="fa fa-check"></i><b>1.5.5</b> Building Codes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="demographic-assumptions.html"><a href="demographic-assumptions.html"><i class="fa fa-check"></i><b>2</b> Demographic Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="building-energy.html"><a href="building-energy.html"><i class="fa fa-check"></i><b>3</b> Building Energy</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="building-energy.html"><a href="building-energy.html#residential-energy-assumptions"><i class="fa fa-check"></i><b>3.1</b> Residential Energy Assumptions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="building-energy.html"><a href="building-energy.html#residential-energy-strategies"><i class="fa fa-check"></i><b>3.1.1</b> Residential Energy Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-assumptions"><i class="fa fa-check"></i><b>3.2</b> Non-Residential Energy Assumptions</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-strategies"><i class="fa fa-check"></i><b>3.2.1</b> Non-Residential Energy Strategies</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="transportation.html"><a href="transportation.html"><i class="fa fa-check"></i><b>4</b> Transportation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="transportation.html"><a href="transportation.html#framework"><i class="fa fa-check"></i><b>4.1</b> Framework</a></li>
+<li class="chapter" data-level="4.2" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-data"><i class="fa fa-check"></i><b>4.2</b> Transportation Baseline and Data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="transportation.html"><a href="transportation.html#annual-energy-outlook-aeo"><i class="fa fa-check"></i><b>4.2.1</b> Annual Energy Outlook (AEO)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="transportation.html"><a href="transportation.html#passenger"><i class="fa fa-check"></i><b>4.2.2</b> Passenger</a></li>
+<li class="chapter" data-level="4.2.3" data-path="transportation.html"><a href="transportation.html#freight"><i class="fa fa-check"></i><b>4.2.3</b> Freight</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-forecast"><i class="fa fa-check"></i><b>4.3</b> Transportation Baseline and Forecast</a></li>
+<li class="chapter" data-level="4.4" data-path="transportation.html"><a href="transportation.html#interventionsstrategies"><i class="fa fa-check"></i><b>4.4</b> Interventions/Strategies</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="transportation.html"><a href="transportation.html#land-use"><i class="fa fa-check"></i><b>4.4.1</b> Land Use</a></li>
+<li class="chapter" data-level="4.4.2" data-path="transportation.html"><a href="transportation.html#vehicle-electrification-1"><i class="fa fa-check"></i><b>4.4.2</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="4.4.3" data-path="transportation.html"><a href="transportation.html#public-transit"><i class="fa fa-check"></i><b>4.4.3</b> Public Transit</a></li>
+<li class="chapter" data-level="4.4.4" data-path="transportation.html"><a href="transportation.html#telework"><i class="fa fa-check"></i><b>4.4.4</b> Telework</a></li>
+<li class="chapter" data-level="4.4.5" data-path="transportation.html"><a href="transportation.html#road-pricing"><i class="fa fa-check"></i><b>4.4.5</b> Road Pricing</a></li>
+<li class="chapter" data-level="4.4.6" data-path="transportation.html"><a href="transportation.html#parking-policy"><i class="fa fa-check"></i><b>4.4.6</b> Parking Policy</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://metrocouncil.org/" target="blank">Metropolitan Council</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Greenhouse Gas Emissions Scenario Planning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="demographic-assumptions" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Demographic Assumptions<a href="demographic-assumptions.html#demographic-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="images/3746.jpg" /></p>
+<p>The Greenhouse Gas Scenario Planning Tool uses the best available demographic assumptions for cities in the Metropolitan Region to forecast emissions in 2040.</p>
+<p>Some common predictors of greenhouse gas emissions at the city scale include:</p>
+<div class="facts">
+<ul>
+<li><p><strong><em>Population Density</em></strong> Minneapolis, the largest city in Minnesota, has a high population density. Higher density means more people live in a relatively small area compared to other regions’ cities. Higher population densities are often associated with increased energy consumption, as residents need to use energy for daily activities and power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.</p></li>
+<li><p><strong><em>Economic Activity</em></strong> According to the <a href="https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp">Minnesota Department of Employment and Economic Development</a>, the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.</p></li>
+<li><p><strong><em>Urban Planning</em></strong> The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The <a href="https://go.minneapolismn.gov/">Minneapolis Transportation Action Plan</a> was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.</p></li>
+<li><p><strong><em>Extreme Climate</em></strong> Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.</p></li>
+<li><p><strong><em>Energy efficiency</em></strong> Finally, a city’s energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.</p></li>
+</ul>
+</div>
+<p>We obtained baseline 2018 values for population, households, and employment from the <a href="https://www.census.gov/programs-surveys/acs">US Census and American Community Survey</a> (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (<strong>Table <a href="demographic-assumptions.html#tab:tab-demographic-assumptions">2.1</a></strong>).</p>
+<p>The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the <a href="https://www.hennepin.us/residents/property/property-information-search">County Assessor Parcel</a> dataset and the Zillow <a href="https://www.zillow.com/research/ztrax/">ZTRAX</a> dataset.</p>
+<p><strong>Figure <a href="#fig:figure-demographics"><strong>??</strong></a></strong> shows the comparison of population and households for Minneapolis in 2018 with the 2040 forecast.</p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-demographic-assumptions">Table 2.1: </span>Demographics for Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+Minneapolis 2018
+</th>
+<th style="text-align:right;">
+Hennepin Co. 2018
+</th>
+<th style="text-align:right;">
+Minneapolis 2040
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Households
+</td>
+<td style="text-align:right;">
+182,719.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+212,500.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Population
+</td>
+<td style="text-align:right;">
+428,483.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+485,000.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jobs
+</td>
+<td style="text-align:right;">
+333,471.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+360,000.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Jobs
+</td>
+<td style="text-align:right;">
+256,713.00
+</td>
+<td style="text-align:right;">
+511,466.00
+</td>
+<td style="text-align:right;">
+292,134.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Jobs
+</td>
+<td style="text-align:right;">
+42,266.00
+</td>
+<td style="text-align:right;">
+90,604.00
+</td>
+<td style="text-align:right;">
+71,226.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of Single Family Units
+</td>
+<td style="text-align:right;">
+76,935.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+76,494.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of Multifamily Units
+</td>
+<td style="text-align:right;">
+123,504.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+145,653.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Single Family Average Floor Area (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,359.56
+</td>
+<td style="text-align:right;">
+1,542.44
+</td>
+<td style="text-align:right;">
+1,563.49
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Multifamily Average Floor Area (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,105.92
+</td>
+<td style="text-align:right;">
+1,132.31
+</td>
+<td style="text-align:right;">
+1,099.40
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="_main_files/figure-html/figure-demographics-1.png" width="672" /></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="building-energy.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02_demographics.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

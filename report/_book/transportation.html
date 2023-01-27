@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Transportation | Greenhouse Gas Emissions Scenario Planning</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Transportation | Greenhouse Gas Emissions Scenario Planning" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Transportation | Greenhouse Gas Emissions Scenario Planning" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Metropolitan Council" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="building-energy.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.2/tabwid.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li><a href="section.html#section" id="toc-section"></a>
+<ul>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html"><i class="fa fa-check"></i>Metropolitan Council</a></li>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html#executive-summary"><i class="fa fa-check"></i>Executive Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>1.1</b> Overview</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#greenhouse-gas-emissions"><i class="fa fa-check"></i><b>1.2</b> Greenhouse Gas Emissions</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#impact-of-climate-change-in-minnesota"><i class="fa fa-check"></i><b>1.3</b> Impact of Climate Change in Minnesota</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#scenario-planning"><i class="fa fa-check"></i><b>1.4</b> Scenario Planning</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#stakeholder-engagement"><i class="fa fa-check"></i><b>1.5</b> Stakeholder Engagement</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="introduction.html"><a href="introduction.html#vehicle-electrification"><i class="fa fa-check"></i><b>1.5.1</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="1.5.2" data-path="introduction.html"><a href="introduction.html#grid-renewables"><i class="fa fa-check"></i><b>1.5.2</b> Grid Renewables</a></li>
+<li class="chapter" data-level="1.5.3" data-path="introduction.html"><a href="introduction.html#building-retrofits"><i class="fa fa-check"></i><b>1.5.3</b> Building Retrofits</a></li>
+<li class="chapter" data-level="1.5.4" data-path="introduction.html"><a href="introduction.html#mixed-use-development"><i class="fa fa-check"></i><b>1.5.4</b> Mixed-Use Development</a></li>
+<li class="chapter" data-level="1.5.5" data-path="introduction.html"><a href="introduction.html#building-codes"><i class="fa fa-check"></i><b>1.5.5</b> Building Codes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="demographic-assumptions.html"><a href="demographic-assumptions.html"><i class="fa fa-check"></i><b>2</b> Demographic Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="building-energy.html"><a href="building-energy.html"><i class="fa fa-check"></i><b>3</b> Building Energy</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="building-energy.html"><a href="building-energy.html#residential-energy-assumptions"><i class="fa fa-check"></i><b>3.1</b> Residential Energy Assumptions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="building-energy.html"><a href="building-energy.html#residential-energy-strategies"><i class="fa fa-check"></i><b>3.1.1</b> Residential Energy Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-assumptions"><i class="fa fa-check"></i><b>3.2</b> Non-Residential Energy Assumptions</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-strategies"><i class="fa fa-check"></i><b>3.2.1</b> Non-Residential Energy Strategies</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="transportation.html"><a href="transportation.html"><i class="fa fa-check"></i><b>4</b> Transportation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="transportation.html"><a href="transportation.html#framework"><i class="fa fa-check"></i><b>4.1</b> Framework</a></li>
+<li class="chapter" data-level="4.2" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-data"><i class="fa fa-check"></i><b>4.2</b> Transportation Baseline and Data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="transportation.html"><a href="transportation.html#annual-energy-outlook-aeo"><i class="fa fa-check"></i><b>4.2.1</b> Annual Energy Outlook (AEO)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="transportation.html"><a href="transportation.html#passenger"><i class="fa fa-check"></i><b>4.2.2</b> Passenger</a></li>
+<li class="chapter" data-level="4.2.3" data-path="transportation.html"><a href="transportation.html#freight"><i class="fa fa-check"></i><b>4.2.3</b> Freight</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-forecast"><i class="fa fa-check"></i><b>4.3</b> Transportation Baseline and Forecast</a></li>
+<li class="chapter" data-level="4.4" data-path="transportation.html"><a href="transportation.html#interventionsstrategies"><i class="fa fa-check"></i><b>4.4</b> Interventions/Strategies</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="transportation.html"><a href="transportation.html#land-use"><i class="fa fa-check"></i><b>4.4.1</b> Land Use</a></li>
+<li class="chapter" data-level="4.4.2" data-path="transportation.html"><a href="transportation.html#vehicle-electrification-1"><i class="fa fa-check"></i><b>4.4.2</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="4.4.3" data-path="transportation.html"><a href="transportation.html#public-transit"><i class="fa fa-check"></i><b>4.4.3</b> Public Transit</a></li>
+<li class="chapter" data-level="4.4.4" data-path="transportation.html"><a href="transportation.html#telework"><i class="fa fa-check"></i><b>4.4.4</b> Telework</a></li>
+<li class="chapter" data-level="4.4.5" data-path="transportation.html"><a href="transportation.html#road-pricing"><i class="fa fa-check"></i><b>4.4.5</b> Road Pricing</a></li>
+<li class="chapter" data-level="4.4.6" data-path="transportation.html"><a href="transportation.html#parking-policy"><i class="fa fa-check"></i><b>4.4.6</b> Parking Policy</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://metrocouncil.org/" target="blank">Metropolitan Council</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Greenhouse Gas Emissions Scenario Planning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="transportation" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Transportation<a href="transportation.html#transportation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="images/2724.jpg" /></p>
+<p>The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region’s developed area in an “auto-centric” manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.</p>
+<p>Instead, when land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system’s efficiency.</p>
+<div id="framework" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Framework<a href="transportation.html#framework" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ramaswami, Fang, and Tabory <span class="citation">(<a href="#ref-ramaswamiReviewIntegratedUrban2020" role="doc-biblioref">Ramaswami, Fang, and Tabory 2020</a>)</span> provide a framework for urban planning tools for greenhouse gas (GHG) mitigation as shown in as four key levers of action based on the framework developed in previous work by the UN International Resource Panel <span class="citation">(<a href="#ref-swillingWeightCitiesResource2018" role="doc-biblioref">Swilling et al. 2018</a>)</span>.</p>
+<p>It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre <span class="citation">(<a href="#ref-santasieriPlanningTransitSupportiveDevelopment2014" role="doc-biblioref">Santasieri 2014</a>)</span> and 5-10 dwelling units per acre <span class="citation">(<a href="#ref-millard-ballAutonomousVehicleParking2019" role="doc-biblioref">Millard-Ball 2019</a>)</span>, respectively.</p>
+</div>
+<div id="transportation-baseline-and-data" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Transportation Baseline and Data<a href="transportation.html#transportation-baseline-and-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Council is in the process of verifying data sources for all inputs and values.</p>
+<p>The inputs for the transportation sector baseline and forecast are:</p>
+<ul>
+<li><strong>Passenger Miles Traveled</strong> (PMT) forecasts from Metropolitan Council <a href="https://metrocouncil.org/Transportation/Performance/Travel-Forecasting.aspx">Regional Transportation Demand Model (RTDM)</a>.</li>
+<li><strong>The Transportation Demand Model</strong> A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.</li>
+<li><strong>Average vehicle occupancy by mode</strong></li>
+<li><strong>MA3T stock turnover and adoption forecasts by “powertrain”</strong>: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric. <a href="https://teem.ornl.gov/ma3t.shtml">MA3T</a> stands for Market Acceptance of Advanced Automotive Technologies (MA3T) and it allows to simulate the diverse purchasing behaviors among individuals in the market place.</li>
+</ul>
+<div id="annual-energy-outlook-aeo" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Annual Energy Outlook (AEO)<a href="transportation.html#annual-energy-outlook-aeo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.</p>
+<p>The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool <span class="citation">(<a href="#ref-eiaAnnualEnergyOutlook2021" role="doc-biblioref"><span>“Annual <span>Energy Outlook</span>”</span> 2021</a>)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><strong>High oil price</strong> the price of Brent crude oil, in 2020 dollars, reaches $173 per barrel by 2050 compared with $95 per barrel in the reference case.<br />
+</li>
+<li><strong>Low oil price</strong> the price of Brent crude oil, in 2020 dollars, drops to $48 per barrel by 2050 compared with $95 per barrel in the reference case.<br />
+</li>
+<li><strong>High economic growth</strong> U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.<br />
+</li>
+<li><strong>Low economic growth</strong> U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.</li>
+</ol>
+<p>The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.</p>
+</div>
+<div id="passenger" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Passenger<a href="transportation.html#passenger" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline, and battery electric vehicles.</p>
+<p>The region’s transportation carbon emissions are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the <a href="https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx">2019 Travel Behavior Inventory (TBI)</a>, but there are no estimates of transit vehicle turnover to the 2050 forecast year.</p>
+<p>The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV).</p>
+<p>Public transit modes are categorized as urban bus, bus rapid transit (BRT), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue. The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050.</p>
+<p>In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles <span class="citation">(<a href="#ref-lovedayTopPlugInHybrid2019" role="doc-biblioref">Loveday 2019</a>)</span> and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.</p>
+<p>The regional model provides PMT totals for auto, transit, bike, and walk modes. PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities <span class="citation">(<a href="#ref-theworldresourcesinstituteWRIAnnualReport2012" role="doc-biblioref">The World Resources Institute 2012</a>)</span>. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study <span class="citation">(<a href="#ref-porterCarbonFreeBoston2019" role="doc-biblioref">Porter et al. 2019</a>)</span>.</p>
+</div>
+<div id="freight" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Freight<a href="transportation.html#freight" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Twin Cities region is a critical transportation hub for the upper Midwest, serving as a distribution center for Minnesota, Wisconsin, North and South Dakota, and eastern Montana. The region is served by five modes of freight transportation: trucks, railroads, barges, air freight, and pipelines. These modes play a crucial role in supporting the region’s economic competitiveness and quality of life by allowing residents to access the goods and materials they need and enabling businesses to distribute their products.</p>
+<p>The region’s freight transportation system is facing challenges, including congestion, lack of capacity, and infrastructure deficiencies, which need to be addressed to ensure the system’s continued effectiveness. The Metropolitan Council works closely with the Minnesota Department of Transportation and other partners to ensure that the regional freight system supports a thriving and sustainable economy. Many freight-related improvements are the responsibility of private owners and operators of transportation modes and freight terminal facilities, although public investments in infrastructure also play a role.</p>
+</div>
+</div>
+<div id="transportation-baseline-and-forecast" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Transportation Baseline and Forecast<a href="transportation.html#transportation-baseline-and-forecast" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-passenger-miles-traveled">Table 4.1: </span>Passenger Miles Traveled by Mode Minneapolis 2040 Forecast
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Mode
+</th>
+<th style="text-align:right;">
+Value
+</th>
+<th style="text-align:left;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Passenger light duty vehicle
+</td>
+<td style="text-align:right;">
+3,879,556
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Passenger light duty vehicle
+</td>
+<td style="text-align:right;">
+3,669,647
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Active transportation (walk and bike)
+</td>
+<td style="text-align:right;">
+316,757
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Active transportation (walk and bike)
+</td>
+<td style="text-align:right;">
+347,165
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban bus (standard, non-BRT bus)
+</td>
+<td style="text-align:right;">
+220,289
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban bus (standard, non-BRT bus)
+</td>
+<td style="text-align:right;">
+241,437
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bus rapid transit
+</td>
+<td style="text-align:right;">
+5,126
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bus rapid transit
+</td>
+<td style="text-align:right;">
+5,618
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban rail
+</td>
+<td style="text-align:right;">
+78,635
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban rail
+</td>
+<td style="text-align:right;">
+86,183
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Intercity rail
+</td>
+<td style="text-align:right;">
+12,707
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Intercity rail
+</td>
+<td style="text-align:right;">
+13,927
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Walk
+</td>
+<td style="text-align:right;">
+105,340
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Walk
+</td>
+<td style="text-align:right;">
+133,347
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bike
+</td>
+<td style="text-align:right;">
+67,247
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bike
+</td>
+<td style="text-align:right;">
+71,290
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+School bus
+</td>
+<td style="text-align:right;">
+37,683
+</td>
+<td style="text-align:left;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+School bus
+</td>
+<td style="text-align:right;">
+53,755
+</td>
+<td style="text-align:left;">
+2040
+</td>
+</tr>
+</tbody>
+</table>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-freight-miles-traveled-forecast">Table 4.2: </span>Freight Miles Traveled by Mode - Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Mode
+</th>
+<th style="text-align:right;">
+2018
+</th>
+<th style="text-align:right;">
+2040
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Combined unit truck
+</td>
+<td style="text-align:right;">
+684,122.58
+</td>
+<td style="text-align:right;">
+937,773.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Single unit truck
+</td>
+<td style="text-align:right;">
+228,815.33
+</td>
+<td style="text-align:right;">
+313,652.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Freight rail
+</td>
+<td style="text-align:right;">
+1,876,341.80
+</td>
+<td style="text-align:right;">
+1,996,576.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Multi-modal freight (combination of truck and rail)
+</td>
+<td style="text-align:right;">
+441,925.81
+</td>
+<td style="text-align:right;">
+655,486.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Air freight
+</td>
+<td style="text-align:right;">
+7,867.95
+</td>
+<td style="text-align:right;">
+20,451.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Water freight
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+</tbody>
+</table>
+<div class="facts">
+<p><strong>Embodied Emissions</strong></p>
+<p>Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (<span class="citation">(<a href="#ref-Chester_Horvath_2009" role="doc-biblioref">Chester and Horvath 2009</a>)</span>) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle’s lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.</p>
+</div>
+</div>
+<div id="interventionsstrategies" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Interventions/Strategies<a href="transportation.html#interventionsstrategies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.</p>
+<div id="land-use" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Land Use<a href="transportation.html#land-use" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the “five D’s” (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.</p>
+<p>The Metropolitan Council Transportation Policy Plan discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.</p>
+<p>Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a <code>0.4%</code> decrease in auto VMT for a <code>10%</code> increase in population density by 2040, a <code>7%</code> increase in walking/cycling VMT for a <code>10%</code> increase in population density by 2040, and a <code>7%</code> increase in transit VMT for a <code>10%</code> increase in population density by 2040.</p>
+<div id="land-use-effects" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#land-use-effects .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#land-use-effects .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-effects .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#land-use-effects .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#land-use-effects .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#land-use-effects .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-effects .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-effects .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#land-use-effects .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#land-use-effects .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#land-use-effects .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#land-use-effects .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#land-use-effects .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#land-use-effects .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#land-use-effects .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#land-use-effects .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#land-use-effects .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#land-use-effects .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-effects .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#land-use-effects .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#land-use-effects .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-effects .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-effects .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#land-use-effects .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-effects .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-effects .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-effects .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#land-use-effects .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-effects .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-effects .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-effects .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-effects .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-effects .gt_left {
+  text-align: left;
+}
+
+#land-use-effects .gt_center {
+  text-align: center;
+}
+
+#land-use-effects .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#land-use-effects .gt_font_normal {
+  font-weight: normal;
+}
+
+#land-use-effects .gt_font_bold {
+  font-weight: bold;
+}
+
+#land-use-effects .gt_font_italic {
+  font-style: italic;
+}
+
+#land-use-effects .gt_super {
+  font-size: 65%;
+}
+
+#land-use-effects .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#land-use-effects .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#land-use-effects .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#land-use-effects .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#land-use-effects .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#land-use-effects .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#land-use-effects .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><span id="tab:tab-land-use-effects">Table 4.3: </span>Land use adjustment values</caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Land Use Adjustment">Land Use Adjustment</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Multiplier relative to BAU">Multiplier relative to BAU</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Effect on miles traveled by 2050">Effect on miles traveled by 2050</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <th colspan="3" class="gt_group_heading" scope="colgroup" id="Drive">Drive</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Drive  Land Use Adjustment" class="gt_row gt_left">Population density</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right">-4%</td></tr>
+    <tr><td headers="Drive  Land Use Adjustment" class="gt_row gt_left gt_striped">Employment density</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+0%</td></tr>
+    <tr><td headers="Drive  Land Use Adjustment" class="gt_row gt_left">Land use diversity</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right">-9%</td></tr>
+    <tr><td headers="Drive  Land Use Adjustment" class="gt_row gt_left gt_striped">Intersection design</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">-12%</td></tr>
+    <tr><td headers="Drive  Land Use Adjustment" class="gt_row gt_left">Job accessability by transit</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right">-20%</td></tr>
+    <tr><td headers="Drive  Land Use Adjustment" class="gt_row gt_left gt_striped">Distance to transit</td>
+<td headers="Drive  Multiplier relative to BAU" class="gt_row gt_right gt_striped">-10%</td>
+<td headers="Drive  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">-5%</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="3" class="gt_group_heading" scope="colgroup" id="Walk">Walk</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Walk  Land Use Adjustment" class="gt_row gt_left">Population density</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right">+7%</td></tr>
+    <tr><td headers="Walk  Land Use Adjustment" class="gt_row gt_left gt_striped">Employment density</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+4%</td></tr>
+    <tr><td headers="Walk  Land Use Adjustment" class="gt_row gt_left">Land use diversity</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right">+15%</td></tr>
+    <tr><td headers="Walk  Land Use Adjustment" class="gt_row gt_left gt_striped">Intersection design</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">-6%</td></tr>
+    <tr><td headers="Walk  Land Use Adjustment" class="gt_row gt_left">Job accessability by transit</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right">-6%</td></tr>
+    <tr><td headers="Walk  Land Use Adjustment" class="gt_row gt_left gt_striped">Distance to transit</td>
+<td headers="Walk  Multiplier relative to BAU" class="gt_row gt_right gt_striped">-10%</td>
+<td headers="Walk  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+15%</td></tr>
+    <tr class="gt_group_heading_row">
+      <th colspan="3" class="gt_group_heading" scope="colgroup" id="Transit">Transit</th>
+    </tr>
+    <tr class="gt_row_group_first"><td headers="Transit  Land Use Adjustment" class="gt_row gt_left">Population density</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right">+7%</td></tr>
+    <tr><td headers="Transit  Land Use Adjustment" class="gt_row gt_left gt_striped">Employment density</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+1%</td></tr>
+    <tr><td headers="Transit  Land Use Adjustment" class="gt_row gt_left">Land use diversity</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right">+12%</td></tr>
+    <tr><td headers="Transit  Land Use Adjustment" class="gt_row gt_left gt_striped">Intersection design</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+29%</td></tr>
+    <tr><td headers="Transit  Land Use Adjustment" class="gt_row gt_left">Job accessability by transit</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right">+10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right">+12.8%</td></tr>
+    <tr><td headers="Transit  Land Use Adjustment" class="gt_row gt_left gt_striped">Distance to transit</td>
+<td headers="Transit  Multiplier relative to BAU" class="gt_row gt_right gt_striped">-10%</td>
+<td headers="Transit  Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+29%</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p><img src="_main_files/figure-html/fig-landuse-1.png" width="672" /></p>
+</div>
+<div id="vehicle-electrification-1" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Vehicle Electrification<a href="transportation.html#vehicle-electrification-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.</p>
+<p>The Tool uses data from the Market Acceptance of Advanced Automotive Technologies model to forecast electric vehicle market penetration in the region, and considers the GHG intensity of the region’s electricity grid in calculating the GHG impact of electric vehicles.</p>
+<p>The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.</p>
+<p><img src="_main_files/figure-html/fig-bev-1.png" width="672" /></p>
+</div>
+<div id="public-transit" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Public Transit<a href="transportation.html#public-transit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>According to the <a href="https://go.minneapolismn.gov/">Minneapolis Transportation Action Plan (TAP)</a>, transit is essential for the city’s multimodal transportation system. Transit contributes to economic competitiveness by attracting businesses, private investment, and top talent. Over 30,000 (16.5%) households in the city do not have access to or choose not to own a personal car, with the highest concentration of car-free individuals living in neighborhoods around downtown Minneapolis. The TAP aims to improve the coverage, speed, and reliability of transit service through a partnership with the Metropolitan Council and by defining clear priorities, goals, and actions for the city. The goal is to increase the number of transit trips from 13% in 2019 to 25% by 2030. Transit must be convenient, reliable, and frequent and effectively reduce trips made by single-occupancy vehicles to achieve these goals.</p>
+<p><img src="_main_files/figure-html/fig-transitservice-1.png" width="672" /></p>
+</div>
+<div id="telework" class="section level3 hasAnchor" number="4.4.4">
+<h3><span class="header-section-number">4.4.4</span> Telework<a href="transportation.html#telework" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Telework is working from home, reducing or eliminating the need to commute. In 2020, an estimated 35% of jobs in the United States could be performed from home, varying by metropolitan area. In Minneapolis and St. Paul, approximately 38-52% of jobs can be completed through telework.1 In a first approximation, telework eliminates commute vehicle miles traveled, which can reduce greenhouse gas emissions. However, the net effect on vehicle miles traveled, and household greenhouse gas production must also be considered. Recent studies that include energy associated with working from home find an effective reduction of about 2.5-3% in household CO2 emissions per telework day.</p>
+<p><em>Figure <a href="#fig:fig-telework"><strong>??</strong></a> could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn’t impact emissions? Look inside the data-raw folder at the “CityReportTransData.R” script to see where/how I got these numbers if any troubleshooting needs to happen.</em></p>
+<p><img src="_main_files/figure-html/fig-telework-1.png" width="672" /></p>
+</div>
+<div id="road-pricing" class="section level3 hasAnchor" number="4.4.5">
+<h3><span class="header-section-number">4.4.5</span> Road Pricing<a href="transportation.html#road-pricing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the future, road pricing will likely be an essential component of transportation policy. Road pricing is key for automated vehicles and dynamic ride-sharing policies because it helps address the increased vehicle miles traveled projected to occur with adopting these technologies. Furthermore, road pricing provides an alternative revenue stream to the gas tax as vehicle efficiency increases and electric vehicle adoption grows.</p>
+<p>The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.</p>
+<p><em>Figure <a href="#fig:fig-roadprice"><strong>??</strong></a> could be a static or interactive figure. However, nothing seems to matter…</em></p>
+<p><img src="_main_files/figure-html/fig-roadprice-1.png" width="672" /></p>
+</div>
+<div id="parking-policy" class="section level3 hasAnchor" number="4.4.6">
+<h3><span class="header-section-number">4.4.6</span> Parking Policy<a href="transportation.html#parking-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic <span class="citation">(<a href="#ref-shoupCruisingParking2006" role="doc-biblioref">Shoup 2006</a>)</span>). Surface lots and parkades take up valuable space that could be put to more useful purposes.</p>
+<p>The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table <a href="transportation.html#tab:tab-parking-price-effects">4.4</a>).</p>
+<p>The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature <span class="citation">(<a href="#ref-lehnerPriceElasticityParking2019" role="doc-biblioref">Lehner and Peer 2019</a>)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}}
+(\#eq:parking_price_adj)
+\end{equation}\]</span></p>
+<p><span class="math inline">\(price_y\)</span> is the price of parking on dollars per hour in year <span class="math inline">\(y\)</span><br />
+<span class="math inline">\(price_{y = 2018}\)</span> is the price of parking in dollars per hour in 2018<br />
+<span class="math inline">\(elast_{park}\)</span> is the elasticity or effect size of parking price increase on travel mode <span class="math inline">\(m\)</span>.</p>
+<p>Values derived from <span class="citation">TRACE (<a href="#ref-TRACE_1999" role="doc-biblioref">1999</a>)</span> and referenced in <span class="citation">Litman (<a href="#ref-litmanUnderstandingTransportDemands2021" role="doc-biblioref">2021</a>)</span> and <span class="citation">Lehner and Peer (<a href="#ref-lehnerPriceElasticityParking2019" role="doc-biblioref">2019</a>)</span>.</p>
+<div id="parking-price-effects" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#parking-price-effects .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#parking-price-effects .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#parking-price-effects .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#parking-price-effects .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#parking-price-effects .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#parking-price-effects .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#parking-price-effects .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#parking-price-effects .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#parking-price-effects .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#parking-price-effects .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#parking-price-effects .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#parking-price-effects .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#parking-price-effects .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#parking-price-effects .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#parking-price-effects .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#parking-price-effects .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#parking-price-effects .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#parking-price-effects .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#parking-price-effects .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#parking-price-effects .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#parking-price-effects .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#parking-price-effects .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#parking-price-effects .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#parking-price-effects .gt_left {
+  text-align: left;
+}
+
+#parking-price-effects .gt_center {
+  text-align: center;
+}
+
+#parking-price-effects .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#parking-price-effects .gt_font_normal {
+  font-weight: normal;
+}
+
+#parking-price-effects .gt_font_bold {
+  font-weight: bold;
+}
+
+#parking-price-effects .gt_font_italic {
+  font-style: italic;
+}
+
+#parking-price-effects .gt_super {
+  font-size: 65%;
+}
+
+#parking-price-effects .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#parking-price-effects .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#parking-price-effects .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#parking-price-effects .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#parking-price-effects .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#parking-price-effects .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#parking-price-effects .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><span id="tab:tab-parking-price-effects">Table 4.4: </span>Parking price adjustment values</caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Mode">Mode</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Increase in parking price relative to baseline">Increase in parking price relative to baseline</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Effect on miles traveled by 2050">Effect on miles traveled by 2050</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Mode" class="gt_row gt_left">Automobile</td>
+<td headers="Increase in parking price relative to baseline" class="gt_row gt_right">+10%</td>
+<td headers="Effect on miles traveled by 2050" class="gt_row gt_right">-7%</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left gt_striped">Walking and cycling</td>
+<td headers="Increase in parking price relative to baseline" class="gt_row gt_right gt_striped">+10%</td>
+<td headers="Effect on miles traveled by 2050" class="gt_row gt_right gt_striped">+3%</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left">Transit</td>
+<td headers="Increase in parking price relative to baseline" class="gt_row gt_right">+10%</td>
+<td headers="Effect on miles traveled by 2050" class="gt_row gt_right">+1%</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="3">TRACE 1999</td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+<p><em>Figure <a href="#fig:fig-parkingprice"><strong>??</strong></a> could be a static or interactive figure. However, nothing seems to matter…</em></p>
+<p><img src="_main_files/figure-html/fig-parkingprice-1.png" width="672" /></p>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+<span>“Annual <span>Energy Outlook</span>.”</span> 2021. Government. <span>Washington DC</span>: <span>US Energy Information Administration</span>. <a href="https://doi.org/10.1128/AAC.03728-14">https://doi.org/10.1128/AAC.03728-14</a>.
+</div>
+<div class="csl-entry">
+Chester, Mikhail V., and Arpad Horvath. 2009. <em>Life-Cycle Energy and Emissions Inventories for Motorcycles, Diesel Automobiles, School Buses, Electric Buses, Chicago Rail, and New York City Rail</em>. <a href="https://doi.org/10.11436/mssj.15.250">https://doi.org/10.11436/mssj.15.250</a>.
+</div>
+<div class="csl-entry">
+Lehner, Stephan, and Stefanie Peer. 2019. <span>“The Price Elasticity of Parking: <span>A</span> Meta-Analysis.”</span> <em>Transportation Research Part A: Policy and Practice</em> 121 (March): 177–91. <a href="https://doi.org/10.1016/j.tra.2019.01.014">https://doi.org/10.1016/j.tra.2019.01.014</a>.
+</div>
+<div class="csl-entry">
+Litman, Todd. 2021. <span>“Understanding <span>Transport Demands</span> and <span>Elasticities</span>: <span>How Prices</span> and <span>Other Factors Affect Travel Behavior</span>.”</span> <span>Victoria, BC</span>: <span>Victoria Transport Policy Institute</span>. <a href="http://www.vtpi.org/elasticities.pdf">http://www.vtpi.org/elasticities.pdf</a>.
+</div>
+<div class="csl-entry">
+Loveday, Steven. 2019. <span>“Top 8 <span>Plug-In Hybrid Vehicles With The Longest Electric Range</span>.”</span> <em>Inside EVs</em>. <a href="https://insideevs.com/features/377286/top-phevs-longest-electric-range/">https://insideevs.com/features/377286/top-phevs-longest-electric-range/</a>.
+</div>
+<div class="csl-entry">
+Millard-Ball, Adam. 2019. <span>“The Autonomous Vehicle Parking Problem.”</span> <em>Transport Policy</em> 75 (March): 99–108. <a href="https://doi.org/10.1016/j.tranpol.2019.01.003">https://doi.org/10.1016/j.tranpol.2019.01.003</a>.
+</div>
+<div class="csl-entry">
+Porter, Christopher, Xiao Yun (Jane) Chang, Cutler J Cleveland, Peter Fox-Penner, Michael J Walsh, Margaret Cherne-hendrick, Taylor Perez, Janet Atkins, Christopher Cook, and et al. 2019. <span>“Transportation <span>Technical Report</span> 2019.”</span> Carbon <span>Free Boston</span>. <span>Boston, MA, USA</span>: <span>Boston University Institute for Sustainable Energy</span>. <a href="https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/">https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/</a>.
+</div>
+<div class="csl-entry">
+Ramaswami, Anu, Andrew Fang, and Samuel Tabory. 2020. <span>“A <span>Review</span> of <span>Integrated Urban Planning Tools</span> for <span>Greenhouse Gas Mitigation</span>.”</span> <span>Washington DC</span>: <span>Global Platform for Sustainable Cities</span>. <a href="https://doi.org/10.1596/33784">https://doi.org/10.1596/33784</a>.
+</div>
+<div class="csl-entry">
+Santasieri, Colette. 2014. <em>Planning for <span>Transit-Supportive Development</span>: <span>A Practitioner</span>’s <span>Guide Section</span> 5: <span>Local Planning</span> and <span>Transit-Supportive Development</span></em>.
+</div>
+<div class="csl-entry">
+Shoup, Donald C. 2006. <span>“Cruising for Parking.”</span> <em>Transport Policy</em> 13 (6): 479–86. <a href="https://doi.org/10.1016/j.tranpol.2006.05.005">https://doi.org/10.1016/j.tranpol.2006.05.005</a>.
+</div>
+<div class="csl-entry">
+Swilling, Mark, Maarten Hajer, Joe Bergesen, Françoise Labbé, Josephine Kaviti Musango, Anu Ramaswami, Blake Robinson, Serge Salat, and Sangwon Suh. 2018. <span>“The <span>Weight</span> of <span>Cities</span>: <span>Resource Requirements</span> of <span>Future Urbanization</span>.”</span> <span>Nairobi, Kenya</span>: <span>International Resource Panel (IRP)</span>. <a href="https://www.resourcepanel.org/reports/weight-cities">https://www.resourcepanel.org/reports/weight-cities</a>.
+</div>
+<div class="csl-entry">
+The World Resources Institute. 2012. <span>“<span>WRI Annual Report</span> 2011-2012.”</span> <span>Washington DC</span>: <span>World Resources Institute</span>. <a href="https://www.wri.org/research/wri-annual-report-2011-2012">https://www.wri.org/research/wri-annual-report-2011-2012</a>.
+</div>
+<div class="csl-entry">
+TRACE. 1999. <em>Elasticity Handbook: <span>Elasticities</span> for Prototypical Contexts, <span>TRACE</span>; Costs of Private Road Travel and Their Effects on Demand, Including Short and Long Term Elasticities</em>. <a href="https://trimis.ec.europa.eu/sites/default/files/project/documents/trace.pdf">https://trimis.ec.europa.eu/sites/default/files/project/documents/trace.pdf</a>.
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-eiaAnnualEnergyOutlook2021" class="csl-entry">
+<span>“Annual <span>Energy Outlook</span>.”</span> 2021. Government. <span>Washington DC</span>: <span>US Energy Information Administration</span>. <a href="https://doi.org/10.1128/AAC.03728-14">https://doi.org/10.1128/AAC.03728-14</a>.
+</div>
+<div id="ref-Chester_Horvath_2009" class="csl-entry">
+Chester, Mikhail V., and Arpad Horvath. 2009. <em>Life-Cycle Energy and Emissions Inventories for Motorcycles, Diesel Automobiles, School Buses, Electric Buses, Chicago Rail, and New York City Rail</em>. <a href="https://doi.org/10.11436/mssj.15.250">https://doi.org/10.11436/mssj.15.250</a>.
+</div>
+<div id="ref-lehnerPriceElasticityParking2019" class="csl-entry">
+Lehner, Stephan, and Stefanie Peer. 2019. <span>“The Price Elasticity of Parking: <span>A</span> Meta-Analysis.”</span> <em>Transportation Research Part A: Policy and Practice</em> 121 (March): 177–91. <a href="https://doi.org/10.1016/j.tra.2019.01.014">https://doi.org/10.1016/j.tra.2019.01.014</a>.
+</div>
+<div id="ref-litmanUnderstandingTransportDemands2021" class="csl-entry">
+Litman, Todd. 2021. <span>“Understanding <span>Transport Demands</span> and <span>Elasticities</span>: <span>How Prices</span> and <span>Other Factors Affect Travel Behavior</span>.”</span> <span>Victoria, BC</span>: <span>Victoria Transport Policy Institute</span>. <a href="http://www.vtpi.org/elasticities.pdf">http://www.vtpi.org/elasticities.pdf</a>.
+</div>
+<div id="ref-lovedayTopPlugInHybrid2019" class="csl-entry">
+Loveday, Steven. 2019. <span>“Top 8 <span>Plug-In Hybrid Vehicles With The Longest Electric Range</span>.”</span> <em>Inside EVs</em>. <a href="https://insideevs.com/features/377286/top-phevs-longest-electric-range/">https://insideevs.com/features/377286/top-phevs-longest-electric-range/</a>.
+</div>
+<div id="ref-millard-ballAutonomousVehicleParking2019" class="csl-entry">
+Millard-Ball, Adam. 2019. <span>“The Autonomous Vehicle Parking Problem.”</span> <em>Transport Policy</em> 75 (March): 99–108. <a href="https://doi.org/10.1016/j.tranpol.2019.01.003">https://doi.org/10.1016/j.tranpol.2019.01.003</a>.
+</div>
+<div id="ref-porterCarbonFreeBoston2019" class="csl-entry">
+Porter, Christopher, Xiao Yun (Jane) Chang, Cutler J Cleveland, Peter Fox-Penner, Michael J Walsh, Margaret Cherne-hendrick, Taylor Perez, Janet Atkins, Christopher Cook, and et al. 2019. <span>“Transportation <span>Technical Report</span> 2019.”</span> Carbon <span>Free Boston</span>. <span>Boston, MA, USA</span>: <span>Boston University Institute for Sustainable Energy</span>. <a href="https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/">https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/</a>.
+</div>
+<div id="ref-ramaswamiReviewIntegratedUrban2020" class="csl-entry">
+Ramaswami, Anu, Andrew Fang, and Samuel Tabory. 2020. <span>“A <span>Review</span> of <span>Integrated Urban Planning Tools</span> for <span>Greenhouse Gas Mitigation</span>.”</span> <span>Washington DC</span>: <span>Global Platform for Sustainable Cities</span>. <a href="https://doi.org/10.1596/33784">https://doi.org/10.1596/33784</a>.
+</div>
+<div id="ref-santasieriPlanningTransitSupportiveDevelopment2014" class="csl-entry">
+Santasieri, Colette. 2014. <em>Planning for <span>Transit-Supportive Development</span>: <span>A Practitioner</span>’s <span>Guide Section</span> 5: <span>Local Planning</span> and <span>Transit-Supportive Development</span></em>.
+</div>
+<div id="ref-shoupCruisingParking2006" class="csl-entry">
+Shoup, Donald C. 2006. <span>“Cruising for Parking.”</span> <em>Transport Policy</em> 13 (6): 479–86. <a href="https://doi.org/10.1016/j.tranpol.2006.05.005">https://doi.org/10.1016/j.tranpol.2006.05.005</a>.
+</div>
+<div id="ref-swillingWeightCitiesResource2018" class="csl-entry">
+Swilling, Mark, Maarten Hajer, Joe Bergesen, Françoise Labbé, Josephine Kaviti Musango, Anu Ramaswami, Blake Robinson, Serge Salat, and Sangwon Suh. 2018. <span>“The <span>Weight</span> of <span>Cities</span>: <span>Resource Requirements</span> of <span>Future Urbanization</span>.”</span> <span>Nairobi, Kenya</span>: <span>International Resource Panel (IRP)</span>. <a href="https://www.resourcepanel.org/reports/weight-cities">https://www.resourcepanel.org/reports/weight-cities</a>.
+</div>
+<div id="ref-theworldresourcesinstituteWRIAnnualReport2012" class="csl-entry">
+The World Resources Institute. 2012. <span>“<span>WRI Annual Report</span> 2011-2012.”</span> <span>Washington DC</span>: <span>World Resources Institute</span>. <a href="https://www.wri.org/research/wri-annual-report-2011-2012">https://www.wri.org/research/wri-annual-report-2011-2012</a>.
+</div>
+<div id="ref-TRACE_1999" class="csl-entry">
+TRACE. 1999. <em>Elasticity Handbook: <span>Elasticities</span> for Prototypical Contexts, <span>TRACE</span>; Costs of Private Road Travel and Their Effects on Demand, Including Short and Long Term Elasticities</em>. <a href="https://trimis.ec.europa.eu/sites/default/files/project/documents/trace.pdf">https://trimis.ec.europa.eu/sites/default/files/project/documents/trace.pdf</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="building-energy.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04_transportation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

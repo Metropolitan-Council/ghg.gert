@@ -6,9 +6,16 @@
 \usage{
 get_demographic_baseline(tb = building_energy_data)
 }
+\value{
+Tibble.
+}
 \description{
 Compiles the demographic characteristics from the 'Emissions' database
 required for running the building energy module.
+The purpose of this function is to calculate various demographic characteristics at the county and CTU level,
+including the average floor area of single family and multifamily properties,
+the number of commercial and industrial workers, the population and number of households, and the number of jobs by industry.
+These characteristics are stored in a list and returned by the function.
 }
 \seealso{
 Other buildings: 

@@ -49,7 +49,6 @@ library(patchwork)
 
 options(scipen = 1, digits = 2)
 load(file = file.path(here::here(),"data-raw/transportation_report_data.rda"))
-
 ```
 
 ```{r, table-formatting}
@@ -81,12 +80,12 @@ tableformat <- function(data, .caption) {
   flextable::set_caption(.caption)
   }
 }
-    
 ```
 
 ```{r variables}
 #| echo: false
 #| message: false
+# load the list of variables and council members
 source("variables.R")
 source("council_members.R")
 ```
@@ -197,6 +196,8 @@ Mixed-use development involves building buildings with multiple functions, such 
 ### Building Codes
 
 Building codes refer to the regulations and standards governing building design and construction, including energy efficiency requirements. These priorities can help to create more sustainable and livable communities. The report discusses the impact of building standards such as LEED Gold for residential development.
+
+------------------------------------------------------------------------
 
 ![](images/3746.jpg)
 
@@ -313,6 +314,8 @@ plot_demo("population") + plot_demo("households")
 ```
 
 <br>
+
+------------------------------------------------------------------------
 
 ![](images//3090.jpg)
 
@@ -1100,6 +1103,8 @@ calc_electrify_commercial_heating(
 
 <br>
 
+------------------------------------------------------------------------
+
 # Reducing Emissions in the Transportation Sector
 
 ![](images//2724.jpg)
@@ -1553,6 +1558,7 @@ parking_ctu %>%
     )
 ```
 
+------------------------------------------------------------------------
 
 ![](images//4482.jpg)
 

@@ -1,0 +1,14 @@
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: ""
+rmd_files: [
+  "index.Rmd",
+   #"00_front.Rmd",
+   #"01_introduction.Rmd",
+   #"02_demographics.Rmd",
+  "03_buildings.Rmd",
+  #"04_transportation.Rmd"
+  # "05_land_use.Rmd"
+  # "07_appendix.Rmd"
+  ]

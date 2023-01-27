@@ -1,0 +1,70 @@
+--- 
+title: "Greenhouse Gas Emissions Scenario Planning"
+author: "Metropolitan Council"
+date: "`r format(Sys.time(), '%B %Y')`"
+params:
+    ctu_selection: "Minneapolis"
+    county_selection: "Hennepin"
+    desired_format: "html" # or "html" / "docx"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a report for the City of Minneapolis prepared by the Metropolitan Council
+  and published on February of 2023. 
+link-citations: yes
+#github-repo: rstudio/bookdown-demo
+---
+
+```{r libraries}
+#| echo: false
+#| message: false
+library(ghg.sp)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(shiny)
+library(patchwork)
+library(tibble)
+library(magrittr)
+library(dplyr)
+library(DT)
+library(ghg.sp)
+library(rsvg)
+
+options(scipen = 1, digits = 2)
+load(file = file.path(here::here(),"../data-raw/transportation_report_data.rda"))
+
+if (params$desired_format == "html") {
+tableformat <- function(data, .caption) {
+  data %>%
+    kableExtra::kable(
+      caption = .caption,
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
+}
+} else {
+  tableformat <- function(data, .caption){
+   data %>%
+  flextable::flextable() %>%
+  flextable::autofit(add_w = 0, add_h = 0) %>%
+      flextable::set_table_properties(layout = "autofit") %>%
+      flextable::fontsize(size = 9, part = "all") %>%
+      flextable::align(align = "center", part = "header", i = 1) %>%
+  flextable::set_caption(.caption)
+  }
+}
+
+# load the list of variables and council members
+source("variables.R")
+source("council_members.R")
+```

@@ -1,0 +1,76 @@
+# Reducing Emission from Land Use and Forestry
+
+Land use change can release carbon stock stored in land --- for example, when urban impervious surfaces like asphalt roads and neighborhoods expand onto lands previously covered by forests or agriculture. This results in net carbon emissions from land. At the same time, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sink (negative emissions).
+
+## Land Use and Forestry Baseline
+
+### Land Cover Baseline
+
+A high-resolution land cover map was generated for the Met Council region for the year 2016 using a support vector machine image classification on *Planet RapidEye 5m imagery*. This classification was merged with the 2019 edition of the 2016 National Land Cover Database to generate a 12-class land cover map (See [@Milnar_Ramaswami_2020] for more details on image classification methodology).
+
+```{r tab-land-cover-by-land-use}
+calc_land_cover_by_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  ungroup() %>%
+  group_by(land_cover_type) %>%
+  summarise(hecatares = sum(land_cover_land_use_hectares))
+```
+
+### Land Use Baseline
+
+```{r tab5.2}
+```
+
+## Land Use and Forestry Forecast
+
+```{r}
+```
+
+## Land Use and Forestry Strategies
+
+### Conservation Tillage
+
+Conventional agricultural practices involve annual plowing to loosen soil in preparation for planting. This leaves soil particles exposed to wind and erosion, and over time leads to loss of soil nutrients and organic matter1. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock2. Conservation tillage (such as no-till or reduced-till agriculture) is intended to minimize topsoil disturbance and minimize nutrient and organic matter loss in soil. Uncertainty in GHG impact of conservation tillage is high.
+
+This practice affects greenhouse gas emissions in two primary ways:
+
+a.  Minimized soil disturbance allows for soil to retain a higher amount of organic carbon (to a new equilibrium)
+
+b.  Reduced plowing leads to lower fossil fuel consumption from farm equipment3
+
+Conservation tillage initiatives in Minnesota have been established by a variety of stakeholders, including state and federal governments, private sector companies, environmental advocacy groups, and academia. As a result, almost half of all MN counties growing corn and soy have at least 25% of planted acres using reduced tillage practices, while about a quarter of MN counties growing corn and soy have at least 25% of planted acres using no-till practices (Crop Residue Management Survey).
+
+$$ \text{Conservation Tillage Avoided Emissions} = (C+T) × A $$
+
+-   $C$ = Increased Biogenic Carbon Stock (Mg CO<sub>2</sub>/ha). Baseline soil organic carbon (SOC) stock is 41 Mg C/ha. It has been estimated that SOC content can increase from 1% up to 1.54% under conservation tillage2, thus carbon content can be increased from an average of 41 Mg C/ha to 63 Mg C/ha. This increase was assumed to increase over a period of 20 years. Whether the sequestration is maintained is highly uncertain5.
+
+-   $T$ = Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7
+
+-   $A$ = Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
+
+### Urban Tree Planting
+
+Trees in urban areas have a high density of carbon stored in their canopy and are often the largest reserve of biogenic carbon in an urban ecosystem. Increasing the tree canopy in cities is a way to offset some carbon emissions and can also provide other benefits such as reducing energy costs for cooling and improving subjective wellbeing.
+
+A mature urban forest can hold as much as 115 Mg carbon per hectare.1 In addition, each year a tree grows, it can also sequester carbon annually (1.27 Mg carbon per hectare per year).1 Both processes are included in the scenario planning model, through which urban reforestation can contribute to a relatively large carbon sink, provided there is sufficient area for reforestation. This will likely be more in suburban communities than in central cities. Furthermore, urban trees grow fast but may also die young.2 Therefore, achieving the potential carbon mitigation from urban reforestation requires careful tree management and accounting for the lifecycle of urban forestry.3
+
+Many commitments to large-scale tree planting have been made both in the United States and internationally, such as the Trillion Trees Initiative, which aims to restore global forests to slow climate change6 Various projects have also been developed to plant large numbers of trees in cities, such as the Los Angeles Million Trees Plan, which found that up to 2.5 million trees could potentially be planted in the city of Los Angeles7. Recently the City of Tucson announced a plan to plant one million trees by 20308.
+
+In addition to climate change mitigation through carbon storage in woody biomass, urban trees offer a wide array of benefits, such as reducing buildings' energy use; reducing urban heat, thereby contributing to climate resilience; and increasing subjective well-being.4 However, there are few empirical models to quantify the building energy use effect; existing data from St. Paul5 suggests the effect may be small compared to the carbon sink effect. Furthermore, several studies have shown socio-economic inequality in tree canopy coverage, making equity a critical consideration in spatial planning of urban reforestation.6
+
+**Growing Shade**
+
+The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.
+
+$$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
+
+-   $CD$ = Carbon stock density of urban trees in Mg/ha, a factor of aboveground biomass, (44.1 Mg C/ha, Nowak et al 20134), and belowground biomass to one meter (71 Mg C/ha, Pouyat et al. 20065) for a total stock density of 115.1 Mg C /ha.
+
+-   $A$ = Increased area of tree canopy under tree planting scenarios, in hectares.
+
+-   $11/3$ = factor to convert Mg C to Mg CO2
+
+### Reduced Parking Area

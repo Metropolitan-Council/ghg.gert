@@ -1,0 +1,110 @@
+# Demographic Assumptions
+
+![](images/3746.jpg)
+
+The Greenhouse Gas Scenario Planning Tool uses the best available demographic assumptions for cities in the Metropolitan Region to forecast emissions in 2040.
+
+Some common predictors of greenhouse gas emissions at the city scale include:
+
+::: facts
+-   ***Population Density*** Minneapolis, the largest city in Minnesota, has a high population density. Higher density means more people live in a relatively small area compared to other regions' cities. Higher population densities are often associated with increased energy consumption, as residents need to use energy for daily activities and power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
+
+-   ***Economic Activity*** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+
+-   ***Urban Planning*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.
+
+-   ***Extreme Climate*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.
+
+-   ***Energy efficiency*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
+:::
+
+We obtained baseline 2018 values for population, households, and employment from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table \@ref(tab:tab-demographic-assumptions)**).
+
+The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
+
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
+
+```{r tab-demographic-assumptions}
+#| echo: false
+#| message: false
+
+# City level 2018
+get_demographic_baseline(tb = building_energy_data)$ctu %>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var != "multifamily_average_floor_area_sqft_county"
+  ) %>%
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "{params$ctu_selection} 2018" := value) %>%
+
+  # County level 2018
+  full_join(
+    get_demographic_baseline(tb = building_energy_data)$county %>%
+      ungroup() %>%
+      filter(co_name == params$county_selection) %>%
+      left_join(., variables, by = "var") %>%
+      mutate(desc = str_remove_all(desc, " for the County")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+         "{params$county_selection} Co. 2018" := value)) %>%
+
+  # city 2040
+  full_join(
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      ungroup() %>%
+      filter(
+        ctu_name == params$ctu_selection,
+        var != "multifamily_average_floor_area_sqft_county") %>%
+      left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "{params$ctu_selection} 2040" := value)) %>%
+
+    #mutate(across(everything(), ~ if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
+
+  tableformat(.caption = paste0("Demographics for ", params$ctu_selection))
+```
+
+```{r fig-inputs, fig.align='center'}
+#| echo: false
+#| message: false
+# selectInput(
+#   "variable",
+#   "Select a variable:",
+#   choices = c("Population" = "population",
+#               "Households" = "households")
+# )
+```
+
+```{r figure-demographics}
+#| echo: false
+#| message: false
+plot_demo <- function(variable) {
+  bind_rows(
+    get_demographic_baseline(tb = building_energy_data)$ctu %>%
+      filter(ctu_name == params$ctu_selection),
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      filter(ctu_name == params$ctu_selection)
+  ) %>%
+    filter(var == variable) %>%
+    ggplot(., aes(x = as.factor(year), y = value)) +
+    geom_bar(
+      stat = "identity",
+      width = 0.4,
+      color = "black",
+      fill = "black"
+    ) +
+    theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14)
+    ) +
+    labs(x = "", y = "", title = str_to_title(variable)) +
+    scale_y_continuous(labels = scales::label_comma())
+}
+
+plot_demo("population") + plot_demo("households")
+```
