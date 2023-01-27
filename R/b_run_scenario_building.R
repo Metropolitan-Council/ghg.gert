@@ -22,9 +22,9 @@
 #'
 #' library(ghg.sp)
 #' run_scenario_building(
-#'   res_tb = building_data$residential,
+#'   res_tb = building_energy_bau_data$residential,
 #'   non_res_tb = building_data$non_residential,
-#'   res_tb_bau = building_data$residential,
+#'   res_tb_bau = building_energy_bau_data$residential,
 #'   non_res_tb_bau = building_data$non_residential,
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
@@ -48,9 +48,9 @@
 #' )
 #' }
 #'
-run_scenario_building <- function(res_tb = building_data$residential,
+run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   non_res_tb = building_data$non_residential,
-                                  res_tb_bau = building_data$residential,
+                                  res_tb_bau = building_energy_bau_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   .enviro_factors = enviro_factors,
                                   # non-residential
