@@ -1,19 +1,39 @@
-run_all_modules <- function() {
-  land_use <- run_scenario_land_use(
-    tb = land_use_data,
-    .urban_form_scenario = "bau",
-    .conservation_tillage_intervention = "current_conservation_tillage",
-    .tree_planting_intervention = "tree_planting_on_all_pervious",
-    .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247,
-    .parking_lot_reduction_percentage = 0.8,
-    detail = FALSE
-  )
+#' @tilte run all modules
+#'
+#' @param .selected_ctu
+#' @param run_land_use Boolean.
+#' @param run_buildings Boolean.
+#' @param run_transportation Boolean.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+run_all_modules <- function(.selected_ctu = "all",
+                            run_land_use = TRUE,
+                            run_buildings = TRUE,
+                            run_transportation = TRUE) {
+
+  if (run_land_use == TRUE) {
+    land_use <- run_scenario_land_use(
+      tb = land_use_data,
+      .selected_ctu = .selected_ctu,
+      .urban_form_scenario = "bau",
+      .conservation_tillage_intervention = "current_conservation_tillage",
+      .tree_planting_intervention = "tree_planting_on_all_pervious",
+      .tree_planting_per_capita = 0.26,
+      .tree_planting_per_hectare = 247,
+      .parking_lot_reduction_percentage = 0.8,
+      detail = FALSE
+    )
+  }
+ if (run_buildings == TRUE) {
   buildings <- run_scenario_building(
-    res_tb = building_data$residential,
+    res_tb = building_energy_bau_data$residential,
     non_res_tb = building_data$non_residential,
-    res_tb_bau = building_data$residential,
+    res_tb_bau = building_energy_bau_data$residential,
     non_res_tb_bau = building_data$non_residential,
+    .selected_ctu = .selected_ctu,
     .enviro_factors = enviro_factors,
     .electrified_buildings_pct = 0.40,
     .non_res_natural_gas_for_water_heating_pct = 0.20,
@@ -33,10 +53,12 @@ run_all_modules <- function() {
     .res_natural_gas_for_water_heating_pct = 0.24,
     .additional_electrified_residential_buildings_pct = 0.45,
     .grid_decarbonization_pct = 1
-  )
+  )}
+ if (run_transportation == TRUE) {
   transp <- run_scenario_transportation(
     pass_tb = transportation_data$passenger,
     freight_tb = transportation_data$freight,
+    .selected_ctu = .selected_ctu,
     .scenario = "BAU",
     .electric_scenario = "ER",
     .aeo_scenario = "REF",
@@ -70,4 +92,5 @@ run_all_modules <- function() {
     .elast = elast,
     .elast_5d = elast_5d
   )
+  }
 }

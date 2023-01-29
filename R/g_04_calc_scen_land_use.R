@@ -16,16 +16,20 @@
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,
+#'   .selected_ctu = "all",
 #'   .urban_form_scenario = "bau"
 #' )
 #' }
 calc_scen_land_use <- function(tb,
+                               .selected_ctu,
                                .urban_form_scenario) {
+  cat("**** calculating land use urban form scneario \n")
   # -------------------------------------------------------------------------
 
   calc_land_by_development_type <-
     calc_land_by_development_type(
       tb = tb,
+      .selected_ctu = .selected_ctu,
       .urban_form_scenario = .urban_form_scenario
     )
 

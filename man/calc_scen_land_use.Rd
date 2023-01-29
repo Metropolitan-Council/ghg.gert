@@ -4,7 +4,7 @@
 \alias{calc_scen_land_use}
 \title{Calculate scenario land use}
 \usage{
-calc_scen_land_use(tb, .urban_form_scenario)
+calc_scen_land_use(tb, .selected_ctu, .urban_form_scenario)
 }
 \arguments{
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -34,6 +34,7 @@ library(ghg.sp)
 
 calc_scen_land_use(
   tb = land_use_data,
+  .selected_ctu = "all",
   .urban_form_scenario = "bau"
 )
 }
