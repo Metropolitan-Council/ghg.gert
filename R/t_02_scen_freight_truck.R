@@ -10,6 +10,7 @@
 #' @importFrom emo ji
 #' @importFrom usethis ui_done
 scen_freight_truck <- function(.freight_tb = transportation_data$freight,
+                               .selected_ctu = "all",
                                .scenario = "BAU",
                                .electric_scenario = "ER",
                                .aeo_scenario = "REF",
@@ -41,6 +42,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .elast = elast,
                                .elast_5d = elast_5d) {
   cat("** calculating freight truck scenario \n")
+  .freight_tb  <- filter_ctu(.freight_tb, .selected_ctu)
+
   mode <- "FR"
   # (measured in ton-miles NOT miles)
   type <- "F"

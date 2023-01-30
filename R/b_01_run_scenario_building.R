@@ -26,6 +26,8 @@
 #'   non_res_tb = building_data$non_residential,
 #'   res_tb_bau = building_energy_bau_data$residential,
 #'   non_res_tb_bau = building_data$non_residential,
+#'   run_residential = TRUE,
+#'   run_non_residential = TRUE,
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
 #'   .non_res_natural_gas_for_water_heating_pct = 0.20,
@@ -52,6 +54,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   non_res_tb = building_data$non_residential,
                                   res_tb_bau = building_energy_bau_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
+                                  run_residential = TRUE,
+                                  run_non_residential = TRUE,
                                   .enviro_factors = enviro_factors,
                                   # selected CTU
                                   .selected_ctu = "all",
@@ -101,11 +105,15 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
   cat("...... percent of residential natural gas for water heating:", .res_natural_gas_for_water_heating_pct, "\n")
   cat("...... percent of additional electrified residential buildings:", .additional_electrified_residential_buildings_pct, "\n")
   cat("...... percent of grid decarbonization:", .grid_decarbonization_pct, "\n")
+  cat("========================================== \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
-  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+  res_tb_bau <-
+    filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb <-
+    filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <-
+    filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   l_names <- c(
     # non-residential
@@ -166,44 +174,51 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-
-  res <-
-    scen_building_residential(
-      res_tb = res_tb,
-      res_tb_bau = res_tb_bau,
-      .selected_ctu = .selected_ctu,
-      .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-      .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-      .home_behavior_change_pct = .home_behavior_change_pct,
-      .new_homes_affected_pct = .new_homes_affected_pct,
-      .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
-      .existing_home_retrofit_pct = .existing_home_retrofit_pct,
-      .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
-      .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-      .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
-      .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors
-    )
-
-  non_res <-
-    scen_building_non_residential(
-      non_res_tb = non_res_tb,
-      non_res_tb_bau = non_res_tb_bau,
-      .selected_ctu = .selected_ctu,
-      .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-      .electrified_buildings_pct = .electrified_buildings_pct,
-      .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-      .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
-      .commercial_smart_grid_pct = .commercial_smart_grid_pct,
-      .industrial_smart_grid_pct = .industrial_smart_grid_pct,
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-      .enviro_factors = .enviro_factors
-    )
+  if (run_residential == TRUE) {
+    res <-
+      scen_building_residential(
+        res_tb = res_tb,
+        res_tb_bau = res_tb_bau,
+        .selected_ctu = .selected_ctu,
+        .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
+        .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+        .home_behavior_change_pct = .home_behavior_change_pct,
+        .new_homes_affected_pct = .new_homes_affected_pct,
+        .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+        .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+        .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+        .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
+        .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
+        .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
+        .grid_decarbonization_pct = .grid_decarbonization_pct,
+        .enviro_factors = .enviro_factors
+      )
+  }
+  if (run_non_residential == TRUE) {
+    non_res <-
+      scen_building_non_residential(
+        non_res_tb = non_res_tb,
+        non_res_tb_bau = non_res_tb_bau,
+        .selected_ctu = .selected_ctu,
+        .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+        .electrified_buildings_pct = .electrified_buildings_pct,
+        .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
+        .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
+        .commercial_smart_grid_pct = .commercial_smart_grid_pct,
+        .industrial_smart_grid_pct = .industrial_smart_grid_pct,
+        .grid_decarbonization_pct = .grid_decarbonization_pct,
+        .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
+        .enviro_factors = .enviro_factors
+      )
+  }
 
   building_module_ouput <-
-    bind_rows(res, non_res)
-
+    if (run_residential == TRUE & run_non_residential == TRUE) {
+      bind_rows(res, non_res)
+    } else if (run_residential == FALSE) {
+      non_res
+    } else{
+      res
+    }
   return(building_module_ouput)
 }

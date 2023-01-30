@@ -32,7 +32,7 @@ calc_residential_renewable_ng <- function(res_tb,
     res_tb %>%
     tidyr::pivot_wider(., names_from = c(var, scen, year), names_sep = ".", values_from = value) %>%
     dplyr::mutate(
-      reduced_therms =
+      reduced_therms.scen.2040 =
         (residential_therms.bau.2040
         - residential_therms.scen.2040)
     ) %>%
@@ -40,7 +40,7 @@ calc_residential_renewable_ng <- function(res_tb,
       residential_natural_gas_emissions_kg_co.scen.2040 =
         (residential_therms.bau.2040 -
           (
-            reduced_therms - (78 * population.bau.2040)
+            reduced_therms.scen.2040 - (78 * population.bau.2040)
           )) *
           .enviro_factors$KG_CO2E_PER_THERM_FORECAST
     ) %>%

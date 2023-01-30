@@ -48,7 +48,11 @@ calc_ghg_non_residential <- function(non_res_tb,
                                      .grid_decarbonization_pct,
                                      .existing_high_efficiency_buildings_pct,
                                      .enviro_factors) {
+
   cat("*** calculating non-residential ghg emissions \n")
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+
   emis <-
     function(tb,
              grid_decarb,
@@ -142,7 +146,9 @@ calc_ghg_non_residential <- function(non_res_tb,
     )
   emis_strategy <-
     emis(
-      tb = calc_existing_comm_building_efficiency(non_res_tb,
+      tb = calc_existing_comm_building_efficiency(
+        non_res_tb,
+        .selected_ctu = .selected_ctu,
         .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
       ),
       grid_decarb = .grid_decarbonization_pct,

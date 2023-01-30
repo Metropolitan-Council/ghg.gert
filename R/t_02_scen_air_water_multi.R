@@ -11,6 +11,7 @@
 #' @importFrom emo ji
 #' @importFrom usethis ui_done
 scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
+                                 .selected_ctu = "all",
                                  .scenario = "BAU",
                                  .electric_scenario = "ER",
                                  .aeo_scenario = "REF",
@@ -40,7 +41,9 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .enviro_factors = enviro_factors,
                                  .elast = elast,
                                  .elast_5d = elast_5d) {
+
   cat("** calculating scenario for air and water travel \n")
+  .freight_tb  <- filter_ctu(.freight_tb, .selected_ctu)
 
   # Multimodal -----
 

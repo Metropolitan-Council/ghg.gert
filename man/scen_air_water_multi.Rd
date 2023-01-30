@@ -6,6 +6,7 @@
 \usage{
 scen_air_water_multi(
   .freight_tb = transportation_data$freight,
+  .selected_ctu = "all",
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

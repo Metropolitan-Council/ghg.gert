@@ -6,6 +6,7 @@
 \usage{
 scen_walk_bike(
   .pass_tb = transportation_data$passenger,
+  .selected_ctu = "all",
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

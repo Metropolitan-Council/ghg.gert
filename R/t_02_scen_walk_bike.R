@@ -13,6 +13,7 @@
 #' @importFrom usethis ui_done
 
 scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
+                           .selected_ctu = "all",
                            .scenario = "BAU",
                            .electric_scenario = "ER",
                            .aeo_scenario = "REF",
@@ -43,6 +44,8 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .elast = elast,
                            .elast_5d = elast_5d) {
   cat("** calculating scenario walk and bike \n")
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
+
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",

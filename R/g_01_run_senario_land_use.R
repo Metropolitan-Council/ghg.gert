@@ -40,6 +40,7 @@ run_scenario_land_use <- function(tb = land_use_data,
   cat("...... tree planting per capita: ", .tree_planting_per_capita, "\n")
   cat("...... tree planting per hectare: ", .tree_planting_per_hectare, "\n")
   cat("...... percent of parking lot reduction: ", .parking_lot_reduction_percentage, "\n")
+  cat("================================================ \n")
 
   tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
   tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)

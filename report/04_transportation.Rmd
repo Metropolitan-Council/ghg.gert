@@ -4,17 +4,17 @@
 
 The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
 
-Instead, when land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency. 
+Instead, when land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency.
 
 ## Framework
 
-Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] provide a framework for urban planning tools for greenhouse gas (GHG) mitigation as shown in as four key levers of action based on the framework developed in previous work by the UN International Resource Panel [@swillingWeightCitiesResource2018]. 
+Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] provide a framework for urban planning tools for greenhouse gas (GHG) mitigation as shown in as four key levers of action based on the framework developed in previous work by the UN International Resource Panel [@swillingWeightCitiesResource2018].
 
-It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively. 
+It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively.
 
-## Transportation Baseline and Data 
+## Transportation Baseline and Data
 
-The Council is in the process of verifying data sources for all inputs and values.  
+The Council is in the process of verifying data sources for all inputs and values.
 
 The inputs for the transportation sector baseline and forecast are:
 
@@ -23,34 +23,34 @@ The inputs for the transportation sector baseline and forecast are:
 -   **Average vehicle occupancy by mode**
 -   **MA3T stock turnover and adoption forecasts by "powertrain"**: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric. [MA3T](https://teem.ornl.gov/ma3t.shtml) stands for Market Acceptance of Advanced Automotive Technologies (MA3T) and it allows to simulate the diverse purchasing behaviors among individuals in the market place.
 
-### Annual Energy Outlook (AEO)  
+### Annual Energy Outlook (AEO)
 
-In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook. 
+In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
 
-The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].    
+The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].
 
-1. **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.  
-2. **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.  
-3. **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.  
-4. **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.  
+1.  **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+2.  **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+3.  **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.\
+4.  **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.
 
 The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
 
-### Passenger  
+### Passenger
 
 The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline, and battery electric vehicles.
 
-The region's transportation carbon emissions are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the [2019 Travel Behavior Inventory (TBI)](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx), but there are no estimates of transit vehicle turnover to the 2050 forecast year.  
+The region's transportation carbon emissions are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the [2019 Travel Behavior Inventory (TBI)](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx), but there are no estimates of transit vehicle turnover to the 2050 forecast year.
 
-The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV). 
+The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV).
 
-Public transit modes are categorized as urban bus, bus rapid transit (BRT), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue. The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050.  
+Public transit modes are categorized as urban bus, bus rapid transit (BRT), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue. The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050.
 
-In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles [@lovedayTopPlugInHybrid2019] and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU. 
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles [@lovedayTopPlugInHybrid2019] and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.
 
 The regional model provides PMT totals for auto, transit, bike, and walk modes. PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
 
-### Freight 
+### Freight
 
 The Twin Cities region is a critical transportation hub for the upper Midwest, serving as a distribution center for Minnesota, Wisconsin, North and South Dakota, and eastern Montana. The region is served by five modes of freight transportation: trucks, railroads, barges, air freight, and pipelines. These modes play a crucial role in supporting the region's economic competitiveness and quality of life by allowing residents to access the goods and materials they need and enabling businesses to distribute their products.
 
@@ -84,7 +84,6 @@ transportation_data$passenger %>%
 
 ```
 
-
 ```{r tab-freight-miles-traveled-forecast}
 #| echo: false
 #| message: false
@@ -109,8 +108,7 @@ transportation_data$freight %>%
   tableformat(.caption = paste0("Freight Miles Traveled by Mode - ", params$ctu_selection))
 ```
 
-
-:::facts
+::: facts
 **Embodied Emissions**
 
 Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath ([@Chester_Horvath_2009]) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
@@ -255,7 +253,6 @@ According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minne
 # vmt_transit_service()
 ```
 
-
 ```{r fig-transitservice}
 #| echo: false
 #| message: false
@@ -295,7 +292,7 @@ Telework is working from home, reducing or eliminating the need to commute. In 2
 #help(vmt_telework, package = ghg.sp)
 ```
 
-*Figure \@ref(fig:fig-telework) could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
+*Figure* \@ref(fig:fig-telework) *could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
 
 ```{r fig-telework}
 #| echo: false
@@ -332,7 +329,7 @@ telework_ctu %>%
 
 In the future, road pricing will likely be an essential component of transportation policy. Road pricing is key for automated vehicles and dynamic ride-sharing policies because it helps address the increased vehicle miles traveled projected to occur with adopting these technologies. Furthermore, road pricing provides an alternative revenue stream to the gas tax as vehicle efficiency increases and electric vehicle adoption grows.
 
-The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.  
+The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.
 
 ```{r tab-road-policy}
 #| echo: false
@@ -340,7 +337,7 @@ The scenario planning model includes three alternatives for road pricing. The fi
 # vmt_road_policy()
 ```
 
-*Figure \@ref(fig:fig-roadprice) could be a static or interactive figure. However, nothing seems to matter...*
+*Figure* \@ref(fig:fig-roadprice) *could be a static or interactive figure. However, nothing seems to matter...*
 
 ```{r fig-roadprice}
 #| echo: false
@@ -374,22 +371,23 @@ roadprice_ctu %>%
 
 ### Parking Policy
 
-Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes. 
+Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes.
 
-The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table \@ref(tab:tab-parking-price-effects)).  
+The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table \@ref(tab:tab-parking-price-effects)).
 
-The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019]. 
+The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019].
 
+```{=tex}
 \begin{equation}
 adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} 
 (\#eq:parking_price_adj)
 \end{equation}
+```
+$price_y$ is the price of parking on dollars per hour in year $y$\
+$price_{y = 2018}$ is the price of parking in dollars per hour in 2018\
+$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.
 
-$price_y$ is the price of parking on dollars per hour in year $y$  
-$price_{y = 2018}$ is the price of parking in dollars per hour in 2018   
-$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.  
-
-Values derived from @TRACE_1999 and referenced in  @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.  
+Values derived from @TRACE_1999 and referenced in @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.
 
 ```{r, tab-parking-price-effects}
 #| echo: false
@@ -430,7 +428,7 @@ ghg.sp::elast %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-*Figure \@ref(fig:fig-parkingprice) could be a static or interactive figure. However, nothing seems to matter...*
+*Figure* \@ref(fig:fig-parkingprice) *could be a static or interactive figure. However, nothing seems to matter...*
 
 ```{r fig-parkingprice}
 #| echo: false

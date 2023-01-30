@@ -1,12 +1,18 @@
-# Reducing Emission from Land Use and Forestry
+# Land Use and Forestry
+
+![](images//2724.jpg)
+
+Communities are taking steps to reduce their carbon footprint and mitigate the impacts of climate change through various measures, such as reducing energy consumption, developing compact land use patterns, reducing dependence on cars, and integrating natural resources into development patterns. This approach, called green infrastructure, helps improve the resilience of the built environment, as well as mitigate emissions and improve the quality of life. These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, protecting their resources and competitiveness.
 
 Land use change can release carbon stock stored in land --- for example, when urban impervious surfaces like asphalt roads and neighborhoods expand onto lands previously covered by forests or agriculture. This results in net carbon emissions from land. At the same time, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sink (negative emissions).
 
-## Land Use and Forestry Baseline
+## Framework
+
+To outline the methodology for evaluating the impact of various land use and green infrastructure strategies, it is crucial to comprehend that each land cover type within our region, be it forested or impervious, possesses a distinct multiplier for carbon sequestration and carbon stocks. With the utilization of satellite imagery to acquire information on the region's land cover, we are able to make informed speculations regarding the potential for changes in land use and cover to augment or decrease greenhouse gas emissions. 
 
 ### Land Cover Baseline
 
-A high-resolution land cover map was generated for the Met Council region for the year 2016 using a support vector machine image classification on *Planet RapidEye 5m imagery*. This classification was merged with the 2019 edition of the 2016 National Land Cover Database to generate a 12-class land cover map (See [@Milnar_Ramaswami_2020] for more details on image classification methodology).
+A high-resolution land cover map was generated for the Metropolitan Council region for the year 2016 using a support vector machine image classification on *Planet RapidEye 5m imagery*. This classification was merged with the 2019 edition of the 2016 National Land Cover Database to generate a 12-class land cover map (See [@Milnar_Ramaswami_2020] for more details on image classification methodology).
 
 ```{r tab-land-cover-by-land-use}
 calc_land_cover_by_land_use(
@@ -21,7 +27,19 @@ calc_land_cover_by_land_use(
 
 ### Land Use Baseline
 
+The 2016 land use baseline data has been generated from the Metropolitan Council Generalized Land Use geospatial layer for  for all cities and townships. This data has been categorized into three parts based on land use type: "Urban Infill", "Exurban Development", and "Urban Expansion". 
+
+"Exurban Development" was considered to be the following land use types: Undeveloped, Park/Recreation/Preserve, Agriculture, or Farmstead. All other land use types were considered "Urban Infill" in the baseline data.
+
 ```{r tab5.2}
+calc_land_cover_by_land_use(
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  ungroup() %>%
+  group_by(land_use_type) %>%
+  summarise(hecatares = sum(land_cover_land_use_hectares))
 ```
 
 ## Land Use and Forestry Forecast
@@ -31,14 +49,42 @@ calc_land_cover_by_land_use(
 
 ## Land Use and Forestry Strategies
 
+### Urban Form
+
+In the coming decades, the Metropolitan Council region is poised for significant growth, with its population expected to increase from just under 3.2 million residents to over 3.7 million in 2040. This growth will bring about substantial changes in land use and land cover, particularly in the north and west suburbs.
+
+Biogenic emissions arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear.
+
+To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used to calculate these values for the study period of 2018-2040.
+
+$$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) × 44/12$$
+
+$\text{Sequestration}$ = ∑ (Ai × SRi) 	
+$\text{Land Cover Change}$ = ∑ [(Ait-1 × CDi ) - (Ait × CDi )]
+
+Where:
+
+$\text{Sequestration}$ = annual net sequestration from vegetation for a given city
+
+Land Cover Change = annual organic carbon stock change from land conversion for a given city, averaged over the study period
+
+44/12 = factor to convert Mg C to Mg CO2e
+
+$Ai$ = Area of vegetation of cover type i (ha)
+$SRi$ = Annual net sequestration rate for cover type i. (Mg C ha-1 yr-1)
+$CDi$ = Carbon stock density factor for vegetation in cover type i (Mg C ha-1)
+
+i = 1 ,2, 3, ...n land cover types
+
+t = year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city
+
 ### Conservation Tillage
 
-Conventional agricultural practices involve annual plowing to loosen soil in preparation for planting. This leaves soil particles exposed to wind and erosion, and over time leads to loss of soil nutrients and organic matter1. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock2. Conservation tillage (such as no-till or reduced-till agriculture) is intended to minimize topsoil disturbance and minimize nutrient and organic matter loss in soil. Uncertainty in GHG impact of conservation tillage is high.
+Conventional agricultural practices involve annual plowing to loosen soil in preparation for planting. This leaves soil particles exposed to wind and erosion, and over time leads to loss of soil nutrients and organic matter. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock. Conservation tillage (such as no-till or reduced-till agriculture) is intended to minimize topsoil disturbance and minimize nutrient and organic matter loss in soil. Uncertainty in GHG impact of conservation tillage is high.
 
 This practice affects greenhouse gas emissions in two primary ways:
 
 a.  Minimized soil disturbance allows for soil to retain a higher amount of organic carbon (to a new equilibrium)
-
 b.  Reduced plowing leads to lower fossil fuel consumption from farm equipment3
 
 Conservation tillage initiatives in Minnesota have been established by a variety of stakeholders, including state and federal governments, private sector companies, environmental advocacy groups, and academia. As a result, almost half of all MN counties growing corn and soy have at least 25% of planted acres using reduced tillage practices, while about a quarter of MN counties growing corn and soy have at least 25% of planted acres using no-till practices (Crop Residue Management Survey).

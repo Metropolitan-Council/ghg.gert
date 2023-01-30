@@ -62,6 +62,7 @@ calc_electrify_commercial_heating(
     .enviro_factors = enviro_factors,
     .existing_high_efficiency_buildings_pct = 0.8
   ),
+  .selected_ctu = "all",
   .grid_decarbonization_pct = 0.8,
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,

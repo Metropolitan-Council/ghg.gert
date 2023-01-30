@@ -28,10 +28,13 @@
 #'   .existing_high_efficiency_buildings_pct = 0.80
 #' )
 #' }
-calc_existing_comm_building_efficiency <- function(non_res_tb = building_energy_bau_data$non_residential,
+calc_existing_comm_building_efficiency <- function(non_res_tb,
                                                    .selected_ctu,
                                                    .existing_high_efficiency_buildings_pct) {
+
   cat("*** calculating existing commercial building energy efficiency \n")
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+
   new_non_res_tb <-
     non_res_tb %>%
     dplyr::filter(var %in% c("commercial_jobs")) %>%
@@ -62,4 +65,5 @@ calc_existing_comm_building_efficiency <- function(non_res_tb = building_energy_
       dplyr::filter(year == 2018))
 
   return(new_non_res_tb)
+
 }

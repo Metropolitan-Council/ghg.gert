@@ -6,6 +6,7 @@
 \usage{
 scen_dynamic_ride_sharing(
   .scenario = "BAU",
+  .selected_ctu = "all",
   .pass_tb = transportation_data$passenger,
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

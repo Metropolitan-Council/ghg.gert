@@ -6,6 +6,7 @@
 \usage{
 scen_freight_truck(
   .freight_tb = transportation_data$freight,
+  .selected_ctu = "all",
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

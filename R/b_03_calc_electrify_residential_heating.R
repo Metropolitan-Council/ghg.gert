@@ -27,8 +27,8 @@
 #'
 #' calc_electrify_residential_heating(
 #'   res_tb = calc_ghg_residential(
-#'     res_tb = building_data$residential,
-#'     res_tb_bau = building_data$residential,
+#'     res_tb = building_energy_bau_data$residential,
+#'     res_tb_bau = building_energy_bau_data$residential,
 #'     .selected_ctu = "all",
 #'     .grid_decarbonization_pct = 0.80,
 #'     .enviro_factors = enviro_factors
@@ -49,65 +49,82 @@ calc_electrify_residential_heating <- function(res_tb,
                                                .grid_decarbonization_pct,
                                                .enviro_factors) {
   cat("*** calculating residential heat eletrification strategy \n")
+  # new_res_tb <- res_tb %>%
+  #   tidyr::pivot_wider(id_cols = c(ctu_name), names_from = c(var, scen, year), values_from = value, names_sep = ".") %>%
+  #   dplyr::mutate(
+  #     gas_savings_pct =
+  #       1 - ((residential_therms.bau.2040 - residential_therms.scen.2040)
+  #       / residential_therms.scen.2040
+  #       ),
+  #     reduced_therms = residential_therms.scen.2040
+  #     * .additional_electrified_residential_buildings_pct,
+  #     residential_natural_gas_emissions_kg_co.scen.2040 =
+  #       (
+  #         reduced_therms
+  #         * gas_savings_pct
+  #           * .res_natural_gas_for_space_heating_pct
+  #           * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+  #       )
+  #       -
+  #         (
+  #           reduced_therms
+  #           * gas_savings_pct
+  #             * .res_natural_gas_for_space_heating_pct
+  #             * enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
+  #         )
+  #         * .enviro_factors$KG_CO2E_PER_MHW_FORECAST
+  #           * (1 - .grid_decarbonization_pct)
+  #           * .enviro_factors$THERM_TO_MWH
+  #
+  #         +
+  #         (
+  #           (
+  #             reduced_therms
+  #             * gas_savings_pct
+  #               * .res_natural_gas_for_water_heating_pct
+  #               * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+  #           )
+  #           -
+  #             (
+  #               reduced_therms
+  #               * gas_savings_pct
+  #                 * .res_natural_gas_for_water_heating_pct
+  #                 * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+  #             )
+  #             / 1
+  #               * .enviro_factors$KG_CO2E_PER_MHW_FORECAST
+  #               * (1 - .grid_decarbonization_pct)
+  #               * .enviro_factors$THERM_TO_MWH
+  #         )
+  #   ) %>%
+  #   tidyr::pivot_longer(
+  #     cols = c(2:last_col()),
+  #     names_to = "var",
+  #     values_to = "value"
+  #   ) %>%
+  #   tidyr::separate(
+  #     col = var,
+  #     into = c("var", "scen", "year"),
+  #     sep = "\\."
+  #   )
+
   new_res_tb <- res_tb %>%
     tidyr::pivot_wider(id_cols = c(ctu_name), names_from = c(var, scen, year), values_from = value, names_sep = ".") %>%
     dplyr::mutate(
-      gas_savings_pct =
-        1 - ((residential_therms.bau.2040 - residential_therms.scen.2040)
-        / residential_therms.scen.2040
-        ),
-      reduced_therms = residential_therms.scen.2040
-      * .additional_electrified_residential_buildings_pct,
+      gas_savings_pct.scen.2040 =
+        1 - ((residential_therms.bau.2040 - residential_therms.scen.2040) / residential_therms.scen.2040),
+      reduced_therms.scen.2040 = residential_therms.scen.2040 * .additional_electrified_residential_buildings_pct,
       residential_natural_gas_emissions_kg_co.scen.2040 =
-        (
-          reduced_therms
-          * gas_savings_pct
-            * .res_natural_gas_for_space_heating_pct
-            * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-        )
-        -
-          (
-            reduced_therms
-            * gas_savings_pct
-              * .res_natural_gas_for_space_heating_pct
-              * enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
-          )
-          * .enviro_factors$KG_CO2E_PER_MHW_FORECAST
-            * (1 - .grid_decarbonization_pct)
-            * .enviro_factors$THERM_TO_MWH
-
-          +
-          (
-            (
-              reduced_therms
-              * gas_savings_pct
-                * .res_natural_gas_for_water_heating_pct
-                * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-            )
-            -
-              (
-                reduced_therms
-                * gas_savings_pct
-                  * .res_natural_gas_for_water_heating_pct
-                  * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-              )
-              / 1
-                * .enviro_factors$KG_CO2E_PER_MHW_FORECAST
-                * (1 - .grid_decarbonization_pct)
-                * .enviro_factors$THERM_TO_MWH
-          )
+        reduced_therms.scen.2040 * gas_savings_pct.scen.2040 * .res_natural_gas_for_space_heating_pct * .enviro_factors$KG_CO2E_PER_THERM_FORECAST -
+        reduced_therms.scen.2040 * gas_savings_pct.scen.2040 * .res_natural_gas_for_space_heating_pct * .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO *
+        .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * enviro_factors$THERM_TO_MWH +
+        reduced_therms.scen.2040 * gas_savings_pct.scen.2040 * .res_natural_gas_for_water_heating_pct * .enviro_factors$KG_CO2E_PER_THERM_FORECAST -
+        reduced_therms.scen.2040 * gas_savings_pct.scen.2040 * .res_natural_gas_for_water_heating_pct * .enviro_factors$KG_CO2E_PER_MHW_FORECAST *
+        (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH
     ) %>%
-    tidyr::pivot_longer(
-      cols = c(2:last_col()),
-      names_to = "var",
-      values_to = "value"
-    ) %>%
-    tidyr::separate(
-      col = var,
-      into = c("var", "scen", "year"),
-      sep = "\\."
-    )
-
+    tidyr::pivot_longer(cols = c(2:last_col()), names_to = "var", values_to = "value") %>%
+    tidyr::separate(col = var, into = c("var", "scen", "year"), sep = "\\.")
 
   return(new_res_tb)
+
 }

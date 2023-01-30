@@ -5,7 +5,7 @@
 \title{Calculate existing commercial buildings efficiency}
 \usage{
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_energy_bau_data$non_residential,
+  non_res_tb,
   .selected_ctu,
   .existing_high_efficiency_buildings_pct
 )

@@ -1,4 +1,4 @@
-# Building Energy 
+# Building Energy
 
 ![](images//3090.jpg)
 
@@ -6,38 +6,39 @@ There are several strategies that can be employed to reduce emissions in the bui
 
 ## Framework
 
-The global energy consumption of buildings, both residential and commercial, has steadily increased and now accounts for between 20-40% of energy consumption in developed countries [@perez-lombard_review_2008]. 
+The global energy consumption of buildings, both residential and commercial, has steadily increased and now accounts for between 20-40% of energy consumption in developed countries [@perez-lombard_review_2008].
 
 **What predicts greenhouse gas emissions in the building sector?**
 
-To predict the future greenhouse gas emissions of the building energy sector, we must consider three important factors:
+To predict the future greenhouse gas emissions of the building energy sector in the city of `r params$ctu_section`, we must consider three important assumptions:
 
-1) Residential energy consumption is directly proportional to the floor area of homes. In other words, larger homes consume more energy. Strategies to reduce the floor area or increase the energy efficiency per unit area of residential buildings have the potential to decrease emissions. However, it is important to note that there are other factors that also contribute to residential energy consumption, such as the type of appliances and systems used, the number of occupants, and the location and climate of the home.
+1)  Residential energy consumption is directly proportional to the floor area of homes. In other words, larger homes consume more energy. Strategies to reduce the floor area or increase the energy efficiency per unit area of residential buildings have the potential to decrease emissions. However, it is important to note that there are other factors that also contribute to residential energy consumption, such as the type of appliances and systems used, the number of occupants, and the location and climate of the home.
 
-2) Energy consumption in the non-residential sector is correlated to the number of jobs in the industrial and commercial sectors in a community. Strategies that reduce the energy intensity per worker have the potential to decrease greenhouse gas emissions by increasing energy efficiency. However, it is important to note that there are other factors that also contribute to non-residential energy consumption, such as the type of building, the usage pattern, and the location and climate.
+2)  Energy consumption in the non-residential sector is correlated to the number of jobs in the industrial and commercial sectors in a community. Strategies that reduce the energy intensity per worker have the potential to decrease greenhouse gas emissions by increasing energy efficiency. However, it is important to note that there are other factors that also contribute to non-residential energy consumption, such as the type of building, the usage pattern, and the location and climate.
 
-3) Greenhouse gas emissions in the building sector are directly caused by energy consumption. To reduce these emissions, we can decarbonize the electricity grid and reduce the carbon footprint of natural gas used for heating.
+3)  The building sector is a significant contributor to greenhouse gas emissions, primarily due to energy consumption. However, we have the opportunity to make a positive impact by reducing these emissions through decarbonizing our electricity grid and minimizing the carbon footprint of natural gas used for heating.
 
 **What is the status of the electricity grid?**
 
 When it comes to reducing emissions in the building sector, the electricity grid, and the percent that it is supplied by renewable sources plays a major role.
 
-Electricity in Minneapolis is served by Xcel Energy. In their report *Building a Carbon Free Future* in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
+Electricity in Minneapolis is served mostly by Xcel Energy. In their report *Building a Carbon Free Future* in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
 
 ## Residential Energy Assumptions
 
-The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building. 
+The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.
 
-A 2020 study found that the average US home consumed 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) in 2015, and the average emissions of greenhouse gas intensity was 45 kg of CO2-equivalents per square meter. The same study found that climate and, to a lesser degree, building age are positively correlated with energy intensity, while energy infrastructure strongly influences greenhouse gas intensity. States with newer housing stocks would use less energy due to ongoing adoption of residential energy codes [@goldstein_carbon_2020]. 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) converted to square feet (kwh/ft<sup>2</sup>) is 13.65. The reason why Minnesota cities tend to have lower electricity consumption than other states could be due to less use of electricity for air conditioning compared to warmer areas in the country. However, the natural gas consumption of the average Minnesota household is higher than in most states. 
+A 2020 study found that the average US home consumed 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) in 2015, and the average emissions of greenhouse gas intensity was 45 kg of CO2-equivalents per square meter. The same study found that climate and, to a lesser degree, building age are positively correlated with energy intensity, while energy infrastructure strongly influences greenhouse gas intensity. States with newer housing stocks would use less energy due to ongoing adoption of residential energy codes [@goldstein_carbon_2020]. 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) converted to square feet (kwh/ft<sup>2</sup>) is 13.65. The reason why Minnesota cities tend to have lower electricity consumption than other states could be due to less use of electricity for air conditioning compared to warmer areas in the country. However, the natural gas consumption of the average Minnesota household is higher than in most states.
 
-**Table \@ref(tab:tab-residential-energy)** shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040. 
+**Table** \@ref(tab:tab-residential-energy) shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040.
 
-The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of the population size, and an extrapolating the historical floor area growth rate for the last ten years (based on 2018). The average floor area of residential buildings in the city has increased over the last decade, therefore we assume that this tendency will continue. 
+The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of the population size, and an extrapolating the historical floor area growth rate for the last ten years (based on 2018). The average floor area of residential buildings in the city has increased over the last decade, therefore we assume that this tendency will continue.
 
 The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing or decreasing over time. It is calculated by dividing the change in floor area from one year to the next by the initial floor area. For example, if the floor area of a residential area increased by 10% from one year to the next, the floor area growth rate would be 10%.
 
 ```{r tab-residential-energy}
 #| echo: false
+#| message: false
 #city baseline
 get_residential_energy_baseline() %>%
   ungroup() %>%
@@ -47,12 +48,13 @@ get_residential_energy_baseline() %>%
       rename("Variables" = desc,
              "2018" = value) %>%
   
-  #city forcast
+  #city forecast
   full_join(
     calc_residential_energy_forecast() %>%
   ungroup() %>%
   filter(ctu_name == params$ctu_selection) %>%
-  mutate(value = if_else(var == "total_residential_kwh_forecast", value / 1000, value)) %>%
+  mutate(value = if_else(var == "total_residential_kwh_forecast", 
+                         value / 1000, value)) %>%
     left_join(., variables, by = "var") %>%
     mutate(desc = str_remove_all(desc, " - Forecast")) %>%
       select(c(desc, value)) %>%
@@ -63,12 +65,9 @@ get_residential_energy_baseline() %>%
   mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6))))  %>%
 
   tableformat(.caption = paste0("Residential Energy for ", params$ctu_selection))
-    
 ```
 
 ### Residential Energy Strategies
-
-#### Reducing Residential Floor Area and Improving Efficiency
 
 Energy consumption is directly correlated to the floor area of a residential unit. In general, bigger homes consume more energy. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
 
@@ -96,10 +95,11 @@ If the availability of fossil fuel sources such as oil, natural gas, and coal is
 ***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 :::
 
+```{=tex}
 \begin{equation}
 sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)   (\#eq:sqft_units_2040)
 \end{equation}
-
+```
 where
 
 -   $(1+X)$: The rate of growth in single-family floor area in square feet per year.
@@ -162,7 +162,7 @@ calc_affordable_floor_area(
 
 ```
 
-*Figure \@ref(fig:fig-affordable-floor-area) could be a static or interactive figure. However, there do appear to be some questions about the parameters/results? The biggest issue is that I can't get the `run_scenario_building()` function to run without errors? Because I think(?) that is really the key function that we need to run here.  It is a bit unclear to me why the table (above) is not coming from running that larger `run_scenario_building` function, but instead coming from the the `calc_affordable_floor_area()` function. The plot below is made with the `calc_affordable_floor_area` function. Other, smaller issues are: 1) The box above suggest that the floor area can be reduced by 15%, but running the equation produces an error where "Warning: Single family floor area growth cannot be greater than %5". This is why you see only small floor area reductions in the figure. 2) It seems like the electricity/gas use is more influenced by year rather than reductions in floor area...for the purpose of the report, should this strategy be replaced with one that has a bigger impact on energy use? 3) It is unclear why the number of single family units decreases - the strategy description suggests that only floor area should decrease - is this a naming typo?*
+*Figure* \@ref(fig:fig-affordable-floor-area) *could be a static or interactive figure. However, there do appear to be some questions about the parameters/results? The biggest issue is that I can't get the `run_scenario_building()` function to run without errors? Because I think(?) that is really the key function that we need to run here. It is a bit unclear to me why the table (above) is not coming from running that larger `run_scenario_building` function, but instead coming from the the `calc_affordable_floor_area()` function. The plot below is made with the `calc_affordable_floor_area` function. Other, smaller issues are: 1) The box above suggest that the floor area can be reduced by 15%, but running the equation produces an error where "Warning: Single family floor area growth cannot be greater than %5". This is why you see only small floor area reductions in the figure. 2) It seems like the electricity/gas use is more influenced by year rather than reductions in floor area...for the purpose of the report, should this strategy be replaced with one that has a bigger impact on energy use? 3) It is unclear why the number of single family units decreases - the strategy description suggests that only floor area should decrease - is this a naming typo?*
 
 ```{r fig-affordable-floor-area}
 #| echo: false
@@ -256,8 +256,7 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
 
-
-*Figure \@ref(fig:fig-new-leed-homes) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+*Figure* \@ref(fig:fig-new-leed-homes) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-new-leed-homes}
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
@@ -301,7 +300,6 @@ seq(0.1, 0.5, .1) %>%
       strip.text = element_text(size = 10)
     )
 ```
-
 
 #### Increase Existing Homes Energy Efficiency
 
@@ -359,8 +357,7 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
-
-*Figure \@ref(fig:fig-existing-home-efficiency) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+*Figure* \@ref(fig:fig-existing-home-efficiency) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-existing-home-efficiency}
 #| echo: false
@@ -409,7 +406,6 @@ seq(0.2, 1, .2) %>%
     )
 ```
 
-
 #### Promote Behavior Change for Residential Energy Efficiency
 
 implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
@@ -452,7 +448,7 @@ $$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/populati
 -   $population_{2040}$: The total population in 2040.
 -   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
 
-*Figure \@ref(fig:fig-behavior-change) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+*Figure* \@ref(fig:fig-behavior-change) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-behavior-change}
 #| echo: false
@@ -501,7 +497,6 @@ seq(0.2, 1, .2) %>%
 
 ```
 
-
 #### Decarbonize Residential Energy Use
 
 The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
@@ -543,8 +538,7 @@ $$
 kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{residential}^{2040}) 
 $$
 
-
-*Figure \@ref(fig:fig-decarbonize-residential-energy) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+*Figure* \@ref(fig:fig-decarbonize-residential-energy) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-decarbonize-residential-energy}
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of decarbonizing the grid.", 
@@ -590,7 +584,6 @@ seq(0.2, 1, .2) %>%
       strip.text = element_text(size = 10)
     )
 ```
-
 
 #### Electrifying Residential Heating
 
@@ -641,8 +634,7 @@ calc_electrify_residential_heating(
   )
 ```
 
-
-*Figure \@ref(fig:fig-electrify-residential-heating) could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+*Figure* \@ref(fig:fig-electrify-residential-heating) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-electrify-residential-heating}
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of electrififying residential buildings. Grid decarbonization is held constant at 80%, natural gas for space heating held at 71% and natural gas for water heating at 24% (the constants are the same as in the above table).", 
@@ -690,6 +682,7 @@ a <- seq(0.2, 1, .2) %>%
       strip.text = element_text(size = 10)
     )
 ```
+
 <br>
 
 ## Non-Residential Energy Assumptions
@@ -698,7 +691,7 @@ Non-residential energy use refers to the energy consumption of commercial and in
 
 In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
 
-**Table \@ref(tab:tab-non-residential-energy)** shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
+**Table** \@ref(tab:tab-non-residential-energy) shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
 
 ```{r tab-non-residential-energy}
 #| echo: false
@@ -727,7 +720,6 @@ get_non_residential_energy_baseline(tb = building_energy_data) %>%
               .caption = paste("Non-Residential Energy for ", params$ctu_selection)
     )
 ```
-
 
 <br>
 

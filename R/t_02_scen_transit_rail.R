@@ -10,6 +10,7 @@
 #' @importFrom usethis ui_done
 #' @importFrom emo ji
 scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
+                              .selected_ctu = "all",
                               .scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
@@ -39,7 +40,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-  cat("** calculating scneario transit rail \n")
+  cat("** calculating scenario transit rail \n")
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   # Rail Urban-----
   fcm <- calc_fuel_cost_mile(

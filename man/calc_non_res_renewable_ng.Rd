@@ -4,7 +4,11 @@
 \alias{calc_non_res_renewable_ng}
 \title{Calculate renewable natural gas impact on non-residential building emissions}
 \usage{
-calc_non_res_renewable_ng(non_res_tb, .enviro_factors = .enviro_factors)
+calc_non_res_renewable_ng(
+  non_res_tb,
+  .selected_ctu,
+  .enviro_factors = .enviro_factors
+)
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}

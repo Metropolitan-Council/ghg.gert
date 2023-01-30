@@ -1,6 +1,5 @@
 #' @title  Main function to call other functions for determining VMT,
 #'      direct GHG, indirect GHG, and costs
-#'
 #' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
 #' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `ctu`,
@@ -87,7 +86,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   cat("...... percent of sales that are battery electric vehicles: ", .bev_pct_sales, "\n")
   cat("...... perecent of sales that are hybrid electric vehicles: ", .phev_pct_sales, "\n")
   cat("...... percent of sales that are hybrid electric vehicles: ", .hev_pct_sales, "\n")
-
+  cat("====================================== \n")
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb  <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -181,6 +180,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # passenger light-duty -----
   passenger_light_duty <- scen_passenger_light_duty(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -216,6 +216,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # transit buses -----
   bus_transit <- scen_transit_bus(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -251,6 +252,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   rail_transit <- scen_transit_rail(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -285,6 +287,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # school bus-----
   school_bus <- scen_school_bus(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -320,6 +323,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # walk and bike ----
   walk_bike <- scen_walk_bike(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -355,6 +359,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   dynamic_ride_share <- scen_dynamic_ride_sharing(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -389,6 +394,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   auto_veh <- scen_autonomous_vehicle(
     .pass_tb = pass_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -427,6 +433,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # freight truck ------
   freight_truck <- scen_freight_truck(
     .freight_tb = freight_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -463,6 +470,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   freight_rail <- scen_freight_rail(
     .freight_tb = freight_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
@@ -499,6 +507,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # freight multi-modal, air, and water -----
   freight_multi_air_wat <- scen_air_water_multi(
     .freight_tb = freight_tb,
+    .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,

@@ -10,6 +10,7 @@
 #' @importFrom emo ji
 #' @importFrom usethis ui_done
 scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
+                                      .selected_ctu = "all",
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
@@ -40,6 +41,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .elast = elast,
                                       .elast_5d = elast_5d) {
   cat("** calculating scenario for passenger light duty vehicles \n")
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   # Sequence for each
   # 1. Establish `type`, `var`, `mode`

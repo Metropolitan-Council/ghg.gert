@@ -13,6 +13,7 @@
 #' @importFrom emo ji
 #' @importFrom usethis ui_done
 scen_dynamic_ride_sharing <- function(.scenario = "BAU",
+                                      .selected_ctu = "all",
                                       .pass_tb = transportation_data$passenger,
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
@@ -42,7 +43,10 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
                                       .enviro_factors = enviro_factors,
                                       .elast = elast,
                                       .elast_5d = elast_5d) {
+
   cat("** calculating dynamic ride sharing scenario \n")
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
+
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
