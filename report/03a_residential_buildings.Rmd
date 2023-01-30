@@ -87,7 +87,7 @@ The City of `r params$ctu_selection` can influence the size of new single family
 -   ***Fees*** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 :::
 
-#### Promote Affordable Floor Area
+#### Affordable Floor Area
 
 If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
 
@@ -111,6 +111,7 @@ where
 
 ```{r tab-new-single-family-home-area}
 #| echo: false
+#| message: false
 
 calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -166,6 +167,7 @@ calc_affordable_floor_area(
 
 ```{r fig-affordable-floor-area}
 #| echo: false
+#| message: false
 
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of single family floor area reduced due to increased energy prices.",
 #| fig.align = 'center',
@@ -208,7 +210,7 @@ seq(0.01, 0.05, .01) %>%
 
 <br>
 
-#### Promote New Homes Energy Efficiency
+#### New Homes Energy Efficiency
 
 *LEED* (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet *LEED* standards are designed and constructed to be energy efficient and to use fewer natural resources.
 
@@ -222,6 +224,8 @@ The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential build
 
 ```{r tab-new-home-efficiency}
 #| echo: false
+#| message: false
+
 calc_floor_area_leed(
   res_tb = building_data$residential,
   .new_homes_leed_gold_pct = 0.5,
@@ -259,6 +263,9 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 *Figure* \@ref(fig:fig-new-leed-homes) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-new-leed-homes}
+#| echo: false
+#| message: false
+
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 6
@@ -301,7 +308,7 @@ seq(0.1, 0.5, .1) %>%
     )
 ```
 
-#### Increase Existing Homes Energy Efficiency
+#### Existing Homes Energy Efficiency
 
 There are multiple ways in which a city, like `r params$ctu_selection`, can promote the retrofit of existing homes to gain energy efficiency. Some examples include:
 
@@ -323,6 +330,7 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 
 ```{r tab-existing-home-efficiency}
 #| echo: false
+#| message: false
 
 calc_floor_area_retrofit(
   res_tb = building_data$residential,
@@ -361,6 +369,7 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 
 ```{r fig-existing-home-efficiency}
 #| echo: false
+#| message: false
 
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of existing homes retrofitted to be more energy efficient.", 
 #| fig.align = 'center',
@@ -406,7 +415,7 @@ seq(0.2, 1, .2) %>%
     )
 ```
 
-#### Promote Behavior Change for Residential Energy Efficiency
+#### Behavior Change for Residential Energy Efficiency
 
 implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
 
@@ -416,6 +425,8 @@ implementing efficient messaging, in-home energy displays, and smart meters can 
 
 ```{r tab-behavior-change}
 #| echo: false
+#| message: false
+
 calc_floor_area_behavior_change(
   res_tb = building_data$residential,
   .home_behavior_change_pct = 1.00,
@@ -452,6 +463,7 @@ $$ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/populati
 
 ```{r fig-behavior-change}
 #| echo: false
+#| message: false
 
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of existing homes retrofitted to be more energy efficient.", 
 #| fig.align = 'center',
@@ -497,7 +509,7 @@ seq(0.2, 1, .2) %>%
 
 ```
 
-#### Decarbonize Residential Energy Use
+#### Decarbonization of Residential Energy Use
 
 The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
 
@@ -507,6 +519,8 @@ The energy grid could become cleaner by increasing the use of renewable energy s
 
 ```{r tab-decarbonize-residential-energy}
 #| echo: false
+#| message: false
+
 calc_ghg_residential(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
@@ -541,6 +555,9 @@ $$
 *Figure* \@ref(fig:fig-decarbonize-residential-energy) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-decarbonize-residential-energy}
+#| echo: false
+#| message: false
+
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of decarbonizing the grid.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 6
@@ -585,7 +602,7 @@ seq(0.2, 1, .2) %>%
     )
 ```
 
-#### Electrifying Residential Heating
+#### Electrification of Residential Heating
 
 The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will decarbonize the overall grid to 80% relative to 2018 levels, consistent with Xcel Energy's plans to achieve a net-zero power grid by 2050.
 
@@ -602,6 +619,7 @@ Electricity can be generated from various sources, including renewable energy so
 ```{r tab-electrify-residential-heating}
 #| echo: false
 #| warning: false
+
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
     res_tb = building_energy_bau_data$residential,
@@ -637,6 +655,9 @@ calc_electrify_residential_heating(
 *Figure* \@ref(fig:fig-electrify-residential-heating) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
 
 ```{r fig-electrify-residential-heating}
+#| echo: false
+#| message: false
+
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of electrififying residential buildings. Grid decarbonization is held constant at 80%, natural gas for space heating held at 71% and natural gas for water heating at 24% (the constants are the same as in the above table).", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 6,
@@ -684,109 +705,3 @@ a <- seq(0.2, 1, .2) %>%
 ```
 
 <br>
-
-## Non-Residential Energy Assumptions
-
-Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.
-
-In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
-
-**Table** \@ref(tab:tab-non-residential-energy) shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
-
-```{r tab-non-residential-energy}
-#| echo: false
-#| message: false
-#city baseline
-get_non_residential_energy_baseline(tb = building_energy_data) %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection)  %>%
-  left_join(., variables, by = "var") %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2018" = value) %>%
-  
-  #city forcast
-  full_join(
-    calc_non_residential_energy_forecast(tb = building_energy_data) %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-    left_join(., variables, by = "var") %>%
-    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2040" = value)
-  )  %>%
-  tableformat(.,
-              .caption = paste("Non-Residential Energy for ", params$ctu_selection)
-    )
-```
-
-<br>
-
-### Non-Residential Energy Strategies
-
-Some existing programs include:
-
-**Conservation Improvement Programs**
-
-The Conservation Improvement Program (CIP) is a policy in Minnesota that aims to improve energy efficiency and conservation in households and businesses. It is funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce, Division of Energy Resources (DER). Implementors of CIP include the Center for Energy and Environment (CEE) and Home Energy Squad.
-
-CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air-conditioning cycling programs. The requirements for investor-owned utilities (IOUs) and consumer-owned utilities (COUs) are different, with more stringent requirements for IOUs due to their status as natural monopolies. According to the American Council for an Energy-Efficient Economy's 2022 State Energy Efficiency Scorecard, Minnesota's electric efficiency program spending in 2021 was \$174 million, with net incremental electricity savings of 955 thousand MWh, and natural gas efficiency program spending was \$71 million, with net incremental natural gas and delivered fuel savings of 3.3 million MMBtu. Fresh Energy, a non-profit organization, has been actively involved in the development and implementation of CIP, including advocating for improvements to cost-effectiveness tests and working to advance equity in energy efficiency programs.
-
-**The Eco Act**
-
-The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.
-
-**SB2030**
-
-The Minnesota *SB2030* program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building's energy use.
-
-#### Electrify Non-Residential Heating
-
-```{r tab-electrify-commmercial-heating}
-#| echo = FALSE
-calc_electrify_commercial_heating(
-  non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
-    .grid_decarbonization_pct = 1,
-    .smart_grid_energy_reduction_pct = 1,
-    .enviro_factors = enviro_factors,
-    .existing_high_efficiency_buildings_pct = 0.8
-  ),
-  .grid_decarbonization_pct = 0.8,
-  .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .enviro_factors = enviro_factors
-) %>%
-  ungroup() %>%
-  filter(
-    ctu_name == params$ctu_selection,
-    year == 2040,
-    scen == "scen",
-    var %in% c(
-      "commercial_mwh_per_worker",
-      "industrial_mwh_per_worker",
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-    left_join(., variables, by = "var") %>%
-    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2040" = value)  %>%
-  tableformat(.,
-              .caption = paste(
-                "Electrifying Commercial Heating",
-                params$ctu_selection,
-                "2040"
-              )
-  )
-```

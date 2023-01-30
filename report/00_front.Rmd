@@ -4,6 +4,8 @@
 
 ## Metropolitan Council {.unnumbered}
 
+------------------------------------------------------------------------
+
 ```{r fig.align = 'center'}
 #| echo: false
 #| message: false
@@ -35,6 +37,8 @@ The Metropolitan Council is the regional planning organization for the seven-cou
 ***On request, this publication will be made available in alternative formats to people with disabilities. Call Metropolitan Council information at 651-602-1140 or TTY 651-291-0904***
 :::
 :::
+
+------------------------------------------------------------------------
 
 ## Disclaimer {.unnumbered}
 

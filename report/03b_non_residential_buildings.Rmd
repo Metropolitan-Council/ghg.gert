@@ -1,0 +1,238 @@
+## Non-Residential Energy Assumptions
+
+Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.
+
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
+
+**Table** \@ref(tab:tab-non-residential-energy) shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
+
+```{r tab-non-residential-energy}
+#| echo: false
+#| message: false
+#city baseline
+get_non_residential_energy_baseline(tb = building_energy_data) %>%
+  ungroup() %>%
+  filter(ctu_name == params$ctu_selection)  %>%
+  left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2018" = value) %>%
+  
+  #city forcast
+  full_join(
+    calc_non_residential_energy_forecast(tb = building_energy_data) %>%
+  ungroup() %>%
+  filter(ctu_name == params$ctu_selection) %>%
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)
+  )  %>%
+  tableformat(.,
+              .caption = paste("Non-Residential Energy for ", params$ctu_selection)
+    )
+```
+
+<br>
+
+### Non-Residential Energy Strategies
+
+Some existing programs include:
+
+**Conservation Improvement Programs**
+
+The Conservation Improvement Program (CIP) is a policy in Minnesota that aims to improve energy efficiency and conservation in households and businesses. It is funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce, Division of Energy Resources (DER). Implementors of CIP include the Center for Energy and Environment (CEE) and Home Energy Squad.
+
+CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air-conditioning cycling programs. The requirements for investor-owned utilities (IOUs) and consumer-owned utilities (COUs) are different, with more stringent requirements for IOUs due to their status as natural monopolies. According to the American Council for an Energy-Efficient Economy's 2022 State Energy Efficiency Scorecard, Minnesota's electric efficiency program spending in 2021 was \$174 million, with net incremental electricity savings of 955 thousand MWh, and natural gas efficiency program spending was \$71 million, with net incremental natural gas and delivered fuel savings of 3.3 million MMBtu. Fresh Energy, a non-profit organization, has been actively involved in the development and implementation of CIP, including advocating for improvements to cost-effectiveness tests and working to advance equity in energy efficiency programs.
+
+**The Eco Act**
+
+The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.
+
+**SB2030**
+
+The Minnesota *SB2030* program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building's energy use.
+
+#### Retofit Existing Commercial Building 
+
+```{r tab-existing-comm-building-efficiiency}
+calc_existing_comm_building_efficiency(
+  non_res_tb = building_energy_bau_data$non_residential,
+  .selected_ctu = "Minneapolis",
+  .existing_high_efficiency_buildings_pct = 0.80
+)  %>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  left_join(., variables, by = "var") %>%
+  # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+  select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "2040" = value)  %>%
+  tableformat(.,
+              .caption = paste(
+                "Retrofit Commercial Buildings",
+                params$ctu_selection,
+                "2040"
+              ))
+```
+
+#### Electrify Non-Residential Heating
+
+```{r tab-electrify-commmercial-heating}
+#| echo: FALSE
+#| message: FALSE
+calc_electrify_commercial_heating(
+  non_res_tb = calc_ghg_non_residential(
+    non_res_tb = building_energy_bau_data$non_residential,
+    non_res_tb_bau = building_energy_bau_data$non_residential,
+    .selected_ctu = "Minneapolis",
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
+    .grid_decarbonization_pct = 1,
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 1
+  ),
+  .selected_ctu = "Minneapolis",
+  .grid_decarbonization_pct = 0.8,
+  .electrified_buildings_pct = 0.40,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)  %>%
+  tableformat(.,
+              .caption = paste(
+                "Electrifying Commercial Heating",
+                params$ctu_selection,
+                "2040"
+              )
+  )
+```
+
+#### Renewable Natural Gas
+```{r tab-non-res-renewable-natural-gas}
+#| echo: FALSE
+#| message: FALSE
+calc_non_res_renewable_ng(
+  non_res_tb = calc_ghg_non_residential(
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
+    .selected_ctu = "Minneapolis",
+    .industrial_smart_grid_pct = 1,
+    .commercial_smart_grid_pct = 1,
+    .grid_decarbonization_pct = 0.8,
+    .smart_grid_energy_reduction_pct = 1,
+    .enviro_factors = enviro_factors,
+    .existing_high_efficiency_buildings_pct = 0.8
+  ),
+  .enviro_factors = enviro_factors,
+  .selected_ctu = "Minneapolis"
+)%>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)  %>%
+  tableformat(.,
+              .caption = paste(
+                "Renewable Natural Gas for ",
+                params$ctu_selection,
+                "2040"
+              )
+  )
+```
+
+
+#### Decarbonize the Electricity Grid
+```{r tab-ghg-non-residential}
+#| echo: FALSE
+#| message: FALSE
+ calc_ghg_non_residential(
+   non_res_tb = building_energy_bau_data$non_residential,
+   non_res_tb_bau = building_energy_bau_data$non_residential,
+   .selected_ctu = "Minneapolis",
+   .industrial_smart_grid_pct = 1,
+   .commercial_smart_grid_pct = 1,
+   .grid_decarbonization_pct = 1,
+   .smart_grid_energy_reduction_pct = 1,
+   .enviro_factors = enviro_factors,
+   .existing_high_efficiency_buildings_pct = 0.8
+ )%>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+    left_join(., variables, by = "var") %>%
+    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "2040" = value)  %>%
+  tableformat(.,
+              .caption = paste(
+                "Electrifying Commercial Heating",
+                params$ctu_selection,
+                "2040"
+              )
+  )
+```
+
+
