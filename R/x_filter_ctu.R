@@ -1,11 +1,9 @@
 #' @title Filter CTU
 #'
-#' @param df Tibble. A data frame to filter by CTU
-#' @param .selected_ctu Character. A string that indicates whether to use all ctus available
-#' or only one selected ctu.
-#'      default is "all"
+#' @param df table
+#' @param .selected_ctu character, selected city. Default is `"all"`.
 #'
-#' @return Tibble. a filter version of the input dataframe.
+#' @return tibble. Input df with only selected CTU
 #' @export
 #'
 filter_ctu <- function(df, .selected_ctu = "all") {
@@ -26,9 +24,10 @@ filter_ctu <- function(df, .selected_ctu = "all") {
 #'
 #' @param df
 #'
-#' @return Tibble. Returns a filtered version of the input dataset.
+#' @return
 #' @export
 #'
+#' @examples
 filter_building_energy_data <-
   function(data_list = building_energy_data, .selected_ctu = "all") {
     if (.selected_ctu == "all") {

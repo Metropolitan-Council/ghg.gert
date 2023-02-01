@@ -1,15 +1,15 @@
 #' @title run all modules
 #'
-#' @param .selected_ctu Character. A string indicating the relevalnt CTU for running the modules.
-#' @param run_land_use Boolean.
-#' @param run_buildings Boolean.
-#' @param run_transportation Boolean.
+#' @param run_land_use logical. Default is `TRUE`
+#' @param run_buildings logical. Default is `TRUE`
+#' @param run_transportation logical. Default is `TRUE`
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
 #' @inheritParams run_scenario_transportation
-#' @return List. Return a list with the outputs of the three modules.
+#' @inhertiParams filter_ctu
+#' @return list, list with the outputs of the three modules.
 #' @export
-
+#'
 run_all_modules <- function(.selected_ctu = "all",
                             run_land_use = TRUE,
                             run_buildings = TRUE,
@@ -131,8 +131,8 @@ run_all_modules <- function(.selected_ctu = "all",
     freight_tb = freight_tb ,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario ,
-    .electric_scenario = .electric_scenario ,
     .aeo_scenario = .aeo_scenario ,
+    .electric_scenario = .electric_scenario ,
     .transit_avo_pct = .transit_avo_pct,
     .pldv_avo_pct = .pldv_avo_pct,
     .transit_service_pct = .transit_service_pct,
@@ -143,10 +143,6 @@ run_all_modules <- function(.selected_ctu = "all",
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,

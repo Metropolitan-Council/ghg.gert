@@ -22,9 +22,6 @@ calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .drs_fuel_type = "",
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -78,13 +75,6 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
 
-\item{.drs_pct}{numeric, percent of trips by auto or transit that are
-now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
-
-\item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
-
-\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
-
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
@@ -130,13 +120,11 @@ Calculate vehicle miles traveled by mode and power train
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
 \code{\link{calc_cost}()},
-\code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast_drs}()},
 \code{\link{run_scenario_transportation}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},

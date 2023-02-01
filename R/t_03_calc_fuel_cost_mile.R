@@ -17,7 +17,6 @@ calc_fuel_cost_mile <- function(tb,
                                 .aeo_scenario = "REF",
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
-                                .av_pct = 0,
                                 .enviro_factors = enviro_factors) {
 
   cat("*** calculating fuel cost per mile \n")
@@ -27,15 +26,10 @@ calc_fuel_cost_mile <- function(tb,
       mode == .mode,
       var == .miles_per_gallon
     ) %>%
-    mutate(av_multiplier = dplyr::case_when(
-      .av_pct == 1 ~ .enviro_factors$MPG_AV,
-      TRUE ~ 1
-    )) %>%
     select(mode,
       year,
       fuel_mpg = var,
       aeo_mode,
-      av_multiplier,
       val_mpg = value
     ) %>%
     unique()
@@ -56,7 +50,7 @@ calc_fuel_cost_mile <- function(tb,
     suffix = c(".tb", ".aeo")
   ) %>%
     mutate(fuel_cost_mile = .fuel_cost_gallon /
-      (val_mpg * aeo_val * av_multiplier)) %>%
+      (val_mpg * aeo_val)) %>%
     select(year,
       mode = mode.tb,
       fuel_mpg,

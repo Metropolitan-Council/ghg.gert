@@ -4,9 +4,8 @@ fcm_test <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
-  .fuel_cost_gallon = 239.8 / 100,
-  .av_pct = 0
-)
+  .fuel_cost_gallon = 239.8 / 100
+  )
 
 
 testthat::expect_error(

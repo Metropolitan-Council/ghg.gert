@@ -6,8 +6,6 @@
 #'    and one for each year. Package provided dataset `transportation_data$freight` is suitable.
 #' @param .electric_scenario electricity scenario
 #' @param .aeo_scenario selected EIA Annual Energy Outlook scenario
-#' @param .drs_fuel_type input dynamic ride sharing (DRS) fuel type. Default is `0`.
-#' @param .av_fuel_type input AV fuel type
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
 #'
 #' @inheritParams calc_vmt_forecast
@@ -37,10 +35,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .freight_parking_price = 0,
                                         .cong_price = 0,
                                         .freight_vmt_fee = 0,
-                                        .drs_pct = 0,
-                                        .av_pct = 0,
-                                        .drs_fuel_type = "",
-                                        .av_fuel_type = "",
                                         .pop_dens_pct_change = 0,
                                         .emp_dens_pct_change = 0,
                                         .land_use_diversity_pct_change = 0,
@@ -71,10 +65,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   cat("...... freight parking price in dollars per hour: ", .freight_parking_price, "\n")
   cat("...... congestion price in dollars per mile: ", .cong_price, "\n")
   cat("...... freight VMT fee per mile: ", .freight_vmt_fee, "\n")
-  cat("...... percent of trips by dynamic ride sharing: ", .drs_pct, "\n")
-  cat("...... percent of autonoumous vehicle trips: ", .av_pct, "\n")
-  cat("...... dynamic ride sharing fuel type: ", .drs_fuel_type, "\n")
-  cat("...... autonoumous vehicle fuel type: ", .av_fuel_type, "\n")
   cat("...... percent change in population density: ", .pop_dens_pct_change, "\n")
   cat("...... percent change in employment density: ", .emp_dens_pct_change, "\n")
   cat("...... percent change in land use diversity: ", .land_use_diversity_pct_change, "\n")
@@ -110,8 +100,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     "telework_pct",
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales",
-    "drs_pct_trip"
+    "phev_pct_sales"
   )
 
   l_vals <- list(
@@ -122,8 +111,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .parking_price,
     .transit_avo_pct,
     .transit_service_pct,
-    .av_pct,
-    .drs_pct,
     .emp_dens_pct_change,
     .pop_dens_pct_change,
     .job_access_pct_change,
@@ -133,8 +120,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .telework_pct,
     .bev_pct_sales,
     .hev_pct_sales,
-    .phev_pct_sales,
-    .drs_pct
+    .phev_pct_sales
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -143,10 +129,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
     .payd_fee > 0 |
-    .drs_pct > 0 |
-    .drs_pct > 0 |
     .gas_tax > 0 |
-    .av_pct > 0 |
     .bev_pct_sales > 0 |
     .hev_pct_sales > 0 |
     .phev_pct_sales > 0) {
@@ -161,8 +144,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       .vmt_fee = .vmt_fee,
       .payd_fee = .payd_fee,
       .gas_tax = .gas_tax,
-      .drs_pct = .drs_pct,
-      .av_pct = .av_pct,
       .enviro_factors = .enviro_factors,
       .elast = .elast
     )
@@ -195,10 +176,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -231,10 +208,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -267,10 +240,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -302,10 +271,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -338,10 +303,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -358,38 +319,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # Dynamic Ride Sharing -----
 
-  dynamic_ride_share <- scen_dynamic_ride_sharing(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary,
-    .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d
-  )
 
   # autonomous vehicles -----
 
@@ -416,10 +345,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -453,10 +378,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -490,10 +411,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_parking_price = .freight_parking_price,
     .cong_price = .cong_price,
     .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
     .pop_dens_pct_change = .pop_dens_pct_change,
     .emp_dens_pct_change = .emp_dens_pct_change,
     .land_use_diversity_pct_change = .land_use_diversity_pct_change,
@@ -516,8 +433,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     RAIL = rail_transit,
     BU_BRT = bus_transit,
     WALK_BIKE = walk_bike,
-    BS = school_bus,
-    DRS = dynamic_ride_share
+    BS = school_bus
   )
 
 
@@ -526,8 +442,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$vmt,
     bus_transit$vmt,
     walk_bike$vmt,
-    school_bus$vmt,
-    dynamic_ride_share$vmt
+    school_bus$vmt
   )
 
   pass_dir_ghg <- bind_rows(
@@ -535,8 +450,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$dir_ghg,
     bus_transit$dir_ghg,
     walk_bike$dir_ghg,
-    school_bus$dir_ghg,
-    dynamic_ride_share$dir_ghg
+    school_bus$dir_ghg
   )
 
   pass_emb_ghg <- bind_rows(
@@ -544,8 +458,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$emb_ghg,
     bus_transit$emb_ghg,
     walk_bike$emb_ghg,
-    school_bus$emb_ghg,
-    dynamic_ride_share$emb_ghg
+    school_bus$emb_ghg
   ) %>%
     mutate(scenario = .scenario)
 
@@ -554,17 +467,15 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     bus_transit$fuel_use,
     rail_transit$fuel_use,
     walk_bike$fuel_use,
-    school_bus$fuel_use,
-    dynamic_ride_share$fuel_use
-  )
+    school_bus$fuel_use
+    )
 
   pass_cost <- bind_rows(
     passenger_light_duty$cost,
     bus_transit$cost,
     rail_transit$cost,
     school_bus$cost,
-    walk_bike$cost,
-    dynamic_ride_share$cost
+    walk_bike$cost
   )
 
   # browser()

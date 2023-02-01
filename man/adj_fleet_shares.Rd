@@ -13,8 +13,6 @@ adj_fleet_shares(
   .vmt_fee = 0,
   .payd_fee = 0,
   .gas_tax = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -43,11 +41,6 @@ Default is \code{0}}
 
 \item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
-\item{.drs_pct}{numeric,   a value between \code{0} and \code{1.} Percent of trips/fleet
-that is dynamic ride sharing (DRS). Default is \code{0}.}
-
-\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
-
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
@@ -72,17 +65,9 @@ Run this before anything else
 
 Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 cost elasticity, gas taxes, and VMT and PAYD fees.
-Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
-  - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct`)
-    and adjusts all passenger sales, existing, and stock regardless of mode
-  - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
-    and adjusts all passenger sales, existing, and stock regardless of mode.
 If battery electric, plug-in hybrid, and/or hybrid percent of sales in the final forecast year
 (`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
-If
-DRS, AV, estimated sales,
-and existing vehicles to estimate future stock. Freight data is dependent on passenger
-data,
+Freight data is dependent on passenger data,
 }\if{html}{\out{</div>}}
 }
 \note{
@@ -96,13 +81,11 @@ whether the driver would prefer to pay the cost to a government agency or insura
 \seealso{
 Other transportation: 
 \code{\link{calc_cost}()},
-\code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{run_scenario_transportation}()},
 \code{\link{scen_freight_rail}()},
