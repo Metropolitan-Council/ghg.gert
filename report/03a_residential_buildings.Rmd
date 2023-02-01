@@ -41,15 +41,10 @@ The floor area growth rate is the rate at which the total floor area of building
 #| message: false
 #city baseline
 get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
-  left_join(., variables, by = "var") %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2018" = value) %>%
-  
+  add_variable_names(., year = "2018") %>%
   #city forecast
   full_join(
     calc_residential_energy_forecast(.selected_ctu = params$ctu_selection) %>%
-  ungroup() %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", 
                          value / 1000, value)) %>%
     left_join(., variables, by = "var") %>%
@@ -124,10 +119,7 @@ calc_affordable_floor_area(
       "single_family_average_floor_area_sqft_ctu"
     )
   ) %>%
-  left_join(., variables, by = "var") %>%
-    select(c(desc, value)) %>%
-  rename("Variables" = desc,
-         "2018" = value) %>%
+  add_variable_names(., year = "2018") %>%
   
   full_join(calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -143,10 +135,7 @@ calc_affordable_floor_area(
       "single_family_average_floor_area_sqft_ctu"
     )
   )%>%
-  left_join(., variables, by = "var") %>%
-    select(c(desc, value)) %>%
-  rename("Variables" = desc,
-         "2040" = value),
+  add_variable_names(., year = "2040"),
  by = "Variables") %>%
   
   tableformat(.,

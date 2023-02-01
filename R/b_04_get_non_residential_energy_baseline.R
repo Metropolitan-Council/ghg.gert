@@ -230,6 +230,7 @@ get_non_residential_energy_baseline <-
         ctu_nonresidential_energy_baseline_1,
         ctu_nonresidential_energy_per_worker
       ) %>%
+      dplyr::ungroup()
       tibble::as_tibble()
 
     return(ctu_nonresidential_energy_baseline)

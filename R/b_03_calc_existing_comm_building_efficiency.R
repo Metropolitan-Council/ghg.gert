@@ -62,7 +62,8 @@ calc_existing_comm_building_efficiency <- function(non_res_tb,
         )
     ) %>%
     dplyr::bind_rows(., non_res_tb %>%
-      dplyr::filter(year == 2018))
+      dplyr::filter(year == 2018)) %>%
+    dplyr::ungroup()
 
   return(new_non_res_tb)
 

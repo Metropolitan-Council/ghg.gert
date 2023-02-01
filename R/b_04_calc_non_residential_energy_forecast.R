@@ -74,7 +74,8 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data, .sel
         "commercial_mwh_per_worker"
       ),
       names_to = "var"
-    )
+    ) %>%
+    dplyr::ungroup()
 
   return(ctu_nonresidential_energy_forecast)
 }

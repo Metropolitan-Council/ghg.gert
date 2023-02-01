@@ -10,28 +10,20 @@ In addition to electricity and natural gas, non-residential energy use may also 
 #| echo: false
 #| message: false
 #city baseline
-get_non_residential_energy_baseline(tb = building_energy_data) %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection)  %>%
+get_non_residential_energy_baseline(tb = building_energy_data,
+                                    .selected_ctu = params$ctu_selection) %>%
   left_join(., variables, by = "var") %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2018" = value) %>%
+  add_variable_names(., "2018") %>%
   
-  #city forcast
+#city forecast
   full_join(
-    calc_non_residential_energy_forecast(tb = building_energy_data) %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
-    left_join(., variables, by = "var") %>%
-    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2040" = value)
+    calc_non_residential_energy_forecast(tb = building_energy_data,
+                                         .selected_ctu = params$ctu_selection) %>%
+      add_variable_names(., "2040")
   )  %>%
   tableformat(.,
-              .caption = paste("Non-Residential Energy for ", params$ctu_selection)
-    )
+              .caption = paste("Non-Residential Energy for ", 
+                               params$ctu_selection))
 ```
 
 <br>
@@ -56,15 +48,15 @@ The Minnesota *SB2030* program is focused on reducing emissions in commercial, i
 
 #### Retofit Existing Commercial Building 
 
+Existing commercial buildings electrification.
+
 ```{r tab-existing-comm-building-efficiiency}
 calc_existing_comm_building_efficiency(
   non_res_tb = building_energy_bau_data$non_residential,
-  .selected_ctu = "Minneapolis",
+  .selected_ctu = params$ctu_selection,
   .existing_high_efficiency_buildings_pct = 0.80
 )  %>%
-  ungroup() %>%
   filter(
-    ctu_name == params$ctu_selection,
     year == 2040,
     var %in% c(
       "commercial_mwh_per_worker",
@@ -77,7 +69,6 @@ calc_existing_comm_building_efficiency(
     )
   ) %>%
   left_join(., variables, by = "var") %>%
-  # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
   select(c(desc, value)) %>%
   rename("Variables" = desc,
          "2040" = value)  %>%
@@ -91,6 +82,8 @@ calc_existing_comm_building_efficiency(
 
 #### Electrify Non-Residential Heating
 
+Non-residential electrification strategy 
+
 ```{r tab-electrify-commmercial-heating}
 #| echo: FALSE
 #| message: FALSE
@@ -98,7 +91,7 @@ calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
-    .selected_ctu = "Minneapolis",
+    .selected_ctu = params$ctu_selection,
     .industrial_smart_grid_pct = 1,
     .commercial_smart_grid_pct = 1,
     .grid_decarbonization_pct = 1,
@@ -106,16 +99,14 @@ calc_electrify_commercial_heating(
     .enviro_factors = enviro_factors,
     .existing_high_efficiency_buildings_pct = 1
   ),
-  .selected_ctu = "Minneapolis",
+  .selected_ctu = params$ctu_selection,
   .grid_decarbonization_pct = 0.8,
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,
   .non_res_natural_gas_for_space_heating_pct = 0.69,
   .enviro_factors = enviro_factors
 ) %>%
-  ungroup() %>%
   filter(
-    ctu_name == params$ctu_selection,
     year == 2040,
     scen == "scen",
     var %in% c(
@@ -128,11 +119,7 @@ calc_electrify_commercial_heating(
       "total_industrial_commercial_emissions"
     )
   ) %>%
-    left_join(., variables, by = "var") %>%
-    # mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-      select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2040" = value)  %>%
+    add_variable_names(., year = "2040")%>%
   tableformat(.,
               .caption = paste(
                 "Electrifying Commercial Heating",
@@ -143,6 +130,9 @@ calc_electrify_commercial_heating(
 ```
 
 #### Renewable Natural Gas
+
+Renewable natural gas strategy ...
+
 ```{r tab-non-res-renewable-natural-gas}
 #| echo: FALSE
 #| message: FALSE
@@ -190,8 +180,11 @@ calc_non_res_renewable_ng(
   )
 ```
 
-
 #### Decarbonize the Electricity Grid
+
+Grid decarbonization 
+
+
 ```{r tab-ghg-non-residential}
 #| echo: FALSE
 #| message: FALSE
@@ -234,5 +227,3 @@ calc_non_res_renewable_ng(
               )
   )
 ```
-
-

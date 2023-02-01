@@ -144,7 +144,8 @@ calc_electrify_commercial_heating <- function(non_res_tb,
            - reduced_therms.scen.2040 * .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH)
       ) %>%
       tidyr::pivot_longer(names_to = "var", values_to = "value", cols = -c(ctu_name)) %>%
-      tidyr::separate(col = var, into = c("var", "scen", "year"), sep = "\\.")
+      tidyr::separate(col = var, into = c("var", "scen", "year"), sep = "\\.") %>%
+      dplyr::ungroup()
 
   return(new_non_res_tb)
 

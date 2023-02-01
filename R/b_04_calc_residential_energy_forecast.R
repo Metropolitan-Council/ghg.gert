@@ -99,7 +99,8 @@ calc_residential_energy_forecast <-
       dplyr::bind_rows(
         ctu_residential_electricity_forecast,
         residential_natural_gas_forecast_ctu
-      )
+      ) %>%
+      dplyr::ungroup()
 
     return(ctu_residential_energy_forecast)
   }
