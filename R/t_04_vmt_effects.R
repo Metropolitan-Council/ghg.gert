@@ -12,7 +12,7 @@ vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
                                       .enviro_factors = enviro_factors) {
-  cat("**** calculating annual energy outlook vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating annual energy outlook vehicle miles traveled strategy \n")
 
   check_inputs(
     name = "aeo_scenario",
@@ -91,9 +91,9 @@ vmt_land_use_change <- function(.type,
                                 .transit_dist_pct_change,
                                 .enviro_factors = enviro_factors,
                                 .elast_5d = elast_5d) {
-  cat("**** calculating vehicle miles traveled land use change strategy \n")
+  cli::cli_progress_message("**** calculating vehicle miles traveled land use change strategy \n")
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
-    stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
+    cli::cli_abort(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
   # browser()
   max_value <- if (.type == "DRIVE") {
@@ -181,7 +181,7 @@ vmt_parking_policy <- function(tb,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
-  cat("**** calculating parking policy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating parking policy vehicle miles traveled strategy \n")
   # current parking prices
   park_price_current <- tb %>%
     filter(
@@ -197,7 +197,7 @@ vmt_parking_policy <- function(tb,
 
 
   if (!.mode %in% unique(tb$mode)) {
-    stop("Make sure you are using the correct input table")
+    cli::cli_abort("Make sure you are using the correct input table")
   }
 
   if (.mode %in% c(
@@ -284,9 +284,9 @@ vmt_road_policy <- function(.pass_tb,
                             .phev_electric = FALSE,
                             .enviro_factors = enviro_factors,
                             .elast = elast) {
-  cat("**** calculating road pricing vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating road pricing vehicle miles traveled strategy \n")
   if (.vmt_fee > 0 & .payd_fee > 0) {
-    stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+    cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
 
   if (.mode == "PLDV") {
@@ -513,7 +513,7 @@ vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct,
                          .enviro_factors = enviro_factors) {
-  cat("**** calculating telework vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating telework vehicle miles traveled strategy \n")
   # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
@@ -536,7 +536,7 @@ vmt_telework <- function(.pass_tb,
 
     return(telework_adj_tb)
   } else {
-    stop("Telework adjustment is only applicable for passenger light-duty vehicles")
+    cli::cli_abort("Telework adjustment is only applicable for passenger light-duty vehicles")
   }
 }
 
@@ -634,7 +634,7 @@ vmt_transit_service <- function(tb,
                                 .transit_service_pct,
                                 .elast = elast,
                                 .enviro_factors = enviro_factors) {
-  cat("**** calculating transit service vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating transit service vehicle miles traveled strategy \n")
   transit_service_elast <-
     tibble(
       year = unique(tb$year),
@@ -731,7 +731,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo_pct,
                                   .pldv_avo_pct,
                                   .enviro_factors = enviro_factors) {
-  cat("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
 
   # browser()
 

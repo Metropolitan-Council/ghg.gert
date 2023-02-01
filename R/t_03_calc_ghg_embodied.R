@@ -36,7 +36,7 @@ calc_ghg_embodied <- function(tb,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors) {
-  cat("*** calculating embodied GHG emissions \n")
+  cli::cli_progress_message("*** calculating embodied GHG emissions \n")
 
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
@@ -122,7 +122,7 @@ calc_ghg_embodied <- function(tb,
     "AIR",
     "WAT"
   )) {
-    stop("Embodied emissions only calculated for passenger type")
+    cli::cli_abort("Embodied emissions only calculated for passenger type")
   } else {
     # browser()
 

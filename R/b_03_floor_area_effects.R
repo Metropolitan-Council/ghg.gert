@@ -46,11 +46,11 @@ calc_floor_area_growth <- function(res_tb,
                                    .new_homes_affected_pct,
                                    .enviro_factors) {
 
-  cat("*** calculating floor area growth \n")
+  cli::cli_progress_message("*** calculating floor area growth \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.single_family_floor_area_growth_pct == 0) {
-    warning("No change in single family floor area growth.")
+    cli::cli_alert_warning("No change in single family floor area growth.")
     return(res_tb)
   } else if (.single_family_floor_area_growth_pct != 0) {
     res_tb_units <- res_tb %>%
@@ -167,11 +167,11 @@ calc_floor_area_leed <- function(res_tb,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
 
-  cat("*** calculating floor area LEED Gold certification strategy \n")
+  cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_leed_gold_pct == 0) {
-    warning("No change in new single family home energy efficiency")
+    cli::cli_alert_warning("No change in new single family home energy efficiency")
     return(res_tb)
   } else if (.new_homes_leed_gold_pct != 0) {
     new_units <- res_tb %>%
@@ -286,12 +286,12 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
 
-  cat("*** calculating floor area retrofit strategy \n")
+  cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   # browser()
   if (.existing_home_retrofit_pct == 0) {
-    warning("No change in existing home energy efficiency")
+    cli::cli_alert_warning("No change in existing home energy efficiency")
     return(res_tb)
   } else if (.existing_home_retrofit_pct != 0) {
     existing_units <- res_tb %>%
@@ -438,11 +438,11 @@ calc_floor_area_behavior_change <- function(res_tb,
                                             .home_behavior_change_pct,
                                             .enviro_factors) {
 
-  cat("*** calculating floor area behavior change strategy \n")
+  cli::cli_progress_message("*** calculating floor area behavior change strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.home_behavior_change_pct == 0) {
-    warning("No change in household behavior.")
+    cli::cli_alert_warning("No change in household behavior.")
     return(res_tb)
   } else if (.home_behavior_change_pct != 0) {
     # browser()
@@ -530,11 +530,11 @@ calc_affordable_floor_area <- function(res_tb,
                                        .selected_ctu,
                                        .single_family_floor_area_growth_pct) {
 
-  cat("*** calculating affordable floor area strategy \n")
+  cli::cli_progress_message("*** calculating affordable floor area strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.single_family_floor_area_growth_pct > 0.05) {
-    warning("Single family floor area growth cannot be greater than %5")
+    cli::cli_alert_warning("Single family floor area growth cannot be greater than %5")
     return(res_tb)
   } else {
     new_res_tb <-

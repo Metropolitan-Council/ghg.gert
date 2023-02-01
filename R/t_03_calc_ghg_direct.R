@@ -29,7 +29,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .miles_per_gallon,
                             .is_av = FALSE,
                             .enviro_factors = enviro_factors) {
-  cat("*** calculating direct GHG emissions \n")
+  cli::cli_progress_message("*** calculating direct GHG emissions \n")
   # browser()
 
   ghg_factors_current <- factor_values$ghg %>%

@@ -38,7 +38,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .elast = elast,
                                  .elast_5d = elast_5d) {
 
-  cat("** calculating scenario for air and water travel \n")
+  cli::cli_progress_message("** calculating scenario for air and water travel \n")
   .freight_tb  <- filter_ctu(.freight_tb, .selected_ctu)
 
   # Multimodal -----

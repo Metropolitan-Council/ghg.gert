@@ -127,12 +127,12 @@ calc_existing_comm_building_efficiency(
   non_res_tb = building_energy_bau_data$non_residential,
   .existing_high_efficiency_buildings_pct = 0.80,
   .selected_ctu = "all"
-) %>%
-  tidyr::pivot_wider(
-    names_from = c("var", "year"),
-    values_from = "value",
-    names_sep = "."
-  )
+)
+  # tidyr::pivot_wider(
+  #   names_from = c("var", "year"),
+  #   values_from = "value",
+  #   names_sep = "."
+  # )
 
 check <- calc_ghg_non_residential(
   non_res_tb = calc_existing_comm_building_efficiency(

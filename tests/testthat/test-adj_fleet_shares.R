@@ -38,18 +38,19 @@ testthat::test_that("Expected number of rows", {
 
 
   testthat::expect_warning(
-    adj_fleet_shares(
-      .bev_pct_sales = 1,
-      .pass_tb = st_paul_passenger,
-      .freight_tb = st_paul_freight %>%
-        filter(ctu == "St. Paul"),
-      .vmt_fee = 0,
-      .payd_fee = 0,
-      .gas_tax = 0,
-      .enviro_factors = enviro_factors
+    suppressMessages(
+      adj_fleet_shares(
+        .bev_pct_sales = 1,
+        .pass_tb = st_paul_passenger,
+        .freight_tb = st_paul_freight %>%
+          filter(ctu == "St. Paul"),
+        .vmt_fee = 0,
+        .payd_fee = 0,
+        .gas_tax = 0,
+        .enviro_factors = enviro_factors
+      )
     )
   )
-
   # t_hev_bev_phev$freight
 
 

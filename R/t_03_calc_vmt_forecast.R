@@ -65,7 +65,7 @@ calc_vmt_forecast <- function(.scenario,
                               .elast = elast,
                               .elast_5d = elast_5d) {
 
-  cat("*** calculating VMT forecast \n")
+  cli::cli_progress_message("*** calculating VMT forecast \n")
   tb <- filter_ctu(tb, .selected_ctu)
   # browser()
 
@@ -456,7 +456,7 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "DRS") {
       # dynamic ride share  -----
 
-      stop("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
+      cli::cli_abort("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
     } else if (.mode == "SUT") {
       # single truck --------
       # browser()

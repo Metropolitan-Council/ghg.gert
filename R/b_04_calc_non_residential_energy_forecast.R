@@ -2,7 +2,7 @@
 #' @export
 
 calc_non_residential_energy_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
-  cat("* calculating non-residential energy forecast \n")
+  cli::cli_progress_message("* calculating non-residential energy forecast \n")
   tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
   ctu_characteristics_forecast <- calc_demographic_forecast(.selected_ctu = .selected_ctu)$ctu

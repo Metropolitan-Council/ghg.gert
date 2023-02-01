@@ -51,7 +51,7 @@ calc_tree_planting_land_cover <- function(tb,
                                           .tree_planting_intervention,
                                           .tree_planting_per_capita,
                                           .tree_planting_per_hectare) {
-  cat("*** calculating tree planting strategy \n")
+  cli::cli_progress_message("*** calculating tree planting strategy \n")
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,

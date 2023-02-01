@@ -51,6 +51,7 @@
 #' @importFrom dplyr filter select case_when mutate across summarise group_by ungroup cur_column left_join bind_rows right_join
 #' @importFrom tidyr pivot_wider pivot_longer
 #' @importFrom purrr map2
+#' @importFrom cli cli_alert_warning cli_abort
 #'
 adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .freight_tb = transportation_data$freight,
@@ -62,8 +63,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .gas_tax = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-
-  cat("** adjusting fleet shares \n")
+  cli::cli_progress_message("\n* adjusting fleet shares \n")
   # browser()
 
   .pass_tb <- .pass_tb %>% unique()
@@ -87,7 +87,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   purrr::map2(l_names, l_vals, check_inputs)
 
   if ((.bev_pct_sales + .hev_pct_sales + .phev_pct_sales) > 0.9) {
-    warning("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
+  cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
   # browser()
@@ -98,7 +98,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     # browser()
 
     if (.vmt_fee > 0 & .payd_fee > 0) {
-      stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+      cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
     }
 
     adj_si_ci_sales <- tibble::tibble(
@@ -186,7 +186,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
     if (nrow(.pass_tb) != nrow(pass_tb)) {
-      stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
+      cli::cli_abort("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
     }
   }
 
@@ -549,7 +549,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::select(names(.pass_tb))
 
     # if (nrow(ptb_new) != nrow(.pass_tb)) {
-    #   stop("Passenger data did not pass HEV/PHEV/BEV adjustment")
+    #   cli::cli_abort("Passenger data did not pass HEV/PHEV/BEV adjustment")
     # }
 
 
@@ -717,7 +717,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::select(names(freight_tb))
 
     if (nrow(.freight_tb) != nrow(ftb_new)) {
-      stop("Freight data did not pass adjustment")
+      cli::cli_abort("Freight data did not pass adjustment")
     }
   } else {
     ptb_new <- pass_tb

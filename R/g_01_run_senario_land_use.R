@@ -32,15 +32,15 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
 
-  cat("\n === RUNNING LAND USE AND FORESTRY MODULE ==== \n")
-  cat("...... selected ctu: ", .selected_ctu, "\n")
-  cat("...... urban form scenario: ", .urban_form_scenario, "\n")
-  cat("...... conservation tillage intervention: ", .conservation_tillage_intervention, "\n")
-  cat("...... tree planting intervention: ", .tree_planting_intervention, "\n")
-  cat("...... tree planting per capita: ", .tree_planting_per_capita, "\n")
-  cat("...... tree planting per hectare: ", .tree_planting_per_hectare, "\n")
-  cat("...... percent of parking lot reduction: ", .parking_lot_reduction_percentage, "\n")
-  cat("================================================ \n")
+  cli::cli_progress_message("\n === RUNNING LAND USE AND FORESTRY MODULE ==== \n")
+  cli::cli_progress_message("...... selected ctu: ", .selected_ctu, "\n")
+  cli::cli_progress_message("...... urban form scenario: ", .urban_form_scenario, "\n")
+  cli::cli_progress_message("...... conservation tillage intervention: ", .conservation_tillage_intervention, "\n")
+  cli::cli_progress_message("...... tree planting intervention: ", .tree_planting_intervention, "\n")
+  cli::cli_progress_message("...... tree planting per capita: ", .tree_planting_per_capita, "\n")
+  cli::cli_progress_message("...... tree planting per hectare: ", .tree_planting_per_hectare, "\n")
+  cli::cli_progress_message("...... percent of parking lot reduction: ", .parking_lot_reduction_percentage, "\n")
+  cli::cli_progress_message("================================================ \n")
 
   tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
   tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)

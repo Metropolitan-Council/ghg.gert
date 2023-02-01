@@ -48,6 +48,7 @@ calc_electrify_residential_heating <- function(res_tb,
                                                .res_natural_gas_for_water_heating_pct,
                                                .grid_decarbonization_pct,
                                                .enviro_factors) {
+  cli::cli_progress_message("*** calculating residential heat eletrification strategy \n")
   # res_tb = calc_ghg_residential(
   #   .selected_ctu = .selected_ctu,
   #   res_tb = building_energy_bau_data$residential,
@@ -56,7 +57,6 @@ calc_electrify_residential_heating <- function(res_tb,
   #   .enviro_factors = .enviro_factors
   # )
 
-  cat("*** calculating residential heat eletrification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   new_res_tb <- res_tb %>%

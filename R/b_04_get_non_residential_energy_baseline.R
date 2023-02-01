@@ -3,7 +3,7 @@
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
 
-    cat("* obtaining non-residential energy baseline by CTU \n")
+    cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
     statewide_nonresidential_energy <-
@@ -248,7 +248,7 @@ get_non_residential_energy_baseline <-
         ctu_nonresidential_energy_baseline_1,
         ctu_nonresidential_energy_per_worker
       ) %>%
-      dplyr::ungroup()
+      dplyr::ungroup() %>%
       tibble::as_tibble()
 
     return(ctu_nonresidential_energy_baseline)

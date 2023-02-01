@@ -40,7 +40,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .elast = elast,
                            .elast_5d = elast_5d) {
 
-  cat("** calculating scenario walk and bike \n")
+  cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   fcm <- calc_fuel_cost_mile(

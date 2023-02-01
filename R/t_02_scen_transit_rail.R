@@ -36,7 +36,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-  cat("** calculating scenario transit rail \n")
+  cli::cli_progress_message("** calculating scenario transit rail \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   # Rail Urban-----
@@ -61,7 +61,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   class <- "EV"
 
 
-  cat("**** Passenger urban rail, electric \n")
+  cli::cli_progress_message("**** Passenger urban rail, electric \n")
 
   ev_vmt <-
     calc_vmt_forecast(
@@ -142,7 +142,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpg <- "BCIMPG"
   class <- "BCI"
 
-  cat("**** Passenger interurban rail, diesel \n")
+  cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
 
   ci_ri_vmt <-
     calc_vmt_forecast(
@@ -214,7 +214,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpe <- "EVElec"
   class <- "EV"
 
-  cat("**** Passenger interurban rail, electric \n")
+  cli::cli_progress_message("**** Passenger interurban rail, electric \n")
   ev_ri_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,

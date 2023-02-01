@@ -60,9 +60,8 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                                               .non_res_natural_gas_for_space_heating_pct,
                                               .grid_decarbonization_pct,
                                               .enviro_factors) {
-  cat("*** calculating commercial building heat electficiation \n")
-  non_res_tb <-
-    filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+  cli::cli_progress_message("*** calculating commercial building heat electficiation \n")
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   new_non_res_tb <- non_res_tb %>%
     tidyr::pivot_wider(

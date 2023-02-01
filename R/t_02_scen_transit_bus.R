@@ -37,7 +37,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
                              .elast_5d = elast_5d) {
-  cat("** calculating scenario transit bus \n")
+  cli::cli_progress_message("** calculating scenario transit bus \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
   # browser()
   type <- "P"
