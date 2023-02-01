@@ -1,18 +1,21 @@
 #' @title Get Non Residential Energy Baseline
 #' @export
 get_non_residential_energy_baseline <-
-  function(tb = building_energy_data) {
-    message("obtaining non-residential energy baseline by CTU...")
+  function(tb = building_energy_data, .selected_ctu = "all") {
+
+    cat("* obtaining non-residential energy baseline by CTU \n")
+    tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
+
     statewide_nonresidential_energy <-
-      ghg.sp::get_statewide_non_residential_energy()
+      ghg.sp::get_statewide_non_residential_energy(.selected_ctu = .selected_ctu)
 
     county_nonresidential_baseline <-
-      ghg.sp::get_by_county_non_residential_energy_baseline()
+      ghg.sp::get_by_county_non_residential_energy_baseline(.selected_ctu = .selected_ctu)
 
     xcel_energy_electricity <-
-      ghg.sp::get_by_ctu_non_residential_xcel_energy_baseline()
+      ghg.sp::get_by_ctu_non_residential_xcel_energy_baseline(.selected_ctu = .selected_ctu)
 
-    ctu_characteristics <- ghg.sp::get_demographic_baseline()$ctu
+    ctu_characteristics <- ghg.sp::get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
 
     ## ---- obtain mwh/year for commercial workers for the state ----
     commercial_mwh_per_worker_state <-

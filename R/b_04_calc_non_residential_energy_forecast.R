@@ -1,10 +1,12 @@
 #' @title Calculate Non Residential Energy Forecast
 #' @export
 
-calc_non_residential_energy_forecast <- function(tb = building_energy_data) {
-  message("calculating non-residential energy forecast")
-  ctu_characteristics_forecast <- calc_demographic_forecast()$ctu
-  ctu_nonresidential_energy_baseline <- get_non_residential_energy_baseline()
+calc_non_residential_energy_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
+  cat("* calculating non-residential energy forecast \n")
+  tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
+
+  ctu_characteristics_forecast <- calc_demographic_forecast(.selected_ctu = .selected_ctu)$ctu
+  ctu_nonresidential_energy_baseline <- get_non_residential_energy_baseline(.selected_ctu = .selected_ctu)
 
 
   # -------------------------------------------------------------------------

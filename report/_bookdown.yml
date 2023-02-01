@@ -9,7 +9,8 @@ rmd_files: [
   "02_demographics.Rmd",
   "03a_residential_buildings.Rmd",
   "03b_non_residential_buildings.Rmd",
-  "04_transportation.Rmd",
+  "04a_transportation_baseline_forecast.Rmd",
+  "04b_transportation_strategies.Rmd",
   "05_land_use.Rmd",
   "06_conclusion.Rmd"
   # "07_appendix.Rmd"

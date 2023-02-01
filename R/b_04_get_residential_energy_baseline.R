@@ -2,9 +2,12 @@
 #' @export
 
 get_residential_energy_baseline <-
-  function(tb = building_energy_data) {
-    message("estimating residential energy baseline")
-    ctu_characteristics <- get_demographic_baseline()$ctu
+  function(tb = building_energy_data, .selected_ctu = "all") {
+
+    cat("* estimating residential energy baseline \n")
+    tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
+
+    ctu_characteristics <- get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
 
     # RESIDENTIAL ENERGY BASELINE -----
     ## ----- get electricity by ctu from 'Emissions' ------

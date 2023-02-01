@@ -1,11 +1,15 @@
 #' @title Get Non Residential Xcel Energy by City/Township
 #' @export
 get_by_ctu_non_residential_xcel_energy_baseline <-
-  function(tb = building_energy_data) {
-    ctu_characteristics <- get_demographic_baseline()$ctu
+  function(tb = building_energy_data, .selected_ctu = "all") {
+
+    cat("* obtaining non residential xcelne energy data for the CTU \n")
+    tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
+
+    ctu_characteristics <- get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
 
     statewide_nonresidential_energy <-
-      get_statewide_non_residential_energy()
+      get_statewide_non_residential_energy(.selected_ctu = .selected_ctu)
 
     commercial_mwh_per_worker_state <-
       (

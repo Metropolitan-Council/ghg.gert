@@ -14,10 +14,10 @@
 #' library(ghg.sp)
 #' calc_demographic_forecast(tb = building_energy_data)$ctu
 #' }
+calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
+  cat("* calculating demographic forecast \n")
+  tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
-
-calc_demographic_forecast <- function(tb = building_energy_data) {
-  message("* calculating demographic forecast")
   # COUNTY DEMOGRAPHIC FORECAST ----
   demographic_characteristics_forecast <- c()
   # -------------------------------------------------------------------------
@@ -262,7 +262,7 @@ calc_demographic_forecast <- function(tb = building_energy_data) {
   ## ----get county forecast for avg multifamily floor area for when ctu equivalent is missing ----
   ctu_county_forecast <- county_characteristics_forecast %>%
     dplyr::left_join(tb$ctu_county, by = "co_name") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county") %>%
+    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & is.na(ctu_name) == F) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::summarize(value = mean(value), .groups = "keep") %>%
     dplyr::select(ctu_name, year, var, value)

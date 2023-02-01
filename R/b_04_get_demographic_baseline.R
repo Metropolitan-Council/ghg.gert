@@ -12,12 +12,17 @@
 #'
 #' @export
 #'
-get_demographic_baseline <- function(tb = building_energy_data) {
+get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = "all") {
+
+  cat("* obtaining baseline demographic characteristics at the CTU level \n")
+  tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
+
   # COUNTY DEMOGRAPHIC BASELINE ----
-  message("* obtaining baseline demographic characteristics at the CTU level")
+
   demographic_characteristics <- c()
 
   ## ----- get average floor area for single family from ZTRAX in 'Emissions' -----
+
   county_average_floor_area_single_family <-
     tb$ztrax_sqft_summary_county %>%
     dplyr::select(co_name, property_land_use, mean_sqft) %>%
@@ -179,9 +184,10 @@ get_demographic_baseline <- function(tb = building_energy_data) {
 
 
   ## ---- get county multifamily floor area for when ctu equivalent is missing ----
+  # should probably indicate is weighted
   ctu_county <- demographic_characteristics$county %>%
     dplyr::left_join(tb$ctu_county, by = "co_name") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county") %>%
+    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & is.na(ctu_name) == F) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::mutate(value = value * pct_population) %>%
     dplyr::select(ctu_name, year, var, value) %>%

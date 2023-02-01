@@ -1,11 +1,11 @@
 #' @title Calculate Residential Energy Forecast
 #' @export
 calc_residential_energy_forecast <-
-  function(tb = building_energy_data) {
-    message("calculating residential energy forecast...")
+  function(tb = building_energy_data, .selected_ctu = "all") {
+    cat("* calculating residential energy forecast \n")
 
-    ctu_residential_energy_baseline <- get_residential_energy_baseline()
-    ctu_characteristics_forecast <- calc_demographic_forecast()$ctu
+    ctu_residential_energy_baseline <- get_residential_energy_baseline(.selected_ctu = .selected_ctu)
+    ctu_characteristics_forecast <- calc_demographic_forecast(.selected_ctu = .selected_ctu)$ctu
 
     # RESIDENTIAL ENERGY FORECAST ----
 

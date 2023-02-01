@@ -1,10 +1,11 @@
 #' @title Get Non Residential Energy Baseline
 #' @export
 
-get_statewide_non_residential_energy <- function(tb = building_energy_data) {
+get_statewide_non_residential_energy <- function(tb = building_energy_data, .selected_ctu = "all") {
+  cat("* obtaining statewide non-residential energy \n")
+  # tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
   # NON-RESIDENTIAL ENERGY BASELINE ----
   # STATE ----
-
   ## ----- obtain electricity consumption by customer class for the state -----
   electricity_consumption_by_customer_class_state <-
     tb$eia_energy_consumption_state %>%
