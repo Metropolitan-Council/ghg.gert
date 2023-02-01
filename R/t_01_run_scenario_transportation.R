@@ -393,38 +393,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # autonomous vehicles -----
 
-  auto_veh <- scen_autonomous_vehicle(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .drs_pct = .drs_pct,
-    .av_pct = .av_pct,
-    .drs_fuel_type = .drs_fuel_type,
-    .av_fuel_type = .av_fuel_type,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct,
-    .mit_bau_summary = .mit_bau_summary,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .elast_5d = .elast_5d
-  )
 
 
 
@@ -549,7 +517,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     BU_BRT = bus_transit,
     WALK_BIKE = walk_bike,
     BS = school_bus,
-    AV = auto_veh,
     DRS = dynamic_ride_share
   )
 
@@ -560,7 +527,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     bus_transit$vmt,
     walk_bike$vmt,
     school_bus$vmt,
-    auto_veh$vmt,
     dynamic_ride_share$vmt
   )
 
@@ -570,7 +536,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     bus_transit$dir_ghg,
     walk_bike$dir_ghg,
     school_bus$dir_ghg,
-    auto_veh$dir_ghg,
     dynamic_ride_share$dir_ghg
   )
 
@@ -580,7 +545,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     bus_transit$emb_ghg,
     walk_bike$emb_ghg,
     school_bus$emb_ghg,
-    auto_veh$emb_ghg,
     dynamic_ride_share$emb_ghg
   ) %>%
     mutate(scenario = .scenario)
@@ -591,7 +555,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$fuel_use,
     walk_bike$fuel_use,
     school_bus$fuel_use,
-    auto_veh$fuel_use,
     dynamic_ride_share$fuel_use
   )
 
@@ -601,7 +564,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$cost,
     school_bus$cost,
     walk_bike$cost,
-    auto_veh$cost,
     dynamic_ride_share$cost
   )
 

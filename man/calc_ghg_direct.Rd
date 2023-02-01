@@ -58,7 +58,6 @@ Other emissions:
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
-\code{\link{calc_av_sales}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_drs_sales}()},
 \code{\link{calc_fuel_cost_mile}()},
@@ -68,7 +67,6 @@ Other transportation:
 \code{\link{calc_vmt_forecast_drs}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{run_scenario_transportation}()},
-\code{\link{scen_autonomous_vehicle}()},
 \code{\link{scen_freight_rail}()},
 \code{\link{scen_freight_truck}()},
 \code{\link{scen_passenger_light_duty}()},
