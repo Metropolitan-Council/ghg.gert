@@ -13,6 +13,7 @@ vmt_annual_energy_outlook <- function(tb,
                                       .aeo_scenario,
                                       .enviro_factors = enviro_factors) {
   cat("**** calculating annual energy outlook vehicle miles traveled strategy \n")
+
   check_inputs(
     name = "aeo_scenario",
     value = .aeo_scenario

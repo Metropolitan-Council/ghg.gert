@@ -40,9 +40,7 @@ The floor area growth rate is the rate at which the total floor area of building
 #| echo: false
 #| message: false
 #city baseline
-get_residential_energy_baseline() %>%
-  ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
+get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
   left_join(., variables, by = "var") %>%
       select(c(desc, value)) %>%
       rename("Variables" = desc,
@@ -50,9 +48,8 @@ get_residential_energy_baseline() %>%
   
   #city forecast
   full_join(
-    calc_residential_energy_forecast() %>%
+    calc_residential_energy_forecast(.selected_ctu = params$ctu_selection) %>%
   ungroup() %>%
-  filter(ctu_name == params$ctu_selection) %>%
   mutate(value = if_else(var == "total_residential_kwh_forecast", 
                          value / 1000, value)) %>%
     left_join(., variables, by = "var") %>%
@@ -115,11 +112,10 @@ where
 
 calc_affordable_floor_area(
   res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
   .single_family_floor_area_growth_pct = 0.05
 ) %>%
-  ungroup() %>%
   filter(
-    ctu_name == params$ctu_selection,
     year == 2018,
     var %in% c(
       "multifamily_average_floor_area_sqft_county",
@@ -127,7 +123,7 @@ calc_affordable_floor_area(
       "single_family_units",
       "single_family_average_floor_area_sqft_ctu"
     )
-  )%>%
+  ) %>%
   left_join(., variables, by = "var") %>%
     select(c(desc, value)) %>%
   rename("Variables" = desc,
@@ -135,11 +131,10 @@ calc_affordable_floor_area(
   
   full_join(calc_affordable_floor_area(
   res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
   .single_family_floor_area_growth_pct = 0.05
 ) %>%
-  ungroup() %>%
   filter(
-    ctu_name == params$ctu_selection,
     year == 2040,
     var %in% c(
       "multifamily_average_floor_area_sqft_county",
@@ -228,10 +223,10 @@ The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential build
 
 calc_floor_area_leed(
   res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
   .new_homes_leed_gold_pct = 0.5,
   .enviro_factors = enviro_factors
 ) %>%
-  ungroup() %>%
   filter(
     year == 2040,
     var %in% c(
@@ -241,12 +236,12 @@ calc_floor_area_leed(
       "single_family_average_floor_area_sqft_ctu"
     )
   ) %>%
-  filter(ctu_name == params$ctu_selection) %>%
   left_join(., variables, by = "var") %>%
   select(desc, value) %>%
   rename("Variables" = desc,
          "Value" = value) %>%
-  tableformat(., .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
+  tableformat(.,
+              .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 <br>

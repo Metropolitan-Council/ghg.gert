@@ -3,6 +3,7 @@
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
@@ -59,6 +60,7 @@ testthat::expect_equal(
 
 ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "CIStock",
@@ -126,6 +128,7 @@ fcm_test_hev <- calc_fuel_cost_mile(
 
 hev_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "HEVStock",

@@ -43,6 +43,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
                            .elast_5d = elast_5d) {
+
   cat("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
@@ -66,7 +67,10 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
 
   walk_vmt <-
     calc_vmt_forecast(
-      .scenario, .pass_tb, mode, stock,
+      tb = .pass_tb,
+      .scenario,
+      .selected_ctu,
+      mode, stock,
       var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -84,7 +88,10 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
 
   bike_vmt <-
     calc_vmt_forecast(
-      .scenario, .pass_tb, mode,
+      tb = .pass_tb,
+      .scenario,
+      .selected_ctu,
+      mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
       .cong_price, .parking_price, .drs_pct,

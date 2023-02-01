@@ -96,6 +96,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   si_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
+    .selected_ctu = .selected_ctu,
     tb = .pass_tb,
     .mode = mode,
     .stock = "SIStock",
@@ -157,7 +158,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     )
 
   si_cost <-
-    calc_cost(
+    calc_cost(.selected_ctu = .selected_ctu,
       si_vmt, mode,
       "SIPrice"
     )
@@ -183,6 +184,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   ci_vmt <- calc_vmt_forecast(
     .scenario = .scenario,
+    .selected_ctu = .selected_ctu,
     tb = .pass_tb,
     .mode = mode,
     .stock = "CIStock",
@@ -252,6 +254,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   ci_cost <-
     calc_cost(
       tb_vmt = ci_vmt,
+      .selected_ctu = .selected_ctu,
       .mode = mode,
       .price = "CIPrice"
     )
@@ -274,6 +277,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   hev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -336,6 +340,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   hev_cost <-
     calc_cost(
       hev_vmt, mode,
+      .selected_ctu = .selected_ctu,
       "HEVPrice"
     )
 
@@ -360,6 +365,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   ### VMT gas ----
   phev_vmt_gas <- calc_vmt_forecast(
     .scenario = .scenario,
+    .selected_ctu = .selected_ctu,
     tb = .pass_tb,
     .phev_electric = FALSE,
     .mode = mode,
@@ -403,6 +409,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_vmt_electric <- calc_vmt_forecast(
     .scenario = .scenario,
     tb = .pass_tb,
+    .selected_ctu = .selected_ctu,
     .phev_electric = TRUE,
     .mode = mode,
     .stock = stock,
@@ -564,6 +571,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_cost <-
     calc_cost(
       phev_vmt,
+      .selected_ctu = .selected_ctu,
       mode,
       "PHEVPrice"
     )
@@ -585,6 +593,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -650,6 +659,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   bev_cost <-
     calc_cost(
       tb_vmt = bev_vmt,
+      .selected_ctu = .selected_ctu,
       .mode = mode,
       .price = "BEVPrice",
       .is_av = FALSE,

@@ -7,6 +7,7 @@
 calc_vmt_forecast_drs(
   .scenario,
   tb,
+  .selected_ctu,
   .mode,
   .stock,
   .variable,

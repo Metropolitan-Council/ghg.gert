@@ -4,7 +4,7 @@
 \alias{calc_demographic_forecast}
 \title{Calculate Demographic Forecast}
 \usage{
-calc_demographic_forecast(tb = building_energy_data)
+calc_demographic_forecast(tb = building_energy_data, .selected_ctu = "all")
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}

@@ -45,7 +45,10 @@ calc_floor_area_growth <- function(res_tb,
                                    .single_family_floor_area_growth_pct,
                                    .new_homes_affected_pct,
                                    .enviro_factors) {
+
   cat("*** calculating floor area growth \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.single_family_floor_area_growth_pct == 0) {
     warning("No change in single family floor area growth.")
     return(res_tb)
@@ -118,7 +121,8 @@ calc_floor_area_growth <- function(res_tb,
 
     new_res_tb <- res_tb %>%
       dplyr::anti_join(new_res_avg_floor_area, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_res_avg_floor_area)
+      dplyr::bind_rows(new_res_avg_floor_area) %>%
+      dplyr::ungroup()
 
     return(new_res_tb)
   }
@@ -162,7 +166,10 @@ calc_floor_area_leed <- function(res_tb,
                                  .selected_ctu,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
+
   cat("*** calculating floor area LEED Gold certification strategy \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.new_homes_leed_gold_pct == 0) {
     warning("No change in new single family home energy efficiency")
     return(res_tb)
@@ -223,7 +230,8 @@ calc_floor_area_leed <- function(res_tb,
 
     new_res_tb_fin <- res_tb %>%
       dplyr::anti_join(new_leed_avg_floor_area, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_leed_avg_floor_area)
+      dplyr::bind_rows(new_leed_avg_floor_area) %>%
+      dplyr::ungroup()
 
     return(new_res_tb_fin)
   }
@@ -277,7 +285,10 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
+
   cat("*** calculating floor area retrofit strategy \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   # browser()
   if (.existing_home_retrofit_pct == 0) {
     warning("No change in existing home energy efficiency")
@@ -377,7 +388,8 @@ calc_floor_area_retrofit <- function(res_tb,
 
     new_res_tb_fin <- res_tb %>%
       dplyr::anti_join(new_retrofit_floor_area, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_retrofit_floor_area)
+      dplyr::bind_rows(new_retrofit_floor_area) %>%
+      dplyr::ungroup()
 
     return(new_res_tb_fin)
   }
@@ -425,7 +437,10 @@ calc_floor_area_behavior_change <- function(res_tb,
                                             .selected_ctu,
                                             .home_behavior_change_pct,
                                             .enviro_factors) {
+
   cat("*** calculating floor area behavior change strategy \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.home_behavior_change_pct == 0) {
     warning("No change in household behavior.")
     return(res_tb)
@@ -473,7 +488,8 @@ calc_floor_area_behavior_change <- function(res_tb,
 
     new_res_tb_fin <- res_tb %>%
       dplyr::anti_join(new_fla, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_fla)
+      dplyr::bind_rows(new_fla) %>%
+      dplyr::ungroup()
 
     return(new_res_tb_fin)
   }
@@ -513,7 +529,10 @@ calc_floor_area_behavior_change <- function(res_tb,
 calc_affordable_floor_area <- function(res_tb,
                                        .selected_ctu,
                                        .single_family_floor_area_growth_pct) {
+
   cat("*** calculating affordable floor area strategy \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.single_family_floor_area_growth_pct > 0.05) {
     warning("Single family floor area growth cannot be greater than %5")
     return(res_tb)
@@ -553,7 +572,8 @@ calc_affordable_floor_area <- function(res_tb,
             year == 2040)
       ) %>%
       bind_rows(., res_tb %>%
-        dplyr::filter(year == 2018))
+        dplyr::filter(year == 2018)) %>%
+      dplyr::ungroup()
 
     return(new_res_tb)
   }

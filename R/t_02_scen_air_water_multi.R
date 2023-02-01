@@ -61,7 +61,9 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   mm_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode,
+      .scenario,
+      .selected_ctu,
+      tb = .freight_tb, mode,
       stock, var, fcm, .aeo_scenario,
       .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
       .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -90,7 +92,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   mm_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode, stock,
+      .scenario, .selected_ctu, tb = .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct,
       .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -121,7 +123,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   air_si_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode,
+      .scenario, .selected_ctu, tb = .freight_tb, mode,
       stock, var, fcm, .aeo_scenario, .transit_avo_pct,
       .transit_service_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
       .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
@@ -151,7 +153,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   wat_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb, mode, stock,
+      .scenario, .selected_ctu, tb = .freight_tb, mode, stock,
       var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
       .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,

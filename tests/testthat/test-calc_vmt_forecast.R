@@ -5,6 +5,7 @@
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
@@ -54,6 +55,7 @@ testthat::test_that("BAU, Passenger gasoline correct", {
 
 walk_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "WALK",
   .stock = "",
@@ -104,6 +106,7 @@ testthat::test_that("BAU walk VMT correct", {
 
 ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "CIStock",
@@ -152,6 +155,7 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
 
 ru_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "RU",
   .stock = "EVStock",
@@ -188,6 +192,7 @@ ru_vmt <- calc_vmt_forecast(
 
 bus_ci_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "BU",
   .stock = "BCIStock",
@@ -241,6 +246,7 @@ testthat::test_that("BAU, Bus diesel correct", {
 
 phev_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "PHEVStock",
@@ -287,6 +293,7 @@ testthat::expect_equal(
 
 testthat::expect_error(calc_vmt_forecast(
   .scenario = "MIT",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "DRS",
   .stock = "BEVStock",
@@ -299,6 +306,7 @@ testthat::expect_error(calc_vmt_forecast(
 
 bus_ci_vmt <- calc_vmt_forecast(
   .scenario = "bus_ci",
+  .selected_ctu = "all",
   tb = st_paul_passenger,
   .mode = "BU",
   .stock = "BCIStock",

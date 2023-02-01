@@ -68,8 +68,9 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
 
   ci_vmt <-
     calc_vmt_forecast(
-      .scenario,
       tb = .pass_tb,
+      .scenario,
+      .selected_ctu,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo_pct, .transit_service_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price,
@@ -104,6 +105,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   ci_cost <-
     calc_cost(
       ci_vmt,
+      .selected_ctu = .selected_ctu,
       mode, "CIPrice"
     )
 
@@ -116,7 +118,9 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   message("School bus, electric")
   bev_vmt <-
     calc_vmt_forecast(
-      .scenario, .pass_tb, mode, stock, var, fcm,
+      .scenario,
+      .selected_ctu,
+      tb = .pass_tb, mode, stock, var, fcm,
       .aeo_scenario, .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price,
       .parking_price, .drs_pct, .av_pct, .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
@@ -148,6 +152,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   bev_cost <-
     calc_cost(
       bev_vmt,
+      .selected_ctu = .selected_ctu,
       mode, "BEVPrice"
     )
 

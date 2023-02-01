@@ -5,7 +5,10 @@
 \alias{get_by_ctu_non_residential_xcel_energy_baseline}
 \title{Get Non Residential Xcel Energy by City/Township}
 \usage{
-get_by_ctu_non_residential_xcel_energy_baseline(tb = building_energy_data)
+get_by_ctu_non_residential_xcel_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "all"
+)
 }
 \description{
 Get Non Residential Xcel Energy by City/Township

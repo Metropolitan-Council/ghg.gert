@@ -39,6 +39,7 @@
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
+                              .selected_ctu = "all",
                               .mode,
                               .stock,
                               .variable,
@@ -69,7 +70,9 @@ calc_vmt_forecast <- function(.scenario,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
+
   cat("*** calculating VMT forecast \n")
+  tb <- filter_ctu(tb, .selected_ctu)
   # browser()
 
   tb_vmt <- tb %>%

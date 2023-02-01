@@ -102,6 +102,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_vmt <-
         calc_vmt_forecast(
           .scenario = .scenario,
+          .selected_ctu = .selected_ctu,
           tb = av_passenger_tb,
           .mode = mode,
           .stock = stock,
@@ -177,6 +178,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_cost <-
         calc_cost(
           tb_vmt = av_vmt,
+          .selected_ctu = .selected_ctu,
           .mode = mode_1,
           .price = "HEVPrice",
           .is_av = TRUE,
@@ -197,7 +199,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       )
 
       phev_vmtg <- calc_vmt_forecast(
-        .scenario, av_passenger_tb, mode, stock,
+        .scenario, .selected_ctu, av_passenger_tb, mode, stock,
         var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
         .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
         .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
@@ -218,7 +220,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       )
 
       phev_vmte <- calc_vmt_forecast(
-        .scenario, av_passenger_tb, mode,
+        .scenario, .selected_ctu, av_passenger_tb, mode,
         stock, var, fcm, .aeo_scenario,
         .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
         .gas_tax, .cong_price, .parking_price, .drs_pct, .av_pct,
@@ -301,6 +303,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         output = "COST",
         calc_cost(
           av_vmt,
+          .selected_ctu = .selected_ctu,
           mode_1,
           "PHEVPrice", 1
         )
@@ -327,6 +330,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
       av_vmt <-
         calc_vmt_forecast(
           tb = av_passenger_tb,
+          .selected_ctu = .selected_ctu,
           .scenario = .scenario,
           .mode = mode,
           .stock = stock,
@@ -387,6 +391,7 @@ scen_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
         calc_cost(
           tb_vmt = av_vmt %>%
             mutate(mode = "PLDV"),
+          .selected_ctu = .selected_ctu,
           .mode = mode_1,
           .price = "BEVPrice",
           .is_av = TRUE,

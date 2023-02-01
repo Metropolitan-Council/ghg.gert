@@ -7,6 +7,7 @@
 calc_vmt_forecast(
   .scenario,
   tb,
+  .selected_ctu = "all",
   .mode,
   .stock,
   .variable,

@@ -17,7 +17,10 @@
 #'
 calc_av_sales <- function(tb,
                           .av_pct) {
+
   cat("*** calculating autonomous vehicle sales")
+  tb <- filter_ctu(tb, .selected_ctu)
+
   # browser()
 
   if (!"AVStock" %in% unique(tb$var)) {

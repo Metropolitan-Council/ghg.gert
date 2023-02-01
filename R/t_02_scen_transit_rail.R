@@ -70,6 +70,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -133,6 +134,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_cost <-
     calc_cost(
       tb_vmt = ev_vmt,
+      .selected_ctu = .selected_ctu,
       .mode = mode,
       .price = "EVPrice",
       .is_av = FALSE,
@@ -152,6 +154,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ci_ri_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -212,7 +215,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
     )
 
   ci_ri_cost <-
-    calc_cost(ci_ri_vmt, mode, "BCIPrice")
+    calc_cost(ci_ri_vmt,
+              .selected_ctu = .selected_ctu, mode, "BCIPrice")
 
 
   ## EV Rail Inter -----
@@ -224,6 +228,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_ri_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -285,6 +290,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   ev_ri_cost <-
     calc_cost(
       tb_vmt = ev_ri_vmt,
+      .selected_ctu = .selected_ctu,
       .mode = mode,
       .price = "EVPrice",
       .is_av = FALSE,

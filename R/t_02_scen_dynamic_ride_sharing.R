@@ -162,6 +162,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_cost <-
         calc_cost(
           tb_vmt = drs_vmt,
+          .selected_ctu = .selected_ctu,
           .mode = mode_1,
           .price = "HEVPrice",
           .is_av = TRUE,
@@ -396,6 +397,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_cost <-
         calc_cost(
           tb_vmt = phev_vmt,
+          .selected_ctu = .selected_ctu,
           .mode =  mode,
           .price = "PHEVPrice",
           .is_av = TRUE
@@ -495,6 +497,7 @@ scen_dynamic_ride_sharing <- function(.scenario = "BAU",
       drs_cost <-
         calc_cost(
           tb_vmt = drs_vmt,
+          .selected_ctu = .selected_ctu,
           .mode = mode,
           .price = "BEVPrice",
           .is_av = TRUE,

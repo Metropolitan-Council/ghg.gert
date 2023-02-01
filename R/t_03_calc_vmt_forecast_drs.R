@@ -18,6 +18,7 @@
 #'
 calc_vmt_forecast_drs <- function(.scenario,
                                   tb,
+                                  .selected_ctu,
                                   .mode,
                                   .stock,
                                   .variable,
@@ -48,7 +49,10 @@ calc_vmt_forecast_drs <- function(.scenario,
                                   .enviro_factors = enviro_factors,
                                   .elast = elast,
                                   .elast_5d = elast_5d) {
+
   cat("*** calculating vmt forecast for dynamic ride sharing \n")
+  tb <- filter_ctu(tb, .selected_ctu)
+
   # dynamic ride share ----
   # browser()
 

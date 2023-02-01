@@ -62,6 +62,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
   ci_vmt <-
     calc_vmt_forecast(
       .scenario,
+      .selected_ctu,
       tb = .freight_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo_pct, .transit_service_pct,
@@ -90,7 +91,9 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
 
   ev_vmt <-
     calc_vmt_forecast(
-      .scenario, .freight_tb,
+      .scenario,
+      .selected_ctu,
+      tb = .freight_tb,
       mode, stock, var, fcm,
       .aeo_scenario, .transit_avo_pct, .transit_service_pct,
       .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,

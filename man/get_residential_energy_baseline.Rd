@@ -4,7 +4,10 @@
 \alias{get_residential_energy_baseline}
 \title{Get Residential Energy Baseline}
 \usage{
-get_residential_energy_baseline(tb = building_energy_data)
+get_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "all"
+)
 }
 \description{
 Get Residential Energy Baseline

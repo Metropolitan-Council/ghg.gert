@@ -4,7 +4,7 @@
 \alias{get_demographic_baseline}
 \title{Get Demographic Baseline}
 \usage{
-get_demographic_baseline(tb = building_energy_data)
+get_demographic_baseline(tb = building_energy_data, .selected_ctu = "all")
 }
 \value{
 Tibble.

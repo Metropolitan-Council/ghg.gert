@@ -9,12 +9,16 @@
 #' @importFrom dplyr filter select mutate
 #'
 calc_cost <- function(tb_vmt,
+                      .selected_ctu,
                       .mode,
                       .price,
                       .is_av = FALSE,
                       .enviro_factors = enviro_factors) {
   # browser()
+
   cat("*** calculating fuel cost \n")
+  tb_vmt <- filter_ctu(tb_vmt, .selected_ctu)
+
   tb_cost_current <- factor_values$cost %>%
     dplyr::filter(
       mode == .mode,

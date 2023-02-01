@@ -12,7 +12,10 @@
 calc_drs_sales <- function(tb,
                            .drs_pct,
                            .enviro_factors = enviro_factors) {
+
   cat("*** calculating dynamic ride sharing stock sales \n")
+  tb <- filter_ctu(tb, .selected_ctu)
+
   # browser()
 
   pop <- tb %>%

@@ -72,6 +72,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
       .stock = stock,
@@ -143,6 +144,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   ci_cost <-
     calc_cost(
       tb_vmt = ci_vmt,
+      .selected_ctu = .selected_ctu,
       .mode = mode,
       .price = "BCIPrice",
       .is_av = FALSE,

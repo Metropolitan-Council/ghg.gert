@@ -19,6 +19,7 @@ calc_fuel_cost_mile <- function(tb,
                                 .fuel_cost_gallon,
                                 .av_pct = 0,
                                 .enviro_factors = enviro_factors) {
+
   cat("*** calculating fuel cost per mile \n")
 
   tb_l <- tb %>%

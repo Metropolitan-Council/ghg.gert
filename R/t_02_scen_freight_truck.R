@@ -76,6 +76,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   cut_ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,
@@ -143,6 +144,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   cut_bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu  = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,
@@ -213,6 +215,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   sut_ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu =   .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,
@@ -280,6 +283,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   sut_bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,

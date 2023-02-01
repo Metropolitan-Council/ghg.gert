@@ -163,7 +163,8 @@ get_residential_energy_baseline <-
         residential_therms_per_sqft,
         residential_kwh_per_household,
         residential_therms_per_household
-      )
+      ) %>%
+      dplyr::ungroup()
 
     return(ctu_residential_energy_baseline)
   }

@@ -5,7 +5,10 @@
 \alias{get_statewide_non_residential_energy}
 \title{Get Non Residential Energy Baseline}
 \usage{
-get_statewide_non_residential_energy(tb = building_energy_data)
+get_statewide_non_residential_energy(
+  tb = building_energy_data,
+  .selected_ctu = "all"
+)
 }
 \description{
 Get Non Residential Energy Baseline

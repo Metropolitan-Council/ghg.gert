@@ -87,6 +87,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   cat("...... perecent of sales that are hybrid electric vehicles: ", .phev_pct_sales, "\n")
   cat("...... percent of sales that are hybrid electric vehicles: ", .hev_pct_sales, "\n")
   cat("====================================== \n")
+
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb  <- filter_ctu(freight_tb, .selected_ctu)
 

@@ -5,7 +5,10 @@
 \alias{get_by_county_non_residential_energy_baseline}
 \title{Get by County Non Residential Energy}
 \usage{
-get_by_county_non_residential_energy_baseline(tb = building_energy_data)
+get_by_county_non_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "all"
+)
 }
 \description{
 Get by County Non Residential Energy

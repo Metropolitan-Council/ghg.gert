@@ -4,7 +4,10 @@
 \alias{calc_residential_energy_forecast}
 \title{Calculate Residential Energy Forecast}
 \usage{
-calc_residential_energy_forecast(tb = building_energy_data)
+calc_residential_energy_forecast(
+  tb = building_energy_data,
+  .selected_ctu = "all"
+)
 }
 \description{
 Calculate Residential Energy Forecast
