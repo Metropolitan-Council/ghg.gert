@@ -41,7 +41,7 @@ The floor area growth rate is the rate at which the total floor area of building
 #| message: false
 #city baseline
 get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
-  add_variable_names(., year = "2018") %>%
+  add_variable_names(., .year = "2018") %>%
   #city forecast
   full_join(
     calc_residential_energy_forecast(.selected_ctu = params$ctu_selection) %>%
@@ -159,7 +159,7 @@ calc_affordable_floor_area(
 
 seq(0.01, 0.05, .01) %>%
   purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_affordable_floor_area(res_tb = building_data$residential,
+  purrr::map(~ghg.sp::calc_affordable_floor_area(res_tb = building_energy_bau_data$residential,
                                                     .single_family_floor_area_growth_pct = .x) 
   ) %>% bind_rows(.id = "level") %>%
   filter(

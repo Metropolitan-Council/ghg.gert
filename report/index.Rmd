@@ -70,9 +70,10 @@ add_variable_names <- function(data, .year) {
               variables,
               by = "var") %>%
     mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-    select(c(desc, value)) %>%
-    rename("Variables" = desc,
-           if_else(.year == "2018", "2018" = value, "2040" = value))
+    select(Variables = desc, value) %>%
+    rename(!!.year:=value)
+   # rename("Variables" = desc,
+         #  if_else(.year == "2018", "2018" = value, "2040" = value))
 }
 
 
