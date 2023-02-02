@@ -15,3 +15,5 @@ rmd_files: [
   "06_conclusion.Rmd"
   # "07_appendix.Rmd"
   ]
+
+before_chapter_script: ["setup_pkg_fcns.R", "council_members.R", "variables.R"]

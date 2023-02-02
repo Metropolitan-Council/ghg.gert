@@ -8,18 +8,8 @@
 inst/doc
 /doc/
 /Meta/
+/report/_book/
+/report/_bookdown_files/
 
 vignettes/trans_scenario_shiny_cache/
-report/_bookdown_files/_main_files/figure-html/fig-new-leed-homes-1.png
-report/_bookdown_files/_main_files/figure-html/fig-parkingprice-1.png
-report/_bookdown_files/_main_files/figure-html/fig-roadprice-1.png
-report/_bookdown_files/_main_files/figure-html/fig-telework-1.png
-report/_bookdown_files/_main_files/figure-html/fig-transitservice-1.png
-report/_bookdown_files/_main_files/figure-html/figure-demographics-1.png
-report/_bookdown_files/_main_files/figure-latex/fig-affordable-floor-area-1.pdf
-report/_bookdown_files/_main_files/figure-latex/fig-behavior-change-1.pdf
-report/_bookdown_files/_main_files/figure-latex/fig-decarbonize-residential-energy-1.pdf
-report/_bookdown_files/_main_files/figure-latex/fig-electrify-residential-heating-1.pdf
-report/_bookdown_files/_main_files/figure-latex/fig-existing-home-efficiency-1.pdf
-report/_bookdown_files/_main_files/figure-latex/fig-new-leed-homes-1.pdf
-report/_bookdown_files/_main_files/figure-latex/figure-demographics-1.pdf
+
