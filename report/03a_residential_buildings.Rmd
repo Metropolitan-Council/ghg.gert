@@ -157,6 +157,9 @@ calc_affordable_floor_area(
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 6
 
+
+chartformat(0.01, 0.05, .01, building_energy_bau_data$residential, params$ctu_selection, '.single_family_floor_area_growth_pct')
+
 seq(0.01, 0.05, .01) %>%
   purrr::set_names() %>%
   purrr::map(~ghg.sp::run_scenario_building(res_tb = building_energy_bau_data$residential,
@@ -184,7 +187,7 @@ seq(0.01, 0.05, .01) %>%
   geom_bar(stat = 'identity', position = 'dodge') +
   facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
   scale_x_continuous(breaks = c(2018, 2040)) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
+  scale_fill_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
   labs(x = "", y = "", color = "Percentage of\nsingle family\nfloor area\nreduced due to\nincreased energy\nprices", shape = 'Future') +
       theme(
       panel.background = element_rect(fill = "white"),
@@ -256,6 +259,7 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 #| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 6
+
 
 seq(0.1, 0.5, .1) %>%
   purrr::set_names() %>%
