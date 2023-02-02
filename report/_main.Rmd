@@ -70,9 +70,10 @@ add_variable_names <- function(data, .year) {
               variables,
               by = "var") %>%
     mutate(desc = str_remove_all(desc, " - Forecast")) %>%
-    select(c(desc, value)) %>%
-    rename("Variables" = desc,
-           if_else(.year == "2018", "2018" = value, "2040" = value))
+    select(Variables = desc, value) %>%
+    rename(!!.year:=value)
+   # rename("Variables" = desc,
+         #  if_else(.year == "2018", "2018" = value, "2040" = value))
 }
 
 
@@ -357,7 +358,7 @@ The floor area growth rate is the rate at which the total floor area of building
 #| message: false
 #city baseline
 get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
-  add_variable_names(., year = "2018") %>%
+  add_variable_names(., .year = "2018") %>%
   #city forecast
   full_join(
     calc_residential_energy_forecast(.selected_ctu = params$ctu_selection) %>%
