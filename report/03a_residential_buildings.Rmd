@@ -24,7 +24,7 @@ When it comes to reducing emissions in the building sector, the electricity grid
 
 Electricity in Minneapolis is served mostly by Xcel Energy. In their report *Building a Carbon Free Future* in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.
 
-## Residential Energy Assumptions
+## Residential Energy
 
 The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home's energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.
 
@@ -36,11 +36,11 @@ The residential energy forecast is a prediction of the energy consumption of the
 
 The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing or decreasing over time. It is calculated by dividing the change in floor area from one year to the next by the initial floor area. For example, if the floor area of a residential area increased by 10% from one year to the next, the floor area growth rate would be 10%.
 
-```{r tab-residential-energy}
+```{r tab-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
 #city baseline
-get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
+tab_residential_energy <- get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
   add_variable_names(., .year = "2018") %>%
   #city forecast
   full_join(
@@ -58,6 +58,11 @@ get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
 
   tableformat(.caption = paste0("Residential Energy for ", params$ctu_selection))
 ```
+
+```{r echo=FALSE}
+tab_residential_energy
+```
+
 
 ### Residential Energy Strategies
 

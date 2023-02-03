@@ -69,6 +69,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   .industrial_smart_grid_pct = 1.00,
                                   .smart_grid_energy_reduction_pct = 1.00,
                                   # residential
+                                  .renewable_ng_res = FALSE,
                                   # floor_area
                                   .new_homes_to_multifamily_pct = 0.50,
                                   .existing_high_efficiency_buildings_pct = 0.80,
@@ -104,6 +105,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
   cat("...... percent of residential natural gas for space heating:", .res_natural_gas_for_space_heating_pct, "\n")
   cat("...... percent of residential natural gas for water heating:", .res_natural_gas_for_water_heating_pct, "\n")
   cat("...... percent of additional electrified residential buildings:", .additional_electrified_residential_buildings_pct, "\n")
+  cat("...... renewable natural gas strategy:", .renewable_ng_res, "\n")
   cat("...... percent of grid decarbonization:", .grid_decarbonization_pct, "\n")
   cat("========================================== \n")
 
@@ -140,7 +142,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     "res_natural_gas_for_water_heating_pct",
     "additional_electrified_residential_buildings_pct",
     # grid
-    "grid_decarbonization_pct"
+    "grid_decarbonization_pct",
+    "renewable_ng_res"
   )
 
   l_vals <- list(
@@ -169,7 +172,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     .res_natural_gas_for_water_heating_pct,
     .additional_electrified_residential_buildings_pct,
     # grid
-    .grid_decarbonization_pct
+    .grid_decarbonization_pct,
+    .renewable_ng_res
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -180,6 +184,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         res_tb = res_tb,
         res_tb_bau = res_tb_bau,
         .selected_ctu = .selected_ctu,
+        .renewable_ng_res = .renewable_ng_res,
         .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
         .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
         .home_behavior_change_pct = .home_behavior_change_pct,

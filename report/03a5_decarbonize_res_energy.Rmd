@@ -6,87 +6,121 @@ The energy grid could become cleaner by increasing the use of renewable energy s
 ***About this strategy***: Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.
 :::
 
-```{r tab-decarbonize-residential-energy}
+$$
+kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{population_{2040}} * \frac{kWh}{sqft_{residential}^{2040}}) 
+$$
+
+```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-
-calc_ghg_residential(
+fig03a5 <- run_scenario_building(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
-  .grid_decarbonization_pct = 0.8,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0,
   .enviro_factors = enviro_factors
 ) %>%
-  ungroup() %>%
   filter(
-    ctu_name == params$ctu_selection,
-    year == 2040,
-    scen == "scen",
     var %in% c(
       "residential_mwh",
       "residential_electricity_emissions_kg_co",
       "residential_therms",
       "residential_natural_gas_emissions_kg_co"
-    )
+    ),
+    year == 2018,
+    scen == "bau"
   ) %>%
-  left_join(., variables, by = "var") %>%
-  select(desc, value) %>%
-  rename("Variables" = desc,
-         "Value" = value) %>%
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0.8,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
   tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
-<br>
-
-$$
-kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{residential}^{2040}) 
-$$
-
-*Figure* \@ref(fig:fig-decarbonize-residential-energy) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
-
-```{r fig-decarbonize-residential-energy}
-#| echo: false
-#| message: false
-
-#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of decarbonizing the grid.", 
-#| fig.align = 'center',
-#| fig.width = 8, fig.height = 6
-
-seq(0.2, 1, .2) %>%
-  purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_ghg_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
-  .grid_decarbonization_pct = .x,
-  .enviro_factors = enviro_factors
-)) %>%
-  bind_rows(.id = "level")%>%
-  filter(
-    ctu_name == params$ctu_selection,
-    scen == "scen",
-    var %in% c(
-      "residential_mwh",
-      "residential_electricity_emissions_kg_co",
-      "residential_therms",
-      "residential_natural_gas_emissions_kg_co",
-      "total_residential_emissions"
-    ))  %>%
-  left_join(., variables, by = "var") %>%
-  mutate(desc = str_replace_all(desc, "<sub>2</sub>", "2")) %>%
-      rename("Variables" = desc) %>%#,
-             # "2040" = value)
-  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
-  ggplot(aes(x = year, y = value, color = level)) +
-  geom_line() +
-  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
-  scale_x_continuous(breaks = c(2018, 2040)) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
-                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
-  labs(x = "", y = "", color = "Percentage of\ngrid which is\ndecarbonized") +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+```{r echo=FALSE}
+fig03a5
 ```
+

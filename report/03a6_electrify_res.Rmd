@@ -4,100 +4,127 @@ The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will
 
 Switching to more efficient electric heat pumps and tank-less water heaters with a net zero-carbon future electric grid can significantly reduce emissions.
 
-Only around 14% of homes in MN have adopted these new technologies.2 The scenario planning tool projects that by 2050, 59% of residential and commercial buildings will switch to electrically driven heat pumps,3 which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota,4 so the results are more realistic for our region. National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.
-
-Electricity can be generated from various sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to fossil fuels such as natural gas, propane, and oil.
+Only around 14% of homes in MN have adopted these new technologies. The scenario planning tool projects that by 2050, 59% of residential and commercial buildings will switch to electrically driven heat pumps, which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota, so the results are more realistic for our region. National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.
 
 ::: about_strategy
 **About this strategy** For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
 :::
 
-```{r tab-electrify-residential-heating}
+```{r tab-electrify-residential-heating, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| warning: false
-
-calc_electrify_residential_heating(
-  res_tb = calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
-    .grid_decarbonization_pct = 0.8,
-    .enviro_factors = enviro_factors
-  ),
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
-  .grid_decarbonization_pct = 0.80,
+tab_electrify_residential_heating <- run_scenario_building(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0,
   .enviro_factors = enviro_factors
 ) %>%
-  ungroup() %>%
   filter(
-    year == 2040,
-    ctu_name == params$ctu_selection,
-    scen == "scen"
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    ),
+    year == 2018,
+    scen == "bau"
   ) %>%
-  left_join(., variables, by = "var") %>%
-  select(desc, value) %>%
-  rename("Variables" = desc,
-         "Value" = value) %>%
-  tableformat(.,
-              .caption = paste(
-                "Electrifying Residential Heating",
-                params$ctu_selection,
-                "2040"
-              )
-  )
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .res_natural_gas_for_space_heating_pct = 0.71,
+      .res_natural_gas_for_water_heating_pct = 0.24,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = "Minneapolis",
+      ## affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0.45,
+      .res_natural_gas_for_space_heating_pct = 0.71,
+      .res_natural_gas_for_water_heating_pct = 0.24,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(., .caption = "Electrify Residential Heating 2040")
 ```
 
-*Figure* \@ref(fig:fig-electrify-residential-heating) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
-
-```{r fig-electrify-residential-heating}
-#| echo: false
-#| message: false
-
-#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of electrififying residential buildings. Grid decarbonization is held constant at 80%, natural gas for space heating held at 71% and natural gas for water heating at 24% (the constants are the same as in the above table).", 
-#| fig.align = 'center',
-#| fig.width = 8, fig.height = 6,
-#| warning= FALSE
-
-a <- seq(0.2, 1, .2) %>%
-  purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_electrify_residential_heating(
-  res_tb = calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
-    .grid_decarbonization_pct = 0.8,
-    .enviro_factors = enviro_factors
-  ),
-  .additional_electrified_residential_buildings_pct = .x,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
-  .grid_decarbonization_pct = 0.80,
-  .enviro_factors = enviro_factors
-)) %>%
-  bind_rows(.id = "level")%>%
-  filter(
-    ctu_name == params$ctu_selection,
-    scen == "scen",
-    var != "population")  %>%
-  left_join(., variables, by = "var")# %>%
- a %>% mutate(desc = str_replace_all(desc, "<sub>2</sub>", "2")) %>%
-      rename("Variables" = desc) %>%#,
-             # "2040" = value)
-  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = value, color = level, group = level)) +
-  geom_line() +
-  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
-  scale_x_continuous(breaks = c(2018, 2040)) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
-                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
-  labs(x = "", y = "", color = "Percentage of\nresidential heating\nelectrified") +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+```{r}
+tab_electrify_residential_heating
 ```
 
-<br>

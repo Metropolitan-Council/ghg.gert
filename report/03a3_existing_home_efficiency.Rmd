@@ -18,14 +18,15 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 ***About this strategy*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
 :::
 
-```{r tab-existing-home-efficiency}
+```{r tab-existing-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
 
-calc_floor_area_retrofit(
+tab_existing_home_efficiency <- calc_floor_area_retrofit(
+  .selected_ctu = params$ctu_selection,
   res_tb = building_data$residential,
   .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
+  .existing_home_ultra_retrofit_pct = 0,
   .enviro_factors = enviro_factors
 ) %>%
   ungroup() %>%
@@ -39,12 +40,13 @@ calc_floor_area_retrofit(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-  left_join(., variables, by = "var") %>%
-  select(desc, value) %>%
-  rename("Variables" = desc,
-         "Value" = value) %>%
+    add_variable_names(., "2018 Baseline") %>% 
   tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
+```{r echo=FALSE}
+tab_existing_home_efficiency
+```
+
 
 $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})$$
 
@@ -55,52 +57,118 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
-*Figure* \@ref(fig:fig-existing-home-efficiency) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
-
-```{r fig-existing-home-efficiency}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-
-#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of existing homes retrofitted to be more energy efficient.", 
-#| fig.align = 'center',
-#| fig.width = 8, fig.height = 6
-
-seq(0.2, 1, .2) %>%
-  purrr::set_names() %>%
-  purrr::map(~ghg.sp::calc_floor_area_retrofit(
-    res_tb = building_data$residential,
-    .existing_home_retrofit_pct = .x,
-    .existing_home_ultra_retrofit_pct = 0.20,
-    .enviro_factors = enviro_factors
-)) %>%
-  bind_rows(.id = "level")%>%
+fig03a3 <- run_scenario_building(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
   filter(
-    ctu_name == params$ctu_selection,
     var %in% c(
-      "multifamily_average_floor_area_sqft_county",
-      "multifamily_units",
-      "single_family_units",
-      "single_family_average_floor_area_sqft_ctu",
       "residential_mwh",
-      "residential_therms"
-    ))  %>%
-  left_join(., variables, by = "var") %>%
-  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
-      rename("Variables" = desc) %>%#,
-             # "2040" = value)
-  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
-  ggplot(aes(x = year, y = value, color = level)) +
-  geom_line() +
-  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
-  scale_x_continuous(breaks = c(2018, 2040)) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6],
-                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
-  labs(x = "", y = "", color = "Percentage of\nexisting single family\nretrofitted to\nreduce energy use\nby 33%") +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    ),
+    year == 2018,
+    scen == "bau"
+  ) %>%
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0.8,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(.,
+              .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
+
+```{r echo=FALSE}
+fig03a3
+```
+
