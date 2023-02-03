@@ -1,0 +1,44 @@
+#### Decarbonize the Electricity Grid
+
+Grid decarbonization 
+
+::: about_strategy
+***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+:::
+
+```{r tab-ghg-non-residential}
+#| echo: FALSE
+#| message: FALSE
+ calc_ghg_non_residential(
+   non_res_tb = building_energy_bau_data$non_residential,
+   non_res_tb_bau = building_energy_bau_data$non_residential,
+   .selected_ctu = params$ctu_selection,
+   .industrial_smart_grid_pct = 1,
+   .commercial_smart_grid_pct = 1,
+   .grid_decarbonization_pct = 1,
+   .smart_grid_energy_reduction_pct = 1,
+   .enviro_factors = enviro_factors,
+   .existing_high_efficiency_buildings_pct = 0.8
+ ) %>%
+  filter(
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  add_variable_names(., "2040") %>%
+  tableformat(.,
+              .caption = paste(
+                "Electrifying Commercial Heating",
+                params$ctu_selection,
+                "2040"
+              )
+  )
+```

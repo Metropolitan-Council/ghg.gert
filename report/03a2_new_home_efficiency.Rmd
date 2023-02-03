@@ -1,0 +1,97 @@
+#### New Homes Energy Efficiency
+
+*LEED* (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet *LEED* standards are designed and constructed to be energy efficient and to use fewer natural resources.
+
+The amount of energy savings that can be achieved through *LEED* certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the [U.S. Green Building Council](https://www.usgbc.org/leed/rating-systems/residential), buildings that are designed to meet *LEED* Gold standards typically achieve energy savings of around 25% compared to conventional buildings.
+
+The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
+
+::: about_strategy
+***About this strategy*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`. Existing home: `80%` reduced EUI by `33%`.
+:::
+
+```{r tab-new-home-efficiency}
+#| echo: false
+#| message: false
+
+calc_floor_area_leed(
+  res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
+  .new_homes_leed_gold_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  filter(
+    year == 2040,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  left_join(., variables, by = "var") %>%
+  select(desc, value) %>%
+  rename("Variables" = desc,
+         "Value" = value) %>%
+  tableformat(.,
+              .caption = paste("New Home Efficiency", params$ctu_selection, "2040 Assumptions"))
+```
+
+<br>
+
+$$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le X_1 \le 1$$
+
+-   $X$: The percentage of new homes that are LEED Gold.
+-   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.
+-   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
+-   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+-   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
+
+*Figure* \@ref(fig:fig-new-leed-homes) *could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger `run_scenario_building()` function has errors and isn't running right now.*
+
+```{r fig-new-leed-homes}
+#| echo: false
+#| message: false
+
+#| fig.cap = "Comparing output values between years 2018 and 2040 for different percentages of new single family homes built according to LEED Gold standards.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 6
+
+seq(0.1, 0.5, .1) %>%
+  purrr::set_names() %>%
+  purrr::map(~ghg.sp::calc_floor_area_leed(
+    res_tb = building_data$residential,
+   .new_homes_leed_gold_pct = .x,
+   .enviro_factors = enviro_factors
+)) %>%
+  bind_rows(.id = "level")%>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu",
+      "residential_mwh",
+      "residential_therms"
+    ))  %>%
+  left_join(., variables, by = "var") %>%
+  mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2")) %>%
+      rename("Variables" = desc) %>%#,
+             # "2040" = value)
+  mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
+  ggplot(aes(x = year, y = value, color = level)) +
+  geom_line() +
+  facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
+  scale_x_continuous(breaks = c(2018, 2040)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
+  labs(x = "", y = "", color = "Percentage of\nnew single family\nhomes built to\nLEED Gold standards") +
+      theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14),
+      strip.background = element_rect(fill = "white"),
+      strip.text = element_text(size = 10)
+    )
+```

@@ -35,32 +35,32 @@ library(ghg.sp)
 library(rsvg)
 
 options(scipen = 1, digits = 2)
-load(file = file.path(here::here(),"../data-raw/transportation_report_data.rda"))
+load(file = file.path(here::here(), "../data-raw/transportation_report_data.rda"))
 
 if (params$desired_format == "html") {
-tableformat <- function(data, .caption) {
-  data %>%
-    kableExtra::kable(
-      caption = .caption,
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(
-      html_font = "Arial",
-      full_width = F,
-      font_size = 12
-    )
-}
+  tableformat <- function(data, .caption) {
+    data %>%
+      kableExtra::kable(
+        caption = .caption,
+        format = "html",
+        escape = FALSE,
+        format.args = list(big.mark = ",", digits = 6)
+      ) %>%
+      kableExtra::kable_classic(html_font = "Arial",
+                                full_width = F,
+                                font_size = 12)
+  }
 } else {
-  tableformat <- function(data, .caption){
-   data %>%
-  flextable::flextable() %>%
-  flextable::autofit(add_w = 0, add_h = 0) %>%
+  tableformat <- function(data, .caption) {
+    data %>%
+      flextable::flextable() %>%
+      flextable::autofit(add_w = 0, add_h = 0) %>%
       flextable::set_table_properties(layout = "autofit") %>%
       flextable::fontsize(size = 9, part = "all") %>%
-      flextable::align(align = "center", part = "header", i = 1) %>%
-  flextable::set_caption(.caption)
+      flextable::align(align = "center",
+                       part = "header",
+                       i = 1) %>%
+      flextable::set_caption(.caption)
   }
 }
 
@@ -69,13 +69,12 @@ add_variable_names <- function(data, .year) {
     left_join(.,
               variables,
               by = "var") %>%
-    mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+    #mutate(desc = str_remove_all(desc, " - Forecast")) %>%
     select(Variables = desc, value) %>%
     rename(!!.year:=value)
    # rename("Variables" = desc,
          #  if_else(.year == "2018", "2018" = value, "2040" = value))
 }
-
 
 # load the list of variables and council members
 source("variables.R")
