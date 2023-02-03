@@ -74,7 +74,8 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .av_pct = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-  cat("** adjusting fleet shares")
+
+  cat("** adjusting fleet shares \n")
   # browser()
 
   .pass_tb <- .pass_tb %>% unique()

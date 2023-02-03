@@ -16,7 +16,8 @@
 #' @importFrom dplyr select filter across cur_column
 #'
 calc_av_sales <- function(tb,
-                          .av_pct) {
+                          .av_pct,
+                          .selected_ctu = "all") {
 
   cat("*** calculating autonomous vehicle sales")
   tb <- filter_ctu(tb, .selected_ctu)

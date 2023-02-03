@@ -4,7 +4,7 @@
 \alias{calc_av_sales}
 \title{Calculate AV stock sales}
 \usage{
-calc_av_sales(tb, .av_pct)
+calc_av_sales(tb, .av_pct, .selected_ctu = "all")
 }
 \arguments{
 \item{tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu}, \code{value},
