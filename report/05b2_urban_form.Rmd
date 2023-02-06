@@ -1,0 +1,28 @@
+### Urban Form
+
+In the coming decades, the Metropolitan Council region is poised for significant growth, with its population expected to increase from just under 3.2 million residents to over 3.7 million in 2040. This growth will bring about substantial changes in land use and land cover, particularly in the north and west suburbs.
+
+Biogenic emissions arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear.
+
+To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used to calculate these values for the study period of 2018-2040.
+
+$$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) × 44/12$$
+
+$\text{Sequestration}$ = ∑ (Ai × SRi) 	
+$\text{Land Cover Change}$ = ∑ [(Ait-1 × CDi ) - (Ait × CDi )]
+
+Where:
+
+$\text{Sequestration}$ = annual net sequestration from vegetation for a given city
+
+Land Cover Change = annual organic carbon stock change from land conversion for a given city, averaged over the study period
+
+44/12 = factor to convert Mg C to Mg CO2e
+
+$Ai$ = Area of vegetation of cover type i (ha)
+$SRi$ = Annual net sequestration rate for cover type i. (Mg C ha-1 yr-1)
+$CDi$ = Carbon stock density factor for vegetation in cover type i (Mg C ha-1)
+
+i = 1 ,2, 3, ...n land cover types
+
+t = year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city

@@ -30,7 +30,7 @@ tab_non_residential_energy
 
 <br>
 
-### Non-Residential Energy Strategies
+### Strategies
 
 Some existing programs include:
 

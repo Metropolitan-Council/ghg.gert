@@ -69,11 +69,8 @@ add_variable_names <- function(data, .year) {
     left_join(.,
               variables,
               by = "var") %>%
-    #mutate(desc = str_remove_all(desc, " - Forecast")) %>%
     select(Variables = desc, value) %>%
     rename(!!.year:=value)
-   # rename("Variables" = desc,
-         #  if_else(.year == "2018", "2018" = value, "2040" = value))
 }
 
 # load the list of variables and council members

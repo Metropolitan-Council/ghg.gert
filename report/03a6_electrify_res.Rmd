@@ -124,7 +124,7 @@ tab_electrify_residential_heating <- run_scenario_building(
   tableformat(., .caption = "Electrify Residential Heating 2040")
 ```
 
-```{r}
+```{r echo=FALSE}
 tab_electrify_residential_heating
 ```
 

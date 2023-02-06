@@ -64,7 +64,7 @@ tab_residential_energy
 ```
 
 
-### Residential Energy Strategies
+### Strategies
 
 Energy consumption is directly correlated to the floor area of a residential unit. In general, bigger homes consume more energy. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
 

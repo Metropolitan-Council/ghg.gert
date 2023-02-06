@@ -66,7 +66,7 @@ where
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $\bar{sqft}_{2018}$: The average floor area of single-family homes in the community in 2018.
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
+```{r fig03a1, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
 fig03a1 <- run_scenario_building(
@@ -181,6 +181,7 @@ fig03a1 <- run_scenario_building(
               )
   )
 ```
+
 ```{r echo=FALSE}
 fig03a1
 ```

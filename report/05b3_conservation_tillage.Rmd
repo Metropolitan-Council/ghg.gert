@@ -1,0 +1,18 @@
+### Conservation Tillage
+
+Conventional agricultural practices involve annual plowing to loosen soil in preparation for planting. This leaves soil particles exposed to wind and erosion, and over time leads to loss of soil nutrients and organic matter. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock. Conservation tillage (such as no-till or reduced-till agriculture) is intended to minimize topsoil disturbance and minimize nutrient and organic matter loss in soil. Uncertainty in GHG impact of conservation tillage is high.
+
+This practice affects greenhouse gas emissions in two primary ways:
+
+a.  Minimized soil disturbance allows for soil to retain a higher amount of organic carbon (to a new equilibrium)
+b.  Reduced plowing leads to lower fossil fuel consumption from farm equipment3
+
+Conservation tillage initiatives in Minnesota have been established by a variety of stakeholders, including state and federal governments, private sector companies, environmental advocacy groups, and academia. As a result, almost half of all MN counties growing corn and soy have at least 25% of planted acres using reduced tillage practices, while about a quarter of MN counties growing corn and soy have at least 25% of planted acres using no-till practices (Crop Residue Management Survey).
+
+$$ \text{Conservation Tillage Avoided Emissions} = (C+T) × A $$
+
+-   $C$ = Increased Biogenic Carbon Stock (Mg CO<sub>2</sub>/ha). Baseline soil organic carbon (SOC) stock is 41 Mg C/ha. It has been estimated that SOC content can increase from 1% up to 1.54% under conservation tillage2, thus carbon content can be increased from an average of 41 Mg C/ha to 63 Mg C/ha. This increase was assumed to increase over a period of 20 years. Whether the sequestration is maintained is highly uncertain5.
+
+-   $T$ = Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7
+
+-   $A$ = Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
