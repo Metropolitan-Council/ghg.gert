@@ -31,8 +31,7 @@
 calc_existing_comm_building_efficiency <- function(non_res_tb,
                                                    .selected_ctu,
                                                    .existing_high_efficiency_buildings_pct) {
-
-  cat("*** calculating existing commercial building energy efficiency \n")
+  cli::cli_progress_message("*** calculating existing commercial building energy efficiency \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   new_non_res_tb <-
@@ -66,5 +65,4 @@ calc_existing_comm_building_efficiency <- function(non_res_tb,
     dplyr::ungroup()
 
   return(new_non_res_tb)
-
 }

@@ -1,6 +1,3 @@
-
-
-
 stock_prop <- vmt_stock_proportion(
   .tb = st_paul_passenger,
   .mode = "PLDV",

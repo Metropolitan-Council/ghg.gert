@@ -1,5 +1,3 @@
-
-
 testthat::expect_equal(
   vmt_annual_energy_outlook(
     tb = st_paul_passenger,

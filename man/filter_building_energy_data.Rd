@@ -10,10 +10,7 @@ filter_building_energy_data(
 )
 }
 \arguments{
-\item{df}{}
-}
-\value{
-Tibble. Returns a filtered version of the input dataset.
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 }
 \description{
 Filter Building Energy Data

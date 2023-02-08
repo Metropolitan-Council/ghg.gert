@@ -7,14 +7,12 @@
 filter_ctu(df, .selected_ctu = "all")
 }
 \arguments{
-\item{df}{Tibble. A data frame to filter by CTU}
+\item{df}{table}
 
-\item{.selected_ctu}{Character. A string that indicates whether to use all ctus available
-or only one selected ctu.
-default is "all"}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 }
 \value{
-Tibble. a filter version of the input dataframe.
+tibble. Input df with only selected CTU
 }
 \description{
 Filter CTU

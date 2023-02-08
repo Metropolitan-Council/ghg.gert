@@ -30,8 +30,6 @@ and \eqn{TW} is an adjustment factor for the effect of telework on baseline PMT.
 }
 \seealso{
 Other VMT effects: 
-\code{\link{vmt_autonomous_vehicle}()},
-\code{\link{vmt_dynamic_ride_share_reduction}()},
 \code{\link{vmt_land_use_change}()},
 \code{\link{vmt_parking_policy}()},
 \code{\link{vmt_road_policy}()},

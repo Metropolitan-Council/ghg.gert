@@ -16,7 +16,7 @@
 #'       to the function `run_scenario_building()`
 #'
 #' @export
-#'
+#' @importFrom cli cli_progress_message
 #' @examples
 #' \dontrun{
 #'
@@ -70,6 +70,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   .smart_grid_energy_reduction_pct = 1.00,
                                   # residential
                                   .renewable_ng_res = FALSE,
+                                  .renewable_ng_nonres = FALSE,
                                   # floor_area
                                   .new_homes_to_multifamily_pct = 0.50,
                                   .existing_high_efficiency_buildings_pct = 0.80,
@@ -85,29 +86,27 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   .additional_electrified_residential_buildings_pct = 0.45,
                                   # grid
                                   .grid_decarbonization_pct = 1) {
-
-  cat("\n  === RUNNING BUILDING ENERGY MODULE === \n")
-  cat("...... selected CTU:", .selected_ctu, "\n")
-  cat("...... percent of electrified buildings:", .electrified_buildings_pct, "\n")
-  cat("...... percent of non-residential natural gas for water heating:", .non_res_natural_gas_for_water_heating_pct, "\n")
-  cat("...... percent of non-residential natural gas for space heating:", .non_res_natural_gas_for_space_heating_pct, "\n")
-  cat("...... percent of commercial smart grid:", .commercial_smart_grid_pct, "\n")
-  cat("...... percent of industrial smart grid:", .industrial_smart_grid_pct, "\n")
-  cat("...... percent of smart grid energy reduction:", .smart_grid_energy_reduction_pct, "\n")
-  cat("...... percent of new homes to multifamily:", .new_homes_to_multifamily_pct, "\n")
-  cat("...... percent of existing high efficiency buildings:", .existing_high_efficiency_buildings_pct, "\n")
-  cat("...... percent of home behavior change:", .home_behavior_change_pct, "\n")
-  cat("...... percent of single family floor area growth:", .single_family_floor_area_growth_pct, "\n")
-  cat("...... percent of new homes affected:", .new_homes_affected_pct, "\n")
-  cat("...... percent of new homes leed gold:", .new_homes_leed_gold_pct, "\n")
-  cat("...... percent of existing home retrofit:", .existing_home_retrofit_pct, "\n")
-  cat("...... percent of existing home ultra retrofit:", .existing_home_ultra_retrofit_pct, "\n")
-  cat("...... percent of residential natural gas for space heating:", .res_natural_gas_for_space_heating_pct, "\n")
-  cat("...... percent of residential natural gas for water heating:", .res_natural_gas_for_water_heating_pct, "\n")
-  cat("...... percent of additional electrified residential buildings:", .additional_electrified_residential_buildings_pct, "\n")
-  cat("...... renewable natural gas strategy:", .renewable_ng_res, "\n")
-  cat("...... percent of grid decarbonization:", .grid_decarbonization_pct, "\n")
-  cat("========================================== \n")
+  cli::cli_progress_message("\n  === RUNNING BUILDING ENERGY MODULE === \n")
+  cli::cli_progress_message(msg = c("...... selected CTU:", .selected_ctu, "\n"))
+  cli::cli_progress_message(c("...... percent of electrified buildings:", .electrified_buildings_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of non-residential natural gas for water heating:", .non_res_natural_gas_for_water_heating_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of non-residential natural gas for space heating:", .non_res_natural_gas_for_space_heating_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of commercial smart grid:", .commercial_smart_grid_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of industrial smart grid:", .industrial_smart_grid_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of smart grid energy reduction:", .smart_grid_energy_reduction_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of new homes to multifamily:", .new_homes_to_multifamily_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of existing high efficiency buildings:", .existing_high_efficiency_buildings_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of home behavior change:", .home_behavior_change_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of single family floor area growth:", .single_family_floor_area_growth_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of new homes affected:", .new_homes_affected_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of new homes leed gold:", .new_homes_leed_gold_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of existing home retrofit:", .existing_home_retrofit_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of existing home ultra retrofit:", .existing_home_ultra_retrofit_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of residential natural gas for space heating:", .res_natural_gas_for_space_heating_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of residential natural gas for water heating:", .res_natural_gas_for_water_heating_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of additional electrified residential buildings:", .additional_electrified_residential_buildings_pct, "\n"))
+  cli::cli_progress_message(c("...... percent of grid decarbonization:", .grid_decarbonization_pct, "\n"))
+  cli::cli_progress_message("========================================== \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
@@ -143,7 +142,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     "additional_electrified_residential_buildings_pct",
     # grid
     "grid_decarbonization_pct",
-    "renewable_ng_res"
+    "renewable_ng_res",
+    "renewable_ng_nonres"
   )
 
   l_vals <- list(
@@ -173,7 +173,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     .additional_electrified_residential_buildings_pct,
     # grid
     .grid_decarbonization_pct,
-    .renewable_ng_res
+    .renewable_ng_res,
+    .renewable_ng_nonres
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -213,6 +214,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .industrial_smart_grid_pct = .industrial_smart_grid_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
+        .renewable_ng_nonres = .renewable_ng_nonres,
         .enviro_factors = .enviro_factors
       )
   }
@@ -222,7 +224,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
       bind_rows(res, non_res)
     } else if (run_residential == FALSE) {
       non_res
-    } else{
+    } else {
       res
     }
   return(building_module_ouput)

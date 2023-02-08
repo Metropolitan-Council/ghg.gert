@@ -48,45 +48,43 @@ library(shiny)
 library(patchwork)
 
 options(scipen = 1, digits = 2)
-load(file = file.path(here::here(),"data-raw/transportation_report_data.rda"))
-
+load(file = file.path(here::here(), "data-raw/transportation_report_data.rda"))
 ```
 
 ```{r, table-formatting}
 #| echo: false
 
 if (params$desired_format == "html") {
-tableformat <- function(data, .caption) {
-  data %>%
-    kableExtra::kable(
-      caption = .caption,
-      format = "html",
-      escape = FALSE,
-      format.args = list(big.mark = ",", digits = 6)
-    ) %>%
-    kableExtra::kable_classic(
-      html_font = "Arial",
-      full_width = F,
-      font_size = 12
-    )
-}
+  tableformat <- function(data, .caption) {
+    data %>%
+      kableExtra::kable(
+        caption = .caption,
+        format = "html",
+        escape = FALSE,
+        format.args = list(big.mark = ",", digits = 6)
+      ) %>%
+      kableExtra::kable_classic(
+        html_font = "Arial",
+        full_width = F,
+        font_size = 12
+      )
+  }
 } else {
-  tableformat <- function(data, .caption){
-   data %>%
-  flextable::flextable() %>%
-  flextable::autofit() %>%
+  tableformat <- function(data, .caption) {
+    data %>%
+      flextable::flextable() %>%
+      flextable::autofit() %>%
       flextable::fontsize(size = 9, part = "all") %>%
-  flextable::set_caption(.caption)
+      flextable::set_caption(.caption)
   }
 }
-    
 ```
 
 ```{r variables}
 #| echo: false
 #| message: false
 variables <- rbind(
-  
+
   # baseline
   data.frame(
     var = "population",
@@ -100,7 +98,7 @@ variables <- rbind(
     var = "jobs",
     desc = "Jobs"
   ),
-  
+
   # residential
   data.frame(
     var = "single_family_units",
@@ -126,7 +124,7 @@ variables <- rbind(
     var = "multifamily_average_floor_area_sqft_county",
     desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"
   ),
-  
+
   # commercial_industrial
   data.frame(
     var = "commercial_jobs",
@@ -144,7 +142,7 @@ variables <- rbind(
     var = "industrial_workers_county",
     desc = "Industrial Jobs"
   ),
-  
+
   # enegy
   data.frame(
     var = "elec_emis_factor_kg_mwh",
@@ -154,7 +152,7 @@ variables <- rbind(
     var = "ng_emis_factor_kg_therm",
     desc = "Emissions Factor for Natural Gas (kg/therm)"
   ),
-  
+
   # energy baseline (residential, electricity)
   data.frame(
     var = "residential_mwh",
@@ -172,7 +170,7 @@ variables <- rbind(
     var = "residential_elec_emis_t_co2e",
     desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
   ),
-  
+
   # energy baseline (residential, natural gas)
   data.frame(
     var = "residential_therms",
@@ -194,7 +192,7 @@ variables <- rbind(
     var = "residential_ng_emis_t_co2e",
     desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"
   ),
-  
+
   # energy forecast (residential, electricity)
   data.frame(
     var = "total_residential_kwh_forecast",
@@ -204,7 +202,7 @@ variables <- rbind(
     var = "residential_electricity_emissions_kg_co",
     desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"
   ),
-  
+
   # energy forecast (residential, natural_gas)
   data.frame(
     var = "total_residential_therms_forecast",
@@ -214,7 +212,7 @@ variables <- rbind(
     var = "residential_natural_gas_emissions_kg_co",
     desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"
   ),
-  
+
   # energy baseline (commercial, electricity)
   data.frame(
     var = "commercial_mwh",
@@ -232,7 +230,7 @@ variables <- rbind(
     var = "commercial_elec_emis_t_co2e",
     desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"
   ),
-  
+
   # energy baseline (commercial, natural_gas)
   data.frame(
     var = "commercial_therms",
@@ -254,7 +252,7 @@ variables <- rbind(
     var = "commercial_ng_emis_t_co2e",
     desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
   ),
-  
+
   # energy baseline (industrial, electricity)
   data.frame(
     var = "industrial_mwh",
@@ -272,7 +270,7 @@ variables <- rbind(
     var = "industrial_elec_emis_t_co2e",
     desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"
   ),
-  
+
   # energy baseline (industrial, natural_gas)
   data.frame(
     var = "industrial_therms",
@@ -294,7 +292,7 @@ variables <- rbind(
     var = "industrial_ng_emis_t_co2e",
     desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
   ),
-  
+
   # energy emissions totals
   data.frame(
     var = "total_residential_emissions",
@@ -358,13 +356,15 @@ Metropolitan Council Members
 
 ```{r fig.align = 'center'}
 councilmember_df <-
-  list(councilmembers[1:9,], councilmembers[10:18,])
+  list(councilmembers[1:9, ], councilmembers[10:18, ])
 
 if (params$desired_format == "html") {
   councilmember_df %>%
-    knitr::kable(booktabs = TRUE,
-                 col.names = NULL,
-                 row.names = FALSE)
+    knitr::kable(
+      booktabs = TRUE,
+      col.names = NULL,
+      row.names = FALSE
+    )
 } else {
   data.frame(councilmember_df) %>%
     flextable::flextable() %>%
@@ -498,10 +498,11 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
     var != "multifamily_average_floor_area_sqft_county"
   ) %>%
   left_join(., variables, by = "var") %>%
-    select(c(desc, value)) %>%
-  rename("Variables" = desc,
-         "{params$ctu_selection} 2018" := value) %>%
-  
+  select(c(desc, value)) %>%
+  rename(
+    "Variables" = desc,
+    "{params$ctu_selection} 2018" := value
+  ) %>%
   # County level 2018
   full_join(
     get_demographic_baseline(tb = building_energy_data)$county %>%
@@ -510,24 +511,27 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
       left_join(., variables, by = "var") %>%
       mutate(desc = str_remove_all(desc, " for the County")) %>%
       select(c(desc, value)) %>%
-      rename("Variables" = desc,
-         "{params$county_selection} Co. 2018" := value)) %>%
-  
+      rename(
+        "Variables" = desc,
+        "{params$county_selection} Co. 2018" := value
+      )
+  ) %>%
   # city 2040
   full_join(
     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
       ungroup() %>%
       filter(
         ctu_name == params$ctu_selection,
-        var != "multifamily_average_floor_area_sqft_county") %>%
+        var != "multifamily_average_floor_area_sqft_county"
+      ) %>%
       left_join(., variables, by = "var") %>%
       select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "{params$ctu_selection} 2040" := value)) %>%
-  
+      rename(
+        "Variables" = desc,
+        "{params$ctu_selection} 2040" := value
+      )
+  ) %>%
   # format
-    mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
-
+  mutate(across(everything(), ~ if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
   tableformat(.caption = paste0("Demographics for ", params$ctu_selection))
-  
 ```

@@ -7,6 +7,7 @@
 calc_residential_renewable_ng(
   res_tb,
   .selected_ctu,
+  .renewable_ng_res = TRUE,
   .enviro_factors = .enviro_factors
 )
 }
@@ -22,6 +23,7 @@ ghg.sp::calc_residential_renewable_ng(
   res_tb = ghg.sp::calc_ghg_residential(
     res_tb = building_energy_bau_data$residential,
     res_tb_bau = building_energy_bau_data$residential,
+    .renewable_ng_res = TRUE,
     .selected_ctu = "all",
     .grid_decarbonization_pct = 1,
     .enviro_factors = enviro_factors

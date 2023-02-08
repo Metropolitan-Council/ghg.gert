@@ -29,7 +29,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .miles_per_gallon,
                             .is_av = FALSE,
                             .enviro_factors = enviro_factors) {
-  cat("*** calculating direct GHG emissions \n")
+  cli::cli_progress_message("*** calculating direct GHG emissions \n")
   # browser()
 
   ghg_factors_current <- factor_values$ghg %>%
@@ -67,18 +67,11 @@ calc_ghg_direct <- function(tb_vmt,
       mode == .mode,
       var == .miles_per_gallon
     ) %>%
-    dplyr::mutate(
-      av_multiplier = dplyr::case_when(
-        .is_av == TRUE ~ .enviro_factors$MPG_AV,
-        TRUE ~ 1
-      ),
-      val_mpg = value
-    ) %>%
+    mutate(val_mpg = value) %>%
     select(
       year,
       ctu,
       val_mpg,
-      av_multiplier,
       mode,
       aeo_mode
     )
@@ -89,7 +82,7 @@ calc_ghg_direct <- function(tb_vmt,
     by = c("year")
   ) %>%
     # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
-    dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor * av_multiplier) %>%
+    dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
     select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
 

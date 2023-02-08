@@ -33,7 +33,7 @@
 adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
-  cat("*** adjusting residential building unit counts \n")
+  cli::cli_progress_message("*** adjusting residential building unit counts \n")
   if (.new_homes_to_multifamily_pct <= 0) {
     warning("No single family homes instead built as multifamily homes.")
     return(res_tb)

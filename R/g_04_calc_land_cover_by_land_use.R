@@ -22,7 +22,7 @@
 calc_land_cover_by_land_use <- function(tb,
                                         .selected_ctu,
                                         .urban_form_scenario) {
-  cat("**** calculating land cover by land use \n")
+  cli::cli_progress_message("**** calculating land cover by land use \n")
   # -------------------------------------------------------------------------
   land_cover_percentages <- calc_land_cover_percentages(tb = tb)
 

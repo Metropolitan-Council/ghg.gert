@@ -68,7 +68,7 @@ tab_residential_energy
 
 Energy consumption is directly correlated to the floor area of a residential unit. In general, bigger homes consume more energy. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
 
-The *Minneapolis 2040 Comprehensive Plan* aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. Currently the plan is facing criticism and legal challenges, including a recent court decision halting enforcement of the plan on environmental grounds. Despite this, single family zoning remains a significant strategy to consider in how the city could meet its ambitious climate goals.
+The *Minneapolis 2040 Comprehensive Plan* aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. Single family zoning is a significant strategy to consider in how the city could meet its ambitious climate goals.
 
 Cities have a range of tools at their disposal to control the size of new single family homes and to encourage the construction of smaller, more efficient homes.
 

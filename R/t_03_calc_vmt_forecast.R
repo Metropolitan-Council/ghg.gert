@@ -10,8 +10,6 @@
 #' @param .tb_fuel_cost_mile table, table with fuel cost per mile
 #' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
 #'      Default is `"REF"`
-#' @param .drs_pct numeric, percent of trips by auto or transit that are
-#'     now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is `0`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list, environmental factors. Default is `enviro_factors`, included in this package.
 #' @param .elast table of elasticities. Default is `elast` included in this package.
@@ -21,7 +19,6 @@
 #' @inheritParams vmt_parking_policy
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
-#' @inheritParams vmt_autonomous_vehicle
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams vmt_telework
@@ -54,9 +51,6 @@ calc_vmt_forecast <- function(.scenario,
                               .cong_price = 0,
                               .parking_price = 0,
                               .freight_parking_price = 0,
-                              .drs_pct = 0,
-                              .drs_fuel_type = "",
-                              .av_pct = 0,
                               .freight_vmt_fee = 0,
                               .pop_dens_pct_change = 0,
                               .emp_dens_pct_change = 0,
@@ -70,8 +64,7 @@ calc_vmt_forecast <- function(.scenario,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-
-  cat("*** calculating VMT forecast \n")
+  cli::cli_progress_message("*** calculating VMT forecast \n")
   tb <- filter_ctu(tb, .selected_ctu)
   # browser()
 
@@ -107,7 +100,7 @@ calc_vmt_forecast <- function(.scenario,
       # transit vmt = PMT * aeo_adj * transit_adj *
       # (1 + (vmt_fee_adj +  payd_ins_adj + cong_adjust * cross_vmt)) *
       # land_use_adj * park_price_adj * gas_adj /
-      # occupancy_adj / av_adj * mode_stock_adj
+      # occupancy_adj /  mode_stock_adj
       #
 
       mode_stock <- vmt_stock_proportion(
@@ -178,11 +171,6 @@ calc_vmt_forecast <- function(.scenario,
         .enviro_factors = .enviro_factors
       )
 
-      autonomous_adjust <- vmt_autonomous_vehicle(
-        .pass_tb = tb,
-        .mode = .mode,
-        .av_pct = .av_pct
-      )
 
 
       tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
@@ -191,7 +179,6 @@ calc_vmt_forecast <- function(.scenario,
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
         unique() %>%
         rowwise() %>%
@@ -199,7 +186,7 @@ calc_vmt_forecast <- function(.scenario,
           transit_vmt = miles_traveled *
             aeo_adj * transit_adj *
             (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-            land_use_adj * park_price_adj * gas_adj / occupancy_adj * av_adj *
+            land_use_adj * park_price_adj * gas_adj / occupancy_adj *
             mode_stock_adj,
           stock = .stock
         ) %>%
@@ -303,12 +290,6 @@ calc_vmt_forecast <- function(.scenario,
         .enviro_factors = .enviro_factors
       )
 
-      autonomous_adjust <- vmt_autonomous_vehicle(
-        .pass_tb = tb,
-        .mode = .mode,
-        .av_pct = .av_pct,
-        .enviro_factors = .enviro_factors
-      )
 
       telework_adjust <- vmt_telework(
         .pass_tb = tb,
@@ -335,7 +316,6 @@ calc_vmt_forecast <- function(.scenario,
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         left_join(telework_adjust, by = c("year")) %>%
         left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
         left_join(at_adjustment,
@@ -346,7 +326,7 @@ calc_vmt_forecast <- function(.scenario,
         mutate(
           pass_ld_vmt =
             (miles_traveled - transit_adj) *
-              av_adj * aeo_adj *
+              aeo_adj *
               vmt_fee_adj * cong_adjust * gas_adj *
               telework_adj * land_use_adj *
               park_price_adj / occupancy_adj * mode_stock_adj,
@@ -366,8 +346,7 @@ calc_vmt_forecast <- function(.scenario,
       # av_vmt = miles_traveled  -
       # (active transportation adjustment * transit_adj) *
       # aeo_adj * vmt_fee_adj * cong_adjust *
-      # gas_adj * park_price_adj * land_use_adj *
-      # av_adjust
+      # gas_adj * park_price_adj * land_use_adj
 
       tb_vmt <- tb %>%
         dplyr::filter(
@@ -395,12 +374,6 @@ calc_vmt_forecast <- function(.scenario,
         .mode = .mode
       )
 
-      autonomous_adjust <- vmt_autonomous_vehicle(
-        .pass_tb = tb,
-        .mode = .mode,
-        .av_pct = .av_pct
-      ) %>%
-        unique()
 
       fc_adjustments <- vmt_road_policy(
         .mode = .mode,
@@ -466,7 +439,6 @@ calc_vmt_forecast <- function(.scenario,
         left_join(land_use, by = c("year")) %>%
         left_join(parking, by = c("year", "ctu")) %>%
         left_join(veh_occupancy, by = c("year", "ctu")) %>%
-        left_join(autonomous_adjust, by = c("year", "ctu")) %>%
         unique() %>%
         rowwise() %>%
         mutate(
@@ -475,7 +447,7 @@ calc_vmt_forecast <- function(.scenario,
           av_vmt = ((miles_traveled - (at_adjust * transit_adj) *
             aeo_adj * vmt_fee_adj *
             cong_adjust * gas_adj * park_price_adj *
-            land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj) * av_adj
+            land_use_adj * .enviro_factors$VMT_AV) / occupancy_adj)
         ) %>%
         select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = av_vmt)
 
@@ -483,7 +455,7 @@ calc_vmt_forecast <- function(.scenario,
     } else if (.mode == "DRS") {
       # dynamic ride share  -----
 
-      stop("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
+      cli::cli_abort("Use calc_vmt_forecast_drs() for dynamic ride sharing VMT")
     } else if (.mode == "SUT") {
       # single truck --------
       # browser()

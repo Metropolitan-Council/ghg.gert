@@ -1,4 +1,3 @@
-
 # Business as usual scenario testing -----
 
 # passenger si ------
@@ -20,8 +19,6 @@ si_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -70,8 +67,6 @@ walk_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -121,8 +116,6 @@ ci_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -170,8 +163,6 @@ ru_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -207,8 +198,6 @@ bus_ci_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -261,8 +250,6 @@ phev_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,

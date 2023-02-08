@@ -19,6 +19,7 @@ run_all_modules(
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   detail = FALSE,
+  .renewable_ng_res = FALSE,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
@@ -78,13 +79,13 @@ run_all_modules(
 )
 }
 \arguments{
-\item{.selected_ctu}{Character. A string indicating the relevalnt CTU for running the modules.}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
-\item{run_land_use}{Boolean.}
+\item{run_land_use}{logical. Default is \code{TRUE}}
 
-\item{run_buildings}{Boolean.}
+\item{run_buildings}{logical. Default is \code{TRUE}}
 
-\item{run_transportation}{Boolean.}
+\item{run_transportation}{logical. Default is \code{TRUE}}
 
 \item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided.
@@ -233,15 +234,6 @@ congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
 
-\item{.drs_pct}{numeric, percent of trips by auto or transit that are
-now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
-
-\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
-
-\item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
-
-\item{.av_fuel_type}{input AV fuel type}
-
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
 Numeric between -1 and 1. Default is \code{0}}
 
@@ -287,7 +279,7 @@ Default is \code{0}.}
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
-List. Return a list with the outputs of the three modules.
+list, list with the outputs of the three modules.
 }
 \description{
 run all modules

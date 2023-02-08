@@ -4,8 +4,7 @@
 #' @export
 compile_bau_building_energy <-
   function(tb = building_energy_data, .selected_ctu = "all") {
-
-    cat("* compiling building energy data \n")
+    cli::cli_progress_message("* compiling building energy data \n")
 
     building_data <- c()
 

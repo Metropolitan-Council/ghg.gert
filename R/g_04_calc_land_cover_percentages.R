@@ -3,8 +3,7 @@
 #'
 calc_land_cover_percentages <- function(tb = land_use_data,
                                         .selected_ctu) {
-
-  cat("**** calculating land cover percentages \n")
+  cli::cli_progress_message("**** calculating land cover percentages \n")
 
   # -------------------------------------------------------------------------
 

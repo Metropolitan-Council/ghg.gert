@@ -23,7 +23,7 @@
 calc_scen_land_use <- function(tb,
                                .selected_ctu,
                                .urban_form_scenario) {
-  cat("**** calculating land use urban form scneario \n")
+  cli::cli_progress_message("**** calculating land use urban form scneario \n")
   # -------------------------------------------------------------------------
 
   calc_land_by_development_type <-

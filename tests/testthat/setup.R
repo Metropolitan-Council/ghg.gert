@@ -17,8 +17,7 @@ si_fcm_test <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
-  .fuel_cost_gallon = 239.8,
-  .av_pct = 0
+  .fuel_cost_gallon = 239.8
 )
 
 
@@ -27,6 +26,5 @@ ci_fcm_test <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "CIMPG",
-  .fuel_cost_gallon = enviro_factors$CI_FUEL_COST_GAL,
-  .av_pct = 0
+  .fuel_cost_gallon = enviro_factors$CI_FUEL_COST_GAL
 )
