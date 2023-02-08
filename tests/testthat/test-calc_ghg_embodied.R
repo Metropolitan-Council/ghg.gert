@@ -1,5 +1,3 @@
-
-
 ## Passenger, gasoline-----
 si_test_table <- tibble::tribble(
   ~type, ~ghg_embodied_source, ~mode, ~class, ~ctu, ~year, ~aeo_mode, ~ghg_embodied,

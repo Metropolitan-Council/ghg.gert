@@ -6,7 +6,7 @@
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
 #' @inheritParams run_scenario_transportation
-#' @inhertiParams filter_ctu
+#' @inheritParams filter_ctu
 #' @return list, list with the outputs of the three modules.
 #' @export
 #'
@@ -80,9 +80,7 @@ run_all_modules <- function(.selected_ctu = "all",
                             .mit_bau_summary = 0,
                             .enviro_factors = enviro_factors,
                             .elast = elast,
-                            .elast_5d = elast_5d
-                            ) {
-
+                            .elast_5d = elast_5d) {
   if (run_land_use == TRUE) {
     land_use <- run_scenario_land_use(
       tb = tb,
@@ -96,68 +94,69 @@ run_all_modules <- function(.selected_ctu = "all",
       detail = detail
     )
   }
- if (run_buildings == TRUE) {
-  buildings <- run_scenario_building(
-    res_tb = res_tb ,
-    non_res_tb = non_res_tb,
-    res_tb_bau = res_tb_bau ,
-    non_res_tb_bau = non_res_tb_bau,
-    run_residential = run_residential ,
-    run_non_residential = run_non_residential,
-    .selected_ctu = .selected_ctu,
-    .electrified_buildings_pct = .electrified_buildings_pct,
-    .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-    .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
-    .commercial_smart_grid_pct = .commercial_smart_grid_pct,
-    .industrial_smart_grid_pct = .industrial_smart_grid_pct,
-    .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-    .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-    .home_behavior_change_pct = .home_behavior_change_pct,
-    .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-    .new_homes_affected_pct = .new_homes_affected_pct ,
-    .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
-    .existing_home_retrofit_pct = .existing_home_retrofit_pct,
-    .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
-    .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
-    .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
-    .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .enviro_factors = .enviro_factors
-  )}
- if (run_transportation == TRUE) {
-  transp <- run_scenario_transportation(
-    pass_tb = pass_tb,
-    freight_tb = freight_tb ,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario ,
-    .aeo_scenario = .aeo_scenario ,
-    .electric_scenario = .electric_scenario ,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee ,
-    .payd_fee = .payd_fee ,
-    .gas_tax = .gas_tax ,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change ,
-    .telework_pct = .telework_pct,
-    .bev_pct_sales = .bev_pct_sales,
-    .phev_pct_sales = .phev_pct_sales,
-    .hev_pct_sales = .hev_pct_sales,
-    .mit_bau_summary = .mit_bau_summary ,
-    .elast = elast,
-    .elast_5d = elast_5d,
-    .enviro_factors = enviro_factors
-  )
+  if (run_buildings == TRUE) {
+    buildings <- run_scenario_building(
+      res_tb = res_tb,
+      non_res_tb = non_res_tb,
+      res_tb_bau = res_tb_bau,
+      non_res_tb_bau = non_res_tb_bau,
+      run_residential = run_residential,
+      run_non_residential = run_non_residential,
+      .selected_ctu = .selected_ctu,
+      .electrified_buildings_pct = .electrified_buildings_pct,
+      .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
+      .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
+      .commercial_smart_grid_pct = .commercial_smart_grid_pct,
+      .industrial_smart_grid_pct = .industrial_smart_grid_pct,
+      .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
+      .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
+      .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+      .home_behavior_change_pct = .home_behavior_change_pct,
+      .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+      .new_homes_affected_pct = .new_homes_affected_pct,
+      .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
+      .existing_home_retrofit_pct = .existing_home_retrofit_pct,
+      .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+      .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
+      .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
+      .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors
+    )
+  }
+  if (run_transportation == TRUE) {
+    transp <- run_scenario_transportation(
+      pass_tb = pass_tb,
+      freight_tb = freight_tb,
+      .selected_ctu = .selected_ctu,
+      .scenario = .scenario,
+      .aeo_scenario = .aeo_scenario,
+      .electric_scenario = .electric_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .cong_price = .cong_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .bev_pct_sales = .bev_pct_sales,
+      .phev_pct_sales = .phev_pct_sales,
+      .hev_pct_sales = .hev_pct_sales,
+      .mit_bau_summary = .mit_bau_summary,
+      .elast = elast,
+      .elast_5d = elast_5d,
+      .enviro_factors = enviro_factors
+    )
   }
 }

@@ -72,6 +72,4 @@ testthat::test_that("Expected number of rows", {
     filter(diff != 0)
 
   testthat::expect_equal(nrow(freight_test_total_table), 0)
-
-
 })

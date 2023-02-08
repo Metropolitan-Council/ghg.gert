@@ -19,6 +19,7 @@ scen_building_residential(
   .additional_electrified_residential_buildings_pct,
   .res_natural_gas_for_space_heating_pct,
   .res_natural_gas_for_water_heating_pct,
+  .renewable_ng_res = .renewable_ng_res,
   .enviro_factors = enviro_factors
 )
 }

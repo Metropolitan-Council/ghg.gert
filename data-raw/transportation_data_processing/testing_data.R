@@ -115,5 +115,3 @@ bau_summary$passenger$BU_BRT$vmt %>%
 
 
 ## mit AV
-
-

@@ -220,10 +220,14 @@ calc_ghg_residential(
   .grid_decarbonization_pct = 0.8,
   .enviro_factors = enviro_factors
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo",
-                year == 2040,
-                var %in% c("residential_electricity_emissions_kg_co", 
-                           "residential_natural_gas_emissions_kg_co"))
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    year == 2040,
+    var %in% c(
+      "residential_electricity_emissions_kg_co",
+      "residential_natural_gas_emissions_kg_co"
+    )
+  )
 ```
 
 ### Calculate Electrify Residential Heating
@@ -250,11 +254,15 @@ calc_electrify_residential_heating(
   .res_natural_gas_for_water_heating_pct = 0.24,
   .grid_decarbonization_pct = 0.80,
   .enviro_factors = enviro_factors
-)  %>%
-  dplyr::filter(ctu_name == "Lake Elmo",
-                year == 2040,
-                var %in% c("residential_electricity_emissions_kg_co", 
-                           "residential_natural_gas_emissions_kg_co"))
+) %>%
+  dplyr::filter(
+    ctu_name == "Lake Elmo",
+    year == 2040,
+    var %in% c(
+      "residential_electricity_emissions_kg_co",
+      "residential_natural_gas_emissions_kg_co"
+    )
+  )
 ```
 
 ### Calculate Residential Renewable Natural Gas

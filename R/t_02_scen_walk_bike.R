@@ -39,7 +39,6 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
                            .elast_5d = elast_5d) {
-
   cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 

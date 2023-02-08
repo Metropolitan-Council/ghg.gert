@@ -1,4 +1,3 @@
-
 # business as usual
 # instead of running all these function we use the .rdata file: "building_energy_bau_data"
 
@@ -128,11 +127,11 @@ calc_existing_comm_building_efficiency(
   .existing_high_efficiency_buildings_pct = 0.80,
   .selected_ctu = "all"
 )
-  # tidyr::pivot_wider(
-  #   names_from = c("var", "year"),
-  #   values_from = "value",
-  #   names_sep = "."
-  # )
+# tidyr::pivot_wider(
+#   names_from = c("var", "year"),
+#   values_from = "value",
+#   names_sep = "."
+# )
 
 check <- calc_ghg_non_residential(
   non_res_tb = calc_existing_comm_building_efficiency(
@@ -178,6 +177,7 @@ calc_electrify_commercial_heating(
 )
 
 calc_non_res_renewable_ng(
+  .renewable_ng_nonres = TRUE,
   non_res_tb = calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
@@ -194,6 +194,7 @@ calc_non_res_renewable_ng(
 )
 
 scen_building_non_residential(
+  .renewable_ng_nonres = TRUE,
   non_res_tb = building_energy_bau_data$non_residential,
   non_res_tb_bau = building_energy_bau_data$non_residential,
   .selected_ctu = "all",

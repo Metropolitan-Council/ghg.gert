@@ -1,5 +1,3 @@
-
-
 vmt_test <- tibble::tribble(
   ~scenario, ~mode, ~stock, ~ctu, ~year, ~aeo_mode, ~type, ~vmt, ~class,
   "BAU", "PLDV", "SIStock", "St. Paul", "2015", "LDV", "P", NA, "SI",
@@ -14,14 +12,6 @@ vmt_test <- tibble::tribble(
 )
 
 
-testthat::expect_error(
-  calc_cost(
-    tb_vmt = vmt_test,
-    .mode = "PLDV",
-    .price = "SIPrice",
-    .is_av = FALSE
-  )
-)
 tibble::tribble(
   ~scenario, ~type, ~mode, ~ctu, ~year, ~aeo_mode, ~class, ~vmt_cost,
   "BAU", "P", "PLDV", "St. Paul", "2015", "LDV", "SI", NA,

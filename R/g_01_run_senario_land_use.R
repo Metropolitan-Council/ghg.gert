@@ -31,7 +31,6 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-
   cli::cli_progress_message("\n === RUNNING LAND USE AND FORESTRY MODULE ==== \n")
   cli::cli_progress_message("...... selected ctu: ", .selected_ctu, "\n")
   cli::cli_progress_message("...... urban form scenario: ", .urban_form_scenario, "\n")
@@ -65,7 +64,7 @@ run_scenario_land_use <- function(tb = land_use_data,
   carbon_stock_per_ctu <-
     calc_carbon_stock_per_ctu(
       tb = tb,
-      .selected_ctu =  .selected_ctu,
+      .selected_ctu = .selected_ctu,
       .conservation_tillage_intervention = .conservation_tillage_intervention,
       .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
       .tree_planting_intervention = .tree_planting_intervention,

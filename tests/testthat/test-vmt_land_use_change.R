@@ -1,4 +1,3 @@
-
 ten_pct <- vmt_land_use_change(
   .type = "DRIVE",
   .comb_5d_impact_pct_change = 0.25,

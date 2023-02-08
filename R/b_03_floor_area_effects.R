@@ -45,7 +45,6 @@ calc_floor_area_growth <- function(res_tb,
                                    .single_family_floor_area_growth_pct,
                                    .new_homes_affected_pct,
                                    .enviro_factors) {
-
   cli::cli_progress_message("*** calculating floor area growth \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -166,7 +165,6 @@ calc_floor_area_leed <- function(res_tb,
                                  .selected_ctu,
                                  .new_homes_leed_gold_pct,
                                  .enviro_factors) {
-
   cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -285,7 +283,6 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors) {
-
   cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -437,7 +434,6 @@ calc_floor_area_behavior_change <- function(res_tb,
                                             .selected_ctu,
                                             .home_behavior_change_pct,
                                             .enviro_factors) {
-
   cli::cli_progress_message("*** calculating floor area behavior change strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -529,7 +525,6 @@ calc_floor_area_behavior_change <- function(res_tb,
 calc_affordable_floor_area <- function(res_tb,
                                        .selected_ctu,
                                        .single_family_floor_area_growth_pct) {
-
   cli::cli_progress_message("*** calculating affordable floor area strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 

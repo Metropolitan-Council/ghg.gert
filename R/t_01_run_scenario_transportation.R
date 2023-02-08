@@ -79,7 +79,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   cli::cli_progress_message("====================================== \n")
 
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
-  freight_tb  <- filter_ctu(freight_tb, .selected_ctu)
+  freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
   l_names <- c(
     "electric_scenario",
@@ -468,7 +468,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     rail_transit$fuel_use,
     walk_bike$fuel_use,
     school_bus$fuel_use
-    )
+  )
 
   pass_cost <- bind_rows(
     passenger_light_duty$cost,

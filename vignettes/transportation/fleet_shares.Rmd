@@ -188,7 +188,6 @@ ggplot(
 ## Transit vehicles    
 
 ```{r}
-
 bu_stock <-
   transportation_data$passenger %>%
   filter(
@@ -247,7 +246,6 @@ ggplot(
 
 
 ```{r}
-
 bus_stock_total <- bu_stock %>%
   filter(scenario == "BAU") %>%
   group_by(year, scenario) %>%

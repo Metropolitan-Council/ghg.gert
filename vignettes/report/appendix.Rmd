@@ -184,7 +184,6 @@ energy_mix %>%
 ## Emission Sources  
 
 ```{r, "emission-sources"}
-
 gt::gt(
   id = "emission-sources",
   ghg.sp::transportation_index$emission_sources[2:3],

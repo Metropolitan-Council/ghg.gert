@@ -37,7 +37,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .elast = elast,
                                .elast_5d = elast_5d) {
   cli::cli_progress_message("** calculating freight truck scenario \n")
-  .freight_tb  <- filter_ctu(.freight_tb, .selected_ctu)
+  .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
   # (measured in ton-miles NOT miles)
@@ -134,7 +134,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   cut_bev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      .selected_ctu  = .selected_ctu,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,
@@ -201,7 +201,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   sut_ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
-      .selected_ctu =   .selected_ctu,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
       .stock = stock,

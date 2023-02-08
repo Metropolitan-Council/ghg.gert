@@ -34,7 +34,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #' calc_electrify_commercial_heating(
-#'     non_res_tb = ghg.sp::calc_ghg_non_residential(
+#'   non_res_tb = ghg.sp::calc_ghg_non_residential(
 #'     non_res_tb = building_energy_bau_data$non_residential,
 #'     non_res_tb_bau = building_energy_bau_data$non_residential,
 #'     .selected_ctu = "all",
@@ -73,25 +73,26 @@ calc_electrify_commercial_heating <- function(non_res_tb,
       reduced_therms.scen.2040 = commercial_therms.bau.2040 * .electrified_buildings_pct,
       commercial_natural_gas_emissions_kg_co.scen.2040 =
         reduced_therms.scen.2040 * .non_res_natural_gas_for_space_heating_pct * enviro_factors$KG_CO2E_PER_THERM_FORECAST
-      - (
-        reduced_therms.scen.2040 * .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO *
-          .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH
-      )
-      + (
-        reduced_therms.scen.2040 * .non_res_natural_gas_for_water_heating_pct * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-        - reduced_therms.scen.2040 * .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH
-      )
+          - (
+            reduced_therms.scen.2040 * .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO *
+              .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH
+          )
+          + (
+            reduced_therms.scen.2040 * .non_res_natural_gas_for_water_heating_pct * .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+              - reduced_therms.scen.2040 * .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct) * .enviro_factors$THERM_TO_MWH
+          )
     ) %>%
     tidyr::pivot_longer(
       names_to = "var",
       values_to = "value",
       cols = -c(ctu_name)
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen", "year"),
-                    sep = "\\.") %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
+    ) %>%
     dplyr::ungroup()
 
   return(new_non_res_tb)
-
 }
