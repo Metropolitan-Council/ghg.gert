@@ -6,7 +6,7 @@
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
 #' @inheritParams run_scenario_transportation
-#' @inhertiParams filter_ctu
+#' @inheritParams filter_ctu
 #' @return list, list with the outputs of the three modules.
 #' @export
 #'

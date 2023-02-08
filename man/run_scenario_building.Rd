@@ -19,6 +19,8 @@ run_scenario_building(
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
   .smart_grid_energy_reduction_pct = 1,
+  .renewable_ng_res = FALSE,
+  .renewable_ng_nonres = FALSE,
   .new_homes_to_multifamily_pct = 0.5,
   .existing_high_efficiency_buildings_pct = 0.8,
   .home_behavior_change_pct = 1,

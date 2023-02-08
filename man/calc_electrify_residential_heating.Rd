@@ -6,7 +6,6 @@
 \usage{
 calc_electrify_residential_heating(
   res_tb,
-  res_tb_bau,
   .selected_ctu,
   .additional_electrified_residential_buildings_pct,
   .res_natural_gas_for_space_heating_pct,
@@ -47,6 +46,7 @@ calc_electrify_residential_heating(
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
   ),
+  .selected_ctu = "all",
   .additional_electrified_residential_buildings_pct = 0.45,
   .res_natural_gas_for_space_heating_pct = 0.71,
   .res_natural_gas_for_water_heating_pct = 0.24,

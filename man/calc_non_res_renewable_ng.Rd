@@ -7,6 +7,7 @@
 calc_non_res_renewable_ng(
   non_res_tb,
   .selected_ctu,
+  .renewable_ng_nonres,
   .enviro_factors = .enviro_factors
 )
 }
@@ -38,6 +39,7 @@ calc_non_res_renewable_ng(
     .enviro_factors = enviro_factors,
     .existing_high_efficiency_buildings_pct = 0.8
   ),
+  .renewable_ng_nonres = FALSE,
   .enviro_factors = enviro_factors,
   .selected_ctu = "all"
 )

@@ -22,12 +22,10 @@ filter_ctu <- function(df, .selected_ctu = "all") {
 
 #' @title Filter Building Energy Data
 #'
-#' @param df
+#' @inheritParams filter_ctu
 #'
-#' @return
 #' @export
 #'
-#' @examples
 filter_building_energy_data <-
   function(data_list = building_energy_data, .selected_ctu = "all") {
     if (.selected_ctu == "all") {

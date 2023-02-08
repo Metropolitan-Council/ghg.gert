@@ -16,6 +16,7 @@ scen_building_non_residential(
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
+  .renewable_ng_nonres,
   .enviro_factors
 )
 }
@@ -106,6 +107,7 @@ scen_building_non_residential(
   .smart_grid_energy_reduction_pct = 1.00,
   .grid_decarbonization_pct = 0.80,
   .existing_high_efficiency_buildings_pct = 0.80,
+  .renewable_ng_nonres = FALSE,
   .enviro_factors = enviro_factors
 )
 }
