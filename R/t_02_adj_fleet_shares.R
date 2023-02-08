@@ -18,17 +18,9 @@
 #'
 #'     Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 #'     cost elasticity, gas taxes, and VMT and PAYD fees.
-#'     Then, adjustments are made for dynamic-ride sharing and autonomous vehicles.
-#'       - DRS takes into account the percent of trips/fleet that is DRS (`.drs_pct`)
-#'         and adjusts all passenger sales, existing, and stock regardless of mode
-#'       - AV takes into account the percent of trips made by autonomous vehicles (`.av_pct`)
-#'         and adjusts all passenger sales, existing, and stock regardless of mode.
 #'     If battery electric, plug-in hybrid, and/or hybrid percent of sales in the final forecast year
 #'     (`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
-#'     If
-#'     DRS, AV, estimated sales,
-#'     and existing vehicles to estimate future stock. Freight data is dependent on passenger
-#'     data,
+#'     Freight data is dependent on passenger data,
 #' @note This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.
 #'     There are differences in their acceptability and implementation, but they are essentially
 #'     targeting the same thing. A VMT fee would be paid by the driver and could be varied based
@@ -48,8 +40,6 @@
 #'    Default is `0`.
 #' @param .pass_tb [tibble::tibble()]. Passenger input table. Default is `transportation_data$passenger`.
 #' @param .freight_tb [tibble::tibble()] #' freight input table. Default is `transportation_data$freight`.
-#' @param .drs_pct numeric,   a value between `0` and `1.` Percent of trips/fleet
-#'      that is dynamic ride sharing (DRS). Default is `0`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @return [tibble::tibble()] with column names...
@@ -61,6 +51,7 @@
 #' @importFrom dplyr filter select case_when mutate across summarise group_by ungroup cur_column left_join bind_rows right_join
 #' @importFrom tidyr pivot_wider pivot_longer
 #' @importFrom purrr map2
+#' @importFrom cli cli_alert_warning cli_abort
 #'
 adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .freight_tb = transportation_data$freight,
@@ -70,12 +61,9 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .vmt_fee = 0,
                              .payd_fee = 0,
                              .gas_tax = 0,
-                             .drs_pct = 0,
-                             .av_pct = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-
-  cat("** adjusting fleet shares \n")
+  cli::cli_progress_message("\n* adjusting fleet shares \n")
   # browser()
 
   .pass_tb <- .pass_tb %>% unique()
@@ -87,21 +75,19 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   l_names <- c(
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales",
-    "drs_pct_trip"
+    "phev_pct_sales"
   )
 
   l_vals <- list(
     .bev_pct_sales,
     .hev_pct_sales,
-    .phev_pct_sales,
-    .drs_pct
+    .phev_pct_sales
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
 
   if ((.bev_pct_sales + .hev_pct_sales + .phev_pct_sales) > 0.9) {
-    warning("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
+  cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
   # browser()
@@ -112,7 +98,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     # browser()
 
     if (.vmt_fee > 0 & .payd_fee > 0) {
-      stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+      cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
     }
 
     adj_si_ci_sales <- tibble::tibble(
@@ -200,106 +186,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
     if (nrow(.pass_tb) != nrow(pass_tb)) {
-      stop("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
-    }
-  }
-  # drs-----
-  # DRS adjustment of all Sales, Existing, and Stock in each year regardless of passenger mode
-  if (.drs_pct > 0) {
-    drs_share <- pass_tb %>%
-      dplyr::filter(var == "DRSShare") %>%
-      dplyr::select(ctu, year,
-        drs_share = value
-      )
-
-    pass_tb <- pass_tb %>%
-      dplyr::left_join(drs_share, by = c("ctu", "year")) %>%
-      # dplyr::rowwise() %>%
-      dplyr::mutate(
-        value =
-          dplyr::case_when(
-            mode %in% c(
-              "PLDV",
-              "BU",
-              "BRT",
-              "AV"
-            ) &
-              ((stringr::str_detect(var, "Sales")) |
-                (stringr::str_detect(var, "Exist")) |
-                (stringr::str_detect(var, "Stock"))) ~ value *
-              (1 - (drs_share * .drs_pct)),
-            # mode == "DRS" &
-            #   ((stringr::str_detect(var, "Sales")) |
-            #      (stringr::str_detect(var, "Exist")) |
-            #      (stringr::str_detect(var, "Stock"))) ~
-            #   value * drs_share * .drs_pct,
-            TRUE ~ value
-          )
-      ) %>%
-      dplyr::select(names(.pass_tb))
-  }
-
-  # av -----
-  # AV adjustment of all Sales, Existing, and Stock in each year *regardless* of passenger mode
-  # Non-AV portion continues as before and AV treated separately
-  if (.av_pct > 0) {
-    # browser()
-    # Add a row for stock to pivot AV analysis off
-
-
-    # assign the total stock PLDV as AV
-    av_stock <- pass_tb %>%
-      dplyr::filter(
-        mode == "PLDV",
-        var == "TotStock"
-      ) %>%
-      unique() %>%
-      dplyr::mutate(
-        mode = "AV",
-        var = "AVStock",
-        value = ifelse(year %in% c(
-          "2015",
-          "2018",
-          "2020"
-        ), 0,
-        value
-        )
-      )
-
-
-    av_share <- pass_tb %>%
-      dplyr::filter(var == "AVShare") %>%
-      dplyr::select(year, AVShare = value) %>%
-      unique()
-
-    pass_tb <- pass_tb %>%
-      # attach AV Stock
-      dplyr::left_join(av_share, by = c("year")) %>%
-      dplyr::mutate(
-        value =
-          case_when(
-            mode == "PLDV" &
-              (stringr::str_detect(var, "Sales") |
-                stringr::str_detect(var, "Exist") |
-                stringr::str_detect(var, "Stock")) ~ value * (1 - AVShare * .av_pct),
-            TRUE ~ value
-          )
-      ) %>%
-      # both return same values
-      # ifelse(
-      #   (stringr::str_detect(var, "Sales") |
-      #      stringr::str_detect(var, "Exist") |
-      #      stringr::str_detect(var, "Stock")) &
-      #      mode == "PLDV",
-      #   value * (1 - AVShare * .av_pct),
-      #   value
-      # )) %>%
-      dplyr::bind_rows(av_stock) %>%
-      dplyr::select(names(.pass_tb))
-
-
-    if (nrow(.pass_tb) + nrow(av_stock) != nrow(pass_tb)) {
-      stop("Passenger data did not pass AV adjustment")
+      cli::cli_abort("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
     }
   }
 
@@ -662,7 +549,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::select(names(.pass_tb))
 
     # if (nrow(ptb_new) != nrow(.pass_tb)) {
-    #   stop("Passenger data did not pass HEV/PHEV/BEV adjustment")
+    #   cli::cli_abort("Passenger data did not pass HEV/PHEV/BEV adjustment")
     # }
 
 
@@ -830,7 +717,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       dplyr::select(names(freight_tb))
 
     if (nrow(.freight_tb) != nrow(ftb_new)) {
-      stop("Freight data did not pass adjustment")
+      cli::cli_abort("Freight data did not pass adjustment")
     }
   } else {
     ptb_new <- pass_tb

@@ -44,7 +44,7 @@ calc_conservation_tillage <- function(tb,
                                       .tree_planting_per_hectare,
                                       .urban_form_scenario) {
   # -------------------------------------------------------------------------
-  cat("*** calculating conservation tillage strategy \n")
+  cli::cli_progress_message("*** calculating conservation tillage strategy \n")
 
   match.arg(
     arg = .conservation_tillage_intervention,

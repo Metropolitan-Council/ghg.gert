@@ -15,21 +15,17 @@ calc_fuel_use <- function(tb_vmt,
                           .miles_per_gallon,
                           .is_av = FALSE,
                           .enviro_factors = enviro_factors) {
-  cat("*** calculating fuel use \n")
+  cli::cli_progress_message("*** calculating fuel use \n")
   # browser()
 
   tb_l <- tb %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     unique() %>%
-    mutate(av_multiplier = dplyr::case_when(
-      .is_av == 1 ~ .enviro_factors$MPG_AV,
-      TRUE ~ 1
-    )) %>%
     tidyr::pivot_wider(
       names_from = var,
       values_from = value
     ) %>%
-    select(mode, year, aeo_mode, av_multiplier,
+    select(mode, year, aeo_mode,
       per_gallon_val = {{ .miles_per_gallon }}
     ) %>%
     unique()
@@ -57,7 +53,7 @@ calc_fuel_use <- function(tb_vmt,
     aeo_f_l,
     by = c("year")
   ) %>%
-    mutate(fuel_factor = per_gallon_val * aeo_factor * av_multiplier) %>%
+    mutate(fuel_factor = per_gallon_val * aeo_factor) %>%
     select(
       # mode,
       year,

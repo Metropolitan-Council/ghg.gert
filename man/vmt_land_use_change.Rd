@@ -68,8 +68,6 @@ A value of -0.75 indicates a 75\% decrease.
 }
 \seealso{
 Other VMT effects: 
-\code{\link{vmt_autonomous_vehicle}()},
-\code{\link{vmt_dynamic_ride_share_reduction}()},
 \code{\link{vmt_parking_policy}()},
 \code{\link{vmt_road_policy}()},
 \code{\link{vmt_stock_proportion}()},

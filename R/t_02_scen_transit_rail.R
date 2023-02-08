@@ -24,10 +24,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .freight_parking_price = 0,
                               .cong_price = 0,
                               .freight_vmt_fee = 0,
-                              .drs_pct = 0,
-                              .av_pct = 0,
-                              .drs_fuel_type = "",
-                              .av_fuel_type = "",
                               .pop_dens_pct_change = 0,
                               .emp_dens_pct_change = 0,
                               .land_use_diversity_pct_change = 0,
@@ -40,7 +36,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-  cat("** calculating scenario transit rail \n")
+  cli::cli_progress_message("** calculating scenario transit rail \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   # Rail Urban-----
@@ -65,7 +61,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   class <- "EV"
 
 
-  cat("**** Passenger urban rail, electric \n")
+  cli::cli_progress_message("**** Passenger urban rail, electric \n")
 
   ev_vmt <-
     calc_vmt_forecast(
@@ -86,9 +82,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,
@@ -149,7 +142,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpg <- "BCIMPG"
   class <- "BCI"
 
-  cat("**** Passenger interurban rail, diesel \n")
+  cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
 
   ci_ri_vmt <-
     calc_vmt_forecast(
@@ -170,9 +163,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,
@@ -224,7 +214,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpe <- "EVElec"
   class <- "EV"
 
-  cat("**** Passenger interurban rail, electric \n")
+  cli::cli_progress_message("**** Passenger interurban rail, electric \n")
   ev_ri_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -244,9 +234,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,

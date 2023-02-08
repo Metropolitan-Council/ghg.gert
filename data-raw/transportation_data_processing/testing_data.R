@@ -1,5 +1,5 @@
 # work with testing datasets
-library(tidyverse)
+devtools::load_all()
 
 bau_comp <- readRDS("../ghg.sp.tool.model/mod_3/outputs/bau_summary.RDS") %>%
   group_by(type, scenario, mode, class, ctu, output) %>%
@@ -117,36 +117,3 @@ bau_summary$passenger$BU_BRT$vmt %>%
 ## mit AV
 
 
-adj_fleet <- adj_fleet_shares(
-  .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
-  .hev_pct_sales = 0,
-  .av_pct = 0.05
-)
-
-auto_veh <- scen_autonomous_vehicle(
-  .pass_tb = adj_fleet$pass,
-  .scenario = "MIT",
-  .electric_scenario = "ER",
-  .aeo_scenario = "REF",
-  .drs_fuel_type = "BEV",
-  .av_pct = 0.05,
-  .av_fuel_type = "BEV"
-)
-
-
-auto_veh$vmt
-
-mit_drs <- readRDS("../ghg.sp.tool.model/mod_3/outputs/mit_drs_summary.RDS") %>%
-  group_by(type, scenario, mode, class, ctu, output) %>%
-  mutate_at(7:13, as.numeric) %>%
-  pivot_longer(cols = c(
-    `2015`, `2018`, `2020`,
-    `2025`, `2030`, `2035`,
-    `2040`
-  ), names_to = "year") %>%
-  group_by(type, scenario, mode, class, ctu, output, year) %>%
-  tidyr::pivot_wider(
-    names_from = output,
-    values_from = value
-  )

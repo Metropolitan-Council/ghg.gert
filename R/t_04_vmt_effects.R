@@ -12,7 +12,7 @@ vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
                                       .enviro_factors = enviro_factors) {
-  cat("**** calculating annual energy outlook vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating annual energy outlook vehicle miles traveled strategy \n")
 
   check_inputs(
     name = "aeo_scenario",
@@ -41,146 +41,6 @@ vmt_annual_energy_outlook <- function(tb,
       aeo_adj = value
     )
   return(aeo_vals)
-}
-
-
-
-#' Calculate autonomous vehicle multiplier
-#'
-#' @param .av_pct numeric, percent of trips made by AV. Default is `0`
-
-#' @return table with columns `year`, `ctu`, `av_adj`
-#' @export
-#'
-#' @family VMT effects
-#' @details
-#' \loadmathjax
-#' \mjdeqn{GHG = \frac{PMT}{AVO \times FF} \times AV \times GF}{GHG = (PMT)/(AVO x FF) x AV x GF}
-#'     where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
-#'     \eqn{PMT} is passenger miles traveled,
-#'     \eqn{AVO} is the average vehicle occupancy,
-#'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel,
-#'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
-#'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-vmt_autonomous_vehicle <- function(.pass_tb = transportation_data$passenger,
-                                   .av_pct,
-                                   .mode,
-                                   .enviro_factors = enviro_factors) {
-  cat("**** calculating autonomous vehicle multiplier \n")
-  tb_avshare <- .pass_tb %>%
-    dplyr::filter(var == "AVShare") %>%
-    dplyr::select(year, ctu, av_share = value) %>%
-    dplyr::distinct()
-
-  av_elast <-
-    tibble(
-      year = unique(.pass_tb$year),
-      elast_av =
-        calc_elasticity(
-          elas_list = c(rep(0, length(unique(.pass_tb$year)))),
-          elas = .av_pct,
-          num_inits = 3,
-          num_yrs = length(unique(.pass_tb$year)) - 3
-        )
-    )
-
-  if (nrow(tb_avshare) == 0) {
-    stop("Make sure you are using the correct input table")
-  }
-
-  if (.mode == "PLDV") {
-    # increase in AV usage will increase PLDV VMT
-    # AVs are PLDV, so reduce conventional PLDV VMT
-    # AV VMT will increase proportionally
-    av_return <- tb_avshare %>%
-      left_join(av_elast, by = "year") %>%
-      rowwise() %>%
-      mutate(av_adj = case_when(
-        .av_pct > 0 ~ 1 - (av_share * elast_av),
-        TRUE ~ 1
-      )) %>%
-      select(year, ctu, av_adj) %>%
-      ungroup()
-
-    return(av_return)
-  } else if (.mode %in% c(
-    "BU",
-    "BRT",
-    "RU",
-    "RI"
-  )) {
-    # increase in AV usage will decrease transit VMT
-    av_return <- .pass_tb %>%
-      left_join(av_elast, by = "year") %>%
-      # rowwise() %>%
-      mutate(
-        av_adj = dplyr::case_when(
-          year %in% c("2015", "2018", "2020") ~ 1,
-          (((.mode == "BU") | (.mode == "BRT")) & .av_pct > 0) ~
-            1 + .enviro_factors$BUS_AV * elast_av,
-          (((.mode == "RU") | (.mode == "RI")) & .av_pct > 0) ~
-            1 + .enviro_factors$RAIL_AV * elast_av,
-          TRUE ~ 1
-        )
-      ) %>%
-      select(year, ctu, av_adj) %>%
-      unique() %>%
-      ungroup()
-
-    return(av_return)
-  } else if (.mode == "AV") {
-    # browser()
-    av_return <- tb_avshare %>%
-      left_join(av_elast, by = "year") %>%
-      mutate(av_adj = case_when(
-        .av_pct > 0 ~ av_share * elast_av,
-        TRUE ~ 1
-      )) %>%
-      select(year, ctu, av_adj) %>%
-      ungroup()
-
-    return(av_return)
-  }
-}
-
-#' @title Calculate dynamic ride sharing effect
-#'
-#' @export
-#' @details
-#'
-#' \loadmathjax
-#' \mjdeqn{GHG = \frac{PMT}{AVO \times FF} \times GF}{GHG = (PMT)/(AVO x FF) x GF}
-#'     where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
-#'     \eqn{PMT} is passenger miles traveled,
-#'     \eqn{AVO} is the average vehicle occupancy,
-#'     \eqn{FF} is the fuel factor representing consumption of fuel per mile of travel measured in kilowatt hours per mile
-#'     \eqn{GF} is the greenhouse gas factor per unit of consumed fuel,
-#'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
-#'
-#' @family VMT effects
-vmt_dynamic_ride_share_reduction <- function(.pass_tb = transportation_data$passenger,
-                                             .drs_pct,
-                                             .enviro_factors = enviro_factors) {
-  cat("**** calculating dynamic ride share reduction strategy \n")
-  if (.drs_pct > 0) {
-    # browser()
-
-    drs_share_tb <- .pass_tb %>%
-      filter(var == "DRSShare") %>%
-      select(year, ctu, drs_share = value)
-
-    .pass_tb <- .pass_tb %>%
-      left_join(drs_share_tb, by = c("year", "ctu")) %>%
-      mutate(value = case_when(
-        var == "PMT" & mode == "PLDV" ~ value * (1 - drs_share * .drs_pct),
-        TRUE ~ value
-      )) %>%
-      select(names(.pass_tb))
-
-    return(.pass_tb)
-  } else {
-    return(.pass_tb)
-  }
 }
 
 #' Calculate combined 5D land use change impact
@@ -231,9 +91,9 @@ vmt_land_use_change <- function(.type,
                                 .transit_dist_pct_change,
                                 .enviro_factors = enviro_factors,
                                 .elast_5d = elast_5d) {
-  cat("**** calculating vehicle miles traveled land use change strategy \n")
+  cli::cli_progress_message("**** calculating vehicle miles traveled land use change strategy \n")
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
-    stop(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
+    cli::cli_abort(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
   # browser()
   max_value <- if (.type == "DRIVE") {
@@ -321,7 +181,7 @@ vmt_parking_policy <- function(tb,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
-  cat("**** calculating parking policy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating parking policy vehicle miles traveled strategy \n")
   # current parking prices
   park_price_current <- tb %>%
     filter(
@@ -337,7 +197,7 @@ vmt_parking_policy <- function(tb,
 
 
   if (!.mode %in% unique(tb$mode)) {
-    stop("Make sure you are using the correct input table")
+    cli::cli_abort("Make sure you are using the correct input table")
   }
 
   if (.mode %in% c(
@@ -424,9 +284,9 @@ vmt_road_policy <- function(.pass_tb,
                             .phev_electric = FALSE,
                             .enviro_factors = enviro_factors,
                             .elast = elast) {
-  cat("**** calculating road pricing vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating road pricing vehicle miles traveled strategy \n")
   if (.vmt_fee > 0 & .payd_fee > 0) {
-    stop("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
+    cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
 
   if (.mode == "PLDV") {
@@ -653,7 +513,7 @@ vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct,
                          .enviro_factors = enviro_factors) {
-  cat("**** calculating telework vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating telework vehicle miles traveled strategy \n")
   # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
@@ -676,7 +536,7 @@ vmt_telework <- function(.pass_tb,
 
     return(telework_adj_tb)
   } else {
-    stop("Telework adjustment is only applicable for passenger light-duty vehicles")
+    cli::cli_abort("Telework adjustment is only applicable for passenger light-duty vehicles")
   }
 }
 
@@ -774,7 +634,7 @@ vmt_transit_service <- function(tb,
                                 .transit_service_pct,
                                 .elast = elast,
                                 .enviro_factors = enviro_factors) {
-  cat("**** calculating transit service vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating transit service vehicle miles traveled strategy \n")
   transit_service_elast <-
     tibble(
       year = unique(tb$year),
@@ -871,7 +731,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo_pct,
                                   .pldv_avo_pct,
                                   .enviro_factors = enviro_factors) {
-  cat("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
 
   # browser()
 

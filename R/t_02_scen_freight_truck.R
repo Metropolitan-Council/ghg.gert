@@ -24,11 +24,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .freight_parking_price = 0,
                                .cong_price = 0,
                                .freight_vmt_fee = 0,
-                               .drs_pct = 0,
-                               .av_pct = 0,
-                               .drs_fuel_type = "",
-                               .av_fuel_type = "",
-                               .is_av = FALSE,
                                .pop_dens_pct_change = 0,
                                .emp_dens_pct_change = 0,
                                .land_use_diversity_pct_change = 0,
@@ -41,7 +36,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .enviro_factors = enviro_factors,
                                .elast = elast,
                                .elast_5d = elast_5d) {
-  cat("** calculating freight truck scenario \n")
+  cli::cli_progress_message("** calculating freight truck scenario \n")
   .freight_tb  <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
@@ -60,7 +55,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   mpg <- "CIMPG"
   class <- "CI"
 
-  cat("**** Combined truck freight, diesel \n")
+  cli::cli_progress_message("**** Combined truck freight, diesel \n")
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
@@ -69,7 +64,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
-    .av_pct = .av_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -92,9 +86,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,
@@ -129,7 +120,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
-  cat("**** Combined truck freight, battery electric \n")
+  cli::cli_progress_message("**** Combined truck freight, battery electric \n")
 
   fcm <- calc_fuel_cost_mile(
     tb = .freight_tb,
@@ -137,7 +128,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .av_pct = .av_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -160,9 +150,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,
@@ -199,7 +186,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
-  cat("**** Single truck freight, diesel \n")
+  cli::cli_progress_message("**** Single truck freight, diesel \n")
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
@@ -208,7 +195,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
-    .av_pct = .av_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -231,9 +217,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,
@@ -267,7 +250,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
-  cat("**** Single truck freight, battery electric \n")
+  cli::cli_progress_message("**** Single truck freight, battery electric \n")
 
   fcm <- calc_fuel_cost_mile(
     tb = .freight_tb,
@@ -275,7 +258,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .av_pct = .av_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -299,9 +281,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .cong_price = .cong_price,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .drs_pct = .drs_pct,
-      .drs_fuel_type = .drs_fuel_type,
-      .av_pct = .av_pct,
       .freight_vmt_fee = .freight_vmt_fee,
       .pop_dens_pct_change = .pop_dens_pct_change,
       .emp_dens_pct_change = .emp_dens_pct_change,

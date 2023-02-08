@@ -18,8 +18,6 @@ si_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -75,8 +73,6 @@ ci_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -120,9 +116,8 @@ fcm_test_hev <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "HEVMPG",
-  .fuel_cost_gallon = enviro_factors$SI_FUEL_COST_GAL,
-  .av_pct = 0
-)
+  .fuel_cost_gallon = enviro_factors$SI_FUEL_COST_GAL
+  )
 
 
 
@@ -143,8 +138,6 @@ hev_vmt <- calc_vmt_forecast(
   .cong_price = 0,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,

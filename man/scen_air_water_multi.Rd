@@ -20,10 +20,6 @@ scen_air_water_multi(
   .freight_parking_price = 0,
   .cong_price = 0,
   .freight_vmt_fee = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
-  .drs_fuel_type = "",
-  .av_fuel_type = "",
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
   .land_use_diversity_pct_change = 0,
@@ -69,15 +65,6 @@ Default is \code{0}}
 congested miles in MSP). Default is \code{0}}
 
 \item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
-
-\item{.drs_pct}{numeric, percent of trips by auto or transit that are
-now by dynamic ride sharing (DRS). Numeric between 0 and 1.  Default is \code{0}}
-
-\item{.av_pct}{numeric, percent of trips made by AV. Default is \code{0}}
-
-\item{.drs_fuel_type}{input dynamic ride sharing (DRS) fuel type. Default is \code{0}.}
-
-\item{.av_fuel_type}{input AV fuel type}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
 Numeric between -1 and 1. Default is \code{0}}
