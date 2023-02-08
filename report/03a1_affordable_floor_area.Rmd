@@ -69,7 +69,8 @@ where
 ```{r fig03a1, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-fig03a1 <- run_scenario_building(
+fig03a1 <- 
+  run_scenario_building(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
   run_residential = TRUE,

@@ -28,6 +28,7 @@
 #'     .enviro_factors = enviro_factors,
 #'     .existing_high_efficiency_buildings_pct = 0.8
 #'   ),
+#'   .renewable_ng_nonres = FALSE,
 #'   .enviro_factors = enviro_factors,
 #'   .selected_ctu = "all"
 #' )
@@ -35,11 +36,13 @@
 #'
 calc_non_res_renewable_ng <- function(non_res_tb,
                                       .selected_ctu,
+                                      .renewable_ng_nonres,
                                       .enviro_factors = .enviro_factors) {
 
   cat("*** calculating non-residential renewable natural gas strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
+  if(.renewable_ng_nonres == TRUE){
   new_non_res_tb <- non_res_tb %>%
     tidyr::pivot_wider(
       names_from = c("var", "scen", "year"),
@@ -49,27 +52,24 @@ calc_non_res_renewable_ng <- function(non_res_tb,
     dplyr::mutate(
       reduced_therms.scen.2040  =
         (commercial_therms.bau.2040 +
-          industrial_therms.bau.2040) -
-          (industrial_therms.scen.2040 +
-            commercial_therms.scen.2040)
+           industrial_therms.bau.2040) -
+        (industrial_therms.scen.2040 +
+           commercial_therms.scen.2040)
     ) %>%
     dplyr::mutate(
       commercial_natural_gas_emissions_kg_co.scen.2040 =
         ((commercial_therms.bau.2040 + industrial_therms.bau.2040) -
-          (reduced_therms.scen.2040  - (78 * population.bau.2040))
+           (reduced_therms.scen.2040  - (78 * population.bau.2040))
         ) *
-          .enviro_factors$KG_CO2E_PER_THERM_FORECAST
+        .enviro_factors$KG_CO2E_PER_THERM_FORECAST
     ) %>%
-    tidyr::pivot_longer(
-      names_to = "var",
-      values_to = "value",
-      cols = -c(ctu_name)
-    ) %>%
-    tidyr::separate(
-      col = var,
-      into = c("var", "scen", "year"),
-      sep = "\\."
-    )
+    tidyr::pivot_longer(names_to = "var",
+                        values_to = "value",
+                        cols = -c(ctu_name)) %>%
+    tidyr::separate(col = var,
+                    into = c("var", "scen", "year"),
+                    sep = "\\.")
+  } else (new_non_res_tb <- non_res_tb)
 
   return(new_non_res_tb)
 }
