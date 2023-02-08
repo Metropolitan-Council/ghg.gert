@@ -2,7 +2,6 @@
 #' @export
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
-
     cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
@@ -70,10 +69,12 @@ get_non_residential_energy_baseline <-
         tb$utility_natural_gas_by_ctu %>%
           dplyr::filter(year == 2018) %>%
           dplyr::filter(
-            customer_class_name %in% c("Business",
-                                       #"Industrial",
-                                       #"Commercial",
-                                       "Non-Residential")
+            customer_class_name %in% c(
+              "Business",
+              # "Industrial",
+              # "Commercial",
+              "Non-Residential"
+            )
           ) %>%
           dplyr::group_by(ctu_name, year) %>%
           dplyr::summarise(
@@ -84,22 +85,24 @@ get_non_residential_energy_baseline <-
             customer_class_name = paste(customer_class_name, collapse = ", "),
             .groups = "keep"
           )
-      } else{
+      } else {
         tb$utility_natural_gas_by_ctu %>%
           dplyr::filter(year == 2018) %>%
-          dplyr::filter(customer_class_name %in% c("Business",
-                                                   "Industrial",
-                                                   "Commercial",
-                                                   "Non-Residential")) %>%
+          dplyr::filter(customer_class_name %in% c(
+            "Business",
+            "Industrial",
+            "Commercial",
+            "Non-Residential"
+          )) %>%
           dplyr::group_by(ctu_name, year) %>%
           dplyr::summarise(
             mcf_per_year = sum(mcf_per_year, na.rm = T),
             number_of_customers = sum(number_of_customers, na.rm = T),
             therms_per_year = sum(therms_per_year, na.rm = T),
             utility_name = paste(utility_name, collapse = ", "),
-
             customer_class_name = paste(customer_class_name, collapse = ", "),
-            .groups = "keep")
+            .groups = "keep"
+          )
       }
 
     ## ----- dissagregate commercial and industrial natural gas utility data ----

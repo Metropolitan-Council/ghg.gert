@@ -1,6 +1,3 @@
-
-
-
 parking_adj <- vmt_parking_policy(
   tb = st_paul_passenger,
   .mode = "PLDV",

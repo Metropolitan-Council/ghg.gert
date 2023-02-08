@@ -64,7 +64,6 @@ calc_vmt_forecast <- function(.scenario,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-
   cli::cli_progress_message("*** calculating VMT forecast \n")
   tb <- filter_ctu(tb, .selected_ctu)
   # browser()

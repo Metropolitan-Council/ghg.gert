@@ -141,7 +141,8 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     )
 
   si_cost <-
-    calc_cost(.selected_ctu = .selected_ctu,
+    calc_cost(
+      .selected_ctu = .selected_ctu,
       si_vmt, mode,
       "SIPrice"
     )

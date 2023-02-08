@@ -87,7 +87,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
   purrr::map2(l_names, l_vals, check_inputs)
 
   if ((.bev_pct_sales + .hev_pct_sales + .phev_pct_sales) > 0.9) {
-  cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
+    cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
   # browser()

@@ -1,4 +1,3 @@
-
 # Gasoline ------
 
 si_vmt <- calc_vmt_forecast(
@@ -117,7 +116,7 @@ fcm_test_hev <- calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon = "HEVMPG",
   .fuel_cost_gallon = enviro_factors$SI_FUEL_COST_GAL
-  )
+)
 
 
 

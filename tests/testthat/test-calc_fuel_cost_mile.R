@@ -1,4 +1,3 @@
-
 # Gasoline------
 
 
@@ -8,7 +7,7 @@ fcm <- calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
   .fuel_cost_gallon = 239.8
-  ) %>%
+) %>%
   select(year, fuel_cost_mile)
 
 

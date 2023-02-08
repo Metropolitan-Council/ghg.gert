@@ -1,4 +1,3 @@
-
 #####
 # telework
 #####
@@ -13,11 +12,14 @@ telework_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-telework_ctu <- telework_fxn(telework_trans_100) %>% mutate(param = 1) %>%
+telework_ctu <- telework_fxn(telework_trans_100) %>%
+  mutate(param = 1) %>%
   bind_rows(telework_fxn(telework_trans_80) %>% mutate(param = .8)) %>%
   bind_rows(telework_fxn(telework_trans_60) %>% mutate(param = .6)) %>%
   bind_rows(telework_fxn(telework_trans_40) %>% mutate(param = .4)) %>%
@@ -41,11 +43,14 @@ bev_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-bev_ctu <- bev_fxn(bev_trans_100) %>% mutate(param = 1) %>%
+bev_ctu <- bev_fxn(bev_trans_100) %>%
+  mutate(param = 1) %>%
   bind_rows(bev_fxn(bev_trans_80) %>% mutate(param = .8)) %>%
   bind_rows(bev_fxn(bev_trans_60) %>% mutate(param = .6)) %>%
   bind_rows(bev_fxn(bev_trans_40) %>% mutate(param = .4)) %>%
@@ -67,11 +72,14 @@ transitservice_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-transitservice_ctu <- telework_fxn(transitservice_trans_100) %>% mutate(param = 1) %>%
+transitservice_ctu <- telework_fxn(transitservice_trans_100) %>%
+  mutate(param = 1) %>%
   bind_rows(transitservice_fxn(transitservice_trans_80) %>% mutate(param = .8)) %>%
   bind_rows(transitservice_fxn(transitservice_trans_60) %>% mutate(param = .6)) %>%
   bind_rows(transitservice_fxn(transitservice_trans_40) %>% mutate(param = .4)) %>%
@@ -93,11 +101,14 @@ roadprice_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-roadprice_ctu <- telework_fxn(roadprice_trans_100) %>% mutate(param = 1) %>%
+roadprice_ctu <- telework_fxn(roadprice_trans_100) %>%
+  mutate(param = 1) %>%
   bind_rows(roadprice_fxn(roadprice_trans_80) %>% mutate(param = .8)) %>%
   bind_rows(roadprice_fxn(roadprice_trans_60) %>% mutate(param = .6)) %>%
   bind_rows(roadprice_fxn(roadprice_trans_40) %>% mutate(param = .4)) %>%
@@ -120,11 +131,14 @@ parking_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-parking_ctu <- parking_fxn(parking_trans_100) %>% mutate(param = 1) %>%
+parking_ctu <- parking_fxn(parking_trans_100) %>%
+  mutate(param = 1) %>%
   bind_rows(parking_fxn(parking_trans_80) %>% mutate(param = .8)) %>%
   bind_rows(parking_fxn(parking_trans_60) %>% mutate(param = .6)) %>%
   bind_rows(parking_fxn(parking_trans_40) %>% mutate(param = .4)) %>%
@@ -147,11 +161,14 @@ density_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
     group_by(ctu, scenario, year) %>%
-    summarise(direct = sum(dir_ghg, na.rm = T),
-              embodied = sum(ghg_embodied, na.rm = T))
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
 }
 
-density_ctu <- density_fxn(density_neg100) %>% mutate(param = -1) %>%
+density_ctu <- density_fxn(density_neg100) %>%
+  mutate(param = -1) %>%
   bind_rows(density_fxn(density_neg50) %>% mutate(param = -.5)) %>%
   bind_rows(density_fxn(density_0) %>% mutate(param = 0)) %>%
   bind_rows(density_fxn(density_50) %>% mutate(param = .5)) %>%
@@ -163,7 +180,8 @@ density_ctu <- density_fxn(density_neg100) %>% mutate(param = -1) %>%
 # save data
 ######
 save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu,
-     file = "data-raw/transportation_report_data.rda")
+  file = "data-raw/transportation_report_data.rda"
+)
 
 beepr::beep()
 

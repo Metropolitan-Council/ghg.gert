@@ -1,6 +1,3 @@
-
-
-
 telework_adjust <- vmt_telework(
   .pass_tb = st_paul_passenger,
   .mode = "PLDV",

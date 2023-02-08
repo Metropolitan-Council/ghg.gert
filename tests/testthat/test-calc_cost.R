@@ -1,5 +1,3 @@
-
-
 vmt_test <- tibble::tribble(
   ~scenario, ~mode, ~stock, ~ctu, ~year, ~aeo_mode, ~type, ~vmt, ~class,
   "BAU", "PLDV", "SIStock", "St. Paul", "2015", "LDV", "P", NA, "SI",

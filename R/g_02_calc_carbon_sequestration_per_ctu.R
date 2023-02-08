@@ -37,7 +37,7 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                                               .tree_planting_per_hectare,
                                               detail = FALSE) {
   cli::cli_progress_message("** calculating carbon sequestration \n")
-  #cli::cli_progress_message("... selected ctu:", .selected_ctu,  "\n")
+  # cli::cli_progress_message("... selected ctu:", .selected_ctu,  "\n")
   # -------------------------------------------------------------------------
 
   csf <- carbon_sequestration_factors
