@@ -6,51 +6,7 @@ Non-residential electrification strategy
 ***About this strategy*** Our assumption is ..
 :::
 
-```{r tab-electrify-commmercial-heating}
-#| echo: FALSE
-#| message: FALSE
-calc_electrify_commercial_heating(
-  non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
-    .selected_ctu = params$ctu_selection,
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
-    .grid_decarbonization_pct = 1,
-    .smart_grid_energy_reduction_pct = 1,
-    .enviro_factors = enviro_factors,
-    .existing_high_efficiency_buildings_pct = 1
-  ),
-  .selected_ctu = params$ctu_selection,
-  .grid_decarbonization_pct = 0.8,
-  .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .enviro_factors = enviro_factors
-) %>%
-  filter(
-    year == 2040,
-    scen == "scen",
-    var %in% c(
-      "commercial_mwh_per_worker",
-      "industrial_mwh_per_worker",
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-  add_variable_names(., "2040")%>%
-  tableformat(.,
-              .caption = paste(
-                "Electrifying Commercial Heating",
-                params$ctu_selection,
-                "2040"
-              )
-  )
-```
-```{r}
+```{r fig03b2, include=FALSE}
 # 2018
 fig03b2_2018 <- run_scenario_building(
   run_residential = FALSE,
@@ -155,8 +111,8 @@ fig03b2 <-
 
 ```
 
-```{r}
-fig03b1 %>%
+```{r show_fig03b2, echo=FALSE}
+fig03b2 %>%
   # add table format
   tableformat(.,
               .caption = paste("Retrofit Commercial Buildings",

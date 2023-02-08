@@ -6,61 +6,6 @@ Existing commercial buildings electrification.
 ***About this strategy*** Our assumption is that cities can promote a reduction in energy use intensity (EUI) that will result if 80% of existing commercial buildings are certified as LEED Gold, which is assumed to reduce EUI by 25%.
 :::
 
-```{r tab-existing-comm-building-efficiiency, include=FALSE}
-tab_existing_comm_building_efficiency <-
-  calc_existing_comm_building_efficiency(
-    non_res_tb = building_energy_bau_data$non_residential,
-    .selected_ctu = params$ctu_selection,
-    .existing_high_efficiency_buildings_pct = 0.80
-  )  %>%
-  # filter out irrelevant rows
-  filter(
-    year == 2018,
-    var %in% c(
-      "commercial_mwh_per_worker",
-      "industrial_mwh_per_worker",
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-  # join variable names
-  add_variable_names(., "2018") %>%
-  full_join(
-    calc_existing_comm_building_efficiency(
-      non_res_tb = building_energy_bau_data$non_residential,
-      .selected_ctu = params$ctu_selection,
-      .existing_high_efficiency_buildings_pct = 0.80
-    )  %>%
-      # filter out irrelevant rows
-      filter(
-        year == 2040,
-        var %in% c(
-          "commercial_mwh_per_worker",
-          "industrial_mwh_per_worker",
-          "commercial_mwh",
-          "industrial_mwh",
-          "commercial_therms",
-          "industrial_therms",
-          "total_industrial_commercial_emissions"
-        )
-      ) %>%
-      # join variable names
-      add_variable_names(., "2040")
-  )
-```
-
-```{r echo=FALSE}
-tab_existing_comm_building_efficiency %>%
-  # add table format
-  tableformat(.,
-              .caption = paste("Retrofit Commercial Buildings",
-                               params$ctu_selection,
-                               "2040"))
-```
-
 ```{r fig03b1, include=FALSE}
 # 2018
 fig03b1_2018 <- run_scenario_building(
@@ -93,6 +38,7 @@ fig03b1_2018 <- run_scenario_building(
     )
   ) %>%
   add_variable_names(., "2018 Baseline")
+
 # 2040 BAU
 fig03b1_2040bau <- run_scenario_building(
   run_residential = FALSE,
@@ -124,6 +70,7 @@ fig03b1_2040bau <- run_scenario_building(
     )
   ) %>%
   add_variable_names(., "2040 Busines-As-Usual")
+
 # 2040 Scenario
 fig03b1_2040scen <- run_scenario_building(
   run_residential = FALSE,
@@ -155,9 +102,19 @@ fig03b1_2040scen <- run_scenario_building(
     )
   ) %>%
   add_variable_names(., "2040 Scenario")
+
+# Join
+fig03b1 <- full_join(
+  fig03b1_2018,
+  fig03b1_2040bau,
+  by = "Variables"
+) %>%
+  full_join(.,
+            fig03b1_2040scen,
+            by = "Variables")
 ```
 
-```{r echo=FALSE}
+```{r show_fig03b1, echo=FALSE}
 fig03b1 %>%
   # add table format
   tableformat(.,

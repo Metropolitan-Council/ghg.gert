@@ -6,32 +6,30 @@ Renewable natural gas strategy ...
 ***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
 :::
 
-```{r tab-non-res-renewable-natural-gas, include=FALSE}
-#| echo: FALSE
-#| message: FALSE
-tab_non_res_renewable_natural_gas <- calc_non_res_renewable_ng(
-  non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_data$non_residential,
-    non_res_tb_bau = building_data$non_residential,
-    .selected_ctu = params$ctu_selection,
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
-    .grid_decarbonization_pct = 0.8,
-    .smart_grid_energy_reduction_pct = 1,
-    .enviro_factors = enviro_factors,
-    .existing_high_efficiency_buildings_pct = 0.8
-  ),
-  .enviro_factors = enviro_factors,
-  .selected_ctu = params$ctu_selection
+```{r fig03b3}
+# 2018
+fig03b3_2018 <- run_scenario_building(
+  run_residential = FALSE,
+  run_non_residential = TRUE,
+  .selected_ctu = params$ctu_selection,
+  non_res_tb = building_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
+  .renewable_ng_nonres = FALSE,
+  .electrified_buildings_pct = 0,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .commercial_smart_grid_pct = 1,
+  .industrial_smart_grid_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .grid_decarbonization_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .enviro_factors = enviro_factors
 ) %>%
   ungroup() %>%
-  filter(
-    ctu_name == params$ctu_selection,
-    year == 2040,
-    scen == "scen",
+  dplyr::filter(
+    year == 2018,
+    scen == "bau",
     var %in% c(
-      "commercial_mwh_per_worker",
-      "industrial_mwh_per_worker",
       "commercial_mwh",
       "industrial_mwh",
       "commercial_therms",
@@ -39,14 +37,86 @@ tab_non_res_renewable_natural_gas <- calc_non_res_renewable_ng(
       "total_industrial_commercial_emissions"
     )
   ) %>%
-  add_variable_names(., "2040") %>%
+  add_variable_names(., "2018 Baseline")
+# 2040 BAU
+fig03b3_2040bau <- run_scenario_building(
+  run_residential = FALSE,
+  run_non_residential = TRUE,
+  .selected_ctu = params$ctu_selection,
+  non_res_tb = building_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
+  .renewable_ng_nonres = FALSE,
+  .electrified_buildings_pct = 0,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .commercial_smart_grid_pct = 1,
+  .industrial_smart_grid_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .grid_decarbonization_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    scen == "bau",
+    var %in% c(
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  add_variable_names(., "2040 Busines-As-Usual")
+
+# 2040 Scenario
+fig03b3_2040scen <- run_scenario_building(
+  run_residential = FALSE,
+  run_non_residential = TRUE,
+  .selected_ctu = params$ctu_selection,
+  non_res_tb = building_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
+  .renewable_ng_nonres = TRUE,
+  .electrified_buildings_pct = 0,
+  .non_res_natural_gas_for_water_heating_pct = 0.20,
+  .non_res_natural_gas_for_space_heating_pct = 0.69,
+  .commercial_smart_grid_pct = 1,
+  .industrial_smart_grid_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .grid_decarbonization_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  dplyr::filter(
+    year == 2040,
+    scen == "scen",
+    var %in% c(
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  add_variable_names(., "2040 Scenario")
+
+fig03b3 <- full_join(
+  fig03b3_2018,
+  fig03b3_2040bau,
+  by = "Variables"
+) %>%
+  full_join(.,
+            fig03b3_2040scen,
+            by = "Variables")
+```
+```{r show_fig03b3}
+fig03b3 %>%
+  # add table format
   tableformat(.,
-              .caption = paste("Renewable Natural Gas for ",
+              .caption = paste("Retrofit Commercial Buildings",
                                params$ctu_selection,
                                "2040"))
 ```
 
-
-```{r echo=FALSE}
-tab_non_res_renewable_natural_gas 
-```

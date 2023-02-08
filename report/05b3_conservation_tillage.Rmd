@@ -16,3 +16,20 @@ $$ \text{Conservation Tillage Avoided Emissions} = (C+T) × A $$
 -   $T$ = Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7
 
 -   $A$ = Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
+
+
+```{r}
+run_scenario_land_use(
+  tb = land_use_data,
+  .selected_ctu = params$ctu_selection,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+)
+```
+
+
