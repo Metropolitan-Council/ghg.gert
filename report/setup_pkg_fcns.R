@@ -74,6 +74,7 @@ chartformat <- function(tb) {
 
 # function to create data for run_scenario_building chart using a range of values on a given parameter
 # use parametername = .x in the ... to specify
+# (not currently working sorry)
 chartformatdata <- function(from, to, by, select_ctu, args) {
   chart_data <- purrr::map(purrr::set_names(seq(from, to, by)), 
                            function(x, args) {
@@ -94,17 +95,11 @@ chartformatdata <- function(from, to, by, select_ctu, args) {
 
 # function to create chart with a range of values for a given parameter
 # use parametername = .x in the ... clause to specify
+# (not currently working sorry)
 chartformat_range <- function(from, to, by, select_ctu, ...) {
   # run_scenario_building(res_tb = tb,
   #                       .selected_ctu = select_ctu, ...) %>%
   chartformatdata(from, to, by, select_ctu, ...) %>%  
-    # filter(
-    #   var %in% c(
-    #     "residential_mwh",
-    #     "residential_therms",
-    #     "residential_natural_gas_emissions_kg_co",
-    #     "residential_electricity_emissions_kg_co"
-    #   )) %>%
     left_join(., variables, by = "var") %>%
     mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2"),
            year = as.numeric(year)) %>%
