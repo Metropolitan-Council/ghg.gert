@@ -9,7 +9,7 @@
 #' @importFrom dplyr filter select mutate
 #'
 calc_cost <- function(tb_vmt,
-                      .selected_ctu,
+                      .selected_ctu = "all",
                       .mode,
                       .price,
                       .is_av = FALSE,

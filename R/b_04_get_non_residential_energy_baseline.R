@@ -66,23 +66,41 @@ get_non_residential_energy_baseline <-
 
     ## ---- get available utility natural gas data from 'Emissions' ----
     nonresidential_naturalgas_ctu <-
-      tb$utility_natural_gas_by_ctu %>%
-      dplyr::filter(year == 2018) %>%
-      dplyr::filter(customer_class_name %in% c(
-        "Business",
-        # "Industrial",
-        # "Commercial",
-        "Non-Residential"
-      )) %>%
-      dplyr::group_by(ctu_name, year) %>%
-      dplyr::summarise(
-        mcf_per_year = sum(mcf_per_year, na.rm = T),
-        number_of_customers = sum(number_of_customers, na.rm = T),
-        therms_per_year = sum(therms_per_year, na.rm = T),
-        utility_name = paste(utility_name, collapse = ", "),
-        customer_class_name = paste(customer_class_name, collapse = ", "),
-        .groups = "keep"
-      )
+      if (.selected_ctu == "all") {
+        tb$utility_natural_gas_by_ctu %>%
+          dplyr::filter(year == 2018) %>%
+          dplyr::filter(
+            customer_class_name %in% c("Business",
+                                       #"Industrial",
+                                       #"Commercial",
+                                       "Non-Residential")
+          ) %>%
+          dplyr::group_by(ctu_name, year) %>%
+          dplyr::summarise(
+            mcf_per_year = sum(mcf_per_year, na.rm = T),
+            number_of_customers = sum(number_of_customers, na.rm = T),
+            therms_per_year = sum(therms_per_year, na.rm = T),
+            utility_name = paste(utility_name, collapse = ", "),
+            customer_class_name = paste(customer_class_name, collapse = ", "),
+            .groups = "keep"
+          )
+      } else{
+        tb$utility_natural_gas_by_ctu %>%
+          dplyr::filter(year == 2018) %>%
+          dplyr::filter(customer_class_name %in% c("Business",
+                                                   "Industrial",
+                                                   "Commercial",
+                                                   "Non-Residential")) %>%
+          dplyr::group_by(ctu_name, year) %>%
+          dplyr::summarise(
+            mcf_per_year = sum(mcf_per_year, na.rm = T),
+            number_of_customers = sum(number_of_customers, na.rm = T),
+            therms_per_year = sum(therms_per_year, na.rm = T),
+            utility_name = paste(utility_name, collapse = ", "),
+
+            customer_class_name = paste(customer_class_name, collapse = ", "),
+            .groups = "keep")
+      }
 
     ## ----- dissagregate commercial and industrial natural gas utility data ----
     commercial_and_industrial_natural_gas_ctu <-

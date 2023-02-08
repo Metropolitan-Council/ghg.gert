@@ -105,6 +105,7 @@ scen_building_residential(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
   .selected_ctu = "all",
+  .renewable_ng_res = FALSE,
   .new_homes_to_multifamily_pct = 0.50,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.50,

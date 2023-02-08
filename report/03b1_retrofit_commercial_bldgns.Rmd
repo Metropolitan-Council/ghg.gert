@@ -1,0 +1,71 @@
+#### Retofit Existing Commercial Building 
+
+Existing commercial buildings electrification.
+
+::: about_strategy
+***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+:::
+
+```{r tab-existing-comm-building-efficiiency, include=FALSE}
+tab_existing_comm_building_efficiency <-
+  calc_existing_comm_building_efficiency(
+    non_res_tb = building_energy_bau_data$non_residential,
+    .selected_ctu = params$ctu_selection,
+    .existing_high_efficiency_buildings_pct = 0.80
+  )  %>%
+  # filter out irrelevant rows
+  filter(
+    year == 2018,
+    var %in% c(
+      "commercial_mwh_per_worker",
+      "industrial_mwh_per_worker",
+      "commercial_mwh",
+      "industrial_mwh",
+      "commercial_therms",
+      "industrial_therms",
+      "total_industrial_commercial_emissions"
+    )
+  ) %>%
+  # join variable names
+  add_variable_names(., "2018") %>%
+  full_join(
+    calc_existing_comm_building_efficiency(
+      non_res_tb = building_energy_bau_data$non_residential,
+      .selected_ctu = params$ctu_selection,
+      .existing_high_efficiency_buildings_pct = 0.80
+    )  %>%
+      # filter out irrelevant rows
+      filter(
+        year == 2040,
+        var %in% c(
+          "commercial_mwh_per_worker",
+          "industrial_mwh_per_worker",
+          "commercial_mwh",
+          "industrial_mwh",
+          "commercial_therms",
+          "industrial_therms",
+          "total_industrial_commercial_emissions"
+        )
+      ) %>%
+      # join variable names
+      add_variable_names(., "2040")
+  ) %>%
+  # add table format
+  tableformat(.,
+              .caption = paste("Retrofit Commercial Buildings",
+                               params$ctu_selection,
+                               "2040"))
+```
+
+```{r echo=FALSE}
+tab_existing_comm_building_efficiency
+```
+
+```{r}
+run_scenario_building(
+  
+)
+
+```
+
+

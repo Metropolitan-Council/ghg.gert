@@ -12,6 +12,9 @@ filter_building_energy_data(
 \arguments{
 \item{df}{}
 }
+\value{
+Tibble. Returns a filtered version of the input dataset.
+}
 \description{
 Filter Building Energy Data
 }

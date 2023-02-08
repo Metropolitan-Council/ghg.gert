@@ -26,12 +26,12 @@ The Metropolitan Council, as part of its responsibilities, produces a forecast o
 
 **Figure** \@ref(fig:figure-demographics) shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
 
-```{r tab-demographic-assumptions}
+```{r tab-demographic-assumptions, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
 
 # City level 2018
-get_demographic_baseline(tb = building_energy_data)$ctu %>%
+tab_demographic_assumptions <- get_demographic_baseline(tb = building_energy_data)$ctu %>%
   ungroup() %>%
   filter(
     ctu_name == params$ctu_selection,
@@ -70,43 +70,7 @@ get_demographic_baseline(tb = building_energy_data)$ctu %>%
   tableformat(.caption = paste0("Demographics for ", params$ctu_selection))
 ```
 
-```{r fig-inputs, fig.align='center'}
-#| echo: false
-#| message: false
-# selectInput(
-#   "variable",
-#   "Select a variable:",
-#   choices = c("Population" = "population",
-#               "Households" = "households")
-# )
+```{r echo=FALSE}
+tab_demographic_assumptions
 ```
 
-```{r figure-demographics}
-#| echo: false
-#| message: false
-# plot_demo <- function(variable) {
-#   bind_rows(
-#     get_demographic_baseline(tb = building_energy_data)$ctu %>%
-#       filter(ctu_name == params$ctu_selection),
-#     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
-#       filter(ctu_name == params$ctu_selection)
-#   ) %>%
-#     filter(var == variable) %>%
-#     ggplot(., aes(x = as.factor(year), y = value)) +
-#     geom_bar(
-#       stat = "identity",
-#       width = 0.4,
-#       color = "black",
-#       fill = "black"
-#     ) +
-#     theme(
-#       panel.background = element_rect(fill = "white"),
-#       panel.grid = element_blank(),
-#       axis.title = element_text(size = 14)
-#     ) +
-#     labs(x = "", y = "", title = str_to_title(variable)) +
-#     scale_y_continuous(labels = scales::label_comma())
-# }
-# 
-# plot_demo("population") + plot_demo("households")
-```

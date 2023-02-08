@@ -172,7 +172,8 @@ calc_ghg_non_residential <- function(non_res_tb,
       col = var,
       into = c("var", "scen"),
       sep = "\\."
-    )
+    ) %>%
+    dplyr::ungroup()
 
   return(emis_final)
 }

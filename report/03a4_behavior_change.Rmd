@@ -1,0 +1,181 @@
+#### Behavior Change for Residential Energy Efficiency
+
+implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
+
+::: about_strategy
+***About this strategy*** Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by `11%`. The default is `100%` of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
+:::
+
+```{r tab-behavior-change, message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+
+tab_behavior_change <- calc_floor_area_behavior_change(
+  res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
+  .home_behavior_change_pct = 1.00,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  filter(
+    year == 2018,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    calc_floor_area_behavior_change(
+      res_tb = building_data$residential,
+      .selected_ctu = params$ctu_selection,
+      .home_behavior_change_pct = 1.00,
+      .enviro_factors = enviro_factors
+    ) %>%
+      ungroup() %>%
+      filter(
+        year == 2040,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      ) %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  ) %>%
+  tableformat(., .caption = paste("Behavior Change", params$ctu_selection, "2040"))
+```
+
+```{r echo=FALSE}
+tab_behavior_change
+```
+
+
+<br>
+
+$$ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * population_{2040} * \frac{sqft_{2040}^{sf + mf}}{population_{2040}} * 0.11 $$
+
+-   $0.11$: The percentage reduction in household energy use as a result of smart nudges.
+-   $x$: The percentage of homes that change their behavior for energy efficiency.
+-   $population_{2040}$: The total population in 2040.
+-   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+fig0304 <- run_scenario_building(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  filter(
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    ),
+    year == 2018,
+    scen == "bau"
+  ) %>%
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 1,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(.,
+              .caption = paste("Behavior Change", params$ctu_selection, "2040"))
+```
+
+```{r echo=FALSE}
+fig0304
+```
+

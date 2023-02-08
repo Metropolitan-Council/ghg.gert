@@ -1,9 +1,13 @@
 tab:tab-demographic-assumptions
 tab:tab-residential-energy
 tab:tab-new-single-family-home-area
+tab:unnamed-chunk-5
 tab:tab-new-home-efficiency
+tab:unnamed-chunk-8
 tab:tab-existing-home-efficiency
+tab:unnamed-chunk-11
 tab:tab-behavior-change
+tab:unnamed-chunk-14
 tab:tab-decarbonize-residential-energy
 tab:tab-electrify-residential-heating
 tab:tab-non-residential-energy
@@ -29,7 +33,7 @@ building-codes
 demographic-assumptions
 building-energy
 framework
-residential-energy-assumptions
+residential-energy
 residential-energy-strategies
 affordable-floor-area
 new-homes-energy-efficiency
@@ -37,7 +41,7 @@ existing-homes-energy-efficiency
 behavior-change-for-residential-energy-efficiency
 decarbonization-of-residential-energy-use
 electrification-of-residential-heating
-non-residential-energy-assumptions
+non-residential-energy
 non-residential-energy-strategies
 retofit-existing-commercial-building
 electrify-non-residential-heating

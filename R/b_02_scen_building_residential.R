@@ -74,6 +74,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .additional_electrified_residential_buildings_pct,
                                       .res_natural_gas_for_space_heating_pct,
                                       .res_natural_gas_for_water_heating_pct,
+                                      .renewable_ng_res = .renewable_ng_res,
                                       .enviro_factors = enviro_factors) {
   cat("** compiling residential strategies \n")
 
@@ -141,7 +142,8 @@ scen_building_residential <- function(res_tb = res_tb,
   tb08 <- calc_residential_renewable_ng(
     res_tb = tb07,
     .selected_ctu = .selected_ctu,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .renewable_ng_res = .renewable_ng_res
   )
 
 

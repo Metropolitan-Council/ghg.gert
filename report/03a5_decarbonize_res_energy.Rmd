@@ -1,0 +1,126 @@
+#### Decarbonization of Residential Energy Use
+
+The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
+
+::: about_strategy
+***About this strategy***: Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.
+:::
+
+$$
+kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{population_{2040}} * \frac{kWh}{sqft_{residential}^{2040}}) 
+$$
+
+```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+fig03a5 <- run_scenario_building(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  filter(
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    ),
+    year == 2018,
+    scen == "bau"
+  ) %>%
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0.8,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
+```
+
+```{r echo=FALSE}
+fig03a5
+```
+

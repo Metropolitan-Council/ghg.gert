@@ -1,0 +1,189 @@
+#### New Homes Energy Efficiency
+
+*LEED* (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet *LEED* standards are designed and constructed to be energy efficient and to use fewer natural resources.
+
+The amount of energy savings that can be achieved through *LEED* certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the [U.S. Green Building Council](https://www.usgbc.org/leed/rating-systems/residential), buildings that are designed to meet *LEED* Gold standards typically achieve energy savings of around 25% compared to conventional buildings.
+
+The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
+
+::: about_strategy
+***About this strategy*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`.
+:::
+
+```{r tab-new-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+
+fig_tab_new_home_efficiency <- calc_floor_area_leed(
+  res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
+  .new_homes_leed_gold_pct = 0,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  filter(
+    year == 2018,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  )  %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    calc_floor_area_leed(
+      res_tb = building_data$residential,
+      .selected_ctu = params$ctu_selection,
+      .new_homes_leed_gold_pct = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      ungroup() %>%
+      filter(
+        year == 2040,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      )  %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  ) %>%
+tableformat(.,
+            .caption = paste("New Home Efficiency", params$ctu_selection, "2040 Assumptions")) 
+```
+
+```{r echo=FALSE}
+fig_tab_new_home_efficiency
+```
+
+
+<br>
+
+$$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le X_1 \le 1$$
+
+-   $X$: The percentage of new homes that are LEED Gold.
+-   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.
+-   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
+-   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+-   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+
+fig03a2 <- run_scenario_building(
+  res_tb = building_energy_bau_data$residential,
+  res_tb_bau = building_energy_bau_data$residential,
+  run_residential = TRUE,
+  run_non_residential = FALSE,
+  .selected_ctu = params$ctu_selection,
+  # affordable floor area
+  .single_family_floor_area_growth_pct = 0,
+  .new_homes_affected_pct = 1,
+  # other variables
+  .electrified_buildings_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0.3,
+  .enviro_factors = enviro_factors
+) %>%
+  filter(
+    var %in% c(
+      "residential_mwh",
+      "residential_electricity_emissions_kg_co",
+      "residential_therms",
+      "residential_natural_gas_emissions_kg_co"
+    ),
+    year == 2018,
+    scen == "bau"
+  ) %>%
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "bau"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Business-as-Usual"),
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0.5,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(.,
+              .caption = paste("New Home Efficiency", params$ctu_selection, "2040")) 
+```
+
+```{r echo=FALSE}
+fig03a2
+```
+

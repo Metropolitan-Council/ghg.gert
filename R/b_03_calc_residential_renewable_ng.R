@@ -17,6 +17,7 @@
 #'   res_tb = ghg.sp::calc_ghg_residential(
 #'     res_tb = building_energy_bau_data$residential,
 #'     res_tb_bau = building_energy_bau_data$residential,
+#'     .renewable_ng_res = TRUE,
 #'     .selected_ctu = "all",
 #'     .grid_decarbonization_pct = 1,
 #'     .enviro_factors = enviro_factors
@@ -26,8 +27,13 @@
 #' }
 calc_residential_renewable_ng <- function(res_tb,
                                           .selected_ctu,
+                                          .renewable_ng_res = TRUE,
                                           .enviro_factors = .enviro_factors) {
+
   cat("*** calculating residential renewable natural gas strategy \n")
+
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+  if(.renewable_ng_res == TRUE){
   new_res_tb <-
     res_tb %>%
     tidyr::pivot_wider(., names_from = c(var, scen, year), names_sep = ".", values_from = value) %>%
@@ -53,7 +59,10 @@ calc_residential_renewable_ng <- function(res_tb,
       col = var,
       into = c("var", "scen", "year"),
       sep = "\\."
-    )
+    ) %>%
+    ungroup} else{
+      new_res_tb <- res_tb}
+
 
   return(new_res_tb)
 }

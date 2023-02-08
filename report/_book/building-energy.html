@@ -7,7 +7,7 @@
   <title>3 Building Energy | Greenhouse Gas Emissions Scenario Planning</title>
   <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
 and published on February of 2023.</p>" />
-  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Building Energy | Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
@@ -188,11 +188,11 @@ div.csl-indent {
 <li class="chapter" data-level="3" data-path="building-energy.html"><a href="building-energy.html"><i class="fa fa-check"></i><b>3</b> Building Energy</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="building-energy.html"><a href="building-energy.html#framework"><i class="fa fa-check"></i><b>3.1</b> Framework</a></li>
-<li class="chapter" data-level="3.2" data-path="building-energy.html"><a href="building-energy.html#residential-energy-assumptions"><i class="fa fa-check"></i><b>3.2</b> Residential Energy Assumptions</a>
+<li class="chapter" data-level="3.2" data-path="building-energy.html"><a href="building-energy.html#residential-energy"><i class="fa fa-check"></i><b>3.2</b> Residential Energy</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="building-energy.html"><a href="building-energy.html#residential-energy-strategies"><i class="fa fa-check"></i><b>3.2.1</b> Residential Energy Strategies</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-assumptions"><i class="fa fa-check"></i><b>3.3</b> Non-Residential Energy Assumptions</a>
+<li class="chapter" data-level="3.3" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy"><i class="fa fa-check"></i><b>3.3</b> Non-Residential Energy</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy-strategies"><i class="fa fa-check"></i><b>3.3.1</b> Non-Residential Energy Strategies</a></li>
 </ul></li>
@@ -272,8 +272,8 @@ div.csl-indent {
 <p>When it comes to reducing emissions in the building sector, the electricity grid, and the percent that it is supplied by renewable sources plays a major role.</p>
 <p>Electricity in Minneapolis is served mostly by Xcel Energy. In their report <em>Building a Carbon Free Future</em> in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80% by 2030 as an interim goal.</p>
 </div>
-<div id="residential-energy-assumptions" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> Residential Energy Assumptions<a href="building-energy.html#residential-energy-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="residential-energy" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Residential Energy<a href="building-energy.html#residential-energy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The biggest share of residential electricity use is typically for heating and cooling. In the United States, heating and air conditioning account for about half of the average home’s energy use. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the square footage of a building.</p>
 <p>A 2020 study found that the average US home consumed 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) in 2015, and the average emissions of greenhouse gas intensity was 45 kg of CO2-equivalents per square meter. The same study found that climate and, to a lesser degree, building age are positively correlated with energy intensity, while energy infrastructure strongly influences greenhouse gas intensity. States with newer housing stocks would use less energy due to ongoing adoption of residential energy codes <span class="citation">(<a href="#ref-goldstein_carbon_2020" role="doc-biblioref">Goldstein, Gounaridis, and Newell 2020</a>)</span>. 147 kilowatt-hours per square meter (kwh/m<sup>2</sup>) converted to square feet (kwh/ft<sup>2</sup>) is 13.65. The reason why Minnesota cities tend to have lower electricity consumption than other states could be due to less use of electricity for air conditioning compared to warmer areas in the country. However, the natural gas consumption of the average Minnesota household is higher than in most states.</p>
 <p><strong>Table</strong> <a href="building-energy.html#tab:tab-residential-energy">3.1</a> shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040.</p>
@@ -397,26 +397,13 @@ Residential Therms per Household (therms/household)
 <li><p><strong><em>Fees</em></strong> Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.</p></li>
 </ul>
 </div>
+
 <div id="affordable-floor-area" class="section level4 hasAnchor" number="3.2.1.1">
 <h4><span class="header-section-number">3.2.1.1</span> Affordable Floor Area<a href="building-energy.html#affordable-floor-area" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.</p>
 <div class="about_strategy">
 <p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
 </div>
-<span class="math display">\[\begin{equation}
-sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)   (\#eq:sqft_units_2040)
-\end{equation}\]</span>
-<p>where</p>
-<ul>
-<li><span class="math inline">\((1+X)\)</span>: The rate of growth in single-family floor area in square feet per year.</li>
-<li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The total floor area of single-family homes in the community in 2040. <span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in the community in 2040.</li>
-<li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018.</li>
-<li><span class="math inline">\(0.5\)</span>: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.</li>
-<li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040.</li>
-<li><span class="math inline">\(\bar{sqft}_{2018}\)</span>: The average floor area of single-family homes in the community in 2018.</li>
-</ul>
-<pre><code>## *** calculating affordable floor area strategy 
-## *** calculating affordable floor area strategy</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 <span id="tab:tab-new-single-family-home-area">Table 3.2: </span>New Single-Family Home Floor Area for Minneapolis
@@ -427,10 +414,10 @@ sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqf
 Variables
 </th>
 <th style="text-align:right;">
-2018
+2018 Baseline
 </th>
 <th style="text-align:right;">
-2040
+2040 Scenario
 </th>
 </tr>
 </thead>
@@ -481,27 +468,21 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </tr>
 </tbody>
 </table>
-<p><em>Figure</em> <a href="#fig:fig-affordable-floor-area"><strong>??</strong></a> <em>could be a static or interactive figure. However, there do appear to be some questions about the parameters/results? The biggest issue is that I can’t get the <code>run_scenario_building()</code> function to run without errors? Because I think(?) that is really the key function that we need to run here. It is a bit unclear to me why the table (above) is not coming from running that larger <code>run_scenario_building</code> function, but instead coming from the the <code>calc_affordable_floor_area()</code> function. The plot below is made with the <code>calc_affordable_floor_area</code> function. Other, smaller issues are: 1) The box above suggest that the floor area can be reduced by 15%, but running the equation produces an error where “Warning: Single family floor area growth cannot be greater than %5”. This is why you see only small floor area reductions in the figure. 2) It seems like the electricity/gas use is more influenced by year rather than reductions in floor area…for the purpose of the report, should this strategy be replaced with one that has a bigger impact on energy use? 3) It is unclear why the number of single family units decreases - the strategy description suggests that only floor area should decrease - is this a naming typo?</em></p>
-<pre><code>## *** calculating affordable floor area strategy 
-## *** calculating affordable floor area strategy 
-## *** calculating affordable floor area strategy 
-## *** calculating affordable floor area strategy 
-## *** calculating affordable floor area strategy</code></pre>
-<p><img src="_main_files/figure-html/fig-affordable-floor-area-1.png" width="672" /></p>
 <p><br></p>
-</div>
-<div id="new-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.2">
-<h4><span class="header-section-number">3.2.1.2</span> New Homes Energy Efficiency<a href="building-energy.html#new-homes-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><em>LEED</em> (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet <em>LEED</em> standards are designed and constructed to be energy efficient and to use fewer natural resources.</p>
-<p>The amount of energy savings that can be achieved through <em>LEED</em> certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the <a href="https://www.usgbc.org/leed/rating-systems/residential">U.S. Green Building Council</a>, buildings that are designed to meet <em>LEED</em> Gold standards typically achieve energy savings of around 25% compared to conventional buildings.</p>
-<p>The Greenhouse Gas Scenario Planning Tool uses <em>LEED Gold</em> for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.</p>
-<div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed <code>50%</code> of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced <code>64%</code>. Existing home: <code>80%</code> reduced EUI by <code>33%</code>.</p>
-</div>
-<pre><code>## *** calculating floor area LEED Gold certification strategy</code></pre>
+<p><span class="math display">\[sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)\]</span>
+where</p>
+<ul>
+<li><span class="math inline">\((1+X)\)</span>: The rate of growth in single-family floor area in square feet per year.</li>
+<li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The total floor area of single-family homes in the community in 2040.</li>
+<li><span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in the community in 2040.</li>
+<li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018.</li>
+<li><span class="math inline">\(0.5\)</span>: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.</li>
+<li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040.</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}\)</span>: The average floor area of single-family homes in the community in 2018.</li>
+</ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-new-home-efficiency">Table 3.3: </span>New Home Efficiency Minneapolis 2040
+<span id="tab:unnamed-chunk-5">Table 3.3: </span>New Single-Family Home Floor Area for Minneapolis
 </caption>
 <thead>
 <tr>
@@ -509,7 +490,99 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 Variables
 </th>
 <th style="text-align:right;">
-Value
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+954,551
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+540,657,660
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+140,287,667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+744,927,511
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="new-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.2">
+<h4><span class="header-section-number">3.2.1.2</span> New Homes Energy Efficiency<a href="building-energy.html#new-homes-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><em>LEED</em> (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet <em>LEED</em> standards are designed and constructed to be energy efficient and to use fewer natural resources.</p>
+<p>The amount of energy savings that can be achieved through <em>LEED</em> certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the <a href="https://www.usgbc.org/leed/rating-systems/residential">U.S. Green Building Council</a>, buildings that are designed to meet <em>LEED</em> Gold standards typically achieve energy savings of around 25% compared to conventional buildings.</p>
+<p>The Greenhouse Gas Scenario Planning Tool uses <em>LEED Gold</em> for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed <code>50%</code> of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced <code>64%</code>.</p>
+</div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-new-home-efficiency">Table 3.4: </span>New Home Efficiency Minneapolis 2040 Assumptions
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Scenario
 </th>
 </tr>
 </thead>
@@ -517,6 +590,9 @@ Value
 <tr>
 <td style="text-align:left;">
 Number of Single Family Units
+</td>
+<td style="text-align:right;">
+76,935.00
 </td>
 <td style="text-align:right;">
 76,494.00
@@ -527,15 +603,10 @@ Number of Single Family Units
 Number of Multifamily Units
 </td>
 <td style="text-align:right;">
-145,653.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Multifamily Average Floor Area for the County (ft<sup>2</sup>)
+123,504.00
 </td>
 <td style="text-align:right;">
-1,125.64
+145,653.00
 </td>
 </tr>
 <tr>
@@ -544,6 +615,20 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 </td>
 <td style="text-align:right;">
 1,359.56
+</td>
+<td style="text-align:right;">
+1,563.49
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Multifamily Average Floor Area for the County (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,132.31
+</td>
+<td style="text-align:right;">
+1,125.64
 </td>
 </tr>
 </tbody>
@@ -558,13 +643,86 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 <li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040.</li>
 <li><span class="math inline">\(0.64\)</span>: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.</li>
 </ul>
-<p><em>Figure</em> <a href="#fig:fig-new-leed-homes"><strong>??</strong></a> <em>could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger <code>run_scenario_building()</code> function has errors and isn’t running right now.</em></p>
-<pre><code>## *** calculating floor area LEED Gold certification strategy 
-## *** calculating floor area LEED Gold certification strategy 
-## *** calculating floor area LEED Gold certification strategy 
-## *** calculating floor area LEED Gold certification strategy 
-## *** calculating floor area LEED Gold certification strategy</code></pre>
-<p><img src="_main_files/figure-html/fig-new-leed-homes-1.png" width="672" /></p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:unnamed-chunk-8">Table 3.5: </span>New Home Efficiency Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+902,374
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+511,104,605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+132,619,359
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+704,208,798
+</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 <div id="existing-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.3">
 <h4><span class="header-section-number">3.2.1.3</span> Existing Homes Energy Efficiency<a href="building-energy.html#existing-homes-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -581,10 +739,9 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 <div class="about_strategy">
 <p><strong><em>About this strategy</em></strong> Cities can retrofit existing homes to be energy efficient. We assume <code>80%</code> of existing homes with energy use intensity reduced by <code>33%</code>. Cities can adjust the percentage of existing homes to be retrofitted.</p>
 </div>
-<pre><code>## *** calculating floor area retrofit strategy</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-existing-home-efficiency">Table 3.4: </span>Existing Home Efficiency Minneapolis 2040
+<span id="tab:tab-existing-home-efficiency">Table 3.6: </span>Existing Home Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -592,7 +749,7 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 Variables
 </th>
 <th style="text-align:right;">
-Value
+2018 Baseline
 </th>
 </tr>
 </thead>
@@ -618,7 +775,7 @@ Number of Multifamily Units
 Single Family Average Floor Area (ft<sup>2</sup>)
 </td>
 <td style="text-align:right;">
-940.78
+1,043.82
 </td>
 </tr>
 <tr>
@@ -626,7 +783,7 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </td>
 <td style="text-align:right;">
-747.67
+822.20
 </td>
 </tr>
 </tbody>
@@ -640,24 +797,9 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The 2018 average floor area of single-family homes.</li>
 <li><span class="math inline">\(\bar{sqft}_{2018}^{mf}\)</span>: The average floor area of multi-family homes in 2018.</li>
 </ul>
-<p><em>Figure</em> <a href="#fig:fig-existing-home-efficiency"><strong>??</strong></a> <em>could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger <code>run_scenario_building()</code> function has errors and isn’t running right now.</em></p>
-<pre><code>## *** calculating floor area retrofit strategy 
-## *** calculating floor area retrofit strategy 
-## *** calculating floor area retrofit strategy 
-## *** calculating floor area retrofit strategy 
-## *** calculating floor area retrofit strategy</code></pre>
-<p><img src="_main_files/figure-html/fig-existing-home-efficiency-1.png" width="672" /></p>
-</div>
-<div id="behavior-change-for-residential-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.4">
-<h4><span class="header-section-number">3.2.1.4</span> Behavior Change for Residential Energy Efficiency<a href="building-energy.html#behavior-change-for-residential-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.</p>
-<div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by <code>11%</code>. The default is <code>100%</code> of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.</p>
-</div>
-<pre><code>## *** calculating floor area behavior change strategy</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-behavior-change">Table 3.5: </span>Behavior Change Minneapolis 2040
+<span id="tab:unnamed-chunk-11">Table 3.7: </span>New Home Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -665,7 +807,97 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 Variables
 </th>
 <th style="text-align:right;">
-Value
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+672,196
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+380,731,673
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+98,790,717
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+524,578,709
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="behavior-change-for-residential-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.4">
+<h4><span class="header-section-number">3.2.1.4</span> Behavior Change for Residential Energy Efficiency<a href="building-energy.html#behavior-change-for-residential-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by <code>11%</code>. The default is <code>100%</code> of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.</p>
+</div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-behavior-change">Table 3.8: </span>Behavior Change Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Scenario
 </th>
 </tr>
 </thead>
@@ -673,6 +905,9 @@ Value
 <tr>
 <td style="text-align:left;">
 Number of Single Family Units
+</td>
+<td style="text-align:right;">
+76,935.00
 </td>
 <td style="text-align:right;">
 76,494.00
@@ -683,12 +918,18 @@ Number of Single Family Units
 Number of Multifamily Units
 </td>
 <td style="text-align:right;">
+123,504.00
+</td>
+<td style="text-align:right;">
 145,653.00
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Single Family Average Floor Area (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,359.56
 </td>
 <td style="text-align:right;">
 1,391.51
@@ -699,26 +940,102 @@ Single Family Average Floor Area (ft<sup>2</sup>)
 Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </td>
 <td style="text-align:right;">
+1,132.31
+</td>
+<td style="text-align:right;">
 1,001.82
 </td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
-<p><span class="math display">\[ sqft_{2040}^{sf+mf} = X * population_{2040} * sqft_{2040}^{sf + mf }/population_{2040} * 0.11 \]</span></p>
+<p><span class="math display">\[ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * population_{2040} * \frac{sqft_{2040}^{sf + mf}}{population_{2040}} * 0.11 \]</span></p>
 <ul>
 <li><span class="math inline">\(0.11\)</span>: The percentage reduction in household energy use as a result of smart nudges.</li>
-<li><span class="math inline">\(X\)</span>: The percentage of homes that change their behavior for energy efficiency.</li>
+<li><span class="math inline">\(x\)</span>: The percentage of homes that change their behavior for energy efficiency.</li>
 <li><span class="math inline">\(population_{2040}\)</span>: The total population in 2040.</li>
 <li><span class="math inline">\(sqft_{2040}^{sf+mf}/population_{2040}\)</span>: The average square footage per person in 2040 for residential buildings.</li>
 </ul>
-<p><em>Figure</em> <a href="#fig:fig-behavior-change"><strong>??</strong></a> <em>could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger <code>run_scenario_building()</code> function has errors and isn’t running right now.</em></p>
-<pre><code>## *** calculating floor area behavior change strategy 
-## *** calculating floor area behavior change strategy 
-## *** calculating floor area behavior change strategy 
-## *** calculating floor area behavior change strategy 
-## *** calculating floor area behavior change strategy</code></pre>
-<p><img src="_main_files/figure-html/fig-behavior-change-1.png" width="672" /></p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:unnamed-chunk-14">Table 3.9: </span>Behavior Change Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+849,869
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+481,365,748
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+124,902,841
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+663,234,085
+</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 <div id="decarbonization-of-residential-energy-use" class="section level4 hasAnchor" number="3.2.1.5">
 <h4><span class="header-section-number">3.2.1.5</span> Decarbonization of Residential Energy Use<a href="building-energy.html#decarbonization-of-residential-energy-use" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -726,10 +1043,12 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <div class="about_strategy">
 <p><strong><em>About this strategy</em></strong>: Due to decarbonizing the grid, the emission factor of electricity decreases from <code>568</code> kg<sub>2</sub>e/MWh (2018 Minnesota state level) to <code>113</code> kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.</p>
 </div>
-<pre><code>## *** calculating residential ghg emissions</code></pre>
+<p><span class="math display">\[
+kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{population_{2040}} * \frac{kWh}{sqft_{residential}^{2040}})
+\]</span></p>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-decarbonize-residential-energy">Table 3.6: </span>Decarbonize Residential Energy Use Minneapolis 2040
+<span id="tab:tab-decarbonize-residential-energy">Table 3.10: </span>Decarbonize Residential Energy Use Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -737,7 +1056,13 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 Variables
 </th>
 <th style="text-align:right;">
-Value
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
 </th>
 </tr>
 </thead>
@@ -745,6 +1070,12 @@ Value
 <tr>
 <td style="text-align:left;">
 Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
 </td>
 <td style="text-align:right;">
 954,909
@@ -755,6 +1086,12 @@ Residential Electricity (MWh)
 Residential Electricity Emissions (kg CO<sub>2</sub>e)
 </td>
 <td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
 108,172,078
 </td>
 </tr>
@@ -763,12 +1100,24 @@ Residential Electricity Emissions (kg CO<sub>2</sub>e)
 Residential Natural Gas (Therms)
 </td>
 <td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
 140,340,271
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
 </td>
 <td style="text-align:right;">
 745,206,837
@@ -776,32 +1125,20 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><br></p>
-<p><span class="math display">\[
-kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{residential}^{2040})
-\]</span></p>
-<p><em>Figure</em> <a href="#fig:fig-decarbonize-residential-energy"><strong>??</strong></a> <em>could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger <code>run_scenario_building()</code> function has errors and isn’t running right now.</em></p>
-<pre><code>## *** calculating residential ghg emissions 
-## *** calculating residential ghg emissions 
-## *** calculating residential ghg emissions 
-## *** calculating residential ghg emissions 
-## *** calculating residential ghg emissions</code></pre>
-<p><img src="_main_files/figure-html/fig-decarbonize-residential-energy-1.png" width="672" /></p>
+
 </div>
 <div id="electrification-of-residential-heating" class="section level4 hasAnchor" number="3.2.1.6">
 <h4><span class="header-section-number">3.2.1.6</span> Electrification of Residential Heating<a href="building-energy.html#electrification-of-residential-heating" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will decarbonize the overall grid to 80% relative to 2018 levels, consistent with Xcel Energy’s plans to achieve a net-zero power grid by 2050.</p>
 <p>Switching to more efficient electric heat pumps and tank-less water heaters with a net zero-carbon future electric grid can significantly reduce emissions.</p>
-<p>Only around 14% of homes in MN have adopted these new technologies.2 The scenario planning tool projects that by 2050, 59% of residential and commercial buildings will switch to electrically driven heat pumps,3 which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota,4 so the results are more realistic for our region. National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.</p>
-<p>Electricity can be generated from various sources, including renewable energy sources such as solar, wind, and hydroelectric power. Using electricity for heating, cooling, and other household energy needs can reduce greenhouse gas emissions compared to fossil fuels such as natural gas, propane, and oil.</p>
+<p>Only around 14% of homes in MN have adopted these new technologies. The scenario planning tool projects that by 2050, 59% of residential and commercial buildings will switch to electrically driven heat pumps, which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota, so the results are more realistic for our region. National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.</p>
 <div class="about_strategy">
 <p><strong>About this strategy</strong> For this strategy, we made the assumption that by 2040 <code>59%</code> of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.</p>
 </div>
-<pre><code>## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="building-energy.html#cb1-1" aria-hidden="true" tabindex="-1"></a>tab_electrify_residential_heating</span></code></pre></div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-electrify-residential-heating">Table 3.7: </span>Electrifying Residential Heating Minneapolis 2040
+<span id="tab:tab-electrify-residential-heating">Table 3.11: </span>Electrify Residential Heating 2040
 </caption>
 <thead>
 <tr>
@@ -809,25 +1146,29 @@ kgCO_2e = (population_{2040} * sqft/person_{2040}^{residential} * kWh/sqft_{resi
 Variables
 </th>
 <th style="text-align:right;">
-Value
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-Population
-</td>
-<td style="text-align:right;">
-485,000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Residential Electricity (MWh)
 </td>
 <td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
 954,909
+</td>
+<td style="text-align:right;">
+3,756,281
 </td>
 </tr>
 <tr>
@@ -835,7 +1176,13 @@ Residential Electricity (MWh)
 Residential Electricity Emissions (kg CO<sub>2</sub>e)
 </td>
 <td style="text-align:right;">
-108,172,078
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+2,127,557,626
 </td>
 </tr>
 <tr>
@@ -843,7 +1190,13 @@ Residential Electricity Emissions (kg CO<sub>2</sub>e)
 Residential Natural Gas (Therms)
 </td>
 <td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
 140,340,271
+</td>
+<td style="text-align:right;">
+77,187,149
 </td>
 </tr>
 <tr>
@@ -851,60 +1204,29 @@ Residential Natural Gas (Therms)
 Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </td>
 <td style="text-align:right;">
-31,099,614
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Total Residential Emissions (tonnes CO<sub>2</sub>e)
+642,425,672
 </td>
 <td style="text-align:right;">
-853,378,915
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
+745,206,837
 </td>
 <td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-63,153,122
+409,863,760
 </td>
 </tr>
 </tbody>
 </table>
-<p><em>Figure</em> <a href="#fig:fig-electrify-residential-heating"><strong>??</strong></a> <em>could be a static or interactive figure. Same questions/issues as above; the main one being is that the larger <code>run_scenario_building()</code> function has errors and isn’t running right now.</em></p>
-<pre><code>## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions 
-## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions 
-## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions 
-## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions 
-## *** calculating residential heat eletrification strategy 
-## *** calculating residential ghg emissions</code></pre>
-<p><img src="_main_files/figure-html/fig-electrify-residential-heating-1.png" width="672" /></p>
-<p><br></p>
 
 </div>
 </div>
 </div>
-<div id="non-residential-energy-assumptions" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Non-Residential Energy Assumptions<a href="building-energy.html#non-residential-energy-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="non-residential-energy" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Non-Residential Energy<a href="building-energy.html#non-residential-energy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.</p>
 <p>In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help Minneapolis make informed decisions about energy efficiency and conservation efforts.</p>
-<p><strong>Table</strong> <a href="building-energy.html#tab:tab-non-residential-energy">3.8</a> shows the baseline and forecast assumptions for non-residential electricity and natural gas use for Minneapolis.</p>
+<p><strong>Table</strong> <a href="building-energy.html#tab:tab-non-residential-energy">3.12</a> shows the baseline and forecast assumptions for non-residential electricity and natural gas use for Minneapolis.</p>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-non-residential-energy">Table 3.8: </span>Non-Residential Energy for Minneapolis
+<span id="tab:tab-non-residential-energy">Table 3.12: </span>Non-Residential Energy for Minneapolis
 </caption>
 <thead>
 <tr>
@@ -925,10 +1247,10 @@ Variables
 Commercial Natural Gas (Therms)
 </td>
 <td style="text-align:right;">
-187,242,459.50
+74,323,233.92
 </td>
 <td style="text-align:right;">
-213,077,984.61
+84,578,278.54
 </td>
 </tr>
 <tr>
@@ -936,10 +1258,10 @@ Commercial Natural Gas (Therms)
 Industrial Natural Gas (Therms)
 </td>
 <td style="text-align:right;">
-26,082,036.88
+90,265,300.08
 </td>
 <td style="text-align:right;">
-43,953,039.29
+152,113,667.33
 </td>
 </tr>
 <tr>
@@ -969,10 +1291,10 @@ Industrial Electricity (MWh)
 Commercial Natural Gas per Worker (therms/worker)
 </td>
 <td style="text-align:right;">
-729.38
+289.52
 </td>
 <td style="text-align:right;">
-729.38
+289.52
 </td>
 </tr>
 <tr>
@@ -980,10 +1302,10 @@ Commercial Natural Gas per Worker (therms/worker)
 Industrial Natural Gas per Worker (therms/worker)
 </td>
 <td style="text-align:right;">
-617.09
+2,135.65
 </td>
 <td style="text-align:right;">
-617.09
+2,135.65
 </td>
 </tr>
 <tr>
@@ -1021,42 +1343,44 @@ Industrial Electricity per Worker (MWh/worker)
 <p>The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state’s energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.</p>
 <p><strong>SB2030</strong></p>
 <p>The Minnesota <em>SB2030</em> program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building’s energy use.</p>
+
 <div id="retofit-existing-commercial-building" class="section level4 hasAnchor" number="3.3.1.1">
 <h4><span class="header-section-number">3.3.1.1</span> Retofit Existing Commercial Building<a href="building-energy.html#retofit-existing-commercial-building" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="building-energy.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_existing_comm_building_efficiency</span>(</span>
-<span id="cb13-2"><a href="building-energy.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_energy_bau_data<span class="sc">$</span>non_residential,</span>
-<span id="cb13-3"><a href="building-energy.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> <span class="st">&quot;Minneapolis&quot;</span>,</span>
-<span id="cb13-4"><a href="building-energy.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="fl">0.80</span></span>
-<span id="cb13-5"><a href="building-energy.html#cb13-5" aria-hidden="true" tabindex="-1"></a>)  <span class="sc">%&gt;%</span></span>
-<span id="cb13-6"><a href="building-energy.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-7"><a href="building-energy.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb13-8"><a href="building-energy.html#cb13-8" aria-hidden="true" tabindex="-1"></a>    ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb13-9"><a href="building-energy.html#cb13-9" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
-<span id="cb13-10"><a href="building-energy.html#cb13-10" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb13-11"><a href="building-energy.html#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh_per_worker&quot;</span>,</span>
-<span id="cb13-12"><a href="building-energy.html#cb13-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh_per_worker&quot;</span>,</span>
-<span id="cb13-13"><a href="building-energy.html#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
-<span id="cb13-14"><a href="building-energy.html#cb13-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
-<span id="cb13-15"><a href="building-energy.html#cb13-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
-<span id="cb13-16"><a href="building-energy.html#cb13-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
-<span id="cb13-17"><a href="building-energy.html#cb13-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
-<span id="cb13-18"><a href="building-energy.html#cb13-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb13-19"><a href="building-energy.html#cb13-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb13-20"><a href="building-energy.html#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., variables, <span class="at">by =</span> <span class="st">&quot;var&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-21"><a href="building-energy.html#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(desc = str_remove_all(desc, &quot; - Forecast&quot;)) %&gt;%</span></span>
-<span id="cb13-22"><a href="building-energy.html#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(desc, value)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-23"><a href="building-energy.html#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;Variables&quot;</span> <span class="ot">=</span> desc,</span>
-<span id="cb13-24"><a href="building-energy.html#cb13-24" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;2040&quot;</span> <span class="ot">=</span> value)  <span class="sc">%&gt;%</span></span>
-<span id="cb13-25"><a href="building-energy.html#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
-<span id="cb13-26"><a href="building-energy.html#cb13-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(</span>
-<span id="cb13-27"><a href="building-energy.html#cb13-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
-<span id="cb13-28"><a href="building-energy.html#cb13-28" aria-hidden="true" tabindex="-1"></a>                params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb13-29"><a href="building-energy.html#cb13-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2040&quot;</span></span>
-<span id="cb13-30"><a href="building-energy.html#cb13-30" aria-hidden="true" tabindex="-1"></a>              ))</span></code></pre></div>
+<p>Existing commercial buildings electrification.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="building-energy.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_existing_comm_building_efficiency</span>(</span>
+<span id="cb2-2"><a href="building-energy.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_energy_bau_data<span class="sc">$</span>non_residential,</span>
+<span id="cb2-3"><a href="building-energy.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb2-4"><a href="building-energy.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="fl">0.80</span></span>
+<span id="cb2-5"><a href="building-energy.html#cb2-5" aria-hidden="true" tabindex="-1"></a>)  <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="building-energy.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter out irrelevant rows</span></span>
+<span id="cb2-7"><a href="building-energy.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-8"><a href="building-energy.html#cb2-8" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
+<span id="cb2-9"><a href="building-energy.html#cb2-9" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb2-10"><a href="building-energy.html#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh_per_worker&quot;</span>,</span>
+<span id="cb2-11"><a href="building-energy.html#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh_per_worker&quot;</span>,</span>
+<span id="cb2-12"><a href="building-energy.html#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
+<span id="cb2-13"><a href="building-energy.html#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
+<span id="cb2-14"><a href="building-energy.html#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
+<span id="cb2-15"><a href="building-energy.html#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
+<span id="cb2-16"><a href="building-energy.html#cb2-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
+<span id="cb2-17"><a href="building-energy.html#cb2-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-18"><a href="building-energy.html#cb2-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-19"><a href="building-energy.html#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># join variable names</span></span>
+<span id="cb2-20"><a href="building-energy.html#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="building-energy.html#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add table format</span></span>
+<span id="cb2-22"><a href="building-energy.html#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
+<span id="cb2-23"><a href="building-energy.html#cb2-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(</span>
+<span id="cb2-24"><a href="building-energy.html#cb2-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
+<span id="cb2-25"><a href="building-energy.html#cb2-25" aria-hidden="true" tabindex="-1"></a>                params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb2-26"><a href="building-energy.html#cb2-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2040&quot;</span></span>
+<span id="cb2-27"><a href="building-energy.html#cb2-27" aria-hidden="true" tabindex="-1"></a>              ))</span></code></pre></div>
 <pre><code>## *** calculating existing commercial building energy efficiency</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-existing-comm-building-efficiiency">Table 3.9: </span>Retrofit Commercial Buildings Minneapolis 2040
+<span id="tab:tab-existing-comm-building-efficiiency">Table 3.13: </span>Retrofit Commercial Buildings Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -1119,15 +1443,20 @@ Commercial Electricity per Worker (MWh/worker)
 </tr>
 </tbody>
 </table>
+
 </div>
 <div id="electrify-non-residential-heating" class="section level4 hasAnchor" number="3.3.1.2">
 <h4><span class="header-section-number">3.3.1.2</span> Electrify Non-Residential Heating<a href="building-energy.html#electrify-non-residential-heating" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Non-residential electrification strategy</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+</div>
 <pre><code>## *** calculating commercial building heat electficiation 
 ## *** calculating non-residential ghg emissions 
 ## *** calculating existing commercial building energy efficiency</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-electrify-commmercial-heating">Table 3.10: </span>Electrifying Commercial Heating Minneapolis 2040
+<span id="tab:tab-electrify-commmercial-heating">Table 3.14: </span>Electrifying Commercial Heating Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -1198,15 +1527,20 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
+
 </div>
 <div id="renewable-natural-gas" class="section level4 hasAnchor" number="3.3.1.3">
 <h4><span class="header-section-number">3.3.1.3</span> Renewable Natural Gas<a href="building-energy.html#renewable-natural-gas" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Renewable natural gas strategy …</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+</div>
 <pre><code>## *** calculating non-residential renewable natural gas strategy 
 ## *** calculating non-residential ghg emissions 
 ## *** calculating existing commercial building energy efficiency</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-non-res-renewable-natural-gas">Table 3.11: </span>Renewable Natural Gas for Minneapolis 2040
+<span id="tab:tab-non-res-renewable-natural-gas">Table 3.15: </span>Renewable Natural Gas for Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -1277,14 +1611,19 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
+
 </div>
 <div id="decarbonize-the-electricity-grid" class="section level4 hasAnchor" number="3.3.1.4">
 <h4><span class="header-section-number">3.3.1.4</span> Decarbonize the Electricity Grid<a href="building-energy.html#decarbonize-the-electricity-grid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Grid decarbonization</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+</div>
 <pre><code>## *** calculating non-residential ghg emissions 
 ## *** calculating existing commercial building energy efficiency</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-ghg-non-residential">Table 3.12: </span>Electrifying Commercial Heating Minneapolis 2040
+<span id="tab:tab-ghg-non-residential">Table 3.16: </span>Electrifying Commercial Heating Minneapolis 2040
 </caption>
 <thead>
 <tr>

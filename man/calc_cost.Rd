@@ -6,6 +6,7 @@
 \usage{
 calc_cost(
   tb_vmt,
+  .selected_ctu = "all",
   .mode,
   .price,
   .is_av = FALSE,
