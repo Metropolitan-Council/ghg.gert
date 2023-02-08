@@ -178,6 +178,7 @@ calc_electrify_commercial_heating(
 )
 
 calc_non_res_renewable_ng(
+.renewable_ng_nonres = TRUE,
   non_res_tb = calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
