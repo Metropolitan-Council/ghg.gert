@@ -56,6 +56,7 @@ add_variable_names <- function(data, .year) {
 
 # chartformat function creates chart for scenario outputs with table structure expected as in report
 chartformat <- function(tb) {
+  chart_colors <-  RColorBrewer::brewer.pal(5, "Blues")[c(2, 4:5)]
   tb %>% pivot_longer(`2018 Baseline`:`2040 Scenario`, names_to = c('Year', 'Future'), names_sep = ' ', values_to = 'value') %>%
     #tidyr::separate_wider_delim(Variables, delim = ("("), names = c('Variables','Units')) %>%
     mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
@@ -66,9 +67,10 @@ chartformat <- function(tb) {
     geom_bar(stat = 'identity', position = position_dodge2(preserve = 'single')) +
     facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
     scale_x_continuous(breaks = c(2018, 2040)) +
-    scale_fill_manual(values = RColorBrewer::brewer.pal(5, "Blues")[2:5]) +
-    scale_y_continuous(labels = scientific) +
-    labs(x = "", y = "", fill = 'Future') +
+    scale_fill_manual(values = chart_colors) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(x = "", y = "", fill = "") +
+  theme(legend.position = "bottom") +
     theme(
       panel.background = element_rect(fill = "white"),
       panel.grid = element_blank(),
