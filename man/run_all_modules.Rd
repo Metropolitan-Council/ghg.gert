@@ -256,7 +256,8 @@ Numeric between -1 and 1. Default is \code{0}}
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
 as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
 
-\item{.telework_pct}{additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is \code{0}}
+\item{.telework_pct}{additional percent of people teleworking in the final forecast year.
+Numeric between 0 and 1. Default is \code{0}}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
