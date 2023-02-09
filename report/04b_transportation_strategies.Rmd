@@ -70,24 +70,29 @@ ghg.sp::elast_5d %>%
 #| fig.width = 8, fig.height = 3
 # vmt_telework()
 density_ctu %>%
+  filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("-100%", "-50%", "0%", "50%", "100%")) +
-  labs(x = "", y = "", color = paste0(params$ctu_selection, "\npopulation density\nadjustment (%)")) +
+  labs(x = "", 
+       y = "", 
+       color = paste0(params$ctu_selection,
+                      "\npopulation density\nadjustment (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
 
 ### Vehicle Electrification
@@ -107,24 +112,25 @@ The Tool also accounts for the fact that plug-in hybrid electric vehicles may op
 #| fig.width = 8, fig.height = 3
 # vmt_annual_energy_outlook()
 bev_ctu %>%
+  filter(year %in% c("2018", "2040")) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
 
 ### Public Transit
@@ -146,24 +152,26 @@ According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minne
 #| fig.width = 8, fig.height = 3
 # vmt_telework()
 telework_ctu %>%
+  filter(year %in% c("2018", "2050"),
+         type == "direct") %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\ntransit service\nadjustment (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
 
 ### Telework
@@ -176,7 +184,6 @@ Telework is working from home, reducing or eliminating the need to commute. In 2
 #help(vmt_telework, package = ghg.sp)
 ```
 
-*Figure* \@ref(fig:fig-telework) *could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
 
 ```{r fig-telework}
 #| echo: false
@@ -189,24 +196,26 @@ Telework is working from home, reducing or eliminating the need to commute. In 2
 
 # vmt_telework()
 telework_ctu %>%
+    filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nteleworking (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
 
 ### Road Pricing
@@ -232,25 +241,27 @@ The scenario planning model includes three alternatives for road pricing. The fi
 #| fig.width = 8, fig.height = 3
 
 roadprice_ctu %>%
+    filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0("$", as.numeric(param))) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
                      # ,breaks = c("20%", "40%", "60%", "80%", "100%")
-                     ) +
+  ) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\ncongestion price\n($ per mile)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
 
 ### Parking Policy
@@ -312,7 +323,6 @@ ghg.sp::elast %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-*Figure* \@ref(fig:fig-parkingprice) *could be a static or interactive figure. However, nothing seems to matter...*
 
 ```{r fig-parkingprice}
 #| echo: false
@@ -323,23 +333,25 @@ ghg.sp::elast %>%
 #| fig.width = 8, fig.height = 3
 
 parking_ctu %>%
+    filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0("$", as.numeric(param))) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
                      # ,breaks = c("20%", "40%", "60%", "80%", "100%")
-                     ) +
+  ) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nparking price\n($ per hour)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
