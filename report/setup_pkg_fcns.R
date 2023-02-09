@@ -57,10 +57,23 @@ add_variable_names <- function(data, .year) {
 # chartformat function creates chart for scenario outputs with table structure expected as in report
 chartformat <- function(tb) {
   chart_colors <-  RColorBrewer::brewer.pal(5, "Blues")[c(2, 4:5)]
-  tb %>% pivot_longer(`2018 Baseline`:`2040 Scenario`, names_to = c('Year', 'Future'), names_sep = ' ', values_to = 'value') %>%
+  tb %>% 
+    mutate(scinotation = case_when(`2018 Baseline` < 1e3 ~ ")",
+                                   `2018 Baseline` < 1e6 ~ ", thousands)",
+                                   `2018 Baseline` < 1e9 ~ ", millions)",
+                                   `2018 Baseline` < 1e13 ~ ", billions)",
+                                   TRUE ~ "",
+    )) %>%
+    pivot_longer(`2018 Baseline`:`2040 Scenario`, names_to = c('Year', 'Future'), names_sep = ' ', values_to = 'value') %>%
     #tidyr::separate_wider_delim(Variables, delim = ("("), names = c('Variables','Units')) %>%
     mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
-         #  Units = str_remove_all(Units, fixed(")")),
+           Variables = str_remove_all(Variables, "\\)"),
+           Variables = paste0(Variables, scinotation),
+           value = case_when(scinotation == ", thousands)" ~ value/1e3,
+                             scinotation == ", millions)" ~ value/1e6,
+                             scinotation == ", billions)" ~ value/1e9,
+                             TRUE ~ value), 
+           #  Units = str_remove_all(Units, fixed(")")),
            Year = as.numeric(Year)) %>%
     # mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
     ggplot(., aes(x = Year, y = value, fill = Future)) + #fill = level, 
@@ -70,7 +83,7 @@ chartformat <- function(tb) {
     scale_fill_manual(values = chart_colors) +
     scale_y_continuous(labels = scales::comma) +
     labs(x = "", y = "", fill = "") +
-  theme(legend.position = "bottom") +
+    theme(legend.position = "bottom") +
     theme(
       panel.background = element_rect(fill = "white"),
       panel.grid = element_blank(),
