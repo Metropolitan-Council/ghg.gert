@@ -1,7 +1,5 @@
 pkgload::load_all()
-#####
-# telework
-#####
+# telework-----
 telework_trans_100 <- run_scenario_transportation(.telework_pct = 1, .selected_ctu = "Minneapolis")
 telework_trans_80 <- run_scenario_transportation(.telework_pct = .8, .selected_ctu = "Minneapolis")
 telework_trans_60 <- run_scenario_transportation(.telework_pct = .6, .selected_ctu = "Minneapolis")
@@ -30,9 +28,7 @@ telework_ctu <- telework_fxn(telework_trans_100) %>%
 
 
 
-#####
-# electrification
-#####
+# electrification-----
 bev_trans_100 <- run_scenario_transportation(.bev_pct_sales = 1, .selected_ctu = "Minneapolis")
 bev_trans_80 <- run_scenario_transportation(.bev_pct_sales = .8, .selected_ctu = "Minneapolis")
 bev_trans_60 <- run_scenario_transportation(.bev_pct_sales = .6, .selected_ctu = "Minneapolis")
@@ -59,9 +55,7 @@ bev_ctu <- bev_fxn(bev_trans_100) %>%
   bind_rows(bev_fxn(bev_trans_0) %>% mutate(param = .0)) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
 
-#####
-# public transit
-#####
+# public transit----
 transitservice_trans_100 <- run_scenario_transportation(.transit_service_pct = 1, .selected_ctu = "Minneapolis")
 transitservice_trans_80 <- run_scenario_transportation(.transit_service_pct = .8, .selected_ctu = "Minneapolis")
 transitservice_trans_60 <- run_scenario_transportation(.transit_service_pct = .6, .selected_ctu = "Minneapolis")
@@ -88,9 +82,7 @@ transitservice_ctu <- telework_fxn(transitservice_trans_100) %>%
   bind_rows(transitservice_fxn(transitservice_trans_0) %>% mutate(param = .0)) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
 
-#####
-# road pricing
-#####
+# road pricing ----
 roadprice_trans_100 <- run_scenario_transportation(.cong_price = 1, .selected_ctu = "Minneapolis")
 roadprice_trans_80 <- run_scenario_transportation(.cong_price = .8, .selected_ctu = "Minneapolis")
 roadprice_trans_60 <- run_scenario_transportation(.cong_price = .6, .selected_ctu = "Minneapolis")
@@ -118,9 +110,7 @@ roadprice_ctu <- telework_fxn(roadprice_trans_100) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
 
 
-#####
-# parking policy
-#####
+# parking policy ----
 parking_trans_100 <- run_scenario_transportation(.parking_price = 50, .selected_ctu = "Minneapolis")
 parking_trans_80 <- run_scenario_transportation(.parking_price = 40, .selected_ctu = "Minneapolis")
 parking_trans_60 <- run_scenario_transportation(.parking_price = 30, .selected_ctu = "Minneapolis")
@@ -149,9 +139,7 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
 
 
 
-#####
-# landuse
-#####
+# landuse -----
 density_neg100 <- run_scenario_transportation(.pop_dens_pct_change = -1, .selected_ctu = "Minneapolis")
 density_neg50 <- run_scenario_transportation(.pop_dens_pct_change = -.5, .selected_ctu = "Minneapolis")
 density_0 <- run_scenario_transportation(.pop_dens_pct_change = 0, .selected_ctu = "Minneapolis")
@@ -178,9 +166,7 @@ density_ctu <- density_fxn(density_neg100) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
 
 
-#####
-# save data
-######
+# save data -----
 save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu,
   file = "data-raw/transportation_report_data.rda"
 )
