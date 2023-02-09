@@ -1,12 +1,13 @@
+pkgload::load_all()
 #####
 # telework
 #####
-telework_trans_100 <- run_scenario_transportation(.telework_pct = 1)
-telework_trans_80 <- run_scenario_transportation(.telework_pct = .8)
-telework_trans_60 <- run_scenario_transportation(.telework_pct = .6)
-telework_trans_40 <- run_scenario_transportation(.telework_pct = .4)
-telework_trans_20 <- run_scenario_transportation(.telework_pct = .2)
-telework_trans_0 <- run_scenario_transportation(.telework_pct = 0)
+telework_trans_100 <- run_scenario_transportation(.telework_pct = 1, .selected_ctu = "Minneapolis")
+telework_trans_80 <- run_scenario_transportation(.telework_pct = .8, .selected_ctu = "Minneapolis")
+telework_trans_60 <- run_scenario_transportation(.telework_pct = .6, .selected_ctu = "Minneapolis")
+telework_trans_40 <- run_scenario_transportation(.telework_pct = .4, .selected_ctu = "Minneapolis")
+telework_trans_20 <- run_scenario_transportation(.telework_pct = .2, .selected_ctu = "Minneapolis")
+telework_trans_0 <- run_scenario_transportation(.telework_pct = 0, .selected_ctu = "Minneapolis")
 
 telework_fxn <- function(.pct) {
   .pct$passenger_all %>%
@@ -32,12 +33,12 @@ telework_ctu <- telework_fxn(telework_trans_100) %>%
 #####
 # electrification
 #####
-bev_trans_100 <- run_scenario_transportation(.bev_pct_sales = 1)
-bev_trans_80 <- run_scenario_transportation(.bev_pct_sales = .8)
-bev_trans_60 <- run_scenario_transportation(.bev_pct_sales = .6)
-bev_trans_40 <- run_scenario_transportation(.bev_pct_sales = .4)
-bev_trans_20 <- run_scenario_transportation(.bev_pct_sales = .2)
-bev_trans_0 <- run_scenario_transportation(.bev_pct_sales = 0)
+bev_trans_100 <- run_scenario_transportation(.bev_pct_sales = 1, .selected_ctu = "Minneapolis")
+bev_trans_80 <- run_scenario_transportation(.bev_pct_sales = .8, .selected_ctu = "Minneapolis")
+bev_trans_60 <- run_scenario_transportation(.bev_pct_sales = .6, .selected_ctu = "Minneapolis")
+bev_trans_40 <- run_scenario_transportation(.bev_pct_sales = .4, .selected_ctu = "Minneapolis")
+bev_trans_20 <- run_scenario_transportation(.bev_pct_sales = .2, .selected_ctu = "Minneapolis")
+bev_trans_0 <- run_scenario_transportation(.bev_pct_sales = 0, .selected_ctu = "Minneapolis")
 
 bev_fxn <- function(.pct) {
   .pct$passenger_all %>%
@@ -61,12 +62,12 @@ bev_ctu <- bev_fxn(bev_trans_100) %>%
 #####
 # public transit
 #####
-transitservice_trans_100 <- run_scenario_transportation(.transit_service_pct = 1)
-transitservice_trans_80 <- run_scenario_transportation(.transit_service_pct = .8)
-transitservice_trans_60 <- run_scenario_transportation(.transit_service_pct = .6)
-transitservice_trans_40 <- run_scenario_transportation(.transit_service_pct = .4)
-transitservice_trans_20 <- run_scenario_transportation(.transit_service_pct = .2)
-transitservice_trans_0 <- run_scenario_transportation(.transit_service_pct = 0)
+transitservice_trans_100 <- run_scenario_transportation(.transit_service_pct = 1, .selected_ctu = "Minneapolis")
+transitservice_trans_80 <- run_scenario_transportation(.transit_service_pct = .8, .selected_ctu = "Minneapolis")
+transitservice_trans_60 <- run_scenario_transportation(.transit_service_pct = .6, .selected_ctu = "Minneapolis")
+transitservice_trans_40 <- run_scenario_transportation(.transit_service_pct = .4, .selected_ctu = "Minneapolis")
+transitservice_trans_20 <- run_scenario_transportation(.transit_service_pct = .2, .selected_ctu = "Minneapolis")
+transitservice_trans_0 <- run_scenario_transportation(.transit_service_pct = 0, .selected_ctu = "Minneapolis")
 
 transitservice_fxn <- function(.pct) {
   .pct$passenger_all %>%
@@ -90,12 +91,12 @@ transitservice_ctu <- telework_fxn(transitservice_trans_100) %>%
 #####
 # road pricing
 #####
-roadprice_trans_100 <- run_scenario_transportation(.cong_price = 1)
-roadprice_trans_80 <- run_scenario_transportation(.cong_price = .8)
-roadprice_trans_60 <- run_scenario_transportation(.cong_price = .6)
-roadprice_trans_40 <- run_scenario_transportation(.cong_price = .4)
-roadprice_trans_20 <- run_scenario_transportation(.cong_price = .2)
-roadprice_trans_0 <- run_scenario_transportation(.cong_price = 0)
+roadprice_trans_100 <- run_scenario_transportation(.cong_price = 1, .selected_ctu = "Minneapolis")
+roadprice_trans_80 <- run_scenario_transportation(.cong_price = .8, .selected_ctu = "Minneapolis")
+roadprice_trans_60 <- run_scenario_transportation(.cong_price = .6, .selected_ctu = "Minneapolis")
+roadprice_trans_40 <- run_scenario_transportation(.cong_price = .4, .selected_ctu = "Minneapolis")
+roadprice_trans_20 <- run_scenario_transportation(.cong_price = .2, .selected_ctu = "Minneapolis")
+roadprice_trans_0 <- run_scenario_transportation(.cong_price = 0, .selected_ctu = "Minneapolis")
 
 roadprice_fxn <- function(.pct) {
   .pct$passenger_all %>%
@@ -120,12 +121,12 @@ roadprice_ctu <- telework_fxn(roadprice_trans_100) %>%
 #####
 # parking policy
 #####
-parking_trans_100 <- run_scenario_transportation(.parking_price = 50)
-parking_trans_80 <- run_scenario_transportation(.parking_price = 40)
-parking_trans_60 <- run_scenario_transportation(.parking_price = 30)
-parking_trans_40 <- run_scenario_transportation(.parking_price = 20)
-parking_trans_20 <- run_scenario_transportation(.parking_price = 10)
-parking_trans_0 <- run_scenario_transportation(.parking_price = 0)
+parking_trans_100 <- run_scenario_transportation(.parking_price = 50, .selected_ctu = "Minneapolis")
+parking_trans_80 <- run_scenario_transportation(.parking_price = 40, .selected_ctu = "Minneapolis")
+parking_trans_60 <- run_scenario_transportation(.parking_price = 30, .selected_ctu = "Minneapolis")
+parking_trans_40 <- run_scenario_transportation(.parking_price = 20, .selected_ctu = "Minneapolis")
+parking_trans_20 <- run_scenario_transportation(.parking_price = 10, .selected_ctu = "Minneapolis")
+parking_trans_0 <- run_scenario_transportation(.parking_price = 0, .selected_ctu = "Minneapolis")
 
 parking_fxn <- function(.pct) {
   .pct$passenger_all %>%
@@ -151,11 +152,12 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
 #####
 # landuse
 #####
-density_neg100 <- run_scenario_transportation(.pop_dens_pct_change = -1)
-density_neg50 <- run_scenario_transportation(.pop_dens_pct_change = -.5)
-density_0 <- run_scenario_transportation(.pop_dens_pct_change = 0)
-density_50 <- run_scenario_transportation(.pop_dens_pct_change = .5)
-density_100 <- run_scenario_transportation(.pop_dens_pct_change = 1)
+density_neg100 <- run_scenario_transportation(.pop_dens_pct_change = -1, .selected_ctu = "Minneapolis")
+density_neg50 <- run_scenario_transportation(.pop_dens_pct_change = -.5, .selected_ctu = "Minneapolis")
+density_0 <- run_scenario_transportation(.pop_dens_pct_change = 0, .selected_ctu = "Minneapolis")
+density_50 <- run_scenario_transportation(.pop_dens_pct_change = .5, .selected_ctu = "Minneapolis")
+density_100 <- run_scenario_transportation(.pop_dens_pct_change = 1, .selected_ctu = "Minneapolis")
+
 
 density_fxn <- function(.pct) {
   .pct$passenger_all %>%
