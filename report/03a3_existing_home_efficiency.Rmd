@@ -60,7 +60,7 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-fig03a3 <- run_scenario_building(
+fig03a3_data <- run_scenario_building(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
   run_residential = TRUE,
@@ -163,12 +163,16 @@ fig03a3 <- run_scenario_building(
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables") %>%
-  tableformat(.,
+    by = "Variables")
+fig03a3_table <- fig03a3_data %>% tableformat(.,
               .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
-fig03a3
+fig03a3_table
 ```
 
+
+```{r echo=FALSE}
+chartformat(fig03a3_data)
+```

@@ -8,8 +8,8 @@
 inst/doc
 /doc/
 /Meta/
-report/_book/
-report/_bookdown_files/
+report/_book/**
+report/_bookdown_files/**
 
 vignettes/trans_scenario_shiny_cache/
 

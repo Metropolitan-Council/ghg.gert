@@ -9,7 +9,6 @@ If the availability of fossil fuel sources such as oil, natural gas, and coal is
 ```{r tab-new-single-family-home-area, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-source('setup_pkg_fcns.R')
 
 tab_new_single_family_home_area <- calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -185,5 +184,9 @@ fig03a1_data <-
 ```
 
 ```{r echo=FALSE}
-fig03a1
+fig03a1_table
+```
+
+```{r echo=FALSE}
+chartformat(fig03a1_data)
 ```

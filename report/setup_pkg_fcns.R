@@ -1,3 +1,4 @@
+library(ghg.sp)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
@@ -9,6 +10,7 @@ library(dplyr)
 library(DT)
 library(ghg.sp)
 library(rsvg)
+library(scales)
 
 devtools::load_all('..') # remove once ghg.sp package is up to date with changes
 
@@ -55,63 +57,18 @@ add_variable_names <- function(data, .year) {
 # chartformat function creates chart for scenario outputs with table structure expected as in report
 chartformat <- function(tb) {
   tb %>% pivot_longer(`2018 Baseline`:`2040 Scenario`, names_to = c('Year', 'Future'), names_sep = ' ', values_to = 'value') %>%
-    mutate(Year = as.numeric(Year)) %>%
+    #tidyr::separate_wider_delim(Variables, delim = ("("), names = c('Variables','Units')) %>%
+    mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
+         #  Units = str_remove_all(Units, fixed(")")),
+           Year = as.numeric(Year)) %>%
     # mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
     ggplot(., aes(x = Year, y = value, fill = Future)) + #fill = level, 
-    geom_bar(stat = 'identity', position = 'dodge') +
+    geom_bar(stat = 'identity', position = position_dodge2(preserve = 'single')) +
     facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
     scale_x_continuous(breaks = c(2018, 2040)) +
-    scale_fill_manual(values = RColorBrewer::brewer.pal(6, "Blues")[3:6]) +
+    scale_fill_manual(values = RColorBrewer::brewer.pal(5, "Blues")[2:5]) +
+    scale_y_continuous(labels = scientific) +
     labs(x = "", y = "", fill = 'Future') +
-    theme(
-      panel.background = element_rect(fill = "white"),
-      panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
-}
-
-# function to create data for run_scenario_building chart using a range of values on a given parameter
-# use parametername = .x in the ... to specify
-# (not currently working sorry)
-chartformatdata <- function(from, to, by, select_ctu, args) {
-  chart_data <- purrr::map(purrr::set_names(seq(from, to, by)), 
-                           function(x, args) {
-    scen <- ghg.sp::run_scenario_building(.selected_ctu = select_ctu, 
-                                          unlist(args))
-    return(scen) 
-  }) %>% bind_rows(.id = "level") %>%
-    filter(
-      var %in% c(
-        "residential_mwh",
-        "residential_therms",
-        "residential_natural_gas_emissions_kg_co",
-        "residential_electricity_emissions_kg_co"
-      ))
-  
-  return(chart_data)
-}
-
-# function to create chart with a range of values for a given parameter
-# use parametername = .x in the ... clause to specify
-# (not currently working sorry)
-chartformat_range <- function(from, to, by, select_ctu, ...) {
-  # run_scenario_building(res_tb = tb,
-  #                       .selected_ctu = select_ctu, ...) %>%
-  chartformatdata(from, to, by, select_ctu, ...) %>%  
-    left_join(., variables, by = "var") %>%
-    mutate(desc = str_replace_all(desc, "ft<sup>2</sup>", "ft2"),
-           year = as.numeric(year)) %>%
-    rename("Variables" = desc) %>%
-    # mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
-    ggplot(., aes(x = year, y = value, color = scen, fill = level)) + 
-    geom_bar(stat = 'identity', position = 'dodge') +
-    facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
-    scale_x_continuous(breaks = c(2018, 2040)) +
-    scale_fill_manual(values = RColorBrewer::brewer.pal(6, "Blues")[2:6]) +
-    scale_color_manual(values = c('bau' = 'black', 'scen' = 'white')) +
-    labs(x = "", y = "", color = "Percentage of\nsingle family\nfloor area\nreduced due to\nincreased energy\nprices", shape = 'Future') +
     theme(
       panel.background = element_rect(fill = "white"),
       panel.grid = element_blank(),
