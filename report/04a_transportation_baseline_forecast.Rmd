@@ -78,8 +78,10 @@ transportation_data$passenger %>%
     "Value" = "value"
   ) %>%
   mutate(Value = round(Value, digits = 0)) %>% 
+  pivot_wider(names_from = year,
+              values_from = Value) %>% 
   
-  tableformat(.caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection, "  2040 Forecast"))
+  tableformat(.caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection))
 
 
 ```
