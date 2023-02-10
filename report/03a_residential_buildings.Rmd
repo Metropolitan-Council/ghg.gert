@@ -10,7 +10,7 @@ The global energy consumption of buildings, both residential and commercial, has
 
 **What predicts greenhouse gas emissions in the building sector?**
 
-To predict the future greenhouse gas emissions of the building energy sector in the city of `r params$ctu_section`, we must consider three important assumptions:
+To predict the future greenhouse gas emissions of the building energy sector in the city of `r params$ctu_selection`, we must consider three important assumptions:
 
 1)  Residential energy consumption is directly proportional to the floor area of homes. In other words, larger homes consume more energy. Strategies to reduce the floor area or increase the energy efficiency per unit area of residential buildings have the potential to decrease emissions. However, it is important to note that there are other factors that also contribute to residential energy consumption, such as the type of appliances and systems used, the number of occupants, and the location and climate of the home.
 
@@ -75,11 +75,11 @@ Cities have a range of tools at their disposal to control the size of new single
 The City of `r params$ctu_selection` can influence the size of new single family homes in a variety of ways, including:
 
 ::: facts
--   ***Design guidelines*** Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
+-   ***Design guidelines:*** Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
 
--   ***Zoning regulations*** The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+-   ***Zoning regulations:*** The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
 
--   ***Incentives*** a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+-   ***Incentives:*** a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
 
--   ***Fees*** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
+-   ***Fees:*** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 :::
