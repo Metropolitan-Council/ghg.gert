@@ -21,8 +21,15 @@ calc_land_cover_by_land_use(
 ) %>%
   filter(ctu_name == params$ctu_selection) %>%
   ungroup() %>%
-  group_by(land_cover_type) %>%
-  summarise(hecatares = sum(land_cover_land_use_hectares))
+  group_by(land_cover_type) %>% 
+  summarise(value = sum(land_cover_land_use_hectares)) %>%
+  rename(var = land_cover_type) %>%
+    left_join(.,
+              variables,
+              by = "var")  %>%
+    select(desc, value) %>%
+    rename(Variables = desc) %>%
+  tableformat(.caption = paste0("Land Cover for ", params$ctu_selection))
 ```
 
 ### Land Use Baseline
@@ -39,7 +46,15 @@ calc_land_cover_by_land_use(
   filter(ctu_name == params$ctu_selection) %>%
   ungroup() %>%
   group_by(land_use_type) %>%
-  summarise(hecatares = sum(land_cover_land_use_hectares))
+  summarise(value = sum(land_cover_land_use_hectares)) %>%
+  rename(var = land_use_type) %>%
+    left_join(.,
+              variables,
+              by = "var")  %>%
+    select(desc, value) %>%
+    rename(Variables = desc) %>%
+  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+
 ```
 
 ## Land Use and Forestry Forecast
