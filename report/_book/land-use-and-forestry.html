@@ -259,15 +259,14 @@ div.csl-indent {
 <div id="land-cover-baseline" class="section level3 hasAnchor" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> Land Cover Baseline<a href="land-use-and-forestry.html#land-cover-baseline" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A high-resolution land cover map was generated for the Metropolitan Council region for the year 2016 using a support vector machine image classification on <em>Planet RapidEye 5m imagery</em>. This classification was merged with the 2019 edition of the 2016 National Land Cover Database to generate a 12-class land cover map (See <span class="citation">(<a href="#ref-Milnar_Ramaswami_2020" role="doc-biblioref">Milnar and Ramaswami 2020</a>)</span> for more details on image classification methodology).</p>
-<<<<<<< HEAD
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="land-use-and-forestry.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
-<span id="cb9-2"><a href="land-use-and-forestry.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
-<span id="cb9-3"><a href="land-use-and-forestry.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
-<span id="cb9-4"><a href="land-use-and-forestry.html#cb9-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="land-use-and-forestry.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="land-use-and-forestry.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-7"><a href="land-use-and-forestry.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_cover_type) <span class="sc">%&gt;%</span></span>
-<span id="cb9-8"><a href="land-use-and-forestry.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="land-use-and-forestry.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
+<span id="cb15-2"><a href="land-use-and-forestry.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
+<span id="cb15-3"><a href="land-use-and-forestry.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
+<span id="cb15-4"><a href="land-use-and-forestry.html#cb15-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="land-use-and-forestry.html#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="land-use-and-forestry.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="land-use-and-forestry.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_cover_type) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="land-use-and-forestry.html#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
 <pre><code>## 
 **** calculating land cover by land use 
 
@@ -276,23 +275,8 @@ div.csl-indent {
 **** calculating land cover by land use 
 
 **** calculating land use urban form
-## scnear…
-
- 
+## scneario 
 **** calculating land cover by land use</code></pre>
-=======
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="land-use-and-forestry.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
-<span id="cb10-2"><a href="land-use-and-forestry.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
-<span id="cb10-3"><a href="land-use-and-forestry.html#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
-<span id="cb10-4"><a href="land-use-and-forestry.html#cb10-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="land-use-and-forestry.html#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="land-use-and-forestry.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-7"><a href="land-use-and-forestry.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_cover_type) <span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="land-use-and-forestry.html#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
-<pre><code>## **** calculating land cover by land use **** calculating land cover percentages
-## **** calculating land cover by land use **** calculating land use urban form
-## scneario **** calculating land cover by land use</code></pre>
->>>>>>> small-fixes
 <pre><code>## # A tibble: 12 × 2
 ##    land_cover_type hecatares
 ##    &lt;chr&gt;               &lt;dbl&gt;
@@ -313,15 +297,14 @@ div.csl-indent {
 <h3><span class="header-section-number">5.1.2</span> Land Use Baseline<a href="land-use-and-forestry.html#land-use-baseline" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The 2016 land use baseline data has been generated from the Metropolitan Council Generalized Land Use geospatial layer for for all cities and townships. This data has been categorized into three parts based on land use type: “Urban Infill”, “Exurban Development”, and “Urban Expansion”.</p>
 <p>“Exurban Development” was considered to be the following land use types: Undeveloped, Park/Recreation/Preserve, Agriculture, or Farmstead. All other land use types were considered “Urban Infill” in the baseline data.</p>
-<<<<<<< HEAD
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="land-use-and-forestry.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
-<span id="cb12-2"><a href="land-use-and-forestry.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
-<span id="cb12-3"><a href="land-use-and-forestry.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
-<span id="cb12-4"><a href="land-use-and-forestry.html#cb12-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-5"><a href="land-use-and-forestry.html#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
-<span id="cb12-6"><a href="land-use-and-forestry.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-7"><a href="land-use-and-forestry.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_use_type) <span class="sc">%&gt;%</span></span>
-<span id="cb12-8"><a href="land-use-and-forestry.html#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="land-use-and-forestry.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
+<span id="cb18-2"><a href="land-use-and-forestry.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
+<span id="cb18-3"><a href="land-use-and-forestry.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
+<span id="cb18-4"><a href="land-use-and-forestry.html#cb18-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="land-use-and-forestry.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="land-use-and-forestry.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="land-use-and-forestry.html#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_use_type) <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="land-use-and-forestry.html#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
 <pre><code>## 
 **** calculating land cover by land use 
 
@@ -330,23 +313,8 @@ div.csl-indent {
 **** calculating land cover by land use 
 
 **** calculating land use urban form
-## scnear…
-
- 
+## scneario 
 **** calculating land cover by land use</code></pre>
-=======
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="land-use-and-forestry.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_land_cover_by_land_use</span>(</span>
-<span id="cb13-2"><a href="land-use-and-forestry.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb =</span> land_use_data,</span>
-<span id="cb13-3"><a href="land-use-and-forestry.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.urban_form_scenario =</span> <span class="st">&quot;bau&quot;</span></span>
-<span id="cb13-4"><a href="land-use-and-forestry.html#cb13-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-5"><a href="land-use-and-forestry.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ctu_name <span class="sc">==</span> params<span class="sc">$</span>ctu_selection) <span class="sc">%&gt;%</span></span>
-<span id="cb13-6"><a href="land-use-and-forestry.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-7"><a href="land-use-and-forestry.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_use_type) <span class="sc">%&gt;%</span></span>
-<span id="cb13-8"><a href="land-use-and-forestry.html#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
-<pre><code>## **** calculating land cover by land use **** calculating land cover percentages
-## **** calculating land cover by land use **** calculating land use urban form
-## scneario **** calculating land cover by land use</code></pre>
->>>>>>> small-fixes
 <pre><code>## # A tibble: 23 × 2
 ##    land_use_type             hecatares
 ##    &lt;chr&gt;                         &lt;dbl&gt;
