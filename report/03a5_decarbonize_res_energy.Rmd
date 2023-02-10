@@ -62,6 +62,7 @@ fig03a5_table <-
 ```{r echo=FALSE}
 fig03a5_table
 ```
+
 ```{r echo=FALSE}
 chartformat(fig03a5_data)
 ```
