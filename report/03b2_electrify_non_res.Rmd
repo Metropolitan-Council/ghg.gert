@@ -8,115 +8,56 @@ Non-residential electrification strategy
 
 ```{r fig03b2, include=FALSE}
 # 2018
-fig03b2_2018 <- run_scenario_building(
-  run_residential = FALSE,
-  run_non_residential = TRUE,
-  .selected_ctu = params$ctu_selection,
-  non_res_tb = building_data$non_residential,
-  non_res_tb_bau = building_data$non_residential,
-  .electrified_buildings_pct = 0,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct = 1,
-  .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 1,
-  .grid_decarbonization_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
-  .enviro_factors = enviro_factors
-) %>%
-  ungroup() %>%
-  dplyr::filter(
-    year == 2018,
-    scen == "bau",
-    var %in% c(
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-  add_variable_names(., "2018 Baseline")
+fig03b2_data <- full_join(non_res_bau_2018,
+                          non_res_bau_2040,
+                          by = "Variables") %>% full_join(
+                            .,
+                            # 2040 Scenario
+                            run_scenario_building(
+                              run_residential = FALSE,
+                              run_non_residential = TRUE,
+                              .selected_ctu = params$ctu_selection,
+                              non_res_tb = building_data$non_residential,
+                              non_res_tb_bau = building_data$non_residential,
+                              .electrified_buildings_pct = .5,
+                              .non_res_natural_gas_for_water_heating_pct = 0.20,
+                              .non_res_natural_gas_for_space_heating_pct = 0.69,
+                              .commercial_smart_grid_pct = 1,
+                              .industrial_smart_grid_pct = 1,
+                              .smart_grid_energy_reduction_pct = 1,
+                              .grid_decarbonization_pct = 0,
+                              .existing_high_efficiency_buildings_pct = 0,
+                              .enviro_factors = enviro_factors
+                            ) %>%
+                              ungroup() %>%
+                              dplyr::filter(
+                                year == 2040,
+                                scen == "scen",
+                                var %in% c(
+                                  "commercial_mwh",
+                                  "industrial_mwh",
+                                  "commercial_therms",
+                                  "industrial_therms",
+                                  "total_industrial_commercial_emissions"
+                                )
+                              ) %>%
+                              add_variable_names(., "2040 Scenario"),
+                            by = "Variables"
+                          )
 
-# 2040 BAU
-fig03b2_2040bau <- run_scenario_building(
-  run_residential = FALSE,
-  run_non_residential = TRUE,
-  .selected_ctu = params$ctu_selection,
-  non_res_tb = building_data$non_residential,
-  non_res_tb_bau = building_data$non_residential,
-  .electrified_buildings_pct = 0,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct = 1,
-  .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 1,
-  .grid_decarbonization_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
-  .enviro_factors = enviro_factors
-) %>%
-  ungroup() %>%
-  dplyr::filter(
-    year == 2040,
-    scen == "bau",
-    var %in% c(
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-  add_variable_names(., "2040 Busines-As-Usual")
-
-# 2040 Scenario
-fig03b2_2040scen <- run_scenario_building(
-  run_residential = FALSE,
-  run_non_residential = TRUE,
-  .selected_ctu = params$ctu_selection,
-  non_res_tb = building_data$non_residential,
-  non_res_tb_bau = building_data$non_residential,
-  .electrified_buildings_pct = .5,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct = 1,
-  .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 1,
-  .grid_decarbonization_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
-  .enviro_factors = enviro_factors
-) %>%
-  ungroup() %>%
-  dplyr::filter(
-    year == 2040,
-    scen == "scen",
-    var %in% c(
-      "commercial_mwh",
-      "industrial_mwh",
-      "commercial_therms",
-      "industrial_therms",
-      "total_industrial_commercial_emissions"
-    )
-  ) %>%
-  add_variable_names(., "2040 Scenario")
-
-fig03b2 <- 
-  full_join(
-    fig03b2_2018,
-    fig03b2_2040bau,
-    by = "Variables"
-  ) %>% full_join(., 
-                  fig03b2_2040scen, 
-                  by = "Variables")
-
-```
-
-```{r show_fig03b2, echo=FALSE}
-fig03b2 %>%
+fig03b2_table <- fig03b2_data %>%
   # add table format
   tableformat(.,
               .caption = paste("Retrofit Commercial Buildings",
                                params$ctu_selection,
                                "2040"))
+```
+
+```{r show_fig03b2, echo=FALSE}
+fig03b2_table
+```
+
+```{r}
+chartformat(fig03b2_data)
 ```
 

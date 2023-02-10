@@ -67,11 +67,10 @@ $$ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * population_{2040} * \fr
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-fig0304 <-   res_bau_2018 %>%
-  add_variable_names(., "2018 Baseline") %>%
+fig03a4_data <-   
+  res_bau_2018 %>%
   full_join(
-    res_bau_2040 %>%
-      add_variable_names(., "2040 Business-as-Usual"),
+    res_bau_2040,
     by = "Variables"
   ) %>%
   full_join(
@@ -108,12 +107,17 @@ fig0304 <-   res_bau_2018 %>%
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables") %>%
-  tableformat(.,
+    by = "Variables")
+
+fig03a4_table <- fig03a4_data %>% tableformat(.,
               .caption = paste("Behavior Change", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
-fig0304
+fig03a4_table
+```
+
+```{r echo=FALSE}
+chartformat(fig03a4_data)
 ```
 
