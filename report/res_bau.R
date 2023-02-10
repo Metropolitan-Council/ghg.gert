@@ -29,7 +29,8 @@ res_bau_2018 <- run_scenario_building(
     year == 2018,
     scen == "bau"
   ) %>%
-  ungroup()
+  ungroup() %>%
+  add_variable_names(., "2018 Baseline")
 
 res_bau_2040 <- run_scenario_building(
   res_tb = building_energy_bau_data$residential,
@@ -62,4 +63,5 @@ res_bau_2040 <- run_scenario_building(
     year == 2040,
     scen == "scen"
   ) %>%
-  ungroup()
+  ungroup() %>%
+  add_variable_names(., "2040 Business-as-Usual")

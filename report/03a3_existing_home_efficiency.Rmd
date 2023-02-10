@@ -58,13 +58,10 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} +
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-#| echo: false
-#| message: false
+
 fig03a3_data <- res_bau_2018 %>%
-  add_variable_names(., "2018 Baseline") %>%
   full_join(
-    res_bau_2040 %>%
-      add_variable_names(., "2040 Business-as-Usual"),
+    res_bau_2040,
     by = "Variables"
   ) %>%
   full_join(
@@ -102,6 +99,7 @@ fig03a3_data <- res_bau_2018 %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
+
 fig03a3_table <- fig03a3_data %>% tableformat(.,
               .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```

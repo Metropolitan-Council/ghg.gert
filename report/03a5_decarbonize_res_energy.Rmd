@@ -11,13 +11,11 @@ kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{po
 $$
 
 ```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
-#| echo: false
-#| message: false
-fig03a5_data <-   res_bau_2018 %>%
-  add_variable_names(., "2018 Baseline") %>%
+
+fig03a5_data <-   
+  res_bau_2018 %>%
   full_join(
-    res_bau_2040 %>%
-      add_variable_names(., "2040 Business-as-Usual"),
+    res_bau_2040,
     by = "Variables"
   ) %>%
   full_join(
@@ -54,11 +52,16 @@ fig03a5_data <-   res_bau_2018 %>%
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables") %>%
+    by = "Variables")
+
+fig03a5_table <- 
+  fig03a5_data %>%  
   tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
 ```{r echo=FALSE}
-fig03a5
+fig03a5_table
 ```
-
+```{r echo=FALSE}
+chartformat(fig03a5_data)
+```

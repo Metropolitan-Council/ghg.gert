@@ -56,7 +56,7 @@ tab_new_single_family_home_area
 
 
 $$sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)$$
-where
+Where:
 
 -   $(1+X)$: The rate of growth in single-family floor area in square feet per year.
 -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040. 
@@ -70,10 +70,8 @@ where
 
 fig03a1_data <- 
   res_bau_2018 %>%
-  add_variable_names(., "2018 Baseline") %>%
   full_join(
-    res_bau_2040 %>%
-      add_variable_names(., "2040 Business-as-Usual"),
+    res_bau_2040,
     by = "Variables"
   ) %>%
   full_join(
