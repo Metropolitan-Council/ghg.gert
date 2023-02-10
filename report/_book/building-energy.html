@@ -7,7 +7,7 @@
   <title>3 Building Energy | Greenhouse Gas Emissions Scenario Planning</title>
   <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
 and published on February of 2023.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Building Energy | Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
@@ -1579,29 +1579,132 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <span id="cb1-29"><a href="building-energy.html#cb1-29" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb1-30"><a href="building-energy.html#cb1-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb1-31"><a href="building-energy.html#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2018 Baseline&quot;</span>)</span></code></pre></div>
-<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
-## percent of electrified buildings:0 ...... percent of non-residential natural
-## gas for water heating:0.2 ...... percent of non-residential natural gas
-## for space heating:0.69 ...... percent of commercial smart grid:1 ......
-## percent of industrial smart grid:1 ...... percent of smart grid energy
-## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
-## of existing high efficiency buildings:0 ...... percent of home behavior
-## change:1 ...... percent of single family floor area growth:0.05 ......
-## percent of new homes affected:0.3 ...... percent of new homes leed
-## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
-## of existing home ultra retrofit:0.2 ...... percent of residential
-## natural gas for space heating:0.71 ...... percent of residential natural
-## gas for water heating:0.24 ...... percent of additional electrified
-## residential buildings:0.45 ...... percent of grid decarbonization:0
-## ========================================== ** compiling non-residential
-## strategies *** calculating existing commercial building energy efficiency
-## ** compiling non-residential strategies *** calculating non-residential ghg
-## emissions *** calculating existing commercial building energy efficiency
-## *** calculating non-residential ghg emissions ** compiling non-residential
-## strategies *** calculating commercial building heat electficiation **
-## compiling non-residential strategies *** calculating non-residential
-## renewable natural gas strategy ** compiling non-residential strategies
-## ==========================================</code></pre>
+<pre><code>## 
+=== RUNNING BUILDING ENERGY MODULE === 
+
+...... selected CTU:Minneapolis
+
+ 
+
+......
+## percent of electrified buildings:0
+
+ 
+
+...... percent of non-residential natural g…
+
+
+## 
+
+...... percent of non-residential natural g…
+
+ 
+
+...... percent of commercial smart
+## grid:1
+
+ 
+
+...... percent of industrial smart grid:1
+
+ 
+
+...... percent of smart grid
+## energy reducti…
+
+ 
+
+...... percent of new homes to multifamily:…
+
+ 
+
+...... percent of
+## existing high efficiency …
+
+ 
+
+...... percent of home behavior change:1
+
+ 
+
+......
+## percent of single family floor area …
+
+ 
+
+...... percent of new homes affected:0.3
+
+
+## 
+
+...... percent of new homes leed gold:0.5
+
+ 
+
+...... percent of existing home
+## retrofit:0.8
+
+ 
+
+...... percent of existing home ultra retro…
+
+ 
+
+...... percent of
+## residential natural gas f…
+
+ 
+
+...... percent of residential natural gas f…
+
+ 
+
+......
+## percent of additional electrified re…
+
+ 
+
+...... percent of grid decarbonization:0
+
+
+## 
+
+========================================== 
+
+** compiling non-residential
+## strategies 
+
+*** calculating existing commercial buildin…
+
+ 
+** compiling
+## non-residential strategies 
+
+*** calculating non-residential ghg emissio…
+
+***
+## calculating existing commercial buildin…
+
+ 
+*** calculating non-residential ghg
+## emissio…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating commercial
+## building heat el…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating
+## non-residential renewable n…
+
+ 
+** compiling non-residential strategies
+## 
+==========================================</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="building-energy.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2040 BAU</span></span>
 <span id="cb3-2"><a href="building-energy.html#cb3-2" aria-hidden="true" tabindex="-1"></a>fig03b3_2040bau <span class="ot">&lt;-</span> <span class="fu">run_scenario_building</span>(</span>
 <span id="cb3-3"><a href="building-energy.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
@@ -1633,29 +1736,132 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <span id="cb3-29"><a href="building-energy.html#cb3-29" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-30"><a href="building-energy.html#cb3-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb3-31"><a href="building-energy.html#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Busines-As-Usual&quot;</span>)</span></code></pre></div>
-<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
-## percent of electrified buildings:0 ...... percent of non-residential natural
-## gas for water heating:0.2 ...... percent of non-residential natural gas
-## for space heating:0.69 ...... percent of commercial smart grid:1 ......
-## percent of industrial smart grid:1 ...... percent of smart grid energy
-## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
-## of existing high efficiency buildings:0 ...... percent of home behavior
-## change:1 ...... percent of single family floor area growth:0.05 ......
-## percent of new homes affected:0.3 ...... percent of new homes leed
-## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
-## of existing home ultra retrofit:0.2 ...... percent of residential
-## natural gas for space heating:0.71 ...... percent of residential natural
-## gas for water heating:0.24 ...... percent of additional electrified
-## residential buildings:0.45 ...... percent of grid decarbonization:0
-## ========================================== ** compiling non-residential
-## strategies *** calculating existing commercial building energy efficiency
-## ** compiling non-residential strategies *** calculating non-residential ghg
-## emissions *** calculating existing commercial building energy efficiency
-## *** calculating non-residential ghg emissions ** compiling non-residential
-## strategies *** calculating commercial building heat electficiation **
-## compiling non-residential strategies *** calculating non-residential
-## renewable natural gas strategy ** compiling non-residential strategies
-## ==========================================</code></pre>
+<pre><code>## 
+=== RUNNING BUILDING ENERGY MODULE === 
+
+...... selected CTU:Minneapolis
+
+ 
+
+......
+## percent of electrified buildings:0
+
+ 
+
+...... percent of non-residential natural g…
+
+
+## 
+
+...... percent of non-residential natural g…
+
+ 
+
+...... percent of commercial smart
+## grid:1
+
+ 
+
+...... percent of industrial smart grid:1
+
+ 
+
+...... percent of smart grid
+## energy reducti…
+
+ 
+
+...... percent of new homes to multifamily:…
+
+ 
+
+...... percent of
+## existing high efficiency …
+
+ 
+
+...... percent of home behavior change:1
+
+ 
+
+......
+## percent of single family floor area …
+
+ 
+
+...... percent of new homes affected:0.3
+
+
+## 
+
+...... percent of new homes leed gold:0.5
+
+ 
+
+...... percent of existing home
+## retrofit:0.8
+
+ 
+
+...... percent of existing home ultra retro…
+
+ 
+
+...... percent of
+## residential natural gas f…
+
+ 
+
+...... percent of residential natural gas f…
+
+ 
+
+......
+## percent of additional electrified re…
+
+ 
+
+...... percent of grid decarbonization:0
+
+
+## 
+
+========================================== 
+
+** compiling non-residential
+## strategies 
+
+*** calculating existing commercial buildin…
+
+ 
+** compiling
+## non-residential strategies 
+
+*** calculating non-residential ghg emissio…
+
+***
+## calculating existing commercial buildin…
+
+ 
+*** calculating non-residential ghg
+## emissio…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating commercial
+## building heat el…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating
+## non-residential renewable n…
+
+ 
+** compiling non-residential strategies
+## 
+==========================================</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="building-energy.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2040 Scenario</span></span>
 <span id="cb5-2"><a href="building-energy.html#cb5-2" aria-hidden="true" tabindex="-1"></a>fig03b3_2040scen <span class="ot">&lt;-</span> <span class="fu">run_scenario_building</span>(</span>
 <span id="cb5-3"><a href="building-energy.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
@@ -1687,29 +1893,132 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <span id="cb5-29"><a href="building-energy.html#cb5-29" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb5-30"><a href="building-energy.html#cb5-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb5-31"><a href="building-energy.html#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Scenario&quot;</span>)</span></code></pre></div>
-<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
-## percent of electrified buildings:0 ...... percent of non-residential natural
-## gas for water heating:0.2 ...... percent of non-residential natural gas
-## for space heating:0.69 ...... percent of commercial smart grid:1 ......
-## percent of industrial smart grid:1 ...... percent of smart grid energy
-## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
-## of existing high efficiency buildings:0 ...... percent of home behavior
-## change:1 ...... percent of single family floor area growth:0.05 ......
-## percent of new homes affected:0.3 ...... percent of new homes leed
-## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
-## of existing home ultra retrofit:0.2 ...... percent of residential
-## natural gas for space heating:0.71 ...... percent of residential natural
-## gas for water heating:0.24 ...... percent of additional electrified
-## residential buildings:0.45 ...... percent of grid decarbonization:0
-## ========================================== ** compiling non-residential
-## strategies *** calculating existing commercial building energy efficiency
-## ** compiling non-residential strategies *** calculating non-residential ghg
-## emissions *** calculating existing commercial building energy efficiency
-## *** calculating non-residential ghg emissions ** compiling non-residential
-## strategies *** calculating commercial building heat electficiation **
-## compiling non-residential strategies *** calculating non-residential
-## renewable natural gas strategy ** compiling non-residential strategies
-## ==========================================</code></pre>
+<pre><code>## 
+=== RUNNING BUILDING ENERGY MODULE === 
+
+...... selected CTU:Minneapolis
+
+ 
+
+......
+## percent of electrified buildings:0
+
+ 
+
+...... percent of non-residential natural g…
+
+
+## 
+
+...... percent of non-residential natural g…
+
+ 
+
+...... percent of commercial smart
+## grid:1
+
+ 
+
+...... percent of industrial smart grid:1
+
+ 
+
+...... percent of smart grid
+## energy reducti…
+
+ 
+
+...... percent of new homes to multifamily:…
+
+ 
+
+...... percent of
+## existing high efficiency …
+
+ 
+
+...... percent of home behavior change:1
+
+ 
+
+......
+## percent of single family floor area …
+
+ 
+
+...... percent of new homes affected:0.3
+
+
+## 
+
+...... percent of new homes leed gold:0.5
+
+ 
+
+...... percent of existing home
+## retrofit:0.8
+
+ 
+
+...... percent of existing home ultra retro…
+
+ 
+
+...... percent of
+## residential natural gas f…
+
+ 
+
+...... percent of residential natural gas f…
+
+ 
+
+......
+## percent of additional electrified re…
+
+ 
+
+...... percent of grid decarbonization:0
+
+
+## 
+
+========================================== 
+
+** compiling non-residential
+## strategies 
+
+*** calculating existing commercial buildin…
+
+ 
+** compiling
+## non-residential strategies 
+
+*** calculating non-residential ghg emissio…
+
+***
+## calculating existing commercial buildin…
+
+ 
+*** calculating non-residential ghg
+## emissio…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating commercial
+## building heat el…
+
+ 
+** compiling non-residential strategies 
+
+*** calculating
+## non-residential renewable n…
+
+ 
+** compiling non-residential strategies
+## 
+==========================================</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="building-energy.html#cb7-1" aria-hidden="true" tabindex="-1"></a>fig03b3 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
 <span id="cb7-2"><a href="building-energy.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  fig03b3_2018,</span>
 <span id="cb7-3"><a href="building-energy.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  fig03b3_2040bau,</span>

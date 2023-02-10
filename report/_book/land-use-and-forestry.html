@@ -7,7 +7,7 @@
   <title>5 Land Use and Forestry | Greenhouse Gas Emissions Scenario Planning</title>
   <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
 and published on February of 2023.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Land Use and Forestry | Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
@@ -267,9 +267,18 @@ div.csl-indent {
 <span id="cb9-6"><a href="land-use-and-forestry.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb9-7"><a href="land-use-and-forestry.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_cover_type) <span class="sc">%&gt;%</span></span>
 <span id="cb9-8"><a href="land-use-and-forestry.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
-<pre><code>## **** calculating land cover by land use **** calculating land cover percentages
-## **** calculating land cover by land use **** calculating land use urban form
-## scneario **** calculating land cover by land use</code></pre>
+<pre><code>## 
+**** calculating land cover by land use 
+
+**** calculating land cover percentages
+## 
+**** calculating land cover by land use 
+
+**** calculating land use urban form
+## scnear…
+
+ 
+**** calculating land cover by land use</code></pre>
 <pre><code>## # A tibble: 12 × 2
 ##    land_cover_type hecatares
 ##    &lt;chr&gt;               &lt;dbl&gt;
@@ -298,9 +307,18 @@ div.csl-indent {
 <span id="cb12-6"><a href="land-use-and-forestry.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb12-7"><a href="land-use-and-forestry.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land_use_type) <span class="sc">%&gt;%</span></span>
 <span id="cb12-8"><a href="land-use-and-forestry.html#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hecatares =</span> <span class="fu">sum</span>(land_cover_land_use_hectares))</span></code></pre></div>
-<pre><code>## **** calculating land cover by land use **** calculating land cover percentages
-## **** calculating land cover by land use **** calculating land use urban form
-## scneario **** calculating land cover by land use</code></pre>
+<pre><code>## 
+**** calculating land cover by land use 
+
+**** calculating land cover percentages
+## 
+**** calculating land cover by land use 
+
+**** calculating land use urban form
+## scnear…
+
+ 
+**** calculating land cover by land use</code></pre>
 <pre><code>## # A tibble: 23 × 2
 ##    land_use_type             hecatares
 ##    &lt;chr&gt;                         &lt;dbl&gt;
