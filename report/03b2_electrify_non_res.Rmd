@@ -57,7 +57,7 @@ fig03b2_table <- fig03b2_data %>%
 fig03b2_table
 ```
 
-```{r}
+```{r echo=FALSE}
 chartformat(fig03b2_data)
 ```
 
