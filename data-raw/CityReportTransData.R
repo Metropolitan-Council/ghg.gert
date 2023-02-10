@@ -10,7 +10,7 @@ telework_trans_0 <- run_scenario_transportation(.telework_pct = 0, .selected_ctu
 telework_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -24,7 +24,7 @@ telework_ctu <- telework_fxn(telework_trans_100) %>%
   bind_rows(telework_fxn(telework_trans_40) %>% mutate(param = .4)) %>%
   bind_rows(telework_fxn(telework_trans_20) %>% mutate(param = .2)) %>%
   bind_rows(telework_fxn(telework_trans_0) %>% mutate(param = 0)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
 
@@ -39,7 +39,7 @@ bev_trans_0 <- run_scenario_transportation(.bev_pct_sales = 0, .selected_ctu = "
 bev_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -53,7 +53,7 @@ bev_ctu <- bev_fxn(bev_trans_100) %>%
   bind_rows(bev_fxn(bev_trans_40) %>% mutate(param = .4)) %>%
   bind_rows(bev_fxn(bev_trans_20) %>% mutate(param = .2)) %>%
   bind_rows(bev_fxn(bev_trans_0) %>% mutate(param = .0)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 # public transit----
 transitservice_trans_100 <- run_scenario_transportation(.transit_service_pct = 1, .selected_ctu = "Minneapolis",.scenario = "ts100")
@@ -66,7 +66,7 @@ transitservice_trans_0 <- run_scenario_transportation(.transit_service_pct = 0, 
 transitservice_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -80,7 +80,7 @@ transitservice_ctu <- telework_fxn(transitservice_trans_100) %>%
   bind_rows(transitservice_fxn(transitservice_trans_40) %>% mutate(param = .4)) %>%
   bind_rows(transitservice_fxn(transitservice_trans_20) %>% mutate(param = .2)) %>%
   bind_rows(transitservice_fxn(transitservice_trans_0) %>% mutate(param = .0)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 # road pricing ----
 roadprice_trans_100 <- run_scenario_transportation(.cong_price = 1, .selected_ctu = "Minneapolis",.scenario = "rp100")
@@ -93,7 +93,7 @@ roadprice_trans_0 <- run_scenario_transportation(.cong_price = 0, .selected_ctu 
 roadprice_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -107,7 +107,7 @@ roadprice_ctu <- telework_fxn(roadprice_trans_100) %>%
   bind_rows(roadprice_fxn(roadprice_trans_40) %>% mutate(param = .4)) %>%
   bind_rows(roadprice_fxn(roadprice_trans_20) %>% mutate(param = .2)) %>%
   bind_rows(roadprice_fxn(roadprice_trans_0) %>% mutate(param = .0)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
 # parking policy ----
@@ -121,7 +121,7 @@ parking_trans_0 <- run_scenario_transportation(.parking_price = 0, .selected_ctu
 parking_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -135,7 +135,7 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
   bind_rows(parking_fxn(parking_trans_40) %>% mutate(param = .4)) %>%
   bind_rows(parking_fxn(parking_trans_20) %>% mutate(param = .2)) %>%
   bind_rows(parking_fxn(parking_trans_0) %>% mutate(param = .0)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
 
@@ -150,7 +150,7 @@ density_100 <- run_scenario_transportation(.pop_dens_pct_change = 1, .selected_c
 density_fxn <- function(.pct) {
   .pct$passenger_all %>%
     filter(ctu == "Minneapolis") %>%
-    group_by(ctu, scenario, year) %>%
+    group_by(ctu, scenario, year, mode) %>%
     summarise(
       direct = sum(dir_ghg, na.rm = T),
       embodied = sum(ghg_embodied, na.rm = T)
@@ -163,7 +163,7 @@ density_ctu <- density_fxn(density_neg100) %>%
   bind_rows(density_fxn(density_0) %>% mutate(param = 0)) %>%
   bind_rows(density_fxn(density_50) %>% mutate(param = .5)) %>%
   bind_rows(density_fxn(density_100) %>% mutate(param = 1)) %>%
-  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param))
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 # bau-----
 
@@ -171,7 +171,7 @@ density_ctu <- density_fxn(density_neg100) %>%
 bau <- run_scenario_transportation(.selected_ctu = "Minneapolis",.scenario = "BAU")
 
 bau_ctu <- bau$passenger_all %>%
-  group_by(ctu, scenario, year) %>%
+  group_by(ctu, scenario, year, mode) %>%
   summarise(
     direct = sum(dir_ghg, na.rm = T),
     embodied = sum(ghg_embodied, na.rm = T)
@@ -179,7 +179,7 @@ bau_ctu <- bau$passenger_all %>%
   mutate(param = "BAU") %>%
   pivot_longer(names_to = "type",
                values_to = "emissions",
-               -c(ctu, scenario, year, param))
+               -c(ctu, scenario, year, param, mode))
 
 
 
