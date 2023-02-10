@@ -59,6 +59,6 @@ fig03a5_data <-   res_bau_2018 %>%
 ```
 
 ```{r echo=FALSE}
-fig03a5
+# fig03a5
 ```
 
