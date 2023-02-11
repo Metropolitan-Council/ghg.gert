@@ -1,0 +1,38 @@
+### Urban Tree Planting
+
+Trees in urban areas have a high density of carbon stored in their canopy and are often the largest reserve of biogenic carbon in an urban ecosystem. Increasing the tree canopy in cities is a way to offset some carbon emissions and can also provide other benefits such as reducing energy costs for cooling and improving subjective well being.
+
+A mature urban forest can hold as much as 115 Mg carbon per hectare. In addition, each year a tree grows, it can also sequester carbon annually (1.27 Mg carbon per hectare per year). Both processes are included in the scenario planning model, through which urban reforestation can contribute to a relatively large carbon sink, provided there is sufficient area for reforestation. This will likely be more in suburban communities than in central cities. Furthermore, urban trees grow fast but may also die young. Therefore, achieving the potential carbon mitigation from urban reforestation requires careful tree management and accounting for the life cycle of urban forestry.3
+
+Many commitments to large-scale tree planting have been made both in the United States and internationally, such as the Trillion Trees Initiative, which aims to restore global forests to slow climate change6 Various projects have also been developed to plant large numbers of trees in cities, such as the *Los Angeles Million Trees Plan*, which found that up to 2.5 million trees could potentially be planted in the city of Los Angeles. Recently the City of Tucson announced a plan to plant one million trees by 2030.
+
+In addition to climate change mitigation through carbon storage in woody biomass, urban trees offer a wide array of benefits, such as reducing buildings' energy use; reducing urban heat, thereby contributing to climate resilience; and increasing subjective well-being. However, there are few empirical models to quantify the building energy use effect; existing data from St. Pau5 suggests the effect may be small compared to the carbon sink effect. Furthermore, several studies have shown socio-economic inequality in tree canopy coverage, making equity a critical consideration in spatial planning of urban reforestation.
+
+
+
+$$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
+
+-   $CD$ = Carbon stock density of urban trees in Mg/ha, a factor of aboveground biomass, (44.1 Mg C/ha, Nowak et al 2013), and belowground biomass to one meter (71 Mg C/ha, Pouyat et al. 20065) for a total stock density of 115.1 Mg C /ha.
+-   $A$ = Increased area of tree canopy under tree planting scenarios, in hectares.
+-   $11/3$ = factor to convert Mg C to Mg CO2
+
+EXAMPLES
+
+Several cities are investing in large-scale tree planting programs as a means of decarbonization, including the Trillion Trees Initiative, the City of Los Angeles,7 the City of Tucson, and the City of Pittsburgh. In Minnesota, the City of Saint Paul 2011 Urban Canopy Assessment explored the potential for large-scale tree planting within the city.
+
+RESOURCES
+
+**Growing Shade**
+
+The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.
+
+Challenges & Strategies for Growing Long-Lived Urban Trees
+*	Minnesota Department of Natural Resources: Urban forestry best management practices https://www.dnr.state.mn.us/forestry/urban/bmps.html 
+*	University of Minnesota Extension: Recommended trees for Minnesota https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota 
+*	University of Minnesota Extension: Native urban trees of Southeast Minnesota https://www.minnesotamasternaturalist.org/docs/invasive_blitz/native_urban_trees_of_se_mn.pdf 
+*	Cities4Forests: Introduction to policy for urban forests https://cities4forests.com/lg-urban-forests/introduction-to-policy-for-urban-forests/ 
+Additional Information
+*	National Tree Benefit Calculator http://www.treebenefits.com/calculator/ 
+*	Minneapolis Parks: Trees and the urban forest https://www.minneapolisparks.org/park_care__improvements/trees/ 
+*	2020 Tree City USA Communities in Minnesota: https://www.dnr.state.mn.us/forestry/urban/tree-city-usa-awards.html#cities 
+*	USDA: Urban forest data for Minnesota https://www.nrs.fs.fed.us/data/urban/state/?state=MN 

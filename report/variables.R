@@ -194,6 +194,13 @@ variables <- rbind(
   data.frame(var = "single_family_detached",
             desc = "Single Family Detached"),
   data.frame(var = "undeveloped",
-            desc = "Undeveloped")
+            desc = "Undeveloped"),
+  
+  # carbon stock vs carbon sequestration
+  data.frame(var = "stock",
+            desc = "Carbon Stock (Mg CO<sub>2</sub>e/year)"),
+  
+  data.frame(var = "sequestration",
+            desc = "Carbon Sequestration (Mg CO<sub>2</sub>e/year)")
 
 )

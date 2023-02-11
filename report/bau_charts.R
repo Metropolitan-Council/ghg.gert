@@ -1,3 +1,5 @@
+# Residential Baseline 2018
+
 res_bau_2018 <- run_scenario_building(
   res_tb = building_energy_bau_data$residential,
   res_tb_bau = building_energy_bau_data$residential,
@@ -31,6 +33,9 @@ res_bau_2018 <- run_scenario_building(
   ) %>%
   ungroup() %>%
   add_variable_names(., "2018 Baseline")
+
+
+# Residential BAU (2040)
 
 res_bau_2040 <- run_scenario_building(
   res_tb = building_energy_bau_data$residential,
@@ -67,6 +72,8 @@ res_bau_2040 <- run_scenario_building(
   add_variable_names(., "2040 Business-as-Usual")
 
 
+# Non-Residential Baseline (2018)
+
 non_res_bau_2018 <- run_scenario_building(
   run_residential = FALSE,
   run_non_residential = TRUE,
@@ -98,7 +105,8 @@ non_res_bau_2018 <- run_scenario_building(
   ) %>%
   add_variable_names(., "2018 Baseline")
 
-# 2040 BAU
+# Non-Residential BAU (2040)
+
 non_res_bau_2040 <- run_scenario_building(
   run_residential = FALSE,
   run_non_residential = TRUE,
@@ -129,3 +137,17 @@ non_res_bau_2040 <- run_scenario_building(
     )
   ) %>%
   add_variable_names(., "2040 Busines-As-Usual")
+
+# Land Use Baseline (2018)
+
+luse_bau_2018 <- run_scenario_land_use(
+  tb = land_use_data,
+  .selected_ctu = params$ctu_selection,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0,
+  detail = FALSE
+) 

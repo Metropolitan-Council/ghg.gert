@@ -1,5 +1,69 @@
 #### Increased Multifamily
 
-This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in theprevious strategy, by assuming that 50% of all new single-family construction will now become  multi-family, with the multi-family homes having smaller square footage, as explained 
+
+Compact community development can reduce buildings energy use by increasing the proportion of multifamily homes in the housing stock. Multi-family homes have a smaller floor area than single-family homes, which can translate to energy use reductions.
+
+The Metropolitan Council’s Thrive MSP plan projects increases in the percentage of multifamily housing by 2040. Multifamily homes tend to have smaller average floor area than stand-alone, single-family homes. Smaller floor area is correlated with lower levels of energy use. The decarbonization scenario planning model includes an option to model 50% of all new construction as multifamily (instead of single-family) homes. 
+
+**Affordability co-benefit**: With electricity costs projected to nearly double by 2040,4 smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the model also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward. 
+
+This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in the previous strategy, by assuming that 50% of all new single-family construction will now become  multi-family, with the multi-family homes having smaller square footage, as explained 
 previously. 
+
+::: about_strategy
+***About this strategy*** Our assumption is that cities ....
+:::
+
+```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+
+tab_new_single_family_home_area <- calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
+  .single_family_floor_area_growth_pct = 0
+) %>%
+  filter(
+    year == 2018,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    calc_affordable_floor_area(
+      res_tb = building_data$residential,
+      .selected_ctu = params$ctu_selection,
+      .single_family_floor_area_growth_pct = 0.05
+    ) %>%
+      filter(
+        year == 2040,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      ) %>% 
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables") %>%
+  tableformat(.,
+              .caption = paste("New Single-Family Home Floor Area for",
+                               params$ctu_selection))
+```
+
+RESOURCES
+
+Additional Information on Policy Approaches
+•	American Council for an Energy-Efficient Economy: The multifamily energy savings project https://www.aceee.org/multifamily-project 
+•	Brookings Institution: Policy recommendations for housing affordability https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/ 
+
+Additional Resources
+•	Metropolitan Council Local Planning Handbook: Housing https://metrocouncil.org/Handbook/Plan-Elements/Housing.aspx 
+•	Metropolitan Council Thrive MSP 2040: Housing Policy Plan https://metrocouncil.org/Housing/Planning/HOUSING-POLICY-PLAN-2040/2040-Housing-Policy-Plan.aspx 
+•	MetroStats: On the rise: New residential construction in the Twin Cities Region https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Construction-Activity/On-the-Rise-New-Residential-Construction-in-the-T.aspx 
+
 

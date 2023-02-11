@@ -3,7 +3,7 @@
 Existing commercial buildings electrification.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can promote a reduction in energy use intensity (EUI) that will result if `80%` of existing commercial buildings are certified as LEED Gold, which is assumed to reduce EUI by `25%`.
+***About this strategy*** Our assumption is that cities can promote a reduction in energy use intensity (EUI) by retrofiting existing commercial building. We assume that `80%` of existing commercial buildings are certified as LEED Gold, which is assumed to reduce energy use intensity (EUI) by `25%`.
 :::
 
 ```{r fig03b1, include=FALSE}
