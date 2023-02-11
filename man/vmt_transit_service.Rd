@@ -7,7 +7,7 @@
 vmt_transit_service(
   tb,
   .mode,
-  .transit_service_pct,
+  .transit_service_pct = 0,
   .elast = elast,
   .enviro_factors = enviro_factors
 )

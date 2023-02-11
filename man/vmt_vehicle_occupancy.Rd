@@ -9,8 +9,8 @@ vmt_vehicle_occupancy(
   .tb_vmt,
   .mode,
   .stock,
-  .transit_avo_pct,
-  .pldv_avo_pct,
+  .transit_avo_pct = 0,
+  .pldv_avo_pct = 0,
   .enviro_factors = enviro_factors
 )
 }

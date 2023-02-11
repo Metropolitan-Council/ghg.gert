@@ -11,6 +11,8 @@ source("data-raw/transportation_data_processing/transportation_index.R")
 # building energy
 source("data-raw/building_energy_data_processing/naics_codes.R")
 
+source("data-raw/enviro_factors.R")
+source("data-raw/transportation_data_processing/factor_values.R")
 
 write_csv(transportation_data$passenger, "data-raw/transportation_data_processing/csv_copies/transportation_data_passenger.csv")
 

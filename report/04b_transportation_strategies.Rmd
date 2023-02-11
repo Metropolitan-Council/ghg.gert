@@ -8,7 +8,9 @@ Transportation and land use policies are reliant on each other. Segregated and l
 
 The Metropolitan Council Transportation Policy Plan discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.
 
-Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
+::: about_strategy
+***About this strategy*** Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
+:::
 
 ```{r, tab-land-use-effects}
 #| echo: false
@@ -61,34 +63,70 @@ ghg.sp::elast_5d %>%
 # vmt_land_use_change()
 ```
 
+
 ```{r fig-landuse}
 #| echo: false
 #| message: false
-
 #| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of population density (aka land use) change.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 3
 # vmt_telework()
 density_ctu %>%
+  filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
+  group_by(ctu, year, type, param) %>% 
+  summarize(
+    emissions = sum(emissions,na.rm = T)
+  ) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("-100%", "-50%", "0%", "50%", "100%")) +
-  labs(x = "", y = "", color = paste0(params$ctu_selection, "\npopulation density\nadjustment (%)")) +
+  labs(x = "", 
+       y = "", 
+       color = paste0(params$ctu_selection,
+                      "\npopulation density\nadjustment (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
+
+```{r}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(density_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "dens50") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - 50% Increase in Population Density", params$ctu_selection))
+
+```
+
 
 ### Vehicle Electrification
 
@@ -101,31 +139,60 @@ The Tool also accounts for the fact that plug-in hybrid electric vehicles may op
 ```{r fig-bev}
 #| echo: false
 #| message: false
-
 #| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 3
 # vmt_annual_energy_outlook()
 bev_ctu %>%
+  filter(year %in% c("2018", "2040")) %>% 
+  group_by(year, ctu, param, type) %>% 
+  summarize(emissions = sum(emissions)) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
+
+```{r tab-bev-comp}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(bev_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "bev600") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - 60% vehicle sales battery electric", params$ctu_selection))
+
+```
+
 
 ### Public Transit
 
@@ -146,37 +213,77 @@ According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minne
 #| fig.width = 8, fig.height = 3
 # vmt_telework()
 telework_ctu %>%
+   filter(year %in% c("2018", "2040")) %>% 
+  group_by(year, ctu, param, type) %>% 
+  summarize(emissions = sum(emissions)) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\ntransit service\nadjustment (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
+```
+
+
+```{r tab-bev-comp}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(transitservice_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "ts60") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - 60% increase in transit service", params$ctu_selection))
+
 ```
 
 ### Telework
 
-Telework is working from home, reducing or eliminating the need to commute. In 2020, an estimated 35% of jobs in the United States could be performed from home, varying by metropolitan area. In Minneapolis and St. Paul, approximately 38-52% of jobs can be completed through telework.1 In a first approximation, telework eliminates commute vehicle miles traveled, which can reduce greenhouse gas emissions. However, the net effect on vehicle miles traveled, and household greenhouse gas production must also be considered. Recent studies that include energy associated with working from home find an effective reduction of about 2.5-3% in household CO2 emissions per telework day.
+The most recent studies that also include energy associated with working from home find a effective reduction of 2.5-2.8% in household CO2 emissions per day. [@Kim_Choo_Mokhtarian_2015]
+
+A scenario factor (SF) can be introduced to the generic GHG impact equation as an adjustment based on the effect of telework on both transportation and building energy.
+
+At a first approximation, telework eliminates commute VMT. However, the net effect on VMT and household GHG production is less clear. Individuals who work from home tend to make additional non-commute trips during their additional discretionary time [@Mokhtarian_2009] Other household members also can use the now available vehicle for their commute (potentially switching away from transit) or for other trips.
+
+Finally, working from home introduces additional requirements on household energy consumption: more daytime heating and, potentially, the need for a larger dwelling to provide space for a home office. The most recent studies that also include energy associated with working from home find an effective reduction of 2.5-2.8% in household CO2 emissions per telework day. [@fuEnvironmentalPolicyImplications2012a]
+
+An important secondary question regarding telework is its market potential. It is estimated that about 35 percent of jobs in the United States can be performed from home full-time [@Dingel_Neiman_2020].  Prior to the COVID-19 pandemic, time use data for the United States indicates that less than a quarter of workers worked from home, and most spent less than half their working hours at home. The portion of jobs that can be done from home varies by metropolitan area. In MSP, approximately 38 to 52 percent of jobs can be done fully through telework [@Dingel_Neiman_2020]. 
 
 ```{r}
 #| echo: false
 #| message: false
-#help(vmt_telework, package = ghg.sp)
+# help(vmt_telework, package = ghg.sp)
 ```
 
-*Figure* \@ref(fig:fig-telework) *could be a static or interactive figure. Some questions about the parameters/results 1) Unclear why teleworking doesn't impact emissions? Look inside the data-raw folder at the "CityReportTransData.R" script to see where/how I got these numbers if any troubleshooting needs to happen.*
+::: about_strategy
+We estimate a 2.75% decrease in personal vehicle miles traveled for each person-day of telework.
+:::
 
 ```{r fig-telework}
 #| echo: false
@@ -189,25 +296,56 @@ Telework is working from home, reducing or eliminating the need to commute. In 2
 
 # vmt_telework()
 telework_ctu %>%
+  filter(year %in% c("2018", "2040")) %>% 
+  group_by(year, ctu, param, type) %>% 
+  summarize(emissions = sum(emissions)) %>% 
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
                      breaks = c("20%", "40%", "60%", "80%", "100%")) +
-  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nteleworking (%)")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nincrease in\nteleworking (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```
+
+```{r tab-bev-comp}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(telework_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "t60") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - 60% increase in people teleworking", params$ctu_selection))
+
+```
+
+
 
 ### Road Pricing
 
@@ -221,7 +359,6 @@ The scenario planning model includes three alternatives for road pricing. The fi
 # vmt_road_policy()
 ```
 
-*Figure* \@ref(fig:fig-roadprice) *could be a static or interactive figure. However, nothing seems to matter...*
 
 ```{r fig-roadprice}
 #| echo: false
@@ -232,25 +369,56 @@ The scenario planning model includes three alternatives for road pricing. The fi
 #| fig.width = 8, fig.height = 3
 
 roadprice_ctu %>%
+   filter(year %in% c("2018", "2040")) %>% 
+  group_by(year, ctu, param, type) %>% 
+  summarize(emissions = sum(emissions)) %>% 
+  filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0("$", as.numeric(param))) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
                      # ,breaks = c("20%", "40%", "60%", "80%", "100%")
-                     ) +
+  ) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\ncongestion price\n($ per mile)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
+```
+
+```{r tab-bev-comp}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(roadprice_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "rp100") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - $1 per mile congestion price", params$ctu_selection))
+
 ```
 
 ### Parking Policy
@@ -312,7 +480,6 @@ ghg.sp::elast %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-*Figure* \@ref(fig:fig-parkingprice) *could be a static or interactive figure. However, nothing seems to matter...*
 
 ```{r fig-parkingprice}
 #| echo: false
@@ -323,23 +490,25 @@ ghg.sp::elast %>%
 #| fig.width = 8, fig.height = 3
 
 parking_ctu %>%
+  filter(type == "direct",
+         year %in% c("2018", "2040")) %>% 
   mutate(level = paste0("$", as.numeric(param))) %>%
-  ggplot(aes(x = as.numeric(year), y = emissions, color = level, group = level)) +
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() + 
   facet_wrap(~type, scales = "free", 
              labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
                                       embodied = str_wrap("Embodied emissions", 10)
-                                   ))) +
+             ))) +
   scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
                      # ,breaks = c("20%", "40%", "60%", "80%", "100%")
-                     ) +
+  ) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nparking price\n($ per hour)")) +
   scale_y_continuous(labels = scales::label_comma()) +
-      theme(
-      panel.background = element_rect(fill = "white"),
-      # panel.grid = element_blank(),
-      axis.title = element_text(size = 14),
-      strip.background = element_rect(fill = "white"),
-      strip.text = element_text(size = 10)
-    )
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
 ```

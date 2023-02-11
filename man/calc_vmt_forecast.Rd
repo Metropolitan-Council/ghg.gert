@@ -99,7 +99,8 @@ Numeric between -1 and 1. Default is \code{0}}
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
 as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
 
-\item{.telework_pct}{additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is \code{0}}
+\item{.telework_pct}{additional percent of people teleworking in the final forecast year.
+Numeric between 0 and 1. Default is \code{0}}
 
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 

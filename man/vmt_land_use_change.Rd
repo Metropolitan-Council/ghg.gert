@@ -6,13 +6,13 @@
 \usage{
 vmt_land_use_change(
   .type,
-  .comb_5d_impact_pct_change,
-  .pop_dens_pct_change,
-  .emp_dens_pct_change,
-  .land_use_diversity_pct_change,
-  .intersection_design_pct_change,
-  .job_access_pct_change,
-  .transit_dist_pct_change,
+  .comb_5d_impact_pct_change = 0,
+  .pop_dens_pct_change = 0,
+  .emp_dens_pct_change = 0,
+  .land_use_diversity_pct_change = 0,
+  .intersection_design_pct_change = 0,
+  .job_access_pct_change = 0,
+  .transit_dist_pct_change = 0,
   .enviro_factors = enviro_factors,
   .elast_5d = elast_5d
 )

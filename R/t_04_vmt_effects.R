@@ -82,13 +82,13 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @family VMT effects
 vmt_land_use_change <- function(.type,
-                                .comb_5d_impact_pct_change,
-                                .pop_dens_pct_change,
-                                .emp_dens_pct_change,
-                                .land_use_diversity_pct_change,
-                                .intersection_design_pct_change,
-                                .job_access_pct_change,
-                                .transit_dist_pct_change,
+                                .comb_5d_impact_pct_change = 0,
+                                .pop_dens_pct_change = 0,
+                                .emp_dens_pct_change = 0,
+                                .land_use_diversity_pct_change = 0,
+                                .intersection_design_pct_change = 0,
+                                .job_access_pct_change = 0,
+                                .transit_dist_pct_change = 0,
                                 .enviro_factors = enviro_factors,
                                 .elast_5d = elast_5d) {
   cli::cli_progress_message("**** calculating vehicle miles traveled land use change strategy \n")
@@ -275,11 +275,11 @@ vmt_road_policy <- function(.pass_tb,
                             .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
-                            .vmt_fee,
-                            .freight_vmt_fee,
-                            .cong_price,
-                            .gas_tax,
-                            .payd_fee,
+                            .vmt_fee = 0,
+                            .freight_vmt_fee = 0,
+                            .cong_price = 0,
+                            .gas_tax = 0,
+                            .payd_fee = 0,
                             .stock,
                             .phev_electric = FALSE,
                             .enviro_factors = enviro_factors,
@@ -493,7 +493,8 @@ vmt_road_policy <- function(.pass_tb,
 
 
 #' Calculate telework multiplier
-#' @param .telework_pct additional percent of people teleworking in the final forecast year. Numeric between 0 and 1. Default is `0`
+#' @param .telework_pct additional percent of people teleworking in the final forecast year.
+#'     Numeric between 0 and 1. Default is `0`
 #' @inheritParams calc_vmt_forecast
 #' @export
 #' @family VMT effects
@@ -511,7 +512,7 @@ vmt_road_policy <- function(.pass_tb,
 #'
 vmt_telework <- function(.pass_tb,
                          .mode,
-                         .telework_pct,
+                         .telework_pct = 0,
                          .enviro_factors = enviro_factors) {
   cli::cli_progress_message("**** calculating telework vehicle miles traveled strategy \n")
   # browser()
@@ -631,7 +632,7 @@ vmt_stock_proportion <- function(.tb,
 #' @family VMT effects
 vmt_transit_service <- function(tb,
                                 .mode,
-                                .transit_service_pct,
+                                .transit_service_pct = 0,
                                 .elast = elast,
                                 .enviro_factors = enviro_factors) {
   cli::cli_progress_message("**** calculating transit service vehicle miles traveled strategy \n")
@@ -728,8 +729,8 @@ vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
                                   .stock,
-                                  .transit_avo_pct,
-                                  .pldv_avo_pct,
+                                  .transit_avo_pct = 0,
+                                  .pldv_avo_pct = 0,
                                   .enviro_factors = enviro_factors) {
   cli::cli_progress_message("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
 

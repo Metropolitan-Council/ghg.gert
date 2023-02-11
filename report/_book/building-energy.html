@@ -7,7 +7,7 @@
   <title>3 Building Energy | Greenhouse Gas Emissions Scenario Planning</title>
   <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
 and published on February of 2023.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Building Energy | Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
@@ -1544,7 +1544,6 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="building-energy.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b2_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 
 </div>
@@ -1554,73 +1553,175 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <div class="about_strategy">
 <p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="building-energy.html#cb4-1" aria-hidden="true" tabindex="-1"></a>fig03b3_data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
-<span id="cb4-2"><a href="building-energy.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2018,</span>
-<span id="cb4-3"><a href="building-energy.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2040,</span>
-<span id="cb4-4"><a href="building-energy.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span></span>
-<span id="cb4-5"><a href="building-energy.html#cb4-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="building-energy.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(.,</span>
-<span id="cb4-7"><a href="building-energy.html#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">run_scenario_building</span>(</span>
-<span id="cb4-8"><a href="building-energy.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-9"><a href="building-energy.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_non_residential =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-10"><a href="building-energy.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb4-11"><a href="building-energy.html#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_data<span class="sc">$</span>non_residential,</span>
-<span id="cb4-12"><a href="building-energy.html#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb_bau =</span> building_data<span class="sc">$</span>non_residential,</span>
-<span id="cb4-13"><a href="building-energy.html#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">.renewable_ng_nonres =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-14"><a href="building-energy.html#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">.electrified_buildings_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb4-15"><a href="building-energy.html#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_water_heating_pct =</span> <span class="fl">0.20</span>,</span>
-<span id="cb4-16"><a href="building-energy.html#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_space_heating_pct =</span> <span class="fl">0.69</span>,</span>
-<span id="cb4-17"><a href="building-energy.html#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">.commercial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb4-18"><a href="building-energy.html#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">.industrial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb4-19"><a href="building-energy.html#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">.smart_grid_energy_reduction_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb4-20"><a href="building-energy.html#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">.grid_decarbonization_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb4-21"><a href="building-energy.html#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb4-22"><a href="building-energy.html#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">.enviro_factors =</span> enviro_factors</span>
-<span id="cb4-23"><a href="building-energy.html#cb4-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-24"><a href="building-energy.html#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-25"><a href="building-energy.html#cb4-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb4-26"><a href="building-energy.html#cb4-26" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
-<span id="cb4-27"><a href="building-energy.html#cb4-27" aria-hidden="true" tabindex="-1"></a>    scen <span class="sc">==</span> <span class="st">&quot;scen&quot;</span>,</span>
-<span id="cb4-28"><a href="building-energy.html#cb4-28" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb4-29"><a href="building-energy.html#cb4-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
-<span id="cb4-30"><a href="building-energy.html#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
-<span id="cb4-31"><a href="building-energy.html#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
-<span id="cb4-32"><a href="building-energy.html#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
-<span id="cb4-33"><a href="building-energy.html#cb4-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
-<span id="cb4-34"><a href="building-energy.html#cb4-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-35"><a href="building-energy.html#cb4-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-36"><a href="building-energy.html#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Scenario&quot;</span>),</span>
-<span id="cb4-37"><a href="building-energy.html#cb4-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span>)</span></code></pre></div>
-<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
-## percent of electrified buildings:0 ...... percent of non-residential natural
-## gas for water heating:0.2 ...... percent of non-residential natural gas
-## for space heating:0.69 ...... percent of commercial smart grid:1 ......
-## percent of industrial smart grid:1 ...... percent of smart grid energy
-## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
-## of existing high efficiency buildings:0 ...... percent of home behavior
-## change:1 ...... percent of single family floor area growth:0.05 ......
-## percent of new homes affected:0.3 ...... percent of new homes leed
-## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
-## of existing home ultra retrofit:0.2 ...... percent of residential
-## natural gas for space heating:0.71 ...... percent of residential natural
-## gas for water heating:0.24 ...... percent of additional electrified
-## residential buildings:0.45 ...... percent of grid decarbonization:0
-## ========================================== ** compiling non-residential
-## strategies *** calculating existing commercial building energy efficiency
-## ** compiling non-residential strategies *** calculating non-residential ghg
-## emissions *** calculating existing commercial building energy efficiency
-## *** calculating non-residential ghg emissions ** compiling non-residential
-## strategies *** calculating commercial building heat electficiation **
-## compiling non-residential strategies *** calculating non-residential
-## renewable natural gas strategy ** compiling non-residential strategies
-## ==========================================</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="building-energy.html#cb6-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table <span class="ot">&lt;-</span> fig03b3_data <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="building-energy.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add table format</span></span>
-<span id="cb6-3"><a href="building-energy.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
-<span id="cb6-4"><a href="building-energy.html#cb6-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(<span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
-<span id="cb6-5"><a href="building-energy.html#cb6-5" aria-hidden="true" tabindex="-1"></a>                               params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb6-6"><a href="building-energy.html#cb6-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;2040&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="building-energy.html#cb7-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="building-energy.html#cb3-1" aria-hidden="true" tabindex="-1"></a>fig03b3_data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
+<span id="cb3-2"><a href="building-energy.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2018,</span>
+<span id="cb3-3"><a href="building-energy.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2040,</span>
+<span id="cb3-4"><a href="building-energy.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span></span>
+<span id="cb3-5"><a href="building-energy.html#cb3-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="building-energy.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(.,</span>
+<span id="cb3-7"><a href="building-energy.html#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">run_scenario_building</span>(</span>
+<span id="cb3-8"><a href="building-energy.html#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-9"><a href="building-energy.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_non_residential =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-10"><a href="building-energy.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb3-11"><a href="building-energy.html#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_data<span class="sc">$</span>non_residential,</span>
+<span id="cb3-12"><a href="building-energy.html#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb_bau =</span> building_data<span class="sc">$</span>non_residential,</span>
+<span id="cb3-13"><a href="building-energy.html#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">.renewable_ng_nonres =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-14"><a href="building-energy.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">.electrified_buildings_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-15"><a href="building-energy.html#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_water_heating_pct =</span> <span class="fl">0.20</span>,</span>
+<span id="cb3-16"><a href="building-energy.html#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_space_heating_pct =</span> <span class="fl">0.69</span>,</span>
+<span id="cb3-17"><a href="building-energy.html#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">.commercial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-18"><a href="building-energy.html#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">.industrial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-19"><a href="building-energy.html#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">.smart_grid_energy_reduction_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-20"><a href="building-energy.html#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">.grid_decarbonization_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-21"><a href="building-energy.html#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-22"><a href="building-energy.html#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">.enviro_factors =</span> enviro_factors</span>
+<span id="cb3-23"><a href="building-energy.html#cb3-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="building-energy.html#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-25"><a href="building-energy.html#cb3-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb3-26"><a href="building-energy.html#cb3-26" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
+<span id="cb3-27"><a href="building-energy.html#cb3-27" aria-hidden="true" tabindex="-1"></a>    scen <span class="sc">==</span> <span class="st">&quot;scen&quot;</span>,</span>
+<span id="cb3-28"><a href="building-energy.html#cb3-28" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb3-29"><a href="building-energy.html#cb3-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
+<span id="cb3-30"><a href="building-energy.html#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
+<span id="cb3-31"><a href="building-energy.html#cb3-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
+<span id="cb3-32"><a href="building-energy.html#cb3-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
+<span id="cb3-33"><a href="building-energy.html#cb3-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
+<span id="cb3-34"><a href="building-energy.html#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-35"><a href="building-energy.html#cb3-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-36"><a href="building-energy.html#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Scenario&quot;</span>),</span>
+<span id="cb3-37"><a href="building-energy.html#cb3-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+=== RUNNING BUILDING ENERGY MODULE === 
+
+...... selected CTU:Minneapolis
+
+ 
+
+......
+## percent of electrified buildings:0
+
+ 
+
+...... percent of non-residential natural
+## gas for water heat…
+
+ 
+
+...... percent of non-residential natural gas for space
+## heat…
+
+ 
+
+...... percent of commercial smart grid:1
+
+ 
+
+...... percent of industrial
+## smart grid:1
+
+ 
+
+...... percent of smart grid energy reduction:1
+
+ 
+
+...... percent of
+## new homes to multifamily:0.5
+
+ 
+
+...... percent of existing high efficiency
+## buildings:0
+
+ 
+
+...... percent of home behavior change:1
+
+ 
+
+...... percent of single
+## family floor area growth:0.05
+
+ 
+
+...... percent of new homes affected:0.3
+
+ 
+
+......
+## percent of new homes leed gold:0.5
+
+ 
+
+...... percent of existing home retrofit:0.8
+
+
+## 
+
+...... percent of existing home ultra retrofit:0.2
+
+ 
+
+...... percent of
+## residential natural gas for space heating:…
+
+ 
+
+...... percent of residential
+## natural gas for water heating:…
+
+ 
+
+...... percent of additional electrified
+## residential buildin…
+
+ 
+
+...... percent of grid decarbonization:0
+
+
+## 
+
+========================================== 
+
+** compiling non-residential
+## strategies 
+
+*** calculating existing commercial building energy efficien…
+
+ 
+**
+## compiling non-residential strategies 
+
+*** calculating non-residential ghg
+## emissions 
+
+*** calculating existing commercial building energy efficien…
+
+ 
+***
+## calculating non-residential ghg emissions 
+** compiling non-residential
+## strategies 
+
+*** calculating commercial building heat electficiation 
+** compiling
+## non-residential strategies 
+
+*** calculating non-residential renewable natural
+## gas strate…
+
+ 
+** compiling non-residential strategies
+## 
+==========================================</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="building-energy.html#cb5-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table <span class="ot">&lt;-</span> fig03b3_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="building-energy.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add table format</span></span>
+<span id="cb5-3"><a href="building-energy.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
+<span id="cb5-4"><a href="building-energy.html#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(<span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
+<span id="cb5-5"><a href="building-energy.html#cb5-5" aria-hidden="true" tabindex="-1"></a>                               params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb5-6"><a href="building-energy.html#cb5-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;2040&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="building-energy.html#cb6-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table</span></code></pre></div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 <span id="tab:fig03b3">Table 3.15: </span>Retrofit Commercial Buildings Minneapolis 2040
@@ -1714,7 +1815,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="building-energy.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b3_data)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="building-energy.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b3_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 
 </div>
@@ -1817,7 +1918,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="building-energy.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b4_data)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="building-energy.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b4_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 
 </div>
