@@ -1,12 +1,51 @@
 # (APPENDIX) Appendix {-}
 
+## Buildings
+
+
+### Additional Information on Energy Efficiency Strategies
+
+**Policy Approaches**
+
+*	[The Passive House Network: Policymaker Resources Overview](https://naphnetwork.org/policymaker-resources/ )
+
+**Financing**
+
+*	[Minnesota Center for Energy and the Environment: Home energy improvement loans.](https://www.mncee.org/residential-statewide-lending) 
+*	[State of Minnesota Weatherization Assistance Program: The Weatherization Assistance Program provides free home energy upgrades to income-eligible homeowners and renters to help save energy.](https://mn.gov/commerce/consumers/consumer-assistance/weatherization/) 
+*[State of Minnesota Energy Assistance Program: The Energy Assistance Program (EAP) helps pay home heating costs and furnace repairs for income-qualified households.](https://mn.gov/commerce/consumers/consumer-assistance/energy-assistance/) 
+
+**Additional Information**
+
+*	[Xcel Energy Minnesota Electric and Natural Gas Conservation Improvement Program: 2021-2023 CIP Triennial Plan](https://www.edockets.state.mn.us/EFiling/edockets/searchDocuments.do?method=showPoup&documentId={40BC0B73-0000-C918-8CE1-D182E3E20EED}&documentTitle=20207-164492-01)
+*	[Institute for Market Transformation: Map of US cities, counties, and states with mandatory building energy benchmarking and transparency policies for existing buildings](https://www.imt.org/resources/map-u-s-building-benchmarking-policies/) 
+*	[Passive House Minnesota](https://passivehouseminnesota.org/passive-house/) 
+*	[Passive House Institute](https://passivehouse.com/ )
+*	[Passive House database ](https://passivehouse-database.org/index.php?lang=en#k_minnesota) 
+
+*	Equity considerations: Tong, K., Ramaswami, A., Xu, C., et al. (2021). Measuring social equity in urban energy use and interventions using fine-scale data. PNAS, 118 (24), e2023554118. https://doi.org/10.1073/pnas.2023554118. 
+
+---
+
+### Additional Information on Increased Multifamily Strategy
+
+Additional Information on Policy Approaches:
+- [American Council for an Energy-Efficient Economy: The multifamily energy savings project](https://www.aceee.org/multifamily-project)
+- [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
+
+Additional Resources:
+- [Metropolitan Council Local Planning Handbook: Housing](https://metrocouncil.org/Handbook/Plan-Elements/Housing.aspx)
+- [Metropolitan Council Thrive MSP 2040: Housing Policy Plan](https://metrocouncil.org/Housing/Planning/HOUSING-POLICY-PLAN-2040/2040-Housing-Policy-Plan.aspx)
+- [MetroStats: On the rise: New residential construction in the Twin Cities Region](https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Construction-Activity/On-the-Rise-New-Residential-Construction-in-the-T.aspx)
+
+
+
+
 ## Transportation  
 
 ## Data sources  
 
-The transportation module is built on a series of business-as-usual forecasts for inputs including passenger miles traveled, vehicle miles traveled, existing vehicle stocks, new vehicle sales, average vehicle occupancy, fuel economy, and population.   
-
-These measures are used to forecast vehicle miles traveled and vehicle emissions. The scenario planning tool then applies selected intervention elasticities and proportional effects to estimate potential emission reductions.  
+The transportation module is constructed based on a set of standard forecasts for inputs such as passenger miles traveled, vehicle miles traveled, existing vehicle stock, new vehicle sales, average vehicle occupancy, fuel efficiency, and population. These parameters are utilized to predict the vehicle miles traveled and resultant emissions. The scenario planning tool then utilizes selected intervention elasticities and proportional effects to calculate the potential reduction in emissions.
 
 ```{r "tab-source-mode-var"}
 source_mode_var <- ghg.sp::transportation_index$data_sources %>%

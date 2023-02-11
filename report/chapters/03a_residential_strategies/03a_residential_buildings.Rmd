@@ -24,23 +24,6 @@ There are several different energy efficiency building design standards, such as
 
 For example, Minneapolis, St. Paul, St. Louis Park, Edina, and Bloomington have encouraged energy-efficient buildings by adopting policies that require benchmarking for buildings. Minneapolis building owners can submit and view data online. Property managers and owners in Edina can view energy use for large buildings using an online map.  Near Bemidji, MN, the Waldsee BioHaus, a classroom and dormitory, holds the distinction of being the first building in North America certified by Germany’s Passivhaus Institute.
 
-RESOURCES
-
-Policy Approaches
-
-*	The Passive House Network: Policymaker Resources Overview https://naphnetwork.org/policymaker-resources/ 
-Financing
-*	Minnesota Center for Energy and the Environment: Home energy improvement loans. https://www.mncee.org/residential-statewide-lending 
-*	State of Minnesota Weatherization Assistance Program: The Weatherization Assistance Program provides free home energy upgrades to income-eligible homeowners and renters to help save energy. https://mn.gov/commerce/consumers/consumer-assistance/weatherization/ 
-*	State of Minnesota Energy Assistance Program: The Energy Assistance Program (EAP) helps pay home heating costs and furnace repairs for income-qualified households. https://mn.gov/commerce/consumers/consumer-assistance/energy-assistance/ 
-Additional Information
-*	Xcel Energy Minnesota Electric and Natural Gas Conservation Improvement Program: 2021-2023 CIP Triennial Plan https://www.edockets.state.mn.us/EFiling/edockets/searchDocuments.do?method=showPoup&documentId={40BC0B73-0000-C918-8CE1-D182E3E20EED}&documentTitle=20207-164492-01 
-*	Institute for Market Transformation: Map of US cities, counties, and states with mandatory building energy benchmarking and transparency policies for existing buildings: https://www.imt.org/resources/map-u-s-building-benchmarking-policies/  
-*	Passive House Minnesota: https://passivehouseminnesota.org/passive-house/ 
-*	Passive House Institute: https://passivehouse.com/ 
-*	Passive House database: https://passivehouse-database.org/index.php?lang=en#k_minnesota 
-*	Equity considerations: Tong, K., Ramaswami, A., Xu, C., et al. (2021). Measuring social equity in urban energy use and interventions using fine-scale data. PNAS, 118 (24), e2023554118. https://doi.org/10.1073/pnas.2023554118. 
-
 
 **What is the status of the electricity grid?**
 

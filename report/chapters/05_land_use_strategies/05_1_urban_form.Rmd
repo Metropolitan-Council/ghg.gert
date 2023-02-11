@@ -19,7 +19,7 @@ $$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) × 44/12$$
 $\text{Sequestration} = \sum{(Ai × SRi)}$\
 $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 
-Where:
+*Where:*
 
 - $\text{Sequestration} = \text{annual net sequestration from vegetation for a given city}$
 - $\text{Land Cover Change = annual organic carbon stock change from land conversion for a given city, averaged over the study period}$

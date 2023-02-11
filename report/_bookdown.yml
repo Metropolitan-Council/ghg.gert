@@ -7,16 +7,16 @@ rmd_files: [
   "chapters/00_front.Rmd",
   "chapters/01_introduction.Rmd",
   "chapters/02_demographics.Rmd",
-  # # residential strategies
-  # "03a_residential_strategies/03a_residential_buildings.Rmd",
-  # "03a_residential_strategoes/03a7_more_multifamily.Rmd",
-  # "03a_residential_strategies/03a1_affordable_floor_area.Rmd",
-  # "03a_residential_strategies/03a2_new_home_efficiency.Rmd",
-  # "03a_residential_strategies/03a3_existing_home_efficiency.Rmd",
-  # "03a_residential_strategies/03a4_behavior_change.Rmd",
-  # "03a_residential_strategies/03a5_decarbonize_res_energy.Rmd",
-  # "03a_residential_strategies/03a6_electrify_res.Rmd",
-  # "03a_residential_strategies/03a8_renewable_ng.Rmd",
+  # residential strategies
+  "chapters/03a_residential_strategies/03a_residential_buildings.Rmd",
+  "chapters/03a_residential_strategies/03a7_more_multifamily.Rmd",
+  "chapters/03a_residential_strategies/03a1_affordable_floor_area.Rmd",
+  "chapters/03a_residential_strategies/03a2_new_home_efficiency.Rmd",
+  "chapters/03a_residential_strategies/03a3_existing_home_efficiency.Rmd",
+  "chapters/03a_residential_strategies/03a4_behavior_change.Rmd",
+  "chapters/03a_residential_strategies/03a5_decarbonize_res_energy.Rmd",
+  "chapters/03a_residential_strategies/03a6_electrify_res.Rmd",
+  "chapters/03a_residential_strategies/03a8_renewable_ng.Rmd"
   # # non-residential strategies
   # "03b_non_residential_strategies/03b_non_residential_buildings.Rmd",
   # "03b_non_residential_strategies/03b1_retrofit_commercial_bldgns.Rmd",

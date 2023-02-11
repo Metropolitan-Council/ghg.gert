@@ -2,23 +2,28 @@
 
 ![](images//2724.jpg)
 
-Communities are taking steps to reduce their carbon footprint and mitigate the impacts of climate change through various measures, such as reducing energy consumption, developing compact land use patterns, reducing dependence on cars, and integrating natural resources into development patterns. This approach, called green infrastructure, helps improve the resilience of the built environment, as well as mitigate emissions and improve the quality of life. These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, protecting their resources and competitiveness.
+Communities are taking steps to reduce their carbon footprint and address the impacts of climate change through a variety of measures, such as reducing energy consumption, promoting compact land use patterns, decreasing dependence on cars, and incorporating natural resources into development patterns. This approach, known as green infrastructure, enhances the resilience of the built environment, reduces emissions, and improves quality of life. These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, safeguarding their resources and competitiveness.
 
-Land use change can release carbon stock stored in land --- for example, when urban impervious surfaces like asphalt roads and neighborhoods expand onto lands previously covered by forests or agriculture. This results in net carbon emissions from land. At the same time, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sink (negative emissions).
+Land use changes can release carbon stored in land, for instance, when urban impervious surfaces, like asphalt roads and residential areas, spread onto lands previously covered by forests or agriculture. This leads to net carbon emissions from land. On the other hand, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sequestration (negative emissions).
 
 ## Framework
 
-To outline the methodology for evaluating the impact of various land use and green infrastructure strategies, it is crucial to comprehend that each land cover type within our region, be it forested or impervious, possesses a distinct multiplier for carbon sequestration and carbon stocks. With the utilization of satellite imagery to acquire information on the region's land cover, we are able to make informed speculations regarding the potential for changes in land use and cover to augment or decrease greenhouse gas emissions. 
+The impact of these effects can be modeled through satellite imagery and analysis of remote sensing data of urban land use changes planned by cities. Cities should aim to reduce their outward expansion through compact development and increase urban carbon storage through reforestation, as described in the guide on Urban Reforestation. Other strategies like soil conservation on agricultural land within the Metropolitan Council region can also contribute, although they were found to be relatively minor in the scenario planning model.
 
-### Land Cover Baseline
+To outline the methodology for evaluating the impact of various land use and green infrastructure strategies, it is crucial to comprehend that each land cover type within our region, be it forested or impervious, possesses a distinct multiplier for carbon sequestration and carbon stocks. With the utilization of satellite imagery to acquire information on the region's land cover, we are able to make informed speculations regarding the potential for changes in land use and cover to augment or decrease greenhouse gas emissions.
 
-A high-resolution land cover map was generated for the Metropolitan Council region for the year 2016 using a support vector machine image classification on *Planet RapidEye 5m imagery*. This classification was merged with the 2019 edition of the 2016 National Land Cover Database to generate a 12-class land cover map (See [@Milnar_Ramaswami_2020] for more details on image classification methodology).
+The land freed up from impervious surfaces provides opportunities for nature-based solutions that can mitigate carbon and enhance climate resilience, as well as improve subjective well-being. To evaluate the impact of various land use and green infrastructure strategies, it is important to understand that each land cover type within the region, whether it be forested or impervious, has a unique multiplier for carbon sequestration and carbon stocks. By using satellite imagery to gather information on the region's land cover, informed assumptions can be made about the potential for changes in land use and cover to increase or decrease greenhouse gas emissions.
+
+### Land Cover Baseline and Forecast
+
+A high-resolution land cover map for the Metropolitan Council region for the year 2016 was generated using support vector machine image classification on *Planet RapidEye 5m Imagery*. This classification was merged with the 2019 edition of the [National Land Cover Database](https://www.usgs.gov/centers/eros/science/national-land-cover-database) to create a 12-class land cover map. For more information on the image classification methodology, see [@Milnar_Ramaswami_2020].
 
 ```{r tab-land-cover-by-land-use, include=FALSE}
-fig_05_land_cover <-
+fig_05_land_cover_2016 <-
   calc_land_cover_by_land_use(tb = land_use_data,
                               .urban_form_scenario = "bau") %>%
-  filter(ctu_name == params$ctu_selection) %>%
+  filter(ctu_name == params$ctu_selection,
+         year == 2016) %>%
   ungroup() %>%
   group_by(land_cover_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
@@ -28,7 +33,29 @@ fig_05_land_cover <-
             by = "var")  %>%
   select(desc, value) %>%
   rename(Type = desc,
-         Hectares = value) %>%
+         Hectares = value)
+
+fig_05_land_cover_2040 <-
+  calc_land_cover_by_land_use(tb = land_use_data,
+                              .urban_form_scenario = "bau") %>%
+  filter(ctu_name == params$ctu_selection,
+         year == 2040) %>%
+  ungroup() %>%
+  group_by(land_cover_type) %>%
+  summarise(value = sum(land_cover_land_use_hectares)) %>%
+  rename(var = land_cover_type) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Type = desc,
+         Hectares = value)
+
+fig_05_land_cover <- full_join(fig_05_land_cover_2016,
+                             fig_05_land_cover_2040,
+                             by = "Type") %>%
+                   rename("2016 [Baseline]" = Hectares.x,
+                          "2040 [Busines-as-Usual]" = Hectares.y) %>%
   tableformat(.caption = paste0("Land Cover for ", params$ctu_selection))
 ```
 
@@ -36,21 +63,23 @@ fig_05_land_cover <-
 fig_05_land_cover
 ```
 
+### Land Use Baseline and Forecast
 
-### Land Use Baseline
+The 2016 land use baseline data has been derived from the [Metropolitan Council Generalized Land Use](https://metrocouncil.org/Data-and-Maps/Research-and-Data/Metadata/Landuse-Hist-Research.aspx)[^05_land_use-1] geospatial layer for all cities and townships. This data has been divided into three categories based on land use type: *Urban Infill*, *Exurban Development*, and *Urban Expansion*.
 
-The 2016 land use baseline data has been generated from the Metropolitan Council Generalized Land Use geospatial layer for  for all cities and townships. This data has been categorized into three parts based on land use type: "Urban Infill", "Exurban Development", and "Urban Expansion". 
+[^05_land_use-1]: The Metropolitan Council has been regularly creating generalized land use plans for the Twin Cities region since 1984 to fulfill its legal obligations and aid in long-term planning for the area. The Council utilizes this land use information to track growth and assess shifting patterns in land usage for various urban purposes. To plan for future needs and financing of Metropolitan services, such as Transit and Wastewater Services, the Council combines the land use trend data with its projections of households and jobs. In collaboration with local government units, the land use and forecast data are also used to assess expansions of the Metropolitan Urban Service Area (MUSA).
 
-"Exurban Development" was considered to be the following land use types: Undeveloped, Park/Recreation/Preserve, Agriculture, or Farmstead. All other land use types were considered "Urban Infill" in the baseline data.
+*Exurban Development* encompasses the following land use types: Undeveloped, Park/Recreation/Preserve, Agriculture, or Farmstead. All other land use types were categorized as *Urban Infill* in the baseline data.
 
 ```{r tab5.2, include=FALSE}
-fig_05_land_use <-
+fig_05_land_use_2016 <-
   calc_land_cover_by_land_use(
     tb = land_use_data,
     .urban_form_scenario = "bau",
     .selected_ctu = params$ctu_selection
   ) %>%
-  filter(ctu_name == params$ctu_selection) %>%
+  filter(ctu_name == params$ctu_selection,
+         year == 2016) %>%
   ungroup() %>%
   group_by(land_use_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
@@ -59,20 +88,36 @@ fig_05_land_use <-
             variables,
             by = "var")  %>%
   select(desc, value) %>%
-  rename(Variables = desc) %>%
-  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+  rename(Variables = desc,
+         Hectares = value) 
 
+fig_05_land_use_2040 <-
+  calc_land_cover_by_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = "bau",
+    .selected_ctu = params$ctu_selection
+  ) %>%
+  filter(ctu_name == params$ctu_selection,
+         year == 2040) %>%
+  ungroup() %>%
+  group_by(land_use_type) %>%
+  summarise(value = sum(land_cover_land_use_hectares)) %>%
+  rename(var = land_use_type) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc,
+         Hectares = value)
+
+fig_05_land_use <- full_join(fig_05_land_use_2016,
+                             fig_05_land_use_2040,
+                             by = "Variables") %>%
+                   rename("2018 [Baseline]" = Hectares.x,
+                          "2040 [Busines-as-Usual]" = Hectares.y) %>%
+  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
 
 ```{r}
 fig_05_land_use
 ```
-
-
-## Land Use and Forestry Forecast
-
-```{r}
-```
-
-## Land Use and Forestry Strategies
-
