@@ -1,0 +1,5 @@
+#### Increased Multifamily
+
+This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in theprevious strategy, by assuming that 50% of all new single-family construction will now become  multi-family, with the multi-family homes having smaller square footage, as explained 
+previously. 
+

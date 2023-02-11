@@ -1,0 +1,68 @@
+### Public Transit
+
+According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minneapolismn.gov/), transit is essential for the city's multimodal transportation system. Transit contributes to economic competitiveness by attracting businesses, private investment, and top talent. Over 30,000 (16.5%) households in the city do not have access to or choose not to own a personal car, with the highest concentration of car-free individuals living in neighborhoods around downtown Minneapolis. The TAP aims to improve the coverage, speed, and reliability of transit service through a partnership with the Metropolitan Council and by defining clear priorities, goals, and actions for the city. The goal is to increase the number of transit trips from 13% in 2019 to 25% by 2030. Transit must be convenient, reliable, and frequent and effectively reduce trips made by single-occupancy vehicles to achieve these goals.
+
+```{r tab-transit-service}
+#| echo: false
+#| message: false
+# vmt_transit_service()
+```
+
+```{r fig-transitservice}
+#| echo: false
+#| message: false
+
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of transit service.", 
+#| fig.align = 'center',
+#| fig.width = 8, fig.height = 3
+# vmt_telework()
+telework_ctu %>%
+   filter(year %in% c("2018", "2040")) %>% 
+  group_by(year, ctu, param, type) %>% 
+  summarize(emissions = sum(emissions)) %>% 
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
+  geom_line() + 
+  facet_wrap(~type, scales = "free", 
+             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
+                                      embodied = str_wrap("Embodied emissions", 10)
+             ))) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  labs(x = "", y = "", color = paste0(params$ctu_selection, "\ntransit service\nadjustment (%)")) +
+  scale_y_continuous(labels = scales::label_comma()) +
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
+```
+
+
+```{r tab-bev-comp}
+bau_ctu %>% 
+  ungroup() %>% 
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+  filter(year %in% c("2018", "2040"),
+         type == "direct") %>% 
+  pivot_wider(names_from = year,
+              values_from = emissions) %>% 
+  select(`Mode` = mode_description_1, 
+         `2018 Baseline` = `2018`,
+         `2040 Business-as-Usual` = `2040`) %>% 
+  left_join(transitservice_ctu %>% 
+              ungroup() %>% 
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
+              filter(year %in% c("2040"),
+                     type == "direct",
+                     scenario == "ts60") %>% 
+              pivot_wider(names_from = year,
+                          values_from = emissions) %>% 
+              select(`Mode` = mode_description_1, 
+                     `2040 Scenario` = `2040`)) %>% 
+  tableformat(.,
+              .caption = paste("Emissions in tonnes CO2e - 60% increase in transit service", params$ctu_selection))
+
+```

@@ -7,21 +7,36 @@ rmd_files: [
   "00_front.Rmd",
   "01_introduction.Rmd",
   "02_demographics.Rmd",
-  "03a_residential_buildings.Rmd",
-  "03a1_affordable_floor_area.Rmd",
-  "03a2_new_home_efficiency.Rmd",
-  "03a3_existing_home_efficiency.Rmd",
-  "03a4_behavior_change.Rmd",
-  "03a5_decarbonize_res_energy.Rmd",
-  "03a6_electrify_res.Rmd",
-  "03b_non_residential_buildings.Rmd",
-  "03b1_retrofit_commercial_bldgns.Rmd",
-  "03b2_electrify_non_res.Rmd",
-  "03b3_non_res_renewable_ng.Rmd",
-  "03b4_non_res_decarbonize_grid.Rmd",
-  "04a_transportation_baseline_forecast.Rmd",
-  "04b_transportation_strategies.Rmd",
+  # residential strategies
+  "03a_residential_strategies/03a_residential_buildings.Rmd",
+  "03a_residential_strategies/03a1_affordable_floor_area.Rmd",
+  "03a_residential_strategies/03a2_new_home_efficiency.Rmd",
+  "03a_residential_strategies/03a3_existing_home_efficiency.Rmd",
+  "03a_residential_strategies/03a4_behavior_change.Rmd",
+  "03a_residential_strategies/03a5_decarbonize_res_energy.Rmd",
+  "03a_residential_strategies/03a6_electrify_res.Rmd",
+  "03a_residential_strategoes/03a7_more_multifamily.Rmd",
+  # non-residential strategies
+  "03b_non_residential_strategies/03b_non_residential_buildings.Rmd",
+  "03b_non_residential_strategies/03b1_retrofit_commercial_bldgns.Rmd",
+  "03b_non_residential_strategies/03b2_electrify_non_res.Rmd",
+  "03b_non_residential_strategies/03b3_non_res_renewable_ng.Rmd",
+  "03b_non_residential_strategies/03b4_non_res_decarbonize_grid.Rmd",
+  # transportation strategies
+  "04_transportation_baseline_forecast.Rmd",
+  "04_transportation_strategies/04_transportation_strategies.Rmd",
+  "04_transportation_strategies/04_1_compact_land_use.Rmd",
+  "04_transportation_strategies/04_2_electrification.Rmd",
+  "04_transportation_strategies/04_3_transit.Rmd",
+  "04_transportation_strategies/04_4_telework.Rmd,
+  "04_transportation_strategies/04_5_road_pricing.Rmd"
+  # land use strategies
   "05_land_use.Rmd",
+  "05_land_use_strategies/05_1_urban_form.Rmd",
+  "05_land_use_strategies/05_2_conservation_tillage.Rmd",
+  "05_land_use_strategies/05_3_reduced_parking.Rmd",
+  "05_land_use_strategies/05_4_urban_tree_planting.Rmd"
+  # conclusion
   "06_conclusion.Rmd"
   # "07_appendix.Rmd"
   ]

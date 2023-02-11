@@ -46,3 +46,5 @@ calc_non_res_renewable_ng(
   .enviro_factors = enviro_factors,
   .selected_ctu = "Minneapolis"
 )
+
+?run_scenario_land_use()
