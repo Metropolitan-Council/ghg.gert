@@ -157,7 +157,7 @@ luse_bau_2018 <- run_scenario_land_use(
 
 luse_bau_2040 <- run_scenario_land_use(
   tb = land_use_data,
-  .selected_ctu = params$ctu_selection,
+  .selected_ctu = "Minneapolis",
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
@@ -167,3 +167,27 @@ luse_bau_2040 <- run_scenario_land_use(
   detail = FALSE
 )  %>%
   filter(year == 2040)
+
+
+calc_conservation_tillage(
+  tb = land_use_data,
+  .selected_ctu = "Minneapolis",
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0.8,
+  detail = FALSE
+)
+
+calc_parking_lot_land_cover(
+  tb = land_use_data,
+  .selected_ctu = "Minneapolis",
+  .urban_form_scenario = "bau",
+  .parking_lot_reduction_percentage = 0.8,
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  detail = FALSE
+)

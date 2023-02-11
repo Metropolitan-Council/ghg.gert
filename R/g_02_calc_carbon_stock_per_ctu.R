@@ -37,20 +37,25 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       detail) {
   cli::cli_progress_message("** calculating carbon stock \n")
 
+  tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
+  tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)
+  tb$ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu = .selected_ctu)
+  tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
+
   csf <- carbon_stock_factors
 
   # -------------------------------------------------------------------------
-  conservation_tillage <-
-    calc_conservation_tillage(
-      tb = tb,
-      detail = detail,
-      .urban_form_scenario = .urban_form_scenario,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .conservation_tillage_intervention = .conservation_tillage_intervention,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare
-    )
+  # conservation_tillage <-
+  #   calc_conservation_tillage(
+  #     tb = tb,
+  #     detail = detail,
+  #     .urban_form_scenario = .urban_form_scenario,
+  #     .tree_planting_intervention = .tree_planting_intervention,
+  #     .conservation_tillage_intervention = .conservation_tillage_intervention,
+  #     .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
+  #     .tree_planting_per_capita = .tree_planting_per_capita,
+  #     .tree_planting_per_hectare = .tree_planting_per_hectare
+  #   )
 
 
   # -------------------------------------------------------------------------
