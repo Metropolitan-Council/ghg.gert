@@ -1,9 +1,8 @@
 # (APPENDIX) Appendix {-}
 
-## Buildings
+## Building Energy
 
-
-### Additional Information on Energy Efficiency Strategies
+### Additional Resources on Energy Efficiency Strategies
 
 **Policy Approaches**
 
@@ -25,21 +24,16 @@
 
 *	Equity considerations: Tong, K., Ramaswami, A., Xu, C., et al. (2021). Measuring social equity in urban energy use and interventions using fine-scale data. PNAS, 118 (24), e2023554118. https://doi.org/10.1073/pnas.2023554118. 
 
----
+### Additional Resources on Increased Multifamily Strategy
 
-### Additional Information on Increased Multifamily Strategy
-
-Additional Information on Policy Approaches:
-- [American Council for an Energy-Efficient Economy: The multifamily energy savings project](https://www.aceee.org/multifamily-project)
-- [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
-
-Additional Resources:
 - [Metropolitan Council Local Planning Handbook: Housing](https://metrocouncil.org/Handbook/Plan-Elements/Housing.aspx)
 - [Metropolitan Council Thrive MSP 2040: Housing Policy Plan](https://metrocouncil.org/Housing/Planning/HOUSING-POLICY-PLAN-2040/2040-Housing-Policy-Plan.aspx)
 - [MetroStats: On the rise: New residential construction in the Twin Cities Region](https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Construction-Activity/On-the-Rise-New-Residential-Construction-in-the-T.aspx)
 
+**Policy Approaches**
 
-
+- [American Council for an Energy-Efficient Economy: The multifamily energy savings project](https://www.aceee.org/multifamily-project)
+- [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
 
 ## Transportation  
 

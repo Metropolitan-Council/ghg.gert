@@ -150,4 +150,20 @@ luse_bau_2018 <- run_scenario_land_use(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
   detail = FALSE
-) 
+) %>%
+  filter(year == 2016)
+
+# Land Use Busines-as-Usual (2040)
+
+luse_bau_2040 <- run_scenario_land_use(
+  tb = land_use_data,
+  .selected_ctu = params$ctu_selection,
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "current_conservation_tillage",
+  .tree_planting_intervention = "match_la_million_trees_goal",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0,
+  detail = FALSE
+)  %>%
+  filter(year == 2040)
