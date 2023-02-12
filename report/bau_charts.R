@@ -168,17 +168,14 @@ luse_bau_2040 <- run_scenario_land_use(
 )  %>%
   filter(year == 2040)
 
-
-calc_conservation_tillage(
+trees <- calc_tree_planting_land_cover(
   tb = land_use_data,
+  detail = FALSE,
   .selected_ctu = "Minneapolis",
   .urban_form_scenario = "bau",
-  .conservation_tillage_intervention = "current_conservation_tillage",
-  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0.8,
-  detail = FALSE
+  .tree_planting_per_hectare = 247
 )
 
 calc_parking_lot_land_cover(
@@ -189,5 +186,18 @@ calc_parking_lot_land_cover(
   .tree_planting_intervention = "tree_planting_on_all_pervious",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
-  detail = FALSE
+  detail = TRUE
 )
+
+calc_conservation_tillage(
+  tb = land_use_data,
+  .selected_ctu = "Minneapolis",
+  .urban_form_scenario = "bau",
+  .conservation_tillage_intervention = "maximum_conservation_tillage",
+  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .parking_lot_reduction_percentage = 0,
+  detail = FALSE
+) %>%
+  dplyr::filter(ctu_name == "Minneapolis")

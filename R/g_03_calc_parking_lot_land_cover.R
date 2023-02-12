@@ -61,40 +61,31 @@ calc_parking_lot_land_cover <- function(tb,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
     detail = FALSE
   )
-
-
   # -------------------------------------------------------------------------
   parking_lot_land_cover <-
     tree_parking_land_cover %>%
     dplyr::mutate(
       parking_lot_2 =
-        case_when(
-          year == 2016 ~ parking_lot,
-          year == 2040 &
-            .urban_form_scenario == "compact_dev_with_drs" ~
-            (parking_lot * (1 - .parking_lot_reduction_percentage)),
-          year == 2040 &
-            .urban_form_scenario != "compact_dev_with_drs" ~
-            parking_lot
-        ),
+
+        dplyr::if_else(
+          year == 2016, parking_lot,
+          parking_lot * (1 - .parking_lot_reduction_percentage)
+         ),
       decreased_parking_lot = parking_lot - parking_lot_2,
       scaling_factor = (total_area_hectares + decreased_parking_lot) / total_area_hectares
     ) %>%
-    dplyr::mutate(dplyr::across(
-      .cols = c(
-        impervious,
-        grass,
-        trees,
-        barren,
-        forest,
-        shrub,
-        grassland,
-        agriculture,
-        woody_wetland,
-        wetland
-      ),
-      ~ .x * scaling_factor
-    )) %>%
+    dplyr::mutate(
+      impervious = impervious * scaling_factor,
+      grass = grass * scaling_factor,
+      trees = trees * scaling_factor,
+      barren = barren * scaling_factor,
+      forest = forest * scaling_factor,
+      shrub = shrub * scaling_factor,
+      grassland = grassland * scaling_factor,
+      agriculture = agriculture * scaling_factor,
+      woody_wetland = woody_wetland * scaling_factor,
+      wetland = wetland * scaling_factor
+    ) %>%
     dplyr::mutate(parking_lot = parking_lot_2)
 
 

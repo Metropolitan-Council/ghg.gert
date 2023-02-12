@@ -52,6 +52,12 @@ calc_tree_planting_land_cover <- function(tb,
                                           .tree_planting_per_capita,
                                           .tree_planting_per_hectare) {
   cli::cli_progress_message("*** calculating tree planting strategy \n")
+
+  tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
+  tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)
+  tb$ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu = .selected_ctu)
+  tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
+
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,
