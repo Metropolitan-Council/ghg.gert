@@ -17,3 +17,10 @@ description: |
 link-citations: yes
 #github-repo: rstudio/bookdown-demo
 ---
+```{r, echo=FALSE, }
+source("setup_pkg_fcns.R")
+source("variables.R")
+source("bau_charts.R")
+source("carbon_stocks_and_sequestration.R")
+source("council_members.R")
+```

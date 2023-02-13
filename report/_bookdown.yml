@@ -41,4 +41,4 @@ rmd_files: [
   "chapters/07_appendix.Rmd"
   ]
 
-before_chapter_script: ["setup_pkg_fcns.R", "council_members.R", "variables.R", "bau_charts.R", "carbon_stocks_and_sequestration.R"]
+# before_chapter_script: ["setup_pkg_fcns.R", "council_members.R", "variables.R", "bau_charts.R", "carbon_stocks_and_sequestration.R"]
