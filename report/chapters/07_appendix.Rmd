@@ -312,3 +312,30 @@ tibble::tribble(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
+
+## Land Use
+
+
+### Additional Resources on Reforestation Strategy
+
+- [Minnesota Department of Natural Resources: Urban forestry best management practices](https://www.dnr.state.mn.us/forestry/urban/bmps.html)
+- [University of Minnesota Extension: Recommended trees for Minnesota](https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota)
+- [University of Minnesota Extension: Native urban trees of Southeast Minnesota](https://www.minnesotamasternaturalist.org/docs/invasive_blitz/native_urban_trees_of_se_mn.pdf)
+- [Cities4Forests: Introduction to policy for urban forests](https://cities4forests.com/lg-urban-forests/introduction-to-policy-for-urban-forests/)
+
+*Additional Information*
+
+- [National Tree Benefit Calculator](http://www.treebenefits.com/calculator/)
+- [Minneapolis Parks: Trees and the urban forest](https://www.minneapolisparks.org/park_care__improvements/trees/)
+- [2020 Tree City USA Communities in Minnesota](https://www.dnr.state.mn.us/forestry/urban/tree-city-usa-awards.html#cities)
+- [USDA: Urban forest data for Minnesota](https://www.nrs.fs.fed.us/data/urban/state/?state=MN)
+
+**EXAMPLES**
+
+Several cities are investing in large-scale tree planting programs as a means of decarbonization, including the Trillion Trees Initiative, the City of Los Angeles, the City of Tucson, and the City of Pittsburgh. In Minnesota, the City of Saint Paul 2011 Urban Canopy Assessment explored the potential for large-scale tree planting within the city.
+
+
+
+
+
+

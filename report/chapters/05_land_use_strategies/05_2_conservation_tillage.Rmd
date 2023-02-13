@@ -14,48 +14,50 @@ In Minnesota, conservation tillage initiatives have been established by a variet
 $$ \text{Conservation Tillage Avoided Emissions} = (C+T) × A $$
 *Where:*
 
--   $C$ = Increased Biogenic Carbon Stock (Mg CO<sub>2</sub>/ha). Baseline soil organic carbon (SOC) stock is 41 Mg C/ha. It has been estimated that SOC content can increase from 1% up to 1.54% under conservation tillage2, thus carbon content can be increased from an average of 41 Mg C/ha to 63 Mg C/ha. This increase was assumed to increase over a period of 20 years. Whether the sequestration is maintained is highly uncertain.
+-   $C$: Increased Biogenic Carbon Stock (Mg CO<sub>2</sub>/ha). Baseline soil organic carbon (SOC) stock is 41 Mg C/ha. It has been estimated that SOC content can increase from 1% up to 1.54% under conservation tillage2, thus carbon content can be increased from an average of 41 Mg C/ha to 63 Mg C/ha. This increase was assumed to increase over a period of 20 years. Whether the sequestration is maintained is highly uncertain.
 
--   $T$ = Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7
+-   $T$: Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7
 
--   $A$ = Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
+-   $A$: Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
+
+** results coming soon... 
 
 
 ```{r}
-fig05_2_data <- luse_bau_2018 %>%
-  ungroup() %>%
-  rename(var = detail) %>%
-  left_join(.,
-            variables,
-            by = "var")  %>%
-  select(desc, value) %>%
-  rename(Variables = desc)
-
-
-
-fig05_2_table <- fig05_2_data %>%
-  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+# fig05_2_data <- luse_bau_2018 %>%
+#   ungroup() %>%
+#   rename(var = detail) %>%
+#   left_join(.,
+#             variables,
+#             by = "var")  %>%
+#   select(desc, value) %>%
+#   rename(Variables = desc)
+# 
+# 
+# 
+# fig05_2_table <- fig05_2_data %>%
+#   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
 
 ```{r}
-fig05_2_table
+# fig05_2_table
 ```
 ```{r}
-luse_bau_2040
+# luse_bau_2040
 ```
 ```{r}
-run_scenario_land_use(
-  tb = land_use_data,
-  .selected_ctu = params$ctu_selection,
-  .urban_form_scenario = "bau",
-  .conservation_tillage_intervention = "maximum_conservation_tillage",
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0,
-  detail = FALSE
-)  %>%
-  filter(year == 2040)
+# run_scenario_land_use(
+#   tb = land_use_data,
+#   .selected_ctu = params$ctu_selection,
+#   .urban_form_scenario = "bau",
+#   .conservation_tillage_intervention = "maximum_conservation_tillage",
+#   .tree_planting_intervention = "match_la_million_trees_goal",
+#   .tree_planting_per_capita = 0.26,
+#   .tree_planting_per_hectare = 247,
+#   .parking_lot_reduction_percentage = 0,
+#   detail = FALSE
+# )  %>%
+#   filter(year == 2040)
 ```
 
 

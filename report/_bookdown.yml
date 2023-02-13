@@ -30,7 +30,7 @@ rmd_files: [
   "chapters/04_transportation_strategies/04_3_transit.Rmd",
   "chapters/04_transportation_strategies/04_4_telework.Rmd",
   "chapters/04_transportation_strategies/04_5_road_pricing.Rmd",
-  # # land use strategies
+  # land use strategies
   "chapters/05_land_use.Rmd",
   "chapters/05_land_use_strategies/05_1_urban_form.Rmd",
   "chapters/05_land_use_strategies/05_2_conservation_tillage.Rmd",

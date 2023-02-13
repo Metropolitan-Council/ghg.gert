@@ -8,6 +8,10 @@ Many initiatives have been launched globally, including the Trillion Trees Initi
 
 In addition to mitigating the effects of climate change through carbon storage in woody biomass, urban trees offer a wide range of benefits, such as reducing the energy consumption of buildings, reducing urban heat, and improving subjective well-being. However, there are few empirical models to quantify the effect on building energy use, and existing data from St. Paul suggests that the effect may be small compared to the carbon sink effect. Additionally, several studies have shown socio-economic inequality in tree canopy coverage, making equity an essential consideration in the spatial planning of urban reforestation.
 
+**GROWING SHADE**
+
+The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.
+
 **GHG Impact Calculation**
 
 $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
@@ -17,33 +21,4 @@ $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
 -   $A$ = Increased area of tree canopy under tree planting scenarios, in hectares.
 -   $11/3$ = Factor to convert Mg C to Mg CO2
 
-```{r}
-
-```
-
-
-
-**RESOURCES**
-
-- [Minnesota Department of Natural Resources: Urban forestry best management practices](https://www.dnr.state.mn.us/forestry/urban/bmps.html)
-- [University of Minnesota Extension: Recommended trees for Minnesota](https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota)
-- [University of Minnesota Extension: Native urban trees of Southeast Minnesota](https://www.minnesotamasternaturalist.org/docs/invasive_blitz/native_urban_trees_of_se_mn.pdf)
-- [Cities4Forests: Introduction to policy for urban forests](https://cities4forests.com/lg-urban-forests/introduction-to-policy-for-urban-forests/)
-
-*Additional Information*
-
-- [National Tree Benefit Calculator](http://www.treebenefits.com/calculator/)
-- [Minneapolis Parks: Trees and the urban forest](https://www.minneapolisparks.org/park_care__improvements/trees/)
-- [2020 Tree City USA Communities in Minnesota](https://www.dnr.state.mn.us/forestry/urban/tree-city-usa-awards.html#cities)
-- [USDA: Urban forest data for Minnesota](https://www.nrs.fs.fed.us/data/urban/state/?state=MN)
-
-**EXAMPLES**
-
-Several cities are investing in large-scale tree planting programs as a means of decarbonization, including the Trillion Trees Initiative, the City of Los Angeles, the City of Tucson, and the City of Pittsburgh. In Minnesota, the City of Saint Paul 2011 Urban Canopy Assessment explored the potential for large-scale tree planting within the city.
-
-**GROWING SHADE**
-
-The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.
-
-
-
+* results coming soon.. 
