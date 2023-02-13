@@ -46,15 +46,6 @@ calc_conservation_tillage <- function(tb,
   # -------------------------------------------------------------------------
   cli::cli_progress_message("*** calculating conservation tillage strategy \n")
 
-  tb$ctu_forecast <-
-    filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
-  tb$ctu_land_use_hectares <-
-    filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)
-  tb$ctu_land_use_2016_land_cover <-
-    filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu = .selected_ctu)
-  tb$ctu_county <-
-    filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
-
   match.arg(
     arg = .conservation_tillage_intervention,
     choices = c(

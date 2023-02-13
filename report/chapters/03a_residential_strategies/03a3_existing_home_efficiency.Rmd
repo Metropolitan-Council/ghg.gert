@@ -14,6 +14,8 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 -   ***Partner with local organizations*** Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
 :::
 
+##### Retrofit 80% of Homes
+
 ::: about_strategy
 ***About this strategy*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
 :::
@@ -43,12 +45,14 @@ tab_existing_home_efficiency <- calc_floor_area_retrofit(
     add_variable_names(., "2018 Baseline") %>% 
   tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
+
 ```{r echo=FALSE}
 tab_existing_home_efficiency
 ```
 
+**GHG Impact Calculation**
 
-$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})$$
+$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})$$
 
 -   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
 -   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
@@ -108,7 +112,110 @@ fig03a3_table <- fig03a3_data %>% tableformat(.,
 fig03a3_table
 ```
 
-
 ```{r echo=FALSE}
 chartformat(fig03a3_data)
 ```
+
+##### Retrofit Remaining 20% of into Passive Homes
+
+::: about_strategy
+***About this strategy***  Same as previous strategy, except now the remaining homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
+:::
+
+**GHG Impact Calculation**
+
+$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})$$
+*Where:*
+
+-   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
+-   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
+-   $units_{2040}^{sf}$: Number of single-family housing units in 2018.
+-   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
+-   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
+-   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
+
+```{r tab-existing-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
+#| echo: false
+#| message: false
+
+tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
+  .selected_ctu = params$ctu_selection,
+  res_tb = building_data$residential,
+  .existing_home_retrofit_pct = 0.80,
+  .existing_home_ultra_retrofit_pct = 0.20,
+  .enviro_factors = enviro_factors
+) %>%
+  ungroup() %>%
+  filter(
+    year == 2040,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+    add_variable_names(., "2018 Baseline") %>% 
+  tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+```
+
+```{r echo=FALSE}
+tab_existing_home_efficiency2
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+fig03a3b_data <- res_bau_2018 %>%
+  full_join(
+    res_bau_2040,
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0.8,
+      .existing_home_ultra_retrofit_pct = 0.20,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    )  %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables")
+
+fig03a3b_table <- fig03a3b_data %>% tableformat(.,
+              .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
+```
+
+```{r echo=FALSE}
+fig03a3b_table
+```
+
+```{r echo=FALSE}
+chartformat(fig03a3b_data)
+```
+

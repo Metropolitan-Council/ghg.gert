@@ -1,8 +1,8 @@
 ## Non-Residential Energy
 
-Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. This energy use is estimated by considering the size of the commercial and industrial buildings, as well as the number of people who are expected to work in these buildings.
+Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. The baseline data for energy use was obtained from Xcel Energy. The forecast of "business-as-usual" energy use is estimated by considering the number of people who are expected to work in these buildings.
 
-In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources, some of which are not captured in this methodology. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
 
 **Table** \@ref(tab:tab-non-residential-energy) shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`.
 
@@ -27,23 +27,16 @@ tab_non_residential_energy <- get_non_residential_energy_baseline(tb = building_
 ```{r echo=FALSE}
 tab_non_residential_energy
 ```
+As shown in \@ref(tab:tab-non-residential-energy) for making estimate about the business-as-usual energy use of the City of `r params$ctu_selection`, we assue that energy use intensity per worker for the commercial and industrial sectors remain constant. 
 
 <br>
 
 ### Strategies
 
-Some existing programs include:
+One of the most effective strategies for commercial and industrial buildings is to enhance their energy efficiency, which can be achieved through the adoption of new technologies. In Minnesota, there are several programs aimed at supporting non-residential consumers.
 
-**Conservation Improvement Programs**
+The **Conservation Improvement Program (CIP)** is a policy aimed at improving energy efficiency and conservation in households and businesses in Minnesota. Funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce's Division of Energy Resources, CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air conditioning cycling programs.
 
-The Conservation Improvement Program (CIP) is a policy in Minnesota that aims to improve energy efficiency and conservation in households and businesses. It is funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce, Division of Energy Resources (DER). Implementors of CIP include the Center for Energy and Environment (CEE) and Home Energy Squad.
+The **Energy Conservation and Optimization Act of 2021 (ECO Act)** aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act expands the Conservation Improvement Program and makes energy efficiency improvements available to low-income households, public schools, and investor-owned utilities.
 
-CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air-conditioning cycling programs. The requirements for investor-owned utilities (IOUs) and consumer-owned utilities (COUs) are different, with more stringent requirements for IOUs due to their status as natural monopolies. According to the American Council for an Energy-Efficient Economy's 2022 State Energy Efficiency Scorecard, Minnesota's electric efficiency program spending in 2021 was \$174 million, with net incremental electricity savings of 955 thousand MWh, and natural gas efficiency program spending was \$71 million, with net incremental natural gas and delivered fuel savings of 3.3 million MMBtu. Fresh Energy, a non-profit organization, has been actively involved in the development and implementation of CIP, including advocating for improvements to cost-effectiveness tests and working to advance equity in energy efficiency programs.
-
-**The Eco Act**
-
-The Energy Conservation and Optimization Act of 2021 (ECO Act) in Minnesota aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act updates and expands the Conservation Improvement Program (CIP), which helps households and businesses use electricity and natural gas more efficiently and reduces the need for new utility infrastructure. The ECO Act expands eligibility for low-income households, requires energy efficiency improvements for public schools, increases conservation goals for investor-owned utilities, and provides additional flexibility for cooperatives in meeting their conservation requirements. The ECO Act is expected to create local jobs through electrical, heating and cooling, ventilation, and insulation installation projects across the state.
-
-**SB2030**
-
-The Minnesota *SB2030* program is focused on reducing emissions in commercial, industrial, and institutional buildings. The goal is to reduce energy use and decrease carbon dioxide emissions. To do this, the program sets standards for energy efficiency and renewable energy for new and renovated buildings. These standards are based on the amount of energy a building uses per square foot and will become more strict over time. Buildings starting construction between 2010 and 2015 need to reduce their energy use by 60% compared to an average building in 2003, while those starting construction between 2025 and 2030 need to reduce it by 90%. These energy efficiency standards will be updated every three to five years to make sure they are effective and cost-effective. The program also considers the impact of electric vehicle charging infrastructure on a building's energy use.
+The **Minnesota SB2030** program focuses on reducing emissions in commercial, industrial, and institutional buildings. The program sets standards for energy efficiency and renewable energy for new and renovated buildings, based on the building's energy use per square foot. Over time, these standards will become more stringent, with the goal of reducing energy use and carbon dioxide emissions. The program also takes into account the impact of electric vehicle charging infrastructure on a building's energy use.

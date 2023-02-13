@@ -56,7 +56,7 @@ fig_05_land_cover <- full_join(fig_05_land_cover_2016,
                              by = "Type") %>%
                    rename("2016 [Baseline]" = Hectares.x,
                           "2040 [Busines-as-Usual]" = Hectares.y) %>%
-  tableformat(.caption = paste0("Land Cover for ", params$ctu_selection))
+  tableformat(.caption = paste0("Land Cover Hectares for ", params$ctu_selection))
 ```
 
 ```{r echo=FALSE}
@@ -115,9 +115,21 @@ fig_05_land_use <- full_join(fig_05_land_use_2016,
                              by = "Variables") %>%
                    rename("2018 [Baseline]" = Hectares.x,
                           "2040 [Busines-as-Usual]" = Hectares.y) %>%
-  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+  tableformat(.caption = paste0("Land Use Hectares for ", params$ctu_selection))
 ```
 
 ```{r}
 fig_05_land_use
 ```
+
+### Carbon Sequestration and Carbon Stock 
+
+```{r}
+carbon_stocks_and_sequestration %>%
+  rename("Land Cover Type" = land_cover_type,
+         "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
+         "Stock (mg C/ha/year)" = stock_mg_c_per_hectare) %>%
+
+  tableformat(.caption = paste0("General Carbon Values"))
+```
+

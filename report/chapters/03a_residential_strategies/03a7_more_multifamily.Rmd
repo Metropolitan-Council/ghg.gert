@@ -7,8 +7,26 @@ The Metropolitan Council’s Thrive MSP plan projects increases in the percentag
 This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in the previous strategy, by assuming that 50% of all new single-family construction will now become  multifamily, with the multifamily homes having smaller square footage.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities ....
+***About this strategy*** Our assumption is that cities influence compact development and the ratio of multifamily units relative to single family units.  
 :::
+
+**GHG Impact Calculation**
+
+$$ sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})  $$
+
+*Where:*
+
+-  $sqft_{2040}^{sf}$ = The total floor area of single-family homes in the community in 2040. 
+-  $units_{2040}^{sf}$ = The number of single-family housing units in the community in 2040.
+-  $units_{2018}^{sf$ = The number of single-family housing units in the community in 2018.
+-  $x$ =  % of new single-family homes that are converted to multi-family homes
+-  $\bar{sqft}_{2040}^{sf}$ = The average floor area of single-family homes in the community in 2040.
+-  $\bar{sqft}_{2040}^{mf}$ =The average floor area of multifamily homes in the community in 2040.
+
+```{r}
+
+```
+
 
 ```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
@@ -50,5 +68,7 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
               .caption = paste("New Single-Family Home Floor Area for",
                                params$ctu_selection))
 ```
+
+<br>
 
 **Affordability co-benefit**: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward. 

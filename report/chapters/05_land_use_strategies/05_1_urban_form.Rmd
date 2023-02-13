@@ -4,20 +4,25 @@ In the coming decades, the Twin Cities region is expected to experience signific
 
 **What are Biogenic Emissions?** 
 
-Biogenic emissions arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant
-impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can
-sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear.
+*Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant
+impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear.
 
 To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used
 to calculate these values for the study period of 2018-2040.
 
+::: about_strategy
+***About this strategy*** Our assumption is that cities can control (or at least influence)... 
+:::
+
 **GHG Impact Calculation**
 
 $$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) × 44/12$$
+*Where:*
+
 $\text{Sequestration} = \sum{(Ai × SRi)}$\
 $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 
-*Where:*
+*And:*
 
 - $\text{Sequestration} = \text{annual net sequestration from vegetation for a given city}$
 - $\text{Land Cover Change = annual organic carbon stock change from land conversion for a given city, averaged over the study period}$
@@ -28,8 +33,63 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 - $i = 1 ,2, 3, ...n$ $\text{land cover types}$
 - $t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}$
 
+
+```{r}
+calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
+
+
+calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "compact_dev_beyond_bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
+```
+
+
+
+
 ```{r fig05_2, include=FALSE}
-fig05_1_data <- luse_bau_2018 %>%
+fig05_1_bau_2018 <- luse_bau_2018 %>%
+  ungroup() %>%
+  rename(var = detail) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc)
+
+fig05_1_bau_2040 <- luse_bau_2040 %>%
+  ungroup() %>%
+  rename(var = detail) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc)
+
+fig05_1_scen_2040 <-
+  run_scenario_land_use(
+    tb = land_use_data,
+    .selected_ctu = params$ctu_selection,
+    .urban_form_scenario = "compact_dev_beyond_bau",
+    .conservation_tillage_intervention = "current_conservation_tillage",
+    .tree_planting_intervention = "match_la_million_trees_goal",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247,
+    .parking_lot_reduction_percentage = 0,
+    detail = FALSE
+  )  %>%
+  filter(year == 2040)  %>%
   ungroup() %>%
   rename(var = detail) %>%
   left_join(.,

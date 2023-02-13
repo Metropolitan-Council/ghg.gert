@@ -46,11 +46,6 @@ calc_parking_lot_land_cover <- function(tb,
                                         detail = FALSE) {
   cli::cli_progress_message("*** calculating parking lot reduction strategy \n")
 
-  tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
-  tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)
-  tb$ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu = .selected_ctu)
-  tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
-
   # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,

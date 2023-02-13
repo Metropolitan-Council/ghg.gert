@@ -1,11 +1,25 @@
-#### Electrify Non-Residential Heating
+#### Smart Grid Electrification
 
-Non-residential electrification strategy 
-
+Smart grid and technologies are projected to reduce industrial electricity use by 11% .
 
 ::: about_strategy
-***About this strategy*** Our assumption is ..
+***About this strategy*** Our assumption is that by adopting technologies such as smart grid, `100%` of industrial buildings in the city can reduce their electricity use by `11%`.
 :::
+
+**GHG Impact Calculation**
+
+$$ \text{electricity } kgCO2e_{2040}^{industrial} = x * jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\% * kgCO_2e/MWh$$
+*Where:*
+
+$x$ = % of industries in the smart grid (assumed to be 100%)
+$jobs^{industrial}_{2040}$ = Number of industrial workers in 2040
+$MWh/jobs^{industrial}_{2040}$ = Projected industrial electricity use per worker, MWh/worker, for 2040
+$kgCO2e/MWh$ = Electricity emission factor in 2040 in kilograms of CO2e/MWh
+$11%$ = % reduction in energy use due to smart grid
+
+The total reduction of greenhouse gas emissions in 2040 (E) can be calculated as:
+
+This equation represents the expected reduction of greenhouse gas emissions in the industrial sector due to the implementation of a smart grid in 2040.
 
 ```{r fig03b2, include=FALSE}
 # 2018

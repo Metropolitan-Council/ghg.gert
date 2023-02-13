@@ -142,7 +142,7 @@ non_res_bau_2040 <- run_scenario_building(
 
 luse_bau_2018 <- run_scenario_land_use(
   tb = land_use_data,
-  .selected_ctu = "Minneapolis",
+  .selected_ctu = params$ctu_selection,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
@@ -157,7 +157,7 @@ luse_bau_2018 <- run_scenario_land_use(
 
 luse_bau_2040 <- run_scenario_land_use(
   tb = land_use_data,
-  .selected_ctu = "Minneapolis",
+  .selected_ctu = params$ctu_selection,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
@@ -165,40 +165,5 @@ luse_bau_2040 <- run_scenario_land_use(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
   detail = FALSE
-)  %>%
+) %>%
   filter(year == 2040)
-
-trees <- calc_tree_planting_land_cover(
-  tb = land_use_data,
-  detail = FALSE,
-  .selected_ctu = "Minneapolis",
-  .urban_form_scenario = "bau",
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247
-)
-
-parking_lot_land_cover <- calc_parking_lot_land_cover(
-  tb = land_use_data,
-  .selected_ctu = "Minneapolis",
-  .urban_form_scenario = "bau",
-  .parking_lot_reduction_percentage = 0.6,
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  detail = FALSE
-)
-
-test <-
-  calc_conservation_tillage(
-    tb = land_use_data,
-    .selected_ctu = "Minneapolis",
-    .urban_form_scenario = "bau",
-    .conservation_tillage_intervention = "double_conservation_tillage",
-    .tree_planting_intervention = "match_la_million_trees_goal",
-    .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247,
-    .parking_lot_reduction_percentage = 0.2,
-    detail = FALSE
-  ) %>%
-  dplyr::filter(ctu_name == "Minneapolis")
