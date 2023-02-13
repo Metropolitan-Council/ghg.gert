@@ -8,6 +8,10 @@ Many initiatives have been launched globally, including the Trillion Trees Initi
 
 In addition to mitigating the effects of climate change through carbon storage in woody biomass, urban trees offer a wide range of benefits, such as reducing the energy consumption of buildings, reducing urban heat, and improving subjective well-being. However, there are few empirical models to quantify the effect on building energy use, and existing data from St. Paul suggests that the effect may be small compared to the carbon sink effect. Additionally, several studies have shown socio-economic inequality in tree canopy coverage, making equity an essential consideration in the spatial planning of urban reforestation.
 
+**GROWING SHADE**
+
+The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.
+
 **GHG Impact Calculation**
 
 $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$

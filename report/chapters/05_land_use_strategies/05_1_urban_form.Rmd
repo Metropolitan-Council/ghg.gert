@@ -34,77 +34,74 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 - $t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}$
 
 
+**** results coming soon...
+
 ```{r}
-calc_scen_land_use(
-  .selected_ctu = params$ctu_selection,
-  tb = land_use_data,
-  .urban_form_scenario = "bau"
-) %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  group_by(development_type) %>%
-  summarise(scenario_hectares = sum(scenario_hectares))
-
-
-calc_scen_land_use(
-  .selected_ctu = params$ctu_selection,
-  tb = land_use_data,
-  .urban_form_scenario = "compact_dev_beyond_bau"
-) %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  group_by(development_type) %>%
-  summarise(scenario_hectares = sum(scenario_hectares))
+# calc_scen_land_use(
+#   .selected_ctu = params$ctu_selection,
+#   tb = land_use_data,
+#   .urban_form_scenario = "bau"
+# ) %>%
+#   filter(ctu_name == params$ctu_selection) %>%
+#   group_by(development_type) %>%
+#   summarise(scenario_hectares = sum(scenario_hectares))
+# 
+# 
+# calc_scen_land_use(
+#   .selected_ctu = params$ctu_selection,
+#   tb = land_use_data,
+#   .urban_form_scenario = "compact_dev_beyond_bau"
+# ) %>%
+#   filter(ctu_name == params$ctu_selection) %>%
+#   group_by(development_type) %>%
+#   summarise(scenario_hectares = sum(scenario_hectares))
 ```
-
-
 
 
 ```{r fig05_2, include=FALSE}
-fig05_1_bau_2018 <- luse_bau_2018 %>%
-  ungroup() %>%
-  rename(var = detail) %>%
-  left_join(.,
-    variables,
-    by = "var"
-  ) %>%
-  select(desc, value) %>%
-  rename(Variables = desc)
-
-fig05_1_bau_2040 <- luse_bau_2040 %>%
-  ungroup() %>%
-  rename(var = detail) %>%
-  left_join(.,
-    variables,
-    by = "var"
-  ) %>%
-  select(desc, value) %>%
-  rename(Variables = desc)
-
-fig05_1_scen_2040 <-
-  run_scenario_land_use(
-    tb = land_use_data,
-    .selected_ctu = params$ctu_selection,
-    .urban_form_scenario = "compact_dev_beyond_bau",
-    .conservation_tillage_intervention = "current_conservation_tillage",
-    .tree_planting_intervention = "match_la_million_trees_goal",
-    .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247,
-    .parking_lot_reduction_percentage = 0,
-    detail = FALSE
-  ) %>%
-  filter(year == 2040) %>%
-  ungroup() %>%
-  rename(var = detail) %>%
-  left_join(.,
-    variables,
-    by = "var"
-  ) %>%
-  select(desc, value) %>%
-  rename(Variables = desc)
-
-fig05_1_table <- fig05_1_data %>%
-  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+# fig05_1_bau_2018 <- luse_bau_2018 %>%
+#   ungroup() %>%
+#   rename(var = detail) %>%
+#   left_join(.,
+#             variables,
+#             by = "var")  %>%
+#   select(desc, value) %>%
+#   rename(Variables = desc)
+# 
+# fig05_1_bau_2040 <- luse_bau_2040 %>%
+#   ungroup() %>%
+#   rename(var = detail) %>%
+#   left_join(.,
+#             variables,
+#             by = "var")  %>%
+#   select(desc, value) %>%
+#   rename(Variables = desc)
+# 
+# fig05_1_scen_2040 <-
+#   run_scenario_land_use(
+#     tb = land_use_data,
+#     .selected_ctu = params$ctu_selection,
+#     .urban_form_scenario = "compact_dev_beyond_bau",
+#     .conservation_tillage_intervention = "current_conservation_tillage",
+#     .tree_planting_intervention = "match_la_million_trees_goal",
+#     .tree_planting_per_capita = 0.26,
+#     .tree_planting_per_hectare = 247,
+#     .parking_lot_reduction_percentage = 0,
+#     detail = FALSE
+#   )  %>%
+#   filter(year == 2040)  %>%
+#   ungroup() %>%
+#   rename(var = detail) %>%
+#   left_join(.,
+#             variables,
+#             by = "var")  %>%
+#   select(desc, value) %>%
+#   rename(Variables = desc)
+# 
+# fig05_1_table <- fig05_1_data %>%
+#   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
 
 ```{r}
-fig05_1_table
+# fig05_1_table
 ```
