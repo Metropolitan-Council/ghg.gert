@@ -9,7 +9,7 @@ We assume that renewable natural gas will substitute 31.7% of all natural gas re
 
 **GHG Impact Calculation**
 
-$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}  * therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}$$
+$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} * \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  * \frac{therms}{jobs_{2040}^{industrial}} \right) * x * \frac{kgCO_2e}{therms_{2040}}$$
 
 *Where:*
 
@@ -20,7 +20,7 @@ $$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = (jobs_{2040}^{commer
 -  $therms/jobs_{2040}^{industrial}$: The projected industrial gas use per worker in 2040
 -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
-```{r fig03b3}
+```{r fig03b3, include=FALSE}
 fig03b3_data <- full_join(
   non_res_bau_2018,
   non_res_bau_2040,
@@ -69,10 +69,10 @@ fig03b3_table <- fig03b3_data %>%
 ```
 
 
-```{r}
+```{r echo=FALSE}
 fig03b3_table
 ```
 
-```{r}
+```{r echo=FALSE}
 chartformat(fig03b3_data)
 ```
