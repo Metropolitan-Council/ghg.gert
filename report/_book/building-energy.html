@@ -33,7 +33,7 @@ and published on February of 2023.</p>" />
   
   
 <link rel="prev" href="demographic-assumptions.html"/>
-
+<link rel="next" href="transportation.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -195,6 +195,24 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy"><i class="fa fa-check"></i><b>3.3</b> Non-Residential Energy</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="building-energy.html"><a href="building-energy.html#strategies-1"><i class="fa fa-check"></i><b>3.3.1</b> Strategies</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="transportation.html"><a href="transportation.html"><i class="fa fa-check"></i><b>4</b> Transportation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="transportation.html"><a href="transportation.html#framework-1"><i class="fa fa-check"></i><b>4.1</b> Framework</a></li>
+<li class="chapter" data-level="4.2" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-data"><i class="fa fa-check"></i><b>4.2</b> Transportation Baseline and Data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="transportation.html"><a href="transportation.html#annual-energy-outlook-aeo"><i class="fa fa-check"></i><b>4.2.1</b> Annual Energy Outlook (AEO)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="transportation.html"><a href="transportation.html#passenger"><i class="fa fa-check"></i><b>4.2.2</b> Passenger</a></li>
+<li class="chapter" data-level="4.2.3" data-path="transportation.html"><a href="transportation.html#freight"><i class="fa fa-check"></i><b>4.2.3</b> Freight</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-forecast"><i class="fa fa-check"></i><b>4.3</b> Transportation Baseline and Forecast</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="transportation.html"><a href="transportation.html#land-use"><i class="fa fa-check"></i><b>4.3.1</b> Land Use</a></li>
+<li class="chapter" data-level="4.3.2" data-path="transportation.html"><a href="transportation.html#vehicle-electrification-1"><i class="fa fa-check"></i><b>4.3.2</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="4.3.3" data-path="transportation.html"><a href="transportation.html#public-transit"><i class="fa fa-check"></i><b>4.3.3</b> Public Transit</a></li>
+<li class="chapter" data-level="4.3.4" data-path="transportation.html"><a href="transportation.html#telework"><i class="fa fa-check"></i><b>4.3.4</b> Telework</a></li>
+<li class="chapter" data-level="4.3.5" data-path="transportation.html"><a href="transportation.html#road-pricing"><i class="fa fa-check"></i><b>4.3.5</b> Road Pricing</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -448,7 +466,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(\bar{sqft}_{2040}^{mf}\)</span>: The projected average floor area of multifamily homes in the community in 2040</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: Projected residential electricity use intensity per floor area in 2040</li>
@@ -626,7 +644,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The average floor area of single-family homes in the community in 2018.</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
@@ -791,7 +809,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <p><br></p>
 <p><strong>GHG Impact Calculation</strong></p>
 <p>Calculate new floor area:</p>
-<p><span class="math display">\[\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64\]</span></p>
+<p><span class="math display">\[\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf} * 0.64\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(x \text{, where } 0 \le x \le 1\)</span>: The percentage of new single family homes that are LEED Gold</li>
@@ -802,7 +820,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(0.64\)</span>: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
@@ -972,7 +990,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(\bar{sqft}_{2018}^{mf}\)</span>: The average floor area of multi-family homes in 2018</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
@@ -1292,7 +1310,7 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 <li><span class="math inline">\(sqft_{2040}^{sf+mf}/population_{2040}\)</span>: The average square footage per person in 2040 for residential buildings.</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span>
+<p><span class="math display">\[\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}* \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]</span>
 <em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
@@ -1401,7 +1419,7 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 <li><span class="math inline">\(MWh/sqft_{2040}^{residential}\)</span>: The projected residential electricity per floor area in 2040</li>
 </ul>
 <p>Calculate new emissions:</p>
-<p><span class="math display">\[\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  kgCO2e/MWh_{2040} * (1-x) \]</span></p>
+<p><span class="math display">\[\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  \frac{kgCO2e}{MWh_{2040}} * (1-x) \]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\((1-x) \text{, where } 0 \le x \le 1\)</span>: The percentage reduction in the emissions of the electric grid</li>
@@ -1499,11 +1517,11 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
 <p>Natural Gas for Space Heating:</p>
-<p><span class="math display">\[term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 71\% \]</span>
-<span class="math display">\[\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - (term_1 * (0.8/5.02) * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}\]</span></p>
+<p><span class="math display">\[term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% \]</span>
+<span class="math display">\[\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]</span></p>
 <p>Natural Gas for Water Heating:</p>
-<p><span class="math display">\[term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 24\% \]</span>
-<span class="math display">\[\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - (term_2 * 100\% * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}\]</span></p>
+<p><span class="math display">\[term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% \]</span>
+<span class="math display">\[\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(x\)</span>: The percentage of additional households with heating electrified, defaulted to be 59% - 14% of homes already electrified</li>
@@ -1739,7 +1757,7 @@ Industrial Electricity per Worker (MWh/worker)
 <p><strong><em>About this strategy</em></strong> Our assumption is that cities can promote a reduction in energy use intensity (EUI) by the retrofit of existing commercial buildings. We assume that <code>80%</code> of existing commercial buildings are certified as LEED Gold by 2040. LEED Gold is assumed to reduce energy use intensity (EUI) of an existing building by <code>25%</code>.</p>
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
-<p><span class="math display">\[\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * (MWh/jobs_{2018}^{commercial} * kgCO2e/MWh_{2040}^{commercial} + therms/jobs_{2018}^{commercial} * kgCO_2e/therm_{2040}^{commercial})\]</span>
+<p><span class="math display">\[\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * \left( \frac{MWh}{jobs_{2018}^{commercial}} * \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} * \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)\]</span>
 <em>Where:</em></p>
 <ul>
 <li><p><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)</p></li>
@@ -1838,12 +1856,11 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 3,580,590,207
 </td>
 <td style="text-align:right;">
-967,131,753
+2,824,800,150
 </td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="building-energy.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b1_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 
 </div>
@@ -1855,7 +1872,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <p><strong><em>About this strategy</em></strong> Our assumption is that by adopting technologies such as smart grid, <code>100%</code> of industrial buildings in the city can reduce their electricity use by <code>11%</code>.</p>
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
-<p><span class="math display">\[ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * (jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\%) * kgCO_2e/MWh\]</span>
+<p><span class="math display">\[ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industrial}_{2040} * \frac{MWh}{jobs^{industrial}_{2040}} * 11\% \right) * \frac{kgCO_2e}{MWh}\]</span>
 <em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: The percentage of industries in the smart grid (assumed to be 100%)</li>
@@ -1866,7 +1883,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:fig03b2">Table 3.18: </span>Retrofit Commercial Buildings Minneapolis 2040
+<span id="tab:fig03b2">Table 3.18: </span>Smart Grid Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -1967,7 +1984,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence)…</p>
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
-<p><span class="math display">\[\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}  * therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}\]</span></p>
+<p><span class="math display">\[\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} * \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  * \frac{therms}{jobs_{2040}^{industrial}} \right) * x * \frac{kgCO_2e}{therms_{2040}}\]</span></p>
 <p><em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span> = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be <code>31.7%</code></li>
@@ -1977,73 +1994,6 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <li><span class="math inline">\(therms/jobs_{2040}^{industrial}\)</span>: The projected industrial gas use per worker in 2040</li>
 <li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="building-energy.html#cb3-1" aria-hidden="true" tabindex="-1"></a>fig03b3_data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
-<span id="cb3-2"><a href="building-energy.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2018,</span>
-<span id="cb3-3"><a href="building-energy.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2040,</span>
-<span id="cb3-4"><a href="building-energy.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span></span>
-<span id="cb3-5"><a href="building-energy.html#cb3-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="building-energy.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(.,</span>
-<span id="cb3-7"><a href="building-energy.html#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">run_scenario_building</span>(</span>
-<span id="cb3-8"><a href="building-energy.html#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-9"><a href="building-energy.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_non_residential =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-10"><a href="building-energy.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb3-11"><a href="building-energy.html#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_data<span class="sc">$</span>non_residential,</span>
-<span id="cb3-12"><a href="building-energy.html#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb_bau =</span> building_data<span class="sc">$</span>non_residential,</span>
-<span id="cb3-13"><a href="building-energy.html#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">.renewable_ng_nonres =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-14"><a href="building-energy.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">.electrified_buildings_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb3-15"><a href="building-energy.html#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_water_heating_pct =</span> <span class="fl">0.20</span>,</span>
-<span id="cb3-16"><a href="building-energy.html#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_space_heating_pct =</span> <span class="fl">0.69</span>,</span>
-<span id="cb3-17"><a href="building-energy.html#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">.commercial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb3-18"><a href="building-energy.html#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">.industrial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb3-19"><a href="building-energy.html#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">.smart_grid_energy_reduction_pct =</span> <span class="dv">1</span>,</span>
-<span id="cb3-20"><a href="building-energy.html#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">.grid_decarbonization_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb3-21"><a href="building-energy.html#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="dv">0</span>,</span>
-<span id="cb3-22"><a href="building-energy.html#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">.enviro_factors =</span> enviro_factors</span>
-<span id="cb3-23"><a href="building-energy.html#cb3-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-24"><a href="building-energy.html#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-25"><a href="building-energy.html#cb3-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb3-26"><a href="building-energy.html#cb3-26" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
-<span id="cb3-27"><a href="building-energy.html#cb3-27" aria-hidden="true" tabindex="-1"></a>    scen <span class="sc">==</span> <span class="st">&quot;scen&quot;</span>,</span>
-<span id="cb3-28"><a href="building-energy.html#cb3-28" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb3-29"><a href="building-energy.html#cb3-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
-<span id="cb3-30"><a href="building-energy.html#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
-<span id="cb3-31"><a href="building-energy.html#cb3-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
-<span id="cb3-32"><a href="building-energy.html#cb3-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
-<span id="cb3-33"><a href="building-energy.html#cb3-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
-<span id="cb3-34"><a href="building-energy.html#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-35"><a href="building-energy.html#cb3-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb3-36"><a href="building-energy.html#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Scenario&quot;</span>),</span>
-<span id="cb3-37"><a href="building-energy.html#cb3-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span>)</span></code></pre></div>
-<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
-## percent of electrified buildings:0 ...... percent of non-residential natural
-## gas for water heating:0.2 ...... percent of non-residential natural gas
-## for space heating:0.69 ...... percent of commercial smart grid:1 ......
-## percent of industrial smart grid:1 ...... percent of smart grid energy
-## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
-## of existing high efficiency buildings:0 ...... percent of home behavior
-## change:1 ...... percent of single family floor area growth:0.05 ......
-## percent of new homes affected:0.3 ...... percent of new homes leed
-## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
-## of existing home ultra retrofit:0.2 ...... percent of residential
-## natural gas for space heating:0.71 ...... percent of residential natural
-## gas for water heating:0.24 ...... percent of additional electrified
-## residential buildings:0.45 ...... percent of grid decarbonization:0
-## ========================================== ** compiling non-residential
-## strategies *** calculating existing commercial building energy efficiency
-## ** compiling non-residential strategies *** calculating non-residential ghg
-## emissions *** calculating existing commercial building energy efficiency
-## *** calculating non-residential ghg emissions ** compiling non-residential
-## strategies *** calculating commercial building heat electficiation **
-## compiling non-residential strategies *** calculating non-residential
-## renewable natural gas strategy ** compiling non-residential strategies
-## ==========================================</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="building-energy.html#cb5-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table <span class="ot">&lt;-</span> fig03b3_data <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="building-energy.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add table format</span></span>
-<span id="cb5-3"><a href="building-energy.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
-<span id="cb5-4"><a href="building-energy.html#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(<span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
-<span id="cb5-5"><a href="building-energy.html#cb5-5" aria-hidden="true" tabindex="-1"></a>                               params<span class="sc">$</span>ctu_selection,</span>
-<span id="cb5-6"><a href="building-energy.html#cb5-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;2040&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="building-energy.html#cb6-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table</span></code></pre></div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 <span id="tab:fig03b3">Table 3.19: </span>Retrofit Commercial Buildings Minneapolis 2040
@@ -2137,7 +2087,6 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="building-energy.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b3_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 
 </div>
@@ -2148,7 +2097,7 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 <p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence)…</p>
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
-<p><span class="math display">\[\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * (\frac{kgCO_2e/MWh_{2040}}{1000}) * x\]</span>
+<p><span class="math display">\[\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) * x\]</span>
 <em>Where:</em></p>
 <ul>
 <li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)</li>
@@ -2252,24 +2201,12 @@ Total Industrial Emissions (tonnes CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="building-energy.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b4_data)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Pérez-Lombard, Luis, José Ortiz, and Christine Pout. 2008. <span>“A Review on Buildings Energy Consumption Information.”</span> <em>Energy and Buildings</em> 40 (3): 394–98. <a href="https://doi.org/10.1016/j.enbuild.2007.03.007">https://doi.org/10.1016/j.enbuild.2007.03.007</a>.
 </div>
 </div>
 </div>
 </div>
-</div>
-</div>
-
-
-
-
-
-
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-perez-lombard_review_2008" class="csl-entry">
@@ -2281,8 +2218,8 @@ Pérez-Lombard, Luis, José Ortiz, and Christine Pout. 2008. <span>“A Review o
           </div>
         </div>
       </div>
-<a href="demographic-assumptions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="demographic-assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="transportation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -28,4 +28,5 @@ source("setup_pkg_fcns.R")
 source("variables.R")
 source("council_members.R")
 source("bau_charts.R")
+source("carbon_stocks_and_sequestration.R")
 ```

@@ -6,13 +6,13 @@ The Tool uses data from the Market Acceptance of Advanced Automotive Technologie
 
 The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.
 
-```{r fig-bev}
-#| echo: false
-#| message: false
+```{r fig-bev, echo=FALSE, message=FALSE}
+
 #| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.", 
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 3
 # vmt_annual_energy_outlook()
+
 bev_ctu %>%
   filter(year %in% c("2018", "2040")) %>% 
   group_by(year, ctu, param, type) %>% 
@@ -37,7 +37,8 @@ bev_ctu %>%
   )
 ```
 
-```{r tab-bev-comp}
+```{r tab-bev-comp2, echo=FALSE, message=FALSE}
+
 bau_ctu %>% 
   ungroup() %>% 
   left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 

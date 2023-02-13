@@ -4,16 +4,13 @@ In the future, road pricing will likely be an essential component of transportat
 
 The scenario planning model includes three alternatives for road pricing. The first is a vehicle miles traveled (VMT) fee that charges for each mile of travel. The second is a pay-as-you-drive insurance plan. Finally, the model includes a representation of congestion pricing. Ideally, congestion price should vary between the time of day and road link based on the current congestion level, but this is infeasible to model. Instead, an elevated VMT fee is applied to a portion of travel, approximating the percent of congested VMT. Credit-based congestion pricing is recommended as a revenue-neutral strategy to address equity in road pricing. It provides credits to travelers who shift their travel model or departure time.
 
-```{r tab-road-policy}
-#| echo: false
-#| message: false
+```{r tab-road-policy, echo=FALSE, message=FALSE}
+
 # vmt_road_policy()
 ```
 
 
-```{r fig-roadprice}
-#| echo: false
-#| message: false
+```{r fig-roadprice, echo=FALSE, message=FALSE}
 
 #| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different levels of road pricing.", 
 #| fig.align = 'center',
@@ -46,7 +43,7 @@ roadprice_ctu %>%
   )
 ```
 
-```{r tab-bev-comp}
+```{r tab-bev-comp5}
 bau_ctu %>% 
   ungroup() %>% 
   left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
