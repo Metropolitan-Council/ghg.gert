@@ -1,8 +1,8 @@
-# (APPENDIX) Appendix {-}
+# Appendix {-}
 
 ## Building Energy
 
-### Additional Resources on Energy Efficiency Strategies
+### Energy Efficiency Strategies
 
 **Policy Approaches**
 
@@ -24,7 +24,7 @@
 
 *	Equity considerations: Tong, K., Ramaswami, A., Xu, C., et al. (2021). Measuring social equity in urban energy use and interventions using fine-scale data. PNAS, 118 (24), e2023554118. https://doi.org/10.1073/pnas.2023554118. 
 
-### Additional Resources on Increased Multifamily Strategy
+### Increased Multifamily Strategy
 
 - [Metropolitan Council Local Planning Handbook: Housing](https://metrocouncil.org/Handbook/Plan-Elements/Housing.aspx)
 - [Metropolitan Council Thrive MSP 2040: Housing Policy Plan](https://metrocouncil.org/Housing/Planning/HOUSING-POLICY-PLAN-2040/2040-Housing-Policy-Plan.aspx)
@@ -36,7 +36,7 @@
 - [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
 
 
-### Additional Resources on Electrification
+### Electrification
 
 **Additional Information**
 
@@ -54,7 +54,7 @@
 
 * [Minnesota Center for Energy and the Environment: Home energy improvement loans](https://www.mncee.org/residential-statewide-lending) 
 
-### Additional Resources on Renewable Natural Gas
+### Renewable Natural Gas
 
 **Policy Approaches**
 
@@ -80,7 +80,9 @@
 
 The transportation module is constructed based on a set of standard forecasts for inputs such as passenger miles traveled, vehicle miles traveled, existing vehicle stock, new vehicle sales, average vehicle occupancy, fuel efficiency, and population. These parameters are utilized to predict the vehicle miles traveled and resultant emissions. The scenario planning tool then utilizes selected intervention elasticities and proportional effects to calculate the potential reduction in emissions.
 
-```{r "tab-source-mode-var"}
+```{r tab-source-mode-var}
+#| echo: false
+#| warning: false
 source_mode_var <- ghg.sp::transportation_index$data_sources %>%
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
@@ -108,7 +110,7 @@ gt::gt(
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
 
-```{r "ma3t-graphic", out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
+```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
 knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
 ```
 
@@ -158,7 +160,7 @@ The Annual Energy Outlook (AEO) is a report series by the US Energy Information 
 
 You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
 
-```{r "tab-aeo-values"}
+```{r tab-aeo-values}
 #| echo: false
 #| warning: false
 ghg.sp::factor_values$aeo %>%
@@ -205,7 +207,7 @@ Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,�
 
 ### Transportation modes  
 
-```{r, "trans-mode"}
+```{r, trans-mode}
 #| echo: false
 #| warning: false
 gt::gt(
@@ -223,7 +225,7 @@ gt::gt(
 
 ### Emission Sources  
 
-```{r, "emission-sources"}
+```{r, emission-sources}
 #| echo: false
 #| warning: false
 
@@ -241,7 +243,7 @@ gt::gt(
 
 ### Future costs per mile  
 
-```{r "future-cost-per-mile"}
+```{r future-cost-per-mile}
 #| echo: false
 #| warning: false
 tibble::tribble(
@@ -326,7 +328,7 @@ Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwest
 ## Land Use
 
 
-### Additional Resources on Reforestation Strategy
+### Reforestation Strategy
 
 - [Minnesota Department of Natural Resources: Urban forestry best management practices](https://www.dnr.state.mn.us/forestry/urban/bmps.html)
 - [University of Minnesota Extension: Recommended trees for Minnesota](https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota)
