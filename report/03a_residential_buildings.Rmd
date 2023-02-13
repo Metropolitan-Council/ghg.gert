@@ -1,4 +1,4 @@
-# Building Energy
+# Building Energy - Residential
 
 ![](images//3090.jpg)
 
@@ -89,3 +89,27 @@ The City of `r params$ctu_selection` can influence the size of new single family
 
 -   ***Fees:*** Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 :::
+
+```{r child="03a_residential_strategies/03a1_more_multifamily.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a2_affordable_floor_area.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a3_new_home_efficiency.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a4_existing_home_efficiency.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a5_behavior_change.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a6_decarbonize_res_energy.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a7_electrify_res.Rmd", echo=FALSE}
+```
+
+```{r child="03a_residential_strategies/03a8_renewable_ng.Rmd", echo=FALSE}
+```

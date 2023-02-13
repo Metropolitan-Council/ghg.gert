@@ -1,4 +1,4 @@
-## Non-Residential Energy
+# Building Energy - Non-Residential
 
 Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. The baseline data for energy use was obtained from Xcel Energy. The forecast of "business-as-usual" energy use is estimated by considering the number of people who are expected to work in these buildings.
 
@@ -47,3 +47,15 @@ The **Conservation Improvement Program (CIP)** is a policy aimed at improving en
 The **Energy Conservation and Optimization Act of 2021 (ECO Act)** aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act expands the Conservation Improvement Program and makes energy efficiency improvements available to low-income households, public schools, and investor-owned utilities.
 
 The **Minnesota SB2030** program focuses on reducing emissions in commercial, industrial, and institutional buildings. The program sets standards for energy efficiency and renewable energy for new and renovated buildings, based on the building's energy use per square foot. Over time, these standards will become more stringent, with the goal of reducing energy use and carbon dioxide emissions. The program also takes into account the impact of electric vehicle charging infrastructure on a building's energy use.
+
+```{r child="03b_non_residential_strategies/03b1_retrofit_commercial_bldgns.Rmd", echo=FALSE}
+```
+
+```{r child="03b_non_residential_strategies/03b2_smart_grid_non_res.Rmd", echo=FALSE}
+```
+
+```{r child="03b_non_residential_strategies/03b3_non_res_renewable_ng.Rmd", echo=FALSE}
+```
+
+```{r child="03b_non_residential_strategies/03b4_non_res_decarbonize_grid.Rmd", echo=FALSE}
+```

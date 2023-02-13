@@ -5,25 +5,22 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Greenhouse Gas Emissions Scenario Planning</title>
-  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
+and published on February of 2023.</p>" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
+and published on February of 2023.</p>" />
+  
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Greenhouse Gas Emissions Scenario Planning" />
   
-  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <meta name="twitter:description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
+and published on February of 2023.</p>" />
   
 
 <meta name="author" content="Metropolitan Council" />
@@ -36,7 +33,7 @@ set in the _output.yml file.</p>" />
   
   
 
-<link rel="next" href="introduction.html"/>
+<link rel="next" href="section-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -58,6 +55,20 @@ set in the _output.yml file.</p>" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <link href="libs/tabwid-1.1.2/tabwid.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.27/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -125,6 +136,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -139,32 +172,109 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Metropolitan Council</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Report</a>
+<li><a href="index.html#section" id="toc-section"></a>
 <ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Metropolitan Council</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#executive-summary"><i class="fa fa-check"></i>Executive Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<li><a href="section-1.html#section-1" id="toc-section-1"></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
-<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#greenhouse-gas-emissions"><i class="fa fa-check"></i><b>2.2</b> Greenhouse Gas Emissions</a></li>
-<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#impact-of-climate-change-in-minnesota"><i class="fa fa-check"></i><b>2.3</b> Impact of Climate Change in Minnesota</a></li>
-<li class="chapter" data-level="2.4" data-path="introduction.html"><a href="introduction.html#scenario-planning"><i class="fa fa-check"></i><b>2.4</b> Scenario Planning</a></li>
-<li class="chapter" data-level="2.5" data-path="introduction.html"><a href="introduction.html#stakeholder-engagement"><i class="fa fa-check"></i><b>2.5</b> Stakeholder Engagement</a>
+<li class="chapter" data-level="" data-path="section-1.html"><a href="section-1.html"><i class="fa fa-check"></i>Metropolitan Council</a></li>
+<li class="chapter" data-level="" data-path="section-1.html"><a href="section-1.html#disclaimer-1"><i class="fa fa-check"></i>Disclaimer</a></li>
+<li class="chapter" data-level="" data-path="section-1.html"><a href="section-1.html#executive-summary-1"><i class="fa fa-check"></i>Executive Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="2.5.1" data-path="introduction.html"><a href="introduction.html#vehicle-electrification"><i class="fa fa-check"></i><b>2.5.1</b> Vehicle Electrification</a></li>
-<li class="chapter" data-level="2.5.2" data-path="introduction.html"><a href="introduction.html#grid-renewables"><i class="fa fa-check"></i><b>2.5.2</b> Grid Renewables</a></li>
-<li class="chapter" data-level="2.5.3" data-path="introduction.html"><a href="introduction.html#building-retrofits"><i class="fa fa-check"></i><b>2.5.3</b> Building Retrofits</a></li>
-<li class="chapter" data-level="2.5.4" data-path="introduction.html"><a href="introduction.html#mixed-use-development"><i class="fa fa-check"></i><b>2.5.4</b> Mixed-Use Development</a></li>
-<li class="chapter" data-level="2.5.5" data-path="introduction.html"><a href="introduction.html#building-codes"><i class="fa fa-check"></i><b>2.5.5</b> Building Codes</a></li>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>1.1</b> Overview</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#greenhouse-gas-emissions"><i class="fa fa-check"></i><b>1.2</b> Greenhouse Gas Emissions</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#impact-of-climate-change-in-minnesota"><i class="fa fa-check"></i><b>1.3</b> Impact of Climate Change in Minnesota</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#scenario-planning"><i class="fa fa-check"></i><b>1.4</b> Scenario Planning</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#stakeholder-engagement"><i class="fa fa-check"></i><b>1.5</b> Stakeholder Engagement</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="introduction.html"><a href="introduction.html#vehicle-electrification"><i class="fa fa-check"></i><b>1.5.1</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="1.5.2" data-path="introduction.html"><a href="introduction.html#grid-renewables"><i class="fa fa-check"></i><b>1.5.2</b> Grid Renewables</a></li>
+<li class="chapter" data-level="1.5.3" data-path="introduction.html"><a href="introduction.html#building-retrofits"><i class="fa fa-check"></i><b>1.5.3</b> Building Retrofits</a></li>
+<li class="chapter" data-level="1.5.4" data-path="introduction.html"><a href="introduction.html#mixed-use-development"><i class="fa fa-check"></i><b>1.5.4</b> Mixed-Use Development</a></li>
+<li class="chapter" data-level="1.5.5" data-path="introduction.html"><a href="introduction.html#building-codes"><i class="fa fa-check"></i><b>1.5.5</b> Building Codes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="demographic-assumptions.html"><a href="demographic-assumptions.html"><i class="fa fa-check"></i><b>3</b> Demographic Assumptions</a></li>
+<li class="chapter" data-level="2" data-path="demographic-assumptions.html"><a href="demographic-assumptions.html"><i class="fa fa-check"></i><b>2</b> Demographic Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="building-energy---residential.html"><a href="building-energy---residential.html"><i class="fa fa-check"></i><b>3</b> Building Energy - Residential</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="building-energy---residential.html"><a href="building-energy---residential.html#framework"><i class="fa fa-check"></i><b>3.1</b> Framework</a></li>
+<li class="chapter" data-level="3.2" data-path="building-energy---residential.html"><a href="building-energy---residential.html#residential-energy"><i class="fa fa-check"></i><b>3.2</b> Residential Energy</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="building-energy---residential.html"><a href="building-energy---residential.html#strategies"><i class="fa fa-check"></i><b>3.2.1</b> Strategies</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="building-energy---non-residential.html"><a href="building-energy---non-residential.html"><i class="fa fa-check"></i><b>4</b> Building Energy - Non-Residential</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="building-energy---non-residential.html"><a href="building-energy---non-residential.html#strategies-1"><i class="fa fa-check"></i><b>4.0.1</b> Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="transportation.html"><a href="transportation.html"><i class="fa fa-check"></i><b>5</b> Transportation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="transportation.html"><a href="transportation.html#framework-1"><i class="fa fa-check"></i><b>5.1</b> Framework</a></li>
+<li class="chapter" data-level="5.2" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-data"><i class="fa fa-check"></i><b>5.2</b> Transportation Baseline and Data</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="transportation.html"><a href="transportation.html#annual-energy-outlook-aeo"><i class="fa fa-check"></i><b>5.2.1</b> Annual Energy Outlook (AEO)</a></li>
+<li class="chapter" data-level="5.2.2" data-path="transportation.html"><a href="transportation.html#passenger"><i class="fa fa-check"></i><b>5.2.2</b> Passenger</a></li>
+<li class="chapter" data-level="5.2.3" data-path="transportation.html"><a href="transportation.html#freight"><i class="fa fa-check"></i><b>5.2.3</b> Freight</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="transportation.html"><a href="transportation.html#transportation-baseline-and-forecast"><i class="fa fa-check"></i><b>5.3</b> Transportation Baseline and Forecast</a></li>
+<li class="chapter" data-level="5.4" data-path="transportation.html"><a href="transportation.html#interventionsstrategies"><i class="fa fa-check"></i><b>5.4</b> Interventions/Strategies</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="transportation.html"><a href="transportation.html#land-use"><i class="fa fa-check"></i><b>5.4.1</b> Land Use</a></li>
+<li class="chapter" data-level="5.4.2" data-path="transportation.html"><a href="transportation.html#vehicle-electrification-1"><i class="fa fa-check"></i><b>5.4.2</b> Vehicle Electrification</a></li>
+<li class="chapter" data-level="5.4.3" data-path="transportation.html"><a href="transportation.html#public-transit"><i class="fa fa-check"></i><b>5.4.3</b> Public Transit</a></li>
+<li class="chapter" data-level="5.4.4" data-path="transportation.html"><a href="transportation.html#telework"><i class="fa fa-check"></i><b>5.4.4</b> Telework</a></li>
+<li class="chapter" data-level="5.4.5" data-path="transportation.html"><a href="transportation.html#road-pricing"><i class="fa fa-check"></i><b>5.4.5</b> Road Pricing</a></li>
+<li class="chapter" data-level="5.4.6" data-path="transportation.html"><a href="transportation.html#parking-policy"><i class="fa fa-check"></i><b>5.4.6</b> Parking Policy</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="transportation.html"><a href="transportation.html#interventionsstrategies-1"><i class="fa fa-check"></i><b>5.5</b> Interventions/Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html"><i class="fa fa-check"></i><b>6</b> Land Use and Forestry</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#framework-2"><i class="fa fa-check"></i><b>6.1</b> Framework</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#land-cover-baseline-and-forecast"><i class="fa fa-check"></i><b>6.1.1</b> Land Cover Baseline and Forecast</a></li>
+<li class="chapter" data-level="6.1.2" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#land-use-baseline-and-forecast"><i class="fa fa-check"></i><b>6.1.2</b> Land Use Baseline and Forecast</a></li>
+<li class="chapter" data-level="6.1.3" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#carbon-sequestration-and-carbon-stock"><i class="fa fa-check"></i><b>6.1.3</b> Carbon Sequestration and Carbon Stock</a></li>
+<li class="chapter" data-level="6.1.4" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#urban-form"><i class="fa fa-check"></i><b>6.1.4</b> Urban Form</a></li>
+<li class="chapter" data-level="6.1.5" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#conservation-tillage"><i class="fa fa-check"></i><b>6.1.5</b> Conservation Tillage</a></li>
+<li class="chapter" data-level="6.1.6" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#reduced-parking-area"><i class="fa fa-check"></i><b>6.1.6</b> Reduced Parking Area</a></li>
+<li class="chapter" data-level="6.1.7" data-path="land-use-and-forestry.html"><a href="land-use-and-forestry.html#urban-tree-planting"><i class="fa fa-check"></i><b>6.1.7</b> Urban Tree Planting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#appendix-appendix"><i class="fa fa-check"></i>(APPENDIX) Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="index.html"><a href="#building-energy"><i class="fa fa-check"></i><b>7.1</b> Building Energy</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="conclusion.html"><a href="conclusion.html#additional-resources-on-energy-efficiency-strategies"><i class="fa fa-check"></i><b>7.1.1</b> Additional Resources on Energy Efficiency Strategies</a></li>
+<li class="chapter" data-level="7.1.2" data-path="conclusion.html"><a href="conclusion.html#additional-resources-on-increased-multifamily-strategy"><i class="fa fa-check"></i><b>7.1.2</b> Additional Resources on Increased Multifamily Strategy</a></li>
+<li class="chapter" data-level="7.1.3" data-path="conclusion.html"><a href="conclusion.html#additional-resources-on-electrification"><i class="fa fa-check"></i><b>7.1.3</b> Additional Resources on Electrification</a></li>
+<li class="chapter" data-level="7.1.4" data-path="conclusion.html"><a href="conclusion.html#additional-resources-on-renewable-natural-gas"><i class="fa fa-check"></i><b>7.1.4</b> Additional Resources on Renewable Natural Gas</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#transportation-1"><i class="fa fa-check"></i><b>7.2</b> Transportation</a></li>
+<li class="chapter" data-level="7.3" data-path="conclusion.html"><a href="conclusion.html#data-sources"><i class="fa fa-check"></i><b>7.3</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="conclusion.html"><a href="conclusion.html#source-summaries"><i class="fa fa-check"></i><b>7.3.1</b> Source summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="conclusion.html"><a href="conclusion.html#forecasted-electricity-energy-mix"><i class="fa fa-check"></i><b>7.4</b> Forecasted Electricity Energy Mix</a></li>
+<li class="chapter" data-level="7.5" data-path="conclusion.html"><a href="conclusion.html#emission-sources"><i class="fa fa-check"></i><b>7.5</b> Emission Sources</a></li>
+<li class="chapter" data-level="7.6" data-path="conclusion.html"><a href="conclusion.html#transportation-modes"><i class="fa fa-check"></i><b>7.6</b> Transportation modes</a></li>
+<li class="chapter" data-level="7.7" data-path="conclusion.html"><a href="conclusion.html#future-costs-per-mile"><i class="fa fa-check"></i><b>7.7</b> Future costs per mile</a></li>
+<li class="chapter" data-level="7.8" data-path="conclusion.html"><a href="conclusion.html#land-use-1"><i class="fa fa-check"></i><b>7.8</b> Land Use</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="conclusion.html"><a href="conclusion.html#additional-resources-on-reforestation-strategy"><i class="fa fa-check"></i><b>7.8.1</b> Additional Resources on Reforestation Strategy</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://metrocouncil.org/" target="blank">Metropolitan Council</a></li>
 
 </ul>
 
@@ -186,27 +296,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Greenhouse Gas Emissions Scenario Planning</h1>
 <p class="author"><em>Metropolitan Council</em></p>
-<p class="date"><em>January 2023</em></p>
+<p class="date"><em>February 2023</em></p>
 </div>
-<div id="report" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Report<a href="index.html#report" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="section" class="section level1 unnumbered">
+<h1 class="unnumbered"></h1>
 <p><img src="images/2788.jpg" /></p>
-<p>Metropolitan Council Members</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a>councilmember_df <span class="ot">&lt;-</span></span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(councilmembers[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,], councilmembers[<span class="dv">10</span><span class="sc">:</span><span class="dv">18</span>,])</span>
-<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (params<span class="sc">$</span>desired_format <span class="sc">==</span> <span class="st">&quot;html&quot;</span>) {</span>
-<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  councilmember_df <span class="sc">%&gt;%</span></span>
-<span id="cb1-6"><a href="index.html#cb1-6" aria-hidden="true" tabindex="-1"></a>    knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-7"><a href="index.html#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col.names =</span> <span class="cn">NULL</span>,</span>
-<span id="cb1-8"><a href="index.html#cb1-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-9"><a href="index.html#cb1-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb1-10"><a href="index.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(councilmember_df) <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="index.html#cb1-11" aria-hidden="true" tabindex="-1"></a>    flextable<span class="sc">::</span><span class="fu">flextable</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="index.html#cb1-12" aria-hidden="true" tabindex="-1"></a>    flextable<span class="sc">::</span><span class="fu">autofit</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="index.html#cb1-13" aria-hidden="true" tabindex="-1"></a>    flextable<span class="sc">::</span><span class="fu">delete_part</span>(<span class="at">part =</span> <span class="st">&quot;header&quot;</span>)</span>
-<span id="cb1-14"><a href="index.html#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<template id="8d62b38b-f7f8-433b-99a8-82d3ef26f933"><style>
+<div id="metropolitan-council" class="section level2 unnumbered hasAnchor">
+<h2>Metropolitan Council<a href="index.html#metropolitan-council" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<hr />
+<template id="de10e37a-2436-463f-af6d-f9ff39d5aa2a"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -244,11 +342,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-57610b02{}.cl-575b12e2{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-575d84fa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-575d9940{width:1.934in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d994a{width:0.98in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d994b{width:1.9in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d994c{width:1.077in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9954{width:1.934in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9955{width:0.98in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9956{width:1.9in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d995e{width:1.077in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d995f{width:1.934in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9960{width:0.98in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9968{width:1.9in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-575d9969{width:1.077in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-57610b02'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">Charlie Zelle</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">Chair</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Raymond Zeran</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">Judy Johnson</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">District 1</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Peter Lindstrom</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 10</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9954"><p class="cl-575d84fa"><span class="cl-575b12e2">Reva Chamblis</span></p></td><td class="cl-575d9955"><p class="cl-575d84fa"><span class="cl-575b12e2">District 2</span></p></td><td class="cl-575d9956"><p class="cl-575d84fa"><span class="cl-575b12e2">Susan Vento</span></p></td><td class="cl-575d995e"><p class="cl-575d84fa"><span class="cl-575b12e2">District 11</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">Christopher Ferguson</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">District 3</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Francisco J. Gonzalez</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 12</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9954"><p class="cl-575d84fa"><span class="cl-575b12e2">Deb Barber</span></p></td><td class="cl-575d9955"><p class="cl-575d84fa"><span class="cl-575b12e2">District 4</span></p></td><td class="cl-575d9956"><p class="cl-575d84fa"><span class="cl-575b12e2">Chai Lee</span></p></td><td class="cl-575d995e"><p class="cl-575d84fa"><span class="cl-575b12e2">District 13</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">Molly Cummings</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">District 5</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Kris Fredson</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 14</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">John Pacheco Jr.</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">District 6</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Phillip Sterner</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 15</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d9940"><p class="cl-575d84fa"><span class="cl-575b12e2">Robert Lilligren</span></p></td><td class="cl-575d994a"><p class="cl-575d84fa"><span class="cl-575b12e2">District 7</span></p></td><td class="cl-575d994b"><p class="cl-575d84fa"><span class="cl-575b12e2">Wendy Wulff</span></p></td><td class="cl-575d994c"><p class="cl-575d84fa"><span class="cl-575b12e2">District 16</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-575d995f"><p class="cl-575d84fa"><span class="cl-575b12e2">Abdirahman Muse</span></p></td><td class="cl-575d9960"><p class="cl-575d84fa"><span class="cl-575b12e2">District 8</span></p></td><td class="cl-575d9968"><p class="cl-575d84fa"><span class="cl-575b12e2"></span></p></td><td class="cl-575d9969"><p class="cl-575d84fa"><span class="cl-575b12e2"></span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="8d6080f1-c914-4d27-9cd6-3aaf64dc4480"></div>
+</style><div class="tabwid"><style>.cl-a8232d60{}.cl-a8185be2{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a81c4dba{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a81c66ec{width:1.763in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6700{width:0.879in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6701{width:1.797in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c670a{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c670b{width:1.763in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6714{width:0.879in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6715{width:1.797in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6716{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c671e{width:1.763in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c671f{width:0.879in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6720{width:1.797in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6728{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6729{width:1.763in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6732{width:0.879in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6733{width:1.797in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c673c{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c673d{width:1.763in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c673e{width:0.879in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c673f{width:1.797in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a81c6746{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-a8232d60'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a81c66ec"><p class="cl-a81c4dba"><span class="cl-a8185be2">Charlie Zelle</span></p></td><td class="cl-a81c6700"><p class="cl-a81c4dba"><span class="cl-a8185be2">Chair</span></p></td><td class="cl-a81c6701"><p class="cl-a81c4dba"><span class="cl-a8185be2">Raymond Zeran</span></p></td><td class="cl-a81c670a"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c66ec"><p class="cl-a81c4dba"><span class="cl-a8185be2">Judy Johnson</span></p></td><td class="cl-a81c6700"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 1</span></p></td><td class="cl-a81c6701"><p class="cl-a81c4dba"><span class="cl-a8185be2">Peter Lindstrom</span></p></td><td class="cl-a81c670a"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 10</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c670b"><p class="cl-a81c4dba"><span class="cl-a8185be2">Reva Chamblis</span></p></td><td class="cl-a81c6714"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 2</span></p></td><td class="cl-a81c6715"><p class="cl-a81c4dba"><span class="cl-a8185be2">Susan Vento</span></p></td><td class="cl-a81c6716"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 11</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c671e"><p class="cl-a81c4dba"><span class="cl-a8185be2">Christopher Ferguson</span></p></td><td class="cl-a81c671f"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 3</span></p></td><td class="cl-a81c6720"><p class="cl-a81c4dba"><span class="cl-a8185be2">Francisco J. Gonzalez</span></p></td><td class="cl-a81c6728"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 12</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c670b"><p class="cl-a81c4dba"><span class="cl-a8185be2">Deb Barber</span></p></td><td class="cl-a81c6714"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 4</span></p></td><td class="cl-a81c6715"><p class="cl-a81c4dba"><span class="cl-a8185be2">Chai Lee</span></p></td><td class="cl-a81c6716"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 13</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c671e"><p class="cl-a81c4dba"><span class="cl-a8185be2">Molly Cummings</span></p></td><td class="cl-a81c671f"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 5</span></p></td><td class="cl-a81c6720"><p class="cl-a81c4dba"><span class="cl-a8185be2">Kris Fredson</span></p></td><td class="cl-a81c6728"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 14</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c6729"><p class="cl-a81c4dba"><span class="cl-a8185be2">John Pacheco Jr.</span></p></td><td class="cl-a81c6732"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 6</span></p></td><td class="cl-a81c6733"><p class="cl-a81c4dba"><span class="cl-a8185be2">Phillip Sterner</span></p></td><td class="cl-a81c673c"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 15</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c671e"><p class="cl-a81c4dba"><span class="cl-a8185be2">Robert Lilligren</span></p></td><td class="cl-a81c671f"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 7</span></p></td><td class="cl-a81c6720"><p class="cl-a81c4dba"><span class="cl-a8185be2">Wendy Wulff</span></p></td><td class="cl-a81c6728"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 16</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a81c673d"><p class="cl-a81c4dba"><span class="cl-a8185be2">Abdirahman Muse</span></p></td><td class="cl-a81c673e"><p class="cl-a81c4dba"><span class="cl-a8185be2">District 8</span></p></td><td class="cl-a81c673f"><p class="cl-a81c4dba"><span class="cl-a8185be2"></span></p></td><td class="cl-a81c6746"><p class="cl-a81c4dba"><span class="cl-a8185be2"></span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="fe6266bb-d50a-4dd7-a805-63ea8c49b92c"></div>
 <script>
-var dest = document.getElementById("8d6080f1-c914-4d27-9cd6-3aaf64dc4480");
-var template = document.getElementById("8d62b38b-f7f8-433b-99a8-82d3ef26f933");
+var dest = document.getElementById("fe6266bb-d50a-4dd7-a805-63ea8c49b92c");
+var template = document.getElementById("de10e37a-2436-463f-af6d-f9ff39d5aa2a");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
 fantome.appendChild(templateContent);
@@ -258,8 +356,10 @@ fantome.appendChild(templateContent);
 <p><img src="images/map.jpg" id="top_left" style="float: left;width:85.0%" /></p>
 <div id="top_right" style="float: right;">
 <p>The Metropolitan Council is the regional planning organization for the seven-county Twin Cities area. The Council operates the regional bus and rail system, collects and treats wastewater, coordinates regional water resources, plans and helps fund regional parks, and administers federal funds that provide housing opportunities for low- and moderate-income individuals and families. The 17-member Council board is appointed by and serves at the pleasure of the governor.</p>
-<p>On request, this publication will be made available in alternative formats to people with disabilities. Call Metropolitan Council information at 651-602-1140 or TTY 651-291-0904</p>
+<p><strong><em>On request, this publication will be made available in alternative formats to people with disabilities. Call Metropolitan Council information at 651-602-1140 or TTY 651-291-0904</em></strong></p>
 </div>
+</div>
+<hr />
 </div>
 <div id="disclaimer" class="section level2 unnumbered hasAnchor">
 <h2>Disclaimer<a href="index.html#disclaimer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -279,7 +379,7 @@ fantome.appendChild(templateContent);
         </div>
       </div>
 
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="section-1.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -333,6 +433,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
