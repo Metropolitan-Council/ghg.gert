@@ -10,6 +10,31 @@ Only around 14% of homes in MN have adopted these new technologies. The scenario
 **About this strategy** For this strategy, we made the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
 :::
 
+**GHG Impact Calculation**
+
+Natural Gas for Space Heating:
+
+$$term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 71\% $$
+$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - (term_1 * (0.8/5.02) * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}$$
+
+Natural Gas for Water Heating:
+
+$$term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 24\% $$
+$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - (term_2 * 100\% * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}$$
+
+*Where:*
+
+-  $x$: The percentage of additional households with heating electrified, defaulted to be 59% - 14% of homes already electrified
+-  $pop_{2040}$: The projected population in 2040
+-  $71\%$: Assumed natural gas for space heating
+-  $24\%$: Assumed natural gas for water heating
+-  $100\%$: The ratio of natural gas water heating to electric water heating
+-  $(0.8/5.02)$: The ratio of boiler efficiency to heat pump efficiency
+-  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040
+-  $0.0293therm/MWh$: The conversion factor from therm to MWH
+-  $kgCO_2e/MWh_{2040}$: The projected emissions factor of electricity in 2040
+
+
 ```{r tab-electrify-residential-heating, message=FALSE, warning=FALSE, include=FALSE}
 fig03a7_data <- res_bau_2018 %>%
   full_join(res_bau_2040,

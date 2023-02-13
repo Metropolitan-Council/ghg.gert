@@ -1,6 +1,6 @@
 #### Decarbonize the Electricity Grid
 
-Grid decarbonization 
+This strategy demonstrates the impact of grid decarbonization.
 
 ::: about_strategy
 ***About this strategy*** Our assumption is that cities can control (or at least influence)... 
@@ -8,6 +8,17 @@ Grid decarbonization
 
 **GHG Impact Calculation**
 
+$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * (\frac{kgCO_2e/MWh_{2040}}{1000}) * x$$
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)
+-  $jobs_{2040}^{commercial}$: The projected number of commercial jobs in 2040
+-  $MWh/jobs_{2040}^{commercial}$: The projected commercial electricity use per worker in 2040
+-  $jobs_{2040}^{industrial}$: The projected number of industrial jobs in 2040
+-  $MWh/jobs_{2040}^{industrial}$: The projected number industrial electricity use per worker in 2040
+-  $kgCO_2e/MWh_{2040}$: The projected electricity emission factor in 2040
+
+Note: The values are multiplied by 1000 in the original formula to retain the units in kilowatt hours.
 
 ```{r fig03b4, include=FALSE}
 fig03b4_data <- full_join(non_res_bau_2018,
@@ -54,7 +65,6 @@ fig03b4_table <- fig03b4_data %>%
                                params$ctu_selection,
                                "2040"))
 ```
-
 
 ```{r show_fig03b4, echo=FALSE}
 fig03b4_table

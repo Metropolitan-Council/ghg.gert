@@ -10,9 +10,28 @@ The energy grid could become cleaner by increasing the use of renewable energy s
 
 **GHG Impact Calculation**
 
+Calculate electricity use in 2040:
+
 $$
-kgCO_2e^{electricity} = (pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{kWh}{sqft_{2040}^{residential}}) 
+\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}}
 $$
+
+*Where:*
+
+-  $pop_{2040}$: The projected population in 2040
+-  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040
+-  $MWh/sqft_{2040}^{residential}$: The projected residential electricity per floor area in 2040
+
+
+Calculate new emissions:
+
+$$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  kgCO2e/MWh_{2040} * (1-x) $$
+
+*Where:*
+
+-  $(1-x) \text{, where } 0 \le x \le 1$: The percentage reduction in the emissions of the electric grid
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+
 
 ```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
 

@@ -9,16 +9,16 @@ We assume that renewable natural gas will substitute 31.7% of all natural gas re
 
 **GHG Impact Calculation**
 
-$$\text{new natural gas } kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}   therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}$$
+$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}  * therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}$$
 
 *Where:*
 
--  $x$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be 31.7%
--  $jobs_{2040}^{commercial}$: Number of commercial workers in 2040 (from Minnesota Quarterly Census of Employment and Wages)
--  $therms/jobs_{2040}^{commercial}$: Commercial gas use per worker in 2040, therm/worker
--  $jobs_{2040}^{industrial}$: Number of industrial workers in 2040
--  $therms/jobs_{2040}^{industrial}$: Industrial gas use per worker in 2040, therm/worker
--  $kgCO_2e/therms_{2040}$: The emissions factor of natural gas in kgCO2e per therm
+-  $x\text{, where } 0 \le x \le 1$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be `31.7%`
+-  $jobs_{2040}^{commercial}$: The projected number of commercial workers in 2040
+-  $jobs_{2040}^{industrial}$: The projected number of industrial workers in 2040
+-  $therms/jobs_{2040}^{commercial}$: The projected commercial gas use per worker in 2040
+-  $therms/jobs_{2040}^{industrial}$: The projected industrial gas use per worker in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r fig03b3}
 fig03b3_data <- full_join(

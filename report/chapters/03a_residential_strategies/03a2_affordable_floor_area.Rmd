@@ -53,7 +53,9 @@ tab_new_single_family_home_area
 
 **GHG Impact Calculation**
 
-$$new(sqft_{2040}^{sf}) = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$
+Calculate new floor area:
+
+$$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$
 $$\text{where } 0 \le x \le 1$$
 
 *Where:*
@@ -65,6 +67,17 @@ $$\text{where } 0 \le x \le 1$$
 -   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
 -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
 -   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in the community in 2018.
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r fig03a2, message=FALSE, warning=FALSE, include=FALSE}
 

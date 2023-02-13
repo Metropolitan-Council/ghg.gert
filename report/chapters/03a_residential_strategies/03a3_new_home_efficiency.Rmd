@@ -1,4 +1,4 @@
-#### New Homes Energy Efficiency
+#### New Single Family Homes Energy Efficiency
 
 *LEED* (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet *LEED* standards are designed and constructed to be energy efficient and to use fewer natural resources.
 
@@ -7,7 +7,7 @@ The amount of energy savings that can be achieved through *LEED* certifications 
 The Greenhouse Gas Scenario Planning Tool uses *LEED Gold* for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
 
 ::: about_strategy
-***About this strategy*** Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`.
+***About this strategy*** Our main assumption is that cities can adjust the percentage of new single family homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed `50%` of new single-family homes to be LEED-Gold with both electricity and gas energy use intensity reduced `64%`.
 :::
 
 ```{r tab-new-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
@@ -63,16 +63,29 @@ fig_tab_new_home_efficiency
 
 **GHG Impact Calculation**
 
-$$sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le x \le 1$$
+Calculate new floor area:
+
+$$\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64$$
 
 *Where:*
  
--   $x$: The percentage of new homes that are LEED Gold.
--   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.
--   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
--   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
--   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
--   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.
+-   $x \text{, where } 0 \le x \le 1$: The percentage of new single family homes that are LEED Gold
+-   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040
+-   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040
+-   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040
+-   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 

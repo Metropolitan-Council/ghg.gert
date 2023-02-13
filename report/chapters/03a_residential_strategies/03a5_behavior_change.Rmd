@@ -58,14 +58,26 @@ tab_behavior_change
 
 **GHG Impact Calculation**
 
-$$ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 $$
+Calculate new floor area:
+
+$$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 $$
 
 *Where:*
 
--   $x$: The percentage of homes that change their behavior for energy efficiency.
+-   $x \text{, where } 0 \le x \le 1$: The percentage of homes that change their behavior for energy efficiency.
 -   $0.11$: The percentage reduction in household energy use as a result of smart nudges.
 -   $pop_{2040}$: The total population in 2040.
 -   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})$$
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
