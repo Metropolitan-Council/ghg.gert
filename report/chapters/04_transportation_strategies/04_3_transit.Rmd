@@ -46,7 +46,7 @@ telework_ctu %>%
 ```
 
 
-```{r tab-bev-comp}
+```{r tab-transit-comp}
 bau_ctu %>%
   ungroup() %>%
   left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
