@@ -4,14 +4,12 @@ Transportation and land use policies are reliant on each other. Segregated and l
 
 The Metropolitan Council Transportation Policy Plan discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.
 
-<!-- TODO citations, check plots, consider running more alterations -->
-
 
 ::: about_strategy
 ***About this strategy*** Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 :::
 
-```{r, tab-land-use-effects}
+```{r tab-land-use-effects}
 #| echo: false
 #| message: false
 ghg.sp::elast_5d %>%
@@ -56,6 +54,8 @@ ghg.sp::elast_5d %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
+
+
 ```{r tab-land-use-change}
 #| echo: false
 #| message: false
@@ -66,9 +66,7 @@ ghg.sp::elast_5d %>%
 ```{r fig-landuse}
 #| echo: false
 #| message: false
-#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of population density (aka land use) change.",
-#| fig.align = 'center',
-#| fig.width = 8, fig.height = 3
+
 # vmt_telework()
 density_ctu %>%
   filter(
@@ -111,7 +109,7 @@ density_ctu %>%
   )
 ```
 
-```{r}
+```{r tab-land-use-scenario}
 bau_ctu %>%
   ungroup() %>%
   left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
@@ -148,3 +146,4 @@ bau_ctu %>%
     .caption = paste("Emissions in tonnes CO2e - 50% Increase in Population Density", params$ctu_selection)
   )
 ```
+
