@@ -10,7 +10,7 @@ Achieving a net-zero grid requires transitioning to a smart grid. The smart grid
 
 **GHG Impact Calculation**
 
-$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * (jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\%) * kgCO_2e/MWh$$
+$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industrial}_{2040} * \frac{MWh}{jobs^{industrial}_{2040}} * 11\% \right) * \frac{kgCO_2e}{MWh}$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: The percentage of industries in the smart grid (assumed to be 100%)
@@ -62,12 +62,9 @@ fig03b2_data <- full_join(non_res_bau_2018,
 fig03b2_table <- fig03b2_data %>%
   # add table format
   tableformat(.,
-    .caption = paste(
-      "Retrofit Commercial Buildings",
-      params$ctu_selection,
-      "2040"
-    )
-  )
+              .caption = paste("Smart Grid Efficiency",
+                               params$ctu_selection,
+                               "2040"))
 ```
 
 ```{r show_fig03b2, echo=FALSE}

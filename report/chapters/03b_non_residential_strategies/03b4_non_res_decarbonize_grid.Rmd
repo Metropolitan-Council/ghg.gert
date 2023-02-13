@@ -8,7 +8,7 @@ This strategy demonstrates the impact of grid decarbonization.
 
 **GHG Impact Calculation**
 
-$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * (\frac{kgCO_2e/MWh_{2040}}{1000}) * x$$
+$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) * x$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)
@@ -74,7 +74,7 @@ fig03b4_table <- fig03b4_data %>%
 fig03b4_table
 ```
 
-```{r}
+```{r echo=FALSE}
 chartformat(fig03b4_data)
 ```
 

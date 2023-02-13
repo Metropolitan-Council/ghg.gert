@@ -73,7 +73,7 @@ $$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\b
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})$$
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
 
 *Where:*
 

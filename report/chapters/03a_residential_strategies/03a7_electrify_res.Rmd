@@ -14,13 +14,13 @@ Only around 14% of homes in MN have adopted these new technologies. The scenario
 
 Natural Gas for Space Heating:
 
-$$term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 71\% $$
-$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - (term_1 * (0.8/5.02) * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}$$
+$$term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% $$
+$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$
 
 Natural Gas for Water Heating:
 
-$$term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 24\% $$
-$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - (term_2 * 100\% * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}$$
+$$term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% $$
+$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$
 
 *Where:*
 

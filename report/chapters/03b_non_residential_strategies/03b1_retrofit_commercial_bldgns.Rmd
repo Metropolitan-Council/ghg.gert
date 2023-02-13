@@ -10,7 +10,7 @@ According to [Eco Districts](https://ecodistricts.org/information-exchange/comme
 
 **GHG Impact Calculation**
 
-$$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * (MWh/jobs_{2018}^{commercial} * kgCO2e/MWh_{2040}^{commercial} + therms/jobs_{2018}^{commercial} * kgCO_2e/therm_{2040}^{commercial})$$
+$$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * \left( \frac{MWh}{jobs_{2018}^{commercial}} * \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} * \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)
@@ -42,7 +42,7 @@ fig03b1_data <- full_join(
       .non_res_natural_gas_for_space_heating_pct = 0.69,
       .commercial_smart_grid_pct = 1,
       .industrial_smart_grid_pct = 1,
-      .smart_grid_energy_reduction_pct = 1,
+      .smart_grid_energy_reduction_pct = 0,
       .grid_decarbonization_pct = 0,
       .existing_high_efficiency_buildings_pct = 0.80,
       .enviro_factors = enviro_factors
@@ -78,6 +78,6 @@ fig03b1_table <- fig03b1_data %>%
 fig03b1_table
 ```
 
-```{r}
+```{r echo=FALSE}
 chartformat(fig03b1_data)
 ```

@@ -71,7 +71,7 @@ $$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * p
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})$$
+$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}* \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
 *Where:*
 
 -  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
