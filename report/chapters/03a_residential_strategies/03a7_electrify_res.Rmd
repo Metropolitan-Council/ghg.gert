@@ -38,7 +38,8 @@ $$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - (term
 ```{r tab-electrify-residential-heating, message=FALSE, warning=FALSE, include=FALSE}
 fig03a7_data <- res_bau_2018 %>%
   full_join(res_bau_2040,
-            by = "Variables") %>%
+    by = "Variables"
+  ) %>%
   full_join(
     run_scenario_building(
       res_tb = building_energy_bau_data$residential,
@@ -62,7 +63,7 @@ fig03a7_data <- res_bau_2018 %>%
       .res_natural_gas_for_water_heating_pct = 0.24,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",

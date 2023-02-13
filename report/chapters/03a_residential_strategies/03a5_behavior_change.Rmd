@@ -82,7 +82,7 @@ $$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{reside
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-fig03a5_data <-   
+fig03a5_data <-
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -109,7 +109,7 @@ fig03a5_data <-
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -122,10 +122,12 @@ fig03a5_data <-
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
+    by = "Variables"
+  )
 
 fig03a5_table <- fig03a5_data %>% tableformat(.,
-              .caption = paste("Behavior Change", params$ctu_selection, "2040"))
+  .caption = paste("Behavior Change", params$ctu_selection, "2040")
+)
 ```
 
 ```{r echo=FALSE}

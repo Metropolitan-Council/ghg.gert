@@ -9,19 +9,26 @@ In addition to electricity and natural gas, non-residential energy use may also 
 ```{r tab-non-residential-energy, include=FALSE}
 #| echo: false
 #| message: false
-#city baseline
-tab_non_residential_energy <- get_non_residential_energy_baseline(tb = building_energy_data,
-                                    .selected_ctu = params$ctu_selection) %>%
+# city baseline
+tab_non_residential_energy <- get_non_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = params$ctu_selection
+) %>%
   add_variable_names(., "2018") %>%
-  #city forecast
+  # city forecast
   full_join(
-    calc_non_residential_energy_forecast(tb = building_energy_data,
-                                         .selected_ctu = params$ctu_selection) %>%
+    calc_non_residential_energy_forecast(
+      tb = building_energy_data,
+      .selected_ctu = params$ctu_selection
+    ) %>%
       add_variable_names(., "2040")
-  )  %>%
+  ) %>%
   tableformat(.,
-              .caption = paste("Non-Residential Energy for ",
-                               params$ctu_selection))
+    .caption = paste(
+      "Non-Residential Energy for ",
+      params$ctu_selection
+    )
+  )
 ```
 
 ```{r echo=FALSE}

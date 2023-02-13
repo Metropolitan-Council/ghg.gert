@@ -26,8 +26,9 @@ fig05_2_data <- luse_bau_2018 %>%
   ungroup() %>%
   rename(var = detail) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
   rename(Variables = desc)
 
@@ -54,7 +55,7 @@ run_scenario_land_use(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
   detail = FALSE
-)  %>%
+) %>%
   filter(year == 2040)
 ```
 

@@ -220,7 +220,7 @@ Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwest
 # # mutate(year = stringr::str_remove(year, "X") %>%
 # #          as.numeric()) %>%
 # # filter(year != 2018)
-# 
+#
 # energy_mix %>%
 #   group_by(scenario) %>%
 #   gt::gt(
@@ -240,7 +240,6 @@ Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwest
 ## Emission Sources  
 
 ```{r, "emission-sources"}
-
 gt::gt(
   id = "emission-sources",
   ghg.sp::transportation_index$emission_sources[2:3],

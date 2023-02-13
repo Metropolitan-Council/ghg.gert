@@ -7,7 +7,6 @@ If the availability of fossil fuel sources such as oil, natural gas, and coal is
 :::
 
 ```{r tab-new-single-family-home-area, message=FALSE, warning=FALSE, include=FALSE}
-
 tab_new_single_family_home_area <- calc_affordable_floor_area(
   res_tb = building_data$residential,
   .selected_ctu = params$ctu_selection,
@@ -37,12 +36,16 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
           "single_family_units",
           "single_family_average_floor_area_sqft_ctu"
         )
-      ) %>% 
+      ) %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables") %>%
+    by = "Variables"
+  ) %>%
   tableformat(.,
-              .caption = paste("New Single-Family Home Floor Area for",
-                               params$ctu_selection))
+    .caption = paste(
+      "New Single-Family Home Floor Area for",
+      params$ctu_selection
+    )
+  )
 ```
 
 ```{r echo=FALSE}
@@ -80,8 +83,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{204
 -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r fig03a2, message=FALSE, warning=FALSE, include=FALSE}
-
-fig03a2_data <- 
+fig03a2_data <-
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -108,7 +110,7 @@ fig03a2_data <-
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -121,14 +123,15 @@ fig03a2_data <-
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
-  
- fig03a2_table <- fig03a2_data %>% tableformat(.,
-              .caption = paste(
-                "New Single-Family Home Floor Area for",
-                params$ctu_selection
-              )
+    by = "Variables"
   )
+
+fig03a2_table <- fig03a2_data %>% tableformat(.,
+  .caption = paste(
+    "New Single-Family Home Floor Area for",
+    params$ctu_selection
+  )
+)
 ```
 
 ```{r echo=FALSE}

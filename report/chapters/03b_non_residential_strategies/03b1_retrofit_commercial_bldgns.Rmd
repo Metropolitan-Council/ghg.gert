@@ -23,11 +23,11 @@ $$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} *
 -  $kgCO_2e/therm_{2040}^{commercial}$: The projected natural gas emission factor in 2040
 
 ```{r fig03b1, include=FALSE}
-
 fig03b1_data <- full_join(
   non_res_bau_2018,
   non_res_bau_2040,
-  by = "Variables") %>%
+  by = "Variables"
+) %>%
   full_join(
     .,
     run_scenario_building(
@@ -66,9 +66,12 @@ fig03b1_data <- full_join(
 fig03b1_table <- fig03b1_data %>%
   # add table format
   tableformat(.,
-              .caption = paste("Retrofit Commercial Buildings",
-                               params$ctu_selection,
-                               "2040"))
+    .caption = paste(
+      "Retrofit Commercial Buildings",
+      params$ctu_selection,
+      "2040"
+    )
+  )
 ```
 
 ```{r echo=FALSE}

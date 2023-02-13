@@ -44,23 +44,25 @@ The floor area growth rate is the rate at which the total floor area of building
 ```{r tab-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-#city baseline
+# city baseline
 tab_residential_energy <- get_residential_energy_baseline(.selected_ctu = params$ctu_selection) %>%
   add_variable_names(., .year = "2018 (Baseline)") %>%
-  #city forecast
+  # city forecast
   full_join(
     calc_residential_energy_forecast(.selected_ctu = params$ctu_selection) %>%
-  mutate(value = if_else(var == "total_residential_kwh_forecast", 
-                         value / 1000, value)) %>%
-    left_join(., variables, by = "var") %>%
-    mutate(desc = str_remove_all(desc, " - Forecast")) %>%
+      mutate(value = if_else(var == "total_residential_kwh_forecast",
+        value / 1000, value
+      )) %>%
+      left_join(., variables, by = "var") %>%
+      mutate(desc = str_remove_all(desc, " - Forecast")) %>%
       select(c(desc, value)) %>%
-      rename("Variables" = desc,
-             "2040 (Busines-as-Usual)" = value),
-  by = "Variables"
+      rename(
+        "Variables" = desc,
+        "2040 (Busines-as-Usual)" = value
+      ),
+    by = "Variables"
   ) %>%
-  mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6))))  %>%
-
+  mutate(across(everything(), ~ if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
   tableformat(.caption = paste0("Residential Energy Assumptions for ", params$ctu_selection))
 ```
 

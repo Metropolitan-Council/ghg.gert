@@ -1,15 +1,15 @@
-test <-  calc_ghg_non_residential(
-   non_res_tb = building_energy_bau_data$non_residential,
-   non_res_tb_bau = building_energy_bau_data$non_residential,
-   .selected_ctu = "Minneapolis",
-   .industrial_smart_grid_pct = 1,
- .commercial_smart_grid_pct = 1,
-   .grid_decarbonization_pct = 1,
-   .smart_grid_energy_reduction_pct = 1,
-   .enviro_factors = enviro_factors,
-   .existing_high_efficiency_buildings_pct = 0.8
- )
- 
+test <- calc_ghg_non_residential(
+  non_res_tb = building_energy_bau_data$non_residential,
+  non_res_tb_bau = building_energy_bau_data$non_residential,
+  .selected_ctu = "Minneapolis",
+  .industrial_smart_grid_pct = 1,
+  .commercial_smart_grid_pct = 1,
+  .grid_decarbonization_pct = 1,
+  .smart_grid_energy_reduction_pct = 1,
+  .enviro_factors = enviro_factors,
+  .existing_high_efficiency_buildings_pct = 0.8
+)
+
 
 test <- calc_electrify_commercial_heating(
   non_res_tb = ghg.sp::calc_ghg_non_residential(

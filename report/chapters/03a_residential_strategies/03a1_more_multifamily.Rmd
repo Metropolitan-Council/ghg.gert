@@ -9,7 +9,6 @@ The Metropolitan Council’s Thrive MSP plan projects increases in the percentag
 :::
 
 ```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
-
 tab_increased_multifamily <- calc_affordable_floor_area(
   res_tb = building_data$residential,
   .selected_ctu = params$ctu_selection,
@@ -39,12 +38,16 @@ tab_increased_multifamily <- calc_affordable_floor_area(
           "single_family_units",
           "single_family_average_floor_area_sqft_ctu"
         )
-      ) %>% 
+      ) %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables") %>%
+    by = "Variables"
+  ) %>%
   tableformat(.,
-              .caption = paste("New Single-Family Home Floor Area for",
-                               params$ctu_selection))
+    .caption = paste(
+      "New Single-Family Home Floor Area for",
+      params$ctu_selection
+    )
+  )
 ```
 
 ```{r echo=FALSE}
@@ -82,8 +85,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{204
 <br>
 
 ```{r fig03a1, message=FALSE, warning=FALSE, include=FALSE}
-
-fig03a1_data <- 
+fig03a1_data <-
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -110,7 +112,7 @@ fig03a1_data <-
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -123,14 +125,15 @@ fig03a1_data <-
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
-  
- fig03a1_table <- fig03a1_data %>% tableformat(.,
-              .caption = paste(
-                "New Single-Family Home Floor Area for",
-                params$ctu_selection
-              )
+    by = "Variables"
   )
+
+fig03a1_table <- fig03a1_data %>% tableformat(.,
+  .caption = paste(
+    "New Single-Family Home Floor Area for",
+    params$ctu_selection
+  )
+)
 ```
 
 ```{r echo=FALSE}

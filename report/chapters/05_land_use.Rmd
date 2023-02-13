@@ -20,42 +20,59 @@ A high-resolution land cover map for the Metropolitan Council region for the yea
 
 ```{r tab-land-cover-by-land-use, include=FALSE}
 fig_05_land_cover_2016 <-
-  calc_land_cover_by_land_use(tb = land_use_data,
-                              .urban_form_scenario = "bau") %>%
-  filter(ctu_name == params$ctu_selection,
-         year == 2016) %>%
+  calc_land_cover_by_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = "bau"
+  ) %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2016
+  ) %>%
   ungroup() %>%
   group_by(land_cover_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
   rename(var = land_cover_type) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
-  rename(Type = desc,
-         Hectares = value)
+  rename(
+    Type = desc,
+    Hectares = value
+  )
 
 fig_05_land_cover_2040 <-
-  calc_land_cover_by_land_use(tb = land_use_data,
-                              .urban_form_scenario = "bau") %>%
-  filter(ctu_name == params$ctu_selection,
-         year == 2040) %>%
+  calc_land_cover_by_land_use(
+    tb = land_use_data,
+    .urban_form_scenario = "bau"
+  ) %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040
+  ) %>%
   ungroup() %>%
   group_by(land_cover_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
   rename(var = land_cover_type) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
-  rename(Type = desc,
-         Hectares = value)
+  rename(
+    Type = desc,
+    Hectares = value
+  )
 
 fig_05_land_cover <- full_join(fig_05_land_cover_2016,
-                             fig_05_land_cover_2040,
-                             by = "Type") %>%
-                   rename("2016 [Baseline]" = Hectares.x,
-                          "2040 [Busines-as-Usual]" = Hectares.y) %>%
+  fig_05_land_cover_2040,
+  by = "Type"
+) %>%
+  rename(
+    "2016 [Baseline]" = Hectares.x,
+    "2040 [Busines-as-Usual]" = Hectares.y
+  ) %>%
   tableformat(.caption = paste0("Land Cover Hectares for ", params$ctu_selection))
 ```
 
@@ -78,18 +95,23 @@ fig_05_land_use_2016 <-
     .urban_form_scenario = "bau",
     .selected_ctu = params$ctu_selection
   ) %>%
-  filter(ctu_name == params$ctu_selection,
-         year == 2016) %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2016
+  ) %>%
   ungroup() %>%
   group_by(land_use_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
   rename(var = land_use_type) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
-  rename(Variables = desc,
-         Hectares = value) 
+  rename(
+    Variables = desc,
+    Hectares = value
+  )
 
 fig_05_land_use_2040 <-
   calc_land_cover_by_land_use(
@@ -97,24 +119,32 @@ fig_05_land_use_2040 <-
     .urban_form_scenario = "bau",
     .selected_ctu = params$ctu_selection
   ) %>%
-  filter(ctu_name == params$ctu_selection,
-         year == 2040) %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    year == 2040
+  ) %>%
   ungroup() %>%
   group_by(land_use_type) %>%
   summarise(value = sum(land_cover_land_use_hectares)) %>%
   rename(var = land_use_type) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
-  rename(Variables = desc,
-         Hectares = value)
+  rename(
+    Variables = desc,
+    Hectares = value
+  )
 
 fig_05_land_use <- full_join(fig_05_land_use_2016,
-                             fig_05_land_use_2040,
-                             by = "Variables") %>%
-                   rename("2018 [Baseline]" = Hectares.x,
-                          "2040 [Busines-as-Usual]" = Hectares.y) %>%
+  fig_05_land_use_2040,
+  by = "Variables"
+) %>%
+  rename(
+    "2018 [Baseline]" = Hectares.x,
+    "2040 [Busines-as-Usual]" = Hectares.y
+  ) %>%
   tableformat(.caption = paste0("Land Use Hectares for ", params$ctu_selection))
 ```
 
@@ -126,10 +156,11 @@ fig_05_land_use
 
 ```{r}
 carbon_stocks_and_sequestration %>%
-  rename("Land Cover Type" = land_cover_type,
-         "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
-         "Stock (mg C/ha/year)" = stock_mg_c_per_hectare) %>%
-
+  rename(
+    "Land Cover Type" = land_cover_type,
+    "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
+    "Stock (mg C/ha/year)" = stock_mg_c_per_hectare
+  ) %>%
   tableformat(.caption = paste0("General Carbon Values"))
 ```
 

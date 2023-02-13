@@ -11,7 +11,7 @@
 #| message: false
 
 councilmember_df <-
-  list(councilmembers[1:9,], councilmembers[10:18,])
+  list(councilmembers[1:9, ], councilmembers[10:18, ])
 
 if (params$desired_format == "html") {
   data.frame(councilmember_df) %>%

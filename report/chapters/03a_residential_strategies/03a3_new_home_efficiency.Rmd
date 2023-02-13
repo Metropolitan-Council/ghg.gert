@@ -29,7 +29,7 @@ fig_tab_new_home_efficiency <- calc_floor_area_leed(
       "single_family_units",
       "single_family_average_floor_area_sqft_ctu"
     )
-  )  %>%
+  ) %>%
   add_variable_names(., "2018 Baseline") %>%
   full_join(
     calc_floor_area_leed(
@@ -47,12 +47,13 @@ fig_tab_new_home_efficiency <- calc_floor_area_leed(
           "single_family_units",
           "single_family_average_floor_area_sqft_ctu"
         )
-      )  %>%
+      ) %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables"
   ) %>%
-tableformat(.,
-            .caption = paste("New Home Efficiency", params$ctu_selection, "2040 Assumptions")) 
+  tableformat(.,
+    .caption = paste("New Home Efficiency", params$ctu_selection, "2040 Assumptions")
+  )
 ```
 
 ```{r echo=FALSE}
@@ -88,8 +89,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{204
 -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-
-fig03a3_data <-  
+fig03a3_data <-
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -116,7 +116,7 @@ fig03a3_data <-
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -129,10 +129,12 @@ fig03a3_data <-
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
+    by = "Variables"
+  )
 
 fig03a3_table <- fig03a3_data %>% tableformat(.,
-              .caption = paste("New Home Efficiency", params$ctu_selection, "2040")) 
+  .caption = paste("New Home Efficiency", params$ctu_selection, "2040")
+)
 ```
 
 

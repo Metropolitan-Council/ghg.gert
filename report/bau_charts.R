@@ -57,7 +57,7 @@ res_bau_2040 <- run_scenario_building(
   .additional_electrified_residential_buildings_pct = 0,
   .grid_decarbonization_pct = 0,
   .enviro_factors = enviro_factors
-)  %>%
+) %>%
   filter(
     var %in% c(
       "residential_mwh",

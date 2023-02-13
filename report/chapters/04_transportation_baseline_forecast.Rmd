@@ -68,8 +68,8 @@ transportation_data$passenger %>%
     year %in% c(2018, 2040)
   ) %>%
   left_join(.,
-            transportation_index$modes,
-            by = c("mode" = "mode_abbrev")
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
   ) %>%
   select(mode_description_1, value, year) %>%
   rename("var" = "mode_description_1") %>%
@@ -77,13 +77,12 @@ transportation_data$passenger %>%
     "Mode" = "var",
     "Value" = "value"
   ) %>%
-  mutate(Value = round(Value, digits = 0)) %>% 
-  pivot_wider(names_from = year,
-              values_from = Value) %>% 
-  
+  mutate(Value = round(Value, digits = 0)) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = Value
+  ) %>%
   tableformat(.caption = paste0("Passenger Miles Traveled by Mode ", params$ctu_selection))
-
-
 ```
 
 ```{r tab-freight-miles-traveled-forecast}
@@ -96,8 +95,8 @@ transportation_data$freight %>%
     year %in% c(2018, 2040)
   ) %>%
   left_join(.,
-            transportation_index$modes,
-            by = c("mode" = "mode_abbrev")
+    transportation_index$modes,
+    by = c("mode" = "mode_abbrev")
   ) %>%
   select(mode_description_1, value, year) %>%
   rename("var" = "mode_description_1") %>%
@@ -105,8 +104,7 @@ transportation_data$freight %>%
     "Mode" = "var",
     "Value" = "value"
   ) %>%
-  tidyr::pivot_wider(names_from = year, values_from = Value)  %>% 
-  
+  tidyr::pivot_wider(names_from = year, values_from = Value) %>%
   tableformat(.caption = paste0("Freight Miles Traveled by Mode - ", params$ctu_selection))
 ```
 

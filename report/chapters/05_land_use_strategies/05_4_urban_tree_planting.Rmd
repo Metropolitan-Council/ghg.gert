@@ -18,7 +18,6 @@ $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
 -   $11/3$ = Factor to convert Mg C to Mg CO2
 
 ```{r}
-
 ```
 
 

@@ -34,8 +34,7 @@ $$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }
 
 
 ```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
-
-fig03a6_data <-   
+fig03a6_data <-
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -62,7 +61,7 @@ fig03a6_data <-
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0.8,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -75,10 +74,11 @@ fig03a6_data <-
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
+    by = "Variables"
+  )
 
-fig03a6_table <- 
-  fig03a6_data %>%  
+fig03a6_table <-
+  fig03a6_data %>%
   tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 

@@ -63,8 +63,9 @@ fig05_1_bau_2018 <- luse_bau_2018 %>%
   ungroup() %>%
   rename(var = detail) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
   rename(Variables = desc)
 
@@ -72,8 +73,9 @@ fig05_1_bau_2040 <- luse_bau_2040 %>%
   ungroup() %>%
   rename(var = detail) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
   rename(Variables = desc)
 
@@ -88,13 +90,14 @@ fig05_1_scen_2040 <-
     .tree_planting_per_hectare = 247,
     .parking_lot_reduction_percentage = 0,
     detail = FALSE
-  )  %>%
-  filter(year == 2040)  %>%
+  ) %>%
+  filter(year == 2040) %>%
   ungroup() %>%
   rename(var = detail) %>%
   left_join(.,
-            variables,
-            by = "var")  %>%
+    variables,
+    by = "var"
+  ) %>%
   select(desc, value) %>%
   rename(Variables = desc)
 

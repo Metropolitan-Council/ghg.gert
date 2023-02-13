@@ -42,7 +42,7 @@ tab_existing_home_efficiency <- calc_floor_area_retrofit(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-    add_variable_names(., "2018 Baseline") %>% 
+  add_variable_names(., "2018 Baseline") %>%
   tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
@@ -80,7 +80,6 @@ $$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf} *
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-
 fig03a4_data <- res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -107,7 +106,7 @@ fig03a4_data <- res_bau_2018 %>%
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -120,10 +119,12 @@ fig03a4_data <- res_bau_2018 %>%
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
+    by = "Variables"
+  )
 
 fig03a4_table <- fig03a4_data %>% tableformat(.,
-              .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
+  .caption = paste("New Home Efficiency", params$ctu_selection, "2040")
+)
 ```
 
 ```{r echo=FALSE}
@@ -164,7 +165,7 @@ tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
     )
   ) %>%
   filter(ctu_name == params$ctu_selection) %>%
-    add_variable_names(., "2018 Baseline") %>% 
+  add_variable_names(., "2018 Baseline") %>%
   tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
@@ -185,7 +186,6 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} +
 -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-
 fig03a4b_data <- res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -212,7 +212,7 @@ fig03a4b_data <- res_bau_2018 %>%
       .additional_electrified_residential_buildings_pct = 0,
       .grid_decarbonization_pct = 0,
       .enviro_factors = enviro_factors
-    )  %>%
+    ) %>%
       filter(
         var %in% c(
           "residential_mwh",
@@ -225,10 +225,12 @@ fig03a4b_data <- res_bau_2018 %>%
       ) %>%
       ungroup() %>%
       add_variable_names(., "2040 Scenario"),
-    by = "Variables")
+    by = "Variables"
+  )
 
 fig03a4b_table <- fig03a4b_data %>% tableformat(.,
-              .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
+  .caption = paste("New Home Efficiency", params$ctu_selection, "2040")
+)
 ```
 
 ```{r echo=FALSE}
