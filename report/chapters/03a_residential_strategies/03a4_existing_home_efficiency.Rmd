@@ -142,19 +142,7 @@ chartformat(fig03a4_data)
 ***About this strategy***  Same as previous strategy, except now the remaining `20%` of homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
 :::
 
-**GHG Impact Calculation**
-
-$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})$$
-*Where:*
-
--   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
--   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
--   $units_{2040}^{sf}$: Number of single-family housing units in 2018.
--   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
--   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
--   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
-
-```{r tab-existing-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
+```{r tab-existing-home-efficiency2, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
 
@@ -183,6 +171,18 @@ tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
 ```{r echo=FALSE}
 tab_existing_home_efficiency2
 ```
+
+**GHG Impact Calculation**
+
+$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})$$
+*Where:*
+
+-   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
+-   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
+-   $units_{2040}^{sf}$: Number of single-family housing units in 2018.
+-   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
+-   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
+-   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 

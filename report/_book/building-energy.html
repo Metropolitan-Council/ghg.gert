@@ -59,6 +59,70 @@ and published on February of 2023.</p>" />
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
@@ -127,6 +191,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.2" data-path="building-energy.html"><a href="building-energy.html#residential-energy"><i class="fa fa-check"></i><b>3.2</b> Residential Energy</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="building-energy.html"><a href="building-energy.html#strategies"><i class="fa fa-check"></i><b>3.2.1</b> Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="building-energy.html"><a href="building-energy.html#non-residential-energy"><i class="fa fa-check"></i><b>3.3</b> Non-Residential Energy</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="building-energy.html"><a href="building-energy.html#strategies-1"><i class="fa fa-check"></i><b>3.3.1</b> Strategies</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -299,22 +367,12 @@ Residential Therms per Household (therms/household)
 <h4><span class="header-section-number">3.2.1.1</span> Increased Multifamily<a href="building-energy.html#increased-multifamily" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Compact community development can reduce buildings energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions.</p>
 <p>The Metropolitan Council’s Thrive MSP plan projects increases in the percentage of multifamily housing by 2040. Multifamily homes tend to have smaller average floor area than stand-alone, single-family homes. Smaller floor area is correlated with lower levels of energy use. The decarbonization scenario planning model includes an option to model 50% of all new construction as multifamily (instead of single-family) homes.</p>
-<p>This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in the previous strategy, by assuming that 50% of all new single-family construction will now become multifamily, with the multifamily homes having smaller square footage.</p>
 <div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Our assumption is that cities ….</p>
-</div>
-<p><strong>Affordability co-benefit</strong>: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward.</p>
-
-</div>
-<div id="affordable-floor-area" class="section level4 hasAnchor" number="3.2.1.2">
-<h4><span class="header-section-number">3.2.1.2</span> Affordable Floor Area<a href="building-energy.html#affordable-floor-area" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.</p>
-<div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities influence compact development and the ratio of multifamily units relative to single family units. <code>50%</code> of all new single-family construction will now become multifamily, with the multifamily homes having smaller square footage.</p>
 </div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-new-single-family-home-area">Table 3.2: </span>New Single-Family Home Floor Area for Minneapolis
+<span id="tab:tab-increased-multifamily">Table 3.2: </span>New Single-Family Home Floor Area for Minneapolis
 </caption>
 <thead>
 <tr>
@@ -377,20 +435,208 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </tbody>
 </table>
 <p><br></p>
-<p><span class="math display">\[sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+X) * \bar{sqft}_{2018}\right)\]</span>
-Where:</p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate floor area changes:</p>
+<p><span class="math display">\[ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})\]</span>
+<em>Where:</em></p>
 <ul>
-<li><span class="math inline">\((1+X)\)</span>: The rate of growth in single-family floor area in square feet per year.</li>
+<li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: The percentage of new single-family homes that are converted to multifamily homes</li>
+<li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018</li>
+<li><span class="math inline">\(units_{2040}^{sf}\)</span>: The projected number of single-family housing units in the community in 2040</li>
+<li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The projected total floor area of single-family homes in the community in 2040</li>
+<li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The projected average floor area of single-family homes in the community in 2040</li>
+<li><span class="math inline">\(\bar{sqft}_{2040}^{mf}\)</span>: The projected average floor area of multifamily homes in the community in 2040</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: Projected residential electricity use intensity per floor area in 2040</li>
+<li><span class="math inline">\(therm_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: Projected residential natural gas use intensity per floor area in 2040</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
+</ul>
+<p><br></p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:fig03a1">Table 3.3: </span>New Single-Family Home Floor Area for Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+954,876
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+540,841,819
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+140,335,452
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+745,181,248
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><strong>Affordability co-benefit</strong>: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward.</p>
+
+</div>
+<div id="affordable-floor-area" class="section level4 hasAnchor" number="3.2.1.2">
+<h4><span class="header-section-number">3.2.1.2</span> Affordable Floor Area<a href="building-energy.html#affordable-floor-area" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from <code>15%</code> to <code>5%</code>to make the new single-family home smaller. We apply this impact to <code>50%</code> of new single-family homes. Cities can adjust the growth rate of single-family homes’ floor area and the percentage of new single-family homes being controlled.</p>
+</div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-new-single-family-home-area">Table 3.4: </span>New Single-Family Home Floor Area for Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Number of Single Family Units
+</td>
+<td style="text-align:right;">
+76,935.00
+</td>
+<td style="text-align:right;">
+76,426.02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of Multifamily Units
+</td>
+<td style="text-align:right;">
+123,504.00
+</td>
+<td style="text-align:right;">
+145,653.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Single Family Average Floor Area (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,359.56
+</td>
+<td style="text-align:right;">
+1,563.49
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Multifamily Average Floor Area for the County (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+1,132.31
+</td>
+<td style="text-align:right;">
+1,125.64
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate new floor area:</p>
+<p><span class="math display">\[\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)\]</span>
+<span class="math display">\[\text{where } 0 \le x \le 1\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\((1+x)\)</span>: The rate of growth in single-family floor area in square feet per year.</li>
 <li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The total floor area of single-family homes in the community in 2040.</li>
 <li><span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in the community in 2040.</li>
 <li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018.</li>
 <li><span class="math inline">\(0.5\)</span>: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.</li>
 <li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040.</li>
-<li><span class="math inline">\(\bar{sqft}_{2018}\)</span>: The average floor area of single-family homes in the community in 2018.</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The average floor area of single-family homes in the community in 2018.</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
+<li><span class="math inline">\(therm_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential natural gas use intensity per floor area in 2040</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:fig03a1">Table 3.3: </span>New Single-Family Home Floor Area for Minneapolis
+<span id="tab:fig03a2">Table 3.5: </span>New Single-Family Home Floor Area for Minneapolis
 </caption>
 <thead>
 <tr>
@@ -467,20 +713,20 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 
 </div>
-<div id="new-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.3">
-<h4><span class="header-section-number">3.2.1.3</span> New Homes Energy Efficiency<a href="building-energy.html#new-homes-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="new-single-family-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.3">
+<h4><span class="header-section-number">3.2.1.3</span> New Single Family Homes Energy Efficiency<a href="building-energy.html#new-single-family-homes-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><em>LEED</em> (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet <em>LEED</em> standards are designed and constructed to be energy efficient and to use fewer natural resources.</p>
 <p>The amount of energy savings that can be achieved through <em>LEED</em> certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the <a href="https://www.usgbc.org/leed/rating-systems/residential">U.S. Green Building Council</a>, buildings that are designed to meet <em>LEED</em> Gold standards typically achieve energy savings of around 25% compared to conventional buildings.</p>
 <p>The Greenhouse Gas Scenario Planning Tool uses <em>LEED Gold</em> for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.</p>
 <div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Our main assumption is that cities can adjust the percentage of new homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed <code>50%</code> of new homes (single and multifamily homes) to be LEED-Gold with both electricity and gas energy use intensity reduced <code>64%</code>.</p>
+<p><strong><em>About this strategy</em></strong> Our main assumption is that cities can adjust the percentage of new single family homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed <code>50%</code> of new single-family homes to be LEED-Gold with both electricity and gas energy use intensity reduced <code>64%</code>.</p>
 </div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-new-home-efficiency">Table 3.4: </span>New Home Efficiency Minneapolis 2040 Assumptions
+<span id="tab:tab-new-home-efficiency">Table 3.6: </span>New Home Efficiency Minneapolis 2040 Assumptions
 </caption>
 <thead>
 <tr>
@@ -543,18 +789,30 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </tbody>
 </table>
 <p><br></p>
-<p><span class="math display">\[sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le X_1 \le 1\]</span></p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate new floor area:</p>
+<p><span class="math display">\[\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64\]</span></p>
+<p><em>Where:</em></p>
 <ul>
-<li><span class="math inline">\(X\)</span>: The percentage of new homes that are LEED Gold.</li>
-<li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The total floor area of single-family homes in the community in 2040.</li>
-<li><span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in the community in 2040.</li>
-<li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018.</li>
-<li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040.</li>
-<li><span class="math inline">\(0.64\)</span>: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction.</li>
+<li><span class="math inline">\(x \text{, where } 0 \le x \le 1\)</span>: The percentage of new single family homes that are LEED Gold</li>
+<li><span class="math inline">\(sqft_{2040}^{sf}\)</span>: The total floor area of single-family homes in the community in 2040</li>
+<li><span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in the community in 2040</li>
+<li><span class="math inline">\(units_{2018}^{sf}\)</span>: The number of single-family housing units in the community in 2018</li>
+<li><span class="math inline">\(\bar{sqft}_{2040}^{sf}\)</span>: The average floor area of single-family homes in the community in 2040</li>
+<li><span class="math inline">\(0.64\)</span>: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
+<li><span class="math inline">\(therm_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential natural gas use intensity per floor area in 2040</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:unnamed-chunk-16">Table 3.5: </span>New Home Efficiency Minneapolis 2040
+<span id="tab:unnamed-chunk-19">Table 3.7: </span>New Home Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -631,7 +889,7 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><img src="_main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 
 </div>
 <div id="existing-homes-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.4">
@@ -646,12 +904,14 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 <li><p><strong><em>Partner with local organizations</em></strong> Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.</p></li>
 </ul>
 </div>
+<div id="retrofit-80-of-homes" class="section level5 hasAnchor" number="3.2.1.4.1">
+<h5><span class="header-section-number">3.2.1.4.1</span> Retrofit 80% of Homes<a href="building-energy.html#retrofit-80-of-homes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Cities can retrofit existing homes to be energy efficient. We assume <code>80%</code> of existing homes with energy use intensity reduced by <code>33%</code>. Cities can adjust the percentage of existing homes to be retrofitted.</p>
+<p><strong><em>About this strategy</em></strong> Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume <code>80%</code> of existing homes with energy use intensity reduced by <code>33%</code>. Cities can adjust the percentage of existing homes to be retrofitted.</p>
 </div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-existing-home-efficiency">Table 3.6: </span>Existing Home Efficiency Minneapolis 2040
+<span id="tab:tab-existing-home-efficiency">Table 3.8: </span>Existing Home Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -698,18 +958,31 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </tr>
 </tbody>
 </table>
-<p><span class="math display">\[sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * X * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})\]</span></p>
+<p><br></p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate new floor area:</p>
+<p><span class="math display">\[\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})\]</span></p>
+<p><em>Where:</em></p>
 <ul>
-<li><span class="math inline">\(0.33\)</span>: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.</li>
-<li><span class="math inline">\(X\)</span>: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.</li>
-<li><span class="math inline">\(units_{2040}^{sf}\)</span>: Number of single-family housing units in 2018.</li>
-<li><span class="math inline">\(units_{2018}^{mf}\)</span>: The number of multi-family homes in 2018.</li>
-<li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The 2018 average floor area of single-family homes.</li>
-<li><span class="math inline">\(\bar{sqft}_{2018}^{mf}\)</span>: The average floor area of multi-family homes in 2018.</li>
+<li><span class="math inline">\(x \text{, where } 0 \le x \le 1\)</span>: The percentage of existing homes to be retrofitted, defaulted to 80%</li>
+<li><span class="math inline">\(0.33\)</span>: The percent reduction in energy use intensity due to efficiency gains of the retrofitting.</li>
+<li><span class="math inline">\(units_{2040}^{sf}\)</span>: The number of single-family housing units in 2018</li>
+<li><span class="math inline">\(units_{2018}^{mf}\)</span>: The number of multifamily homes in 2018</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The average floor area of single-family homes in 2018</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}^{mf}\)</span>: The average floor area of multi-family homes in 2018</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
+<li><span class="math inline">\(therm_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential natural gas use intensity per floor area in 2040</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:unnamed-chunk-21">Table 3.7: </span>New Home Efficiency Minneapolis 2040
+<span id="tab:unnamed-chunk-24">Table 3.9: </span>New Home Efficiency Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -786,8 +1059,156 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><br></p>
+</div>
+<div id="retrofit-remaining-20-of-into-passive-homes" class="section level5 hasAnchor" number="3.2.1.4.2">
+<h5><span class="header-section-number">3.2.1.4.2</span> Retrofit Remaining 20% of into Passive Homes<a href="building-energy.html#retrofit-remaining-20-of-into-passive-homes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Same as previous strategy, except now the remaining <code>20%</code> of homes are retrofitted to high passive house standards, which results in <code>66%</code> reduction in energy use intensity (ZeroEnergy Design, 2021).</p>
+</div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-existing-home-efficiency2">Table 3.10: </span>Existing Home Efficiency Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Number of Single Family Units
+</td>
+<td style="text-align:right;">
+76,494.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of Multifamily Units
+</td>
+<td style="text-align:right;">
+145,653.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Single Family Average Floor Area (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+940.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Multifamily Average Floor Area for the County (ft<sup>2</sup>)
+</td>
+<td style="text-align:right;">
+747.67
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>GHG Impact Calculation</strong></p>
+<p><span class="math display">\[sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})\]</span>
+<em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(0.33\)</span>: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.</li>
+<li><span class="math inline">\(X\)</span>: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.</li>
+<li><span class="math inline">\(units_{2040}^{sf}\)</span>: Number of single-family housing units in 2018.</li>
+<li><span class="math inline">\(units_{2018}^{mf}\)</span>: The number of multi-family homes in 2018.</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}^{sf}\)</span>: The 2018 average floor area of single-family homes.</li>
+<li><span class="math inline">\(\bar{sqft}_{2018}^{mf}\)</span>: The average floor area of multi-family homes in 2018.</li>
+</ul>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:unnamed-chunk-28">Table 3.11: </span>New Home Efficiency Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Residential Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,029,006
+</td>
+<td style="text-align:right;">
+954,909
+</td>
+<td style="text-align:right;">
+609,095
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Electricity Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+582,829,127
+</td>
+<td style="text-align:right;">
+540,860,391
+</td>
+<td style="text-align:right;">
+344,991,151
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+120,984,119
+</td>
+<td style="text-align:right;">
+140,340,271
+</td>
+<td style="text-align:right;">
+89,516,911
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+642,425,672
+</td>
+<td style="text-align:right;">
+745,206,837
+</td>
+<td style="text-align:right;">
+475,334,798
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 
+</div>
 </div>
 <div id="behavior-change-for-residential-energy-efficiency" class="section level4 hasAnchor" number="3.2.1.5">
 <h4><span class="header-section-number">3.2.1.5</span> Behavior Change for Residential Energy Efficiency<a href="building-energy.html#behavior-change-for-residential-energy-efficiency" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -797,7 +1218,7 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-behavior-change">Table 3.8: </span>Behavior Change Minneapolis 2040
+<span id="tab:tab-behavior-change">Table 3.12: </span>Behavior Change Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -860,16 +1281,28 @@ Multifamily Average Floor Area for the County (ft<sup>2</sup>)
 </tbody>
 </table>
 <p><br></p>
-<p><span class="math display">\[ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * population_{2040} * \frac{sqft_{2040}^{sf + mf}}{population_{2040}} * 0.11 \]</span></p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate new floor area:</p>
+<p><span class="math display">\[ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 \]</span></p>
+<p><em>Where:</em></p>
 <ul>
+<li><span class="math inline">\(x \text{, where } 0 \le x \le 1\)</span>: The percentage of homes that change their behavior for energy efficiency.</li>
 <li><span class="math inline">\(0.11\)</span>: The percentage reduction in household energy use as a result of smart nudges.</li>
-<li><span class="math inline">\(x\)</span>: The percentage of homes that change their behavior for energy efficiency.</li>
-<li><span class="math inline">\(population_{2040}\)</span>: The total population in 2040.</li>
+<li><span class="math inline">\(pop_{2040}\)</span>: The total population in 2040.</li>
 <li><span class="math inline">\(sqft_{2040}^{sf+mf}/population_{2040}\)</span>: The average square footage per person in 2040 for residential buildings.</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential} * (MWh_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/MWh_{2040} + therm_{2040}^{residential}/sqft_{2040}^{residential} * kgCO2e/therm_{2040})\]</span>
+<em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(MWh_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential electricity use intensity per floor area in 2040</li>
+<li><span class="math inline">\(therm_{2040}^{residential}/sqft_{2040}^{residential}\)</span>: The projected residential natural gas use intensity per floor area in 2040</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:unnamed-chunk-26">Table 3.9: </span>Behavior Change Minneapolis 2040
+<span id="tab:unnamed-chunk-33">Table 3.13: </span>Behavior Change Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -946,7 +1379,7 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 
 </div>
 <div id="decarbonization-of-residential-energy-use" class="section level4 hasAnchor" number="3.2.1.6">
@@ -955,12 +1388,28 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 <div class="about_strategy">
 <p><strong><em>About this strategy</em></strong>: Due to decarbonizing the grid, the emission factor of electricity decreases from <code>568</code> kg<sub>2</sub>e/MWh (2018 Minnesota state level) to <code>113</code> kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.</p>
 </div>
+<p><br></p>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Calculate electricity use in 2040:</p>
 <p><span class="math display">\[
-kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{population_{2040}} * \frac{kWh}{sqft_{residential}^{2040}})
+\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}}
 \]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(pop_{2040}\)</span>: The projected population in 2040</li>
+<li><span class="math inline">\(sqft_{2040}^{residential}/pop_{2040}\)</span>: The projected residential floor area per capita in 2040</li>
+<li><span class="math inline">\(MWh/sqft_{2040}^{residential}\)</span>: The projected residential electricity per floor area in 2040</li>
+</ul>
+<p>Calculate new emissions:</p>
+<p><span class="math display">\[\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  kgCO2e/MWh_{2040} * (1-x) \]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\((1-x) \text{, where } 0 \le x \le 1\)</span>: The percentage reduction in the emissions of the electric grid</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
+</ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-decarbonize-residential-energy">Table 3.10: </span>Decarbonize Residential Energy Use Minneapolis 2040
+<span id="tab:tab-decarbonize-residential-energy">Table 3.14: </span>Decarbonize Residential Energy Use Minneapolis 2040
 </caption>
 <thead>
 <tr>
@@ -1037,7 +1486,7 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tr>
 </tbody>
 </table>
-<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 
 </div>
 <div id="electrification-of-residential-heating" class="section level4 hasAnchor" number="3.2.1.7">
@@ -1048,9 +1497,28 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 <div class="about_strategy">
 <p><strong>About this strategy</strong> For this strategy, we made the assumption that by 2040 <code>59%</code> of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.</p>
 </div>
+<p><strong>GHG Impact Calculation</strong></p>
+<p>Natural Gas for Space Heating:</p>
+<p><span class="math display">\[term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 71\% \]</span>
+<span class="math display">\[\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - (term_1 * (0.8/5.02) * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}\]</span></p>
+<p>Natural Gas for Water Heating:</p>
+<p><span class="math display">\[term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * kgCO2e/therm_{2040} * 24\% \]</span>
+<span class="math display">\[\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - (term_2 * 100\% * 0.0293therm/MWh) * kgCO_2e/MWh_{2040}\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(x\)</span>: The percentage of additional households with heating electrified, defaulted to be 59% - 14% of homes already electrified</li>
+<li><span class="math inline">\(pop_{2040}\)</span>: The projected population in 2040</li>
+<li><span class="math inline">\(71\%\)</span>: Assumed natural gas for space heating</li>
+<li><span class="math inline">\(24\%\)</span>: Assumed natural gas for water heating</li>
+<li><span class="math inline">\(100\%\)</span>: The ratio of natural gas water heating to electric water heating</li>
+<li><span class="math inline">\((0.8/5.02)\)</span>: The ratio of boiler efficiency to heat pump efficiency</li>
+<li><span class="math inline">\(sqft_{2040}^{residential}/pop_{2040}\)</span>: The projected residential floor area per capita in 2040</li>
+<li><span class="math inline">\(0.0293therm/MWh\)</span>: The conversion factor from therm to MWH</li>
+<li><span class="math inline">\(kgCO_2e/MWh_{2040}\)</span>: The projected emissions factor of electricity in 2040</li>
+</ul>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-electrify-residential-heating">Table 3.11: </span>Electrify Residential Heating 2040
+<span id="tab:tab-electrify-residential-heating">Table 3.15: </span>Electrify Residential Heating 2040
 </caption>
 <thead>
 <tr>
@@ -1128,52 +1596,664 @@ Residential Natural Gas Emissions (kg CO<sub>2</sub>e)
 </tbody>
 </table>
 <p>Note that this table shows the impact of electrification before considering the decarbonization of the electric grid.</p>
-<hr />
-<p><strong>RESOURCES</strong></p>
-<p><strong>Additional Information</strong></p>
-<ul>
-<li><a href="https://www.mncee.org/air-source-heat-pumps">Minnesota Center for Energy and the Environment: Air source heat pumps</a></li>
-<li><a href="https://www.mnashp.org/for-homeowners">Minnesota Air Source Heat Pump Collaborative: Case studies</a></li>
-<li><a href="https://concordma.gov/2776/Heat-Pump-Case-Studies">Town of Concord, Massachusetts: Case studies</a></li>
-</ul>
-<p><strong>Policy Approaches</strong></p>
-<ul>
-<li><a href="https://environmentamerica.org/sites/environment/files/reports/Electric-Buildings-2021/National-Electric-Buildings-Web.pdf?_ga=2.10624308.1239172724.1638808751-1075536878.1638808751#page=32">Environment America: Policy recommendations for electric buildings</a></li>
-<li><a href="https://www.aceee.org/sites/default/files/pdfs/programs_to_electrify_space_heating_brief_final_6-23-20.pdf">American Council for an Energy-Efficient Economy: Programs to electrify space heating in homes and buildings</a></li>
-<li><a href="https://ipu.msu.edu/wp-content/uploads/2018/04/LBNL-Electrification-of-Buildings-2018.pdf#page=47">Lawrence Berkeley National Laboratory: Policy approaches to enable electrification</a></li>
-</ul>
-<p><strong>Financing</strong></p>
-<ul>
-<li><a href="https://www.mncee.org/residential-statewide-lending">Minnesota Center for Energy and the Environment: Home energy improvement loans</a></li>
-</ul>
-<hr />
 
 </div>
 <div id="renewable-natural-gas" class="section level4 hasAnchor" number="3.2.1.8">
 <h4><span class="header-section-number">3.2.1.8</span> Renewable Natural Gas<a href="building-energy.html#renewable-natural-gas" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The scenario planning model projects that homes not using electricity for space and water heating will switch from natural gas to renewable natural gas. Renewable natural gas, also known as biogas, consists largely of methane, which can be captured and processed at solid waste landfills and wastewater treatment plants.1 This comes with multiple benefits: it reduces methane emissions that would otherwise be released from landfills and wastewater treatment plants, and it can replace fossil fuel as an energy source. Food waste digestion facilities, which produce renewable natural gas from organic scraps, can also reduce the volume of waste sent to the landfill, which would help to meet the Minnesota Legislature’s goal of recycling a greater portion of solid wastes in the Twin Cities metropolitan area.2</p>
-<hr />
-<p><strong>RESOURCES</strong></p>
-<p><strong>Policy Approaches</strong></p>
+<p>This report projects that homes not using electricity for space and water heating will switch from natural gas to renewable natural gas.</p>
+<p><strong>Renewable natural gas</strong>, also known as biogas, consists largely of methane, which can be captured and processed at solid waste landfills and wastewater treatment plants.1 This comes with multiple benefits: it reduces methane emissions that would otherwise be released from landfills and wastewater treatment plants, and it can replace fossil fuel as an energy source. Food waste digestion facilities, which produce renewable natural gas from organic scraps, can also reduce the volume of waste sent to the landfill, which would help to meet the Minnesota Legislature’s goal of recycling a greater portion of solid wastes in the Twin Cities metropolitan area.2</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence)…</p>
+</div>
+
+</div>
+</div>
+</div>
+<div id="non-residential-energy" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Non-Residential Energy<a href="building-energy.html#non-residential-energy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Non-residential energy use refers to the energy consumption of commercial and industrial buildings, including both electricity and natural gas. The baseline data for energy use was obtained from Xcel Energy. The forecast of “business-as-usual” energy use is estimated by considering the number of people who are expected to work in these buildings.</p>
+<p>In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources, some of which are not captured in this methodology. Accurate estimates of non-residential energy use can help Minneapolis make informed decisions about energy efficiency and conservation efforts.</p>
+<p><strong>Table</strong> <a href="building-energy.html#tab:tab-non-residential-energy">3.16</a> shows the baseline and forecast assumptions for non-residential electricity and natural gas use for Minneapolis.</p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-non-residential-energy">Table 3.16: </span>Non-Residential Energy for Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018
+</th>
+<th style="text-align:right;">
+2040
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+74,323,233.92
+</td>
+<td style="text-align:right;">
+84,578,278.54
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+90,265,300.08
+</td>
+<td style="text-align:right;">
+152,113,667.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,580,539.69
+</td>
+<td style="text-align:right;">
+1,798,620.96
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,254,092.31
+</td>
+<td style="text-align:right;">
+2,113,376.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas per Worker (therms/worker)
+</td>
+<td style="text-align:right;">
+289.52
+</td>
+<td style="text-align:right;">
+289.52
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas per Worker (therms/worker)
+</td>
+<td style="text-align:right;">
+2,135.65
+</td>
+<td style="text-align:right;">
+2,135.65
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity per Worker (MWh/worker)
+</td>
+<td style="text-align:right;">
+6.16
+</td>
+<td style="text-align:right;">
+6.16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity per Worker (MWh/worker)
+</td>
+<td style="text-align:right;">
+29.67
+</td>
+<td style="text-align:right;">
+29.67
+</td>
+</tr>
+</tbody>
+</table>
+<p>As shown in <a href="building-energy.html#tab:tab-non-residential-energy">3.16</a> for making estimate about the business-as-usual energy use of the City of Minneapolis, we assue that energy use intensity per worker for the commercial and industrial sectors remain constant.</p>
+<p><br></p>
+<div id="strategies-1" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Strategies<a href="building-energy.html#strategies-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One of the most effective strategies for commercial and industrial buildings is to enhance their energy efficiency, which can be achieved through the adoption of new technologies. In Minnesota, there are several programs aimed at supporting non-residential consumers.</p>
+<p>The <strong>Conservation Improvement Program (CIP)</strong> is a policy aimed at improving energy efficiency and conservation in households and businesses in Minnesota. Funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce’s Division of Energy Resources, CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air conditioning cycling programs.</p>
+<p>The <strong>Energy Conservation and Optimization Act of 2021 (ECO Act)</strong> aims to strengthen the state’s energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act expands the Conservation Improvement Program and makes energy efficiency improvements available to low-income households, public schools, and investor-owned utilities.</p>
+<p>The <strong>Minnesota SB2030</strong> program focuses on reducing emissions in commercial, industrial, and institutional buildings. The program sets standards for energy efficiency and renewable energy for new and renovated buildings, based on the building’s energy use per square foot. Over time, these standards will become more stringent, with the goal of reducing energy use and carbon dioxide emissions. The program also takes into account the impact of electric vehicle charging infrastructure on a building’s energy use.</p>
+
+<div id="retofit-existing-commercial-building" class="section level4 hasAnchor" number="3.3.1.1">
+<h4><span class="header-section-number">3.3.1.1</span> Retofit Existing Commercial Building<a href="building-energy.html#retofit-existing-commercial-building" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Retrofitting existing commercial and industrial buildings is key for reducing GHG emissions and mitigating the impacts of climate change. Retrofits can be accomplished through various measures such as improving insulation, upgrading heating and cooling systems, and replacing outdated lighting systems with energy-efficient alternatives.</p>
+<p>According to <a href="https://ecodistricts.org/information-exchange/commercial-energy-retrofits/">Eco Districts</a> there are two types of energy retrofits for commercial buildings: conventional and deep. Conventional retrofits focus on isolated upgrades with a short payback time, such as lighting and HVAC systems, while deep retrofits take a whole-building approach to achieve greater energy efficiency by addressing multiple systems at once. One option for promoting commercial building energy retrofits is <a href="https://minnpace.com/">PACE</a> (property assessed clean energy) programs, which allow property owners to finance energy-efficiency and renewable-energy projects through a property tax assessment, secured by a senior lien on the property.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can promote a reduction in energy use intensity (EUI) by the retrofit of existing commercial buildings. We assume that <code>80%</code> of existing commercial buildings are certified as LEED Gold by 2040. LEED Gold is assumed to reduce energy use intensity (EUI) of an existing building by <code>25%</code>.</p>
+</div>
+<p><strong>GHG Impact Calculation</strong></p>
+<p><span class="math display">\[\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * (MWh/jobs_{2018}^{commercial} * kgCO2e/MWh_{2040}^{commercial} + therms/jobs_{2018}^{commercial} * kgCO_2e/therm_{2040}^{commercial})\]</span>
+<em>Where:</em></p>
 <ul>
-<li><a href="https://www.wri.org/research/renewable-natural-gas-climate-strategy-guidance-state-policymakers">World Resources Institute: Renewable Natural Gas as a Climate Strategy: Guidance for State Policymakers</a></li>
-<li><a href="https://www.eesi.org/papers/view/fact-sheet-biogasconverting-waste-to-energy">Environmental and Energy Study Institute: Fact Sheet | Biogas: Converting Waste to Energy</a></li>
-<li><a href="https://www.epa.gov/agstar/guidelines-and-permitting-livestock-anaerobic-digesters">US Environmental Protection Agency: Guidelines and Permitting for Livestock Anaerobic Digesters</a></li>
+<li><p><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)</p></li>
+<li><p><span class="math inline">\(25%\)</span>: The assumed reduction in energy intensity from retrofits</p></li>
+<li><p><span class="math inline">\(jobs_{2018}^{commercial}\)</span>: The number of commercial workers in 2018 (from Minnesota Quarterly Census of Employment and Wages)</p></li>
+<li><p><span class="math inline">\(MWh/jobs_{2018}^{commercial}\)</span>: The commercial electricity use per worker in 2018</p></li>
+<li><p><span class="math inline">\(kgCO2e/MWh_{2040}^{commercial}\)</span>: The projected electricity emission factor in 2040</p></li>
+<li><p><span class="math inline">\(therms/jobs_{2018}^{commercial}\)</span>: The projected commercial gas use per worker in 2040</p></li>
+<li><p><span class="math inline">\(kgCO_2e/therm_{2040}^{commercial}\)</span>: The projected natural gas emission factor in 2040</p></li>
 </ul>
-<p><strong>Case Studies</strong></p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:fig03b1">Table 3.17: </span>Retrofit Commercial Buildings Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Busines-As-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,580,540
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+<td style="text-align:right;">
+1,166,405
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,254,092
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+187,242,460
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+<td style="text-align:right;">
+138,181,001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+26,082,037
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total Industrial Emissions (tonnes CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+2,738,288,645
+</td>
+<td style="text-align:right;">
+3,580,590,207
+</td>
+<td style="text-align:right;">
+967,131,753
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="building-energy.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b1_data)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+
+</div>
+<div id="smart-grid-electrification" class="section level4 hasAnchor" number="3.3.1.2">
+<h4><span class="header-section-number">3.3.1.2</span> Smart Grid Electrification<a href="building-energy.html#smart-grid-electrification" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Smart grid and technologies are projected to reduce industrial electricity use by 11% .</p>
+<p>Achieving a net-zero grid requires transitioning to a smart grid. The smart grid can not only manage the load but also reduce energy use by approximately 11% as shown in PNNL’s “<a href="https://www.osti.gov/biblio/971445">The Smart Grid: An Estimation of the Energy and CO2 Benefits</a>.” This reduction will be applied to all electricity consumers connected to the grid. In this and the next strategy, we have assumed that the 11% reduction will apply to 100% of electricity use for commercial buildings. It is important to note that all commercial and industrial energy use is calculated based on the number of employees, not on square footage.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that by adopting technologies such as smart grid, <code>100%</code> of industrial buildings in the city can reduce their electricity use by <code>11%</code>.</p>
+</div>
+<p><strong>GHG Impact Calculation</strong></p>
+<p><span class="math display">\[ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * (jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\%) * kgCO_2e/MWh\]</span>
+<em>Where:</em></p>
 <ul>
-<li><a href="https://www.anl.gov/es/reference/renewable-natural-gas-database">Argonne National Laboratory: Renewable Natural Gas Database</a></li>
-<li><a href="https://www.mda.state.mn.us/manure-digester-case-study-haubenschild-farm">Haubenschild Dairy Manure Digester, Princeton, MN</a></li>
-<li><a href="https://www.epa.gov/lmop/webinar-case-study-university-california-renewable-natural-gas-projects">US EPA: Case study of University of California renewable natural gas projects</a></li>
+<li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: The percentage of industries in the smart grid (assumed to be 100%)</li>
+<li><span class="math inline">\(jobs^{industrial}_{2040}\)</span>: The projected number of industrial workers in 2040</li>
+<li><span class="math inline">\(MWh/jobs^{industrial}_{2040}\)</span> = The projected industrial electricity use per worker in 2040</li>
+<li><span class="math inline">\(11%\)</span> = The percentage reduction in energy use due to smart grid, fixed at 11%</li>
+<li><span class="math inline">\(kgCO2e/MWh\)</span> = The projected electricity emission factor in 2040</li>
 </ul>
-<p><strong>Additional Information</strong></p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:fig03b2">Table 3.18: </span>Retrofit Commercial Buildings Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Busines-As-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,580,540
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,254,092
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+187,242,460
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+26,082,037
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total Industrial Emissions (tonnes CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+2,738,288,645
+</td>
+<td style="text-align:right;">
+3,580,590,207
+</td>
+<td style="text-align:right;">
+1,364,834,737
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+
+</div>
+<div id="renewable-natural-gas-1" class="section level4 hasAnchor" number="3.3.1.3">
+<h4><span class="header-section-number">3.3.1.3</span> Renewable Natural Gas<a href="building-energy.html#renewable-natural-gas-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We assume that renewable natural gas will substitute 31.7% of all natural gas remaining in all the sectors. According to the American Biogas Council’s estimate, Minnesota can produce 46.91 billion cu.ft renewable natural gas, which is 47 PJ. According to the Net-Zero America Report, 148 PJ will be needed in 2040 in the high efficiency and renewable scenario. Therefore, we assume that RNG can replace 31.7% of remaining natural gas use at the state level. Estimates for New York State are available in Taboada et. al, 2021 (see references).</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence)…</p>
+</div>
+<p><strong>GHG Impact Calculation</strong></p>
+<p><span class="math display">\[\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}  * therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}\]</span></p>
+<p><em>Where:</em></p>
 <ul>
-<li><a href="https://www.epa.gov/anaerobic-digestion/basic-information-about-anaerobic-digestion-ad">US Environmental Protection Agency: Basic information about anaerobic digestion</a><br />
-</li>
-<li><a href="https://www.mda.state.mn.us/environment-sustainability/manure-digesters">MN Department of Agriculture: Manure digesters</a></li>
-<li><a href="https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste">University of Minnesota: Drawing renewable resources from organic waste</a></li>
+<li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span> = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be <code>31.7%</code></li>
+<li><span class="math inline">\(jobs_{2040}^{commercial}\)</span>: The projected number of commercial workers in 2040</li>
+<li><span class="math inline">\(jobs_{2040}^{industrial}\)</span>: The projected number of industrial workers in 2040</li>
+<li><span class="math inline">\(therms/jobs_{2040}^{commercial}\)</span>: The projected commercial gas use per worker in 2040</li>
+<li><span class="math inline">\(therms/jobs_{2040}^{industrial}\)</span>: The projected industrial gas use per worker in 2040</li>
+<li><span class="math inline">\(kgCO_2e/therms_{2040}\)</span>: The projected emissions factor of natural gas in 2040</li>
 </ul>
-<hr />
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="building-energy.html#cb3-1" aria-hidden="true" tabindex="-1"></a>fig03b3_data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
+<span id="cb3-2"><a href="building-energy.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2018,</span>
+<span id="cb3-3"><a href="building-energy.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  non_res_bau_2040,</span>
+<span id="cb3-4"><a href="building-energy.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span></span>
+<span id="cb3-5"><a href="building-energy.html#cb3-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="building-energy.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(.,</span>
+<span id="cb3-7"><a href="building-energy.html#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">run_scenario_building</span>(</span>
+<span id="cb3-8"><a href="building-energy.html#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_residential =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-9"><a href="building-energy.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">run_non_residential =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-10"><a href="building-energy.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">.selected_ctu =</span> params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb3-11"><a href="building-energy.html#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb =</span> building_data<span class="sc">$</span>non_residential,</span>
+<span id="cb3-12"><a href="building-energy.html#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">non_res_tb_bau =</span> building_data<span class="sc">$</span>non_residential,</span>
+<span id="cb3-13"><a href="building-energy.html#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">.renewable_ng_nonres =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-14"><a href="building-energy.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">.electrified_buildings_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-15"><a href="building-energy.html#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_water_heating_pct =</span> <span class="fl">0.20</span>,</span>
+<span id="cb3-16"><a href="building-energy.html#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.non_res_natural_gas_for_space_heating_pct =</span> <span class="fl">0.69</span>,</span>
+<span id="cb3-17"><a href="building-energy.html#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">.commercial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-18"><a href="building-energy.html#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">.industrial_smart_grid_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-19"><a href="building-energy.html#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">.smart_grid_energy_reduction_pct =</span> <span class="dv">1</span>,</span>
+<span id="cb3-20"><a href="building-energy.html#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">.grid_decarbonization_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-21"><a href="building-energy.html#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">.existing_high_efficiency_buildings_pct =</span> <span class="dv">0</span>,</span>
+<span id="cb3-22"><a href="building-energy.html#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">.enviro_factors =</span> enviro_factors</span>
+<span id="cb3-23"><a href="building-energy.html#cb3-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="building-energy.html#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-25"><a href="building-energy.html#cb3-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb3-26"><a href="building-energy.html#cb3-26" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2040</span>,</span>
+<span id="cb3-27"><a href="building-energy.html#cb3-27" aria-hidden="true" tabindex="-1"></a>    scen <span class="sc">==</span> <span class="st">&quot;scen&quot;</span>,</span>
+<span id="cb3-28"><a href="building-energy.html#cb3-28" aria-hidden="true" tabindex="-1"></a>    var <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb3-29"><a href="building-energy.html#cb3-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_mwh&quot;</span>,</span>
+<span id="cb3-30"><a href="building-energy.html#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_mwh&quot;</span>,</span>
+<span id="cb3-31"><a href="building-energy.html#cb3-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;commercial_therms&quot;</span>,</span>
+<span id="cb3-32"><a href="building-energy.html#cb3-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;industrial_therms&quot;</span>,</span>
+<span id="cb3-33"><a href="building-energy.html#cb3-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;total_industrial_commercial_emissions&quot;</span></span>
+<span id="cb3-34"><a href="building-energy.html#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-35"><a href="building-energy.html#cb3-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-36"><a href="building-energy.html#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_variable_names</span>(., <span class="st">&quot;2040 Scenario&quot;</span>),</span>
+<span id="cb3-37"><a href="building-energy.html#cb3-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">&quot;Variables&quot;</span>)</span></code></pre></div>
+<pre><code>## === RUNNING BUILDING ENERGY MODULE === ...... selected CTU:Minneapolis ......
+## percent of electrified buildings:0 ...... percent of non-residential natural
+## gas for water heating:0.2 ...... percent of non-residential natural gas
+## for space heating:0.69 ...... percent of commercial smart grid:1 ......
+## percent of industrial smart grid:1 ...... percent of smart grid energy
+## reduction:1 ...... percent of new homes to multifamily:0.5 ...... percent
+## of existing high efficiency buildings:0 ...... percent of home behavior
+## change:1 ...... percent of single family floor area growth:0.05 ......
+## percent of new homes affected:0.3 ...... percent of new homes leed
+## gold:0.5 ...... percent of existing home retrofit:0.8 ...... percent
+## of existing home ultra retrofit:0.2 ...... percent of residential
+## natural gas for space heating:0.71 ...... percent of residential natural
+## gas for water heating:0.24 ...... percent of additional electrified
+## residential buildings:0.45 ...... percent of grid decarbonization:0
+## ========================================== ** compiling non-residential
+## strategies *** calculating existing commercial building energy efficiency
+## ** compiling non-residential strategies *** calculating non-residential ghg
+## emissions *** calculating existing commercial building energy efficiency
+## *** calculating non-residential ghg emissions ** compiling non-residential
+## strategies *** calculating commercial building heat electficiation **
+## compiling non-residential strategies *** calculating non-residential
+## renewable natural gas strategy ** compiling non-residential strategies
+## ==========================================</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="building-energy.html#cb5-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table <span class="ot">&lt;-</span> fig03b3_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="building-energy.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add table format</span></span>
+<span id="cb5-3"><a href="building-energy.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(.,</span>
+<span id="cb5-4"><a href="building-energy.html#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">.caption =</span> <span class="fu">paste</span>(<span class="st">&quot;Retrofit Commercial Buildings&quot;</span>,</span>
+<span id="cb5-5"><a href="building-energy.html#cb5-5" aria-hidden="true" tabindex="-1"></a>                               params<span class="sc">$</span>ctu_selection,</span>
+<span id="cb5-6"><a href="building-energy.html#cb5-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;2040&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="building-energy.html#cb6-1" aria-hidden="true" tabindex="-1"></a>fig03b3_table</span></code></pre></div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:fig03b3">Table 3.19: </span>Retrofit Commercial Buildings Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Busines-As-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,580,540
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,254,092
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+187,242,460
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+26,082,037
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total Industrial Emissions (tonnes CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+2,738,288,645
+</td>
+<td style="text-align:right;">
+3,580,590,207
+</td>
+<td style="text-align:right;">
+1,364,834,737
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="building-energy.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b3_data)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+
+</div>
+<div id="decarbonize-the-electricity-grid" class="section level4 hasAnchor" number="3.3.1.4">
+<h4><span class="header-section-number">3.3.1.4</span> Decarbonize the Electricity Grid<a href="building-energy.html#decarbonize-the-electricity-grid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This strategy demonstrates the impact of grid decarbonization.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence)…</p>
+</div>
+<p><strong>GHG Impact Calculation</strong></p>
+<p><span class="math display">\[\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * (\frac{kgCO_2e/MWh_{2040}}{1000}) * x\]</span>
+<em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(x\text{, where } 0 \le x \le 1\)</span>: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)</li>
+<li><span class="math inline">\(jobs_{2040}^{commercial}\)</span>: The projected number of commercial jobs in 2040</li>
+<li><span class="math inline">\(MWh/jobs_{2040}^{commercial}\)</span>: The projected commercial electricity use per worker in 2040</li>
+<li><span class="math inline">\(jobs_{2040}^{industrial}\)</span>: The projected number of industrial jobs in 2040</li>
+<li><span class="math inline">\(MWh/jobs_{2040}^{industrial}\)</span>: The projected number industrial electricity use per worker in 2040</li>
+<li><span class="math inline">\(kgCO_2e/MWh_{2040}\)</span>: The projected electricity emission factor in 2040</li>
+</ul>
+<p>Note: The values are multiplied by 1000 in the original formula to retain the units in kilowatt hours.</p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:fig03b4">Table 3.20: </span>Decarbonise Grid Minneapolis 2040
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Busines-As-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Commercial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,580,540
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+<td style="text-align:right;">
+1,798,621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Electricity (MWh)
+</td>
+<td style="text-align:right;">
+1,254,092
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+<td style="text-align:right;">
+2,113,377
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Commercial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+187,242,460
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+<td style="text-align:right;">
+213,077,985
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Industrial Natural Gas (Therms)
+</td>
+<td style="text-align:right;">
+26,082,037
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+<td style="text-align:right;">
+43,953,039
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total Industrial Emissions (tonnes CO<sub>2</sub>e)
+</td>
+<td style="text-align:right;">
+2,738,288,645
+</td>
+<td style="text-align:right;">
+3,580,590,207
+</td>
+<td style="text-align:right;">
+1,364,834,737
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="building-energy.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chartformat</span>(fig03b4_data)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div class="csl-entry">
