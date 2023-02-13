@@ -6,13 +6,17 @@ The energy grid could become cleaner by increasing the use of renewable energy s
 ***About this strategy***: Due to decarbonizing the grid, the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. This change is fixed by the grid.
 :::
 
+<br>
+
+**GHG Impact Calculation**
+
 $$
-kgCO_2e^{electricity} = (population_{2040} * \frac{sqft_{residential}^{2040}}{population_{2040}} * \frac{kWh}{sqft_{residential}^{2040}}) 
+kgCO_2e^{electricity} = (pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{kWh}{sqft_{2040}^{residential}}) 
 $$
 
 ```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
 
-fig03a5_data <-   
+fig03a6_data <-   
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -54,15 +58,15 @@ fig03a5_data <-
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
 
-fig03a5_table <- 
-  fig03a5_data %>%  
+fig03a6_table <- 
+  fig03a6_data %>%  
   tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
 ```
 
 ```{r echo=FALSE}
-fig03a5_table
+fig03a6_table
 ```
 
 ```{r echo=FALSE}
-chartformat(fig03a5_data)
+chartformat(fig03a6_data)
 ```

@@ -17,7 +17,7 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 ##### Retrofit 80% of Homes
 
 ::: about_strategy
-***About this strategy*** Cities can retrofit existing homes to be energy efficient. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
+***About this strategy*** Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
 :::
 
 ```{r tab-existing-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
@@ -50,12 +50,16 @@ tab_existing_home_efficiency <- calc_floor_area_retrofit(
 tab_existing_home_efficiency
 ```
 
+<br>
+
 **GHG Impact Calculation**
 
-$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * X * 0.33 * \bar{sqft}_{2018}^{mf})$$
+$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})$$
 
+*Where:*
+
+-   $x$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
 -   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
--   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
 -   $units_{2040}^{sf}$: Number of single-family housing units in 2018.
 -   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
 -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
@@ -63,7 +67,7 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} +
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-fig03a3_data <- res_bau_2018 %>%
+fig03a4_data <- res_bau_2018 %>%
   full_join(
     res_bau_2040,
     by = "Variables"
@@ -104,22 +108,24 @@ fig03a3_data <- res_bau_2018 %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
 
-fig03a3_table <- fig03a3_data %>% tableformat(.,
+fig03a4_table <- fig03a4_data %>% tableformat(.,
               .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
-fig03a3_table
+fig03a4_table
 ```
 
 ```{r echo=FALSE}
-chartformat(fig03a3_data)
+chartformat(fig03a4_data)
 ```
+
+<br>
 
 ##### Retrofit Remaining 20% of into Passive Homes
 
 ::: about_strategy
-***About this strategy***  Same as previous strategy, except now the remaining homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
+***About this strategy***  Same as previous strategy, except now the remaining `20%` of homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
 :::
 
 **GHG Impact Calculation**
@@ -139,8 +145,8 @@ $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} +
 #| message: false
 
 tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
-  .selected_ctu = params$ctu_selection,
   res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .enviro_factors = enviro_factors
@@ -166,7 +172,7 @@ tab_existing_home_efficiency2
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-fig03a3b_data <- res_bau_2018 %>%
+fig03a4b_data <- res_bau_2018 %>%
   full_join(
     res_bau_2040,
     by = "Variables"
@@ -207,15 +213,15 @@ fig03a3b_data <- res_bau_2018 %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
 
-fig03a3b_table <- fig03a3b_data %>% tableformat(.,
+fig03a4b_table <- fig03a4b_data %>% tableformat(.,
               .caption = paste("New Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
-fig03a3b_table
+fig03a4b_table
 ```
 
 ```{r echo=FALSE}
-chartformat(fig03a3b_data)
+chartformat(fig03a4b_data)
 ```
 

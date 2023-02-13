@@ -1,16 +1,18 @@
-#### Affordable Floor Area
+#### Increased Multifamily
 
-If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
+Compact community development can reduce buildings energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions.
+
+The Metropolitan Council’s Thrive MSP plan projects increases in the percentage of multifamily housing by 2040. Multifamily homes tend to have smaller average floor area than stand-alone, single-family homes. Smaller floor area is correlated with lower levels of energy use. The decarbonization scenario planning model includes an option to model 50% of all new construction as multifamily (instead of single-family) homes. 
+
+This strategy goes beyond the expected 2040 multifamily to single family ratio, modeled in the previous strategy, by assuming that 50% of all new single-family construction will now become  multifamily, with the multifamily homes having smaller square footage.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+***About this strategy*** Our assumption is that cities influence compact development and the ratio of multifamily units relative to single family units.  
 :::
 
-```{r tab-new-single-family-home-area, message=FALSE, warning=FALSE, include=FALSE}
-#| echo: false
-#| message: false
+```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
 
-tab_new_single_family_home_area <- calc_affordable_floor_area(
+tab_increased_multifamily <- calc_affordable_floor_area(
   res_tb = building_data$residential,
   .selected_ctu = params$ctu_selection,
   .single_family_floor_area_growth_pct = 0
@@ -47,24 +49,28 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
                                params$ctu_selection))
 ```
 
-```{r echo=FALSE}
-tab_new_single_family_home_area
+```{r}
+tab_increased_multifamily
 ```
+
 
 <br>
 
 **GHG Impact Calculation**
 
-$$sqft_{2040}^{sf} = (units_{2040}^{sf} -units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$
+$$ new(sqft_{2040}^{sf}) = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})$$
+$$\text{where } 0 \le x \le 1$$
+
 *Where:*
 
--   $(1+X)$: The rate of growth in single-family floor area in square feet per year.
--   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040. 
--   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
--   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
--   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
--   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
--   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in the community in 2018.
+-  $x$:  The percentage of new single-family homes that are converted to multifamily homes
+-  $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040. 
+-  $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
+-  $units_{2018}^{sf$: The number of single-family housing units in the community in 2018.
+-  $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+-  $\bar{sqft}_{2040}^{mf}$: The average floor area of multifamily homes in the community in 2040.
+
+<br>
 
 ```{r fig03a1, message=FALSE, warning=FALSE, include=FALSE}
 
@@ -86,7 +92,7 @@ fig03a1_data <-
       .new_homes_affected_pct = 1,
       # other variables
       .electrified_buildings_pct = 0,
-      .new_homes_to_multifamily_pct = 0,
+      .new_homes_to_multifamily_pct = 0.50,
       .existing_high_efficiency_buildings_pct = 0,
       .home_behavior_change_pct = 0,
       .new_homes_leed_gold_pct = 0,
@@ -125,3 +131,5 @@ fig03a1_table
 ```{r echo=FALSE}
 chartformat(fig03a1_data)
 ```
+
+**Affordability co-benefit**: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward. 

@@ -11,7 +11,7 @@ Only around 14% of homes in MN have adopted these new technologies. The scenario
 :::
 
 ```{r tab-electrify-residential-heating, message=FALSE, warning=FALSE, include=FALSE}
-fig03a6_data <- res_bau_2018 %>%
+fig03a7_data <- res_bau_2018 %>%
   full_join(res_bau_2040,
             by = "Variables") %>%
   full_join(
@@ -53,35 +53,13 @@ fig03a6_data <- res_bau_2018 %>%
     by = "Variables"
   )
 
-fig03a6_table <-
-  fig03a6_data %>%
+fig03a7_table <-
+  fig03a7_data %>%
   tableformat(., .caption = "Electrify Residential Heating 2040")
 ```
 
 ```{r echo=FALSE}
-fig03a6_table
+fig03a7_table
 ```
 
 Note that this table shows the impact of electrification before considering the decarbonization of the electric grid. 
-
----
-
-**RESOURCES**
-
-**Additional Information**
-
-*	[Minnesota Center for Energy and the Environment: Air source heat pumps](https://www.mncee.org/air-source-heat-pumps)
-*	[Minnesota Air Source Heat Pump Collaborative: Case studies](https://www.mnashp.org/for-homeowners) 
-*	[Town of Concord, Massachusetts: Case studies](https://concordma.gov/2776/Heat-Pump-Case-Studies)
-
-**Policy Approaches**
-
-*	[Environment America: Policy recommendations for electric buildings](https://environmentamerica.org/sites/environment/files/reports/Electric-Buildings-2021/National-Electric-Buildings-Web.pdf?_ga=2.10624308.1239172724.1638808751-1075536878.1638808751#page=32) 
-*	[American Council for an Energy-Efficient Economy: Programs to electrify space heating in homes and buildings](https://www.aceee.org/sites/default/files/pdfs/programs_to_electrify_space_heating_brief_final_6-23-20.pdf) 
-*	[Lawrence Berkeley National Laboratory: Policy approaches to enable electrification](https://ipu.msu.edu/wp-content/uploads/2018/04/LBNL-Electrification-of-Buildings-2018.pdf#page=47) 
-
-**Financing**
-
-* [Minnesota Center for Energy and the Environment: Home energy improvement loans](https://www.mncee.org/residential-statewide-lending) 
-
----

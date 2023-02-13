@@ -54,20 +54,23 @@ tab_behavior_change <- calc_floor_area_behavior_change(
 tab_behavior_change
 ```
 
-
 <br>
 
-$$ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * population_{2040} * \frac{sqft_{2040}^{sf + mf}}{population_{2040}} * 0.11 $$
+**GHG Impact Calculation**
 
--   $0.11$: The percentage reduction in household energy use as a result of smart nudges.
+$$ sqft_{2040}^{residential} = sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 $$
+
+*Where:*
+
 -   $x$: The percentage of homes that change their behavior for energy efficiency.
--   $population_{2040}$: The total population in 2040.
+-   $0.11$: The percentage reduction in household energy use as a result of smart nudges.
+-   $pop_{2040}$: The total population in 2040.
 -   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false
-fig03a4_data <-   
+fig03a5_data <-   
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -109,15 +112,15 @@ fig03a4_data <-
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
 
-fig03a4_table <- fig03a4_data %>% tableformat(.,
+fig03a5_table <- fig03a5_data %>% tableformat(.,
               .caption = paste("Behavior Change", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
-fig03a4_table
+fig03a5_table
 ```
 
 ```{r echo=FALSE}
-chartformat(fig03a4_data)
+chartformat(fig03a5_data)
 ```
 

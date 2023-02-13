@@ -59,12 +59,15 @@ tableformat(.,
 fig_tab_new_home_efficiency
 ```
 
-
 <br>
 
-$$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le X_1 \le 1$$
+**GHG Impact Calculation**
 
--   $X$: The percentage of new homes that are LEED Gold.
+$$sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf}) * 0.64 \text{, where } 0 \le x \le 1$$
+
+*Where:*
+ 
+-   $x$: The percentage of new homes that are LEED Gold.
 -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.
 -   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
 -   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
@@ -73,7 +76,7 @@ $$sqft_{2040}^{sf} = X * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{204
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-fig03a2_data <-  
+fig03a3_data <-  
   res_bau_2018 %>%
   full_join(
     res_bau_2040,
@@ -115,14 +118,15 @@ fig03a2_data <-
       add_variable_names(., "2040 Scenario"),
     by = "Variables")
 
-fig03a2_table <- fig03a2_data %>% tableformat(.,
+fig03a3_table <- fig03a3_data %>% tableformat(.,
               .caption = paste("New Home Efficiency", params$ctu_selection, "2040")) 
 ```
 
 
 ```{r echo=FALSE}
-fig03a2_table
+fig03a3_table
 ```
+
 ```{r echo=FALSE}
-chartformat(fig03a2_data)
+chartformat(fig03a3_data)
 ```

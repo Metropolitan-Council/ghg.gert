@@ -1,27 +1,10 @@
 #### Renewable Natural Gas 
 
-The scenario planning model projects that homes not using electricity for space and water heating will switch from natural gas to renewable natural gas. Renewable natural gas, also known as biogas, consists largely of methane, which can be captured and processed at solid waste landfills and wastewater treatment plants.1 This comes with multiple benefits: it reduces methane emissions that would otherwise be released from landfills and wastewater treatment plants, and it can replace fossil fuel as an energy source. Food waste digestion facilities, which produce renewable natural gas from organic scraps, can also reduce the volume of waste sent to the landfill, which would help to meet the Minnesota Legislature’s goal of recycling a greater portion of solid wastes in the Twin Cities metropolitan area.2 
+This report projects that homes not using electricity for space and water heating will switch from natural gas to renewable natural gas. 
 
----
+**Renewable natural gas**, also known as biogas, consists largely of methane, which can be captured and processed at solid waste landfills and wastewater treatment plants.1 This comes with multiple benefits: it reduces methane emissions that would otherwise be released from landfills and wastewater treatment plants, and it can replace fossil fuel as an energy source. Food waste digestion facilities, which produce renewable natural gas from organic scraps, can also reduce the volume of waste sent to the landfill, which would help to meet the Minnesota Legislature’s goal of recycling a greater portion of solid wastes in the Twin Cities metropolitan area.2 
 
-**RESOURCES**
+::: about_strategy
+***About this strategy*** Our assumption is that cities can control (or at least influence)...
+:::
 
-**Policy Approaches**
-
-*	[World Resources Institute: Renewable Natural Gas as a Climate Strategy: Guidance for State Policymakers](https://www.wri.org/research/renewable-natural-gas-climate-strategy-guidance-state-policymakers) 
-*	[Environmental and Energy Study Institute: Fact Sheet | Biogas: Converting Waste to Energy]( https://www.eesi.org/papers/view/fact-sheet-biogasconverting-waste-to-energy) 
-*	[US Environmental Protection Agency: Guidelines and Permitting for Livestock Anaerobic Digesters](https://www.epa.gov/agstar/guidelines-and-permitting-livestock-anaerobic-digesters)  
-
-**Case Studies**
-
-*	[Argonne National Laboratory: Renewable Natural Gas Database](https://www.anl.gov/es/reference/renewable-natural-gas-database) 
-*	[Haubenschild Dairy Manure Digester, Princeton, MN](https://www.mda.state.mn.us/manure-digester-case-study-haubenschild-farm) 
-*	[US EPA: Case study of University of California renewable natural gas projects](https://www.epa.gov/lmop/webinar-case-study-university-california-renewable-natural-gas-projects) 
-
-**Additional Information** 
-
-*	[US Environmental Protection Agency: Basic information about anaerobic digestion](https://www.epa.gov/anaerobic-digestion/basic-information-about-anaerobic-digestion-ad)  
-*	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
-*	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
-
----

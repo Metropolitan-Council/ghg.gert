@@ -35,6 +35,45 @@
 - [American Council for an Energy-Efficient Economy: The multifamily energy savings project](https://www.aceee.org/multifamily-project)
 - [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
 
+
+### Additional Resources on Electrification
+
+**Additional Information**
+
+*	[Minnesota Center for Energy and the Environment: Air source heat pumps](https://www.mncee.org/air-source-heat-pumps)
+*	[Minnesota Air Source Heat Pump Collaborative: Case studies](https://www.mnashp.org/for-homeowners) 
+*	[Town of Concord, Massachusetts: Case studies](https://concordma.gov/2776/Heat-Pump-Case-Studies)
+
+**Policy Approaches**
+
+*	[Environment America: Policy recommendations for electric buildings](https://environmentamerica.org/sites/environment/files/reports/Electric-Buildings-2021/National-Electric-Buildings-Web.pdf?_ga=2.10624308.1239172724.1638808751-1075536878.1638808751#page=32) 
+*	[American Council for an Energy-Efficient Economy: Programs to electrify space heating in homes and buildings](https://www.aceee.org/sites/default/files/pdfs/programs_to_electrify_space_heating_brief_final_6-23-20.pdf) 
+*	[Lawrence Berkeley National Laboratory: Policy approaches to enable electrification](https://ipu.msu.edu/wp-content/uploads/2018/04/LBNL-Electrification-of-Buildings-2018.pdf#page=47) 
+
+**Financing**
+
+* [Minnesota Center for Energy and the Environment: Home energy improvement loans](https://www.mncee.org/residential-statewide-lending) 
+
+### Additional Resources on Renewable Natural Gas
+
+**Policy Approaches**
+
+*	[World Resources Institute: Renewable Natural Gas as a Climate Strategy: Guidance for State Policymakers](https://www.wri.org/research/renewable-natural-gas-climate-strategy-guidance-state-policymakers) 
+*	[Environmental and Energy Study Institute: Fact Sheet | Biogas: Converting Waste to Energy]( https://www.eesi.org/papers/view/fact-sheet-biogasconverting-waste-to-energy) 
+*	[US Environmental Protection Agency: Guidelines and Permitting for Livestock Anaerobic Digesters](https://www.epa.gov/agstar/guidelines-and-permitting-livestock-anaerobic-digesters)  
+
+**Case Studies**
+
+*	[Argonne National Laboratory: Renewable Natural Gas Database](https://www.anl.gov/es/reference/renewable-natural-gas-database) 
+*	[Haubenschild Dairy Manure Digester, Princeton, MN](https://www.mda.state.mn.us/manure-digester-case-study-haubenschild-farm) 
+*	[US EPA: Case study of University of California renewable natural gas projects](https://www.epa.gov/lmop/webinar-case-study-university-california-renewable-natural-gas-projects) 
+
+**Additional Information** 
+
+*	[US Environmental Protection Agency: Basic information about anaerobic digestion](https://www.epa.gov/anaerobic-digestion/basic-information-about-anaerobic-digestion-ad)  
+*	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
+*	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
+
 ## Transportation  
 
 ## Data sources  
