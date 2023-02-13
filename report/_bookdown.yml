@@ -25,7 +25,7 @@ rmd_files: [
   "chapters/03b_non_residential_strategies/03b4_non_res_decarbonize_grid.Rmd",
   # # transportation strategies
   "chapters/04_transportation_baseline_forecast.Rmd",
-  "chapters/04_transportation_strategies/04_1_compact_land_use.Rmd",
+  "chapters/04_transportation_strategies/04_1_land_use.Rmd",
   "chapters/04_transportation_strategies/04_2_electrification.Rmd",
   "chapters/04_transportation_strategies/04_3_transit.Rmd",
   "chapters/04_transportation_strategies/04_4_telework.Rmd",
@@ -41,4 +41,4 @@ rmd_files: [
   "chapters/07_appendix.Rmd"
   ]
 
-before_chapter_script: ["setup_pkg_fcns.R", "council_members.R", "variables.R"]
+before_chapter_script: ["setup_pkg_fcns.R", "council_members.R", "variables.R", "bau_charts.R", "carbon_stocks_and_sequestration.R"]
