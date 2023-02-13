@@ -45,8 +45,8 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 #   filter(ctu_name == params$ctu_selection) %>%
 #   group_by(development_type) %>%
 #   summarise(scenario_hectares = sum(scenario_hectares))
-# 
-# 
+#
+#
 # calc_scen_land_use(
 #   .selected_ctu = params$ctu_selection,
 #   tb = land_use_data,
@@ -67,7 +67,7 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 #             by = "var")  %>%
 #   select(desc, value) %>%
 #   rename(Variables = desc)
-# 
+#
 # fig05_1_bau_2040 <- luse_bau_2040 %>%
 #   ungroup() %>%
 #   rename(var = detail) %>%
@@ -76,7 +76,7 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 #             by = "var")  %>%
 #   select(desc, value) %>%
 #   rename(Variables = desc)
-# 
+#
 # fig05_1_scen_2040 <-
 #   run_scenario_land_use(
 #     tb = land_use_data,
@@ -97,7 +97,7 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
 #             by = "var")  %>%
 #   select(desc, value) %>%
 #   rename(Variables = desc)
-# 
+#
 # fig05_1_table <- fig05_1_data %>%
 #   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
