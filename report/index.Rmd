@@ -17,15 +17,3 @@ description: |
 link-citations: yes
 #github-repo: rstudio/bookdown-demo
 ---
-
-```{r libraries}
-#| echo: false
-#| message: false
-# load packages and report-specific functions
-source("setup_pkg_fcns.R")
-
-# load the list of variables and council members
-source("variables.R")
-source("council_members.R")
-source("bau_charts.R")
-```
