@@ -110,6 +110,19 @@ gt::gt(
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
 
+The Market Acceptance of Advanced Automotive Technologies ([MA3T](#ma3t-doc)) model developed by Oak Ridge National Laboratory (ORNL) was used to estimate the 2015 private vehicle fleet composition and provide a baseline forecast of its composition in 2050. CTUs are aggregated so that the model includes the 44 CTU with the largest populations and the remaining CTU are allocated to their respective county among the seven counties in the MSP region (giving 51 regions). The model is then updated to use population totals and other characteristics calculated for these regions.
+
+
+Area types (i.e., central city, suburban, or rural) are based on United States Census Bureau definitions of central cities for the metropolitan area including Minneapolis, St. Paul, and Bloomington and assuming that non-community CTU are rural.
+
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. The purposes of this calculation, it was assumed that the average travel distance in electric mode for a PHEV is 29.6 miles [@plotzRealworldUsagePlugin2020] and that households only recharge their vehicle at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.  
+
+
+The [MA3T](#ma3t-doc) model defines three driving patterns as modest (less than 8,656 miles per year), average (8,656-16,068 miles per year), and frequent (greater than 16,068 miles per year). Weighted 2019 TBI data are used to estimate the share of each driving pattern class for each of the 51 regions.   
+
+A large 5-year growth rate is anticipated by the model between 2015 and 2020 of 383%. Assuming that this growth will occur in 2020-2025, that is that it is lagged from the [MA3T](#ma3t-doc) expectation by five years, gives reasonably good results by 2040 of about 23% of the vehicle market and 13% for BEV only (in line with the AEO and ZCAP reference cases). 
+
+
 ```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
 knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
 ```
