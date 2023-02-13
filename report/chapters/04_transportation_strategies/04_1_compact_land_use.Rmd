@@ -1,5 +1,7 @@
 ### Land Use
 
+
+<!-- TODO: citations, check plots, consider running more alterations -->
 Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the "five D's" (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
 
 The Metropolitan Council Transportation Policy Plan discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.
@@ -39,8 +41,8 @@ ghg.sp::elast_5d %>%
   rowwise() %>%
   mutate(across(c(3, 4), function(x) {
     ifelse(x != "NA",
-           paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
-           x
+      paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
+      x
     )
   })) %>%
   gt::gt(
@@ -63,30 +65,41 @@ ghg.sp::elast_5d %>%
 ```{r fig-landuse}
 #| echo: false
 #| message: false
-#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of population density (aka land use) change.", 
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of population density (aka land use) change.",
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 3
 # vmt_telework()
 density_ctu %>%
-  filter(type == "direct",
-         year %in% c("2018", "2040")) %>% 
-  group_by(ctu, year, type, param) %>% 
+  filter(
+    type == "direct",
+    year %in% c("2018", "2040")
+  ) %>%
+  group_by(ctu, year, type, param) %>%
   summarize(
-    emissions = sum(emissions,na.rm = T)
-  ) %>% 
+    emissions = sum(emissions, na.rm = T)
+  ) %>%
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
   ggplot(aes(x = year, y = emissions, color = level, group = level)) +
-  geom_line() + 
-  facet_wrap(~type, scales = "free", 
-             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
-                                      embodied = str_wrap("Embodied emissions", 10)
-             ))) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
-                     breaks = c("-100%", "-50%", "0%", "50%", "100%")) +
-  labs(x = "", 
-       y = "", 
-       color = paste0(params$ctu_selection,
-                      "\npopulation density\nadjustment (%)")) +
+  geom_line() +
+  facet_wrap(~type,
+    scales = "free",
+    labeller = as_labeller(c(
+      direct = str_wrap("Direct emissions", 10),
+      embodied = str_wrap("Embodied emissions", 10)
+    ))
+  ) +
+  scale_color_manual(
+    values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+    breaks = c("-100%", "-50%", "0%", "50%", "100%")
+  ) +
+  labs(
+    x = "",
+    y = "",
+    color = paste0(
+      params$ctu_selection,
+      "\npopulation density\nadjustment (%)"
+    )
+  ) +
   scale_y_continuous(labels = scales::label_comma()) +
   theme(
     panel.background = element_rect(fill = "white"),
@@ -98,27 +111,39 @@ density_ctu %>%
 ```
 
 ```{r}
-bau_ctu %>% 
-  ungroup() %>% 
-  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
-  filter(year %in% c("2018", "2040"),
-         type == "direct") %>% 
-  pivot_wider(names_from = year,
-              values_from = emissions) %>% 
-  select(`Mode` = mode_description_1, 
-         `2018 Baseline` = `2018`,
-         `2040 Business-as-Usual` = `2040`) %>% 
-  left_join(density_ctu %>% 
-              ungroup() %>% 
-              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
-              filter(year %in% c("2040"),
-                     type == "direct",
-                     scenario == "dens50") %>% 
-              pivot_wider(names_from = year,
-                          values_from = emissions) %>% 
-              select(`Mode` = mode_description_1, 
-                     `2040 Scenario` = `2040`)) %>% 
+bau_ctu %>%
+  ungroup() %>%
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+  filter(
+    year %in% c("2018", "2040"),
+    type == "direct"
+  ) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = emissions
+  ) %>%
+  select(
+    `Mode` = mode_description_1,
+    `2018 Baseline` = `2018`,
+    `2040 Business-as-Usual` = `2040`
+  ) %>%
+  left_join(density_ctu %>%
+    ungroup() %>%
+    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+    filter(
+      year %in% c("2040"),
+      type == "direct",
+      scenario == "dens50"
+    ) %>%
+    pivot_wider(
+      names_from = year,
+      values_from = emissions
+    ) %>%
+    select(
+      `Mode` = mode_description_1,
+      `2040 Scenario` = `2040`
+    )) %>%
   tableformat(.,
-              .caption = paste("Emissions in tonnes CO2e - 50% Increase in Population Density", params$ctu_selection))
-
+    .caption = paste("Emissions in tonnes CO2e - 50% Increase in Population Density", params$ctu_selection)
+  )
 ```
