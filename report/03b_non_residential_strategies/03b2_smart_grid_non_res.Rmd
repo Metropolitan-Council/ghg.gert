@@ -62,9 +62,12 @@ fig03b2_data <- full_join(non_res_bau_2018,
 fig03b2_table <- fig03b2_data %>%
   # add table format
   tableformat(.,
-              .caption = paste("Smart Grid Efficiency",
-                               params$ctu_selection,
-                               "2040"))
+    .caption = paste(
+      "Smart Grid Efficiency",
+      params$ctu_selection,
+      "2040"
+    )
+  )
 ```
 
 ```{r show_fig03b2, echo=FALSE}

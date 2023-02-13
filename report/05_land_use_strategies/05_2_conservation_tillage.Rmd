@@ -32,9 +32,9 @@ $$ \text{Conservation Tillage Avoided Emissions} = (C+T) × A $$
 #             by = "var")  %>%
 #   select(desc, value) %>%
 #   rename(Variables = desc)
-# 
-# 
-# 
+#
+#
+#
 # fig05_2_table <- fig05_2_data %>%
 #   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```

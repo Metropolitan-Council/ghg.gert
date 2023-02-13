@@ -76,7 +76,7 @@
 
 ## Transportation  
 
-## Data sources  
+### Data sources  
 
 The transportation module is constructed based on a set of standard forecasts for inputs such as passenger miles traveled, vehicle miles traveled, existing vehicle stock, new vehicle sales, average vehicle occupancy, fuel efficiency, and population. These parameters are utilized to predict the vehicle miles traveled and resultant emissions. The scenario planning tool then utilizes selected intervention elasticities and proportional effects to calculate the potential reduction in emissions.
 
@@ -102,9 +102,9 @@ gt::gt(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-### Source summaries
+#### Source summaries
 
-#### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
+##### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
 
@@ -159,6 +159,8 @@ The Annual Energy Outlook (AEO) is a report series by the US Energy Information 
 You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
 
 ```{r "tab-aeo-values"}
+#| echo: false
+#| warning: false
 ghg.sp::factor_values$aeo %>%
   mutate(
     aeo_scen = as.factor(aeo_scen),
@@ -201,60 +203,11 @@ Taiebat, Morteza, Samuel Stolper, and Ming Xu. “Forecasting the Impact of Conn
 Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,” International Council on Clean Transportation (ICCT) White Paper, 2020 [@plotzRealworldUsagePlugin2020]
 
 
-## Forecasted Electricity Energy Mix  
-
-Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
-
-
-```{r, energy-mix-forecast,eval=FALSE}
-# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
-#   show_col_types = F
-# ) %>%
-#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
-#     source = stringr::str_remove(source, "\\*"),
-#     scenario = paste0(scenario, " Scenario")
-#   )
-# # tidyr::pivot_longer(cols = 3:11,
-# #                     names_to = "year",
-# #                     values_to = "prop") %>%
-# # mutate(year = stringr::str_remove(year, "X") %>%
-# #          as.numeric()) %>%
-# # filter(year != 2018)
-#
-# energy_mix %>%
-#   group_by(scenario) %>%
-#   gt::gt(
-#     id = "energy-mix-forecast",
-#     caption = "Forecasted Electricity Generation Mix (%)",
-#     rowname_col = "source"
-#   ) %>%
-#   # gt::tab_stubhead("Scenario") %>%
-#   gt::tab_source_note("Xcel Energy, 2020") %>%
-#   gt::opt_row_striping(TRUE) %>%
-#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
-#     locations = gt::cells_stub(rows = c(1, 6))
-#   ) %>%
-#   gt::tab_options(row_group.font.weight = "bold")
-```
-
-## Emission Sources  
-
-```{r, "emission-sources"}
-gt::gt(
-  id = "emission-sources",
-  ghg.sp::transportation_index$emission_sources[2:3],
-  caption = "Greenhouse Gas Emission Sources"
-) %>%
-  gt::cols_label(
-    "source_abbrev" = "Abbreviation",
-    "source_description" = "Description"
-  ) %>%
-  gt::opt_row_striping(TRUE)
-```
-
-## Transportation modes  
+### Transportation modes  
 
 ```{r, "trans-mode"}
+#| echo: false
+#| warning: false
 gt::gt(
   id = "trans-mode",
   ghg.sp::transportation_index$modes[2:4],
@@ -268,10 +221,29 @@ gt::gt(
   gt::opt_row_striping()
 ```
 
+### Emission Sources  
 
-## Future costs per mile  
+```{r, "emission-sources"}
+#| echo: false
+#| warning: false
+
+gt::gt(
+  id = "emission-sources",
+  ghg.sp::transportation_index$emission_sources[2:3],
+  caption = "Greenhouse Gas Emission Sources"
+) %>%
+  gt::cols_label(
+    "source_abbrev" = "Abbreviation",
+    "source_description" = "Description"
+  ) %>%
+  gt::opt_row_striping(TRUE)
+```
+
+### Future costs per mile  
 
 ```{r "future-cost-per-mile"}
+#| echo: false
+#| warning: false
 tibble::tribble(
   ~group, ~`Mode/powertrain`, ~`Mode, fuel type`, ~`Cost per mile`,
   "Passenger", "PLDV-SI", "Light duty vehicle, gasoline", 0.62,
@@ -309,6 +281,45 @@ tibble::tribble(
   ) %>%
   gt::opt_row_striping() %>%
   gt::tab_options(row_group.font.weight = "bold")
+```
+
+
+
+
+### Forecasted Electricity Energy Mix  
+
+Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
+
+
+```{r, energy-mix-forecast,eval=FALSE}
+# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
+#   show_col_types = F
+# ) %>%
+#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
+#     source = stringr::str_remove(source, "\\*"),
+#     scenario = paste0(scenario, " Scenario")
+#   )
+# # tidyr::pivot_longer(cols = 3:11,
+# #                     names_to = "year",
+# #                     values_to = "prop") %>%
+# # mutate(year = stringr::str_remove(year, "X") %>%
+# #          as.numeric()) %>%
+# # filter(year != 2018)
+#
+# energy_mix %>%
+#   group_by(scenario) %>%
+#   gt::gt(
+#     id = "energy-mix-forecast",
+#     caption = "Forecasted Electricity Generation Mix (%)",
+#     rowname_col = "source"
+#   ) %>%
+#   # gt::tab_stubhead("Scenario") %>%
+#   gt::tab_source_note("Xcel Energy, 2020") %>%
+#   gt::opt_row_striping(TRUE) %>%
+#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
+#     locations = gt::cells_stub(rows = c(1, 6))
+#   ) %>%
+#   gt::tab_options(row_group.font.weight = "bold")
 ```
 
 

@@ -7,25 +7,29 @@ The Tool uses data from the Market Acceptance of Advanced Automotive Technologie
 The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.
 
 ```{r fig-bev, echo=FALSE, message=FALSE}
-
-#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.", 
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.",
 #| fig.align = 'center',
 #| fig.width = 8, fig.height = 3
 # vmt_annual_energy_outlook()
 
 bev_ctu %>%
-  filter(year %in% c("2018", "2040")) %>% 
-  group_by(year, ctu, param, type) %>% 
-  summarize(emissions = sum(emissions)) %>% 
+  filter(year %in% c("2018", "2040")) %>%
+  group_by(year, ctu, param, type) %>%
+  summarize(emissions = sum(emissions)) %>%
   mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
   ggplot(aes(x = year, y = emissions, color = level, group = level)) +
-  geom_line() + 
-  facet_wrap(~type, scales = "free", 
-             labeller = as_labeller(c(direct = str_wrap("Direct emissions", 10), 
-                                      embodied = str_wrap("Embodied emissions", 10)
-             ))) +
-  scale_color_manual(values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
-                     breaks = c("20%", "40%", "60%", "80%", "100%")) +
+  geom_line() +
+  facet_wrap(~type,
+    scales = "free",
+    labeller = as_labeller(c(
+      direct = str_wrap("Direct emissions", 10),
+      embodied = str_wrap("Embodied emissions", 10)
+    ))
+  ) +
+  scale_color_manual(
+    values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+    breaks = c("20%", "40%", "60%", "80%", "100%")
+  ) +
   labs(x = "", y = "", color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")) +
   scale_y_continuous(labels = scales::label_comma()) +
   theme(
@@ -38,28 +42,39 @@ bev_ctu %>%
 ```
 
 ```{r tab-bev-comp2, echo=FALSE, message=FALSE}
-
-bau_ctu %>% 
-  ungroup() %>% 
-  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
-  filter(year %in% c("2018", "2040"),
-         type == "direct") %>% 
-  pivot_wider(names_from = year,
-              values_from = emissions) %>% 
-  select(`Mode` = mode_description_1, 
-         `2018 Baseline` = `2018`,
-         `2040 Business-as-Usual` = `2040`) %>% 
-  left_join(bev_ctu %>% 
-              ungroup() %>% 
-              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>% 
-              filter(year %in% c("2040"),
-                     type == "direct",
-                     scenario == "bev600") %>% 
-              pivot_wider(names_from = year,
-                          values_from = emissions) %>% 
-              select(`Mode` = mode_description_1, 
-                     `2040 Scenario` = `2040`)) %>% 
+bau_ctu %>%
+  ungroup() %>%
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+  filter(
+    year %in% c("2018", "2040"),
+    type == "direct"
+  ) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = emissions
+  ) %>%
+  select(
+    `Mode` = mode_description_1,
+    `2018 Baseline` = `2018`,
+    `2040 Business-as-Usual` = `2040`
+  ) %>%
+  left_join(bev_ctu %>%
+    ungroup() %>%
+    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+    filter(
+      year %in% c("2040"),
+      type == "direct",
+      scenario == "bev600"
+    ) %>%
+    pivot_wider(
+      names_from = year,
+      values_from = emissions
+    ) %>%
+    select(
+      `Mode` = mode_description_1,
+      `2040 Scenario` = `2040`
+    )) %>%
   tableformat(.,
-              .caption = paste("Emissions in tonnes CO2e - 60% vehicle sales battery electric", params$ctu_selection))
-
+    .caption = paste("Emissions in tonnes CO2e - 60% vehicle sales battery electric", params$ctu_selection)
+  )
 ```

@@ -110,6 +110,9 @@ density_ctu %>%
 ```
 
 ```{r tab-land-use-scenario}
+#| echo: false
+#| message: false
+
 bau_ctu %>%
   ungroup() %>%
   left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
