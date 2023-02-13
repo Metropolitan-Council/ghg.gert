@@ -10,18 +10,14 @@ Achieving a net-zero grid requires transitioning to a smart grid. The smart grid
 
 **GHG Impact Calculation**
 
-$$ \text{electricity } kgCO2e_{2040}^{industrial} = x * jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\% * kgCO_2e/MWh$$
+$$ \text{new electricity } kgCO2e_{2040}^{industrial} = x * jobs^{industrial}_{2040} * MWh/jobs^{industrial}_{2040} * 11\% * kgCO_2e/MWh$$
 *Where:*
 
-$x$ = % of industries in the smart grid (assumed to be 100%)
-$jobs^{industrial}_{2040}$ = Number of industrial workers in 2040
-$MWh/jobs^{industrial}_{2040}$ = Projected industrial electricity use per worker, MWh/worker, for 2040
-$kgCO2e/MWh$ = Electricity emission factor in 2040 in kilograms of CO2e/MWh
-$11%$ = % reduction in energy use due to smart grid
-
-The total reduction of greenhouse gas emissions in 2040 (E) can be calculated as:
-
-This equation represents the expected reduction of greenhouse gas emissions in the industrial sector due to the implementation of a smart grid in 2040.
+-  $x$: The percentage of industries in the smart grid (assumed to be 100%)
+-  $jobs^{industrial}_{2040}$: The number of industrial workers in 2040
+-  $MWh/jobs^{industrial}_{2040}$ = The projected industrial electricity use per worker in MWh/job for 2040
+-  $kgCO2e/MWh$ = Electricity emission factor in 2040 in kilograms of CO2e/MWh
+-  $11%$ = The percentage reduction in energy use due to smart grid, fixed at 11%
 
 ```{r fig03b2, include=FALSE}
 # 2018
@@ -77,4 +73,3 @@ fig03b2_table
 ```{r echo=FALSE}
 chartformat(fig03b2_data)
 ```
-

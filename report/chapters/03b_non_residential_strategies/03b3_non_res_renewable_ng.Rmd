@@ -1,10 +1,24 @@
 #### Renewable Natural Gas
 
-Renewable natural gas strategy ...
+We assume that renewable natural gas will substitute 31.7% of all natural gas remaining in all the sectors. According to the American Biogas Council's estimate, Minnesota can produce 46.91 billion cu.ft renewable natural gas, which is 47 PJ. According to the Net-Zero America Report, 148 PJ will be needed in 2040 in the high efficiency and renewable scenario.  Therefore, we assume that RNG can replace 31.7% of remaining natural gas use at the state level. Estimates for New York State are available in Taboada et. al, 2021 (see references). 
+
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence)
+***About this strategy*** Our assumption is that cities can control (or at least influence)...
 :::
+
+**GHG Impact Calculation**
+
+$$\text{new natural gas } kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * therms/jobs_{2040}^{commercial} + jobs_{2040}^{industrial}   therms/jobs_{2040}^{industrial}) * x * kgCO_2e/therms_{2040}$$
+
+*Where:*
+
+-  $x$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be 31.7%
+-  $jobs_{2040}^{commercial}$: Number of commercial workers in 2040 (from Minnesota Quarterly Census of Employment and Wages)
+-  $therms/jobs_{2040}^{commercial}$: Commercial gas use per worker in 2040, therm/worker
+-  $jobs_{2040}^{industrial}$: Number of industrial workers in 2040
+-  $therms/jobs_{2040}^{industrial}$: Industrial gas use per worker in 2040, therm/worker
+-  $kgCO_2e/therms_{2040}$: The emissions factor of natural gas in kgCO2e per therm
 
 ```{r fig03b3}
 fig03b3_data <- full_join(
@@ -62,4 +76,3 @@ fig03b3_table
 ```{r}
 chartformat(fig03b3_data)
 ```
-

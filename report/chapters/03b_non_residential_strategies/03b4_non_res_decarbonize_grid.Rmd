@@ -3,8 +3,11 @@
 Grid decarbonization 
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence) 
+***About this strategy*** Our assumption is that cities can control (or at least influence)... 
 :::
+
+**GHG Impact Calculation**
+
 
 ```{r fig03b4, include=FALSE}
 fig03b4_data <- full_join(non_res_bau_2018,

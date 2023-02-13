@@ -10,8 +10,16 @@ According to [Eco Districts](https://ecodistricts.org/information-exchange/comme
 
 **GHG Impact Calculation**
 
+$$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * (MWh/jobs_{2018}^{commercial} * kgCO2e/MWh_{2040}^{commercial} + therms/jobs_{2018}^{commercial} * kgCO_2e/therm_{2040}^{commercial})$$
+*Where:*
 
-
+-  $x$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)
+-  $jobs_{2018}^{commercial}$: 2018 number of commercial workers (from Minnesota Quarterly Census of Employment and Wages)
+-  $25%$: the assumed reduction in energy intensity
+-  $MWh/jobs_{2018}^{commercial}$: 2018 commercial electricity use per worker, MWh/worker/year
+-  $kgCO2e/MWh_{2040}^{commercial}$: electricity emission factor in 2040, kg CO2e/MWh
+-  $therms/jobs_{2018}^{commercial}$: 2040 commercial gas use per worker, therm/worker/ year
+-  $kgCO_2e/therm_{2040}^{commercial}$: gas emission factor in 2040, kg CO2e/Therm
 
 ```{r fig03b1, include=FALSE}
 
