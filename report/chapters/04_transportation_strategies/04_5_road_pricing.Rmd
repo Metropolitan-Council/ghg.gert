@@ -84,10 +84,10 @@ Pay-as-you-drive insurance requires technology
 ```{r fig-roadprice}
 #| echo: false
 #| message: false
-
-#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different levels of road pricing.",
-#| fig.align = 'center',
-#| fig.width = 8, fig.height = 3
+#| fig.cap:  "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different levels of road pricing."
+#| fig.align : 'center'
+#| fig.width : 8
+#| fig.height : 3
 
 roadprice_ctu %>%
   filter(year %in% c("2018", "2040")) %>%
