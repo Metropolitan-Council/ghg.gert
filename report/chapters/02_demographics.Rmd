@@ -1,8 +1,8 @@
-# Demographic Assumptions
+# Baseline Assumptions
 
-![](images/3746.jpg)
+![](images//3746.jpg)
 
-The Greenhouse Gas Scenario Planning Tool uses the best available demographic assumptions for cities in the Metropolitan Region to forecast emissions in 2040.
+The Greenhouse Gas Scenario Planning Tool uses the best available baseline assumptions for cities in the Metropolitan Region to model greenhouse gas emissions in 2040 for a business-as-usual future.
 
 Some common predictors of greenhouse gas emissions at the city scale include:
 
@@ -11,18 +11,20 @@ Some common predictors of greenhouse gas emissions at the city scale include:
 
 -   ***Economic Activity*** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
 
--   ***Urban Planning*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.
+-   ***Urban Planning*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. 
+<!-- The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. --> The city of Minneapolis has adopted policies such as the existing Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members. 
 
 -   ***Extreme Climate*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.
 
--   ***Energy efficiency*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
+-   ***Energy efficiency*** A city's energy consumption is influenced by the efficiency of its energy use: cities with more energy-efficient buildings and transportation systems can be expected to consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
 :::
 
 <br>
+## Baseline data sources
 
-We obtained baseline 2018 values for population, households, and employment from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table** \@ref(tab:tab-demographic-assumptions)).
+Baseline 2018 values for population, households, and employment come from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table** \@ref(tab:tab-demographic-assumptions)).
 
-The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
+The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the [REMI PI Model](https://www.remi.com/model/pi/), a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
 
 **Figure** \@ref(fig:figure-demographics) shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
 

@@ -15,12 +15,13 @@ description: |
   This is a report for the City of Minneapolis prepared by the Metropolitan Council
   and published on February of 2023. 
 link-citations: yes
+always_allow_html: true
 #github-repo: rstudio/bookdown-demo
 ---
-```{r, echo=FALSE, }
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 source("setup_pkg_fcns.R")
+source("council_members.R")
 source("variables.R")
 source("bau_charts.R")
 source("carbon_stocks_and_sequestration.R")
-source("council_members.R")
 ```

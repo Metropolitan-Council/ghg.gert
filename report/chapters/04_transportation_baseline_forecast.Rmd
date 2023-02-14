@@ -112,3 +112,29 @@ transportation_data$freight %>%
 ::: facts
 Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath ([@Chester_Horvath_2009]) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
 :::
+
+## Interventions/Strategies
+
+The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.
+
+
+
+```{r child="chapters/04_transportation_strategies/04_1_compact_land_use.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/04_transportation_strategies/04_2_electrification.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/04_transportation_strategies/04_3_transit.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/04_transportation_strategies/04_4_telework.Rmd", echo=FALSE}
+```
+
+
+```{r child="chapters/04_transportation_strategies/04_5_road_pricing.Rmd", echo=FALSE}
+```
+
+
+```{r child="chapters/04_transportation_strategies/04_6_parking_pricing.Rmd", echo=FALSE}
+```

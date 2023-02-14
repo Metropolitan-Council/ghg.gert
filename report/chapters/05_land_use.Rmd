@@ -164,3 +164,16 @@ carbon_stocks_and_sequestration %>%
   tableformat(.caption = paste0("General Carbon Values"))
 ```
 
+
+
+```{r child="chapters/05_land_use_strategies/05_1_urban_form.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/05_land_use_strategies/05_2_conservation_tillage.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/05_land_use_strategies/05_3_reduced_parking.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/05_land_use_strategies/05_4_urban_tree_planting.Rmd", echo=FALSE}
+```

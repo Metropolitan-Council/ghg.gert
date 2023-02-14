@@ -7,7 +7,7 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 
 -   ***Offer financial incentives*** Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits. The City of Minneapolis, offers incentives and [rebates for homeowners](https://www2.minneapolismn.gov/business-services/licenses-permits-inspections/construction-permits-certificates/construction-code-rules-enforcement/incentives-rebates/) for replacing less efficient equipment.
 
--   ***Establish building codes and regulations*** Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
+<!-- -   ***Establish building codes and regulations*** Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations. -->
 
 -   ***Implement energy audits*** Minneapolis residents might be eligible for program such as the Home Energy Squads which free visits by energy auditors to income qualifying households. Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
 
@@ -17,7 +17,8 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 ##### Retrofit 80% of Homes
 
 ::: about_strategy
-***About this strategy*** Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume `80%` of existing homes with energy use intensity reduced by `33%`. Cities can adjust the percentage of existing homes to be retrofitted.
+***About this strategy*** Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume `80%` of existing homes with energy use intensity reduced by `33%`. 
+<!-- Cities can adjust the percentage of existing homes to be retrofitted. -->
 :::
 
 ```{r tab-existing-home-efficiency, message=FALSE, warning=FALSE, include=FALSE}
@@ -50,33 +51,33 @@ tab_existing_home_efficiency <- calc_floor_area_retrofit(
 tab_existing_home_efficiency
 ```
 
-<br>
+<!-- <br> -->
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation** -->
 
-Calculate new floor area:
+<!-- Calculate new floor area: -->
 
-$$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})$$
+<!-- $$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})$$ -->
 
-*Where:*
+<!-- *Where:* -->
 
--   $x \text{, where } 0 \le x \le 1$: The percentage of existing homes to be retrofitted, defaulted to 80%
--   $0.33$: The percent reduction in energy use intensity due to efficiency gains of the retrofitting.
--   $units_{2040}^{sf}$: The number of single-family housing units in 2018
--   $units_{2018}^{mf}$: The number of multifamily homes in 2018
--   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in 2018
--   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018
+<!-- -   $x \text{, where } 0 \le x \le 1$: The percentage of existing homes to be retrofitted, defaulted to 80% -->
+<!-- -   $0.33$: The percent reduction in energy use intensity due to efficiency gains of the retrofitting. -->
+<!-- -   $units_{2040}^{sf}$: The number of single-family housing units in 2018 -->
+<!-- -   $units_{2018}^{mf}$: The number of multifamily homes in 2018 -->
+<!-- -   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in 2018 -->
+<!-- -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018 -->
 
-Calculate new emissions:
+<!-- Calculate new emissions: -->
 
-$$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))$$
+<!-- $$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))$$ -->
 
-*Where:*
+<!-- *Where:* -->
 
--  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
--  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
--  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
--  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+<!-- -  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040 -->
+<!-- -  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040 -->
+<!-- -  $kgCO2e/MWh$ = The projected electricity emission factor in 2040 -->
+<!-- -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040 -->
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -173,17 +174,18 @@ tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
 tab_existing_home_efficiency2
 ```
 
-**GHG Impact Calculation**
+<!-- LM note: I didn't move this to the appendix as it seems like the previous one just with the numbers switched out? -->
+<!-- **GHG Impact Calculation** -->
 
-$$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})$$
-*Where:*
+<!-- $$sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})$$ -->
+<!-- *Where:* -->
 
--   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
--   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%.
--   $units_{2040}^{sf}$: Number of single-family housing units in 2018.
--   $units_{2018}^{mf}$: The number of multi-family homes in 2018.
--   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes.
--   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018.
+<!-- -   $0.33$: Percent reduction in energy use intensity due to efficiency gains of the retrofitting. -->
+<!-- -   $X$: The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80%. -->
+<!-- -   $units_{2040}^{sf}$: Number of single-family housing units in 2018. -->
+<!-- -   $units_{2018}^{mf}$: The number of multi-family homes in 2018. -->
+<!-- -   $\bar{sqft}_{2018}^{sf}$: The 2018 average floor area of single-family homes. -->
+<!-- -   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018. -->
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 fig03a4b_data <- res_bau_2018 %>%

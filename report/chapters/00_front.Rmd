@@ -1,7 +1,6 @@
 #  {.unnumbered}
 
-![](images/2788.jpg)
-
+![](images//2788.jpg)
 ## Metropolitan Council {.unnumbered}
 
 ------------------------------------------------------------------------
@@ -29,7 +28,7 @@ if (params$desired_format == "html") {
 ```
 
 ::: {#top_container style="display: grid;     grid-template-columns: 1fr 1fr;     grid-gap: 0px; margin-top: 30px"}
-![](images/map.jpg){#top_left style="float: left" width="85%"}
+![](images//map.jpg){#top_left style="float: left" width="85%"}
 
 ::: {#top_right style="float: right;"}
 The Metropolitan Council is the regional planning organization for the seven-county Twin Cities area. The Council operates the regional bus and rail system, collects and treats wastewater, coordinates regional water resources, plans and helps fund regional parks, and administers federal funds that provide housing opportunities for low- and moderate-income individuals and families. The 17-member Council board is appointed by and serves at the pleasure of the governor.
@@ -43,7 +42,7 @@ The Metropolitan Council is the regional planning organization for the seven-cou
 ## Disclaimer {.unnumbered}
 
 ::: disclaimer
-This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
+This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is a simplified model intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
 :::
 
 ## Executive Summary {.unnumbered}

@@ -9,11 +9,11 @@ bookdown::gitbook:
     edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
     download: ["pdf", "epub"]
 # bookdown::pdf_book:
-#   includes:
-#     in_header: preamble.tex
-#   latex_engine: xelatex
-#   citation_package: natbib
-#   keep_tex: yes
+# #   includes:
+# #     in_header: preamble.tex
+# #   latex_engine: xelatex
+# #   citation_package: natbib
+#    keep_tex: yes
 # bookdown::epub_book: default
 # bookdown::word_document2:
 #   reference_docx: "wordtemplate.docx"

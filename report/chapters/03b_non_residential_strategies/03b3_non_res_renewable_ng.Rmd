@@ -1,24 +1,26 @@
 #### Renewable Natural Gas
+Renewable natural gas is biogas collected from sources such as wastewater treatment plants and landfills that has been processed to produce a replacement for fossil natural gas ([Renewable Natural Gas | US EPA](https://www.epa.gov/lmop/renewable-natural-gas)).
 
-We assume that renewable natural gas will substitute 31.7% of all natural gas remaining in all the sectors. According to the American Biogas Council's estimate, Minnesota can produce 46.91 billion cu.ft renewable natural gas, which is 47 PJ. According to the Net-Zero America Report, 148 PJ will be needed in 2040 in the high efficiency and renewable scenario.  Therefore, we assume that RNG can replace 31.7% of remaining natural gas use at the state level. Estimates for New York State are available in Taboada et. al, 2021 (see references). 
+According to the American Biogas Council's estimate, Minnesota can produce 46.91 billion cu.ft renewable natural gas, which is 47 petajoules (PJ). According to the Net-Zero America Report, 148 PJ will be needed in 2040 in the high efficiency and renewable scenario.  
 
+<!-- Therefore, we assume that RNG can replace 31.7% of remaining natural gas use at the state level. Estimates for New York State are available in Taboada et. al, 2021 (see references). **LM: we need to add this to bibliography if we cite it but I'm not sure we need it?** -->
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence)...
+***About this strategy*** We model a scenario where renewable natural gas will substitute 31.7% of all natural gas in all the sectors. 
 :::
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation for Renewable Natural Gas** -->
 
-$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} * \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  * \frac{therms}{jobs_{2040}^{industrial}} \right) * x * \frac{kgCO_2e}{therms_{2040}}$$
+<!-- $$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} * \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  * \frac{therms}{jobs_{2040}^{industrial}} \right) * x * \frac{kgCO_2e}{therms_{2040}}$$ -->
 
-*Where:*
+<!-- *Where:* -->
 
--  $x\text{, where } 0 \le x \le 1$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be `31.7%`
--  $jobs_{2040}^{commercial}$: The projected number of commercial workers in 2040
--  $jobs_{2040}^{industrial}$: The projected number of industrial workers in 2040
--  $therms/jobs_{2040}^{commercial}$: The projected commercial gas use per worker in 2040
--  $therms/jobs_{2040}^{industrial}$: The projected industrial gas use per worker in 2040
--  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+<!-- -  $x\text{, where } 0 \le x \le 1$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be `31.7%` -->
+<!-- -  $jobs_{2040}^{commercial}$: The projected number of commercial workers in 2040 -->
+<!-- -  $jobs_{2040}^{industrial}$: The projected number of industrial workers in 2040 -->
+<!-- -  $therms/jobs_{2040}^{commercial}$: The projected commercial gas use per worker in 2040 -->
+<!-- -  $therms/jobs_{2040}^{industrial}$: The projected industrial gas use per worker in 2040 -->
+<!-- -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040 -->
 
 ```{r fig03b3, include=FALSE}
 fig03b3_data <- full_join(
