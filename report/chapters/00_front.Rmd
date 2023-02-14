@@ -42,7 +42,7 @@ The Metropolitan Council is the regional planning organization for the seven-cou
 ## Disclaimer {.unnumbered}
 
 ::: disclaimer
-This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
+This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is a simplified model intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
 :::
 
 ## Executive Summary {.unnumbered}
