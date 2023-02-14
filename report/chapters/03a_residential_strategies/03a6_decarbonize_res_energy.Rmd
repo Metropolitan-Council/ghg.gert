@@ -1,0 +1,94 @@
+#### Clean Residential Electricity
+
+The electricity grid can become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels. 
+
+Cities can support uptake of clean electricity by facilitating programs that fund or offer incentives for implementing renewable energy technologies. Residents and property owners can support renewable energy by installing these technologies, including solar panels and heat pumps.
+
+::: about_strategy
+***About this strategy***: In this example, due to decarbonizing the grid at `80%` the emission factor of electricity decreases from `568` kg<sub>2</sub>e/MWh (2018 Minnesota state level) to `113` kgCO<sub>2</sub>e/MWh. 
+<!-- This change is fixed by the grid. LM: not sure what this means??-->
+:::
+
+<!-- <br> -->
+
+<!-- **GHG Impact Calculation** -->
+
+<!-- Calculate electricity use in 2040: -->
+
+<!-- $$ -->
+<!-- \text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}} -->
+<!-- $$ -->
+
+<!-- *Where:* -->
+
+<!-- -  $pop_{2040}$: The projected population in 2040 -->
+<!-- -  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040 -->
+<!-- -  $MWh/sqft_{2040}^{residential}$: The projected residential electricity per floor area in 2040 -->
+
+
+<!-- Calculate new emissions: -->
+
+<!-- $$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  \frac{kgCO2e}{MWh_{2040}} * (1-x) $$ -->
+
+<!-- *Where:* -->
+
+<!-- -  $(1-x) \text{, where } 0 \le x \le 1$: The percentage reduction in the emissions of the electric grid -->
+<!-- -  $kgCO2e/MWh$ = The projected electricity emission factor in 2040 -->
+
+
+```{r tab-decarbonize-residential-energy, message=FALSE, warning=FALSE, include=FALSE}
+fig03a6_data <-
+  res_bau_2018 %>%
+  full_join(
+    res_bau_2040,
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0.8,
+      .enviro_factors = enviro_factors
+    ) %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  )
+
+fig03a6_table <-
+  fig03a6_data %>%
+  tableformat(., .caption = "Decarbonize Residential Energy Use Minneapolis 2040")
+```
+
+```{r echo=FALSE}
+fig03a6_table
+```
+
+```{r echo=FALSE}
+chartformat(fig03a6_data)
+```

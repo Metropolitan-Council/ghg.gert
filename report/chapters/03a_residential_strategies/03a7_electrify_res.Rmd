@@ -1,0 +1,94 @@
+#### Electrification of Residential Heating
+<!-- The Greenhouse Gas Scenario Planning Tool has been estimating that by 2040, Minnesota will decarbonize the overall grid to 80% relative to 2018 levels. LM: I don't think this is taken into account anywhere? Moving this/note on new legislation to section on clean electricity/decarbonizing the grid -->
+
+Alongside grid changes, switching to more efficient electric options for heating and hot water such as heat pumps and tank-less water heaters can significantly reduce emissions. Only around `14%` of homes in MN have currently adopted these new technologies. 
+
+<!-- The scenario planning tool projects that by 2050, `59%` of residential and commercial buildings will switch to electrically driven heat pumps, which can heat and cool homes while offering long-term cost savings.  -->
+
+The scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota, so the results are more realistic for our region. Results are preliminary as heat pump efficiency continues to increase.
+
+<!-- National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy. LM: let's move this into the next section -->
+
+::: about_strategy
+**About this strategy** For this strategy, we model the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. 
+<!-- Cities can adjust the percentage of homes participated in electrifying heating. -->
+:::
+
+<!-- **GHG Impact Calculation** -->
+
+<!-- Natural Gas for Space Heating: -->
+
+<!-- $$term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% $$ -->
+<!-- $$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$ -->
+
+<!-- Natural Gas for Water Heating: -->
+
+<!-- $$term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% $$ -->
+<!-- $$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$ -->
+
+<!-- *Where:* -->
+
+<!-- -  $x$: The percentage of additional households with heating electrified, defaulted to be 59% - 14% of homes already electrified -->
+<!-- -  $pop_{2040}$: The projected population in 2040 -->
+<!-- -  $71\%$: Assumed natural gas for space heating -->
+<!-- -  $24\%$: Assumed natural gas for water heating -->
+<!-- -  $100\%$: The ratio of natural gas water heating to electric water heating -->
+<!-- -  $(0.8/5.02)$: The ratio of boiler efficiency to heat pump efficiency -->
+<!-- -  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040 -->
+<!-- -  $0.0293therm/MWh$: The conversion factor from therm to MWH -->
+<!-- -  $kgCO_2e/MWh_{2040}$: The projected emissions factor of electricity in 2040 -->
+
+
+```{r tab-electrify-residential-heating, message=FALSE, warning=FALSE, include=FALSE}
+fig03a7_data <- res_bau_2018 %>%
+  full_join(res_bau_2040,
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = "Minneapolis",
+      ## affordable floor area
+      .single_family_floor_area_growth_pct = 0.15,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0.45,
+      .res_natural_gas_for_space_heating_pct = 0.71,
+      .res_natural_gas_for_water_heating_pct = 0.24,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  )
+
+fig03a7_table <-
+  fig03a7_data %>%
+  tableformat(., .caption = "Electrify Residential Heating 2040")
+```
+
+```{r echo=FALSE}
+fig03a7_table
+```
+

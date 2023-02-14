@@ -1,0 +1,147 @@
+#### Increased Multifamily
+
+Compact community development can reduce building energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions. 
+
+The Metropolitan Council’s Thrive MSP plan projects an increase in the percentage of multifamily housing by 2040. This is consistent with the Minneapolis 2040 plan move to eliminate single-family-only zoning areas.
+
+::: about_strategy
+***About this strategy*** Here, we model that `50%` of all new single-family construction will become multifamily, with the multifamily homes having smaller square footage.  
+:::
+
+```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
+tab_increased_multifamily <- calc_affordable_floor_area(
+  res_tb = building_data$residential,
+  .selected_ctu = params$ctu_selection,
+  .single_family_floor_area_growth_pct = 0
+) %>%
+  filter(
+    year == 2018,
+    var %in% c(
+      "multifamily_average_floor_area_sqft_county",
+      "multifamily_units",
+      "single_family_units",
+      "single_family_average_floor_area_sqft_ctu"
+    )
+  ) %>%
+  add_variable_names(., "2018 Baseline") %>%
+  full_join(
+    calc_affordable_floor_area(
+      res_tb = building_data$residential,
+      .selected_ctu = params$ctu_selection,
+      .single_family_floor_area_growth_pct = 0.05
+    ) %>%
+      filter(
+        year == 2040,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      ) %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  ) %>%
+  tableformat(.,
+    .caption = paste(
+      "New Single-Family Home Floor Area for",
+      params$ctu_selection
+    )
+  )
+```
+
+```{r echo=FALSE}
+tab_increased_multifamily
+```
+
+
+<br>
+
+<!-- **GHG Impact Calculation** -->
+
+<!-- Calculate floor area changes: -->
+
+<!-- $$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})$$ -->
+<!-- *Where:* -->
+
+<!-- -  $x\text{, where } 0 \le x \le 1$:  The percentage of new single-family homes that are converted to multifamily homes -->
+<!-- -  $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018 -->
+<!-- -  $units_{2040}^{sf}$: The projected number of single-family housing units in the community in 2040 -->
+<!-- -  $sqft_{2040}^{sf}$: The projected total floor area of single-family homes in the community in 2040 -->
+<!-- -  $\bar{sqft}_{2040}^{sf}$: The projected average floor area of single-family homes in the community in 2040 -->
+<!-- -  $\bar{sqft}_{2040}^{mf}$: The projected  average floor area of multifamily homes in the community in 2040 -->
+
+<!-- Calculate new emissions: -->
+
+<!-- $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$ -->
+
+<!-- *Where:* -->
+
+<!-- -  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: Projected residential electricity use intensity per floor area in 2040 -->
+<!-- -  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: Projected residential natural gas use intensity per floor area in 2040 -->
+<!-- -  $kgCO2e/MWh$ = The projected electricity emission factor in 2040 -->
+<!-- -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040 -->
+
+<!-- <br> -->
+
+```{r fig03a1, message=FALSE, warning=FALSE, include=FALSE}
+fig03a1_data <-
+  res_bau_2018 %>%
+  full_join(
+    res_bau_2040,
+    by = "Variables"
+  ) %>%
+  full_join(
+    run_scenario_building(
+      res_tb = building_energy_bau_data$residential,
+      res_tb_bau = building_energy_bau_data$residential,
+      run_residential = TRUE,
+      run_non_residential = FALSE,
+      .selected_ctu = params$ctu_selection,
+      # affordable floor area
+      .single_family_floor_area_growth_pct = 0.05,
+      .new_homes_affected_pct = 1,
+      # other variables
+      .electrified_buildings_pct = 0,
+      .new_homes_to_multifamily_pct = 0.50,
+      .existing_high_efficiency_buildings_pct = 0,
+      .home_behavior_change_pct = 0,
+      .new_homes_leed_gold_pct = 0,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .additional_electrified_residential_buildings_pct = 0,
+      .grid_decarbonization_pct = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      filter(
+        var %in% c(
+          "residential_mwh",
+          "residential_electricity_emissions_kg_co",
+          "residential_therms",
+          "residential_natural_gas_emissions_kg_co"
+        ),
+        year == 2040,
+        scen == "scen"
+      ) %>%
+      ungroup() %>%
+      add_variable_names(., "2040 Scenario"),
+    by = "Variables"
+  )
+
+fig03a1_table <- fig03a1_data %>% tableformat(.,
+  .caption = paste(
+    "New Single-Family Home Floor Area for",
+    params$ctu_selection
+  )
+)
+```
+
+```{r echo=FALSE}
+fig03a1_table
+```
+
+```{r echo=FALSE}
+chartformat(fig03a1_data)
+```
+
+**Affordability co-benefit**: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward. 
