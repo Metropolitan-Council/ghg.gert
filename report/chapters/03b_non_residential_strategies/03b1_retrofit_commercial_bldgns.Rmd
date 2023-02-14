@@ -1,26 +1,28 @@
-#### Retofit Existing Commercial Building 
+#### Retrofit Existing Commercial Buildings
 
-Retrofitting existing commercial and industrial buildings is key for reducing GHG emissions and mitigating the impacts of climate change. Retrofits can be accomplished through various measures such as improving insulation, upgrading heating and cooling systems, and replacing outdated lighting systems with energy-efficient alternatives.
+Retrofitting existing commercial and industrial buildings is key for reducing greenhouse gas emissions and mitigating the impacts of climate change. Retrofits can be accomplished through various measures such as improving insulation, upgrading heating and cooling systems, and replacing outdated lighting systems with energy-efficient alternatives.
 
-According to [Eco Districts](https://ecodistricts.org/information-exchange/commercial-energy-retrofits/) there are two types of energy retrofits for commercial buildings: conventional and deep. Conventional retrofits focus on isolated upgrades with a short payback time, such as lighting and HVAC systems, while deep retrofits take a whole-building approach to achieve greater energy efficiency by addressing multiple systems at once. One option for promoting commercial building energy retrofits is [PACE](https://minnpace.com/) (property assessed clean energy) programs, which allow property owners to finance energy-efficiency and renewable-energy projects through a property tax assessment, secured by a senior lien on the property.
+<!-- According to [Eco Districts](https://ecodistricts.org/information-exchange/commercial-energy-retrofits/) there are two types of energy retrofits for commercial buildings: conventional and deep. Conventional retrofits focus on isolated upgrades with a short payback time, such as lighting and HVAC systems, while deep retrofits take a whole-building approach to achieve greater energy efficiency by addressing multiple systems at once. One option for promoting commercial building energy retrofits is [PACE](https://minnpace.com/) (property assessed clean energy) programs, which allow property owners to finance energy-efficiency and renewable-energy projects through a property tax assessment, secured by a senior lien on the property. -->
+
+
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can promote a reduction in energy use intensity (EUI) by the retrofit of existing commercial buildings. We assume that `80%` of existing commercial buildings are certified as LEED Gold by 2040. LEED Gold is assumed to reduce energy use intensity (EUI) of an existing building by `25%`.
+***About this strategy*** We are modeling that `80%` of existing commercial buildings in `r params$ctu_selection` are certified as LEED Gold by 2040. LEED Gold is assumed to reduce energy use intensity (EUI) of an existing building by `25%`.
 :::
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation for Retrofitting Existing Commercial Buildings** -->
 
-$$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * \left( \frac{MWh}{jobs_{2018}^{commercial}} * \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} * \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$
-*Where:*
+<!-- $$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * \left( \frac{MWh}{jobs_{2018}^{commercial}} * \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} * \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$ -->
+<!-- *Where:* -->
 
--  $x\text{, where } 0 \le x \le 1$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)
--  $25%$: The assumed reduction in energy intensity from retrofits
+<!-- -  $x\text{, where } 0 \le x \le 1$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%) -->
+<!-- -  $25%$: The assumed reduction in energy intensity from retrofits -->
 
--  $jobs_{2018}^{commercial}$: The number of commercial workers in 2018 (from Minnesota Quarterly Census of Employment and Wages)
--  $MWh/jobs_{2018}^{commercial}$: The commercial electricity use per worker in 2018
--  $kgCO2e/MWh_{2040}^{commercial}$: The projected electricity emission factor in 2040
--  $therms/jobs_{2018}^{commercial}$: The projected commercial gas use per worker in 2040
--  $kgCO_2e/therm_{2040}^{commercial}$: The projected natural gas emission factor in 2040
+<!-- -  $jobs_{2018}^{commercial}$: The number of commercial workers in 2018 (from Minnesota Quarterly Census of Employment and Wages) -->
+<!-- -  $MWh/jobs_{2018}^{commercial}$: The commercial electricity use per worker in 2018 -->
+<!-- -  $kgCO2e/MWh_{2040}^{commercial}$: The projected electricity emission factor in 2040 -->
+<!-- -  $therms/jobs_{2018}^{commercial}$: The projected commercial gas use per worker in 2040 -->
+<!-- -  $kgCO_2e/therm_{2040}^{commercial}$: The projected natural gas emission factor in 2040 -->
 
 ```{r fig03b1, include=FALSE}
 fig03b1_data <- full_join(

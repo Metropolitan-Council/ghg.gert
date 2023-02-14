@@ -123,19 +123,26 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
 \usepackage{multirow}
-\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{float}
 \usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{multicol}
 \usepackage{hhline}
 \newlength\Oldarrayrulewidth
 \newlength\Oldtabcolsep
-\usepackage{longtable}
-\usepackage{float}
-\usepackage{wrapfig}
-\usepackage{array}
 \usepackage{hyperref}
 \usepackage{amsmath}
-\usepackage{booktabs}
 \usepackage{caption}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -164,7 +171,7 @@
 \chapter*{}\label{section}}
 \addcontentsline{toc}{chapter}{}
 
-\includegraphics{images/2788.jpg}
+\includegraphics{../images/2788.jpg}
 
 \hypertarget{metropolitan-council}{%
 \section*{Metropolitan Council}\label{metropolitan-council}}
@@ -173,9 +180,11 @@
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{verbatim}
-## Warning: fonts used in `flextable` are ignored because the `pdflatex` engine is used and not `xelatex` or `lualatex`. You can
-## avoid this warning by using the `set_flextable_defaults(fonts_ignore=TRUE)` command or use a compatible engine by defining
-## `latex_engine: xelatex` in the YAML header of the R Markdown document.
+## Warning: fonts used in `flextable` are ignored because the `pdflatex` engine
+## is used and not `xelatex` or `lualatex`. You can avoid this warning by using
+## the `set_flextable_defaults(fonts_ignore=TRUE)` command or use a compatible
+## engine by defining `latex_engine: xelatex` in the YAML header of the R Markdown
+## document.
 \end{verbatim}
 
 \global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
@@ -263,7 +272,7 @@
 \renewcommand*{\arraystretch}{1}
 
 \leavevmode\vadjust pre{\hypertarget{top_container}{}}%
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/map.jpg}
+\includegraphics[width=0.85\textwidth,height=\textheight]{../images/map.jpg}
 
 \leavevmode\vadjust pre{\hypertarget{top_right}{}}%
 The Metropolitan Council is the regional planning organization for the seven-county Twin Cities area. The Council operates the regional bus and rail system, collects and treats wastewater, coordinates regional water resources, plans and helps fund regional parks, and administers federal funds that provide housing opportunities for low- and moderate-income individuals and families. The 17-member Council board is appointed by and serves at the pleasure of the governor.
@@ -280,130 +289,6 @@ This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigatio
 
 \hypertarget{executive-summary}{%
 \section*{Executive Summary}\label{executive-summary}}
-\addcontentsline{toc}{section}{Executive Summary}
-
-The Research Unit of Community Development at the Metropolitan Council has prepared the following report, which presents a range of strategies that the City of Minneapolis could adopt to reduce greenhouse gas emissions relative to a ``Business as Usual'' scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry. It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the Minneapolis Greenhouse Gas Inventory due to differences in methodology. The strategies included in this report were decided in a series of stakeholder meetings conducted in 2020.
-
-\hypertarget{section-1}{%
-\chapter*{}\label{section-1}}
-\addcontentsline{toc}{chapter}{}
-
-\includegraphics{images/2788.jpg}
-
-\hypertarget{metropolitan-council-1}{%
-\section*{Metropolitan Council}\label{metropolitan-council-1}}
-\addcontentsline{toc}{section}{Metropolitan Council}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\begin{verbatim}
-## Warning: fonts used in `flextable` are ignored because the `pdflatex` engine is used and not `xelatex` or `lualatex`. You can
-## avoid this warning by using the `set_flextable_defaults(fonts_ignore=TRUE)` command or use a compatible engine by defining
-## `latex_engine: xelatex` in the YAML header of the R Markdown document.
-\end{verbatim}
-
-\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
-
-\global\setlength{\Oldtabcolsep}{\tabcolsep}
-
-\setlength{\tabcolsep}{0pt}
-
-\renewcommand*{\arraystretch}{1.5}
-
-
-
-\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
-
-\begin{longtable}[c]{|p{1.76in}|p{0.88in}|p{1.80in}|p{0.96in}}
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Charlie\ Zelle}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Chair}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Raymond\ Zeran}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 9}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Judy\ Johnson}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 1}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Peter\ Lindstrom}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 10}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Reva\ Chamblis}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 2}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Susan\ Vento}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 11}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Christopher\ Ferguson}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 3}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Francisco\ J.\ Gonzalez}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 12}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Deb\ Barber}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 4}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Chai\ Lee}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 13}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Molly\ Cummings}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 5}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Kris\ Fredson}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 14}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{John\ Pacheco\ Jr.}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 6}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Phillip\ Sterner}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 15}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Robert\ Lilligren}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 7}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Wendy\ Wulff}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 16}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\raggedright}p{\dimexpr 1.76in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{Abdirahman\ Muse}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.88in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{District\ 8}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 1.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{}}} & \multicolumn{1}{>{\raggedright}p{\dimexpr 0.96in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{}}} \\
-
-
-
-
-
-\end{longtable}
-
-
-
-\arrayrulecolor[HTML]{000000}
-
-\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
-
-\global\setlength{\tabcolsep}{\Oldtabcolsep}
-
-\renewcommand*{\arraystretch}{1}
-
-\leavevmode\vadjust pre{\hypertarget{top_container}{}}%
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/map.jpg}
-
-\leavevmode\vadjust pre{\hypertarget{top_right}{}}%
-The Metropolitan Council is the regional planning organization for the seven-county Twin Cities area. The Council operates the regional bus and rail system, collects and treats wastewater, coordinates regional water resources, plans and helps fund regional parks, and administers federal funds that provide housing opportunities for low- and moderate-income individuals and families. The 17-member Council board is appointed by and serves at the pleasure of the governor.
-
-\textbf{\emph{On request, this publication will be made available in alternative formats to people with disabilities. Call Metropolitan Council information at 651-602-1140 or TTY 651-291-0904}}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{disclaimer-1}{%
-\section*{Disclaimer}\label{disclaimer-1}}
-\addcontentsline{toc}{section}{Disclaimer}
-
-This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
-
-\hypertarget{executive-summary-1}{%
-\section*{Executive Summary}\label{executive-summary-1}}
 \addcontentsline{toc}{section}{Executive Summary}
 
 The Research Unit of Community Development at the Metropolitan Council has prepared the following report, which presents a range of strategies that the City of Minneapolis could adopt to reduce greenhouse gas emissions relative to a ``Business as Usual'' scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry. It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the Minneapolis Greenhouse Gas Inventory due to differences in methodology. The strategies included in this report were decided in a series of stakeholder meetings conducted in 2020.
@@ -590,7 +475,7 @@ Multifamily Average Floor Area (ft2)
 \hypertarget{building-energy}{%
 \chapter{Building Energy}\label{building-energy}}
 
-\includegraphics{images//3090.jpg}
+\includegraphics{../images//3090.jpg}
 
 There are several strategies that can be employed to reduce emissions in the building energy sector, including improving efficiency, transitioning to low-carbon electricity sources, electrifying heating systems, adopting sustainable construction practices, and changing behaviors to use energy more efficiently.
 
@@ -625,18 +510,16 @@ When it comes to reducing emissions in the building sector, the electricity grid
 
 Electricity in Minneapolis is served mostly by Xcel Energy. In their report \emph{Building a Carbon Free Future} in 2019, the utility states their goal to provide carbon-free electricity to all of its customers by 2050. The company aims to reduce carbon emissions by 80\% by 2030 as an interim goal.
 
+New legislation signed by Governor Tim Walz sets a goal of having 100\% clean electricity in the state by 2040 (\href{https://mn.gov/commerce/news/?id=17-563384}{Governor Walz Signs Bill Moving Minnesota to 100 Percent Clean Energy by 2040}). However, there are many other factors and strategies that can be considered and implemented for efficiency, reduced demand, and reduced reliance on natural gas.
+
 \hypertarget{residential-energy}{%
 \section{Residential Energy}\label{residential-energy}}
 
 The biggest share of residential energy use is typically for heating and cooling. In the United States, heating and air conditioning account for \href{https://www.eia.gov/energyexplained/use-of-energy/homes.php}{about half of the average home's energy use}. Therefore, for the residential sector, electricity and natural gas used tend to be closely correlated with the size of a building.
 
-\textbf{Table} \ref{tab:tab-residential-energy} shows the basic assumptions about electricity and natural gas use for the baseline year of 2018 and forecast year of 2040.
+\textbf{Table} \ref{tab:tab-residential-energy} shows the basic assumptions about electricity and natural gas use for Minneapolis in the baseline year of 2018 and forecast year of 2040.
 
-The residential energy forecast is a prediction of the energy consumption of the city in the year 2040. It is produced by taking the demographic forecast (discussed in section 2.2), which is a projection of households, and an extrapolating the historical trends in floor area growth (based on 2018). The average floor area of residential buildings in the city has increased over the last decade, therefore we assume that this tendency will continue.
-
-The floor area growth rate is the rate at which the total floor area of buildings in a given area is increasing or decreasing over time.
-
-\label{tab:tab-residential-energy}Residential Energy Assumptions for Minneapolis
+\label{tab:tab-residential-energy}Baseline Residential Energy Assumptions for Minneapolis
 
 Variables
 
@@ -687,21 +570,19 @@ Residential Therms per Household (therms/household)
 \hypertarget{strategies}{%
 \subsection{Strategies}\label{strategies}}
 
-Energy consumption is directly correlated to the floor area of a residential unit. In general, bigger homes consume more energy. Therefore, we have calculated the impact of different strategies that directly alter the size of homes.
-
-The \emph{Minneapolis 2040 Comprehensive Plan} aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. Single family zoning is a significant strategy to consider in how the city could meet its ambitious climate goals.
+Energy consumption depends on many factors including floor area, efficiency and insulation, grid composition, and of course the weather. We have calculated the impact of different strategies that alter each factor that is under human control.
 
 Cities have a range of tools at their disposal to control the size of new single family homes and to encourage the construction of smaller, more efficient homes.
 
-The City of Minneapolis can influence the size of new single family homes in a variety of ways, including:
+The City of Minneapolis can influence the factors around residential energy use in a variety of ways, including:
 
 \begin{itemize}
 \item
-  \textbf{\emph{Design guidelines:}} Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller homes. There are several different energy efficiency building design standards, such as Passive House standards, which consume less than 18 of kilo BTUs, as well as new LEED performance-based energy efficiency standards and others. Minnesota's B3 Buildings Benchmarking project offers a long-term approach to benchmark increases in energy efficiency of existing and new buildings per square foot.
+  \textbf{\emph{Design guidelines:}} Cities can adopt or develop design guidelines that specify the size and appearance of new single family homes. These guidelines can be used to encourage the construction of smaller or more efficient homes. There are several different energy efficiency building design standards, such as Passive House standards as well as LEED performance-based energy efficiency standards and others that could be used as guidelines for residential buildings.
 \item
-  \textbf{\emph{Zoning regulations:}} The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. A city can use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
+  \textbf{\emph{Zoning regulations:}} The City of Minneapolis has a range of residential zoning categories, including single-family, multifamily, and mixed-use zones, which are designed to accommodate different types of housing and land uses. The \emph{Minneapolis 2040 Comprehensive Plan} aimed to increase housing supply and address affordability and segregation issues by eliminating single-family zoning and allowing up to three units per property. A city could also use zoning regulations to specify the size of new single family homes. For example, the city might require that new single family homes have a minimum or maximum square footage, or that they be a certain percentage of the size of the lot on which they are built.
 \item
-  \textbf{\emph{Incentives:}} a city can offer incentives to encourage the construction of smaller single family homes. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements.
+  \textbf{\emph{Incentives:}} a city can offer incentives to encourage particular types of construction or renovation. For example, a city might offer reduced permit fees or other financial incentives to builders who construct homes that meet certain size requirements, or put forward funds for retrofitting existing homes for greater efficiency.
 \item
   \textbf{\emph{Fees:}} Cities can impose impact fees on new construction in order to offset the costs of providing infrastructure and other services. Impact fees can be used to discourage the construction of larger homes by imposing higher fees on larger homes.
 \end{itemize}
@@ -709,11 +590,11 @@ The City of Minneapolis can influence the size of new single family homes in a v
 \hypertarget{increased-multifamily}{%
 \subsubsection{Increased Multifamily}\label{increased-multifamily}}
 
-Compact community development can reduce buildings energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions.
+Compact community development can reduce building energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions.
 
-The Metropolitan Council's Thrive MSP plan projects increases in the percentage of multifamily housing by 2040. Multifamily homes tend to have smaller average floor area than stand-alone, single-family homes. Smaller floor area is correlated with lower levels of energy use. The decarbonization scenario planning model includes an option to model 50\% of all new construction as multifamily (instead of single-family) homes.
+The Metropolitan Council's Thrive MSP plan projects an increase in the percentage of multifamily housing by 2040. This is consistent with the Minneapolis 2040 plan move to eliminate single-family-only zoning areas.
 
-\textbf{\emph{About this strategy}} Our assumption is that cities influence compact development and the ratio of multifamily units relative to single family units. \texttt{50\%} of all new single-family construction will now become multifamily, with the multifamily homes having smaller square footage.
+\textbf{\emph{About this strategy}} Here, we model that \texttt{50\%} of all new single-family construction will become multifamily, with the multifamily homes having smaller square footage.
 
 \label{tab:tab-increased-multifamily}New Single-Family Home Floor Area for Minneapolis
 
@@ -746,47 +627,6 @@ Multifamily Average Floor Area for the County (ft2)
 1,132.31
 
 1,125.64
-
-\textbf{GHG Impact Calculation}
-
-Calculate floor area changes:
-
-\[ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})\]
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(x\text{, where } 0 \le x \le 1\): The percentage of new single-family homes that are converted to multifamily homes
-\item
-  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018
-\item
-  \(units_{2040}^{sf}\): The projected number of single-family housing units in the community in 2040
-\item
-  \(sqft_{2040}^{sf}\): The projected total floor area of single-family homes in the community in 2040
-\item
-  \(\bar{sqft}_{2040}^{sf}\): The projected average floor area of single-family homes in the community in 2040
-\item
-  \(\bar{sqft}_{2040}^{mf}\): The projected average floor area of multifamily homes in the community in 2040
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): Projected residential electricity use intensity per floor area in 2040
-\item
-  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): Projected residential natural gas use intensity per floor area in 2040
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\item
-  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
-\end{itemize}
 
 \label{tab:fig03a1}New Single-Family Home Floor Area for Minneapolis
 
@@ -830,16 +670,18 @@ Residential Natural Gas Emissions (kg CO2e)
 
 745,181,248
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-43-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 \textbf{Affordability co-benefit}: With electricity costs projected to nearly double by 2040, smaller floor area is likely to be more affordable for families in all types of housing. However, single-family floor areas in the Twin Cities are increasing. Therefore, the next section also demonstrates the effect of more affordable, smaller floor area, even in new single-family construction, going forward.
 
-\hypertarget{affordable-floor-area}{%
-\subsubsection{Affordable Floor Area}\label{affordable-floor-area}}
+\hypertarget{reduce-average-single-family-floor-area-increase}{%
+\subsubsection{Reduce Average Single-Family Floor Area Increase}\label{reduce-average-single-family-floor-area-increase}}
 
-If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
+Over time, the single-family home average floor area has been increasing. The floor area of a home is directly correlated with energy use. If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by choosing smaller living spaces in order to save on energy costs, driving market demand to decrease the average floor area of a new single-family home. Cities could also consider methods to influence the size of new single-family construction.
 
-\textbf{\emph{About this strategy}} Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from \texttt{15\%} to \texttt{5\%}to make the new single-family home smaller. We apply this impact to \texttt{50\%} of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+\textbf{\emph{About this strategy}} For this strategy, average single-family home size is modeled to be \texttt{5\%} larger in 2040 than in 2018 - as opposed to the business-as-usual prediction of \texttt{15\%}. We apply this impact to \texttt{50\%} of new single-family homes.
+
+** LM: Do we want to combine these 2 tables?? **
 
 \label{tab:tab-new-single-family-home-area}New Single-Family Home Floor Area for Minneapolis
 
@@ -872,51 +714,6 @@ Multifamily Average Floor Area for the County (ft2)
 1,132.31
 
 1,125.64
-
-\textbf{GHG Impact Calculation}
-
-Calculate new floor area:
-
-\[\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)\]
-\[\text{where } 0 \le x \le 1\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \((1+x)\): The rate of growth in single-family floor area in square feet per year.
-\item
-  \(sqft_{2040}^{sf}\): The total floor area of single-family homes in the community in 2040.
-\item
-  \(units_{2040}^{sf}\): The number of single-family housing units in the community in 2040.
-\item
-  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018.
-\item
-  \(0.5\): This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
-\item
-  \(\bar{sqft}_{2040}^{sf}\): The average floor area of single-family homes in the community in 2040.
-\item
-  \(\bar{sqft}_{2018}^{sf}\): The average floor area of single-family homes in the community in 2018.
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
-\item
-  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\item
-  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
-\end{itemize}
 
 \label{tab:fig03a2}New Single-Family Home Floor Area for Minneapolis
 
@@ -960,18 +757,20 @@ Residential Natural Gas Emissions (kg CO2e)
 
 744,927,511
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-45-1.pdf}
 
 \hypertarget{new-single-family-homes-energy-efficiency}{%
 \subsubsection{New Single Family Homes Energy Efficiency}\label{new-single-family-homes-energy-efficiency}}
 
-\emph{LEED} (Leadership in Energy and Environmental Design) is a green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet \emph{LEED} standards are designed and constructed to be energy efficient and to use fewer natural resources.
+New construction can achieve much greater energy efficiency in comparison to existing buildings. There are many green building rating systems available for use, such as Green Communities, Energy Star, DOE Zero Energy Ready Homes, Passive House, LEED, or SB 2030. Cities could implement programs to encourage uptake of these standards.
 
-The amount of energy savings that can be achieved through \emph{LEED} certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building. According to the \href{https://www.usgbc.org/leed/rating-systems/residential}{U.S. Green Building Council}, buildings that are designed to meet \emph{LEED} Gold standards typically achieve energy savings of around 25\% compared to conventional buildings.
+The amount of energy savings that can be achieved through these guidelines and certifications will depend on the specific design and construction practices that are used, as well as the location and climate of the building.
 
 The Greenhouse Gas Scenario Planning Tool uses \emph{LEED Gold} for residential buildings as an example of how building standard could reduce energy use and therefore carbon emissions.
 
-\textbf{\emph{About this strategy}} Our main assumption is that cities can adjust the percentage of new single family homes achieving a standard like LEED. Cities can adopt strict building codes requiring new homes to achieve LEED Gold (or similar) standards. We assumed \texttt{50\%} of new single-family homes to be LEED-Gold with both electricity and gas energy use intensity reduced \texttt{64\%}.
+\emph{LEED} (Leadership in Energy and Environmental Design) is a well-known green building rating system that is used to evaluate the sustainability of buildings. Buildings that meet \emph{LEED} standards are designed and constructed to be energy efficient and to use fewer natural resources. According to the \href{https://www.usgbc.org/leed/rating-systems/residential}{U.S. Green Building Council}, buildings that are designed to meet \emph{LEED} Gold standards typically achieve energy savings of around 25\% compared to conventional buildings.
+
+\textbf{\emph{About this strategy}} We assumed \texttt{50\%} of new single-family homes to be LEED-Gold or equivalent with both electricity and gas energy use intensity reduced \texttt{64\%}.
 
 \label{tab:tab-new-home-efficiency}New Home Efficiency Minneapolis 2040 Assumptions
 
@@ -1005,49 +804,7 @@ Multifamily Average Floor Area for the County (ft2)
 
 1,125.64
 
-\textbf{GHG Impact Calculation}
-
-Calculate new floor area:
-
-\[\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf} * 0.64\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(x \text{, where } 0 \le x \le 1\): The percentage of new single family homes that are LEED Gold
-\item
-  \(sqft_{2040}^{sf}\): The total floor area of single-family homes in the community in 2040
-\item
-  \(units_{2040}^{sf}\): The number of single-family housing units in the community in 2040
-\item
-  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018
-\item
-  \(\bar{sqft}_{2040}^{sf}\): The average floor area of single-family homes in the community in 2040
-\item
-  \(0.64\): This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
-\item
-  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\item
-  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
-\end{itemize}
-
-\label{tab:unnamed-chunk-48}New Home Efficiency Minneapolis 2040
+\label{tab:unnamed-chunk-47}New Home Efficiency Minneapolis 2040
 
 Variables
 
@@ -1089,7 +846,7 @@ Residential Natural Gas Emissions (kg CO2e)
 
 704,208,798
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-50-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-49-1.pdf}
 
 \hypertarget{existing-homes-energy-efficiency}{%
 \subsubsection{Existing Homes Energy Efficiency}\label{existing-homes-energy-efficiency}}
@@ -1101,8 +858,9 @@ There are multiple ways in which a city, like Minneapolis, can promote the retro
   \textbf{\emph{Develop education and outreach programs}} Cities can develop education and outreach programs to inform homeowners about the benefits of energy-efficient home retrofits and how to access available resources and incentives. According to the Center for Energy and Environment (CEEE) \href{https://www.mncee.org/energy-disclosure-impact-report-january-2020-through-june-2022}{the Energy Disclosure Program} in Minneapolis aims to increase consumer awareness of energy performance in single-family homes in order to encourage the adoption of energy efficiency improvements. The program has been in place since January 2020 and is a part of the city's Truth in Sale of Housing (TISH) pre-sale inspection process. It involves gathering data on key energy efficiency attributes such as insulation and heating equipment, and communicating the results to home sellers and buyers in an Energy Disclosure Report. The program is being implemented in partnership with the Center for Energy and Environment and CenterPoint Energy, and this report summarizes findings from the first 30 months of programming.
 \item
   \textbf{\emph{Offer financial incentives}} Cities can offer financial incentives, such as rebates or low-interest loans, to encourage homeowners to invest in energy-efficient home retrofits. The City of Minneapolis, offers incentives and \href{https://www2.minneapolismn.gov/business-services/licenses-permits-inspections/construction-permits-certificates/construction-code-rules-enforcement/incentives-rebates/}{rebates for homeowners} for replacing less efficient equipment.
-\item
-  \textbf{\emph{Establish building codes and regulations}} Cities can establish building codes and regulations that require or encourage energy-efficient retrofits in new construction and renovations.
+\end{itemize}
+
+\begin{itemize}
 \item
   \textbf{\emph{Implement energy audits}} Minneapolis residents might be eligible for program such as the Home Energy Squads which free visits by energy auditors to income qualifying households. Cities can offer energy audits to help homeowners identify areas where their homes are losing energy and recommend cost-effective retrofits.
 \item
@@ -1112,7 +870,7 @@ There are multiple ways in which a city, like Minneapolis, can promote the retro
 \hypertarget{retrofit-80-of-homes}{%
 \paragraph{Retrofit 80\% of Homes}\label{retrofit-80-of-homes}}
 
-\textbf{\emph{About this strategy}} Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume \texttt{80\%} of existing homes with energy use intensity reduced by \texttt{33\%}. Cities can adjust the percentage of existing homes to be retrofitted.
+\textbf{\emph{About this strategy}} Cities can provide incentives to homeowners to retrofit their properties for energy efficiency. We assume \texttt{80\%} of existing homes with energy use intensity reduced by \texttt{33\%}.
 
 \label{tab:tab-existing-home-efficiency}Existing Home Efficiency Minneapolis 2040
 
@@ -1136,49 +894,7 @@ Multifamily Average Floor Area for the County (ft2)
 
 822.20
 
-\textbf{GHG Impact Calculation}
-
-Calculate new floor area:
-
-\[\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(x \text{, where } 0 \le x \le 1\): The percentage of existing homes to be retrofitted, defaulted to 80\%
-\item
-  \(0.33\): The percent reduction in energy use intensity due to efficiency gains of the retrofitting.
-\item
-  \(units_{2040}^{sf}\): The number of single-family housing units in 2018
-\item
-  \(units_{2018}^{mf}\): The number of multifamily homes in 2018
-\item
-  \(\bar{sqft}_{2018}^{sf}\): The average floor area of single-family homes in 2018
-\item
-  \(\bar{sqft}_{2018}^{mf}\): The average floor area of multi-family homes in 2018
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
-\item
-  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\item
-  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
-\end{itemize}
-
-\label{tab:unnamed-chunk-52}New Home Efficiency Minneapolis 2040
+\label{tab:unnamed-chunk-51}New Home Efficiency Minneapolis 2040
 
 Variables
 
@@ -1220,7 +936,7 @@ Residential Natural Gas Emissions (kg CO2e)
 
 524,578,709
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-54-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-53-1.pdf}
 
 \hypertarget{retrofit-remaining-20-of-into-passive-homes}{%
 \paragraph{Retrofit Remaining 20\% of into Passive Homes}\label{retrofit-remaining-20-of-into-passive-homes}}
@@ -1249,28 +965,7 @@ Multifamily Average Floor Area for the County (ft2)
 
 747.67
 
-\textbf{GHG Impact Calculation}
-
-\[sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.66 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.66 * \bar{sqft}_{2018}^{mf})\]
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(0.33\): Percent reduction in energy use intensity due to efficiency gains of the retrofitting.
-\item
-  \(X\): The percentage of existing homes to be retrofitted. This value can be adjusted by the user and is defaulted to 80\%.
-\item
-  \(units_{2040}^{sf}\): Number of single-family housing units in 2018.
-\item
-  \(units_{2018}^{mf}\): The number of multi-family homes in 2018.
-\item
-  \(\bar{sqft}_{2018}^{sf}\): The 2018 average floor area of single-family homes.
-\item
-  \(\bar{sqft}_{2018}^{mf}\): The average floor area of multi-family homes in 2018.
-\end{itemize}
-
-\label{tab:unnamed-chunk-56}New Home Efficiency Minneapolis 2040
+\label{tab:unnamed-chunk-55}New Home Efficiency Minneapolis 2040
 
 Variables
 
@@ -1312,14 +1007,14 @@ Residential Natural Gas Emissions (kg CO2e)
 
 475,334,798
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-58-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-57-1.pdf}
 
 \hypertarget{behavior-change-for-residential-energy-efficiency}{%
 \subsubsection{Behavior Change for Residential Energy Efficiency}\label{behavior-change-for-residential-energy-efficiency}}
 
 implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
 
-\textbf{\emph{About this strategy}} Efficient messaging, in-home energy display, and smart meters together can reduce household energy use by \texttt{11\%}. The default is \texttt{100\%} of homes change behaviors due to these actions. Cities can adjust this participation rate accordingly.
+\textbf{\emph{About this strategy}} In this example we assume efficient messaging, in-home energy display, and smart meters together reduce household energy use by \texttt{11\%}, with \texttt{100\%} of homes changing behaviors due to these actions.
 
 \label{tab:tab-behavior-change}Behavior Change Minneapolis 2040
 
@@ -1353,44 +1048,7 @@ Multifamily Average Floor Area for the County (ft2)
 
 1,001.82
 
-\textbf{GHG Impact Calculation}
-
-Calculate new floor area:
-
-\[ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 \]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(x \text{, where } 0 \le x \le 1\): The percentage of homes that change their behavior for energy efficiency.
-\item
-  \(0.11\): The percentage reduction in household energy use as a result of smart nudges.
-\item
-  \(pop_{2040}\): The total population in 2040.
-\item
-  \(sqft_{2040}^{sf+mf}/population_{2040}\): The average square footage per person in 2040 for residential buildings.
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}* \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
-\item
-  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\item
-  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
-\end{itemize}
-
-\label{tab:unnamed-chunk-60}Behavior Change Minneapolis 2040
+\label{tab:unnamed-chunk-59}Behavior Change Minneapolis 2040
 
 Variables
 
@@ -1432,48 +1090,16 @@ Residential Natural Gas Emissions (kg CO2e)
 
 663,234,085
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-62-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-61-1.pdf}
 
-\hypertarget{decarbonization-of-residential-energy-use}{%
-\subsubsection{Decarbonization of Residential Energy Use}\label{decarbonization-of-residential-energy-use}}
+\hypertarget{clean-residential-electricity}{%
+\subsubsection{Clean Residential Electricity}\label{clean-residential-electricity}}
 
-The energy grid could become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels
+The electricity grid can become cleaner by increasing the use of renewable energy sources such as solar, wind, and hydroelectric power, which produce significantly fewer greenhouse gas emissions than fossil fuels.
 
-\textbf{\emph{About this strategy}}: Due to decarbonizing the grid, the emission factor of electricity decreases from \texttt{568} kg2e/MWh (2018 Minnesota state level) to \texttt{113} kgCO2e/MWh. This change is fixed by the grid.
+Cities can support uptake of clean electricity by facilitating programs that fund or offer incentives for implementing renewable energy technologies. Residents and property owners can support renewable energy by installing these technologies, including solar panels and heat pumps.
 
-\textbf{GHG Impact Calculation}
-
-Calculate electricity use in 2040:
-
-\[
-\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}}
-\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(pop_{2040}\): The projected population in 2040
-\item
-  \(sqft_{2040}^{residential}/pop_{2040}\): The projected residential floor area per capita in 2040
-\item
-  \(MWh/sqft_{2040}^{residential}\): The projected residential electricity per floor area in 2040
-\end{itemize}
-
-Calculate new emissions:
-
-\[\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  \frac{kgCO2e}{MWh_{2040}} * (1-x) \]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \((1-x) \text{, where } 0 \le x \le 1\): The percentage reduction in the emissions of the electric grid
-\item
-  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
-\end{itemize}
+\textbf{\emph{About this strategy}}: In this example, due to decarbonizing the grid at \texttt{80\%} the emission factor of electricity decreases from \texttt{568} kg2e/MWh (2018 Minnesota state level) to \texttt{113} kgCO2e/MWh.
 
 \label{tab:tab-decarbonize-residential-energy}Decarbonize Residential Energy Use Minneapolis 2040
 
@@ -1517,54 +1143,16 @@ Residential Natural Gas Emissions (kg CO2e)
 
 745,206,837
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-64-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-63-1.pdf}
 
 \hypertarget{electrification-of-residential-heating}{%
 \subsubsection{Electrification of Residential Heating}\label{electrification-of-residential-heating}}
 
-The Greenhouse Gas Scenario Planning Tool estimates that by 2040, Minnesota will decarbonize the overall grid to 80\% relative to 2018 levels, consistent with Xcel Energy's plans to achieve a net-zero power grid by 2050.
+Alongside grid changes, switching to more efficient electric options for heating and hot water such as heat pumps and tank-less water heaters can significantly reduce emissions. Only around \texttt{14\%} of homes in MN have currently adopted these new technologies.
 
-Switching to more efficient electric heat pumps and tank-less water heaters with a net zero-carbon future electric grid can significantly reduce emissions.
+The scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota, so the results are more realistic for our region. Results are preliminary as heat pump efficiency continues to increase.
 
-Only around 14\% of homes in MN have adopted these new technologies. The scenario planning tool projects that by 2050, 59\% of residential and commercial buildings will switch to electrically driven heat pumps, which can heat and cool homes while offering long-term cost savings. Furthermore, the scenario planning model utilizes efficiency of the heat pump derived from pilot tests in Minnesota, so the results are more realistic for our region. National studies indicate 100\% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy.
-
-\textbf{About this strategy} For this strategy, we made the assumption that by 2040 \texttt{59\%} of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Cities can adjust the percentage of homes participated in electrifying heating.
-
-\textbf{GHG Impact Calculation}
-
-Natural Gas for Space Heating:
-
-\[term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% \]
-\[\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]
-
-Natural Gas for Water Heating:
-
-\[term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% \]
-\[\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]
-
-\emph{Where:}
-
-\begin{itemize}
-\tightlist
-\item
-  \(x\): The percentage of additional households with heating electrified, defaulted to be 59\% - 14\% of homes already electrified
-\item
-  \(pop_{2040}\): The projected population in 2040
-\item
-  \(71\%\): Assumed natural gas for space heating
-\item
-  \(24\%\): Assumed natural gas for water heating
-\item
-  \(100\%\): The ratio of natural gas water heating to electric water heating
-\item
-  \((0.8/5.02)\): The ratio of boiler efficiency to heat pump efficiency
-\item
-  \(sqft_{2040}^{residential}/pop_{2040}\): The projected residential floor area per capita in 2040
-\item
-  \(0.0293therm/MWh\): The conversion factor from therm to MWH
-\item
-  \(kgCO_2e/MWh_{2040}\): The projected emissions factor of electricity in 2040
-\end{itemize}
+\textbf{About this strategy} For this strategy, we model the assumption that by 2040 \texttt{59\%} of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating.
 
 \label{tab:tab-electrify-residential-heating}Electrify Residential Heating 2040
 
@@ -1608,8 +1196,6 @@ Residential Natural Gas Emissions (kg CO2e)
 
 409,863,760
 
-Note that this table shows the impact of electrification before considering the decarbonization of the electric grid.
-
 \hypertarget{renewable-natural-gas}{%
 \subsubsection{Renewable Natural Gas}\label{renewable-natural-gas}}
 
@@ -1618,6 +1204,8 @@ This report projects that homes not using electricity for space and water heatin
 \textbf{Renewable natural gas}, also known as biogas, consists largely of methane, which can be captured and processed at solid waste landfills and wastewater treatment plants.1 This comes with multiple benefits: it reduces methane emissions that would otherwise be released from landfills and wastewater treatment plants, and it can replace fossil fuel as an energy source. Food waste digestion facilities, which produce renewable natural gas from organic scraps, can also reduce the volume of waste sent to the landfill, which would help to meet the Minnesota Legislature's goal of recycling a greater portion of solid wastes in the Twin Cities metropolitan area.2
 
 \textbf{\emph{About this strategy}} Our assumption is that cities can control (or at least influence)\ldots{}
+
+** LM: Do we want to take this section out of the report for now? **
 
 \hypertarget{non-residential-energy}{%
 \section{Non-Residential Energy}\label{non-residential-energy}}
@@ -1779,7 +1367,7 @@ Total Industrial Emissions (tonnes CO2e)
 
 2,824,800,150
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-67-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-66-1.pdf}
 
 \hypertarget{smart-grid-electrification}{%
 \subsubsection{Smart Grid Electrification}\label{smart-grid-electrification}}
@@ -1860,7 +1448,7 @@ Total Industrial Emissions (tonnes CO2e)
 
 1,364,834,737
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-68-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-67-1.pdf}
 
 \hypertarget{renewable-natural-gas-1}{%
 \subsubsection{Renewable Natural Gas}\label{renewable-natural-gas-1}}
@@ -1941,7 +1529,7 @@ Total Industrial Emissions (tonnes CO2e)
 
 1,364,834,737
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-70-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-69-1.pdf}
 
 \hypertarget{decarbonize-the-electricity-grid}{%
 \subsubsection{Decarbonize the Electricity Grid}\label{decarbonize-the-electricity-grid}}
@@ -2023,7 +1611,7 @@ Total Industrial Emissions (tonnes CO2e)
 
 1,364,834,737
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-71-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-70-1.pdf}
 
 \hypertarget{transportation}{%
 \chapter{Transportation}\label{transportation}}
@@ -2970,7 +2558,7 @@ Undeveloped
 \end{Highlighting}
 \end{Shaded}
 
-\label{tab:unnamed-chunk-34}General Carbon Values
+\label{tab:unnamed-chunk-33}General Carbon Values
 
 Land Cover Type
 
@@ -3216,6 +2804,286 @@ conclusion\ldots{}
 
 \hypertarget{energy-efficiency-strategies}{%
 \subsection{Energy Efficiency Strategies}\label{energy-efficiency-strategies}}
+
+\hypertarget{equations}{%
+\subsubsection{Equations}\label{equations}}
+
+\textbf{GHG Impact Calculation for Increased Multifamily Housing}
+
+Calculate floor area changes:
+
+\[ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})\]
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(x\text{, where } 0 \le x \le 1\): The percentage of new single-family homes that are converted to multifamily homes
+\item
+  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018
+\item
+  \(units_{2040}^{sf}\): The projected number of single-family housing units in the community in 2040
+\item
+  \(sqft_{2040}^{sf}\): The projected total floor area of single-family homes in the community in 2040
+\item
+  \(\bar{sqft}_{2040}^{sf}\): The projected average floor area of single-family homes in the community in 2040
+\item
+  \(\bar{sqft}_{2040}^{mf}\): The projected average floor area of multifamily homes in the community in 2040
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): Projected residential electricity use intensity per floor area in 2040
+\item
+  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): Projected residential natural gas use intensity per floor area in 2040
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\item
+  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for Floor Area Reduction}
+
+Calculate new floor area:
+
+\[\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)\]
+\[\text{where } 0 \le x \le 1\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \((1+x)\): The rate of growth in single-family floor area in square feet per year.
+\item
+  \(sqft_{2040}^{sf}\): The total floor area of single-family homes in the community in 2040.
+\item
+  \(units_{2040}^{sf}\): The number of single-family housing units in the community in 2040.
+\item
+  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018.
+\item
+  \(0.5\): This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
+\item
+  \(\bar{sqft}_{2040}^{sf}\): The average floor area of single-family homes in the community in 2040.
+\item
+  \(\bar{sqft}_{2018}^{sf}\): The average floor area of single-family homes in the community in 2018.
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
+\item
+  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\item
+  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for New Home Efficiency}
+
+Calculate new efficency:
+
+\[\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf} * 0.64\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(x \text{, where } 0 \le x \le 1\): The percentage of new single family homes that are LEED Gold
+\item
+  \(sqft_{2040}^{sf}\): The total floor area of single-family homes in the community in 2040
+\item
+  \(units_{2040}^{sf}\): The number of single-family housing units in the community in 2040
+\item
+  \(units_{2018}^{sf}\): The number of single-family housing units in the community in 2018
+\item
+  \(\bar{sqft}_{2040}^{sf}\): The average floor area of single-family homes in the community in 2040
+\item
+  \(0.64\): This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
+\item
+  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\item
+  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for Existing Home Efficiency}
+
+Calculate new floor area:
+
+\[\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(x \text{, where } 0 \le x \le 1\): The percentage of existing homes to be retrofitted, defaulted to 80\%
+\item
+  \(0.33\): The percent reduction in energy use intensity due to efficiency gains of the retrofitting.
+\item
+  \(units_{2040}^{sf}\): The number of single-family housing units in 2018
+\item
+  \(units_{2018}^{mf}\): The number of multifamily homes in 2018
+\item
+  \(\bar{sqft}_{2018}^{sf}\): The average floor area of single-family homes in 2018
+\item
+  \(\bar{sqft}_{2018}^{mf}\): The average floor area of multi-family homes in 2018
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
+\item
+  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\item
+  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for Behavior Change}
+
+Calculate new floor area:
+
+\[ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 \]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(x \text{, where } 0 \le x \le 1\): The percentage of homes that change their behavior for energy efficiency.
+\item
+  \(0.11\): The percentage reduction in household energy use as a result of smart nudges.
+\item
+  \(pop_{2040}\): The total population in 2040.
+\item
+  \(sqft_{2040}^{sf+mf}/population_{2040}\): The average square footage per person in 2040 for residential buildings.
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}* \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)\]
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(MWh_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential electricity use intensity per floor area in 2040
+\item
+  \(therm_{2040}^{residential}/sqft_{2040}^{residential}\): The projected residential natural gas use intensity per floor area in 2040
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\item
+  \(kgCO_2e/therms_{2040}\): The projected emissions factor of natural gas in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for Clean Residential Energy}
+
+Calculate electricity use in 2040:
+
+\[
+\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}}
+\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(pop_{2040}\): The projected population in 2040
+\item
+  \(sqft_{2040}^{residential}/pop_{2040}\): The projected residential floor area per capita in 2040
+\item
+  \(MWh/sqft_{2040}^{residential}\): The projected residential electricity per floor area in 2040
+\end{itemize}
+
+Calculate new emissions:
+
+\[\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  \frac{kgCO2e}{MWh_{2040}} * (1-x) \]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \((1-x) \text{, where } 0 \le x \le 1\): The percentage reduction in the emissions of the electric grid
+\item
+  \(kgCO2e/MWh\) = The projected electricity emission factor in 2040
+\end{itemize}
+
+\textbf{GHG Impact Calculation for Electrifying Residential Heat}
+
+Natural Gas for Space Heating:
+
+\[term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% \]
+\[\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]
+
+Natural Gas for Water Heating:
+
+\[term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% \]
+\[\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}\]
+
+\emph{Where:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(x\): The percentage of additional households with heating electrified, defaulted to be 59\% - 14\% of homes already electrified
+\item
+  \(pop_{2040}\): The projected population in 2040
+\item
+  \(71\%\): Assumed natural gas for space heating
+\item
+  \(24\%\): Assumed natural gas for water heating
+\item
+  \(100\%\): The ratio of natural gas water heating to electric water heating
+\item
+  \((0.8/5.02)\): The ratio of boiler efficiency to heat pump efficiency
+\item
+  \(sqft_{2040}^{residential}/pop_{2040}\): The projected residential floor area per capita in 2040
+\item
+  \(0.0293therm/MWh\): The conversion factor from therm to MWH
+\item
+  \(kgCO_2e/MWh_{2040}\): The projected emissions factor of electricity in 2040
+\end{itemize}
 
 \textbf{Policy Approaches}
 
