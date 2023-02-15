@@ -92,7 +92,7 @@ fig_05_land_cover <- full_join(fig_05_land_cover_2016,
    "Land cover" = Type
   ) %>%
   full_join(lc_carbon) %>%
-  tableformat(.caption = paste0("Land Cover Hectares for ", params$ctu_selection))
+  tableformat(.caption = paste0("Land Cover hectares, C sequestration rates, and C stock for ", params$ctu_selection))
 ```
 
 ```{r echo=FALSE}
@@ -169,7 +169,7 @@ fig_05_land_use <- full_join(fig_05_land_use_2016,
   tableformat(.caption = paste0("Land Use Hectares for ", params$ctu_selection))
 ```
 
-```{r}
+```{r, echo = F}
 fig_05_land_use
 ```
 

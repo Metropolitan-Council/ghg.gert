@@ -15,7 +15,8 @@ To assess the impact of urban vegetation on carbon stock changes and sequestrati
 to calculate these values for the study period of 2018-2040.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration. This reference scenario shows the expected carbon sequestration and carbon stock values under the business-as-usual scenario versus  a more compact development scenario.  
+<!-- ***About this strategy*** Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration. This reference scenario shows the expected carbon sequestration and carbon stock values under the business-as-usual scenario versus a more compact development scenario.   -->
+***About this strategy*** Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stocsk and future rates of carbon sequestration. This reference scenario shows the expected carbon stock and carbon sequestration values under the business-as-usual scenario versus a more compact development scenario.
 :::
 
 **GHG Impact Calculation**
@@ -116,7 +117,7 @@ fig05_1_table <- fig05_1_data %>%
   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
 
-```{r}
+```{r, echo = F}
 fig05_1_table
 ```
 
