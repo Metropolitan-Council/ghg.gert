@@ -14,7 +14,7 @@ The Metropolitan Council, in partnership with the Nature Conservancy and the Tre
 
 **GHG Impact Calculation**
 
-$$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A × 11/3 $$
+$$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A \times 11/3 $$
 *Where:*
 
 -   $CD$ = Carbon stock density of urban trees in Mg/ha, a factor of aboveground biomass, (44.1 Mg C/ha, Nowak et al 2013), and belowground biomass to one meter (71 Mg C/ha, Pouyat et al. 20065) for a total stock density of 115.1 Mg C /ha.
