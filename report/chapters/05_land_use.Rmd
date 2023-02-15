@@ -23,6 +23,8 @@ To evaluate the impact of various land use and green infrastructure strategies, 
 
 A high-resolution land cover map for the Metropolitan Council region for the year 2016 was generated using support vector machine image classification on *Planet RapidEye 5m Imagery*. This classification was merged with the 2019 edition of the [National Land Cover Database](https://www.usgs.gov/centers/eros/science/national-land-cover-database) to create a 12-class land cover map. For more information on the image classification methodology, see [@Milnar_Ramaswami_2020].
 
+Each land cover type has a unique parameter for carbon sequestration rates (additional carbon stored on an area basis, per year) and existing carbon stock (amount of carbon already stored in that land cover).
+
 ```{r tab-land-cover-by-land-use, include=FALSE}
 fig_05_land_cover_2016 <-
   calc_land_cover_by_land_use(
@@ -70,14 +72,25 @@ fig_05_land_cover_2040 <-
     Hectares = value
   )
 
+lc_carbon <- carbon_stocks_and_sequestration %>%
+  rename(
+    "Land cover" = land_cover_type,
+    "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
+    "Stock (C)" = stock_mg_c_per_hectare
+  ) #%>%
+  # tableformat(.caption = paste0("General Carbon Values"))
+
+
 fig_05_land_cover <- full_join(fig_05_land_cover_2016,
   fig_05_land_cover_2040,
   by = "Type"
 ) %>%
   rename(
     "2016 [Baseline]" = Hectares.x,
-    "2040 [Busines-as-Usual]" = Hectares.y
+    "2040 [Busines-as-Usual]" = Hectares.y,
+   "Land cover" = Type
   ) %>%
+  full_join(lc_carbon)
   tableformat(.caption = paste0("Land Cover Hectares for ", params$ctu_selection))
 ```
 
@@ -142,31 +155,21 @@ fig_05_land_use_2040 <-
     Hectares = value
   )
 
+
 fig_05_land_use <- full_join(fig_05_land_use_2016,
   fig_05_land_use_2040,
   by = "Variables"
 ) %>%
   rename(
     "2018 [Baseline]" = Hectares.x,
-    "2040 [Busines-as-Usual]" = Hectares.y
+    "2040 [Busines-as-Usual]" = Hectares.y,
+    "Land use" = Variables
   ) %>%
   tableformat(.caption = paste0("Land Use Hectares for ", params$ctu_selection))
 ```
 
 ```{r}
 fig_05_land_use
-```
-
-### Carbon Sequestration and Carbon Stock 
-
-```{r}
-carbon_stocks_and_sequestration %>%
-  rename(
-    "Land Cover Type" = land_cover_type,
-    "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
-    "Stock (mg C/ha/year)" = stock_mg_c_per_hectare
-  ) %>%
-  tableformat(.caption = paste0("General Carbon Values"))
 ```
 
 
