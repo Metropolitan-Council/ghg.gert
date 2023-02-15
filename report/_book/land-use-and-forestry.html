@@ -459,7 +459,7 @@ Woody Wetland
 <h3><span class="header-section-number">5.1.2</span> Land Use Baseline and Forecast<a href="land-use-and-forestry.html#land-use-baseline-and-forecast" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The 2016 land use baseline data has been derived from the <a href="https://metrocouncil.org/Data-and-Maps/Research-and-Data/Metadata/Landuse-Hist-Research.aspx">Metropolitan Council Generalized Land Use</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> geospatial layer for all cities and townships. This data has been divided into three categories based on land use type: <em>Urban Infill</em>, <em>Exurban Development</em>, and <em>Urban Expansion</em>.</p>
 <p><em>Exurban Development</em> encompasses the following land use types: Undeveloped, Park/Recreation/Preserve, Agriculture, or Farmstead. All other land use types were categorized as <em>Urban Infill</em> in the baseline data.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="land-use-and-forestry.html#cb5-1" aria-hidden="true" tabindex="-1"></a>fig_05_land_use</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="land-use-and-forestry.html#cb1-1" aria-hidden="true" tabindex="-1"></a>fig_05_land_use</span></code></pre></div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 (#tab:tab5.2)Land Use Hectares for Minneapolis
@@ -736,13 +736,13 @@ Undeveloped
 </div>
 <div id="carbon-sequestration-and-carbon-stock" class="section level3 hasAnchor" number="5.1.3">
 <h3><span class="header-section-number">5.1.3</span> Carbon Sequestration and Carbon Stock<a href="land-use-and-forestry.html#carbon-sequestration-and-carbon-stock" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="land-use-and-forestry.html#cb6-1" aria-hidden="true" tabindex="-1"></a>carbon_stocks_and_sequestration <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="land-use-and-forestry.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb6-3"><a href="land-use-and-forestry.html#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Land Cover Type&quot;</span> <span class="ot">=</span> land_cover_type,</span>
-<span id="cb6-4"><a href="land-use-and-forestry.html#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Sequestration (mg C/ha/year)&quot;</span> <span class="ot">=</span> sequest_mg_c_per_hectare_per_year,</span>
-<span id="cb6-5"><a href="land-use-and-forestry.html#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Stock (mg C/ha/year)&quot;</span> <span class="ot">=</span> stock_mg_c_per_hectare</span>
-<span id="cb6-6"><a href="land-use-and-forestry.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb6-7"><a href="land-use-and-forestry.html#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(<span class="at">.caption =</span> <span class="fu">paste0</span>(<span class="st">&quot;General Carbon Values&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="land-use-and-forestry.html#cb2-1" aria-hidden="true" tabindex="-1"></a>carbon_stocks_and_sequestration <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="land-use-and-forestry.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb2-3"><a href="land-use-and-forestry.html#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Land Cover Type&quot;</span> <span class="ot">=</span> land_cover_type,</span>
+<span id="cb2-4"><a href="land-use-and-forestry.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Sequestration (mg C/ha/year)&quot;</span> <span class="ot">=</span> sequest_mg_c_per_hectare_per_year,</span>
+<span id="cb2-5"><a href="land-use-and-forestry.html#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Stock (mg C/ha/year)&quot;</span> <span class="ot">=</span> stock_mg_c_per_hectare</span>
+<span id="cb2-6"><a href="land-use-and-forestry.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="land-use-and-forestry.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableformat</span>(<span class="at">.caption =</span> <span class="fu">paste0</span>(<span class="st">&quot;General Carbon Values&quot;</span>))</span></code></pre></div>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 <span id="tab:unnamed-chunk-25">Table 5.2: </span>General Carbon Values

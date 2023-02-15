@@ -1,4 +1,11 @@
 ### Road Pricing
+```{r}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
 
 <!-- TODO links/citations, explain differences between each pricing option and that the tool doesn't allow all three, add equation -->
 Road pricing is likely to be an important component of transportation policy going forward. It provides a clear signal to travelers about the cost of driving and contains its own revenue stream. Finally, road pricing provides an alternative revenue stream to the gas tax as vehicle efficiency increase and EV adoption grows.   
