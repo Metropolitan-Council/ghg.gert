@@ -1,23 +1,22 @@
 #### Smart Grid Electrification
 
-Smart grid and technologies are projected to reduce industrial electricity use by 11% .
-
-Achieving a net-zero grid requires transitioning to a smart grid. The smart grid can not only manage the load but also reduce energy use by approximately 11% as shown in PNNL's "[The Smart Grid: An Estimation of the Energy and CO2 Benefits](https://www.osti.gov/biblio/971445)." This reduction will be applied to all electricity consumers connected to the grid. In this and the next strategy, we have assumed that the 11% reduction will apply to 100% of electricity use for commercial buildings. It is important to note that all commercial and industrial energy use is calculated based on the number of employees, not on square footage.
+<!-- Smart grid and technologies are projected to reduce industrial electricity use by 11% . -->
+Achieving a net-zero grid may require transitioning to a smart grid. Smart grid technology enhances communication between an energy provider and energy users so the grid can adapt as demand changes ([Smart Grid.Gov](https://www.smartgrid.gov/the_smart_grid/smart_grid.html)). The smart grid can not only manage the load but also reduce energy use by approximately 11% as shown in PNNL's "[The Smart Grid: An Estimation of the Energy and CO2 Benefits](https://www.osti.gov/biblio/971445)." This reduction will be applied to all electricity consumers connected to the grid. 
 
 ::: about_strategy
-***About this strategy*** Our assumption is that by adopting technologies such as smart grid, `100%` of industrial buildings in the city can reduce their electricity use by `11%`.
+***About this strategy*** We model the assumption that by adopting technologies such as smart grid, `100%` of industrial buildings in the city can reduce their electricity use by `11%`.
 :::
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation for Smart Grid** -->
 
-$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industrial}_{2040} * \frac{MWh}{jobs^{industrial}_{2040}} * 11\% \right) * \frac{kgCO_2e}{MWh}$$
-*Where:*
+<!-- $$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industrial}_{2040} * \frac{MWh}{jobs^{industrial}_{2040}} * 11\% \right) * \frac{kgCO_2e}{MWh}$$ -->
+<!-- *Where:* -->
 
--  $x\text{, where } 0 \le x \le 1$: The percentage of industries in the smart grid (assumed to be 100%)
--  $jobs^{industrial}_{2040}$: The projected number of industrial workers in 2040
--  $MWh/jobs^{industrial}_{2040}$ = The projected industrial electricity use per worker in 2040
--  $11%$ = The percentage reduction in energy use due to smart grid, fixed at 11%
--  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+<!-- -  $x\text{, where } 0 \le x \le 1$: The percentage of industries in the smart grid (assumed to be 100%) -->
+<!-- -  $jobs^{industrial}_{2040}$: The projected number of industrial workers in 2040 -->
+<!-- -  $MWh/jobs^{industrial}_{2040}$ = The projected industrial electricity use per worker in 2040 -->
+<!-- -  $11%$ = The percentage reduction in energy use due to smart grid, fixed at 11% -->
+<!-- -  $kgCO2e/MWh$ = The projected electricity emission factor in 2040 -->
 
 ```{r fig03b2, include=FALSE}
 # 2018
@@ -38,7 +37,7 @@ fig03b2_data <- full_join(non_res_bau_2018,
     .non_res_natural_gas_for_space_heating_pct = 0.69,
     .commercial_smart_grid_pct = 1,
     .industrial_smart_grid_pct = 1,
-    .smart_grid_energy_reduction_pct = 1,
+    .smart_grid_energy_reduction_pct = 0.11,
     .grid_decarbonization_pct = 0,
     .existing_high_efficiency_buildings_pct = 0,
     .enviro_factors = enviro_factors

@@ -1,11 +1,13 @@
-#### Affordable Floor Area
+#### Reduce Average Single-Family Floor Area Increase
 
-If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by decreasing their living space in order to save on energy costs. This could involve reducing the size of the home or making other changes to the layout or design of the home to make it more energy efficient.
+Over time, the single-family home average floor area has been increasing. The floor area of a home is directly correlated with energy use. If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by choosing smaller living spaces in order to save on energy costs, driving market demand to decrease the average floor area of a new single-family home. Cities could also consider methods to influence the size of new single-family construction. 
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence) the size of new single-family homes to reduce energy use and increasing affordability. For this strategy, the growth of the single-family home size is reduced from `15%` to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled.
+***About this strategy*** For this strategy, average single-family home size is modeled to be `5%` larger in 2040 than in 2018 - as opposed to the business-as-usual prediction of `15%`. We apply this impact to `50%` of new single-family homes. 
+<!-- For this strategy, the growth of the single-family home size is reduced from `15%` between 2018 and 2040 (in the Business as Usual prediction) to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled. -->
 :::
 
+<!-- ** LM: Do we want to combine these 2 tables?? **-->
 ```{r tab-new-single-family-home-area, message=FALSE, warning=FALSE, include=FALSE}
 tab_new_single_family_home_area <- calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -39,7 +41,9 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
       ) %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables"
-  ) %>%
+  ) 
+
+tab_new_single_family_home_area_tbl <- tab_new_single_family_home_area %>%
   tableformat(.,
     .caption = paste(
       "New Single-Family Home Floor Area for",
@@ -49,38 +53,38 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
 ```
 
 ```{r echo=FALSE}
-tab_new_single_family_home_area
+tab_new_single_family_home_area_tbl
 ```
 
 <br>
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation** -->
 
-Calculate new floor area:
+<!-- Calculate new floor area: -->
 
-$$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$
-$$\text{where } 0 \le x \le 1$$
+<!-- $$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$ -->
+<!-- $$\text{where } 0 \le x \le 1$$ -->
 
-*Where:*
+<!-- *Where:* -->
 
--   $(1+x)$: The rate of growth in single-family floor area in square feet per year.
--   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040. 
--   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
--   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
--   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
--   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
--   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in the community in 2018.
+<!-- -   $(1+x)$: The rate of growth in single-family floor area in square feet per year. -->
+<!-- -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.  -->
+<!-- -   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040. -->
+<!-- -   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018. -->
+<!-- -   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices. -->
+<!-- -   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040. -->
+<!-- -   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in the community in 2018. -->
 
-Calculate new emissions:
+<!-- Calculate new emissions: -->
 
-$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
+<!-- $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$ -->
 
-*Where:*
+<!-- *Where:* -->
 
--  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
--  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
--  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
--  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+<!-- -  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040 -->
+<!-- -  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040 -->
+<!-- -  $kgCO2e/MWh$ = The projected electricity emission factor in 2040 -->
+<!-- -  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040 -->
 
 ```{r fig03a2, message=FALSE, warning=FALSE, include=FALSE}
 fig03a2_data <-

@@ -136,7 +136,7 @@ non_res_bau_2040 <- run_scenario_building(
       "total_industrial_commercial_emissions"
     )
   ) %>%
-  add_variable_names(., "2040 Busines-As-Usual")
+  add_variable_names(., "2040 Business-As-Usual")
 
 # Land Use Baseline (2018)
 
@@ -153,7 +153,7 @@ luse_bau_2018 <- run_scenario_land_use(
 ) %>%
   filter(year == 2016)
 
-# Land Use Busines-as-Usual (2040)
+# Land Use Business-as-Usual (2040)
 
 luse_bau_2040 <- run_scenario_land_use(
   tb = land_use_data,

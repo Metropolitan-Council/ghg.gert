@@ -34,12 +34,15 @@ if (params$desired_format == "html") {
   }
 } else {
   tableformat <- function(data, .caption) {
-    data %>%
+    data %>%  
+      mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
+      Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2")) %>%
       flextable::flextable() %>%
       flextable::autofit(add_w = 0, add_h = 0) %>%
       flextable::set_table_properties(layout = "autofit") %>%
       flextable::fontsize(size = 9, part = "all") %>%
       flextable::align(align = "center", part = "header", i = 1) %>%
+      flextable::colformat_double(digits = 0) %>%
       flextable::set_caption(.caption)
   }
 }
@@ -67,9 +70,9 @@ chartformat <- function(tb) {
       TRUE ~ "",
     )) %>%
     pivot_longer(`2018 Baseline`:`2040 Scenario`, names_to = c("Year", "Future"), names_sep = " ", values_to = "value") %>%
-    # tidyr::separate_wider_delim(Variables, delim = ("("), names = c('Variables','Units')) %>%
     mutate(
       Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
+      Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2"),
       Variables = str_remove_all(Variables, "\\)"),
       Variables = paste0(Variables, scinotation),
       value = case_when(
@@ -78,11 +81,9 @@ chartformat <- function(tb) {
         scinotation == ", billions)" ~ value / 1e9,
         TRUE ~ value
       ),
-      #  Units = str_remove_all(Units, fixed(")")),
       Year = as.numeric(Year)
     ) %>%
-    # mutate(level = paste0(as.numeric(level) * 100, "%")) %>%
-    ggplot(., aes(x = Year, y = value, fill = Future)) + # fill = level,
+    ggplot(., aes(x = Year, y = value, fill = Future)) + 
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
     facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
     scale_x_continuous(breaks = c(2018, 2040)) +

@@ -8,3 +8,4 @@ This report projects that homes not using electricity for space and water heatin
 ***About this strategy*** Our assumption is that cities can control (or at least influence)...
 :::
 
+** LM: Do we want to take this section out of the report for now? **

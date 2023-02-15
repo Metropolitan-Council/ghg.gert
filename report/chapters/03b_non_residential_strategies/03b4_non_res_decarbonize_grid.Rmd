@@ -1,24 +1,24 @@
-#### Decarbonize the Electricity Grid
+#### Clean Electricity for Non-Residential Use
 
-This strategy demonstrates the impact of grid decarbonization.
+Recent legislation sets a target of 100% clean electricity by 2040 for the state of Minnesota. This strategy demonstrates the impact of grid decarbonization. 
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence)... 
+***About this strategy*** We are modeling `80%` clean electricity in 2040 in this example.
 :::
 
-**GHG Impact Calculation**
+<!-- **GHG Impact Calculation for Clean Energy** -->
 
-$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) * x$$
-*Where:*
+<!-- $$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) * x$$ -->
+<!-- *Where:* -->
 
--  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)
--  $jobs_{2040}^{commercial}$: The projected number of commercial jobs in 2040
--  $MWh/jobs_{2040}^{commercial}$: The projected commercial electricity use per worker in 2040
--  $jobs_{2040}^{industrial}$: The projected number of industrial jobs in 2040
--  $MWh/jobs_{2040}^{industrial}$: The projected number industrial electricity use per worker in 2040
--  $kgCO_2e/MWh_{2040}$: The projected electricity emission factor in 2040
+<!-- -  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%) -->
+<!-- -  $jobs_{2040}^{commercial}$: The projected number of commercial jobs in 2040 -->
+<!-- -  $MWh/jobs_{2040}^{commercial}$: The projected commercial electricity use per worker in 2040 -->
+<!-- -  $jobs_{2040}^{industrial}$: The projected number of industrial jobs in 2040 -->
+<!-- -  $MWh/jobs_{2040}^{industrial}$: The projected number industrial electricity use per worker in 2040 -->
+<!-- -  $kgCO_2e/MWh_{2040}$: The projected electricity emission factor in 2040 -->
 
-Note: The values are multiplied by 1000 in the original formula to retain the units in kilowatt hours.
+<!-- Note: The values are multiplied by 1000 in the original formula to retain the units in kilowatt hours. -->
 
 ```{r fig03b4, include=FALSE}
 fig03b4_data <- full_join(non_res_bau_2018,
@@ -38,8 +38,8 @@ fig03b4_data <- full_join(non_res_bau_2018,
     .non_res_natural_gas_for_space_heating_pct = 0.69,
     .commercial_smart_grid_pct = 1,
     .industrial_smart_grid_pct = 1,
-    .smart_grid_energy_reduction_pct = 1,
-    .grid_decarbonization_pct = 0,
+    .smart_grid_energy_reduction_pct = 0,
+    .grid_decarbonization_pct = 0.8,
     .existing_high_efficiency_buildings_pct = 0,
     .enviro_factors = enviro_factors
   ) %>%
