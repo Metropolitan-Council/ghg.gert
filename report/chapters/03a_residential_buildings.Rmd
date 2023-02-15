@@ -104,8 +104,8 @@ The City of `r params$ctu_selection` can influence the factors around residentia
 ```{r child="chapters/03a_residential_strategies/03a6_decarbonize_res_energy.Rmd", echo=FALSE}
 ```
 
-```{r child="chapters/03a_residential_strategies/03a8_renewable_ng.Rmd", echo=FALSE}
-```
+<!-- ```{r child="chapters/03a_residential_strategies/03a8_renewable_ng.Rmd", echo=FALSE} -->
+<!-- ``` -->
 
 ```{r child="chapters/03a_residential_strategies/03a5_behavior_change.Rmd", echo=FALSE}
 ```
