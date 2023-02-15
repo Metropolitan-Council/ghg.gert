@@ -11,7 +11,7 @@ To assess the impact of urban vegetation on carbon stock changes and sequestrati
 to calculate these values for the study period of 2018-2040.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence)... 
+***About this strategy*** Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration. This reference scenario shows the expected carbon sequestration and carbon stock values under the business-as-usual scenario versus  a more compact development scenario.  
 :::
 
 **GHG Impact Calculation**
@@ -33,75 +33,87 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait \times CDi )]}$
 - $i = 1 ,2, 3, ...n$ $\text{land cover types}$
 - $t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}$
 
+```{r include=FALSE}
+urban_form_bau <- calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
 
-**** results coming soon...
 
-```{r}
-# calc_scen_land_use(
-#   .selected_ctu = params$ctu_selection,
-#   tb = land_use_data,
-#   .urban_form_scenario = "bau"
-# ) %>%
-#   filter(ctu_name == params$ctu_selection) %>%
-#   group_by(development_type) %>%
-#   summarise(scenario_hectares = sum(scenario_hectares))
-#
-#
-# calc_scen_land_use(
-#   .selected_ctu = params$ctu_selection,
-#   tb = land_use_data,
-#   .urban_form_scenario = "compact_dev_beyond_bau"
-# ) %>%
-#   filter(ctu_name == params$ctu_selection) %>%
-#   group_by(development_type) %>%
-#   summarise(scenario_hectares = sum(scenario_hectares))
+urban_form_scen <- calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "compact_dev_beyond_bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
 ```
 
 
 ```{r fig05_2, include=FALSE}
-# fig05_1_bau_2018 <- luse_bau_2018 %>%
-#   ungroup() %>%
-#   rename(var = detail) %>%
-#   left_join(.,
-#             variables,
-#             by = "var")  %>%
-#   select(desc, value) %>%
-#   rename(Variables = desc)
-#
-# fig05_1_bau_2040 <- luse_bau_2040 %>%
-#   ungroup() %>%
-#   rename(var = detail) %>%
-#   left_join(.,
-#             variables,
-#             by = "var")  %>%
-#   select(desc, value) %>%
-#   rename(Variables = desc)
-#
-# fig05_1_scen_2040 <-
-#   run_scenario_land_use(
-#     tb = land_use_data,
-#     .selected_ctu = params$ctu_selection,
-#     .urban_form_scenario = "compact_dev_beyond_bau",
-#     .conservation_tillage_intervention = "current_conservation_tillage",
-#     .tree_planting_intervention = "match_la_million_trees_goal",
-#     .tree_planting_per_capita = 0.26,
-#     .tree_planting_per_hectare = 247,
-#     .parking_lot_reduction_percentage = 0,
-#     detail = FALSE
-#   )  %>%
-#   filter(year == 2040)  %>%
-#   ungroup() %>%
-#   rename(var = detail) %>%
-#   left_join(.,
-#             variables,
-#             by = "var")  %>%
-#   select(desc, value) %>%
-#   rename(Variables = desc)
-#
-# fig05_1_table <- fig05_1_data %>%
-#   tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
+fig05_1_bau_2018 <- luse_bau_2018 %>%
+  ungroup() %>%
+  rename(var = detail) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc,
+         "2018 Baseline" = value)
+
+fig05_1_bau_2040 <- luse_bau_2040 %>%
+  ungroup() %>%
+  rename(var = detail) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc,
+         "2040 BAU" = value)
+
+fig05_1_scen_2040 <-
+  run_scenario_land_use(
+    tb = land_use_data,
+    .selected_ctu = params$ctu_selection,
+    .urban_form_scenario = "compact_dev_beyond_bau",
+    .conservation_tillage_intervention = "current_conservation_tillage",
+    .tree_planting_intervention = "match_la_million_trees_goal",
+    .tree_planting_per_capita = 0.26,
+    .tree_planting_per_hectare = 247,
+    .parking_lot_reduction_percentage = 0,
+    detail = FALSE
+  )  %>%
+  filter(year == 2040)  %>%
+  ungroup() %>%
+  rename(var = detail) %>%
+  left_join(.,
+            variables,
+            by = "var")  %>%
+  select(desc, value) %>%
+  rename(Variables = desc,
+         "2040 Scenario" = value)
+
+fig05_1_data <-
+  full_join(
+  full_join(
+    fig05_1_bau_2018,
+    fig05_1_bau_2040,
+    by = "Variables"
+  ),
+  fig05_1_scen_2040,
+  by = "Variables")
+
+fig05_1_table <- fig05_1_data %>%
+  tableformat(.caption = paste0("Land Use for ", params$ctu_selection))
 ```
 
 ```{r}
-# fig05_1_table
+fig05_1_table
 ```
+
+For the City of Minneapolis, there does not appear to be a significant difference in carbon sequestration and stocks between the two scenarios presented. 
