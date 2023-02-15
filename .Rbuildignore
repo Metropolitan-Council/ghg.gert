@@ -8,3 +8,4 @@
 ^README\.Rmd$
 ^vignettes/implications_land_use_module\.Rmd$
 ^\.here$
+^report$

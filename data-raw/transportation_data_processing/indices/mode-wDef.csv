@@ -13,7 +13,7 @@ mode_id,mode_abbrev,mode_description_1,mode_description_2
 12,AIR,Air freight,
 13,WAT,Water freight,Equivalent to FSHIP
 14,PLDV,Passenger light duty vehicle,
-15,BU,"Urban bus (standard, non-BRT bus)",
+15,BU,Urban bus,
 16,BRT,Bus rapid transit,
 17,RU,Urban rail,LRT
 18,RI,Intercity rail,Northstar commuter rail
