@@ -1,5 +1,0 @@
-## Interventions/Strategies
-
-The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.
-
-

@@ -1,26 +1,24 @@
-### Parking Policy
-
-<!-- TODO check equation -->
+#### Parking Policy  
 
 Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes.
 
 The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table \@ref(tab:tab-parking-price-effects)).
 
+<!-- TODO check equation -->
+
 The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019].
 
-```{=tex}
-\begin{equation}
-adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} 
-(\#eq:parking_price_adj)
-\end{equation}
-```
+$$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} $$
+
+Where
+
 $price_y$ is the price of parking on dollars per hour in year $y$\
 $price_{y = 2018}$ is the price of parking in dollars per hour in 2018\
 $elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.
 
 Values derived from @TRACE_1999 and referenced in @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.
 
-```{r, tab-parking-price-effects}
+```{r tab-parking-price-effects}
 #| echo: false
 #| message: false
 ghg.sp::elast %>%
@@ -91,9 +89,13 @@ parking_ctu %>%
     values = RColorBrewer::brewer.pal(7, "Blues")[2:7]
     # ,breaks = c("20%", "40%", "60%", "80%", "100%")
   ) +
-  labs(x = "", y = "",
-       color = paste0(params$ctu_selection,
-                      "\nparking price\n($ per hour)")) +
+  labs(
+    x = "", y = "",
+    color = paste0(
+      params$ctu_selection,
+      "\nparking price\n($ per hour)"
+    )
+  ) +
   scale_y_continuous(labels = scales::label_comma()) +
   theme(
     panel.background = element_rect(fill = "white"),
@@ -123,22 +125,22 @@ bau_ctu %>%
     `2040 Business-as-Usual` = `2040`
   ) %>%
   left_join(parking_ctu %>%
-    ungroup() %>%
-    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
-    filter(
-      year %in% c("2040"),
-      type == "direct",
-      scenario == "pk100"
-    ) %>%
-    pivot_wider(
-      names_from = year,
-      values_from = emissions
-    ) %>%
-    select(
-      `Mode` = mode_description_1,
-      `2040 Scenario` = `2040`
-    )) %>%
+              ungroup() %>%
+              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+              filter(
+                year %in% c("2040"),
+                type == "direct",
+                scenario == "pk100"
+              ) %>%
+              pivot_wider(
+                names_from = year,
+                values_from = emissions
+              ) %>%
+              select(
+                `Mode` = mode_description_1,
+                `2040 Scenario` = `2040`
+              )) %>%
   tableformat(.,
-    .caption = paste("Emissions in tonnes CO2e - $50 parking per hour", params$ctu_selection)
+              .caption = paste("Emissions in tonnes CO2e - $50 parking per hour", params$ctu_selection)
   )
 ```

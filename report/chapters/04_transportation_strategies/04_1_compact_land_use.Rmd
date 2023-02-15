@@ -1,4 +1,4 @@
-### Land Use
+#### Land Use
 
 Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the "five D's" (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
 

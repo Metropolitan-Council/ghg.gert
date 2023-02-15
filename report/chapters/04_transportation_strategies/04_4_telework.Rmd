@@ -1,4 +1,4 @@
-### Telework
+#### Telework
 
 The most recent studies that also include energy associated with working from home find a effective reduction of 2.5-2.8% in household CO2 emissions per day. [@Kim_Choo_Mokhtarian_2015]
 
@@ -96,7 +96,7 @@ bau_ctu %>%
 ```
 
 
-### Precedents  
+##### Precedents  
 
 The number of workers who teleworked at least one day per month grew in Minnesota from 18 percent in 1994 to 24 percent in 1997. As early as 1999, one-third of 200 surveyed businesses reporting allowing their employees to telework. Comparing a private firm and public agency implementation of telework in Minnesota, Wells et al. [@Wells_Douma_Loimer_Olson_Pansing_2001] found that the private firms implemented telework to recruit skilled workers while the public agency was responding to budget constraints.
 

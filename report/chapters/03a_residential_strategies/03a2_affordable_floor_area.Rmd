@@ -40,7 +40,7 @@ tab_new_single_family_home_area <- calc_affordable_floor_area(
       ) %>%
       add_variable_names(., "2040 Scenario"),
     by = "Variables"
-  ) 
+  )
 
 tab_new_single_family_home_area_tbl <- tab_new_single_family_home_area %>%
   tableformat(.,

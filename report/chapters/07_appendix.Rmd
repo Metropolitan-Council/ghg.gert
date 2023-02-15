@@ -347,6 +347,21 @@ gt::gt(
 
 #### Source summaries
 
+### Annual Energy Outlook (AEO)
+
+In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
+
+The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].
+
+1.  **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+2.  **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+3.  **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.\
+4.  **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.
+
+The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
+
+
+
 ##### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}

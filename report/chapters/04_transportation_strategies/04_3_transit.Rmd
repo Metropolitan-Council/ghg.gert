@@ -1,4 +1,4 @@
-### Public Transit
+#### Public Transit
 
 According to the [Minneapolis Transportation Action Plan (TAP)](https://go.minneapolismn.gov/), transit is essential for the city's multimodal transportation system. Transit contributes to economic competitiveness by attracting businesses, private investment, and top talent. Over 30,000 (16.5%) households in the city do not have access to or choose not to own a personal car, with the highest concentration of car-free individuals living in neighborhoods around downtown Minneapolis. The TAP aims to improve the coverage, speed, and reliability of transit service through a partnership with the Metropolitan Council and by defining clear priorities, goals, and actions for the city. The goal is to increase the number of transit trips from 13% in 2019 to 25% by 2030. Transit must be convenient, reliable, and frequent and effectively reduce trips made by single-occupancy vehicles to achieve these goals.
 
