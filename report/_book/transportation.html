@@ -242,11 +242,12 @@ div.csl-indent {
 <li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#transportation-1"><i class="fa fa-check"></i><b>6.2</b> Transportation</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#data-sources"><i class="fa fa-check"></i><b>6.2.1</b> Data sources</a></li>
-<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#annual-energy-outlook-aeo"><i class="fa fa-check"></i><b>6.2.2</b> Annual Energy Outlook (AEO)</a></li>
-<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#transportation-modes"><i class="fa fa-check"></i><b>6.2.3</b> Transportation modes</a></li>
-<li class="chapter" data-level="6.2.4" data-path="appendix.html"><a href="appendix.html#emission-sources"><i class="fa fa-check"></i><b>6.2.4</b> Emission Sources</a></li>
-<li class="chapter" data-level="6.2.5" data-path="appendix.html"><a href="appendix.html#future-costs-per-mile"><i class="fa fa-check"></i><b>6.2.5</b> Future costs per mile</a></li>
-<li class="chapter" data-level="6.2.6" data-path="appendix.html"><a href="appendix.html#forecasted-electricity-energy-mix"><i class="fa fa-check"></i><b>6.2.6</b> Forecasted Electricity Energy Mix</a></li>
+<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#federal-data-sources"><i class="fa fa-check"></i><b>6.2.2</b> Federal data sources</a></li>
+<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#study-specific-values"><i class="fa fa-check"></i><b>6.2.3</b> Study-specific values</a></li>
+<li class="chapter" data-level="6.2.4" data-path="appendix.html"><a href="appendix.html#transportation-modes"><i class="fa fa-check"></i><b>6.2.4</b> Transportation modes</a></li>
+<li class="chapter" data-level="6.2.5" data-path="appendix.html"><a href="appendix.html#emission-sources"><i class="fa fa-check"></i><b>6.2.5</b> Emission Sources</a></li>
+<li class="chapter" data-level="6.2.6" data-path="appendix.html"><a href="appendix.html#future-costs-per-mile"><i class="fa fa-check"></i><b>6.2.6</b> Future costs per mile</a></li>
+<li class="chapter" data-level="6.2.7" data-path="appendix.html"><a href="appendix.html#vehicle-occupancy-values"><i class="fa fa-check"></i><b>6.2.7</b> Vehicle occupancy values</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="appendix.html"><a href="appendix.html#land-use-1"><i class="fa fa-check"></i><b>6.3</b> Land Use</a>
 <ul>
@@ -306,7 +307,7 @@ div.csl-indent {
 <p>The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline, and battery electric vehicles.</p>
 <p>The region’s transportation carbon emissions are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the <a href="https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx">2019 Travel Behavior Inventory (TBI)</a>, but there are no estimates of transit vehicle turnover to the 2050 forecast year.</p>
 <p>The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV).</p>
-<p>Public transit modes are categorized as urban bus, bus rapid transit (BRT), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.</p>
+<p>Public transit modes are categorized as urban bus (which groups both BRT and local routes), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.</p>
 <!-- The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050. -->
 <p>In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles <span class="citation">(<a href="#ref-lovedayTopPlugInHybrid2019" role="doc-biblioref">Loveday 2019</a>)</span> and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.</p>
 <p>The regional model provides PMT totals for auto, transit, bike, and walk modes. PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities <span class="citation">(<a href="#ref-theworldresourcesinstituteWRIAnnualReport2012" role="doc-biblioref">The World Resources Institute 2012</a>)</span>. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study <span class="citation">(<a href="#ref-porterCarbonFreeBoston2019" role="doc-biblioref">Porter, Chang, et al. 2019a</a>)</span>.</p>
@@ -352,7 +353,7 @@ Active transportation (walk and bike)
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 220,289
@@ -520,21 +521,19 @@ Water freight
 </tr>
 </tbody>
 </table>
-<!-- ::: facts -->
-<!-- Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area. -->
-<!-- ::: -->
+<p>Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (<span class="citation">Chester and Horvath (<a href="#ref-Chester_Horvath_2009" role="doc-biblioref">2009</a>)</span>) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle’s lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.</p>
 </div>
 </div>
 <div id="strategies-2" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Strategies<a href="transportation.html#strategies-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.</p>
+<p>The transportation module primarily uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.</p>
 <div id="land-use" class="section level4 hasAnchor" number="4.3.0.1">
 <h4><span class="header-section-number">4.3.0.1</span> Land Use<a href="transportation.html#land-use" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the “five D’s” (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.</p>
-<p>The Metropolitan Council Transportation Policy Plan discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.</p>
+<p>The Metropolitan Council <a href="https://metrocouncil.org/Transportation/Planning-2/Key-Transportation-Planning-Documents/Transportation-Policy-Plan.aspx">Transportation Policy Plan</a> discusses the need for communities to consider the connections between land use and transportation as the region changes in the coming years. The plan mentions that it is not feasible to expand the highway system in a sustainable manner and that there is increased private investment in already developed parts of the region along transit lines. The Transportation Policy Plan also mentions that higher-density development and redevelopment occur in already-developed areas. That new growth is happening in suburban edge and emerging suburban edge communities, which stresses the regional highway system. The plan suggests that planners incorporate multimodal travel options, such as transit, walking, and biking, into land use and design to address issues like congestion, climate change, equity, and livability.</p>
 <!-- TODO equations, citations, more  -->
 <div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a <code>0.4%</code> decrease in auto VMT for a <code>10%</code> increase in population density by 2040, a <code>7%</code> increase in walking/cycling VMT for a <code>10%</code> increase in population density by 2040, and a <code>7%</code> increase in transit VMT for a <code>10%</code> increase in population density by 2040.</p>
+<p><strong><em>About this strategy</em></strong> Increasing density decreases travel distances and encourages transit, cycling, and walking. For example, we estimate a <code>0.4%</code> decrease in auto VMT for a <code>10%</code> increase in population density by 2040, a <code>7%</code> increase in walking/cycling VMT for a <code>10%</code> increase in population density by 2040, and a <code>7%</code> increase in transit VMT for a <code>10%</code> increase in population density by 2040.</p>
 </div>
 <div id="land-use-effects" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
@@ -1026,10 +1025,923 @@ Water freight
   
 </table>
 </div>
-<p><img src="_main_files/figure-html/fig-landuse-1.png" width="672" /></p>
+<div id="elasticities" class="section level5 hasAnchor" number="4.3.0.1.1">
+<h5><span class="header-section-number">4.3.0.1.1</span> Elasticities<a href="transportation.html#elasticities" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Land use elasticities are taken from a meta-analysis by Ewing and Cervero <span class="citation">(<a href="#ref-ewingTravelBuiltEnvironment2010" role="doc-biblioref">Ewing and Cervero 2010</a>)</span> for each of automobile, walking and cycling, and transit trips. A more recent meta-analysis provides additional values for the automobile mode <span class="citation">(<a href="#ref-stevensDoesCompactDevelopment2016" role="doc-biblioref">Stevens 2016</a>)</span>. These values are used to give an elasticity range. In addition to the below values, an overall elasticity of -0.22 is used for the combined effect of the 5Ds to give the user the option to consider a combination of land use changes.</p>
+<div id="land-use-elast" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#land-use-elast .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#land-use-elast .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#land-use-elast .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#land-use-elast .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#land-use-elast .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#land-use-elast .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#land-use-elast .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#land-use-elast .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#land-use-elast .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#land-use-elast .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#land-use-elast .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#land-use-elast .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#land-use-elast .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#land-use-elast .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#land-use-elast .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#land-use-elast .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#land-use-elast .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-elast .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#land-use-elast .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-elast .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#land-use-elast .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_left {
+  text-align: left;
+}
+
+#land-use-elast .gt_center {
+  text-align: center;
+}
+
+#land-use-elast .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#land-use-elast .gt_font_normal {
+  font-weight: normal;
+}
+
+#land-use-elast .gt_font_bold {
+  font-weight: bold;
+}
+
+#land-use-elast .gt_font_italic {
+  font-style: italic;
+}
+
+#land-use-elast .gt_super {
+  font-size: 65%;
+}
+
+#land-use-elast .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#land-use-elast .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#land-use-elast .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#land-use-elast .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#land-use-elast .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#land-use-elast .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#land-use-elast .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><span id="tab:tab-land-use-elast">Table 4.4: </span>Land Use Elasticity</caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Mode">Mode</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Population elasticity">Population elasticity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Employment elasticity">Employment elasticity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Diversity (Land use entropy)">Diversity (Land use entropy)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Design (% 4-way intersections">Design (% 4-way intersections</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Destination accessibility">Destination accessibility</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Distance to transit">Distance to transit</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Composite Effect of 5Ds">Composite Effect of 5Ds</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Mode" class="gt_row gt_left">Automobile</td>
+<td headers="Population elasticity" class="gt_row gt_left">-0.04 (-0.04 to -0.22)</td>
+<td headers="Employment elasticity" class="gt_row gt_left">0 (0.00 to -0.07)</td>
+<td headers="Diversity (Land use entropy)" class="gt_row gt_left">-0.09 (-0.02 to -0.10)</td>
+<td headers="Design (% 4-way intersections" class="gt_row gt_left">-0.12 (-0.06 to-0.12)</td>
+<td headers="Destination accessibility" class="gt_row gt_right"><sup class="gt_footnote_marks">1</sup> -0.20</td>
+<td headers="Distance to transit" class="gt_row gt_left">-0.05 (-0.05 to -0.08)</td>
+<td headers="Composite Effect of 5Ds" class="gt_row gt_right">-0.22</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left gt_striped">Walking and cycling</td>
+<td headers="Population elasticity" class="gt_row gt_left gt_striped">0.07</td>
+<td headers="Employment elasticity" class="gt_row gt_left gt_striped">0.04</td>
+<td headers="Diversity (Land use entropy)" class="gt_row gt_left gt_striped">0.15</td>
+<td headers="Design (% 4-way intersections" class="gt_row gt_left gt_striped">-0.06</td>
+<td headers="Destination accessibility" class="gt_row gt_right gt_striped"><sup class="gt_footnote_marks">2</sup> 0.15</td>
+<td headers="Distance to transit" class="gt_row gt_left gt_striped">0.15</td>
+<td headers="Composite Effect of 5Ds" class="gt_row gt_right gt_striped">0.33</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left">Transit</td>
+<td headers="Population elasticity" class="gt_row gt_left">0.07</td>
+<td headers="Employment elasticity" class="gt_row gt_left">0.01</td>
+<td headers="Diversity (Land use entropy)" class="gt_row gt_left">0.12</td>
+<td headers="Design (% 4-way intersections" class="gt_row gt_left">0.12</td>
+<td headers="Destination accessibility" class="gt_row gt_right"><sup class="gt_footnote_marks">3</sup> </td>
+<td headers="Distance to transit" class="gt_row gt_left">0.29</td>
+<td headers="Composite Effect of 5Ds" class="gt_row gt_right">0.62</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="8">Numbers in parentheses indicate the range of elasticities found in the literature</td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="8"><sup class="gt_footnote_marks">1</sup> Measured as distance to central business district or jobs reachable within a given travel time</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="8"><sup class="gt_footnote_marks">2</sup> Measured as jobs located within 1 mile of the home</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="8"><sup class="gt_footnote_marks">3</sup> Not provided in the Ewing and Cervero study</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="density" class="section level5 hasAnchor" number="4.3.0.1.2">
+<h5><span class="header-section-number">4.3.0.1.2</span> Density<a href="transportation.html#density" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Population and employment are calculated as the total population (jobs) in the CTU divided by the area of <em>developed</em> land. This definition allows for the simple comparison of alternative land development scenarios. Developed land includes both impervious surfaces and greenery such as grass and trees. These cover types are explored under the green infrastructure scenarios.</p>
+<p>Distinct maximums are placed on the potential reductions in VMT for each mode. If a value higher than the maximum is entered, the maximum value will be used.</p>
+<div id="land-use-elast" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#land-use-elast .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#land-use-elast .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#land-use-elast .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#land-use-elast .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#land-use-elast .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#land-use-elast .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#land-use-elast .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#land-use-elast .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#land-use-elast .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#land-use-elast .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#land-use-elast .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#land-use-elast .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#land-use-elast .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#land-use-elast .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#land-use-elast .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#land-use-elast .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#land-use-elast .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-elast .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#land-use-elast .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#land-use-elast .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#land-use-elast .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#land-use-elast .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#land-use-elast .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#land-use-elast .gt_left {
+  text-align: left;
+}
+
+#land-use-elast .gt_center {
+  text-align: center;
+}
+
+#land-use-elast .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#land-use-elast .gt_font_normal {
+  font-weight: normal;
+}
+
+#land-use-elast .gt_font_bold {
+  font-weight: bold;
+}
+
+#land-use-elast .gt_font_italic {
+  font-style: italic;
+}
+
+#land-use-elast .gt_super {
+  font-size: 65%;
+}
+
+#land-use-elast .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#land-use-elast .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#land-use-elast .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#land-use-elast .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#land-use-elast .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#land-use-elast .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#land-use-elast .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><span id="tab:tab-maximum-reduction-by-mode">Table 4.5: </span>Land Use Elasticity</caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Mode">Mode</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Maximum Reduction in VMT">Maximum Reduction in VMT</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Mode" class="gt_row gt_left">Automobile</td>
+<td headers="Maximum Reduction in VMT" class="gt_row gt_right">75%</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left">Walking and cycling</td>
+<td headers="Maximum Reduction in VMT" class="gt_row gt_right">37%</td></tr>
+    <tr><td headers="Mode" class="gt_row gt_left">Transit</td>
+<td headers="Maximum Reduction in VMT" class="gt_row gt_right">71%</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div id="population" class="section level6 hasAnchor" number="4.3.0.1.2.1">
+<h6><span class="header-section-number">4.3.0.1.2.1</span> Population<a href="transportation.html#population" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>A negative value here indicates a <em>decrease</em> in population density, wehre a positive one indicates an <em>increase</em> in population density.</p>
+<p><img src="_main_files/figure-html/fig-population-density-1.png" width="672" /></p>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-land-use-scenario">Table 4.4: </span>Emissions in tonnes CO2e - 50% Increase in Population Density Minneapolis
+<span id="tab:tab-population-density-scenario">Table 4.6: </span>Emissions in tonnes CO2e - 50% Increase in Population Density Minneapolis
 </caption>
 <thead>
 <tr>
@@ -1078,7 +1990,7 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -1149,23 +2061,12 @@ Walk
 </tbody>
 </table>
 </div>
-<div id="vehicle-electrification" class="section level4 hasAnchor" number="4.3.0.2">
-<h4><span class="header-section-number">4.3.0.2</span> Vehicle Electrification<a href="transportation.html#vehicle-electrification" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Vehicle electrification is widely recognized as a central pillar of transportation decarbonization <span class="citation">(<a href="#ref-sustainabledevelopmentsolutionsnetworkAmericaZeroCarbon2020" role="doc-biblioref">Sustainable Development Solutions Network and Sachs 2020</a>)</span>. The effectiveness of this strategy relies on a combination of market uptake and decarbonization of the electricity grid. Both factors are considered in the tool, as outlined in subsequent sections. Focus is placed on the personal vehicle fleet but a partial consideration is given to the on-road freight fleet.</p>
-<div id="ev-market-penetration" class="section level5 hasAnchor" number="4.3.0.2.1">
-<h5><span class="header-section-number">4.3.0.2.1</span> EV market penetration<a href="transportation.html#ev-market-penetration" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>It was found that the estimate for EV penetration by 2020 is high compared with what is observed in the county totals for that year. The model predicts 4,920 PHEV and BEV vehicles in 2015 and 97,091 such vehicles in 2020 for the seven-county region. For comparison, the Alternative Fuels Data Center (AFDC) only shows 4,740 registered vehicles in 2018 <span class="citation">(<a href="#ref-afdcLightDutyAFVRegistrations2018" role="doc-biblioref">AFDC 2018</a>)</span> and MnDOT shows 17,146 registered electric vehicles in 2020 <span class="citation">(<a href="#ref-mndotElectricVehicleDashboard2020" role="doc-biblioref">MnDOT 2020</a>)</span>.</p>
-<p>The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.</p>
-<p>The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-bev"></span>
-<img src="_main_files/figure-html/fig-bev-1.png" alt="Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric." width="768" />
-<p class="caption">
-Figure 4.1: Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.
-</p>
-</div>
+<div id="employment" class="section level6 hasAnchor" number="4.3.0.1.2.2">
+<h6><span class="header-section-number">4.3.0.1.2.2</span> Employment<a href="transportation.html#employment" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p><img src="_main_files/figure-html/fig-employment-density-1.png" width="672" /></p>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-bev-comp2">Table 4.5: </span>Emissions in tonnes CO2e - 60% vehicle sales battery electric Minneapolis
+<span id="tab:tab-population-employment-scenario">Table 4.7: </span>Emissions in tonnes CO2e - 50% Increase in Employment Density Minneapolis
 </caption>
 <thead>
 <tr>
@@ -1214,7 +2115,150 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
+</td>
+<td style="text-align:right;">
+50.70
+</td>
+<td style="text-align:right;">
+51.72
+</td>
+<td style="text-align:right;">
+51.89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Passenger light duty vehicle
+</td>
+<td style="text-align:right;">
+1,069.93
+</td>
+<td style="text-align:right;">
+883.89
+</td>
+<td style="text-align:right;">
+866.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Intercity rail
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban rail
+</td>
+<td style="text-align:right;">
+3.78
+</td>
+<td style="text-align:right;">
+4.49
+</td>
+<td style="text-align:right;">
+4.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Walk
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="precedents" class="section level5 hasAnchor" number="4.3.0.1.3">
+<h5><span class="header-section-number">4.3.0.1.3</span> Precedents<a href="transportation.html#precedents" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The Minneapolis 2040 plan includes a series of changes to zoning to encourage multi-unit dwellings in that city <span class="citation">(<a href="#ref-cityofminneapolisdepartmentofcommunityplanningandeconomicdevelopmentMinneapolis2040City2019" role="doc-biblioref">of Minneapolis Department and conomic Development 2019</a>)</span> The plan calls for additional density along public transit corridors and provides an allowance for up to three dwellings on a single lot in the most outlying neighborhoods. There are several caveats to interpreting this policy change as a precedent for other municipalities in MSP. Minneapolis is the largest city in the region and its high level of existing development means it has minimal land available for new developments. The higher price of land in Minneapolis, relative to other municipalities in MSP, provides an additional incentive for upzoning. It must also be borne in mind that this is an ongoing change and its contribution towards realizing increased density remains unclear.</p>
+<p>A study by MAPC in Massachusetts used a combination of the VisionEval transportation model and the UrbanSim land use model to examine land use and pricing scenarios <span class="citation">(<a href="#ref-gatelyImpactsLandUse2021" role="doc-biblioref">Gately and Reardon 2021</a>)</span> They found a 5.2% difference in VMT between smart growth and sprawl scenarios, equivalent to 2.3 million vehicle-miles traveled per day in that region.</p>
+</div>
+</div>
+<div id="vehicle-electrification" class="section level4 hasAnchor" number="4.3.0.2">
+<h4><span class="header-section-number">4.3.0.2</span> Vehicle Electrification<a href="transportation.html#vehicle-electrification" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Vehicle electrification is widely recognized as a central pillar of transportation decarbonization <span class="citation">(<a href="#ref-sustainabledevelopmentsolutionsnetworkAmericaZeroCarbon2020" role="doc-biblioref">Sustainable Development Solutions Network and Sachs 2020</a>)</span>. The effectiveness of this strategy relies on a combination of market uptake and decarbonization of the electricity grid. Both factors are considered in the tool, as outlined in subsequent sections. Focus is placed on the personal vehicle fleet but a partial consideration is given to the on-road freight fleet.</p>
+<div id="ev-market-penetration" class="section level5 hasAnchor" number="4.3.0.2.1">
+<h5><span class="header-section-number">4.3.0.2.1</span> EV market penetration<a href="transportation.html#ev-market-penetration" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>It was found that the estimate for EV penetration by 2020 is high compared with what is observed in the county totals for that year. The model predicts 4,920 PHEV and BEV vehicles in 2015 and 97,091 such vehicles in 2020 for the seven-county region. For comparison, the Alternative Fuels Data Center (AFDC) only shows 4,740 registered vehicles in 2018 <span class="citation">(<a href="#ref-afdcLightDutyAFVRegistrations2018" role="doc-biblioref">AFDC 2018</a>)</span> and MnDOT shows 17,146 registered electric vehicles in 2020 <span class="citation">(<a href="#ref-mndotElectricVehicleDashboard2020" role="doc-biblioref">MnDOT 2020</a>)</span>.</p>
+<p>The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.</p>
+<p>The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-bev"></span>
+<img src="_main_files/figure-html/fig-bev-1.png" alt="Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric." width="768" />
+<p class="caption">
+Figure 4.1: Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.
+</p>
+</div>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:tab-bev-comp2">Table 4.8: </span>Emissions in tonnes CO2e - 60% vehicle sales battery electric Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Mode
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 Business-as-Usual
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Bike
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+School bus
+</td>
+<td style="text-align:right;">
+1.01
+</td>
+<td style="text-align:right;">
+1.33
+</td>
+<td style="text-align:right;">
+1.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -1293,7 +2337,7 @@ Walk
 <pre><code>## Joining with `by = join_by(Mode)`</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-transit-comp">Table 4.6: </span>Emissions in tonnes CO2e - 60% increase in transit service Minneapolis
+<span id="tab:tab-transit-comp">Table 4.9: </span>Emissions in tonnes CO2e - 60% increase in transit service Minneapolis
 </caption>
 <thead>
 <tr>
@@ -1342,7 +2386,7 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -1426,7 +2470,7 @@ Walk
 <pre><code>## Joining with `by = join_by(Mode)`</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-telework-comp">Table 4.7: </span>Emissions in tonnes CO2e - 60% increase in people teleworking Minneapolis
+<span id="tab:tab-telework-comp">Table 4.10: </span>Emissions in tonnes CO2e - 60% increase in people teleworking Minneapolis
 </caption>
 <thead>
 <tr>
@@ -1475,7 +2519,7 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -1545,8 +2589,8 @@ Walk
 </tr>
 </tbody>
 </table>
-<div id="precedents" class="section level5 hasAnchor" number="4.3.0.4.1">
-<h5><span class="header-section-number">4.3.0.4.1</span> Precedents<a href="transportation.html#precedents" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="precedents-1" class="section level5 hasAnchor" number="4.3.0.4.1">
+<h5><span class="header-section-number">4.3.0.4.1</span> Precedents<a href="transportation.html#precedents-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>The number of workers who teleworked at least one day per month grew in Minnesota from 18 percent in 1994 to 24 percent in 1997. As early as 1999, one-third of 200 surveyed businesses reporting allowing their employees to telework. Comparing a private firm and public agency implementation of telework in Minnesota, Wells et al. <span class="citation">(<a href="#ref-Wells_Douma_Loimer_Olson_Pansing_2001" role="doc-biblioref">Wells et al. 2001</a>)</span> found that the private firms implemented telework to recruit skilled workers while the public agency was responding to budget constraints.</p>
 <p>An interesting analysis by the International Energy Agency found that, if everyone in the world who can work from home did so one day per week, it would reduce annual GHG emissions (transportation+residential) by 24.2 Mt CO<sub>2</sub>e - roughly equivalent to the annual emissions in Greater London (or about 0.07% of global emissions) <span class="citation">(<a href="#ref-crowWorkingHomeCan2020" role="doc-biblioref">Crow and Millot 2020</a>)</span>.</p>
 <p>While not a large magnitude reduction, this result indicates that telework should be considered in the suite of decarbonization strategies.</p>
@@ -1971,7 +3015,7 @@ Walk
 }
 </style>
 <table class="gt_table">
-  <caption><span id="tab:tab-road-price-effects">Table 4.8: </span>Road pricing values</caption>
+  <caption><span id="tab:tab-road-price-effects">Table 4.11: </span>Road pricing values</caption>
   
   <thead class="gt_col_headings">
     <tr>
@@ -2455,7 +3499,7 @@ Walk
 }
 </style>
 <table class="gt_table">
-  <caption><span id="tab:tab-road-price-adj-values">Table 4.9: </span>Road pricing adjustment values</caption>
+  <caption><span id="tab:tab-road-price-adj-values">Table 4.12: </span>Road pricing adjustment values</caption>
   
   <thead class="gt_col_headings">
     <tr>
@@ -2497,7 +3541,7 @@ Walk
 <h5><span class="header-section-number">4.3.0.5.2</span> Congestion pricing<a href="transportation.html#congestion-pricing" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>In the CFB analysis <span class="citation">(<a href="#ref-porterTransportationTechnicalReport2019" role="doc-biblioref">Porter, Chang, et al. 2019b</a>)</span>, they assume that 29% of urban VMT is congested as an input to the determination of congesting pricing. Their estimate is in line with the findings of TAM for the Boston Metropolitan Area, which gives an estimate of 29.5%.</p>
 <p>However, this estimate is for peak VMT, which the TAM team define as 6 AM to 10 AM and 3 PM to 7 PM. The same TAM study estimates peak VMT congestion in MSP as 24.6%. We assume there is no congestion during non-peak periods and estimate the percent of VMT during the peak period, as a proportion of total VMT for MSP, using weighted TBI 2019 results.</p>
-<p>PMT is converted to VMT using an AVO of 1.14 and 1.63 for commuting and non-commuting trips, respectively (based on USDOT statistics <span class="citation">(<a href="#ref-dotPublicTransportationRole2010" role="doc-biblioref"><strong>dotPublicTransportationRole2010?</strong></a>)</span>). The adjusted congested VMT is then 10.9% of all travel. This estimate is compared with an MnDOT estimate for highway VMT of 23.2% in 2017 <span class="citation">(<a href="#ref-mndot2018CongestionReport2019" role="doc-biblioref"><strong>mndot2018CongestionReport2019?</strong></a>)</span>.</p>
+<p>PMT is converted to VMT using the Council’s 2019 Travel Behavior Inventory average vehicle occupancy.</p>
 <p>We calculate a secondary set of congestion estimates using TBI data for each CTU. It is assumed that most congestion occurs in the peak periods on weekdays. TBI trips are selected that occur wholly within the same CTU and average travel times estimated for each of peak and off-peak periods. This method suggests an approximately 13% increase in average travel times during peak periods relative to off-peak periods.</p>
 </div>
 <div id="other-per-mile-costs" class="section level5 hasAnchor" number="4.3.0.5.3">
@@ -2513,7 +3557,7 @@ Figure 4.2: Comparing the direct and embodied greenhouse gas emissions between y
 <pre><code>## Joining with `by = join_by(Mode)`</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-rp-comp">Table 4.10: </span>Emissions in tonnes CO2e - $1 per mile congestion price Minneapolis
+<span id="tab:tab-rp-comp">Table 4.13: </span>Emissions in tonnes CO2e - $1 per mile congestion price Minneapolis
 </caption>
 <thead>
 <tr>
@@ -2562,7 +3606,7 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -2633,15 +3677,15 @@ Walk
 </tbody>
 </table>
 </div>
-<div id="precedents-1" class="section level5 hasAnchor" number="4.3.0.5.4">
-<h5><span class="header-section-number">4.3.0.5.4</span> Precedents<a href="transportation.html#precedents-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="precedents-2" class="section level5 hasAnchor" number="4.3.0.5.4">
+<h5><span class="header-section-number">4.3.0.5.4</span> Precedents<a href="transportation.html#precedents-2" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Minnesota examined mileage-based user fees (MBUF) through a pilot program focused on both technical feasibility and traveler attitudes <span class="citation">(<a href="#ref-rephloConnectedVehiclesSafety2013" role="doc-biblioref">Rephlo 2013</a>)</span>. The study included 500 residents of Wright County, which is adjacent and to the west of the 7-county jurisdiction of Met Council. The MBUF rate was set at $0.03 per mile for travel during peak periods or within an area bounded by I-494 and I-694 and $0.01 per mile for all other travel. The pilot test generated $40,000 of simulated revenue from an average monthly fee of $20 per traveler. The cost was designed to be roughly commensurate with the Minnesota fuel tax. Only 17% of participants felt the MBUF was higher than they anticipated. Preference for an MBUF rather than a fuel tax was attributed to it providing a more equitable distribution of transportation costs. Those opposed to the change cited the clearer tax (i.e., monthly bill) versus the current system of incorporating the tax into the price of fuel at the pump. Data privacy was not a significant concern among participants, although there is some question as to whether self-selection bias may be a factor since participation in the study was voluntary. The pilot study also took advantage of the GPS technology used to track VMT to provide safety notifications to participants. These notifications included alerts when the driver exceeded the posted speed limit or entered a highway work zone. Many participants preferred that these elements be removed, and the focus placed on MBUF. While the project was motivated by a need to find alternative revenue streams due to increased vehicle fuel efficiency, the use of a simulated price means that there was no significant reduction in VMT among participants.</p>
 </div>
 </div>
 <div id="parking-policy" class="section level4 hasAnchor" number="4.3.0.6">
 <h4><span class="header-section-number">4.3.0.6</span> Parking Policy<a href="transportation.html#parking-policy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic <span class="citation">(<a href="#ref-shoupCruisingParking2006" role="doc-biblioref">Shoup 2006</a>)</span>). Surface lots and parkades take up valuable space that could be put to more useful purposes.</p>
-<p>The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table <a href="transportation.html#tab:tab-parking-price-effects">4.11</a>).</p>
+<p>The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table <a href="transportation.html#tab:tab-parking-price-effects">4.14</a>).</p>
 <!-- TODO check equation -->
 <p>The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature <span class="citation">(<a href="#ref-lehnerPriceElasticityParking2019" role="doc-biblioref">Lehner and Peer 2019</a>)</span>.</p>
 <p><span class="math display">\[adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} \]</span></p>
@@ -3062,7 +4106,7 @@ Walk
 }
 </style>
 <table class="gt_table">
-  <caption><span id="tab:tab-parking-price-effects">Table 4.11: </span>Parking price adjustment values</caption>
+  <caption><span id="tab:tab-parking-price-effects">Table 4.14: </span>Parking price adjustment values</caption>
   
   <thead class="gt_col_headings">
     <tr>
@@ -3099,7 +4143,7 @@ Figure 4.3: Comparing the direct and embodied greenhouse gas emissions between y
 <pre><code>## Joining with `by = join_by(Mode)`</code></pre>
 <table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-pp-comp">Table 4.12: </span>Emissions in tonnes CO2e - $50 parking per hour Minneapolis
+<span id="tab:tab-pp-comp">Table 4.15: </span>Emissions in tonnes CO2e - $50 parking per hour Minneapolis
 </caption>
 <thead>
 <tr>
@@ -3148,7 +4192,7 @@ School bus
 </tr>
 <tr>
 <td style="text-align:left;">
-Urban bus (standard, non-BRT bus)
+Urban bus
 </td>
 <td style="text-align:right;">
 50.70
@@ -3227,6 +4271,9 @@ Walk
 <div id="ref-afdcLightDutyAFVRegistrations2018" class="csl-entry">
 AFDC. 2018. <span>“Light-<span>Duty AFV Registrations</span>.”</span> <a href="https://afdc.energy.gov/data/">https://afdc.energy.gov/data/</a>.
 </div>
+<div id="ref-Chester_Horvath_2009" class="csl-entry">
+Chester, Mikhail V., and Arpad Horvath. 2009. <em>Life-Cycle Energy and Emissions Inventories for Motorcycles, Diesel Automobiles, School Buses, Electric Buses, Chicago Rail, and New York City Rail</em>. <a href="https://doi.org/10.11436/mssj.15.250">https://doi.org/10.11436/mssj.15.250</a>.
+</div>
 <div id="ref-CommercePolicyChapter2017" class="csl-entry">
 <em>Commerce <span>Policy</span>, <span>Chapter</span> 94 <span>S</span>.<span>F</span>.<span>No</span>. 1456</em>. 2017. <em>Article 8, Section 9</em>. <a href="https://www.revisor.mn.gov/laws/2017/0/Session+Law/Chapter/94/#laws.8.9.0">https://www.revisor.mn.gov/laws/2017/0/Session+Law/Chapter/94/#laws.8.9.0</a>.
 </div>
@@ -3235,6 +4282,9 @@ Crow, Daniel, and Ariane Millot. 2020. <span>“Working from Home Can Save Energ
 </div>
 <div id="ref-Dingel_Neiman_2020" class="csl-entry">
 Dingel, Jonathan I, and Brent Neiman. 2020. <span>“How Many Jobs Can Be Done at Home?”</span> <em>Journal of Public Economics</em> 189. <a href="https://doi.org/10.1016/j.jpubeco.2020.104235">https://doi.org/10.1016/j.jpubeco.2020.104235</a>.
+</div>
+<div id="ref-ewingTravelBuiltEnvironment2010" class="csl-entry">
+Ewing, Reid, and Robert Cervero. 2010. <span>“Travel and the <span>Built Environment</span>: <span>A Meta-Analysis</span>.”</span> <em>Journal of the American Planning Association</em> 76 (3): 265–94. <a href="https://doi.org/10.1080/01944361003766766">https://doi.org/10.1080/01944361003766766</a>.
 </div>
 <div id="ref-fuEnvironmentalPolicyImplications2012a" class="csl-entry">
 Fu, Miao, James Kelly, J. Peter Clinch, and Fearghal King. 2012. <span>“Environmental Policy Implications of Working from Home: <span>Modelling</span> the Impacts of Land-Use, Infrastructure and Socio-Demographics.”</span> <em>Energy Policy</em> 47 (August): 416–23. <a href="https://doi.org/10.1016/j.enpol.2012.05.014">https://doi.org/10.1016/j.enpol.2012.05.014</a>.
@@ -3266,6 +4316,9 @@ MnDOT. 2020. <span>“Electric <span>Vehicle Dashboard</span>.”</span> <a href
 <div id="ref-Mokhtarian_2009" class="csl-entry">
 Mokhtarian, Patricia L. 2009. <span>“If Telecommunication Is Such a Good Substitute for Travel, Why Does Congestion Continue to Get Worse?”</span> <em>Transportation Letters</em> 1 (1): 1–17. <a href="https://doi.org/10.3328/TL.2009.01.01.1-17">https://doi.org/10.3328/TL.2009.01.01.1-17</a>.
 </div>
+<div id="ref-cityofminneapolisdepartmentofcommunityplanningandeconomicdevelopmentMinneapolis2040City2019" class="csl-entry">
+of Minneapolis Department, City, and conomic Development. 2019. <span>“Minneapolis 2040: <span>The City</span>’s <span>Comprehensive Plan</span>.”</span> <span>Minneapolis, MN</span>. <a href="https://minneapolis2040.com/media/1488/pdf_minneapolis2040.pdf">https://minneapolis2040.com/media/1488/pdf_minneapolis2040.pdf</a>.
+</div>
 <div id="ref-porterCarbonFreeBoston2019" class="csl-entry">
 Porter, Christopher, Xiao Yun (Jane) Chang, Cutler J Cleveland, Peter Fox-Penner, Michael J Walsh, Margaret Cherne-hendrick, Taylor Perez, Janet Atkins, Christopher Cook, and et al. 2019a. <span>“Transportation <span>Technical Report</span> 2019.”</span> Carbon <span>Free Boston</span>. <span>Boston, MA, USA</span>: <span>Boston University Institute for Sustainable Energy</span>. <a href="https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/">https://sites.bu.edu/cfb/carbon-free-boston-report-released/technical-reports/</a>.
 </div>
@@ -3286,6 +4339,9 @@ Shoup, Donald C. 2006. <span>“Cruising for Parking.”</span> <em>Transport Po
 </div>
 <div id="ref-Spiller_Stephens_Timmins_Smith_2014" class="csl-entry">
 Spiller, Elisheba, Heather Stephens, Christopher Timmins, and Allison Smith. 2014. <span>“The Effect of Gasoline Taxes and Public Transit Investments on Driving Patterns.”</span> <em>Environmental and Resource Economics</em> 59 (4): 633–57. <a href="https://doi.org/10.1007/s10640-013-9753-9">https://doi.org/10.1007/s10640-013-9753-9</a>.
+</div>
+<div id="ref-stevensDoesCompactDevelopment2016" class="csl-entry">
+Stevens, Mark. 2016. <span>“Does <span>Compact Development Make People Drive Less</span>?”</span> <em>Journal of the American Planning Association</em> 83 (1): 1–12. <a href="https://doi.org/10.1080/01944363.2016.1240044">https://doi.org/10.1080/01944363.2016.1240044</a>.
 </div>
 <div id="ref-sustainabledevelopmentsolutionsnetworkAmericaZeroCarbon2020" class="csl-entry">
 Sustainable Development Solutions Network, and Jeffrey Sachs. 2020. <span>“America’s <span>Zero Carbon Action Plan</span>.”</span> <span>Sustainable Development Solutions Network</span>. <a href="https://irp-cdn.multiscreensite.com/6f2c9f57/files/uploaded/zero-carbon-action-plan%20%281%29.pdf">https://irp-cdn.multiscreensite.com/6f2c9f57/files/uploaded/zero-carbon-action-plan%20%281%29.pdf</a>.
