@@ -1,11 +1,15 @@
 ### Urban Form
 
-In the coming decades, the Twin Cities region is expected to experience significant growth, with its population projected to increase from just under 3.2 million residents to over 3.7 million by 2040. This growth will bring about substantial changes in land use and land cover, particularly in the north and west suburbs. 
+<!-- In the coming decades, the Twin Cities region is expected to experience significant growth, with its population projected to increase from just under 3.2 million residents to over 3.7 million by 2040. This growth will bring about substantial changes in land use and land cover, particularly in the north and west suburbs.  -->
+
+In the coming decades, population growth will bring about changes in land use and land cover, which can impact existing carbon stocks and storage potential.
 
 **What are Biogenic Emissions?** 
 
-*Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant
-impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear.
+<!-- *Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Urban expansion can have a significant -->
+<!-- impact on these emissions, as the expansion itself can release long-stored carbon, and the presence of vegetation and soil can sequester carbon dioxide. However, the duration of carbon sequestration in biomass and the level at which it becomes saturated remain unclear. -->
+
+*Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Vegetation (plants) utilize carbon dioxide for growth and sequester carbon as they grow. Plant-based carbon can be stored for long periods of time in soils or in woody biomass (e.g., tree trunks). However, when plants tissues die, microbes decompose plant tissues and release carbon back into the atmosphere. The rate of microbial decomposition and the return of carbon into the atmosphere depend on mulitple factors.
 
 To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used
 to calculate these values for the study period of 2018-2040.
