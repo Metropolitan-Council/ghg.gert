@@ -1,16 +1,23 @@
-### Vehicle Electrification
+#### Vehicle Electrification
+
+Vehicle electrification is widely recognized as a central pillar of transportation decarbonization [@sustainabledevelopmentsolutionsnetworkAmericaZeroCarbon2020]. The effectiveness of this strategy relies on a combination of market uptake and decarbonization of the electricity grid. Both factors are considered in the tool, as outlined in subsequent sections. Focus is placed on the personal vehicle fleet but a partial consideration is given to the on-road freight fleet.
+
+
+
+##### EV market penetration  
+
+It was found that the estimate for EV penetration by 2020 is high compared with what is observed in the county totals for that year. The model predicts 4,920 PHEV and BEV vehicles in 2015 and 97,091 such vehicles in 2020 for the seven-county region. For comparison, the Alternative Fuels Data Center (AFDC) only shows 4,740 registered vehicles in 2018 [@afdcLightDutyAFVRegistrations2018] and MnDOT shows 17,146 registered electric vehicles in 2020 [@mndotElectricVehicleDashboard2020].
+
 
 The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles on greenhouse gas emissions in the Twin Cities metropolitan region.
-
-The Tool uses data from the Market Acceptance of Advanced Automotive Technologies model to forecast electric vehicle market penetration in the region, and considers the GHG intensity of the region's electricity grid in calculating the GHG impact of electric vehicles.
 
 The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.
 
 ```{r fig-bev, echo=FALSE, message=FALSE}
 #| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.",
 #| fig.align = 'center',
-#| fig.width = 8, fig.height = 3
-# vmt_annual_energy_outlook()
+#| fig.width = 8,
+#| fig.height = 3
 
 bev_ctu %>%
   filter(year %in% c("2018", "2040")) %>%
@@ -30,7 +37,10 @@ bev_ctu %>%
     values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
     breaks = c("20%", "40%", "60%", "80%", "100%")
   ) +
-  labs(x = "", y = "", color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")) +
+  labs(
+    x = "", y = "",
+    color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")
+  ) +
   scale_y_continuous(labels = scales::label_comma()) +
   theme(
     panel.background = element_rect(fill = "white"),

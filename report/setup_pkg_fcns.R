@@ -83,7 +83,7 @@ chartformat <- function(tb) {
       ),
       Year = as.numeric(Year)
     ) %>%
-    ggplot(., aes(x = Year, y = value, fill = Future)) + 
+    ggplot(., aes(x = Year, y = value, fill = Future)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
     facet_wrap(~Variables, scales = "free", labeller = label_wrap_gen(width = 25)) +
     scale_x_continuous(breaks = c(2018, 2040)) +

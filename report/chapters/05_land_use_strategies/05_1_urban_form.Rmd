@@ -16,11 +16,11 @@ to calculate these values for the study period of 2018-2040.
 
 **GHG Impact Calculation**
 
-$$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) × 44/12$$
+$$CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) \times 44/12$$
 *Where:*
 
-$\text{Sequestration} = \sum{(Ai × SRi)}$\
-$\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait × CDi )]}$
+$\text{Sequestration} = \sum{(Ai \times SRi)}$\
+$\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait \times CDi )]}$
 
 *And:*
 

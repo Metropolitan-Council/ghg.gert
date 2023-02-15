@@ -1,0 +1,5 @@
+﻿Road pricing adjustment,Default value,Acceptable range
+Passenger vehicle miles traveled fee,$0.00 ,$ 0.03 - 0.25 per mile
+Freight vehicle miles traveled fee,$0.00 ,$ 0.03 - 0.25 per mile
+Pay-as-you-drive insurance fee,$0.00 ,$ 0.066 per mile
+Congestion pricing,$0.00 ,$ 0.03 - 0.25 per mile

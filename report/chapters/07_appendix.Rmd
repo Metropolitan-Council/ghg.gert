@@ -71,13 +71,13 @@
 *	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
 *	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
 
-### Equations: Residential
+### Residential Equations
 
 **GHG Impact Calculation for Increased Multifamily Housing**
 
 Calculate floor area changes:
 
-$$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})$$
+$$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} \times x \times (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$:  The percentage of new single-family homes that are converted to multifamily homes
@@ -89,7 +89,7 @@ $$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} * x * (\b
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
 
 *Where:*
 
@@ -104,7 +104,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \f
 
 Calculate new floor area:
 
-$$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) * 0.5 * \left(\bar{sqft}_{2040}^{sf}-(1+x) * \bar{sqft}_{2018}^{sf}\right)$$
+$$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) \times 0.5 \times \left(\bar{sqft}_{2040}^{sf}-(1+x) \times \bar{sqft}_{2018}^{sf}\right)$$
 $$\text{where } 0 \le x \le 1$$
 
 *Where:*
@@ -119,7 +119,7 @@ $$\text{where } 0 \le x \le 1$$
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
 
 *Where:*
 
@@ -133,7 +133,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} *  \left( \
 
 Calculate new efficency:
 
-$$\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \bar{sqft}_{2040}^{sf} * 0.64$$
+$$\text{new } sqft_{2040}^{sf} = x \times (units_{2040}^{sf}-units_{2018}^{sf}) \times \bar{sqft}_{2040}^{sf} \times 0.64$$
 
 *Where:*
  
@@ -146,7 +146,7 @@ $$\text{new } sqft_{2040}^{sf} = x * (units_{2040}^{sf}-units_{2018}^{sf}) * \ba
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
 
 *Where:*
 
@@ -161,7 +161,7 @@ $$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} * \left( \f
 
 Calculate new floor area:
 
-$$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} * x * 0.33 * \bar{sqft}_{2018}^{mf})$$
+$$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} \times x \times 0.33 \times \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} \times x \times 0.33 \times \bar{sqft}_{2018}^{mf})$$
 
 *Where:*
 
@@ -174,7 +174,7 @@ $$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} * x * 0.33 * \bar{sqft}_{2
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  * \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right))$$
+$$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right))$$
 
 *Where:*
 
@@ -189,7 +189,7 @@ $$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  
 
 Calculate new floor area:
 
-$$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * pop_{2040} * \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} * 0.11 $$
+$$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x \times pop_{2040} \times \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} \times 0.11 $$
 
 *Where:*
 
@@ -200,7 +200,7 @@ $$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x * p
 
 Calculate new emissions:
 
-$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}* \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{therm_{2040}} \right)$$
+$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}\times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
 *Where:*
 
 -  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
@@ -215,7 +215,7 @@ $$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{reside
 Calculate electricity use in 2040:
 
 $$
-\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{MWh}{sqft_{2040}^{residential}}
+\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{MWh}{sqft_{2040}^{residential}}
 $$
 
 *Where:*
@@ -227,7 +227,7 @@ $$
 
 Calculate new emissions:
 
-$$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} *  \frac{kgCO2e}{MWh_{2040}} * (1-x) $$
+$$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} \times  \frac{kgCO2e}{MWh_{2040}} \times (1-x) $$
 
 *Where:*
 
@@ -239,13 +239,13 @@ $$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }
 
 Natural Gas for Space Heating:
 
-$$term_1 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 71\% $$
-$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 * (0.8/5.02) * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$
+$$term_1 = \left(pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) \times x \times \frac{kgCO2e}{therm_{2040}} \times 71\% $$
+$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 \times (0.8/5.02) \times \frac{0.0293therm}{MWh}\right) \times \frac{kgCO_2e}{MWh_{2040}}$$
 
 Natural Gas for Water Heating:
 
-$$term_2 = \left(pop_{2040} * \frac{sqft_{2040}^{residential}}{pop_{2040}} * \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) * x * \frac{kgCO2e}{therm_{2040}} * 24\% $$
-$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 * 100\% * \frac{0.0293therm}{MWh}\right) * \frac{kgCO_2e}{MWh_{2040}}$$
+$$term_2 = \left(pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) \times x \times \frac{kgCO2e}{therm_{2040}} \times 24\% $$
+$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 \times 100\% \times \frac{0.0293therm}{MWh}\right) \times \frac{kgCO_2e}{MWh_{2040}}$$
 
 *Where:*
 
@@ -259,11 +259,11 @@ $$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left
 -  $0.0293therm/MWh$: The conversion factor from therm to MWH
 -  $kgCO_2e/MWh_{2040}$: The projected emissions factor of electricity in 2040
 
-### Equations - Non-residential
+### Non-residential Equations
 
 **GHG Impact Calculation for Retrofitting Existing Commercial Buildings**
 
-$$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} * 0.25 * \left( \frac{MWh}{jobs_{2018}^{commercial}} * \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} * \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$
+$$\text{new total } kgCO_2e_{2040}^{commercial} = x \times jobs_{2018}^{commercial} \times 0.25 \times \left( \frac{MWh}{jobs_{2018}^{commercial}} \times \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} \times \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)
@@ -277,7 +277,7 @@ $$\text{new total } kgCO_2e_{2040}^{commercial} = x * jobs_{2018}^{commercial} *
 
 **GHG Impact Calculation for Smart Grid**
 
-$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industrial}_{2040} * \frac{MWh}{jobs^{industrial}_{2040}} * 11\% \right) * \frac{kgCO_2e}{MWh}$$
+$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x \times \left(jobs^{industrial}_{2040} \times \frac{MWh}{jobs^{industrial}_{2040}} \times 11\% \right) \times \frac{kgCO_2e}{MWh}$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: The percentage of industries in the smart grid (assumed to be 100%)
@@ -288,7 +288,7 @@ $$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x * \left(jobs^{industr
 
 **GHG Impact Calculation for Renewable Natural Gas**
 
-$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} * \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  * \frac{therms}{jobs_{2040}^{industrial}} \right) * x * \frac{kgCO_2e}{therms_{2040}}$$
+$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} \times \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  \times \frac{therms}{jobs_{2040}^{industrial}} \right) \times x \times \frac{kgCO_2e}{therms_{2040}}$$
 
 *Where:*
 
@@ -301,7 +301,7 @@ $$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{
 
 **GHG Impact Calculation for Clean Energy**
 
-$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} * MWh_{2040}^{commercial} + jobs_{2040}^{industrial} * MWh_{2040}^{industrial}) * \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) * x$$
+$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} \times MWh_{2040}^{commercial} + jobs_{2040}^{industrial} \times MWh_{2040}^{industrial}) \times \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) \times x$$
 *Where:*
 
 -  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)
@@ -347,9 +347,37 @@ gt::gt(
 
 #### Source summaries
 
+### Annual Energy Outlook (AEO)
+
+In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
+
+The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].
+
+1.  **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+2.  **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+3.  **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.\
+4.  **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.
+
+The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
+
+
+
 ##### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
+
+The Market Acceptance of Advanced Automotive Technologies ([MA3T](#ma3t-doc)) model developed by Oak Ridge National Laboratory (ORNL) was used to estimate the 2015 private vehicle fleet composition and provide a baseline forecast of its composition in 2050. CTUs are aggregated so that the model includes the 44 CTU with the largest populations and the remaining CTU are allocated to their respective county among the seven counties in the MSP region (giving 51 regions). The model is then updated to use population totals and other characteristics calculated for these regions.
+
+
+Area types (i.e., central city, suburban, or rural) are based on United States Census Bureau definitions of central cities for the metropolitan area including Minneapolis, St. Paul, and Bloomington and assuming that non-community CTU are rural.
+
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. The purposes of this calculation, it was assumed that the average travel distance in electric mode for a PHEV is 29.6 miles [@plotzRealworldUsagePlugin2020] and that households only recharge their vehicle at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.  
+
+
+The [MA3T](#ma3t-doc) model defines three driving patterns as modest (less than 8,656 miles per year), average (8,656-16,068 miles per year), and frequent (greater than 16,068 miles per year). Weighted 2019 TBI data are used to estimate the share of each driving pattern class for each of the 51 regions.   
+
+A large 5-year growth rate is anticipated by the model between 2015 and 2020 of 383%. Assuming that this growth will occur in 2020-2025, that is that it is lagged from the [MA3T](#ma3t-doc) expectation by five years, gives reasonably good results by 2040 of about 23% of the vehicle market and 13% for BEV only (in line with the AEO and ZCAP reference cases). 
+
 
 ```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
 knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
