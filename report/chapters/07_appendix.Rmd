@@ -1,4 +1,12 @@
 # Appendix {-}
+```{r}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
+
 
 ## Building Energy
 ### Energy Efficiency Strategy
@@ -71,6 +79,44 @@
 *	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
 *	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
 
+<!-- ### Forecasted Electricity Energy Mix   -->
+
+Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
+
+
+```{r, energy-mix-forecast,eval=FALSE}
+# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
+#   show_col_types = F
+# ) %>%
+#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
+#     source = stringr::str_remove(source, "\\*"),
+#     scenario = paste0(scenario, " Scenario")
+#   )
+# # tidyr::pivot_longer(cols = 3:11,
+# #                     names_to = "year",
+# #                     values_to = "prop") %>%
+# # mutate(year = stringr::str_remove(year, "X") %>%
+# #          as.numeric()) %>%
+# # filter(year != 2018)
+#
+# energy_mix %>%
+#   group_by(scenario) %>%
+#   gt::gt(
+#     id = "energy-mix-forecast",
+#     caption = "Forecasted Electricity Generation Mix (%)",
+#     rowname_col = "source"
+#   ) %>%
+#   # gt::tab_stubhead("Scenario") %>%
+#   gt::tab_source_note("Xcel Energy, 2020") %>%
+#   gt::opt_row_striping(TRUE) %>%
+#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
+#     locations = gt::cells_stub(rows = c(1, 6))
+#   ) %>%
+#   gt::tab_options(row_group.font.weight = "bold")
+```
+
+
+
 ### Residential Equations
 
 **GHG Impact Calculation for Increased Multifamily Housing**
@@ -136,7 +182,7 @@ Calculate new efficency:
 $$\text{new } sqft_{2040}^{sf} = x \times (units_{2040}^{sf}-units_{2018}^{sf}) \times \bar{sqft}_{2040}^{sf} \times 0.64$$
 
 *Where:*
- 
+
 -   $x \text{, where } 0 \le x \le 1$: The percentage of new single family homes that are LEED Gold
 -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040
 -   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040
@@ -327,6 +373,9 @@ The transportation module is constructed based on a set of standard forecasts fo
 source_mode_var <- ghg.sp::transportation_index$data_sources %>%
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+  filter(!is.na(source_short),
+         source_short != "",
+         !is.na(mode_description_1)) %>% 
   select(
     Mode = mode_description_1,
     Measure = var_description,
@@ -345,9 +394,7 @@ gt::gt(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-#### Source summaries
-
-### Annual Energy Outlook (AEO)
+#### Annual Energy Outlook (AEO)
 
 In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
 
@@ -361,8 +408,33 @@ The inclusion of these scenarios allows the user to easily consider uncertainty 
 The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
 
 
+You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
 
-##### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
+```{r tab-aeo-values}
+#| echo: false
+#| warning: false
+ghg.sp::factor_values$aeo %>%
+  mutate(
+    aeo_scen = as.factor(aeo_scen),
+    mode = as.factor(mode),
+    metric = as.factor(metric),
+    year = as.factor(year)
+  ) %>%
+  DT::datatable(
+    rownames = FALSE,
+    filter = "top",
+    colnames = c(
+      "AEO Scenario",
+      "Mode",
+      "Metric",
+      "Year",
+      "Value"
+    )
+  )
+```
+
+
+#### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
 
@@ -409,7 +481,7 @@ You can find more information on the [Met Council website `r fontawesome::fa("ex
 [@khaniStudyBusRapid2018]
 
 
-#### Federal data sources
+### Federal data sources
 
 ##### Federal Highway Administration (FHWA)   
 
@@ -421,43 +493,32 @@ Average vehicle occupancy  [@federalhighwayadministrationfhwaAverageVehicleOccup
 
 ###### Fuel economies   
 
+```{r}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         stringr::str_detect(var, "MPG"),
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+    select(
+    Mode = mode_description_1,
+    `Fuel economy` = var_description,
+    Year = year,
+    `Miles per gallon` = value,
+    `Source` = source_short
+  ) %>% 
+  group_by(Mode, `Fuel economy`) %>% 
+  gt::gt() %>% 
+    gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
 
-
-###### Annual Energy Outlook values  {#aeo-values}  
-
-The Annual Energy Outlook (AEO) is a report series by the US Energy Information Administration (EIA) exploring long-term energy trends in the United States [@eiaAnnualEnergyOutlook2021]. 
-
-You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
-
-```{r tab-aeo-values}
-#| echo: false
-#| warning: false
-ghg.sp::factor_values$aeo %>%
-  mutate(
-    aeo_scen = as.factor(aeo_scen),
-    mode = as.factor(mode),
-    metric = as.factor(metric),
-    year = as.factor(year)
-  ) %>%
-  DT::datatable(
-    rownames = FALSE,
-    filter = "top",
-    colnames = c(
-      "AEO Scenario",
-      "Mode",
-      "Metric",
-      "Year",
-      "Value"
-    )
-  )
 ```
-
-
 
 
 ##### National Transit Database (NTD)  {#ntd-source}  
 
-#### Study-specific values
+### Study-specific values
 
 Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brookerFASTSimModelEstimate2015]
 
@@ -512,7 +573,7 @@ gt::gt(
 
 ### Future costs per mile  
 
-```{r future-cost-per-mile}
+```{r tab-future-cost-per-mile}
 #| echo: false
 #| warning: false
 tibble::tribble(
@@ -554,44 +615,26 @@ tibble::tribble(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
+### Vehicle occupancy values 
+
+```{r tab-vehicle-occupancy}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         var == "AVO", 
+         year == "2018",
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+  select(
+    Mode = mode_description_1,
+    `Persons per vehicle` = value,
+    `Source` = source_short
+  ) %>% 
+  tableformat(.caption = paste0("Vehicle occupancy values - ", params$ctu_selection))
 
 
-
-### Forecasted Electricity Energy Mix  
-
-Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
-
-
-```{r, energy-mix-forecast,eval=FALSE}
-# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
-#   show_col_types = F
-# ) %>%
-#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
-#     source = stringr::str_remove(source, "\\*"),
-#     scenario = paste0(scenario, " Scenario")
-#   )
-# # tidyr::pivot_longer(cols = 3:11,
-# #                     names_to = "year",
-# #                     values_to = "prop") %>%
-# # mutate(year = stringr::str_remove(year, "X") %>%
-# #          as.numeric()) %>%
-# # filter(year != 2018)
-#
-# energy_mix %>%
-#   group_by(scenario) %>%
-#   gt::gt(
-#     id = "energy-mix-forecast",
-#     caption = "Forecasted Electricity Generation Mix (%)",
-#     rowname_col = "source"
-#   ) %>%
-#   # gt::tab_stubhead("Scenario") %>%
-#   gt::tab_source_note("Xcel Energy, 2020") %>%
-#   gt::opt_row_striping(TRUE) %>%
-#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
-#     locations = gt::cells_stub(rows = c(1, 6))
-#   ) %>%
-#   gt::tab_options(row_group.font.weight = "bold")
 ```
+
 
 
 ## Land Use
@@ -617,7 +660,7 @@ Several cities are investing in large-scale tree planting programs as a means of
 
 ## Stakeholder Engagement
 
-In April and May of 2022, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
+In April and May of 2020, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
 
 The stakeholders identified several priorities for developing the Greenhouse Gas Scenario Planning Tool, including (in ranking order) vehicle electrification, grid renewables, building retrofits, mixed-use development, and building codes.
 

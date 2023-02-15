@@ -1,4 +1,11 @@
-#### Parking Policy  
+### Parking Policy  
+```{r}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
 
 Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes.
 
