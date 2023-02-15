@@ -58,8 +58,5 @@ The Greenhouse Gas Scenario Planning tool considers four main strategies for non
 ```{r child="chapters/03b_non_residential_strategies/03b2_smart_grid_non_res.Rmd", echo=FALSE}
 ```
 
-```{r child="chapters/03b_non_residential_strategies/03b3_non_res_renewable_ng.Rmd", echo=FALSE}
-```
-
 ```{r child="chapters/03b_non_residential_strategies/03b4_non_res_decarbonize_grid.Rmd", echo=FALSE}
 ```

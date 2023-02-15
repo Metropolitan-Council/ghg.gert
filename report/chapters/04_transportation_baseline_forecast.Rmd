@@ -2,42 +2,51 @@
 
 ![](images//2724.jpg)
 
-The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. The issue of longer and more frequent automobile trips contributes to the challenge of reducing greenhouse gas emissions.
+Transportation of both passengers and freight contributes to greenhouse gas (GHG) emissions in the Twin Cities metro region. 
 
-Instead, when land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency.
+The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. Longer and more frequent automobile trips contribute to the challenge of reducing greenhouse gas emissions.
+
+When land use and transportation systems are designed to work together, they can create more efficient and sustainable communities. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency. 
+
+While this report examines only Minneapolis, the selected city exists within the context of the metropolitan region. 
 
 ## Framework
 
-Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] provide a framework for urban planning tools for greenhouse gas (GHG) mitigation as shown in as four key levers of action based on the framework developed in previous work by the UN International Resource Panel [@swillingWeightCitiesResource2018].
+For this model, the Metropolitan Council uses the framework offered by Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] for four key levers of urban planning action for GHG mitigation, based on a framework developed by the UN International Resource Panel [@swillingWeightCitiesResource2018].
 
-It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively.
+<!-- It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively. --> <!--LM: I would take this out or contextualize it with the existing density of Mpls -->
 
 ## Baseline and Core Data Sources
 
-The Council is in the process of verifying data sources for all inputs and values. Values shown in this tool should not be taken as definitive. 
-
+The Council is in the process of developing the GHG Scenario Planning tool and verifying data. Values shown in this tool are not definitive. 
 
 <!-- -   **Passenger Miles Traveled** (PMT) forecasts from Metropolitan Council [Regional Transportation Demand Model (RTDM)](https://metrocouncil.org/Transportation/Performance/Travel-Forecasting.aspx). -->
--   **The Travel Demand Model** A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
--   **MA3T stock turnover and adoption forecasts by "powertrain"**: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric stock turnover and adoption forecasts come from Market Acceptance of Advanced Automotive Technologies ([MA3T](https://teem.ornl.gov/ma3t.shtml)), which simulates the diverse purchasing behaviors among individuals in the market place.
+**The Travel Demand Model** A transportation demand model is a tool that is used to predict how people and goods will move within a transportation system. It can be used to forecast the demand for different modes of transportation, such as cars, buses, trains, and planes, and to evaluate the impacts of different transportation policies and investments.
+<!-- -   **MA3T stock turnover and adoption forecasts by "powertrain"**: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric stock turnover and adoption forecasts come from Market Acceptance of Advanced Automotive Technologies ([MA3T](https://teem.ornl.gov/ma3t.shtml)), which simulates the diverse purchasing behaviors among individuals in the market place. --> <!-- LM: moved this to appendix since MA3T is not mentioned anywhere else in the text -->
 
-Additional data sources can be found in the [Appendix](#data-sources)
+Detailed information on data sources can be found in the [Appendix](#data-sources)
 
 ### Passenger
 
-The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline, and battery electric vehicles.
+Passenger transportation in the region includes private cars, public transit, biking, and walking. 
 
-The region's transportation carbon emissions are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the [2019 Travel Behavior Inventory (TBI)](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx), but there are no estimates of transit vehicle turnover to the 2050 forecast year.
+The region's transportation carbon emissions for private cars and public transit are calculated based on data on vehicle usage, average vehicle occupancy, and person miles traveled by mode. 
 
-The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV).
+Public transit options include urban and interurban buses and rails, with the option to switch to electric power in the future. Public transit mode shares are estimated using definitions from the [2019 Travel Behavior Inventory (TBI)](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory.aspx), but there are no available estimates of transit vehicle turnover to the 2050 forecast year.
 
-Public transit modes are categorized as urban bus (which groups both BRT and local routes), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.
-
-<!-- The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050. -->
+The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline (PHEV), and battery electric vehicles.
 
 In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles [@lovedayTopPlugInHybrid2019] and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.
 
-The regional model provides PMT totals for auto, transit, bike, and walk modes. PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
+<!-- The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV). LM: repeats from above -->
+
+Public transit modes are categorized as urban bus (which groups both bus rapid transit (BRT) and local routes), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.
+
+<!-- The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050. -->
+
+The regional model provides passenger miles traveled (PMT) totals for auto, transit, bike, and walk modes.
+
+PMT by mode is allocated to cities and towns using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same city or town (CTU) is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
 
 ```{r tab-passenger-miles-traveled}
 #| echo: false
@@ -58,7 +67,7 @@ transportation_data$passenger %>%
     "Mode" = "var",
     "Value" = "value"
   ) %>%
-  mutate(Value = round(Value, digits = 0)) %>%
+  mutate(Value = Value * 1000) %>%
   pivot_wider(
     names_from = year,
     values_from = Value
@@ -87,6 +96,7 @@ transportation_data$freight %>%
     by = c("mode" = "mode_abbrev")
   ) %>%
   select(mode_description_1, value, year) %>%
+  mutate(value = value * 1000) %>%
   rename("var" = "mode_description_1") %>%
   rename(
     "Mode" = "var",
@@ -97,7 +107,9 @@ transportation_data$freight %>%
 ```
 
 
-Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
+The GHG Scenario Planning tool considers both direct and embodied (indirect) emissions. Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. 
+
+In the GHG Scenario Planning model, embodied emissions are estimated for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
 
 ## Strategies
 

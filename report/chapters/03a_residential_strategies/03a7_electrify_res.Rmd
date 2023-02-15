@@ -10,9 +10,11 @@ The scenario planning model utilizes efficiency of the heat pump derived from pi
 <!-- National studies indicate 100% adoption of electric heat pumps may be unlikely in cold areas, due to which we also model renewable natural gas for the remaining buildings, described in the following strategy. LM: let's move this into the next section -->
 
 ::: about_strategy
-**About this strategy** For this strategy, we model the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Note that this strategy should preferably be paired with clean electricity strategies to reduce overall emissions.
+**About this strategy** For this strategy, we model the assumption that by 2040 `59%` of homes are using air-source heat pumps and electric water heaters, instead of using gas for heating. Note that this strategy should preferably be paired with clean electricity strategies to reduce overall emissions. The scenario shows electrification with an 80% reduction in the electricity grid emissions. 
 <!-- Cities can adjust the percentage of homes participated in electrifying heating. -->
 :::
+
+Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.
 
 <!-- **GHG Impact Calculation** -->
 
@@ -65,7 +67,7 @@ fig03a7_data <- res_bau_2018 %>%
       .additional_electrified_residential_buildings_pct = 0.45,
       .res_natural_gas_for_space_heating_pct = 0.71,
       .res_natural_gas_for_water_heating_pct = 0.24,
-      .grid_decarbonization_pct = 0,
+      .grid_decarbonization_pct = 0.8,
       .enviro_factors = enviro_factors
     ) %>%
       filter(
