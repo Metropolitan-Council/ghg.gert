@@ -139,7 +139,7 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
 
 
 
-# land use -----
+#  pop density -----
 density_neg100 <- run_scenario_transportation(.pop_dens_pct_change = -1,
                                               .selected_ctu = "Minneapolis",
                                               .scenario = "densn100")
@@ -176,13 +176,45 @@ density_ctu <- density_fxn(density_neg100) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
-density_100 <- run_scenario_transportation(,
+
+# employment density  -----
+emp_density_neg100 <- run_scenario_transportation(.emp_dens_pct_change = -1,
+                                              .selected_ctu = "Minneapolis",
+                                              .scenario = "empdensn100")
+emp_density_neg50 <- run_scenario_transportation(.emp_dens_pct_change = -.5,
+                                             .selected_ctu = "Minneapolis",
+                                             .scenario = "empdensn50")
+emp_density_0 <- run_scenario_transportation(.emp_dens_pct_change = 0,
+                                         .selected_ctu = "Minneapolis",
+                                         .scenario = "empdens0")
+emp_density_50 <- run_scenario_transportation(.emp_dens_pct_change = .5,
+                                          .selected_ctu = "Minneapolis",
+                                          .scenario = "empdens50")
+emp_density_100 <- run_scenario_transportation(.emp_dens_pct_change = 1,
                                            .selected_ctu = "Minneapolis",
-                                           .scenario = "dens100")
+                                           .scenario = "empdens100")
+
+
+emp_density_fxn <- function(.pct) {
+  .pct$passenger_all %>%
+    filter(ctu == "Minneapolis") %>%
+    group_by(ctu, scenario, year, mode) %>%
+    summarise(
+      direct = sum(dir_ghg, na.rm = T),
+      embodied = sum(ghg_embodied, na.rm = T)
+    )
+}
+
+emp_density_ctu <- emp_density_fxn(emp_density_neg100) %>%
+  mutate(param = -1) %>%
+  bind_rows(emp_density_fxn(emp_density_neg50) %>% mutate(param = -.5)) %>%
+  bind_rows(emp_density_fxn(emp_density_0) %>% mutate(param = 0)) %>%
+  bind_rows(emp_density_fxn(emp_density_50) %>% mutate(param = .5)) %>%
+  bind_rows(emp_density_fxn(emp_density_100) %>% mutate(param = 1)) %>%
+  pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
 # bau-----
-
 
 bau <- run_scenario_transportation(.selected_ctu = "Minneapolis", .scenario = "BAU")
 
@@ -203,7 +235,7 @@ bau_ctu <- bau$passenger_all %>%
 
 
 # save data -----
-save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu, bau_ctu,
+save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu, emp_density_ctu, bau_ctu,
      file = "data-raw/transportation_report_data.rda"
 )
 
