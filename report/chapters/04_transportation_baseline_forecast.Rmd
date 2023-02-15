@@ -46,7 +46,7 @@ Public transit modes are categorized as urban bus (which groups both bus rapid t
 
 The regional model provides passenger miles traveled (PMT) totals for auto, transit, bike, and walk modes.
 
-PMT by mode is allocated to CTU using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same CTU is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
+PMT by mode is allocated to cities and towns using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same city or town (CTU) is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
 
 ```{r tab-passenger-miles-traveled}
 #| echo: false
