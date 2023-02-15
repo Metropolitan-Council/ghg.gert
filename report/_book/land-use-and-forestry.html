@@ -7,7 +7,7 @@
   <title>5 Land Use and Forestry | Greenhouse Gas Emissions Scenario Planning</title>
   <meta name="description" content="<p>This is a report for the City of Minneapolis prepared by the Metropolitan Council
 and published on February of 2023.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Land Use and Forestry | Greenhouse Gas Emissions Scenario Planning" />
   <meta property="og:type" content="book" />
@@ -57,9 +57,9 @@ and published on February of 2023.</p>" />
 <link href="libs/tabwid-1.1.2/tabwid.css" rel="stylesheet" />
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.6.0/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<script src="libs/datatables-binding-0.27/datatables.js"></script>
 <link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
@@ -905,7 +905,7 @@ impact on these emissions, as the expansion itself can release long-stored carbo
 <p>To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in <span class="citation">(<a href="#ref-Milnar_Ramaswami_2020" role="doc-biblioref">Milnar and Ramaswami 2020</a>)</span> was used
 to calculate these values for the study period of 2018-2040.</p>
 <div class="about_strategy">
-<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration.</p>
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration. This reference scenario shows the expected carbon sequestration and carbon stock values under the business-as-usual scenario versus a more compact development scenario.</p>
 </div>
 <p><strong>GHG Impact Calculation</strong></p>
 <p><span class="math display">\[CO_2sqlc = (\text{Sequestration} + \text{Land Cover Change}) \times 44/12\]</span>
@@ -923,6 +923,58 @@ to calculate these values for the study period of 2018-2040.</p>
 <li><span class="math inline">\(i = 1 ,2, 3, ...n\)</span> <span class="math inline">\(\text{land cover types}\)</span></li>
 <li><span class="math inline">\(t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}\)</span></li>
 </ul>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+(#tab:fig05_2)Land Use for Minneapolis
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+2018 Baseline
+</th>
+<th style="text-align:right;">
+2040 BAU
+</th>
+<th style="text-align:right;">
+2040 Scenario
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Carbon Stock (Mg CO<sub>2</sub>e/year)
+</td>
+<td style="text-align:right;">
+810,095
+</td>
+<td style="text-align:right;">
+861,131.68
+</td>
+<td style="text-align:right;">
+861,670.96
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Carbon Sequestration (Mg CO<sub>2</sub>e/year)
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+-5,371.26
+</td>
+<td style="text-align:right;">
+-5,380.98
+</td>
+</tr>
+</tbody>
+</table>
+<p>For the City of Minneapolis, there does not appear to be a significant difference in carbon sequestration and stocks between the two scenarios presented.</p>
 </div>
 <div id="conservation-tillage" class="section level3 hasAnchor" number="5.1.5">
 <h3><span class="header-section-number">5.1.5</span> Conservation Tillage<a href="land-use-and-forestry.html#conservation-tillage" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -933,6 +985,9 @@ to calculate these values for the study period of 2018-2040.</p>
 <li>By reducing plowing, there is a lower consumption of fossil fuels from farm equipment.</li>
 </ol>
 <p>In Minnesota, conservation tillage initiatives have been established by a variety of stakeholders, including the state and federal government, private sector companies, environmental advocacy groups, and academia. As a result, nearly half of all Minnesota counties growing corn and soy have at least 25% of planted acres using reduced tillage practices, while about a quarter of the counties have at least 25% of planted acres using no-till practices, according to the Crop Residue Management Survey.</p>
+<div class="about_strategy">
+<p><strong><em>About this strategy</em></strong> Our assumption is that cities can control (or at least influence) the amount of conservation tillage that happens in their community. The strategy shows the maximum conservation tillage increase in carbon stock.</p>
+</div>
 <p><strong>GHG Impact Calculation</strong></p>
 <p><span class="math display">\[ \text{Conservation Tillage Avoided Emissions} = (C+T) \times A \]</span>
 <em>Where:</em></p>
@@ -941,11 +996,50 @@ to calculate these values for the study period of 2018-2040.</p>
 <li><p><span class="math inline">\(T\)</span>: Avoided emissions from tractor fossil fuel use (Mg CO2/ha). The Natural Resources Conservation Service estimates no-till agriculture can reduce tractor fuel consumption by 3.2 gallons/acre6. Emissions from reduced fuel use were computed using a wells-to-wheels emissions factor7</p></li>
 <li><p><span class="math inline">\(A\)</span>: Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.</p></li>
 </ul>
-<p>** results coming soon…</p>
+<table class=" lightable-classic" style="font-size: 12px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:unnamed-chunk-72">Table 5.3: </span>Conservation Tillage Effect for Minneapolis
+</caption>
+<tbody>
+<tr>
+<td style="text-align:left;">
+scenario
+</td>
+<td style="text-align:left;">
+bau
+</td>
+<td style="text-align:left;">
+scenario
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+carbon_stock_change_from_conservation_ag_mg_c
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+91
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+-3
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="reduced-parking-area" class="section level3 hasAnchor" number="5.1.6">
 <h3><span class="header-section-number">5.1.6</span> Reduced Parking Area<a href="land-use-and-forestry.html#reduced-parking-area" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>in progress…</p>
+<p>COMING SOON…</p>
 </div>
 <div id="urban-tree-planting" class="section level3 hasAnchor" number="5.1.7">
 <h3><span class="header-section-number">5.1.7</span> Urban Tree Planting<a href="land-use-and-forestry.html#urban-tree-planting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -959,28 +1053,10 @@ to calculate these values for the study period of 2018-2040.</p>
 <p><span class="math display">\[ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A \times 11/3 \]</span>
 <em>Where:</em></p>
 <ul>
-<li><span class="math inline">\(CD\)</span> = Carbon stock density of urban trees in Mg/ha, a factor of aboveground biomass, (44.1 Mg C/ha, Nowak et al 2013), and belowground biomass to one meter (71 Mg C/ha, Pouyat et al. 20065) for a total stock density of 115.1 Mg C /ha.</li>
+<li><span class="math inline">\(CD\)</span> = Carbon stock density of urban trees in Mg/ha, a factor of above ground biomass, (44.1 Mg C/ha, Nowak et al 2013), and belowground biomass to one meter (71 Mg C/ha, Pouyat et al. 20065) for a total stock density of 115.1 Mg C /ha.</li>
 <li><span class="math inline">\(A\)</span> = Increased area of tree canopy under tree planting scenarios, in hectares.</li>
 <li><span class="math inline">\(11/3\)</span> = Factor to convert Mg C to Mg CO2</li>
 </ul>
-<p><strong>RESOURCES</strong></p>
-<ul>
-<li><a href="https://www.dnr.state.mn.us/forestry/urban/bmps.html">Minnesota Department of Natural Resources: Urban forestry best management practices</a></li>
-<li><a href="https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota">University of Minnesota Extension: Recommended trees for Minnesota</a></li>
-<li><a href="https://www.minnesotamasternaturalist.org/docs/invasive_blitz/native_urban_trees_of_se_mn.pdf">University of Minnesota Extension: Native urban trees of Southeast Minnesota</a></li>
-<li><a href="https://cities4forests.com/lg-urban-forests/introduction-to-policy-for-urban-forests/">Cities4Forests: Introduction to policy for urban forests</a></li>
-</ul>
-<p><em>Additional Information</em></p>
-<ul>
-<li><a href="http://www.treebenefits.com/calculator/">National Tree Benefit Calculator</a></li>
-<li><a href="https://www.minneapolisparks.org/park_care__improvements/trees/">Minneapolis Parks: Trees and the urban forest</a></li>
-<li><a href="https://www.dnr.state.mn.us/forestry/urban/tree-city-usa-awards.html#cities">2020 Tree City USA Communities in Minnesota</a></li>
-<li><a href="https://www.nrs.fs.fed.us/data/urban/state/?state=MN">USDA: Urban forest data for Minnesota</a></li>
-</ul>
-<p><strong>EXAMPLES</strong></p>
-<p>Several cities are investing in large-scale tree planting programs as a means of decarbonization, including the Trillion Trees Initiative, the City of Los Angeles, the City of Tucson, and the City of Pittsburgh. In Minnesota, the City of Saint Paul 2011 Urban Canopy Assessment explored the potential for large-scale tree planting within the city.</p>
-<p><strong>GROWING SHADE</strong></p>
-<p>The Metropolitan Council, in partnership with the Nature Conservancy and the Tree Trust, has developed an online application called Growing Shade to help communities track and prioritize tree planting in areas with thin tree canopies. The app uses data from multiple sources, such as demographic information about neighborhoods, locations of businesses, schools, and parks, to create a detailed picture of a city at the neighborhood level. Nonprofits, cities, and communities can use the data to identify the best locations to plant trees, which can help to address issues such as high asthma rates, extreme temperatures, and the legacy of racial injustices.</p>
 
 </div>
 </div>
