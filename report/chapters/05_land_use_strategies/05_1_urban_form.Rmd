@@ -11,7 +11,7 @@ To assess the impact of urban vegetation on carbon stock changes and sequestrati
 to calculate these values for the study period of 2018-2040.
 
 ::: about_strategy
-***About this strategy*** Our assumption is that cities can control (or at least influence)... 
+***About this strategy*** Our assumption is that cities can control (or at least influence) the urban expansion of their city into forested or green areas to minimize loss of carbon stock and carbon sequestration. 
 :::
 
 **GHG Impact Calculation**
@@ -33,28 +33,25 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait \times CDi )]}$
 - $i = 1 ,2, 3, ...n$ $\text{land cover types}$
 - $t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}$
 
+```{r include=FALSE}
+urban_form_bau <- calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
 
-**** results coming soon...
 
-```{r}
-# calc_scen_land_use(
-#   .selected_ctu = params$ctu_selection,
-#   tb = land_use_data,
-#   .urban_form_scenario = "bau"
-# ) %>%
-#   filter(ctu_name == params$ctu_selection) %>%
-#   group_by(development_type) %>%
-#   summarise(scenario_hectares = sum(scenario_hectares))
-#
-#
-# calc_scen_land_use(
-#   .selected_ctu = params$ctu_selection,
-#   tb = land_use_data,
-#   .urban_form_scenario = "compact_dev_beyond_bau"
-# ) %>%
-#   filter(ctu_name == params$ctu_selection) %>%
-#   group_by(development_type) %>%
-#   summarise(scenario_hectares = sum(scenario_hectares))
+urban_form_scen <- calc_scen_land_use(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "compact_dev_beyond_bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
 ```
 
 
