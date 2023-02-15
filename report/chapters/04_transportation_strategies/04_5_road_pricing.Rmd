@@ -61,7 +61,7 @@ In the CFB analysis [@porterTransportationTechnicalReport2019], they assume that
 
 However, this estimate is for peak VMT, which the TAM team define as 6 AM to 10 AM and 3 PM to 7 PM.  The same TAM study estimates peak VMT congestion in MSP as 24.6%. We assume there is no congestion during non-peak periods and estimate the percent of VMT during the peak period, as a proportion of total VMT for MSP, using weighted TBI 2019 results.
 
-PMT is converted to VMT using an AVO of 1.14 and 1.63 for commuting and non-commuting trips, respectively (based on USDOT statistics [@dotPublicTransportationRole2010]). The adjusted congested VMT is then 10.9% of all travel. This estimate is compared with an MnDOT estimate for highway VMT of 23.2% in 2017 [@mndot2018CongestionReport2019].
+PMT is converted to VMT using the Council's 2019 Travel Behavior Inventory average vehicle occupancy. 
 
 We calculate a secondary set of congestion estimates using TBI data for each CTU. It is assumed that most congestion occurs in the peak periods on weekdays. TBI trips are selected that occur wholly within the same CTU and average travel times estimated for each of peak and off-peak periods. This method suggests an approximately 13% increase in average travel times during peak periods relative to off-peak periods. 
 
