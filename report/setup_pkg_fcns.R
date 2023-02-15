@@ -14,7 +14,7 @@ library(scales)
 
 devtools::load_all("..") # remove once ghg.sp package is up to date with changes
 
-options(scipen = 4, digits = 2)
+options(scipen = 999, digits = 2)
 load(file = file.path(here::here(), "../data-raw/transportation_report_data.rda"))
 
 if (params$desired_format == "html") {
