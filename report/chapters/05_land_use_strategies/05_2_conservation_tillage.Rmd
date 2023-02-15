@@ -1,10 +1,13 @@
 ### Conservation Tillage
 
-Conventional agricultural practices, such as annual plowing, loosen the soil in preparation for planting. However, this can result in soil particles being exposed to wind and erosion, causing a loss of soil nutrients and organic matter over time. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock due to this method. To combat this, conservation tillage practices, such as no-till or reduced-till agriculture, have been introduced to minimize topsoil disturbance and reduce the loss of nutrients and organic matter in the soil. However, the impact of conservation tillage on greenhouse gas emissions is uncertain.
+<!-- Conventional agricultural practices, such as annual plowing, loosen the soil in preparation for planting. However, this can result in soil particles being exposed to wind and erosion, causing a loss of soil nutrients and organic matter over time. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock due to this method. To combat this, conservation tillage practices, such as no-till or reduced-till agriculture, have been introduced to minimize topsoil disturbance and reduce the loss of nutrients and organic matter in the soil. However, the impact of conservation tillage on greenhouse gas emissions is uncertain. -->
+
+Conventional agricultural practices, such as annual plowing, loosen the soil in preparation for planting. However, this can result in soil particles being exposed to wind and erosion, causing a loss of soil nutrients and organic matter over time. It is estimated that cultivated soils have lost 50-70% of their soil carbon stock due to traditional tilling methods. Adoption of conservation tillage practices, such as no-till or reduced-till agriculture, can minimize topsoil disturbance and reduce the loss of nutrients and organic matter in the soil. 
 
 Conservation tillage has two main effects on greenhouse gas emissions:
 
-1) By minimizing soil disturbance, the soil is able to retain a higher amount of organic carbon, reaching a new equilibrium.
+1) By minimizing soil disturbance, existing soil carbon can be stored longer-term. Frequent plowing exposes soil carbon to microbial decomposition. 
+<!-- 1) By minimizing soil disturbance, the soil is able to retain a higher amount of organic carbon, reaching a new equilibrium. -->
 2) By reducing plowing, there is a lower consumption of fossil fuels from farm equipment.
 
 In Minnesota, conservation tillage initiatives have been established by a variety of stakeholders, including the state and federal government, private sector companies, environmental advocacy groups, and academia. As a result, nearly half of all Minnesota counties growing corn and soy have at least 25% of planted acres using reduced tillage practices, while about a quarter of the counties have at least 25% of planted acres using no-till practices, according to the Crop Residue Management Survey.
@@ -24,7 +27,7 @@ $$ \text{Conservation Tillage Avoided Emissions} = (C+T) \times A $$
 
 -   $A$: Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
 
-```{r}
+```{r, echo = F, message = F}
 fig05_2_data <- 
   bind_rows(calc_conservation_tillage(
   .selected_ctu = params$ctu_selection,
@@ -60,6 +63,6 @@ fig05_2_table <- fig05_2_data %>%
   tableformat(.caption = paste0("Conservation Tillage Effect for ", params$ctu_selection))
 ```
 
-```{r}
+```{r, echo = F}
 fig05_2_table
 ```
