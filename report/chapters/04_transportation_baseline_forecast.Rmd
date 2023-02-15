@@ -31,7 +31,7 @@ The region's transportation carbon emissions are calculated based on data on veh
 
 The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV).
 
-Public transit modes are categorized as urban bus, bus rapid transit (BRT), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.
+Public transit modes are categorized as urban bus (which groups both BRT and local routes), urban rail (LRT), and interurban rail (Northstar commuter rail). Bus modes have fuel options of biodiesel, hybrid electric-biodiesel, and battery electric. The LRT is already run by electricity and it is assumed that use of this technology will continue.
 
 <!-- The Northstar commuter rail currently uses biodiesel as an energy feedstock, but the option is available in the tool to switch it to an electric powertrain by 2050. -->
 
@@ -97,13 +97,11 @@ transportation_data$freight %>%
 ```
 
 
-<!-- ::: facts -->
-<!-- Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area. -->
-<!-- ::: -->
+Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions. The GHG Tool in this study estimates embodied emissions for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
 
 ## Strategies
 
-The transportation module uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.
+The transportation module primarily uses passenger miles traveled as a proxy for emissions. Miles traveled are calculated for each travel mode and then converted into emissions.
 
 
 
