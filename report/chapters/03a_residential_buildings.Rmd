@@ -60,7 +60,7 @@ tab_residential_energy <- get_residential_energy_baseline(.selected_ctu = params
       select(c(desc, value)) %>%
       rename(
         "Variables" = desc,
-        "2040 (Busines-as-Usual)" = value
+        "2040 (Business-as-Usual)" = value
       ),
     by = "Variables"
   ) %>%

@@ -14,6 +14,8 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 -   ***Partner with local organizations*** Cities can partner with local organizations, such as non-profits or utility companies, to offer resources and assistance to homeowners interested in energy-efficient retrofits.
 :::
 
+Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.
+
 ##### Retrofit 80% of Homes
 
 ::: about_strategy
@@ -25,26 +27,55 @@ There are multiple ways in which a city, like `r params$ctu_selection`, can prom
 #| echo: false
 #| message: false
 
-tab_existing_home_efficiency <- calc_floor_area_retrofit(
-  .selected_ctu = params$ctu_selection,
-  res_tb = building_data$residential,
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0,
-  .enviro_factors = enviro_factors
+tab_existing_home_efficiency <- full_join(
+  (
+    calc_floor_area_retrofit(
+      .selected_ctu = params$ctu_selection,
+      res_tb = building_data$residential,
+      .existing_home_retrofit_pct = 0,
+      .existing_home_ultra_retrofit_pct = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      ungroup() %>%
+      filter(
+        year == 2018,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      ) %>%
+      filter(ctu_name == params$ctu_selection) %>%
+      add_variable_names(., "2018 Baseline")
+  ),
+  
+  
+  (
+    calc_floor_area_retrofit(
+      .selected_ctu = params$ctu_selection,
+      res_tb = building_data$residential,
+      .existing_home_retrofit_pct = 0.80,
+      .existing_home_ultra_retrofit_pct = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      ungroup() %>%
+      filter(
+        year == 2040,
+        var %in% c(
+          "multifamily_average_floor_area_sqft_county",
+          "multifamily_units",
+          "single_family_units",
+          "single_family_average_floor_area_sqft_ctu"
+        )
+      ) %>%
+      filter(ctu_name == params$ctu_selection) %>%
+      add_variable_names(., "2040 (Strategy)")
+  ),
+  by = "Variables"
 ) %>%
-  ungroup() %>%
-  filter(
-    year == 2040,
-    var %in% c(
-      "multifamily_average_floor_area_sqft_county",
-      "multifamily_units",
-      "single_family_units",
-      "single_family_average_floor_area_sqft_ctu"
-    )
-  ) %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  add_variable_names(., "2018 Baseline") %>%
-  tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+  tableformat(.,
+              .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
@@ -124,7 +155,7 @@ fig03a4_data <- res_bau_2018 %>%
   )
 
 fig03a4_table <- fig03a4_data %>% tableformat(.,
-  .caption = paste("New Home Efficiency", params$ctu_selection, "2040")
+  .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040")
 )
 ```
 
@@ -141,33 +172,60 @@ chartformat(fig03a4_data)
 ##### Retrofit Remaining 20% of into Passive Homes
 
 ::: about_strategy
-***About this strategy***  Same as previous strategy, except now the remaining `20%` of homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
+***About this strategy***  Same as previous strategy, except now (in addition to the 80% LEED Gold retorfits) the remaining `20%` of homes are retrofitted to high passive house standards, which results in `66%` reduction in energy use intensity (ZeroEnergy Design, 2021).
 :::
 
 ```{r tab-existing-home-efficiency2, message=FALSE, warning=FALSE, include=FALSE}
-#| echo: false
-#| message: false
-
-tab_existing_home_efficiency2 <- calc_floor_area_retrofit(
-  res_tb = building_data$residential,
-  .selected_ctu = params$ctu_selection,
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = enviro_factors
-) %>%
-  ungroup() %>%
-  filter(
-    year == 2040,
-    var %in% c(
-      "multifamily_average_floor_area_sqft_county",
-      "multifamily_units",
-      "single_family_units",
-      "single_family_average_floor_area_sqft_ctu"
-    )
+tab_existing_home_efficiency2 <-
+  
+  full_join(
+    (
+      calc_floor_area_retrofit(
+        .selected_ctu = params$ctu_selection,
+        res_tb = building_data$residential,
+        .existing_home_retrofit_pct = 0,
+        .existing_home_ultra_retrofit_pct = 0,
+        .enviro_factors = enviro_factors
+      ) %>%
+        ungroup() %>%
+        filter(
+          year == 2018,
+          var %in% c(
+            "multifamily_average_floor_area_sqft_county",
+            "multifamily_units",
+            "single_family_units",
+            "single_family_average_floor_area_sqft_ctu"
+          )
+        ) %>%
+        filter(ctu_name == params$ctu_selection) %>%
+        add_variable_names(., "2018 Baseline")
+    ),
+    
+    (
+      calc_floor_area_retrofit(
+        res_tb = building_data$residential,
+        .selected_ctu = params$ctu_selection,
+        .existing_home_retrofit_pct = 0.80,
+        .existing_home_ultra_retrofit_pct = 0.20,
+        .enviro_factors = enviro_factors
+      ) %>%
+        ungroup() %>%
+        filter(
+          year == 2040,
+          var %in% c(
+            "multifamily_average_floor_area_sqft_county",
+            "multifamily_units",
+            "single_family_units",
+            "single_family_average_floor_area_sqft_ctu"
+          )
+        ) %>%
+        filter(ctu_name == params$ctu_selection) %>%
+        add_variable_names(., "2040 Baseline")
+    ),
+    by = "Variables"
   ) %>%
-  filter(ctu_name == params$ctu_selection) %>%
-  add_variable_names(., "2018 Baseline") %>%
-  tableformat(., .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+  tableformat(.,
+              .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
 ```
 
 ```{r echo=FALSE}
@@ -231,7 +289,7 @@ fig03a4b_data <- res_bau_2018 %>%
   )
 
 fig03a4b_table <- fig03a4b_data %>% tableformat(.,
-  .caption = paste("New Home Efficiency", params$ctu_selection, "2040")
+  .caption = paste("Existing Efficiency", params$ctu_selection, "2040")
 )
 ```
 

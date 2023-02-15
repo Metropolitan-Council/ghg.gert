@@ -8,6 +8,8 @@ The Metropolitan Council’s Thrive MSP plan projects an increase in the percent
 ***About this strategy*** Here, we model that `50%` of all new single-family construction will become multifamily, with the multifamily homes having smaller square footage.  
 :::
 
+Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.
+
 ```{r tab-increased-multifamily, message=FALSE, warning=FALSE, include=FALSE}
 tab_increased_multifamily <- calc_affordable_floor_area(
   res_tb = building_data$residential,
@@ -28,7 +30,7 @@ tab_increased_multifamily <- calc_affordable_floor_area(
     calc_affordable_floor_area(
       res_tb = building_data$residential,
       .selected_ctu = params$ctu_selection,
-      .single_family_floor_area_growth_pct = 0.05
+      .single_family_floor_area_growth_pct = 0.15
     ) %>%
       filter(
         year == 2040,
@@ -99,7 +101,7 @@ fig03a1_data <-
       run_non_residential = FALSE,
       .selected_ctu = params$ctu_selection,
       # affordable floor area
-      .single_family_floor_area_growth_pct = 0.05,
+      .single_family_floor_area_growth_pct = 0.15,
       .new_homes_affected_pct = 1,
       # other variables
       .electrified_buildings_pct = 0,
