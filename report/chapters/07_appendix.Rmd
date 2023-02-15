@@ -71,6 +71,44 @@
 *	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
 *	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
 
+<!-- ### Forecasted Electricity Energy Mix   -->
+
+Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
+
+
+```{r, energy-mix-forecast,eval=FALSE}
+# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
+#   show_col_types = F
+# ) %>%
+#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
+#     source = stringr::str_remove(source, "\\*"),
+#     scenario = paste0(scenario, " Scenario")
+#   )
+# # tidyr::pivot_longer(cols = 3:11,
+# #                     names_to = "year",
+# #                     values_to = "prop") %>%
+# # mutate(year = stringr::str_remove(year, "X") %>%
+# #          as.numeric()) %>%
+# # filter(year != 2018)
+#
+# energy_mix %>%
+#   group_by(scenario) %>%
+#   gt::gt(
+#     id = "energy-mix-forecast",
+#     caption = "Forecasted Electricity Generation Mix (%)",
+#     rowname_col = "source"
+#   ) %>%
+#   # gt::tab_stubhead("Scenario") %>%
+#   gt::tab_source_note("Xcel Energy, 2020") %>%
+#   gt::opt_row_striping(TRUE) %>%
+#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
+#     locations = gt::cells_stub(rows = c(1, 6))
+#   ) %>%
+#   gt::tab_options(row_group.font.weight = "bold")
+```
+
+
+
 ### Residential Equations
 
 **GHG Impact Calculation for Increased Multifamily Housing**
@@ -409,7 +447,7 @@ You can find more information on the [Met Council website `r fontawesome::fa("ex
 [@khaniStudyBusRapid2018]
 
 
-#### Federal data sources
+### Federal data sources
 
 ##### Federal Highway Administration (FHWA)   
 
@@ -554,44 +592,26 @@ tibble::tribble(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
+#### Vehicle occupancy values 
 
+```{r}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         var == "AVO", 
+         year == "2018",
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+    select(
+    Mode = mode_description_1,
+    `Persons per vehicle` = value,
+    `Source` = source_short
+  ) %>% 
+  tableformat(.caption = paste0("Vehicle occupancy values - ", params$ctu_selection))
 
-
-### Forecasted Electricity Energy Mix  
-
-Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
-
-
-```{r, energy-mix-forecast,eval=FALSE}
-# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
-#   show_col_types = F
-# ) %>%
-#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
-#     source = stringr::str_remove(source, "\\*"),
-#     scenario = paste0(scenario, " Scenario")
-#   )
-# # tidyr::pivot_longer(cols = 3:11,
-# #                     names_to = "year",
-# #                     values_to = "prop") %>%
-# # mutate(year = stringr::str_remove(year, "X") %>%
-# #          as.numeric()) %>%
-# # filter(year != 2018)
-#
-# energy_mix %>%
-#   group_by(scenario) %>%
-#   gt::gt(
-#     id = "energy-mix-forecast",
-#     caption = "Forecasted Electricity Generation Mix (%)",
-#     rowname_col = "source"
-#   ) %>%
-#   # gt::tab_stubhead("Scenario") %>%
-#   gt::tab_source_note("Xcel Energy, 2020") %>%
-#   gt::opt_row_striping(TRUE) %>%
-#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
-#     locations = gt::cells_stub(rows = c(1, 6))
-#   ) %>%
-#   gt::tab_options(row_group.font.weight = "bold")
+  
 ```
+
 
 
 ## Land Use
@@ -617,7 +637,7 @@ Several cities are investing in large-scale tree planting programs as a means of
 
 ## Stakeholder Engagement
 
-In April and May of 2022, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
+In April and May of 2020, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
 
 The stakeholders identified several priorities for developing the Greenhouse Gas Scenario Planning Tool, including (in ranking order) vehicle electrification, grid renewables, building retrofits, mixed-use development, and building codes.
 
