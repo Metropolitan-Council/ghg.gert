@@ -6,6 +6,8 @@ implementing efficient messaging, in-home energy displays, and smart meters can 
 ***About this strategy*** In this example we assume efficient messaging, in-home energy display, and smart meters together reduce household energy use by `11%`, with `100%` of homes changing behaviors due to these actions. 
 :::
 
+Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.
+
 ```{r tab-behavior-change, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
 #| message: false

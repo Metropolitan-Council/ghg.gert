@@ -9,6 +9,8 @@ Cities can support uptake of clean electricity by facilitating programs that fun
 <!-- This change is fixed by the grid. LM: not sure what this means??-->
 :::
 
+Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.
+
 <!-- <br> -->
 
 <!-- **GHG Impact Calculation** -->

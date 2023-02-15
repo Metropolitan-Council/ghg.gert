@@ -80,8 +80,7 @@ calc_land_by_development_type <- function(tb,
 
   # -------------------------------------------------------------------------
   scenario_mixed_use_compact_zoning_park <-
-    (tb$p_multifamily_mixed_area <-
-      tb$ctu_land_use_hectares %>%
+    (tb$ctu_land_use_hectares %>%
       dplyr::group_by(ctu_name, development_type) %>%
       dplyr::filter(year == 2040) %>%
       dplyr::filter(
@@ -101,9 +100,9 @@ calc_land_by_development_type <- function(tb,
           development_type == "urban_expansion",
           hectares * luse_scenario_params$urban_expansion_relative_to_bau,
           hectares
-        )
-    ) %>%
-    dplyr::mutate(scenario = "scenario_mixed_use_compact_zoning_park")
+        ),
+      scenario = "scenario_mixed_use_compact_zoning_park"
+    )
 
 
   # -------------------------------------------------------------------------

@@ -48,3 +48,42 @@ calc_non_res_renewable_ng(
 )
 
 ?run_scenario_land_use()
+
+urban_form_bau <- calc_scen_land_use(
+  .selected_ctu = "Minneapolis",
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == "Minneapolis") %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
+
+
+urban_form_scen <- calc_scen_land_use(
+  .selected_ctu = "Minneapolis",
+  tb = land_use_data,
+  .urban_form_scenario = "compact_dev_beyond_bau"
+) %>%
+  filter(ctu_name == "Minneapolis") %>%
+  group_by(development_type) %>%
+  summarise(scenario_hectares = sum(scenario_hectares))
+
+urban_form_bau2 <- calc_land_by_development_type(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(hectares = sum(hectares))
+
+
+urban_form_scen2 <- calc_land_by_development_type(
+  .selected_ctu = params$ctu_selection,
+  tb = land_use_data,
+  .urban_form_scenario = "compact_dev_beyond_bau"
+) %>%
+  filter(ctu_name == params$ctu_selection) %>%
+  group_by(development_type) %>%
+  summarise(hectares = sum(hectares))
+
