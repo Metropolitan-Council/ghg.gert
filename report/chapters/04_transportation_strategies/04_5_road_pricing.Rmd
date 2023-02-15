@@ -1,4 +1,4 @@
-#### Road Pricing
+### Road Pricing
 
 <!-- TODO links/citations, explain differences between each pricing option and that the tool doesn't allow all three, add equation -->
 Road pricing is likely to be an important component of transportation policy going forward. It provides a clear signal to travelers about the cost of driving and contains its own revenue stream. Finally, road pricing provides an alternative revenue stream to the gas tax as vehicle efficiency increase and EV adoption grows.   
@@ -43,7 +43,7 @@ readr::read_csv("data/road_adj_values.csv",
   gt::tab_footnote("Congestion pricing typically higher than baseline vehicle miles traveled fee", locations = gt::cells_body(1, 4))
 ```
 
-##### Vehicle miles traveled (VMT) fee  {#vmt-fee}
+#### Vehicle miles traveled (VMT) fee  {#vmt-fee}
 
 A study by MAPC [@gatelyImpactsLandUse2021] in Massachusetts  uses a combination of the [VisionEval](https://visioneval.org/) transportation model and UrbanSim land use model to examine land use and pricing scenarios. The introduction of a 25 cent per mile VMT fee is anticipated to lower VMT by 15%. They find that even a tripling of the gas tax from 24 cents per gallon to 75 cents per gallon would only slow VMT growth by 1.5%. The study results indicate the Commonwealth region cannot rely solely on technology-based solutions such as fuel efficiency and electrification to meet ambitious GHG reduction targets.
 
@@ -55,7 +55,7 @@ However, these results are highly dependent on the choice of elasticity and marg
 Recently, Spiller et al. [@Spiller_Stephens_Timmins_Smith_2014] estimated the price elasticity of VMT at -0.511, which is on the higher end of the range found in the literature. Their higher estimate is partially due to the consideration of multi-vehicle households switching to more fuel-efficient vehicles in response to increases in fuel price. In the case of a VMT fee, this option would not be available to these households.
 
 
-##### Congestion pricing  
+#### Congestion pricing  
 
 In the CFB analysis [@porterTransportationTechnicalReport2019], they assume that 29% of urban VMT is congested as an input to the determination of congesting pricing. Their estimate is in line with the findings of TAM for the Boston Metropolitan Area, which gives an estimate of 29.5%. 
 
@@ -66,7 +66,7 @@ PMT is converted to VMT using the Council's 2019 Travel Behavior Inventory avera
 We calculate a secondary set of congestion estimates using TBI data for each CTU. It is assumed that most congestion occurs in the peak periods on weekdays. TBI trips are selected that occur wholly within the same CTU and average travel times estimated for each of peak and off-peak periods. This method suggests an approximately 13% increase in average travel times during peak periods relative to off-peak periods. 
 
 
-##### Other per-mile costs  
+#### Other per-mile costs  
 
 Gas taxes are set at the state and federal level. Current gas tax in Minnesota is \$0.469 per gallon for gasoline, and \$0.529 per gallon for diesel fuel [@CommercePolicyChapter2017].  
 
@@ -161,7 +161,7 @@ bau_ctu %>%
 ```
 
 
-##### Precedents  
+#### Precedents  
 
 Minnesota examined mileage-based user fees (MBUF) through a pilot program focused on both technical feasibility and traveler attitudes [@rephloConnectedVehiclesSafety2013].  The study included 500 residents of Wright County, which is adjacent and to the west of the 7-county jurisdiction of Met Council. The MBUF rate was set at \$0.03 per mile for travel during peak periods or within an area bounded by I-494 and I-694 and \$0.01 per mile for all other travel. The pilot test generated \$40,000 of simulated revenue from an average monthly fee of \$20 per traveler. The cost was designed to be roughly commensurate with the Minnesota fuel tax. Only 17% of participants felt the MBUF was higher than they anticipated. Preference for an MBUF rather than a fuel tax was attributed to it providing a more equitable distribution of transportation costs. Those opposed to the change cited the clearer tax (i.e., monthly bill) versus the current system of incorporating the tax into the price of fuel at the pump. Data privacy was not a significant concern among participants, although there is some question as to whether self-selection bias may be a factor since participation in the study was voluntary. The pilot study also took advantage of the GPS technology used to track VMT to provide safety notifications to participants. These notifications included alerts when the driver exceeded the posted speed limit or entered a highway work zone. Many participants preferred that these elements be removed, and the focus placed on MBUF. While the project was motivated by a need to find alternative revenue streams due to increased vehicle fuel efficiency, the use of a simulated price means that there was no significant reduction in VMT among participants.  
 

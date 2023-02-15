@@ -1,4 +1,4 @@
-#### Land Use
+### Land Use
 
 Transportation and land use policies are reliant on each other. Segregated and low-density land use patterns lead to a reliance on automobiles, increased vehicle miles traveled, and decreased efficacy of shared travel. However, altering land use policy is complex and only sometimes leads to changes in land use, as construction takes time to catch up with zoning. The scenario planning model uses the "five D's" (population and employment density, diversity of land uses, street design, distance to transit, and destination accessibility) as the land use factors that affect transportation.
 
@@ -55,7 +55,7 @@ ghg.sp::elast_5d %>%
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-##### Elasticities  
+#### Elasticities  
 
 Land use elasticities are taken from a meta-analysis by Ewing and Cervero [@ewingTravelBuiltEnvironment2010] for each of automobile, walking and cycling, and transit trips. A more recent meta-analysis provides additional values for the automobile mode [@stevensDoesCompactDevelopment2016]. These values are used to give an elasticity range. In addition to the below values, an overall elasticity of -0.22 is used for the combined effect of the 5Ds to give the user the option to consider a combination of land use changes.
 
@@ -328,7 +328,7 @@ bau_ctu %>%
 
 
 
-##### Precedents 
+#### Precedents 
 
 The Minneapolis 2040 plan includes a series of changes to zoning to encourage multi-unit dwellings in that city [@cityofminneapolisdepartmentofcommunityplanningandeconomicdevelopmentMinneapolis2040City2019] The plan calls for additional density along public transit corridors and provides an allowance for up to three dwellings on a single lot in the most outlying neighborhoods. There are several caveats to interpreting this policy change as a precedent for other municipalities in MSP. Minneapolis is the largest city in the region and its high level of existing development means it has minimal land available for new developments. The higher price of land in Minneapolis, relative to other municipalities in MSP, provides an additional incentive for upzoning. It must also be borne in mind that this is an ongoing change and its contribution towards realizing increased density remains unclear.
 

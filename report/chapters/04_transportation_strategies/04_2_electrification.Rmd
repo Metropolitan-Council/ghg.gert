@@ -1,10 +1,10 @@
-#### Vehicle Electrification
+### Vehicle Electrification
 
 Vehicle electrification is widely recognized as a central pillar of transportation decarbonization [@sustainabledevelopmentsolutionsnetworkAmericaZeroCarbon2020]. The effectiveness of this strategy relies on a combination of market uptake and decarbonization of the electricity grid. Both factors are considered in the tool, as outlined in subsequent sections. Focus is placed on the personal vehicle fleet but a partial consideration is given to the on-road freight fleet.
 
 
 
-##### EV market penetration  
+#### EV market penetration  
 
 It was found that the estimate for EV penetration by 2020 is high compared with what is observed in the county totals for that year. The model predicts 4,920 PHEV and BEV vehicles in 2015 and 97,091 such vehicles in 2020 for the seven-county region. For comparison, the Alternative Fuels Data Center (AFDC) only shows 4,740 registered vehicles in 2018 [@afdcLightDutyAFVRegistrations2018] and MnDOT shows 17,146 registered electric vehicles in 2020 [@mndotElectricVehicleDashboard2020].
 
