@@ -7,23 +7,23 @@ knitr::opts_chunk$set(
 )
 ```
 
-Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes.
+Parking is an important component of the transportation system. A lack of parking can result in additional VMT from vehicles searching for a parking spot (up to 30% of vehicles in downtown traffic [@shoupCruisingParking2006]). Surface lots and parkades take up valuable space that could be put to more useful purposes. 
 
-The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Table \@ref(tab:tab-parking-price-effects)).
+The most common strategies for controlling parking demand are increasing its price and restricting the time that parking is available. These strategies have been reviewed in detail and price elasticities are available for the price of parking on VMT (see Appendix).
 
 <!-- TODO check equation -->
 
-The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019].
+<!-- The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019]. -->
 
-$$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} $$
+<!-- $$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} $$ -->
 
-Where
+<!-- Where -->
 
-$price_y$ is the price of parking on dollars per hour in year $y$\
-$price_{y = 2018}$ is the price of parking in dollars per hour in 2018\
-$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.
+<!-- $price_y$ is the price of parking on dollars per hour in year $y$\ -->
+<!-- $price_{y = 2018}$ is the price of parking in dollars per hour in 2018\ -->
+<!-- $elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$. -->
 
-Values derived from @TRACE_1999 and referenced in @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.
+<!-- Values derived from @TRACE_1999 and referenced in @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019. -->
 
 ```{r tab-parking-price-effects}
 #| echo: false
