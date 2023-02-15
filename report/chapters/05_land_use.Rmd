@@ -181,8 +181,8 @@ fig_05_land_use
 ```{r child="chapters/05_land_use_strategies/05_2_conservation_tillage.Rmd", echo=FALSE}
 ```
 
-```{r child="chapters/05_land_use_strategies/05_3_reduced_parking.Rmd", echo=FALSE}
-```
+<!-- ```{r child="chapters/05_land_use_strategies/05_3_reduced_parking.Rmd", echo=FALSE} -->
+<!-- ``` -->
 
 ```{r child="chapters/05_land_use_strategies/05_4_urban_tree_planting.Rmd", echo=FALSE}
 ```

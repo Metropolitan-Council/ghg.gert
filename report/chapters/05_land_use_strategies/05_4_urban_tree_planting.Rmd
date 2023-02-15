@@ -21,6 +21,7 @@ $$ \text{Sequestered Carbon (in Mg CO_2 e)} = CD × A \times 11/3 $$
 -   $A$ = Increased area of tree canopy under tree planting scenarios, in hectares.
 -   $11/3$ = Factor to convert Mg C to Mg CO2
 
+
 ```{r}
 ## RESULST COMING SOON 
 ```
