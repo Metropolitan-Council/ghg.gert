@@ -1,4 +1,12 @@
 # Appendix {-}
+```{r}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
+
 
 ## Building Energy
 ### Energy Efficiency Strategy
@@ -174,7 +182,7 @@ Calculate new efficency:
 $$\text{new } sqft_{2040}^{sf} = x \times (units_{2040}^{sf}-units_{2018}^{sf}) \times \bar{sqft}_{2040}^{sf} \times 0.64$$
 
 *Where:*
- 
+
 -   $x \text{, where } 0 \le x \le 1$: The percentage of new single family homes that are LEED Gold
 -   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040
 -   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040
@@ -365,6 +373,9 @@ The transportation module is constructed based on a set of standard forecasts fo
 source_mode_var <- ghg.sp::transportation_index$data_sources %>%
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+  filter(!is.na(source_short),
+         source_short != "",
+         !is.na(mode_description_1)) %>% 
   select(
     Mode = mode_description_1,
     Measure = var_description,
@@ -383,9 +394,7 @@ gt::gt(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-#### Source summaries
-
-### Annual Energy Outlook (AEO)
+#### Annual Energy Outlook (AEO)
 
 In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
 
@@ -399,8 +408,33 @@ The inclusion of these scenarios allows the user to easily consider uncertainty 
 The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
 
 
+You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
 
-##### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
+```{r tab-aeo-values}
+#| echo: false
+#| warning: false
+ghg.sp::factor_values$aeo %>%
+  mutate(
+    aeo_scen = as.factor(aeo_scen),
+    mode = as.factor(mode),
+    metric = as.factor(metric),
+    year = as.factor(year)
+  ) %>%
+  DT::datatable(
+    rownames = FALSE,
+    filter = "top",
+    colnames = c(
+      "AEO Scenario",
+      "Mode",
+      "Metric",
+      "Year",
+      "Value"
+    )
+  )
+```
+
+
+#### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
 
 Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
 
@@ -459,43 +493,32 @@ Average vehicle occupancy  [@federalhighwayadministrationfhwaAverageVehicleOccup
 
 ###### Fuel economies   
 
+```{r}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         stringr::str_detect(var, "MPG"),
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+    select(
+    Mode = mode_description_1,
+    `Fuel economy` = var_description,
+    Year = year,
+    `Miles per gallon` = value,
+    `Source` = source_short
+  ) %>% 
+  group_by(Mode, `Fuel economy`) %>% 
+  gt::gt() %>% 
+    gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
 
-
-###### Annual Energy Outlook values  {#aeo-values}  
-
-The Annual Energy Outlook (AEO) is a report series by the US Energy Information Administration (EIA) exploring long-term energy trends in the United States [@eiaAnnualEnergyOutlook2021]. 
-
-You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
-
-```{r tab-aeo-values}
-#| echo: false
-#| warning: false
-ghg.sp::factor_values$aeo %>%
-  mutate(
-    aeo_scen = as.factor(aeo_scen),
-    mode = as.factor(mode),
-    metric = as.factor(metric),
-    year = as.factor(year)
-  ) %>%
-  DT::datatable(
-    rownames = FALSE,
-    filter = "top",
-    colnames = c(
-      "AEO Scenario",
-      "Mode",
-      "Metric",
-      "Year",
-      "Value"
-    )
-  )
 ```
-
-
 
 
 ##### National Transit Database (NTD)  {#ntd-source}  
 
-#### Study-specific values
+### Study-specific values
 
 Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brookerFASTSimModelEstimate2015]
 
@@ -550,7 +573,7 @@ gt::gt(
 
 ### Future costs per mile  
 
-```{r future-cost-per-mile}
+```{r tab-future-cost-per-mile}
 #| echo: false
 #| warning: false
 tibble::tribble(
@@ -592,9 +615,9 @@ tibble::tribble(
   gt::tab_options(row_group.font.weight = "bold")
 ```
 
-#### Vehicle occupancy values 
+### Vehicle occupancy values 
 
-```{r}
+```{r tab-vehicle-occupancy}
 transportation_data$passenger %>% 
   filter(ctu == params$ctu_selection,
          var == "AVO", 
@@ -602,14 +625,14 @@ transportation_data$passenger %>%
          ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
   left_join(transportation_index$data_sources) %>% 
-    select(
+  select(
     Mode = mode_description_1,
     `Persons per vehicle` = value,
     `Source` = source_short
   ) %>% 
   tableformat(.caption = paste0("Vehicle occupancy values - ", params$ctu_selection))
 
-  
+
 ```
 
 
