@@ -1,5 +1,5 @@
 ### Road Pricing
-```{r}
+```{r, echo=FALSE}
 knitr::opts_chunk$set(
   echo = F,
   message = F,
