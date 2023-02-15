@@ -6,7 +6,8 @@ Over time, the single-family home average floor area has been increasing. The fl
 ***About this strategy*** For this strategy, average single-family home size is modeled to be `5%` larger in 2040 than in 2018 - as opposed to the business-as-usual prediction of `15%`. We apply this impact to `50%` of new single-family homes. 
 <!-- For this strategy, the growth of the single-family home size is reduced from `15%` between 2018 and 2040 (in the Business as Usual prediction) to `5%`to make the new single-family home smaller. We apply this impact to `50%` of new single-family homes. Cities can adjust the growth rate of single-family homes' floor area and the percentage of new single-family homes being controlled. -->
 :::
-** LM: Do we want to combine these 2 tables?? **
+
+<!-- ** LM: Do we want to combine these 2 tables?? **-->
 ```{r tab-new-single-family-home-area, message=FALSE, warning=FALSE, include=FALSE}
 tab_new_single_family_home_area <- calc_affordable_floor_area(
   res_tb = building_data$residential,

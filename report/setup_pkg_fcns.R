@@ -34,13 +34,15 @@ if (params$desired_format == "html") {
   }
 } else {
   tableformat <- function(data, .caption) {
-    data %>%
+    data %>%  
+      mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
+      Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2")) %>%
       flextable::flextable() %>%
       flextable::autofit(add_w = 0, add_h = 0) %>%
       flextable::set_table_properties(layout = "autofit") %>%
       flextable::fontsize(size = 9, part = "all") %>%
       flextable::align(align = "center", part = "header", i = 1) %>%
-      flextable::colformat_double(digits = 6) %>%
+      flextable::colformat_double(digits = 0) %>%
       flextable::set_caption(.caption)
   }
 }

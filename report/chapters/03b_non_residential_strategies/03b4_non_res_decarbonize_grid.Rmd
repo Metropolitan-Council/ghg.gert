@@ -3,7 +3,7 @@
 Recent legislation sets a target of 100% clean electricity by 2040 for the state of Minnesota. This strategy demonstrates the impact of grid decarbonization. 
 
 ::: about_strategy
-***About this strategy*** We are modeling **LM: WHAT PERCENT** clean electricity in 2040 in this example.
+***About this strategy*** We are modeling `80%` clean electricity in 2040 in this example.
 :::
 
 <!-- **GHG Impact Calculation for Clean Energy** -->
@@ -38,8 +38,8 @@ fig03b4_data <- full_join(non_res_bau_2018,
     .non_res_natural_gas_for_space_heating_pct = 0.69,
     .commercial_smart_grid_pct = 1,
     .industrial_smart_grid_pct = 1,
-    .smart_grid_energy_reduction_pct = 1,
-    .grid_decarbonization_pct = 0,
+    .smart_grid_energy_reduction_pct = 0,
+    .grid_decarbonization_pct = 0.8,
     .existing_high_efficiency_buildings_pct = 0,
     .enviro_factors = enviro_factors
   ) %>%

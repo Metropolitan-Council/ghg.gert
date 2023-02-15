@@ -34,7 +34,7 @@ The Metropolitan Council has developed a Greenhouse Gas Scenario Planning Tool t
 
 The Metropolitan Council is working toward launching an interactive and easy-to-use online version of this scenario planning tool. The following report compiles the City of `r params$ctu_selection` results based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council. 
 
-<!-- LM: commented out all the following as I'm not sure it will be meaningful to our audience for this specific report but could be convinced otherwise!  --> 
+<!-- LM: moved the following to appendix  --> 
 
 <!-- ## Stakeholder Engagement -->
 
