@@ -15,10 +15,10 @@ bookdown::gitbook:
 # #   citation_package: natbib
 #    keep_tex: yes
 # bookdown::epub_book: default
-# bookdown::word_document2:
-#   reference_docx: "wordtemplate.docx"
-#   toc: true
-#   toc_depth: 3
+bookdown::word_document2:
+  reference_docx: "wordtemplate.docx"
+  toc: true
+  toc_depth: 3
 # bookdown::html_document2:
 #   toc: true
 #   toc_float:

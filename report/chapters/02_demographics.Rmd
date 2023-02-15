@@ -20,13 +20,14 @@ Some common predictors of greenhouse gas emissions at the city scale include:
 :::
 
 <br>
+
 ## Baseline data sources
 
 Baseline 2018 values for population, households, and employment come from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table** \@ref(tab:tab-demographic-assumptions)).
 
 The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the [REMI PI Model](https://www.remi.com/model/pi/), a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
 
-**Figure** \@ref(fig:figure-demographics) shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
+<!-- **Figure** \@ref(fig:figure-demographics) shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast. --> <!-- LM: I think we took this figure out? I feel like the table is enough -->
 
 ```{r tab-demographic-assumptions, message=FALSE, warning=FALSE, include=FALSE}
 #| echo: false
