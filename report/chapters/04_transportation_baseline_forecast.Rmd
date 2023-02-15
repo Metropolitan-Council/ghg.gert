@@ -67,7 +67,7 @@ transportation_data$passenger %>%
     "Mode" = "var",
     "Value" = "value"
   ) %>%
-  mutate(Value = round(Value, digits = 0)) %>%
+  mutate(Value = Value * 1000) %>%
   pivot_wider(
     names_from = year,
     values_from = Value
@@ -96,6 +96,7 @@ transportation_data$freight %>%
     by = c("mode" = "mode_abbrev")
   ) %>%
   select(mode_description_1, value, year) %>%
+  mutate(value = value * 1000) %>%
   rename("var" = "mode_description_1") %>%
   rename(
     "Mode" = "var",

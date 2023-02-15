@@ -91,7 +91,7 @@ bau_ctu %>%
       `2040 Scenario` = `2040`
     )) %>%
   tableformat(.,
-    .caption = paste("Emissions in tonnes CO2e - 60% increase in people teleworking", params$ctu_selection)
+    .caption = paste("Emissions in thousands of tonnes CO2e - 60% increase in people teleworking", params$ctu_selection)
   )
 ```
 
