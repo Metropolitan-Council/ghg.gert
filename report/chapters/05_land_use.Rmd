@@ -73,6 +73,7 @@ fig_05_land_cover_2040 <-
   )
 
 lc_carbon <- carbon_stocks_and_sequestration %>%
+  mutate(sequest_mg_c_per_hectare_per_year = sequest_mg_c_per_hectare_per_year* (-1)) %>%
   rename(
     "Land cover" = land_cover_type,
     "Sequestration (mg C/ha/year)" = sequest_mg_c_per_hectare_per_year,
@@ -90,7 +91,7 @@ fig_05_land_cover <- full_join(fig_05_land_cover_2016,
     "2040 [Busines-as-Usual]" = Hectares.y,
    "Land cover" = Type
   ) %>%
-  full_join(lc_carbon)
+  full_join(lc_carbon) %>%
   tableformat(.caption = paste0("Land Cover Hectares for ", params$ctu_selection))
 ```
 
