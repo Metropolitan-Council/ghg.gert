@@ -1,9 +1,9 @@
 #### Behavior Change for Residential Energy Efficiency
 
-implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
+Implementing efficient messaging, in-home energy displays, and smart meters can be an effective way to reduce household energy use, but the actual impact may depend on the specific circumstances of each city and the participation rate of households in these actions.
 
 ::: about_strategy
-***About this strategy*** In this example we assume efficient messaging, in-home energy display, and smart meters together reduce household energy use by `11%`, with `100%` of homes changing behaviors due to these actions. 
+***About this strategy*** In this example we assume efficient messaging, in-home energy display, and smart meters together reduce household energy use by `11%` [@friedrich2009saving], with `100%` of homes changing behaviors due to these actions. 
 :::
 
 Please note that the Metropolitan Council’s projection to 2040 already assumed a significant compact development.

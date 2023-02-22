@@ -2,7 +2,7 @@
 
 Non-residential energy use refers to energy consumption of commercial and industrial buildings, including both electricity and natural gas. The forecast of "business-as-usual" energy use is estimated by considering the number of people who are expected to work in these buildings.
 
-In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources, some of which are not captured in this methodology. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts.
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources, some of which are not captured in this methodology. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts. A 2015 analysis by the Minnesota Department of Commerce identified (58 conservation improvement programs)[https://mn.gov/commerce-stat/pdfs/card-report-energy-efficiency-behavorial-prog.pdf] implemented by electric and gas utilities statewide that used behavioral techniques [@dougherty2015energy].
 
 Public and institutional buildings are not considered here, but similar strategies could apply to their energy usage.
 
