@@ -8,7 +8,7 @@ params:
     desired_format: "html" # or "html" / "docx"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib, references.bib]
+bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
@@ -20,8 +20,8 @@ always_allow_html: true
 ---
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 source("setup_pkg_fcns.R")
-source("council_members.R")
-source("variables.R")
 source("bau_charts.R")
-source("carbon_stocks_and_sequestration.R")
+councilmembers <- read.csv("councilmembers.csv")
+variables <- read.csv("variables.csv")
+carbon_stocks_and_sequestration <-read.csv("carbon_stocks_and_sequestration.csv")
 ```
