@@ -19,9 +19,9 @@ always_allow_html: true
 #github-repo: rstudio/bookdown-demo
 ---
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+councilmembers <- read.csv("data/councilmembers.csv")
+variables <- read.csv("data/variables.csv")
+carbon_stocks_and_sequestration <- read.csv("data/carbon_stocks_and_sequestration.csv")
 source("setup_pkg_fcns.R")
 source("bau_charts.R")
-councilmembers <- read.csv("councilmembers.csv")
-variables <- read.csv("variables.csv")
-carbon_stocks_and_sequestration <-read.csv("carbon_stocks_and_sequestration.csv")
 ```
