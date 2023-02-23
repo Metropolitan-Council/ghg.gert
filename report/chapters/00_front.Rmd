@@ -6,7 +6,7 @@
 
 ------------------------------------------------------------------------
 
-```{r fig.align = 'center'}
+```{r councilmembers, fig.align = 'center'}
 #| echo: false
 #| message: false
 

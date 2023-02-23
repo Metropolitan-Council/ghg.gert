@@ -12,15 +12,15 @@ The global energy consumption of buildings, both residential and commercial, has
 
 To make predictions about the future greenhouse gas emissions from the building energy sector in the city of `r params$ctu_selection`, we consider three important factors:
 
-1)  The building sector is a major contributor to greenhouse gas emissions, primarily due to energy consumption [@owidco2andgreenhousegasemissions]. However, we have the opportunity to make a positive impact by reducing these emissions through decarbonizing our electricity grid [@naimoli2020climate] and minimizing the carbon footprint of the natural gas used for heating[^03a_residential_buildings-1], with strategies such as renewable natural gas[^03a_residential_buildings-2].
+1)  The building sector is a major contributor to greenhouse gas emissions, primarily due to energy consumption [@ritchie_co_2020]. However, we have the opportunity to make a positive impact by reducing these emissions through decarbonizing our electricity grid [@naimoli_climate_2020] and minimizing the carbon footprint of the natural gas used for heating[^03a_residential_buildings-1], with strategies such as renewable natural gas[^03a_residential_buildings-2].
 
-2)  Residential energy consumption is proportional to the floor area of homes. In other words, larger homes consume more energy [@moura2015]. Strategies aimed at reducing the floor area or increasing the energy efficiency per unit area of residential buildings have the potential to lower emissions. However, it's important to keep in mind that there are other factors that also contribute to residential energy consumption, such as the type of appliances and systems used [@cetin2014appliance], the number of occupants, and the home's location and climate.
+2)  Residential energy consumption is proportional to the floor area of homes. In other words, larger homes consume more energy [@moura_120_2015-1]. Strategies aimed at reducing the floor area or increasing the energy efficiency per unit area of residential buildings have the potential to lower emissions. However, it's important to keep in mind that there are other factors that also contribute to residential energy consumption, such as the type of appliances and systems used [@cetin_appliance_2014], the number of occupants, and the home's location and climate.
 
 3)  Future energy consumption in the non-residential sector can be approximated by the forecasted number of jobs in the industrial and commercial sectors divided by the baseline non-residential energy consumption in a community. Strategies that reduce the energy use intensity have the potential to decrease greenhouse gas emissions by increasing energy efficiency. However, there are other factors that also contribute to non-residential energy consumption, such as the type of building, the usage pattern, and the location and climate.
 
 [^03a_residential_buildings-1]: For more information visit Center for Energy and Climate Solutions: <https://www.c2es.org/content/natural-gas/>
 
-[^03a_residential_buildings-2]: A study by the Institute of Transportation Studies from UC Davis [@jaffe2016feasibility] found that renewable natural gas can be commercially competitive with fossil fuel-based transportation fuels in California's market because carbon externalities are considered through existing programs such as the Low Carbon Fuel Standard and the Renewable Fuels Standard.
+[^03a_residential_buildings-2]: A study by the Institute of Transportation Studies from UC Davis [@jaffe_feasibility_2016] found that renewable natural gas can be commercially competitive with fossil fuel-based transportation fuels in California's market because carbon externalities are considered through existing programs such as the Low Carbon Fuel Standard and the Renewable Fuels Standard.
 
 **Energy efficiency**
 
@@ -99,7 +99,6 @@ The City of `r params$ctu_selection` can influence the factors around residentia
 :::
 
 [^03a_residential_buildings-5]: Buildings are the primary energy consumers in the US, and reducing their energy use is crucial to decreasing the nation's energy consumption and increasing energy independence. The concept of Net Zero Energy Buildings, which produce as much energy as they use, is becoming more feasible with advances in technology and research. Such buildings combine energy-efficient design with renewable energy systems to minimize energy requirements: [Net Zero Energy Buildings \| WBDG - Whole Building Design Guide](https://www.wbdg.org/resources/net-zero-energy-buildings)
-
 
 [^03a_residential_buildings-6]: The Building Technologies Office of the US Department of Energy works to promote energy-efficient and flexible buildings in both the new and existing markets, using cost-effective technologies, techniques, tools, and services. The aim is to support a transition to a decarbonized energy system by 2050, starting with a decarbonized power sector by 2035, and to do so in an equitable manner.
 

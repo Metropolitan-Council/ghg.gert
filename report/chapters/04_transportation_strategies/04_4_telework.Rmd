@@ -1,12 +1,12 @@
 #### Telework
 
-At a first approximation, telework eliminates commute VMT. However, the net effect on VMT and household GHG production is less clear. Individuals who work from home tend to make additional non-commute trips during their additional discretionary time [@Mokhtarian_2009] Other household members also can use the now available vehicle for their commute (potentially switching away from transit) or for other trips.
+At a first approximation, telework eliminates commute VMT. However, the net effect on VMT and household GHG production is less clear. Individuals who work from home tend to make additional non-commute trips during their additional discretionary time [@mokhtarian_if_2009] Other household members also can use the now available vehicle for their commute (potentially switching away from transit) or for other trips.
 
-Finally, working from home introduces additional requirements on household energy consumption: more daytime heating and, potentially, the need for a larger dwelling to provide space for a home office. The most recent studies that also include energy associated with working from home find an effective reduction of 2.5-2.8% in household CO2 emissions per telework day. [@fuEnvironmentalPolicyImplications2012a].
+Finally, working from home introduces additional requirements on household energy consumption: more daytime heating and, potentially, the need for a larger dwelling to provide space for a home office. The most recent studies that also include energy associated with working from home find an effective reduction of 2.5-2.8% in household CO2 emissions per telework day. [@fu_environmental_2012].
 
-However, the most recent studies that also include energy associated with working from home find a effective reduction of 2.5-2.8% in household CO2 emissions per day. [@Kim_Choo_Mokhtarian_2015].
+However, the most recent studies that also include energy associated with working from home find a effective reduction of 2.5-2.8% in household CO2 emissions per day. [@kim_home-based_2015].
 
-An important secondary question regarding telework is its market potential. It is estimated that about 35 percent of jobs in the United States can be performed from home full-time [@Dingel_Neiman_2020].  Prior to the COVID-19 pandemic, time use data for the United States indicates that less than a quarter of workers worked from home, and most spent less than half their working hours at home. The portion of jobs that can be done from home varies by metropolitan area. In MSP, approximately 38 to 52 percent of jobs can be done fully through telework [@Dingel_Neiman_2020]. 
+An important secondary question regarding telework is its market potential. It is estimated that about 35 percent of jobs in the United States can be performed from home full-time [@dingel_how_2020].  Prior to the COVID-19 pandemic, time use data for the United States indicates that less than a quarter of workers worked from home, and most spent less than half their working hours at home. The portion of jobs that can be done from home varies by metropolitan area. In MSP, approximately 38 to 52 percent of jobs can be done fully through telework [@dingel_how_2020]. 
 
 ```{r}
 #| echo: false
@@ -98,11 +98,11 @@ bau_ctu %>%
 
 ##### Precedents  
 
-The number of workers who teleworked at least one day per month grew in Minnesota from 18 percent in 1994 to 24 percent in 1997. As early as 1999, one-third of 200 surveyed businesses reporting allowing their employees to telework. Comparing a private firm and public agency implementation of telework in Minnesota, Wells et al. [@Wells_Douma_Loimer_Olson_Pansing_2001] found that the private firms implemented telework to recruit skilled workers while the public agency was responding to budget constraints.
+The number of workers who teleworked at least one day per month grew in Minnesota from 18 percent in 1994 to 24 percent in 1997. As early as 1999, one-third of 200 surveyed businesses reporting allowing their employees to telework. Comparing a private firm and public agency implementation of telework in Minnesota, Wells et al. [@wells_telecommuting_2001] found that the private firms implemented telework to recruit skilled workers while the public agency was responding to budget constraints.
 
-An interesting analysis by the International Energy Agency found that, if everyone in the world who can work from home did so one day per week, it would reduce annual GHG emissions (transportation+residential) by 24.2 Mt CO~2~e - roughly equivalent to the annual emissions in Greater London (or about 0.07% of global emissions) [@crowWorkingHomeCan2020]. 
+An interesting analysis by the International Energy Agency found that, if everyone in the world who can work from home did so one day per week, it would reduce annual GHG emissions (transportation+residential) by 24.2 Mt CO~2~e - roughly equivalent to the annual emissions in Greater London (or about 0.07% of global emissions) [@crow_working_2020]. 
 
 While not a large magnitude reduction, this result indicates that telework should be considered in the suite of decarbonization strategies. 
 
-Also, we do not have a clear precedent for the widespread adoption of telework. It may be the case that such a policy would encourage diversification of land uses in suburban communities as residents seek out the urban amenities they previously found near their workplace (e.g., restaurants and shopping opportunities near their home). These changes would potentially encourage additional VMT reductions through the benefits of the 5Ds of urban form [@larsonTeleworkUrbanForm2017]. 
+Also, we do not have a clear precedent for the widespread adoption of telework. It may be the case that such a policy would encourage diversification of land uses in suburban communities as residents seek out the urban amenities they previously found near their workplace (e.g., restaurants and shopping opportunities near their home). These changes would potentially encourage additional VMT reductions through the benefits of the 5Ds of urban form [@larson_telework_2017]. 
 

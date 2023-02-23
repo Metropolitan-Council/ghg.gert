@@ -11,7 +11,7 @@ In the coming decades, population growth will bring about changes in land use an
 
 *Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Vegetation (plants) utilize carbon dioxide for growth and sequester carbon as they grow. Plant-based carbon can be stored for long periods of time in soils or in woody biomass (e.g., tree trunks). However, when plants tissues die, microbes decompose plant tissues and release carbon back into the atmosphere. The rate of microbial decomposition and the return of carbon into the atmosphere depend on mulitple factors.
 
-To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used
+To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@milnar_impact_2020] was used
 to calculate these values for the study period of 2018-2040.
 
 ::: about_strategy

@@ -2,17 +2,17 @@
 
 ![](images//2724.jpg)
 
-Transportation of both passengers and freight contributes to greenhouse gas (GHG) emissions in the Twin Cities metro region [@hillman2011spatial].
+Transportation of both passengers and freight contributes to greenhouse gas (GHG) emissions in the Twin Cities metro region [@hillman_spatial_2011].
 
 The Metropolitan Council Transportation Policy Plan notes that the rapid expansion of the region's developed area in an "auto-centric" manner has resulted in longer average trips and the diminished attractiveness of non-auto modes as modes of regional travel. Longer and more frequent automobile trips contribute to the challenge of reducing greenhouse gas emissions.
 
-When land use and transportation systems are designed to work together, they can create more efficient and sustainable communities [@currie2018exploring]. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency.
+When land use and transportation systems are designed to work together, they can create more efficient and sustainable communities [@currie_exploring_2018]. For example, compact, walkable communities with a mix of land uses can reduce the need for driving and improve the transportation system's efficiency.
 
 While this report examines only Minneapolis, the selected city exists within the context of the metropolitan region.
 
 ## Framework
 
-For this model, the Metropolitan Council uses the framework offered by Ramaswami, Fang, and Tabory [@ramaswamiReviewIntegratedUrban2020] for four key levers of urban planning action for GHG mitigation, based on a framework developed by the UN International Resource Panel [@swillingWeightCitiesResource2018].
+For this model, the Metropolitan Council uses the framework offered by Ramaswami, Fang, and Tabory [@ramaswami_review_2020] for four key levers of urban planning action for GHG mitigation, based on a framework developed by the UN International Resource Panel [@swilling_weight_2018].
 
 <!-- It is found that transit and car-sharing become cost-effective beyond a density of 35 dwelling units per acre [@santasieriPlanningTransitSupportiveDevelopment2014] and 5-10 dwelling units per acre [@millard-ballAutonomousVehicleParking2019], respectively. -->
 
@@ -38,7 +38,7 @@ Public transit options include urban and interurban buses and rails, with the op
 
 The Twin Cities region relies heavily on private cars for transportation, with options including gasoline, diesel, hybrid electric-gasoline, plug-in hybrid electric-gasoline (PHEV), and battery electric vehicles.
 
-In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles [@lovedayTopPlugInHybrid2019] and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. It is assumed that the average travel distance in electric mode for a PHEV is 30 miles [@loveday_top_2019] and that households only recharge vehicles at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.
 
 <!-- The dominant mode of passenger transportation in MSP is the private car (i.e., passenger light-duty vehicle). Powertrain types included in the tool for this mode are gasoline, diesel, hybrid electric-gasoline (HEV), plug-in hybrid electric-gasoline (PHEV), and battery electric (BEV). LM: repeats from above -->
 
@@ -48,7 +48,7 @@ Public transit modes are categorized as urban bus, which groups both bus rapid t
 
 The regional model provides passenger miles traveled (PMT) totals for auto, transit, bike, and walk modes.
 
-PMT by mode is allocated to cities and towns using the standard 100-50-50 method given in the GHG Protocol for Cities [@theworldresourcesinstituteWRIAnnualReport2012]. That is, 100% of PMT for trips that start and end in the same city or town (CTU) is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porterCarbonFreeBoston2019].
+PMT by mode is allocated to cities and towns using the standard 100-50-50 method given in the GHG Protocol for Cities [@the_world_resources_institute_wri_2012]. That is, 100% of PMT for trips that start and end in the same city or town (CTU) is allocated to that CTU. Otherwise, 50% of PMT is allocated to each of the trip start CTU and trip end CTUs. A factor of 340 is used to convert daily PMT into annual PMT based on the recommendation of the Carbon Free Boston study [@porter_transportation_2019].
 
 ```{r tab-passenger-miles-traveled}
 #| echo: false
@@ -111,7 +111,7 @@ transportation_data$freight %>%
 
 The GHG Scenario Planning tool considers both direct and embodied (indirect) emissions. Embodied emissions are a significant but often overlooked aspect of reducing carbon emissions in transportation from manufacturing and maintaining vehicles and infrastructure. Different vehicles and modes of transportation have different levels of embodied emissions.
 
-In the GHG Scenario Planning model, embodied emissions are estimated for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@Chester_Horvath_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
+In the GHG Scenario Planning model, embodied emissions are estimated for various types of passenger vehicles, public transit, and school buses based on an analysis by Chester and Horvath (@chester_life-cycle_2009) and other sources. The tool considers the emissions resulting from manufacturing, maintenance, tire production, and other factors over the vehicle's lifetime. It does not currently estimate embodied emissions for freight vehicles as data on their stocks and sales is not available for the study area.
 
 ## Strategies
 
