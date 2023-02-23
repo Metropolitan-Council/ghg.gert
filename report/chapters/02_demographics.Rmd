@@ -2,7 +2,7 @@
 
 ![](images//3746.jpg)
 
-The Greenhouse Gas Scenario Planning Tool uses the best available baseline assumptions for cities in the Metropolitan Region to model greenhouse gas emissions in 2040 for a business-as-usual future.
+The Greenhouse Gas Scenario Planning Tool uses the best available baseline data for `r params$ctu_selection` to model greenhouse gas emissions in 2040 for a business-as-usual future.
 
 Some common predictors of greenhouse gas emissions at the city scale include:
 
