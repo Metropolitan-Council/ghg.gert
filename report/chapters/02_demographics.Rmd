@@ -46,20 +46,6 @@ tab_demographic_assumptions <- get_demographic_baseline(tb = building_energy_dat
     "Variables" = desc,
     "{params$ctu_selection} 2018" := value
   ) %>%
-  # # County level 2018
-  # full_join(
-  #   get_demographic_baseline(tb = building_energy_data)$county %>%
-  #     ungroup() %>%
-  #     filter(co_name == params$county_selection) %>%
-  #     left_join(., variables, by = "var") %>%
-  #     mutate(desc = str_remove_all(desc, " for the County")) %>%
-  #     select(c(desc, value)) %>%
-  #     rename(
-  #       "Variables" = desc,
-  #       "{params$county_selection} Co. 2018" := value
-  #     )
-  # ) %>%
-  # city 2040
   full_join(
     calc_demographic_forecast(tb = building_energy_data)$ctu %>%
       ungroup() %>%
