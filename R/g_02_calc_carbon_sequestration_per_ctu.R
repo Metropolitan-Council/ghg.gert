@@ -64,34 +64,46 @@ calc_carbon_sequestration_per_ctu <- function(tb,
       names_sep = "."
     ) %>%
     dplyr::mutate(
-      impervious = ((impervious.2016 + impervious.2040) / 2) *
+      impervious.2040 = ((impervious.2016 + impervious.2040) / 2) *
         csf$IMPERVIOUS_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      grass = ((grass.2016 + grass.2040) / 2) *
+      grass.2040  = ((grass.2016 + grass.2040) / 2) *
         csf$GRASS_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      trees = ((trees.2016 + trees.2040) / 2) *
+      trees.2040  = ((trees.2016 + trees.2040) / 2) *
         csf$TREES_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      water = ((water.2016 + water.2040) / 2) *
+      water.2040  = ((water.2016 + water.2040) / 2) *
         csf$WATER_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      barren = ((barren.2016 + barren.2040) / 2) *
+      barren.2040  = ((barren.2016 + barren.2040) / 2) *
         csf$BARREN_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      forest = ((forest.2016 + forest.2040) / 2) *
+      forest.2040  = ((forest.2016 + forest.2040) / 2) *
         csf$FOREST_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      shrub = ((shrub.2016 + shrub.2040) / 2) *
+      shrub.2040  = ((shrub.2016 + shrub.2040) / 2) *
         csf$SHRUB_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      grassland = ((grassland.2016 + grassland.2040) / 2) *
+      grassland.2040  = ((grassland.2016 + grassland.2040) / 2) *
         csf$GRASSLAND_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      agriculture = ((agriculture.2016 + agriculture.2040) / 2) *
+      agriculture.2040  = ((agriculture.2016 + agriculture.2040) / 2) *
         csf$AGRICULTURE_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      woody_wetland = ((woody_wetland.2016 + woody_wetland.2040) / 2) *
+      woody_wetland.2040  = ((woody_wetland.2016 + woody_wetland.2040) / 2) *
         csf$WOODY_WETLAND_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      wetland = ((wetland.2016 + wetland.2040) / 2) *
+      wetland.2040  = ((wetland.2016 + wetland.2040) / 2) *
         csf$WETLAND_SEQUEST_MG_C_PER_HECTARE_PER_YEAR,
-      parking_lot = ((parking_lot.2016 + parking_lot.2040) / 2) *
+      parking_lot.2040  = ((parking_lot.2016 + parking_lot.2040) / 2) *
         csf$PARKING_LOT_SEQUEST_MG_C_PER_HECTARE_PER_YEAR
+    )  %>%
+    dplyr::group_by(ctu_name) %>%
+    tidyr::pivot_longer(
+      cols = -ctu_name,
+      names_to = c("var", "year"),
+      names_sep = "\\."
     ) %>%
+    dplyr::filter(var != "year",
+                  year != "2016") %>%
+    # Use pivot_wider to pivot the year column
+    tidyr::pivot_wider(names_from = var, values_from = value)  %>%
+    dplyr::mutate(var = "annual_sequestration_tonnes_co2e") %>%
     dplyr::select(
       ctu_name,
-      year.2040,
+      year,
+      var,
       agriculture,
       barren,
       forest,
@@ -105,4 +117,7 @@ calc_carbon_sequestration_per_ctu <- function(tb,
       wetland,
       woody_wetland
     )
+
+  return(carbon_sequestration_per_ctu)
+
 }

@@ -57,6 +57,7 @@ calc_parking_lot_land_cover <- function(tb,
     detail = FALSE
   )
   # -------------------------------------------------------------------------
+
   parking_lot_land_cover <-
     tree_parking_land_cover %>%
     dplyr::mutate(
