@@ -5,8 +5,6 @@ testthat::test_that("bus mpg correct", {
       filter(mode == "BU",
              var == "BCIMPG") %>%
       select(year, var, value),
-
-
     tibble::tribble(
       ~year,     ~var,  ~value,
       "2015", "BCIMPG",  4.6805,
