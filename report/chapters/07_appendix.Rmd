@@ -81,7 +81,7 @@ knitr::opts_chunk$set(
 
 <!-- ### Forecasted Electricity Energy Mix   -->
 
-Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
+Reference and mitigation scenarios developed by Xcel Energy [@xcel_energy_upper_2020].  
 
 
 ```{r, energy-mix-forecast,eval=FALSE}
@@ -365,7 +365,7 @@ Note: The values are multiplied by 1000 in the original formula to retain the un
 
 ### Elasticity methodology
 
-Land use elasticities are taken from a meta-analysis by Ewing and Cervero [@ewingTravelBuiltEnvironment2010] for each of automobile, walking and cycling, and transit trips. A more recent meta-analysis provides additional values for the automobile mode [@stevensDoesCompactDevelopment2016]. These values are used to give an elasticity range. In addition to the below values, an overall elasticity of -0.22 is used for the combined effect of the 5Ds to give the user the option to consider a combination of land use changes.
+Land use elasticities are taken from a meta-analysis by Ewing and Cervero [@ewing_travel_2010] for each of automobile, walking and cycling, and transit trips. A more recent meta-analysis provides additional values for the automobile mode [@stevens_does_2016]. These values are used to give an elasticity range. In addition to the below values, an overall elasticity of -0.22 is used for the combined effect of the 5Ds to give the user the option to consider a combination of land use changes.
 
 ```{r tab-land-use-elast}
 #| echo: false
@@ -428,19 +428,19 @@ tibble::tibble(
 
 #### Vehicle miles traveled (VMT) fee  {#vmt-fee}
 
-A study by MAPC [@gatelyImpactsLandUse2021] in Massachusetts  uses a combination of the [VisionEval](https://visioneval.org/) transportation model and UrbanSim land use model to examine land use and pricing scenarios. The introduction of a 25 cent per mile VMT fee is anticipated to lower VMT by 15%. They find that even a tripling of the gas tax from 24 cents per gallon to 75 cents per gallon would only slow VMT growth by 1.5%. The study results indicate the Commonwealth region cannot rely solely on technology-based solutions such as fuel efficiency and electrification to meet ambitious GHG reduction targets.
+A study by MAPC [@gately_impacts_2021] in Massachusetts  uses a combination of the [VisionEval](https://visioneval.org/) transportation model and UrbanSim land use model to examine land use and pricing scenarios. The introduction of a 25 cent per mile VMT fee is anticipated to lower VMT by 15%. They find that even a tripling of the gas tax from 24 cents per gallon to 75 cents per gallon would only slow VMT growth by 1.5%. The study results indicate the Commonwealth region cannot rely solely on technology-based solutions such as fuel efficiency and electrification to meet ambitious GHG reduction targets.
 
 
 However, these results are highly dependent on the choice of elasticity and marginal cost. It is also important to note the variation in elasticity obtained in different jurisdictions.
 
 <!-- In one study, the long-run gasoline price elasticity in the United States is found to be -0.23 compared with -1.35 in Europe. This variation in the elasticity is attributable to the historically much higher fuel taxes in Europe leading to the adoption of more fuel-efficient vehicles and more robust transit networks.  -->
 
-Recently, Spiller et al. [@Spiller_Stephens_Timmins_Smith_2014] estimated the price elasticity of VMT at -0.511, which is on the higher end of the range found in the literature. Their higher estimate is partially due to the consideration of multi-vehicle households switching to more fuel-efficient vehicles in response to increases in fuel price. In the case of a VMT fee, this option would not be available to these households.
+Recently, Spiller et al. [@spiller_effect_2014] estimated the price elasticity of VMT at -0.511, which is on the higher end of the range found in the literature. Their higher estimate is partially due to the consideration of multi-vehicle households switching to more fuel-efficient vehicles in response to increases in fuel price. In the case of a VMT fee, this option would not be available to these households.
 
 
 #### Congestion pricing
 
-In the CFB analysis [@porterTransportationTechnicalReport2019], they assume that 29% of urban VMT is congested as an input to the determination of congesting pricing. Their estimate is in line with the findings of TAM for the Boston Metropolitan Area, which gives an estimate of 29.5%.
+In the CFB analysis [@porter_transportation_2019], they assume that 29% of urban VMT is congested as an input to the determination of congesting pricing. Their estimate is in line with the findings of TAM for the Boston Metropolitan Area, which gives an estimate of 29.5%.
 
 However, this estimate is for peak VMT, which the TAM team define as 6 AM to 10 AM and 3 PM to 7 PM.  The same TAM study estimates peak VMT congestion in MSP as 24.6%. We assume there is no congestion during non-peak periods and estimate the percent of VMT during the peak period, as a proportion of total VMT for MSP, using weighted TBI 2019 results.
 
@@ -451,13 +451,13 @@ We calculate a secondary set of congestion estimates using TBI data for each CTU
 
 #### Other per-mile costs
 
-Gas taxes are set at the state and federal level. Current gas tax in Minnesota is \$0.469 per gallon for gasoline, and \$0.529 per gallon for diesel fuel [@CommercePolicyChapter2017].
+Gas taxes are set at the state and federal level. Current gas tax in Minnesota is \$0.469 per gallon for gasoline, and \$0.529 per gallon for diesel fuel [@noauthor_commerce_2017].
 
 Pay-as-you-drive insurance requires technology that is likely to be unevenly available or contribute to existing inequities.
 
 ### Parking policy elasticity
 
-The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehnerPriceElasticityParking2019].
+The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehner_price_2019].
 
 $$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} $$
 
@@ -467,7 +467,7 @@ $price_y$ is the price of parking on dollars per hour in year $y$\
 $price_{y = 2018}$ is the price of parking in dollars per hour in 2018\
 $elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.
 
-Values derived from @TRACE_1999 and referenced in @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.
+Values derived from @trace_elasticity_1999 and referenced in @litman_understanding_2021 and @lehner_price_2019.
 
 ### Data sources  
 
@@ -504,7 +504,7 @@ gt::gt(
 
 In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
 
-The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@eiaAnnualEnergyOutlook2021].
+The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@us_department_of_energy_annual_2021].
 
 1.  **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.\
 2.  **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.\
@@ -549,7 +549,7 @@ The Market Acceptance of Advanced Automotive Technologies ([MA3T](#ma3t-doc)) mo
 
 Area types (i.e., central city, suburban, or rural) are based on United States Census Bureau definitions of central cities for the metropolitan area including Minneapolis, St. Paul, and Bloomington and assuming that non-community CTU are rural.
 
-In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. The purposes of this calculation, it was assumed that the average travel distance in electric mode for a PHEV is 29.6 miles [@plotzRealworldUsagePlugin2020] and that households only recharge their vehicle at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.  
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. The purposes of this calculation, it was assumed that the average travel distance in electric mode for a PHEV is 29.6 miles [@plotz_real-world_2020] and that households only recharge their vehicle at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.  
 
 
 The [MA3T](#ma3t-doc) model defines three driving patterns as modest (less than 8,656 miles per year), average (8,656-16,068 miles per year), and frequent (greater than 16,068 miles per year). Weighted 2019 TBI data are used to estimate the share of each driving pattern class for each of the 51 regions.   
@@ -557,7 +557,7 @@ The [MA3T](#ma3t-doc) model defines three driving patterns as modest (less than 
 A large 5-year growth rate is anticipated by the model between 2015 and 2020 of 383%. Assuming that this growth will occur in 2020-2025, that is that it is lagged from the [MA3T](#ma3t-doc) expectation by five years, gives reasonably good results by 2040 of about 23% of the vehicle market and 13% for BEV only (in line with the AEO and ZCAP reference cases). 
 
 
-```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
+```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@lin_ma3t_2013]"}
 knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
 ```
 
@@ -588,14 +588,14 @@ You can find more information on the [Met Council website `r fontawesome::fa("ex
 
 ##### Council-specific studies  
 
-[@khaniStudyBusRapid2018]
+[@khani_after_2018]
 
 
 ### Federal data sources
 
 ##### Federal Highway Administration (FHWA)   
 
-Average vehicle occupancy  [@federalhighwayadministrationfhwaAverageVehicleOccupancy2018].  
+Average vehicle occupancy  [@federal_highway_administration_fhwa_average_2018].  
 
 ##### US Energy Information Administration  (EIA) {#eia-sources}  
 
@@ -630,19 +630,19 @@ transportation_data$passenger %>%
 
 ### Study-specific values
 
-Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brookerFASTSimModelEstimate2015]
+Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brooker_fastsim_2015]
 
 
-Jimmy O’Dea, “Electric Vs. Diesel Vs. Natural Gas: Which Bus Is Best for the Climate?” Union of Concerned Scientists, 2018, https://blog.ucsusa.org/jimmy-odea/electric-vs-diesel-vs-natural-gas-which-bus-is-best-for-the-climate [@odeaElectricVsDiesel2018]
+Jimmy O’Dea, “Electric Vs. Diesel Vs. Natural Gas: Which Bus Is Best for the Climate?” Union of Concerned Scientists, 2018, https://blog.ucsusa.org/jimmy-odea/electric-vs-diesel-vs-natural-gas-which-bus-is-best-for-the-climate [@odea_electric_2018]
 
 
-Haonan Yan, Kara M. Kockelman, and Krishna Murthy Gurumurthy, “Shared Autonomous Vehicle Fleet Performance: Impacts of Trip Densities and Parking Limitations,” Transportation Research Part D: Transport and Environment 89 (2020): 1–19, https://doi.org/10.1016/j.trd.2020.102577. [@yanSharedAutonomousVehicle2020]
+Haonan Yan, Kara M. Kockelman, and Krishna Murthy Gurumurthy, “Shared Autonomous Vehicle Fleet Performance: Impacts of Trip Densities and Parking Limitations,” Transportation Research Part D: Transport and Environment 89 (2020): 1–19, https://doi.org/10.1016/j.trd.2020.102577. [@yan_shared_2020]
 
-Huang, Yantao, Kara M. Kockelman, and Neil Quarles. “How Will Self-Driving Vehicles Affect U.S. Megaregion Traffic? The Case of the Texas Triangle.” Research in Transportation Economics 84 (2020): 1–18. https://doi.org/10.1016/j.retrec.2020.101003. [@huangHowWillSelfdriving2020]
+Huang, Yantao, Kara M. Kockelman, and Neil Quarles. “How Will Self-Driving Vehicles Affect U.S. Megaregion Traffic? The Case of the Texas Triangle.” Research in Transportation Economics 84 (2020): 1–18. https://doi.org/10.1016/j.retrec.2020.101003. [@huang_how_2020]
 
-Taiebat, Morteza, Samuel Stolper, and Ming Xu. “Forecasting the Impact of Connected and Automated Vehicles on Energy Use A Microeconomic Study of Induced Travel and Energy Rebound.” Applied Energy 247 (August 2019): 297–308. https://doi.org/10.1016/j.apenergy.2019.03.174. [@taiebatForecastingImpactConnected2019]
+Taiebat, Morteza, Samuel Stolper, and Ming Xu. “Forecasting the Impact of Connected and Automated Vehicles on Energy Use A Microeconomic Study of Induced Travel and Energy Rebound.” Applied Energy 247 (August 2019): 297–308. https://doi.org/10.1016/j.apenergy.2019.03.174. [@taiebat_forecasting_2019]
 
-Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,” International Council on Clean Transportation (ICCT) White Paper, 2020 [@plotzRealworldUsagePlugin2020]
+Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,” International Council on Clean Transportation (ICCT) White Paper, 2020 [@plotz_real-world_2020]
 
 
 ### Transportation modes  

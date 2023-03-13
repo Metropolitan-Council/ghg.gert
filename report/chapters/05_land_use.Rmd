@@ -4,24 +4,25 @@
 
 <!-- Communities can take steps to reduce their carbon footprint and address the impacts of climate change through a variety of measures, such as reducing energy consumption, promoting compact land use patterns, decreasing dependence on cars, and incorporating natural resources into development patterns. This approach, known as green infrastructure, enhances the resilience of the built environment, reduces emissions, and improves quality of life. These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, safeguarding their resources and competitiveness. -->
 
-Communities can reduce their carbon footprint and address the impacts of climate change through a variety of green infrastructure approaches. Approaches such as promoting compact land use patterns, incorporating natural resources into development patterns, reforesting urban areas, and promoting sustainable agriculture can enhance the resilience of the community, reduce emissions, and improve quality of life. These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, safeguarding their resources and competitiveness.
+Communities can reduce their carbon footprint and address the impacts of climate change through a variety of green infrastructure approaches. Approaches such as promoting compact land use patterns, incorporating natural resources into development patterns, reforesting urban areas, and promoting sustainable agriculture can enhance the resilience of the community [@kousky_strategically_2013], reduce emissions [@de_ambrogi_carbon_2019], and improve quality of life . These measures help communities prepare for the increasing frequency of extreme weather events and other climate impacts, safeguarding their resources and competitiveness.
 
 <!-- Land use changes can release carbon stored in land, for instance, when urban impervious surfaces, like asphalt roads and residential areas, spread onto lands previously covered by forests or agriculture. This leads to net carbon emissions from land. On the other hand, significant urban reforestation can result in carbon storage in land, through soil and woody biomass, which can result in net carbon sequestration (negative emissions). -->
 
 ## Framework
+
 <!-- The impact of these effects can be modeled through satellite imagery and analysis of remote sensing data of urban land use changes planned by cities. Cities should aim to reduce their outward expansion through compact development and increase urban carbon storage through reforestation, as described in the guide on Urban Reforestation. Other strategies like soil conservation on agricultural land within the Metropolitan Council region can also contribute, although they were found to be relatively minor in the scenario planning model. -->
 
 <!-- To outline the methodology for evaluating the impact of various land use and green infrastructure strategies, it is crucial to comprehend that each land cover type within our region, be it forested or impervious, possesses a distinct multiplier for carbon sequestration and carbon stocks. With the utilization of satellite imagery to acquire information on the region's land cover, we are able to make informed speculations regarding the potential for changes in land use and cover to augment or decrease greenhouse gas emissions. -->
 
 <!-- The land freed up from impervious surfaces provides opportunities for nature-based solutions that can mitigate carbon and enhance climate resilience, as well as improve subjective well-being. To evaluate the impact of various land use and green infrastructure strategies, it is important to understand that each land cover type within the region, whether it be forested or impervious, has a unique multiplier for carbon sequestration and carbon stocks. By using satellite imagery to gather information on the region's land cover, informed assumptions can be made about the potential for changes in land use and cover to increase or decrease greenhouse gas emissions. -->
 
-The impact of land use impacts on carbon emissions or sequestration (negative emissions) can be modeled through satellite imagery and analysis of remote sensing data of urban land use changes planned by cities. Cities should aim to reduce their outward expansion through compact development and increase urban carbon storage through reforestation, as described in the guide on Urban Reforestation. Other strategies like soil conservation on agricultural land within the Metropolitan Council region can also contribute, although they were found to be relatively minor in the scenario planning model.
+The impact of land use impacts on carbon emissions or sequestration (negative emissions) can be modeled through satellite imagery and analysis of remote sensing data of urban land use changes planned by cities [@pascual_new_2021]. Cities should aim to reduce their outward expansion through compact development and increase urban carbon storage through reforestation, as described in the guide on Urban Reforestation. Other strategies like soil conservation on agricultural land within the Metropolitan Council region can also contribute, although they were found to be relatively minor in the scenario planning model.
 
 To evaluate the impact of various land use and green infrastructure strategies, understand that each land cover type within our region has a distinct multiplier for carbon sequestration and carbon stocks. Using satellite imagery for information on the region's land cover, we can make informed predictions regarding the potential for changes in land use and cover to influence greenhouse gas emissions.
 
 ### Land Cover Baseline and Forecast
 
-A high-resolution land cover map for the Metropolitan Council region for the year 2016 was generated using support vector machine image classification on *Planet RapidEye 5m Imagery*. This classification was merged with the 2019 edition of the [National Land Cover Database](https://www.usgs.gov/centers/eros/science/national-land-cover-database) to create a 12-class land cover map. For more information on the image classification methodology, see [@Milnar_Ramaswami_2020].
+A high-resolution land cover map for the Metropolitan Council region for the year 2016 was generated using support vector machine image classification on *Planet RapidEye 5m Imagery*. This classification was merged with the 2019 edition of the [National Land Cover Database](https://www.usgs.gov/centers/eros/science/national-land-cover-database) to create a 12-class land cover map. For more information on the image classification methodology, see [@milnar_impact_2020].
 
 Each land cover type has a unique parameter for carbon sequestration rates (additional carbon stored on an area basis, per year) and existing carbon stock (amount of carbon already stored in that land cover).
 
@@ -173,8 +174,6 @@ fig_05_land_use <- full_join(fig_05_land_use_2016,
 fig_05_land_use
 ```
 
-
-
 ```{r child="chapters/05_land_use_strategies/05_1_urban_form.Rmd", echo=FALSE}
 ```
 
@@ -182,6 +181,7 @@ fig_05_land_use
 ```
 
 <!-- ```{r child="chapters/05_land_use_strategies/05_3_reduced_parking.Rmd", echo=FALSE} -->
+
 <!-- ``` -->
 
 ```{r child="chapters/05_land_use_strategies/05_4_urban_tree_planting.Rmd", echo=FALSE}
