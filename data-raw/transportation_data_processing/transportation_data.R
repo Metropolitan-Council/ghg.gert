@@ -20,24 +20,6 @@ pass_transpo_new <- read_csv("data-raw/transportation_data_processing/pass_trans
 # anti_join(pass_transpo_new, pass_transpo) %>% View
 pass_transpo <- pass_transpo_new
 
-# make DRS and AV shares relative to 2050
-# pass_transpo <- pass_transpo %>%
-#   mutate(across(
-#     all_of(4:12),
-#     ~ case_when(
-#       (var == "DRSShare") ~ .x /
-#         pass_transpo %>%
-#         filter(var == "DRSShare") %>%
-#         select(`2050`) %>%
-#         as.numeric(),
-#       (var == "AVShare") ~ .x / pass_transpo %>%
-#         filter(var == "AVShare") %>%
-#         select(`2050`) %>%
-#         as.numeric(),
-#       TRUE ~ .x
-#     )
-#   ))
-
 freight_transpo <- read_csv("data-raw/transportation_data_processing/freight_transpo_dat.csv") %>%
   unique()
 
