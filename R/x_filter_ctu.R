@@ -9,11 +9,9 @@
 filter_ctu <- function(df, .selected_ctu = "all") {
   if (.selected_ctu == "all") {
     return(df)
-  }
-  else if ("ctu" %in% colnames(df) && .selected_ctu != "all")    {
+  } else if ("ctu" %in% colnames(df) && .selected_ctu != "all") {
     return(df %>% filter(ctu == .selected_ctu))
-
-  } else  {
+  } else {
     return(df %>% filter(ctu_name == .selected_ctu))
   }
 }

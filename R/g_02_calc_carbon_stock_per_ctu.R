@@ -91,21 +91,23 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   carbon_stock_per_ctu %>%
     dplyr::group_by(ctu_name) %>%
-    tidyr::pivot_wider(values_from =  c(grass, impervious, trees, water, barren, forest, shrub, grassland, agriculture, woody_wetland, wetland, parking_lot),
-                       names_from = "year") %>%
+    tidyr::pivot_wider(
+      values_from = c(grass, impervious, trees, water, barren, forest, shrub, grassland, agriculture, woody_wetland, wetland, parking_lot),
+      names_from = "year"
+    ) %>%
     dplyr::transmute(
-      grass = ((grass_2016 - grass_2040) * 11/3)/24,
-      impervious = ((impervious_2040 - impervious_2016) * 11/3)/24,
-      trees = ((trees_2016 - trees_2040) * 11/3)/24,
-      water = ((water_2016 - water_2040) * 11/3)/24,
-      barren = ((barren_2016 - barren_2040) * 11/3)/24,
-      forest = ((forest_2016 - forest_2040) * 11/3)/24,
-      shrub = ((shrub_2016 - shrub_2040) * 11/3)/24,
-      grassland = ((grassland_2016 - grassland_2040) * 11/3)/24,
-      agriculture = ((agriculture_2016 - agriculture_2040) * 11/3)/24,
-      woody_wetland = ((woody_wetland_2016 - woody_wetland_2040) * 11/3)/24,
-      wetland = ((wetland_2016 - wetland_2040) * 11/3)/24,
-      parking_lot = ((parking_lot_2016 - parking_lot_2040) * 11/3)/24
+      grass = ((grass_2016 - grass_2040) * 11 / 3) / 24,
+      impervious = ((impervious_2040 - impervious_2016) * 11 / 3) / 24,
+      trees = ((trees_2016 - trees_2040) * 11 / 3) / 24,
+      water = ((water_2016 - water_2040) * 11 / 3) / 24,
+      barren = ((barren_2016 - barren_2040) * 11 / 3) / 24,
+      forest = ((forest_2016 - forest_2040) * 11 / 3) / 24,
+      shrub = ((shrub_2016 - shrub_2040) * 11 / 3) / 24,
+      grassland = ((grassland_2016 - grassland_2040) * 11 / 3) / 24,
+      agriculture = ((agriculture_2016 - agriculture_2040) * 11 / 3) / 24,
+      woody_wetland = ((woody_wetland_2016 - woody_wetland_2040) * 11 / 3) / 24,
+      wetland = ((wetland_2016 - wetland_2040) * 11 / 3) / 24,
+      parking_lot = ((parking_lot_2016 - parking_lot_2040) * 11 / 3) / 24
     )
 
 

@@ -65,7 +65,7 @@ calc_parking_lot_land_cover <- function(tb,
         dplyr::if_else(
           year == 2016, parking_lot,
           parking_lot * (1 - .parking_lot_reduction_percentage)
-         ),
+        ),
       decreased_parking_lot = parking_lot - parking_lot_2,
       scaling_factor = (total_area_hectares + decreased_parking_lot) / total_area_hectares
     ) %>%

@@ -140,21 +140,31 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
 
 
 #  pop density -----
-density_neg100 <- run_scenario_transportation(.pop_dens_pct_change = -1,
-                                              .selected_ctu = "Minneapolis",
-                                              .scenario = "densn100")
-density_neg50 <- run_scenario_transportation(.pop_dens_pct_change = -.5,
-                                             .selected_ctu = "Minneapolis",
-                                             .scenario = "densn50")
-density_0 <- run_scenario_transportation(.pop_dens_pct_change = 0,
-                                         .selected_ctu = "Minneapolis",
-                                         .scenario = "dens0")
-density_50 <- run_scenario_transportation(.pop_dens_pct_change = .5,
-                                          .selected_ctu = "Minneapolis",
-                                          .scenario = "dens50")
-density_100 <- run_scenario_transportation(.pop_dens_pct_change = 1,
-                                           .selected_ctu = "Minneapolis",
-                                           .scenario = "dens100")
+density_neg100 <- run_scenario_transportation(
+  .pop_dens_pct_change = -1,
+  .selected_ctu = "Minneapolis",
+  .scenario = "densn100"
+)
+density_neg50 <- run_scenario_transportation(
+  .pop_dens_pct_change = -.5,
+  .selected_ctu = "Minneapolis",
+  .scenario = "densn50"
+)
+density_0 <- run_scenario_transportation(
+  .pop_dens_pct_change = 0,
+  .selected_ctu = "Minneapolis",
+  .scenario = "dens0"
+)
+density_50 <- run_scenario_transportation(
+  .pop_dens_pct_change = .5,
+  .selected_ctu = "Minneapolis",
+  .scenario = "dens50"
+)
+density_100 <- run_scenario_transportation(
+  .pop_dens_pct_change = 1,
+  .selected_ctu = "Minneapolis",
+  .scenario = "dens100"
+)
 
 
 density_fxn <- function(.pct) {
@@ -178,21 +188,31 @@ density_ctu <- density_fxn(density_neg100) %>%
 
 
 # employment density  -----
-emp_density_neg100 <- run_scenario_transportation(.emp_dens_pct_change = -1,
-                                              .selected_ctu = "Minneapolis",
-                                              .scenario = "empdensn100")
-emp_density_neg50 <- run_scenario_transportation(.emp_dens_pct_change = -.5,
-                                             .selected_ctu = "Minneapolis",
-                                             .scenario = "empdensn50")
-emp_density_0 <- run_scenario_transportation(.emp_dens_pct_change = 0,
-                                         .selected_ctu = "Minneapolis",
-                                         .scenario = "empdens0")
-emp_density_50 <- run_scenario_transportation(.emp_dens_pct_change = .5,
-                                          .selected_ctu = "Minneapolis",
-                                          .scenario = "empdens50")
-emp_density_100 <- run_scenario_transportation(.emp_dens_pct_change = 1,
-                                           .selected_ctu = "Minneapolis",
-                                           .scenario = "empdens100")
+emp_density_neg100 <- run_scenario_transportation(
+  .emp_dens_pct_change = -1,
+  .selected_ctu = "Minneapolis",
+  .scenario = "empdensn100"
+)
+emp_density_neg50 <- run_scenario_transportation(
+  .emp_dens_pct_change = -.5,
+  .selected_ctu = "Minneapolis",
+  .scenario = "empdensn50"
+)
+emp_density_0 <- run_scenario_transportation(
+  .emp_dens_pct_change = 0,
+  .selected_ctu = "Minneapolis",
+  .scenario = "empdens0"
+)
+emp_density_50 <- run_scenario_transportation(
+  .emp_dens_pct_change = .5,
+  .selected_ctu = "Minneapolis",
+  .scenario = "empdens50"
+)
+emp_density_100 <- run_scenario_transportation(
+  .emp_dens_pct_change = 1,
+  .selected_ctu = "Minneapolis",
+  .scenario = "empdens100"
+)
 
 
 emp_density_fxn <- function(.pct) {
@@ -236,7 +256,7 @@ bau_ctu <- bau$passenger_all %>%
 
 # save data -----
 save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu, emp_density_ctu, bau_ctu,
-     file = "data-raw/transportation_report_data.rda"
+  file = "data-raw/transportation_report_data.rda"
 )
 
 beepr::beep()
