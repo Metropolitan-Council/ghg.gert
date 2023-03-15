@@ -84,12 +84,13 @@ The output of the non-residential portion of the Building Energy Module of the.
 }\if{html}{\out{</div>}}
 }
 \description{
-compiles all the strategies related to
-non-residential buildings.
+This function compiles and calculates the emissions related to
+non-residential buildings in a given scenario, by considering various strategies such as
+energy efficiency, electrification, and grid decarbonization.
 }
 \note{
-To run the Building Energy Module, refer to function \code{run_scenario_building()}
-For more details, see \code{vignette("building_energy_module_inputs_non_residential")}
+To run the Building Energy Module, refer to function run_scenario_building().
+For more details, see \code{vignette("building_energy_module_inputs_non_residential")}.
 }
 \examples{
 \dontrun{

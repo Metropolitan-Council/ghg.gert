@@ -122,6 +122,18 @@ returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 
+\item{.conservation_tillage_intervention}{character,
+The type of conservation tillage scenario to be explored.
+Default is \code{current_conservation_tillage}. The options are:
+\itemize{
+\item \code{"current_conservation_tillage"} it maintains the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"double_conservation_tillage"} it doubles the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"maximum_conservation_tillage"} it assumes that all agricultural land implements conservation
+tillage.
+}}
+
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}

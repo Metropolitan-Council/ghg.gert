@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_01_run_scenario_building.R
 \name{run_scenario_building}
 \alias{run_scenario_building}
-\title{Run building energy scenarios}
+\title{Execute building energy scenarios}
 \usage{
 run_scenario_building(
   res_tb = building_energy_bau_data$residential,

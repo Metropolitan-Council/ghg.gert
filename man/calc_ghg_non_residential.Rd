@@ -36,10 +36,11 @@ pecified scenario. Default is \code{1}.}
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
-Calculates total energy demand and emissions from
-workers for industrial and commercial sectors by city/township for
-the specified scenario.
-For more details, see \code{vignette("building_energy_module_outputs_non_residential")}
+This function calculates the total energy demand and greenhouse gas (GHG) emissions
+for non-residential buildings in the commercial and industrial sectors, by city or township,
+under a specified scenario. The calculation considers parameters such as smart grid
+adoption rates, grid decarbonization rates, and energy reduction percentages. For a more
+detailed explanation, refer to \code{vignette("building_energy_module_outputs_non_residential")}.
 }
 \examples{
 \dontrun{

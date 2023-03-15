@@ -7,6 +7,16 @@
 #'    account factors such as urban form, tree planting interventions, parking
 #'    lot reduction percentages, and conservation tillage interventions.
 #'
+#' @param .conservation_tillage_intervention character,
+#'    The type of conservation tillage scenario to be explored.
+#'    Default is `current_conservation_tillage`. The options are:
+#'    * `"current_conservation_tillage"` it maintains the per county levels of conservation tillage
+#'    relative to the baseline year.
+#'    * `"double_conservation_tillage"` it doubles the per county levels of conservation tillage
+#'    relative to the baseline year.
+#'    * `"maximum_conservation_tillage"` it assumes that all agricultural land implements conservation
+#'    tillage.
+#'
 #' @inheritParams calc_parking_lot_land_cover
 #'
 #' @return [tibble::tibble()] with column names...
