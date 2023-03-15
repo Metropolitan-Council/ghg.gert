@@ -1,8 +1,11 @@
 #' @title Run building energy scenarios
 #' @family buildings
 #'
-#' @description Produces the outputs of the building energy module by
-#'     city/township for the specified scenario
+#' @description This function generates the outputs of the building energy module
+#'    for the given scenario at the city/township level. It incorporates various
+#'    parameters to evaluate and analyze different energy consumption and efficiency
+#'    scenarios for both residential and non-residential buildings. Outputs are
+#'    provided as a tibble with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential

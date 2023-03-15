@@ -40,8 +40,10 @@ Default is \code{FALSE}.}
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-Calculates the carbon stock per land cover type by city/township
-under the selected scenario parameters
+This function estimates the carbon stock per land cover type for
+each city or township under various user-selected scenarios. It takes into
+account factors such as urban form, tree planting interventions, parking
+lot reduction percentages, and conservation tillage interventions.
 }
 \examples{
 \dontrun{

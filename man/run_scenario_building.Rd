@@ -140,8 +140,11 @@ the inputs of the building energy module must be specified as an argument
 to the function \code{run_scenario_building()}
 }
 \description{
-Produces the outputs of the building energy module by
-city/township for the specified scenario
+This function generates the outputs of the building energy module
+for the given scenario at the city/township level. It incorporates various
+parameters to evaluate and analyze different energy consumption and efficiency
+scenarios for both residential and non-residential buildings. Outputs are
+provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 }
 \examples{
 \dontrun{
