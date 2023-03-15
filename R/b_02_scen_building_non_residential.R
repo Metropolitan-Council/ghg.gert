@@ -2,10 +2,11 @@
 #' @family commercial-industrial
 #' @family buildings
 #'
-#' @description compiles all the strategies related to
-#' non-residential buildings.
-#' @note To run the Building Energy Module, refer to function `run_scenario_building()`
-#'     For more details, see `vignette("building_energy_module_inputs_non_residential")`
+#' @description This function compiles and calculates the emissions related to
+#'    non-residential buildings in a given scenario, by considering various strategies such as
+#'    energy efficiency, electrification, and grid decarbonization.
+#' @note To run the Building Energy Module, refer to function run_scenario_building().
+#' For more details, see `vignette("building_energy_module_inputs_non_residential")`.
 #'
 #' @inheritParams calc_existing_comm_building_efficiency
 #' @inheritParams calc_ghg_non_residential
@@ -109,15 +110,15 @@ scen_building_non_residential <- function(non_res_tb,
   )
 
   # tb03 calculates non residential renewable natural gas emissions reduction
-  tb04 <- ghg.sp::calc_non_res_renewable_ng(
-    non_res_tb = tb03,
-    .renewable_ng_nonres = .renewable_ng_nonres,
-    .selected_ctu = .selected_ctu,
-    .enviro_factors = .enviro_factors
-  )
+  # tb04 <- ghg.sp::calc_non_res_renewable_ng(
+  #   non_res_tb = tb03,
+  #   .renewable_ng_nonres = .renewable_ng_nonres,
+  #   .selected_ctu = .selected_ctu,
+  #   .enviro_factors = .enviro_factors
+  # )
 
   tb05 <-
-    tb04 %>%
+    tb03 %>%
     dplyr::filter(
       var %in% c(
         "commercial_mwh",
@@ -132,5 +133,5 @@ scen_building_non_residential <- function(non_res_tb,
       )
     )
 
-  return(tb04)
+  return(tb05)
 }

@@ -147,7 +147,7 @@ calc_carbon_stock_per_ctu <- function(tb,
   # -------------------------------------------------------------------------
   carbon_stock_per_ctu <-
     carbon_stock_per_ctu %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(ctu_name, year) %>%
     tidyr::pivot_wider(
       values_from =  c(
         grass,

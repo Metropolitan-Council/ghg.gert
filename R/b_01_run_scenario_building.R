@@ -1,4 +1,4 @@
-#' @title Run building energy scenarios
+#' @title Execute building energy scenarios
 #' @family buildings
 #'
 #' @description This function generates the outputs of the building energy module
@@ -224,7 +224,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
 
   building_module_ouput <-
     if (run_residential == TRUE & run_non_residential == TRUE) {
-      bind_rows(res, non_res)
+      dplyr::bind_rows(res, non_res)
     } else if (run_residential == FALSE) {
       non_res
     } else {

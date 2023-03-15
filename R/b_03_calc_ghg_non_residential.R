@@ -3,10 +3,11 @@
 #' @family buildings
 #' @family emissions
 #'
-#' @description Calculates total energy demand and emissions from
-#'     workers for industrial and commercial sectors by city/township for
-#'     the specified scenario.
-#'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
+#' @description This function calculates the total energy demand and greenhouse gas (GHG) emissions
+#'    for non-residential buildings in the commercial and industrial sectors, by city or township,
+#'    under a specified scenario. The calculation considers parameters such as smart grid
+#'    adoption rates, grid decarbonization rates, and energy reduction percentages. For a more
+#'    detailed explanation, refer to `vignette("building_energy_module_outputs_non_residential")`.
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
