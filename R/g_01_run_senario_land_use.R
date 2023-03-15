@@ -1,6 +1,11 @@
 #' @title Run land use scenario
 #' @family land use
 #'
+#' @description This function simulates the impact of various land use scenarios on carbon
+#'    sequestration and carbon stock in cities or townships. It considers factors such as
+#'    urban form, conservation tillage intervention, tree planting intervention, tree planting
+#'    per capita, tree planting per hectare, and parking lot reduction percentage.
+#'
 #' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
 #'
@@ -32,6 +37,8 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
 
+  # -------------------------------------------------------------------------
+  # command line interface message about progress
   cli::cli_progress_message("\n === RUNNING LAND USE AND FORESTRY MODULE ==== \n")
   cli::cli_progress_message(c("...... selected ctu: ", .selected_ctu, "\n"))
   cli::cli_progress_message(c("...... urban form scenario: ", .urban_form_scenario, "\n"))
@@ -42,12 +49,15 @@ run_scenario_land_use <- function(tb = land_use_data,
   cli::cli_progress_message(c("...... percent of parking lot reduction: ", .parking_lot_reduction_percentage, "\n"))
   cli::cli_progress_message("================================================ \n")
 
+  # -------------------------------------------------------------------------
+  # store filtered database tables into variables
   tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
   tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu = .selected_ctu)
   tb$ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu = .selected_ctu)
   tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
 
   # -------------------------------------------------------------------------
+  # store carbon sequestration function output into variable
   carbon_sequestration_per_ctu <-
     calc_carbon_sequestration_per_ctu(
       tb = tb,
@@ -60,8 +70,8 @@ run_scenario_land_use <- function(tb = land_use_data,
       detail = detail
     )
 
-
   # -------------------------------------------------------------------------
+  # store carbon stock function output into variable
   carbon_stock_per_ctu <-
     calc_carbon_stock_per_ctu(
       tb = tb,
@@ -82,29 +92,17 @@ run_scenario_land_use <- function(tb = land_use_data,
   )
 
   # -------------------------------------------------------------------------
-  land_use <- dplyr::bind_rows(
+
+  land_cover_results <- dplyr::bind_rows(
     carbon_sequestration_per_ctu %>%
-      dplyr::rename(year = year.2040) %>%
-      tidyr::pivot_longer(
-        cols = -c(ctu_name, year),
-        names_to = "var_detail",
-        values_to = "value"
-      ) %>%
-      dplyr::mutate(var = "seq_mg_c_per_year") %>%
-      tidyr::unite("var", c(var_detail, var), remove = FALSE) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
-      dplyr::mutate(detail = "sequestration"),
+      dplyr::mutate(var = "sequestration_tonnes_co2e_per_year",
+                    year = as.numeric(year)),
     carbon_stock_per_ctu %>%
-      tidyr::pivot_longer(
-        cols = -c(ctu_name, year),
-        names_to = "var_detail",
-        values_to = "value"
-      ) %>%
-      dplyr::mutate(var = "stock_mg_c_per_ha") %>%
-      tidyr::unite("var", c(var_detail, var), remove = FALSE) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
-      dplyr::mutate(detail = "stock")
+      dplyr::mutate(var = "stock_tonnes_co2e_per_year (land conversion emissions)",
+                    year = as.numeric(year))
   ) %>%
+    dplyr::group_by(ctu_name, year, var) %>%
+    tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(ctu_name, year, var)) %>%
     dplyr::mutate(
       urban_form_scenario = .urban_form_scenario,
       tree_planting_intervention = .tree_planting_intervention,
@@ -114,11 +112,11 @@ run_scenario_land_use <- function(tb = land_use_data,
 
   # -------------------------------------------------------------------------
   land_use_module_output <-
-    land_use %>%
+    land_cover_results %>%
     dplyr::group_by(
       ctu_name,
       year,
-      detail,
+      var,
       urban_form_scenario,
       tree_planting_intervention,
       conservation_tillage_intervention,

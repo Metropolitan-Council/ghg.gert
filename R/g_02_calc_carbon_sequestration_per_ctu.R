@@ -99,11 +99,9 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                   year != "2016") %>%
     # Use pivot_wider to pivot the year column
     tidyr::pivot_wider(names_from = var, values_from = value)  %>%
-    dplyr::mutate(var = "annual_sequestration_tonnes_co2e") %>%
     dplyr::select(
       ctu_name,
       year,
-      var,
       agriculture,
       barren,
       forest,
