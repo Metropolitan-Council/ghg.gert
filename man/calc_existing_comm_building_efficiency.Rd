@@ -18,7 +18,8 @@ Default is \code{0.8}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-The adjusted values for the non residential input table to reflect commercial building
+The adjusted values for the non residential
+input table to reflect commercial building
 energy efficiency.
 }
 \description{

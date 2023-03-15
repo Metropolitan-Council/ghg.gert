@@ -2,8 +2,10 @@
 #' @family land use
 #' @family emissions
 #'
-#' @description Calculates the carbon stock per land cover type by city/township
-#'      under the selected scenario parameters
+#' @description This function estimates the carbon stock per land cover type for
+#'    each city or township under various user-selected scenarios. It takes into
+#'    account factors such as urban form, tree planting interventions, parking
+#'    lot reduction percentages, and conservation tillage interventions.
 #'
 #' @inheritParams calc_parking_lot_land_cover
 #'
@@ -61,25 +63,6 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   # -------------------------------------------------------------------------
 
-  # conservation_tillage <-
-  #   calc_conservation_tillage(
-  #     tb = tb,
-  #     detail = detail,
-  #     .urban_form_scenario = .urban_form_scenario,
-  #     .tree_planting_intervention = .tree_planting_intervention,
-  #     .conservation_tillage_intervention = .conservation_tillage_intervention,
-  #     .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-  #     .tree_planting_per_capita = .tree_planting_per_capita,
-  #     .tree_planting_per_hectare = .tree_planting_per_hectare
-  #   ) %>%
-  #   dplyr::select(ctu_name,
-  #                 conservation_tillage_mg_c,
-  #                 carbon_stock_change_from_conservation_ag_mg_c,
-  #                 reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year)
-
-
-  # -------------------------------------------------------------------------
-
   parking_lot_land_cover <-
     calc_parking_lot_land_cover(
       tb = tb,
@@ -98,79 +81,54 @@ calc_carbon_stock_per_ctu <- function(tb,
     parking_lot_land_cover %>%
     dplyr::left_join(.,
       tb$ctu_county,
-      by = "ctu_name"
+      by = "ctu_name",
+      multiple = "all"
     ) %>%
     dplyr::left_join(.,
       tb$current_conservation_tillage_county,
-      by = "co_name"
+      by = "co_name",
+      multiple = "all"
     )
-  # %>%
-    #dplyr::select(ctu_name, co_name, year, agriculture) %>%
-    # tidyr::pivot_wider(
-    #   names_from = year,
-    #   values_from = agriculture,
-    #   names_prefix = "agriculture_hectares_year_"
-    # ) %>%
-    # dplyr::right_join(.,
-    #   tb$current_conservation_tillage_county,
-    #   by = "co_name"
-    # ) %>%
-    # dplyr::mutate(
-    #   baseline_carbon_stock_mg_c_per_hectare = agriculture_hectares_year_2016 *
-    #     enviro_factors$AGRI_LAND_CARBON_STOCK,
-    #   bau_carbon_stock_without_conservation_tillage_mg_c_per_hectare =
-    #     agriculture_hectares_year_2040 *
-    #       enviro_factors$AGRI_LAND_CARBON_STOCK
-    # )
 
   # -------------------------------------------------------------------------
 
-  carbon_stock_per_ctu <- baseline_bau %>%
-    dplyr::mutate(
-      grass = grass * csf$GRASS_STOCK_MG_C_PER_HECTARE,
-      impervious = impervious * csf$IMPERVIOUS_STOCK_MG_C_PER_HECTARE,
-      trees = trees * csf$TREES_STOCK_MG_C_PER_HECTARE,
-      water = water * csf$WATER_STOCK_MG_C_PER_HECTARE,
-      barren = barren * csf$BARREN_STOCK_MG_C_PER_HECTARE,
-      forest = forest * csf$FOREST_STOCK_MG_C_PER_HECTARE,
-      shrub = shrub * csf$SHRUB_STOCK_MG_C_PER_HECTARE,
-      grassland = grassland * csf$GRASSLAND_STOCK_MG_C_PER_HECTARE,
-      #agriculture = agriculture * csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE,
-      agriculture = switch(
+  calculate_stock <- function(land_use, stock_factor, column_name, agriculture = FALSE, tillage_pct = 0) {
+    if (agriculture) {
+      switch(
         .conservation_tillage_intervention,
-        "current_conservation_tillage" = {(
-          (
-            agriculture * current_conservation_tillage_percent *
-              enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
-              csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE
-          )
-          + (agriculture * (1 - current_conservation_tillage_percent))
-          * csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE
-        )},
-        "double_conservation_tillage" = {(
-          (
-            agriculture * (current_conservation_tillage_percent * 2) *
-              enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
-              csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE
-          )
-          + (agriculture * (1 - (current_conservation_tillage_percent * 2)))
-          * csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE
-          )},
-        "maximum_conservation_tillage" = {(
-            agriculture_hectares_year_2040 *
-              enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
-              csf$AGRICULTURE_STOCK_MG_C_PER_HECTARE
-          )}
-      ),
-      woody_wetland = woody_wetland * csf$WOODY_WETLAND_STOCK_MG_C_PER_HECTARE,
-      wetland = wetland * csf$WETLAND_STOCK_MG_C_PER_HECTARE,
-      parking_lot = parking_lot * csf$PARKING_LOT_STOCK_MG_C_PER_HECTARE
-    ) %>%
-    dplyr::mutate(var = "cumulative_stock_tonnes_c") %>%
+        "current_conservation_tillage" = {
+          (land_use * tillage_pct * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor) +
+            (land_use * (1 - tillage_pct) * stock_factor)
+        },
+        "double_conservation_tillage" = {
+          (land_use * (tillage_pct * 2) * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor) +
+            (land_use * (1 - (tillage_pct * 2)) * stock_factor)
+        },
+        "maximum_conservation_tillage" = {
+          agriculture_hectares_year_2040 * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor
+        },
+        land_use * stock_factor
+      )
+    } else {
+      land_use * stock_factor
+    }
+  }
+
+  carbon_stock_per_ctu <- baseline_bau %>%
+    dplyr::mutate(dplyr::across(
+      c(grass, impervious, trees, water, barren, forest, shrub, grassland, agriculture, woody_wetland, wetland, parking_lot),
+      list(new = ~ calculate_stock(
+        .,
+        stock_factor = csf[[toupper(dplyr::cur_column()) %>% paste0("_STOCK_MG_C_PER_HECTARE")]],
+        column_name = dplyr::cur_column(),
+        agriculture = dplyr::cur_column() == "agriculture",
+        tillage_pct = current_conservation_tillage_percent
+      )),
+      .names = "{col}"
+    )) %>%
     dplyr::select(
       ctu_name,
       year,
-      var,
       agriculture,
       barren,
       forest,
@@ -187,36 +145,43 @@ calc_carbon_stock_per_ctu <- function(tb,
 
 
   # -------------------------------------------------------------------------
-
-  carbon_stock_per_ctu %>%
+  carbon_stock_per_ctu <-
+    carbon_stock_per_ctu %>%
     dplyr::group_by(ctu_name) %>%
-    tidyr::pivot_wider(values_from =  c(grass,
-                                        impervious,
-                                        trees,
-                                        water,
-                                        barren,
-                                        forest,
-                                        shrub,
-                                        grassland,
-                                        agriculture,
-                                        woody_wetland,
-                                        wetland,
-                                        parking_lot),
-                       names_from = "year") %>%
+    tidyr::pivot_wider(
+      values_from =  c(
+        grass,
+        impervious,
+        trees,
+        water,
+        barren,
+        forest,
+        shrub,
+        grassland,
+        agriculture,
+        woody_wetland,
+        wetland,
+        parking_lot
+      ),
+      names_from = "year",
+      values_fn = sum
+    ) %>%
     dplyr::transmute(
-      grass = ((grass_2016 - grass_2040) * 11/3)/24,
-      impervious = ((impervious_2040 - impervious_2016) * 11/3)/24,
-      trees = ((trees_2016 - trees_2040) * 11/3)/24,
-      water = ((water_2016 - water_2040) * 11/3)/24,
-      barren = ((barren_2016 - barren_2040) * 11/3)/24,
-      forest = ((forest_2016 - forest_2040) * 11/3)/24,
-      shrub = ((shrub_2016 - shrub_2040) * 11/3)/24,
-      grassland = ((grassland_2016 - grassland_2040) * 11/3)/24,
-      agriculture = ((agriculture_2016 - agriculture_2040) * 11/3)/24,
-      woody_wetland = ((woody_wetland_2016 - woody_wetland_2040) * 11/3)/24,
-      wetland = ((wetland_2016 - wetland_2040) * 11/3)/24,
-      parking_lot = ((parking_lot_2016 - parking_lot_2040) * 11/3)/24
-    )
+      grass = ((grass_2016 - grass_2040) * 11 / 3) / 24,
+      impervious = ((impervious_2040 - impervious_2016) * 11 / 3) / 24,
+      trees = ((trees_2016 - trees_2040) * 11 / 3) / 24,
+      water = ((water_2016 - water_2040) * 11 / 3) / 24,
+      barren = ((barren_2016 - barren_2040) * 11 / 3) / 24,
+      forest = ((forest_2016 - forest_2040) * 11 / 3) / 24,
+      shrub = ((shrub_2016 - shrub_2040) * 11 / 3) / 24,
+      grassland = ((grassland_2016 - grassland_2040) * 11 / 3) / 24,
+      agriculture = ((agriculture_2016 - agriculture_2040) * 11 / 3) / 24,
+      woody_wetland = ((woody_wetland_2016 - woody_wetland_2040) * 11 /
+                         3) / 24,
+      wetland = ((wetland_2016 - wetland_2040) * 11 / 3) / 24,
+      parking_lot = ((parking_lot_2016 - parking_lot_2040) * 11 / 3) / 24
+    ) %>%
+    dplyr::mutate(year = 2040)
 
   # -------------------------------------------------------------------------
 
