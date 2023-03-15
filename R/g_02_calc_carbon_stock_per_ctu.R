@@ -115,7 +115,7 @@ calc_carbon_stock_per_ctu <- function(tb,
             (land_use * (1 - (tillage_pct * 2)) * stock_factor)
         },
         "maximum_conservation_tillage" = {
-          agriculture_hectares_year_2040 * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor
+          land_use * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor
         },
         land_use * stock_factor
       )
