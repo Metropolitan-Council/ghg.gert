@@ -37,7 +37,10 @@ for debugging.
 Default is \code{FALSE}.}
 }
 \description{
-Run land use scenario
+This function simulates the impact of various land use scenarios on carbon
+sequestration and carbon stock in cities or townships. It considers factors such as
+urban form, conservation tillage intervention, tree planting intervention, tree planting
+per capita, tree planting per hectare, and parking lot reduction percentage.
 }
 \examples{
 \dontrun{
