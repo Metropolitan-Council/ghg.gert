@@ -76,6 +76,7 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors) {
+
   cli::cli_progress_message("** compiling non-residential strategies \n")
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
@@ -99,26 +100,26 @@ scen_building_non_residential <- function(non_res_tb,
     .enviro_factors = .enviro_factors
   )
   # tb02 calculates conversion to electric heating
-  tb03 <- ghg.sp::calc_electrify_commercial_heating(
-    non_res_tb = tb02,
-    .selected_ctu = .selected_ctu,
-    .electrified_buildings_pct = .electrified_buildings_pct,
-    .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-    .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .enviro_factors = .enviro_factors
-  )
-
-  # tb03 calculates non residential renewable natural gas emissions reduction
-  # tb04 <- ghg.sp::calc_non_res_renewable_ng(
-  #   non_res_tb = tb03,
-  #   .renewable_ng_nonres = .renewable_ng_nonres,
+  # tb03 <- ghg.sp::calc_electrify_commercial_heating(
+  #   non_res_tb = tb02,
   #   .selected_ctu = .selected_ctu,
+  #   .electrified_buildings_pct = .electrified_buildings_pct,
+  #   .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
+  #   .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
+  #   .grid_decarbonization_pct = .grid_decarbonization_pct,
   #   .enviro_factors = .enviro_factors
   # )
 
+  #tb03 calculates non residential renewable natural gas emissions reduction
+  tb04 <- ghg.sp::calc_non_res_renewable_ng(
+    non_res_tb = tb02,
+    .renewable_ng_nonres = .renewable_ng_nonres,
+    .selected_ctu = .selected_ctu,
+    .enviro_factors = .enviro_factors
+  )
+
   tb05 <-
-    tb03 %>%
+    tb04 %>%
     dplyr::filter(
       var %in% c(
         "commercial_mwh",
