@@ -201,7 +201,8 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .enviro_factors = .enviro_factors
-      )
+      ) %>%
+      dplyr::mutate(year = as.numeric(year))
   }
   if (run_non_residential == TRUE) {
     non_res <-
@@ -219,12 +220,13 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
         .renewable_ng_nonres = .renewable_ng_nonres,
         .enviro_factors = .enviro_factors
-      )
+      )%>%
+    dplyr::mutate(year = as.numeric(year))
   }
 
   building_module_ouput <-
     if (run_residential == TRUE & run_non_residential == TRUE) {
-      dplyr::bind_rows(res, non_res)
+      dplyr::bind_rows((res %>% dplyr::mutate(year = as.numeric(year))), (non_res %>% dplyr::mutate(year = as.numeric(year))))
     } else if (run_residential == FALSE) {
       non_res
     } else {
