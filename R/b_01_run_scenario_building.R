@@ -25,12 +25,13 @@
 #'
 #' library(ghg.sp)
 #' run_scenario_building(
-#'   res_tb = building_energy_bau_data$residential,
+#'   res_tb = building_data$residential,
 #'   non_res_tb = building_data$non_residential,
-#'   res_tb_bau = building_energy_bau_data$residential,
+#'   res_tb_bau = building_data$residential,
 #'   non_res_tb_bau = building_data$non_residential,
 #'   run_residential = TRUE,
 #'   run_non_residential = TRUE,
+#'   .selected_ctu = "all",
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
 #'   .non_res_natural_gas_for_water_heating_pct = 0.20,
@@ -89,6 +90,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   .additional_electrified_residential_buildings_pct = 0.45,
                                   # grid
                                   .grid_decarbonization_pct = 1) {
+
   cli::cli_progress_message("\n  === RUNNING BUILDING ENERGY MODULE === \n")
   cli::cli_progress_message(msg = c("...... selected CTU:", .selected_ctu, "\n"))
   cli::cli_progress_message(c("...... percent of electrified buildings:", .electrified_buildings_pct, "\n"))
@@ -203,6 +205,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .enviro_factors = .enviro_factors
       )
   }
+
   if (run_non_residential == TRUE) {
     non_res <-
       scen_building_non_residential(
@@ -230,5 +233,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     } else {
       res
     }
+
   return(building_module_ouput)
-}
+
+  }

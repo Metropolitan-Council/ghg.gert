@@ -53,7 +53,7 @@ Default is \code{FALSE}.}
 }
 \description{
 This function estimates the carbon stock per land cover type for
-each city or township under various user-selected scenarios. It takes into
+each city or township under a given user-selected scenario. It takes into
 account factors such as urban form, tree planting interventions, parking
 lot reduction percentages, and conservation tillage interventions.
 }

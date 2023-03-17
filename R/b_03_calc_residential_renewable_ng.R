@@ -1,9 +1,12 @@
-#' @title Calculate residential renewable natural gas
+#' @title Calculate Residential Renewable Natural Gas Impact
 #' @family residential
 #' @family buildings
 #'
-#' @description Calculates the impact on residential
-#'       building emissions from transitioning natural gas to renewable natural gas.
+#' @description This function estimates the impact of transitioning from natural gas
+#'    to renewable natural gas (RNG) on residential building emissions.
+#'    The function takes into account the differences in emissions between
+#'    natural gas and RNG, and computes the resulting changes in
+#'    greenhouse gas (GHG) emissions for the selected city or township..
 #'
 #' @inheritParams run_scenario_building
 #'
@@ -15,30 +18,36 @@
 #'
 #' ghg.sp::calc_residential_renewable_ng(
 #'   res_tb = ghg.sp::calc_ghg_residential(
-#'     res_tb = building_energy_bau_data$residential,
-#'     res_tb_bau = building_energy_bau_data$residential,
-#'     .renewable_ng_res = TRUE,
-#'     .selected_ctu = "all",
-#'     .grid_decarbonization_pct = 1,
-#'     .enviro_factors = enviro_factors
+#'    res_tb = building_data$residential,
+#'    res_tb_bau = building_data$residential,
+#'    .selected_ctu = "all",
+#'    .grid_decarbonization_pct = 1,
+#'    .enviro_factors = enviro_factors
 #'   ),
-#'   .enviro_factors = enviro_factors
-#' )
+#'.  selected_ctu = "all",
+#'  .enviro_factors = enviro_factors
+#'  )
 #' }
+#'
+#'
 calc_residential_renewable_ng <- function(res_tb,
                                           .selected_ctu,
-                                          .renewable_ng_res = TRUE,
-                                          .enviro_factors = .enviro_factors) {
+                                          .renewable_ng_res,
+                                          .enviro_factors) {
+
   cli::cli_progress_message("*** calculating residential renewable natural gas strategy \n")
+
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.renewable_ng_res == TRUE) {
     new_res_tb <-
       res_tb %>%
-      tidyr::pivot_wider(., names_from = c(var, scen, year), names_sep = ".", values_from = value) %>%
+      tidyr::pivot_wider(., names_from = c(var, scen, year),
+                         names_sep = ".",
+                         values_from = value) %>%
       dplyr::mutate(
         reduced_therms.scen.2040 =
-          (residential_therms.bau.2040
-          - residential_therms.scen.2040)
+          (residential_therms.bau.2040 - residential_therms.scen.2040)
       ) %>%
       dplyr::mutate(
         residential_natural_gas_emissions_kg_co.scen.2040 =
@@ -63,6 +72,6 @@ calc_residential_renewable_ng <- function(res_tb,
     new_res_tb <- res_tb
   }
 
-
   return(new_res_tb)
+
 }

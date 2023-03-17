@@ -2,18 +2,21 @@
 % Please edit documentation in R/b_03_calc_residential_renewable_ng.R
 \name{calc_residential_renewable_ng}
 \alias{calc_residential_renewable_ng}
-\title{Calculate residential renewable natural gas}
+\title{Calculate Residential Renewable Natural Gas Impact}
 \usage{
 calc_residential_renewable_ng(
   res_tb,
   .selected_ctu,
-  .renewable_ng_res = TRUE,
-  .enviro_factors = .enviro_factors
+  .renewable_ng_res,
+  .enviro_factors
 )
 }
 \description{
-Calculates the impact on residential
-building emissions from transitioning natural gas to renewable natural gas.
+This function estimates the impact of transitioning from natural gas
+to renewable natural gas (RNG) on residential building emissions.
+The function takes into account the differences in emissions between
+natural gas and RNG, and computes the resulting changes in
+greenhouse gas (GHG) emissions for the selected city or township..
 }
 \examples{
 \dontrun{
@@ -21,16 +24,18 @@ library(ghg.sp)
 
 ghg.sp::calc_residential_renewable_ng(
   res_tb = ghg.sp::calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
-    .renewable_ng_res = TRUE,
-    .selected_ctu = "all",
-    .grid_decarbonization_pct = 1,
-    .enviro_factors = enviro_factors
+   res_tb = building_data$residential,
+   res_tb_bau = building_data$residential,
+   .selected_ctu = "all",
+   .grid_decarbonization_pct = 1,
+   .enviro_factors = enviro_factors
   ),
-  .enviro_factors = enviro_factors
-)
+.  selected_ctu = "all",
+ .enviro_factors = enviro_factors
+ )
 }
+
+
 }
 \seealso{
 Other residential: 

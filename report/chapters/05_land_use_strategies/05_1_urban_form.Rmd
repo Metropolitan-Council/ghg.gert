@@ -63,7 +63,7 @@ urban_form_scen <- calc_scen_land_use(
 ```{r fig05_2, include=FALSE}
 fig05_1_bau_2018 <- luse_bau_2018 %>%
   ungroup() %>%
-  rename(var = detail) %>%
+  #rename(var = detail) %>%
   left_join(.,
             variables,
             by = "var")  %>%
@@ -73,7 +73,7 @@ fig05_1_bau_2018 <- luse_bau_2018 %>%
 
 fig05_1_bau_2040 <- luse_bau_2040 %>%
   ungroup() %>%
-  rename(var = detail) %>%
+  #rename(var = detail) %>%
   left_join(.,
             variables,
             by = "var")  %>%
@@ -95,7 +95,7 @@ fig05_1_scen_2040 <-
   )  %>%
   filter(year == 2040)  %>%
   ungroup() %>%
-  rename(var = detail) %>%
+  #rename(var = detail) %>%
   left_join(.,
             variables,
             by = "var")  %>%

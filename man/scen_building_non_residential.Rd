@@ -84,9 +84,9 @@ The output of the non-residential portion of the Building Energy Module of the.
 }\if{html}{\out{</div>}}
 }
 \description{
-This function compiles and calculates the emissions related to
-non-residential buildings in a given scenario, by considering various strategies such as
-energy efficiency, electrification, and grid decarbonization.
+This function estimates the emissions of non-residential buildings under a given
+decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
+electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 }
 \note{
 To run the Building Energy Module, refer to function run_scenario_building().

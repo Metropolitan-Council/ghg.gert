@@ -1,8 +1,11 @@
 #' @title Calculate residential building strategies
 #' @family buildings, residential
 #'
-#' @description Calculates the effect of the residential building
-#'     strategies within the building energy module.
+#' @description This function estimates the emissions of non-residential buildings under a user defined
+#'    decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
+#'    electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
+#'
+#'
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'     For more details, see `vignette("building_energy_module_inputs_residential")`
 #'
@@ -44,8 +47,9 @@
 #' library(ghg.sp)
 #'
 #' scen_building_residential(
-#'   res_tb = building_energy_bau_data$residential,
-#'   res_tb_bau = building_energy_bau_data$residential,
+#'   res_tb = building_data$residential,
+#'   res_tb_bau = building_data$residential,
+#'   .selected_ctu = "all",
 #'   .new_homes_to_multifamily_pct = 0.50,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.50,
@@ -74,7 +78,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .additional_electrified_residential_buildings_pct,
                                       .res_natural_gas_for_space_heating_pct,
                                       .res_natural_gas_for_water_heating_pct,
-                                      .renewable_ng_res = .renewable_ng_res,
+                                      .renewable_ng_res,
                                       .enviro_factors = enviro_factors) {
   cli::cli_progress_message("** compiling residential strategies \n")
 
@@ -139,11 +143,11 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # (Renewable Natural Gas)
-  tb08 <- calc_residential_renewable_ng(
+  tb08 <- ghg.sp::calc_residential_renewable_ng(
     res_tb = tb07,
     .selected_ctu = .selected_ctu,
-    .enviro_factors = .enviro_factors,
-    .renewable_ng_res = .renewable_ng_res
+    .renewable_ng_res = .renewable_ng_res,
+    .enviro_factors = .enviro_factors
   )
 
 
@@ -158,5 +162,6 @@ scen_building_residential <- function(res_tb = res_tb,
       )
     )
 
-  return(tb09)
+  return(tb09 %>% dplyr::mutate(year = as.numeric(year)))
+
 }

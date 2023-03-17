@@ -2,9 +2,10 @@
 #' @family commercial-industrial
 #' @family buildings
 #'
-#' @description This function compiles and calculates the emissions related to
-#'    non-residential buildings in a given scenario, by considering various strategies such as
-#'    energy efficiency, electrification, and grid decarbonization.
+#'@description This function estimates the emissions of non-residential buildings under a given
+#'    decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
+#'    electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
+#'
 #' @note To run the Building Energy Module, refer to function run_scenario_building().
 #' For more details, see `vignette("building_energy_module_inputs_non_residential")`.
 #'
@@ -80,6 +81,7 @@ scen_building_non_residential <- function(non_res_tb,
   cli::cli_progress_message("** compiling non-residential strategies \n")
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   tb01 <- ghg.sp::calc_existing_comm_building_efficiency(
@@ -134,5 +136,5 @@ scen_building_non_residential <- function(non_res_tb,
       )
     )
 
-  return(tb05)
+  return(tb05 %>% dplyr::mutate(year = as.numeric(year)))
 }

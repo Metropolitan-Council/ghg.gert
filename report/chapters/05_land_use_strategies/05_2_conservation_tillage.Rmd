@@ -28,37 +28,40 @@ $$ \text{Conservation Tillage Avoided Emissions} = (C+T) \times A $$
 -   $A$: Area in Conservation Tillage (ha): The baseline area of no-till agriculture as reported in the 2017 USDA Census of Agriculture and this amount is changed for each scenario.
 
 ```{r, echo = F, message = F}
-fig05_2_data <- 
-  bind_rows(calc_conservation_tillage(
-  .selected_ctu = params$ctu_selection,
-  .conservation_tillage_intervention = "current_conservation_tillage",
-  tb = land_use_data,
-  .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0,
-  .urban_form_scenario = "bau",
-  detail = FALSE
-)  %>%
-  mutate(scenario = "bau") %>%
-  filter(ctu_name == params$ctu_selection), 
-  calc_conservation_tillage(
-    .selected_ctu = params$ctu_selection,
-    .conservation_tillage_intervention = "maximum_conservation_tillage",
-    tb = land_use_data,
-    .tree_planting_intervention = "match_la_million_trees_goal",
-    .tree_planting_per_capita = 0.26,
-    .tree_planting_per_hectare = 247,
-    .parking_lot_reduction_percentage = 0,
-    .urban_form_scenario = "bau",
-    detail = FALSE
-  ) %>%
-  mutate(scenario = "scenario") %>%
-  filter(ctu_name == params$ctu_selection)) 
-
+fig05_2_data <-
+  bind_rows(
+    run_scenario_land_use(
+      tb = land_use_data,
+      .selected_ctu = "all",
+      .urban_form_scenario = "bau",
+      .conservation_tillage_intervention = "current_conservation_tillage",
+      .tree_planting_intervention = "match_la_million_trees_goal",
+      .tree_planting_per_capita = 0.26,
+      .tree_planting_per_hectare = 247,
+      .parking_lot_reduction_percentage = 0.8,
+      detail = FALSE
+    )  %>%
+      mutate(scenario = "bau") %>%
+      filter(ctu_name == params$ctu_selection),
+    run_scenario_land_use(
+      tb = land_use_data,
+      .selected_ctu = "all",
+      .urban_form_scenario = "bau",
+      .conservation_tillage_intervention = "maximum_conservation_tillage",
+      .tree_planting_intervention = "match_la_million_trees_goal",
+      .tree_planting_per_capita = 0.26,
+      .tree_planting_per_hectare = 247,
+      .parking_lot_reduction_percentage = 0.8,
+      detail = FALSE
+    ) %>%
+      mutate(scenario = "scenario") %>%
+      filter(ctu_name == params$ctu_selection)
+  )
 
 fig05_2_table <- fig05_2_data %>%
-  select(c(scenario, carbon_stock_change_from_conservation_ag_mg_c, reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year)) %>%
+  select(c(scenario, 
+           var,
+           value)) %>%
   t() %>%
   tableformat(.caption = paste0("Conservation Tillage Effect for ", params$ctu_selection))
 ```

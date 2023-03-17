@@ -151,12 +151,13 @@ provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \cod
 
 library(ghg.sp)
 run_scenario_building(
-  res_tb = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb_bau = building_data$residential,
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
+  .selected_ctu = "all",
   .enviro_factors = enviro_factors,
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,

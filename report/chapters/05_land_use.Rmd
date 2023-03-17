@@ -29,6 +29,7 @@ Each land cover type has a unique parameter for carbon sequestration rates (addi
 fig_05_land_cover_2016 <-
   calc_land_cover_by_land_use(
     tb = land_use_data,
+    .selected_ctu = params$ctu_selection,
     .urban_form_scenario = "bau"
   ) %>%
   filter(
@@ -52,6 +53,7 @@ fig_05_land_cover_2016 <-
 fig_05_land_cover_2040 <-
   calc_land_cover_by_land_use(
     tb = land_use_data,
+    .selected_ctu = params$ctu_selection,
     .urban_form_scenario = "bau"
   ) %>%
   filter(
