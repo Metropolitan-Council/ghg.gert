@@ -10,5 +10,14 @@ get_non_residential_energy_baseline(
 )
 }
 \description{
-Get Non Residential Energy Baseline
+This function calculates and returns the non-residential
+energy baseline for a specified City or Township (CTU) or all CTUs.
+It processes building energy data, statewide energy information,
+county energy baselines, utility natural gas data, and demographic
+information to obtain commercial and industrial energy
+consumption (in MWh/year and therms/year) per worker for the state.
+The function also utilizes National Renewable Energy Laboratory (NREL)
+data to calculate electricity and natural gas consumption baselines for
+commercial and industrial sectors. The output is a tibble containing
+the non-residential energy baseline for the selected CTU(s).
 }

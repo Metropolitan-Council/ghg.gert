@@ -11,5 +11,32 @@ get_by_county_non_residential_energy_baseline(
 )
 }
 \description{
-Get by County Non Residential Energy
+This function calculates and returns the non-residential energy baseline (in MWh/year)
+at the county level for a specified City or Township (CTU) or all CTUs.
+It processes building energy data, statewide energy information, county energy baselines, utility natural gas data, and
+demographic information to obtain commercial and industrial energy consumption per worker for each county. The function also uses EIA,
+MNDOC, and NREL data sources to calculate electricity consumption baselines for commercial and industrial sectors within each county.
+The output is a tibble containing the non-residential energy baseline for the selected county or counties.
 }
+\seealso{
+Other buildings: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_demographic_forecast}()},
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_floor_area_behavior_change}()},
+\code{\link{calc_floor_area_growth}()},
+\code{\link{calc_floor_area_leed}()},
+\code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
+\code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()}
+}
+\concept{buildings}

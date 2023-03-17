@@ -141,7 +141,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     "new_homes_leed_gold_pct ",
     "existing_home_retrofit_pct",
     "existing_home_ultra_retrofit_pct",
-    # electrificatio
+    # electrification
     "res_natural_gas_for_space_heating_pct",
     "res_natural_gas_for_water_heating_pct",
     "additional_electrified_residential_buildings_pct",
@@ -153,6 +153,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
 
   l_vals <- list(
     # non-residential
+
     # electrification
     .electrified_buildings_pct,
     .non_res_natural_gas_for_water_heating_pct,
@@ -162,7 +163,9 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     .commercial_smart_grid_pct,
     .industrial_smart_grid_pct,
     .smart_grid_energy_reduction_pct,
+
     # residential
+
     # floor_area
     .new_homes_to_multifamily_pct,
     .existing_high_efficiency_buildings_pct,

@@ -9,6 +9,62 @@ get_residential_energy_baseline(
   .selected_ctu = "all"
 )
 }
-\description{
-Get Residential Energy Baseline
+\arguments{
+\item{tb}{A data frame containing building energy data (default is building_energy_data).}
+
+\item{.selected_ctu}{A string specifying the selected CTU for filtering (default is "all").}
 }
+\value{
+A data frame containing residential energy baseline data, including electricity
+consumption, natural gas consumption, CO2 emissions, and energy intensity per square
+foot and per household for each community in the specified CTU.
+}
+\description{
+This function calculates the residential energy baseline by
+processing building energy data and demographic data for the specified CTU.
+It estimates residential electricity consumption, natural gas consumption,
+CO2 emissions, energy intensity per square foot (kWh/sqft and therms/sqft),
+and energy intensity per household (kWh/household and therms/household) for
+each community. The resulting data is returned in a combined format,
+including energy consumption, emissions, and energy intensity values.
+}
+\seealso{
+Other buildings: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_demographic_forecast}()},
+\code{\link{calc_electrify_commercial_heating}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_existing_comm_building_efficiency}()},
+\code{\link{calc_floor_area_behavior_change}()},
+\code{\link{calc_floor_area_growth}()},
+\code{\link{calc_floor_area_leed}()},
+\code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_non_res_renewable_ng}()},
+\code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
+\code{\link{get_demographic_baseline}()},
+\code{\link{run_scenario_building}()},
+\code{\link{scen_building_non_residential}()}
+
+Other residential: 
+\code{\link{adj_unit_counts}()},
+\code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_floor_area_growth}()},
+\code{\link{calc_ghg_residential}()},
+\code{\link{calc_residential_renewable_ng}()}
+
+Other emissions: 
+\code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{calc_ghg_residential}()}
+}
+\concept{buildings}
+\concept{emissions}
+\concept{residential}

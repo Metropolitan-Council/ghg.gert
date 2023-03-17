@@ -80,7 +80,9 @@ Other buildings:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 
@@ -89,7 +91,8 @@ Other emissions:
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_residential}()}
+\code{\link{calc_ghg_residential}()},
+\code{\link{get_residential_energy_baseline}()}
 }
 \concept{buildings}
 \concept{commercial-industrial}

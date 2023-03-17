@@ -38,7 +38,8 @@ Other residential:
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{calc_residential_renewable_ng}()}
+\code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_residential_energy_baseline}()}
 
 Other buildings: 
 \code{\link{calc_affordable_floor_area}()},
@@ -54,7 +55,9 @@ Other buildings:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }

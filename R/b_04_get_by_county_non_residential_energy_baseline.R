@@ -1,9 +1,21 @@
 #' @title Get by County Non Residential Energy
+#'
+#' @family buildings
+#'
+#' @description This function calculates and returns the non-residential energy baseline (in MWh/year)
+#'    at the county level for a specified City or Township (CTU) or all CTUs.
+#'    It processes building energy data, statewide energy information, county energy baselines, utility natural gas data, and
+#'    demographic information to obtain commercial and industrial energy consumption per worker for each county. The function also uses EIA,
+#'    MNDOC, and NREL data sources to calculate electricity consumption baselines for commercial and industrial sectors within each county.
+#'    The output is a tibble containing the non-residential energy baseline for the selected county or counties.
+#'
 #' @export
 
 get_by_county_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
+
     cli::cli_progress_message("* obtaining non residential energy data by county \n")
+
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
     county_characteristics <- get_demographic_baseline()$county
