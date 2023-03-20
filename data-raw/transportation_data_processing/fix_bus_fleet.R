@@ -39,46 +39,46 @@ bus_year_estimate <- tibble(
 
 bus_year_estimate
 
-bus_year_estimate %>%
-  mutate(
-    var = "All",
-    version = "Update"
-  ) %>%
-  bind_rows(bus_stock_old %>%
-              mutate(version = "Original")) %>%
-  ggplot(aes(
-    x = as.numeric(year),
-    y = n_bus,
-    group = var,
-    color = var,
-    fill = var,
-    label = round(n_bus)
-  )) +
-  geom_point() +
-  geom_line() +
-  geom_text(
-    nudge_y = 100,
-    size = 4.5,
-    check_overlap = T
-  ) +
-  # geom_area(position = "stack") +
-  facet_wrap(~version,
-             nrow = 2
-  ) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_x_continuous(n.breaks = 7) +
-  labs(
-    title = "Regional bus fleet",
-    y = "Buses",
-    x = "Year",
-    caption = paste0("BRT included. ", Sys.Date())
-  ) +
-  theme(legend.position = "bottom")
-
-ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
-       width = 10,
-       height = 8
-)
+# bus_year_estimate %>%
+#   mutate(
+#     var = "All",
+#     version = "Update"
+#   ) %>%
+#   bind_rows(bus_stock_old %>%
+#               mutate(version = "Original")) %>%
+#   ggplot(aes(
+#     x = as.numeric(year),
+#     y = n_bus,
+#     group = var,
+#     color = var,
+#     fill = var,
+#     label = round(n_bus)
+#   )) +
+#   geom_point() +
+#   geom_line() +
+#   geom_text(
+#     nudge_y = 100,
+#     size = 4.5,
+#     check_overlap = T
+#   ) +
+#   # geom_area(position = "stack") +
+#   facet_wrap(~version,
+#              nrow = 2
+#   ) +
+#   scale_y_continuous(labels = scales::comma) +
+#   scale_x_continuous(n.breaks = 7) +
+#   labs(
+#     title = "Regional bus fleet",
+#     y = "Buses",
+#     x = "Year",
+#     caption = paste0("BRT included. ", Sys.Date())
+#   ) +
+#   theme(legend.position = "bottom")
+#
+# ggsave("data-raw/peer_review/figs/corrected_bus_stock.png",
+#        width = 10,
+#        height = 8
+# )
 
 # apply changes to transportation_data -----
 
