@@ -81,7 +81,7 @@ calc_vmt_forecast <- function(.scenario,
     unique()
 
   # If it's not the BAU scenario, then need to run elasticities, etc.
-  if (.scenario != "BAU") {
+  if (!.mode %in% c("WALK", "BIKE")) {
     # Not BAU ----
     # browser()
 
