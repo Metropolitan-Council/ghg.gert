@@ -38,7 +38,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d) {
-  cli::cli_progress_message("** calculating freight rail scneario \n")
+  cli::cli_progress_message("** calculating freight rail scenario \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
