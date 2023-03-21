@@ -127,7 +127,7 @@ hev_vmt <- calc_vmt_forecast(
   .mode = "PLDV",
   .stock = "HEVStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test_dies,
+  .tb_fuel_cost_mile = fcm_test_hev,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_service_pct = 0,
