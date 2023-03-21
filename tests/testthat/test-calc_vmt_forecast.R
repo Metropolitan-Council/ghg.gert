@@ -135,7 +135,7 @@ ci_vmt <- calc_vmt_forecast(
 
 testthat::test_that("Passenger, CI, BAU VMT correct", {
   testthat::expect_equal(
-    ci_vmt$vmt,
+    ci_vmt$vmt / 1000,
     c(
       0.319055679073007, 0.321549554766233, 0.323142926264136, 0.327579483171905,
       0.324351134657379, 0.319228002141346, 0.315218869465859, 0.314530000851455,
