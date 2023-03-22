@@ -1,6 +1,6 @@
 #### Increased Multifamily
 
-Compact community development can reduce building energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes, which can translate to energy use reductions. 
+Compact community development can reduce building energy use by increasing the proportion of multifamily homes in the housing stock. Multifamily homes have a smaller floor area than single-family homes[@moura_120_2015-1], which can translate to energy use reductions [@goldstein_carbon_2020]. 
 
 The Metropolitan Council’s Thrive MSP plan projects an increase in the percentage of multifamily housing by 2040. This is consistent with the Minneapolis 2040 plan move to eliminate single-family-only zoning areas.
 
@@ -95,8 +95,8 @@ fig03a1_data <-
   ) %>%
   full_join(
     run_scenario_building(
-      res_tb = building_energy_bau_data$residential,
-      res_tb_bau = building_energy_bau_data$residential,
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
       run_residential = TRUE,
       run_non_residential = FALSE,
       .selected_ctu = params$ctu_selection,

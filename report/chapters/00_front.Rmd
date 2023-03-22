@@ -6,7 +6,7 @@
 
 ------------------------------------------------------------------------
 
-```{r fig.align = 'center'}
+```{r councilmembers, fig.align = 'center'}
 #| echo: false
 #| message: false
 
@@ -43,9 +43,15 @@ The Metropolitan Council is the regional planning organization for the seven-cou
 ## Disclaimer {.unnumbered}
 
 ::: disclaimer
-This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is a simplified model intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
+This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is a simplified model intended to provide information that can be used to support policy discussions and educational purposes. City staff can use it to understand the relative impact of different carbon mitigation strategies, in order to prioritize which ones to invest time and resources in. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
+
+Please note that the strategies evaluated in this report, particularly in terms of their implementation, may have varying impacts on social equity, resilience, local economy, and health. However, these impacts have not been described or quantified in this report.
+
+It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the `r params$ctu_selection` Greenhouse Gas Inventory due to differences in methodology. 
 :::
 
 ## Executive Summary {.unnumbered}
 
-The Research Unit of Community Development at the Metropolitan Council has prepared the following report, which presents a range of strategies that the City of `r params$ctu_selection` could adopt to reduce greenhouse gas emissions relative to a "Business as Usual" scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry. It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the `r params$ctu_selection` Greenhouse Gas Inventory due to differences in methodology. The strategies included in this report were decided in a series of stakeholder meetings conducted in 2020.
+The Community Development Research Unit at the Metropolitan Council has produced a report outlining a variety of strategies that the City of `r params$ctu_selection` could implement to decrease greenhouse gas emissions in comparison to a 'Business as Usual' scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry.
+
+It is important to note that the strategies presented in this report were selected based on a series of stakeholder meetings held in 2020. However, the underlying assumptions for each strategy, such as the level of participation, are based on information from existing academic literature, reports, or expert criteria. The City is encouraged to support the Metropolitan Council in furthering the methodology that guides future versions report. 

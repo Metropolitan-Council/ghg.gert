@@ -5,7 +5,8 @@
 #'
 #' @description Estimates total energy demand
 #'      and emissions from the residential building sector by city/township
-#'      for the user specified scenario, and the business-as-usual scenario.
+#'      for the user-specified scenario, and the business-as-usual scenario.
+#'
 #' @note `calc_ghg_residential()` estimates the building energy demand and emissions
 #'      based on the floor area assumptions. For a function that compiles all
 #'      residential strategies refer to [`scen_residential_building()`].
@@ -29,8 +30,8 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_residential(
-#'   res_tb = building_energy_bau_data$residential,
-#'   res_tb_bau = building_energy_bau_data$residential,
+#'   res_tb = building_data$residential,
+#'   res_tb_bau = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .grid_decarbonization_pct = 1,
 #'   .enviro_factors = enviro_factors
@@ -43,9 +44,12 @@ calc_ghg_residential <- function(res_tb,
                                  .selected_ctu,
                                  .grid_decarbonization_pct,
                                  .enviro_factors) {
+
   cli::cli_progress_message("*** calculating residential ghg emissions \n")
+
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
+
   emis <- function(tb,
                    grid_decarb) {
     tb %>%
@@ -55,8 +59,8 @@ calc_ghg_residential <- function(res_tb,
           "single_family_units",
           "multifamily_units",
           "population",
-          "residential_kwh_per_floor_area",
-          "residential_therms_per_floor_area",
+          "kwh_per_floor_area",
+          "therms_per_floor_area",
           "single_family_average_floor_area_sqft_ctu",
           "multifamily_average_floor_area_sqft_county"
         )
@@ -83,11 +87,11 @@ calc_ghg_residential <- function(res_tb,
       )
       / population) %>%
       dplyr::mutate(
-        residential_mwh = population * residential_floor_area_per_capita * (residential_kwh_per_floor_area / 1000),
+        residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area/ 1000),
         residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 - grid_decarb))
       ) %>%
       dplyr::mutate(
-        residential_therms = population * residential_floor_area_per_capita * residential_therms_per_floor_area,
+        residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
         residential_natural_gas_emissions_kg_co =
           residential_therms * kg_per_therm
       ) %>%
@@ -142,6 +146,6 @@ calc_ghg_residential <- function(res_tb,
     ) %>%
     dplyr::ungroup()
 
-
   return(emis_final)
+
 }

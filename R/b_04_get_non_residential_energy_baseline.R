@@ -1,8 +1,22 @@
 #' @title Get Non Residential Energy Baseline
+#'
+#' @description This function calculates and returns the non-residential
+#'    energy baseline for a specified City or Township (CTU) or all CTUs.
+#'    It processes building energy data, statewide energy information,
+#'    county energy baselines, utility natural gas data, and demographic
+#'    information to obtain commercial and industrial energy
+#'    consumption (in MWh/year and therms/year) per worker for the state.
+#'    The function also utilizes National Renewable Energy Laboratory (NREL)
+#'    data to calculate electricity and natural gas consumption baselines for
+#'    commercial and industrial sectors. The output is a tibble containing
+#'    the non-residential energy baseline for the selected CTU(s).
+#'
 #' @export
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
+
     cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
+
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
     statewide_nonresidential_energy <-

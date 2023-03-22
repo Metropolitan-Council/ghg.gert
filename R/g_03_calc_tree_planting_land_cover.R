@@ -59,8 +59,8 @@ calc_tree_planting_land_cover <- function(tb,
     .selected_ctu = .selected_ctu,
     .urban_form_scenario = .urban_form_scenario
   ) %>%
-    group_by(ctu_name, year, land_cover_type) %>%
-    summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
+    dplyr::group_by(ctu_name, year, land_cover_type) %>%
+    dplyr::summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
 
 
   # -------------------------------------------------------------------------

@@ -1,4 +1,25 @@
 #' @title Get Residential Energy Baseline
+#'
+#' @family buildings
+#' @family residential
+#' @family emissions
+#'
+#' @description This function calculates the residential energy baseline by
+#'    processing building energy data and demographic data for the specified CTU.
+#'    It estimates residential electricity consumption, natural gas consumption,
+#'    CO2 emissions, energy intensity per square foot (kWh/sqft and therms/sqft),
+#'    and energy intensity per household (kWh/household and therms/household) for
+#'    each community. The resulting data is returned in a combined format,
+#'    including energy consumption, emissions, and energy intensity values.
+#'
+#' @param tb A data frame containing building energy data (default is building_energy_data).
+#'
+#' @param .selected_ctu A string specifying the selected CTU for filtering (default is "all").
+#'
+#' @return A data frame containing residential energy baseline data, including electricity
+#' consumption, natural gas consumption, CO2 emissions, and energy intensity per square
+#' foot and per household for each community in the specified CTU.
+#'
 #' @export
 
 get_residential_energy_baseline <-

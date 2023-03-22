@@ -30,6 +30,18 @@ The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.8}.}
 
+\item{.conservation_tillage_intervention}{character,
+The type of conservation tillage scenario to be explored.
+Default is \code{current_conservation_tillage}. The options are:
+\itemize{
+\item \code{"current_conservation_tillage"} it maintains the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"double_conservation_tillage"} it doubles the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"maximum_conservation_tillage"} it assumes that all agricultural land implements conservation
+tillage.
+}}
+
 \item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
@@ -40,8 +52,10 @@ Default is \code{FALSE}.}
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
 }
 \description{
-Calculates the carbon stock per land cover type by city/township
-under the selected scenario parameters
+This function estimates the carbon stock per land cover type for
+each city or township under a given user-selected scenario. It takes into
+account factors such as urban form, tree planting interventions, parking
+lot reduction percentages, and conservation tillage interventions.
 }
 \examples{
 \dontrun{
@@ -63,7 +77,6 @@ calc_carbon_stock_per_ctu(
 \seealso{
 Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
@@ -76,7 +89,8 @@ Other emissions:
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()}
+\code{\link{calc_ghg_residential}()},
+\code{\link{get_residential_energy_baseline}()}
 }
 \concept{emissions}
 \concept{land use}

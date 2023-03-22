@@ -24,15 +24,25 @@ calc_land_cover_by_land_use <- function(tb,
                                         .urban_form_scenario) {
   cli::cli_progress_message("**** calculating land cover by land use \n")
   # -------------------------------------------------------------------------
-  land_cover_percentages <- calc_land_cover_percentages(tb = tb)
+  land_cover_percentages <-
+    if (.selected_ctu == "all") {
+      calc_land_cover_percentages(tb = tb)
+    } else{
+      calc_land_cover_percentages(tb = tb) %>% filter(ctu_name == .selected_ctu)
+    }
 
 
   # -------------------------------------------------------------------------
-  scen_land_use <- calc_scen_land_use(
-    tb = tb,
-    .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario
-  )
+  scen_land_use <-
+    if (.selected_ctu == "all") {
+      calc_scen_land_use(tb = tb,
+                         .selected_ctu,
+                         .urban_form_scenario = .urban_form_scenario)
+      } else {
+        calc_scen_land_use(tb = tb,
+                           .selected_ctu,
+                           .urban_form_scenario = .urban_form_scenario) %>% filter(ctu_name == .selected_ctu)
+                         }
 
 
   # -------------------------------------------------------------------------

@@ -32,7 +32,7 @@ A table with columns
 \description{
 Estimates total energy demand
 and emissions from the residential building sector by city/township
-for the user specified scenario, and the business-as-usual scenario.
+for the user-specified scenario, and the business-as-usual scenario.
 }
 \note{
 \code{calc_ghg_residential()} estimates the building energy demand and emissions
@@ -44,8 +44,8 @@ residential strategies refer to \code{\link[=scen_residential_building]{scen_res
 library(ghg.sp)
 
 calc_ghg_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
   .selected_ctu = "all",
   .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors
@@ -67,7 +67,9 @@ Other buildings:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 
@@ -76,14 +78,16 @@ Other residential:
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_floor_area_growth}()},
-\code{\link{calc_residential_renewable_ng}()}
+\code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_residential_energy_baseline}()}
 
 Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_non_residential}()}
+\code{\link{calc_ghg_non_residential}()},
+\code{\link{get_residential_energy_baseline}()}
 }
 \concept{buildings}
 \concept{emissions}

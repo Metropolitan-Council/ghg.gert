@@ -2,12 +2,12 @@
 % Please edit documentation in R/b_01_run_scenario_building.R
 \name{run_scenario_building}
 \alias{run_scenario_building}
-\title{Run building energy scenarios}
+\title{Execute building energy scenarios}
 \usage{
 run_scenario_building(
-  res_tb = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb_bau = building_data$residential,
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
@@ -140,20 +140,24 @@ the inputs of the building energy module must be specified as an argument
 to the function \code{run_scenario_building()}
 }
 \description{
-Produces the outputs of the building energy module by
-city/township for the specified scenario
+This function generates the outputs of the building energy module
+for the given scenario at the city/township level. It incorporates various
+parameters to evaluate and analyze different energy consumption and efficiency
+scenarios for both residential and non-residential buildings. Outputs are
+provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 }
 \examples{
 \dontrun{
 
 library(ghg.sp)
 run_scenario_building(
-  res_tb = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb_bau = building_data$residential,
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
+  .selected_ctu = "all",
   .enviro_factors = enviro_factors,
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,
@@ -193,7 +197,9 @@ Other buildings:
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
 \code{\link{scen_building_non_residential}()}
 }
 \concept{buildings}

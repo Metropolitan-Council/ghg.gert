@@ -54,7 +54,8 @@ Other emissions:
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()}
+\code{\link{calc_ghg_residential}()},
+\code{\link{get_residential_energy_baseline}()}
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},

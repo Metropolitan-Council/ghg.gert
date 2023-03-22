@@ -11,5 +11,12 @@ get_statewide_non_residential_energy(
 )
 }
 \description{
-Get Non Residential Energy Baseline
+This function retrieves statewide non-residential energy data
+from the given building energy dataset. It calculates electricity consumption
+and natural gas consumption by customer class (industrial and commercial)
+at the state level for the year 2018. Additionally, it estimates energy intensity
+per worker for commercial and industrial sectors in terms of MWh per worker (electricity)
+and therms per worker (natural gas) at the state scale. The resulting data is returned
+in a combined format, including electricity consumption, natural gas consumption,
+number of employees by sector, and energy intensity per worker.
 }

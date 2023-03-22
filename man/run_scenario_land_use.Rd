@@ -17,6 +17,18 @@ run_scenario_land_use(
 )
 }
 \arguments{
+\item{.conservation_tillage_intervention}{character,
+The type of conservation tillage scenario to be explored.
+Default is \code{current_conservation_tillage}. The options are:
+\itemize{
+\item \code{"current_conservation_tillage"} it maintains the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"double_conservation_tillage"} it doubles the per county levels of conservation tillage
+relative to the baseline year.
+\item \code{"maximum_conservation_tillage"} it assumes that all agricultural land implements conservation
+tillage.
+}}
+
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
@@ -37,7 +49,10 @@ for debugging.
 Default is \code{FALSE}.}
 }
 \description{
-Run land use scenario
+This function simulates the impact of various land use scenarios on carbon
+sequestration and carbon stock in cities or townships. It considers factors such as
+urban form, conservation tillage intervention, tree planting intervention, tree planting
+per capita, tree planting per hectare, and parking lot reduction percentage.
 }
 \examples{
 \dontrun{
@@ -60,7 +75,6 @@ run_scenario_land_use(
 Other land use: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_conservation_tillage}()},
 \code{\link{calc_land_by_development_type}()},
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},

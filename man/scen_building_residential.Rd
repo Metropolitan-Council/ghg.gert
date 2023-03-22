@@ -19,7 +19,7 @@ scen_building_residential(
   .additional_electrified_residential_buildings_pct,
   .res_natural_gas_for_space_heating_pct,
   .res_natural_gas_for_water_heating_pct,
-  .renewable_ng_res = .renewable_ng_res,
+  .renewable_ng_res,
   .enviro_factors = enviro_factors
 )
 }
@@ -94,8 +94,9 @@ buildings.}
 }\if{html}{\out{</div>}}
 }
 \description{
-Calculates the effect of the residential building
-strategies within the building energy module.
+This function estimates the emissions of non-residential buildings under a user defined
+decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
+electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 }
 \note{
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
@@ -106,8 +107,9 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 library(ghg.sp)
 
 scen_building_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
+  .selected_ctu = "all",
   .new_homes_to_multifamily_pct = 0.50,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.50,

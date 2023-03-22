@@ -1,6 +1,6 @@
 #### Reduce Average Single-Family Floor Area Increase
 
-Over time, the single-family home average floor area has been increasing. The floor area of a home is directly correlated with energy use. If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. New single-family homeowners may respond to increased energy prices by choosing smaller living spaces in order to save on energy costs, driving market demand to decrease the average floor area of a new single-family home. Cities could also consider methods to influence the size of new single-family construction. 
+Over time, the single-family home average floor area has been increasing. The floor area of a home is directly correlated with energy use. If the availability of fossil fuel sources such as oil, natural gas, and coal is limited, energy prices may increase as demand outstrips supply. Electricity costs projected to nearly double by 2040 [@jenkins_mission_2021]. New single-family homeowners may respond to increased energy prices by choosing smaller living spaces in order to save on energy costs, driving market demand to decrease the average floor area of a new single-family home. Cities could also consider methods to influence the size of new single-family construction. 
 
 ::: about_strategy
 ***About this strategy*** For this strategy, average single-family home size is modeled to be `5%` larger in 2040 than in 2018 - as opposed to the business-as-usual prediction of `15%`. We apply this impact to `50%` of new single-family homes. 
@@ -97,8 +97,8 @@ fig03a2_data <-
   ) %>%
   full_join(
     run_scenario_building(
-      res_tb = building_energy_bau_data$residential,
-      res_tb_bau = building_energy_bau_data$residential,
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
       run_residential = TRUE,
       run_non_residential = FALSE,
       .selected_ctu = params$ctu_selection,

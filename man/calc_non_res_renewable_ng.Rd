@@ -67,7 +67,9 @@ Other buildings:
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
+\code{\link{get_residential_energy_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }

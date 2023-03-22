@@ -1,8 +1,11 @@
-#' @title Run building energy scenarios
+#' @title Execute building energy scenarios
 #' @family buildings
 #'
-#' @description Produces the outputs of the building energy module by
-#'     city/township for the specified scenario
+#' @description This function generates the outputs of the building energy module
+#'    for the given scenario at the city/township level. It incorporates various
+#'    parameters to evaluate and analyze different energy consumption and efficiency
+#'    scenarios for both residential and non-residential buildings. Outputs are
+#'    provided as a tibble with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
@@ -22,12 +25,13 @@
 #'
 #' library(ghg.sp)
 #' run_scenario_building(
-#'   res_tb = building_energy_bau_data$residential,
+#'   res_tb = building_data$residential,
 #'   non_res_tb = building_data$non_residential,
-#'   res_tb_bau = building_energy_bau_data$residential,
+#'   res_tb_bau = building_data$residential,
 #'   non_res_tb_bau = building_data$non_residential,
 #'   run_residential = TRUE,
 #'   run_non_residential = TRUE,
+#'   .selected_ctu = "all",
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
 #'   .non_res_natural_gas_for_water_heating_pct = 0.20,
@@ -50,9 +54,9 @@
 #' )
 #' }
 #'
-run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
+run_scenario_building <- function(res_tb = building_data$residential,
                                   non_res_tb = building_data$non_residential,
-                                  res_tb_bau = building_energy_bau_data$residential,
+                                  res_tb_bau = building_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   run_residential = TRUE,
                                   run_non_residential = TRUE,
@@ -86,6 +90,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
                                   .additional_electrified_residential_buildings_pct = 0.45,
                                   # grid
                                   .grid_decarbonization_pct = 1) {
+
   cli::cli_progress_message("\n  === RUNNING BUILDING ENERGY MODULE === \n")
   cli::cli_progress_message(msg = c("...... selected CTU:", .selected_ctu, "\n"))
   cli::cli_progress_message(c("...... percent of electrified buildings:", .electrified_buildings_pct, "\n"))
@@ -136,7 +141,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     "new_homes_leed_gold_pct ",
     "existing_home_retrofit_pct",
     "existing_home_ultra_retrofit_pct",
-    # electrificatio
+    # electrification
     "res_natural_gas_for_space_heating_pct",
     "res_natural_gas_for_water_heating_pct",
     "additional_electrified_residential_buildings_pct",
@@ -148,6 +153,7 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
 
   l_vals <- list(
     # non-residential
+
     # electrification
     .electrified_buildings_pct,
     .non_res_natural_gas_for_water_heating_pct,
@@ -157,7 +163,9 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
     .commercial_smart_grid_pct,
     .industrial_smart_grid_pct,
     .smart_grid_energy_reduction_pct,
+
     # residential
+
     # floor_area
     .new_homes_to_multifamily_pct,
     .existing_high_efficiency_buildings_pct,
@@ -198,8 +206,10 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .enviro_factors = .enviro_factors
-      )
+      ) %>%
+      dplyr::mutate(year = as.character(year))
   }
+
   if (run_non_residential == TRUE) {
     non_res <-
       scen_building_non_residential(
@@ -216,16 +226,19 @@ run_scenario_building <- function(res_tb = building_energy_bau_data$residential,
         .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
         .renewable_ng_nonres = .renewable_ng_nonres,
         .enviro_factors = .enviro_factors
-      )
+      )%>%
+    dplyr::mutate(year = as.character(year))
   }
 
   building_module_ouput <-
     if (run_residential == TRUE & run_non_residential == TRUE) {
-      bind_rows(res, non_res)
+      dplyr::bind_rows((res %>% dplyr::mutate(year = as.character(year))), (non_res %>% dplyr::mutate(year = as.character(year))))
     } else if (run_residential == FALSE) {
       non_res
     } else {
       res
     }
+
   return(building_module_ouput)
-}
+
+  }

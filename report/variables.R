@@ -86,7 +86,8 @@ variables <- rbind(
     desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
   ),
 
-  # energy baseline (residential, natural gas)
+  # energy 
+  #baseline (residential, natural gas)
   data.frame(
     var = "residential_therms",
     desc = "Residential Natural Gas (Therms)"
