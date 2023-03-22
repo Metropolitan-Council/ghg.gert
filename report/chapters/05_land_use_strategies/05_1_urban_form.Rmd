@@ -11,7 +11,7 @@ In the coming decades, population growth will bring about changes in land use an
 
 *Biogenic emissions* arise from natural processes, predominantly the decomposition of organic matter. Vegetation (plants) utilize carbon dioxide for growth and sequester carbon as they grow. Plant-based carbon can be stored for long periods of time in soils or in woody biomass (e.g., tree trunks). However, when plants tissues die, microbes decompose plant tissues and release carbon back into the atmosphere. The rate of microbial decomposition and the return of carbon into the atmosphere depend on mulitple factors.
 
-To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@Milnar_Ramaswami_2020] was used
+To assess the impact of urban vegetation on carbon stock changes and sequestration, the method outlined in [@milnar_impact_2020] was used
 to calculate these values for the study period of 2018-2040.
 
 ::: about_strategy
@@ -31,10 +31,10 @@ $\text{Land Cover Change} = \sum{(Ait-1 × CDi ) - (Ait \times CDi )]}$
 
 - $\text{Sequestration} = \text{annual net sequestration from vegetation for a given city}$
 - $\text{Land Cover Change = annual organic carbon stock change from land conversion for a given city, averaged over the study period}$
-- $44/12 = \text{factor to convert Mg C to Mg } CO_2e$
+- $44/12 = \text{factor to convert tonnes of carbon to tonnes } CO_2e$
 - $Ai = \text{Area of vegetation of cover type i (ha)}$
-- $SRi = \text{Annual net sequestration rate for cover type i. (Mg C ha-1 yr-1)}$
-- $CDi = \text{Carbon stock density factor for vegetation in cover type i (Mg C ha-1)}$
+- $SRi = \text{Annual net sequestration rate for cover type i. (t C ha-1 yr-1)}$
+- $CDi = \text{Carbon stock density factor for vegetation in cover type i (t C ha-1)}$
 - $i = 1 ,2, 3, ...n$ $\text{land cover types}$
 - $t = \text{year for which biogenic emissions were calculated and compared to Scope 1+2 emissions for each city}$
 

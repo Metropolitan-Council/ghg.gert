@@ -1,7 +1,7 @@
 #### Smart Grid Electrification
 
 <!-- Smart grid and technologies are projected to reduce industrial electricity use by 11% . -->
-Achieving a net-zero grid may require transitioning to a smart grid. Smart grid technology enhances communication between an energy provider and energy users so the grid can adapt as demand changes ([Smart Grid.Gov](https://www.smartgrid.gov/the_smart_grid/smart_grid.html)). The smart grid can not only manage the load but also reduce energy use by approximately 11% as shown in PNNL's "[The Smart Grid: An Estimation of the Energy and CO2 Benefits](https://www.osti.gov/biblio/971445)." This reduction will be applied to all electricity consumers connected to the grid. 
+Achieving a net-zero grid may require transitioning to a smart grid. Smart grid technology enhances communication between an energy provider and energy users so the grid can adapt as demand changes ([Smart Grid.Gov](https://www.smartgrid.gov/the_smart_grid/smart_grid.html)). The smart grid can not only manage the load but also reduce energy use by approximately 11% as shown in PNNL's "[The Smart Grid: An Estimation of the Energy and CO2 Benefits](https://www.osti.gov/biblio/971445) [@pratt_smart_2010]." This reduction will be applied to all electricity consumers connected to the grid. 
 
 ::: about_strategy
 ***About this strategy*** We model the assumption that by adopting technologies such as smart grid, `100%` of industrial buildings in the city can reduce their electricity use by `11%`.
