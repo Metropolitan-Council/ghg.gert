@@ -82,7 +82,7 @@ testthat::expect_equal(
     "Falcon Heights",   8.09,
     "Farmington",    9.1,
     "Forest Lake",  15.38,
-    "Fort Snelling UT",   8.09,
+    "Fort Snelling (unorg.)",   8.09,
     "Fridley",   8.09,
     "Gem Lake",    9.1,
     "Golden Valley",   8.09,
