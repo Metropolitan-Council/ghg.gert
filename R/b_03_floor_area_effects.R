@@ -129,8 +129,13 @@ calc_floor_area_growth <- function(res_tb,
 #' @title Calculate floor area LEED
 #' @family buildings
 #'
-#' @description Adjusts single and multifamily average
-#' floor area forecast in accordance with LEED reduction.
+#' @description Calculates the adjusted floor area of single-family homes
+#'    in accordance with LEED Gold standards, considering the proportion of
+#'    new homes built to these standards, the difference in single-family
+#'    housing units between 2018 and 2040, and the reduction in energy use
+#'    intensity due to LEED Gold construction. This function is designed to
+#'    estimate the impact of energy-efficient construction on residential
+#'    floor area and associated greenhouse gas emissions.
 #'
 #' @param .new_homes_leed_gold_pct numeric,  a value between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
@@ -492,13 +497,33 @@ calc_floor_area_behavior_change <- function(res_tb,
 }
 
 #' @title Calculate affordable floor area effects
+#'
 #' @family residential
+#'
 #' @family buildings
 #'
-#' @description  Calculates forecasted reduction in single family
-#' floor area from increased energy prices by city/township.
+#' @description Calculates the anticipated reduction in single-family
+#'    floor area in response to increased energy prices for each city or township.
+#'    This function considers the effects of a net-zero carbon grid, where
+#'    the cost of electricity is expected to more than double. It estimates
+#'    the proportion of single-family homes that will reduce their living
+#'    space due to increased energy prices, providing insights for future
+#'    urban planning and policy-making. The model can be adjusted by cities
+#'    to better reflect local conditions and priorities.
+#'
+#' @note The original intent was to reduce the growth in floor area,
+#'    recognizing that the cost of electricity will more than double in
+#'    a net-zero carbon grid (according to Princeton University’s Net-Zero America report),
+#'    and raise the idea of an affordable floor area. Typically, energy burden is
+#'    expressed when greater than 6% of income is used for energy services,
+#'    but this number is difficult to evaluate, because we do not have
+#'    income distribution data in a 2040 future city. Therefore, we instead
+#'    modeled that about 50% of the single-family homes will respond to
+#'    increased energy prices by decreasing their living space. This is a
+#'    model assumption, which cities can adjust.
 #'
 #' @inheritParams run_scenario_building
+#'
 #' @param .single_family_floor_area_growth_pct numeric, a value between `0` and `1`.
 #'       Percentage of single family floor area that gets reduced due to increase energy prices.
 #'       Default is `0.05`.

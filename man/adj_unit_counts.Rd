@@ -18,8 +18,9 @@ Table contains adjusted \code{single_family_units} and \code{multifamily_units} 
 relative to residential inputs table.
 }
 \description{
-adjusts single and multifamily unit count forecast by city/township
-from residential inputs table.
+This function adjusts the forecasted single-family and multi-family unit counts
+for cities/townships based on the residential inputs table. The purpose is to allow for a specified
+percentage of new single-family homes to be built as multi-family homes instead.
 }
 \examples{
 \dontrun{

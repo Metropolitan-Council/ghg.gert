@@ -24,8 +24,13 @@ Table contains adjusted \code{single_family_units} and
 when \code{year == 2040} relative to the residential inputs table.
 }
 \description{
-Adjusts single and multifamily average
-floor area forecast in accordance with LEED reduction.
+Calculates the adjusted floor area of single-family homes
+in accordance with LEED Gold standards, considering the proportion of
+new homes built to these standards, the difference in single-family
+housing units between 2018 and 2040, and the reduction in energy use
+intensity due to LEED Gold construction. This function is designed to
+estimate the impact of energy-efficient construction on residential
+floor area and associated greenhouse gas emissions.
 }
 \details{
 Uses the average single family floor area in 2018

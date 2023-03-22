@@ -107,7 +107,10 @@ calc_carbon_stock_per_ctu <- function(tb,
       switch(
         .conservation_tillage_intervention,
         "current_conservation_tillage" = {
-          (land_use * tillage_pct * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor) +
+          (land_use *
+             tillage_pct *
+             enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+             stock_factor) +
             (land_use * (1 - tillage_pct) * stock_factor)
         },
         "double_conservation_tillage" = {

@@ -1,8 +1,8 @@
 # Residential Baseline 2018
 
 res_bau_2018 <- run_scenario_building(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
   run_residential = TRUE,
   run_non_residential = FALSE,
   .selected_ctu = params$ctu_selection,
@@ -38,8 +38,8 @@ res_bau_2018 <- run_scenario_building(
 # Residential BAU (2040)
 
 res_bau_2040 <- run_scenario_building(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
   run_residential = TRUE,
   run_non_residential = FALSE,
   .selected_ctu = params$ctu_selection,

@@ -2,8 +2,9 @@
 #' @family residential
 #' @family buildings
 #'
-#' @description adjusts single and multifamily unit count forecast by city/township
-#' from residential inputs table.
+#' @description This function adjusts the forecasted single-family and multi-family unit counts
+#'    for cities/townships based on the residential inputs table. The purpose is to allow for a specified
+#'    percentage of new single-family homes to be built as multi-family homes instead.
 #'
 #' @inheritParams run_scenario_building
 #'

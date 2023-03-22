@@ -92,8 +92,8 @@ fig03a5_data <-
   ) %>%
   full_join(
     run_scenario_building(
-      res_tb = building_energy_bau_data$residential,
-      res_tb_bau = building_energy_bau_data$residential,
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
       run_residential = TRUE,
       run_non_residential = FALSE,
       .selected_ctu = params$ctu_selection,

@@ -29,8 +29,26 @@ Table contains adjusted records for \code{single_family_average_floor_area_sqft_
 to the residential inputs table.
 }
 \description{
-Calculates forecasted reduction in single family
-floor area from increased energy prices by city/township.
+Calculates the anticipated reduction in single-family
+floor area in response to increased energy prices for each city or township.
+This function considers the effects of a net-zero carbon grid, where
+the cost of electricity is expected to more than double. It estimates
+the proportion of single-family homes that will reduce their living
+space due to increased energy prices, providing insights for future
+urban planning and policy-making. The model can be adjusted by cities
+to better reflect local conditions and priorities.
+}
+\note{
+The original intent was to reduce the growth in floor area,
+recognizing that the cost of electricity will more than double in
+a net-zero carbon grid (according to Princeton University’s Net-Zero America report),
+and raise the idea of an affordable floor area. Typically, energy burden is
+expressed when greater than 6\% of income is used for energy services,
+but this number is difficult to evaluate, because we do not have
+income distribution data in a 2040 future city. Therefore, we instead
+modeled that about 50\% of the single-family homes will respond to
+increased energy prices by decreasing their living space. This is a
+model assumption, which cities can adjust.
 }
 \examples{
 \dontrun{
