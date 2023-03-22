@@ -18,8 +18,8 @@ run_all_modules <- function(.selected_ctu = "all",
                             run_transportation = TRUE,
                             tb = land_use_data,
                             non_res_tb = building_data$non_residential,
-                            res_tb = building_energy_bau_data$residential,
-                            res_tb_bau = building_energy_bau_data$residential,
+                            res_tb = building_data$residential,
+                            res_tb_bau = building_data$residential,
                             non_res_tb_bau = building_data$non_residential,
                             pass_tb = transportation_data$passenger,
                             freight_tb = transportation_data$freight,
@@ -81,8 +81,10 @@ run_all_modules <- function(.selected_ctu = "all",
                             .enviro_factors = enviro_factors,
                             .elast = elast,
                             .elast_5d = elast_5d) {
+  output <- c()
+
   if (run_land_use == TRUE) {
-    land_use <- run_scenario_land_use(
+    output$land_use <- run_scenario_land_use(
       tb = tb,
       .selected_ctu = .selected_ctu,
       .urban_form_scenario = .urban_form_scenario,
@@ -95,7 +97,7 @@ run_all_modules <- function(.selected_ctu = "all",
     )
   }
   if (run_buildings == TRUE) {
-    buildings <- run_scenario_building(
+    output$buildings <- run_scenario_building(
       res_tb = res_tb,
       non_res_tb = non_res_tb,
       res_tb_bau = res_tb_bau,
@@ -125,7 +127,7 @@ run_all_modules <- function(.selected_ctu = "all",
     )
   }
   if (run_transportation == TRUE) {
-    transp <- run_scenario_transportation(
+    output$transp <- run_scenario_transportation(
       pass_tb = pass_tb,
       freight_tb = freight_tb,
       .selected_ctu = .selected_ctu,
@@ -159,4 +161,7 @@ run_all_modules <- function(.selected_ctu = "all",
       .enviro_factors = enviro_factors
     )
   }
+
+  return(output)
+
 }
