@@ -58,7 +58,7 @@ calc_ghg_embodied <- function(tb,
       dplyr::mutate(class = .class)
 
 
-    # calculate emissions from sailes
+    # calculate emissions from sales
     ghg <- dplyr::left_join(tb_current,
       ghg_factor_current,
       by = c("year")
