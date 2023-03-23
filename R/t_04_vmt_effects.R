@@ -230,6 +230,7 @@ vmt_parking_policy <- function(tb,
         by = "year"
       ) %>%
       mutate(
+        # 1 + (parking price pct change) * parking elasticity
         park_price_adj =
           1 + (.parking_price / PARK) * park_transit
       ) %>%
