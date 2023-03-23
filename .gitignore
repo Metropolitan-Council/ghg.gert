@@ -13,3 +13,5 @@ report/_bookdown_files/**
 
 vignettes/trans_scenario_shiny_cache/
 
+
+report/_main.Rmd
