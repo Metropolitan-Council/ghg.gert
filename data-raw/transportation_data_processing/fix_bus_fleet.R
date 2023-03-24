@@ -85,7 +85,7 @@ bus_year_estimate
 region_pct_of_total <- transportation_data$passenger %>%
   filter(
     var == "PMT",
-    mode == "AT" # all active transportation
+    mode == "AT" # all transit
   ) %>%
   group_by(year) %>%
   mutate(region_pmt = sum(value)) %>%

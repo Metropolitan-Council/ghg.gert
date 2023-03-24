@@ -13,7 +13,8 @@ variables <- read_csv("data-raw/transportation_data_processing/indices/variables
 
 
 modes <- read_csv("data-raw/transportation_data_processing/indices/mode-wDef.csv") %>%
-  as_tibble()
+  as_tibble() %>%
+  filter(!mode_abbrev %in% c("AV", "DRS"))
 
 
 aeo_desc <- read_csv("data-raw/transportation_data_processing/indices/aeo_descriptions.csv") %>%
