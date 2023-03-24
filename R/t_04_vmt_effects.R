@@ -119,12 +119,12 @@ vmt_land_use_change <- function(.type,
     mutate(
       product_all =
         .data$n_population_density *
-          .data$n_employment_density *
-          .data$n_diversity *
-          .data$n_design *
-          .data$n_job_access *
-          .data$n_distance *
-          .data$n_combined_density
+        .data$n_employment_density *
+        .data$n_diversity *
+        .data$n_design *
+        .data$n_job_access *
+        .data$n_distance *
+        .data$n_combined_density
     ) %>%
     rowwise() %>%
     mutate(
@@ -137,7 +137,7 @@ vmt_land_use_change <- function(.type,
         TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-        land_use_adj
+                            land_use_adj
       )
     ) %>%
     select(year, land_use_adj)
@@ -182,7 +182,7 @@ vmt_parking_policy <- function(tb,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
   cli::cli_progress_message("**** calculating parking policy vehicle miles traveled strategy \n")
-  # current parking prices
+  # fetch current parking prices
   park_price_current <- tb %>%
     filter(
       var %in% c(
@@ -221,7 +221,7 @@ vmt_parking_policy <- function(tb,
     "BRT",
     "RU",
     "RI",
-    "DRS"
+    "WALK"
   )) {
     park_return <- park_price_current %>%
       left_join(
@@ -238,11 +238,12 @@ vmt_parking_policy <- function(tb,
   } else if (.mode == "SUT") {
     # browser()
 
-    park_return <- park_adj <- park_price_current %>%
+    park_return <- park_price_current %>%
       left_join(.elast %>%
-        select(year, park_elast), by = "year") %>%
-      mutate(park_price_adj = 1 + .freight_parking_price / PARK * park_elast) %>%
+                  select(year, park_elast), by = "year") %>%
+      mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
       select(year, ctu, park_price_adj)
+  } else {
   }
 
   return(park_return)
@@ -746,7 +747,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-        occupancy_adj = value
+             occupancy_adj = value
       ) %>%
       unique()
 
@@ -800,11 +801,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-        year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_avo = AVO
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -841,11 +842,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-        year,
-        ctu,
-        aeo_mode,
-        type,
-        mode_avo = AVO
+             year,
+             ctu,
+             aeo_mode,
+             type,
+             mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
