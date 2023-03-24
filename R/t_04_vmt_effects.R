@@ -244,6 +244,9 @@ vmt_parking_policy <- function(tb,
       mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
       select(year, ctu, park_price_adj)
   } else {
+
+    cli::cli_abort(paste0("Parking adjustment is applicable for ", .mode))
+
   }
 
   return(park_return)
@@ -312,7 +315,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-          .enviro_factors$CONG_VMT) * cong_elast,
+                             .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
