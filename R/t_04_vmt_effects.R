@@ -119,12 +119,12 @@ vmt_land_use_change <- function(.type,
     mutate(
       product_all =
         .data$n_population_density *
-        .data$n_employment_density *
-        .data$n_diversity *
-        .data$n_design *
-        .data$n_job_access *
-        .data$n_distance *
-        .data$n_combined_density
+          .data$n_employment_density *
+          .data$n_diversity *
+          .data$n_design *
+          .data$n_job_access *
+          .data$n_distance *
+          .data$n_combined_density
     ) %>%
     rowwise() %>%
     mutate(
@@ -137,7 +137,7 @@ vmt_land_use_change <- function(.type,
         TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-                            land_use_adj
+        land_use_adj
       )
     ) %>%
     select(year, land_use_adj)
@@ -221,9 +221,10 @@ vmt_parking_policy <- function(tb,
       ) %>%
       select(year, ctu, park_price_adj) %>%
       # if adjustment is less than 0, adjust to 0.45
-      mutate(park_price_adj = case_when(park_price_adj < 0.45 ~ 0.45,
-                                        TRUE ~ park_price_adj))
-
+      mutate(park_price_adj = case_when(
+        park_price_adj < 0.45 ~ 0.45,
+        TRUE ~ park_price_adj
+      ))
   } else if (.mode %in% c(
     "BU",
     "BRT",
@@ -248,13 +249,11 @@ vmt_parking_policy <- function(tb,
 
     park_return <- park_price_current %>%
       left_join(.elast %>%
-                  select(year, park_elast), by = "year") %>%
+        select(year, park_elast), by = "year") %>%
       mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
       select(year, ctu, park_price_adj)
   } else {
-
     cli::cli_abort(paste0("Parking adjustment is applicable for ", .mode))
-
   }
 
   return(park_return)
@@ -323,7 +322,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-                             .enviro_factors$CONG_VMT) * cong_elast,
+          .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
@@ -758,7 +757,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       select(year, ctu,
-             occupancy_adj = value
+        occupancy_adj = value
       ) %>%
       unique()
 
@@ -812,11 +811,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%
@@ -853,11 +852,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       select(mode,
-             year,
-             ctu,
-             aeo_mode,
-             type,
-             mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- tb_mode_totstock %>%

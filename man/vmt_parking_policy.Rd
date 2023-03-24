@@ -35,6 +35,9 @@ a table with
 Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 }
 \details{
+Increase parking prices will decrease PLDV by up to 45\% and increase all transit
+modes and walk.
+
 The long-run elasticity of VMT to parking cost is estimated to be in the range
 of -0.18 to -0.45 based on a meta-analysis of values reported in the literature
 (Lehner & Peer, 2019). On-street parking in central St. Paul costs between

@@ -2,7 +2,7 @@
 #' @family commercial-industrial
 #' @family buildings
 #'
-#'@description This function estimates the emissions of non-residential buildings under a given
+#' @description This function estimates the emissions of non-residential buildings under a given
 #'    decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 #'    electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 #'
@@ -77,7 +77,6 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors) {
-
   cli::cli_progress_message("** compiling non-residential strategies \n")
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
@@ -112,7 +111,7 @@ scen_building_non_residential <- function(non_res_tb,
   #   .enviro_factors = .enviro_factors
   # )
 
-  #tb03 calculates non residential renewable natural gas emissions reduction
+  # tb03 calculates non residential renewable natural gas emissions reduction
   tb04 <- ghg.sp::calc_non_res_renewable_ng(
     non_res_tb = tb02,
     .renewable_ng_nonres = .renewable_ng_nonres,

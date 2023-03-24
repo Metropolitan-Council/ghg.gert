@@ -1,34 +1,54 @@
 # business as usual
 
-get_demographic_baseline(tb = building_energy_data,
-                         .selected_ctu = "Minneapolis")
+get_demographic_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-calc_demographic_forecast(tb = building_energy_data,
-                          .selected_ctu = "Minneapolis")
+calc_demographic_forecast(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-get_residential_energy_baseline(tb = building_energy_data,
-                                .selected_ctu = "Minneapolis")
+get_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-calc_residential_energy_forecast(tb = building_energy_data,
-                                 .selected_ctu = "Minneapolis")
+calc_residential_energy_forecast(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-get_by_ctu_non_residential_xcel_energy_baseline(tb = building_energy_data,
-                                                .selected_ctu = "Minneapolis")
+get_by_ctu_non_residential_xcel_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-get_by_county_non_residential_energy_baseline(tb = building_energy_data,
-                                              .selected_ctu = "Minneapolis")
+get_by_county_non_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-get_statewide_non_residential_energy(tb = building_energy_data,
-                                     .selected_ctu = "Minneapolis")
+get_statewide_non_residential_energy(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-get_non_residential_energy_baseline(tb = building_energy_data,
-                                    .selected_ctu = "Minneapolis")
+get_non_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-calc_non_residential_energy_forecast(tb = building_energy_data,
-                                     .selected_ctu = "Minneapolis")
+calc_non_residential_energy_forecast(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
-compile_bau_building_energy(tb = building_energy_data,
-                            .selected_ctu = "Minneapolis")
+compile_bau_building_energy(
+  tb = building_energy_data,
+  .selected_ctu = "Minneapolis"
+)
 
 # strategies
 ## residential

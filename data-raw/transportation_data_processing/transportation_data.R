@@ -14,15 +14,19 @@ pass_transpo_new <- read_csv("data-raw/transportation_data_processing/pass_trans
   arrange(ctu) %>%
   mutate_at(4:12, as.numeric) %>%
   mutate_at(4:12, round, digits = 8) %>%
-  mutate(ctu = case_when(ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
-                         TRUE ~ ctu))
+  mutate(ctu = case_when(
+    ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
+    TRUE ~ ctu
+  ))
 
 pass_transpo <- pass_transpo_new
 
 freight_transpo <- read_csv("data-raw/transportation_data_processing/freight_transpo_dat.csv") %>%
   unique() %>%
-  mutate(ctu = case_when(ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
-                         TRUE ~ ctu))
+  mutate(ctu = case_when(
+    ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
+    TRUE ~ ctu
+  ))
 
 
 # passenger data -----

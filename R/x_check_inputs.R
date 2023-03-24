@@ -88,19 +88,23 @@ check_inputs <- function(name, value) {
       cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1"))
     }
   } else if (name == "mode") {
-    if (! value %in% c(
-      "BU", "BRT","RU", "RI",
+    if (!value %in% c(
+      "BU", "BRT", "RU", "RI",
       "SUT", "CUT", "BIKE", "WALK",
       "BS", "FR", "PLDV",
-      "MM", "AIR", "WAT")) {
-      cli::cli_abort(c("Enter a valid mode",
-                       paste(
-                         "BU", "BRT","RU", "RI",
-                         "SUT", "CUT", "BIKE", "WALK",
-                         "BS", "FR", "PLDV",
-                         "MM", "AIR", "WAT" )))
+      "MM", "AIR", "WAT"
+    )) {
+      cli::cli_abort(c(
+        "Enter a valid mode",
+        paste(
+          "BU", "BRT", "RU", "RI",
+          "SUT", "CUT", "BIKE", "WALK",
+          "BS", "FR", "PLDV",
+          "MM", "AIR", "WAT"
+        )
+      ))
     }
-  }  else {
+  } else {
     return()
   }
 }

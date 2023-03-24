@@ -47,7 +47,6 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
                                       detail) {
-
   cli::cli_progress_message("** calculating carbon stock \n")
 
   match.arg(
@@ -62,10 +61,12 @@ calc_carbon_stock_per_ctu <- function(tb,
   tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)
 
   tb$ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares,
-                                         .selected_ctu = .selected_ctu)
+    .selected_ctu = .selected_ctu
+  )
 
   tb$ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover,
-                                                .selected_ctu = .selected_ctu)
+    .selected_ctu = .selected_ctu
+  )
 
   tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
 
@@ -83,7 +84,7 @@ calc_carbon_stock_per_ctu <- function(tb,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
       .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
       detail = detail
-  )
+    )
 
   # -------------------------------------------------------------------------
 
@@ -104,13 +105,12 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   calculate_stock <- function(land_use, stock_factor, column_name, agriculture = FALSE, tillage_pct = 0) {
     if (agriculture) {
-      switch(
-        .conservation_tillage_intervention,
+      switch(.conservation_tillage_intervention,
         "current_conservation_tillage" = {
           (land_use *
-             tillage_pct *
-             enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
-             stock_factor) +
+            tillage_pct *
+            enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+            stock_factor) +
             (land_use * (1 - tillage_pct) * stock_factor)
         },
         "double_conservation_tillage" = {
@@ -162,7 +162,7 @@ calc_carbon_stock_per_ctu <- function(tb,
     carbon_stock_per_ctu %>%
     dplyr::group_by(ctu_name, year) %>%
     tidyr::pivot_wider(
-      values_from =  c(
+      values_from = c(
         grass,
         impervious,
         trees,
@@ -190,7 +190,7 @@ calc_carbon_stock_per_ctu <- function(tb,
       grassland = ((grassland_2016 - grassland_2040) * 11 / 3) / 24,
       agriculture = ((agriculture_2016 - agriculture_2040) * 11 / 3) / 24,
       woody_wetland = ((woody_wetland_2016 - woody_wetland_2040) * 11 /
-                         3) / 24,
+        3) / 24,
       wetland = ((wetland_2016 - wetland_2040) * 11 / 3) / 24,
       parking_lot = ((parking_lot_2016 - parking_lot_2040) * 11 / 3) / 24
     ) %>%
@@ -199,5 +199,4 @@ calc_carbon_stock_per_ctu <- function(tb,
   # -------------------------------------------------------------------------
 
   return(carbon_stock_per_ctu)
-
-  }
+}

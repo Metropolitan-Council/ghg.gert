@@ -115,5 +115,3 @@ bind_rows(
 #   width = 11,
 #   height = 6
 # )
-
-

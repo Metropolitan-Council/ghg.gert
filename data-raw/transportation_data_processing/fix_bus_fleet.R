@@ -32,10 +32,12 @@ bus_year_estimate <- tibble(
   n_bus = seq(from = 865, to = 1250, length = 36)
 ) %>%
   filter(year %in% transportation_data$passenger$year) %>%
-  mutate(bus_sales = n_bus - lag(n_bus, 1),
-         bus_sales = replace_na(bus_sales, 0),
-         bus_exist = n_bus - bus_sales,
-         bus_stock = bus_exist + bus_sales)
+  mutate(
+    bus_sales = n_bus - lag(n_bus, 1),
+    bus_sales = replace_na(bus_sales, 0),
+    bus_exist = n_bus - bus_sales,
+    bus_stock = bus_exist + bus_sales
+  )
 
 bus_year_estimate
 
@@ -175,17 +177,17 @@ blank_alt_exist <- purrr::map_dfr(c("HEVExist", "BEVExist"), function(x) {
 new_bus_fleet <- new_stock %>%
   # stock
   bind_rows(new_stock %>% # reassign TotStock to BCIStock
-              mutate(var = "TotStock")) %>%
+    mutate(var = "TotStock")) %>%
   bind_rows(blank_alt_stock) %>%
   # sales
   bind_rows(new_sales) %>%
   bind_rows(new_sales %>% # reassign TotSales
-              mutate(var = "TotSales")) %>%
+    mutate(var = "TotSales")) %>%
   bind_rows(blank_alt_sales) %>%
   # exist
   bind_rows(new_exist) %>%
   bind_rows(new_exist %>% # reassign TotStock to BCIStock
-              mutate(var = "TotExist")) %>%
+    mutate(var = "TotExist")) %>%
   bind_rows(blank_alt_exist) %>%
   mutate(value = round(value))
 
@@ -193,7 +195,7 @@ new_bus_fleet <- new_stock %>%
 
 new_pass <- transportation_data$passenger %>%
   anti_join(new_bus_fleet,
-            by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
+    by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
   ) %>%
   bind_rows(new_bus_fleet)
 

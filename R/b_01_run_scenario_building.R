@@ -90,7 +90,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .additional_electrified_residential_buildings_pct = 0.45,
                                   # grid
                                   .grid_decarbonization_pct = 1) {
-
   cli::cli_progress_message("\n  === RUNNING BUILDING ENERGY MODULE === \n")
   cli::cli_progress_message(msg = c("...... selected CTU:", .selected_ctu, "\n"))
   cli::cli_progress_message(c("...... percent of electrified buildings:", .electrified_buildings_pct, "\n"))
@@ -226,8 +225,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
         .renewable_ng_nonres = .renewable_ng_nonres,
         .enviro_factors = .enviro_factors
-      )%>%
-    dplyr::mutate(year = as.character(year))
+      ) %>%
+      dplyr::mutate(year = as.character(year))
   }
 
   building_module_ouput <-
@@ -240,5 +239,4 @@ run_scenario_building <- function(res_tb = building_data$residential,
     }
 
   return(building_module_ouput)
-
-  }
+}

@@ -163,5 +163,4 @@ scen_building_residential <- function(res_tb = res_tb,
     )
 
   return(tb09 %>% dplyr::mutate(year = as.numeric(year)))
-
 }

@@ -44,7 +44,6 @@ calc_ghg_residential <- function(res_tb,
                                  .selected_ctu,
                                  .grid_decarbonization_pct,
                                  .enviro_factors) {
-
   cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -87,7 +86,7 @@ calc_ghg_residential <- function(res_tb,
       )
       / population) %>%
       dplyr::mutate(
-        residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area/ 1000),
+        residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area / 1000),
         residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 - grid_decarb))
       ) %>%
       dplyr::mutate(
@@ -147,5 +146,4 @@ calc_ghg_residential <- function(res_tb,
     dplyr::ungroup()
 
   return(emis_final)
-
 }

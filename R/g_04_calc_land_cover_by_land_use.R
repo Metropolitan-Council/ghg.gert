@@ -27,7 +27,7 @@ calc_land_cover_by_land_use <- function(tb,
   land_cover_percentages <-
     if (.selected_ctu == "all") {
       calc_land_cover_percentages(tb = tb)
-    } else{
+    } else {
       calc_land_cover_percentages(tb = tb) %>% filter(ctu_name == .selected_ctu)
     }
 
@@ -35,14 +35,18 @@ calc_land_cover_by_land_use <- function(tb,
   # -------------------------------------------------------------------------
   scen_land_use <-
     if (.selected_ctu == "all") {
-      calc_scen_land_use(tb = tb,
-                         .selected_ctu,
-                         .urban_form_scenario = .urban_form_scenario)
-      } else {
-        calc_scen_land_use(tb = tb,
-                           .selected_ctu,
-                           .urban_form_scenario = .urban_form_scenario) %>% filter(ctu_name == .selected_ctu)
-                         }
+      calc_scen_land_use(
+        tb = tb,
+        .selected_ctu,
+        .urban_form_scenario = .urban_form_scenario
+      )
+    } else {
+      calc_scen_land_use(
+        tb = tb,
+        .selected_ctu,
+        .urban_form_scenario = .urban_form_scenario
+      ) %>% filter(ctu_name == .selected_ctu)
+    }
 
 
   # -------------------------------------------------------------------------

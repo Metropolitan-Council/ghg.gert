@@ -301,8 +301,8 @@ phev_vmt_gas <- calc_vmt_forecast(
 
 
 testthat::expect_equal(
-  phev_vmt_gas$vmt/1000 +
-    phev_vmt_elec$vmt/1000,
+  phev_vmt_gas$vmt / 1000 +
+    phev_vmt_elec$vmt / 1000,
   c(
     0.00253435457893076, 0.0287664368249618, 0.0451312892030342,
     0.488533544848253, 0.699758476732484, 0.776709798716421, 1.08225928912365,
