@@ -12,7 +12,7 @@ vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
                                       .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("**** calculating annual energy outlook vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating annual energy outlook VMT effect \n")
 
   check_inputs(
     name = "aeo_scenario",
@@ -181,7 +181,7 @@ vmt_parking_policy <- function(tb,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("**** calculating parking policy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating parking policy VMT effect \n")
   # fetch current parking prices
   park_price_current <- tb %>%
     filter(
@@ -289,7 +289,7 @@ vmt_road_policy <- function(.pass_tb,
                             .phev_electric = FALSE,
                             .enviro_factors = enviro_factors,
                             .elast = elast) {
-  cli::cli_progress_message("**** calculating road pricing vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating road pricing VMT effect \n")
   if (.vmt_fee > 0 & .payd_fee > 0) {
     cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
@@ -519,7 +519,7 @@ vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct = 0,
                          .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("**** calculating telework vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating telework VMT effect \n")
   # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
@@ -640,7 +640,7 @@ vmt_transit_service <- function(tb,
                                 .transit_service_pct = 0,
                                 .elast = elast,
                                 .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("**** calculating transit service vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating transit service VMT effect \n")
   transit_service_elast <-
     tibble(
       year = unique(tb$year),
@@ -737,7 +737,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo_pct = 0,
                                   .pldv_avo_pct = 0,
                                   .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("**** calculating increased vehicle occupancy vehicle miles traveled strategy \n")
+  cli::cli_progress_message("**** calculating increased vehicle occupancy VMT effect \n")
 
   # browser()
 
