@@ -67,6 +67,7 @@ calc_vmt_forecast <- function(.scenario,
   cli::cli_progress_message("*** calculating VMT forecast \n")
   tb <- filter_ctu(tb, .selected_ctu)
   # browser()
+  check_inputs("mode", .mode)
 
   tb_vmt <- tb %>%
     filter(
