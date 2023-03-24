@@ -99,6 +99,13 @@ testthat::expect_error(vmt_parking_policy(
   .enviro_factors = enviro_factors
 ))
 
+testthat::expect_error(vmt_parking_policy(
+  tb = st_paul_passenger,
+  .mode = "BIKE",
+  .parking_price = 1,
+  .freight_parking_price = 2,
+  .enviro_factors = enviro_factors
+))
 
 
 testthat::expect_equal(
