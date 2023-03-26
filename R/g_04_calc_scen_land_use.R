@@ -23,9 +23,12 @@
 calc_scen_land_use <- function(tb,
                                .selected_ctu,
                                .urban_form_scenario) {
-  cli::cli_progress_message("**** calculating land use urban form scneario \n")
-  # -------------------------------------------------------------------------
 
+  cli::cli_progress_message("**** calculating land use urban form scenario \n")
+
+  ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
+
+  # -------------------------------------------------------------------------
   calc_land_by_development_type <-
     calc_land_by_development_type(
       tb = tb,
@@ -34,44 +37,39 @@ calc_scen_land_use <- function(tb,
     )
 
   # -------------------------------------------------------------------------
-
-  luse_scenario_params <- tb$scenario_parameters %>%
-    dplyr::filter(scenario_description_2 == .urban_form_scenario)
-
-
-  # -------------------------------------------------------------------------
-
   get_total_hectares_by_development_type <-
-    tb$ctu_land_use_hectares %>%
+    ctu_land_use_hectares %>%
     dplyr::group_by(ctu_name, development_type, year) %>%
     dplyr::summarise(total_hectares = sum(hectares, na.rm = TRUE),
-                     .groups = "drop") %>%
-    dplyr::ungroup()
+                     .groups = "drop")
+  #%>%
+    #dplyr::ungroup()
 
   # -------------------------------------------------------------------------
-
   merge_datasets_hecates_by_dev_type_with_land_use_land_cover <-
-    (
-      tb$ctu_land_use_hectares %>%
-        group_by(ctu_name, development_type, year, land_use_type) %>%
-        summarise(
-          hectares = sum(hectares, na.rm = TRUE),
-          .groups = "drop"
-        ) %>%
-        base::merge(
-          .,
-          (get_total_hectares_by_development_type),
-          by = c("ctu_name", "development_type", "year")
-        ) %>%
-        dplyr::mutate(percent_of_hectares =
-                        hectares /
-                        total_hectares)
+    ctu_land_use_hectares %>%
+    dplyr::group_by(ctu_name,
+                    development_type,
+                    year,
+                    land_use_type) %>%
+    dplyr::summarise(hectares = sum(hectares, na.rm = TRUE),
+                     .groups = "drop") %>%
+    base::merge(
+      .,
+      (get_total_hectares_by_development_type),
+      by = c("ctu_name",
+             "development_type",
+             "year")
     ) %>%
+    dplyr::mutate(percent_of_hectares =
+                    hectares /
+                    total_hectares) %>%
     dplyr::filter(year == 2040)
 
   # -------------------------------------------------------------------------
-
-  add_scaling_factor <- calc_land_by_development_type %>%
+  scen_land_use <-
+    # calculate scaling factor
+    calc_land_by_development_type %>%
     tidyr::pivot_wider(
       data = .,
       id_cols = c(ctu_name, development_type),
@@ -86,13 +84,8 @@ calc_scen_land_use <- function(tb,
           scenario_other_zoning / scenario_total,
           1
         )
-    )
-
-  # -------------------------------------------------------------------------
-
-  scen_land_use <-
-    add_scaling_factor %>%
-    base::merge(
+    ) %>%
+    dplyr::left_join(
       .,
       (
         merge_datasets_hecates_by_dev_type_with_land_use_land_cover
@@ -100,25 +93,23 @@ calc_scen_land_use <- function(tb,
       by = c("ctu_name",
              "development_type")
     ) %>%
-    dplyr::mutate(scenario_hectares =
+    dplyr::mutate(
+      scenario_hectares =
                     dplyr::case_when(
-                      (
-                        land_use_type %in% c(
-                          "multifamily",
-                          "mixed_use_residential",
-                          "mixed_use_industrial",
-                          "mixed_use_commercial"
-                        )
+                      # case 1
+                      land_use_type %in% c(
+                        "multifamily",
+                        "mixed_use_residential",
+                        "mixed_use_industrial",
+                        "mixed_use_commercial"
                       ) ~ ((hectares + ((percent_of_hectares * scenario_total) - hectares
-                      )) * 1 # this 1 is the percent land converted to zoned use from baseline
-                             # it should be a parameter on it own - check the original spreadsheet
-                      + (scenario_mixed_use_mf_new / 4)),
-                      (land_use_type == "park_recreational_or_preserve") ~
+                      )) * 1 + (scenario_mixed_use_mf_new / 4)),
+                      # case 2
+                      land_use_type == "park_recreational_or_preserve" ~
                         ((hectares + ((percent_of_hectares * scenario_total) - hectares
-                        ))
-                        * 1), # this 1 is the percent land converted to zoned use from baseline
-                            # it should be a parameter on it own - check the original spreadsheet
-                        land_use_type %in% c(
+                        )) * 1),
+                      # case 3
+                      land_use_type %in% c(
                           "agricultural",
                           "airport",
                           "extractive",
@@ -139,24 +130,22 @@ calc_scen_land_use <- function(tb,
                           "undeveloped"
                         ) ~ (((
                           hectares + ((percent_of_hectares * scenario_total) - hectares)
-                        ) * 1) # this 1 is the percent land converted to zoned use from baseline
-                               # it should be a parameter on it own - check the original spreadsheet
-                        * scaling_factor)
-                        )) %>%
-                        dplyr::select(c(
-                          "ctu_name",
-                          "development_type",
-                          "land_use_type",
-                          "scenario_hectares"
-                        )) %>%
-                        dplyr::group_by(ctu_name,
-                                        development_type,
-                                        land_use_type) %>%
-                        dplyr::summarise(scenario_hectares = sum(scenario_hectares),
-                                         .groups = "drop") %>%
-                        dplyr::group_by(ctu_name)
+                        ) * 1) * scaling_factor))
+                        ) %>%
+    dplyr::select(c(
+      "ctu_name",
+      "development_type",
+      "land_use_type",
+      "scenario_hectares"
+    )) %>%
+    dplyr::group_by(ctu_name,
+                    development_type,
+                    land_use_type) %>%
+    dplyr::summarise(scenario_hectares = sum(scenario_hectares),
+                     .groups = "drop") %>%
+    dplyr::group_by(ctu_name)
 
-                      # -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
+  return(scen_land_use)
 
-                      return(scen_land_use)
-}
+  }

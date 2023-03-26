@@ -24,7 +24,9 @@
 
 get_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
+
     cli::cli_progress_message("* estimating residential energy baseline \n")
+
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
     ctu_characteristics <- get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
@@ -104,7 +106,9 @@ get_residential_energy_baseline <-
         values_from = "value",
         values_fn = mean
       ) %>%
-      dplyr::mutate(residential_kwh_per_floor_area = (residential_mwh / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+      dplyr::mutate(residential_kwh_per_floor_area = (residential_mwh /
+                                                        ((single_family_units *
+                                                            single_family_average_floor_area_sqft_ctu) +
         (multifamily_units * multifamily_average_floor_area_sqft_county)
       )) *
         1000) %>%
@@ -126,7 +130,9 @@ get_residential_energy_baseline <-
         values_from = "value",
         values_fn = mean
       ) %>%
-      dplyr::mutate(residential_therms_per_floor_area = (residential_ng_therms / ((single_family_units * single_family_average_floor_area_sqft_ctu) +
+      dplyr::mutate(residential_therms_per_floor_area = (residential_ng_therms /
+                                                           ((single_family_units *
+                                                               single_family_average_floor_area_sqft_ctu) +
         (multifamily_units * multifamily_average_floor_area_sqft_county)
       ))) %>%
       dplyr::select(ctu_name, year, residential_therms_per_floor_area) %>%

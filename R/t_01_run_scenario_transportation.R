@@ -50,6 +50,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d) {
+
   cli::cli_progress_message("\n === RUNNING TRANSPORTATION MODULE ==== \n")
   cli::cli_progress_message(c("...... selected CTU: ", .selected_ctu, "\n"))
   cli::cli_progress_message(c("...... scenario name label: ", .scenario, "\n"))
@@ -315,14 +316,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-  # Dynamic Ride Sharing -----
-
-
-  # autonomous vehicles -----
-
-
-
-
   # Freight -------------------------------
   # (measured in ton-miles NOT miles)
 
@@ -357,7 +350,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-
   # freight rail -----
 
   freight_rail <- scen_freight_rail(
@@ -390,10 +382,9 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-
-
   # freight multi-modal, air, and water -----
-  freight_multi_air_wat <- scen_air_water_multi(
+
+    freight_multi_air_wat <- scen_air_water_multi(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
