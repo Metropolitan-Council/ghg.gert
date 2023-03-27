@@ -44,7 +44,7 @@ si_fuel_use <- calc_fuel_use(
 
 # still need to confirm these values
 testthat::expect_equal(
-  si_fuel_use$fuel_use,
+  si_fuel_use$fuel_use / 1000,
   c(
     59171006.0357739, 59547519.1594438, 59810766.7901064, 57313641.874183,
     57064028.5037486, 57111129.0775869, 54269758.6628763, 53405804.9154055,
@@ -99,7 +99,7 @@ ci_fuel_use <- calc_fuel_use(
 
 
 testthat::expect_equal(
-  ci_fuel_use$fuel_use,
+  ci_fuel_use$fuel_use / 1000,
   c(
     1010255.34977134, 1021206.33703609, 1028312.85224504, 1047643.41041398,
     1042505.09068065, 1031169.01560497, 1023309.83123388, 1026178.97564794,
@@ -127,7 +127,7 @@ hev_vmt <- calc_vmt_forecast(
   .mode = "PLDV",
   .stock = "HEVStock",
   .variable = "PMT",
-  .tb_fuel_cost_mile = fcm_test_dies,
+  .tb_fuel_cost_mile = fcm_test_hev,
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .transit_service_pct = 0,
@@ -163,7 +163,7 @@ hev_fuel_use <- calc_fuel_use(
 )
 
 testthat::expect_equal(
-  hev_fuel_use$fuel_use,
+  hev_fuel_use$fuel_use / 1000,
   c(
     169192.298596365, 470527.58136809, 720618.340731252, 1658849.35921583,
     3438342.76061775, 5771549.38269618, 8421600.99774135, 9778740.96783401,

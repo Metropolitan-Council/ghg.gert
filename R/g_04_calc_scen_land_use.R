@@ -90,8 +90,10 @@ calc_scen_land_use <- function(tb,
       (
         merge_datasets_hecates_by_dev_type_with_land_use_land_cover
       ),
-      by = c("ctu_name",
-             "development_type")
+      by = c(
+        "ctu_name",
+        "development_type"
+      )
     ) %>%
     dplyr::mutate(
       scenario_hectares =

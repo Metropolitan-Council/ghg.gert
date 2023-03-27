@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_02_adj_fleet_shares.R
 \name{adj_fleet_shares}
 \alias{adj_fleet_shares}
-\title{Adjust fleet power train distribution before running scenario}
+\title{Adjust passenger light duty fleet power train distribution before running scenario}
 \usage{
 adj_fleet_shares(
   .pass_tb = transportation_data$passenger,
@@ -77,6 +77,9 @@ targeting the same thing. A VMT fee would be paid by the driver and could be var
 on the time of day and location. However, it could also be a straight fee per mile. PAYD
 is paid to an insurance provider in place of a flat insurance rate. The main difference is
 whether the driver would prefer to pay the cost to a government agency or insurance provider.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Stock = Exist + Sales
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other transportation: 

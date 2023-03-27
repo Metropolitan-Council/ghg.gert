@@ -36,7 +36,6 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-
   # -------------------------------------------------------------------------
   # command line interface message about progress
   cli::cli_progress_message("\n === RUNNING LAND USE AND FORESTRY MODULE ==== \n")
@@ -95,11 +94,15 @@ run_scenario_land_use <- function(tb = land_use_data,
 
   land_cover_results <- dplyr::bind_rows(
     carbon_sequestration_per_ctu %>%
-      dplyr::mutate(var = "sequestration_tonnes_co2e_per_year",
-                    year = as.numeric(year)),
+      dplyr::mutate(
+        var = "sequestration_tonnes_co2e_per_year",
+        year = as.numeric(year)
+      ),
     carbon_stock_per_ctu %>%
-      dplyr::mutate(var = "stock_tonnes_co2e_per_year (land conversion emissions)",
-                    year = as.numeric(year))
+      dplyr::mutate(
+        var = "stock_tonnes_co2e_per_year (land conversion emissions)",
+        year = as.numeric(year)
+      )
   ) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(ctu_name, year, var)) %>%

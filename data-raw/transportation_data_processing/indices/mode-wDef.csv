@@ -19,7 +19,7 @@ mode_id,mode_abbrev,mode_description_1,mode_description_2
 18,RI,Intercity rail,Northstar commuter rail
 19,BS,School bus,
 20,DRS,Dynamic ride sharing,
-21,AT,Active transportation (walk and bike),
+21,AT,All transit, Used for internal calculations
 22,WALK,Walk,
 23,BIKE,Bike,
 24,AV,Autonomous vehicle,autonomous_vehicle

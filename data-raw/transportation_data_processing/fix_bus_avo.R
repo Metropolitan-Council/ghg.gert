@@ -10,7 +10,7 @@ load("data-raw/transportation_data_processing/ctu_tma/ctu_tma.rda")
 ctu_tma <- ctu_tma %>%
   mutate(CTU_NAME = case_when(
     CTU_NAME == "Credit River" ~ "Credit River Twp.",
-    CTU_NAME == "Fort Snelling (unorg.)" ~ "Fort Snelling UT",
+    # CTU_NAME == "Fort Snelling (unorg.)" ~ "Fort Snelling UT",
     TRUE ~ CTU_NAME
   ))
 

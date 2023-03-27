@@ -163,5 +163,4 @@ run_all_modules <- function(.selected_ctu = "all",
   }
 
   return(output)
-
 }

@@ -1,4 +1,4 @@
-#' @title Adjust fleet power train distribution before running scenario
+#' @title Adjust passenger light duty fleet power train distribution before running scenario
 #' @family stock adjustments
 #' @family transportation
 #'
@@ -27,6 +27,8 @@
 #'     on the time of day and location. However, it could also be a straight fee per mile. PAYD
 #'     is paid to an insurance provider in place of a flat insurance rate. The main difference is
 #'     whether the driver would prefer to pay the cost to a government agency or insurance provider.
+#'
+#'     Stock = Exist + Sales
 #'
 #'
 #' @param .bev_pct_sales numeric,  a value between `0` and `1.`

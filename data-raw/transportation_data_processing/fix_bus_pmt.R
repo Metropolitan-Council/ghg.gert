@@ -5,7 +5,7 @@
 all_transit <- transportation_data$passenger %>%
   filter(
     var == "PMT",
-    mode == "AT"
+    mode == "AT" # all transit
   ) %>%
   group_by(year, ctu) %>%
   summarize(total_vmt = sum(value), .groups = "keep")

@@ -40,6 +40,8 @@ calc_ghg_embodied <- function(tb,
 
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
+    # bus or brt
+    # get ghg factor values
     ghg_factor_current <- factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       dplyr::select(source,
@@ -47,6 +49,7 @@ calc_ghg_embodied <- function(tb,
         ghg_value = value,
       )
 
+    # get total sales
     tb_current <- tb %>%
       dplyr::filter(mode == .mode, var == .sales_mode) %>%
       dplyr::select(dplyr::everything(),
@@ -55,6 +58,7 @@ calc_ghg_embodied <- function(tb,
       dplyr::mutate(class = .class)
 
 
+    # calculate emissions from sales
     ghg <- dplyr::left_join(tb_current,
       ghg_factor_current,
       by = c("year")
@@ -77,7 +81,8 @@ calc_ghg_embodied <- function(tb,
 
 
     # adjust stock for changes made in VMT between BAU and MIT scenarios
-    # If .transit_avo_pct given then use it, else assume all additional PMT handled by vehicle purchases
+    # If .transit_avo_pct given then use it, else assume all additional PMT
+    # handled by vehicle purchases
     # Update bau_vmt and mit_vmt to equal 1 if they are zero (to avoid division error)
     if (.bau_tb != 0) {
       # browser()
@@ -120,7 +125,10 @@ calc_ghg_embodied <- function(tb,
     "SUT",
     "CUT",
     "AIR",
-    "WAT"
+    "WAT",
+    "FR",
+    "FRAIL",
+    "FSHIP"
   )) {
     cli::cli_abort("Embodied emissions only calculated for passenger type")
   } else {
@@ -148,9 +156,6 @@ calc_ghg_embodied <- function(tb,
         sales_value = value,
         aeo_mode
       )
-    if (.mode == "FR") {
-      # browser()
-    }
 
     ghg <- dplyr::left_join(sales,
       ghg_factors_current,

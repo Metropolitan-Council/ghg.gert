@@ -27,7 +27,7 @@ testthat::test_that("Expected number of rows", {
         mode == "PLDV",
         str_detect(var, "Tot")
       ),
-    c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+    by = c("mode", "var", "ctu", "year", "aeo_mode", "type"),
     suffix = c(".orig", ".adj")
   ) %>%
     mutate(diff = round(value.orig - value.adj)) %>%
@@ -65,7 +65,7 @@ testthat::test_that("Expected number of rows", {
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")
       ),
-    c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+    by = c("mode", "var", "ctu", "year", "aeo_mode", "type"),
     suffix = c(".orig", ".adj")
   ) %>%
     mutate(diff = round(value.orig - value.adj)) %>%

@@ -91,8 +91,8 @@ calc_tree_planting_land_cover <- function(tb,
       # Calculate the total area in hectares by summing all land cover types
       total_area_hectares = (
         grass + barren + shrub + grassland
-        + agriculture + trees + forest + woody_wetland
-        + impervious + water + wetland
+          + agriculture + trees + forest + woody_wetland
+          + impervious + water + wetland
       )
     ) %>%
     # Ungroup the dataset to remove the grouping by ctu_name and year
@@ -104,8 +104,10 @@ calc_tree_planting_land_cover <- function(tb,
     # Start with the ctu_forecast dataset within tb object
     tb$ctu_forecast %>%
     # Filter rows where the variable is "population" AND the year 2040
-    dplyr::filter(var == "population",
-                  year == 2040) %>%
+    dplyr::filter(
+      var == "population",
+      year == 2040
+    ) %>%
     # Remove 'year' and 'var' columns
     dplyr::select(-c(year, var)) %>%
     # Rename the 'value' column to 'population'
@@ -157,15 +159,15 @@ calc_tree_planting_land_cover <- function(tb,
     # Create new variables for the dataset while keeping only the new variables and grouping variable (ctu_name)
     dplyr::transmute(
       match_los_angeles_million_trees_plan_percent =
-        # Calculate the percentage of matching Los Angeles Million Trees Plan by dividing the sum of
-        # LA_goal_hectares and total_tree_canopy_hectares by total_tree_canopy_hectares
+      # Calculate the percentage of matching Los Angeles Million Trees Plan by dividing the sum of
+      # LA_goal_hectares and total_tree_canopy_hectares by total_tree_canopy_hectares
         (LA_goal_hectares + total_tree_canopy_hectares) /
-        total_tree_canopy_hectares,
+          total_tree_canopy_hectares,
       tree_planting_on_all_pervious_sufaces_percent =
-        # Calculate the percentage of tree planting on all pervious surfaces by dividing the
-        # sum of pervious_surface_hectares and total_tree_canopy_hectares by total_tree_canopy_hectares
+      # Calculate the percentage of tree planting on all pervious surfaces by dividing the
+      # sum of pervious_surface_hectares and total_tree_canopy_hectares by total_tree_canopy_hectares
         (pervious_surface_hectares + total_tree_canopy_hectares) /
-        total_tree_canopy_hectares,
+          total_tree_canopy_hectares,
     ) %>%
     # Ungroup the dataset to remove the grouping by ctu_name
     dplyr::ungroup()
@@ -178,8 +180,8 @@ calc_tree_planting_land_cover <- function(tb,
     total_plantable_area %>%
     # Perform a right join with the tree_planting_scenario dataset
     dplyr::right_join(.,
-                      tree_planting_scenario,
-                      by = "ctu_name"
+      tree_planting_scenario,
+      by = "ctu_name"
     ) %>%
     # Create new variables and modify existing ones
     dplyr::mutate(
@@ -188,26 +190,26 @@ calc_tree_planting_land_cover <- function(tb,
       # Calculate the number of trees based on the selected tree_planting_intervention
       trees =
         dplyr::if_else(year == 2016,
-                       trees,
-                       (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
-                         dplyr::if_else(
-                           trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
-                           trees * tree_planting_on_all_pervious_sufaces_percent,
-                           max_trees
-                         )
-                       } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
-                         dplyr::if_else(
-                           trees * match_los_angeles_million_trees_plan_percent < max_trees,
-                           trees * match_los_angeles_million_trees_plan_percent,
-                           max_trees
-                         )
-                       } else if (.tree_planting_intervention == "double") {
-                         dplyr::if_else(
-                           (trees *  2) < max_trees,
-                           (trees *  2),
-                           max_trees
-                         )
-                       })
+          trees,
+          (if (.tree_planting_intervention == "tree_planting_on_all_pervious") {
+            dplyr::if_else(
+              trees * tree_planting_on_all_pervious_sufaces_percent < max_trees,
+              trees * tree_planting_on_all_pervious_sufaces_percent,
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "match_la_million_trees_goal") {
+            dplyr::if_else(
+              trees * match_los_angeles_million_trees_plan_percent < max_trees,
+              trees * match_los_angeles_million_trees_plan_percent,
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "double") {
+            dplyr::if_else(
+              (trees * 2) < max_trees,
+              (trees * 2),
+              max_trees
+            )
+          })
         )
     ) %>%
     # Calculate the total tree count in the scenario
