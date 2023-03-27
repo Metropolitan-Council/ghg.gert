@@ -35,8 +35,13 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .mit_bau_summary = 0,
                             .enviro_factors = enviro_factors,
                             .elast = elast,
-                            .elast_5d = elast_5d) {
-  cli::cli_progress_message("** calculating scenario school bus \n")
+                            .elast_5d = elast_5d,
+                            .calc_transp_cost = FALSE,
+                            .calc_transp_fuel_use = FALSE,
+                            .calc_transp_ghg_embodied = FALSE) {
+
+  #cli::cli_progress_message("** calculating scenario school bus \n")
+
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   fcm <- calc_fuel_cost_mile(
@@ -47,6 +52,8 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     .enviro_factors$SI_FUEL_COST_GAL
   )
 
+  school_bus <- list()
+
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -55,11 +62,12 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   # School Bus-----
   mode <- "BS"
 
+  # VMT Calculation
+
   ## CI School bus -----
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
-
   message("School bus, diesel")
 
   ci_vmt <-
@@ -80,31 +88,6 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
-
-
-  ci_ghg <-
-    calc_ghg_direct(
-      ci_vmt, .pass_tb,
-      mode, "CI", .aeo_scenario, mpg
-    )
-
-  ci_fuel <-
-    calc_fuel_use(
-      tb_vmt = ci_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg
-      # .is_av = .is_av
-    )
-
-  ci_cost <-
-    calc_cost(
-      ci_vmt,
-      .selected_ctu = .selected_ctu,
-      mode, "CIPrice"
-    )
-
 
   ## BEV school bus -----
   stock <- "BEVStock"
@@ -128,11 +111,44 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     ) %>%
     mutate(class = class)
 
+  # GHG Calculation
+  ci_ghg <-
+    calc_ghg_direct(
+      ci_vmt, .pass_tb,
+      mode, "CI", .aeo_scenario, mpg
+  )
+
   bev_ghg <-
     calc_ghg_direct(
       bev_vmt,
       .pass_tb, mode, .electric_scenario,
       .aeo_scenario, mpe
+  )
+
+  vmt_all <- dplyr::bind_rows(
+    ci_vmt,
+    bev_vmt
+  )
+
+  dir_ghg_all <- dplyr::bind_rows(
+    ci_ghg,
+    bev_ghg
+  )
+
+  school_bus <- list("vmt" = vmt_all, "dir_ghg" = dir_ghg_all)
+
+
+
+  if(.calc_transp_fuel_use == TRUE){
+
+  ci_fuel <-
+    calc_fuel_use(
+      tb_vmt = ci_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg
+      # .is_av = .is_av
     )
 
   bev_fuel <-
@@ -146,24 +162,29 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       # .is_av = .is_av
     )
 
-  bev_cost <-
-    calc_cost(
-      bev_vmt,
-      .selected_ctu = .selected_ctu,
-      mode, "BEVPrice"
+  school_bus$fuel_use <- dplyr::bind_rows(
+    ci_fuel,
+    bev_fuel
+  )
+
+  }
+
+  if(.calc_transp_cost == TRUE){
+
+    ci_cost <- calc_cost(ci_vmt, .selected_ctu, mode, "CIPrice")
+
+    bev_cost <- calc_cost(bev_vmt, .selected_ctu, mode, "BEVPrice")
+
+    school_bus$cost <- dplyr::bind_rows(
+      ci_cost,
+      bev_cost
     )
 
+  }
 
   # Finish up -----
-  vmt_all <- dplyr::bind_rows(
-    ci_vmt,
-    bev_vmt
-  )
 
-  dir_ghg_all <- dplyr::bind_rows(
-    ci_ghg,
-    bev_ghg
-  )
+  if(.calc_transp_ghg_embodied == TRUE){
 
   emb_ghg_all <- dir_ghg_all %>%
     dplyr::mutate(
@@ -175,24 +196,9 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       ghg_embodied = dir_ghg
     )
 
-  cost_all <- dplyr::bind_rows(
-    ci_cost,
-    bev_cost,
-  )
+  school_bus$emb_ghg <- emb_ghg_all
 
-  fuel_use_all <- dplyr::bind_rows(
-    ci_fuel,
-    bev_fuel
-  )
-
-
-  school_bus <- list(
-    "vmt" = vmt_all,
-    "dir_ghg" = dir_ghg_all,
-    "emb_ghg" = emb_ghg_all,
-    "fuel_use" = fuel_use_all,
-    "cost" = cost_all
-  )
+  }
 
   usethis::ui_done(paste("School bus", emo::ji("school")))
 
