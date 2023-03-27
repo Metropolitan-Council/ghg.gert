@@ -36,10 +36,15 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
-                             .elast_5d = elast_5d) {
-  cli::cli_progress_message("** calculating scenario transit bus \n")
+                             .elast_5d = elast_5d,
+                             .calc_transp_cost = FALSE,
+                             .calc_transp_fuel_use = FALSE,
+                             .calc_transp_ghg_embodied = FALSE) {
+  # cli::cli_progress_message("** calculating scenario transit bus \n")
+
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
   # browser()
+
   type <- "P"
   # For all passenger modes, variable = PMT
   var <- "PMT"
@@ -110,39 +115,53 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .enviro_factors = .enviro_factors
     )
 
-  ci_fuel <-
-    calc_fuel_use(
-      tb_vmt = ci_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # "CI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
+  bus_scenario <- list("vmt" = ci_vmt, "dir_ghg" = ci_dir_ghg)
 
-  ci_emb_ghg <-
-    calc_ghg_embodied(
-      tb = .pass_tb,
-      .mode = mode,
-      .sales_mode = "BCISales",
-      .fuel_type = "BU-BCI-EMB",
-      .class = class,
-      .transit_avo_pct = .transit_avo_pct,
-      .mit_bau_summary,
-      .enviro_factors = .enviro_factors
-    )
+  if (.calc_transp_cost == TRUE) {
+    ci_fuel <-
+      calc_fuel_use(
+        tb_vmt = ci_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        # "CI",
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
 
-  ci_cost <-
-    calc_cost(
-      tb_vmt = ci_vmt,
-      .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .price = "BCIPrice",
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
+    bus_scenario$fuel_use <- ci_fuel
+  }
+
+  if (.calc_transp_ghg_embodied == TRUE) {
+    ci_emb_ghg <-
+      calc_ghg_embodied(
+        tb = .pass_tb,
+        .mode = mode,
+        .sales_mode = "BCISales",
+        .fuel_type = "BU-BCI-EMB",
+        .class = class,
+        .transit_avo_pct = .transit_avo_pct,
+        .mit_bau_summary,
+        .enviro_factors = .enviro_factors
+      )
+
+    bus_scenario$emb_ghg <- ci_emb_ghg
+  }
+
+  if (.calc_transp_cost == TRUE) {
+    ci_cost <-
+      calc_cost(
+        tb_vmt = ci_vmt,
+        .selected_ctu = .selected_ctu,
+        .mode = mode,
+        .price = "BCIPrice",
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
+
+    bus_scenario$cost <- ci_cost
+  }
 
   ### HEV Bus ------
   # stock <- "HEVStock"
@@ -565,61 +584,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #   )
 
   # Finish up -----
-
-  # browser()
-  fuel_use_all <- dplyr::bind_rows(
-    ci_fuel
-    # hev_fuel,
-    # bev_fuel,
-    # ci_brt_fuel
-    # hev_brt_fuel,
-    # bev_brt_fuel
-  )
-
-
-  vmt_all <- dplyr::bind_rows(
-    ci_vmt
-    # hev_vmt,
-    # bev_vmt,
-    # ci_brt_vmt
-    # hev_brt_vmt,
-    # bev_brt_vmt
-  )
-
-  emb_ghg_all <- dplyr::bind_rows(
-    ci_emb_ghg
-    # hev_emb_ghg,
-    # bev_emb_ghg,
-    # ci_brt_emb_ghg
-    # hev_brt_emb_ghg,
-    # bev_brt_emb_ghg
-  )
-
-  dir_ghg_all <- dplyr::bind_rows(
-    ci_dir_ghg
-    # hev_dir_ghg,
-    # bev_dir_ghg,
-    # ci_brt_ghg
-    # hev_brt_ghg,
-    # bev_brt_ghg
-  )
-
-  cost_all <- dplyr::bind_rows(
-    ci_cost
-    # hev_cost,
-    # bev_cost,
-    # ci_brt_cost
-    # hev_brt_cost,
-    # bev_brt_cost
-  )
-
-  bus_scenario <- list(
-    "vmt" = vmt_all,
-    "dir_ghg" = dir_ghg_all,
-    "emb_ghg" = emb_ghg_all,
-    "fuel_use" = fuel_use_all,
-    "cost" = cost_all
-  )
 
   usethis::ui_done(paste("Transit buses and bus rapid transit", emo::ji("bus")))
 

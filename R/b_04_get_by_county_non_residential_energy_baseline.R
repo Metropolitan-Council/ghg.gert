@@ -13,7 +13,7 @@
 
 get_by_county_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
-    cli::cli_progress_message("* obtaining non residential energy data by county \n")
+    # cli::cli_progress_message("* obtaining non residential energy data by county \n")
 
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 

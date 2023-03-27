@@ -1,6 +1,8 @@
 pass <- suppressMessages(scen_passenger_light_duty(
-  .pass_tb = transportation_data$passenger %>%
-    filter(ctu == "St. Paul" | ctu == "All")
+  .pass_tb = st_paul_passenger,
+  .calc_transp_cost = TRUE,
+  .calc_transp_fuel_use = TRUE,
+  .calc_transp_ghg_embodied = TRUE
 ))
 
 
@@ -13,5 +15,6 @@ testthat::expect_named(pass,
     "emb_ghg",
     "fuel_use",
     "cost"
-  )
+  ),
+  ignore.order = TRUE
 )

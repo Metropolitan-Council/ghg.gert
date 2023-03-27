@@ -15,7 +15,7 @@
 #' calc_demographic_forecast(tb = building_energy_data)$ctu
 #' }
 calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
-  cli::cli_progress_message("* calculating demographic forecast \n")
+  # cli::cli_progress_message("* calculating demographic forecast \n")
   tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
   # COUNTY DEMOGRAPHIC FORECAST ----

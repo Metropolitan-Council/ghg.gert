@@ -22,6 +22,10 @@
 run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         freight_tb = transportation_data$freight,
                                         .selected_ctu = "all",
+                                        .calc_transp_cost = FALSE,
+                                        .calc_transp_fuel_cost_mile = FALSE,
+                                        .calc_transp_fuel_use = FALSE,
+                                        .calc_transp_ghg_embodied = FALSE,
                                         .scenario = "BAU",
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
@@ -50,34 +54,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d) {
-  cli::cli_progress_message("\n === RUNNING TRANSPORTATION MODULE ==== \n")
-  cli::cli_progress_message(c("...... selected CTU: ", .selected_ctu, "\n"))
-  cli::cli_progress_message(c("...... scenario name label: ", .scenario, "\n"))
-  cli::cli_progress_message(c("...... electricity scenario: ", .electric_scenario, "\n"))
-  cli::cli_progress_message(c("...... selected Annual Energy Outlook scenario: ", .aeo_scenario, "\n"))
-  cli::cli_progress_message(c("...... percent adjustment of transit average vehicle occupancy: ", .transit_avo_pct, "\n"))
-  cli::cli_progress_message(c("...... passenger light duty average vehicle occupancy: ", .pldv_avo_pct, "\n"))
-  cli::cli_progress_message(c("...... percent of transit service: ", .transit_service_pct, "\n"))
-  cli::cli_progress_message(c("...... vehicle miles traveled (VMT) fee in dollars per mile: ", .vmt_fee, "\n"))
-  cli::cli_progress_message(c("...... pay-as-you-drive fee in dollars per mile: ", .payd_fee, "\n"))
-  cli::cli_progress_message(c("...... gasoline tax in dollars per mile: ", .gas_tax, "\n"))
-  cli::cli_progress_message(c("...... parking price in dollars per hour: ", .parking_price, "\n"))
-  cli::cli_progress_message(c("...... freight parking price in dollars per hour: ", .freight_parking_price, "\n"))
-  cli::cli_progress_message(c("...... congestion price in dollars per mile: ", .cong_price, "\n"))
-  cli::cli_progress_message(c("...... freight VMT fee per mile: ", .freight_vmt_fee, "\n"))
-  cli::cli_progress_message(c("...... percent change in population density: ", .pop_dens_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in employment density: ", .emp_dens_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in land use diversity: ", .land_use_diversity_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in intersection design: ", .intersection_design_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in job access: ", .job_access_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in transit distance: ", .transit_dist_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent change in combined 5D impact: ", .comb_5d_impact_pct_change, "\n"))
-  cli::cli_progress_message(c("...... percent of additional people teleworking: ", .telework_pct, "\n"))
-  cli::cli_progress_message(c("...... percent of sales that are battery electric vehicles: ", .bev_pct_sales, "\n"))
-  cli::cli_progress_message(c("...... perecent of sales that are hybrid electric vehicles: ", .phev_pct_sales, "\n"))
-  cli::cli_progress_message(c("...... percent of sales that are hybrid electric vehicles: ", .hev_pct_sales, "\n"))
-  cli::cli_progress_message("====================================== \n")
-
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -98,7 +74,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     "telework_pct",
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales"
+    "phev_pct_sales",
+    "calc_transp_cost",
+    "calc_transp_fuel_use",
+    "calc_transp_ghg_embodied"
   )
 
   l_vals <- list(
@@ -118,7 +97,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .telework_pct,
     .bev_pct_sales,
     .hev_pct_sales,
-    .phev_pct_sales
+    .phev_pct_sales,
+    .calc_transp_cost,
+    .calc_transp_fuel_use,
+    .calc_transp_ghg_embodied
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -185,7 +167,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .calc_transp_cost = .calc_transp_cost,
+    .calc_transp_fuel_use = .calc_transp_fuel_use,
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
 
@@ -217,7 +202,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .calc_transp_cost = .calc_transp_cost,
+    .calc_transp_fuel_use = .calc_transp_fuel_use,
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
   # transit rail -----
@@ -249,7 +237,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .calc_transp_cost = .calc_transp_cost,
+    .calc_transp_fuel_use = .calc_transp_fuel_use,
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
   # school bus-----
@@ -280,7 +271,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .calc_transp_cost = .calc_transp_cost,
+    .calc_transp_fuel_use = .calc_transp_fuel_use,
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
 
@@ -314,14 +308,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast = .elast,
     .elast_5d = .elast_5d
   )
-
-  # Dynamic Ride Sharing -----
-
-
-  # autonomous vehicles -----
-
-
-
 
   # Freight -------------------------------
   # (measured in ton-miles NOT miles)
@@ -357,7 +343,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-
   # freight rail -----
 
   freight_rail <- scen_freight_rail(
@@ -390,9 +375,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-
-
   # freight multi-modal, air, and water -----
+
   freight_multi_air_wat <- scen_air_water_multi(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
@@ -451,58 +435,89 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     school_bus$dir_ghg
   )
 
-  pass_emb_ghg <- bind_rows(
-    passenger_light_duty$emb_ghg,
-    rail_transit$emb_ghg,
-    bus_transit$emb_ghg,
-    walk_bike$emb_ghg,
-    school_bus$emb_ghg
-  ) %>%
-    mutate(scenario = .scenario)
-
-  pass_fuel <- bind_rows(
-    passenger_light_duty$fuel_use,
-    bus_transit$fuel_use,
-    rail_transit$fuel_use,
-    walk_bike$fuel_use,
-    school_bus$fuel_use
-  )
-
-  pass_cost <- bind_rows(
-    passenger_light_duty$cost,
-    bus_transit$cost,
-    rail_transit$cost,
-    school_bus$cost,
-    walk_bike$cost
-  )
-
-  # browser()
-
   pass_all <- left_join(
     pass_vmt, pass_dir_ghg,
     c(
-      "type", "scenario", "ctu", "year", "mode", "aeo_mode",
+      "type",
+      "scenario",
+      "ctu",
+      "year",
+      "mode",
+      "aeo_mode",
       "class"
     )
-  ) %>%
-    left_join(pass_cost, by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )) %>%
-    left_join(pass_emb_ghg, c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )) %>%
-    left_join(pass_fuel, by = c(
-      "type", "scenario",
-      "ctu", "year", "mode",
-      "aeo_mode", "class"
-    )) %>%
-    unique() %>%
-    select(
-      type, scenario, ctu, year, mode, aeo_mode, stock, class, vmt,
-      dir_ghg, ghg_embodied_source, ghg_embodied, fuel_use
+  )
+
+  if (.calc_transp_ghg_embodied == TRUE) {
+    pass_emb_ghg <- bind_rows(
+      passenger_light_duty$emb_ghg,
+      rail_transit$emb_ghg,
+      bus_transit$emb_ghg,
+      # walk_bike$emb_ghg,
+      school_bus$emb_ghg
+    ) %>%
+      mutate(scenario = .scenario)
+
+    pass_all <- pass_all %>%
+      left_join(pass_emb_ghg, c(
+        "type", "scenario", "ctu",
+        "year", "mode", "aeo_mode", "class"
+      ))
+  }
+
+  if (.calc_transp_fuel_use == TRUE) {
+    pass_fuel <- bind_rows(
+      passenger_light_duty$fuel_use,
+      bus_transit$fuel_use,
+      rail_transit$fuel_use,
+      # walk_bike$fuel_use,
+      school_bus$fuel_use
     )
+
+    pass_all <- pass_all %>%
+      left_join(pass_fuel, by = c(
+        "type", "scenario",
+        "ctu", "year", "mode",
+        "aeo_mode", "class"
+      ))
+  }
+
+  if (.calc_transp_cost == TRUE) {
+    pass_cost <- bind_rows(
+      passenger_light_duty$cost,
+      bus_transit$cost,
+      rail_transit$cost,
+      school_bus$cost,
+      # walk_bike$cost
+    )
+
+    pass_all <- pass_all %>%
+      left_join(pass_cost, by = c(
+        "type", "scenario", "ctu",
+        "year", "mode", "aeo_mode", "class"
+      ))
+  }
+
+  # browser()
+
+  pass_all <- pass_all %>%
+    unique()
+  # %>%
+  #   select(
+  #     type,
+  #     scenario,
+  #     ctu,
+  #     year,
+  #     mode,
+  #     aeo_mode,
+  #     stock,
+  #     class,
+  #     vmt,
+  #     dir_ghg,
+  #     ghg_embodied_source,
+  #     ghg_embodied,
+  #     fuel_use
+  #   )
 
 
   ## freight -----
@@ -539,7 +554,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       )) %>%
       select(ctu, year, scenario,
         direct = dir_ghg,
-        embodied = ghg_embodied,
         mode
       ) %>%
       unique() %>%
@@ -548,7 +562,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         submodule = "people",
         metric = "emissions_tonnes_co2e"
       ) %>%
-      tidyr::pivot_longer(cols = c("direct", "embodied")),
+      tidyr::pivot_longer(cols = c("direct")),
     freight_all %>%
       filter(year %in% c(
         "2018",

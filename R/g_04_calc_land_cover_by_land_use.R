@@ -22,15 +22,11 @@
 calc_land_cover_by_land_use <- function(tb,
                                         .selected_ctu,
                                         .urban_form_scenario) {
-  cli::cli_progress_message("**** calculating land cover by land use \n")
   # -------------------------------------------------------------------------
-  land_cover_percentages <-
-    if (.selected_ctu == "all") {
-      calc_land_cover_percentages(tb = tb)
-    } else {
-      calc_land_cover_percentages(tb = tb) %>% filter(ctu_name == .selected_ctu)
-    }
-
+  land_cover_percentages <- calc_land_cover_percentages(
+    tb = land_use_data,
+    .selected_ctu = .selected_ctu
+  )
 
   # -------------------------------------------------------------------------
   scen_land_use <-
@@ -48,10 +44,9 @@ calc_land_cover_by_land_use <- function(tb,
       ) %>% filter(ctu_name == .selected_ctu)
     }
 
-
   # -------------------------------------------------------------------------
   land_cover_by_land_use <-
-    bind_rows(
+    dplyr::bind_rows(
       land_cover_percentages %>%
         dplyr::group_by(
           ctu_name,

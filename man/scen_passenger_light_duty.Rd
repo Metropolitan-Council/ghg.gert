@@ -31,7 +31,10 @@ scen_passenger_light_duty(
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .calc_transp_cost = FALSE,
+  .calc_transp_fuel_use = FALSE,
+  .calc_transp_ghg_embodied = FALSE
 )
 }
 \arguments{

@@ -13,7 +13,7 @@ Description: Tools for the Metropolitan Council GHG scenario planning app.
 License: MIT + file LICENSE
 BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Imports: 
     cli (>= 3.6.0),
     dplyr (>= 1.0.7),

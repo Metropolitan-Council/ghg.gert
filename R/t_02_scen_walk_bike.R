@@ -39,7 +39,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
                            .elast_5d = elast_5d) {
-  cli::cli_progress_message("** calculating scenario walk and bike \n")
+  # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   fcm <- calc_fuel_cost_mile(
@@ -99,8 +99,6 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     ) %>%
     mutate(class = class)
 
-
-
   # Finish up -----
   # browser()
   vmt_all <- dplyr::bind_rows(
@@ -120,31 +118,9 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     ) %>%
     unique()
 
-  emb_ghg_all <- dir_ghg_all %>%
-    dplyr::mutate(ghg_embodied_source = NA) %>%
-    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-      ghg_embodied_source,
-      ghg_embodied = dir_ghg
-    )
-
-  fuel_use_all <- dir_ghg_all %>%
-    dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-      fuel_use = dir_ghg
-    )
-
-  cost_all <- dir_ghg_all %>%
-    dplyr::select(type, class,
-      scenario, mode, ctu, year, aeo_mode,
-      vmt_cost = dir_ghg
-    )
-
-
   wb_fin <- list(
     "vmt" = vmt_all,
-    "dir_ghg" = dir_ghg_all,
-    "emb_ghg" = emb_ghg_all,
-    "fuel_use" = fuel_use_all,
-    "cost" = cost_all
+    "dir_ghg" = dir_ghg_all
   )
 
   usethis::ui_done(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))

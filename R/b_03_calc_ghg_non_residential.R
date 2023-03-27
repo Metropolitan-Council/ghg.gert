@@ -49,7 +49,7 @@ calc_ghg_non_residential <- function(non_res_tb,
                                      .grid_decarbonization_pct,
                                      .existing_high_efficiency_buildings_pct,
                                      .enviro_factors) {
-  cli::cli_progress_message("*** calculating non-residential ghg emissions \n")
+  # cli::cli_progress_message("*** calculating non-residential ghg emissions \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 

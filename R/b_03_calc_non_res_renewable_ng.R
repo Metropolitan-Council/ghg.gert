@@ -38,7 +38,7 @@ calc_non_res_renewable_ng <- function(non_res_tb,
                                       .selected_ctu,
                                       .renewable_ng_nonres,
                                       .enviro_factors = .enviro_factors) {
-  cli::cli_progress_message("*** calculating non-residential renewable natural gas strategy \n")
+  # cli::cli_progress_message("*** calculating non-residential renewable natural gas strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   if (.renewable_ng_nonres == TRUE) {

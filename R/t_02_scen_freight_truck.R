@@ -36,7 +36,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .enviro_factors = enviro_factors,
                                .elast = elast,
                                .elast_5d = elast_5d) {
-  cli::cli_progress_message("** calculating freight truck scenario \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
@@ -55,7 +54,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   mpg <- "CIMPG"
   class <- "CI"
 
-  cli::cli_progress_message("**** Combined truck freight, diesel \n")
+
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
@@ -120,7 +119,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
-  cli::cli_progress_message("**** Combined truck freight, battery electric \n")
+
 
   fcm <- calc_fuel_cost_mile(
     tb = .freight_tb,
@@ -186,7 +185,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
-  cli::cli_progress_message("**** Single truck freight, diesel \n")
+
 
   # Calculate a fuel cost per mile rather than per gallon
   fcm <- calc_fuel_cost_mile(
@@ -250,7 +249,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
   stock <- "BEVStock"
   mpe <- "BEVElec"
   class <- "BEV"
-  cli::cli_progress_message("**** Single truck freight, battery electric \n")
+
 
   fcm <- calc_fuel_cost_mile(
     tb = .freight_tb,

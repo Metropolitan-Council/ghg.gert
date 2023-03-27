@@ -12,7 +12,7 @@
 #' @export
 
 get_statewide_non_residential_energy <- function(tb = building_energy_data, .selected_ctu = "all") {
-  cli::cli_progress_message("* obtaining statewide non-residential energy \n")
+  # cli::cli_progress_message("* obtaining statewide non-residential energy \n")
   # tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
   # NON-RESIDENTIAL ENERGY BASELINE ----
   # STATE ----
@@ -32,12 +32,14 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
     dplyr::mutate(
       var =
         case_when(
-          (var == "electricity_residential_consumption_mwh") ~ "electricity_residential_consumption_mwh_state",
-          (var == "electricity_commercial_consumption_mwh") ~ "electricity_commercial_consumption_mwh_state",
-          (var == "electricity_industrial_consumption_mwh") ~ "electricity_industrial_consumption_mwh_state",
+          (var == "electricity_residential_consumption_mwh")
+          ~ "electricity_residential_consumption_mwh_state",
+          (var == "electricity_commercial_consumption_mwh")
+          ~ "electricity_commercial_consumption_mwh_state",
+          (var == "electricity_industrial_consumption_mwh")
+          ~ "electricity_industrial_consumption_mwh_state",
         )
     )
-
 
   ## ---- obtain the number of employees (industrial/commercial) for the state ----
   employees_by_type_state <-
@@ -72,7 +74,6 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
     dplyr::summarise(value = sum(emp), .groups = "keep") %>%
     dplyr::rename(var = type)
 
-
   ## ---- estimate energy intensity of worker at the state scale -------
   mwh_per_worker_state <-
     dplyr::bind_rows(
@@ -88,7 +89,7 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
         electricity_industrial_consumption_mwh_state / industrial_employees_state
       )
     ) %>%
-    select(
+    dplyr::select(
       state_name,
       year,
       commercial_mwh_per_worker_state,
@@ -102,7 +103,6 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
       names_to = "var"
     )
 
-
   ## ---- obtain natural gas consumption by customer class for the state scale ------
   natural_gas_consumption_by_customer_class_state <-
     tb$eia_energy_consumption_state %>%
@@ -115,7 +115,6 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
       )
     ) %>%
     dplyr::select(state_name, year, var, value)
-
 
   ## ---- obtain therms/worker (commercial/industrial) at the state scale ------
   therms_per_worker_state <-

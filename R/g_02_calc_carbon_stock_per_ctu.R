@@ -47,8 +47,6 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
                                       detail) {
-  cli::cli_progress_message("** calculating carbon stock \n")
-
   match.arg(
     arg = .conservation_tillage_intervention,
     choices = c(

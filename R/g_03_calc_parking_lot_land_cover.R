@@ -44,8 +44,6 @@ calc_parking_lot_land_cover <- function(tb,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
                                         detail = FALSE) {
-  cli::cli_progress_message("*** calculating parking lot reduction strategy \n")
-
   # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,

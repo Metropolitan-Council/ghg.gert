@@ -18,7 +18,7 @@ calc_fuel_cost_mile <- function(tb,
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
                                 .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("*** calculating fuel cost per mile \n")
+  # cli::cli_progress_message("*** calculating fuel cost per mile \n")
 
   tb_l <- tb %>%
     dplyr::filter(
