@@ -29,8 +29,6 @@
 #' }
 calc_land_cover_percentages <- function(tb = land_use_data,
                                         .selected_ctu) {
-  # -------------------------------------------------------------------------
-  cli::cli_progress_message("**** calculating land cover percentages \n")
 
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)

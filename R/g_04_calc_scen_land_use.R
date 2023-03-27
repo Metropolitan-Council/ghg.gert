@@ -24,7 +24,6 @@ calc_scen_land_use <- function(tb,
                                .selected_ctu,
                                .urban_form_scenario) {
 
-  cli::cli_progress_message("**** calculating land use urban form scenario \n")
 
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 

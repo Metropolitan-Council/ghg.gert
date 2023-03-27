@@ -41,8 +41,6 @@ calc_land_by_development_type <- function(tb,
                                           .selected_ctu,
                                           .urban_form_scenario) {
 
-  cli::cli_progress_message("**** calculating land by development type \n")
-
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
