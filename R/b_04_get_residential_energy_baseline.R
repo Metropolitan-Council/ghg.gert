@@ -25,7 +25,7 @@
 get_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
 
-    cli::cli_progress_message("* estimating residential energy baseline \n")
+    # cli::cli_progress_message("* estimating residential energy baseline \n")
 
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 

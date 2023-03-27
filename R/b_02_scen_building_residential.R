@@ -80,7 +80,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .res_natural_gas_for_water_heating_pct,
                                       .renewable_ng_res,
                                       .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("** compiling residential strategies \n")
+  # cli::cli_progress_message("** compiling residential strategies \n")
 
   # browser()
 
