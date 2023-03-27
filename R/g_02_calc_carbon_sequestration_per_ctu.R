@@ -36,7 +36,6 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                                               .tree_planting_per_capita,
                                               .tree_planting_per_hectare,
                                               detail = FALSE) {
-
   csf <- carbon_sequestration_factors
 
   # -------------------------------------------------------------------------

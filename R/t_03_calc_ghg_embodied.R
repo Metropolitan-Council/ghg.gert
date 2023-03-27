@@ -36,7 +36,6 @@ calc_ghg_embodied <- function(tb,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors) {
-
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
     # bus or brt

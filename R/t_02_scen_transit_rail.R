@@ -39,7 +39,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .calc_transp_cost = FALSE,
                               .calc_transp_fuel_use = FALSE,
                               .calc_transp_ghg_embodied = FALSE) {
-  #cli::cli_progress_message("** calculating scenario transit rail \n")
+  # cli::cli_progress_message("** calculating scenario transit rail \n")
 
   passenger_rail <- list()
 
@@ -66,7 +66,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpe <- "EVElec"
   class <- "EV"
 
-  #cli::cli_progress_message("**** Passenger urban rail, electric \n")
+  # cli::cli_progress_message("**** Passenger urban rail, electric \n")
 
   ev_vmt <-
     calc_vmt_forecast(
@@ -124,7 +124,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpg <- "BCIMPG"
   class <- "BCI"
 
-  #cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
+  # cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
 
   ci_ri_vmt <-
     calc_vmt_forecast(
@@ -179,7 +179,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   mpe <- "EVElec"
   class <- "EV"
 
-  #cli::cli_progress_message("**** Passenger interurban rail, electric \n")
+  # cli::cli_progress_message("**** Passenger interurban rail, electric \n")
   ev_ri_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -242,106 +242,101 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   passenger_rail <- list("vmt" = vmt_all, "dir_ghg" = dir_ghg_all)
 
 
-  if(.calc_transp_fuel_use == TRUE){
+  if (.calc_transp_fuel_use == TRUE) {
+    ev_fuel <-
+      calc_fuel_use(
+        tb_vmt = ev_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        # .electric_scenario,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe,
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
 
-  ev_fuel <-
-    calc_fuel_use(
-      tb_vmt = ev_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # .electric_scenario,
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
+    ci_ri_fuel <-
+      calc_fuel_use(
+        tb_vmt = ci_ri_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        # "BCI",
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
+
+    ev_ri_fuel <-
+      calc_fuel_use(
+        tb_vmt = ev_ri_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        # .electric_scenario,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe,
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
+
+    passenger_rail$fuel_use <- dplyr::bind_rows(
+      ev_fuel,
+      ev_ri_fuel,
+      ci_ri_fuel
     )
-
-  ci_ri_fuel <-
-    calc_fuel_use(
-      tb_vmt = ci_ri_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # "BCI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  ev_ri_fuel <-
-    calc_fuel_use(
-      tb_vmt = ev_ri_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # .electric_scenario,
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  passenger_rail$fuel_use <- dplyr::bind_rows(
-    ev_fuel,
-    ev_ri_fuel,
-    ci_ri_fuel
-  )
-
   }
 
-  if(.calc_transp_cost == TRUE){
+  if (.calc_transp_cost == TRUE) {
+    ev_cost <-
+      calc_cost(
+        tb_vmt = ev_vmt,
+        .selected_ctu = .selected_ctu,
+        .mode = mode,
+        .price = "EVPrice",
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
 
-  ev_cost <-
-    calc_cost(
-      tb_vmt = ev_vmt,
-      .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .price = "EVPrice",
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
+    ci_ri_cost <-
+      calc_cost(ci_ri_vmt,
+        .selected_ctu = .selected_ctu, mode, "BCIPrice"
+      )
+
+    ev_ri_cost <-
+      calc_cost(
+        tb_vmt = ev_ri_vmt,
+        .selected_ctu = .selected_ctu,
+        .mode = mode,
+        .price = "EVPrice",
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
+
+    passenger_rail$cost <- dplyr::bind_rows(
+      ev_cost,
+      ev_ri_cost,
+      ci_ri_cost
     )
-
-  ci_ri_cost <-
-    calc_cost(ci_ri_vmt,
-      .selected_ctu = .selected_ctu, mode, "BCIPrice"
-    )
-
-  ev_ri_cost <-
-    calc_cost(
-      tb_vmt = ev_ri_vmt,
-      .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .price = "EVPrice",
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  passenger_rail$cost <- dplyr::bind_rows(
-    ev_cost,
-    ev_ri_cost,
-    ci_ri_cost
-  )
-
   }
 
   # Finish up -----
   # browser()
 
-  if(.calc_transp_ghg_embodied == TRUE){
-  emb_ghg_all <- dir_ghg_all %>%
-    mutate(
-      ghg_embodied_source = NA,
-      ghg_embodied = NA,
-      type = type
-    ) %>%
-    select(
-      type, ghg_embodied_source, ghg_embodied,
-      mode, class, ctu, year, aeo_mode
-    ) %>%
-    unique()
+  if (.calc_transp_ghg_embodied == TRUE) {
+    emb_ghg_all <- dir_ghg_all %>%
+      mutate(
+        ghg_embodied_source = NA,
+        ghg_embodied = NA,
+        type = type
+      ) %>%
+      select(
+        type, ghg_embodied_source, ghg_embodied,
+        mode, class, ctu, year, aeo_mode
+      ) %>%
+      unique()
 
     passenger_rail$emb_ghg <- emb_ghg_all
-
-    }
+  }
 
   usethis::ui_done(paste("Urban and interurban rail", emo::ji("train")))
 

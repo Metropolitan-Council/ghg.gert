@@ -65,7 +65,6 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
                              .gas_tax = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-
   # browser()
 
   .pass_tb <- .pass_tb %>% unique()

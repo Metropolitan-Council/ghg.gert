@@ -29,7 +29,6 @@
 #' }
 calc_land_cover_percentages <- function(tb = land_use_data,
                                         .selected_ctu) {
-
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
   ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu)
@@ -40,8 +39,10 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     ctu_land_use_hectares %>%
       dplyr::filter(year == 2016) %>%
       dplyr::group_by(ctu_name, land_use_type) %>%
-      dplyr::summarise(hectares = sum(hectares),
-                       .groups = "drop") %>%
+      dplyr::summarise(
+        hectares = sum(hectares),
+        .groups = "drop"
+      ) %>%
       dplyr::ungroup()
   )
 
@@ -50,11 +51,15 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     ctu_land_use_2016_land_cover %>%
     dplyr::group_by(ctu_name, land_use_type) %>%
     dplyr::mutate(total_hectares = sum(hectares)) %>%
-    dplyr::group_by(ctu_name,
-                    land_use_type,
-                    land_cover_type) %>%
-    dplyr::transmute(land_cover_percent =
-                       hectares / total_hectares) %>%
+    dplyr::group_by(
+      ctu_name,
+      land_use_type,
+      land_cover_type
+    ) %>%
+    dplyr::transmute(
+      land_cover_percent =
+        hectares / total_hectares
+    ) %>%
     dplyr::ungroup()
 
 
@@ -62,9 +67,11 @@ calc_land_cover_percentages <- function(tb = land_use_data,
   get_percent_of_land_use_by_land_cover_baseline_year <-
     tb$land_use_by_cover_type %>%
     dplyr::group_by(land_use_type) %>%
-    dplyr::mutate(percent_of_total_area =
-                    (total_area_m2 /
-                       sum(total_area_m2))) %>%
+    dplyr::mutate(
+      percent_of_total_area =
+        (total_area_m2 /
+          sum(total_area_m2))
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::select(-c(total_area_m2))
 
@@ -76,25 +83,33 @@ calc_land_cover_percentages <- function(tb = land_use_data,
       .,
       ctu_forecast %>%
         dplyr::distinct(ctu_name) %>%
-        dplyr::cross_join(.,
-                          tb$land_use_2016_types %>%
-                            dplyr::select(land_use_type)) %>%
-        dplyr::cross_join(.,
-                          tb$land_cover_types %>%
-                            dplyr::select(land_cover_type)) %>%
+        dplyr::cross_join(
+          .,
+          tb$land_use_2016_types %>%
+            dplyr::select(land_use_type)
+        ) %>%
+        dplyr::cross_join(
+          .,
+          tb$land_cover_types %>%
+            dplyr::select(land_cover_type)
+        ) %>%
         dplyr::left_join(
           .,
           (get_land_use_by_land_cover_baseline_year),
-          by = c("ctu_name",
-                 "land_use_type",
-                 "land_cover_type")
+          by = c(
+            "ctu_name",
+            "land_use_type",
+            "land_cover_type"
+          )
         ) %>% dplyr::left_join(
           .,
           (get_percent_of_land_use_by_land_cover_baseline_year),
-          by = c("land_use_type",
-                 "land_cover_type")
+          by = c(
+            "land_use_type",
+            "land_cover_type"
+          )
         )
-      %>%
+        %>%
         dplyr::select(
           ctu_name,
           land_cover_type,
@@ -109,12 +124,12 @@ calc_land_cover_percentages <- function(tb = land_use_data,
         hectares > 50,
         land_cover_percent,
         dplyr::if_else(is.na(percent_of_total_area),
-                       0,
-                       percent_of_total_area)
+          0,
+          percent_of_total_area
+        )
       )
     )
 
   # -------------------------------------------------------------------------
   return(land_cover_percentages_filled)
-
-  }
+}

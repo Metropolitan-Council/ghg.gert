@@ -47,7 +47,6 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
                                       detail) {
-
   match.arg(
     arg = .conservation_tillage_intervention,
     choices = c(

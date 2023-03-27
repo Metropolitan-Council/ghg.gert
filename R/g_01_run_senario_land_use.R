@@ -36,7 +36,6 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
                                   detail = FALSE) {
-
   # -------------------------------------------------------------------------
   # store filtered database tables into variables
   tb$ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu = .selected_ctu)

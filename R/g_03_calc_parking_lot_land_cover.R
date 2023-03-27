@@ -44,7 +44,6 @@ calc_parking_lot_land_cover <- function(tb,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
                                         detail = FALSE) {
-
   # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,

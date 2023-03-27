@@ -54,7 +54,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d) {
-
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -378,7 +377,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # freight multi-modal, air, and water -----
 
-    freight_multi_air_wat <- scen_air_water_multi(
+  freight_multi_air_wat <- scen_air_water_multi(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -449,59 +448,54 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     )
   )
 
-  if(.calc_transp_ghg_embodied == TRUE){
-  pass_emb_ghg <- bind_rows(
-    passenger_light_duty$emb_ghg,
-    rail_transit$emb_ghg,
-    bus_transit$emb_ghg,
-    #walk_bike$emb_ghg,
-    school_bus$emb_ghg
-  ) %>%
-    mutate(scenario = .scenario)
+  if (.calc_transp_ghg_embodied == TRUE) {
+    pass_emb_ghg <- bind_rows(
+      passenger_light_duty$emb_ghg,
+      rail_transit$emb_ghg,
+      bus_transit$emb_ghg,
+      # walk_bike$emb_ghg,
+      school_bus$emb_ghg
+    ) %>%
+      mutate(scenario = .scenario)
 
-  pass_all <-pass_all %>%
-    left_join(pass_emb_ghg, c(
-    "type", "scenario", "ctu",
-    "year", "mode", "aeo_mode", "class"
-  ))
-
-
+    pass_all <- pass_all %>%
+      left_join(pass_emb_ghg, c(
+        "type", "scenario", "ctu",
+        "year", "mode", "aeo_mode", "class"
+      ))
   }
 
-  if(.calc_transp_fuel_use == TRUE){
-  pass_fuel <- bind_rows(
-    passenger_light_duty$fuel_use,
-    bus_transit$fuel_use,
-    rail_transit$fuel_use,
-    #walk_bike$fuel_use,
-    school_bus$fuel_use
-  )
+  if (.calc_transp_fuel_use == TRUE) {
+    pass_fuel <- bind_rows(
+      passenger_light_duty$fuel_use,
+      bus_transit$fuel_use,
+      rail_transit$fuel_use,
+      # walk_bike$fuel_use,
+      school_bus$fuel_use
+    )
 
-  pass_all <-pass_all %>%
-    left_join(pass_fuel, by = c(
-      "type", "scenario",
-      "ctu", "year", "mode",
-      "aeo_mode", "class"
-    ))
-
+    pass_all <- pass_all %>%
+      left_join(pass_fuel, by = c(
+        "type", "scenario",
+        "ctu", "year", "mode",
+        "aeo_mode", "class"
+      ))
   }
 
-  if(.calc_transp_cost == TRUE){
-  pass_cost <- bind_rows(
-    passenger_light_duty$cost,
-    bus_transit$cost,
-    rail_transit$cost,
-    school_bus$cost,
-    #walk_bike$cost
-  )
+  if (.calc_transp_cost == TRUE) {
+    pass_cost <- bind_rows(
+      passenger_light_duty$cost,
+      bus_transit$cost,
+      rail_transit$cost,
+      school_bus$cost,
+      # walk_bike$cost
+    )
 
-  pass_all <-pass_all %>%
-    left_join(pass_cost, by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    ))
-
-
+    pass_all <- pass_all %>%
+      left_join(pass_cost, by = c(
+        "type", "scenario", "ctu",
+        "year", "mode", "aeo_mode", "class"
+      ))
   }
 
   # browser()

@@ -153,5 +153,4 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
     )
 
   return(state_nonresidential_energy)
-
 }

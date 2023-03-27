@@ -40,7 +40,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .calc_transp_cost = FALSE,
                              .calc_transp_fuel_use = FALSE,
                              .calc_transp_ghg_embodied = FALSE) {
-  #cli::cli_progress_message("** calculating scenario transit bus \n")
+  # cli::cli_progress_message("** calculating scenario transit bus \n")
 
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
   # browser()
@@ -117,54 +117,50 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   bus_scenario <- list("vmt" = ci_vmt, "dir_ghg" = ci_dir_ghg)
 
-  if(.calc_transp_cost == TRUE){
-  ci_fuel <-
-    calc_fuel_use(
-      tb_vmt = ci_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      # "CI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
+  if (.calc_transp_cost == TRUE) {
+    ci_fuel <-
+      calc_fuel_use(
+        tb_vmt = ci_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        # "CI",
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpg,
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
 
     bus_scenario$fuel_use <- ci_fuel
-
   }
 
-  if(.calc_transp_ghg_embodied == TRUE){
-  ci_emb_ghg <-
-    calc_ghg_embodied(
-      tb = .pass_tb,
-      .mode = mode,
-      .sales_mode = "BCISales",
-      .fuel_type = "BU-BCI-EMB",
-      .class = class,
-      .transit_avo_pct = .transit_avo_pct,
-      .mit_bau_summary,
-      .enviro_factors = .enviro_factors
-    )
+  if (.calc_transp_ghg_embodied == TRUE) {
+    ci_emb_ghg <-
+      calc_ghg_embodied(
+        tb = .pass_tb,
+        .mode = mode,
+        .sales_mode = "BCISales",
+        .fuel_type = "BU-BCI-EMB",
+        .class = class,
+        .transit_avo_pct = .transit_avo_pct,
+        .mit_bau_summary,
+        .enviro_factors = .enviro_factors
+      )
 
     bus_scenario$emb_ghg <- ci_emb_ghg
-
   }
 
-  if(.calc_transp_cost == TRUE){
+  if (.calc_transp_cost == TRUE) {
+    ci_cost <-
+      calc_cost(
+        tb_vmt = ci_vmt,
+        .selected_ctu = .selected_ctu,
+        .mode = mode,
+        .price = "BCIPrice",
+        .is_av = FALSE,
+        .enviro_factors = .enviro_factors
+      )
 
-  ci_cost <-
-    calc_cost(
-      tb_vmt = ci_vmt,
-      .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .price = "BCIPrice",
-      .is_av = FALSE,
-      .enviro_factors = .enviro_factors
-    )
-
-  bus_scenario$cost <- ci_cost
-
+    bus_scenario$cost <- ci_cost
   }
 
   ### HEV Bus ------

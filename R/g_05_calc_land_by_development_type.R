@@ -40,11 +40,10 @@
 calc_land_by_development_type <- function(tb,
                                           .selected_ctu,
                                           .urban_form_scenario) {
-
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
-    # -------------------------------------------------------------------------
+  # -------------------------------------------------------------------------
   match.arg(
     arg = .urban_form_scenario,
     choices = c(
@@ -68,8 +67,10 @@ calc_land_by_development_type <- function(tb,
   # -------------------------------------------------------------------------
   bau_total <-
     ctu_land_use_hectares_by_dev_type %>%
-    dplyr::summarise(hectares = sum(hectares),
-                     .groups = "drop") %>%
+    dplyr::summarise(
+      hectares = sum(hectares),
+      .groups = "drop"
+    ) %>%
     dplyr::mutate(scenario = "bau")
 
   # -------------------------------------------------------------------------
@@ -84,8 +85,10 @@ calc_land_by_development_type <- function(tb,
         "multifamily"
       )
     ) %>%
-    dplyr::summarise(hectares = sum(hectares),
-                     .groups = "drop") %>%
+    dplyr::summarise(
+      hectares = sum(hectares),
+      .groups = "drop"
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
       hectares =
@@ -112,8 +115,9 @@ calc_land_by_development_type <- function(tb,
       by = "ctu_name"
     ) %>%
     tidyr::pivot_wider(.,
-                       names_from = development_type,
-                       values_from = hectares) %>%
+      names_from = development_type,
+      values_from = hectares
+    ) %>%
     dplyr::mutate(
       urban_expansion =
         dplyr::if_else(
@@ -126,21 +130,26 @@ calc_land_by_development_type <- function(tb,
       exurban_development = total_hectares_bau - (urban_infill) - (urban_expansion),
       scenario = "scenario_total"
     ) %>%
-    dplyr::select(.,-c(total_hectares_bau)) %>%
+    dplyr::select(., -c(total_hectares_bau)) %>%
     tidyr::pivot_longer(.,
-                        cols = 3:5,
-                        names_to = "development_type",
-                        values_to = "hectares")
+      cols = 3:5,
+      names_to = "development_type",
+      values_to = "hectares"
+    )
 
   # -------------------------------------------------------------------------
   scenario_mixed_use_mf_new <-
-    dplyr::bind_rows(bau_total,
-                     scenario_total,
-                     scenario_mixed_use_compact_zoning_park) %>%
+    dplyr::bind_rows(
+      bau_total,
+      scenario_total,
+      scenario_mixed_use_compact_zoning_park
+    ) %>%
     tidyr::pivot_wider(
       .,
-      names_from = c(scenario,
-                     development_type),
+      names_from = c(
+        scenario,
+        development_type
+      ),
       values_from = hectares,
       names_sep = "."
     ) %>%
@@ -154,20 +163,18 @@ calc_land_by_development_type <- function(tb,
       scenario_mixed_use_mf_new.urban_infill =
         if (.urban_form_scenario == "compact_dev_with_drs") {
           dplyr::if_else(bau.urban_expansion > bau.urban_infill,
-                         bau.urban_infill,
-                         bau.urban_expansion)
-        }
-      else{
-        ((
-          scenario_total.urban_infill -
-            scenario_mixed_use_compact_zoning_park.urban_infill
-        )
-        * luse_scenario_params$urban_infill
-        )
-      },
-
+            bau.urban_infill,
+            bau.urban_expansion
+          )
+        } else {
+          ((
+            scenario_total.urban_infill -
+              scenario_mixed_use_compact_zoning_park.urban_infill
+          )
+          * luse_scenario_params$urban_infill
+          )
+        },
       scenario_mixed_use_mf_new.exurban_development = 0
-
     ) %>%
     tidyr::pivot_longer(
       .,
@@ -192,21 +199,17 @@ calc_land_by_development_type <- function(tb,
       names_sep = "."
     ) %>%
     dplyr::mutate(
-
       scenario_other_zoning.urban_expansion =
         scenario_total.urban_expansion -
-        scenario_mixed_use_mf_new.urban_expansion -
-        scenario_mixed_use_compact_zoning_park.urban_expansion,
-
+          scenario_mixed_use_mf_new.urban_expansion -
+          scenario_mixed_use_compact_zoning_park.urban_expansion,
       scenario_other_zoning.urban_infill =
         scenario_total.urban_infill -
-        scenario_mixed_use_mf_new.urban_infill -
-        scenario_mixed_use_compact_zoning_park.urban_infill,
-
+          scenario_mixed_use_mf_new.urban_infill -
+          scenario_mixed_use_compact_zoning_park.urban_infill,
       scenario_other_zoning.exurban_development =
         scenario_total.exurban_development -
-        scenario_mixed_use_mf_new.exurban_development
-
+          scenario_mixed_use_mf_new.exurban_development
     ) %>%
     tidyr::pivot_longer(
       .,
@@ -229,5 +232,4 @@ calc_land_by_development_type <- function(tb,
 
   # -------------------------------------------------------------------------
   return(new_land_by_development_type)
-
 }

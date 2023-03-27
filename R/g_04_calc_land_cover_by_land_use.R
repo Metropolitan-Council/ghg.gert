@@ -22,11 +22,11 @@
 calc_land_cover_by_land_use <- function(tb,
                                         .selected_ctu,
                                         .urban_form_scenario) {
-
-
   # -------------------------------------------------------------------------
-  land_cover_percentages <- calc_land_cover_percentages(tb = land_use_data,
-                                                        .selected_ctu = .selected_ctu)
+  land_cover_percentages <- calc_land_cover_percentages(
+    tb = land_use_data,
+    .selected_ctu = .selected_ctu
+  )
 
   # -------------------------------------------------------------------------
   scen_land_use <-
@@ -92,5 +92,4 @@ calc_land_cover_by_land_use <- function(tb,
 
   # -------------------------------------------------------------------------
   return(land_cover_by_land_use)
-
 }

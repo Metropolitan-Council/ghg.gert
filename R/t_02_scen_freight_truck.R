@@ -36,7 +36,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .enviro_factors = enviro_factors,
                                .elast = elast,
                                .elast_5d = elast_5d) {
-
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
