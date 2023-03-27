@@ -16,7 +16,6 @@ calc_cost <- function(tb_vmt,
                       .enviro_factors = enviro_factors) {
   # browser()
 
-  cli::cli_progress_message("*** calculating fuel cost \n")
   tb_vmt <- filter_ctu(tb_vmt, .selected_ctu)
 
   tb_cost_current <- factor_values$cost %>%

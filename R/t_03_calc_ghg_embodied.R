@@ -36,7 +36,6 @@ calc_ghg_embodied <- function(tb,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("*** calculating embodied GHG emissions \n")
 
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {

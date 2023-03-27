@@ -77,7 +77,7 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors) {
-  cli::cli_progress_message("** compiling non-residential strategies \n")
+  # cli::cli_progress_message("** compiling non-residential strategies \n")
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 

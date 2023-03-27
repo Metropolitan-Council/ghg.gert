@@ -550,7 +550,7 @@ calc_floor_area_behavior_change <- function(res_tb,
 calc_affordable_floor_area <- function(res_tb,
                                        .selected_ctu,
                                        .single_family_floor_area_growth_pct) {
-  cli::cli_progress_message("*** calculating affordable floor area strategy \n")
+  # cli::cli_progress_message("*** calculating affordable floor area strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.single_family_floor_area_growth_pct > 0.05) {

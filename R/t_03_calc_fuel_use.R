@@ -15,7 +15,6 @@ calc_fuel_use <- function(tb_vmt,
                           .miles_per_gallon,
                           .is_av = FALSE,
                           .enviro_factors = enviro_factors) {
-  cli::cli_progress_message("*** calculating fuel use \n")
   # browser()
 
   tb_l <- tb %>%

@@ -12,7 +12,7 @@
 #' @export
 
 get_statewide_non_residential_energy <- function(tb = building_energy_data, .selected_ctu = "all") {
-  cli::cli_progress_message("* obtaining statewide non-residential energy \n")
+  # cli::cli_progress_message("* obtaining statewide non-residential energy \n")
   # tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
   # NON-RESIDENTIAL ENERGY BASELINE ----
   # STATE ----
