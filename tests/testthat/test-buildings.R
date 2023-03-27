@@ -95,8 +95,8 @@ calc_floor_area_behavior_change(
 )
 
 calc_ghg_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
   .selected_ctu = "Minneapolis",
   .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors
@@ -104,8 +104,8 @@ calc_ghg_residential(
 
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
     .selected_ctu = "Minneapolis",
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
@@ -120,19 +120,20 @@ calc_electrify_residential_heating(
 
 calc_residential_renewable_ng(
   res_tb = calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
     .selected_ctu = "Minneapolis",
     .grid_decarbonization_pct = 1,
     .enviro_factors = enviro_factors
   ),
   .selected_ctu = "Minneapolis",
+  .renewable_ng_res = TRUE,
   .enviro_factors = enviro_factors
 )
 
 scen_building_residential(
-  res_tb = building_energy_bau_data$residential,
-  res_tb_bau = building_energy_bau_data$residential,
+  res_tb = building_data$residential,
+  res_tb_bau = building_data$residential,
   .selected_ctu = "Minneapolis",
   .renewable_ng_res = FALSE,
   .new_homes_to_multifamily_pct = 0.50,
@@ -153,7 +154,7 @@ scen_building_residential(
 # non_residential
 
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_energy_bau_data$non_residential,
+  non_res_tb = building_data$non_residential,
   .existing_high_efficiency_buildings_pct = 0.80,
   .selected_ctu = "Minneapolis"
 )
@@ -165,11 +166,11 @@ calc_existing_comm_building_efficiency(
 
 check <- calc_ghg_non_residential(
   non_res_tb = calc_existing_comm_building_efficiency(
-    non_res_tb = building_energy_bau_data$non_residential,
+    non_res_tb = building_data$non_residential,
     .existing_high_efficiency_buildings_pct = 0.80,
     .selected_ctu = "Minneapolis"
   ),
-  non_res_tb_bau = building_energy_bau_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
   .selected_ctu = "Minneapolis",
   .industrial_smart_grid_pct = 1,
   .commercial_smart_grid_pct = 1,
@@ -188,8 +189,8 @@ check <- calc_ghg_non_residential(
 
 calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
     .selected_ctu = "Minneapolis",
     .industrial_smart_grid_pct = 1,
     .commercial_smart_grid_pct = 1,
@@ -209,8 +210,8 @@ calc_electrify_commercial_heating(
 calc_non_res_renewable_ng(
   .renewable_ng_nonres = TRUE,
   non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
     .selected_ctu = "Minneapolis",
     .industrial_smart_grid_pct = 1,
     .commercial_smart_grid_pct = 1,
@@ -225,8 +226,8 @@ calc_non_res_renewable_ng(
 
 scen_building_non_residential(
   .renewable_ng_nonres = TRUE,
-  non_res_tb = building_energy_bau_data$non_residential,
-  non_res_tb_bau = building_energy_bau_data$non_residential,
+  non_res_tb = building_data$non_residential,
+  non_res_tb_bau = building_data$non_residential,
   .selected_ctu = "Minneapolis",
   .electrified_buildings_pct = 0.40,
   .non_res_natural_gas_for_water_heating_pct = 0.20,
