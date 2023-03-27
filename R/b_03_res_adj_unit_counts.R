@@ -35,10 +35,13 @@ adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
   if (.new_homes_to_multifamily_pct <= 0) {
     warning("No single family homes instead built as multifamily homes.")
     return(res_tb)
   }
+
   n_new_homes <-
     res_tb %>%
     dplyr::filter(var %in% c(
