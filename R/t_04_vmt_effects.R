@@ -766,15 +766,18 @@ vmt_vehicle_occupancy <- function(tb,
     occ_return <- pldv_occupancy %>%
       left_join(pldv_avo_elast, by = "year") %>%
       rowwise() %>%
+      # new occupancy is the current occupancy x (1 + change in occupancy)
       mutate(occupancy_adj = occupancy_adj * (1 + avo_elast))
 
     return(occ_return)
   } else if (.mode %in% c(
+    # if transit mode
     "BU",
     "BRT",
     "RU",
     "RI"
   )) {
+    # spread over forecast years
     transit_avo_pct_elast <- tibble(
       year = unique(tb$year),
       avo_elast =
@@ -787,12 +790,12 @@ vmt_vehicle_occupancy <- function(tb,
     )
 
 
-    tb_mode_totstock <- tb %>%
+    mode_avo <- tb %>%
       filter(
         mode == .mode,
         var %in% c(
-          .stock,
-          "TotStock",
+          # .stock,
+          # "TotStock",
           "AVO"
         )
       ) %>%
@@ -801,7 +804,8 @@ vmt_vehicle_occupancy <- function(tb,
         names_from = var,
         values_from = value
       ) %>%
-      select(mode,
+      select(
+        mode,
         year,
         ctu,
         aeo_mode,
@@ -809,10 +813,11 @@ vmt_vehicle_occupancy <- function(tb,
         mode_avo = AVO
       )
 
-    occ_return <- tb_mode_totstock %>%
+    occ_return <- mode_avo %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       rowwise() %>%
       left_join(transit_avo_pct_elast, by = c("year")) %>%
+      # new occupancy is the current occupancy x (1 + change in occupancy)
       mutate(occupancy_adj = mode_avo * (1 + avo_elast)) %>%
       select(ctu, year, occupancy_adj) %>%
       unique()
@@ -827,13 +832,14 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
+   if(.transit_avo_pct != 0){cli::cli_warn("Occupany no effect on school bus or freight modes")}
     # return same value, no change
-    tb_mode_totstock <- tb %>%
+    mode_avo <- tb %>%
       filter(
         mode == .mode,
         var %in% c(
-          .stock,
-          "TotStock",
+          # .stock,
+          # "TotStock",
           "AVO"
         )
       ) %>%
@@ -850,7 +856,7 @@ vmt_vehicle_occupancy <- function(tb,
         mode_avo = AVO
       )
 
-    occ_return <- tb_mode_totstock %>%
+    occ_return <- mode_avo %>%
       left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
       mutate(occupancy_adj = mode_avo) %>%
       select(ctu, year, occupancy_adj) %>%
