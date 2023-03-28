@@ -29,8 +29,8 @@
 #' library(ghg.sp)
 #'
 #' calc_ghg_non_residential(
-#'   non_res_tb = building_energy_bau_data$non_residential,
-#'   non_res_tb_bau = building_energy_bau_data$non_residential,
+#'   non_res_tb = building_data$non_residential,
+#'   non_res_tb_bau = building_data$non_residential,
 #'   .selected_ctu = "all",
 #'   .industrial_smart_grid_pct = 1,
 #'   .commercial_smart_grid_pct = 1,
@@ -49,9 +49,9 @@ calc_ghg_non_residential <- function(non_res_tb,
                                      .grid_decarbonization_pct,
                                      .existing_high_efficiency_buildings_pct,
                                      .enviro_factors) {
-  # cli::cli_progress_message("*** calculating non-residential ghg emissions \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <-
+    filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   emis <-
     function(tb,
@@ -95,9 +95,13 @@ calc_ghg_non_residential <- function(non_res_tb,
 
           # electric emissions
           commercial_electricity_emissions_kg_co =
-            commercial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
+            commercial_mwh * (kg_per_mwh * (1 -
+                                              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
+                                            )),
           industrial_electricity_emissions_kg_co =
-            industrial_mwh * (kg_per_mwh * (1 - grid_decarb) * (1 - smart_grid_decarb)),
+            industrial_mwh * (kg_per_mwh * (1 -
+                                              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
+                                            )),
           # therm emissions
 
           commercial_natural_gas_emissions_kg_co =
@@ -168,11 +172,9 @@ calc_ghg_non_residential <- function(non_res_tb,
       values_to = "value",
       cols = -c(ctu_name, year)
     ) %>%
-    tidyr::separate(
-      col = var,
-      into = c("var", "scen"),
-      sep = "\\."
-    ) %>%
+    tidyr::separate(col = var,
+                    into = c("var", "scen"),
+                    sep = "\\.") %>%
     dplyr::ungroup()
 
   return(emis_final)
