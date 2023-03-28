@@ -31,7 +31,7 @@ run_all_modules(
   .non_res_natural_gas_for_space_heating_pct = 0.69,
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 1,
+  .smart_grid_energy_reduction_pct = 0.11,
   .new_homes_to_multifamily_pct = 0.5,
   .existing_high_efficiency_buildings_pct = 0.8,
   .home_behavior_change_pct = 1,

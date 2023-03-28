@@ -40,8 +40,8 @@ library(ghg.sp)
 
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(
-    res_tb = building_energy_bau_data$residential,
-    res_tb_bau = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
     .selected_ctu = "all",
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
