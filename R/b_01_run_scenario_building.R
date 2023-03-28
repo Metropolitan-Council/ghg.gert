@@ -71,7 +71,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # smartgrid
                                   .commercial_smart_grid_pct = 1.00,
                                   .industrial_smart_grid_pct = 1.00,
-                                  .smart_grid_energy_reduction_pct = 1.00,
+                                  .smart_grid_energy_reduction_pct = 0.11,
                                   # residential
                                   .renewable_ng_res = FALSE,
                                   .renewable_ng_nonres = FALSE,
