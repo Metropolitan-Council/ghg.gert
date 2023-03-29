@@ -33,6 +33,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
+                                      .grid_decarbonization_pct = 0,
                                       .enviro_factors = enviro_factors,
                                       .elast = elast,
                                       .elast_5d = elast_5d,
@@ -467,7 +468,11 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   bev_dir_ghg <-
     calc_ghg_direct(
       bev_vmt, .pass_tb,
-      mode, .electric_scenario, .aeo_scenario, mpe
+      mode,
+      .electric_scenario,
+      .aeo_scenario,
+      mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct
     )
 
 

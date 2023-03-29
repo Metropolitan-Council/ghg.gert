@@ -26,6 +26,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .calc_transp_fuel_cost_mile = FALSE,
                                         .calc_transp_fuel_use = FALSE,
                                         .calc_transp_ghg_embodied = FALSE,
+                                        .grid_decarbonization_pct = 0,
                                         .scenario = "BAU",
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
@@ -170,7 +171,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
+    .grid_decarbonization_pct = .grid_decarbonization_pct
   )
 
 

@@ -47,9 +47,7 @@ calc_residential_renewable_ng <- function(res_tb,
                          values_from = value) %>%
       dplyr::mutate(
         reduced_therms.scen.2040 =
-          (residential_therms.bau.2040 - residential_therms.scen.2040)
-      ) %>%
-      dplyr::mutate(
+          (residential_therms.bau.2040 - residential_therms.scen.2040),
         residential_natural_gas_emissions_kg_co.scen.2040 =
           (residential_therms.bau.2040 -
             (
