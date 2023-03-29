@@ -159,7 +159,8 @@ run_all_modules <- function(.selected_ctu = "all",
       .mit_bau_summary = .mit_bau_summary,
       .elast = elast,
       .elast_5d = elast_5d,
-      .enviro_factors = enviro_factors
+      .enviro_factors = enviro_factors,
+      .grid_decarbonization_pct = .grid_decarbonization_pct
     )
   }
 

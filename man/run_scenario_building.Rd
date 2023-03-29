@@ -18,7 +18,7 @@ run_scenario_building(
   .non_res_natural_gas_for_space_heating_pct = 0.69,
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 1,
+  .smart_grid_energy_reduction_pct = 0.11,
   .renewable_ng_res = FALSE,
   .renewable_ng_nonres = FALSE,
   .new_homes_to_multifamily_pct = 0.5,
