@@ -12,6 +12,7 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .is_av = FALSE,
+  .grid_decarbonization_pct = 0,
   .enviro_factors = enviro_factors
 )
 }

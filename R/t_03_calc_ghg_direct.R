@@ -28,6 +28,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
                             .is_av = FALSE,
+                            .grid_decarbonization_pct = 0,
                             .enviro_factors = enviro_factors) {
   # browser()
 
@@ -91,7 +92,11 @@ calc_ghg_direct <- function(tb_vmt,
     by = c("year", "aeo_mode"),
     suffix = c(".vmt", ".aeo_ghg")
   ) %>%
-    dplyr::mutate(dir_ghg = (vmt / val_mpg_aeo) * ghg_factor) %>%
+    dplyr::mutate(
+      dir_ghg =
+      dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
+              ((vmt / val_mpg_aeo) * ghg_factor * (1 - .grid_decarbonization_pct)),
+              ((vmt / val_mpg_aeo) * ghg_factor))) %>%
     dplyr::select(type,
       # source,
       scenario,

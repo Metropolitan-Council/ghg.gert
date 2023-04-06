@@ -32,6 +32,7 @@ run_all_modules <- function(.selected_ctu = "all",
                             .tree_planting_per_hectare = 247,
                             .parking_lot_reduction_percentage = 0.8,
                             .electrified_buildings_pct = 0.40,
+                            .renewable_ng_nonres = FALSE,
                             .non_res_natural_gas_for_water_heating_pct = 0.20,
                             .non_res_natural_gas_for_space_heating_pct = 0.69,
                             .commercial_smart_grid_pct = 1.00,
@@ -158,7 +159,8 @@ run_all_modules <- function(.selected_ctu = "all",
       .mit_bau_summary = .mit_bau_summary,
       .elast = elast,
       .elast_5d = elast_5d,
-      .enviro_factors = enviro_factors
+      .enviro_factors = enviro_factors,
+      .grid_decarbonization_pct = .grid_decarbonization_pct
     )
   }
 

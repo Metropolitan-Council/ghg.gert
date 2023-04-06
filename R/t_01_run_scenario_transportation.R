@@ -26,6 +26,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .calc_transp_fuel_cost_mile = FALSE,
                                         .calc_transp_fuel_use = FALSE,
                                         .calc_transp_ghg_embodied = FALSE,
+                                        .grid_decarbonization_pct = 0,
                                         .scenario = "BAU",
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
@@ -54,6 +55,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d) {
+
+  #browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -77,7 +80,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     "phev_pct_sales",
     "calc_transp_cost",
     "calc_transp_fuel_use",
-    "calc_transp_ghg_embodied"
+    "calc_transp_ghg_embodied",
+    "grid_decarbonization_pct"
   )
 
   l_vals <- list(
@@ -100,7 +104,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .phev_pct_sales,
     .calc_transp_cost,
     .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied,
+    .grid_decarbonization_pct
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -170,7 +175,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
+    .grid_decarbonization_pct = .grid_decarbonization_pct
   )
 
 

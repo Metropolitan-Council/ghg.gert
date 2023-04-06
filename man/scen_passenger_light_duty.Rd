@@ -29,6 +29,7 @@ scen_passenger_light_duty(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .mit_bau_summary = 0,
+  .grid_decarbonization_pct = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
