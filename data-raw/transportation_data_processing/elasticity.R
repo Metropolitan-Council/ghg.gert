@@ -71,15 +71,26 @@ ELAST_FVMT <- c(0, 0, 0, rep(-0.25, length(FOR_YRS))) # Small and Winston (1999)
 ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_OWN_PRICE <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
-# Driving VMT elasticity to 5Ds - calls function that interpolates changes through forecast years for elasticity. Assumes change is linear to final forecast year.
+# Driving VMT elasticity to 5Ds - c
+# alls function that interpolates changes through forecast years for elasticity.
+#  Assumes change is linear to final forecast year.
+
 # Define a default starting list for elasticities for 5Ds
 ELAST_DEF_5D <- c(rep(0, length(YRS)))
+# Driving elasticity
+# All taken from Ewing and Cervero, 2010
 # Density population (RANGE)
 ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), length(FOR_YRS))
+
 # Density employment (RANGE)
-ELAST_DENS_DR_EMP <- c(rep(0, length(YRS)))
+# -0.01 to -0.07 range, taken from Stevens, 2016
+# -0.07 is more than the population density decrease, to ensure that
+# population density has a lesser effect than job density
+# based on peer review session with Metro Transit SI folks
+# https://github.com/Metropolitan-Council/ghg.sp/issues/19
+ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
-ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.090, length(INIT_YRS), length(FOR_YRS))
+ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_DES_DR <- calc_elasticity(ELAST_DEF_5D, -0.12, length(INIT_YRS), length(FOR_YRS))
 # Jobs Access (RANGE)

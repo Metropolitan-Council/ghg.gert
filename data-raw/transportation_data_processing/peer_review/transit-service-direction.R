@@ -12,8 +12,6 @@ transit <- transitservice_60$passenger_all %>%
   group_by(ctu, scenario, year) %>% # mode, sector
   summarise(emissions = sum(dir_ghg, na.rm = T)) %>%
   pivot_wider(names_from = scenario, values_from = emissions)
-#> `summarise()` has grouped output by 'ctu', 'scenario'. You can override using
-#> the `.groups` argument.
 
 # ctus where more transit increases emissions - this seems problematic
 transit %>%
