@@ -322,7 +322,7 @@ calc_vmt_forecast <- function(.scenario,
       rowwise() %>%
       mutate(
         pass_ld_vmt =
-          (miles_traveled - transit_adj) *
+          (miles_traveled - (transit_adj * mode_stock_adj)) *
             aeo_adj *
             vmt_fee_adj * cong_adjust * gas_adj *
             telework_adj * land_use_adj *

@@ -1,35 +1,68 @@
 library(ghg.sp)
 library(tidyverse)
+library(councilR)
 
-transitservice_60 <- run_scenario_transportation(.transit_service_pct = .6, .scenario = "ts60")
-transitservice_0 <- run_scenario_transportation(.transit_service_pct = 0, .scenario = "ts0")
 
-transit <- transitservice_60$passenger_all %>%
-  bind_rows(transitservice_60$freight_all) %>%
-  bind_rows(transitservice_0$passenger_all) %>%
-  bind_rows(transitservice_0$freight_all) %>%
+transitservice_60 <- run_scenario_transportation(
+  .transit_service_pct = 0.6,
+  .transit_avo_pct = 0.6 * 1.6,
+  .scenario = "ts60",
+  .selected_ctu = "Richfield")
+
+transitservice_40 <- run_scenario_transportation(
+  .transit_service_pct = 0.4,
+  .transit_avo_pct = 0.4 * 1.6,
+  .scenario = "ts40",
+  .selected_ctu = "Richfield")
+
+transitservice_0 <- run_scenario_transportation(
+  .transit_service_pct = 0,
+  .scenario = "ts0",
+  .transit_avo_pct = 0,
+  .selected_ctu = "Richfield")
+
+
+transit <-bind_rows( transitservice_60$passenger_all,
+                     transitservice_0$passenger_all,
+                     transitservice_40$passenger_all) %>%
   filter(year == "2040") %>%
   group_by(ctu, scenario, year) %>% # mode, sector
   summarise(emissions = sum(dir_ghg, na.rm = T)) %>%
   pivot_wider(names_from = scenario, values_from = emissions)
 
-# ctus where more transit increases emissions - this seems problematic
-transit %>%
-  filter(ts60 > ts0) %>%
-  select(ctu) %>%
-  paste(collapse = "")
-#> [1] "c(\"Andover\", \"Apple Valley\", \"Arden Hills\", \"Bayport\", \"Baytown Twp.\", \"Benton Twp.\", \"Birchwood Village\", \"Blaine\", \"Bloomington\", \"Brooklyn Center\", \"Brooklyn Park\", \"Burnsville\", \"Carver\", \"Centerville\", \"Champlin\", \"Chanhassen\", \"Chaska\", \"Circle Pines\", \"Cologne\", \"Columbia Heights\", \"Columbus\", \"Coon Rapids\", \"Corcoran\", \"Cottage Grove\", \"Credit River Twp.\", \"Crystal\", \"Dahlgren Twp.\", \"Dayton\", \"Deephaven\", \"Dellwood\", \"Denmark Twp.\", \"Eagan\", \"Eden Prairie\", \"Edina\", \"Empire Twp.\", \"Falcon Heights\", \n\"Farmington\", \"Forest Lake\", \"Fort Snelling UT\", \"Gem Lake\", \"Golden Valley\", \"Grant\", \"Greenfield\", \"Grey Cloud Island Twp.\", \"Ham Lake\", \"Hastings\", \"Hilltop\", \"Hopkins\", \"Hugo\", \"Inver Grove Heights\", \"Jackson Twp.\", \"Lake Elmo\", \"Lakeville\", \"Landfall\", \"Lauderdale\", \"Lexington\", \"Lilydale\", \"Lino Lakes\", \"Little Canada\", \"Mahtomedi\", \"Maple Grove\", \"Maplewood\", \"Mayer\", \"Medicine Lake\", \"Medina\", \"Mendota\", \"Mendota Heights\", \"Minneapolis\", \"Minnetonka\", \"Minnetrista\", \"Mound\", \"Mounds View\", \n\"New Brighton\", \"New Hope\", \"Newport\", \"Nininger Twp.\", \"North Oaks\", \"North St. Paul\", \"Oak Park Heights\", \"Oakdale\", \"Orono\", \"Osseo\", \"Pine Springs\", \"Plymouth\", \"Prior Lake\", \"Ramsey\", \"Richfield\", \"Robbinsdale\", \"Rogers\", \"Rosemount\", \"Roseville\", \"San Francisco Twp.\", \"Savage\", \"Shakopee\", \"Shoreview\", \"Shorewood\", \"South St. Paul\", \"Spring Lake Park\", \"Spring Lake Twp.\", \"Spring Park\", \"St. Anthony\", \"St. Louis Park\", \"St. Paul\", \"St. Paul Park\", \"Stillwater\", \"Stillwater Twp.\", \"Sunfish Lake\", \n\"Vadnais Heights\", \"Victoria\", \"Waconia\", \"Waconia Twp.\", \"Wayzata\", \"West Lakeland Twp.\", \"West St. Paul\", \"White Bear Lake\", \"White Bear Twp.\", \"Willernie\", \"Woodbury\", \"Woodland\")"
 
-# ctus where more transit decreases emissions
-transit %>%
-  filter(ts60 < ts0) %>%
-  select(ctu) %>%
-  paste(collapse = "")
-#> [1] "c(\"Afton\", \"Anoka\", \"Belle Plaine\", \"Belle Plaine Twp.\", \"Bethel\", \"Castle Rock Twp.\", \"Cedar Lake Twp.\", \"Coates\", \"East Bethel\", \"Elko New Market\", \"Eureka Twp.\", \"Excelsior\", \"Fridley\", \"Greenvale Twp.\", \"Greenwood\", \"Hampton\", \"Hampton Twp.\", \"Hanover\", \"Independence\", \"Jordan\", \"Lake St. Croix Beach\", \"Lakeland\", \"Lakeland Shores\", \"Linwood Twp.\", \"Long Lake\", \"Loretto\", \"Louisville Twp.\", \"Maple Plain\", \"Marine on St. Croix\", \"Marshan Twp.\", \"May Twp.\", \"Minnetonka Beach\", \"New Market Twp.\", \n\"New Prague\", \"New Trier\", \"Northfield\", \"Norwood Young America\", \"Nowthen\", \"Oak Grove\", \"Sand Creek Twp.\", \"Scandia\", \"Sciota Twp.\", \"St. Bonifacius\", \"St. Francis\", \"St. Marys Point\", \"Tonka Bay\", \"Vermillion\", \"Vermillion Twp.\", \"Waterford Twp.\", \"Young America Twp.\")"
+check_avo_pct <- function(avo_pct){
 
-# ctus where more transit does not impact emissions
-transit %>%
-  filter(ts60 == ts0) %>%
-  select(ctu) %>%
-  paste(collapse = "")
-#> [1] "c(\"Blakeley Twp.\", \"Camden Twp.\", \"Douglas Twp.\", \"Hamburg\", \"Hancock Twp.\", \"Helena Twp.\", \"Hollywood Twp.\", \"Laketown Twp.\", \"Miesville\", \"New Germany\", \"Randolph\", \"Randolph Twp.\", \"Ravenna Twp.\", \"Rockford\", \"St. Lawrence Twp.\", \"Watertown\", \"Watertown Twp.\")"
+  suppressMessages(
+    run_scenario_transportation(
+      .transit_service_pct = 0.6,
+      .transit_avo_pct = 0.6 * avo_pct,
+      .scenario = avo_pct,
+      .selected_ctu = "Richfield") %>%
+      magrittr::extract2("passenger_all")) %>%
+    filter(year == "2040") %>%
+    group_by(ctu, scenario, year) %>% # mode, sector
+    summarise(emissions = sum(dir_ghg, na.rm = T),
+              .groups = "keep")
+}
+
+library(furrr)
+plan(multisession)
+
+transit_avo_checks <- furrr::future_map_dfr(seq(0, 2, by = 0.01),
+                                            check_avo_pct)
+
+
+
+ggplot(transit_avo_checks,
+       aes(x = scenario * 0.6,
+           y = emissions)) +
+  geom_point() +
+  geom_smooth() +
+  geom_hline(yintercept = transit$ts0) +
+  labs(x = "% increase in transit AVO",
+       y = "Emissions",
+       title = "Richfield, 60% increase in transit service",
+       subtitle = "Direct passenger emissions. Horizontal line shows BAU",
+       caption = Sys.Date()) +
+  councilR::theme_council(use_showtext = TRUE)
