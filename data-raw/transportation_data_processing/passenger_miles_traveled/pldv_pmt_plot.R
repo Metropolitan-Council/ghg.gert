@@ -210,7 +210,7 @@ plot_ly(
   hovertemplate =
     ~ paste0(
       "<b>", ctu, "</b><br>",
-      scales::comma(total_pmt, accuracy = 0.1),
+      scales::comma(total_pmt, accuracy = 10),
       " <extra></extra>"
     ),
   marker = list(
@@ -221,9 +221,9 @@ plot_ly(
   )
 ) %>%
   plotly_layout(
-    main_title = "Change in Passenger Vehicle PMT",
+    main_title = "Change in Passenger PMT",
     subtitle = "Minneapolis and St. Paul shown as stars",
-    x_title = "Avg. % change, 2015-2040"
+    # x_title = "Avg. % change, 2015-2040"
   ) %>%
   layout(
     legend = list(
@@ -271,7 +271,7 @@ transportation_data$passenger %>%
     hovertemplate =
       ~ paste0(
         "<b>", ctu, "</b><br>",
-        mode_description_1, " : ", scales::comma(value, accuracy = 0.1), " miles<br>", scales::percent(pct_change, accuracy = 0.1), " change",
+        mode_description_1, " : ", scales::comma(value, accuracy = 10), " miles<br>", scales::percent(pct_change, accuracy = 0.1), " change",
         " <extra></extra>"
       ),
     marker = list(
