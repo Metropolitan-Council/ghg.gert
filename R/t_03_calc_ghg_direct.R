@@ -99,17 +99,31 @@ calc_ghg_direct <- function(tb_vmt,
       "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid ")
   }
 
+  grid_elast <-
+    tibble(
+      year = unique(tb_vmt$year),
+      grid_decarb = calc_elasticity(
+        elas_list = c(rep(0, length(unique(tb_vmt$year)))),
+        elas = .grid_decarbonization_pct,
+        num_inits = 3,
+        num_yrs = length(unique(tb_vmt$year)) - 3
+      ))
+
+
+
   ghg <- dplyr::left_join(
     tb_vmt,
     tb_aeo_ghg,
     by = c("year", "aeo_mode"),
     suffix = c(".vmt", ".aeo_ghg")
   ) %>%
-    dplyr::mutate(
-      dir_ghg =
-        dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-                       ((vmt / val_mpg_aeo) * ghg_factor * (1 - .grid_decarbonization_pct)),
-                       ((vmt / val_mpg_aeo) * ghg_factor))) %>%
+    dplyr::left_join(grid_elast,
+              by = c("year")) %>%
+  dplyr::mutate(
+    dir_ghg =
+      dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
+                     ((vmt / val_mpg_aeo) * ghg_factor * (1 - grid_decarb)),
+                     ((vmt / val_mpg_aeo) * ghg_factor))) %>%
     dplyr::select(type,
                   # source,
                   scenario,
