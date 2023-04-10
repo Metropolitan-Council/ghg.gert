@@ -422,7 +422,7 @@ scen_passenger_light_duty <- function(.pass_tb,
 
   message("Passenger vehicles, battery electric")
 
-  browser()
+  # browser()
   fcm <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,

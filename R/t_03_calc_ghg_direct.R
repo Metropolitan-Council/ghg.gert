@@ -2,6 +2,16 @@
 #' @family emissions
 #' @family transportation
 #'
+#' @description
+#' Calculate the direct greenhouse gas emissions for a given mode and fuel
+#'   type. If the fuel type is non-electric, the returned value represents
+#'   tail-pipe emissions. If fuel type is electric, the returned value
+#'   represents the equivalent emissions per kilowatt hour, modulated
+#'   by the percentage of the grid that is de-carbonized
+#'   (`.grid_decarbonization_pct`). If the entire grid is de-carbonized
+#'   (`.grid_decarbonization_pct = 1`), then there are no emissions for
+#'   electric vehicles.
+#'
 #' @param tb_vmt [tibble::tibble()], output VMT table
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
@@ -84,7 +94,7 @@ calc_ghg_direct <- function(tb_vmt,
     select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
 
-  if(class == "BEV" & .grid_decarbonization_pct == 0){
+  if(.fuel_type == "BEV" & .grid_decarbonization_pct == 0){
     cli::cli_warn(
       "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid ")
   }

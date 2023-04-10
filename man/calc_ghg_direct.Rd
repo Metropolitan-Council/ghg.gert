@@ -45,7 +45,14 @@ Default value is \code{1}.}
 - ...
 }
 \description{
-Calculate transportation direct emissions
+Calculate the direct greenhouse gas emissions for a given mode and fuel
+type. If the fuel type is non-electric, the returned value represents
+tail-pipe emissions. If fuel type is electric, the returned value
+represents the equivalent emissions per kilowatt hour, modulated
+by the percentage of the grid that is de-carbonized
+(\code{.grid_decarbonization_pct}). If the entire grid is de-carbonized
+(\code{.grid_decarbonization_pct = 1}), then there are no emissions for
+electric vehicles.
 }
 \seealso{
 Other emissions: 
