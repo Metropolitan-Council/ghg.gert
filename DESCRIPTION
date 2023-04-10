@@ -11,7 +11,7 @@ Authors@R: c(
     person("Mauricio", "León", , "mauricio.leon@metc.state.mn.us", role = "ctb"),
     person("Ellen", "Esch", , "ellen.esch@metc.state.mn.us", role = "ctb",
            comment = c(ORCID = "0000-0002-4253-0910")),
-    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us")
+    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb")
   )
 Description: Tools for the Metropolitan Council GHG scenario planning app.
 License: MIT + file LICENSE

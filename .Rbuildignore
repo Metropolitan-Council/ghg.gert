@@ -10,3 +10,4 @@
 ^\.here$
 ^report$
 ^\.vscode$
+^app\.R$
