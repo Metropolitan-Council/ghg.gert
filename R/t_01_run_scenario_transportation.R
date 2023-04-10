@@ -18,7 +18,7 @@
 #' @importFrom dplyr filter select case_when across bind_rows cur_column
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
-#' @improtFrom cli cli_warn
+#' @importFrom cli cli_warn
 #'
 #' @family transportation
 run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
@@ -28,7 +28,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .calc_transp_fuel_cost_mile = FALSE,
                                         .calc_transp_fuel_use = FALSE,
                                         .calc_transp_ghg_embodied = FALSE,
-                                        .grid_decarbonization_pct = 0,
+                                        .grid_decarbonization_pct = 1,
                                         .scenario = "BAU",
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
