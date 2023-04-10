@@ -4,17 +4,12 @@
 #'
 #' @description  Match what the user input for sales in the final forecast year rather
 #'     than the defaults from MA3TFleet held fixed in all cases.
-#'     AV/DRS scenarios adjust the sales
-#'     total up, but they adjust the existing stock down to match total stock
-#'     in each year.
 #'
 #'     Jason has a model used to forecast vehicle fleet shares between powertrains.
 #'     Distribute personal vehicle VMT between the different powertrains.
 #'     Ratio of vehicle stocks by powertrain type.
 #'     If the user inputs a different percent for BEV, update vehicles by existing
 #'     vehicles and new sales
-#'     DRS will take away from VMT for passenger vehicles.
-#'     Run this before anything else
 #'
 #'     Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 #'     cost elasticity, gas taxes, and VMT and PAYD fees.
@@ -32,16 +27,21 @@
 #'
 #'
 #' @param .bev_pct_sales numeric,  a value between `0` and `1.`
-#'     Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+#'     Percent of all vehicle  sales that are battery electric vehicles (BEV)
+#'     in the final forecast year.
 #'     Default is `0`.
 #' @param .phev_pct_sales numeric,  a value between `0` and `1.`
-#'    Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+#'    Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
+#'    in the final forecast year.
 #'    Default is `0`.
 #' @param .hev_pct_sales  numeric,   a value between `0` and `1.`
-#'    Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+#'    Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+#'    in the final forecast year.
 #'    Default is `0`.
-#' @param .pass_tb [tibble::tibble()]. Passenger input table. Default is `transportation_data$passenger`.
-#' @param .freight_tb [tibble::tibble()] #' freight input table. Default is `transportation_data$freight`.
+#' @param .pass_tb [tibble::tibble()]. Passenger input table.
+#'   Default is `transportation_data$passenger`.
+#' @param .freight_tb [tibble::tibble()] Freight input table.
+#'    Default is `transportation_data$freight`.
 #' @inheritParams calc_vmt_forecast
 #'
 #' @return [tibble::tibble()] with column names...
@@ -55,8 +55,8 @@
 #' @importFrom purrr map2
 #' @importFrom cli cli_alert_warning cli_abort
 #'
-adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
-                             .freight_tb = transportation_data$freight,
+adj_fleet_shares <- function(.pass_tb,
+                             .freight_tb,
                              .bev_pct_sales = 0,
                              .phev_pct_sales = 0,
                              .hev_pct_sales = 0,
@@ -102,14 +102,20 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
     }
 
+    # adjust sales of SI/CI vehicles based on per-mile fees
     adj_si_ci_sales <- tibble::tibble(
       year = .elast$year,
       adj_si_ci =
+        # (1 + vmt_fee / car cost per mile) +
+        # (payd_fee /car cost per mile) *
+        # vehicle ownership elasticity over time *
+        # 1 + (gas tax / car cost per mile) *
+        # vehicle ownership elasticity over time
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-          (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
-          .elast$vehicle_ownership_elast) *
-          (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
-            .elast$vehicle_ownership_elast)
+                (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
+           .elast$vehicle_ownership_elast) *
+        (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
+           .elast$vehicle_ownership_elast)
     )
 
 
@@ -118,19 +124,20 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       adj_si_ci = c(
         1, 1,
         seq(1, adj_si_ci_sales$adj_si_ci[8],
-          by = -(1 - adj_si_ci_sales$adj_si_ci[8]) / 6
+            by = -(1 - adj_si_ci_sales$adj_si_ci[8]) / 6
         )
       )
     )
 
 
-    # Assume HEV, PHEV, and BEV not affected by .gas_tax price because already switched stock type
+    # Assume HEV, PHEV, and BEV not affected by .gas_tax price
+    # because already switched stock type
     adj_alt_sales <- tibble::tibble(
       year = .elast$year,
       adj_alt =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-          .payd_fee / .enviro_factors$AUTO_COST_MI) *
-          .elast$vehicle_ownership_elast)
+                .payd_fee / .enviro_factors$AUTO_COST_MI) *
+           .elast$vehicle_ownership_elast)
     )
 
 
@@ -185,7 +192,6 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
 
 
-
     if (nrow(.pass_tb) != nrow(pass_tb)) {
       cli::cli_abort("Passenger data did not pass VMT/PAYD and vehicle ownership elasticity adjustment")
     }
@@ -196,6 +202,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     # browser()
     ## passenger-----
 
+    # spread the final increase across intermediate years
     sales_elast <- tibble::tibble(
       year = unique(pass_tb$year),
       bev_elast =
@@ -220,6 +227,8 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
           num_yrs = length(unique(pass_tb$year)) - 3
         )
     ) %>%
+      # create si/ci elasticity by subtracting the combined alternate fuel
+      # vehicle percentages from 1
       mutate(
         si_ci_elast = 1 - (bev_elast + phev_elast + hev_elast),
         si_ci_elast = ifelse(year %in% c("2015", "2018", "2020"), 1, si_ci_elast)
@@ -228,10 +237,13 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
     ### sales ------
 
+    # fetch passenger vehicle sales (all fuel types)
     pass_tb_sales <- pass_tb %>%
       dplyr::filter(
         year %in% c(
-          "2025", "2030", "2035", "2040", "2045",
+          "2025", "2030",
+          "2035", "2040",
+          "2045",
           "2050"
         ),
         mode == "PLDV",
@@ -250,6 +262,8 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     pass_tb_sales_w_fin <- pass_tb_sales %>%
       dplyr::filter(year == max(year)) %>%
       dplyr::mutate(
+        # for each fuel type, calculate the percentage
+        # of total sales it makes up in the final year
         si_fin_year = SISales / TotSales,
         ci_fin_year = CISales / TotSales,
         hev_fin_year = HEVSales / TotSales,
@@ -279,7 +293,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
         bev_fin_year
       )
 
-    # the total
+    # the total proportion of SI and CI Sales in the final year
     all_sales_pcts <- as.numeric(1 - (.bev_pct_sales + .phev_pct_sales + .hev_pct_sales))
 
     # SI: (portion of SI and CI sales less BEV, PHEV, HEV) *( (SI portion of SI+CI sales) * (SI portion of total sales) )/ (si portion of total sales in the final year)
@@ -291,6 +305,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
 
     # HEVportion_{y} = %HEV_{y} \times\frac{\frac{HEVSales_{y}}{TotalSales_{y}}}{ \frac{HEVSales_{y=2050}}{TotalSales_{y=2050}}}
 
+
+    # change as change in proportion-----
+    # this calculates the change as a percent change on the proportion
+    # so, by 2050, BEV Sales will increase by bev_pct_sales beyond the current
+    # forecast
     pass_sales_portions <- pass_tb_sales_w_fin %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
@@ -399,10 +418,11 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       )
 
 
-    # New existing stock is old ratio x (exist_old+sales_new - 5yrs)/(exist_old+sales_old - 5 yrs) in each year
+    # New existing stock is
+    # old ratio x (exist_old+sales_new - 5yrs)/(exist_old+sales_old - 5 yrs) in each year
 
 
-    ### exist -----
+    ### existing is -----
     # get OLD (previous year) sales and existing values
     pass_exist_old <- pass_tb %>%
       dplyr::filter(
@@ -446,6 +466,7 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
+        # (previous existing +  new sales) / (previous exist + previous sales)
         si_new_adj = ifelse(year != max(year), (SIExist.old + SISales) / (SIExist.old + SISales.old), 1),
         ci_new_adj = ifelse(year != max(year), (CIExist.old + CISales) / (CIExist.old + CISales.old), 1),
         hev_new_adj = ifelse(year != max(year), (HEVExist.old + HEVSales) / (HEVExist.old + HEVSales.old), 1),
@@ -554,10 +575,17 @@ adj_fleet_shares <- function(.pass_tb = transportation_data$passenger,
     # }
 
 
-    ## freight --------
-    # BAU assumes 1/3 and 2/3 change (relative to PLDV in 2025-2040) to freight sales to include BEV (as summation of BEV+PHEV+HEV from PLDV) for SUT and CUT, respectively
-    # We do not have good stock numbers on freight so we do NOT consider the embodied emissions from freight and the shift in sales, etc. from the passenger
-    # fleet is translated into a total stock number for freight. The use of 1/3 and 2/3 helps to account for this being sales not total stock (i.e., should be lower as percent of total stock)
+    # freight --------
+    # BAU assumes 1/3 and 2/3 change (relative to PLDV in 2025-2040) to
+    #  freight sales to include BEV (as summation of BEV+PHEV+HEV from PLDV)
+    #  for SUT and CUT, respectively
+    #
+    # We do not have good stock numbers on freight so we do NOT consider
+    # the embodied emissions from freight and the shift in sales,
+    # etc. so  the passenger fleet is translated into a
+    # total stock number for freight. The use of 1/3 and 2/3
+    # helps to account for this being sales
+    # not total stock (i.e., should be lower as percent of total stock)
 
     # browser()
     freight_battery_fin_year <- ptb_stock_new %>%
