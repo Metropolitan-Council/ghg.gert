@@ -321,10 +321,10 @@ adj_fleet_shares <- function(.pass_tb,
         # total sales of each type
         ptb_tot_sales =
           ptb_si +
-            ptb_ci +
-            ptb_hev +
-            ptb_phev +
-            ptb_bev
+          ptb_ci +
+          ptb_hev +
+          ptb_phev +
+          ptb_bev
       ) %>%
       dplyr::mutate(
         # new portion of total sales for each type
@@ -337,51 +337,54 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::mutate(
         sum_check =
           new_si_portion +
-            new_ci_portion +
-            new_bev_portion +
-            new_hev_portion +
-            new_phev_portion
+          new_ci_portion +
+          new_bev_portion +
+          new_hev_portion +
+          new_phev_portion
       ) %>%
       unique()
 
+    # change as pct -----
+    # this calculates the change as a straight percent of each fuel type
+    # so, by 2050, BEV Sales be bev_sales_pct of all vehicle sales
+    # forecast
+    pass_sales_portions_alt <- pass_tb_sales_w_fin %>%
+      dplyr::rowwise() %>%
+      dplyr::left_join(sales_elast, by = "year") %>%
+      rowwise() %>%
+      dplyr::mutate(
+        ptb_si = si_ci_elast * (SISales / (SISales + CISales)), # * (SISales / TotSales),
+        ptb_ci = si_ci_elast * (CISales / (CISales + SISales)) , # * (CISales / TotSales),
+        ptb_hev = hev_elast, # (hev_elast) * (HEVSales / TotSales),
+        ptb_phev = phev_elast, # (phev_elast) * (PHEVSales / TotSales),
+        ptb_bev = bev_elast, # (bev_elast) * (BEVSales / TotSales),
+        # total sales of each type
+        ptb_tot_sales =
+          ptb_si +
+          ptb_ci +
+          ptb_hev +
+          ptb_phev +
+          ptb_bev
+      ) %>%
+      dplyr::mutate(
+        # new portion of total sales for each type
+        new_si_portion = ptb_si / ptb_tot_sales,
+        new_ci_portion = ptb_ci / ptb_tot_sales,
+        new_hev_portion = ptb_hev / ptb_tot_sales,
+        new_phev_portion = ptb_phev / ptb_tot_sales,
+        new_bev_portion = ptb_bev / ptb_tot_sales
+      ) %>%
+      dplyr::mutate(
+        sum_check =
+          new_si_portion +
+          new_ci_portion +
+          new_bev_portion +
+          new_hev_portion +
+          new_phev_portion
+      ) %>%
+      unique()
 
-    # pass_sales_portions <- pass_tb_sales_w_fin %>%
-    #   dplyr::rowwise() %>%
-    #   dplyr::left_join(sales_elast, by = "year") %>%
-    #   rowwise() %>%
-    #   dplyr::mutate(
-    #     ptb_si = si_ci_elast * (SISales / (SISales + CISales)), # * (SISales / TotSales),
-    #     ptb_ci = si_ci_elast * (CISales / (CISales + SISales)) , # * (CISales / TotSales),
-    #     ptb_hev = hev_elast, # (hev_elast) * (HEVSales / TotSales),
-    #     ptb_phev = phev_elast, # (phev_elast) * (PHEVSales / TotSales),
-    #     ptb_bev = bev_elast, # (bev_elast) * (BEVSales / TotSales),
-    #     # total sales of each type
-    #     ptb_tot_sales =
-    #       ptb_si +
-    #       ptb_ci +
-    #       ptb_hev +
-    #       ptb_phev +
-    #       ptb_bev
-    #   ) %>%
-    #   dplyr::mutate(
-    #     # new portion of total sales for each type
-    #     new_si_portion = ptb_si / ptb_tot_sales,
-    #     new_ci_portion = ptb_ci / ptb_tot_sales,
-    #     new_hev_portion = ptb_hev / ptb_tot_sales,
-    #     new_phev_portion = ptb_phev / ptb_tot_sales,
-    #     new_bev_portion = ptb_bev / ptb_tot_sales
-    #   ) %>%
-    #   dplyr::mutate(
-    #     sum_check =
-    #       new_si_portion +
-    #       new_ci_portion +
-    #       new_bev_portion +
-    #       new_hev_portion +
-    #       new_phev_portion
-    #   ) %>%
-    #   unique()
-
-    ### apply portions to get actual number of vehicles sold
+    ### apply portions to get actual number of vehicles sold -----
     ptb_sales_new <- pass_tb %>%
       dplyr::filter(
         # year %in% c("2025", "2030", "2035", "2040", "2045", "2050"),
@@ -389,7 +392,7 @@ adj_fleet_shares <- function(.pass_tb,
         stringr::str_detect(var, "Sales") | stringr::str_detect(var, "Exist")
       ) %>%
       dplyr::left_join(
-        pass_sales_portions %>%
+        pass_sales_portions_alt %>%
           dplyr::select(
             mode, ctu, year, aeo_mode, type,
             TotSales,
@@ -398,7 +401,8 @@ adj_fleet_shares <- function(.pass_tb,
             new_bev_portion,
             new_hev_portion,
             new_phev_portion
-          ),
+          ) %>%
+          unique(),
         by = c("mode", "ctu", "year", "aeo_mode", "type")
       ) %>%
       # rowwise() %>%
@@ -412,9 +416,9 @@ adj_fleet_shares <- function(.pass_tb,
         TRUE ~ value
       )) %>%
       dplyr::select(mode, var,
-        ctu, year,
-        value = new_val,
-        aeo_mode, type
+                    ctu, year,
+                    value = new_val,
+                    aeo_mode, type
       )
 
 
@@ -426,8 +430,6 @@ adj_fleet_shares <- function(.pass_tb,
     # get OLD (previous year) sales and existing values
     pass_exist_old <- pass_tb %>%
       dplyr::filter(
-        # year %in% c("2025", "2030", "2035", "2040", "2045",
-        #             "2050"),
         mode == "PLDV",
         stringr::str_detect(var, "Sales") | stringr::str_detect(var, "Exist")
       ) %>%
@@ -439,8 +441,8 @@ adj_fleet_shares <- function(.pass_tb,
         # lag by one year increment
         # if base year, keep that value (rather than NA)
         value = dplyr::lag(value,
-          n = 1,
-          default = value[1]
+                           n = 1,
+                           default = value[1]
         )
       ) %>%
       dplyr::ungroup() %>%
@@ -507,15 +509,15 @@ adj_fleet_shares <- function(.pass_tb,
 
     ptb_stock_new <- ptb_exist_new %>%
       dplyr::bind_rows(ptb_sales_new %>%
-        dplyr::filter(stringr::str_detect(var, "Exist", negate = T))) %>%
+                         dplyr::filter(stringr::str_detect(var, "Exist", negate = T))) %>%
       dplyr::bind_rows(pass_tb %>%
-        dplyr::filter(
-          # year %in% c("2025", "2030", "2035", "2040", "2045",
-          # "2050"),
-          mode == "PLDV",
-          stringr::str_detect(var, "Stock"),
-          var != "TotStock"
-        )) %>%
+                         dplyr::filter(
+                           # year %in% c("2025", "2030", "2035", "2040", "2045",
+                           # "2050"),
+                           mode == "PLDV",
+                           stringr::str_detect(var, "Stock"),
+                           var != "TotStock"
+                         )) %>%
       unique() %>%
       tidyr::pivot_wider(
         names_from = var,
@@ -556,7 +558,7 @@ adj_fleet_shares <- function(.pass_tb,
             TRUE ~ value
           ),
         all_combos = paste(mode, ctu, year, var, aeo_mode,
-          sep = "-"
+                           sep = "-"
         )
       ) %>%
       unique()
@@ -564,15 +566,34 @@ adj_fleet_shares <- function(.pass_tb,
     ptb_new <- pass_tb %>%
       unique() %>%
       dplyr::mutate(all_combos = paste(mode, ctu, year, var, aeo_mode,
-        sep = "-"
+                                       sep = "-"
       )) %>%
       dplyr::filter(!all_combos %in% ptb_new$all_combos) %>%
       dplyr::bind_rows(ptb_new) %>%
       dplyr::select(names(.pass_tb))
 
-    # if (nrow(ptb_new) != nrow(.pass_tb)) {
-    #   cli::cli_abort("Passenger data did not pass HEV/PHEV/BEV adjustment")
-    # }
+    if (nrow(ptb_new) != nrow(.pass_tb)) {
+      cli::cli_abort("Passenger data did not pass HEV/PHEV/BEV adjustment")
+    }
+
+
+
+   test_passenger <-  purrr::map(c("TotSales",
+                 "TotStock",
+                 "TotExist"),
+               function(x){
+                 all.equal(
+                   pass_tb %>%
+                     filter(mode == "PLDV",
+                            var == x),
+                   ptb_new %>%
+                     filter(mode == "PLDV",
+                            var == x))
+               })
+
+   # if(any(test_passenger != TRUE)){
+   #   cli::cli_abort("Passenger CTU totals failed")
+   # }
 
 
     # freight --------
@@ -588,16 +609,16 @@ adj_fleet_shares <- function(.pass_tb,
     # not total stock (i.e., should be lower as percent of total stock)
 
     # browser()
-    freight_battery_fin_year <- ptb_stock_new %>%
+    freight_battery_fin_year <- pass_sales_portions_alt %>%
       dplyr::ungroup() %>%
       dplyr::filter(year == max(year)) %>%
-      dplyr::mutate(bev_pcts_fin = .bev_pct_sales * BEVSales / BEVStock) %>%
+      dplyr::mutate(bev_pcts_fin = .bev_pct_sales) %>%  # * (BEVSales / BEVStock)) %>%
       dplyr::select(mode, ctu, bev_pcts_fin) %>%
       unique()
 
 
-    freight_battery <- ptb_stock_new %>%
-      dplyr::mutate(bev_pcts = .bev_pct_sales * (BEVSales / BEVStock)) %>%
+    freight_battery <- pass_sales_portions_alt %>%
+      dplyr::mutate(bev_pcts = bev_elast) %>%  # * (BEVSales / BEVStock)) %>%
       dplyr::select(ctu, year, bev_pcts)
 
 
@@ -613,7 +634,7 @@ adj_fleet_shares <- function(.pass_tb,
       ) %>%
       dplyr::mutate(value = dplyr::case_when(
         ((mode == "SUT" | mode == "CUT") &
-          stringr::str_detect(var, "Stock") & value == 0) ~ 1,
+           stringr::str_detect(var, "Stock") & value == 0) ~ 1,
         TRUE ~ value
       )) %>%
       unique() %>%
@@ -655,16 +676,16 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::left_join(freight_battery_fin_year, by = "ctu") %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        ci_stock_sut = ((1 - 2 / 3 * bev_pcts)) *
+        ci_stock_sut = ((1 / 3) * bev_pcts) *
           (CIStock_SUT / TotStock_SUT) /
           ci_sut_fin,
-        ci_stock_cut = ((1 - 1 / 3 * bev_pcts)) *
+        ci_stock_cut = ((2 / 3) * bev_pcts) *
           (CIStock_CUT / TotStock_CUT) /
           ci_cut_fin,
-        bev_stock_sut = (2 / 3 * bev_pcts) *
+        bev_stock_sut = ((2 / 3) * bev_pcts) *
           (BEVStock_SUT / TotStock_SUT) /
           bev_sut_fin,
-        bev_stock_cut = ((1 / 3 * bev_pcts)) *
+        bev_stock_cut = ((1 / 3) * bev_pcts) *
           (BEVStock_CUT / TotStock_CUT) /
           bev_cut_fin
       ) %>%
@@ -725,7 +746,7 @@ adj_fleet_shares <- function(.pass_tb,
       ) %>%
       dplyr::mutate(TotStock = BEVStock + CIStock) %>%
       tidyr::pivot_longer(
-        cols = 12:ncol(.),
+        cols = 10:ncol(.),
         names_to = "var",
         values_to = "value",
         values_drop_na = TRUE
@@ -733,13 +754,13 @@ adj_fleet_shares <- function(.pass_tb,
       unique() %>%
       dplyr::select(names(freight_tb)) %>%
       dplyr::mutate(all_combos = paste(mode, ctu, year, var, aeo_mode,
-        sep = "-"
+                                       sep = "-"
       ))
 
 
     ftb_new <- freight_tb %>%
       dplyr::mutate(all_combos = paste(mode, ctu, year, var, aeo_mode,
-        sep = "-"
+                                       sep = "-"
       )) %>%
       dplyr::filter(!all_combos %in% ftb_new_stocks$all_combos) %>%
       dplyr::bind_rows(ftb_new_stocks) %>%
@@ -748,6 +769,26 @@ adj_fleet_shares <- function(.pass_tb,
     if (nrow(.freight_tb) != nrow(ftb_new)) {
       cli::cli_abort("Freight data did not pass adjustment")
     }
+
+
+
+    test_freight <-  purrr::map(c("TotSales",
+                                    "TotStock",
+                                    "TotExist"),
+                                  function(x){
+                                    all.equal(
+                                      ftb_new %>%
+                                        filter(
+                                               var == x),
+                                      ftb_new %>%
+                                        filter(
+                                               var == x))
+                                  })
+
+    if(any(test_freight == FALSE)){
+      cli::cli_abort("Freight CTU totals failed")
+    }
+
   } else {
     ptb_new <- pass_tb
     ftb_new <- freight_tb
