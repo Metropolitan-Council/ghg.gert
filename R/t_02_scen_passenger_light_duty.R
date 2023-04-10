@@ -385,11 +385,10 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
-    .is_av = FALSE,
     .enviro_factors = .enviro_factors
   ) %>%
     select(everything(),
-      dir_ghg_gas = dir_ghg
+           dir_ghg_gas = dir_ghg
     )
 
   ### electric ghg direct -----
@@ -402,7 +401,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
     .miles_per_gallon = mpe
   ) %>%
     select(everything(),
-      dir_ghg_electric = dir_ghg
+           dir_ghg_electric = dir_ghg
     )
 
   phev_dir_ghg <- left_join(
@@ -569,15 +568,15 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
         # .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg
-        # .is_av = .is_av
       )
 
     bev_fuel <-
       calc_fuel_use(
-        bev_vmt, .pass_tb,
-        mode,
-        # .electric_scenario,
-        .aeo_scenario, mpe
+        tb_vmt = bev_vmt,
+        tb = .pass_tb,
+        .mode = mode,
+        .aeo_scenario = .aeo_scenario,
+        .miles_per_gallon = mpe
       )
 
     pldv_scenario$fuel_use <- dplyr::bind_rows(
@@ -608,15 +607,15 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
     hev_cost <-
       calc_cost(hev_vmt, mode,
-        .selected_ctu = .selected_ctu,
-        "HEVPrice"
+                .selected_ctu = .selected_ctu,
+                "HEVPrice"
       )
 
     phev_cost <-
       calc_cost(phev_vmt,
-        .selected_ctu = .selected_ctu,
-        mode,
-        "PHEVPrice"
+                .selected_ctu = .selected_ctu,
+                mode,
+                "PHEVPrice"
       )
 
     bev_cost <-
@@ -625,7 +624,6 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "BEVPrice",
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 

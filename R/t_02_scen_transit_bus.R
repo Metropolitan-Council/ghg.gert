@@ -111,7 +111,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
@@ -126,7 +125,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
         # "CI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -156,7 +154,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "BCIPrice",
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -208,7 +205,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #   .fuel_type = "CI",
   #   .aeo_scenario = .aeo_scenario,
   #   .miles_per_gallon = mpg,
-  #   .is_av = FALSE,
   #   .enviro_factors = .enviro_factors
   # )
   #
@@ -221,7 +217,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     # "CI",
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpg,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -292,7 +287,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .fuel_type = .electric_scenario,
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpe,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -304,7 +298,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     # .electric_scenario,
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpe,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -326,7 +319,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     tb_vmt = bev_vmt,
   #     .mode = mode,
   #     .price = "BEVPrice",
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
 
@@ -382,7 +374,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .fuel_type = "BCI",
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpg,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -394,7 +385,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     # "BCI",
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpg,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -412,8 +402,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #   calc_cost(
   #     tb_vmt = ci_brt_vmt,
   #     .mode = mode,
-  #     .price = "BCIPrice",
-  #     .is_av = FALSE
+  #     .price = "BCIPrice"
   #   )
   #
   # #
@@ -475,7 +464,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     # .fuel_type = "HEV",
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpg,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -496,7 +484,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     tb_vmt = hev_brt_vmt,
   #     .mode = mode,
   #     .price = "HEVPrice",
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -546,7 +533,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .electric_scenario,
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpe,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -558,7 +544,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     # .fuel_type = .electric_scenario,
   #     .aeo_scenario = .aeo_scenario,
   #     .miles_per_gallon = mpe,
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -579,7 +564,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     tb_vmt = bev_brt_vmt,
   #     .mode = mode,
   #     .price = "BEVPrice",
-  #     .is_av = FALSE,
   #     .enviro_factors = .enviro_factors
   #   )
 

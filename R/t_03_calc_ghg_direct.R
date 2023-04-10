@@ -6,10 +6,9 @@
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
-#' @param .is_av logical, whether the mode is AV.
-#'     AV has a different MPG due to efficiency gains from automation of drive cycle.
-#'     Default is `FALSE`.
+#'
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams run_scenario_building
 #'
 #' @return [tibble::tibble()] with column names
 #'     - `type`
@@ -27,7 +26,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
-                            .is_av = FALSE,
+                            .grid_decarbonization_pct = 1,
                             .grid_decarbonization_pct = 0,
                             .enviro_factors = enviro_factors) {
   # browser()

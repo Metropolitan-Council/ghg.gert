@@ -9,8 +9,8 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
-#' @param .grid_decarbonization_pct numeric,
-#'       a value between `0` and `1`.
+#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
+#'   Default value is `1`.
 #'
 #' @return [tibble::tibble()].
 #'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.

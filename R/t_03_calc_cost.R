@@ -12,7 +12,6 @@ calc_cost <- function(tb_vmt,
                       .selected_ctu = "all",
                       .mode,
                       .price,
-                      .is_av = FALSE,
                       .enviro_factors = enviro_factors) {
   # browser()
 
@@ -21,8 +20,7 @@ calc_cost <- function(tb_vmt,
   tb_cost_current <- factor_values$cost %>%
     dplyr::filter(
       mode == .mode,
-      var == .price,
-      is_av == .is_av
+      var == .price
     ) %>%
     dplyr::mutate(cost_value = value / 1000)
 

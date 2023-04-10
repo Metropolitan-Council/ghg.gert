@@ -110,7 +110,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "CUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = .is_av,
       .enviro_factors = .enviro_factors
     )
 
@@ -173,7 +172,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .is_av = .is_av,
       .enviro_factors = .enviro_factors
     )
 
@@ -240,7 +238,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "SUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = .is_av,
       .enviro_factors = .enviro_factors
     )
 
@@ -306,7 +303,6 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .is_av = .is_av,
       .enviro_factors = .enviro_factors
     )
 

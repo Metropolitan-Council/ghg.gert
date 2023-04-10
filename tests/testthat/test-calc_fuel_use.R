@@ -37,8 +37,7 @@ si_fuel_use <- calc_fuel_use(
   .mode = "PLDV",
   # .fuel_type = "SI",
   .aeo_scenario = "REF",
-  .miles_per_gallon = "SIMPG",
-  .is_av = FALSE
+  .miles_per_gallon = "SIMPG"
 )
 
 
@@ -93,8 +92,7 @@ ci_fuel_use <- calc_fuel_use(
   .mode = "PLDV",
   # .fuel_type = "CI",
   .aeo_scenario = "REF",
-  .miles_per_gallon = "CIMPG",
-  .is_av = FALSE
+  .miles_per_gallon = "CIMPG"
 )
 
 
@@ -158,8 +156,7 @@ hev_fuel_use <- calc_fuel_use(
   .mode = "PLDV",
   # .fuel_type = "SI",
   .aeo_scenario = "REF",
-  .miles_per_gallon = "HEVMPG",
-  .is_av = FALSE
+  .miles_per_gallon = "HEVMPG"
 )
 
 testthat::expect_equal(

@@ -111,7 +111,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
@@ -170,7 +169,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
@@ -223,7 +221,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
@@ -251,7 +248,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpe,
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -263,7 +259,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
         # "BCI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg,
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -275,7 +270,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpe,
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -293,7 +287,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "EVPrice",
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 
@@ -308,7 +301,6 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "EVPrice",
-        .is_av = FALSE,
         .enviro_factors = .enviro_factors
       )
 

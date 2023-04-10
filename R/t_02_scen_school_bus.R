@@ -146,7 +146,6 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
         .mode = mode,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpg
-        # .is_av = .is_av
       )
 
     bev_fuel <-
@@ -157,7 +156,6 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = mpe
-        # .is_av = .is_av
       )
 
     school_bus$fuel_use <- dplyr::bind_rows(

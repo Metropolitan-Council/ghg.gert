@@ -9,6 +9,7 @@
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
 #'
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams run_scenario_building
 #' @inheritParams adj_fleet_shares
 #'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
