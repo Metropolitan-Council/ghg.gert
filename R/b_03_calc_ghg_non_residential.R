@@ -96,12 +96,12 @@ calc_ghg_non_residential <- function(non_res_tb,
           # electric emissions
           commercial_electricity_emissions_kg_co =
             commercial_mwh * (kg_per_mwh * (1 -
-                                              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
-                                            )),
+              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
+            )),
           industrial_electricity_emissions_kg_co =
             industrial_mwh * (kg_per_mwh * (1 -
-                                              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
-                                            )),
+              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1, grid_decarb + smart_grid_decarb)
+            )),
           # therm emissions
 
           commercial_natural_gas_emissions_kg_co =
@@ -172,9 +172,11 @@ calc_ghg_non_residential <- function(non_res_tb,
       values_to = "value",
       cols = -c(ctu_name, year)
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen"),
-                    sep = "\\.") %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen"),
+      sep = "\\."
+    ) %>%
     dplyr::ungroup()
 
   return(emis_final)

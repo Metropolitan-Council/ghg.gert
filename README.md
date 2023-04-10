@@ -36,9 +36,21 @@ remotes::install_github("Metropolitan-Council/councilR")
 
 ## Related repositories
 
--   [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
--   [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
--   [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
+- [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
+- [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
+- [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
+
+## Contributors
+
+[@botanize](https://github.com/botanize),
+[@christinasherpa24](https://github.com/christinasherpa24),
+[@Dabria0208](https://github.com/Dabria0208),
+[@ehesch](https://github.com/ehesch),
+[@eroten](https://github.com/eroten),
+[@hongtonglin](https://github.com/hongtonglin),
+[@leonx075](https://github.com/leonx075),
+[@mcnamx](https://github.com/mcnamx), and
+[@naomigiancola](https://github.com/naomigiancola).
 
 <a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;">
 

@@ -1,29 +1,41 @@
 library(ghg.sp)
 library(tidyverse)
 
-popdens_decrease <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                                .pop_dens_pct_change = -0.2,
-                                                .scenario = "pop_decrease")
+popdens_decrease <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .pop_dens_pct_change = -0.2,
+  .scenario = "pop_decrease"
+)
 
-popdens_increase <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                                .pop_dens_pct_change = 0.2,
-                                                .scenario = "pop_increase")
+popdens_increase <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .pop_dens_pct_change = 0.2,
+  .scenario = "pop_increase"
+)
 
-popdens_bau <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                           .pop_dens_pct_change = 0,
-                                           .scenario = "pop_bau")
+popdens_bau <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .pop_dens_pct_change = 0,
+  .scenario = "pop_bau"
+)
 
-empdens_decrease <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                                .emp_dens_pct_change = -0.2,
-                                                .scenario = "emp_decrease")
+empdens_decrease <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .emp_dens_pct_change = -0.2,
+  .scenario = "emp_decrease"
+)
 
-empdens_increase <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                                .emp_dens_pct_change = 0.2,
-                                                .scenario = "emp_increase")
+empdens_increase <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .emp_dens_pct_change = 0.2,
+  .scenario = "emp_increase"
+)
 
-empdens_bau <- run_scenario_transportation(.selected_ctu = "Minneapolis",
-                                           .emp_dens_pct_change = -0,
-                                           .scenario = "emp_bau")
+empdens_bau <- run_scenario_transportation(
+  .selected_ctu = "Minneapolis",
+  .emp_dens_pct_change = -0,
+  .scenario = "emp_bau"
+)
 
 popdens_decrease$passenger_all %>%
   bind_rows(popdens_decrease$freight_all) %>%
@@ -44,4 +56,3 @@ popdens_decrease$passenger_all %>%
   pivot_wider(names_from = change, values_from = emissions) %>%
   mutate(flag = if_else(decrease < bau, "reducing density reduces emissions", NA_character_)) %>%
   data.frame()
-

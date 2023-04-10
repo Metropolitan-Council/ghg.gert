@@ -43,7 +43,7 @@ calc_ghg_direct <- function(tb_vmt,
   ghg_factors_current <- factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
-                  ghg_factor = value
+      ghg_factor = value
     )
 
 
@@ -66,8 +66,8 @@ calc_ghg_direct <- function(tb_vmt,
   }
 
   aeo_ghg <- dplyr::left_join(ghg_factors_current,
-                              aeo_factors_current,
-                              by = c("year")
+    aeo_factors_current,
+    by = c("year")
   )
 
   tb_current <- tb %>%
@@ -86,17 +86,18 @@ calc_ghg_direct <- function(tb_vmt,
 
 
   tb_aeo_ghg <- dplyr::left_join(tb_current,
-                                 aeo_ghg,
-                                 by = c("year")
+    aeo_ghg,
+    by = c("year")
   ) %>%
     # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
     dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
     select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
 
-  if(.fuel_type == "BEV" & .grid_decarbonization_pct == 0){
+  if (.fuel_type == "BEV" & .grid_decarbonization_pct == 0) {
     cli::cli_warn(
-      "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid ")
+      "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid "
+    )
   }
 
   grid_elast <-
@@ -107,7 +108,8 @@ calc_ghg_direct <- function(tb_vmt,
         elas = .grid_decarbonization_pct,
         num_inits = 3,
         num_yrs = length(unique(tb_vmt$year)) - 3
-      ))
+      )
+    )
 
 
 
@@ -118,23 +120,26 @@ calc_ghg_direct <- function(tb_vmt,
     suffix = c(".vmt", ".aeo_ghg")
   ) %>%
     dplyr::left_join(grid_elast,
-              by = c("year")) %>%
-  dplyr::mutate(
-    dir_ghg =
-      dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-                     ((vmt / val_mpg_aeo) * ghg_factor * (1 - grid_decarb)),
-                     ((vmt / val_mpg_aeo) * ghg_factor))) %>%
+      by = c("year")
+    ) %>%
+    dplyr::mutate(
+      dir_ghg =
+        dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
+          ((vmt / val_mpg_aeo) * ghg_factor * (1 - grid_decarb)),
+          ((vmt / val_mpg_aeo) * ghg_factor)
+        )
+    ) %>%
     dplyr::select(type,
-                  # source,
-                  scenario,
-                  mode = mode.vmt,
-                  class,
-                  ctu,
-                  year,
-                  # aeo_scen,
-                  aeo_mode,
-                  # vmt,
-                  dir_ghg
+      # source,
+      scenario,
+      mode = mode.vmt,
+      class,
+      ctu,
+      year,
+      # aeo_scen,
+      aeo_mode,
+      # vmt,
+      dir_ghg
     ) %>%
     unique()
 

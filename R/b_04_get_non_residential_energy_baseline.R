@@ -14,7 +14,7 @@
 #' @export
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
-    #cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
+    # cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
 
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 

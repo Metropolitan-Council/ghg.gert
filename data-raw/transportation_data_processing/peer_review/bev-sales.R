@@ -2,26 +2,34 @@ pkgload::load_all()
 library(tidyverse)
 
 # debug(adj_fleet_shares)
-bev95 <- run_scenario_transportation(.selected_ctu = "Afton",
-                                     .calc_transp_ghg_embodied = TRUE,
-                                     .bev_pct_sales = .90,
-                                     .scenario = "bev95")
+bev95 <- run_scenario_transportation(
+  .selected_ctu = "Afton",
+  .calc_transp_ghg_embodied = TRUE,
+  .bev_pct_sales = .90,
+  .scenario = "bev95"
+)
 
-bev40 <- run_scenario_transportation(.selected_ctu = "Afton",
-                                     .calc_transp_ghg_embodied = TRUE,
-                                     .bev_pct_sales = .4,
-                                     .hev_pct_sales = 0.2,
-                                     .scenario = "bev40")
+bev40 <- run_scenario_transportation(
+  .selected_ctu = "Afton",
+  .calc_transp_ghg_embodied = TRUE,
+  .bev_pct_sales = .4,
+  .hev_pct_sales = 0.2,
+  .scenario = "bev40"
+)
 
-bev20 <- run_scenario_transportation(.selected_ctu = "Afton",
-                                     .calc_transp_ghg_embodied = TRUE,
-                                     .bev_pct_sales = .2,
-                                     .hev_pct_sales = 0.1,
-                                     .scenario = "bev20")
+bev20 <- run_scenario_transportation(
+  .selected_ctu = "Afton",
+  .calc_transp_ghg_embodied = TRUE,
+  .bev_pct_sales = .2,
+  .hev_pct_sales = 0.1,
+  .scenario = "bev20"
+)
 
-bev0 <- run_scenario_transportation(.selected_ctu = "Afton",
-                                    .calc_transp_ghg_embodied = TRUE,
-                                    .scenario = "bev0")
+bev0 <- run_scenario_transportation(
+  .selected_ctu = "Afton",
+  .calc_transp_ghg_embodied = TRUE,
+  .scenario = "bev0"
+)
 
 bev95$passenger_all %>%
   bind_rows(bev95$freight_all) %>%
@@ -31,12 +39,16 @@ bev95$passenger_all %>%
   bind_rows(bev20$freight_all) %>%
   bind_rows(bev0$passenger_all) %>%
   bind_rows(bev0$freight_all) %>%
-  filter(year %in% c("2040"),
-         type == "P") %>%
+  filter(
+    year %in% c("2040"),
+    type == "P"
+  ) %>%
   group_by(ctu, scenario, year) %>% # mode, sector
-  summarise(emissions = sum(dir_ghg, na.rm = T),
-            # ghg_embodied = sum(ghg_embodied, na.rm = T),
-            .groups = "keep") %>%
+  summarise(
+    emissions = sum(dir_ghg, na.rm = T),
+    # ghg_embodied = sum(ghg_embodied, na.rm = T),
+    .groups = "keep"
+  ) %>%
   pivot_wider(names_from = scenario, values_from = emissions) %>%
   data.frame()
 #>     ctu year     bev0    bev20    bev40    bev95
@@ -45,13 +57,19 @@ bev95$passenger_all %>%
 
 
 current_pct_sales <- transportation_data$passenger %>%
-  filter(mode == "PLDV",
+  filter(
+    mode == "PLDV",
     stringr::str_detect(var, "Sales"),
-    year == "2040") %>%
-  pivot_wider(names_from = "var",
-              values_from = value) %>%
-  mutate(pct_bev = BEVSales/ TotSales,
-         pct_alt = (BEVSales + HEVSales + PHEVSales)/TotSales) %>%
+    year == "2040"
+  ) %>%
+  pivot_wider(
+    names_from = "var",
+    values_from = value
+  ) %>%
+  mutate(
+    pct_bev = BEVSales / TotSales,
+    pct_alt = (BEVSales + HEVSales + PHEVSales) / TotSales
+  ) %>%
   select(year, ctu, pct_bev, pct_alt) %>%
   head()
 

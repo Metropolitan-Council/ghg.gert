@@ -13,7 +13,6 @@ enviro_factors <- list(
   # If .transit_service_pct = 0.2,
   # .transit_avo_pct must be at minimum 0.5 * 0.2 = 0.1
   TRANSIT_SERVICE_AVO_MIN = 0.5,
-
   SI_FUEL_COST_GAL = 239.8 / 100, # in dollars per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)
   CI_FUEL_COST_GAL = 264.0 / 100, # in dollars per gal https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm (about 44 cents per mile, so about equal to Barnes estimate)
   ELEC_FUEL_COST_KWH = 13 / 100, # in dollars per kWh https://www.xcelenergy.com/staticfiles/xe/PDF/Marketing/MN-SST-Interim-Rates.pdf

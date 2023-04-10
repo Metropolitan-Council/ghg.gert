@@ -57,8 +57,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d) {
-
-  #browser()
+  # browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -112,22 +111,26 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-  if(.transit_service_pct != 0 & .transit_avo_pct < (
-    .enviro_factors$TRANSIT_SERVICE_AVO_MIN * .transit_service_pct)){
-    cli::cli_warn(c("Transit AVO adjustment too low for given transit service adjustment",
-                    paste0("Changing `.transit_avo_pct` to ",
-                           .transit_service_pct * .enviro_factors$TRANSIT_SERVICE_AVO_MIN)))
+  if (.transit_service_pct != 0 & .transit_avo_pct < (
+    .enviro_factors$TRANSIT_SERVICE_AVO_MIN * .transit_service_pct)) {
+    cli::cli_warn(c(
+      "Transit AVO adjustment too low for given transit service adjustment",
+      paste0(
+        "Changing `.transit_avo_pct` to ",
+        .transit_service_pct * .enviro_factors$TRANSIT_SERVICE_AVO_MIN
+      )
+    ))
 
     .transit_avo_pct <- .enviro_factors$TRANSIT_SERVICE_AVO_MIN * .transit_service_pct
   }
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-      .payd_fee > 0 |
-      .gas_tax > 0 |
-      .bev_pct_sales > 0 |
-      .hev_pct_sales > 0 |
-      .phev_pct_sales > 0) {
+    .payd_fee > 0 |
+    .gas_tax > 0 |
+    .bev_pct_sales > 0 |
+    .hev_pct_sales > 0 |
+    .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -550,10 +553,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- left_join(freight_vmt, freight_ghg,
-                           by = c(
-                             "type", "scenario", "ctu",
-                             "year", "mode", "aeo_mode", "class"
-                           )
+    by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )
   )
 
   freight <- list(
@@ -569,8 +572,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario,
-             direct = dir_ghg,
-             mode
+        direct = dir_ghg,
+        mode
       ) %>%
       unique() %>%
       mutate(
@@ -585,7 +588,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       select(ctu, year, scenario, mode,
-             direct = dir_ghg
+        direct = dir_ghg
       ) %>%
       unique() %>%
       mutate(

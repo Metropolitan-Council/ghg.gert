@@ -61,48 +61,48 @@ calc_electrify_residential_heating <- function(res_tb,
       # reduced therms
       reduced_therms.scen.2040 =
         residential_therms.scen.2040 *
-        .additional_electrified_residential_buildings_pct,
+          .additional_electrified_residential_buildings_pct,
 
       # scenario therms 2040
       residential_therms.scen.2040 =
         residential_therms.scen.2040 -
-        reduced_therms.scen.2040,
+          reduced_therms.scen.2040,
 
       # residential natural gas emissions
       residential_natural_gas_emissions_kg_co.scen.2040 =
 
         residential_therms.scen.2040 *
-        .enviro_factors$KG_CO2E_PER_THERM_FORECAST,
+          .enviro_factors$KG_CO2E_PER_THERM_FORECAST,
 
       # residential MWH scenario 2040
       residential_mwh.scen.2040 =
         residential_mwh.scen.2040 +
-        (
           (
-            reduced_therms.scen.2040 *
-              .res_natural_gas_for_space_heating_pct *
-              .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
-          ) * .enviro_factors$THERM_TO_MWH +
             (
               reduced_therms.scen.2040 *
-                .res_natural_gas_for_water_heating_pct *
+                .res_natural_gas_for_space_heating_pct *
                 .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
-            ) * .enviro_factors$THERM_TO_MWH
-        ),
-
+            ) * .enviro_factors$THERM_TO_MWH +
+              (
+                reduced_therms.scen.2040 *
+                  .res_natural_gas_for_water_heating_pct *
+                  .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
+              ) * .enviro_factors$THERM_TO_MWH
+          ),
       residential_electricity_emissions_kg_co.scen.2040 =
         residential_mwh.scen.2040 *
-        .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct)
-
+          .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct)
     ) %>%
     tidyr::pivot_longer(
       cols = c(2:last_col()),
       names_to = "var",
       values_to = "value"
     ) %>%
-    tidyr::separate(col = var,
-                    into = c("var", "scen", "year"),
-                    sep = "\\.") %>%
+    tidyr::separate(
+      col = var,
+      into = c("var", "scen", "year"),
+      sep = "\\."
+    ) %>%
     dplyr::ungroup()
 
 

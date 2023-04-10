@@ -353,11 +353,11 @@ scen_passenger_light_duty <- function(.pass_tb,
   phev_vmt <- left_join(
     phev_vmt_electric %>%
       select(everything(),
-             vmt_electric = vmt
+        vmt_electric = vmt
       ),
     phev_vmt_gas %>%
       select(everything(),
-             vmt_gas = vmt
+        vmt_gas = vmt
       ),
     c(
       "type",
@@ -388,7 +388,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .enviro_factors = .enviro_factors
   ) %>%
     select(everything(),
-           dir_ghg_gas = dir_ghg
+      dir_ghg_gas = dir_ghg
     )
 
   ### electric ghg direct -----
@@ -401,7 +401,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .miles_per_gallon = mpe
   ) %>%
     select(everything(),
-           dir_ghg_electric = dir_ghg
+      dir_ghg_electric = dir_ghg
     )
 
   phev_dir_ghg <- left_join(
@@ -427,7 +427,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon =  mpe,
+    .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors
   )
@@ -546,11 +546,11 @@ scen_passenger_light_duty <- function(.pass_tb,
     phev_fuel <- left_join(
       phev_fuel_electric %>%
         select(everything(),
-               fuel_use_electric = fuel_use
+          fuel_use_electric = fuel_use
         ),
       phev_fuel_gas %>%
         select(everything(),
-               fuel_use_gas = fuel_use
+          fuel_use_gas = fuel_use
         ),
       c(
         "type",
@@ -609,15 +609,15 @@ scen_passenger_light_duty <- function(.pass_tb,
 
     hev_cost <-
       calc_cost(hev_vmt, mode,
-                .selected_ctu = .selected_ctu,
-                "HEVPrice"
+        .selected_ctu = .selected_ctu,
+        "HEVPrice"
       )
 
     phev_cost <-
       calc_cost(phev_vmt,
-                .selected_ctu = .selected_ctu,
-                mode,
-                "PHEVPrice"
+        .selected_ctu = .selected_ctu,
+        mode,
+        "PHEVPrice"
       )
 
     bev_cost <-
@@ -643,9 +643,9 @@ scen_passenger_light_duty <- function(.pass_tb,
   if (.calc_transp_ghg_embodied == TRUE) {
     si_emb_ghg <-
       calc_ghg_embodied(.pass_tb, mode,
-                        .class = class,
-                        "SISales",
-                        "SI-EMB"
+        .class = class,
+        "SISales",
+        "SI-EMB"
       )
 
     ci_emb_ghg <-

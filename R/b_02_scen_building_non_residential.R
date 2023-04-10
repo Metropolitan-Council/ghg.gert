@@ -77,7 +77,6 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors) {
-
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)

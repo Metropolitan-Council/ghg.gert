@@ -2,12 +2,16 @@ Type: Package
 Package: ghg.sp
 Title: Greenhouse Gas Scenario Planning for Twin Cities Metropolitan
     Region
-Version: 0.1.9.9001
-Date: 2022-03-02
+Version: 0.2.0
+Date: 2023-04-10
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
-           comment = c(ORCID = "0000-0002-5346-3549"))
+           comment = c(ORCID = "0000-0002-5346-3549")),
+    person("Mauricio", "León", , "mauricio.leon@metc.state.mn.us", role = "ctb"),
+    person("Ellen", "Esch", , "ellen.esch@metc.state.mn.us", role = "ctb",
+           comment = c(ORCID = "0000-0002-4253-0910")),
+    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us")
   )
 Description: Tools for the Metropolitan Council GHG scenario planning app.
 License: MIT + file LICENSE

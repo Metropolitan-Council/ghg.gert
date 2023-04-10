@@ -833,8 +833,9 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
-   if(.transit_avo_pct != 0){
-     cli::cli_warn("Occupany has no effect on school bus or freight modes")}
+    if (.transit_avo_pct != 0) {
+      cli::cli_warn("Occupany has no effect on school bus or freight modes")
+    }
     # return same value, no change
     mode_avo <- tb %>%
       filter(
