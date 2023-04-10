@@ -216,8 +216,8 @@ buildings.}
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
-\item{.grid_decarbonization_pct}{numeric,
-a value between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.scenario}{character, scenario name. JUST A LABEL}
 
@@ -273,15 +273,18 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 Numeric between 0 and 1. Default is \code{0}}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+Percent of all vehicle  sales that are battery electric vehicles (BEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
-Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}

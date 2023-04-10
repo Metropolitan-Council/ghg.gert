@@ -67,8 +67,8 @@ Default is \code{0.20}.}
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{1.00}.}
 
-\item{.grid_decarbonization_pct}{numeric,
-a value between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of buildings that would

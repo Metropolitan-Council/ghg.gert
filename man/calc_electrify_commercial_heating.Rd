@@ -27,8 +27,8 @@ Default is \code{0.20}.}
 The percent of natural gas that is commonly used for space heating in commercial buildings.
 Default is \code{0.69}.}
 
-\item{.grid_decarbonization_pct}{numeric,
-a value between \code{0} and \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.enviro_factors}{}
 }
@@ -51,7 +51,7 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 \dontrun{
 library(ghg.sp)
 calc_electrify_commercial_heating(
-  non_res_tb = ghg.sp::calc_ghg_non_residential(
+  non_res_tb = calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
     .selected_ctu = "all",

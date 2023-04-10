@@ -11,8 +11,7 @@ calc_ghg_direct(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .is_av = FALSE,
-  .grid_decarbonization_pct = 0,
+  .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors
 )
 }
@@ -32,9 +31,8 @@ Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
-\item{.is_av}{logical, whether the mode is AV.
-AV has a different MPG due to efficiency gains from automation of drive cycle.
-Default is \code{FALSE}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

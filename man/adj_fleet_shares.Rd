@@ -5,8 +5,8 @@
 \title{Adjust passenger light duty fleet power train distribution before running scenario}
 \usage{
 adj_fleet_shares(
-  .pass_tb = transportation_data$passenger,
-  .freight_tb = transportation_data$freight,
+  .pass_tb,
+  .freight_tb,
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
@@ -18,20 +18,25 @@ adj_fleet_shares(
 )
 }
 \arguments{
-\item{.pass_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}. Passenger input table. Default is \code{transportation_data$passenger}.}
+\item{.pass_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}. Passenger input table.
+Default is \code{transportation_data$passenger}.}
 
-\item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} #' freight input table. Default is \code{transportation_data$freight}.}
+\item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} Freight input table.
+Default is \code{transportation_data$freight}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+Percent of all vehicle  sales that are battery electric vehicles (BEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
-Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
@@ -51,17 +56,12 @@ Default is \code{0}}
 \description{
 Match what the user input for sales in the final forecast year rather
 than the defaults from MA3TFleet held fixed in all cases.
-AV/DRS scenarios adjust the sales
-total up, but they adjust the existing stock down to match total stock
-in each year.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Jason has a model used to forecast vehicle fleet shares between powertrains.
 Distribute personal vehicle VMT between the different powertrains.
 Ratio of vehicle stocks by powertrain type.
 If the user inputs a different percent for BEV, update vehicles by existing
 vehicles and new sales
-DRS will take away from VMT for passenger vehicles.
-Run this before anything else
 
 Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 cost elasticity, gas taxes, and VMT and PAYD fees.

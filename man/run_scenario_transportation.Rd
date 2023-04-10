@@ -13,7 +13,7 @@ run_scenario_transportation(
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 0,
+  .grid_decarbonization_pct = 1,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -50,6 +50,9 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
+
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.scenario}{character, scenario name. JUST A LABEL}
 
@@ -105,15 +108,18 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 Numeric between 0 and 1. Default is \code{0}}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are battery electric vehicles (BEV) in the final forecast year.
+Percent of all vehicle  sales that are battery electric vehicles (BEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of sales that are plug-in hybrid electric (PHEV) in the final forecast year.
+Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
-Percent of sales that are hybrid electric vehicles (HEV) in the final forecast year.
+Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+in the final forecast year.
 Default is \code{0}.}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}

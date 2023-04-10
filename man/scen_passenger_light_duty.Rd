@@ -5,7 +5,7 @@
 \title{Calculate scenario for passenger light-duty vehicles}
 \usage{
 scen_passenger_light_duty(
-  .pass_tb = transportation_data$passenger,
+  .pass_tb,
   .selected_ctu = "all",
   .scenario = "BAU",
   .electric_scenario = "ER",
@@ -29,7 +29,7 @@ scen_passenger_light_duty(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .mit_bau_summary = 0,
-  .grid_decarbonization_pct = 0,
+  .grid_decarbonization_pct = 1,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
@@ -96,6 +96,9 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 Numeric between 0 and 1. Default is \code{0}}
 
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
+
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 

@@ -9,7 +9,6 @@ calc_cost(
   .selected_ctu = "all",
   .mode,
   .price,
-  .is_av = FALSE,
   .enviro_factors = enviro_factors
 )
 }
@@ -19,10 +18,6 @@ calc_cost(
 \item{.mode}{character, given transportation mode.}
 
 \item{.price}{character, price variable. Options include \code{"SIPrice"}}
-
-\item{.is_av}{logical, whether the mode is AV.
-AV has a different MPG due to efficiency gains from automation of drive cycle.
-Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }

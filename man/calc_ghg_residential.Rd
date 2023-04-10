@@ -16,6 +16,9 @@ calc_ghg_residential(
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}
 
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{1}.}
+
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{

@@ -10,7 +10,6 @@ calc_fuel_use(
   .mode,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .is_av = FALSE,
   .enviro_factors = enviro_factors
 )
 }
@@ -27,10 +26,6 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
-
-\item{.is_av}{logical, whether the mode is AV.
-AV has a different MPG due to efficiency gains from automation of drive cycle.
-Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
