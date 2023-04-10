@@ -9,7 +9,7 @@
 #'
 #' @importFrom emo ji
 #' @importFrom usethis ui_done
-scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
+scen_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu = "all",
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
@@ -33,7 +33,7 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
-                                      .grid_decarbonization_pct = 0,
+                                      .grid_decarbonization_pct = 1,
                                       .enviro_factors = enviro_factors,
                                       .elast = elast,
                                       .elast_5d = elast_5d,
@@ -353,11 +353,11 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   phev_vmt <- left_join(
     phev_vmt_electric %>%
       select(everything(),
-        vmt_electric = vmt
+             vmt_electric = vmt
       ),
     phev_vmt_gas %>%
       select(everything(),
-        vmt_gas = vmt
+             vmt_gas = vmt
       ),
     c(
       "type",
@@ -422,12 +422,14 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   message("Passenger vehicles, battery electric")
 
+  browser()
   fcm <- calc_fuel_cost_mile(
-    .pass_tb,
-    mode,
-    .aeo_scenario,
-    mpe,
-    .enviro_factors$ELEC_FUEL_COST_KWH
+    tb = .pass_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon =  mpe,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors
   )
 
   bev_vmt <-
@@ -466,11 +468,12 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
 
   bev_dir_ghg <-
     calc_ghg_direct(
-      bev_vmt, .pass_tb,
-      mode,
-      .electric_scenario,
-      .aeo_scenario,
-      mpe,
+      tb_vmt = bev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
       .grid_decarbonization_pct = .grid_decarbonization_pct
     )
 
@@ -537,18 +540,17 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
       # .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .is_av = FALSE,
       .enviro_factors = .enviro_factors
     )
 
     phev_fuel <- left_join(
       phev_fuel_electric %>%
         select(everything(),
-          fuel_use_electric = fuel_use
+               fuel_use_electric = fuel_use
         ),
       phev_fuel_gas %>%
         select(everything(),
-          fuel_use_gas = fuel_use
+               fuel_use_gas = fuel_use
         ),
       c(
         "type",
@@ -641,9 +643,9 @@ scen_passenger_light_duty <- function(.pass_tb = transportation_data$passenger,
   if (.calc_transp_ghg_embodied == TRUE) {
     si_emb_ghg <-
       calc_ghg_embodied(.pass_tb, mode,
-        .class = class,
-        "SISales",
-        "SI-EMB"
+                        .class = class,
+                        "SISales",
+                        "SI-EMB"
       )
 
     ci_emb_ghg <-
