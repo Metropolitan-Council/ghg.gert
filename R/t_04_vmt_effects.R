@@ -730,6 +730,7 @@ vmt_transit_service <- function(tb,
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
 #' @importFrom dplyr right_join
+#' @importFrom cli cli_warn
 vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
@@ -832,7 +833,8 @@ vmt_vehicle_occupancy <- function(tb,
     "AIR",
     "WAT"
   )) {
-   if(.transit_avo_pct != 0){cli::cli_warn("Occupany no effect on school bus or freight modes")}
+   if(.transit_avo_pct != 0){
+     cli::cli_warn("Occupany has no effect on school bus or freight modes")}
     # return same value, no change
     mode_avo <- tb %>%
       filter(
