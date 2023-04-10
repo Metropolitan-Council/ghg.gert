@@ -27,14 +27,13 @@ calc_ghg_direct <- function(tb_vmt,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
                             .grid_decarbonization_pct = 1,
-                            .grid_decarbonization_pct = 0,
                             .enviro_factors = enviro_factors) {
   # browser()
 
   ghg_factors_current <- factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
-      ghg_factor = value
+                  ghg_factor = value
     )
 
 
@@ -57,8 +56,8 @@ calc_ghg_direct <- function(tb_vmt,
   }
 
   aeo_ghg <- dplyr::left_join(ghg_factors_current,
-    aeo_factors_current,
-    by = c("year")
+                              aeo_factors_current,
+                              by = c("year")
   )
 
   tb_current <- tb %>%
@@ -77,13 +76,18 @@ calc_ghg_direct <- function(tb_vmt,
 
 
   tb_aeo_ghg <- dplyr::left_join(tb_current,
-    aeo_ghg,
-    by = c("year")
+                                 aeo_ghg,
+                                 by = c("year")
   ) %>%
     # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
     dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
     select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
+
+  if(class == "BEV" & .grid_decarbonization_pct == 0){
+    cli::cli_warn(
+      "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid ")
+  }
 
   ghg <- dplyr::left_join(
     tb_vmt,
@@ -93,20 +97,20 @@ calc_ghg_direct <- function(tb_vmt,
   ) %>%
     dplyr::mutate(
       dir_ghg =
-      dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-              ((vmt / val_mpg_aeo) * ghg_factor * (1 - .grid_decarbonization_pct)),
-              ((vmt / val_mpg_aeo) * ghg_factor))) %>%
+        dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
+                       ((vmt / val_mpg_aeo) * ghg_factor * (1 - .grid_decarbonization_pct)),
+                       ((vmt / val_mpg_aeo) * ghg_factor))) %>%
     dplyr::select(type,
-      # source,
-      scenario,
-      mode = mode.vmt,
-      class,
-      ctu,
-      year,
-      # aeo_scen,
-      aeo_mode,
-      # vmt,
-      dir_ghg
+                  # source,
+                  scenario,
+                  mode = mode.vmt,
+                  class,
+                  ctu,
+                  year,
+                  # aeo_scen,
+                  aeo_mode,
+                  # vmt,
+                  dir_ghg
     ) %>%
     unique()
 
