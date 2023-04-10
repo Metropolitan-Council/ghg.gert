@@ -34,7 +34,7 @@
 #' \dontrun{
 #' library(ghg.sp)
 #' calc_electrify_commercial_heating(
-#'   non_res_tb = ghg.sp::calc_ghg_non_residential(
+#'   non_res_tb = calc_ghg_non_residential(
 #'     non_res_tb = building_energy_bau_data$non_residential,
 #'     non_res_tb_bau = building_energy_bau_data$non_residential,
 #'     .selected_ctu = "all",

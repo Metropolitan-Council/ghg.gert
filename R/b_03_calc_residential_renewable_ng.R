@@ -16,8 +16,8 @@
 #' \dontrun{
 #' library(ghg.sp)
 #'
-#' ghg.sp::calc_residential_renewable_ng(
-#'   res_tb = ghg.sp::calc_ghg_residential(
+#' calc_residential_renewable_ng(
+#'   res_tb = calc_ghg_residential(
 #'    res_tb = building_data$residential,
 #'    res_tb_bau = building_data$residential,
 #'    .selected_ctu = "all",

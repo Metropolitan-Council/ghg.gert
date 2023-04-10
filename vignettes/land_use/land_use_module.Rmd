@@ -19,25 +19,25 @@ library(ghg.sp)
 ```
 
 ```{r}
-ghg.sp::calc_land_cover_percentages(tb = land_use_data) %>%
+calc_land_cover_percentages(tb = land_use_data) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 ```{r}
-ghg.sp::calc_land_by_development_type(
+calc_land_by_development_type(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 ```{r}
-ghg.sp::calc_land_cover_by_land_use(
+calc_land_cover_by_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 ```{r}
-ghg.sp::calc_scen_land_use(
+calc_scen_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
@@ -46,7 +46,7 @@ ghg.sp::calc_scen_land_use(
 ## Additional Strategies
 
 ```{r}
-ghg.sp::calc_tree_planting_land_cover(
+calc_tree_planting_land_cover(
   tb = land_use_data,
   detail = FALSE,
   .urban_form_scenario = "bau",
@@ -57,7 +57,7 @@ ghg.sp::calc_tree_planting_land_cover(
   dplyr::filter(ctu_name == "Lake Elmo")
 ```
 ```{r}
-ghg.sp::calc_parking_lot_land_cover(
+calc_parking_lot_land_cover(
   tb = land_use_data,
   .urban_form_scenario = "bau",
   .parking_lot_reduction_percentage = 0.8,
@@ -70,7 +70,7 @@ ghg.sp::calc_parking_lot_land_cover(
 ```
 
 ```{r}
-ghg.sp::calc_conservation_tillage(
+calc_conservation_tillage(
   tb = land_use_data,
   .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",

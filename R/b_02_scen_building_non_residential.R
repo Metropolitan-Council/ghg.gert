@@ -82,13 +82,13 @@ scen_building_non_residential <- function(non_res_tb,
 
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
-  tb01 <- ghg.sp::calc_existing_comm_building_efficiency(
+  tb01 <- calc_existing_comm_building_efficiency(
     non_res_tb = building_energy_bau_data$non_residential,
     .selected_ctu = .selected_ctu,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
   )
   # tb01 calculates energy efficiency reduction
-  tb02 <- ghg.sp::calc_ghg_non_residential(
+  tb02 <- calc_ghg_non_residential(
     non_res_tb = tb01,
     non_res_tb_bau = non_res_tb_bau,
     .selected_ctu = .selected_ctu,
@@ -100,7 +100,7 @@ scen_building_non_residential <- function(non_res_tb,
     .enviro_factors = .enviro_factors
   )
   # tb02 calculates conversion to electric heating
-  tb03 <- ghg.sp::calc_electrify_commercial_heating(
+  tb03 <- calc_electrify_commercial_heating(
     non_res_tb = tb02,
     .selected_ctu = .selected_ctu,
     .electrified_buildings_pct = .electrified_buildings_pct,
@@ -111,7 +111,7 @@ scen_building_non_residential <- function(non_res_tb,
   )
 
   # tb03 calculates non residential renewable natural gas emissions reduction
-  tb04 <- ghg.sp::calc_non_res_renewable_ng(
+  tb04 <- calc_non_res_renewable_ng(
     non_res_tb = tb03,
     .renewable_ng_nonres = .renewable_ng_nonres,
     .selected_ctu = .selected_ctu,

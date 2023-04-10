@@ -541,7 +541,7 @@ calc_floor_area_behavior_change <- function(res_tb,
 #' library(ghg.sp)
 #'
 #' calc_affordable_floor_area
-#' ghg.sp::calc_affordable_floor_area(
+#' calc_affordable_floor_area(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .single_family_floor_area_growth_pct = 0.05

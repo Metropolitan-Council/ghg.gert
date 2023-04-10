@@ -3,7 +3,7 @@ library(ghg.sp)
 
 # business as usual
 
-building_energy_bau_data <- ghg.sp::compile_bau_building_energy(tb = building_energy_data)
+building_energy_bau_data <- compile_bau_building_energy(tb = building_energy_data)
 
 # strategies
 

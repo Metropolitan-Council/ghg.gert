@@ -92,14 +92,14 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # B.R2 (Affordable Floor Area)
-  tb02 <- ghg.sp::calc_affordable_floor_area(
+  tb02 <- calc_affordable_floor_area(
     res_tb = tb01,
     .selected_ctu = .selected_ctu,
     .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct
   )
 
   # B.R3 (New Homes LEED Gold)
-  tb03 <- ghg.sp::calc_floor_area_leed(
+  tb03 <- calc_floor_area_leed(
     res_tb = tb02,
     .selected_ctu = .selected_ctu,
     .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
@@ -107,7 +107,7 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # B.R4 + BR5 (Retrofit Homes)
-  tb04 <- ghg.sp::calc_floor_area_retrofit(
+  tb04 <- calc_floor_area_retrofit(
     res_tb = tb03,
     .selected_ctu = .selected_ctu,
     .existing_home_retrofit_pct = .existing_home_retrofit_pct,
@@ -116,14 +116,14 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # B.R6 (Behavior Change)
-  tb05 <- ghg.sp::calc_floor_area_behavior_change(
+  tb05 <- calc_floor_area_behavior_change(
     res_tb = tb04,
     .selected_ctu = .selected_ctu,
     .home_behavior_change_pct = .home_behavior_change_pct,
     .enviro_factors = .enviro_factors
   )
 
-  tb06 <- ghg.sp::calc_ghg_residential(
+  tb06 <- calc_ghg_residential(
     res_tb = tb05,
     res_tb_bau = res_tb_bau,
     .selected_ctu = .selected_ctu,
@@ -132,7 +132,7 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # B.R (Electrify residential Buildings)
-  tb07 <- ghg.sp::calc_electrify_residential_heating(
+  tb07 <- calc_electrify_residential_heating(
     res_tb = tb06,
     .selected_ctu = .selected_ctu,
     .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
@@ -143,7 +143,7 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # (Renewable Natural Gas)
-  tb08 <- ghg.sp::calc_residential_renewable_ng(
+  tb08 <- calc_residential_renewable_ng(
     res_tb = tb07,
     .selected_ctu = .selected_ctu,
     .renewable_ng_res = .renewable_ng_res,
