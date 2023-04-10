@@ -9,6 +9,8 @@ A named list of 19 values.
 \describe{
 \item{TRANSIT_SERVICE_ELAST}{Effect of increase in transit service on
 increase in transit ridership and decrease in PLDV. Citation forthcoming.}
+\item{TRANSIT_SERVICE_AVO_MIN}{Minimum percent of transit service increase
+that transit vehicle occupancy must increase by.}
 \item{SI_FUEL_COST_GAL}{Gasoline fuel cost in cents per gal
 https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm
 (about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)}
