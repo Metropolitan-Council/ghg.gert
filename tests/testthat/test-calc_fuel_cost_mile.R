@@ -1,4 +1,3 @@
-
 # Gasoline------
 
 
@@ -7,8 +6,7 @@ fcm <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
-  .fuel_cost_gallon = 239.8,
-  .av_pct = 0
+  .fuel_cost_gallon = 239.8
 ) %>%
   select(year, fuel_cost_mile)
 
@@ -29,8 +27,7 @@ fcm <- calc_fuel_cost_mile(
   .mode = "PLDV",
   .aeo_scenario = "REF",
   .miles_per_gallon = "CIMPG",
-  .fuel_cost_gallon = 264,
-  .av_pct = 0
+  .fuel_cost_gallon = 264
 )
 
 

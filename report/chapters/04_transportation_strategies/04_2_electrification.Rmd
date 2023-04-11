@@ -1,0 +1,97 @@
+### Vehicle Electrification
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
+
+Vehicle electrification is widely recognized as a central pillar of transportation decarbonization [@sustainable_development_solutions_network_americas_2020]. The effectiveness of this strategy relies on a combination of market uptake and decarbonization of the electricity grid. 
+
+
+#### Electric Vehicle market share  
+
+The Greenhouse Gas Scenario Planning Tool aims to assess the potential impact of electric vehicles (EV) on greenhouse gas emissions in the Twin Cities metropolitan region.
+
+The Tool also accounts for the fact that plug-in hybrid electric vehicles may operate in both electric and gasoline modes, and estimates the fraction of time that these vehicles operate in each mode based on the average distance that they can travel on electric power and data on household vehicle usage. The tool aims to provide insight into the potential for electric vehicles to reduce GHG emissions in the region and inform policy decisions related to electric vehicle adoption.
+
+
+<!-- It was found that the estimate for EV penetration by 2020 is high compared with what is observed in the county totals for that year. The model predicts 4,920 PHEV and BEV vehicles in 2015 and 97,091 such vehicles in 2020 for the seven-county region. For comparison, the Alternative Fuels Data Center (AFDC) only shows 4,740 registered vehicles in 2018 [@afdcLightDutyAFVRegistrations2018] and MnDOT shows 17,146 registered electric vehicles in 2020 [@mndotElectricVehicleDashboard2020]. LM: I'm not clear what model this is talking about; the GHG.SP model? 2020 isn't a timepoint in this tool though...? Commenting this out for now  -->
+
+
+```{r fig-bev, echo=FALSE, message=FALSE}
+#| fig.cap = "Comparing the direct and embodied greenhouse gas emissions between years 2018 and 2040 for different percentages of vehicles sales which are battery electric.",
+#| fig.align = 'center',
+#| fig.width = 8,
+#| fig.height = 3
+
+bev_ctu %>%
+  filter(year %in% c("2018", "2040")) %>%
+  group_by(year, ctu, param, type) %>%
+  summarize(emissions = sum(emissions)) %>%
+  mutate(level = paste0(as.numeric(param) * 100, "%")) %>%
+  ggplot(aes(x = year, y = emissions, color = level, group = level)) +
+  geom_line() +
+  facet_wrap(~type,
+    scales = "free",
+    labeller = as_labeller(c(
+      direct = str_wrap("Direct emissions", 10),
+      embodied = str_wrap("Embodied emissions", 10)
+    ))
+  ) +
+  scale_color_manual(
+    values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
+    breaks = c("20%", "40%", "60%", "80%", "100%")
+  ) +
+  labs(
+    x = "", y = "",
+    color = paste0(params$ctu_selection, "\nsales that are\nbattery electric (%)")
+  ) +
+  scale_y_continuous(labels = scales::label_comma()) +
+  theme(
+    panel.background = element_rect(fill = "white"),
+    # panel.grid = element_blank(),
+    axis.title = element_text(size = 14),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 10)
+  )
+```
+
+```{r tab-bev-comp2, echo=FALSE, message=FALSE}
+bau_ctu %>%
+  ungroup() %>%
+  left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+  filter(
+    year %in% c("2018", "2040"),
+    type == "direct"
+  ) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = emissions
+  ) %>%
+  select(
+    `Mode` = mode_description_1,
+    `2018 Baseline` = `2018`,
+    `2040 Business-as-Usual` = `2040`
+  ) %>%
+  left_join(bev_ctu %>%
+    ungroup() %>%
+    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+    filter(
+      year %in% c("2040"),
+      type == "direct",
+      scenario == "bev600"
+    ) %>%
+    pivot_wider(
+      names_from = year,
+      values_from = emissions
+    ) %>%
+    select(
+      `Mode` = mode_description_1,
+      `2040 Scenario` = `2040`
+    )) %>%
+  tableformat(.,
+    .caption = paste("Emissions in thousands of tonnes CO2e - 60% vehicle sales battery electric", params$ctu_selection)
+  )
+```

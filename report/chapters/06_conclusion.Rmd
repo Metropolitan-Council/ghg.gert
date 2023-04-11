@@ -1,0 +1,3 @@
+# Conclusion
+
+The report reviewed strategies to minimize GHG emissions within building energy, land use, and transportation for the City of `r params$ctu_selection`. Further work is underway to complete modeling and create an interactive web application for further exploration of these strategies and their potential impacts on GHG emissions in the Twin Cities region.

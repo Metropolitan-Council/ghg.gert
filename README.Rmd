@@ -48,4 +48,8 @@ remotes::install_github("Metropolitan-Council/councilR")
 - [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
 
 
+## Contributors 
+
+[&#x0040;botanize](https://github.com/botanize), [&#x0040;christinasherpa24](https://github.com/christinasherpa24), [&#x0040;Dabria0208](https://github.com/Dabria0208), [&#x0040;ehesch](https://github.com/ehesch), [&#x0040;eroten](https://github.com/eroten), [&#x0040;hongtonglin](https://github.com/hongtonglin), [&#x0040;leonx075](https://github.com/leonx075), [&#x0040;mcnamx](https://github.com/mcnamx), and [&#x0040;naomigiancola](https://github.com/naomigiancola).
+
 <a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;"><div></div></a>

@@ -1,0 +1,572 @@
+---
+title: "Greenhouse Gas Emissions Scenario Planning"
+author: "Metropolitan Council"
+date: "`r format(Sys.time(), '%B %Y')`"
+params:
+    ctu_selection: "Minneapolis"
+    county_selection: "Hennepin"
+output: 
+    bookdown::word_document2:
+    reference_docx: wordtemplate.docx
+    always_allow_html: true
+  # bookdown::html_document2:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+    number_sections: true
+    # df-print: kable
+    # css: styles.css
+    # html-math-method: katex
+    # self-contained: true
+bibliography: ../../references.bib
+# runtime: shiny
+self_contained: true
+mainfont: "Helvetica"
+---
+
+*Prepared for the City of `r params$ctu_selection`*
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>", echo = FALSE,
+  fig.width = 6
+)
+```
+
+```{r libraries}
+#| echo: false
+#| message: false
+library(ghg.sp)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(shiny)
+library(patchwork)
+library(flextable)
+
+options(scipen = 1, digits = 2)
+load(file = file.path(here::here(),"data-raw/transportation_report_data.rda"))
+
+```
+
+```{r, kableformat}
+#| echo: false
+kableformat <- function(data, .caption) {
+  data %>%
+    left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+    rename(
+      "Variables" = "desc",
+      "Value" = "value"
+    ) %>%
+    kableExtra::kable(
+      caption = .caption,
+      format = "html",
+      escape = FALSE,
+      format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
+}
+```
+
+```{r variables}
+#| echo: false
+#| message: false
+variables <- rbind(
+  
+  # baseline
+  data.frame(
+    var = "population",
+    desc = "Population"
+  ),
+  data.frame(
+    var = "households",
+    desc = "Households"
+  ),
+  data.frame(
+    var = "jobs",
+    desc = "Jobs"
+  ),
+  
+  # residential
+  data.frame(
+    var = "single_family_units",
+    desc = "Number of Single Family Units"
+  ),
+  data.frame(
+    var = "single_family_average_floor_area_sqft_ctu",
+    desc = "Single Family Average Floor Area (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "single_family_average_floor_area_sqft_county",
+    desc = "Single Family Average Floor Area for the County (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "multifamily_units",
+    desc = "Number of Multifamily Units"
+  ),
+  data.frame(
+    var = "multifamily_average_floor_area_sqft_ctu",
+    desc = "Multifamily Average Floor Area (ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "multifamily_average_floor_area_sqft_county",
+    desc = "Multifamily Average Floor Area for the County (ft<sup>2</sup>)"
+  ),
+  
+  # commercial_industrial
+  data.frame(
+    var = "commercial_jobs",
+    desc = "Commercial Jobs"
+  ),
+  data.frame(
+    var = "industrial_jobs",
+    desc = "Industrial Jobs"
+  ),
+  data.frame(
+    var = "commercial_workers_county",
+    desc = "Commercial Jobs"
+  ),
+  data.frame(
+    var = "industrial_workers_county",
+    desc = "Industrial Jobs"
+  ),
+  
+  # enegy
+  data.frame(
+    var = "elec_emis_factor_kg_mwh",
+    desc = "Emissions Factor for Electricity (kg/MWh)"
+  ),
+  data.frame(
+    var = "ng_emis_factor_kg_therm",
+    desc = "Emissions Factor for Natural Gas (kg/therm)"
+  ),
+  
+  # energy baseline (residential, electricity)
+  data.frame(
+    var = "residential_mwh",
+    desc = "Residential Electricity (MWh)"
+  ),
+  data.frame(
+    var = "residential_kwh_per_floor_area",
+    desc = "Residential Electricity per Floor Area (KWh/ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "residential_mwh_per_households",
+    desc = "Residential Electricity per Household (MWh/household)"
+  ),
+  data.frame(
+    var = "residential_elec_emis_t_co2e",
+    desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+  
+  # energy baseline (residential, natural gas)
+  data.frame(
+    var = "residential_therms",
+    desc = "Residential Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "residential_ng_therms",
+    desc = "Residential Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "residential_therms_per_floor_area",
+    desc = "Residential Therms per Floor Area (therms/ft<sup>2</sup>)"
+  ),
+  data.frame(
+    var = "residential_therms_per_households",
+    desc = "Residential Therms per Household (therms/household)"
+  ),
+  data.frame(
+    var = "residential_ng_emis_t_co2e",
+    desc = "Residential Natural Gas Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+  
+  # energy forecast (residential, electricity)
+  data.frame(
+    var = "total_residential_kwh_forecast",
+    desc = "Residential Electricity - Forecast (MWh)"
+  ),
+  data.frame(
+    var = "residential_electricity_emissions_kg_co",
+    desc = "Residential Electricity Emissions (kg CO<sub>2</sub>e)"
+  ),
+  
+  # energy forecast (residential, natural_gas)
+  data.frame(
+    var = "total_residential_therms_forecast",
+    desc = "Residential Natural Gas - Forecast (Therms)"
+  ),
+  data.frame(
+    var = "residential_natural_gas_emissions_kg_co",
+    desc = "Residential Natural Gas Emissions (kg CO<sub>2</sub>e)"
+  ),
+  
+  # energy baseline (commercial, electricity)
+  data.frame(
+    var = "commercial_mwh",
+    desc = "Commercial Electricity (MWh)"
+  ),
+  data.frame(
+    var = "commercial_mwh_per_worker",
+    desc = "Commercial Electricity per Worker (MWh/worker)"
+  ),
+  data.frame(
+    var = "commercial_elec_kwh_per_worker",
+    desc = "Commercial Electricity per Worker (KWh/worker)"
+  ),
+  data.frame(
+    var = "commercial_elec_emis_t_co2e",
+    desc = "Commercial Electricity Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+  
+  # energy baseline (commercial, natural_gas)
+  data.frame(
+    var = "commercial_therms",
+    desc = "Commercial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "commercial_ng_therms",
+    desc = "Commercial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "commercial_ng_therms_per_worker",
+    desc = "Commercial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "commercial_therm_per_worker",
+    desc = "Commercial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "commercial_ng_emis_t_co2e",
+    desc = "Commercial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+  
+  # energy baseline (industrial, electricity)
+  data.frame(
+    var = "industrial_mwh",
+    desc = "Industrial Electricity (MWh)"
+  ),
+  data.frame(
+    var = "industrial_elec_kwh_per_worker",
+    desc = "Industrial Electricity per Worker (KWh/worker)"
+  ),
+  data.frame(
+    var = "industrial_mwh_per_worker",
+    desc = "Industrial Electricity per Worker (MWh/worker)"
+  ),
+  data.frame(
+    var = "industrial_elec_emis_t_co2e",
+    desc = "Industrial Electricity Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+  
+  # energy baseline (industrial, natural_gas)
+  data.frame(
+    var = "industrial_therms",
+    desc = "Industrial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "industrial_ng_therms",
+    desc = "Industrial Natural Gas (Therms)"
+  ),
+  data.frame(
+    var = "industrial_ng_therms_per_worker",
+    desc = "Industrial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "industrial_therm_per_worker",
+    desc = "Industrial Natural Gas per Worker (therms/worker)"
+  ),
+  data.frame(
+    var = "industrial_ng_emis_t_co2e",
+    desc = "Industrial Natural Gas Emissions (tonnes CO<sub>2</sub>e))"
+  ),
+  
+  # energy emissions totals
+  data.frame(
+    var = "total_residential_emissions",
+    desc = "Total Residential Emissions (tonnes CO<sub>2</sub>e)"
+  ),
+  data.frame(
+    var = "total_industrial_commercial_emissions",
+    desc = "Total Industrial Emissions (tonnes CO<sub>2</sub>e)"
+  )
+)
+
+councilmembers <- data.frame(
+  name = c(
+    "Charlie Zelle",
+    "Judy Johnson",
+    "Reva Chamblis",
+    "Christopher Ferguson",
+    "Deb Barber",
+    "Molly Cummings",
+    "John Pacheco Jr.",
+    "Robert Lilligren",
+    "Abdirahman Muse",
+    "Raymond Zeran",
+    "Peter Lindstrom",
+    "Susan Vento",
+    "Francisco J. Gonzalez",
+    "Chai Lee",
+    "Kris Fredson",
+    "Phillip Sterner",
+    "Wendy Wulff",
+    ""
+  ),
+  position = c(
+    "Chair",
+    "District 1",
+    "District 2",
+    "District 3",
+    "District 4",
+    "District 5",
+    "District 6",
+    "District 7",
+    "District 8",
+    "District 9",
+    "District 10",
+    "District 11",
+    "District 12",
+    "District 13",
+    "District 14",
+    "District 15",
+    "District 16",
+    ""
+  )
+)
+```
+
+![](images/2788.jpg)
+
+------------------------------------------------------------------------
+
+Metropolitan Council Members
+
+```{r fig.align = 'center'}
+# knitr::kable
+(
+  list(councilmembers[1:9, ], councilmembers[10:18, ]),
+  booktabs = TRUE,
+  col.names = NULL,
+  row.names = FALSE
+) %>%
+  qflextable() %>%
+  autofit()
+```
+
+------------------------------------------------------------------------
+
+::: {#top_container style="display: grid;     grid-template-columns: 1fr 1fr;     grid-gap: 0px; margin-top: 30px"}
+![](images/map.jpg){#top_left style="float: left" width="85%"}
+
+::: {#top_right style="float: right;"}
+The Metropolitan Council is the regional planning organization for the seven-county Twin Cities area. The Council operates the regional bus and rail system, collects and treats wastewater, coordinates regional water resources, plans and helps fund regional parks, and administers federal funds that provide housing opportunities for low- and moderate-income individuals and families. The 17-member Council board is appointed by and serves at the pleasure of the governor.
+
+On request, this publication will be made available in alternative formats to people with disabilities. Call Metropolitan Council information at 651-602-1140 or TTY 651-291-0904
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Disclaimer {.unnumbered}
+
+::: disclaimer
+This report aims to evaluate the effectiveness of greenhouse gas (GHG) mitigation strategies at the city level. It is intended to provide information that can be used to support policy discussions and educational purposes. Please note that the report is for informational purposes only and does not constitute official recommendations or policy decisions.
+:::
+
+## Executive Summary {.unnumbered}
+
+The Research Unit of Community Development at the Metropolitan Council has prepared the following report, which presents a range of strategies that the City of `r params$ctu_selection` could adopt to reduce greenhouse gas emissions relative to a "Business as Usual" scenario. These strategies are divided into three categories: stationary energy (building sector), transportation, and land use and forestry. It is worth noting that the greenhouse gas emissions estimates presented in this report may differ from those found in the `r params$ctu_selection` Greenhouse Gas Inventory due to differences in methodology. The strategies included in this report were decided in a series of stakeholder meetings conducted in 2020.
+
+# Introduction
+
+## Overview
+
+Cities throughout the Minnesota Metro Region are well aware of the pressing need to reduce greenhouse gas emissions and enhance the resilience of their communities in the face of climate change. In recognition of this urgency, many of these cities, including `r params$ctu_selection`, have already begun implementing various strategies and initiatives to reduce their carbon footprint and increase their ability to withstand the impacts of a changing climate. These efforts range from adopting renewable energy sources and energy-efficient technologies to implementing transportation policies that encourage using electric or low-emissions vehicles to promote land use practices that support the retention and expansion of natural habitats. By taking action at the local level, local governments in the Twin Cities contribute to the global effort to mitigate the worst effects of climate change and build a more sustainable and equitable future.
+
+This report aims to support the City of `r params$ctu_selection` in considering potential strategies for reducing carbon emissions. The Metropolitan Council seeks to expand the information and technical assistance it provides to local governments to support regional and local climate change planning. The Council offers tools and guidance to help get cities on track to meet local, regional, and state goals.
+
+## Greenhouse Gas Emissions
+
+Greenhouse gases (GHG) trap heat in the atmosphere and contribute to global warming. Carbon dioxide, methane, and nitrous oxide are the most common greenhouse gases. Human activities have been the primary driver of climate change by releasing greenhouse gases in large amounts. Combustion of fossil fuels (e.g., coal, oil, and natural gas) releases greenhouse gases, which trap heat in the atmosphere, causing temperatures to rise.
+
+The primary sources of emissions in cities come from building energy use (electricity and natural gas), transportation (gas and diesel), and waste (methane at landfills or combustion for energy generation). The transportation sector, which includes cars, trucks, ships, and airplanes, is the largest source of carbon dioxide emissions in the United States, followed by the electricity and heat production and industrial sectors. Other sources of greenhouse gas emissions in Minnesota include agriculture, waste, and industrial processes.
+
+## Impact of Climate Change in Minnesota
+
+The climate in Minnesota is changing, leading to more extreme rain events, heat waves, and drought. These changes will have significant impacts on transportation, waste water services, and water resources in the region.
+
+Extreme heat events will increase water demand, leading to higher energy use, treatment costs, and lower efficiency in water supply systems. More extreme rain events will lead to more erosion, rainwater runoff, and flooding, disrupting transportation operations and damaging sewer and storm-water systems. Drought will lead to lower groundwater levels, stressed water resources, and more algal blooms and fish kills. These impacts will disproportionately affect marginalized communities and require the region to adapt and become more resilient to these changes.
+
+## Scenario Planning
+
+The Metropolitan Council has developed a Greenhouse Gas Scenario Planning Tool to help metro cities determine pathways to achieving emissions reductions. The Tool builds upon the DECAL model created by the Sustainable Healthy Cities Network with the support and funding of the Metropolitan Council.
+
+Scenario planning is a method to make flexible long-term plans. It is a way of thinking about and preparing for the future by considering possible events and their potential impact on a city or region. Scenario planning involves creating multiple possible future scenarios and then considering how to respond to each one. This method allows organizations to be more flexible and adaptable in uncertainty and change.
+
+The Greenhouse Gas Scenario Planning Tool looks at strategies across multiple sectors and calculates the emissions reductions that can result from successful implementation. These sectors include compact land use, mobility, buildings, waste, and green infrastructure.
+
+The Metropolitan Council will offer the scenario planning tool on an easy-to-use online platform. Cities can use this Tool to identify solutions tailored to their communities by testing different scenarios across strategies.
+
+The following report compiles the City of `r params$ctu_selection` results based on the Greenhouse Gas Scenario Planning Tool created by the Metropolitan Council and adapted from the collaborative work between the Sustainable Healthy Cities Network and the Metropolitan Council.
+
+## Stakeholder Engagement
+
+In April and May of 2022, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
+
+The stakeholders identified several priorities for developing the Greenhouse Gas Scenario Planning Tool, including (in ranking order) vehicle electrification, grid renewables, building retrofits, mixed-use development, and building codes.
+
+### Vehicle Electrification
+
+Vehicle electrification ranked first in a list of strategies stakeholders wanted to explore in the Greenhouse Gas Scenario Planning Tool because it has the potential to reduce greenhouse gas emissions and improve air quality in the transportation sector. During the stakeholder engagement, the community members emphasized the trend towards electrification of short trips in the vehicle industry and the need to factor in changes to the grid electricity mix as electric vehicle adoption increases. They also emphasized the importance of quickly adopting electric vehicles and reducing vehicle miles traveled (VMT) to achieve environmental justice and improve air quality. The stakeholders asked if it is possible to model the effects of EV adoption on localized pollution. Overall, the community members emphasized the potential benefits of vehicle electrification and the need to consider its impacts on the grid and local air quality.
+
+### Grid Renewables
+
+"Grid renewables" refer to using renewable energy sources, such as solar or wind power, to generate electricity for the grid. During the stakeholder engagement sessions, community members highlighted the importance of modeling grid renewables because it is a significant emission lever, even though it is not within local government control and is often already modeled by utilities. Local governments can influence the grid mix by working together and speaking with a unified voice. They can also purchase [Renewable Energy Certificates](https://www.leg.mn.gov/docs/2019/mandated/190330.pdf)[^1] (RECs) to obtain green power. The ownership of solar assets and the retirement of RECs can affect the benefits and amount of renewable energy added to the grid through community solar projects. Focusing on grid renewables and community solar can maximize equity benefits and is more important than improving access to rooftop solar.
+
+[^1]: The Minnesota Statute section 216B.1691 was amended in 2003 and 2007 to allow for the establishment of a program for tradable Renewable Energy Credits (RECs). The Public Utilities Commission was required to establish this program by 2008 and to require all electric utilities to participate in a Commission-approved REC tracking system. In 2007, the Commission approved the use of the [Midwest Renewable Energy Tracking System](https://www.mrets.org/) (M-RETS) as the REC tracking system and set a four-year shelf life for RECs. This means that RECs are eligible to be used to meet Renewable Energy Standard (RES) requirements in the year they are generated and for four years afterwards. In 2008, the Commission directed utilities to retire RECs equivalent to 1% of their Minnesota annual retail sales by May 1st of the following year. These retired RECs are transferred to a specific Minnesota RES retirement account and cannot be used to meet other state or program requirements. Utilities must submit an annual compliance filing demonstrating their compliance with the RES by June 1st.
+
+### Building Retrofits
+
+During the stakeholder engagement, the community members commented that building retrofits are vital because they can increase energy efficiency, which could benefit low-income people the most. It is important to model more high-level, general strategies that will be relevant in the future rather than more specific, short-term strategies that may be affected by changing circumstances or policy priorities. Building retrofits have the potential for city and utility collaboration, as utilities often offer tools and programs to increase efficiency. The feasibility and cost of building electrification should be considered to ensure that it benefits the community beyond reducing emissions. It may also be beneficial to consider participation in the new "*LEED for Communities*" program. Commercial building energy benchmarking may be more effective than focusing on residential buildings.
+
+### Mixed-Use Development
+
+Mixed-use development involves building buildings with multiple functions, such as housing, offices, and retail spaces, in a single location. Unlike many other strategies, such as increasing grid renewables or improving building codes, which may be outside local government control, the stakeholder mentioned that mixed-use development is within the control of local governments. Local governments have the authority to regulate land use and development in their jurisdictions, including the construction of mixed-use buildings.
+
+### Building Codes
+
+Building codes refer to the regulations and standards governing building design and construction, including energy efficiency requirements. These priorities can help to create more sustainable and livable communities. The report discusses the impact of building standards such as LEED Gold for residential development.
+
+![](images/3746.jpg)
+
+# Demographic Assumptions
+
+The Greenhouse Gas Scenario Planning Tool uses the best available demographic assumptions for cities in the Metropolitan Region to forecast emissions in 2040.
+
+Some common predictors of greenhouse gas emissions at the city scale include:
+
+::: facts
+-   ***Population Density*** Minneapolis, the largest city in Minnesota, has a high population density. Higher density means more people live in a relatively small area compared to other regions' cities. Higher population densities are often associated with increased energy consumption, as residents need to use energy for daily activities and power local businesses. However, higher population density can also lead to more efficient use of resources and infrastructure, which can ultimately reduce the environmental impact of development in an area.
+
+-   ***Economic Activity*** According to the [Minnesota Department of Employment and Economic Development](https://mn.gov/deed/data/economic-analysis/compare/compare-metro/economy/gdp.jsp), the Twin Cities region ranks 8th in the country in terms of Gross Domestic Product (GDP) following the Denver region. Cities with higher levels of economic activity, such as manufacturing or transportation, tend to consume more energy due to the increased energy demand of these activities.
+
+-   ***Urban Planning*** The physical layout of a city can also affect energy consumption. For example, cities with more compact, walkable neighborhoods may have lower energy consumption due to the reduced need for transportation. The [Minneapolis Transportation Action Plan](https://go.minneapolismn.gov/) was formally adopted by the Minneapolis City Council on December 2020. The plan discusses how in the past, streets have been designed primarily with car movement in mind, leading to wide roads and complex intersections that can be uncomfortable or difficult for pedestrians, bicyclists, and those with special mobility needs to navigate. The city has recognized these issues and has adopted policies such as the Climate Action Plan and the Complete Streets Policy to prioritize people over cars in street design and create more welcoming public spaces for all community members.
+
+-   ***Extreme Climate*** Minneapolis has a humid continental climate, which is characterized by hot summers and cold winters. The climate of a city can play a significant role in energy consumption. For example, more energy may be needed for heating in colder regions, while in hotter regions, more energy may be needed for air conditioning.
+
+-   ***Energy efficiency*** Finally, a city's energy consumption may be influenced by the efficiency of its energy use. For example, cities with more energy-efficient buildings and transportation systems may consume less energy overall. Since adopting the Climate Action Plan in 2013, Minneapolis has implemented several programs and policies to reduce energy use in buildings, including a commercial benchmarking ordinance, a green cost share program, and a clean energy partnership with its electric and natural gas utilities. The city has also established a green building program to encourage the construction of high-performing, energy-efficient buildings.
+:::
+
+<br>
+
+We obtained baseline 2018 values for population, households, and employment from the [US Census and American Community Survey](https://www.census.gov/programs-surveys/acs) (ACS), a nationwide survey conducted by the United States Census Bureau to collect data on a variety of social, economic, and demographic characteristics of the American population. In cases when there are data gaps for city-level data, the Greenhouse Gas Scenario Planning Tool defaults to average county-level assumptions (**Table \@ref(tab:tab-demographic-assumptions)**).
+
+The Metropolitan Council, as part of its responsibilities, produces a forecast of population, households, and employment for all cities within its region using the REMI PI Model, a computer-based forecasting system that projects future trends based on economic, demographic, and social data. This forecast for year 2040 helps the Council plan for the future needs of the region, including infrastructure, housing, and other resources. The floor area assumptions are based on an extrapolation of recent historic trends in floor area growth using data from the [County Assessor Parcel](https://www.hennepin.us/residents/property/property-information-search) dataset and the Zillow [ZTRAX](https://www.zillow.com/research/ztrax/) dataset.
+
+**Figure \@ref(fig:figure-demographics)** shows the comparison of population and households for `r params$ctu_selection` in 2018 with the 2040 forecast.
+
+```{r tab-demographic-assumptions}
+#| echo: false
+#| message: false
+
+# City level 2018
+get_demographic_baseline(tb = building_energy_data)$ctu %>%
+  ungroup() %>%
+  filter(
+    ctu_name == params$ctu_selection,
+    var != "multifamily_average_floor_area_sqft_county"
+  ) %>%
+  left_join(., variables, by = "var") %>%
+    select(c(desc, value)) %>%
+  rename("Variables" = desc,
+         "{params$ctu_selection} 2018" := value) %>%
+  
+  # County level 2018
+  full_join(
+    get_demographic_baseline(tb = building_energy_data)$county %>%
+      ungroup() %>%
+      filter(co_name == params$county_selection) %>%
+      left_join(., variables, by = "var") %>%
+      mutate(desc = str_remove_all(desc, " for the County")) %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+         "{params$county_selection} Co. 2018" := value)) %>%
+  
+  # city 2040
+  full_join(
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      ungroup() %>%
+      filter(
+        ctu_name == params$ctu_selection,
+        var != "multifamily_average_floor_area_sqft_county") %>%
+      left_join(., variables, by = "var") %>%
+      select(c(desc, value)) %>%
+      rename("Variables" = desc,
+             "{params$ctu_selection} 2040" := value)) %>%
+  
+  # format
+    mutate(across(everything(), ~if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
+
+    kableExtra::kable(
+      caption = paste0("Demographics for ", params$ctu_selection),
+      format = "html",
+      escape = FALSE
+      # format.args = list(big.mark = ",", digits = 6)
+    ) %>%
+    kableExtra::kable_classic(
+      html_font = "Arial",
+      full_width = F,
+      font_size = 12
+    )
+  
+```
+
+```{r fig-inputs, fig.align='center'}
+# selectInput(
+#   "variable",
+#   "Select a variable:",
+#   choices = c("Population" = "population",
+#               "Households" = "households")
+# )
+```
+
+```{r figure-demographics}
+#| fig.cap = "Baseline and forecaseted population and households.", 
+#| fig.align = 'center'
+plot_demo <- function(variable) {
+  bind_rows(
+    get_demographic_baseline(tb = building_energy_data)$ctu %>%
+      filter(ctu_name == params$ctu_selection),
+    calc_demographic_forecast(tb = building_energy_data)$ctu %>%
+      filter(ctu_name == params$ctu_selection)
+  ) %>%
+    filter(var == variable) %>%
+    ggplot(., aes(x = as.factor(year), y = value)) +
+    geom_bar(
+      stat = "identity",
+      width = 0.4,
+      color = "black",
+      fill = "black"
+    ) +
+    theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_blank(),
+      axis.title = element_text(size = 14)
+    ) +
+    labs(x = "", y = "", title = str_to_title(variable)) +
+    scale_y_continuous(labels = scales::label_comma())
+}
+
+plot_demo("population") + plot_demo("households")
+
+```
+
+<br>

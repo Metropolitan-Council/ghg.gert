@@ -476,15 +476,15 @@ CUT,TotStock,Forest Lake,2035,100,HDT,F
 CUT,TotStock,Forest Lake,2040,100,HDT,F
 CUT,TotStock,Forest Lake,2045,100,HDT,F
 CUT,TotStock,Forest Lake,2050,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2015,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2018,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2020,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2025,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2030,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2035,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2040,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2045,100,HDT,F
-CUT,TotStock,Fort Snelling UT,2050,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2015,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2018,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2020,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2025,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2030,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2035,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2040,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2045,100,HDT,F
+CUT,TotStock,Fort Snelling (unorg.),2050,100,HDT,F
 CUT,TotStock,Fridley,2015,100,HDT,F
 CUT,TotStock,Fridley,2018,100,HDT,F
 CUT,TotStock,Fridley,2020,100,HDT,F
@@ -2150,15 +2150,15 @@ CUT,CIStock,Forest Lake,2035,95.52,HDT,F
 CUT,CIStock,Forest Lake,2040,92.26,HDT,F
 CUT,CIStock,Forest Lake,2045,89.48,HDT,F
 CUT,CIStock,Forest Lake,2050,87.2,HDT,F
-CUT,CIStock,Fort Snelling UT,2015,100,HDT,F
-CUT,CIStock,Fort Snelling UT,2018,100,HDT,F
-CUT,CIStock,Fort Snelling UT,2020,100,HDT,F
-CUT,CIStock,Fort Snelling UT,2025,99.45,HDT,F
-CUT,CIStock,Fort Snelling UT,2030,98.11,HDT,F
-CUT,CIStock,Fort Snelling UT,2035,94.76,HDT,F
-CUT,CIStock,Fort Snelling UT,2040,91.11,HDT,F
-CUT,CIStock,Fort Snelling UT,2045,88.1,HDT,F
-CUT,CIStock,Fort Snelling UT,2050,85.71,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2015,100,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2018,100,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2020,100,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2025,99.45,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2030,98.11,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2035,94.76,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2040,91.11,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2045,88.1,HDT,F
+CUT,CIStock,Fort Snelling (unorg.),2050,85.71,HDT,F
 CUT,CIStock,Fridley,2015,100,HDT,F
 CUT,CIStock,Fridley,2018,100,HDT,F
 CUT,CIStock,Fridley,2020,100,HDT,F
@@ -3824,15 +3824,15 @@ CUT,BEVStock,Forest Lake,2035,4.48,HDT,F
 CUT,BEVStock,Forest Lake,2040,7.74,HDT,F
 CUT,BEVStock,Forest Lake,2045,10.52,HDT,F
 CUT,BEVStock,Forest Lake,2050,12.8,HDT,F
-CUT,BEVStock,Fort Snelling UT,2015,0,HDT,F
-CUT,BEVStock,Fort Snelling UT,2018,0,HDT,F
-CUT,BEVStock,Fort Snelling UT,2020,0,HDT,F
-CUT,BEVStock,Fort Snelling UT,2025,0.55,HDT,F
-CUT,BEVStock,Fort Snelling UT,2030,1.89,HDT,F
-CUT,BEVStock,Fort Snelling UT,2035,5.24,HDT,F
-CUT,BEVStock,Fort Snelling UT,2040,8.89,HDT,F
-CUT,BEVStock,Fort Snelling UT,2045,11.9,HDT,F
-CUT,BEVStock,Fort Snelling UT,2050,14.29,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2015,0,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2018,0,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2020,0,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2025,0.55,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2030,1.89,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2035,5.24,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2040,8.89,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2045,11.9,HDT,F
+CUT,BEVStock,Fort Snelling (unorg.),2050,14.29,HDT,F
 CUT,BEVStock,Fridley,2015,0,HDT,F
 CUT,BEVStock,Fridley,2018,0,HDT,F
 CUT,BEVStock,Fridley,2020,0,HDT,F
@@ -5498,15 +5498,15 @@ CUT,TMT,Forest Lake,2035,139422.09,HDT,F
 CUT,TMT,Forest Lake,2040,149020.18,HDT,F
 CUT,TMT,Forest Lake,2045,158618.26,HDT,F
 CUT,TMT,Forest Lake,2050,168216.35,HDT,F
-CUT,TMT,Fort Snelling UT,2015,0,HDT,F
-CUT,TMT,Fort Snelling UT,2018,0,HDT,F
-CUT,TMT,Fort Snelling UT,2020,0,HDT,F
-CUT,TMT,Fort Snelling UT,2025,0,HDT,F
-CUT,TMT,Fort Snelling UT,2030,0,HDT,F
-CUT,TMT,Fort Snelling UT,2035,0,HDT,F
-CUT,TMT,Fort Snelling UT,2040,0,HDT,F
-CUT,TMT,Fort Snelling UT,2045,0,HDT,F
-CUT,TMT,Fort Snelling UT,2050,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2015,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2018,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2020,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2025,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2030,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2035,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2040,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2045,0,HDT,F
+CUT,TMT,Fort Snelling (unorg.),2050,0,HDT,F
 CUT,TMT,Fridley,2015,94353.72,HDT,F
 CUT,TMT,Fridley,2018,103142.88,HDT,F
 CUT,TMT,Fridley,2020,109002.31,HDT,F
@@ -7172,15 +7172,15 @@ SUT,TotStock,Forest Lake,2035,100,MDT,F
 SUT,TotStock,Forest Lake,2040,100,MDT,F
 SUT,TotStock,Forest Lake,2045,100,MDT,F
 SUT,TotStock,Forest Lake,2050,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2015,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2018,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2020,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2025,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2030,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2035,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2040,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2045,100,MDT,F
-SUT,TotStock,Fort Snelling UT,2050,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2015,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2018,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2020,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2025,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2030,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2035,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2040,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2045,100,MDT,F
+SUT,TotStock,Fort Snelling (unorg.),2050,100,MDT,F
 SUT,TotStock,Fridley,2015,100,MDT,F
 SUT,TotStock,Fridley,2018,100,MDT,F
 SUT,TotStock,Fridley,2020,100,MDT,F
@@ -8846,15 +8846,15 @@ SUT,CIStock,Forest Lake,2035,95.52,MDT,F
 SUT,CIStock,Forest Lake,2040,92.26,MDT,F
 SUT,CIStock,Forest Lake,2045,89.48,MDT,F
 SUT,CIStock,Forest Lake,2050,87.2,MDT,F
-SUT,CIStock,Fort Snelling UT,2015,100,MDT,F
-SUT,CIStock,Fort Snelling UT,2018,100,MDT,F
-SUT,CIStock,Fort Snelling UT,2020,100,MDT,F
-SUT,CIStock,Fort Snelling UT,2025,99.45,MDT,F
-SUT,CIStock,Fort Snelling UT,2030,98.11,MDT,F
-SUT,CIStock,Fort Snelling UT,2035,94.76,MDT,F
-SUT,CIStock,Fort Snelling UT,2040,91.11,MDT,F
-SUT,CIStock,Fort Snelling UT,2045,88.1,MDT,F
-SUT,CIStock,Fort Snelling UT,2050,85.71,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2015,100,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2018,100,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2020,100,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2025,99.45,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2030,98.11,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2035,94.76,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2040,91.11,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2045,88.1,MDT,F
+SUT,CIStock,Fort Snelling (unorg.),2050,85.71,MDT,F
 SUT,CIStock,Fridley,2015,100,MDT,F
 SUT,CIStock,Fridley,2018,100,MDT,F
 SUT,CIStock,Fridley,2020,100,MDT,F
@@ -10520,15 +10520,15 @@ SUT,BEVStock,Forest Lake,2035,4.48,MDT,F
 SUT,BEVStock,Forest Lake,2040,7.74,MDT,F
 SUT,BEVStock,Forest Lake,2045,10.52,MDT,F
 SUT,BEVStock,Forest Lake,2050,12.8,MDT,F
-SUT,BEVStock,Fort Snelling UT,2015,0,MDT,F
-SUT,BEVStock,Fort Snelling UT,2018,0,MDT,F
-SUT,BEVStock,Fort Snelling UT,2020,0,MDT,F
-SUT,BEVStock,Fort Snelling UT,2025,0.55,MDT,F
-SUT,BEVStock,Fort Snelling UT,2030,1.89,MDT,F
-SUT,BEVStock,Fort Snelling UT,2035,5.24,MDT,F
-SUT,BEVStock,Fort Snelling UT,2040,8.89,MDT,F
-SUT,BEVStock,Fort Snelling UT,2045,11.9,MDT,F
-SUT,BEVStock,Fort Snelling UT,2050,14.29,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2015,0,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2018,0,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2020,0,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2025,0.55,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2030,1.89,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2035,5.24,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2040,8.89,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2045,11.9,MDT,F
+SUT,BEVStock,Fort Snelling (unorg.),2050,14.29,MDT,F
 SUT,BEVStock,Fridley,2015,0,MDT,F
 SUT,BEVStock,Fridley,2018,0,MDT,F
 SUT,BEVStock,Fridley,2020,0,MDT,F
@@ -12194,15 +12194,15 @@ SUT,TMT,Forest Lake,2035,43692.78,MDT,F
 SUT,TMT,Forest Lake,2040,46700.67,MDT,F
 SUT,TMT,Forest Lake,2045,49708.57,MDT,F
 SUT,TMT,Forest Lake,2050,52716.46,MDT,F
-SUT,TMT,Fort Snelling UT,2015,0,MDT,F
-SUT,TMT,Fort Snelling UT,2018,0,MDT,F
-SUT,TMT,Fort Snelling UT,2020,0,MDT,F
-SUT,TMT,Fort Snelling UT,2025,0,MDT,F
-SUT,TMT,Fort Snelling UT,2030,0,MDT,F
-SUT,TMT,Fort Snelling UT,2035,0,MDT,F
-SUT,TMT,Fort Snelling UT,2040,0,MDT,F
-SUT,TMT,Fort Snelling UT,2045,0,MDT,F
-SUT,TMT,Fort Snelling UT,2050,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2015,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2018,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2020,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2025,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2030,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2035,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2040,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2045,0,MDT,F
+SUT,TMT,Fort Snelling (unorg.),2050,0,MDT,F
 SUT,TMT,Fridley,2015,49716.23,MDT,F
 SUT,TMT,Fridley,2018,54347.36,MDT,F
 SUT,TMT,Fridley,2020,57434.77,MDT,F
@@ -13868,15 +13868,15 @@ FR,TotStock,Forest Lake,2035,100,FRAIL,F
 FR,TotStock,Forest Lake,2040,100,FRAIL,F
 FR,TotStock,Forest Lake,2045,100,FRAIL,F
 FR,TotStock,Forest Lake,2050,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2015,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2018,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2020,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2025,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2030,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2035,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2040,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2045,100,FRAIL,F
-FR,TotStock,Fort Snelling UT,2050,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2015,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2018,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2020,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2025,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2030,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2035,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2040,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2045,100,FRAIL,F
+FR,TotStock,Fort Snelling (unorg.),2050,100,FRAIL,F
 FR,TotStock,Fridley,2015,100,FRAIL,F
 FR,TotStock,Fridley,2018,100,FRAIL,F
 FR,TotStock,Fridley,2020,100,FRAIL,F
@@ -15542,15 +15542,15 @@ FR,CIStock,Forest Lake,2035,100,FRAIL,F
 FR,CIStock,Forest Lake,2040,100,FRAIL,F
 FR,CIStock,Forest Lake,2045,100,FRAIL,F
 FR,CIStock,Forest Lake,2050,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2015,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2018,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2020,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2025,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2030,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2035,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2040,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2045,100,FRAIL,F
-FR,CIStock,Fort Snelling UT,2050,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2015,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2018,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2020,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2025,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2030,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2035,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2040,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2045,100,FRAIL,F
+FR,CIStock,Fort Snelling (unorg.),2050,100,FRAIL,F
 FR,CIStock,Fridley,2015,100,FRAIL,F
 FR,CIStock,Fridley,2018,100,FRAIL,F
 FR,CIStock,Fridley,2020,100,FRAIL,F
@@ -17216,15 +17216,15 @@ FR,EVStock,Forest Lake,2035,0,FRAIL,F
 FR,EVStock,Forest Lake,2040,0,FRAIL,F
 FR,EVStock,Forest Lake,2045,0,FRAIL,F
 FR,EVStock,Forest Lake,2050,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2015,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2018,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2020,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2025,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2030,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2035,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2040,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2045,0,FRAIL,F
-FR,EVStock,Fort Snelling UT,2050,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2015,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2018,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2020,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2025,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2030,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2035,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2040,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2045,0,FRAIL,F
+FR,EVStock,Fort Snelling (unorg.),2050,0,FRAIL,F
 FR,EVStock,Fridley,2015,0,FRAIL,F
 FR,EVStock,Fridley,2018,0,FRAIL,F
 FR,EVStock,Fridley,2020,0,FRAIL,F
@@ -18890,15 +18890,15 @@ FR,TMT,Forest Lake,2035,88554.47,FRAIL,F
 FR,TMT,Forest Lake,2040,93872.88,FRAIL,F
 FR,TMT,Forest Lake,2045,99191.29,FRAIL,F
 FR,TMT,Forest Lake,2050,104509.7,FRAIL,F
-FR,TMT,Fort Snelling UT,2015,65080.63,FRAIL,F
-FR,TMT,Fort Snelling UT,2018,64076.82,FRAIL,F
-FR,TMT,Fort Snelling UT,2020,63407.61,FRAIL,F
-FR,TMT,Fort Snelling UT,2025,64062.58,FRAIL,F
-FR,TMT,Fort Snelling UT,2030,64119.13,FRAIL,F
-FR,TMT,Fort Snelling UT,2035,64356.49,FRAIL,F
-FR,TMT,Fort Snelling UT,2040,65264.1,FRAIL,F
-FR,TMT,Fort Snelling UT,2045,66171.7,FRAIL,F
-FR,TMT,Fort Snelling UT,2050,67079.3,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2015,65080.63,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2018,64076.82,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2020,63407.61,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2025,64062.58,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2030,64119.13,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2035,64356.49,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2040,65264.1,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2045,66171.7,FRAIL,F
+FR,TMT,Fort Snelling (unorg.),2050,67079.3,FRAIL,F
 FR,TMT,Fridley,2015,136492.68,FRAIL,F
 FR,TMT,Fridley,2018,135084.49,FRAIL,F
 FR,TMT,Fridley,2020,134145.69,FRAIL,F
@@ -20564,15 +20564,15 @@ MM,TotStock,Forest Lake,2035,100,FSHIP,F
 MM,TotStock,Forest Lake,2040,100,FSHIP,F
 MM,TotStock,Forest Lake,2045,100,FSHIP,F
 MM,TotStock,Forest Lake,2050,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2015,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2018,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2020,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2025,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2030,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2035,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2040,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2045,100,FSHIP,F
-MM,TotStock,Fort Snelling UT,2050,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2025,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2030,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2035,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2040,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2045,100,FSHIP,F
+MM,TotStock,Fort Snelling (unorg.),2050,100,FSHIP,F
 MM,TotStock,Fridley,2015,100,FSHIP,F
 MM,TotStock,Fridley,2018,100,FSHIP,F
 MM,TotStock,Fridley,2020,100,FSHIP,F
@@ -22238,15 +22238,15 @@ MM,CIStock,Forest Lake,2035,95.52,FSHIP,F
 MM,CIStock,Forest Lake,2040,92.26,FSHIP,F
 MM,CIStock,Forest Lake,2045,89.48,FSHIP,F
 MM,CIStock,Forest Lake,2050,87.2,FSHIP,F
-MM,CIStock,Fort Snelling UT,2015,100,FSHIP,F
-MM,CIStock,Fort Snelling UT,2018,100,FSHIP,F
-MM,CIStock,Fort Snelling UT,2020,100,FSHIP,F
-MM,CIStock,Fort Snelling UT,2025,99.45,FSHIP,F
-MM,CIStock,Fort Snelling UT,2030,98.11,FSHIP,F
-MM,CIStock,Fort Snelling UT,2035,94.76,FSHIP,F
-MM,CIStock,Fort Snelling UT,2040,91.11,FSHIP,F
-MM,CIStock,Fort Snelling UT,2045,88.1,FSHIP,F
-MM,CIStock,Fort Snelling UT,2050,85.71,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2025,99.45,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2030,98.11,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2035,94.76,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2040,91.11,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2045,88.1,FSHIP,F
+MM,CIStock,Fort Snelling (unorg.),2050,85.71,FSHIP,F
 MM,CIStock,Fridley,2015,100,FSHIP,F
 MM,CIStock,Fridley,2018,100,FSHIP,F
 MM,CIStock,Fridley,2020,100,FSHIP,F
@@ -23912,15 +23912,15 @@ MM,BEVStock,Forest Lake,2035,4.48,FSHIP,F
 MM,BEVStock,Forest Lake,2040,7.74,FSHIP,F
 MM,BEVStock,Forest Lake,2045,10.52,FSHIP,F
 MM,BEVStock,Forest Lake,2050,12.8,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2015,0,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2018,0,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2020,0,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2025,0.55,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2030,1.89,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2035,5.24,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2040,8.89,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2045,11.9,FSHIP,F
-MM,BEVStock,Fort Snelling UT,2050,14.29,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2015,0,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2018,0,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2020,0,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2025,0.55,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2030,1.89,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2035,5.24,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2040,8.89,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2045,11.9,FSHIP,F
+MM,BEVStock,Fort Snelling (unorg.),2050,14.29,FSHIP,F
 MM,BEVStock,Fridley,2015,0,FSHIP,F
 MM,BEVStock,Fridley,2018,0,FSHIP,F
 MM,BEVStock,Fridley,2020,0,FSHIP,F
@@ -25586,15 +25586,15 @@ MM,TMT,Forest Lake,2035,26752.42,FSHIP,F
 MM,TMT,Forest Lake,2040,30818.96,FSHIP,F
 MM,TMT,Forest Lake,2045,34885.49,FSHIP,F
 MM,TMT,Forest Lake,2050,38952.03,FSHIP,F
-MM,TMT,Fort Snelling UT,2015,13976.8,FSHIP,F
-MM,TMT,Fort Snelling UT,2018,15082.35,FSHIP,F
-MM,TMT,Fort Snelling UT,2020,15819.39,FSHIP,F
-MM,TMT,Fort Snelling UT,2025,16959.28,FSHIP,F
-MM,TMT,Fort Snelling UT,2030,18071.43,FSHIP,F
-MM,TMT,Fort Snelling UT,2035,19442.18,FSHIP,F
-MM,TMT,Fort Snelling UT,2040,21426.54,FSHIP,F
-MM,TMT,Fort Snelling UT,2045,23410.91,FSHIP,F
-MM,TMT,Fort Snelling UT,2050,25395.27,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2015,13976.8,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2018,15082.35,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2020,15819.39,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2025,16959.28,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2030,18071.43,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2035,19442.18,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2040,21426.54,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2045,23410.91,FSHIP,F
+MM,TMT,Fort Snelling (unorg.),2050,25395.27,FSHIP,F
 MM,TMT,Fridley,2015,29313.34,FSHIP,F
 MM,TMT,Fridley,2018,31805.92,FSHIP,F
 MM,TMT,Fridley,2020,33467.64,FSHIP,F
@@ -27260,15 +27260,15 @@ AIR,TotStock,Forest Lake,2035,100,FSHIP,F
 AIR,TotStock,Forest Lake,2040,100,FSHIP,F
 AIR,TotStock,Forest Lake,2045,100,FSHIP,F
 AIR,TotStock,Forest Lake,2050,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2015,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2018,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2020,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2025,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2030,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2035,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2040,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2045,100,FSHIP,F
-AIR,TotStock,Fort Snelling UT,2050,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2025,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2030,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2035,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2040,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2045,100,FSHIP,F
+AIR,TotStock,Fort Snelling (unorg.),2050,100,FSHIP,F
 AIR,TotStock,Fridley,2015,100,FSHIP,F
 AIR,TotStock,Fridley,2018,100,FSHIP,F
 AIR,TotStock,Fridley,2020,100,FSHIP,F
@@ -28934,15 +28934,15 @@ AIR,SIStock,Forest Lake,2035,100,FSHIP,F
 AIR,SIStock,Forest Lake,2040,100,FSHIP,F
 AIR,SIStock,Forest Lake,2045,100,FSHIP,F
 AIR,SIStock,Forest Lake,2050,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2015,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2018,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2020,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2025,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2030,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2035,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2040,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2045,100,FSHIP,F
-AIR,SIStock,Fort Snelling UT,2050,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2025,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2030,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2035,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2040,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2045,100,FSHIP,F
+AIR,SIStock,Fort Snelling (unorg.),2050,100,FSHIP,F
 AIR,SIStock,Fridley,2015,100,FSHIP,F
 AIR,SIStock,Fridley,2018,100,FSHIP,F
 AIR,SIStock,Fridley,2020,100,FSHIP,F
@@ -30608,15 +30608,15 @@ AIR,BEVStock,Forest Lake,2035,0,FSHIP,F
 AIR,BEVStock,Forest Lake,2040,0,FSHIP,F
 AIR,BEVStock,Forest Lake,2045,0,FSHIP,F
 AIR,BEVStock,Forest Lake,2050,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2015,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2018,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2020,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2025,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2030,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2035,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2040,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2045,0,FSHIP,F
-AIR,BEVStock,Fort Snelling UT,2050,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2015,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2018,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2020,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2025,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2030,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2035,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2040,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2045,0,FSHIP,F
+AIR,BEVStock,Fort Snelling (unorg.),2050,0,FSHIP,F
 AIR,BEVStock,Fridley,2015,0,FSHIP,F
 AIR,BEVStock,Fridley,2018,0,FSHIP,F
 AIR,BEVStock,Fridley,2020,0,FSHIP,F
@@ -32282,15 +32282,15 @@ AIR,TMT,Forest Lake,2035,715.2,FSHIP,F
 AIR,TMT,Forest Lake,2040,961.56,FSHIP,F
 AIR,TMT,Forest Lake,2045,1207.91,FSHIP,F
 AIR,TMT,Forest Lake,2050,1454.26,FSHIP,F
-AIR,TMT,Fort Snelling UT,2015,209.65,FSHIP,F
-AIR,TMT,Fort Snelling UT,2018,268.25,FSHIP,F
-AIR,TMT,Fort Snelling UT,2020,307.32,FSHIP,F
-AIR,TMT,Fort Snelling UT,2025,368.85,FSHIP,F
-AIR,TMT,Fort Snelling UT,2030,433.86,FSHIP,F
-AIR,TMT,Fort Snelling UT,2035,519.77,FSHIP,F
-AIR,TMT,Fort Snelling UT,2040,668.51,FSHIP,F
-AIR,TMT,Fort Snelling UT,2045,817.25,FSHIP,F
-AIR,TMT,Fort Snelling UT,2050,965.99,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2015,209.65,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2018,268.25,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2020,307.32,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2025,368.85,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2030,433.86,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2035,519.77,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2040,668.51,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2045,817.25,FSHIP,F
+AIR,TMT,Fort Snelling (unorg.),2050,965.99,FSHIP,F
 AIR,TMT,Fridley,2015,439.69,FSHIP,F
 AIR,TMT,Fridley,2018,565.98,FSHIP,F
 AIR,TMT,Fridley,2020,650.17,FSHIP,F
@@ -33956,15 +33956,15 @@ WAT,TotStock,Forest Lake,2035,100,FSHIP,F
 WAT,TotStock,Forest Lake,2040,100,FSHIP,F
 WAT,TotStock,Forest Lake,2045,100,FSHIP,F
 WAT,TotStock,Forest Lake,2050,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2015,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2018,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2020,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2025,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2030,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2035,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2040,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2045,100,FSHIP,F
-WAT,TotStock,Fort Snelling UT,2050,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2025,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2030,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2035,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2040,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2045,100,FSHIP,F
+WAT,TotStock,Fort Snelling (unorg.),2050,100,FSHIP,F
 WAT,TotStock,Fridley,2015,100,FSHIP,F
 WAT,TotStock,Fridley,2018,100,FSHIP,F
 WAT,TotStock,Fridley,2020,100,FSHIP,F
@@ -35630,15 +35630,15 @@ WAT,CIStock,Forest Lake,2035,100,FSHIP,F
 WAT,CIStock,Forest Lake,2040,100,FSHIP,F
 WAT,CIStock,Forest Lake,2045,100,FSHIP,F
 WAT,CIStock,Forest Lake,2050,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2015,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2018,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2020,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2025,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2030,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2035,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2040,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2045,100,FSHIP,F
-WAT,CIStock,Fort Snelling UT,2050,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2015,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2018,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2020,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2025,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2030,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2035,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2040,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2045,100,FSHIP,F
+WAT,CIStock,Fort Snelling (unorg.),2050,100,FSHIP,F
 WAT,CIStock,Fridley,2015,100,FSHIP,F
 WAT,CIStock,Fridley,2018,100,FSHIP,F
 WAT,CIStock,Fridley,2020,100,FSHIP,F
@@ -37304,15 +37304,15 @@ WAT,BEVStock,Forest Lake,2035,0,FSHIP,F
 WAT,BEVStock,Forest Lake,2040,0,FSHIP,F
 WAT,BEVStock,Forest Lake,2045,0,FSHIP,F
 WAT,BEVStock,Forest Lake,2050,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2015,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2018,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2020,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2025,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2030,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2035,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2040,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2045,0,FSHIP,F
-WAT,BEVStock,Fort Snelling UT,2050,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2015,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2018,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2020,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2025,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2030,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2035,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2040,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2045,0,FSHIP,F
+WAT,BEVStock,Fort Snelling (unorg.),2050,0,FSHIP,F
 WAT,BEVStock,Fridley,2015,0,FSHIP,F
 WAT,BEVStock,Fridley,2018,0,FSHIP,F
 WAT,BEVStock,Fridley,2020,0,FSHIP,F
@@ -38978,15 +38978,15 @@ WAT,TMT,Forest Lake,2035,0,FSHIP,F
 WAT,TMT,Forest Lake,2040,0,FSHIP,F
 WAT,TMT,Forest Lake,2045,0,FSHIP,F
 WAT,TMT,Forest Lake,2050,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2015,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2018,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2020,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2025,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2030,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2035,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2040,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2045,0,FSHIP,F
-WAT,TMT,Fort Snelling UT,2050,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2015,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2018,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2020,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2025,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2030,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2035,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2040,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2045,0,FSHIP,F
+WAT,TMT,Fort Snelling (unorg.),2050,0,FSHIP,F
 WAT,TMT,Fridley,2015,0,FSHIP,F
 WAT,TMT,Fridley,2018,0,FSHIP,F
 WAT,TMT,Fridley,2020,0,FSHIP,F
@@ -40958,15 +40958,15 @@ SUT,PARK,Excelsior,2035,1,MDT,F
 SUT,PARK,Excelsior,2040,1,MDT,F
 SUT,PARK,Excelsior,2045,1,MDT,F
 SUT,PARK,Excelsior,2050,1,MDT,F
-SUT,PARK,Fort Snelling UT,2015,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2018,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2020,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2025,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2030,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2035,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2040,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2045,0.1,MDT,F
-SUT,PARK,Fort Snelling UT,2050,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2015,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2018,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2020,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2025,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2030,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2035,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2040,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2045,0.1,MDT,F
+SUT,PARK,Fort Snelling (unorg.),2050,0.1,MDT,F
 SUT,PARK,Golden Valley,2015,1,MDT,F
 SUT,PARK,Golden Valley,2018,1,MDT,F
 SUT,PARK,Golden Valley,2020,1,MDT,F
@@ -41902,7 +41902,7 @@ CUT,CIMPG,Excelsior,2015,128.21,HDT,F
 CUT,CIMPG,Falcon Heights,2015,128.21,HDT,F
 CUT,CIMPG,Farmington,2015,128.21,HDT,F
 CUT,CIMPG,Forest Lake,2015,128.21,HDT,F
-CUT,CIMPG,Fort Snelling UT,2015,128.21,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2015,128.21,HDT,F
 CUT,CIMPG,Fridley,2015,128.21,HDT,F
 CUT,CIMPG,Gem Lake,2015,128.21,HDT,F
 CUT,CIMPG,Golden Valley,2015,128.21,HDT,F
@@ -42088,7 +42088,7 @@ CUT,CIMPG,Excelsior,2018,130.2,HDT,F
 CUT,CIMPG,Falcon Heights,2018,130.2,HDT,F
 CUT,CIMPG,Farmington,2018,130.2,HDT,F
 CUT,CIMPG,Forest Lake,2018,130.2,HDT,F
-CUT,CIMPG,Fort Snelling UT,2018,130.2,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2018,130.2,HDT,F
 CUT,CIMPG,Fridley,2018,130.2,HDT,F
 CUT,CIMPG,Gem Lake,2018,130.2,HDT,F
 CUT,CIMPG,Golden Valley,2018,130.2,HDT,F
@@ -42274,7 +42274,7 @@ CUT,CIMPG,Excelsior,2020,131.53,HDT,F
 CUT,CIMPG,Falcon Heights,2020,131.53,HDT,F
 CUT,CIMPG,Farmington,2020,131.53,HDT,F
 CUT,CIMPG,Forest Lake,2020,131.53,HDT,F
-CUT,CIMPG,Fort Snelling UT,2020,131.53,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2020,131.53,HDT,F
 CUT,CIMPG,Fridley,2020,131.53,HDT,F
 CUT,CIMPG,Gem Lake,2020,131.53,HDT,F
 CUT,CIMPG,Golden Valley,2020,131.53,HDT,F
@@ -42460,7 +42460,7 @@ CUT,CIMPG,Excelsior,2025,139.29,HDT,F
 CUT,CIMPG,Falcon Heights,2025,139.29,HDT,F
 CUT,CIMPG,Farmington,2025,139.29,HDT,F
 CUT,CIMPG,Forest Lake,2025,139.29,HDT,F
-CUT,CIMPG,Fort Snelling UT,2025,139.29,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2025,139.29,HDT,F
 CUT,CIMPG,Fridley,2025,139.29,HDT,F
 CUT,CIMPG,Gem Lake,2025,139.29,HDT,F
 CUT,CIMPG,Golden Valley,2025,139.29,HDT,F
@@ -42646,7 +42646,7 @@ CUT,CIMPG,Excelsior,2030,151.71,HDT,F
 CUT,CIMPG,Falcon Heights,2030,151.71,HDT,F
 CUT,CIMPG,Farmington,2030,151.71,HDT,F
 CUT,CIMPG,Forest Lake,2030,151.71,HDT,F
-CUT,CIMPG,Fort Snelling UT,2030,151.71,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2030,151.71,HDT,F
 CUT,CIMPG,Fridley,2030,151.71,HDT,F
 CUT,CIMPG,Gem Lake,2030,151.71,HDT,F
 CUT,CIMPG,Golden Valley,2030,151.71,HDT,F
@@ -42832,7 +42832,7 @@ CUT,CIMPG,Excelsior,2035,163.85,HDT,F
 CUT,CIMPG,Falcon Heights,2035,163.85,HDT,F
 CUT,CIMPG,Farmington,2035,163.85,HDT,F
 CUT,CIMPG,Forest Lake,2035,163.85,HDT,F
-CUT,CIMPG,Fort Snelling UT,2035,163.85,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2035,163.85,HDT,F
 CUT,CIMPG,Fridley,2035,163.85,HDT,F
 CUT,CIMPG,Gem Lake,2035,163.85,HDT,F
 CUT,CIMPG,Golden Valley,2035,163.85,HDT,F
@@ -43018,7 +43018,7 @@ CUT,CIMPG,Excelsior,2040,171.87,HDT,F
 CUT,CIMPG,Falcon Heights,2040,171.87,HDT,F
 CUT,CIMPG,Farmington,2040,171.87,HDT,F
 CUT,CIMPG,Forest Lake,2040,171.87,HDT,F
-CUT,CIMPG,Fort Snelling UT,2040,171.87,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2040,171.87,HDT,F
 CUT,CIMPG,Fridley,2040,171.87,HDT,F
 CUT,CIMPG,Gem Lake,2040,171.87,HDT,F
 CUT,CIMPG,Golden Valley,2040,171.87,HDT,F
@@ -43204,7 +43204,7 @@ CUT,CIMPG,Excelsior,2045,179.89,HDT,F
 CUT,CIMPG,Falcon Heights,2045,179.89,HDT,F
 CUT,CIMPG,Farmington,2045,179.89,HDT,F
 CUT,CIMPG,Forest Lake,2045,179.89,HDT,F
-CUT,CIMPG,Fort Snelling UT,2045,179.89,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2045,179.89,HDT,F
 CUT,CIMPG,Fridley,2045,179.89,HDT,F
 CUT,CIMPG,Gem Lake,2045,179.89,HDT,F
 CUT,CIMPG,Golden Valley,2045,179.89,HDT,F
@@ -43390,7 +43390,7 @@ CUT,CIMPG,Excelsior,2050,187.9,HDT,F
 CUT,CIMPG,Falcon Heights,2050,187.9,HDT,F
 CUT,CIMPG,Farmington,2050,187.9,HDT,F
 CUT,CIMPG,Forest Lake,2050,187.9,HDT,F
-CUT,CIMPG,Fort Snelling UT,2050,187.9,HDT,F
+CUT,CIMPG,Fort Snelling (unorg.),2050,187.9,HDT,F
 CUT,CIMPG,Fridley,2050,187.9,HDT,F
 CUT,CIMPG,Gem Lake,2050,187.9,HDT,F
 CUT,CIMPG,Golden Valley,2050,187.9,HDT,F
@@ -43576,7 +43576,7 @@ CUT,BEVElec,Excelsior,2015,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2015,23.28,HDT,F
 CUT,BEVElec,Farmington,2015,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2015,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2015,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2015,23.28,HDT,F
 CUT,BEVElec,Fridley,2015,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2015,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2015,23.28,HDT,F
@@ -43762,7 +43762,7 @@ CUT,BEVElec,Excelsior,2018,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2018,23.28,HDT,F
 CUT,BEVElec,Farmington,2018,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2018,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2018,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2018,23.28,HDT,F
 CUT,BEVElec,Fridley,2018,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2018,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2018,23.28,HDT,F
@@ -43948,7 +43948,7 @@ CUT,BEVElec,Excelsior,2020,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2020,23.28,HDT,F
 CUT,BEVElec,Farmington,2020,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2020,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2020,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2020,23.28,HDT,F
 CUT,BEVElec,Fridley,2020,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2020,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2020,23.28,HDT,F
@@ -44134,7 +44134,7 @@ CUT,BEVElec,Excelsior,2025,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2025,23.28,HDT,F
 CUT,BEVElec,Farmington,2025,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2025,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2025,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2025,23.28,HDT,F
 CUT,BEVElec,Fridley,2025,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2025,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2025,23.28,HDT,F
@@ -44320,7 +44320,7 @@ CUT,BEVElec,Excelsior,2030,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2030,23.28,HDT,F
 CUT,BEVElec,Farmington,2030,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2030,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2030,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2030,23.28,HDT,F
 CUT,BEVElec,Fridley,2030,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2030,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2030,23.28,HDT,F
@@ -44506,7 +44506,7 @@ CUT,BEVElec,Excelsior,2035,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2035,23.28,HDT,F
 CUT,BEVElec,Farmington,2035,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2035,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2035,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2035,23.28,HDT,F
 CUT,BEVElec,Fridley,2035,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2035,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2035,23.28,HDT,F
@@ -44692,7 +44692,7 @@ CUT,BEVElec,Excelsior,2040,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2040,23.28,HDT,F
 CUT,BEVElec,Farmington,2040,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2040,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2040,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2040,23.28,HDT,F
 CUT,BEVElec,Fridley,2040,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2040,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2040,23.28,HDT,F
@@ -44878,7 +44878,7 @@ CUT,BEVElec,Excelsior,2045,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2045,23.28,HDT,F
 CUT,BEVElec,Farmington,2045,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2045,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2045,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2045,23.28,HDT,F
 CUT,BEVElec,Fridley,2045,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2045,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2045,23.28,HDT,F
@@ -45064,7 +45064,7 @@ CUT,BEVElec,Excelsior,2050,23.28,HDT,F
 CUT,BEVElec,Falcon Heights,2050,23.28,HDT,F
 CUT,BEVElec,Farmington,2050,23.28,HDT,F
 CUT,BEVElec,Forest Lake,2050,23.28,HDT,F
-CUT,BEVElec,Fort Snelling UT,2050,23.28,HDT,F
+CUT,BEVElec,Fort Snelling (unorg.),2050,23.28,HDT,F
 CUT,BEVElec,Fridley,2050,23.28,HDT,F
 CUT,BEVElec,Gem Lake,2050,23.28,HDT,F
 CUT,BEVElec,Golden Valley,2050,23.28,HDT,F
@@ -45250,7 +45250,7 @@ CUT,AVO,Excelsior,2015,1,HDT,F
 CUT,AVO,Falcon Heights,2015,1,HDT,F
 CUT,AVO,Farmington,2015,1,HDT,F
 CUT,AVO,Forest Lake,2015,1,HDT,F
-CUT,AVO,Fort Snelling UT,2015,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2015,1,HDT,F
 CUT,AVO,Fridley,2015,1,HDT,F
 CUT,AVO,Gem Lake,2015,1,HDT,F
 CUT,AVO,Golden Valley,2015,1,HDT,F
@@ -45436,7 +45436,7 @@ CUT,AVO,Excelsior,2018,1,HDT,F
 CUT,AVO,Falcon Heights,2018,1,HDT,F
 CUT,AVO,Farmington,2018,1,HDT,F
 CUT,AVO,Forest Lake,2018,1,HDT,F
-CUT,AVO,Fort Snelling UT,2018,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2018,1,HDT,F
 CUT,AVO,Fridley,2018,1,HDT,F
 CUT,AVO,Gem Lake,2018,1,HDT,F
 CUT,AVO,Golden Valley,2018,1,HDT,F
@@ -45622,7 +45622,7 @@ CUT,AVO,Excelsior,2020,1,HDT,F
 CUT,AVO,Falcon Heights,2020,1,HDT,F
 CUT,AVO,Farmington,2020,1,HDT,F
 CUT,AVO,Forest Lake,2020,1,HDT,F
-CUT,AVO,Fort Snelling UT,2020,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2020,1,HDT,F
 CUT,AVO,Fridley,2020,1,HDT,F
 CUT,AVO,Gem Lake,2020,1,HDT,F
 CUT,AVO,Golden Valley,2020,1,HDT,F
@@ -45808,7 +45808,7 @@ CUT,AVO,Excelsior,2025,1,HDT,F
 CUT,AVO,Falcon Heights,2025,1,HDT,F
 CUT,AVO,Farmington,2025,1,HDT,F
 CUT,AVO,Forest Lake,2025,1,HDT,F
-CUT,AVO,Fort Snelling UT,2025,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2025,1,HDT,F
 CUT,AVO,Fridley,2025,1,HDT,F
 CUT,AVO,Gem Lake,2025,1,HDT,F
 CUT,AVO,Golden Valley,2025,1,HDT,F
@@ -45994,7 +45994,7 @@ CUT,AVO,Excelsior,2030,1,HDT,F
 CUT,AVO,Falcon Heights,2030,1,HDT,F
 CUT,AVO,Farmington,2030,1,HDT,F
 CUT,AVO,Forest Lake,2030,1,HDT,F
-CUT,AVO,Fort Snelling UT,2030,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2030,1,HDT,F
 CUT,AVO,Fridley,2030,1,HDT,F
 CUT,AVO,Gem Lake,2030,1,HDT,F
 CUT,AVO,Golden Valley,2030,1,HDT,F
@@ -46180,7 +46180,7 @@ CUT,AVO,Excelsior,2035,1,HDT,F
 CUT,AVO,Falcon Heights,2035,1,HDT,F
 CUT,AVO,Farmington,2035,1,HDT,F
 CUT,AVO,Forest Lake,2035,1,HDT,F
-CUT,AVO,Fort Snelling UT,2035,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2035,1,HDT,F
 CUT,AVO,Fridley,2035,1,HDT,F
 CUT,AVO,Gem Lake,2035,1,HDT,F
 CUT,AVO,Golden Valley,2035,1,HDT,F
@@ -46366,7 +46366,7 @@ CUT,AVO,Excelsior,2040,1,HDT,F
 CUT,AVO,Falcon Heights,2040,1,HDT,F
 CUT,AVO,Farmington,2040,1,HDT,F
 CUT,AVO,Forest Lake,2040,1,HDT,F
-CUT,AVO,Fort Snelling UT,2040,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2040,1,HDT,F
 CUT,AVO,Fridley,2040,1,HDT,F
 CUT,AVO,Gem Lake,2040,1,HDT,F
 CUT,AVO,Golden Valley,2040,1,HDT,F
@@ -46552,7 +46552,7 @@ CUT,AVO,Excelsior,2045,1,HDT,F
 CUT,AVO,Falcon Heights,2045,1,HDT,F
 CUT,AVO,Farmington,2045,1,HDT,F
 CUT,AVO,Forest Lake,2045,1,HDT,F
-CUT,AVO,Fort Snelling UT,2045,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2045,1,HDT,F
 CUT,AVO,Fridley,2045,1,HDT,F
 CUT,AVO,Gem Lake,2045,1,HDT,F
 CUT,AVO,Golden Valley,2045,1,HDT,F
@@ -46738,7 +46738,7 @@ CUT,AVO,Excelsior,2050,1,HDT,F
 CUT,AVO,Falcon Heights,2050,1,HDT,F
 CUT,AVO,Farmington,2050,1,HDT,F
 CUT,AVO,Forest Lake,2050,1,HDT,F
-CUT,AVO,Fort Snelling UT,2050,1,HDT,F
+CUT,AVO,Fort Snelling (unorg.),2050,1,HDT,F
 CUT,AVO,Fridley,2050,1,HDT,F
 CUT,AVO,Gem Lake,2050,1,HDT,F
 CUT,AVO,Golden Valley,2050,1,HDT,F
@@ -46924,7 +46924,7 @@ SUT,CIMPG,Excelsior,2015,98.04,MDT,F
 SUT,CIMPG,Falcon Heights,2015,98.04,MDT,F
 SUT,CIMPG,Farmington,2015,98.04,MDT,F
 SUT,CIMPG,Forest Lake,2015,98.04,MDT,F
-SUT,CIMPG,Fort Snelling UT,2015,98.04,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2015,98.04,MDT,F
 SUT,CIMPG,Fridley,2015,98.04,MDT,F
 SUT,CIMPG,Gem Lake,2015,98.04,MDT,F
 SUT,CIMPG,Golden Valley,2015,98.04,MDT,F
@@ -47110,7 +47110,7 @@ SUT,CIMPG,Excelsior,2018,98.33,MDT,F
 SUT,CIMPG,Falcon Heights,2018,98.33,MDT,F
 SUT,CIMPG,Farmington,2018,98.33,MDT,F
 SUT,CIMPG,Forest Lake,2018,98.33,MDT,F
-SUT,CIMPG,Fort Snelling UT,2018,98.33,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2018,98.33,MDT,F
 SUT,CIMPG,Fridley,2018,98.33,MDT,F
 SUT,CIMPG,Gem Lake,2018,98.33,MDT,F
 SUT,CIMPG,Golden Valley,2018,98.33,MDT,F
@@ -47296,7 +47296,7 @@ SUT,CIMPG,Excelsior,2020,98.53,MDT,F
 SUT,CIMPG,Falcon Heights,2020,98.53,MDT,F
 SUT,CIMPG,Farmington,2020,98.53,MDT,F
 SUT,CIMPG,Forest Lake,2020,98.53,MDT,F
-SUT,CIMPG,Fort Snelling UT,2020,98.53,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2020,98.53,MDT,F
 SUT,CIMPG,Fridley,2020,98.53,MDT,F
 SUT,CIMPG,Gem Lake,2020,98.53,MDT,F
 SUT,CIMPG,Golden Valley,2020,98.53,MDT,F
@@ -47482,7 +47482,7 @@ SUT,CIMPG,Excelsior,2025,99.02,MDT,F
 SUT,CIMPG,Falcon Heights,2025,99.02,MDT,F
 SUT,CIMPG,Farmington,2025,99.02,MDT,F
 SUT,CIMPG,Forest Lake,2025,99.02,MDT,F
-SUT,CIMPG,Fort Snelling UT,2025,99.02,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2025,99.02,MDT,F
 SUT,CIMPG,Fridley,2025,99.02,MDT,F
 SUT,CIMPG,Gem Lake,2025,99.02,MDT,F
 SUT,CIMPG,Golden Valley,2025,99.02,MDT,F
@@ -47668,7 +47668,7 @@ SUT,CIMPG,Excelsior,2030,99.52,MDT,F
 SUT,CIMPG,Falcon Heights,2030,99.52,MDT,F
 SUT,CIMPG,Farmington,2030,99.52,MDT,F
 SUT,CIMPG,Forest Lake,2030,99.52,MDT,F
-SUT,CIMPG,Fort Snelling UT,2030,99.52,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2030,99.52,MDT,F
 SUT,CIMPG,Fridley,2030,99.52,MDT,F
 SUT,CIMPG,Gem Lake,2030,99.52,MDT,F
 SUT,CIMPG,Golden Valley,2030,99.52,MDT,F
@@ -47854,7 +47854,7 @@ SUT,CIMPG,Excelsior,2035,100.01,MDT,F
 SUT,CIMPG,Falcon Heights,2035,100.01,MDT,F
 SUT,CIMPG,Farmington,2035,100.01,MDT,F
 SUT,CIMPG,Forest Lake,2035,100.01,MDT,F
-SUT,CIMPG,Fort Snelling UT,2035,100.01,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2035,100.01,MDT,F
 SUT,CIMPG,Fridley,2035,100.01,MDT,F
 SUT,CIMPG,Gem Lake,2035,100.01,MDT,F
 SUT,CIMPG,Golden Valley,2035,100.01,MDT,F
@@ -48040,7 +48040,7 @@ SUT,CIMPG,Excelsior,2040,100.51,MDT,F
 SUT,CIMPG,Falcon Heights,2040,100.51,MDT,F
 SUT,CIMPG,Farmington,2040,100.51,MDT,F
 SUT,CIMPG,Forest Lake,2040,100.51,MDT,F
-SUT,CIMPG,Fort Snelling UT,2040,100.51,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2040,100.51,MDT,F
 SUT,CIMPG,Fridley,2040,100.51,MDT,F
 SUT,CIMPG,Gem Lake,2040,100.51,MDT,F
 SUT,CIMPG,Golden Valley,2040,100.51,MDT,F
@@ -48226,7 +48226,7 @@ SUT,CIMPG,Excelsior,2045,101.02,MDT,F
 SUT,CIMPG,Falcon Heights,2045,101.02,MDT,F
 SUT,CIMPG,Farmington,2045,101.02,MDT,F
 SUT,CIMPG,Forest Lake,2045,101.02,MDT,F
-SUT,CIMPG,Fort Snelling UT,2045,101.02,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2045,101.02,MDT,F
 SUT,CIMPG,Fridley,2045,101.02,MDT,F
 SUT,CIMPG,Gem Lake,2045,101.02,MDT,F
 SUT,CIMPG,Golden Valley,2045,101.02,MDT,F
@@ -48412,7 +48412,7 @@ SUT,CIMPG,Excelsior,2050,101.52,MDT,F
 SUT,CIMPG,Falcon Heights,2050,101.52,MDT,F
 SUT,CIMPG,Farmington,2050,101.52,MDT,F
 SUT,CIMPG,Forest Lake,2050,101.52,MDT,F
-SUT,CIMPG,Fort Snelling UT,2050,101.52,MDT,F
+SUT,CIMPG,Fort Snelling (unorg.),2050,101.52,MDT,F
 SUT,CIMPG,Fridley,2050,101.52,MDT,F
 SUT,CIMPG,Gem Lake,2050,101.52,MDT,F
 SUT,CIMPG,Golden Valley,2050,101.52,MDT,F
@@ -48598,7 +48598,7 @@ SUT,BEVElec,Excelsior,2015,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2015,2.34,MDT,F
 SUT,BEVElec,Farmington,2015,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2015,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2015,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2015,2.34,MDT,F
 SUT,BEVElec,Fridley,2015,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2015,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2015,2.34,MDT,F
@@ -48784,7 +48784,7 @@ SUT,BEVElec,Excelsior,2018,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2018,2.34,MDT,F
 SUT,BEVElec,Farmington,2018,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2018,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2018,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2018,2.34,MDT,F
 SUT,BEVElec,Fridley,2018,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2018,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2018,2.34,MDT,F
@@ -48970,7 +48970,7 @@ SUT,BEVElec,Excelsior,2020,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2020,2.34,MDT,F
 SUT,BEVElec,Farmington,2020,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2020,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2020,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2020,2.34,MDT,F
 SUT,BEVElec,Fridley,2020,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2020,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2020,2.34,MDT,F
@@ -49156,7 +49156,7 @@ SUT,BEVElec,Excelsior,2025,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2025,2.34,MDT,F
 SUT,BEVElec,Farmington,2025,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2025,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2025,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2025,2.34,MDT,F
 SUT,BEVElec,Fridley,2025,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2025,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2025,2.34,MDT,F
@@ -49342,7 +49342,7 @@ SUT,BEVElec,Excelsior,2030,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2030,2.34,MDT,F
 SUT,BEVElec,Farmington,2030,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2030,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2030,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2030,2.34,MDT,F
 SUT,BEVElec,Fridley,2030,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2030,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2030,2.34,MDT,F
@@ -49528,7 +49528,7 @@ SUT,BEVElec,Excelsior,2035,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2035,2.34,MDT,F
 SUT,BEVElec,Farmington,2035,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2035,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2035,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2035,2.34,MDT,F
 SUT,BEVElec,Fridley,2035,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2035,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2035,2.34,MDT,F
@@ -49714,7 +49714,7 @@ SUT,BEVElec,Excelsior,2040,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2040,2.34,MDT,F
 SUT,BEVElec,Farmington,2040,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2040,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2040,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2040,2.34,MDT,F
 SUT,BEVElec,Fridley,2040,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2040,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2040,2.34,MDT,F
@@ -49900,7 +49900,7 @@ SUT,BEVElec,Excelsior,2045,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2045,2.34,MDT,F
 SUT,BEVElec,Farmington,2045,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2045,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2045,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2045,2.34,MDT,F
 SUT,BEVElec,Fridley,2045,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2045,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2045,2.34,MDT,F
@@ -50086,7 +50086,7 @@ SUT,BEVElec,Excelsior,2050,2.34,MDT,F
 SUT,BEVElec,Falcon Heights,2050,2.34,MDT,F
 SUT,BEVElec,Farmington,2050,2.34,MDT,F
 SUT,BEVElec,Forest Lake,2050,2.34,MDT,F
-SUT,BEVElec,Fort Snelling UT,2050,2.34,MDT,F
+SUT,BEVElec,Fort Snelling (unorg.),2050,2.34,MDT,F
 SUT,BEVElec,Fridley,2050,2.34,MDT,F
 SUT,BEVElec,Gem Lake,2050,2.34,MDT,F
 SUT,BEVElec,Golden Valley,2050,2.34,MDT,F
@@ -50272,7 +50272,7 @@ SUT,AVO,Excelsior,2015,1,MDT,F
 SUT,AVO,Falcon Heights,2015,1,MDT,F
 SUT,AVO,Farmington,2015,1,MDT,F
 SUT,AVO,Forest Lake,2015,1,MDT,F
-SUT,AVO,Fort Snelling UT,2015,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2015,1,MDT,F
 SUT,AVO,Fridley,2015,1,MDT,F
 SUT,AVO,Gem Lake,2015,1,MDT,F
 SUT,AVO,Golden Valley,2015,1,MDT,F
@@ -50458,7 +50458,7 @@ SUT,AVO,Excelsior,2018,1,MDT,F
 SUT,AVO,Falcon Heights,2018,1,MDT,F
 SUT,AVO,Farmington,2018,1,MDT,F
 SUT,AVO,Forest Lake,2018,1,MDT,F
-SUT,AVO,Fort Snelling UT,2018,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2018,1,MDT,F
 SUT,AVO,Fridley,2018,1,MDT,F
 SUT,AVO,Gem Lake,2018,1,MDT,F
 SUT,AVO,Golden Valley,2018,1,MDT,F
@@ -50644,7 +50644,7 @@ SUT,AVO,Excelsior,2020,1,MDT,F
 SUT,AVO,Falcon Heights,2020,1,MDT,F
 SUT,AVO,Farmington,2020,1,MDT,F
 SUT,AVO,Forest Lake,2020,1,MDT,F
-SUT,AVO,Fort Snelling UT,2020,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2020,1,MDT,F
 SUT,AVO,Fridley,2020,1,MDT,F
 SUT,AVO,Gem Lake,2020,1,MDT,F
 SUT,AVO,Golden Valley,2020,1,MDT,F
@@ -50830,7 +50830,7 @@ SUT,AVO,Excelsior,2025,1,MDT,F
 SUT,AVO,Falcon Heights,2025,1,MDT,F
 SUT,AVO,Farmington,2025,1,MDT,F
 SUT,AVO,Forest Lake,2025,1,MDT,F
-SUT,AVO,Fort Snelling UT,2025,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2025,1,MDT,F
 SUT,AVO,Fridley,2025,1,MDT,F
 SUT,AVO,Gem Lake,2025,1,MDT,F
 SUT,AVO,Golden Valley,2025,1,MDT,F
@@ -51016,7 +51016,7 @@ SUT,AVO,Excelsior,2030,1,MDT,F
 SUT,AVO,Falcon Heights,2030,1,MDT,F
 SUT,AVO,Farmington,2030,1,MDT,F
 SUT,AVO,Forest Lake,2030,1,MDT,F
-SUT,AVO,Fort Snelling UT,2030,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2030,1,MDT,F
 SUT,AVO,Fridley,2030,1,MDT,F
 SUT,AVO,Gem Lake,2030,1,MDT,F
 SUT,AVO,Golden Valley,2030,1,MDT,F
@@ -51202,7 +51202,7 @@ SUT,AVO,Excelsior,2035,1,MDT,F
 SUT,AVO,Falcon Heights,2035,1,MDT,F
 SUT,AVO,Farmington,2035,1,MDT,F
 SUT,AVO,Forest Lake,2035,1,MDT,F
-SUT,AVO,Fort Snelling UT,2035,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2035,1,MDT,F
 SUT,AVO,Fridley,2035,1,MDT,F
 SUT,AVO,Gem Lake,2035,1,MDT,F
 SUT,AVO,Golden Valley,2035,1,MDT,F
@@ -51388,7 +51388,7 @@ SUT,AVO,Excelsior,2040,1,MDT,F
 SUT,AVO,Falcon Heights,2040,1,MDT,F
 SUT,AVO,Farmington,2040,1,MDT,F
 SUT,AVO,Forest Lake,2040,1,MDT,F
-SUT,AVO,Fort Snelling UT,2040,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2040,1,MDT,F
 SUT,AVO,Fridley,2040,1,MDT,F
 SUT,AVO,Gem Lake,2040,1,MDT,F
 SUT,AVO,Golden Valley,2040,1,MDT,F
@@ -51574,7 +51574,7 @@ SUT,AVO,Excelsior,2045,1,MDT,F
 SUT,AVO,Falcon Heights,2045,1,MDT,F
 SUT,AVO,Farmington,2045,1,MDT,F
 SUT,AVO,Forest Lake,2045,1,MDT,F
-SUT,AVO,Fort Snelling UT,2045,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2045,1,MDT,F
 SUT,AVO,Fridley,2045,1,MDT,F
 SUT,AVO,Gem Lake,2045,1,MDT,F
 SUT,AVO,Golden Valley,2045,1,MDT,F
@@ -51760,7 +51760,7 @@ SUT,AVO,Excelsior,2050,1,MDT,F
 SUT,AVO,Falcon Heights,2050,1,MDT,F
 SUT,AVO,Farmington,2050,1,MDT,F
 SUT,AVO,Forest Lake,2050,1,MDT,F
-SUT,AVO,Fort Snelling UT,2050,1,MDT,F
+SUT,AVO,Fort Snelling (unorg.),2050,1,MDT,F
 SUT,AVO,Fridley,2050,1,MDT,F
 SUT,AVO,Gem Lake,2050,1,MDT,F
 SUT,AVO,Golden Valley,2050,1,MDT,F
@@ -51946,7 +51946,7 @@ FR,CIMPG,Excelsior,2015,477,FRAIL,F
 FR,CIMPG,Falcon Heights,2015,477,FRAIL,F
 FR,CIMPG,Farmington,2015,477,FRAIL,F
 FR,CIMPG,Forest Lake,2015,477,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2015,477,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2015,477,FRAIL,F
 FR,CIMPG,Fridley,2015,477,FRAIL,F
 FR,CIMPG,Gem Lake,2015,477,FRAIL,F
 FR,CIMPG,Golden Valley,2015,477,FRAIL,F
@@ -52132,7 +52132,7 @@ FR,CIMPG,Excelsior,2018,478.43,FRAIL,F
 FR,CIMPG,Falcon Heights,2018,478.43,FRAIL,F
 FR,CIMPG,Farmington,2018,478.43,FRAIL,F
 FR,CIMPG,Forest Lake,2018,478.43,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2018,478.43,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2018,478.43,FRAIL,F
 FR,CIMPG,Fridley,2018,478.43,FRAIL,F
 FR,CIMPG,Gem Lake,2018,478.43,FRAIL,F
 FR,CIMPG,Golden Valley,2018,478.43,FRAIL,F
@@ -52318,7 +52318,7 @@ FR,CIMPG,Excelsior,2020,479.39,FRAIL,F
 FR,CIMPG,Falcon Heights,2020,479.39,FRAIL,F
 FR,CIMPG,Farmington,2020,479.39,FRAIL,F
 FR,CIMPG,Forest Lake,2020,479.39,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2020,479.39,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2020,479.39,FRAIL,F
 FR,CIMPG,Fridley,2020,479.39,FRAIL,F
 FR,CIMPG,Gem Lake,2020,479.39,FRAIL,F
 FR,CIMPG,Golden Valley,2020,479.39,FRAIL,F
@@ -52504,7 +52504,7 @@ FR,CIMPG,Excelsior,2025,481.78,FRAIL,F
 FR,CIMPG,Falcon Heights,2025,481.78,FRAIL,F
 FR,CIMPG,Farmington,2025,481.78,FRAIL,F
 FR,CIMPG,Forest Lake,2025,481.78,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2025,481.78,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2025,481.78,FRAIL,F
 FR,CIMPG,Fridley,2025,481.78,FRAIL,F
 FR,CIMPG,Gem Lake,2025,481.78,FRAIL,F
 FR,CIMPG,Golden Valley,2025,481.78,FRAIL,F
@@ -52690,7 +52690,7 @@ FR,CIMPG,Excelsior,2030,484.19,FRAIL,F
 FR,CIMPG,Falcon Heights,2030,484.19,FRAIL,F
 FR,CIMPG,Farmington,2030,484.19,FRAIL,F
 FR,CIMPG,Forest Lake,2030,484.19,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2030,484.19,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2030,484.19,FRAIL,F
 FR,CIMPG,Fridley,2030,484.19,FRAIL,F
 FR,CIMPG,Gem Lake,2030,484.19,FRAIL,F
 FR,CIMPG,Golden Valley,2030,484.19,FRAIL,F
@@ -52876,7 +52876,7 @@ FR,CIMPG,Excelsior,2035,486.61,FRAIL,F
 FR,CIMPG,Falcon Heights,2035,486.61,FRAIL,F
 FR,CIMPG,Farmington,2035,486.61,FRAIL,F
 FR,CIMPG,Forest Lake,2035,486.61,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2035,486.61,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2035,486.61,FRAIL,F
 FR,CIMPG,Fridley,2035,486.61,FRAIL,F
 FR,CIMPG,Gem Lake,2035,486.61,FRAIL,F
 FR,CIMPG,Golden Valley,2035,486.61,FRAIL,F
@@ -53062,7 +53062,7 @@ FR,CIMPG,Excelsior,2040,489.04,FRAIL,F
 FR,CIMPG,Falcon Heights,2040,489.04,FRAIL,F
 FR,CIMPG,Farmington,2040,489.04,FRAIL,F
 FR,CIMPG,Forest Lake,2040,489.04,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2040,489.04,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2040,489.04,FRAIL,F
 FR,CIMPG,Fridley,2040,489.04,FRAIL,F
 FR,CIMPG,Gem Lake,2040,489.04,FRAIL,F
 FR,CIMPG,Golden Valley,2040,489.04,FRAIL,F
@@ -53248,7 +53248,7 @@ FR,CIMPG,Excelsior,2045,491.49,FRAIL,F
 FR,CIMPG,Falcon Heights,2045,491.49,FRAIL,F
 FR,CIMPG,Farmington,2045,491.49,FRAIL,F
 FR,CIMPG,Forest Lake,2045,491.49,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2045,491.49,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2045,491.49,FRAIL,F
 FR,CIMPG,Fridley,2045,491.49,FRAIL,F
 FR,CIMPG,Gem Lake,2045,491.49,FRAIL,F
 FR,CIMPG,Golden Valley,2045,491.49,FRAIL,F
@@ -53434,7 +53434,7 @@ FR,CIMPG,Excelsior,2050,493.95,FRAIL,F
 FR,CIMPG,Falcon Heights,2050,493.95,FRAIL,F
 FR,CIMPG,Farmington,2050,493.95,FRAIL,F
 FR,CIMPG,Forest Lake,2050,493.95,FRAIL,F
-FR,CIMPG,Fort Snelling UT,2050,493.95,FRAIL,F
+FR,CIMPG,Fort Snelling (unorg.),2050,493.95,FRAIL,F
 FR,CIMPG,Fridley,2050,493.95,FRAIL,F
 FR,CIMPG,Gem Lake,2050,493.95,FRAIL,F
 FR,CIMPG,Golden Valley,2050,493.95,FRAIL,F
@@ -53620,7 +53620,7 @@ FR,EVElec,Excelsior,2015,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2015,0.49,FRAIL,F
 FR,EVElec,Farmington,2015,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2015,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2015,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2015,0.49,FRAIL,F
 FR,EVElec,Fridley,2015,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2015,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2015,0.49,FRAIL,F
@@ -53806,7 +53806,7 @@ FR,EVElec,Excelsior,2018,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2018,0.49,FRAIL,F
 FR,EVElec,Farmington,2018,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2018,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2018,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2018,0.49,FRAIL,F
 FR,EVElec,Fridley,2018,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2018,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2018,0.49,FRAIL,F
@@ -53992,7 +53992,7 @@ FR,EVElec,Excelsior,2020,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2020,0.49,FRAIL,F
 FR,EVElec,Farmington,2020,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2020,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2020,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2020,0.49,FRAIL,F
 FR,EVElec,Fridley,2020,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2020,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2020,0.49,FRAIL,F
@@ -54178,7 +54178,7 @@ FR,EVElec,Excelsior,2025,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2025,0.49,FRAIL,F
 FR,EVElec,Farmington,2025,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2025,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2025,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2025,0.49,FRAIL,F
 FR,EVElec,Fridley,2025,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2025,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2025,0.49,FRAIL,F
@@ -54364,7 +54364,7 @@ FR,EVElec,Excelsior,2030,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2030,0.49,FRAIL,F
 FR,EVElec,Farmington,2030,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2030,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2030,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2030,0.49,FRAIL,F
 FR,EVElec,Fridley,2030,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2030,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2030,0.49,FRAIL,F
@@ -54550,7 +54550,7 @@ FR,EVElec,Excelsior,2035,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2035,0.49,FRAIL,F
 FR,EVElec,Farmington,2035,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2035,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2035,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2035,0.49,FRAIL,F
 FR,EVElec,Fridley,2035,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2035,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2035,0.49,FRAIL,F
@@ -54736,7 +54736,7 @@ FR,EVElec,Excelsior,2040,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2040,0.49,FRAIL,F
 FR,EVElec,Farmington,2040,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2040,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2040,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2040,0.49,FRAIL,F
 FR,EVElec,Fridley,2040,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2040,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2040,0.49,FRAIL,F
@@ -54922,7 +54922,7 @@ FR,EVElec,Excelsior,2045,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2045,0.49,FRAIL,F
 FR,EVElec,Farmington,2045,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2045,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2045,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2045,0.49,FRAIL,F
 FR,EVElec,Fridley,2045,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2045,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2045,0.49,FRAIL,F
@@ -55108,7 +55108,7 @@ FR,EVElec,Excelsior,2050,0.49,FRAIL,F
 FR,EVElec,Falcon Heights,2050,0.49,FRAIL,F
 FR,EVElec,Farmington,2050,0.49,FRAIL,F
 FR,EVElec,Forest Lake,2050,0.49,FRAIL,F
-FR,EVElec,Fort Snelling UT,2050,0.49,FRAIL,F
+FR,EVElec,Fort Snelling (unorg.),2050,0.49,FRAIL,F
 FR,EVElec,Fridley,2050,0.49,FRAIL,F
 FR,EVElec,Gem Lake,2050,0.49,FRAIL,F
 FR,EVElec,Golden Valley,2050,0.49,FRAIL,F
@@ -55294,7 +55294,7 @@ FR,AVO,Excelsior,2015,1,FRAIL,F
 FR,AVO,Falcon Heights,2015,1,FRAIL,F
 FR,AVO,Farmington,2015,1,FRAIL,F
 FR,AVO,Forest Lake,2015,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2015,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2015,1,FRAIL,F
 FR,AVO,Fridley,2015,1,FRAIL,F
 FR,AVO,Gem Lake,2015,1,FRAIL,F
 FR,AVO,Golden Valley,2015,1,FRAIL,F
@@ -55480,7 +55480,7 @@ FR,AVO,Excelsior,2018,1,FRAIL,F
 FR,AVO,Falcon Heights,2018,1,FRAIL,F
 FR,AVO,Farmington,2018,1,FRAIL,F
 FR,AVO,Forest Lake,2018,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2018,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2018,1,FRAIL,F
 FR,AVO,Fridley,2018,1,FRAIL,F
 FR,AVO,Gem Lake,2018,1,FRAIL,F
 FR,AVO,Golden Valley,2018,1,FRAIL,F
@@ -55666,7 +55666,7 @@ FR,AVO,Excelsior,2020,1,FRAIL,F
 FR,AVO,Falcon Heights,2020,1,FRAIL,F
 FR,AVO,Farmington,2020,1,FRAIL,F
 FR,AVO,Forest Lake,2020,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2020,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2020,1,FRAIL,F
 FR,AVO,Fridley,2020,1,FRAIL,F
 FR,AVO,Gem Lake,2020,1,FRAIL,F
 FR,AVO,Golden Valley,2020,1,FRAIL,F
@@ -55852,7 +55852,7 @@ FR,AVO,Excelsior,2025,1,FRAIL,F
 FR,AVO,Falcon Heights,2025,1,FRAIL,F
 FR,AVO,Farmington,2025,1,FRAIL,F
 FR,AVO,Forest Lake,2025,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2025,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2025,1,FRAIL,F
 FR,AVO,Fridley,2025,1,FRAIL,F
 FR,AVO,Gem Lake,2025,1,FRAIL,F
 FR,AVO,Golden Valley,2025,1,FRAIL,F
@@ -56038,7 +56038,7 @@ FR,AVO,Excelsior,2030,1,FRAIL,F
 FR,AVO,Falcon Heights,2030,1,FRAIL,F
 FR,AVO,Farmington,2030,1,FRAIL,F
 FR,AVO,Forest Lake,2030,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2030,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2030,1,FRAIL,F
 FR,AVO,Fridley,2030,1,FRAIL,F
 FR,AVO,Gem Lake,2030,1,FRAIL,F
 FR,AVO,Golden Valley,2030,1,FRAIL,F
@@ -56224,7 +56224,7 @@ FR,AVO,Excelsior,2035,1,FRAIL,F
 FR,AVO,Falcon Heights,2035,1,FRAIL,F
 FR,AVO,Farmington,2035,1,FRAIL,F
 FR,AVO,Forest Lake,2035,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2035,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2035,1,FRAIL,F
 FR,AVO,Fridley,2035,1,FRAIL,F
 FR,AVO,Gem Lake,2035,1,FRAIL,F
 FR,AVO,Golden Valley,2035,1,FRAIL,F
@@ -56410,7 +56410,7 @@ FR,AVO,Excelsior,2040,1,FRAIL,F
 FR,AVO,Falcon Heights,2040,1,FRAIL,F
 FR,AVO,Farmington,2040,1,FRAIL,F
 FR,AVO,Forest Lake,2040,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2040,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2040,1,FRAIL,F
 FR,AVO,Fridley,2040,1,FRAIL,F
 FR,AVO,Gem Lake,2040,1,FRAIL,F
 FR,AVO,Golden Valley,2040,1,FRAIL,F
@@ -56596,7 +56596,7 @@ FR,AVO,Excelsior,2045,1,FRAIL,F
 FR,AVO,Falcon Heights,2045,1,FRAIL,F
 FR,AVO,Farmington,2045,1,FRAIL,F
 FR,AVO,Forest Lake,2045,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2045,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2045,1,FRAIL,F
 FR,AVO,Fridley,2045,1,FRAIL,F
 FR,AVO,Gem Lake,2045,1,FRAIL,F
 FR,AVO,Golden Valley,2045,1,FRAIL,F
@@ -56782,7 +56782,7 @@ FR,AVO,Excelsior,2050,1,FRAIL,F
 FR,AVO,Falcon Heights,2050,1,FRAIL,F
 FR,AVO,Farmington,2050,1,FRAIL,F
 FR,AVO,Forest Lake,2050,1,FRAIL,F
-FR,AVO,Fort Snelling UT,2050,1,FRAIL,F
+FR,AVO,Fort Snelling (unorg.),2050,1,FRAIL,F
 FR,AVO,Fridley,2050,1,FRAIL,F
 FR,AVO,Gem Lake,2050,1,FRAIL,F
 FR,AVO,Golden Valley,2050,1,FRAIL,F
@@ -56968,7 +56968,7 @@ MM,CIMPG,Excelsior,2015,234.41,FSHIP,F
 MM,CIMPG,Falcon Heights,2015,234.41,FSHIP,F
 MM,CIMPG,Farmington,2015,234.41,FSHIP,F
 MM,CIMPG,Forest Lake,2015,234.41,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2015,234.41,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2015,234.41,FSHIP,F
 MM,CIMPG,Fridley,2015,234.41,FSHIP,F
 MM,CIMPG,Gem Lake,2015,234.41,FSHIP,F
 MM,CIMPG,Golden Valley,2015,234.41,FSHIP,F
@@ -57154,7 +57154,7 @@ MM,CIMPG,Excelsior,2018,235.12,FSHIP,F
 MM,CIMPG,Falcon Heights,2018,235.12,FSHIP,F
 MM,CIMPG,Farmington,2018,235.12,FSHIP,F
 MM,CIMPG,Forest Lake,2018,235.12,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2018,235.12,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2018,235.12,FSHIP,F
 MM,CIMPG,Fridley,2018,235.12,FSHIP,F
 MM,CIMPG,Gem Lake,2018,235.12,FSHIP,F
 MM,CIMPG,Golden Valley,2018,235.12,FSHIP,F
@@ -57340,7 +57340,7 @@ MM,CIMPG,Excelsior,2020,235.59,FSHIP,F
 MM,CIMPG,Falcon Heights,2020,235.59,FSHIP,F
 MM,CIMPG,Farmington,2020,235.59,FSHIP,F
 MM,CIMPG,Forest Lake,2020,235.59,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2020,235.59,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2020,235.59,FSHIP,F
 MM,CIMPG,Fridley,2020,235.59,FSHIP,F
 MM,CIMPG,Gem Lake,2020,235.59,FSHIP,F
 MM,CIMPG,Golden Valley,2020,235.59,FSHIP,F
@@ -57526,7 +57526,7 @@ MM,CIMPG,Excelsior,2025,236.76,FSHIP,F
 MM,CIMPG,Falcon Heights,2025,236.76,FSHIP,F
 MM,CIMPG,Farmington,2025,236.76,FSHIP,F
 MM,CIMPG,Forest Lake,2025,236.76,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2025,236.76,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2025,236.76,FSHIP,F
 MM,CIMPG,Fridley,2025,236.76,FSHIP,F
 MM,CIMPG,Gem Lake,2025,236.76,FSHIP,F
 MM,CIMPG,Golden Valley,2025,236.76,FSHIP,F
@@ -57712,7 +57712,7 @@ MM,CIMPG,Excelsior,2030,237.95,FSHIP,F
 MM,CIMPG,Falcon Heights,2030,237.95,FSHIP,F
 MM,CIMPG,Farmington,2030,237.95,FSHIP,F
 MM,CIMPG,Forest Lake,2030,237.95,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2030,237.95,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2030,237.95,FSHIP,F
 MM,CIMPG,Fridley,2030,237.95,FSHIP,F
 MM,CIMPG,Gem Lake,2030,237.95,FSHIP,F
 MM,CIMPG,Golden Valley,2030,237.95,FSHIP,F
@@ -57898,7 +57898,7 @@ MM,CIMPG,Excelsior,2035,239.14,FSHIP,F
 MM,CIMPG,Falcon Heights,2035,239.14,FSHIP,F
 MM,CIMPG,Farmington,2035,239.14,FSHIP,F
 MM,CIMPG,Forest Lake,2035,239.14,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2035,239.14,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2035,239.14,FSHIP,F
 MM,CIMPG,Fridley,2035,239.14,FSHIP,F
 MM,CIMPG,Gem Lake,2035,239.14,FSHIP,F
 MM,CIMPG,Golden Valley,2035,239.14,FSHIP,F
@@ -58084,7 +58084,7 @@ MM,CIMPG,Excelsior,2040,240.33,FSHIP,F
 MM,CIMPG,Falcon Heights,2040,240.33,FSHIP,F
 MM,CIMPG,Farmington,2040,240.33,FSHIP,F
 MM,CIMPG,Forest Lake,2040,240.33,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2040,240.33,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2040,240.33,FSHIP,F
 MM,CIMPG,Fridley,2040,240.33,FSHIP,F
 MM,CIMPG,Gem Lake,2040,240.33,FSHIP,F
 MM,CIMPG,Golden Valley,2040,240.33,FSHIP,F
@@ -58270,7 +58270,7 @@ MM,CIMPG,Excelsior,2045,241.54,FSHIP,F
 MM,CIMPG,Falcon Heights,2045,241.54,FSHIP,F
 MM,CIMPG,Farmington,2045,241.54,FSHIP,F
 MM,CIMPG,Forest Lake,2045,241.54,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2045,241.54,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2045,241.54,FSHIP,F
 MM,CIMPG,Fridley,2045,241.54,FSHIP,F
 MM,CIMPG,Gem Lake,2045,241.54,FSHIP,F
 MM,CIMPG,Golden Valley,2045,241.54,FSHIP,F
@@ -58456,7 +58456,7 @@ MM,CIMPG,Excelsior,2050,242.74,FSHIP,F
 MM,CIMPG,Falcon Heights,2050,242.74,FSHIP,F
 MM,CIMPG,Farmington,2050,242.74,FSHIP,F
 MM,CIMPG,Forest Lake,2050,242.74,FSHIP,F
-MM,CIMPG,Fort Snelling UT,2050,242.74,FSHIP,F
+MM,CIMPG,Fort Snelling (unorg.),2050,242.74,FSHIP,F
 MM,CIMPG,Fridley,2050,242.74,FSHIP,F
 MM,CIMPG,Gem Lake,2050,242.74,FSHIP,F
 MM,CIMPG,Golden Valley,2050,242.74,FSHIP,F
@@ -58642,7 +58642,7 @@ MM,BEVElec,Excelsior,2015,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2015,8.7,FSHIP,F
 MM,BEVElec,Farmington,2015,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2015,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2015,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2015,8.7,FSHIP,F
 MM,BEVElec,Fridley,2015,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2015,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2015,8.7,FSHIP,F
@@ -58828,7 +58828,7 @@ MM,BEVElec,Excelsior,2018,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2018,8.7,FSHIP,F
 MM,BEVElec,Farmington,2018,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2018,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2018,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2018,8.7,FSHIP,F
 MM,BEVElec,Fridley,2018,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2018,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2018,8.7,FSHIP,F
@@ -59014,7 +59014,7 @@ MM,BEVElec,Excelsior,2020,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2020,8.7,FSHIP,F
 MM,BEVElec,Farmington,2020,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2020,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2020,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2020,8.7,FSHIP,F
 MM,BEVElec,Fridley,2020,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2020,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2020,8.7,FSHIP,F
@@ -59200,7 +59200,7 @@ MM,BEVElec,Excelsior,2025,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2025,8.7,FSHIP,F
 MM,BEVElec,Farmington,2025,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2025,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2025,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2025,8.7,FSHIP,F
 MM,BEVElec,Fridley,2025,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2025,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2025,8.7,FSHIP,F
@@ -59386,7 +59386,7 @@ MM,BEVElec,Excelsior,2030,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2030,8.7,FSHIP,F
 MM,BEVElec,Farmington,2030,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2030,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2030,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2030,8.7,FSHIP,F
 MM,BEVElec,Fridley,2030,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2030,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2030,8.7,FSHIP,F
@@ -59572,7 +59572,7 @@ MM,BEVElec,Excelsior,2035,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2035,8.7,FSHIP,F
 MM,BEVElec,Farmington,2035,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2035,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2035,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2035,8.7,FSHIP,F
 MM,BEVElec,Fridley,2035,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2035,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2035,8.7,FSHIP,F
@@ -59758,7 +59758,7 @@ MM,BEVElec,Excelsior,2040,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2040,8.7,FSHIP,F
 MM,BEVElec,Farmington,2040,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2040,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2040,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2040,8.7,FSHIP,F
 MM,BEVElec,Fridley,2040,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2040,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2040,8.7,FSHIP,F
@@ -59944,7 +59944,7 @@ MM,BEVElec,Excelsior,2045,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2045,8.7,FSHIP,F
 MM,BEVElec,Farmington,2045,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2045,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2045,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2045,8.7,FSHIP,F
 MM,BEVElec,Fridley,2045,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2045,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2045,8.7,FSHIP,F
@@ -60130,7 +60130,7 @@ MM,BEVElec,Excelsior,2050,8.7,FSHIP,F
 MM,BEVElec,Falcon Heights,2050,8.7,FSHIP,F
 MM,BEVElec,Farmington,2050,8.7,FSHIP,F
 MM,BEVElec,Forest Lake,2050,8.7,FSHIP,F
-MM,BEVElec,Fort Snelling UT,2050,8.7,FSHIP,F
+MM,BEVElec,Fort Snelling (unorg.),2050,8.7,FSHIP,F
 MM,BEVElec,Fridley,2050,8.7,FSHIP,F
 MM,BEVElec,Gem Lake,2050,8.7,FSHIP,F
 MM,BEVElec,Golden Valley,2050,8.7,FSHIP,F
@@ -60316,7 +60316,7 @@ MM,AVO,Excelsior,2015,1,FSHIP,F
 MM,AVO,Falcon Heights,2015,1,FSHIP,F
 MM,AVO,Farmington,2015,1,FSHIP,F
 MM,AVO,Forest Lake,2015,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2015,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2015,1,FSHIP,F
 MM,AVO,Fridley,2015,1,FSHIP,F
 MM,AVO,Gem Lake,2015,1,FSHIP,F
 MM,AVO,Golden Valley,2015,1,FSHIP,F
@@ -60502,7 +60502,7 @@ MM,AVO,Excelsior,2018,1,FSHIP,F
 MM,AVO,Falcon Heights,2018,1,FSHIP,F
 MM,AVO,Farmington,2018,1,FSHIP,F
 MM,AVO,Forest Lake,2018,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2018,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2018,1,FSHIP,F
 MM,AVO,Fridley,2018,1,FSHIP,F
 MM,AVO,Gem Lake,2018,1,FSHIP,F
 MM,AVO,Golden Valley,2018,1,FSHIP,F
@@ -60688,7 +60688,7 @@ MM,AVO,Excelsior,2020,1,FSHIP,F
 MM,AVO,Falcon Heights,2020,1,FSHIP,F
 MM,AVO,Farmington,2020,1,FSHIP,F
 MM,AVO,Forest Lake,2020,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2020,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2020,1,FSHIP,F
 MM,AVO,Fridley,2020,1,FSHIP,F
 MM,AVO,Gem Lake,2020,1,FSHIP,F
 MM,AVO,Golden Valley,2020,1,FSHIP,F
@@ -60874,7 +60874,7 @@ MM,AVO,Excelsior,2025,1,FSHIP,F
 MM,AVO,Falcon Heights,2025,1,FSHIP,F
 MM,AVO,Farmington,2025,1,FSHIP,F
 MM,AVO,Forest Lake,2025,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2025,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2025,1,FSHIP,F
 MM,AVO,Fridley,2025,1,FSHIP,F
 MM,AVO,Gem Lake,2025,1,FSHIP,F
 MM,AVO,Golden Valley,2025,1,FSHIP,F
@@ -61060,7 +61060,7 @@ MM,AVO,Excelsior,2030,1,FSHIP,F
 MM,AVO,Falcon Heights,2030,1,FSHIP,F
 MM,AVO,Farmington,2030,1,FSHIP,F
 MM,AVO,Forest Lake,2030,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2030,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2030,1,FSHIP,F
 MM,AVO,Fridley,2030,1,FSHIP,F
 MM,AVO,Gem Lake,2030,1,FSHIP,F
 MM,AVO,Golden Valley,2030,1,FSHIP,F
@@ -61246,7 +61246,7 @@ MM,AVO,Excelsior,2035,1,FSHIP,F
 MM,AVO,Falcon Heights,2035,1,FSHIP,F
 MM,AVO,Farmington,2035,1,FSHIP,F
 MM,AVO,Forest Lake,2035,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2035,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2035,1,FSHIP,F
 MM,AVO,Fridley,2035,1,FSHIP,F
 MM,AVO,Gem Lake,2035,1,FSHIP,F
 MM,AVO,Golden Valley,2035,1,FSHIP,F
@@ -61432,7 +61432,7 @@ MM,AVO,Excelsior,2040,1,FSHIP,F
 MM,AVO,Falcon Heights,2040,1,FSHIP,F
 MM,AVO,Farmington,2040,1,FSHIP,F
 MM,AVO,Forest Lake,2040,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2040,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2040,1,FSHIP,F
 MM,AVO,Fridley,2040,1,FSHIP,F
 MM,AVO,Gem Lake,2040,1,FSHIP,F
 MM,AVO,Golden Valley,2040,1,FSHIP,F
@@ -61618,7 +61618,7 @@ MM,AVO,Excelsior,2045,1,FSHIP,F
 MM,AVO,Falcon Heights,2045,1,FSHIP,F
 MM,AVO,Farmington,2045,1,FSHIP,F
 MM,AVO,Forest Lake,2045,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2045,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2045,1,FSHIP,F
 MM,AVO,Fridley,2045,1,FSHIP,F
 MM,AVO,Gem Lake,2045,1,FSHIP,F
 MM,AVO,Golden Valley,2045,1,FSHIP,F
@@ -61804,7 +61804,7 @@ MM,AVO,Excelsior,2050,1,FSHIP,F
 MM,AVO,Falcon Heights,2050,1,FSHIP,F
 MM,AVO,Farmington,2050,1,FSHIP,F
 MM,AVO,Forest Lake,2050,1,FSHIP,F
-MM,AVO,Fort Snelling UT,2050,1,FSHIP,F
+MM,AVO,Fort Snelling (unorg.),2050,1,FSHIP,F
 MM,AVO,Fridley,2050,1,FSHIP,F
 MM,AVO,Gem Lake,2050,1,FSHIP,F
 MM,AVO,Golden Valley,2050,1,FSHIP,F
@@ -61990,7 +61990,7 @@ AIR,SIMPG,Excelsior,2015,12.56,FSHIP,F
 AIR,SIMPG,Falcon Heights,2015,12.56,FSHIP,F
 AIR,SIMPG,Farmington,2015,12.56,FSHIP,F
 AIR,SIMPG,Forest Lake,2015,12.56,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2015,12.56,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2015,12.56,FSHIP,F
 AIR,SIMPG,Fridley,2015,12.56,FSHIP,F
 AIR,SIMPG,Gem Lake,2015,12.56,FSHIP,F
 AIR,SIMPG,Golden Valley,2015,12.56,FSHIP,F
@@ -62176,7 +62176,7 @@ AIR,SIMPG,Excelsior,2018,12.76,FSHIP,F
 AIR,SIMPG,Falcon Heights,2018,12.76,FSHIP,F
 AIR,SIMPG,Farmington,2018,12.76,FSHIP,F
 AIR,SIMPG,Forest Lake,2018,12.76,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2018,12.76,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2018,12.76,FSHIP,F
 AIR,SIMPG,Fridley,2018,12.76,FSHIP,F
 AIR,SIMPG,Gem Lake,2018,12.76,FSHIP,F
 AIR,SIMPG,Golden Valley,2018,12.76,FSHIP,F
@@ -62362,7 +62362,7 @@ AIR,SIMPG,Excelsior,2020,12.89,FSHIP,F
 AIR,SIMPG,Falcon Heights,2020,12.89,FSHIP,F
 AIR,SIMPG,Farmington,2020,12.89,FSHIP,F
 AIR,SIMPG,Forest Lake,2020,12.89,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2020,12.89,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2020,12.89,FSHIP,F
 AIR,SIMPG,Fridley,2020,12.89,FSHIP,F
 AIR,SIMPG,Gem Lake,2020,12.89,FSHIP,F
 AIR,SIMPG,Golden Valley,2020,12.89,FSHIP,F
@@ -62548,7 +62548,7 @@ AIR,SIMPG,Excelsior,2025,13.65,FSHIP,F
 AIR,SIMPG,Falcon Heights,2025,13.65,FSHIP,F
 AIR,SIMPG,Farmington,2025,13.65,FSHIP,F
 AIR,SIMPG,Forest Lake,2025,13.65,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2025,13.65,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2025,13.65,FSHIP,F
 AIR,SIMPG,Fridley,2025,13.65,FSHIP,F
 AIR,SIMPG,Gem Lake,2025,13.65,FSHIP,F
 AIR,SIMPG,Golden Valley,2025,13.65,FSHIP,F
@@ -62734,7 +62734,7 @@ AIR,SIMPG,Excelsior,2030,14.87,FSHIP,F
 AIR,SIMPG,Falcon Heights,2030,14.87,FSHIP,F
 AIR,SIMPG,Farmington,2030,14.87,FSHIP,F
 AIR,SIMPG,Forest Lake,2030,14.87,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2030,14.87,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2030,14.87,FSHIP,F
 AIR,SIMPG,Fridley,2030,14.87,FSHIP,F
 AIR,SIMPG,Gem Lake,2030,14.87,FSHIP,F
 AIR,SIMPG,Golden Valley,2030,14.87,FSHIP,F
@@ -62920,7 +62920,7 @@ AIR,SIMPG,Excelsior,2035,16.06,FSHIP,F
 AIR,SIMPG,Falcon Heights,2035,16.06,FSHIP,F
 AIR,SIMPG,Farmington,2035,16.06,FSHIP,F
 AIR,SIMPG,Forest Lake,2035,16.06,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2035,16.06,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2035,16.06,FSHIP,F
 AIR,SIMPG,Fridley,2035,16.06,FSHIP,F
 AIR,SIMPG,Gem Lake,2035,16.06,FSHIP,F
 AIR,SIMPG,Golden Valley,2035,16.06,FSHIP,F
@@ -63106,7 +63106,7 @@ AIR,SIMPG,Excelsior,2040,16.84,FSHIP,F
 AIR,SIMPG,Falcon Heights,2040,16.84,FSHIP,F
 AIR,SIMPG,Farmington,2040,16.84,FSHIP,F
 AIR,SIMPG,Forest Lake,2040,16.84,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2040,16.84,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2040,16.84,FSHIP,F
 AIR,SIMPG,Fridley,2040,16.84,FSHIP,F
 AIR,SIMPG,Gem Lake,2040,16.84,FSHIP,F
 AIR,SIMPG,Golden Valley,2040,16.84,FSHIP,F
@@ -63292,7 +63292,7 @@ AIR,SIMPG,Excelsior,2045,17.63,FSHIP,F
 AIR,SIMPG,Falcon Heights,2045,17.63,FSHIP,F
 AIR,SIMPG,Farmington,2045,17.63,FSHIP,F
 AIR,SIMPG,Forest Lake,2045,17.63,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2045,17.63,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2045,17.63,FSHIP,F
 AIR,SIMPG,Fridley,2045,17.63,FSHIP,F
 AIR,SIMPG,Gem Lake,2045,17.63,FSHIP,F
 AIR,SIMPG,Golden Valley,2045,17.63,FSHIP,F
@@ -63478,7 +63478,7 @@ AIR,SIMPG,Excelsior,2050,18.42,FSHIP,F
 AIR,SIMPG,Falcon Heights,2050,18.42,FSHIP,F
 AIR,SIMPG,Farmington,2050,18.42,FSHIP,F
 AIR,SIMPG,Forest Lake,2050,18.42,FSHIP,F
-AIR,SIMPG,Fort Snelling UT,2050,18.42,FSHIP,F
+AIR,SIMPG,Fort Snelling (unorg.),2050,18.42,FSHIP,F
 AIR,SIMPG,Fridley,2050,18.42,FSHIP,F
 AIR,SIMPG,Gem Lake,2050,18.42,FSHIP,F
 AIR,SIMPG,Golden Valley,2050,18.42,FSHIP,F
@@ -63664,7 +63664,7 @@ AIR,BEVElec,Excelsior,2015,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2015,-1,FSHIP,F
 AIR,BEVElec,Farmington,2015,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2015,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2015,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2015,-1,FSHIP,F
 AIR,BEVElec,Fridley,2015,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2015,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2015,-1,FSHIP,F
@@ -63850,7 +63850,7 @@ AIR,BEVElec,Excelsior,2018,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2018,-1,FSHIP,F
 AIR,BEVElec,Farmington,2018,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2018,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2018,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2018,-1,FSHIP,F
 AIR,BEVElec,Fridley,2018,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2018,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2018,-1,FSHIP,F
@@ -64036,7 +64036,7 @@ AIR,BEVElec,Excelsior,2020,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2020,-1,FSHIP,F
 AIR,BEVElec,Farmington,2020,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2020,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2020,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2020,-1,FSHIP,F
 AIR,BEVElec,Fridley,2020,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2020,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2020,-1,FSHIP,F
@@ -64222,7 +64222,7 @@ AIR,BEVElec,Excelsior,2025,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2025,-1,FSHIP,F
 AIR,BEVElec,Farmington,2025,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2025,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2025,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2025,-1,FSHIP,F
 AIR,BEVElec,Fridley,2025,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2025,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2025,-1,FSHIP,F
@@ -64408,7 +64408,7 @@ AIR,BEVElec,Excelsior,2030,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2030,-1,FSHIP,F
 AIR,BEVElec,Farmington,2030,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2030,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2030,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2030,-1,FSHIP,F
 AIR,BEVElec,Fridley,2030,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2030,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2030,-1,FSHIP,F
@@ -64594,7 +64594,7 @@ AIR,BEVElec,Excelsior,2035,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2035,-1,FSHIP,F
 AIR,BEVElec,Farmington,2035,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2035,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2035,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2035,-1,FSHIP,F
 AIR,BEVElec,Fridley,2035,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2035,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2035,-1,FSHIP,F
@@ -64780,7 +64780,7 @@ AIR,BEVElec,Excelsior,2040,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2040,-1,FSHIP,F
 AIR,BEVElec,Farmington,2040,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2040,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2040,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2040,-1,FSHIP,F
 AIR,BEVElec,Fridley,2040,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2040,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2040,-1,FSHIP,F
@@ -64966,7 +64966,7 @@ AIR,BEVElec,Excelsior,2045,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2045,-1,FSHIP,F
 AIR,BEVElec,Farmington,2045,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2045,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2045,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2045,-1,FSHIP,F
 AIR,BEVElec,Fridley,2045,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2045,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2045,-1,FSHIP,F
@@ -65152,7 +65152,7 @@ AIR,BEVElec,Excelsior,2050,-1,FSHIP,F
 AIR,BEVElec,Falcon Heights,2050,-1,FSHIP,F
 AIR,BEVElec,Farmington,2050,-1,FSHIP,F
 AIR,BEVElec,Forest Lake,2050,-1,FSHIP,F
-AIR,BEVElec,Fort Snelling UT,2050,-1,FSHIP,F
+AIR,BEVElec,Fort Snelling (unorg.),2050,-1,FSHIP,F
 AIR,BEVElec,Fridley,2050,-1,FSHIP,F
 AIR,BEVElec,Gem Lake,2050,-1,FSHIP,F
 AIR,BEVElec,Golden Valley,2050,-1,FSHIP,F
@@ -65338,7 +65338,7 @@ AIR,AVO,Excelsior,2015,1,FSHIP,F
 AIR,AVO,Falcon Heights,2015,1,FSHIP,F
 AIR,AVO,Farmington,2015,1,FSHIP,F
 AIR,AVO,Forest Lake,2015,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2015,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2015,1,FSHIP,F
 AIR,AVO,Fridley,2015,1,FSHIP,F
 AIR,AVO,Gem Lake,2015,1,FSHIP,F
 AIR,AVO,Golden Valley,2015,1,FSHIP,F
@@ -65524,7 +65524,7 @@ AIR,AVO,Excelsior,2018,1,FSHIP,F
 AIR,AVO,Falcon Heights,2018,1,FSHIP,F
 AIR,AVO,Farmington,2018,1,FSHIP,F
 AIR,AVO,Forest Lake,2018,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2018,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2018,1,FSHIP,F
 AIR,AVO,Fridley,2018,1,FSHIP,F
 AIR,AVO,Gem Lake,2018,1,FSHIP,F
 AIR,AVO,Golden Valley,2018,1,FSHIP,F
@@ -65710,7 +65710,7 @@ AIR,AVO,Excelsior,2020,1,FSHIP,F
 AIR,AVO,Falcon Heights,2020,1,FSHIP,F
 AIR,AVO,Farmington,2020,1,FSHIP,F
 AIR,AVO,Forest Lake,2020,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2020,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2020,1,FSHIP,F
 AIR,AVO,Fridley,2020,1,FSHIP,F
 AIR,AVO,Gem Lake,2020,1,FSHIP,F
 AIR,AVO,Golden Valley,2020,1,FSHIP,F
@@ -65896,7 +65896,7 @@ AIR,AVO,Excelsior,2025,1,FSHIP,F
 AIR,AVO,Falcon Heights,2025,1,FSHIP,F
 AIR,AVO,Farmington,2025,1,FSHIP,F
 AIR,AVO,Forest Lake,2025,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2025,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2025,1,FSHIP,F
 AIR,AVO,Fridley,2025,1,FSHIP,F
 AIR,AVO,Gem Lake,2025,1,FSHIP,F
 AIR,AVO,Golden Valley,2025,1,FSHIP,F
@@ -66082,7 +66082,7 @@ AIR,AVO,Excelsior,2030,1,FSHIP,F
 AIR,AVO,Falcon Heights,2030,1,FSHIP,F
 AIR,AVO,Farmington,2030,1,FSHIP,F
 AIR,AVO,Forest Lake,2030,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2030,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2030,1,FSHIP,F
 AIR,AVO,Fridley,2030,1,FSHIP,F
 AIR,AVO,Gem Lake,2030,1,FSHIP,F
 AIR,AVO,Golden Valley,2030,1,FSHIP,F
@@ -66268,7 +66268,7 @@ AIR,AVO,Excelsior,2035,1,FSHIP,F
 AIR,AVO,Falcon Heights,2035,1,FSHIP,F
 AIR,AVO,Farmington,2035,1,FSHIP,F
 AIR,AVO,Forest Lake,2035,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2035,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2035,1,FSHIP,F
 AIR,AVO,Fridley,2035,1,FSHIP,F
 AIR,AVO,Gem Lake,2035,1,FSHIP,F
 AIR,AVO,Golden Valley,2035,1,FSHIP,F
@@ -66454,7 +66454,7 @@ AIR,AVO,Excelsior,2040,1,FSHIP,F
 AIR,AVO,Falcon Heights,2040,1,FSHIP,F
 AIR,AVO,Farmington,2040,1,FSHIP,F
 AIR,AVO,Forest Lake,2040,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2040,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2040,1,FSHIP,F
 AIR,AVO,Fridley,2040,1,FSHIP,F
 AIR,AVO,Gem Lake,2040,1,FSHIP,F
 AIR,AVO,Golden Valley,2040,1,FSHIP,F
@@ -66640,7 +66640,7 @@ AIR,AVO,Excelsior,2045,1,FSHIP,F
 AIR,AVO,Falcon Heights,2045,1,FSHIP,F
 AIR,AVO,Farmington,2045,1,FSHIP,F
 AIR,AVO,Forest Lake,2045,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2045,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2045,1,FSHIP,F
 AIR,AVO,Fridley,2045,1,FSHIP,F
 AIR,AVO,Gem Lake,2045,1,FSHIP,F
 AIR,AVO,Golden Valley,2045,1,FSHIP,F
@@ -66826,7 +66826,7 @@ AIR,AVO,Excelsior,2050,1,FSHIP,F
 AIR,AVO,Falcon Heights,2050,1,FSHIP,F
 AIR,AVO,Farmington,2050,1,FSHIP,F
 AIR,AVO,Forest Lake,2050,1,FSHIP,F
-AIR,AVO,Fort Snelling UT,2050,1,FSHIP,F
+AIR,AVO,Fort Snelling (unorg.),2050,1,FSHIP,F
 AIR,AVO,Fridley,2050,1,FSHIP,F
 AIR,AVO,Gem Lake,2050,1,FSHIP,F
 AIR,AVO,Golden Valley,2050,1,FSHIP,F
@@ -67012,7 +67012,7 @@ WAT,CIMPG,Excelsior,2015,647,FSHIP,F
 WAT,CIMPG,Falcon Heights,2015,647,FSHIP,F
 WAT,CIMPG,Farmington,2015,647,FSHIP,F
 WAT,CIMPG,Forest Lake,2015,647,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2015,647,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2015,647,FSHIP,F
 WAT,CIMPG,Fridley,2015,647,FSHIP,F
 WAT,CIMPG,Gem Lake,2015,647,FSHIP,F
 WAT,CIMPG,Golden Valley,2015,647,FSHIP,F
@@ -67198,7 +67198,7 @@ WAT,CIMPG,Excelsior,2018,657.06,FSHIP,F
 WAT,CIMPG,Falcon Heights,2018,657.06,FSHIP,F
 WAT,CIMPG,Farmington,2018,657.06,FSHIP,F
 WAT,CIMPG,Forest Lake,2018,657.06,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2018,657.06,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2018,657.06,FSHIP,F
 WAT,CIMPG,Fridley,2018,657.06,FSHIP,F
 WAT,CIMPG,Gem Lake,2018,657.06,FSHIP,F
 WAT,CIMPG,Golden Valley,2018,657.06,FSHIP,F
@@ -67384,7 +67384,7 @@ WAT,CIMPG,Excelsior,2020,663.76,FSHIP,F
 WAT,CIMPG,Falcon Heights,2020,663.76,FSHIP,F
 WAT,CIMPG,Farmington,2020,663.76,FSHIP,F
 WAT,CIMPG,Forest Lake,2020,663.76,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2020,663.76,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2020,663.76,FSHIP,F
 WAT,CIMPG,Fridley,2020,663.76,FSHIP,F
 WAT,CIMPG,Gem Lake,2020,663.76,FSHIP,F
 WAT,CIMPG,Golden Valley,2020,663.76,FSHIP,F
@@ -67570,7 +67570,7 @@ WAT,CIMPG,Excelsior,2025,702.93,FSHIP,F
 WAT,CIMPG,Falcon Heights,2025,702.93,FSHIP,F
 WAT,CIMPG,Farmington,2025,702.93,FSHIP,F
 WAT,CIMPG,Forest Lake,2025,702.93,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2025,702.93,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2025,702.93,FSHIP,F
 WAT,CIMPG,Fridley,2025,702.93,FSHIP,F
 WAT,CIMPG,Gem Lake,2025,702.93,FSHIP,F
 WAT,CIMPG,Golden Valley,2025,702.93,FSHIP,F
@@ -67756,7 +67756,7 @@ WAT,CIMPG,Excelsior,2030,765.63,FSHIP,F
 WAT,CIMPG,Falcon Heights,2030,765.63,FSHIP,F
 WAT,CIMPG,Farmington,2030,765.63,FSHIP,F
 WAT,CIMPG,Forest Lake,2030,765.63,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2030,765.63,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2030,765.63,FSHIP,F
 WAT,CIMPG,Fridley,2030,765.63,FSHIP,F
 WAT,CIMPG,Gem Lake,2030,765.63,FSHIP,F
 WAT,CIMPG,Golden Valley,2030,765.63,FSHIP,F
@@ -67942,7 +67942,7 @@ WAT,CIMPG,Excelsior,2035,826.89,FSHIP,F
 WAT,CIMPG,Falcon Heights,2035,826.89,FSHIP,F
 WAT,CIMPG,Farmington,2035,826.89,FSHIP,F
 WAT,CIMPG,Forest Lake,2035,826.89,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2035,826.89,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2035,826.89,FSHIP,F
 WAT,CIMPG,Fridley,2035,826.89,FSHIP,F
 WAT,CIMPG,Gem Lake,2035,826.89,FSHIP,F
 WAT,CIMPG,Golden Valley,2035,826.89,FSHIP,F
@@ -68128,7 +68128,7 @@ WAT,CIMPG,Excelsior,2040,867.35,FSHIP,F
 WAT,CIMPG,Falcon Heights,2040,867.35,FSHIP,F
 WAT,CIMPG,Farmington,2040,867.35,FSHIP,F
 WAT,CIMPG,Forest Lake,2040,867.35,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2040,867.35,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2040,867.35,FSHIP,F
 WAT,CIMPG,Fridley,2040,867.35,FSHIP,F
 WAT,CIMPG,Gem Lake,2040,867.35,FSHIP,F
 WAT,CIMPG,Golden Valley,2040,867.35,FSHIP,F
@@ -68314,7 +68314,7 @@ WAT,CIMPG,Excelsior,2045,907.81,FSHIP,F
 WAT,CIMPG,Falcon Heights,2045,907.81,FSHIP,F
 WAT,CIMPG,Farmington,2045,907.81,FSHIP,F
 WAT,CIMPG,Forest Lake,2045,907.81,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2045,907.81,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2045,907.81,FSHIP,F
 WAT,CIMPG,Fridley,2045,907.81,FSHIP,F
 WAT,CIMPG,Gem Lake,2045,907.81,FSHIP,F
 WAT,CIMPG,Golden Valley,2045,907.81,FSHIP,F
@@ -68500,7 +68500,7 @@ WAT,CIMPG,Excelsior,2050,948.27,FSHIP,F
 WAT,CIMPG,Falcon Heights,2050,948.27,FSHIP,F
 WAT,CIMPG,Farmington,2050,948.27,FSHIP,F
 WAT,CIMPG,Forest Lake,2050,948.27,FSHIP,F
-WAT,CIMPG,Fort Snelling UT,2050,948.27,FSHIP,F
+WAT,CIMPG,Fort Snelling (unorg.),2050,948.27,FSHIP,F
 WAT,CIMPG,Fridley,2050,948.27,FSHIP,F
 WAT,CIMPG,Gem Lake,2050,948.27,FSHIP,F
 WAT,CIMPG,Golden Valley,2050,948.27,FSHIP,F
@@ -68686,7 +68686,7 @@ WAT,BEVElec,Excelsior,2015,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2015,-1,FSHIP,F
 WAT,BEVElec,Farmington,2015,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2015,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2015,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2015,-1,FSHIP,F
 WAT,BEVElec,Fridley,2015,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2015,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2015,-1,FSHIP,F
@@ -68872,7 +68872,7 @@ WAT,BEVElec,Excelsior,2018,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2018,-1,FSHIP,F
 WAT,BEVElec,Farmington,2018,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2018,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2018,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2018,-1,FSHIP,F
 WAT,BEVElec,Fridley,2018,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2018,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2018,-1,FSHIP,F
@@ -69058,7 +69058,7 @@ WAT,BEVElec,Excelsior,2020,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2020,-1,FSHIP,F
 WAT,BEVElec,Farmington,2020,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2020,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2020,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2020,-1,FSHIP,F
 WAT,BEVElec,Fridley,2020,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2020,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2020,-1,FSHIP,F
@@ -69244,7 +69244,7 @@ WAT,BEVElec,Excelsior,2025,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2025,-1,FSHIP,F
 WAT,BEVElec,Farmington,2025,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2025,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2025,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2025,-1,FSHIP,F
 WAT,BEVElec,Fridley,2025,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2025,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2025,-1,FSHIP,F
@@ -69430,7 +69430,7 @@ WAT,BEVElec,Excelsior,2030,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2030,-1,FSHIP,F
 WAT,BEVElec,Farmington,2030,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2030,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2030,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2030,-1,FSHIP,F
 WAT,BEVElec,Fridley,2030,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2030,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2030,-1,FSHIP,F
@@ -69616,7 +69616,7 @@ WAT,BEVElec,Excelsior,2035,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2035,-1,FSHIP,F
 WAT,BEVElec,Farmington,2035,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2035,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2035,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2035,-1,FSHIP,F
 WAT,BEVElec,Fridley,2035,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2035,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2035,-1,FSHIP,F
@@ -69802,7 +69802,7 @@ WAT,BEVElec,Excelsior,2040,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2040,-1,FSHIP,F
 WAT,BEVElec,Farmington,2040,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2040,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2040,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2040,-1,FSHIP,F
 WAT,BEVElec,Fridley,2040,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2040,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2040,-1,FSHIP,F
@@ -69988,7 +69988,7 @@ WAT,BEVElec,Excelsior,2045,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2045,-1,FSHIP,F
 WAT,BEVElec,Farmington,2045,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2045,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2045,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2045,-1,FSHIP,F
 WAT,BEVElec,Fridley,2045,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2045,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2045,-1,FSHIP,F
@@ -70174,7 +70174,7 @@ WAT,BEVElec,Excelsior,2050,-1,FSHIP,F
 WAT,BEVElec,Falcon Heights,2050,-1,FSHIP,F
 WAT,BEVElec,Farmington,2050,-1,FSHIP,F
 WAT,BEVElec,Forest Lake,2050,-1,FSHIP,F
-WAT,BEVElec,Fort Snelling UT,2050,-1,FSHIP,F
+WAT,BEVElec,Fort Snelling (unorg.),2050,-1,FSHIP,F
 WAT,BEVElec,Fridley,2050,-1,FSHIP,F
 WAT,BEVElec,Gem Lake,2050,-1,FSHIP,F
 WAT,BEVElec,Golden Valley,2050,-1,FSHIP,F
@@ -70360,7 +70360,7 @@ WAT,AVO,Excelsior,2015,1,FSHIP,F
 WAT,AVO,Falcon Heights,2015,1,FSHIP,F
 WAT,AVO,Farmington,2015,1,FSHIP,F
 WAT,AVO,Forest Lake,2015,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2015,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2015,1,FSHIP,F
 WAT,AVO,Fridley,2015,1,FSHIP,F
 WAT,AVO,Gem Lake,2015,1,FSHIP,F
 WAT,AVO,Golden Valley,2015,1,FSHIP,F
@@ -70546,7 +70546,7 @@ WAT,AVO,Excelsior,2018,1,FSHIP,F
 WAT,AVO,Falcon Heights,2018,1,FSHIP,F
 WAT,AVO,Farmington,2018,1,FSHIP,F
 WAT,AVO,Forest Lake,2018,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2018,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2018,1,FSHIP,F
 WAT,AVO,Fridley,2018,1,FSHIP,F
 WAT,AVO,Gem Lake,2018,1,FSHIP,F
 WAT,AVO,Golden Valley,2018,1,FSHIP,F
@@ -70732,7 +70732,7 @@ WAT,AVO,Excelsior,2020,1,FSHIP,F
 WAT,AVO,Falcon Heights,2020,1,FSHIP,F
 WAT,AVO,Farmington,2020,1,FSHIP,F
 WAT,AVO,Forest Lake,2020,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2020,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2020,1,FSHIP,F
 WAT,AVO,Fridley,2020,1,FSHIP,F
 WAT,AVO,Gem Lake,2020,1,FSHIP,F
 WAT,AVO,Golden Valley,2020,1,FSHIP,F
@@ -70918,7 +70918,7 @@ WAT,AVO,Excelsior,2025,1,FSHIP,F
 WAT,AVO,Falcon Heights,2025,1,FSHIP,F
 WAT,AVO,Farmington,2025,1,FSHIP,F
 WAT,AVO,Forest Lake,2025,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2025,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2025,1,FSHIP,F
 WAT,AVO,Fridley,2025,1,FSHIP,F
 WAT,AVO,Gem Lake,2025,1,FSHIP,F
 WAT,AVO,Golden Valley,2025,1,FSHIP,F
@@ -71104,7 +71104,7 @@ WAT,AVO,Excelsior,2030,1,FSHIP,F
 WAT,AVO,Falcon Heights,2030,1,FSHIP,F
 WAT,AVO,Farmington,2030,1,FSHIP,F
 WAT,AVO,Forest Lake,2030,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2030,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2030,1,FSHIP,F
 WAT,AVO,Fridley,2030,1,FSHIP,F
 WAT,AVO,Gem Lake,2030,1,FSHIP,F
 WAT,AVO,Golden Valley,2030,1,FSHIP,F
@@ -71290,7 +71290,7 @@ WAT,AVO,Excelsior,2035,1,FSHIP,F
 WAT,AVO,Falcon Heights,2035,1,FSHIP,F
 WAT,AVO,Farmington,2035,1,FSHIP,F
 WAT,AVO,Forest Lake,2035,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2035,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2035,1,FSHIP,F
 WAT,AVO,Fridley,2035,1,FSHIP,F
 WAT,AVO,Gem Lake,2035,1,FSHIP,F
 WAT,AVO,Golden Valley,2035,1,FSHIP,F
@@ -71476,7 +71476,7 @@ WAT,AVO,Excelsior,2040,1,FSHIP,F
 WAT,AVO,Falcon Heights,2040,1,FSHIP,F
 WAT,AVO,Farmington,2040,1,FSHIP,F
 WAT,AVO,Forest Lake,2040,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2040,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2040,1,FSHIP,F
 WAT,AVO,Fridley,2040,1,FSHIP,F
 WAT,AVO,Gem Lake,2040,1,FSHIP,F
 WAT,AVO,Golden Valley,2040,1,FSHIP,F
@@ -71662,7 +71662,7 @@ WAT,AVO,Excelsior,2045,1,FSHIP,F
 WAT,AVO,Falcon Heights,2045,1,FSHIP,F
 WAT,AVO,Farmington,2045,1,FSHIP,F
 WAT,AVO,Forest Lake,2045,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2045,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2045,1,FSHIP,F
 WAT,AVO,Fridley,2045,1,FSHIP,F
 WAT,AVO,Gem Lake,2045,1,FSHIP,F
 WAT,AVO,Golden Valley,2045,1,FSHIP,F
@@ -71848,7 +71848,7 @@ WAT,AVO,Excelsior,2050,1,FSHIP,F
 WAT,AVO,Falcon Heights,2050,1,FSHIP,F
 WAT,AVO,Farmington,2050,1,FSHIP,F
 WAT,AVO,Forest Lake,2050,1,FSHIP,F
-WAT,AVO,Fort Snelling UT,2050,1,FSHIP,F
+WAT,AVO,Fort Snelling (unorg.),2050,1,FSHIP,F
 WAT,AVO,Fridley,2050,1,FSHIP,F
 WAT,AVO,Gem Lake,2050,1,FSHIP,F
 WAT,AVO,Golden Valley,2050,1,FSHIP,F

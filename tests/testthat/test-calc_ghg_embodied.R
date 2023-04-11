@@ -1,5 +1,3 @@
-
-
 ## Passenger, gasoline-----
 si_test_table <- tibble::tribble(
   ~type, ~ghg_embodied_source, ~mode, ~class, ~ctu, ~year, ~aeo_mode, ~ghg_embodied,
@@ -36,12 +34,12 @@ testthat::expect_equal(
 bu_test_table <- tibble::tribble(
   ~year, ~type, ~scenario, ~mode, ~class, ~ctu, ~ghg_embodied,
   "2015", "P", "BAU", "BU", "BEV", "St. Paul", 0,
-  "2018", "P", "BAU", "BU", "BEV", "St. Paul", 90.78,
-  "2020", "P", "BAU", "BU", "BEV", "St. Paul", 151.3,
-  "2025", "P", "BAU", "BU", "BEV", "St. Paul", 1966.9,
-  "2030", "P", "BAU", "BU", "BEV", "St. Paul", 6203.3,
-  "2035", "P", "BAU", "BU", "BEV", "St. Paul", 2874.7,
-  "2040", "P", "BAU", "BU", "BEV", "St. Paul", 6052
+  "2018", "P", "BAU", "BU", "BEV", "St. Paul", 0,
+  "2020", "P", "BAU", "BU", "BEV", "St. Paul", 0,
+  "2025", "P", "BAU", "BU", "BEV", "St. Paul", 0,
+  "2030", "P", "BAU", "BU", "BEV", "St. Paul", 0,
+  "2035", "P", "BAU", "BU", "BEV", "St. Paul", 0,
+  "2040", "P", "BAU", "BU", "BEV", "St. Paul", 0
 )
 
 bu_bev <-

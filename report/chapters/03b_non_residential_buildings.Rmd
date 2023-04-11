@@ -1,0 +1,62 @@
+## Non-Residential Energy
+
+Non-residential energy use refers to energy consumption of commercial and industrial buildings, including both electricity and natural gas. The forecast of "business-as-usual" energy use is estimated by considering the number of people who are expected to work in these buildings.
+
+In addition to electricity and natural gas, non-residential energy use may also include other energy sources such as propane, fuel oil, and renewable energy sources, some of which are not captured in this methodology. Accurate estimates of non-residential energy use can help `r params$ctu_selection` make informed decisions about energy efficiency and conservation efforts. A 2015 analysis by the Minnesota Department of Commerce identified (58 conservation improvement programs)[https://mn.gov/commerce-stat/pdfs/card-report-energy-efficiency-behavorial-prog.pdf] implemented by electric and gas utilities statewide that used behavioral techniques [@dougherty_energy_2015].
+
+Public and institutional buildings are not considered here, but similar strategies could apply to their energy usage.
+
+**Table** \@ref(tab:tab-non-residential-energy) shows the baseline and forecast assumptions for non-residential electricity and natural gas use for `r params$ctu_selection`. For modeling the business-as-usual energy use of the City of `r params$ctu_selection`, we assume that energy use intensity per worker for the commercial and industrial sectors remains constant. 
+
+```{r tab-non-residential-energy, include=FALSE}
+#| echo: false
+#| message: false
+# city baseline
+tab_non_residential_energy <- get_non_residential_energy_baseline(
+  tb = building_energy_data,
+  .selected_ctu = params$ctu_selection
+) %>%
+  add_variable_names(., "2018") %>%
+  # city forecast
+  full_join(
+    calc_non_residential_energy_forecast(
+      tb = building_energy_data,
+      .selected_ctu = params$ctu_selection
+    ) %>%
+      add_variable_names(., "2040")
+  ) %>%
+  tableformat(.,
+    .caption = paste(
+      "Non-Residential Energy for ",
+      params$ctu_selection
+    )
+  )
+```
+
+```{r echo=FALSE}
+tab_non_residential_energy
+```
+
+<br>
+
+### Strategies
+
+The Greenhouse Gas Scenario Planning tool considers four main strategies for non-residential building energy use: retrofitting existing commercial buildings, implementing a smart grid, using renewable natural gas, and increasing clean electricity sources. Note that all commercial and industrial energy use is calculated based on the number of employees, not on square footage.
+
+<!-- One of the most effective strategies for commercial and industrial buildings is to enhance their energy efficiency, which can be achieved through the adoption of new technologies. In Minnesota, there are several programs aimed at supporting non-residential consumers. -->
+
+<!-- LM: I like these details on programs, is this the right place for them? Some are also aimed at households... -->
+<!-- The **Conservation Improvement Program (CIP)** is a policy aimed at improving energy efficiency and conservation in households and businesses in Minnesota. Funded by ratepayers and administered by over 180 electric and natural gas utilities, with oversight from the Minnesota Department of Commerce's Division of Energy Resources, CIP promotes energy-efficient technologies and practices to residential, commercial, and industrial customers through various programs, such as energy audits, rebates on high-efficiency appliances, LED lighting, and air conditioning cycling programs. -->
+
+<!-- The **Energy Conservation and Optimization Act of 2021 (ECO Act)** aims to strengthen the state's energy conservation programs, reduce greenhouse gas emissions, and create local jobs through energy efficiency projects in homes and businesses. The ECO Act expands the Conservation Improvement Program and makes energy efficiency improvements available to low-income households, public schools, and investor-owned utilities. -->
+
+<!-- The **Minnesota SB2030** program focuses on reducing emissions in commercial, industrial, and institutional buildings. The program sets standards for energy efficiency and renewable energy for new and renovated buildings, based on the building's energy use per square foot. Over time, these standards will become more stringent, with the goal of reducing energy use and carbon dioxide emissions. The program also takes into account the impact of electric vehicle charging infrastructure on a building's energy use. -->
+
+```{r child="chapters/03b_non_residential_strategies/03b1_retrofit_commercial_bldgns.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/03b_non_residential_strategies/03b2_smart_grid_non_res.Rmd", echo=FALSE}
+```
+
+```{r child="chapters/03b_non_residential_strategies/03b4_non_res_decarbonize_grid.Rmd", echo=FALSE}
+```

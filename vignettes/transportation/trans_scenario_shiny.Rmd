@@ -71,7 +71,6 @@ bau_summary <- run_scenario_transportation(
 Column {.sidebar}
 --------------------------------------------------------------------------------
 ```{r eruptions, echo=FALSE}
-
 inputPanel(
   shiny::wellPanel(
     shiny::h4("Land use"),
@@ -132,7 +131,6 @@ plotOutput("passenger_vmt")
 ```
 
 ```{r, context = "server"}
-
 calc_scen_vals <- reactive({
   mitigation_scen <- run_scenario_transportation(
     pass_tb = st_paul_pass,

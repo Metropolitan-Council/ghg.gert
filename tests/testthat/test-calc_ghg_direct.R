@@ -1,6 +1,3 @@
-
-
-
 # Gasoline -----
 
 si_vmt_test <- tibble::tribble(

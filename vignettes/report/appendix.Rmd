@@ -1,0 +1,257 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+# (APPENDIX) Appendix {-}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# source("_common.R")
+library(tibble)
+library(magrittr)
+library(dplyr)
+library(DT)
+library(ghg.sp)
+library(rsvg)
+```
+
+
+# Transportation  
+
+## Data sources  
+
+The transportation module is built on a series of business-as-usual forecasts for inputs including passenger miles traveled, vehicle miles traveled, existing vehicle stocks, new vehicle sales, average vehicle occupancy, fuel economy, and population.   
+
+These measures are used to forecast vehicle miles traveled and vehicle emissions. The scenario planning tool then applies selected intervention elasticities and proportional effects to estimate potential emission reductions.  
+
+```{r "tab-source-mode-var"}
+source_mode_var <- ghg.sp::transportation_index$data_sources %>%
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+  select(
+    Mode = mode_description_1,
+    Measure = var_description,
+    Source = source_short
+  ) %>%
+  unique()
+
+
+gt::gt(
+  id = "tab-source-mode-var",
+  data = source_mode_var,
+  groupname_col = "Mode",
+  caption = "Transportation variables and data sources"
+) %>%
+  gt::opt_row_striping(TRUE) %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+### Source summaries
+
+#### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
+
+Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
+
+```{r "ma3t-graphic", out.width = "70%", fig.cap="MA3T model abstraction [@linMA3TModel2013]"}
+knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
+```
+
+#### Metropolitan Council sources
+
+##### Travel Behavior Inventory (TBI) {#metc-tbi}  
+
+The Travel Behavior Inventory (TBI) is a 10-year program by the Metropolitan Council. It includes a household travel survey, a survey of on-board transit riders, and other travel behavior data collection.  
+
+Key findings from the 2019 TBI can be found on the [Met Council website `r fontawesome::fa("external-link-alt")`](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory/2019.aspx){target="_blank"}
+
+
+##### Travel Demand Model {#metc-travel-demand}  
+
+The Met Council, like all large metropolitan planning organizations, maintains a regional transportation forecasting model. The model is used to forecast travel for all types of transportation and highway and transit facility usage.  
+
+The current regional travel demand forecast model is called an “activity-based model”, which means that it simulates transportation decisions made by individuals ranging from long-term (e.g. regular work/school location, whether to own an automobile), day-level (e.g, what activities to engage in, with whom, where, and when), and trip-level (what transportation mode to use, what route to take) in order to evaluate policy and investment choices  at a high level of detail.  
+
+Other, more single-purpose forecast models are maintained by the Council as well, including a regional implementation of the FTA’s STOPS model for transitway ridership forecasting, as well as a regional park-and ride model.    
+
+You can find more information on the [Met Council website `r fontawesome::fa("external-link-alt")`](https://metrocouncil.org/Transportation/Performance/Travel-Forecasting.aspx){target="_blank"}
+
+##### Transit Facts  
+
+##### Council-specific studies  
+
+[@khaniStudyBusRapid2018]
+
+
+#### Federal data sources
+
+##### Federal Highway Administration (FHWA)   
+
+Average vehicle occupancy  [@federalhighwayadministrationfhwaAverageVehicleOccupancy2018].  
+
+##### US Energy Information Administration  (EIA) {#eia-sources}  
+
+
+
+###### Fuel economies   
+
+
+
+###### Annual Energy Outlook values  {#aeo-values}  
+
+The Annual Energy Outlook (AEO) is a report series by the US Energy Information Administration (EIA) exploring long-term energy trends in the United States [@eiaAnnualEnergyOutlook2021]. 
+
+You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
+
+```{r "tab-aeo-values"}
+ghg.sp::factor_values$aeo %>%
+  mutate(
+    aeo_scen = as.factor(aeo_scen),
+    mode = as.factor(mode),
+    metric = as.factor(metric),
+    year = as.factor(year)
+  ) %>%
+  DT::datatable(
+    rownames = FALSE,
+    filter = "top",
+    colnames = c(
+      "AEO Scenario",
+      "Mode",
+      "Metric",
+      "Year",
+      "Value"
+    )
+  )
+```
+
+
+
+
+##### National Transit Database (NTD)  {#ntd-source}  
+
+#### Study-specific values
+
+Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brookerFASTSimModelEstimate2015]
+
+
+Jimmy O’Dea, “Electric Vs. Diesel Vs. Natural Gas: Which Bus Is Best for the Climate?” Union of Concerned Scientists, 2018, https://blog.ucsusa.org/jimmy-odea/electric-vs-diesel-vs-natural-gas-which-bus-is-best-for-the-climate [@odeaElectricVsDiesel2018]
+
+
+Haonan Yan, Kara M. Kockelman, and Krishna Murthy Gurumurthy, “Shared Autonomous Vehicle Fleet Performance: Impacts of Trip Densities and Parking Limitations,” Transportation Research Part D: Transport and Environment 89 (2020): 1–19, https://doi.org/10.1016/j.trd.2020.102577. [@yanSharedAutonomousVehicle2020]
+
+Huang, Yantao, Kara M. Kockelman, and Neil Quarles. “How Will Self-Driving Vehicles Affect U.S. Megaregion Traffic? The Case of the Texas Triangle.” Research in Transportation Economics 84 (2020): 1–18. https://doi.org/10.1016/j.retrec.2020.101003. [@huangHowWillSelfdriving2020]
+
+Taiebat, Morteza, Samuel Stolper, and Ming Xu. “Forecasting the Impact of Connected and Automated Vehicles on Energy Use A Microeconomic Study of Induced Travel and Energy Rebound.” Applied Energy 247 (August 2019): 297–308. https://doi.org/10.1016/j.apenergy.2019.03.174. [@taiebatForecastingImpactConnected2019]
+
+Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,” International Council on Clean Transportation (ICCT) White Paper, 2020 [@plotzRealworldUsagePlugin2020]
+
+
+## Forecasted Electricity Energy Mix  
+
+Reference and mitigation scenarios developed by Xcel Energy [@energyUpperMidwestIntegrated2020].  
+
+
+```{r, energy-mix-forecast,eval=FALSE}
+energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
+  show_col_types = F
+) %>%
+  mutate(across(3:11, ~ round(.x * 100, digits = 1)),
+    source = stringr::str_remove(source, "\\*"),
+    scenario = paste0(scenario, " Scenario")
+  )
+# tidyr::pivot_longer(cols = 3:11,
+#                     names_to = "year",
+#                     values_to = "prop") %>%
+# mutate(year = stringr::str_remove(year, "X") %>%
+#          as.numeric()) %>%
+# filter(year != 2018)
+
+energy_mix %>%
+  group_by(scenario) %>%
+  gt::gt(
+    id = "energy-mix-forecast",
+    caption = "Forecasted Electricity Generation Mix (%)",
+    rowname_col = "source"
+  ) %>%
+  # gt::tab_stubhead("Scenario") %>%
+  gt::tab_source_note("Xcel Energy, 2020") %>%
+  gt::opt_row_striping(TRUE) %>%
+  gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
+    locations = gt::cells_stub(rows = c(1, 6))
+  ) %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+## Emission Sources  
+
+```{r, "emission-sources"}
+gt::gt(
+  id = "emission-sources",
+  ghg.sp::transportation_index$emission_sources[2:3],
+  caption = "Greenhouse Gas Emission Sources"
+) %>%
+  gt::cols_label(
+    "source_abbrev" = "Abbreviation",
+    "source_description" = "Description"
+  ) %>%
+  gt::opt_row_striping(TRUE)
+```
+
+## Transportation modes  
+
+```{r, "trans-mode"}
+gt::gt(
+  id = "trans-mode",
+  ghg.sp::transportation_index$modes[2:4],
+  caption = "Transportation Modes"
+) %>%
+  gt::cols_label(
+    "mode_abbrev" = "Code",
+    "mode_description_1" = "Description",
+    "mode_description_2" = "Note"
+  ) %>%
+  gt::opt_row_striping()
+```
+
+
+## Future costs per mile  
+
+```{r "future-cost-per-mile"}
+tibble::tribble(
+  ~group, ~`Mode/powertrain`, ~`Mode, fuel type`, ~`Cost per mile`,
+  "Passenger", "PLDV-SI", "Light duty vehicle, gasoline", 0.62,
+  "Passenger", "PLDV-CI", "Light duty vehicle, diesel", 0.62,
+  "Passenger", "PLDV-HEV", "Light duty vehicle, hybrid", 0.55,
+  "Passenger", "PLDV-PHEV", "Light duty vehicle, plug-in hybrid", 0.49,
+  "Passenger", "PLDV-BEV", "Light duty vehicle, battery electric", 0.55,
+  "Transit, bus", "Bus-BCI", "Bus, diesel", 2.91,
+  "Transit, bus", "Bus-HEV", "Bus, hybrid", 2.82,
+  "Transit, bus", "Bus-BEV", "Bus, battery electric", 2.73,
+  "Transit, bus", "BRT-BCI", "Bus rapid transit, diesel", 4.01,
+  "Transit, bus", "BRT-HEV", "Bus rapid transit, hybrid", 3.88,
+  "Transit, bus", "BRT-BEV", "Bus rapid transit, battery electric", 3.76,
+  "Transit, rail", "LRT-EV", "Light-rail, electric", 4.45,
+  "Transit, rail", "RI-BCI", "Passenger rail, diesel", 4.43,
+  "Transit, rail", "RI-EV", "Passenger rail, electric", 4.21,
+  "School bus", "BS-CI", "Diesel", 2.43,
+  "School bus", "BS-BEV", "Battery electric", 2.28,
+  "Dynamic ride-sharing", "DRS-HEV", "Hybrid", 0.58,
+  "Dynamic ride-sharing", "DRS-PHEV", "Plug-in hybrid", 0.52,
+  "Dynamic ride-sharing", "DRS-BEV", "Battery electric", 0.59
+) %>%
+  dplyr::select(1, 3:4) %>%
+  gt::gt(
+    id = "future-cost-per-mile",
+    caption = "Future transportation costs per mile",
+    rowname_col = "Mode, fuel type",
+    groupname_col = "group"
+  ) %>%
+  gt::opt_row_striping() %>%
+  gt::fmt_currency(columns = 3) %>%
+  gt::tab_footnote(
+    "2020 dollars",
+    locations = gt::cells_column_labels("Cost per mile")
+  ) %>%
+  gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+

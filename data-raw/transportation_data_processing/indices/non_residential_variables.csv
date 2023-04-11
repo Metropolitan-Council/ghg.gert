@@ -1,12 +1,12 @@
 var,description,2018,2040
-total_jobs,Total Number of Jobs by CTU,From Metropolitan Council Community Profiles,From Metropolitan Council Community Profiles
+jobs,Total Number of Jobs by CTU,From Metropolitan Council Community Profiles,From Metropolitan Council Community Profiles
 commercial_jobs,Total Number of Commercial Jobs by CTU,From Quarterly Census of Employment and Wages,From an Unpublished UrbanSim Forecast of Different Demographic Variables
 industrial_jobs,Total Numebr of Industrial Jobs by CTU,From Quarterly Census of Employment and Wages,From an Unpublished UrbanSim Forecast of Different Demographic Variables
 commercial_mwh,Commercial Megawatt Hour Consumption by CTU per Year,From Multiple Sources. See Section on Energy Data.,text
 industrial_mwh,Industrial Megawatt Hour Consumption by CTU per Year,From Multiple Sources (see Section on Energy Data).,text
 commercial_therms,Commercial Therms of Natural Gas Consumption by CTU per Year,From Multiple Sources (see Section on Energy Data).,text
 industrial_therms,Industrial Therms of Natural Gas Consumption by CTU per Year,From Multiple Sources (see Section on Energy Data).,text
-commercial_therm_per_worker,commercial_therms divided by commercial_jobs,text,text
-industrial_therm_per_worker,industrial_therms divided by industrial_jobs,text,text
-commercial_mwh_per_worker,industrial_mwh divided by industrial_jobs,text,text
-industrial_mwh_per_worker,commercial_mwh divided by commercial_jobs,text,text
+commercial_therm_per_worker,commercial_therms divided by?commercial_jobs,text,text
+industrial_therm_per_worker,industrial_therms?divided by?industrial_jobs,text,text
+commercial_mwh_per_worker,industrial_mwh?divided by?industrial_jobs,text,text
+industrial_mwh_per_worker,commercial_mwh?divided by?commercial_jobs,text,text

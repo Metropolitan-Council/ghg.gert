@@ -1,0 +1,802 @@
+# Appendix {-}
+```{r}
+knitr::opts_chunk$set(
+  echo = F,
+  message = F,
+  warning = F
+)
+```
+
+
+## Building Energy
+### Energy Efficiency Strategy
+**Policy Approaches**
+
+*	[The Passive House Network: Policymaker Resources Overview](https://naphnetwork.org/policymaker-resources/ )
+
+**Financing**
+
+*	[Minnesota Center for Energy and the Environment: Home energy improvement loans.](https://www.mncee.org/residential-statewide-lending) 
+*	[State of Minnesota Weatherization Assistance Program: The Weatherization Assistance Program provides free home energy upgrades to income-eligible homeowners and renters to help save energy.](https://mn.gov/commerce/consumers/consumer-assistance/weatherization/) 
+*[State of Minnesota Energy Assistance Program: The Energy Assistance Program (EAP) helps pay home heating costs and furnace repairs for income-qualified households.](https://mn.gov/commerce/consumers/consumer-assistance/energy-assistance/) 
+
+**Additional Information**
+
+*	[Xcel Energy Minnesota Electric and Natural Gas Conservation Improvement Program: 2021-2023 CIP Triennial Plan](https://www.edockets.state.mn.us/EFiling/edockets/searchDocuments.do?method=showPoup&documentId={40BC0B73-0000-C918-8CE1-D182E3E20EED}&documentTitle=20207-164492-01)
+*	[Institute for Market Transformation: Map of US cities, counties, and states with mandatory building energy benchmarking and transparency policies for existing buildings](https://www.imt.org/resources/map-u-s-building-benchmarking-policies/) 
+*	[Passive House Minnesota](https://passivehouseminnesota.org/passive-house/) 
+*	[Passive House Institute](https://passivehouse.com/ )
+*	[Passive House database ](https://passivehouse-database.org/index.php?lang=en#k_minnesota) 
+
+*	Equity considerations: Tong, K., Ramaswami, A., Xu, C., et al. (2021). Measuring social equity in urban energy use and interventions using fine-scale data. PNAS, 118 (24), e2023554118. https://doi.org/10.1073/pnas.2023554118. 
+
+### Increased Multifamily
+
+- [Metropolitan Council Local Planning Handbook: Housing](https://metrocouncil.org/Handbook/Plan-Elements/Housing.aspx)
+- [Metropolitan Council Thrive MSP 2040: Housing Policy Plan](https://metrocouncil.org/Housing/Planning/HOUSING-POLICY-PLAN-2040/2040-Housing-Policy-Plan.aspx)
+- [MetroStats: On the rise: New residential construction in the Twin Cities Region](https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Construction-Activity/On-the-Rise-New-Residential-Construction-in-the-T.aspx)
+
+**Policy Approaches**
+
+- [American Council for an Energy-Efficient Economy: The multifamily energy savings project](https://www.aceee.org/multifamily-project)
+- [Brookings Institution: Policy recommendations for housing affordability](https://www.brookings.edu/policy2020/bigideas/to-improve-housing-affordability-we-need-better-alignment-of-zoning-taxes-and-subsidies/)
+
+### Electrification
+
+**Additional Information**
+
+*	[Minnesota Center for Energy and the Environment: Air source heat pumps](https://www.mncee.org/air-source-heat-pumps)
+*	[Minnesota Air Source Heat Pump Collaborative: Case studies](https://www.mnashp.org/for-homeowners) 
+*	[Town of Concord, Massachusetts: Case studies](https://concordma.gov/2776/Heat-Pump-Case-Studies)
+
+**Policy Approaches**
+
+*	[Environment America: Policy recommendations for electric buildings](https://environmentamerica.org/sites/environment/files/reports/Electric-Buildings-2021/National-Electric-Buildings-Web.pdf?_ga=2.10624308.1239172724.1638808751-1075536878.1638808751#page=32) 
+*	[American Council for an Energy-Efficient Economy: Programs to electrify space heating in homes and buildings](https://www.aceee.org/sites/default/files/pdfs/programs_to_electrify_space_heating_brief_final_6-23-20.pdf) 
+*	[Lawrence Berkeley National Laboratory: Policy approaches to enable electrification](https://ipu.msu.edu/wp-content/uploads/2018/04/LBNL-Electrification-of-Buildings-2018.pdf#page=47) 
+
+**Financing**
+
+* [Minnesota Center for Energy and the Environment: Home energy improvement loans](https://www.mncee.org/residential-statewide-lending) 
+
+### Renewable Natural Gas
+
+**Policy Approaches**
+
+*	[World Resources Institute: Renewable Natural Gas as a Climate Strategy: Guidance for State Policymakers](https://www.wri.org/research/renewable-natural-gas-climate-strategy-guidance-state-policymakers) 
+*	[Environmental and Energy Study Institute: Fact Sheet | Biogas: Converting Waste to Energy]( https://www.eesi.org/papers/view/fact-sheet-biogasconverting-waste-to-energy) 
+*	[US Environmental Protection Agency: Guidelines and Permitting for Livestock Anaerobic Digesters](https://www.epa.gov/agstar/guidelines-and-permitting-livestock-anaerobic-digesters)  
+
+**Case Studies**
+
+*	[Argonne National Laboratory: Renewable Natural Gas Database](https://www.anl.gov/es/reference/renewable-natural-gas-database) 
+*	[Haubenschild Dairy Manure Digester, Princeton, MN](https://www.mda.state.mn.us/manure-digester-case-study-haubenschild-farm) 
+*	[US EPA: Case study of University of California renewable natural gas projects](https://www.epa.gov/lmop/webinar-case-study-university-california-renewable-natural-gas-projects) 
+
+**Additional Information** 
+
+*	[US Environmental Protection Agency: Basic information about anaerobic digestion](https://www.epa.gov/anaerobic-digestion/basic-information-about-anaerobic-digestion-ad)  
+*	[MN Department of Agriculture: Manure digesters](https://www.mda.state.mn.us/environment-sustainability/manure-digesters) 
+*	[University of Minnesota: Drawing renewable resources from organic waste](https://research.umn.edu/inquiry/post/drawing-renewable-resources-organic-waste) 
+
+<!-- ### Forecasted Electricity Energy Mix   -->
+
+Reference and mitigation scenarios developed by Xcel Energy [@xcel_energy_upper_2020].  
+
+
+```{r, energy-mix-forecast,eval=FALSE}
+# energy_mix <- readr::read_csv("data/ghg_factor_forecast_by_scenario.csv",
+#   show_col_types = F
+# ) %>%
+#   mutate(across(3:11, ~ round(.x * 100, digits = 1)),
+#     source = stringr::str_remove(source, "\\*"),
+#     scenario = paste0(scenario, " Scenario")
+#   )
+# # tidyr::pivot_longer(cols = 3:11,
+# #                     names_to = "year",
+# #                     values_to = "prop") %>%
+# # mutate(year = stringr::str_remove(year, "X") %>%
+# #          as.numeric()) %>%
+# # filter(year != 2018)
+#
+# energy_mix %>%
+#   group_by(scenario) %>%
+#   gt::gt(
+#     id = "energy-mix-forecast",
+#     caption = "Forecasted Electricity Generation Mix (%)",
+#     rowname_col = "source"
+#   ) %>%
+#   # gt::tab_stubhead("Scenario") %>%
+#   gt::tab_source_note("Xcel Energy, 2020") %>%
+#   gt::opt_row_striping(TRUE) %>%
+#   gt::tab_footnote("Carbon-Free Generation includes utility-scale solar, onshore wind, biomass, hydro-electric, and nuclear generators",
+#     locations = gt::cells_stub(rows = c(1, 6))
+#   ) %>%
+#   gt::tab_options(row_group.font.weight = "bold")
+```
+
+
+
+### Residential Equations
+
+**GHG Impact Calculation for Increased Multifamily Housing**
+
+Calculate floor area changes:
+
+$$ \text{new }sqft_{2040}^{sf} = units_{2040}^{sf} - units_{2018}^{sf} \times x \times (\bar{sqft}_{2040}^{sf} - \bar{sqft}_{2040}^{mf})$$
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$:  The percentage of new single-family homes that are converted to multifamily homes
+-  $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018
+-  $units_{2040}^{sf}$: The projected number of single-family housing units in the community in 2040
+-  $sqft_{2040}^{sf}$: The projected total floor area of single-family homes in the community in 2040
+-  $\bar{sqft}_{2040}^{sf}$: The projected average floor area of single-family homes in the community in 2040
+-  $\bar{sqft}_{2040}^{mf}$: The projected  average floor area of multifamily homes in the community in 2040
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} * \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: Projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: Projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+<br>
+
+**GHG Impact Calculation for Floor Area Reduction**
+
+Calculate new floor area:
+
+$$\text{new }sqft_{2040}^{sf}  = (units_{2040}^{sf} - units_{2018}^{sf}) \times 0.5 \times \left(\bar{sqft}_{2040}^{sf}-(1+x) \times \bar{sqft}_{2018}^{sf}\right)$$
+$$\text{where } 0 \le x \le 1$$
+
+*Where:*
+
+-   $(1+x)$: The rate of growth in single-family floor area in square feet per year.
+-   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040.
+-   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040.
+-   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018.
+-   $0.5$: This factor represents the assumption that half of the population will reduce the living space of new single-family homes in response to doubling energy prices.
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040.
+-   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in the community in 2018.
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times  \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+
+**GHG Impact Calculation for New Home Efficiency**
+
+Calculate new efficency:
+
+$$\text{new } sqft_{2040}^{sf} = x \times (units_{2040}^{sf}-units_{2018}^{sf}) \times \bar{sqft}_{2040}^{sf} \times 0.64$$
+
+*Where:*
+
+-   $x \text{, where } 0 \le x \le 1$: The percentage of new single family homes that are LEED Gold
+-   $sqft_{2040}^{sf}$: The total floor area of single-family homes in the community in 2040
+-   $units_{2040}^{sf}$: The number of single-family housing units in the community in 2040
+-   $units_{2018}^{sf}$: The number of single-family housing units in the community in 2018
+-   $\bar{sqft}_{2040}^{sf}$: The average floor area of single-family homes in the community in 2040
+-   $0.64$: This factor represents the reduction in energy use intensity due to highly-efficient LEED Gold construction
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf}_{2040} = \text{new }sqft_{2040}^{sf} \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+<br>
+
+**GHG Impact Calculation for Existing Home Efficiency**
+
+Calculate new floor area:
+
+$$\text{new }sqft_{2040}^{sf+mf} = (units_{2018}^{sf} \times x \times 0.33 \times \bar{sqft}_{2018}^{sf} + units_{2018}^{mf} \times x \times 0.33 \times \bar{sqft}_{2018}^{mf})$$
+
+*Where:*
+
+-   $x \text{, where } 0 \le x \le 1$: The percentage of existing homes to be retrofitted, defaulted to 80%
+-   $0.33$: The percent reduction in energy use intensity due to efficiency gains of the retrofitting.
+-   $units_{2040}^{sf}$: The number of single-family housing units in 2018
+-   $units_{2018}^{mf}$: The number of multifamily homes in 2018
+-   $\bar{sqft}_{2018}^{sf}$: The average floor area of single-family homes in 2018
+-   $\bar{sqft}_{2018}^{mf}$: The average floor area of multi-family homes in 2018
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{sf + mf}_{2040} = \text{new }sqft_{2040}^{sf + mf}  \times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right))$$
+
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+<br>
+
+**GHG Impact Calculation for Behavior Change**
+
+Calculate new floor area:
+
+$$ \text{new }sqft_{2040}^{residential} = \text{new }sqft_{2040}^{sf+mf} = x \times pop_{2040} \times \frac{sqft_{2040}^{sf + mf}}{pop_{2040}} \times 0.11 $$
+
+*Where:*
+
+-   $x \text{, where } 0 \le x \le 1$: The percentage of homes that change their behavior for energy efficiency.
+-   $0.11$: The percentage reduction in household energy use as a result of smart nudges.
+-   $pop_{2040}$: The total population in 2040.
+-   $sqft_{2040}^{sf+mf}/population_{2040}$: The average square footage per person in 2040 for residential buildings.
+
+Calculate new emissions:
+
+$$\text{new total }kgCO_2e^{residential}_{2040} = \text{new }sqft_{2040}^{residential}\times \left( \frac{MWh_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{MWh_{2040}} + \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \times \frac{kgCO2e}{therm_{2040}} \right)$$
+*Where:*
+
+-  $MWh_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential electricity use intensity per floor area in 2040
+-  $therm_{2040}^{residential}/sqft_{2040}^{residential}$: The projected residential natural gas use intensity per floor area in 2040
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+<br>
+
+**GHG Impact Calculation for Clean Residential Energy**
+
+Calculate electricity use in 2040:
+
+$$
+\text{Busines as Usual }MWh_{2040}^{residential} = pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{MWh}{sqft_{2040}^{residential}}
+$$
+
+*Where:*
+
+-  $pop_{2040}$: The projected population in 2040
+-  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040
+-  $MWh/sqft_{2040}^{residential}$: The projected residential electricity per floor area in 2040
+
+
+Calculate new emissions:
+
+$$\text{new electricity }kgCO_2e^{residential}_{2040} = \text{Busines as Usual }MWh_{2040}^{residential} \times  \frac{kgCO2e}{MWh_{2040}} \times (1-x) $$
+
+*Where:*
+
+-  $(1-x) \text{, where } 0 \le x \le 1$: The percentage reduction in the emissions of the electric grid
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+
+
+**GHG Impact Calculation for Electrifying Residential Heat**
+
+Natural Gas for Space Heating:
+
+$$term_1 = \left(pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) \times x \times \frac{kgCO2e}{therm_{2040}} \times 71\% $$
+$$\text{space heating natural gas }kgCO_2e_{2040}^{residential} = term_1 - \left(term_1 \times (0.8/5.02) \times \frac{0.0293therm}{MWh}\right) \times \frac{kgCO_2e}{MWh_{2040}}$$
+
+Natural Gas for Water Heating:
+
+$$term_2 = \left(pop_{2040} \times \frac{sqft_{2040}^{residential}}{pop_{2040}} \times \frac{therm_{2040}^{residential}}{sqft_{2040}^{residential}} \right) \times x \times \frac{kgCO2e}{therm_{2040}} \times 24\% $$
+$$\text{water heating natural gas }kgCO_2e_{2040}^{residential} = term_2 - \left(term_2 \times 100\% \times \frac{0.0293therm}{MWh}\right) \times \frac{kgCO_2e}{MWh_{2040}}$$
+
+*Where:*
+
+-  $x$: The percentage of additional households with heating electrified, defaulted to be 59% - 14% of homes already electrified
+-  $pop_{2040}$: The projected population in 2040
+-  $71\%$: Assumed natural gas for space heating
+-  $24\%$: Assumed natural gas for water heating
+-  $100\%$: The ratio of natural gas water heating to electric water heating
+-  $(0.8/5.02)$: The ratio of boiler efficiency to heat pump efficiency
+-  $sqft_{2040}^{residential}/pop_{2040}$: The projected residential floor area per capita in 2040
+-  $0.0293therm/MWh$: The conversion factor from therm to MWH
+-  $kgCO_2e/MWh_{2040}$: The projected emissions factor of electricity in 2040
+
+### Non-residential Equations
+
+**GHG Impact Calculation for Retrofitting Existing Commercial Buildings**
+
+$$\text{new total } kgCO_2e_{2040}^{commercial} = x \times jobs_{2018}^{commercial} \times 0.25 \times \left( \frac{MWh}{jobs_{2018}^{commercial}} \times \frac{kgCO2e}{MWh_{2040}^{commercial}} + \frac{therms}{jobs_{2018}^{commercial}} \times \frac{kgCO_2e}{therm_{2040}^{commercial}} \right)$$
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$: The percentage of existing commercial buildings are LEED Gold (defaulted to 80%)
+-  $25%$: The assumed reduction in energy intensity from retrofits
+
+-  $jobs_{2018}^{commercial}$: The number of commercial workers in 2018 (from Minnesota Quarterly Census of Employment and Wages)
+-  $MWh/jobs_{2018}^{commercial}$: The commercial electricity use per worker in 2018
+-  $kgCO2e/MWh_{2040}^{commercial}$: The projected electricity emission factor in 2040
+-  $therms/jobs_{2018}^{commercial}$: The projected commercial gas use per worker in 2040
+-  $kgCO_2e/therm_{2040}^{commercial}$: The projected natural gas emission factor in 2040
+
+**GHG Impact Calculation for Smart Grid**
+
+$$ \text{new electricity } kgCO_2e_{2040}^{industrial} = x \times \left(jobs^{industrial}_{2040} \times \frac{MWh}{jobs^{industrial}_{2040}} \times 11\% \right) \times \frac{kgCO_2e}{MWh}$$
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$: The percentage of industries in the smart grid (assumed to be 100%)
+-  $jobs^{industrial}_{2040}$: The projected number of industrial workers in 2040
+-  $MWh/jobs^{industrial}_{2040}$ = The projected industrial electricity use per worker in 2040
+-  $11%$ = The percentage reduction in energy use due to smart grid, fixed at 11%
+-  $kgCO2e/MWh$ = The projected electricity emission factor in 2040
+
+**GHG Impact Calculation for Renewable Natural Gas**
+
+$$\text{new natural gas } kgCO_2e_{2040}^{nonresidential} = \left( jobs_{2040}^{commercial} \times \frac{therms}{jobs_{2040}^{commercial}} + jobs_{2040}^{industrial}  \times \frac{therms}{jobs_{2040}^{industrial}} \right) \times x \times \frac{kgCO_2e}{therms_{2040}}$$
+
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$ = The percentage of natural gas replaced by renewable natural gas (utility level), assumed to be `31.7%`
+-  $jobs_{2040}^{commercial}$: The projected number of commercial workers in 2040
+-  $jobs_{2040}^{industrial}$: The projected number of industrial workers in 2040
+-  $therms/jobs_{2040}^{commercial}$: The projected commercial gas use per worker in 2040
+-  $therms/jobs_{2040}^{industrial}$: The projected industrial gas use per worker in 2040
+-  $kgCO_2e/therms_{2040}$: The projected emissions factor of natural gas in 2040
+
+**GHG Impact Calculation for Clean Energy**
+
+$$\text{new electricity }kgCO2e_{2040}^{nonresidential} = (jobs_{2040}^{commercial} \times MWh_{2040}^{commercial} + jobs_{2040}^{industrial} \times MWh_{2040}^{industrial}) \times \left(\frac{kgCO_2e/MWh_{2040}}{1000}\right) \times x$$
+*Where:*
+
+-  $x\text{, where } 0 \le x \le 1$: = The percentage reduction in grid emission factor from 2018 (assumed to be 80%)
+-  $jobs_{2040}^{commercial}$: The projected number of commercial jobs in 2040
+-  $MWh/jobs_{2040}^{commercial}$: The projected commercial electricity use per worker in 2040
+-  $jobs_{2040}^{industrial}$: The projected number of industrial jobs in 2040
+-  $MWh/jobs_{2040}^{industrial}$: The projected number industrial electricity use per worker in 2040
+-  $kgCO_2e/MWh_{2040}$: The projected electricity emission factor in 2040
+
+Note: The values are multiplied by 1000 in the original formula to retain the units in kilowatt hours.
+
+
+
+## Transportation  
+
+### Elasticity methodology
+
+Land use elasticities are taken from a meta-analysis by Ewing and Cervero [@ewing_travel_2010] for each of automobile, walking and cycling, and transit trips. A more recent meta-analysis provides additional values for the automobile mode [@stevens_does_2016]. These values are used to give an elasticity range. In addition to the below values, an overall elasticity of -0.22 is used for the combined effect of the 5Ds to give the user the option to consider a combination of land use changes.
+
+```{r tab-land-use-elast}
+#| echo: false
+#| warning: false
+tibble::tibble(
+  Mode = c(
+    "Automobile",
+    "Walking and cycling",
+    "Transit"
+  ),
+  `Population elasticity` = c(
+    "-0.04 (-0.04 to -0.22)",
+    "0.07",
+    "0.07"
+  ),
+  `Employment elasticity` = c(
+    "0 (0.00 to -0.07)",
+    "0.04",
+    "0.01"
+  ),
+  `Diversity (Land use entropy)` = c(
+    "-0.09 (-0.02 to -0.10)",
+    "0.15",
+    "0.12"
+  ),
+  `Design (% 4-way intersections` = c(
+    "-0.12 (-0.06 to-0.12)",
+    "-0.06",
+    "0.12"
+  ),
+  `Destination accessibility` = c(
+    "-0.20",
+    "0.15",
+    ""
+  ),
+  `Distance to transit` = c(
+    "-0.05 (-0.05 to -0.08)",
+    "0.15",
+    "0.29"
+  ),
+  `Composite Effect of 5Ds` = c(
+    "-0.22",
+    "0.33",
+    "0.62"
+  )
+) %>%
+  gt::gt(
+    id = "land-use-elast",
+    caption = "Land Use Elasticity"
+  ) %>%
+  gt::tab_footnote(footnote = "Measured as distance to central business district or jobs reachable within a given travel time", locations = gt::cells_body(6, 1)) %>%
+  gt::tab_footnote("Measured as jobs located within 1 mile of the home", gt::cells_body(6, 2)) %>%
+  gt::tab_footnote("Not provided in the Ewing and Cervero study", gt::cells_body(6, 3)) %>%
+  gt::tab_source_note("Numbers in parentheses indicate the range of elasticities found in the literature") %>%
+  gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+### Road pricing details
+
+#### Vehicle miles traveled (VMT) fee  {#vmt-fee}
+
+A study by MAPC [@gately_impacts_2021] in Massachusetts  uses a combination of the [VisionEval](https://visioneval.org/) transportation model and UrbanSim land use model to examine land use and pricing scenarios. The introduction of a 25 cent per mile VMT fee is anticipated to lower VMT by 15%. They find that even a tripling of the gas tax from 24 cents per gallon to 75 cents per gallon would only slow VMT growth by 1.5%. The study results indicate the Commonwealth region cannot rely solely on technology-based solutions such as fuel efficiency and electrification to meet ambitious GHG reduction targets.
+
+
+However, these results are highly dependent on the choice of elasticity and marginal cost. It is also important to note the variation in elasticity obtained in different jurisdictions.
+
+<!-- In one study, the long-run gasoline price elasticity in the United States is found to be -0.23 compared with -1.35 in Europe. This variation in the elasticity is attributable to the historically much higher fuel taxes in Europe leading to the adoption of more fuel-efficient vehicles and more robust transit networks.  -->
+
+Recently, Spiller et al. [@spiller_effect_2014] estimated the price elasticity of VMT at -0.511, which is on the higher end of the range found in the literature. Their higher estimate is partially due to the consideration of multi-vehicle households switching to more fuel-efficient vehicles in response to increases in fuel price. In the case of a VMT fee, this option would not be available to these households.
+
+
+#### Congestion pricing
+
+In the CFB analysis [@porter_transportation_2019], they assume that 29% of urban VMT is congested as an input to the determination of congesting pricing. Their estimate is in line with the findings of TAM for the Boston Metropolitan Area, which gives an estimate of 29.5%.
+
+However, this estimate is for peak VMT, which the TAM team define as 6 AM to 10 AM and 3 PM to 7 PM.  The same TAM study estimates peak VMT congestion in MSP as 24.6%. We assume there is no congestion during non-peak periods and estimate the percent of VMT during the peak period, as a proportion of total VMT for MSP, using weighted TBI 2019 results.
+
+PMT is converted to VMT using the Council's 2019 Travel Behavior Inventory average vehicle occupancy.
+
+We calculate a secondary set of congestion estimates using TBI data for each CTU. It is assumed that most congestion occurs in the peak periods on weekdays. TBI trips are selected that occur wholly within the same CTU and average travel times estimated for each of peak and off-peak periods. This method suggests an approximately 13% increase in average travel times during peak periods relative to off-peak periods.
+
+
+#### Other per-mile costs
+
+Gas taxes are set at the state and federal level. Current gas tax in Minnesota is \$0.469 per gallon for gasoline, and \$0.529 per gallon for diesel fuel [@noauthor_commerce_2017].
+
+Pay-as-you-drive insurance requires technology that is likely to be unevenly available or contribute to existing inequities.
+
+### Parking policy elasticity
+
+The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45, with a mean of 0.07 based on a meta-analysis of values reported in the literature [@lehner_price_2019].
+
+$$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}} $$
+
+Where
+
+$price_y$ is the price of parking on dollars per hour in year $y$\
+$price_{y = 2018}$ is the price of parking in dollars per hour in 2018\
+$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.
+
+Values derived from @trace_elasticity_1999 and referenced in @litman_understanding_2021 and @lehner_price_2019.
+
+### Data sources  
+
+The transportation module is constructed based on a set of standard forecasts for inputs such as passenger miles traveled, vehicle miles traveled, existing vehicle stock, new vehicle sales, average vehicle occupancy, fuel efficiency, and population. These parameters are utilized to predict the vehicle miles traveled and resultant emissions. The scenario planning tool then utilizes selected intervention elasticities and proportional effects to calculate the potential reduction in emissions.
+
+```{r tab-source-mode-var}
+#| echo: false
+#| warning: false
+source_mode_var <- ghg.sp::transportation_index$data_sources %>%
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+  filter(!is.na(source_short),
+         source_short != "",
+         !is.na(mode_description_1)) %>% 
+  select(
+    Mode = mode_description_1,
+    Measure = var_description,
+    Source = source_short
+  ) %>%
+  unique()
+
+
+gt::gt(
+  id = "tab-source-mode-var",
+  data = source_mode_var,
+  groupname_col = "Mode",
+  caption = "Transportation variables and data sources"
+) %>%
+  gt::opt_row_striping(TRUE) %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+#### Annual Energy Outlook (AEO)
+
+In addition to the inclusion of the strategies outlined, alternative future scenarios are adopted from the EIA Annual Energy Outlook.
+
+The inclusion of these scenarios allows the user to easily consider uncertainty in global financial and energy markets. The AEO scenarios are included as variations in fuel economy and VMT by mode. The following AEO scenarios are included in the tool [@us_department_of_energy_annual_2021].
+
+1.  **High oil price** the price of Brent crude oil, in 2020 dollars, reaches \$173 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+2.  **Low oil price** the price of Brent crude oil, in 2020 dollars, drops to \$48 per barrel by 2050 compared with \$95 per barrel in the reference case.\
+3.  **High economic growth** U.S. GDP grows by 2.6% per year compared with 2.1% in the reference case.\
+4.  **Low economic growth** U.S. GDP grows by 1.6% per year compared with 2.1% in the reference case.
+
+The AEO analysis includes two additional scenarios representing high and low renewable cost cases, respectively. We do not consider these cases as we rely on Xcel Energy electricity grid forecasts in the tool and variation in renewable prices would affect these assumptions.
+
+
+You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
+
+```{r tab-aeo-values}
+#| echo: false
+#| warning: false
+ghg.sp::factor_values$aeo %>%
+  mutate(
+    aeo_scen = as.factor(aeo_scen),
+    mode = as.factor(mode),
+    metric = as.factor(metric),
+    year = as.factor(year)
+  ) %>%
+  DT::datatable(
+    rownames = FALSE,
+    filter = "top",
+    colnames = c(
+      "AEO Scenario",
+      "Mode",
+      "Metric",
+      "Year",
+      "Value"
+    )
+  )
+```
+
+
+#### Market Acceptance of Advanced Automotive Technologies (MA3T) {#ma3t-doc}  
+
+Model developed by Oak Ridge National Laboratory (ORNL) to simulate the diverse purchasing behaviors among individuals in the market place. You can read more about the model and find full documentation on the [ORNL website `r fontawesome::fa("external-link-alt")`](https://teem.ornl.gov/ma3t.shtml){target="_blank"}
+
+The Market Acceptance of Advanced Automotive Technologies ([MA3T](#ma3t-doc)) model developed by Oak Ridge National Laboratory (ORNL) was used to estimate the 2015 private vehicle fleet composition and provide a baseline forecast of its composition in 2050. CTUs are aggregated so that the model includes the 44 CTU with the largest populations and the remaining CTU are allocated to their respective county among the seven counties in the MSP region (giving 51 regions). The model is then updated to use population totals and other characteristics calculated for these regions.
+
+
+Area types (i.e., central city, suburban, or rural) are based on United States Census Bureau definitions of central cities for the metropolitan area including Minneapolis, St. Paul, and Bloomington and assuming that non-community CTU are rural.
+
+In the case of PHEV, there is a need to consider the fraction of VMT driven in electric and gasoline modes. The purposes of this calculation, it was assumed that the average travel distance in electric mode for a PHEV is 29.6 miles [@plotz_real-world_2020] and that households only recharge their vehicle at night. Using these assumptions, the fraction of time operating in gasoline mode can be estimated based on 2019 TBI data for household vehicle usage for each CTU.  
+
+
+The [MA3T](#ma3t-doc) model defines three driving patterns as modest (less than 8,656 miles per year), average (8,656-16,068 miles per year), and frequent (greater than 16,068 miles per year). Weighted 2019 TBI data are used to estimate the share of each driving pattern class for each of the 51 regions.   
+
+A large 5-year growth rate is anticipated by the model between 2015 and 2020 of 383%. Assuming that this growth will occur in 2020-2025, that is that it is lagged from the [MA3T](#ma3t-doc) expectation by five years, gives reasonably good results by 2040 of about 23% of the vehicle market and 13% for BEV only (in line with the AEO and ZCAP reference cases). 
+
+
+```{r ma3t-graphic, out.width = "70%", fig.cap="MA3T model abstraction [@lin_ma3t_2013]"}
+knitr::include_graphics("https://www.ornl.gov/sites/default/files/ma3t1.png")
+```
+
+#### Metropolitan Council sources
+
+##### Travel Behavior Inventory (TBI) {#metc-tbi}  
+
+The Travel Behavior Inventory (TBI) is a 10-year program by the Metropolitan Council. It includes a household travel survey, a survey of on-board transit riders, and other travel behavior data collection.  
+
+Key findings from the 2019 TBI can be found on the [Met Council website `r fontawesome::fa("external-link-alt")`](https://metrocouncil.org/Transportation/Performance/Travel-Behavior-Inventory/2019.aspx){target="_blank"}
+
+
+##### Travel Demand Model {#metc-travel-demand}  
+
+The Met Council, like all large metropolitan planning organizations, maintains a regional transportation forecasting model. The model is used to forecast travel for all types of transportation and highway and transit facility usage.  
+
+The current regional travel demand forecast model is called an “activity-based model”, which means that it simulates transportation decisions made by individuals ranging from long-term (e.g. regular work/school location, whether to own an automobile), day-level (e.g, what activities to engage in, with whom, where, and when), and trip-level (what transportation mode to use, what route to take) in order to evaluate policy and investment choices  at a high level of detail.  
+
+Other, more single-purpose forecast models are maintained by the Council as well, including a regional implementation of the FTA’s STOPS model for transitway ridership forecasting, as well as a regional park-and ride model.    
+
+You can find more information on the [Met Council website `r fontawesome::fa("external-link-alt")`](https://metrocouncil.org/Transportation/Performance/Travel-Forecasting.aspx){target="_blank"}
+
+##### MA3T
+
+-   **MA3T stock turnover and adoption forecasts by "powertrain"**: SI (spark ignition gasoline) vehicles, CI (combustion emissions diesel) vehicles, hybrid-electric vehicles (HEVs), plug-in hybrid-electric vehicles (PHEV), and battery-electric stock turnover and adoption forecasts come from Market Acceptance of Advanced Automotive Technologies ([MA3T](https://teem.ornl.gov/ma3t.shtml)), which simulates the diverse purchasing behaviors among individuals in the market place.
+
+##### Transit Facts  
+
+##### Council-specific studies  
+
+[@khani_after_2018]
+
+
+### Federal data sources
+
+##### Federal Highway Administration (FHWA)   
+
+Average vehicle occupancy  [@federal_highway_administration_fhwa_average_2018].  
+
+##### US Energy Information Administration  (EIA) {#eia-sources}  
+
+
+
+###### Fuel economies   
+
+```{r}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         stringr::str_detect(var, "MPG"),
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+    select(
+    Mode = mode_description_1,
+    `Fuel economy` = var_description,
+    Year = year,
+    `Miles per gallon` = value,
+    `Source` = source_short
+  ) %>% 
+  group_by(Mode, `Fuel economy`) %>% 
+  gt::gt() %>% 
+    gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
+
+```
+
+
+##### National Transit Database (NTD)  {#ntd-source}  
+
+### Study-specific values
+
+Brooker, Aaron, Jeffrey Gonder, Lijuan Wang, Eric Wood, Sean Lopp, and Laurie Ramroth. “FASTSim: A Model to Estimate Vehicle Efficiency, Cost and Performance.” SAE Technical Paper. Warrendale, PA: SAE International, April 14, 2015. https://doi.org/10.4271/2015-01-0973. [@brooker_fastsim_2015]
+
+
+Jimmy O’Dea, “Electric Vs. Diesel Vs. Natural Gas: Which Bus Is Best for the Climate?” Union of Concerned Scientists, 2018, https://blog.ucsusa.org/jimmy-odea/electric-vs-diesel-vs-natural-gas-which-bus-is-best-for-the-climate [@odea_electric_2018]
+
+
+Haonan Yan, Kara M. Kockelman, and Krishna Murthy Gurumurthy, “Shared Autonomous Vehicle Fleet Performance: Impacts of Trip Densities and Parking Limitations,” Transportation Research Part D: Transport and Environment 89 (2020): 1–19, https://doi.org/10.1016/j.trd.2020.102577. [@yan_shared_2020]
+
+Huang, Yantao, Kara M. Kockelman, and Neil Quarles. “How Will Self-Driving Vehicles Affect U.S. Megaregion Traffic? The Case of the Texas Triangle.” Research in Transportation Economics 84 (2020): 1–18. https://doi.org/10.1016/j.retrec.2020.101003. [@huang_how_2020]
+
+Taiebat, Morteza, Samuel Stolper, and Ming Xu. “Forecasting the Impact of Connected and Automated Vehicles on Energy Use A Microeconomic Study of Induced Travel and Energy Rebound.” Applied Energy 247 (August 2019): 297–308. https://doi.org/10.1016/j.apenergy.2019.03.174. [@taiebat_forecasting_2019]
+
+Patrick Plötz et al., “Real-World Usage of Plug-in Hybrid Electric Vehicles,” International Council on Clean Transportation (ICCT) White Paper, 2020 [@plotz_real-world_2020]
+
+
+### Transportation modes  
+
+```{r, trans-mode}
+#| echo: false
+#| warning: false
+gt::gt(
+  id = "trans-mode",
+  ghg.sp::transportation_index$modes[2:4],
+  caption = "Transportation Modes"
+) %>%
+  gt::cols_label(
+    "mode_abbrev" = "Code",
+    "mode_description_1" = "Description",
+    "mode_description_2" = "Note"
+  ) %>%
+  gt::opt_row_striping()
+```
+
+### Emission Sources  
+
+```{r, emission-sources}
+#| echo: false
+#| warning: false
+
+gt::gt(
+  id = "emission-sources",
+  ghg.sp::transportation_index$emission_sources[2:3],
+  caption = "Greenhouse Gas Emission Sources"
+) %>%
+  gt::cols_label(
+    "source_abbrev" = "Abbreviation",
+    "source_description" = "Description"
+  ) %>%
+  gt::opt_row_striping(TRUE)
+```
+
+### Future costs per mile  
+
+```{r tab-future-cost-per-mile}
+#| echo: false
+#| warning: false
+tibble::tribble(
+  ~group, ~`Mode/powertrain`, ~`Mode, fuel type`, ~`Cost per mile`,
+  "Passenger", "PLDV-SI", "Light duty vehicle, gasoline", 0.62,
+  "Passenger", "PLDV-CI", "Light duty vehicle, diesel", 0.62,
+  "Passenger", "PLDV-HEV", "Light duty vehicle, hybrid", 0.55,
+  "Passenger", "PLDV-PHEV", "Light duty vehicle, plug-in hybrid", 0.49,
+  "Passenger", "PLDV-BEV", "Light duty vehicle, battery electric", 0.55,
+  "Transit, bus", "Bus-BCI", "Bus, diesel", 2.91,
+  "Transit, bus", "Bus-HEV", "Bus, hybrid", 2.82,
+  "Transit, bus", "Bus-BEV", "Bus, battery electric", 2.73,
+  "Transit, bus", "BRT-BCI", "Bus rapid transit, diesel", 4.01,
+  "Transit, bus", "BRT-HEV", "Bus rapid transit, hybrid", 3.88,
+  "Transit, bus", "BRT-BEV", "Bus rapid transit, battery electric", 3.76,
+  "Transit, rail", "LRT-EV", "Light-rail, electric", 4.45,
+  "Transit, rail", "RI-BCI", "Passenger rail, diesel", 4.43,
+  "Transit, rail", "RI-EV", "Passenger rail, electric", 4.21,
+  "School bus", "BS-CI", "Diesel", 2.43,
+  "School bus", "BS-BEV", "Battery electric", 2.28,
+  "Dynamic ride-sharing", "DRS-HEV", "Hybrid", 0.58,
+  "Dynamic ride-sharing", "DRS-PHEV", "Plug-in hybrid", 0.52,
+  "Dynamic ride-sharing", "DRS-BEV", "Battery electric", 0.59
+) %>%
+  dplyr::select(1, 3:4) %>%
+  gt::gt(
+    id = "future-cost-per-mile",
+    caption = "Future transportation costs per mile",
+    rowname_col = "Mode, fuel type",
+    groupname_col = "group"
+  ) %>%
+  gt::opt_row_striping() %>%
+  gt::fmt_currency(columns = 3) %>%
+  gt::tab_footnote(
+    "2020 dollars",
+    locations = gt::cells_column_labels("Cost per mile")
+  ) %>%
+  gt::opt_row_striping() %>%
+  gt::tab_options(row_group.font.weight = "bold")
+```
+
+### Vehicle occupancy values 
+
+```{r tab-vehicle-occupancy}
+transportation_data$passenger %>% 
+  filter(ctu == params$ctu_selection,
+         var == "AVO", 
+         year == "2018",
+         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
+  left_join(transportation_index$data_sources) %>% 
+  select(
+    Mode = mode_description_1,
+    `Persons per vehicle` = value,
+    `Source` = source_short
+  ) %>% 
+  tableformat(.caption = paste0("Vehicle occupancy values - ", params$ctu_selection))
+
+
+```
+
+
+
+## Land Use
+
+
+### Reforestation Strategy
+
+- [Minnesota Department of Natural Resources: Urban forestry best management practices](https://www.dnr.state.mn.us/forestry/urban/bmps.html)
+- [University of Minnesota Extension: Recommended trees for Minnesota](https://extension.umn.edu/tree-selection-and-care/recommended-trees-minnesota)
+- [University of Minnesota Extension: Native urban trees of Southeast Minnesota](https://www.minnesotamasternaturalist.org/docs/invasive_blitz/native_urban_trees_of_se_mn.pdf)
+- [Cities4Forests: Introduction to policy for urban forests](https://cities4forests.com/lg-urban-forests/introduction-to-policy-for-urban-forests/)
+
+*Additional Information*
+
+- [National Tree Benefit Calculator](http://www.treebenefits.com/calculator/)
+- [Minneapolis Parks: Trees and the urban forest](https://www.minneapolisparks.org/park_care__improvements/trees/)
+- [2020 Tree City USA Communities in Minnesota](https://www.dnr.state.mn.us/forestry/urban/tree-city-usa-awards.html#cities)
+- [USDA: Urban forest data for Minnesota](https://www.nrs.fs.fed.us/data/urban/state/?state=MN)
+
+**EXAMPLES**
+
+Several cities are investing in large-scale tree planting programs as a means of decarbonization, including the Trillion Trees Initiative, the City of Los Angeles, the City of Tucson, and the City of Pittsburgh. In Minnesota, the City of Saint Paul 2011 Urban Canopy Assessment explored the potential for large-scale tree planting within the city.
+
+## Stakeholder Engagement
+
+In April and May of 2020, the Metropolitan Council conducted a series of community stakeholder engagement sessions to gather input regarding crucial considerations in designing the Greenhouse Gas Scenario Planning Tool. The stakeholder meetings were organized by different interest groups, which included local governments and counties, non-profit think tanks, advocacy groups, private consulting firms, academia, and staff from different divisions at the Metropolitan Council.
+
+The stakeholders identified several priorities for developing the Greenhouse Gas Scenario Planning Tool, including (in ranking order) vehicle electrification, grid renewables, building retrofits, mixed-use development, and building codes.
+
+### Vehicle Electrification
+
+Vehicle electrification ranked first in a list of strategies stakeholders wanted to explore in the Greenhouse Gas Scenario Planning Tool because it has the potential to reduce greenhouse gas emissions and improve air quality in the transportation sector. During the stakeholder engagement, the community members emphasized the trend towards electrification of short trips in the vehicle industry and the need to factor in changes to the grid electricity mix as electric vehicle adoption increases. They also emphasized the importance of quickly adopting electric vehicles and reducing vehicle miles traveled (VMT) to achieve environmental justice and improve air quality. The stakeholders asked if it is possible to model the effects of EV adoption on localized pollution. Overall, the community members emphasized the potential benefits of vehicle electrification and the need to consider its impacts on the grid and local air quality.
+
+### Grid Renewables
+
+"Grid renewables" refer to using renewable energy sources, such as solar or wind power, to generate electricity for the grid. During the stakeholder engagement sessions, community members highlighted the importance of modeling grid renewables because it is a significant emission lever, even though it is not within local government control and is often already modeled by utilities. Local governments can influence the grid mix by working together and speaking with a unified voice. They can also purchase [Renewable Energy Certificates](https://www.leg.mn.gov/docs/2019/mandated/190330.pdf)[^01_introduction-1] (RECs) to obtain green power. The ownership of solar assets and the retirement of RECs can affect the benefits and amount of renewable energy added to the grid through community solar projects. Focusing on grid renewables and community solar can maximize equity benefits and is more important than improving access to rooftop solar.
+
+[^01_introduction-1]: The Minnesota Statute section 216B.1691 was amended in 2003 and 2007 to allow for the establishment of a program for tradable Renewable Energy Credits (RECs). The Public Utilities Commission was required to establish this program by 2008 and to require all electric utilities to participate in a Commission-approved REC tracking system. In 2007, the Commission approved the use of the [Midwest Renewable Energy Tracking System](https://www.mrets.org/) (M-RETS) as the REC tracking system and set a four-year shelf life for RECs. This means that RECs are eligible to be used to meet Renewable Energy Standard (RES) requirements in the year they are generated and for four years afterwards. In 2008, the Commission directed utilities to retire RECs equivalent to 1% of their Minnesota annual retail sales by May 1st of the following year. These retired RECs are transferred to a specific Minnesota RES retirement account and cannot be used to meet other state or program requirements. Utilities must submit an annual compliance filing demonstrating their compliance with the RES by June 1st.
+
+### Building Retrofits
+
+During the stakeholder engagement, the community members commented that building retrofits are vital because they can increase energy efficiency, which could benefit low-income people the most. It is important to model more high-level, general strategies that will be relevant in the future rather than more specific, short-term strategies that may be affected by changing circumstances or policy priorities. Building retrofits have the potential for city and utility collaboration, as utilities often offer tools and programs to increase efficiency. The feasibility and cost of building electrification should be considered to ensure that it benefits the community beyond reducing emissions. It may also be beneficial to consider participation in the new "*LEED for Communities*" program. Commercial building energy benchmarking may be more effective than focusing on residential buildings.
+
+### Mixed-Use Development
+
+Mixed-use development involves building buildings with multiple functions, such as housing, offices, and retail spaces, in a single location. Unlike many other strategies, such as increasing grid renewables or improving building codes, which may be outside local government control, the stakeholder mentioned that mixed-use development is within the control of local governments. Local governments have the authority to regulate land use and development in their jurisdictions, including the construction of mixed-use buildings.
+
+### Building Codes
+
+Building codes refer to the regulations and standards governing building design and construction, including energy efficiency requirements. These priorities can help to create more sustainable and livable communities. The report discusses the impact of building standards such as LEED Gold for residential development.
+
+
+
+
+
