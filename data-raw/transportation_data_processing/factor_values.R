@@ -46,6 +46,7 @@ cost_long <- cost %>%
     value
   )
 
+# https://www.epa.gov/sites/default/files/2015-07/documents/emission-factors_2014.pdf
 
 ghg_long <- ghg %>%
   group_by(source) %>%

@@ -39,8 +39,9 @@ calc_ghg_direct <- function(tb_vmt,
                             .miles_per_gallon,
                             .grid_decarbonization_pct = 1,
                             .enviro_factors = enviro_factors) {
-  # browser()
 
+  # for given fuel type,
+  # find the number of metric tons (tonnes) CO2 per gallon of fuel
   ghg_factors_current <- factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
@@ -90,7 +91,7 @@ calc_ghg_direct <- function(tb_vmt,
     aeo_ghg,
     by = c("year")
   ) %>%
-    # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
+    # calculate miles per gallon, multiplied by annual energy outlook factor
     dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
     select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
@@ -101,6 +102,7 @@ calc_ghg_direct <- function(tb_vmt,
     )
   }
 
+  # spread grid decarbonization across intermediate years
   grid_elast <-
     tibble(
       year = unique(tb_vmt$year),
