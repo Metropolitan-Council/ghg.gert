@@ -219,7 +219,7 @@ be electrified under the specified scenario.}
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{1}.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 

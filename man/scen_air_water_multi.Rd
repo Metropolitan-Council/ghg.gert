@@ -38,7 +38,7 @@ scen_air_water_multi(
 \item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 

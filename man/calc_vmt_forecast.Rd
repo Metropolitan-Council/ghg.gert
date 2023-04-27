@@ -38,7 +38,7 @@ calc_vmt_forecast(
 )
 }
 \arguments{
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
@@ -112,7 +112,7 @@ Numeric between 0 and 1. Default is \code{0}}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
-with \code{vmt} in thousands
+with \code{vmt} in thousands of miles.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train

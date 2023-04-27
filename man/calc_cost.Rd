@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_03_calc_cost.R
 \name{calc_cost}
 \alias{calc_cost}
-\title{Calculate cost estimates in millions of dollars}
+\title{Calculate cost estimates in dollars}
 \usage{
 calc_cost(
   tb_vmt,
@@ -22,7 +22,7 @@ calc_cost(
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \description{
-Calculate cost estimates in millions of dollars
+Calculate cost estimates in dollars
 }
 \seealso{
 Other transportation: 

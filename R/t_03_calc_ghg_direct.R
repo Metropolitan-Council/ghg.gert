@@ -6,7 +6,7 @@
 #' Calculate the direct greenhouse gas emissions for a given mode and fuel
 #'   type. If the fuel type is non-electric, the returned value represents
 #'   tail-pipe emissions. If fuel type is electric, the returned value
-#'   represents the equivalent emissions per kilowatt hour, modulated
+#'   represents the *equivalent* emissions per kilowatt hour, modulated
 #'   by the percentage of the grid that is de-carbonized
 #'   (`.grid_decarbonization_pct`). If the entire grid is de-carbonized
 #'   (`.grid_decarbonization_pct = 1`), then there are no emissions for
@@ -25,6 +25,7 @@
 #'     - `scenario`
 #'     - `mode`
 #'     - `class`
+#'     - `dir_ghg` numeric, direct greenhouse gas emissions in metric tons
 #'     - ...
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all left_join
