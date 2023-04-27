@@ -60,7 +60,7 @@ scen_passenger_light_duty <- function(.pass_tb,
 
 
 
-  ## Gasoline -----
+  ## Gasoline (SI) -----
   # Calculate aggregate GHG in kt CO2 by year
   # 1. Calculate fuel cost per mile (FCM)
   # 2. Calculate VMT (requires FCM, )
@@ -130,7 +130,7 @@ scen_passenger_light_duty <- function(.pass_tb,
 
   # complete gasoline table
 
-  ## Diesel----
+  ## Diesel  (CI)----
   stock <- "CIStock"
   mpg <- "CIMPG"
   class <- "CI"
@@ -702,5 +702,6 @@ scen_passenger_light_duty <- function(.pass_tb,
     emo::ji("automobile")
   ))
 
+  # return ------
   return(pldv_scenario)
 }
