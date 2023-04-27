@@ -126,10 +126,15 @@ calc_ghg_direct <- function(tb_vmt,
       by = c("year")
     ) %>%
     dplyr::mutate(
+      # VMT is reported in thousands
+      # multiply by 1000 to get _miles_
+      gallons = (vmt * 1000) / val_mpg_aeo,
+      # miles / miles-per-gallon = gallons
+      # emissions  = gallons * ghg_factor
       dir_ghg =
         dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-          ((vmt / val_mpg_aeo) * ghg_factor * (1 - grid_decarb)),
-          ((vmt / val_mpg_aeo) * ghg_factor)
+          (gallons * ghg_factor * (1 - grid_decarb)),
+          (gallons * ghg_factor)
         )
     ) %>%
     dplyr::select(type,
