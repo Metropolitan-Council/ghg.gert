@@ -1,6 +1,6 @@
 #' @title Calculate vehicle miles traveled by mode and power train
 #'
-#' @param .scenario character, scenario name. JUST A LABEL
+#' @param .scenario character, scenario name. Useful for labeling.
 #' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided datasets `transportation_data$passenger` or
 #'    `transportation_data$freight` are suitable.
@@ -26,7 +26,7 @@
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
-#'     with `vmt` in thousands
+#'     with `vmt` in thousands of miles.
 #' @export
 #' @family transportation
 #'

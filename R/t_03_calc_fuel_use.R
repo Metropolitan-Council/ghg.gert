@@ -65,6 +65,8 @@ calc_fuel_use <- function(tb_vmt,
     by = c("year", "aeo_mode")
   ) %>%
     rowwise() %>%
+    # VMT is given in thousands
+    # so output is in thousands
     mutate(fuel_use = vmt * fuel_factor) %>%
     select(
       type,

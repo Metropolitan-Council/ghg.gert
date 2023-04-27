@@ -1,4 +1,4 @@
-#' @title Calculate cost estimates in millions of dollars
+#' @title Calculate cost estimates in dollars
 #'
 #' @param tb_vmt VMT input table
 #' @param .price character, price variable. Options include `"SIPrice"`
@@ -22,6 +22,8 @@ calc_cost <- function(tb_vmt,
       mode == .mode,
       var == .price
     ) %>%
+    # cost is in dollars
+    # convert to thousands of dollars
     dplyr::mutate(cost_value = value / 1000)
 
 
@@ -30,6 +32,9 @@ calc_cost <- function(tb_vmt,
     tb_cost_current,
     by = c("mode", "year")
   ) %>%
+    # vmt reported in thousands
+    # cost is now in thousands
+    # vmt_cost is in _dollars_
     dplyr::mutate(vmt_cost = vmt * cost_value) %>%
     dplyr::select(
       scenario,

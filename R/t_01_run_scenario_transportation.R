@@ -579,6 +579,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       mutate(
         module = "transportation",
         submodule = "people",
+        # tonne == metric ton
         metric = "emissions_tonnes_co2e"
       ) %>%
       tidyr::pivot_longer(cols = c("direct")),

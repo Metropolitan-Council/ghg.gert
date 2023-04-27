@@ -1,4 +1,4 @@
-#' @title Calculate transportation direct emissions
+#' @title Calculate transportation direct emissions in metric tons.
 #' @family emissions
 #' @family transportation
 #'
