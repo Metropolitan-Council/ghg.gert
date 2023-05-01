@@ -8,7 +8,7 @@ calc_non_res_renewable_ng(
   non_res_tb,
   .selected_ctu,
   .renewable_ng_nonres,
-  .enviro_factors = .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \value{

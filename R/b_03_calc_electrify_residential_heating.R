@@ -47,7 +47,7 @@ calc_electrify_residential_heating <- function(res_tb,
                                                .res_natural_gas_for_space_heating_pct,
                                                .res_natural_gas_for_water_heating_pct,
                                                .grid_decarbonization_pct,
-                                               .enviro_factors) {
+                                               .enviro_factors = enviro_factors) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   new_res_tb <- res_tb %>%

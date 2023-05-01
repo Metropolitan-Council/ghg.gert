@@ -8,7 +8,7 @@ calc_floor_area_behavior_change(
   res_tb,
   .selected_ctu,
   .home_behavior_change_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

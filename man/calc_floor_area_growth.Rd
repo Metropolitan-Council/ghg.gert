@@ -9,7 +9,7 @@ calc_floor_area_growth(
   .selected_ctu,
   .single_family_floor_area_growth_pct,
   .new_homes_affected_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

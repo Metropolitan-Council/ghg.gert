@@ -8,7 +8,7 @@ calc_residential_renewable_ng(
   res_tb,
   .selected_ctu,
   .renewable_ng_res,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \description{

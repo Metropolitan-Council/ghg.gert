@@ -33,7 +33,7 @@
 calc_residential_renewable_ng <- function(res_tb,
                                           .selected_ctu,
                                           .renewable_ng_res,
-                                          .enviro_factors) {
+                                          .enviro_factors = enviro_factors) {
 
   # cli::cli_progress_message("*** calculating residential renewable natural gas strategy \n")
 

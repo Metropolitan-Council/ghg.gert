@@ -48,7 +48,7 @@ calc_ghg_non_residential <- function(non_res_tb,
                                      .smart_grid_energy_reduction_pct,
                                      .grid_decarbonization_pct,
                                      .existing_high_efficiency_buildings_pct,
-                                     .enviro_factors) {
+                                     .enviro_factors = ghg.sp::enviro_factors) {
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
   non_res_tb_bau <-
     filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
@@ -58,7 +58,8 @@ calc_ghg_non_residential <- function(non_res_tb,
              grid_decarb,
              commercial_smart_grid_pct,
              industrial_smart_grid_pct,
-             smart_grid_decarb) {
+             smart_grid_decarb,
+             .enviro_factors = ghg.sp::enviro_factors) {
       tb %>%
         dplyr::filter(
           var %in% c(

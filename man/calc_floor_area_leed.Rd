@@ -8,7 +8,7 @@ calc_floor_area_leed(
   res_tb,
   .selected_ctu,
   .new_homes_leed_gold_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

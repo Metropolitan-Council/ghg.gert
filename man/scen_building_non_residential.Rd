@@ -17,7 +17,7 @@ scen_building_non_residential(
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
   .renewable_ng_nonres,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

@@ -11,7 +11,7 @@ calc_electrify_commercial_heating(
   .non_res_natural_gas_for_water_heating_pct,
   .non_res_natural_gas_for_space_heating_pct,
   .grid_decarbonization_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

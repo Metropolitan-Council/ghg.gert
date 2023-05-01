@@ -9,7 +9,7 @@ calc_floor_area_retrofit(
   .selected_ctu,
   .existing_home_retrofit_pct,
   .existing_home_ultra_retrofit_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{

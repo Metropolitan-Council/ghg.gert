@@ -13,7 +13,7 @@ calc_ghg_non_residential(
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
-  .enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{

@@ -13,7 +13,8 @@ calc_carbon_stock_per_ctu(
   .tree_planting_per_hectare,
   .parking_lot_reduction_percentage,
   .conservation_tillage_intervention,
-  detail
+  detail,
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{
