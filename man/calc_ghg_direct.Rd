@@ -12,7 +12,8 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ Default is \code{"REF"}}
 Default value is \code{1}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names

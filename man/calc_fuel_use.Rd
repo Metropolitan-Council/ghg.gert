@@ -10,7 +10,8 @@ calc_fuel_use(
   .mode,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ Default is \code{"REF"}}
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
 Calculate use of fuel in thousands of gallons or thousands of kWh

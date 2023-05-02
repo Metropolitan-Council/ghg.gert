@@ -9,7 +9,8 @@ calc_cost(
   .selected_ctu = "all",
   .mode,
   .price,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ calc_cost(
 \item{.price}{character, price variable. Options include \code{"SIPrice"}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
 Calculate cost estimates in dollars

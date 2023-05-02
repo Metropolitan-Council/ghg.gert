@@ -33,6 +33,7 @@ calc_vmt_forecast(
   .telework_pct = 0,
   .phev_electric = FALSE,
   .enviro_factors = enviro_factors,
+  .factor_values = factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
@@ -105,6 +106,8 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 

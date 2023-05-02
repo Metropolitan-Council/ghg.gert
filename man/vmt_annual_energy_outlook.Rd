@@ -8,7 +8,8 @@ vmt_annual_energy_outlook(
   tb,
   .mode,
   .aeo_scenario,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \value{
