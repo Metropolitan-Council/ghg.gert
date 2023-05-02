@@ -438,7 +438,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
 
-  pass_vmt <- bind_rows(
+  pass_vmt <- dplyr::bind_rows(
     passenger_light_duty$vmt,
     rail_transit$vmt,
     bus_transit$vmt,
@@ -446,7 +446,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     school_bus$vmt
   )
 
-  pass_dir_ghg <- bind_rows(
+  pass_dir_ghg <- dplyr::bind_rows(
     passenger_light_duty$dir_ghg,
     rail_transit$dir_ghg,
     bus_transit$dir_ghg,
@@ -454,7 +454,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     school_bus$dir_ghg
   )
 
-  pass_all <- left_join(
+  pass_all <- dplyr::left_join(
     pass_vmt, pass_dir_ghg,
     c(
       "type",
@@ -468,7 +468,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   if (.calc_transp_ghg_embodied == TRUE) {
-    pass_emb_ghg <- bind_rows(
+    pass_emb_ghg <- dplyr::bind_rows(
       passenger_light_duty$emb_ghg,
       rail_transit$emb_ghg,
       bus_transit$emb_ghg,
@@ -478,14 +478,14 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       mutate(scenario = .scenario)
 
     pass_all <- pass_all %>%
-      left_join(pass_emb_ghg, c(
+     dplyr::left_join(pass_emb_ghg, c(
         "type", "scenario", "ctu",
         "year", "mode", "aeo_mode", "class"
       ))
   }
 
   if (.calc_transp_fuel_use == TRUE) {
-    pass_fuel <- bind_rows(
+    pass_fuel <- dplyr::bind_rows(
       passenger_light_duty$fuel_use,
       bus_transit$fuel_use,
       rail_transit$fuel_use,
@@ -494,7 +494,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     )
 
     pass_all <- pass_all %>%
-      left_join(pass_fuel, by = c(
+      dplyr::left_join(pass_fuel, by = c(
         "type", "scenario",
         "ctu", "year", "mode",
         "aeo_mode", "class"
@@ -502,7 +502,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   }
 
   if (.calc_transp_cost == TRUE) {
-    pass_cost <- bind_rows(
+    pass_cost <- dplyr::bind_rows(
       passenger_light_duty$cost,
       bus_transit$cost,
       rail_transit$cost,
@@ -511,7 +511,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     )
 
     pass_all <- pass_all %>%
-      left_join(pass_cost, by = c(
+      dplyr::left_join(pass_cost, by = c(
         "type", "scenario", "ctu",
         "year", "mode", "aeo_mode", "class"
       ))
@@ -522,7 +522,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   pass_all <- pass_all %>%
     unique()
   # %>%
-  #   select(
+  #   dplyr::select(
   #     type,
   #     scenario,
   #     ctu,
@@ -540,19 +540,19 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
 
   ## freight -----
-  freight_vmt <- bind_rows(
+  freight_vmt <- dplyr::bind_rows(
     freight_multi_air_wat$vmt,
     freight_rail$vmt,
     freight_truck$vmt
   )
 
-  freight_ghg <- bind_rows(
+  freight_ghg <- dplyr::bind_rows(
     freight_multi_air_wat$ghg,
     freight_truck$dir_ghg,
     freight_rail$dir_ghg
   )
 
-  freight_all <- left_join(freight_vmt, freight_ghg,
+  freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
     by = c(
       "type", "scenario", "ctu",
       "year", "mode", "aeo_mode", "class"
@@ -565,18 +565,18 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     SUT_CUT = freight_truck
   )
 
-  app_output <- bind_rows(
+  app_output <- dplyr::bind_rows(
     pass_all %>%
-      filter(year %in% c(
+      dplyr::filter(year %in% c(
         "2018",
         "2040"
       )) %>%
-      select(ctu, year, scenario,
+      dplyr::select(ctu, year, scenario,
         direct = dir_ghg,
         mode
       ) %>%
       unique() %>%
-      mutate(
+      dplyr::mutate(
         module = "transportation",
         submodule = "people",
         # tonne == metric ton
@@ -584,22 +584,22 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       ) %>%
       tidyr::pivot_longer(cols = c("direct")),
     freight_all %>%
-      filter(year %in% c(
+      dplyr::filter(year %in% c(
         "2018",
         "2040"
       )) %>%
-      select(ctu, year, scenario, mode,
+      dplyr::select(ctu, year, scenario, mode,
         direct = dir_ghg
       ) %>%
       unique() %>%
-      mutate(
+      dplyr::mutate(
         module = "transportation",
         submodule = "freight",
         metric = "emissions_tonnes_co2e"
       ) %>%
       tidyr::pivot_longer(cols = c("direct"))
   ) %>%
-    group_by(
+    dplyr::group_by(
       ctu, year, scenario, module, submodule, mode,
       metric, name
     ) %>%

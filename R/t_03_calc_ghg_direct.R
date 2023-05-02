@@ -56,7 +56,7 @@ calc_ghg_direct <- function(tb_vmt,
       aeo_scen == .aeo_scenario,
       mode == unique(tb_vmt$aeo_mode)
     ) %>%
-    select(aeo_scen, metric, year, aeo_factor = value)
+    dplyr::select(aeo_scen, metric, year, aeo_factor = value)
 
 
   # if there isn't an AEO miles per gallon value for the given mode,
@@ -78,8 +78,8 @@ calc_ghg_direct <- function(tb_vmt,
       mode == .mode,
       var == .miles_per_gallon
     ) %>%
-    mutate(val_mpg = value) %>%
-    select(
+    dplyr::mutate(val_mpg = value) %>%
+    dplyr::select(
       year,
       ctu,
       val_mpg,
@@ -94,7 +94,7 @@ calc_ghg_direct <- function(tb_vmt,
   ) %>%
     # calculate miles per gallon, multiplied by annual energy outlook factor
     dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
-    select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
+    dplyr::select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
 
   if (.fuel_type == "BEV" & .grid_decarbonization_pct == 0) {

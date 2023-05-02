@@ -101,7 +101,8 @@ calc_land_cover_percentages <- function(tb = land_use_data,
             "land_use_type",
             "land_cover_type"
           )
-        ) %>% dplyr::left_join(
+        ) %>%
+        dplyr::left_join(
           .,
           (get_percent_of_land_use_by_land_cover_baseline_year),
           by = c(

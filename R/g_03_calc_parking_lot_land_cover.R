@@ -86,7 +86,7 @@ calc_parking_lot_land_cover <- function(tb,
   # -------------------------------------------------------------------------
   parking_lot_land_cover_short <-
     parking_lot_land_cover %>%
-    select(
+    dplyr::select(
       ctu_name,
       year,
       agriculture,

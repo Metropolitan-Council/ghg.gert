@@ -316,12 +316,12 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   if (.calc_transp_ghg_embodied == TRUE) {
     emb_ghg_all <- dir_ghg_all %>%
-      mutate(
+      dplyr::mutate(
         ghg_embodied_source = NA,
         ghg_embodied = NA,
         type = type
       ) %>%
-      select(
+      dplyr::select(
         type, ghg_embodied_source, ghg_embodied,
         mode, class, ctu, year, aeo_mode
       ) %>%

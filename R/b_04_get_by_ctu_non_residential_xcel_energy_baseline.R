@@ -13,12 +13,14 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     commercial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "commercial_mwh_per_worker_state")
-          %>% select(value)
+          %>%
+          dplyr::select(value)
       )[, 1]
     industrial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "industrial_mwh_per_worker_state")
-          %>% select(value)
+          %>%
+          dplyr::select(value)
       )[, 1]
 
     ## ---- check if community is served by more than 90% Xcel Energy ----
@@ -68,7 +70,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::left_join(
         commercial_industrial_electricity_mwh_xcel %>%
-          select(ctu_name, year, mwh_per_year),
+          dplyr::select(ctu_name, year, mwh_per_year),
         by = c("ctu_name", "year")
       ) %>%
       dplyr::mutate(

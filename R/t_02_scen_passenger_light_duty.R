@@ -350,13 +350,13 @@ scen_passenger_light_duty <- function(.pass_tb,
     dplyr::mutate(class = class)
 
   ### VMT all -----
-  phev_vmt <- left_join(
+  phev_vmt <- dplyr::left_join(
     phev_vmt_electric %>%
-      select(everything(),
+      dplyr::select(everything(),
         vmt_electric = vmt
       ),
     phev_vmt_gas %>%
-      select(everything(),
+      dplyr::select(everything(),
         vmt_gas = vmt
       ),
     c(
@@ -375,7 +375,7 @@ scen_passenger_light_duty <- function(.pass_tb,
       vmt = vmt_electric + vmt_gas,
       class = class
     ) %>%
-    select(-vmt_electric, -vmt_gas)
+    dplyr::select(-vmt_electric, -vmt_gas)
 
   ### gas ghg direct -----
   phev_ghg_gas <- calc_ghg_direct(
@@ -387,7 +387,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .miles_per_gallon = mpg,
     .enviro_factors = .enviro_factors
   ) %>%
-    select(everything(),
+    dplyr::select(everything(),
       dir_ghg_gas = dir_ghg
     )
 
@@ -400,11 +400,11 @@ scen_passenger_light_duty <- function(.pass_tb,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe
   ) %>%
-    select(everything(),
+    dplyr::select(everything(),
       dir_ghg_electric = dir_ghg
     )
 
-  phev_dir_ghg <- left_join(
+  phev_dir_ghg <- dplyr::left_join(
     phev_ghg_gas,
     phev_ghg_electric,
     c(
@@ -413,7 +413,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     )
   ) %>%
     dplyr::mutate(dir_ghg = dir_ghg_electric + dir_ghg_gas) %>%
-    select(-dir_ghg_electric, -dir_ghg_gas)
+    dplyr::select(-dir_ghg_electric, -dir_ghg_gas)
 
   ## BEV (Battery electric vehicle) -----
   stock <- "BEVStock"
@@ -543,13 +543,13 @@ scen_passenger_light_duty <- function(.pass_tb,
       .enviro_factors = .enviro_factors
     )
 
-    phev_fuel <- left_join(
+    phev_fuel <- dplyr::left_join(
       phev_fuel_electric %>%
-        select(everything(),
+        dplyr::select(everything(),
           fuel_use_electric = fuel_use
         ),
       phev_fuel_gas %>%
-        select(everything(),
+        dplyr::select(everything(),
           fuel_use_gas = fuel_use
         ),
       c(
@@ -558,9 +558,9 @@ scen_passenger_light_duty <- function(.pass_tb,
         "aeo_mode"
       )
     ) %>%
-      rowwise() %>%
+      dplyr::rowwise() %>%
       dplyr::mutate(fuel_use = fuel_use_gas + fuel_use_electric) %>%
-      select(-fuel_use_gas, -fuel_use_electric)
+      dplyr::select(-fuel_use_gas, -fuel_use_electric)
 
     hev_fuel <-
       calc_fuel_use(

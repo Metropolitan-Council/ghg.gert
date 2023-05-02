@@ -158,7 +158,7 @@ adj_fleet_shares <- function(.pass_tb,
     pass_tb <- pass_tb %>%
       dplyr::left_join(adj_alt_sales, by = c("year")) %>%
       dplyr::left_join(adj_si_ci_sales, by = c("year")) %>%
-      rowwise() %>%
+      dplyr::rowwise() %>%
       dplyr::mutate(value = dplyr::case_when(
         (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
         (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
@@ -170,25 +170,25 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::select(names(.pass_tb))
 
     new_tot_exist <- pass_tb %>%
-      filter(
+      dplyr::filter(
         str_detect(var, "Exist"),
         mode == "PLDV"
       ) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         TotExist = BEVExist + PHEVExist + HEVExist + SIExist + CIExist,
         var = "TotExist",
         value = TotExist
       ) %>%
-      select(names(.pass_tb))
+      dplyr::select(names(.pass_tb))
 
     pass_tb <- pass_tb %>%
-      anti_join(new_tot_exist, by = c(
+      dplyr::anti_join(new_tot_exist, by = c(
         "year", "mode", "ctu", "aeo_mode",
         "type", "var"
       )) %>%
-      bind_rows(new_tot_exist)
+      dplyr::bind_rows(new_tot_exist)
 
 
 
@@ -647,7 +647,7 @@ adj_fleet_shares <- function(.pass_tb,
         TRUE ~ value
       )) %>%
       unique() %>%
-      select(-aeo_mode) %>%
+      dplyr::select(-aeo_mode) %>%
       tidyr::pivot_wider(
         names_from = c(var, mode),
         values_from = value

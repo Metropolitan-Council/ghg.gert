@@ -26,7 +26,7 @@ calc_fuel_cost_mile <- function(tb,
       mode == .mode,
       var == .miles_per_gallon
     ) %>%
-    select(mode,
+    dplyr::select(mode,
       year,
       fuel_mpg = var,
       aeo_mode,
@@ -41,17 +41,17 @@ calc_fuel_cost_mile <- function(tb,
       aeo_scen == .aeo_scenario,
       mode == unique(tb_l$aeo_mode)
     ) %>%
-    select(everything(),
+    dplyr::select(everything(),
       aeo_val = value
     )
 
-  re <- left_join(tb_l, aeo_f_l,
+  re <- dplyr::left_join(tb_l, aeo_f_l,
     by = "year",
     suffix = c(".tb", ".aeo")
   ) %>%
-    mutate(fuel_cost_mile = .fuel_cost_gallon /
+    dplyr::mutate(fuel_cost_mile = .fuel_cost_gallon /
       (val_mpg * aeo_val)) %>%
-    select(year,
+    dplyr::select(year,
       mode = mode.tb,
       fuel_mpg,
       fuel_cost_mile
