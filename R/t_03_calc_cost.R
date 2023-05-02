@@ -12,12 +12,13 @@ calc_cost <- function(tb_vmt,
                       .selected_ctu = "all",
                       .mode,
                       .price,
-                      .enviro_factors = enviro_factors) {
+                      .enviro_factors = enviro_factors,
+                      .factor_values = factor_values) {
   # browser()
 
   tb_vmt <- filter_ctu(tb_vmt, .selected_ctu)
 
-  tb_cost_current <- factor_values$cost %>%
+  tb_cost_current <- .factor_values$cost %>%
     dplyr::filter(
       mode == .mode,
       var == .price

@@ -13,7 +13,8 @@ calc_fuel_use <- function(tb_vmt,
                           .mode,
                           .aeo_scenario = "REF",
                           .miles_per_gallon,
-                          .enviro_factors = enviro_factors) {
+                          .enviro_factors = enviro_factors,
+                          .factor_values = factor_values) {
   # browser()
 
   tb_l <- tb %>%
@@ -29,7 +30,7 @@ calc_fuel_use <- function(tb_vmt,
     unique()
 
 
-  aeo_f_l <- factor_values$aeo %>%
+  aeo_f_l <- .factor_values$aeo %>%
     dplyr::filter(
       metric == "MPG",
       aeo_scen == .aeo_scenario,

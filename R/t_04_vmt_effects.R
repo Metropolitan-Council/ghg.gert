@@ -11,7 +11,8 @@
 vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
-                                      .enviro_factors = enviro_factors) {
+                                      .enviro_factors = enviro_factors,
+                                      .factor_values = factor_values) {
   check_inputs(
     name = "aeo_scenario",
     value = .aeo_scenario
@@ -26,7 +27,7 @@ vmt_annual_energy_outlook <- function(tb,
       values_from = value,
     )
 
-  aeo_vals <- factor_values$aeo %>%
+  aeo_vals <- .factor_values$aeo %>%
     dplyr::filter(
       aeo_scen == .aeo_scenario,
       metric == "VMT",

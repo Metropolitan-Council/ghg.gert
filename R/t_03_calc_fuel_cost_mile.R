@@ -17,7 +17,8 @@ calc_fuel_cost_mile <- function(tb,
                                 .aeo_scenario = "REF",
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
-                                .enviro_factors = enviro_factors) {
+                                .enviro_factors = enviro_factors,
+                                .factor_values = factor_values) {
   # cli::cli_progress_message("*** calculating fuel cost per mile \n")
 
   tb_l <- tb %>%
@@ -34,7 +35,7 @@ calc_fuel_cost_mile <- function(tb,
     unique()
 
 
-  aeo_f_l <- factor_values$aeo %>%
+  aeo_f_l <- .factor_values$aeo %>%
     dplyr::filter(
       metric == "MPG",
       aeo_scen == .aeo_scenario,

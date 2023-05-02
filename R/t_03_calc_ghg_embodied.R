@@ -35,12 +35,13 @@ calc_ghg_embodied <- function(tb,
                               .transit_avo_pct = 0,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
-                              .enviro_factors = enviro_factors) {
+                              .enviro_factors = enviro_factors,
+                              .factor_values = factor_values) {
   # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
     # bus or brt
     # get ghg factor values
-    ghg_factor_current <- factor_values$ghg %>%
+    ghg_factor_current <- .factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       dplyr::select(source,
         year,
@@ -132,9 +133,9 @@ calc_ghg_embodied <- function(tb,
   } else {
     # browser()
 
-    ghg_factors_current <- factor_values$ghg %>%
+    ghg_factors_current <- .factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
-      select(year, ghg_value = value)
+      dplyr::select(year, ghg_value = value)
 
 
     sales <- tb %>%
