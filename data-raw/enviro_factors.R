@@ -47,7 +47,10 @@ enviro_factors <- list(
   AGRI_LAND_CARBON_STOCK = 3, # Mega grams CO2e per hectare https://www.pnas.org/doi/10.1073/pnas.1512542112
   MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT = 1.54, # https://www.nature.com/articles/s41598-019-47861-7
   W2W_DIESEL_EMISSIONS_FACTOR = 12.50, # in Kilograms of CO2e per gallon https://pubs.acs.org/doi/pdf/10.1021/es9024194
-  AVOIDED_EMISSIONS_TRACTOR_USE = 0.1016 # in Mega grams CO2e per hectare https://www.usda.gov/media/blog/2017/11/30/saving-money-time-and-soil-economics-no-till-farming
+  AVOIDED_EMISSIONS_TRACTOR_USE = 0.1016, # in Mega grams CO2e per hectare https://www.usda.gov/media/blog/2017/11/30/saving-money-time-and-soil-economics-no-till-farming
+  URBAN_FORM_SCENARIO = "bau",
+  NON_RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.2,
+  NON_RES_NATURAL_GAS_FOR_SPACE_HEATING_PCT = 0.69
 )
 
 

@@ -18,7 +18,6 @@
 #' run_scenario_land_use(
 #'   tb = land_use_data,
 #'   .selected_ctu = all,
-#'   .urban_form_scenario = "bau",
 #'   .conservation_tillage_intervention = "current_conservation_tillage",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
@@ -29,12 +28,12 @@
 #' }
 run_scenario_land_use <- function(tb = land_use_data,
                                   .selected_ctu = "all",
-                                  .urban_form_scenario = "bau",
                                   .conservation_tillage_intervention = "current_conservation_tillage",
                                   .tree_planting_intervention = "match_la_million_trees_goal",
                                   .tree_planting_per_capita = 0.26,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0.8,
+                                  .enviro_factors = enviro_factors,
                                   detail = FALSE) {
   # -------------------------------------------------------------------------
   # store filtered database tables into variables
@@ -49,7 +48,6 @@ run_scenario_land_use <- function(tb = land_use_data,
     calc_carbon_sequestration_per_ctu(
       tb = tb,
       .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
@@ -68,7 +66,6 @@ run_scenario_land_use <- function(tb = land_use_data,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
-      .urban_form_scenario = .urban_form_scenario,
       detail = detail
     )
 
@@ -95,7 +92,7 @@ run_scenario_land_use <- function(tb = land_use_data,
     dplyr::group_by(ctu_name, year, var) %>%
     tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(ctu_name, year, var)) %>%
     dplyr::mutate(
-      urban_form_scenario = .urban_form_scenario,
+      urban_form_scenario = .enviro_factors$URBAN_FORM_SCENARIO,
       tree_planting_intervention = .tree_planting_intervention,
       parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
       conservation_tillage_intervention = .conservation_tillage_intervention

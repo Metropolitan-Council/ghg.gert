@@ -34,8 +34,6 @@
 #'   .selected_ctu = "all",
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
-#'   .non_res_natural_gas_for_water_heating_pct = 0.20,
-#'   .non_res_natural_gas_for_space_heating_pct = 0.69,
 #'   .commercial_smart_grid_pct = 1.00,
 #'   .industrial_smart_grid_pct = 1.00,
 #'   .smart_grid_energy_reduction_pct = 1.00,
@@ -66,8 +64,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # non-residential
                                   # electrification
                                   .electrified_buildings_pct = 0.40,
-                                  .non_res_natural_gas_for_water_heating_pct = 0.20,
-                                  .non_res_natural_gas_for_space_heating_pct = 0.69,
                                   # smartgrid
                                   .commercial_smart_grid_pct = 1.00,
                                   .industrial_smart_grid_pct = 1.00,
@@ -133,8 +129,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
 
     # electrification
     .electrified_buildings_pct,
-    .non_res_natural_gas_for_water_heating_pct,
-    .non_res_natural_gas_for_space_heating_pct,
 
     # smartgrid
     .commercial_smart_grid_pct,
@@ -195,8 +189,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .selected_ctu = .selected_ctu,
         .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
         .electrified_buildings_pct = .electrified_buildings_pct,
-        .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-        .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
         .commercial_smart_grid_pct = .commercial_smart_grid_pct,
         .industrial_smart_grid_pct = .industrial_smart_grid_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,

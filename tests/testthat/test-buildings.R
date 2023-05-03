@@ -202,8 +202,6 @@ calc_electrify_commercial_heating(
   .selected_ctu = "Minneapolis",
   .grid_decarbonization_pct = 0.8,
   .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
   .enviro_factors = enviro_factors
 )
 
@@ -230,8 +228,6 @@ scen_building_non_residential(
   non_res_tb_bau = building_data$non_residential,
   .selected_ctu = "Minneapolis",
   .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
   .commercial_smart_grid_pct = 1.00,
   .industrial_smart_grid_pct = 1.00,
   .smart_grid_energy_reduction_pct = 1.00,

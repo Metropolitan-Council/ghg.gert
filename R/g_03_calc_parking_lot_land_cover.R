@@ -28,7 +28,6 @@
 #' calc_parking_lot_land_cover(
 #'   tb = land_use_data,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .parking_lot_reduction_percentage = 0.8,
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
@@ -38,17 +37,16 @@
 #' }
 calc_parking_lot_land_cover <- function(tb,
                                         .selected_ctu,
-                                        .urban_form_scenario,
                                         .parking_lot_reduction_percentage,
                                         .tree_planting_intervention,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
+                                        .enviro_factors = enviro_factors,
                                         detail = FALSE) {
   # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,
     .selected_ctu = .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario,
     .tree_planting_intervention = .tree_planting_intervention,
     .tree_planting_per_capita = .tree_planting_per_capita,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
