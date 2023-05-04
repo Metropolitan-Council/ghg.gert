@@ -7,12 +7,12 @@
 run_scenario_land_use(
   tb = land_use_data,
   .selected_ctu = "all",
-  .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0.8,
+  .enviro_factors = enviro_factors,
   detail = FALSE
 )
 }
@@ -28,6 +28,15 @@ relative to the baseline year.
 \item \code{"maximum_conservation_tillage"} it assumes that all agricultural land implements conservation
 tillage.
 }}
+
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+Default is \code{tree_planting_on_all_pervious}.}
 
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -61,7 +70,6 @@ library(ghg.sp)
 run_scenario_land_use(
   tb = land_use_data,
   .selected_ctu = all,
-  .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
   .tree_planting_per_capita = 0.26,

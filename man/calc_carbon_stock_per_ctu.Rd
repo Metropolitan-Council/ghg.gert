@@ -7,7 +7,6 @@
 calc_carbon_stock_per_ctu(
   tb,
   .selected_ctu,
-  .urban_form_scenario,
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare,
@@ -18,6 +17,15 @@ calc_carbon_stock_per_ctu(
 )
 }
 \arguments{
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+Default is \code{tree_planting_on_all_pervious}.}
+
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
@@ -65,7 +73,6 @@ library(ghg.sp)
 calc_carbon_stock_per_ctu(
   tb = land_use_data,
   .selected_ctu = "all",
-  .urban_form_scenario = "bau",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,

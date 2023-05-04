@@ -29,7 +29,6 @@
 #' calc_carbon_stock_per_ctu(
 #'   tb = land_use_data,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247,
@@ -40,7 +39,6 @@
 #' }
 calc_carbon_stock_per_ctu <- function(tb,
                                       .selected_ctu,
-                                      .urban_form_scenario,
                                       .tree_planting_intervention,
                                       .tree_planting_per_capita,
                                       .tree_planting_per_hectare,
@@ -77,7 +75,6 @@ calc_carbon_stock_per_ctu <- function(tb,
     calc_parking_lot_land_cover(
       tb = tb,
       .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,

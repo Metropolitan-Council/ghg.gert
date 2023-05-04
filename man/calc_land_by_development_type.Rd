@@ -4,7 +4,11 @@
 \alias{calc_land_by_development_type}
 \title{Calculate land by development type}
 \usage{
-calc_land_by_development_type(tb, .selected_ctu, .urban_form_scenario)
+calc_land_by_development_type(
+  tb,
+  .selected_ctu,
+  .enviro_factors = enviro_factors
+)
 }
 \arguments{
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -42,8 +46,7 @@ library(ghg.sp)
 
 calc_land_by_development_type(
   tb = land_use_data,
-  .selected_ctu = "all",
-  .urban_form_scenario = "bau"
+  .selected_ctu = "all"
 )
 }
 }

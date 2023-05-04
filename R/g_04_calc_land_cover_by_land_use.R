@@ -15,13 +15,12 @@
 #' \dontrun{
 #' calc_land_cover_by_land_use(
 #'   tb = land_use_data,
-#'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau"
+#'   .selected_ctu = "all"
 #' )
 #' }
 calc_land_cover_by_land_use <- function(tb,
                                         .selected_ctu,
-                                        .urban_form_scenario) {
+                                        .enviro_factors = enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_percentages <- calc_land_cover_percentages(
     tb = land_use_data,
@@ -33,14 +32,12 @@ calc_land_cover_by_land_use <- function(tb,
     if (.selected_ctu == "all") {
       calc_scen_land_use(
         tb = tb,
-        .selected_ctu,
-        .urban_form_scenario = .urban_form_scenario
+        .selected_ctu
       )
     } else {
       calc_scen_land_use(
         tb = tb,
-        .selected_ctu,
-        .urban_form_scenario = .urban_form_scenario
+        .selected_ctu
       ) %>% filter(ctu_name == .selected_ctu)
     }
 

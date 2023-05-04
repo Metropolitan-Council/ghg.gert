@@ -20,7 +20,6 @@ run_all_modules(
   freight_tb = transportation_data$freight,
   detail = FALSE,
   .renewable_ng_res = FALSE,
-  .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "tree_planting_on_all_pervious",
   .tree_planting_per_capita = 0.26,
@@ -28,8 +27,6 @@ run_all_modules(
   .parking_lot_reduction_percentage = 0.8,
   .electrified_buildings_pct = 0.4,
   .renewable_ng_nonres = FALSE,
-  .non_res_natural_gas_for_water_heating_pct = 0.2,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
   .commercial_smart_grid_pct = 1,
   .industrial_smart_grid_pct = 1,
   .smart_grid_energy_reduction_pct = 0.11,
@@ -135,6 +132,15 @@ relative to the baseline year.
 tillage.
 }}
 
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+Default is \code{tree_planting_on_all_pervious}.}
+
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
@@ -151,14 +157,6 @@ Default is \code{0.8}.}
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}.}
-
-\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}.}
-
-\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}.}
 
 \item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
 The percentage of commercial buildings that would be on the smart grid for the

@@ -8,8 +8,6 @@ calc_electrify_commercial_heating(
   non_res_tb,
   .selected_ctu,
   .electrified_buildings_pct,
-  .non_res_natural_gas_for_water_heating_pct,
-  .non_res_natural_gas_for_space_heating_pct,
   .grid_decarbonization_pct,
   .enviro_factors = enviro_factors
 )
@@ -18,14 +16,6 @@ calc_electrify_commercial_heating(
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.40}.}
-
-\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}.}
-
-\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{1}.}
@@ -65,8 +55,6 @@ calc_electrify_commercial_heating(
   .selected_ctu = "all",
   .grid_decarbonization_pct = 0.8,
   .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
   .enviro_factors = enviro_factors
 )
 }

@@ -4,7 +4,7 @@
 #' @description Recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
-#' @param .tree_panting_intervention character, specifies the type of tree planting.
+#' @param .tree_planting_intervention character, specifies the type of tree planting.
 #'     intervention to be explored under the current scenario. options are:
 #'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
 #'     * `"double"`: Assumes double the tree canopy relative.
@@ -37,7 +37,6 @@
 #'   tb = land_use_data,
 #'   detail = FALSE,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .tree_planting_intervention = "match_la_million_trees_goal",
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247
@@ -47,15 +46,13 @@
 calc_tree_planting_land_cover <- function(tb,
                                           detail,
                                           .selected_ctu = .selected_ctu,
-                                          .urban_form_scenario,
                                           .tree_planting_intervention,
                                           .tree_planting_per_capita,
                                           .tree_planting_per_hectare) {
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,
-    .selected_ctu = .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario
+    .selected_ctu = .selected_ctu
   ) %>%
     dplyr::group_by(ctu_name, year, land_cover_type) %>%
     dplyr::summarise(land_cover_hectares = sum(land_cover_land_use_hectares))

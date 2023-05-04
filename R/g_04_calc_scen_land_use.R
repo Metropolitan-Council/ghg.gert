@@ -16,21 +16,19 @@
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,
-#'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau"
+#'   .selected_ctu = "all"
 #' )
 #' }
 calc_scen_land_use <- function(tb,
                                .selected_ctu,
-                               .urban_form_scenario) {
+                               .enviro_factors = enviro_factors) {
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
   calc_land_by_development_type <-
     calc_land_by_development_type(
       tb = tb,
-      .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario
+      .selected_ctu = .selected_ctu
     )
 
   # -------------------------------------------------------------------------
