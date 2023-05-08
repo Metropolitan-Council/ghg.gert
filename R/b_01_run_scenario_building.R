@@ -90,11 +90,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
     # non-residential
     # electrification
     "electrified_buildings_pct",
-    "non_res_natural_gas_for_water_heating_pct",
-    "non_res_natural_gas_for_space_heating_pct",
     # smartgrid
-    "commercial_smart_grid_pct",
-    "industrial_smart_grid_pct",
     "smart_grid_energy_reduction_pct",
     # residential
     # floor_area
@@ -107,8 +103,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
     "existing_home_retrofit_pct",
     "existing_home_ultra_retrofit_pct",
     # electrification
-    "res_natural_gas_for_space_heating_pct",
-    "res_natural_gas_for_water_heating_pct",
     "additional_electrified_residential_buildings_pct",
     # grid
     "grid_decarbonization_pct",
