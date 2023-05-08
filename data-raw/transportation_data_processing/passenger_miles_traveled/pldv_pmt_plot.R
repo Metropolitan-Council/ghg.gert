@@ -5,6 +5,29 @@ library(dplyr)
 source("data-raw/transportation_data_processing/passenger_miles_traveled/_plotly_layout.R")
 source("data-raw/demographic/thrive_designation.R")
 
+# regional vehicle miles traveled up to 2050
+# some behavioral changes, its not enough to counterbalance the growth
+# Minneapolis,
+# 10,026,040.35 in 2018
+#
+# school bus increases?
+# vintage of TAZ data used for modeling that included lower VMT,
+# there was one period of time
+# because, demographic details was that school-aged children jumped up,
+# lot more school bus rides
+# one vintage of socioeconomic forecasts, with lots of schoolchildren
+#
+# some buggy taz data that got used in 2018.
+# they used some sort of OD data
+# scenario VMT
+#
+
+10026040.35 * 340
+pmt_dat %>%
+  filter(ctu == "Minneapolis",
+         year %in% c("2018",
+                     "2040"))
+
 # PLDV PMT -----
 pmt_dat <- transportation_data$passenger %>%
   filter(
@@ -33,6 +56,9 @@ pmt_pct_change <- pmt_dat %>%
   mutate(pct_change = (value - lag(value)) / lag(value))
 
 
+
+pmt_dat %>%
+  filter(ctu == "Minneapolis") %>% View
 pmt_pct_change %>%
   filter(
     ctu %in% c(
