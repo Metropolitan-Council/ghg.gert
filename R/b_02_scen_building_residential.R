@@ -59,8 +59,6 @@
 #'   .home_behavior_change_pct = 1.00,
 #'   .grid_decarbonization_pct = 1,
 #'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .res_natural_gas_for_space_heating_pct = 0.71,
-#'   .res_natural_gas_for_water_heating_pct = 0.24,
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
@@ -76,8 +74,6 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .home_behavior_change_pct,
                                       .grid_decarbonization_pct,
                                       .additional_electrified_residential_buildings_pct,
-                                      .res_natural_gas_for_space_heating_pct,
-                                      .res_natural_gas_for_water_heating_pct,
                                       .renewable_ng_res,
                                       .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("** compiling residential strategies \n")
@@ -136,8 +132,6 @@ scen_building_residential <- function(res_tb = res_tb,
     res_tb = tb06,
     .selected_ctu = .selected_ctu,
     .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-    .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
-    .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors
   )

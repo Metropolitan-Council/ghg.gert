@@ -10,7 +10,7 @@
 #' @param .parking_lot_reduction_percentage numeric, value between `0` and `1`.
 #'      The percentage reduction of parking lot
 #'      area to be explored under the current scenario.
-#'      Default is `0.8`.
+#'      Default is `0.0`.
 #' @param detail logical,
 #'      If `detail == TRUE` the function
 #'      returns a tibble with more detailed fields. Recommended

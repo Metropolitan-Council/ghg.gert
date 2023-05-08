@@ -10,7 +10,7 @@
 #' @inheritParams run_scenario_building
 #' @param .electrified_buildings_pct numeric,  a value between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
-#'      Default is `0.40`.
+#'      Default is `0.0`.
 #' @param .enviro_factors
 #'
 #' @return [tibble::tibble()]
@@ -32,8 +32,6 @@
 #'     non_res_tb = building_energy_bau_data$non_residential,
 #'     non_res_tb_bau = building_energy_bau_data$non_residential,
 #'     .selected_ctu = "all",
-#'     .industrial_smart_grid_pct = 1,
-#'     .commercial_smart_grid_pct = 1,
 #'     .grid_decarbonization_pct = 1,
 #'     .smart_grid_energy_reduction_pct = 1,
 #'     .enviro_factors = enviro_factors,

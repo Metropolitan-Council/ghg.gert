@@ -14,7 +14,7 @@ calc_floor_area_behavior_change(
 \arguments{
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}.}
+Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

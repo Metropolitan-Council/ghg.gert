@@ -29,7 +29,7 @@ a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
-Default is \code{0.30}.}
+Default is \code{0.0}.}
 }
 \value{
 data table

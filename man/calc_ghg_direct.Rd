@@ -11,7 +11,7 @@ calc_ghg_direct(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .grid_decarbonization_pct = 1,
+  .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values
 )

@@ -11,7 +11,7 @@
 #' @param .existing_high_efficiency_buildings_pct numeric,
 #'      a value between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
-#'      Default is `0.8`.
+#'      Default is `0`.
 #'
 #' @return [tibble::tibble()].
 #'      The adjusted values for the non residential

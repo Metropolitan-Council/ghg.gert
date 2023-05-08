@@ -13,7 +13,7 @@ run_scenario_transportation(
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 1,
+  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

@@ -11,15 +11,8 @@
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
-#' @param .industrial_smart_grid_pct numeric, a value between `0` and `1`.
-#'      The percentage of industrial buildings that would be on the smart grid for the
-#'      pecified scenario. Default is `1`.
-#' @param .commercial_smart_grid_pct numeric, a value between `0` and `1`.
-#'      The percentage of commercial buildings that would be on the smart grid for the
-#'      specified scenario.
-#'      Default is `1`.
-#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`. Default is `1`.
-#' @param .smart_grid_energy_reduction_pct numeric, a value between `0` and `1`. Default is `1`.
+#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`. Default is `0.6`.
+#' @param .smart_grid_energy_reduction_pct numeric, a value between `0` and `1`. Default is `0`.
 #' @inheritParams run_scenario_transportation
 #'
 #' @export
@@ -32,8 +25,6 @@
 #'   non_res_tb = building_data$non_residential,
 #'   non_res_tb_bau = building_data$non_residential,
 #'   .selected_ctu = "all",
-#'   .industrial_smart_grid_pct = 1,
-#'   .commercial_smart_grid_pct = 1,
 #'   .grid_decarbonization_pct = 1,
 #'   .smart_grid_energy_reduction_pct = 1,
 #'   .enviro_factors = enviro_factors,
@@ -43,8 +34,6 @@
 calc_ghg_non_residential <- function(non_res_tb,
                                      non_res_tb_bau,
                                      .selected_ctu,
-                                     .commercial_smart_grid_pct,
-                                     .industrial_smart_grid_pct,
                                      .smart_grid_energy_reduction_pct,
                                      .grid_decarbonization_pct,
                                      .existing_high_efficiency_buildings_pct,
@@ -56,8 +45,6 @@ calc_ghg_non_residential <- function(non_res_tb,
   emis <-
     function(tb,
              grid_decarb,
-             commercial_smart_grid_pct,
-             industrial_smart_grid_pct,
              smart_grid_decarb,
              .enviro_factors = ghg.sp::enviro_factors) {
       tb %>%
@@ -86,8 +73,8 @@ calc_ghg_non_residential <- function(non_res_tb,
         ) %>%
         dplyr::mutate(
           # mw hours
-          commercial_mwh = .commercial_smart_grid_pct * (commercial_jobs * commercial_mwh_per_worker),
-          industrial_mwh = .industrial_smart_grid_pct * (industrial_jobs * industrial_mwh_per_worker),
+          commercial_mwh = .enviro_factors$COMMERCIAL_SMART_GRID_PCT * (commercial_jobs * commercial_mwh_per_worker),
+          industrial_mwh = .enviro_factors$INDUSTRIAL_SMART_GRID_PCT * (industrial_jobs * industrial_mwh_per_worker),
 
           # therms
           commercial_therms = commercial_jobs * commercial_therm_per_worker,
@@ -145,8 +132,6 @@ calc_ghg_non_residential <- function(non_res_tb,
     emis(
       tb = non_res_tb_bau,
       grid_decarb = 0,
-      commercial_smart_grid_pct = 1,
-      industrial_smart_grid_pct = 1,
       smart_grid_decarb = 0
     )
   emis_strategy <-
@@ -157,8 +142,6 @@ calc_ghg_non_residential <- function(non_res_tb,
         .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
       ),
       grid_decarb = .grid_decarbonization_pct,
-      commercial_smart_grid_pct = .commercial_smart_grid_pct,
-      industrial_smart_grid_pct = .industrial_smart_grid_pct,
       smart_grid_decarb = .smart_grid_energy_reduction_pct
     )
   emis_final <-

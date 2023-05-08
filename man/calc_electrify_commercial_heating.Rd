@@ -15,7 +15,7 @@ calc_electrify_commercial_heating(
 \arguments{
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}.}
+Default is \code{0.0}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{1}.}
@@ -45,8 +45,6 @@ calc_electrify_commercial_heating(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
     .selected_ctu = "all",
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
     .grid_decarbonization_pct = 1,
     .smart_grid_energy_reduction_pct = 1,
     .enviro_factors = enviro_factors,

@@ -34,8 +34,6 @@
 #'   .selected_ctu = "all",
 #'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
-#'   .commercial_smart_grid_pct = 1.00,
-#'   .industrial_smart_grid_pct = 1.00,
 #'   .smart_grid_energy_reduction_pct = 1.00,
 #'   .new_homes_to_multifamily_pct = 0.50,
 #'   .existing_high_efficiency_buildings_pct = 0.80,
@@ -45,8 +43,6 @@
 #'   .new_homes_leed_gold_pct = 0.50,
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .res_natural_gas_for_space_heating_pct = 0.71,
-#'   .res_natural_gas_for_water_heating_pct = 0.24,
 #'   .additional_electrified_residential_buildings_pct = 0.45,
 #'   .grid_decarbonization_pct = 1
 #' )
@@ -63,29 +59,25 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .selected_ctu = "all",
                                   # non-residential
                                   # electrification
-                                  .electrified_buildings_pct = 0.40,
+                                  .electrified_buildings_pct = 0.0,
                                   # smartgrid
-                                  .commercial_smart_grid_pct = 1.00,
-                                  .industrial_smart_grid_pct = 1.00,
-                                  .smart_grid_energy_reduction_pct = 0.11,
+                                  .smart_grid_energy_reduction_pct = 0.0,
                                   # residential
                                   .renewable_ng_res = FALSE,
                                   .renewable_ng_nonres = FALSE,
                                   # floor_area
-                                  .new_homes_to_multifamily_pct = 0.50,
-                                  .existing_high_efficiency_buildings_pct = 0.80,
-                                  .home_behavior_change_pct = 1.00,
+                                  .new_homes_to_multifamily_pct = 0.0,
+                                  .existing_high_efficiency_buildings_pct = 0.0,
+                                  .home_behavior_change_pct = 00,
                                   .single_family_floor_area_growth_pct = 0.05,
-                                  .new_homes_affected_pct = 0.30,
-                                  .new_homes_leed_gold_pct = 0.50,
-                                  .existing_home_retrofit_pct = 0.80,
-                                  .existing_home_ultra_retrofit_pct = 0.20,
+                                  .new_homes_affected_pct = 0.0,
+                                  .new_homes_leed_gold_pct = 0.0,
+                                  .existing_home_retrofit_pct = 0.0,
+                                  .existing_home_ultra_retrofit_pct = 0.0,
                                   # electrification
-                                  .res_natural_gas_for_space_heating_pct = 0.71,
-                                  .res_natural_gas_for_water_heating_pct = 0.24,
-                                  .additional_electrified_residential_buildings_pct = 0.45,
+                                  .additional_electrified_residential_buildings_pct = 0.5,
                                   # grid
-                                  .grid_decarbonization_pct = 1) {
+                                  .grid_decarbonization_pct = 0.6) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -131,8 +123,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .electrified_buildings_pct,
 
     # smartgrid
-    .commercial_smart_grid_pct,
-    .industrial_smart_grid_pct,
     .smart_grid_energy_reduction_pct,
 
     # residential
@@ -147,8 +137,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .existing_home_retrofit_pct,
     .existing_home_ultra_retrofit_pct,
     # electrification
-    .res_natural_gas_for_space_heating_pct,
-    .res_natural_gas_for_water_heating_pct,
     .additional_electrified_residential_buildings_pct,
     # grid
     .grid_decarbonization_pct,
@@ -173,8 +161,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .existing_home_retrofit_pct = .existing_home_retrofit_pct,
         .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
         .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-        .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
-        .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .enviro_factors = .enviro_factors
       ) %>%
@@ -189,8 +175,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .selected_ctu = .selected_ctu,
         .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
         .electrified_buildings_pct = .electrified_buildings_pct,
-        .commercial_smart_grid_pct = .commercial_smart_grid_pct,
-        .industrial_smart_grid_pct = .industrial_smart_grid_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
         .renewable_ng_nonres = .renewable_ng_nonres,

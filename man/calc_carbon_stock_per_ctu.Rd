@@ -37,7 +37,7 @@ Default is \code{247}.}
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
-Default is \code{0.8}.}
+Default is \code{0.0}.}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.

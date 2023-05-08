@@ -8,20 +8,15 @@ calc_electrify_residential_heating(
   res_tb,
   .selected_ctu,
   .additional_electrified_residential_buildings_pct,
-  .res_natural_gas_for_space_heating_pct,
-  .res_natural_gas_for_water_heating_pct,
   .grid_decarbonization_pct,
   .enviro_factors = enviro_factors
 )
 }
 \arguments{
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
+Default is \code{0}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
-
-\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percentage of natural gas that is commonly used for water heating in residential
-buildings.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{1}.}
@@ -48,8 +43,6 @@ calc_electrify_residential_heating(
   ),
   .selected_ctu = "all",
   .additional_electrified_residential_buildings_pct = 0.45,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
   .grid_decarbonization_pct = 0.80,
   .enviro_factors = enviro_factors
 )
