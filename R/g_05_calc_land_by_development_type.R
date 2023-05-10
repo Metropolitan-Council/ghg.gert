@@ -38,7 +38,7 @@
 #' }
 calc_land_by_development_type <- function(tb,
                                           .selected_ctu,
-                                          .enviro_factors = enviro_factors) {
+                                          .enviro_factors = ghg.sp::enviro_factors) {
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
@@ -46,7 +46,7 @@ calc_land_by_development_type <- function(tb,
 
   # -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
-    dplyr::filter(scenario_description_2 == .enviro_factors$URBAN_FORM_SCENARIO)
+    dplyr::filter(scenario_description_2 == ghg.sp::enviro_factors$URBAN_FORM_SCENARIO)
 
   # -------------------------------------------------------------------------
   ctu_land_use_hectares_by_dev_type <-
@@ -151,19 +151,18 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::mutate(
       scenario_mixed_use_mf_new.urban_infill =
-        # if (.urban_form_scenario == "compact_dev_with_drs") {
-        #   dplyr::if_else(bau.urban_expansion > bau.urban_infill,
-        #     bau.urban_infill,
-        #     bau.urban_expansion
-        #   )
-        # } else {
-          ((
-            scenario_total.urban_infill -
-              scenario_mixed_use_compact_zoning_park.urban_infill
-          )
-          * luse_scenario_params$urban_infill
-          )
-        ,
+      # if (.urban_form_scenario == "compact_dev_with_drs") {
+      #   dplyr::if_else(bau.urban_expansion > bau.urban_infill,
+      #     bau.urban_infill,
+      #     bau.urban_expansion
+      #   )
+      # } else {
+        ((
+          scenario_total.urban_infill -
+            scenario_mixed_use_compact_zoning_park.urban_infill
+        )
+        * luse_scenario_params$urban_infill
+        ),
       scenario_mixed_use_mf_new.exurban_development = 0
     ) %>%
     tidyr::pivot_longer(

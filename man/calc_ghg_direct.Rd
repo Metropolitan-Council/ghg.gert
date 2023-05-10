@@ -12,8 +12,8 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .grid_decarbonization_pct = 0.6,
-  .enviro_factors = enviro_factors,
-  .factor_values = factor_values
+  .enviro_factors = ghg.sp::enviro_factors,
+  .factor_values = ghg.sp::factor_values
 )
 }
 \arguments{

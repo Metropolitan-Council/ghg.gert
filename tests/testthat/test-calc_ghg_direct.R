@@ -12,7 +12,7 @@ si_vmt_test <- tibble::tribble(
   "P", "SIStock", "BAU", "St. Paul", "2045", "PLDV", "LDV", 18.3082802849089, "SI",
   "P", "SIStock", "BAU", "St. Paul", "2050", "PLDV", "LDV", 17.7590876643119, "SI"
 ) %>%
-  mutate(vmt = vmt*1000)
+  mutate(vmt = vmt * 1000)
 
 
 si_dir_ghg <- calc_ghg_direct(

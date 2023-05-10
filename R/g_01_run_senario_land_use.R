@@ -33,7 +33,7 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_capita = 0.0,
                                   .tree_planting_per_hectare = 0,
                                   .parking_lot_reduction_percentage = 0,
-                                  .enviro_factors = enviro_factors,
+                                  .enviro_factors = ghg.sp::enviro_factors,
                                   detail = FALSE) {
   # -------------------------------------------------------------------------
   # store filtered database tables into variables
@@ -66,7 +66,8 @@ run_scenario_land_use <- function(tb = land_use_data,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
-      detail = detail
+      detail = detail,
+      .enviro_factors = .enviro_factors
     )
 
   # -------------------------------------------------------------------------

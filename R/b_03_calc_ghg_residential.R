@@ -43,7 +43,7 @@ calc_ghg_residential <- function(res_tb,
                                  res_tb_bau,
                                  .selected_ctu,
                                  .grid_decarbonization_pct,
-                                 .enviro_factors = enviro_factors) {
+                                 .enviro_factors = ghg.sp::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -51,7 +51,7 @@ calc_ghg_residential <- function(res_tb,
 
   emis <- function(tb,
                    grid_decarb,
-                   .enviro_factors = enviro_factors) {
+                   .enviro_factors = ghg.sp::enviro_factors) {
     tb %>%
       dplyr::filter(
         var %in% c(
@@ -118,13 +118,15 @@ calc_ghg_residential <- function(res_tb,
   emis_bau <-
     emis(
       tb = res_tb_bau,
-      grid_decarb = 0
+      grid_decarb = 0,
+      .enviro_factors = .enviro_factors
     )
 
   emis_strategy <-
     emis(
       tb = res_tb,
-      grid_decarb = .grid_decarbonization_pct
+      grid_decarb = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors
     )
 
   emis_final <-

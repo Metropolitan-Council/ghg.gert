@@ -33,6 +33,9 @@ check_inputs <- function(name, value) {
     "payd_fee",
     "freight_vmt_fee"
   )) {
+    if (!is.numeric(value)) {
+      cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1 dollars per mile"))
+    }
     if (value > 1) {
       cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1 dollars per mile"))
     }

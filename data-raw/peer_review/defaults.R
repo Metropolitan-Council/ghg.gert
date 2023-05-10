@@ -1,4 +1,5 @@
-c(.selected_ctu = "all",
+c(
+  .selected_ctu = "all",
   run_land_use = TRUE,
   run_buildings = TRUE,
   run_residential = TRUE,
@@ -17,7 +18,7 @@ c(.selected_ctu = "all",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.0, # may be env factor
-  .tree_planting_per_hectare = 0,
+  .tree_planting_per_hectare = 0, # should be env factor
   .parking_lot_reduction_percentage = 0,
   .electrified_buildings_pct = 0.0,
   .renewable_ng_nonres = FALSE,
@@ -69,7 +70,8 @@ c(.selected_ctu = "all",
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
-  .elast_5d = elast_5d)
+  .elast_5d = elast_5d
+)
 
 
 
@@ -139,5 +141,4 @@ bau <- ghg.sp::run_all_modules(
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .mit_bau_summary = 0
-
 )

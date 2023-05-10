@@ -36,6 +36,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .telework_pct = 0,
                               .mit_bau_summary = 0,
                               .enviro_factors = enviro_factors,
+                              .factor_values = factor_values,
                               .elast = elast,
                               .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating freight rail scneario \n")
@@ -68,14 +69,17 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
       .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt,
       .freight_tb,
-      mode, "RCI", .aeo_scenario, mpg
+      mode, "RCI", .aeo_scenario, mpg,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -99,7 +103,8 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
       .comb_5d_impact_pct_change,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
 
@@ -107,7 +112,9 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
     calc_ghg_direct(
       ev_vmt,
       .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe
+      .electric_scenario, .aeo_scenario, mpe,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   # Finish up -----

@@ -7,7 +7,8 @@
 calc_existing_comm_building_efficiency(
   non_res_tb,
   .selected_ctu,
-  .existing_high_efficiency_buildings_pct
+  .existing_high_efficiency_buildings_pct,
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{

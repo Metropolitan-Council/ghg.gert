@@ -7,7 +7,7 @@
 calc_land_by_development_type(
   tb,
   .selected_ctu,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{

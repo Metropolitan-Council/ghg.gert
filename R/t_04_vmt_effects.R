@@ -11,8 +11,8 @@
 vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
-                                      .enviro_factors = enviro_factors,
-                                      .factor_values = factor_values) {
+                                      .enviro_factors = ghg.sp::enviro_factors,
+                                      .factor_values = ghg.sp::factor_values) {
   check_inputs(
     name = "aeo_scenario",
     value = .aeo_scenario
@@ -88,8 +88,8 @@ vmt_land_use_change <- function(.type,
                                 .intersection_design_pct_change = 0,
                                 .job_access_pct_change = 0,
                                 .transit_dist_pct_change = 0,
-                                .enviro_factors = enviro_factors,
-                                .elast_5d = elast_5d) {
+                                .enviro_factors = ghg.sp::enviro_factors,
+                                .elast_5d = ghg.sp::elast_5d) {
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     cli::cli_abort(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
@@ -182,7 +182,7 @@ vmt_parking_policy <- function(tb,
                                .elast = elast,
                                .parking_price = 0,
                                .freight_parking_price = 0,
-                               .enviro_factors = enviro_factors) {
+                               .enviro_factors = ghg.sp::enviro_factors) {
   # fetch current parking prices
   park_price_current <- tb %>%
     filter(
@@ -291,8 +291,8 @@ vmt_road_policy <- function(.pass_tb,
                             .payd_fee = 0,
                             .stock,
                             .phev_electric = FALSE,
-                            .enviro_factors = enviro_factors,
-                            .elast = elast) {
+                            .enviro_factors = ghg.sp::enviro_factors,
+                            .elast = ghg.sp::elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
     cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
@@ -521,7 +521,7 @@ vmt_road_policy <- function(.pass_tb,
 vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct = 0,
-                         .enviro_factors = enviro_factors) {
+                         .enviro_factors = ghg.sp::enviro_factors) {
   # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
@@ -641,7 +641,7 @@ vmt_transit_service <- function(tb,
                                 .mode,
                                 .transit_service_pct = 0,
                                 .elast = elast,
-                                .enviro_factors = enviro_factors) {
+                                .enviro_factors = ghg.sp::enviro_factors) {
   transit_service_elast <-
     tibble(
       year = unique(tb$year),
@@ -738,7 +738,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .stock,
                                   .transit_avo_pct = 0,
                                   .pldv_avo_pct = 0,
-                                  .enviro_factors = enviro_factors) {
+                                  .enviro_factors = ghg.sp::enviro_factors) {
   # browser()
 
 

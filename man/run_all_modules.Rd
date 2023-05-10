@@ -18,6 +18,10 @@ run_all_modules(
   non_res_tb_bau = building_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+  .calc_transp_cost = FALSE,
+  .calc_transp_fuel_cost_mile = FALSE,
+  .calc_transp_fuel_use = FALSE,
+  .calc_transp_ghg_embodied = FALSE,
   detail = FALSE,
   .renewable_ng_res = FALSE,
   .conservation_tillage_intervention = "current_conservation_tillage",
@@ -51,10 +55,6 @@ run_all_modules(
   .freight_parking_price = 0,
   .cong_price = 0,
   .freight_vmt_fee = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
-  .drs_fuel_type = "",
-  .av_fuel_type = "",
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
   .land_use_diversity_pct_change = 0,
@@ -68,6 +68,7 @@ run_all_modules(
   .hev_pct_sales = 0,
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
+  .factor_values = ghg.sp::factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
@@ -272,6 +273,8 @@ Default is \code{0}.}
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 

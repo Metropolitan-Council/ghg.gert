@@ -38,6 +38,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .mit_bau_summary = 0,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
+                           .factor_values = factor_values,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
@@ -47,7 +48,9 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   type <- "P"
@@ -72,7 +75,9 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -95,7 +100,9 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 

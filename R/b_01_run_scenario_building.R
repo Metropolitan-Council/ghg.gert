@@ -54,7 +54,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   run_residential = TRUE,
                                   run_non_residential = TRUE,
-                                  .enviro_factors = enviro_factors,
+                                  .enviro_factors = ghg.sp::enviro_factors,
                                   # selected CTU
                                   .selected_ctu = "all",
                                   # non-residential
@@ -179,7 +179,12 @@ run_scenario_building <- function(res_tb = building_data$residential,
 
   building_module_ouput <-
     if (run_residential == TRUE & run_non_residential == TRUE) {
-      dplyr::bind_rows((res %>% dplyr::mutate(year = as.character(year))), (non_res %>% dplyr::mutate(year = as.character(year))))
+      dplyr::bind_rows(
+        (res %>%
+          dplyr::mutate(year = as.character(year))),
+        (non_res %>%
+          dplyr::mutate(year = as.character(year)))
+      )
     } else if (run_residential == FALSE) {
       non_res
     } else {

@@ -9,7 +9,7 @@ calc_electrify_commercial_heating(
   .selected_ctu,
   .electrified_buildings_pct,
   .grid_decarbonization_pct,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{

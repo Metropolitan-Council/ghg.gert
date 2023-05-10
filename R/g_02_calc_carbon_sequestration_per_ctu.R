@@ -33,7 +33,8 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                                               .tree_planting_intervention,
                                               .tree_planting_per_capita,
                                               .tree_planting_per_hectare,
-                                              detail = FALSE) {
+                                              detail = FALSE,
+                                              .enviro_factors = enviro_factors) {
   csf <- ghg.sp::carbon_sequestration_factors
 
   # -------------------------------------------------------------------------
@@ -44,7 +45,8 @@ calc_carbon_sequestration_per_ctu <- function(tb,
     .tree_planting_intervention = .tree_planting_intervention,
     .tree_planting_per_capita = .tree_planting_per_capita,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
-    detail = FALSE
+    detail = FALSE,
+    .enviro_factors = .enviro_factors
   )
 
   # -------------------------------------------------------------------------

@@ -24,9 +24,13 @@ source("data-raw/demographic/thrive_designation.R")
 
 10026040.35 * 340
 pmt_dat %>%
-  filter(ctu == "Minneapolis",
-         year %in% c("2018",
-                     "2040"))
+  filter(
+    ctu == "Minneapolis",
+    year %in% c(
+      "2018",
+      "2040"
+    )
+  )
 
 # PLDV PMT -----
 pmt_dat <- transportation_data$passenger %>%
@@ -58,7 +62,8 @@ pmt_pct_change <- pmt_dat %>%
 
 
 pmt_dat %>%
-  filter(ctu == "Minneapolis") %>% View
+  filter(ctu == "Minneapolis") %>%
+  View()
 pmt_pct_change %>%
   filter(
     ctu %in% c(

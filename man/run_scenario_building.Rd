@@ -11,7 +11,7 @@ run_scenario_building(
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
-  .enviro_factors = enviro_factors,
+  .enviro_factors = ghg.sp::enviro_factors,
   .selected_ctu = "all",
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,

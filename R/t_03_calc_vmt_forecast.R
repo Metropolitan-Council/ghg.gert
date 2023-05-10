@@ -111,7 +111,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     # transit service adjustment
@@ -149,7 +151,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
     parking <- vmt_parking_policy(
@@ -157,7 +160,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -232,7 +236,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     trans_service <- vmt_transit_service(
@@ -268,7 +274,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
     parking <- vmt_parking_policy(
@@ -276,7 +283,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -293,7 +301,8 @@ calc_vmt_forecast <- function(.scenario,
     telework_adjust <- vmt_telework(
       .pass_tb = tb,
       .mode = .mode,
-      .telework_pct = .telework_pct
+      .telework_pct = .telework_pct,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -352,7 +361,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -371,7 +382,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     fc_adjustments <- vmt_road_policy(
@@ -440,7 +452,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -507,7 +521,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -520,7 +535,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -553,7 +569,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -583,7 +600,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -625,7 +644,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -666,7 +687,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(

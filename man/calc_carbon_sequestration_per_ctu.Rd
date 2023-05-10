@@ -11,7 +11,8 @@ calc_carbon_sequestration_per_ctu(
   .tree_planting_intervention,
   .tree_planting_per_capita,
   .tree_planting_per_hectare,
-  detail = FALSE
+  detail = FALSE,
+  .enviro_factors = enviro_factors
 )
 }
 \value{

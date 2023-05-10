@@ -48,7 +48,8 @@ calc_tree_planting_land_cover <- function(tb,
                                           .selected_ctu = .selected_ctu,
                                           .tree_planting_intervention,
                                           .tree_planting_per_capita,
-                                          .tree_planting_per_hectare) {
+                                          .tree_planting_per_hectare,
+                                          .enviro_factors = ghg.sp::enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,
