@@ -23,7 +23,7 @@ calc_land_cover_by_land_use <- function(tb,
                                         .enviro_factors = enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_percentages <- calc_land_cover_percentages(
-    tb = land_use_data,
+    tb = tb,
     .selected_ctu = .selected_ctu
   )
 

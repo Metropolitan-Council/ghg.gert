@@ -10,7 +10,7 @@
 #' @inheritParams run_scenario_building
 #' @param .electrified_buildings_pct numeric,  a value between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
-#'      Default is `0.40`.
+#'      Default is `0.0`.
 #' @param .enviro_factors
 #'
 #' @return [tibble::tibble()]
@@ -32,8 +32,6 @@
 #'     non_res_tb = building_energy_bau_data$non_residential,
 #'     non_res_tb_bau = building_energy_bau_data$non_residential,
 #'     .selected_ctu = "all",
-#'     .industrial_smart_grid_pct = 1,
-#'     .commercial_smart_grid_pct = 1,
 #'     .grid_decarbonization_pct = 1,
 #'     .smart_grid_energy_reduction_pct = 1,
 #'     .enviro_factors = enviro_factors,
@@ -49,7 +47,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                                               .selected_ctu,
                                               .electrified_buildings_pct,
                                               .grid_decarbonization_pct,
-                                              .enviro_factors = enviro_factors) {
+                                              .enviro_factors = ghg.sp::enviro_factors) {
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   new_non_res_tb <- non_res_tb %>%
@@ -76,7 +74,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
           ((
             reduced_therms.scen.2040 *
               .enviro_factors$NON_RES_NATURAL_GAS_FOR_SPACE_HEATING_PCT *
-              enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
+              .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
           ) * .enviro_factors$THERM_TO_MWH +
             (
               reduced_therms.scen.2040 *
@@ -86,7 +84,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
           ),
       commercial_electricity_emissions_kg_co.scen.2040 =
         commercial_mwh.scen.2040 *
-          enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct)
+          .enviro_factors$KG_CO2E_PER_MHW_FORECAST * (1 - .grid_decarbonization_pct)
     ) %>%
     tidyr::pivot_longer(
       names_to = "var",

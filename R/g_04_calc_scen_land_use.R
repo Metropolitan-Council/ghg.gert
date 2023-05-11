@@ -25,10 +25,11 @@ calc_scen_land_use <- function(tb,
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
-  calc_land_by_development_type <-
+  d_calc_land_by_development_type <-
     calc_land_by_development_type(
       tb = tb,
-      .selected_ctu = .selected_ctu
+      .selected_ctu = .selected_ctu,
+      .enviro_factors = .enviro_factors
     )
 
   # -------------------------------------------------------------------------
@@ -74,7 +75,7 @@ calc_scen_land_use <- function(tb,
   # -------------------------------------------------------------------------
   scen_land_use <-
     # calculate scaling factor
-    calc_land_by_development_type %>%
+    d_calc_land_by_development_type %>%
     tidyr::pivot_wider(
       data = .,
       id_cols = c(ctu_name, development_type),

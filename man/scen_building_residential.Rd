@@ -17,8 +17,6 @@ scen_building_residential(
   .home_behavior_change_pct,
   .grid_decarbonization_pct,
   .additional_electrified_residential_buildings_pct,
-  .res_natural_gas_for_space_heating_pct,
-  .res_natural_gas_for_water_heating_pct,
   .renewable_ng_res,
   .enviro_factors = enviro_factors
 )
@@ -37,7 +35,7 @@ scenario, in contrast \code{res_tb} is used as the input for the decarbonization
 
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.50}.}
+Default is \code{0.0}.}
 
 \item{.single_family_floor_area_growth_pct}{numeric,
 a value between \code{0} and \code{1}.
@@ -49,34 +47,31 @@ a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
-Default is \code{0.30}.}
+Default is \code{0.0}.}
 
 \item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
-Default is \code{0.5}}
+Default is \code{0.0}}
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.80}.}
+Default is \code{0.0}.}
 
 \item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.20}.}
+Default is \code{0.00}.}
 
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}.}
+Default is \code{0.0}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{1}.}
 
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
+Default is \code{0}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
-
-\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percentage of natural gas that is commonly used for water heating in residential
-buildings.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -119,8 +114,6 @@ scen_building_residential(
   .home_behavior_change_pct = 1.00,
   .grid_decarbonization_pct = 1,
   .additional_electrified_residential_buildings_pct = 0.45,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
   .enviro_factors = enviro_factors
 )
 }

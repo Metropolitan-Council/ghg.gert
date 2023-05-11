@@ -11,26 +11,22 @@ run_scenario_building(
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
-  .enviro_factors = enviro_factors,
+  .enviro_factors = ghg.sp::enviro_factors,
   .selected_ctu = "all",
-  .electrified_buildings_pct = 0.4,
-  .commercial_smart_grid_pct = 1,
-  .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 0.11,
+  .electrified_buildings_pct = 0,
+  .smart_grid_energy_reduction_pct = 0,
   .renewable_ng_res = FALSE,
   .renewable_ng_nonres = FALSE,
-  .new_homes_to_multifamily_pct = 0.5,
-  .existing_high_efficiency_buildings_pct = 0.8,
-  .home_behavior_change_pct = 1,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
   .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0.3,
-  .new_homes_leed_gold_pct = 0.5,
-  .existing_home_retrofit_pct = 0.8,
-  .existing_home_ultra_retrofit_pct = 0.2,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .grid_decarbonization_pct = 1
+  .new_homes_affected_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0.5,
+  .grid_decarbonization_pct = 0.6
 )
 }
 \arguments{
@@ -61,31 +57,22 @@ is suitable and the default value.
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}.}
+Default is \code{0.0}.}
 
-\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of commercial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of industrial buildings that would be on the smart grid for the
-pecified scenario. Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.50}.}
+Default is \code{0.0}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
-Default is \code{0.8}.}
+Default is \code{0}.}
 
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}.}
+Default is \code{0.0}.}
 
 \item{.single_family_floor_area_growth_pct}{numeric,
 a value between \code{0} and \code{1}.
@@ -97,25 +84,22 @@ a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
-Default is \code{0.30}.}
+Default is \code{0.0}.}
 
 \item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
-Default is \code{0.5}}
+Default is \code{0.0}}
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.80}.}
+Default is \code{0.0}.}
 
 \item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.20}.}
-
-\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percentage of natural gas that is commonly used for water heating in residential
-buildings.}
+Default is \code{0.00}.}
 
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
+Default is \code{0}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
@@ -150,8 +134,6 @@ run_scenario_building(
   .selected_ctu = "all",
   .enviro_factors = enviro_factors,
   .electrified_buildings_pct = 0.40,
-  .commercial_smart_grid_pct = 1.00,
-  .industrial_smart_grid_pct = 1.00,
   .smart_grid_energy_reduction_pct = 1.00,
   .new_homes_to_multifamily_pct = 0.50,
   .existing_high_efficiency_buildings_pct = 0.80,
@@ -161,8 +143,6 @@ run_scenario_building(
   .new_homes_leed_gold_pct = 0.50,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
   .additional_electrified_residential_buildings_pct = 0.45,
   .grid_decarbonization_pct = 1
 )

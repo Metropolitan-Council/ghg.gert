@@ -37,6 +37,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
                              .elast_5d = elast_5d,
+                             .factor_values = factor_values,
                              .calc_transp_cost = FALSE,
                              .calc_transp_fuel_use = FALSE,
                              .calc_transp_ghg_embodied = FALSE) {
@@ -66,7 +67,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "SIMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   ci_vmt <-
@@ -99,7 +101,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values,
     ) %>%
     mutate(class = class)
 
@@ -111,7 +114,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   bus_scenario <- list("vmt" = ci_vmt, "dir_ghg" = ci_dir_ghg)

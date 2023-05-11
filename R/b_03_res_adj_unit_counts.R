@@ -10,7 +10,7 @@
 #'
 #' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
-#'      Default is `0.50`.
+#'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.

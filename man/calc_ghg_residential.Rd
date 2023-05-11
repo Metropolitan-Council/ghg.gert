@@ -9,7 +9,7 @@ calc_ghg_residential(
   res_tb_bau,
   .selected_ctu,
   .grid_decarbonization_pct,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{

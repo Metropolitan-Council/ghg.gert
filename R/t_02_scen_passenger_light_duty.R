@@ -33,10 +33,11 @@ scen_passenger_light_duty <- function(.pass_tb,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
                                       .mit_bau_summary = 0,
-                                      .grid_decarbonization_pct = 1,
+                                      .grid_decarbonization_pct = 0.6,
                                       .enviro_factors = enviro_factors,
                                       .elast = elast,
                                       .elast_5d = elast_5d,
+                                      .factor_values = ghg.sp::factor_values,
                                       .calc_transp_cost = FALSE,
                                       .calc_transp_fuel_use = FALSE,
                                       .calc_transp_ghg_embodied = FALSE) {
@@ -82,7 +83,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "SIMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   si_vmt <- calc_vmt_forecast(
@@ -115,7 +117,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .phev_electric = NA,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   ) %>%
     dplyr::mutate(class = class)
 
@@ -125,7 +128,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg
+    .miles_per_gallon = mpg,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   # complete gasoline table
@@ -142,7 +147,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "CIMPG",
-    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   ci_vmt <- calc_vmt_forecast(
@@ -174,7 +181,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .telework_pct = .telework_pct,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   ) %>%
     dplyr::mutate(class = class)
 
@@ -187,7 +195,9 @@ scen_passenger_light_duty <- function(.pass_tb,
       .mode = mode,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = "CIMPG"
+      .miles_per_gallon = "CIMPG",
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -205,7 +215,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     mode,
     .aeo_scenario,
     mpg,
-    .enviro_factors$SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   hev_vmt <-
@@ -238,14 +250,17 @@ scen_passenger_light_duty <- function(.pass_tb,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     dplyr::mutate(class = class)
 
   hev_dir_ghg <-
     calc_ghg_direct(
       hev_vmt, .pass_tb,
-      mode, "SI", .aeo_scenario, mpg
+      mode, "SI", .aeo_scenario, mpg,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -267,7 +282,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     mode,
     .aeo_scenario,
     mpg,
-    .enviro_factors$SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   ### VMT gas ----
@@ -301,7 +318,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .telework_pct = .telework_pct,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   ) %>%
     dplyr::mutate(class = class)
 
@@ -312,7 +330,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     mode,
     .aeo_scenario,
     mpe,
-    .enviro_factors$ELEC_FUEL_COST_KWH
+    .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   phev_vmt_electric <- calc_vmt_forecast(
@@ -345,7 +365,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .telework_pct = .telework_pct,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   ) %>%
     dplyr::mutate(class = class)
 
@@ -385,7 +406,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   ) %>%
     dplyr::select(everything(),
       dir_ghg_gas = dir_ghg
@@ -398,7 +420,9 @@ scen_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .fuel_type = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe
+    .miles_per_gallon = mpe,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   ) %>%
     dplyr::select(everything(),
       dir_ghg_electric = dir_ghg
@@ -429,7 +453,8 @@ scen_passenger_light_duty <- function(.pass_tb,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   bev_vmt <-
@@ -462,6 +487,7 @@ scen_passenger_light_duty <- function(.pass_tb,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
     dplyr::mutate(class = class)
@@ -474,7 +500,9 @@ scen_passenger_light_duty <- function(.pass_tb,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .grid_decarbonization_pct = .grid_decarbonization_pct
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 

@@ -50,7 +50,16 @@ enviro_factors <- list(
   AVOIDED_EMISSIONS_TRACTOR_USE = 0.1016, # in Mega grams CO2e per hectare https://www.usda.gov/media/blog/2017/11/30/saving-money-time-and-soil-economics-no-till-farming
   URBAN_FORM_SCENARIO = "bau",
   NON_RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.2,
-  NON_RES_NATURAL_GAS_FOR_SPACE_HEATING_PCT = 0.69
+  NON_RES_NATURAL_GAS_FOR_SPACE_HEATING_PCT = 0.69,
+  # The percentage of commercial buildings that would be on the smart grid
+  COMMERCIAL_SMART_GRID_PCT = 1,
+  # The percentage of industrial buildings that would be on the smart grid
+  INDUSTRIAL_SMART_GRID_PCT = 1,
+  # The percentage of natural gas that is commonly used for space heating in residential buildings.
+  RES_NATUAL_GAS_FOR_SPACE_HEATING_PCT = 0.71,
+  # The percentage of natural gas that is commonly used for water heating in residential buildings.
+
+  RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.24
 )
 
 

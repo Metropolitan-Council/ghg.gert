@@ -28,7 +28,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .calc_transp_fuel_cost_mile = FALSE,
                                         .calc_transp_fuel_use = FALSE,
                                         .calc_transp_ghg_embodied = FALSE,
-                                        .grid_decarbonization_pct = 1,
+                                        .grid_decarbonization_pct = 0.6,
                                         .scenario = "BAU",
                                         .electric_scenario = "ER",
                                         .aeo_scenario = "REF",
@@ -54,9 +54,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .phev_pct_sales = 0,
                                         .hev_pct_sales = 0,
                                         .mit_bau_summary = 0,
-                                        .enviro_factors = enviro_factors,
+                                        .enviro_factors = ghg.sp::enviro_factors,
                                         .elast = elast,
-                                        .elast_5d = elast_5d) {
+                                        .elast_5d = elast_5d,
+                                        .factor_values = ghg.sp::factor_values) {
   # browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
@@ -82,7 +83,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     "calc_transp_cost",
     "calc_transp_fuel_use",
     "calc_transp_ghg_embodied",
-    "grid_decarbonization_pct"
+    "grid_decarbonization_pct",
+    "freight_vmt_fee"
   )
 
   l_vals <- list(
@@ -106,7 +108,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost,
     .calc_transp_fuel_use,
     .calc_transp_ghg_embodied,
-    .grid_decarbonization_pct
+    .grid_decarbonization_pct,
+    .freight_vmt_fee
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -186,6 +189,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
+    .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
@@ -222,6 +226,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
+    .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
@@ -257,6 +262,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
+    .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
@@ -291,6 +297,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
+    .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
@@ -325,7 +332,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   )
 
   # Freight -------------------------------
@@ -359,7 +367,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .factor_values = .factor_values
   )
 
   # freight rail -----
@@ -391,6 +400,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
+    .factor_values = .factor_values,
     .elast_5d = .elast_5d
   )
 
@@ -423,6 +433,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .mit_bau_summary = .mit_bau_summary,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
+    .factor_values = .factor_values,
     .elast_5d = .elast_5d
   )
 
@@ -478,7 +489,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
       mutate(scenario = .scenario)
 
     pass_all <- pass_all %>%
-     dplyr::left_join(pass_emb_ghg, c(
+      dplyr::left_join(pass_emb_ghg, c(
         "type", "scenario", "ctu",
         "year", "mode", "aeo_mode", "class"
       ))

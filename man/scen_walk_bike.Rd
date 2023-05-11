@@ -31,6 +31,7 @@ scen_walk_bike(
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
+  .factor_values = factor_values,
   .elast_5d = elast_5d
 )
 }
@@ -96,6 +97,8 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }

@@ -30,6 +30,7 @@ scen_freight_truck(
   .telework_pct = 0,
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
+  .factor_values = factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
@@ -94,6 +95,8 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 

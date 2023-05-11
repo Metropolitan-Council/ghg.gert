@@ -8,8 +8,6 @@ calc_ghg_non_residential(
   non_res_tb,
   non_res_tb_bau,
   .selected_ctu,
-  .commercial_smart_grid_pct,
-  .industrial_smart_grid_pct,
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
@@ -20,18 +18,9 @@ calc_ghg_non_residential(
 \item{non_res_tb}{table with non-residential data.
 Default is \code{building_data$non_residential}}
 
-\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of commercial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
-\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of industrial buildings that would be on the smart grid for the
-pecified scenario. Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0.6}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -50,8 +39,6 @@ calc_ghg_non_residential(
   non_res_tb = building_data$non_residential,
   non_res_tb_bau = building_data$non_residential,
   .selected_ctu = "all",
-  .industrial_smart_grid_pct = 1,
-  .commercial_smart_grid_pct = 1,
   .grid_decarbonization_pct = 1,
   .smart_grid_energy_reduction_pct = 1,
   .enviro_factors = enviro_factors,

@@ -9,10 +9,10 @@ run_scenario_land_use(
   .selected_ctu = "all",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "match_la_million_trees_goal",
-  .tree_planting_per_capita = 0.26,
-  .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0.8,
-  .enviro_factors = enviro_factors,
+  .tree_planting_per_capita = 0,
+  .tree_planting_per_hectare = 0,
+  .parking_lot_reduction_percentage = 0,
+  .enviro_factors = ghg.sp::enviro_factors,
   detail = FALSE
 )
 }
@@ -49,7 +49,7 @@ Default is \code{247}.}
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
-Default is \code{0.8}.}
+Default is \code{0.0}.}
 
 \item{detail}{logical,
 If \code{detail == TRUE} the function

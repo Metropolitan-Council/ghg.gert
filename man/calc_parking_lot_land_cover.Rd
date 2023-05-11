@@ -19,7 +19,7 @@ calc_parking_lot_land_cover(
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
-Default is \code{0.8}.}
+Default is \code{0.0}.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. options are:

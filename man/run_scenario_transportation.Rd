@@ -13,7 +13,7 @@ run_scenario_transportation(
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 1,
+  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -39,9 +39,10 @@ run_scenario_transportation(
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .mit_bau_summary = 0,
-  .enviro_factors = enviro_factors,
+  .enviro_factors = ghg.sp::enviro_factors,
   .elast = elast,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .factor_values = ghg.sp::factor_values
 )
 }
 \arguments{
@@ -129,6 +130,8 @@ Default is \code{0}.}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.

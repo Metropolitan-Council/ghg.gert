@@ -29,10 +29,11 @@ scen_passenger_light_duty(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .mit_bau_summary = 0,
-  .grid_decarbonization_pct = 1,
+  .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
+  .factor_values = ghg.sp::factor_values,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -105,6 +106,8 @@ Default value is \code{1}.}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
 Calculate scenario for passenger light-duty vehicles

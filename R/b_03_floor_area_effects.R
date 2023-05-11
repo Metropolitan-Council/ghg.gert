@@ -16,7 +16,7 @@
 #'      Percentage of all new single-family
 #'      households that will respond to increased energy costs by decreasing
 #'      home size.
-#'      Default is `0.30`.
+#'      Default is `0.0`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario_building
@@ -139,7 +139,7 @@ calc_floor_area_growth <- function(res_tb,
 #'
 #' @param .new_homes_leed_gold_pct numeric,  a value between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
-#'      Default is `0.5`
+#'      Default is `0.0`
 #'
 #' @inheritParams run_scenario_building
 #'
@@ -253,10 +253,10 @@ calc_floor_area_leed <- function(res_tb,
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
-#'      Default is `0.80`.
+#'      Default is `0.0`.
 #' @param .existing_home_ultra_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *66%*.
-#'      Default is `0.20`.
+#'      Default is `0.00`.
 #'
 #' @inheritParams run_scenario_building
 #'
@@ -411,7 +411,7 @@ calc_floor_area_retrofit <- function(res_tb,
 #'
 #' @param .home_behavior_change_pct numeric,  a value between `0` and `1`.
 #'      Percentage of households that change behavior to reduce household emissions.
-#'      Default is `1.00`.
+#'      Default is `0.0`.
 #'
 #' @inheritParams run_scenario_building
 #'

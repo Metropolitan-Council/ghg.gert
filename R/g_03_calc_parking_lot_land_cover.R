@@ -6,16 +6,16 @@
 #'      parking lot reduction intervention, the percent reduction of parking lot area is
 #'      defined in the argument `.parking_lot_reduction_percentage`
 #'
-#' @inheritParams calc_tree_planting_land_cover
 #' @param .parking_lot_reduction_percentage numeric, value between `0` and `1`.
 #'      The percentage reduction of parking lot
 #'      area to be explored under the current scenario.
-#'      Default is `0.8`.
+#'      Default is `0.0`.
 #' @param detail logical,
 #'      If `detail == TRUE` the function
 #'      returns a tibble with more detailed fields. Recommended
 #'      for debugging.
 #'      Default is `FALSE`.
+#' @inheritParams calc_tree_planting_land_cover
 #'
 #' @return [tibble::tibble()].
 #'
@@ -50,7 +50,8 @@ calc_parking_lot_land_cover <- function(tb,
     .tree_planting_intervention = .tree_planting_intervention,
     .tree_planting_per_capita = .tree_planting_per_capita,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
-    detail = FALSE
+    detail = FALSE,
+    .enviro_factors = .enviro_factors
   )
   # -------------------------------------------------------------------------
 

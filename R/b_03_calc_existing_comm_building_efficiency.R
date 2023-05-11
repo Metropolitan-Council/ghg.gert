@@ -11,7 +11,7 @@
 #' @param .existing_high_efficiency_buildings_pct numeric,
 #'      a value between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
-#'      Default is `0.8`.
+#'      Default is `0`.
 #'
 #' @return [tibble::tibble()].
 #'      The adjusted values for the non residential
@@ -31,7 +31,8 @@
 #' }
 calc_existing_comm_building_efficiency <- function(non_res_tb,
                                                    .selected_ctu,
-                                                   .existing_high_efficiency_buildings_pct) {
+                                                   .existing_high_efficiency_buildings_pct,
+                                                   .enviro_factors = ghg.sp::enviro_factors) {
   # cli::cli_progress_message("*** calculating existing commercial building energy efficiency \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
