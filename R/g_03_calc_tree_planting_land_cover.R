@@ -11,7 +11,8 @@
 #'         to the baseline year.
 #'     * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to
 #'         Los Angeles Million Tree Goal.
-#'     Default is `tree_planting_on_all_pervious`.
+#'     * `"none"`: No intervention
+#'     Default is `none`.
 #' @param .tree_planting_per_capita numeric,
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
@@ -44,11 +45,11 @@
 #' }
 #'
 calc_tree_planting_land_cover <- function(tb,
-                                          detail,
+                                          detail = FALSE,
                                           .selected_ctu = .selected_ctu,
-                                          .tree_planting_intervention,
-                                          .tree_planting_per_capita,
-                                          .tree_planting_per_hectare,
+                                          .tree_planting_intervention = 'none',
+                                          .tree_planting_per_capita = 0.26,
+                                          .tree_planting_per_hectare = 247,
                                           .enviro_factors = ghg.sp::enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
@@ -65,7 +66,8 @@ calc_tree_planting_land_cover <- function(tb,
     choices = c(
       "tree_planting_on_all_pervious",
       "double",
-      "match_la_million_trees_goal"
+      "match_la_million_trees_goal",
+      "none"
     )
   )
 
@@ -203,6 +205,12 @@ calc_tree_planting_land_cover <- function(tb,
             dplyr::if_else(
               (trees * 2) < max_trees,
               (trees * 2),
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "none") {
+            dplyr::if_else(
+              (trees) < max_trees,
+              (trees),
               max_trees
             )
           })

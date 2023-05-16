@@ -24,7 +24,8 @@ intervention to be explored under the current scenario. options are:
 to the baseline year.
 * \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
 Los Angeles Million Tree Goal.
-Default is \code{tree_planting_on_all_pervious}.}
+* \code{"none"}: No intervention
+Default is \code{none}.}
 
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.

@@ -29,7 +29,7 @@
 run_scenario_land_use <- function(tb = land_use_data,
                                   .selected_ctu = "all",
                                   .conservation_tillage_intervention = "current_conservation_tillage",
-                                  .tree_planting_intervention = "match_la_million_trees_goal",
+                                  .tree_planting_intervention = "none",
                                   .tree_planting_per_capita = 0.0,
                                   .tree_planting_per_hectare = 0,
                                   .parking_lot_reduction_percentage = 0,
