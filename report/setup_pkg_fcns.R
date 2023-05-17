@@ -12,7 +12,7 @@ library(ghg.sp)
 library(rsvg)
 library(scales)
 
-devtools::load_all("..") # remove once ghg.sp package is up to date with changes
+devtools::load_all(".") # remove once ghg.sp package is up to date with changes
 
 options(scipen = 999, digits = 2)
 load(file = file.path(here::here(), "../data-raw/transportation_report_data.rda"))
@@ -34,7 +34,7 @@ if (params$desired_format == "html") {
   }
 } else {
   tableformat <- function(data, .caption) {
-    data %>%  
+    data %>%
       mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
       Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2")) %>%
       flextable::flextable() %>%
