@@ -89,7 +89,7 @@ calc_ghg_residential <- function(res_tb,
       dplyr::mutate(
         residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area / 1000),
         residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 -
-                                                                                   dplyr::if_else(year < 2040, 0.6,
+                                                                                   dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_DEFAULT,
                                                                                                       grid_decarb)
                                                                                    )
                                                                      )
@@ -122,7 +122,7 @@ calc_ghg_residential <- function(res_tb,
   emis_bau <-
     emis(
       tb = res_tb_bau,
-      grid_decarb = 0.6,
+      grid_decarb = .enviro_factors$GRID_DECARBONIZATION_DEFAULT,
       .enviro_factors = .enviro_factors
     )
 
