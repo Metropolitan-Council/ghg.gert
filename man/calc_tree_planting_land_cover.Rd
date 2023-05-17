@@ -6,11 +6,11 @@
 \usage{
 calc_tree_planting_land_cover(
   tb,
-  detail,
+  detail = FALSE,
   .selected_ctu = .selected_ctu,
-  .tree_planting_intervention,
-  .tree_planting_per_capita,
-  .tree_planting_per_hectare,
+  .tree_planting_intervention = "none",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
   .enviro_factors = ghg.sp::enviro_factors
 )
 }

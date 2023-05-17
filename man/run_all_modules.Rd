@@ -41,7 +41,7 @@ run_all_modules(
   .existing_home_retrofit_pct = 0,
   .existing_home_ultra_retrofit_pct = 0,
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.6,
+  .grid_decarbonization_pct = enviro_factors$GRID_DECARBONIZATION_DEFAULT,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
