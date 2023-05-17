@@ -85,15 +85,19 @@ calc_ghg_non_residential <- function(non_res_tb,
         # electric emissions
         commercial_electricity_emissions_kg_co =
           commercial_mwh * (kg_per_mwh * (1 -
-            dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
-              grid_decarb + smart_grid_decarb
-            )
+           dplyr::if_else(year < 2040, 0.6, # DEFAULTS FOR GRID DECARB AND SMART GRID
+                             dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
+                                                   grid_decarb + smart_grid_decarb
+                                                   )
+           )
           )),
         industrial_electricity_emissions_kg_co =
           industrial_mwh * (kg_per_mwh * (1 -
-            dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
-              grid_decarb + smart_grid_decarb
-            )
+             dplyr::if_else(year < 2040, 0.6,
+                             dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
+                                                   grid_decarb + smart_grid_decarb
+                                                   )
+             )
           )),
         # therm emissions
 
@@ -136,7 +140,7 @@ calc_ghg_non_residential <- function(non_res_tb,
   emis_bau <-
     emis(
       tb = non_res_tb_bau,
-      grid_decarb = 0,
+      grid_decarb = 0.6,
       smart_grid_decarb = 0,
       .enviro_factors = .enviro_factors
     )
