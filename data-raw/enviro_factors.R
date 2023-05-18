@@ -60,7 +60,7 @@ enviro_factors <- list(
   # The percentage of natural gas that is commonly used for water heating in residential buildings.
 
   RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.24,
-  GRID_DECARBONIZATION_DEFAULT = 0.6 # adding this default value here to use across the package for BAU
+  GRID_DECARBONIZATION_BASELINE = 0 # 2018 baseline decarbonization percent should be taken as 0 for proper calculation of reduction in emissions
 )
 
 
