@@ -59,7 +59,8 @@ enviro_factors <- list(
   RES_NATUAL_GAS_FOR_SPACE_HEATING_PCT = 0.71,
   # The percentage of natural gas that is commonly used for water heating in residential buildings.
 
-  RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.24
+  RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.24,
+  GRID_DECARBONIZATION_BASELINE = 0 # 2018 baseline decarbonization percent should be taken as 0 for proper calculation of reduction in emissions
 )
 
 
