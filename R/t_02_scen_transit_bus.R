@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .selected_ctu = "all",
                              .scenario = "BAU",
@@ -573,7 +573,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Finish up -----
 
-  usethis::ui_done(paste("Transit buses and bus rapid transit", emo::ji("bus")))
+  cli::cli_alert_success(paste("Transit buses and bus rapid transit", emo::ji("bus")))
 
   return(bus_scenario)
 }

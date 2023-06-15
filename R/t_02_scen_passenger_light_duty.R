@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu = "all",
                                       .scenario = "BAU",
@@ -725,7 +725,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     )
   }
 
-  usethis::ui_done(paste(
+  cli::cli_alert_success(paste(
     "Passenger light-duty vehicles",
     emo::ji("automobile")
   ))

@@ -7,7 +7,7 @@
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 #' @importFrom emo ji
 scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .selected_ctu = "all",
@@ -198,7 +198,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     school_bus$emb_ghg <- emb_ghg_all
   }
 
-  usethis::ui_done(paste("School bus", emo::ji("school")))
+  cli::cli_alert_success(paste("School bus", emo::ji("school")))
 
   return(school_bus)
 }

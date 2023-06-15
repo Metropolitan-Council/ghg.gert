@@ -7,7 +7,7 @@
 #' @inheritParams calc_vmt_forecast
 #'
 #' @export
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 #' @importFrom emo ji
 scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .selected_ctu = "all",
@@ -339,7 +339,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
     passenger_rail$emb_ghg <- emb_ghg_all
   }
 
-  usethis::ui_done(paste("Urban and interurban rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Urban and interurban rail", emo::ji("train")))
 
   return(passenger_rail)
 }

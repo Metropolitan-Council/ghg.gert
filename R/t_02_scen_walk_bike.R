@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 
 scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .selected_ctu = "all",
@@ -130,7 +130,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     "dir_ghg" = dir_ghg_all
   )
 
-  usethis::ui_done(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
+  cli::cli_alert_success(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
 
   return(wb_fin)
 }

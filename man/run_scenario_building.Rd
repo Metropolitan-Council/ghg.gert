@@ -25,8 +25,8 @@ run_scenario_building(
   .new_homes_leed_gold_pct = 0,
   .existing_home_retrofit_pct = 0,
   .existing_home_ultra_retrofit_pct = 0,
-  .additional_electrified_residential_buildings_pct = 0.5,
-  .grid_decarbonization_pct = 0.6
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0.4
 )
 }
 \arguments{
