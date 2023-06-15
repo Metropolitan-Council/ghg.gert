@@ -75,9 +75,9 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .existing_home_retrofit_pct = 0.0,
                                   .existing_home_ultra_retrofit_pct = 0.0,
                                   # electrification
-                                  .additional_electrified_residential_buildings_pct = 0.5,
+                                  .additional_electrified_residential_buildings_pct = 0.0,
                                   # grid
-                                  .grid_decarbonization_pct = 0.6) {
+                                  .grid_decarbonization_pct = 0.4) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
