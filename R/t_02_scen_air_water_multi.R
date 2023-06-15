@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .selected_ctu = "all",
                                  .scenario = "BAU",
@@ -204,7 +204,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
     "ghg" = ghg_all
   )
 
-  usethis::ui_done(paste(
+  cli::cli_alert_success(paste(
     "Freight air, water, multimodal",
     emo::ji("airplane"),
     emo::ji("ship"),

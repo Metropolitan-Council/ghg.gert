@@ -9,8 +9,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
-
+#' @importFrom cli cli_alert_success
 scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .selected_ctu = "all",
                               .scenario = "BAU",
@@ -137,7 +136,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  usethis::ui_done(paste("Freight rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Freight rail", emo::ji("train")))
 
   return(freight_rail)
 }

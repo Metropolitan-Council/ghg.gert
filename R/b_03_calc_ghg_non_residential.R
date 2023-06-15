@@ -11,7 +11,7 @@
 #'
 #' @param non_res_tb table with non-residential data.
 #'      Default is `building_data$non_residential`
-#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`. Default is `0.6`.
+#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`. Default is `0.4`.
 #' @param .smart_grid_energy_reduction_pct numeric, a value between `0` and `1`. Default is `0`.
 #' @inheritParams run_scenario_transportation
 #'
