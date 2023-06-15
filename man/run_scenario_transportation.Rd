@@ -13,7 +13,7 @@ run_scenario_transportation(
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 0.4,
+  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -53,7 +53,7 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

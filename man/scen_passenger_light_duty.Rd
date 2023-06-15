@@ -29,7 +29,7 @@ scen_passenger_light_duty(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .mit_bau_summary = 0,
-  .grid_decarbonization_pct = 0.4,
+  .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
@@ -99,7 +99,7 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 

@@ -41,7 +41,7 @@ run_all_modules(
   .existing_home_retrofit_pct = 0,
   .existing_home_ultra_retrofit_pct = 0,
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.4,
+  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -201,7 +201,7 @@ The percentage of buildings that would
 be electrified under the specified scenario.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

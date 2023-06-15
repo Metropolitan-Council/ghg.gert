@@ -19,7 +19,7 @@ The percentage of buildings that would
 be electrified under the specified scenario.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

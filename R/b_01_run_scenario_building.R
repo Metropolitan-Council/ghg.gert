@@ -10,7 +10,7 @@
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
 #' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
-#'   Default value is `1`.
+#'   Default value is `0.6`.
 #'
 #' @return [tibble::tibble()].
 #'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
@@ -77,7 +77,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # electrification
                                   .additional_electrified_residential_buildings_pct = 0.0,
                                   # grid
-                                  .grid_decarbonization_pct = 0.4) {
+                                  .grid_decarbonization_pct = 0.6) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)

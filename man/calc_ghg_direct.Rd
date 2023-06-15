@@ -11,7 +11,7 @@ calc_ghg_direct(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .grid_decarbonization_pct = 0.4,
+  .grid_decarbonization_pct = 0.6,
   .enviro_factors = ghg.sp::enviro_factors,
   .factor_values = ghg.sp::factor_values
 )
@@ -33,7 +33,7 @@ Default is \code{"REF"}}
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 

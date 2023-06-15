@@ -26,7 +26,7 @@ run_scenario_building(
   .existing_home_retrofit_pct = 0,
   .existing_home_ultra_retrofit_pct = 0,
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.4
+  .grid_decarbonization_pct = 0.6
 )
 }
 \arguments{
@@ -104,7 +104,7 @@ The percentage of buildings that would
 be electrified under the specified scenario.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

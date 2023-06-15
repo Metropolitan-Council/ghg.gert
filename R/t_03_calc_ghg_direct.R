@@ -37,7 +37,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
-                            .grid_decarbonization_pct = 0.4,
+                            .grid_decarbonization_pct = 0.6,
                             .enviro_factors = ghg.sp::enviro_factors,
                             .factor_values = ghg.sp::factor_values) {
   # for given fuel type,
