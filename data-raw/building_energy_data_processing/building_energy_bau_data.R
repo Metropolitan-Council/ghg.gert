@@ -8,3 +8,7 @@ building_energy_bau_data <- compile_bau_building_energy(tb = building_energy_dat
 # strategies
 
 usethis::use_data(building_energy_bau_data, overwrite = TRUE)
+
+
+building_data <- building_energy_bau_data
+usethis::use_data(building_data, overwrite = TRUE)
