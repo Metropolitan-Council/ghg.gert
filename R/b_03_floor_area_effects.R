@@ -256,7 +256,7 @@ calc_floor_area_leed <- function(res_tb,
 #' @family buildings
 #'
 #' @description adjusts single and multifamily average
-#' floor area forecast under the assumptio of energy use reduction due to home
+#' floor area forecast under the assumption of energy use reduction due to home
 #' retrofits.
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
