@@ -61,7 +61,7 @@ adj_unit_counts <- function(res_tb,
   sf_now_mf <- n_new_homes %>%
     dplyr::mutate(
       new_homes = ifelse(new_sf_homes < 0, 0, new_sf_homes),
-      now_mf = new_sf_homes * .new_homes_to_multifamily_pct
+      now_mf = new_homes * .new_homes_to_multifamily_pct
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(ctu_name, now_mf) %>%
