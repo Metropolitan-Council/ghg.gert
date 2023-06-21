@@ -86,7 +86,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
         cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
         names_to = "var"
       ) %>%
-      dplyr::filter(is.na(value) == FALSE)
+      dplyr::filter(!is.na(value))
 
     return(xcel_energy_electricity)
   }

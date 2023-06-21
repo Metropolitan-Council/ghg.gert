@@ -161,7 +161,7 @@ get_non_residential_energy_baseline <-
         cols = c(commercial_therms, industrial_therms),
         names_to = "var"
       ) %>%
-      dplyr::filter(is.na(value) == FALSE)
+      dplyr::filter(!is.na(value))
 
 
     ## ---- get NREL natural gas consumption data ----
@@ -195,22 +195,22 @@ get_non_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::transmute(
         commercial_mwh = ifelse(
-          is.na(commercial_mwh_xcel) == FALSE,
+          !is.na(commercial_mwh_xcel),
           commercial_mwh_xcel,
           commercial_mwh_nrel
         ),
         industrial_mwh = ifelse(
-          is.na(industrial_mwh_xcel) == FALSE,
+          !is.na(industrial_mwh_xcel),
           industrial_mwh_xcel,
           industrial_mwh_nrel
         ),
         commercial_therms = ifelse(
-          is.na(commercial_therms) == FALSE,
+          !is.na(commercial_therms),
           commercial_therms,
           commercial_therms_nrel
         ),
         industrial_therms = ifelse(
-          is.na(industrial_therms) == FALSE,
+          !is.na(industrial_therms),
           industrial_therms,
           industrial_therms_nrel
         )
