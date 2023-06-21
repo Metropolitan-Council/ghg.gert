@@ -199,6 +199,7 @@ get_non_residential_energy_baseline <-
         commercial_and_industrial_natural_gas_ctu,
         nrel_natural_gas_ctu
       ) %>%
+      group_by(ctu_name, year) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::transmute(
         commercial_mwh = ifelse(
