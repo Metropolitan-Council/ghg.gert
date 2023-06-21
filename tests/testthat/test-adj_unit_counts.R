@@ -54,11 +54,49 @@ test_that("Lake Elmo unit counts", {
 
 
 test_that("Minneapolis unit counts", {
+
   mpls_50 <- adj_unit_counts(
     res_tb = building_energy_bau_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_to_multifamily_pct = 0.50
   ) %>%
+    suppressWarnings() %>%
+    filter(
+      var %in% c(
+        "single_family_units",
+        "multifamily_units"
+      ),
+      year == 2040
+    ) %>%
+    ungroup()
+
+  expected_mpls_res_tb <- tibble::tribble(
+    ~ctu_name, ~year, ~var, ~value,
+    "Minneapolis", 2040, "multifamily_units", 145873.5,
+    "Minneapolis", 2040, "single_family_units", 76273.5
+  )
+
+  testthat::expect_warning(
+    adj_unit_counts(
+      res_tb = building_energy_bau_data$residential,
+      .selected_ctu = "Minneapolis",
+      .new_homes_to_multifamily_pct = 0.0
+    ) %>%
+      filter(
+        var %in% c(
+          "single_family_units",
+          "multifamily_units"
+        )
+      ) %>%
+      ungroup())
+
+
+  mpls_0 <- adj_unit_counts(
+    res_tb = building_energy_bau_data$residential,
+    .selected_ctu = "Minneapolis",
+    .new_homes_to_multifamily_pct = 0.0
+  ) %>%
+    suppressWarnings() %>%
     filter(
       var %in% c(
         "single_family_units",
@@ -78,11 +116,7 @@ test_that("Minneapolis unit counts", {
 
   # minneapolis has no effect, because they are already
   # projected to reduce the number of SF housing units
-  testthat::expect_equal(mpls_50, bau_forecast)
-})
+  testthat::expect_equal(mpls_0, bau_forecast)
 
-adj_unit_counts(
-  res_tb = building_energy_bau_data$residential,
-  .selected_ctu = "Minneapolis",
-  .new_homes_to_multifamily_pct = 0.50
-)
+  testthat::expect_equal(mpls_50, expected_mpls_res_tb)
+})
