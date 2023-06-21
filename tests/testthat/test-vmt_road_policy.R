@@ -42,7 +42,7 @@ si_road_policy <- vmt_road_policy(
   .stock = "SIStock",
   .enviro_factors = enviro_factors
 ) %>%
-  mutate(across(3:8, round, digits = 6))
+  mutate(across(3:8, function(x){round(x, digits = 6)}))
 
 
 test_si_road <- tibble::tribble(
