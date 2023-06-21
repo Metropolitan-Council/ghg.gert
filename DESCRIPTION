@@ -11,7 +11,8 @@ Authors@R: c(
     person("Mauricio", "León", , "mauricio.leon@metc.state.mn.us", role = "ctb"),
     person("Ellen", "Esch", , "ellen.esch@metc.state.mn.us", role = "ctb",
            comment = c(ORCID = "0000-0002-4253-0910")),
-    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb")
+    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb"),
+    person("Zoey", "Yandell", , "zoey.yandell@metc.state.mn.us", role = "ctb")
   )
 Description: Tools for the Metropolitan Council GHG scenario planning app.
 License: MIT + file LICENSE
@@ -19,19 +20,19 @@ BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    cli (>= 3.6.0),
-    dplyr (>= 1.0.7),
+    cli (>= 3.6.1),
+    dplyr (>= 1.1.2),
     emo (>= 0.0.0.9000),
-    magrittr (>= 2.0.1),
-    mathjaxr (>= 1.4.0),
-    purrr (>= 0.3.4),
-    rlang (>= 0.4.11),
-    stringr (>= 1.4.0),
-    tibble (>= 3.1.3),
-    tidyr (>= 1.1.3),
-    tidyselect (>= 1.1.1)
+    magrittr (>= 2.0.3),
+    mathjaxr (>= 1.6.0),
+    purrr (>= 1.0.1),
+    rlang (>= 1.1.1),
+    stringr (>= 1.5.0),
+    tibble (>= 3.2.1),
+    tidyr (>= 1.3.0),
+    tidyselect (>= 1.2.0)
 Suggests: 
-    councilR (>= 0.1.0.9001),
+    councilR (>= 0.2.0),
     curl (>= 4.3.2),
     fs (>= 1.5.2),
     ggplot2 (>= 3.3.5),
@@ -39,8 +40,8 @@ Suggests:
     knitr (>= 1.34),
     rmarkdown (>= 2.10),
     scales (>= 1.1.1),
-    sf (>= 1.0.7),
-    testthat (>= 3.0.0),
+    sf (>= 1.0-13),
+    testthat (>= 3.1.0),
     wesanderson (>= 0.3.6)
 VignetteBuilder: 
     knitr
