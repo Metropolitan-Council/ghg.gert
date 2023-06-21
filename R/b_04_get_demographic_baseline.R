@@ -185,7 +185,7 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   ## ---- get county multifamily floor area for when ctu equivalent is missing ----
   # should probably indicate is weighted
   ctu_county <- demographic_characteristics$county %>%
-    dplyr::left_join(tb$ctu_county, by = "co_name") %>%
+    dplyr::left_join(tb$ctu_county, by = "co_name", relationship = "many-to-many") %>%
     dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & is.na(ctu_name) == F) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::mutate(value = value * pct_population) %>%
