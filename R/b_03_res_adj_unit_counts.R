@@ -55,13 +55,20 @@ adj_unit_counts <- function(res_tb,
       new_sf_homes = single_family_units.2040 - single_family_units.2018,
       new_mf_homes = multifamily_units.2040 - multifamily_units.2018
     )
+
   # some CTUs are going to decrease the number of single family units
-  # over the next few decades. Remedy this by replacing all negative
-  # unit counts with 0.
+  # over the next few decades.
+  # We will consider the number of SF units reduced as if they were
+  # being constructed and add them onto the multifamily unit count
+
+  if(n_new_homes$new_sf_homes < 0){
+    cli::cli_warn(c("Baseline forecast assumes reducing single family units",
+                    "Now reducing single family units further"))
+  }
 
   sf_now_mf <- n_new_homes %>%
     dplyr::mutate(
-      new_homes = ifelse(new_sf_homes < 0, 0, new_sf_homes),
+      new_homes = ifelse(new_sf_homes < 0, abs(new_sf_homes), new_sf_homes),
       now_mf = new_homes * .new_homes_to_multifamily_pct
     ) %>%
     dplyr::ungroup() %>%
