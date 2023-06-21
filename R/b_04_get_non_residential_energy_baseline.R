@@ -231,7 +231,8 @@ get_non_residential_energy_baseline <-
           "industrial_mwh"
         ),
         names_to = "var"
-      )
+      ) %>%
+      dplyr::filter(!is.na(value))
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_per_worker <-
@@ -264,7 +265,9 @@ get_non_residential_energy_baseline <-
           "industrial_mwh_per_worker"
         ),
         names_to = "var"
-      )
+      ) %>%
+      dplyr::filter(!is.na(value))
+
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_baseline <-
