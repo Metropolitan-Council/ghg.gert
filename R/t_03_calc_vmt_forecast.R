@@ -206,11 +206,13 @@ calc_vmt_forecast <- function(.scenario,
       phev_proportion <- tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
         dplyr::select(mode, var, ctu, year,
-          phev_prop_electric = value, aeo_mode, type
+                      phev_prop_electric = value, aeo_mode, type
         )
 
       tb_vmt <- tb_vmt %>%
-        dplyr::left_join(phev_proportion) %>%
+        dplyr::left_join(phev_proportion,
+                         by = c("ctu", "mode", "year",
+                                "aeo_mode", "type")) %>%
         dplyr::mutate(miles_traveled = case_when(
           .phev_electric == TRUE ~
             miles_traveled * phev_prop_electric,
@@ -327,22 +329,22 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::left_join(telework_adjust, by = c("year")) %>%
       dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       dplyr::left_join(at_adjustment,
-        by = c("year", "ctu")
+                       by = c("year", "ctu")
       ) %>%
       unique() %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
         pass_ld_vmt =
           (miles_traveled - (transit_adj * mode_stock_adj)) *
-            aeo_adj *
-            vmt_fee_adj * cong_adjust * gas_adj *
-            telework_adj * land_use_adj *
-            park_price_adj / occupancy_adj * mode_stock_adj,
+          aeo_adj *
+          vmt_fee_adj * cong_adjust * gas_adj *
+          telework_adj * land_use_adj *
+          park_price_adj / occupancy_adj * mode_stock_adj,
         stock = .stock
       ) %>%
       dplyr::select(type, stock, scenario,
-        ctu, year, mode, aeo_mode,
-        vmt = pass_ld_vmt
+                    ctu, year, mode, aeo_mode,
+                    vmt = pass_ld_vmt
       ) %>%
       unique()
 
@@ -418,12 +420,12 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::mutate(
         stock = .stock,
         sut_vmt = (miles_traveled * aeo_adj *
-          vmt_fee_adj * park_price_adj / occupancy_adj) *
+                     vmt_fee_adj * park_price_adj / occupancy_adj) *
           mode_stock_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu,
-        year, mode, aeo_mode,
-        vmt = sut_vmt
+                    year, mode, aeo_mode,
+                    vmt = sut_vmt
       )
 
     # return(vmt)
@@ -550,8 +552,8 @@ calc_vmt_forecast <- function(.scenario,
         walk_vmt = miles_traveled * land_use_adj * park_price_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu,
-        year, mode, aeo_mode,
-        vmt = walk_vmt
+                    year, mode, aeo_mode,
+                    vmt = walk_vmt
       )
 
     # return(vmt)
@@ -583,8 +585,8 @@ calc_vmt_forecast <- function(.scenario,
         walk_vmt = miles_traveled * land_use_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu,
-        year, mode, aeo_mode,
-        vmt = walk_vmt
+                    year, mode, aeo_mode,
+                    vmt = walk_vmt
       )
   } else if (.mode == "BS") {
     # school bus-----
@@ -624,11 +626,11 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::mutate(
         stock = .stock,
         school_bus_vmt = (miles_traveled * aeo_adj
-          / occupancy_adj) * mode_stock_adj
+                          / occupancy_adj) * mode_stock_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu, year, mode,
-        aeo_mode,
-        vmt = school_bus_vmt
+                    aeo_mode,
+                    vmt = school_bus_vmt
       )
   } else if (.mode == "FR") {
     # freight rail ------
