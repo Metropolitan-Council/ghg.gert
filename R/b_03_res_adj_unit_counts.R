@@ -31,6 +31,7 @@
 #' }
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
+#' @importFrom cli cli_warn
 adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
@@ -38,7 +39,7 @@ adj_unit_counts <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_to_multifamily_pct <= 0) {
-    warning("No single family homes instead built as multifamily homes.")
+    cli::cli_warn("No single family homes instead built as multifamily homes.")
     return(res_tb)
   }
 
