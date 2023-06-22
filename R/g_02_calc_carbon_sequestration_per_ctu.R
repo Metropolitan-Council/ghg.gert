@@ -1,7 +1,8 @@
 #' @title Calculate carbon sequestration by city/township
 #' @family land use
 #' @family emissions
-#'
+#' @inheritParams filter_ctu
+#' @inheritParams calc_tree_planting_land_cover
 #' @description Calculates the total carbon sequestration
 #'      as megagrams of carbon
 #'      per hectare by land cover type by city/township.

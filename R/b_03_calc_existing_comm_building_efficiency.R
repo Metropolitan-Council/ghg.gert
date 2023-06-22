@@ -12,6 +12,10 @@
 #'      a value between `0` and 1.
 #'      Percent of existing commercial buildings are LEED Gold.
 #'      Default is `0`.
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'      The adjusted values for the non residential

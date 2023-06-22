@@ -20,6 +20,10 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
@@ -142,6 +146,10 @@ calc_floor_area_growth <- function(res_tb,
 #'      Default is `0.0`
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
@@ -259,6 +267,10 @@ calc_floor_area_leed <- function(res_tb,
 #'      Default is `0.00`.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details Uses the average single family floor area in 2018
 #'
@@ -414,6 +426,10 @@ calc_floor_area_retrofit <- function(res_tb,
 #'      Default is `0.0`.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
@@ -523,6 +539,10 @@ calc_floor_area_behavior_change <- function(res_tb,
 #'    model assumption, which cities can adjust.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @param .single_family_floor_area_growth_pct numeric, a value between `0` and `1`.
 #'       Percentage of single family floor area that gets reduced due to increase energy prices.

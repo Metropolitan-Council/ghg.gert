@@ -15,7 +15,12 @@
 #'      returns a tibble with more detailed fields. Recommended
 #'      for debugging.
 #'      Default is `FALSE`.
+#'
 #' @inheritParams calc_tree_planting_land_cover
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'

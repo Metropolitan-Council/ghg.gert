@@ -16,9 +16,12 @@ calc_tree_planting_land_cover(
 }
 \arguments{
 \item{detail}{logical,
-If \code{TRUE}, returns a table with more detailed fields. Recommended
+If \code{detail == TRUE} the function
+returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. options are:

@@ -17,6 +17,11 @@ run_scenario_land_use(
 )
 }
 \arguments{
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+The input dataset to be used.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
 Default is \code{current_conservation_tillage}. The options are:
@@ -51,6 +56,8 @@ Default is \code{247}.}
 The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.0}.}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{detail}{logical,
 If \code{detail == TRUE} the function

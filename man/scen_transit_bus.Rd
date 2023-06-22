@@ -107,6 +107,15 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 }
 \description{
 Calculate scenario for transit buses

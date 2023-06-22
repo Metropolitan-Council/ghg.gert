@@ -10,7 +10,11 @@
 #'    The output is a tibble containing the non-residential energy baseline for the selected county or counties.
 #'
 #' @export
-
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 get_by_county_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* obtaining non residential energy data by county \n")

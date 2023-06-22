@@ -15,6 +15,33 @@ calc_carbon_sequestration_per_ctu(
   .enviro_factors = enviro_factors
 )
 }
+\arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+* \code{"none"}: No intervention
+Default is \code{none}.}
+
+\item{.tree_planting_per_capita}{numeric,
+Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{0.26}.}
+
+\item{.tree_planting_per_hectare}{numeric,
+Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
+Default is \code{247}.}
+
+\item{detail}{logical,
+If \code{detail == TRUE} the function
+returns a tibble with more detailed fields. Recommended
+for debugging.
+Default is \code{FALSE}.}
+}
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
 }

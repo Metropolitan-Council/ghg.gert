@@ -7,6 +7,10 @@
 calc_demographic_forecast(tb = building_energy_data, .selected_ctu = "all")
 }
 \arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
 \item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 }
 \value{

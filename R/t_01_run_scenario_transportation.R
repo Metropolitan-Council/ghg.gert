@@ -9,6 +9,12 @@
 #' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
 #'      Default is `"REF"`
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
+#' @param .calc_transp_cost logical, whether to calculate transportation cost tables.
+#'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
+#' @param .calc_transp_fuel_use  logical, whether to calculate transportation fuel use tables.
+#'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
+#' @param .calc_transp_ghg_embodied logical, whether to calculate embodied emissions.
+#'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
 #'
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams run_scenario_land_use

@@ -17,6 +17,8 @@ calc_carbon_stock_per_ctu(
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. options are:
 * \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.

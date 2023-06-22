@@ -21,6 +21,7 @@
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams vmt_telework
+#' @inheritParams filter_ctu
 #'
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'

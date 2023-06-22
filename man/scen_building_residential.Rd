@@ -75,6 +75,8 @@ Default is \code{0}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
+\item{.renewable_ng_res}{logical, documentation needed}
+
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{

@@ -12,6 +12,20 @@ vmt_annual_energy_outlook(
   .factor_values = ghg.sp::factor_values
 )
 }
+\arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
+\item{.mode}{character, current mode}
+
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+}
 \value{
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.
 }

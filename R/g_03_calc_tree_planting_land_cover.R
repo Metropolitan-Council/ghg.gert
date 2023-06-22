@@ -19,10 +19,13 @@
 #' @param .tree_planting_per_hectare numeric,
 #'      Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `247`.
-#' @param detail logical,
-#'      If `TRUE`, returns a table with more detailed fields. Recommended
-#'      for debugging.
-#'      Default is `FALSE`.
+#'
+#' @inheritParams run_scenario_land_use
+#' @inheritParams run_all_modules
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'      `calc_tree_planting_land_cover()` returns table with hectares of land by land cover type after a tree planting scenario

@@ -9,6 +9,7 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
+#' @inheritParams calc_residential_renewable_ng
 #' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
 #'   Default value is `0.6`.
 #'

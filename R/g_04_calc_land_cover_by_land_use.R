@@ -5,6 +5,12 @@
 #'      using the bridge table "land_cover_percentages_filled" for the selected land use scenario.
 #'
 #' @inheritParams calc_scen_land_use
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#' @inheritParams calc_electrify_commercial_heating
+
 #'
 #' @return [tibble::tibble()].
 #'      A long table with the percent of land cover for each land use type for each city*/township

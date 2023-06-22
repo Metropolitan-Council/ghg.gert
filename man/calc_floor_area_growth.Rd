@@ -19,6 +19,8 @@ default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.single_family_floor_area_growth_pct}{numeric,
 a value between \code{0} and \code{1}.
 Percentage growth rate in single family home floor area.

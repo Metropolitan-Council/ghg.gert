@@ -10,7 +10,11 @@
 #'    number of employees by sector, and energy intensity per worker.
 #'
 #' @export
-
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 get_statewide_non_residential_energy <- function(tb = building_energy_data, .selected_ctu = "all") {
   # cli::cli_progress_message("* obtaining statewide non-residential energy \n")
   # tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)

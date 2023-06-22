@@ -11,8 +11,9 @@ calc_land_cover_by_land_use(
 )
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

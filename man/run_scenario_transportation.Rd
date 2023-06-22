@@ -54,6 +54,15 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 
 \item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 

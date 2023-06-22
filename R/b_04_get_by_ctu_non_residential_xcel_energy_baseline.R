@@ -1,5 +1,10 @@
 #' @title Get Non Residential Xcel Energy by City/Township
 #' @export
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* obtaining non residential xcelne energy data for the CTU \n")

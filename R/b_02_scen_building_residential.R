@@ -27,6 +27,10 @@
 #' @inheritParams calc_floor_area_behavior_change
 #' @inheritParams calc_ghg_residential
 #' @inheritParams calc_residential_renewable_ng
+#' @inheritParams scen_building_non_residential
+#' @inheritParams run_scenario_building
+#' @inheritParams calc_vmt_forecast
+#' @inheritParams run_all_modules
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns

@@ -12,6 +12,8 @@ calc_floor_area_behavior_change(
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{0.0}.}

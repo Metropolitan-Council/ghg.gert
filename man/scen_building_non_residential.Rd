@@ -44,6 +44,8 @@ a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
 
+\item{.renewable_ng_nonres}{logical, documentation needed}
+
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{

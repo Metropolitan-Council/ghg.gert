@@ -8,6 +8,12 @@
 #'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @return [tibble::tibble()]
+#' @param .renewable_ng_nonres logical, documentation needed
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 #' @export
 #'
 #' @note `calc_non_res_renewable_ng()` is called within `scen_building_non_residential()`

@@ -13,6 +13,8 @@ calc_floor_area_retrofit(
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
 Default is \code{0.0}.}

@@ -115,11 +115,22 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
 \item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
+
+\item{.renewable_ng_res}{logical, documentation needed}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.

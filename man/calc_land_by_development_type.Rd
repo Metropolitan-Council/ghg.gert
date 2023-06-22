@@ -14,6 +14,10 @@ calc_land_by_development_type(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
 \item{.urban_form_scenario}{character,
 The current land use scenario being explored.
 Default is \code{"bau"}.

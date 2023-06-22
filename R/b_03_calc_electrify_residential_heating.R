@@ -10,6 +10,10 @@
 #' be electrified under the specified scenario.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #' Data table with output of electrify residential heating.

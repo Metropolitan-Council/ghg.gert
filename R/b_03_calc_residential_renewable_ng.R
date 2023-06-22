@@ -9,7 +9,8 @@
 #'    greenhouse gas (GHG) emissions for the selected city or township..
 #'
 #' @inheritParams run_scenario_building
-#'
+#' @inheritParams filter_ctu
+#' @param .renewable_ng_res logical, documentation needed
 #' @export
 #'
 #' @examples

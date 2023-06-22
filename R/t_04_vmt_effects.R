@@ -4,7 +4,8 @@
 #'
 #' @description Calculates annual energy outlook (AEO)
 #' multipliers for each forecast year.
-#'
+#' @inheritParams run_scenario_transportation
+#' @inheritParams calc_vmt_forecast
 #' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.
 #' @export
 #' @importFrom tidyr pivot_wider

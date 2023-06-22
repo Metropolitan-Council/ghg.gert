@@ -13,6 +13,8 @@ calc_electrify_residential_heating(
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 Default is \code{0}.
 The percentage of buildings that would

@@ -5,6 +5,14 @@
 #'       for all cities/townships for the selected scenario.
 #'
 #' @inheritParams calc_land_by_development_type
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams filter_ctu
+#' @inheritParams calc_carbon_sequestration_per_ctu
+#' @inheritParams calc_carbon_stock_per_ctu
+#' @inheritParams calc_land_cover_by_land_use
+#' @inheritParams calc_tree_planting_land_cover
+#' @inheritParams calc_electrify_commercial_heating
 #'
 #'
 #' @return [tibble::tibble()] with column names...

@@ -20,6 +20,13 @@
 #' * `"post_covid_sprawl"`: post covid sprawl scenario.
 #' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
 #' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
+#'
+#'
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 #' @return [tibble::tibble()].
 #'      A tibble containing the estimated hectares by different development
 #'      types (urban expansion, urban infill, and exurban development) for different

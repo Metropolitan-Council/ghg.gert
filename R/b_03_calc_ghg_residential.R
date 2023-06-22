@@ -14,6 +14,7 @@
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
 #' @inheritParams run_scenario_transportation
+#' @inheritParams scen_building_residential
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
