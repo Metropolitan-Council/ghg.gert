@@ -18,6 +18,8 @@ calc_ghg_non_residential(
 \item{non_res_tb}{table with non-residential data.
 Default is \code{building_data$non_residential}}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0.6}.}

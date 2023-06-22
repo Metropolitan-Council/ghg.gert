@@ -44,7 +44,10 @@ vmt_annual_energy_outlook <- function(tb,
 
 #' Calculate combined 5D land use change impact
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @param .type character, one of `"DRIVE"`, `"WALK"`, `"TRANSIT"`.
 #' @param .pop_dens_pct_change percent change in population density in the final forecast year relative to BAU.
 #'     Numeric between -1 and 1. Default is `0`
@@ -147,7 +150,10 @@ vmt_land_use_change <- function(.type,
 #'
 #' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
 #' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @return a table with
 #' @export
 #' @details
@@ -266,7 +272,10 @@ vmt_parking_policy <- function(tb,
 #'     is paid to an insurance provider in place of a flat insurance rate. The main difference is
 #'     whether the driver would prefer to pay the cost to a government agency or insurance provider.
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 #'      Default is `0`
@@ -503,7 +512,10 @@ vmt_road_policy <- function(.pass_tb,
 #' Calculate telework multiplier
 #' @param .telework_pct additional percent of people teleworking in the final forecast year.
 #'     Numeric between 0 and 1. Default is `0`
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @export
 #' @family VMT effects
 #' @details
@@ -551,7 +563,10 @@ vmt_telework <- function(.pass_tb,
 
 #' Calculate stock adjustment
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @return table with columns `ctu`, `year`, `mode`, and `mode_stock_adj`
 #' @export
 #' @family VMT effects
@@ -633,7 +648,10 @@ vmt_stock_proportion <- function(.tb,
 #'    - If `.mode` is `"BS"`, `"BU"`, `"BRT"`, `"RU"`, or `"RI"`, value returned
 #'        is the proportion of increase in transit VMT (i.e., 1.2).
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @return a table with columns `year`, `ctu`, and `transit_adj`.
 #' @export
 #' @family VMT effects
@@ -696,7 +714,10 @@ vmt_transit_service <- function(tb,
 #'
 #' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @return table with columns `ctu`, `year`, `occupancy_adj`
 #' @export
 #'

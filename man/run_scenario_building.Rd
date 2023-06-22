@@ -55,6 +55,8 @@ is suitable and the default value.
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.0}.}

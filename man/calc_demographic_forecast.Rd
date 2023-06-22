@@ -6,6 +6,9 @@
 \usage{
 calc_demographic_forecast(tb = building_energy_data, .selected_ctu = "all")
 }
+\arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+}
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
 }

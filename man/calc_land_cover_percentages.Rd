@@ -10,8 +10,7 @@ calc_land_cover_percentages(tb = land_use_data, .selected_ctu)
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used. Default is \code{land_use_data}.}
 
-\item{.selected_ctu}{character,
-The selected city/township  (CTU) for which to calculate land cover land use percentages.}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

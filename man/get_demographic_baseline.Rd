@@ -6,6 +6,9 @@
 \usage{
 get_demographic_baseline(tb = building_energy_data, .selected_ctu = "all")
 }
+\arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+}
 \value{
 Tibble.
 }

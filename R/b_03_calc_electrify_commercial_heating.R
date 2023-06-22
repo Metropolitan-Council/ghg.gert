@@ -8,11 +8,11 @@
 #'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #' @param .electrified_buildings_pct numeric,  a value between `0` and `1`.
 #'      The fraction of additional commercial buildings that will be electrified.
 #'      Default is `0.0`.
-#' @param .enviro_factors
-#'
 #' @return [tibble::tibble()]
 #'     A table with columns `year`, `ctu_name`, `population`,
 #'    `residential_mwh`,

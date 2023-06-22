@@ -3,7 +3,7 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
+#' @inheritParams filter_ctu
 #' @family transportation results, freight
 #'
 #' @export

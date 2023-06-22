@@ -45,6 +45,8 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.mode}{character, current mode}
 
 \item{.stock}{character, stock for current mode}

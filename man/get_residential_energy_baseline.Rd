@@ -12,7 +12,7 @@ get_residential_energy_baseline(
 \arguments{
 \item{tb}{A data frame containing building energy data (default is building_energy_data).}
 
-\item{.selected_ctu}{A string specifying the selected CTU for filtering (default is "all").}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 }
 \value{
 A data frame containing residential energy baseline data, including electricity

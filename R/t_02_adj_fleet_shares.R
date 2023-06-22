@@ -43,6 +43,7 @@
 #' @param .freight_tb [tibble::tibble()] Freight input table.
 #'    Default is `transportation_data$freight`.
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams vmt_road_policy
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export

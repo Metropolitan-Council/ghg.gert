@@ -16,6 +16,8 @@ calc_ghg_residential(
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 

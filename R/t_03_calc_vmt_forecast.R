@@ -8,8 +8,6 @@
 #' @param .stock character, stock for current mode
 #' @param .variable character, variable name - e.g., "VMT"
 #' @param .tb_fuel_cost_mile table, table with fuel cost per mile
-#' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
-#'      Default is `"REF"`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list, environmental factors. Default is `enviro_factors`, included in this package.
 #' @param .factor_values list, generalized factor values. Default is `factor_values`.

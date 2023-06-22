@@ -21,6 +21,9 @@ vmt_road_policy(
 )
 }
 \arguments{
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
+
 \item{.mode}{character, current mode}
 
 \item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}

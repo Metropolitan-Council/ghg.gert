@@ -17,7 +17,9 @@
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #' @inheritParams run_scenario_building
 #'
 #' @return [tibble::tibble()] with column names

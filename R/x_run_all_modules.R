@@ -7,6 +7,15 @@
 #' @inheritParams run_scenario_building
 #' @inheritParams run_scenario_transportation
 #' @inheritParams filter_ctu
+#' @inheritParams vmt_annual_energy_outlook
+#' @inheritParams vmt_land_use_change
+#' @inheritParams vmt_parking_policy
+#' @inheritParams vmt_road_policy
+#' @inheritParams vmt_telework
+#' @inheritParams vmt_stock_proportion
+#' @inheritParams vmt_transit_service
+#' @inheritParams vmt_vehicle_occupancy
+#'
 #' @return list, list with the outputs of the three modules.
 #' @export
 #'

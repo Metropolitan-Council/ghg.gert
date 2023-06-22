@@ -9,13 +9,10 @@
 #'
 #' @param tb [tibble::tibble()].
 #' The input dataset to be used. Default is `land_use_data`.
-#' @param .selected_ctu character,
-#' The selected city/township  (CTU) for which to calculate land cover land use percentages.
-#'
 #' @return [tibble::tibble()].
 #'      A tibble containing the land cover land use percentages for each CTU,
 #'      land use type, and land cover type based on 2016 data.
-#'
+#' @inheritParams filter_ctu
 #' @export
 #'
 #' @examples

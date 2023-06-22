@@ -12,6 +12,9 @@ vmt_telework(
 )
 }
 \arguments{
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
+
 \item{.mode}{character, current mode}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.

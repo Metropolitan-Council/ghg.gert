@@ -1,16 +1,29 @@
 #' @title  Main function to call other functions for determining VMT,
 #'      direct GHG, indirect GHG, and costs
+#'
 #' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
 #' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided dataset `transportation_data$freight` is suitable.
 #' @param .electric_scenario electricity scenario
-#' @param .aeo_scenario selected EIA Annual Energy Outlook scenario
+#' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
+#'      Default is `"REF"`
 #' @param .mit_bau_summary input of BAU data for calculations in MIT scenario
 #'
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
+#' @inheritParams filter_ctu
 #' @inheritParams adj_fleet_shares
+#' @inheritParams filter_ctu
+#' @inheritParams vmt_annual_energy_outlook
+#' @inheritParams vmt_land_use_change
+#' @inheritParams vmt_parking_policy
+#' @inheritParams vmt_road_policy
+#' @inheritParams vmt_telework
+#' @inheritParams vmt_stock_proportion
+#' @inheritParams vmt_transit_service
+#' @inheritParams vmt_vehicle_occupancy
 #'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
 #'
