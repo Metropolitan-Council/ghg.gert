@@ -54,7 +54,6 @@ test_that("Lake Elmo unit counts", {
 
 
 test_that("Minneapolis unit counts", {
-
   mpls_50 <- adj_unit_counts(
     res_tb = building_energy_bau_data$residential,
     .selected_ctu = "Minneapolis",
@@ -88,7 +87,8 @@ test_that("Minneapolis unit counts", {
           "multifamily_units"
         )
       ) %>%
-      ungroup())
+      ungroup()
+  )
 
 
   mpls_0 <- adj_unit_counts(
@@ -107,11 +107,12 @@ test_that("Minneapolis unit counts", {
 
 
   bau_forecast <- building_energy_bau_data$residential %>%
-    filter(ctu_name == "Minneapolis",
-           var %in% c(
-             "single_family_units",
-             "multifamily_units"
-           )
+    filter(
+      ctu_name == "Minneapolis",
+      var %in% c(
+        "single_family_units",
+        "multifamily_units"
+      )
     )
 
   # minneapolis has no effect, because they are already

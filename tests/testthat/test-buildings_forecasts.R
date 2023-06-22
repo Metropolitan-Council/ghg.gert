@@ -1,29 +1,24 @@
 testthat::test_that("Minneapolis forecasts", {
+  mpls_compiled <- compile_bau_building_energy(
+    tb = building_energy_data,
+    .selected_ctu = "Minneapolis"
+  )
 
-mpls_compiled <- compile_bau_building_energy(
-  tb = building_energy_data,
-  .selected_ctu = "Minneapolis"
-)
+  testthat::expect_equal(
+    mpls_compiled$residential,
+    building_energy_bau_data$residential %>%
+      filter(ctu_name == "Minneapolis")
+  )
 
-testthat::expect_equal(
-  mpls_compiled$residential,
-  building_energy_bau_data$residential %>%
-    filter(ctu_name == "Minneapolis"))
-
-# un-comment when ready
-# testthat::expect_equal(
-#   mpls_compiled$non_residential,
-#   building_energy_bau_data$non_residential %>%
-#     filter(ctu_name == "Minneapolis"))
-
-
-
+  # un-comment when ready
+  # testthat::expect_equal(
+  #   mpls_compiled$non_residential,
+  #   building_energy_bau_data$non_residential %>%
+  #     filter(ctu_name == "Minneapolis"))
 })
 
 
 testthat::test_that("Lake Elmo forecasts", {
-
-
   lk_el_compiled <- compile_bau_building_energy(
     tb = building_energy_data,
     .selected_ctu = "Lake Elmo"
@@ -32,14 +27,12 @@ testthat::test_that("Lake Elmo forecasts", {
   testthat::expect_equal(
     lk_el_compiled$residential,
     building_energy_bau_data$residential %>%
-      filter(ctu_name == "Lake Elmo"))
+      filter(ctu_name == "Lake Elmo")
+  )
 
   # un-comment when ready
   # testthat::expect_equal(
   #   lk_el_compiled$non_residential,
   #   building_energy_bau_data$non_residential %>%
   #     filter(ctu_name == "Lake Elmo"))
-
-
-
 })

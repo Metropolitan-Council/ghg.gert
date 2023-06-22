@@ -653,7 +653,9 @@ adj_fleet_shares <- function(.pass_tb,
         values_from = value
       ) %>%
       dplyr::group_by(year, ctu) %>%
-      dplyr::mutate(dplyr::across(4:7, function(x){sum(x, na.rm = TRUE)})) %>%
+      dplyr::mutate(dplyr::across(4:7, function(x) {
+        sum(x, na.rm = TRUE)
+      })) %>%
       unique()
 
 

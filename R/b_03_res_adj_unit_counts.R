@@ -61,9 +61,11 @@ adj_unit_counts <- function(res_tb,
   # We will consider the number of SF units reduced as if they were
   # being constructed and add them onto the multifamily unit count
 
-  if(n_new_homes$new_sf_homes < 0){
-    cli::cli_warn(c("Baseline forecast assumes reducing single family units",
-                    "Now reducing single family units further"))
+  if (n_new_homes$new_sf_homes < 0) {
+    cli::cli_warn(c(
+      "Baseline forecast assumes reducing single family units",
+      "Now reducing single family units further"
+    ))
   }
 
   sf_now_mf <- n_new_homes %>%

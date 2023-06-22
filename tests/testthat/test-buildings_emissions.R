@@ -1,7 +1,6 @@
 # business as usual
 
 testthat::test_that("Minneapolis strategies reduce emissions", {
-
   mpls_decarb_grid <- calc_ghg_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
@@ -106,24 +105,32 @@ testthat::test_that("Minneapolis strategies reduce emissions", {
 
 
 
-  purrr::map(list(
-    mpls_decarb_grid,
-    check,
-    mpls_nonres_reweable,
-    mpls_nonres_heating,
-    mpls_residential_ng,
-    mpls_mix
-  ),
-  function(x){
-    test_df <- x %>%
-      group_by(scen) %>%
-      pivot_wider(names_from = scen,
-                  values_from = value) %>%
-      filter(year == 2040,
-             var %in% c("total_residential_emissions",
-                        "total_industrial_commercial_emissions"))
-    testthat::expect_lt(test_df$scen, test_df$bau)
-  })
+  purrr::map(
+    list(
+      mpls_decarb_grid,
+      check,
+      mpls_nonres_reweable,
+      mpls_nonres_heating,
+      mpls_residential_ng,
+      mpls_mix
+    ),
+    function(x) {
+      test_df <- x %>%
+        group_by(scen) %>%
+        pivot_wider(
+          names_from = scen,
+          values_from = value
+        ) %>%
+        filter(
+          year == 2040,
+          var %in% c(
+            "total_residential_emissions",
+            "total_industrial_commercial_emissions"
+          )
+        )
+      testthat::expect_lt(test_df$scen, test_df$bau)
+    }
+  )
 
 
   testthat::expect_warning(
@@ -142,16 +149,13 @@ testthat::test_that("Minneapolis strategies reduce emissions", {
       .grid_decarbonization_pct = 1,
       .additional_electrified_residential_buildings_pct = 0.45,
       .enviro_factors = enviro_factors
-    ))
-
-
-
+    )
+  )
 })
 
 
 
 testthat::test_that("Maplewood strategies reduce emissions", {
-
   mpls_decarb_grid <- calc_ghg_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
@@ -256,24 +260,32 @@ testthat::test_that("Maplewood strategies reduce emissions", {
 
 
 
-  purrr::map(list(
-    mpls_decarb_grid,
-    check,
-    mpls_nonres_reweable,
-    mpls_nonres_heating,
-    mpls_residential_ng,
-    mpls_mix
-  ),
-  function(x){
-    test_df <- x %>%
-      group_by(scen) %>%
-      pivot_wider(names_from = scen,
-                  values_from = value) %>%
-      filter(year == 2040,
-             var %in% c("total_residential_emissions",
-                        "total_industrial_commercial_emissions"))
-    testthat::expect_lt(test_df$scen, test_df$bau)
-  })
+  purrr::map(
+    list(
+      mpls_decarb_grid,
+      check,
+      mpls_nonres_reweable,
+      mpls_nonres_heating,
+      mpls_residential_ng,
+      mpls_mix
+    ),
+    function(x) {
+      test_df <- x %>%
+        group_by(scen) %>%
+        pivot_wider(
+          names_from = scen,
+          values_from = value
+        ) %>%
+        filter(
+          year == 2040,
+          var %in% c(
+            "total_residential_emissions",
+            "total_industrial_commercial_emissions"
+          )
+        )
+      testthat::expect_lt(test_df$scen, test_df$bau)
+    }
+  )
 
 
   testthat::expect_no_warning(
@@ -292,9 +304,6 @@ testthat::test_that("Maplewood strategies reduce emissions", {
       .grid_decarbonization_pct = 1,
       .additional_electrified_residential_buildings_pct = 0.45,
       .enviro_factors = enviro_factors
-    ))
-
-
-
+    )
+  )
 })
-

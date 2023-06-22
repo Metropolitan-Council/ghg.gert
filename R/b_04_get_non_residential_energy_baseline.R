@@ -184,11 +184,13 @@ get_non_residential_energy_baseline <-
       dplyr::select(ctu_name, year, var, value) %>%
       unique()
 
-    if(nrow(xcel_energy_electricity) == 0){
-      xcel_energy_electricity <- tibble::tibble("ctu_name" = .selected_ctu,
-                                                "year" = min(ctu_characteristics$year),
-                                                "commercial_mwh_xcel" = NA,
-                                                "industrial_mwh_xcel" = NA)
+    if (nrow(xcel_energy_electricity) == 0) {
+      xcel_energy_electricity <- tibble::tibble(
+        "ctu_name" = .selected_ctu,
+        "year" = min(ctu_characteristics$year),
+        "commercial_mwh_xcel" = NA,
+        "industrial_mwh_xcel" = NA
+      )
     }
 
     # -------------------------------------------------------------------------

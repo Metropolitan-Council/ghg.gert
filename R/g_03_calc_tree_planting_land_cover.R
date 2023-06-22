@@ -47,7 +47,7 @@
 calc_tree_planting_land_cover <- function(tb,
                                           detail = FALSE,
                                           .selected_ctu = .selected_ctu,
-                                          .tree_planting_intervention = 'none',
+                                          .tree_planting_intervention = "none",
                                           .tree_planting_per_capita = 0.26,
                                           .tree_planting_per_hectare = 247,
                                           .enviro_factors = ghg.sp::enviro_factors) {
