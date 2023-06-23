@@ -1,6 +1,11 @@
 #' @title Compile Building Energy Data
 #'
 #' @param tb Tibble.
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 #' @export
 compile_bau_building_energy <-
   function(tb = building_energy_data, .selected_ctu = "all") {

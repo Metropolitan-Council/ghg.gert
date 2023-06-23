@@ -9,7 +9,7 @@ calc_floor_area_growth(
   .selected_ctu,
   .single_family_floor_area_growth_pct,
   .new_homes_affected_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -18,6 +18,8 @@ Package provided dataset \code{building_energy$residential} is suitable and the
 default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
 \item{.single_family_floor_area_growth_pct}{numeric,
 a value between \code{0} and \code{1}.
@@ -29,7 +31,7 @@ a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
-Default is \code{0.30}.}
+Default is \code{0.0}.}
 }
 \value{
 data table

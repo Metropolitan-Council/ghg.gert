@@ -18,6 +18,9 @@
 #'    tillage.
 #'
 #' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
@@ -29,7 +32,6 @@
 #' calc_carbon_stock_per_ctu(
 #'   tb = land_use_data,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247,
@@ -40,13 +42,13 @@
 #' }
 calc_carbon_stock_per_ctu <- function(tb,
                                       .selected_ctu,
-                                      .urban_form_scenario,
                                       .tree_planting_intervention,
                                       .tree_planting_per_capita,
                                       .tree_planting_per_hectare,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
-                                      detail) {
+                                      detail,
+                                      .enviro_factors = ghg.sp::enviro_factors) {
   match.arg(
     arg = .conservation_tillage_intervention,
     choices = c(
@@ -68,7 +70,7 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
 
-  csf <- carbon_stock_factors
+  csf <- ghg.sp::carbon_stock_factors
 
   # -------------------------------------------------------------------------
 
@@ -76,12 +78,12 @@ calc_carbon_stock_per_ctu <- function(tb,
     calc_parking_lot_land_cover(
       tb = tb,
       .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
       .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      detail = detail
+      detail = detail,
+      .enviro_factors = .enviro_factors
     )
 
   # -------------------------------------------------------------------------
@@ -101,22 +103,27 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   # -------------------------------------------------------------------------
 
-  calculate_stock <- function(land_use, stock_factor, column_name, agriculture = FALSE, tillage_pct = 0) {
+  calculate_stock <- function(land_use,
+                              stock_factor,
+                              column_name,
+                              agriculture = FALSE,
+                              tillage_pct = 0,
+                              .this_enviro_factors = .enviro_factors) {
     if (agriculture) {
       switch(.conservation_tillage_intervention,
         "current_conservation_tillage" = {
           (land_use *
             tillage_pct *
-            enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
+            .this_enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT *
             stock_factor) +
             (land_use * (1 - tillage_pct) * stock_factor)
         },
         "double_conservation_tillage" = {
-          (land_use * (tillage_pct * 2) * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor) +
+          (land_use * (tillage_pct * 2) * .this_enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor) +
             (land_use * (1 - (tillage_pct * 2)) * stock_factor)
         },
         "maximum_conservation_tillage" = {
-          land_use * enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor
+          land_use * .this_enviro_factors$MAX_SOC_ACCUMULATION_UNDER_REDUCED_OR_NO_TILL_AGRI_PCT * stock_factor
         },
         land_use * stock_factor
       )
@@ -133,7 +140,8 @@ calc_carbon_stock_per_ctu <- function(tb,
         stock_factor = csf[[toupper(dplyr::cur_column()) %>% paste0("_STOCK_MG_C_PER_HECTARE")]],
         column_name = dplyr::cur_column(),
         agriculture = dplyr::cur_column() == "agriculture",
-        tillage_pct = current_conservation_tillage_percent
+        tillage_pct = current_conservation_tillage_percent,
+        .this_enviro_factors = .enviro_factors
       )),
       .names = "{col}"
     )) %>%

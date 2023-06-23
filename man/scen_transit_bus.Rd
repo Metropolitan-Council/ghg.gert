@@ -32,6 +32,7 @@ scen_transit_bus(
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
+  .factor_values = factor_values,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -41,11 +42,14 @@ scen_transit_bus(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -101,6 +105,17 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 }
 \description{
 Calculate scenario for transit buses

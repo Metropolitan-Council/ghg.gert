@@ -373,8 +373,6 @@ server <- function(input, output) {
       ## non residential energy parameters
       .renewable_ng_nonres = FALSE,
       .electrified_buildings_pct = 0,
-      .commercial_smart_grid_pct = 1,
-      .industrial_smart_grid_pct = 1,
       .smart_grid_energy_reduction_pct = 0,
 
       ## residential energy parameters
@@ -437,8 +435,6 @@ server <- function(input, output) {
       ## non residential energy parameters
       .electrified_buildings_pct = .electrified_buildings_pct,
       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-      .commercial_smart_grid_pct = 1,
-      .industrial_smart_grid_pct = 1,
       .smart_grid_energy_reduction_pct = 0.11,
 
       ## residential energy parameters

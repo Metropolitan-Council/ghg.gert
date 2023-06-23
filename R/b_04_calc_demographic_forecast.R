@@ -6,6 +6,10 @@
 #' @return [tibble::tibble()]
 #'
 #' @inheritParams run_scenario_transportation
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @export
 #'
@@ -262,7 +266,7 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   ## ----get county forecast for avg multifamily floor area for when ctu equivalent is missing ----
   ctu_county_forecast <- county_characteristics_forecast %>%
     dplyr::left_join(tb$ctu_county, by = "co_name") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & is.na(ctu_name) == F) %>%
+    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(ctu_name)) %>%
     dplyr::group_by(ctu_name, year, var) %>%
     dplyr::summarize(value = mean(value), .groups = "keep") %>%
     dplyr::select(ctu_name, year, var, value)

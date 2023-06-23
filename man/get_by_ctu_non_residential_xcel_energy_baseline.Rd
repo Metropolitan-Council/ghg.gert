@@ -10,6 +10,13 @@ get_by_ctu_non_residential_xcel_energy_baseline(
   .selected_ctu = "all"
 )
 }
+\arguments{
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+}
 \description{
 Get Non Residential Xcel Energy by City/Township
 }

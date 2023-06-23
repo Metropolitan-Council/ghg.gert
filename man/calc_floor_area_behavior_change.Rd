@@ -8,13 +8,15 @@ calc_floor_area_behavior_change(
   res_tb,
   .selected_ctu,
   .home_behavior_change_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}.}
+Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

@@ -9,17 +9,19 @@ calc_floor_area_retrofit(
   .selected_ctu,
   .existing_home_retrofit_pct,
   .existing_home_ultra_retrofit_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.80}.}
+Default is \code{0.0}.}
 
 \item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.20}.}
+Default is \code{0.00}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}

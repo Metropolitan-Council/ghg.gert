@@ -4,10 +4,11 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 #' @importFrom emo ji
 scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .selected_ctu = "all",
@@ -36,6 +37,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .enviro_factors = enviro_factors,
                             .elast = elast,
                             .elast_5d = elast_5d,
+                            .factor_values = factor_values,
                             .calc_transp_cost = FALSE,
                             .calc_transp_fuel_use = FALSE,
                             .calc_transp_ghg_embodied = FALSE) {
@@ -48,7 +50,9 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     .mode = "PLDV",
     .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   school_bus <- list()
@@ -84,7 +88,8 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -106,7 +111,8 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
       .comb_5d_impact_pct_change,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -114,14 +120,16 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   ci_ghg <-
     calc_ghg_direct(
       ci_vmt, .pass_tb,
-      mode, "CI", .aeo_scenario, mpg
+      mode, "CI", .aeo_scenario, mpg,
+      .factor_values = .factor_values
     )
 
   bev_ghg <-
     calc_ghg_direct(
       bev_vmt,
       .pass_tb, mode, .electric_scenario,
-      .aeo_scenario, mpe
+      .aeo_scenario, mpe,
+      .factor_values = .factor_values
     )
 
   vmt_all <- dplyr::bind_rows(
@@ -191,7 +199,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
     school_bus$emb_ghg <- emb_ghg_all
   }
 
-  usethis::ui_done(paste("School bus", emo::ji("school")))
+  cli::cli_alert_success(paste("School bus", emo::ji("school")))
 
   return(school_bus)
 }

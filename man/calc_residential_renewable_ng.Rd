@@ -8,8 +8,13 @@ calc_residential_renewable_ng(
   res_tb,
   .selected_ctu,
   .renewable_ng_res,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
+}
+\arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.renewable_ng_res}{logical, documentation needed}
 }
 \description{
 This function estimates the impact of transitioning from natural gas

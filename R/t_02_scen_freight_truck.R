@@ -4,11 +4,12 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #'
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .selected_ctu = "all",
                                .scenario = "BAU",
@@ -34,6 +35,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .telework_pct = 0,
                                .mit_bau_summary = 0,
                                .enviro_factors = enviro_factors,
+                               .factor_values = factor_values,
                                .elast = elast,
                                .elast_5d = elast_5d) {
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
@@ -63,7 +65,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   cut_ci_vmt <-
@@ -97,7 +100,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
       .elast = .elast,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -110,7 +114,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "CUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -126,7 +131,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   cut_bev_vmt <-
@@ -160,7 +166,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -172,7 +179,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -192,7 +200,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   sut_ci_vmt <-
@@ -226,7 +235,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -238,7 +248,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "SUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -254,7 +265,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .enviro_factors = .enviro_factors
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
 
@@ -289,7 +301,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -303,7 +316,8 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -331,7 +345,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  usethis::ui_done(paste("Freight trucks", emo::ji("truck")))
+  cli::cli_alert_success(paste("Freight trucks", emo::ji("truck")))
 
   return(freight_truck)
 }

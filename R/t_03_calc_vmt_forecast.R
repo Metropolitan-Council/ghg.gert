@@ -1,6 +1,6 @@
 #' @title Calculate vehicle miles traveled by mode and power train
 #'
-#' @param .scenario character, scenario name. JUST A LABEL
+#' @param .scenario character, scenario name. Useful for labeling.
 #' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `ctu`,
 #'    and one for each year. Package provided datasets `transportation_data$passenger` or
 #'    `transportation_data$freight` are suitable.
@@ -8,10 +8,9 @@
 #' @param .stock character, stock for current mode
 #' @param .variable character, variable name - e.g., "VMT"
 #' @param .tb_fuel_cost_mile table, table with fuel cost per mile
-#' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
-#'      Default is `"REF"`
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .enviro_factors list, environmental factors. Default is `enviro_factors`, included in this package.
+#' @param .factor_values list, generalized factor values. Default is `factor_values`.
 #' @param .elast table of elasticities. Default is `elast` included in this package.
 #' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
 #'
@@ -22,11 +21,12 @@
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams vmt_telework
+#' @inheritParams filter_ctu
 #'
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
-#'     with `vmt` in thousands
+#'     with `vmt` in thousands of miles.
 #' @export
 #' @family transportation
 #'
@@ -62,6 +62,7 @@ calc_vmt_forecast <- function(.scenario,
                               .telework_pct = 0,
                               .phev_electric = FALSE,
                               .enviro_factors = enviro_factors,
+                              .factor_values = factor_values,
                               .elast = elast,
                               .elast_5d = elast_5d) {
   tb <- filter_ctu(tb, .selected_ctu)
@@ -69,15 +70,15 @@ calc_vmt_forecast <- function(.scenario,
   check_inputs("mode", .mode)
 
   tb_vmt <- tb %>%
-    filter(
+    dplyr::filter(
       mode == .mode,
       var == .variable
     ) %>%
-    mutate(
+    dplyr::mutate(
       miles_traveled = value,
       scenario = .scenario
     ) %>%
-    select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled) %>%
+    dplyr::select(scenario, mode, ctu, year, aeo_mode, type, miles_traveled) %>%
     unique()
 
   # browser()
@@ -109,7 +110,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     # transit service adjustment
@@ -147,7 +150,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
     parking <- vmt_parking_policy(
@@ -155,7 +159,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -170,16 +175,16 @@ calc_vmt_forecast <- function(.scenario,
 
 
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
-      left_join(trans_service, by = c("ctu", "year")) %>%
-      left_join(fc_adjustments, by = c("ctu", "year")) %>%
-      left_join(land_use, by = c("year")) %>%
-      left_join(parking, by = c("year", "ctu")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
+      dplyr::left_join(trans_service, by = c("ctu", "year")) %>%
+      dplyr::left_join(fc_adjustments, by = c("ctu", "year")) %>%
+      dplyr::left_join(land_use, by = c("year")) %>%
+      dplyr::left_join(parking, by = c("year", "ctu")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         transit_vmt = miles_traveled *
           aeo_adj * transit_adj *
           (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
@@ -187,7 +192,7 @@ calc_vmt_forecast <- function(.scenario,
           mode_stock_adj,
         stock = .stock
       ) %>%
-      select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = transit_vmt)
+      dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = transit_vmt)
 
     # return(vmt_forecast)
   } else if (.mode == "PLDV") {
@@ -204,14 +209,19 @@ calc_vmt_forecast <- function(.scenario,
         )
 
       tb_vmt <- tb_vmt %>%
-        left_join(phev_proportion) %>%
-        mutate(miles_traveled = case_when(
+        dplyr::left_join(phev_proportion,
+          by = c(
+            "ctu", "mode", "year",
+            "aeo_mode", "type"
+          )
+        ) %>%
+        dplyr::mutate(miles_traveled = case_when(
           .phev_electric == TRUE ~
             miles_traveled * phev_prop_electric,
           .phev_electric == FALSE ~
             miles_traveled * (1 - phev_prop_electric)
         )) %>%
-        select(names(tb_vmt))
+        dplyr::select(names(tb_vmt))
     }
 
 
@@ -225,12 +235,14 @@ calc_vmt_forecast <- function(.scenario,
     # All transit
     at_adjustment <- tb %>%
       filter(mode == "AT", var == .variable) %>%
-      select(ctu, year, active_transportation_adj = value)
+      dplyr::select(ctu, year, active_transportation_adj = value)
 
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     trans_service <- vmt_transit_service(
@@ -266,7 +278,8 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
     parking <- vmt_parking_policy(
@@ -274,7 +287,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -291,7 +305,8 @@ calc_vmt_forecast <- function(.scenario,
     telework_adjust <- vmt_telework(
       .pass_tb = tb,
       .mode = .mode,
-      .telework_pct = .telework_pct
+      .telework_pct = .telework_pct,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -307,20 +322,20 @@ calc_vmt_forecast <- function(.scenario,
     # occupancy_adj
     # * mode_stock_adj
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
-      left_join(trans_service, by = c("ctu", "year")) %>%
-      left_join(fc_adjustments, by = c("ctu", "year")) %>%
-      left_join(land_use, by = c("year")) %>%
-      left_join(parking, by = c("year", "ctu")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(telework_adjust, by = c("year")) %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
-      left_join(at_adjustment,
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = "year") %>%
+      dplyr::left_join(trans_service, by = c("ctu", "year")) %>%
+      dplyr::left_join(fc_adjustments, by = c("ctu", "year")) %>%
+      dplyr::left_join(land_use, by = c("year")) %>%
+      dplyr::left_join(parking, by = c("year", "ctu")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(telework_adjust, by = c("year")) %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+      dplyr::left_join(at_adjustment,
         by = c("year", "ctu")
       ) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         pass_ld_vmt =
           (miles_traveled - (transit_adj * mode_stock_adj)) *
             aeo_adj *
@@ -329,7 +344,7 @@ calc_vmt_forecast <- function(.scenario,
             park_price_adj / occupancy_adj * mode_stock_adj,
         stock = .stock
       ) %>%
-      select(type, stock, scenario,
+      dplyr::select(type, stock, scenario,
         ctu, year, mode, aeo_mode,
         vmt = pass_ld_vmt
       ) %>%
@@ -350,7 +365,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -369,7 +386,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
     fc_adjustments <- vmt_road_policy(
@@ -394,20 +412,20 @@ calc_vmt_forecast <- function(.scenario,
 
 
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
-      left_join(parking, by = c("year", "ctu")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(fc_adjustments, by = "year", "ctu") %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
+      dplyr::left_join(parking, by = c("year", "ctu")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(fc_adjustments, by = "year", "ctu") %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         sut_vmt = (miles_traveled * aeo_adj *
           vmt_fee_adj * park_price_adj / occupancy_adj) *
           mode_stock_adj
       ) %>%
-      select(type, stock, scenario, ctu,
+      dplyr::select(type, stock, scenario, ctu,
         year, mode, aeo_mode,
         vmt = sut_vmt
       )
@@ -438,7 +456,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -469,18 +489,18 @@ calc_vmt_forecast <- function(.scenario,
     )
 
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(fc_adjustments, by = c("year")) %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(fc_adjustments, by = c("year")) %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         cut_vmt = (miles_traveled * aeo_adj * vmt_fee_adj / occupancy_adj) *
           mode_stock_adj
       ) %>%
-      select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = cut_vmt)
+      dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = cut_vmt)
 
     # return(vmt)
 
@@ -505,7 +525,8 @@ calc_vmt_forecast <- function(.scenario,
       .mode = .mode,
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
-      .elast = .elast
+      .elast = .elast,
+      .enviro_factors = .enviro_factors
     )
 
 
@@ -518,20 +539,21 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
 
 
-    tb_fin <- left_join(tb_vmt, land_use, by = c("year")) %>%
-      left_join(parking, by = c("year", "ctu")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, land_use, by = c("year")) %>%
+      dplyr::left_join(parking, by = c("year", "ctu")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         walk_vmt = miles_traveled * land_use_adj * park_price_adj
       ) %>%
-      select(type, stock, scenario, ctu,
+      dplyr::select(type, stock, scenario, ctu,
         year, mode, aeo_mode,
         vmt = walk_vmt
       )
@@ -551,19 +573,20 @@ calc_vmt_forecast <- function(.scenario,
       .intersection_design_pct_change = .intersection_design_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
 
 
 
-    tb_fin <- left_join(tb_vmt, land_use, by = c("year")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, land_use, by = c("year")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         walk_vmt = miles_traveled * land_use_adj
       ) %>%
-      select(type, stock, scenario, ctu,
+      dplyr::select(type, stock, scenario, ctu,
         year, mode, aeo_mode,
         vmt = walk_vmt
       )
@@ -581,7 +604,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -595,17 +620,17 @@ calc_vmt_forecast <- function(.scenario,
       .enviro_factors = .enviro_factors
     )
 
-    tb_fin <- left_join(tb_vmt, veh_occupancy, c("year", "ctu")) %>%
-      left_join(ann_energy_outlook, by = "year") %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, veh_occupancy, c("year", "ctu")) %>%
+      dplyr::left_join(ann_energy_outlook, by = "year") %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         school_bus_vmt = (miles_traveled * aeo_adj
           / occupancy_adj) * mode_stock_adj
       ) %>%
-      select(type, stock, scenario, ctu, year, mode,
+      dplyr::select(type, stock, scenario, ctu, year, mode,
         aeo_mode,
         vmt = school_bus_vmt
       )
@@ -623,7 +648,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -638,16 +665,16 @@ calc_vmt_forecast <- function(.scenario,
 
 
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         stock = .stock,
         fr_vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj
       ) %>%
-      select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = fr_vmt)
+      dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = fr_vmt)
 
     # return(vmt)
   } else if (.mode %in% c("MM", "AIR", "WAT")) {
@@ -664,7 +691,9 @@ calc_vmt_forecast <- function(.scenario,
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb,
       .aeo_scenario = .aeo_scenario,
-      .mode = .mode
+      .mode = .mode,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
     veh_occupancy <- vmt_vehicle_occupancy(
@@ -677,12 +706,12 @@ calc_vmt_forecast <- function(.scenario,
       .enviro_factors = .enviro_factors
     )
 
-    tb_fin <- left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
-      left_join(veh_occupancy, by = c("year", "ctu")) %>%
-      left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
+    tb_fin <- dplyr::left_join(tb_vmt, ann_energy_outlook, by = c("year")) %>%
+      dplyr::left_join(veh_occupancy, by = c("year", "ctu")) %>%
+      dplyr::left_join(mode_stock, by = c("ctu", "year", "mode")) %>%
       unique() %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         scenario = .scenario,
         stock = .stock,
         vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj,
@@ -691,7 +720,7 @@ calc_vmt_forecast <- function(.scenario,
           TRUE ~ vmt
         )
       ) %>%
-      select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt) %>%
+      dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt) %>%
       unique()
 
     # return(tb_fin) # in thousands of miles

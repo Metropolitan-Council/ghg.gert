@@ -4,24 +4,28 @@
 #' @description Recalculates the hectares of land by
 #'     land cover type by city/township under a tree planting scenario.
 #'
-#' @param .tree_panting_intervention character, specifies the type of tree planting.
+#' @param .tree_planting_intervention character, specifies the type of tree planting.
 #'     intervention to be explored under the current scenario. options are:
 #'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
 #'     * `"double"`: Assumes double the tree canopy relative.
 #'         to the baseline year.
 #'     * `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to
 #'         Los Angeles Million Tree Goal.
-#'     Default is `tree_planting_on_all_pervious`.
+#'     * `"none"`: No intervention
+#'     Default is `none`.
 #' @param .tree_planting_per_capita numeric,
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
 #' @param .tree_planting_per_hectare numeric,
 #'      Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `247`.
-#' @param detail logical,
-#'      If `TRUE`, returns a table with more detailed fields. Recommended
-#'      for debugging.
-#'      Default is `FALSE`.
+#'
+#' @inheritParams run_scenario_land_use
+#' @inheritParams run_all_modules
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'      `calc_tree_planting_land_cover()` returns table with hectares of land by land cover type after a tree planting scenario
@@ -37,7 +41,6 @@
 #'   tb = land_use_data,
 #'   detail = FALSE,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .tree_planting_intervention = "match_la_million_trees_goal",
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247
@@ -45,17 +48,16 @@
 #' }
 #'
 calc_tree_planting_land_cover <- function(tb,
-                                          detail,
+                                          detail = FALSE,
                                           .selected_ctu = .selected_ctu,
-                                          .urban_form_scenario,
-                                          .tree_planting_intervention,
-                                          .tree_planting_per_capita,
-                                          .tree_planting_per_hectare) {
+                                          .tree_planting_intervention = "none",
+                                          .tree_planting_per_capita = 0.26,
+                                          .tree_planting_per_hectare = 247,
+                                          .enviro_factors = ghg.sp::enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,
-    .selected_ctu = .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario
+    .selected_ctu = .selected_ctu
   ) %>%
     dplyr::group_by(ctu_name, year, land_cover_type) %>%
     dplyr::summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
@@ -67,7 +69,8 @@ calc_tree_planting_land_cover <- function(tb,
     choices = c(
       "tree_planting_on_all_pervious",
       "double",
-      "match_la_million_trees_goal"
+      "match_la_million_trees_goal",
+      "none"
     )
   )
 
@@ -205,6 +208,12 @@ calc_tree_planting_land_cover <- function(tb,
             dplyr::if_else(
               (trees * 2) < max_trees,
               (trees * 2),
+              max_trees
+            )
+          } else if (.tree_planting_intervention == "none") {
+            dplyr::if_else(
+              (trees) < max_trees,
+              (trees),
               max_trees
             )
           })

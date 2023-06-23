@@ -10,7 +10,8 @@ calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .fuel_cost_gallon,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors,
+  .factor_values = ghg.sp::factor_values
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ Miles per gallon for current mode}
 Fuel cost per gallon for current mode}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \value{
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.

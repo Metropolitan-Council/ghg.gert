@@ -14,6 +14,7 @@
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
 #' @inheritParams run_scenario_transportation
+#' @inheritParams scen_building_residential
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
@@ -43,14 +44,15 @@ calc_ghg_residential <- function(res_tb,
                                  res_tb_bau,
                                  .selected_ctu,
                                  .grid_decarbonization_pct,
-                                 .enviro_factors) {
+                                 .enviro_factors = ghg.sp::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
   emis <- function(tb,
-                   grid_decarb) {
+                   grid_decarb,
+                   .enviro_factors = ghg.sp::enviro_factors) {
     tb %>%
       dplyr::filter(
         var %in% c(
@@ -58,8 +60,8 @@ calc_ghg_residential <- function(res_tb,
           "single_family_units",
           "multifamily_units",
           "population",
-          "kwh_per_floor_area",
-          "therms_per_floor_area",
+          "residential_kwh_per_floor_area",
+          "residential_therms_per_floor_area",
           "single_family_average_floor_area_sqft_ctu",
           "multifamily_average_floor_area_sqft_county"
         )
@@ -86,11 +88,16 @@ calc_ghg_residential <- function(res_tb,
       )
       / population) %>%
       dplyr::mutate(
-        residential_mwh = population * residential_floor_area_per_capita * (kwh_per_floor_area / 1000),
-        residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 - grid_decarb))
+        residential_mwh = population * residential_floor_area_per_capita * (residential_kwh_per_floor_area / 1000),
+        residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 -
+          dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_BASELINE,
+            grid_decarb
+          )
+        )
+        )
       ) %>%
       dplyr::mutate(
-        residential_therms = population * residential_floor_area_per_capita * therms_per_floor_area,
+        residential_therms = population * residential_floor_area_per_capita * residential_therms_per_floor_area,
         residential_natural_gas_emissions_kg_co =
           residential_therms * kg_per_therm
       ) %>%
@@ -117,13 +124,15 @@ calc_ghg_residential <- function(res_tb,
   emis_bau <-
     emis(
       tb = res_tb_bau,
-      grid_decarb = 0
+      grid_decarb = .enviro_factors$GRID_DECARBONIZATION_BASELINE,
+      .enviro_factors = .enviro_factors
     )
 
   emis_strategy <-
     emis(
       tb = res_tb,
-      grid_decarb = .grid_decarbonization_pct
+      grid_decarb = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors
     )
 
   emis_final <-

@@ -1,7 +1,8 @@
 #' @title Calculate carbon sequestration by city/township
 #' @family land use
 #' @family emissions
-#'
+#' @inheritParams filter_ctu
+#' @inheritParams calc_tree_planting_land_cover
 #' @description Calculates the total carbon sequestration
 #'      as megagrams of carbon
 #'      per hectare by land cover type by city/township.
@@ -19,7 +20,6 @@
 #' calc_carbon_sequestration_per_ctu(
 #'   tb = land_use_data,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
 #'   .tree_planting_per_hectare = 247,
@@ -30,24 +30,24 @@
 #'
 calc_carbon_sequestration_per_ctu <- function(tb,
                                               .selected_ctu,
-                                              .urban_form_scenario,
                                               .parking_lot_reduction_percentage,
                                               .tree_planting_intervention,
                                               .tree_planting_per_capita,
                                               .tree_planting_per_hectare,
-                                              detail = FALSE) {
-  csf <- carbon_sequestration_factors
+                                              detail = FALSE,
+                                              .enviro_factors = enviro_factors) {
+  csf <- ghg.sp::carbon_sequestration_factors
 
   # -------------------------------------------------------------------------
   parking_lot_land_cover <- calc_parking_lot_land_cover(
     tb = tb,
     .selected_ctu = .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario,
     .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
     .tree_planting_intervention = .tree_planting_intervention,
     .tree_planting_per_capita = .tree_planting_per_capita,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
-    detail = FALSE
+    detail = FALSE,
+    .enviro_factors = .enviro_factors
   )
 
   # -------------------------------------------------------------------------

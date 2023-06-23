@@ -20,6 +20,13 @@
 #' * `"post_covid_sprawl"`: post covid sprawl scenario.
 #' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
 #' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
+#'
+#'
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 #' @return [tibble::tibble()].
 #'      A tibble containing the estimated hectares by different development
 #'      types (urban expansion, urban infill, and exurban development) for different
@@ -33,30 +40,20 @@
 #'
 #' calc_land_by_development_type(
 #'   tb = land_use_data,
-#'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau"
+#'   .selected_ctu = "all"
 #' )
 #' }
 calc_land_by_development_type <- function(tb,
                                           .selected_ctu,
-                                          .urban_form_scenario) {
+                                          .enviro_factors = ghg.sp::enviro_factors) {
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
-  match.arg(
-    arg = .urban_form_scenario,
-    choices = c(
-      "bau",
-      "post_covid_sprawl",
-      "compact_dev_with_drs",
-      "compact_dev_beyond_bau"
-    )
-  )
 
   # -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
-    dplyr::filter(scenario_description_2 == .urban_form_scenario)
+    dplyr::filter(scenario_description_2 == ghg.sp::enviro_factors$URBAN_FORM_SCENARIO)
 
   # -------------------------------------------------------------------------
   ctu_land_use_hectares_by_dev_type <-
@@ -161,19 +158,18 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::mutate(
       scenario_mixed_use_mf_new.urban_infill =
-        if (.urban_form_scenario == "compact_dev_with_drs") {
-          dplyr::if_else(bau.urban_expansion > bau.urban_infill,
-            bau.urban_infill,
-            bau.urban_expansion
-          )
-        } else {
-          ((
-            scenario_total.urban_infill -
-              scenario_mixed_use_compact_zoning_park.urban_infill
-          )
-          * luse_scenario_params$urban_infill
-          )
-        },
+      # if (.urban_form_scenario == "compact_dev_with_drs") {
+      #   dplyr::if_else(bau.urban_expansion > bau.urban_infill,
+      #     bau.urban_infill,
+      #     bau.urban_expansion
+      #   )
+      # } else {
+        ((
+          scenario_total.urban_infill -
+            scenario_mixed_use_compact_zoning_park.urban_infill
+        )
+        * luse_scenario_params$urban_infill
+        ),
       scenario_mixed_use_mf_new.exurban_development = 0
     ) %>%
     tidyr::pivot_longer(

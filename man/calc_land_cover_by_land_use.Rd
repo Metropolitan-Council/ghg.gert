@@ -4,22 +4,16 @@
 \alias{calc_land_cover_by_land_use}
 \title{Calculate land cover by land use and city/township}
 \usage{
-calc_land_cover_by_land_use(tb, .selected_ctu, .urban_form_scenario)
+calc_land_cover_by_land_use(
+  tb,
+  .selected_ctu,
+  .enviro_factors = enviro_factors
+)
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
-\item{.urban_form_scenario}{character,
-The current land use scenario being explored.
-Default is \code{"bau"}.
-The options are:
-\itemize{
-\item \code{"bau"}: the business as usual scenario.
-\item \code{"post_covid_sprawl"}: post covid sprawl scenario.
-\item \verb{"compact_development_beyond_bau}: compact development beyond the business as usual scenario.
-\item \code{"compact_development_with_drs"}: compact development with dynamic ride sharing.
-}}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -33,8 +27,7 @@ using the bridge table "land_cover_percentages_filled" for the selected land use
 \dontrun{
 calc_land_cover_by_land_use(
   tb = land_use_data,
-  .selected_ctu = "all",
-  .urban_form_scenario = "bau"
+  .selected_ctu = "all"
 )
 }
 }

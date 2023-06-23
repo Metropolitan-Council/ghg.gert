@@ -30,6 +30,7 @@ scen_freight_rail(
   .telework_pct = 0,
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
+  .factor_values = factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
@@ -38,11 +39,14 @@ scen_freight_rail(
 \item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -94,6 +98,8 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 

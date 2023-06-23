@@ -31,6 +31,7 @@ scen_walk_bike(
   .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
+  .factor_values = factor_values,
   .elast_5d = elast_5d
 )
 }
@@ -38,11 +39,14 @@ scen_walk_bike(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -96,6 +100,8 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }

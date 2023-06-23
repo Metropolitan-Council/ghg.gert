@@ -3,13 +3,13 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
-#'
+#' @inheritParams filter_ctu
 #' @family transportation results, freight
 #'
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .selected_ctu = "all",
                                  .scenario = "BAU",
@@ -35,6 +35,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .telework_pct = 0,
                                  .mit_bau_summary = 0,
                                  .enviro_factors = enviro_factors,
+                                 .factor_values = factor_values,
                                  .elast = elast,
                                  .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario for air and water travel \n")
@@ -66,7 +67,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -74,7 +76,9 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
     calc_ghg_direct(
       mm_ci_vmt,
       .freight_tb,
-      mode, "MMCI", .aeo_scenario, mpg
+      mode, "MMCI", .aeo_scenario, mpg,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -95,14 +99,17 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   mm_bev_ghg <-
     calc_ghg_direct(
       mm_bev_vmt,
       .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe
+      .electric_scenario, .aeo_scenario, mpe,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -127,14 +134,17 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
       .transit_dist_pct_change, .comb_5d_impact_pct_change,
       .elast = .elast,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   air_si_ghg <-
     calc_ghg_direct(
       air_si_vmt, .freight_tb, mode,
       "ASI",
-      .aeo_scenario, mpg
+      .aeo_scenario, mpg,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -158,13 +168,16 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
       .comb_5d_impact_pct_change,
       .elast = .elast,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   wat_ci_ghg <-
     calc_ghg_direct(
       wat_ci_vmt, .freight_tb,
-      mode, "WCI", .aeo_scenario, mpg
+      mode, "WCI", .aeo_scenario, mpg,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -191,7 +204,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
     "ghg" = ghg_all
   )
 
-  usethis::ui_done(paste(
+  cli::cli_alert_success(paste(
     "Freight air, water, multimodal",
     emo::ji("airplane"),
     emo::ji("ship"),

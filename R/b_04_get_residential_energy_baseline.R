@@ -13,9 +13,7 @@
 #'    including energy consumption, emissions, and energy intensity values.
 #'
 #' @param tb A data frame containing building energy data (default is building_energy_data).
-#'
-#' @param .selected_ctu A string specifying the selected CTU for filtering (default is "all").
-#'
+#' @inheritParams filter_ctu
 #' @return A data frame containing residential energy baseline data, including electricity
 #' consumption, natural gas consumption, CO2 emissions, and energy intensity per square
 #' foot and per household for each community in the specified CTU.

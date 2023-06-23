@@ -2,27 +2,32 @@
 % Please edit documentation in R/t_03_calc_cost.R
 \name{calc_cost}
 \alias{calc_cost}
-\title{Calculate cost estimates in millions of dollars}
+\title{Calculate cost estimates in dollars}
 \usage{
 calc_cost(
   tb_vmt,
   .selected_ctu = "all",
   .mode,
   .price,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \arguments{
 \item{tb_vmt}{VMT input table}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
 \item{.mode}{character, given transportation mode.}
 
 \item{.price}{character, price variable. Options include \code{"SIPrice"}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
-Calculate cost estimates in millions of dollars
+Calculate cost estimates in dollars
 }
 \seealso{
 Other transportation: 

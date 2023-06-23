@@ -6,16 +6,21 @@
 #'      parking lot reduction intervention, the percent reduction of parking lot area is
 #'      defined in the argument `.parking_lot_reduction_percentage`
 #'
-#' @inheritParams calc_tree_planting_land_cover
 #' @param .parking_lot_reduction_percentage numeric, value between `0` and `1`.
 #'      The percentage reduction of parking lot
 #'      area to be explored under the current scenario.
-#'      Default is `0.8`.
+#'      Default is `0.0`.
 #' @param detail logical,
 #'      If `detail == TRUE` the function
 #'      returns a tibble with more detailed fields. Recommended
 #'      for debugging.
 #'      Default is `FALSE`.
+#'
+#' @inheritParams calc_tree_planting_land_cover
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'
@@ -28,7 +33,6 @@
 #' calc_parking_lot_land_cover(
 #'   tb = land_use_data,
 #'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau",
 #'   .parking_lot_reduction_percentage = 0.8,
 #'   .tree_planting_intervention = "tree_planting_on_all_pervious",
 #'   .tree_planting_per_capita = 0.26,
@@ -38,21 +42,21 @@
 #' }
 calc_parking_lot_land_cover <- function(tb,
                                         .selected_ctu,
-                                        .urban_form_scenario,
                                         .parking_lot_reduction_percentage,
                                         .tree_planting_intervention,
                                         .tree_planting_per_capita,
                                         .tree_planting_per_hectare,
+                                        .enviro_factors = enviro_factors,
                                         detail = FALSE) {
   # -------------------------------------------------------------------------
   tree_parking_land_cover <- calc_tree_planting_land_cover(
     tb = tb,
     .selected_ctu = .selected_ctu,
-    .urban_form_scenario = .urban_form_scenario,
     .tree_planting_intervention = .tree_planting_intervention,
     .tree_planting_per_capita = .tree_planting_per_capita,
     .tree_planting_per_hectare = .tree_planting_per_hectare,
-    detail = FALSE
+    detail = FALSE,
+    .enviro_factors = .enviro_factors
   )
   # -------------------------------------------------------------------------
 
@@ -86,7 +90,7 @@ calc_parking_lot_land_cover <- function(tb,
   # -------------------------------------------------------------------------
   parking_lot_land_cover_short <-
     parking_lot_land_cover %>%
-    select(
+    dplyr::select(
       ctu_name,
       year,
       agriculture,

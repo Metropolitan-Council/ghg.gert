@@ -53,10 +53,6 @@
 #'   non_res_tb_bau = building_data$non_residential,
 #'   .selected_ctu = "all",
 #'   .electrified_buildings_pct = 0.40,
-#'   .non_res_natural_gas_for_water_heating_pct = 0.20,
-#'   .non_res_natural_gas_for_space_heating_pct = 0.69,
-#'   .commercial_smart_grid_pct = 1.00,
-#'   .industrial_smart_grid_pct = 1.00,
 #'   .smart_grid_energy_reduction_pct = 1.00,
 #'   .grid_decarbonization_pct = 0.80,
 #'   .existing_high_efficiency_buildings_pct = 0.80,
@@ -68,21 +64,17 @@ scen_building_non_residential <- function(non_res_tb,
                                           non_res_tb_bau,
                                           .selected_ctu,
                                           .electrified_buildings_pct,
-                                          .non_res_natural_gas_for_water_heating_pct,
-                                          .non_res_natural_gas_for_space_heating_pct,
-                                          .commercial_smart_grid_pct,
-                                          .industrial_smart_grid_pct,
                                           .smart_grid_energy_reduction_pct,
                                           .grid_decarbonization_pct,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
-                                          .enviro_factors) {
+                                          .enviro_factors = enviro_factors) {
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   tb01 <- calc_existing_comm_building_efficiency(
-    non_res_tb = building_energy_bau_data$non_residential,
+    non_res_tb = ghg.sp::building_energy_bau_data$non_residential,
     .selected_ctu = .selected_ctu,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
   )
@@ -91,8 +83,6 @@ scen_building_non_residential <- function(non_res_tb,
     non_res_tb = tb01,
     non_res_tb_bau = non_res_tb_bau,
     .selected_ctu = .selected_ctu,
-    .commercial_smart_grid_pct = .commercial_smart_grid_pct,
-    .industrial_smart_grid_pct = .industrial_smart_grid_pct,
     .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
@@ -103,8 +93,6 @@ scen_building_non_residential <- function(non_res_tb,
     non_res_tb = tb02,
     .selected_ctu = .selected_ctu,
     .electrified_buildings_pct = .electrified_buildings_pct,
-    .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-    .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors
   )

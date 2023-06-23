@@ -7,10 +7,10 @@
 #'    percentage of new single-family homes to be built as multi-family homes instead.
 #'
 #' @inheritParams run_scenario_building
-#'
+#' @inheritParams filter_ctu
 #' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
-#'      Default is `0.50`.
+#'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
@@ -31,6 +31,7 @@
 #' }
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
+#' @importFrom cli cli_warn
 adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
@@ -38,7 +39,7 @@ adj_unit_counts <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_to_multifamily_pct <= 0) {
-    warning("No single family homes instead built as multifamily homes.")
+    cli::cli_warn("No single family homes instead built as multifamily homes.")
     return(res_tb)
   }
 
@@ -54,14 +55,23 @@ adj_unit_counts <- function(res_tb,
       new_sf_homes = single_family_units.2040 - single_family_units.2018,
       new_mf_homes = multifamily_units.2040 - multifamily_units.2018
     )
+
   # some CTUs are going to decrease the number of single family units
-  # over the next few decades. Remedy this by replacing all negative
-  # unit counts with 0.
+  # over the next few decades.
+  # We will consider the number of SF units reduced as if they were
+  # being constructed and add them onto the multifamily unit count
+
+  if (n_new_homes$new_sf_homes < 0) {
+    cli::cli_warn(c(
+      "Baseline forecast assumes reducing single family units",
+      "Now reducing single family units further"
+    ))
+  }
 
   sf_now_mf <- n_new_homes %>%
     dplyr::mutate(
-      new_homes = ifelse(new_sf_homes < 0, 0, new_sf_homes),
-      now_mf = new_sf_homes * .new_homes_to_multifamily_pct
+      new_homes = ifelse(new_sf_homes < 0, abs(new_sf_homes), new_sf_homes),
+      now_mf = new_homes * .new_homes_to_multifamily_pct
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(ctu_name, now_mf) %>%

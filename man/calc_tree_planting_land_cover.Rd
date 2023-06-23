@@ -6,19 +6,32 @@
 \usage{
 calc_tree_planting_land_cover(
   tb,
-  detail,
+  detail = FALSE,
   .selected_ctu = .selected_ctu,
-  .urban_form_scenario,
-  .tree_planting_intervention,
-  .tree_planting_per_capita,
-  .tree_planting_per_hectare
+  .tree_planting_intervention = "none",
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{
 \item{detail}{logical,
-If \code{TRUE}, returns a table with more detailed fields. Recommended
+If \code{detail == TRUE} the function
+returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+* \code{"none"}: No intervention
+Default is \code{none}.}
 
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
@@ -27,15 +40,6 @@ Default is \code{0.26}.}
 \item{.tree_planting_per_hectare}{numeric,
 Tree planting per hectare factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{247}.}
-
-\item{.tree_panting_intervention}{character, specifies the type of tree planting.
-intervention to be explored under the current scenario. options are:
-* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
-* \code{"double"}: Assumes double the tree canopy relative.
-to the baseline year.
-* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
-Los Angeles Million Tree Goal.
-Default is \code{tree_planting_on_all_pervious}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -54,7 +58,6 @@ calc_tree_planting_land_cover(
   tb = land_use_data,
   detail = FALSE,
   .selected_ctu = "all",
-  .urban_form_scenario = "bau",
   .tree_planting_intervention = "match_la_million_trees_goal",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247
