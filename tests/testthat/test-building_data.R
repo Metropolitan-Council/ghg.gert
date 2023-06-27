@@ -144,4 +144,15 @@ testthat::test_that("Cities in the same county have same county avg multifamily 
 
 })
 
+testthat::test_that("Lauderdale industrial employment baseline and forecast correct", {
 
+  building_data$non_residential %>%
+    dplyr::filter(ctu_name == "Lauderdale",
+                  var == "industrial_jobs",
+                  year == 2018) %>%
+    magrittr::extract2("value") %>%
+    testthat::expect_equal(0)
+
+
+
+})
