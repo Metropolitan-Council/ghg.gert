@@ -201,4 +201,4 @@ new_pass <- transportation_data$passenger %>%
 
 transportation_data$passenger <- new_pass
 
-usethis::use_data(transportation_data, overwrite = T)
+usethis::use_data(transportation_data, overwrite = TRUE)

@@ -32,4 +32,4 @@ land_use_data$land_use_by_cover_type <-
 land_use_data$ctu_land_use_2016_land_cover <-
   import_from_emissions("metro_land.vw_ctu_land_use_2016_land_cover")
 
-usethis::use_data(land_use_data, overwrite = T)
+usethis::use_data(land_use_data, overwrite = TRUE)

@@ -53,4 +53,4 @@ transportation_data$passenger <- transportation_data$passenger %>%
   anti_join(bus_all_pmt, by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
   bind_rows(bus_all_pmt)
 
-usethis::use_data(transportation_data, overwrite = T)
+usethis::use_data(transportation_data, overwrite = TRUE)
