@@ -118,7 +118,7 @@ calc_ghg_non_residential <- function(non_res_tb,
             commercial_natural_gas_emissions_kg_co,
             industrial_natural_gas_emissions_kg_co
           ),
-          na.rm = T
+          na.rm = TRUE
         )
       ) %>%
       dplyr::select(
