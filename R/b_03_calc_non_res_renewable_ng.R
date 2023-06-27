@@ -9,10 +9,14 @@
 #'
 #' @return [tibble::tibble()]
 #' @param .renewable_ng_nonres logical, documentation needed
+#'
 #' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams run_all_modules
 #' @inheritParams run_scenario_land_use
+#' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
+#' @inheritParams calc_ghg_non_residential
+#' @inheritParams scen_building_non_residential
 #'
 #' @export
 #'
