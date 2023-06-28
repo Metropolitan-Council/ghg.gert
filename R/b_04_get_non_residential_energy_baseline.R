@@ -205,22 +205,22 @@ get_non_residential_energy_baseline <-
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::transmute(
         commercial_mwh = ifelse(
-          !is.na(commercial_mwh_xcel),
+          is.finite(commercial_mwh_xcel),
           commercial_mwh_xcel,
           commercial_mwh_nrel
         ),
         industrial_mwh = ifelse(
-          !is.na(industrial_mwh_xcel),
+          is.finite(industrial_mwh_xcel),
           industrial_mwh_xcel,
           industrial_mwh_nrel
         ),
         commercial_therms = ifelse(
-          !is.na(commercial_therms),
+          is.finite(commercial_therms),
           commercial_therms,
           commercial_therms_nrel
         ),
         industrial_therms = ifelse(
-          !is.na(industrial_therms),
+          is.finite(industrial_therms),
           industrial_therms,
           industrial_therms_nrel
         )
