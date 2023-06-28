@@ -156,3 +156,22 @@ testthat::test_that("Lauderdale industrial employment baseline and forecast corr
 
 
 })
+
+testthat::test_that("job counts are same in residential and non-residential datasets",{
+
+  testthat::expect_equal(
+    building_data$residential %>%
+      filter(var %in% c("jobs",
+                        "industrial_jobs",
+                        "commercial_jobs")) %>%
+      dplyr::arrange(ctu_name),
+
+
+    building_data$non_residential %>%
+      filter(var %in% c("jobs",
+                        "industrial_jobs",
+                        "commercial_jobs")) %>%
+      dplyr::arrange(ctu_name)
+  )
+
+})
