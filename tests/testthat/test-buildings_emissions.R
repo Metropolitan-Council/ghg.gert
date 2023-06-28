@@ -116,12 +116,12 @@ testthat::test_that("Minneapolis strategies reduce emissions", {
     ),
     function(x) {
       test_df <- x %>%
-        group_by(scen) %>%
-        pivot_wider(
+        dplyr::group_by(scen) %>%
+        tidyr::pivot_wider(
           names_from = scen,
           values_from = value
         ) %>%
-        filter(
+        dplyr::filter(
           year == 2040,
           var %in% c(
             "total_residential_emissions",
@@ -271,12 +271,12 @@ testthat::test_that("Maplewood strategies reduce emissions", {
     ),
     function(x) {
       test_df <- x %>%
-        group_by(scen) %>%
-        pivot_wider(
+        dplyr::group_by(scen) %>%
+        tidyr::pivot_wider(
           names_from = scen,
           values_from = value
         ) %>%
-        filter(
+        dplyr::filter(
           year == 2040,
           var %in% c(
             "total_residential_emissions",
