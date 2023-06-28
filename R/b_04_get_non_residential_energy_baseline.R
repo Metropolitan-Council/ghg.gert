@@ -267,8 +267,8 @@ get_non_residential_energy_baseline <-
           "industrial_mwh_per_worker"
         ),
         names_to = "var"
-      ) %>%
-      dplyr::filter(!is.na(value))
+      ) #%>%
+     # dplyr::filter(!is.na(value))
 
 
     ## -------------------------------------------------------------------------------------------
