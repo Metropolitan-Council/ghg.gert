@@ -124,7 +124,7 @@ calc_ghg_residential <- function(res_tb,
   emis_bau <-
     emis(
       tb = res_tb_bau,
-      grid_decarb = .enviro_factors$GRID_DECARBONIZATION_BASELINE,
+      grid_decarb = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors
     )
 
