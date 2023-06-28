@@ -107,7 +107,8 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
       naicstitle %in% c(
         "Natural Resources and Mining",
         "Construction",
-        "Trade, Transportation and Utilities"
+        "Trade, Transportation and Utilities",
+        "Manufacturing"
       )
     ) %>%
     dplyr::filter(year == 2018) %>%
@@ -127,7 +128,8 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
         "Professional and Business Services",
         "Education and Health Services",
         "Leisure and Hospitality",
-        "Public Administration"
+        "Public Administration",
+        "Other Services"
       )
     ) %>%
     dplyr::filter(year == 2018) %>%
