@@ -53,7 +53,7 @@ calc_ghg_residential <- function(res_tb,
   emis <- function(tb,
                    grid_decarb,
                    .enviro_factors = ghg.sp::enviro_factors) {
-    tb %>%
+    emis_tb <- tb %>%
       dplyr::filter(
         var %in% c(
           "population",
@@ -119,12 +119,14 @@ calc_ghg_residential <- function(res_tb,
         residential_natural_gas_emissions_kg_co,
         total_residential_emissions
       )
+
+    return(emis_tb)
   }
 
   emis_bau <-
     emis(
       tb = res_tb_bau,
-      grid_decarb = .grid_decarbonization_pct,
+      grid_decarb = 0.6,
       .enviro_factors = .enviro_factors
     )
 

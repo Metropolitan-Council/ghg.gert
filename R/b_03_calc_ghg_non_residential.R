@@ -52,7 +52,7 @@ calc_ghg_non_residential <- function(non_res_tb,
                    grid_decarb,
                    smart_grid_decarb,
                    .enviro_factors = ghg.sp::enviro_factors) {
-    tb %>%
+    emis_tb <- tb %>%
       dplyr::filter(
         var %in% c(
           "population",
@@ -141,12 +141,14 @@ calc_ghg_non_residential <- function(non_res_tb,
         industrial_natural_gas_emissions_kg_co,
         total_industrial_commercial_emissions
       )
+
+    return(emis_tb)
   }
 
   emis_bau <-
     emis(
       tb = non_res_tb_bau,
-      grid_decarb = .grid_decarbonization_pct,
+      grid_decarb = 0.6,
       smart_grid_decarb = 0,
       .enviro_factors = .enviro_factors
     )
