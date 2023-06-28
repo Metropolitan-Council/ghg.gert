@@ -61,7 +61,11 @@ calc_ghg_non_residential <- function(non_res_tb,
           "commercial_therm_per_worker",
           "industrial_therm_per_worker",
           "commercial_mwh_per_worker",
-          "industrial_mwh_per_worker"
+          "industrial_mwh_per_worker",
+          "commercial_mwh",
+          "commercial_therms",
+          "industrial_mwh",
+          "industrial_therms"
         )
       ) %>%
       dplyr::group_by(ctu_name, year, var) %>%
@@ -79,13 +83,13 @@ calc_ghg_non_residential <- function(non_res_tb,
       dplyr::mutate(
         # mw hours
         commercial_mwh = .enviro_factors$COMMERCIAL_SMART_GRID_PCT *
-          (commercial_jobs * commercial_mwh_per_worker),
+          dplyr::if_else(is.finite(commercial_mwh_per_worker * commercial_jobs), commercial_mwh_per_worker * commercial_jobs, commercial_mwh),
         industrial_mwh = .enviro_factors$INDUSTRIAL_SMART_GRID_PCT *
-          (industrial_jobs * industrial_mwh_per_worker),
+          dplyr::if_else(is.finite(industrial_mwh_per_worker * industrial_jobs), industrial_mwh_per_worker * industrial_jobs, industrial_mwh),
 
         # therms
-        commercial_therms = commercial_jobs * commercial_therm_per_worker,
-        industrial_therms = industrial_jobs * industrial_therm_per_worker,
+        commercial_therms = dplyr::if_else(is.finite(commercial_therm_per_worker * commercial_jobs), commercial_therm_per_worker * commercial_jobs, commercial_therms),
+        industrial_therms = dplyr::if_else(is.finite(industrial_therm_per_worker * industrial_jobs), industrial_therm_per_worker * industrial_jobs, industrial_therms),
 
 
         # electric emissions
