@@ -108,12 +108,13 @@ calc_ghg_direct <- function(tb_vmt,
   grid_elast <-
     tibble(
       year = unique(tb_vmt$year),
-      grid_decarb = calc_elasticity(
-        elas_list = c(rep(0, length(unique(tb_vmt$year)))),
-        elas = .grid_decarbonization_pct,
-        num_inits = 3,
-        num_yrs = length(unique(tb_vmt$year)) - 3
-      )
+      grid_decarb =
+        c(calc_elasticity(
+          elas_list = c(rep(0, length(unique(tb_vmt$year)))),
+          elas = .grid_decarbonization_pct,
+          num_inits = 3,
+          num_yrs = length(unique(tb_vmt$year)) - 5
+        )[1:7], .grid_decarbonization_pct, .grid_decarbonization_pct)
     )
 
 

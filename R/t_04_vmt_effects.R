@@ -545,9 +545,12 @@ vmt_telework <- function(.pass_tb,
         )),
         elas = .telework_pct,
         num_inits = 3,
-        num_yrs = length(unique(.pass_tb$year)) - 3
+        # estimate up to 2040
+        num_yrs = length(unique(.pass_tb$year)) - 5
       )
-    )
+    ) %>%
+      # assign 2045 and 2050 the given telework pct
+      dplyr::mutate(telework_elast_val = ifelse(year %in% c("2045", "2050") & telework_elast_val == 0, .telework_pct, telework_elast_val))
 
     telework_adj_tb <- telework_elast %>%
       dplyr::mutate(
@@ -669,9 +672,11 @@ vmt_transit_service <- function(tb,
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_service_pct,
           num_inits = 3,
-          num_yrs = length(unique(tb$year)) - 3
+          num_yrs = length(unique(tb$year)) - 5
         )
-    )
+    ) %>%
+    dplyr::mutate(elast_new = ifelse(year %in% c("2045", "2050") & elast_new == 0, .transit_service_pct, elast_new))
+
 
   additional_transit <- tb %>%
     filter(mode == "AT", var == "PMT") %>%
@@ -783,9 +788,11 @@ vmt_vehicle_occupancy <- function(tb,
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .pldv_avo_pct,
           num_inits = 3,
-          num_yrs = length(unique(tb$year)) - 3
+          num_yrs = length(unique(tb$year)) - 5
         )
-    )
+    ) %>%
+      dplyr::mutate(avo_elast = ifelse(year %in% c("2045", "2050") & avo_elast == 0, .pldv_avo_pct, avo_elast))
+
 
     occ_return <- pldv_occupancy %>%
       dplyr::left_join(pldv_avo_elast, by = "year") %>%
@@ -809,9 +816,11 @@ vmt_vehicle_occupancy <- function(tb,
           elas_list = c(rep(0, length(unique(tb$year)))),
           elas = .transit_avo_pct,
           num_inits = 3,
-          num_yrs = length(unique(tb$year)) - 3
+          num_yrs = length(unique(tb$year)) - 5
         )
-    )
+    ) %>%
+      dplyr::mutate(avo_elast = ifelse(year %in% c("2045", "2050") & avo_elast == 0, .transit_avo_pct, avo_elast))
+
 
 
     mode_avo <- tb %>%
