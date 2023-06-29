@@ -5,10 +5,12 @@ library(ghg.sp)
 
 building_energy_bau_data <- compile_bau_building_energy(tb = building_energy_data)
 
-waldo::compare(building_energy_bau_data$residential %>%
-                 dplyr::filter(var == "industrial_jobs"),
-               ghg.sp::building_energy_bau_data$residential %>%
-                 dplyr::filter(var == "industrial_jobs"))
+waldo::compare(
+  building_energy_bau_data$residential %>%
+    dplyr::filter(var == "industrial_jobs"),
+  ghg.sp::building_energy_bau_data$residential %>%
+    dplyr::filter(var == "industrial_jobs")
+)
 
 
 
