@@ -103,7 +103,7 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   # -------------------------------------------------------------------------
 
-  calculate_stock <- function(land_use,
+  calculate_ag_stock <- function(land_use,
                               year,
                               stock_factor,
                               # column_name,
@@ -137,7 +137,7 @@ calc_carbon_stock_per_ctu <- function(tb,
     dplyr::mutate(dplyr::across(
       c(grass, impervious, trees, water, barren, forest, shrub, grassland, woody_wetland, wetland, parking_lot),
       ~ . * csf[[toupper(dplyr::cur_column()) %>% paste0("_STOCK_MG_C_PER_HECTARE")]], .names = "{col}")) %>%
-    dplyr::mutate(agriculture = calculate_stock(
+    dplyr::mutate(agriculture = calculate_ag_stock(
         land_use = agriculture,
         year = year,
         stock_factor = csf[["AGRICULTURE_STOCK_MG_C_PER_HECTARE"]],
