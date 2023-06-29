@@ -26,7 +26,7 @@
 ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `ctu`, `year`, `aeo_mode`, `type`, `vmt`,
-#'     with `vmt` in thousands of miles.
+#'     with `vmt` in _thousands_ of miles.
 #' @export
 #' @family transportation
 #'

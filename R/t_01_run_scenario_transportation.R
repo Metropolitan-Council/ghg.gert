@@ -129,6 +129,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .freight_vmt_fee
   )
 
+  # check inputs -----
   purrr::map2(l_names, l_vals, check_inputs)
 
   if (.transit_service_pct != 0 & .transit_avo_pct < (
@@ -146,11 +147,11 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .gas_tax > 0 |
-    .bev_pct_sales > 0 |
-    .hev_pct_sales > 0 |
-    .phev_pct_sales > 0) {
+      .payd_fee > 0 |
+      .gas_tax > 0 |
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0 |
+      .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -171,13 +172,15 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   }
 
 
+  # Passenger-----
+
   # Sequence for each
   # 1. Establish `type`, `var`, `mode`
   # 2. Establish `stock`, `mpg`, `class`
   # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
   # 4. Calculate VMT with `calc`
 
-  # passenger light-duty -----
+  ## passenger light-duty -----
   passenger_light_duty <- scen_passenger_light_duty(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
@@ -213,7 +216,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
 
-  # transit buses -----
+  ## transit buses -----
   bus_transit <- scen_transit_bus(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
@@ -247,7 +250,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
-  # transit rail -----
+  ## transit rail -----
 
   rail_transit <- scen_transit_rail(
     .pass_tb = pass_tb,
@@ -282,7 +285,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
   )
 
-  # school bus-----
+  ## school bus-----
   school_bus <- scen_school_bus(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
@@ -317,7 +320,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
 
-  # walk and bike ----
+  ## walk and bike ----
   walk_bike <- scen_walk_bike(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
@@ -351,7 +354,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # Freight -------------------------------
   # (measured in ton-miles NOT miles)
 
-  # freight truck ------
+  ## freight truck ------
   freight_truck <- scen_freight_truck(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
@@ -382,7 +385,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .factor_values = .factor_values
   )
 
-  # freight rail -----
+  ## freight rail -----
 
   freight_rail <- scen_freight_rail(
     .freight_tb = freight_tb,
@@ -414,7 +417,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .elast_5d = .elast_5d
   )
 
-  # freight multi-modal, air, and water -----
+  ## freight multi-modal, air, and water -----
 
   freight_multi_air_wat <- scen_air_water_multi(
     .freight_tb = freight_tb,
@@ -573,10 +576,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
-    by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )
+                                  by = c(
+                                    "type", "scenario", "ctu",
+                                    "year", "mode", "aeo_mode", "class"
+                                  )
   )
 
   freight <- list(
@@ -592,8 +595,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       dplyr::select(ctu, year, scenario,
-        direct = dir_ghg,
-        mode
+                    direct = dir_ghg,
+                    mode
       ) %>%
       unique() %>%
       dplyr::mutate(
@@ -609,7 +612,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
         "2040"
       )) %>%
       dplyr::select(ctu, year, scenario, mode,
-        direct = dir_ghg
+                    direct = dir_ghg
       ) %>%
       unique() %>%
       dplyr::mutate(
