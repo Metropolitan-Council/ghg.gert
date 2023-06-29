@@ -117,7 +117,7 @@ Numeric between 0 and 1. Default is \code{0}}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
-with \code{vmt} in thousands of miles.
+with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train
