@@ -67,7 +67,6 @@ c(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d
@@ -139,6 +138,5 @@ bau <- ghg.sp::run_all_modules(
   .telework_pct = 0,
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
-  .hev_pct_sales = 0,
-  .mit_bau_summary = 0
+  .hev_pct_sales = 0
 )
