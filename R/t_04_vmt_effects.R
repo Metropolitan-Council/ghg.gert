@@ -369,7 +369,7 @@ vmt_road_policy <- function(.pass_tb,
 
     fc_return <- .tb_fuel_cost_mile %>%
       # dplyr::select(-ctu, -var) %>%
-      dplyr::left_join(pldv_stocks, by = c("year", "mode")) %>%
+      dplyr::left_join(pldv_stocks, by = c("year")) %>%
       dplyr::left_join(.tb_vmt, by = c("year", "ctu", "type")) %>%
       dplyr::left_join(elast_vmt, by = "year") %>%
       dplyr::mutate(
@@ -742,7 +742,7 @@ vmt_transit_service <- function(tb,
 #'     the average number of people in a car increases.
 #'     An increase in  passenger occupancy implies
 #'     additional **passenger** miles traveled, with no implied
-#'     change in passenger vehicle miles traveled.
+#'     change in vehicle miles traveled.
 #'
 #'     `.transit_avo_pct` and `.pldv_avo_pct` indicate
 #'     the overall effect by the final forecast year.
