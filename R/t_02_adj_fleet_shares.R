@@ -44,6 +44,7 @@
 #'    Default is `transportation_data$freight`.
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams vmt_road_policy
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
@@ -58,6 +59,7 @@
 #'
 adj_fleet_shares <- function(.pass_tb,
                              .freight_tb,
+                             .selected_ctu = "all",
                              .bev_pct_sales = 0,
                              .phev_pct_sales = 0,
                              .hev_pct_sales = 0,
@@ -67,9 +69,8 @@ adj_fleet_shares <- function(.pass_tb,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
   # browser()
-
-  .pass_tb <- .pass_tb %>% unique()
-  .freight_tb <- .freight_tb %>% unique()
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% unique()
+  .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% unique()
 
   pass_tb <- .pass_tb
   freight_tb <- .freight_tb

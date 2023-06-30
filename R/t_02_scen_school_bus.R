@@ -42,7 +42,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .calc_transp_fuel_use = FALSE,
                             .calc_transp_ghg_embodied = FALSE) {
   # cli::cli_progress_message("** calculating scenario school bus \n")
-  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu)
 
 
   school_bus <- list()
