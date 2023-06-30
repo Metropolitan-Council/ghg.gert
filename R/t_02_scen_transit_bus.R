@@ -64,10 +64,10 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   fcm <- calc_fuel_cost_mile(
     tb = .pass_tb,
-    .mode = "PLDV",
+    .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
-    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
@@ -115,6 +115,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
