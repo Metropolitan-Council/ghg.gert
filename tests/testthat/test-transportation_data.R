@@ -254,3 +254,14 @@ testthat::test_that("enviro factors and elasticities correct",{
 
   testthat::expect_equal(min(elast$vmt_elast), -0.34)
 })
+
+testthat::test_that("city outside of service area has no transit PMT",{
+
+  transportation_data$passenger %>%
+    filter(ctu == "Grant",
+           mode == "BU",
+           var == "AVO")
+
+})
+
+
