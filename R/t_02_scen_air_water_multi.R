@@ -33,6 +33,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .transit_dist_pct_change = 0,
                                  .comb_5d_impact_pct_change = 0,
                                  .telework_pct = 0,
+                                 .grid_decarbonization_pct = 0.6,
                                  .enviro_factors = enviro_factors,
                                  .factor_values = factor_values,
                                  .elast = elast,
@@ -73,9 +74,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   mm_ci_ghg <-
     calc_ghg_direct(
-      mm_ci_vmt,
-      .freight_tb,
-      mode, "MMCI", .aeo_scenario, mpg,
+      tb_vmt = mm_ci_vmt,
+      tb =  .freight_tb,
+      .mode =  mode,
+      .fuel_type = "MMCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -104,9 +109,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   mm_bev_ghg <-
     calc_ghg_direct(
-      mm_bev_vmt,
-      .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe,
+      tb_vmt = mm_bev_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -139,9 +148,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   air_si_ghg <-
     calc_ghg_direct(
-      air_si_vmt, .freight_tb, mode,
-      "ASI",
-      .aeo_scenario, mpg,
+      tb_vmt = air_si_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "ASI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -173,8 +186,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   wat_ci_ghg <-
     calc_ghg_direct(
-      wat_ci_vmt, .freight_tb,
-      mode, "WCI", .aeo_scenario, mpg,
+      tb_vmt = wat_ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "WCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )

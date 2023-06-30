@@ -421,6 +421,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .fuel_type = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
+    .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   ) %>%

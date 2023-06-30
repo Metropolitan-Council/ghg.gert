@@ -33,6 +33,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .transit_dist_pct_change = 0,
                                .comb_5d_impact_pct_change = 0,
                                .telework_pct = 0,
+                               .grid_decarbonization_pct = 0.6,
                                .enviro_factors = enviro_factors,
                                .factor_values = factor_values,
                                .elast = elast,
@@ -113,6 +114,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "CUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -178,6 +180,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -247,6 +250,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "SUTCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -315,6 +319,7 @@ scen_freight_truck <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )

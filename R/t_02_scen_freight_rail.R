@@ -34,6 +34,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
+                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
@@ -74,9 +75,13 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
 
   ci_ghg <-
     calc_ghg_direct(
-      ci_vmt,
-      .freight_tb,
-      mode, "RCI", .aeo_scenario, mpg,
+      tb_vmt = ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "RCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -109,9 +114,13 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
 
   ev_ghg <-
     calc_ghg_direct(
-      ev_vmt,
-      .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe,
+      tb_vmt = ev_vmt,
+      tb =  .freight_tb,
+      .mode = mode,
+      .fuel_type =  .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
