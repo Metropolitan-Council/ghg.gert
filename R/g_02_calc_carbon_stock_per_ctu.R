@@ -188,7 +188,7 @@ calc_carbon_stock_per_ctu <- function(tb,
     ) %>%
     dplyr::transmute(
       grass = ((grass_2016 - grass_2040) * 11 / 3) / 24,
-      impervious = ((impervious_2040 - impervious_2016) * 11 / 3) / 24,
+      impervious = ((impervious_2016 - impervious_2040) * 11 / 3) / 24,
       trees = ((trees_2016 - trees_2040) * 11 / 3) / 24,
       water = ((water_2016 - water_2040) * 11 / 3) / 24,
       barren = ((barren_2016 - barren_2040) * 11 / 3) / 24,
