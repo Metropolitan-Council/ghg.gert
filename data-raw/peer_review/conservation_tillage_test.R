@@ -1,9 +1,11 @@
 library(ghg.sp)
 library(tidyverse)
 
-current <- run_scenario_land_use(.selected_ctu = "Afton", .conservation_tillage_intervention = "current_conservation_tillage")
-double <- run_scenario_land_use(.selected_ctu = "Afton", .conservation_tillage_intervention = "double_conservation_tillage")
-all <- run_scenario_land_use(.selected_ctu = "Afton", .conservation_tillage_intervention = "maximum_conservation_tillage")
+.ctu <- "all"
+
+current <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "current_conservation_tillage")
+double <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "double_conservation_tillage")
+all <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "maximum_conservation_tillage")
 
 
 together <- bind_rows(current, double) %>%
