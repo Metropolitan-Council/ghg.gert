@@ -115,7 +115,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   # browser()
   dir_ghg_all <- vmt_all %>%
     dplyr::mutate(
-      dir_ghg = NA,
+      dir_ghg = 0,
       type = type,
       class = mode,
     ) %>%
