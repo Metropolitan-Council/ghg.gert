@@ -9,6 +9,7 @@ testthat::test_that("Expected number of rows", {
     .hev_pct_sales = .40,
     .pass_tb = st_paul_passenger,
     .freight_tb = st_paul_freight,
+    .selected_ctu = "St. Paul",
     .vmt_fee = 0,
     .payd_fee = 0,
     .gas_tax = 0,
@@ -44,6 +45,7 @@ testthat::test_that("Expected number of rows", {
         .pass_tb = st_paul_passenger,
         .freight_tb = st_paul_freight %>%
           filter(ctu == "St. Paul"),
+        .selected_ctu = "St. Paul",
         .vmt_fee = 0,
         .payd_fee = 0,
         .gas_tax = 0,
