@@ -27,6 +27,7 @@ scen_transit_bus(
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
+  .grid_decarbonization_pct = 0.6,
   .telework_pct = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
@@ -93,6 +94,9 @@ Numeric between -1 and 1. Default is \code{0}}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
 as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{0.6}.}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
