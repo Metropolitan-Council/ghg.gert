@@ -255,7 +255,11 @@ vmt_parking_policy <- function(tb,
       dplyr::left_join(.elast %>%
                          dplyr::select(year, park_elast), by = "year") %>%
       dplyr::mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
-      dplyr::select(year, ctu, park_price_adj)
+      dplyr::select(year, ctu, park_price_adj) %>%
+      dplyr::mutate(park_price_adj = case_when(
+        park_price_adj < 0.45 ~ 0.45,
+        TRUE ~ park_price_adj
+      ))
   } else {
     cli::cli_abort(paste0("Parking adjustment is applicable for ", .mode))
   }

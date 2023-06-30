@@ -725,7 +725,7 @@ calc_vmt_forecast <- function(.scenario,
         stock = .stock,
         vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj,
         vmt = dplyr::case_when(
-          vmt == Inf | is.na(vmt) | vmt < 0 ~ 0,
+          is.infinite(vmt) | is.na(vmt) | vmt < 0 ~ 0,
           TRUE ~ vmt
         )
       ) %>%
