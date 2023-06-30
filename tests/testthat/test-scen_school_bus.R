@@ -24,8 +24,16 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
+  pass_adj <- adj_fleet_shares(.pass_tb = transportation_data$passenger,
+                               .freight_tb = transportation_data$freight,
+                               .selected_ctu = "St. Paul",
+                               .vmt_fee = 0.01,
+                               .hev_pct_sales = 0.10,
+                               .bev_pct_sales = 0.30)
+
+
   pass_transit <- suppressMessages(suppressWarnings(scen_school_bus(
-    .pass_tb = transportation_data$passenger,
+    .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "transit",
     .transit_service_pct = .30,
@@ -33,7 +41,7 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
   )))
 
   pass_lu <- suppressMessages(suppressWarnings(scen_school_bus(
-    .pass_tb = transportation_data$passenger,
+    .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
@@ -43,7 +51,7 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
 
 
   pass_road <- suppressMessages(suppressWarnings(scen_school_bus(
-    .pass_tb = transportation_data$passenger,
+    .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "road",
     .emp_dens_pct_change = 0.10,
@@ -53,8 +61,9 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .parking_price = 20)))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_school_bus(
-    .pass_tb = transportation_data$passenger,
+  pass_tele <- suppressMessages(suppressWarnings(
+    scen_school_bus(
+    .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "telework",
     .emp_dens_pct_change = 0.10,
