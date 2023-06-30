@@ -578,7 +578,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_ghg <- dplyr::bind_rows(
-    freight_multi_air_wat$ghg,
+    freight_multi_air_wat$dir_ghg,
     freight_truck$dir_ghg,
     freight_rail$dir_ghg
   )

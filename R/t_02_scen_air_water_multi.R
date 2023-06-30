@@ -343,7 +343,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   av_return <- list(
     "vmt" = vmt_all,
-    "ghg" = ghg_all
+    "dir_ghg" = ghg_all
   )
 
   cli::cli_alert_success(paste(
