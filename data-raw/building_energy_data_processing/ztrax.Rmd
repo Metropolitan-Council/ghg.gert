@@ -1,0 +1,592 @@
+---
+title: "ZTRAX Building Area & CTU Residential Electricity Analysis"
+author: "Metropolitan Council"
+date: "10/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+load required libraries
+```{r message=FALSE}
+library(data.table)
+library(tidyverse)
+library(readxl)
+library(sf)
+library(odbc)
+library(DBI)
+library(dplyr)
+library(tibble)
+library(tidyr)
+# library(xts)
+library(ggplot2)
+library(fst)
+# library(forecast)
+```
+
+test system info to decide path of ZTRAX dataset (stored in N drive)
+```{r}
+sys.info <- Sys.info()
+
+if (sys.info["sysname"][1] == "Windows"){
+  path <- "N:/CommDev/Research/ZTRAX/originals/current_transaction_assessor/20191009/27/ZAsmt/"
+} else{
+  path <- "/Volumes/shared/CommDev/Research/ZTRAX/originals/current_transaction_assessor/20191009/27/ZAsmt/"
+}
+```
+
+
+```{r}
+sys.info <- Sys.info()
+
+if (sys.info["sysname"][1] == "Windows"){
+  path_layout <- "N:/CommDev/Research/ZTRAX/originals/current_transaction_assessor/20191009/Layout.xlsx"
+} else{
+  path_layout <- "/Volumes/shared/CommDev/Research/ZTRAX/originals/current_transaction_assessor/20191009/Layout.xlsx"
+}
+```
+
+load ZTRAX ZAsmt layout 
+```{r}
+ZAsmt_layout <- readxl::read_excel(path_layout, sheet = "ZAsmt")
+ZAsmt_layout <- data.table::as.data.table(ZAsmt_layout)
+```
+test system info to decide path of ZTRAX layout table (stored in N drive)
+
+
+
+```{r}
+bldg_areas <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/20201012/ZAsmt/metro_BuildingAreas.fst")
+bldg <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/20201012/ZAsmt/metro_Building.fst")
+main <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/20201012/ZAsmt/metro_Main.fst")
+```
+
+```{r}
+main <- as.data.table(main)
+geo_info <- main[,.(RowID,
+                    PropertyCity,
+                    County)]
+
+bldg_area_geo <- data.table::merge.data.table(bldg, geo_info,by = "RowID")
+
+bldg_all <- data.table::merge.data.table(bldg_area_geo, bldg_areas, by = "RowID") %>% as.data.table()
+
+```
+
+```{r}
+landuse_dict <- read_xlsx("/Volumes/shared/CommDev/Research/ZTRAX/originals/ZTRAXDataDictionary/LandUse.xlsx") %>% as.data.table()
+
+
+bldg_all <- data.table::merge.data.table(bldg_all, landuse_dict,by.x = "PropertyLandUseStndCode",
+                                         by.y = "StndCode") %>% as.data.table()
+
+```
+
+
+```{r}
+bldg_all[,.(PropertyCity,
+            "PropertyLandUse Description",
+            Classification,
+            PropertyStateLandUseCode,
+            PropertyLandUseStndCode,
+            PropertyCountyLandUseCode,
+            PropertyCountyLandUseDescription)] %>% unique()
+```
+
+
+```{r}
+bldg_all[Classification %in% c("Residential",
+                               "Residential Income - Multi-Family"),]
+
+
+
+
+[,.(
+  mean_sqft = mean(Building_2),
+  median_sqft = median(Building_2),
+  count = n(),
+  sd_sqft = sd(Building_2),
+  largest_value_sqft = max(Building_2),
+  smallest_value_sqft = min(Building_2),
+  average_year_built = round(mean(YearBuilt))), by = .("PropertyCity",
+                                                       "County",
+                                                       "PropertyCountyLandUseCode",
+                                                       "PropertyLandUseStndCode") ]
+```
+
+
+```{r}
+ctu_ztrax_summary <-
+  intersect_ztrax_ctu %>%
+  dplyr::select(c(
+    CTU_NAME,
+    Prop
+    CTU_ID,
+    County,
+    PropertyLa,
+    YearBuilt,
+    Building_1,
+    Building_2
+  )) %>%
+  dplyr::filter(Building_2 > 100) %>%
+  dplyr::group_by(CTU_NAME, CTU_ID, Building_1, PropertyLa) %>%
+  dplyr::summarise(
+    mean_sqft = mean(Building_2),
+    median_sqft = median(Building_2),
+    count = n(),
+    sd_sqft = sd(Building_2),
+    largest_value_sqft = max(Building_2),
+    smallest_value_sqft = min(Building_2),
+    average_year_built = round(mean(YearBuilt))
+  ) %>%
+  dplyr::filter(count > 30) %>%
+  dplyr::left_join(.,
+                   ztrax_landuse,
+                   by = c("PropertyLa" = "StndCode")) %>%
+  dplyr::mutate(property_land_use = proper(`PropertyLandUse Description`)) %>%
+  dplyr::filter(Classification %in% c("Residential Income - Multi-Family", "Residential")) %>%
+  dplyr::rename(
+    type_of_sqft_measurment = Building_1,
+    ctu_name = CTU_NAME,
+    ctu_id = CTU_ID,
+    designation = Designation
+  ) %>%
+  dplyr::mutate(type_of_sqft_measurment = case_when(
+    type_of_sqft_measurment == "BAL" ~ "Living Building Area",
+    type_of_sqft_measurment == "BAH" ~ "Heated Building Area"
+  )) %>%
+  dplyr::select(
+    ctu_name,
+    ctu_id,
+    property_land_use,
+    designation,
+    average_year_built,
+    type_of_sqft_measurment,
+    mean_sqft,
+    median_sqft,
+    count,
+    sd_sqft,
+    smallest_value_sqft,
+    largest_value_sqft
+  ) 
+```
+
+
+
+function to open ZTRAX tables with their proper headers
+```{r}
+OpenZTRAXTable <- 
+  function(table_name){
+    fread(
+      paste0(path, paste0(table_name, ".txt")),
+      header = FALSE,
+      sep = "|",
+      stringsAsFactors = FALSE,
+      quote="", 
+      col.names = ZAsmt_layout[TableName == paste0("ut", table_name)][,FieldName]
+    )
+  }
+```
+
+---
+
+# Prepare ZTRAX data 
+
+this step consist on fetching the ZTRAX data from where it is store in the N drive
+the folder containing this data require special permissions to read/write, contact IS to obtain permission 
+for this analysis 
+
+## Load ZTRAX Tables
+
+load Main table from ZTRAX
+```{r}
+Main <- OpenZTRAXTable("Main")
+```
+
+filter Main table to only seven-county metro region
+this helps to reduce the volume of the data
+```{r}
+Main <- Main[County %in% c("ANOKA", "CARVER", "DAKOTA", "HENNEPIN", "Ramsey", "SCOTT", "WASHINGTON")]
+```
+
+load "Building" table from ZTRAX
+```{r}
+Building <- OpenZTRAXTable("Building")
+```
+
+load "BuildingAreas" table from ZTRAX
+```{r}
+BuildingAreas <-OpenZTRAXTable("BuildingAreas")
+```
+
+## Filter Raw Data Tables to Fields of Interest
+
+filter "Main" table, which contains longitude and latitude information
+```{r}
+filtered_Main <- Main[,c('RowID', 'County', 'PropertyAddressLatitude', 'PropertyAddressLongitude')]
+```
+
+filter "Building" table, which contains property land use and year built information
+```{r}
+filtered_Building <- Building[,c('RowID', 'PropertyLandUseStndCode', 'YearBuilt')]
+```
+
+filter "BuildingAreas" tables which contains square footage and building area measurement type information
+```{r}
+filtered_BuildingAreas <- BuildingAreas[, c('RowID','BuildingAreaStndCode','BuildingAreaSqFt')]
+filtered_BuildingAreas <- BuildingAreas[BuildingAreaStndCode %in% c("BAL","BAH")]
+```
+
+## Join Data Tables
+
+once the ZTRAX tables are cleaned, join them by "RowID"
+```{r}
+metro_ztrax <-
+  filtered_Main %>%
+  dplyr::left_join(.,
+                   filtered_Building,
+                   by = "RowID") %>%
+  dplyr::left_join(.,
+                   filtered_BuildingAreas,
+                   by = "RowID") %>%
+  na.omit() 
+```
+
+define path to save cleaned and joined data from ZTRAX
+in this case I am saving it to my personal folder on the N drive 
+```{r}
+if (sys.info["sysname"][1] == "Windows"){
+  path3 <- "N:/CommDev/Research/Research/Mauricio L/metro_ztrax.csv"
+} else{
+  path3 <- "/Volumes/shared/CommDev/Research/Research/Mauricio L/metro_ztrax.csv"
+}
+
+utils::write.csv(metro_ztrax, path3, row.names = FALSE)
+```
+
+remove tables, since they are not longer needed
+```{r}
+base::rm(Main)
+base::rm(Building)
+base::rm(BuildingAreas)
+base::rm(filtered_Main)
+base::rm(filtered_Building)
+base::rm(filtered_BuildingAreas)
+```
+
+---
+
+# perform analysis of ZTRAX building area
+
+I did the geocoding and intersect analysis on ArcMap, the CRS has to be set up to 4326 for the latitude and longitude to be correct 
+```{r}
+intersect_ztrax_ctu <- read_csv("N:/CommDev/Research/Research/Mauricio L/data/intersect_ztrax_ctu.csv")
+proper=function(x) paste0(toupper(substr(x, 1, 1)), tolower(substring(x, 2)))
+ztrax_landuse <- read_csv("N:/CommDev/Research/Research/Mauricio L/data/ztrax_landuse.csv")
+```
+
+obtain the building area summary statistics (mean, median, standard deviation) for the CTUs in order to use in regression model
+```{r}
+ctu_ztrax_summary <-
+  intersect_ztrax_ctu %>%
+  dplyr::select(c(
+    CTU_NAME,
+    CTU_ID,
+    County,
+    PropertyLa,
+    YearBuilt,
+    Building_1,
+    Building_2
+  )) %>%
+  dplyr::filter(Building_2 > 100) %>%
+  dplyr::group_by(CTU_NAME, CTU_ID, Building_1, PropertyLa) %>%
+  dplyr::summarise(
+    mean_sqft = mean(Building_2),
+    median_sqft = median(Building_2),
+    count = n(),
+    sd_sqft = sd(Building_2),
+    largest_value_sqft = max(Building_2),
+    smallest_value_sqft = min(Building_2),
+    average_year_built = round(mean(YearBuilt))
+  ) %>%
+  dplyr::filter(count > 30) %>%
+  dplyr::left_join(.,
+                   ztrax_landuse,
+                   by = c("PropertyLa" = "StndCode")) %>%
+  dplyr::mutate(property_land_use = proper(`PropertyLandUse Description`)) %>%
+  dplyr::filter(Classification %in% c("Residential Income - Multi-Family", "Residential")) %>%
+  dplyr::rename(
+    type_of_sqft_measurment = Building_1,
+    ctu_name = CTU_NAME,
+    ctu_id = CTU_ID,
+    designation = Designation
+  ) %>%
+  dplyr::mutate(type_of_sqft_measurment = case_when(
+    type_of_sqft_measurment == "BAL" ~ "Living Building Area",
+    type_of_sqft_measurment == "BAH" ~ "Heated Building Area"
+  )) %>%
+  dplyr::select(
+    ctu_name,
+    ctu_id,
+    property_land_use,
+    designation,
+    average_year_built,
+    type_of_sqft_measurment,
+    mean_sqft,
+    median_sqft,
+    count,
+    sd_sqft,
+    smallest_value_sqft,
+    largest_value_sqft
+  ) 
+
+```
+
+obtain the building area summary statistics (mean, median, standard deviation) for the CTUs in order to use in regression model
+```{r counties ztrax building area summary (county)}
+county_ztrax_summary <-
+  intersect_ztrax_ctu %>%
+  dplyr::select(c(County,
+                  PropertyLa,
+                  YearBuilt,
+                  Building_1,
+                  Building_2)) %>%
+  dplyr::filter(Building_2 > 100) %>%
+  dplyr::group_by(County, Building_1, PropertyLa) %>%
+  dplyr::summarise(
+    mean_sqft = mean(Building_2),
+    median_sqft = median(Building_2),
+    count = n(),
+    sd_sqft = sd(Building_2),
+    largest_value_sqft = max(Building_2),
+    smallest_value_sqft = min(Building_2),
+    average_year_built = round(mean(YearBuilt))
+  ) %>%
+  dplyr::filter(count > 30) %>%
+  dplyr::mutate(County = proper(County)) %>%
+  dplyr::left_join(.,
+                   ztrax_landuse,
+                   by = c("PropertyLa" = "StndCode")) %>%
+  dplyr::mutate(property_land_use = proper(`PropertyLandUse Description`)) %>%
+  dplyr::filter(Classification %in% c("Residential Income - Multi-Family", "Residential")) %>%
+  dplyr::rename(
+    co_name = County,
+    type_of_sqft_measurment = Building_1,
+    designation = Designation
+  ) %>%
+  dplyr::mutate(
+    type_of_sqft_measurment = case_when(
+      type_of_sqft_measurment == "BAL" ~ "Living Building Area",
+      type_of_sqft_measurment == "BAH" ~ "Heated Building Area"
+    )
+  ) %>%
+  dplyr::select(
+    co_name,
+    property_land_use,
+    designation,
+    average_year_built,
+    type_of_sqft_measurment,
+    mean_sqft,
+    median_sqft,
+    count,
+    sd_sqft,
+    smallest_value_sqft,
+    largest_value_sqft
+  ) 
+```
+
+save the tables
+```{r}
+# save county ztrax building area summary
+write.csv(
+  county_ztrax_summary,
+  "N:/CommDev/Research/Research/Mauricio L/data/county_ztrax_summary.csv",
+  row.names = FALSE
+)
+
+# save ctus ztrax building area summary
+write.csv(
+  ctu_ztrax_summary,
+  "N:/CommDev/Research/Research/Mauricio L/data/ctu_ztrax_summary.csv",
+  row.names = FALSE
+)
+
+ctu_ztrax_summary
+```
+
+estimate percentage of housing stock that is single family detached, express as percentage
+```{r}
+housing_stock_ctu_percentages <- 
+  housing_stock_ctu %>%
+  dplyr::mutate(
+    total_housing_units = multifamily_in_5_or_more_units_bldng +
+      single_family_detached +
+      townhouse +
+      manufactured_homes +
+      duplex_triplex_or_quadplex +
+      other +
+      adu
+  ) %>%
+  dplyr::filter(year==2017) %>%
+  dplyr::group_by(ctu_name) %>%
+  dplyr::summarise(
+    total_housing_units = sum(total_housing_units),
+    multifamily_in_5_or_more_units_bldng  = sum(multifamily_in_5_or_more_units_bldng),
+    single_family_detached  = sum(single_family_detached),
+    townhouse  = sum(townhouse),
+    manufactured_homes  = sum(manufactured_homes),
+    duplex_triplex_or_quadplex  = sum(duplex_triplex_or_quadplex),
+    other = sum(other),
+    adu = sum(adu)
+  ) %>%
+  dplyr::mutate(
+    single_family_detached_perc_housing_stock = single_family_detached / total_housing_units,
+    townhouse_perc_housing_stock = townhouse / total_housing_units,
+    manufactured_homes_perc_housing_stock = manufactured_homes/ total_housing_units,
+    duplex_triplex_or_quadplex_perc_housing_stock = duplex_triplex_or_quadplex/ total_housing_units, 
+    other_perc_housing_stock = other/ total_housing_units,
+    adu_perc_housing_stock = adu / total_housing_units
+  ) 
+```
+
+estiamte percentage of all residential land use  that is single family 
+```{r}
+land_use_historical_ctu_sf_mf_percentage <-
+  land_use_historical %>%
+  dplyr::filter(year == 2016,
+                type == "residential") %>%
+  dplyr::group_by(ctu_name, land_use_description) %>%
+  dplyr::summarise(acres = sum(acres), .groups = "drop") %>%
+  mutate(land_use_description = str_replace_all(land_use_description, " ", "_")) %>%
+  mutate(land_use_description = str_replace(land_use_description, "/", "_")) %>%
+  mutate(land_use_description = tolower(land_use_description)) %>%
+  tidyr::pivot_wider(names_from = land_use_description,
+                     values_from = acres,
+                     values_fil = 0) %>%
+  mutate(total = rowSums(across(c(2:7)))) %>%
+  group_by(ctu_name) %>%
+  mutate(multifamily_percentage = (mixed_use_residential + multifamily /
+                                     total) / total) %>%
+  mutate(
+    singlefamily_percentage = (
+      seasonal_vacation + single_family_detached + single_family_attached + manufactured_housing_park
+    ) / total
+  )
+```
+
+
+```{r}
+residential_electricity_model <-
+  rii_mmbtu_electricity_sector %>%
+  filter(year == 2017) %>%
+  select(ctu_name, residential_mmbtu) %>%
+  inner_join(
+    .,
+    ctu_population %>%
+      filter(year == 2017) %>%
+      select(ctu_name, population) %>%
+      group_by(ctu_name) %>%
+      summarise(population = sum(population)),
+    by = "ctu_name"
+  ) %>%
+  inner_join(
+    .,
+    ctu_ztrax_summary %>%
+      select(ctu_name, property_land_use, mean_sqft, average_year_built),
+    by = "ctu_name"
+  ) %>%
+  filter(property_land_use == "Single family residential") %>%
+  mutate(residential_mmbtu_per_person = residential_mmbtu / population) %>%
+  filter(residential_mmbtu_per_person < 50)  %>%
+  inner_join(
+    .,
+    housing_stock_ctu_percentages %>%
+      select(ctu_name, single_family_detached_perc_housing_stock) %>%
+      group_by(ctu_name) %>%
+      summarise(
+        single_family_detached_perc_housing_stock = sum(single_family_detached_perc_housing_stock)
+      ),
+    by="ctu_name"
+  ) %>%
+  inner_join(
+    .,
+    land_use_historical_ctu_sf_mf_percentage %>%
+      select(ctu_name, multifamily_percentage, singlefamily_percentage) %>%
+      rename(multifamily_percentage_landuse = multifamily_percentage,
+             singlefamily_percentage_landuse = singlefamily_percentage),
+    by = "ctu_name"
+  ) %>%
+  inner_join(
+    .,
+    census_facts %>%
+      filter(subject_area_desc == "Mean Household Income") %>%
+      filter(year == 2017) %>%
+      select(ctu_name, measure) %>%
+      rename(mean_household_income = measure)
+    ,
+    by = "ctu_name"
+  )
+```
+
+```{r}
+regression_model <- lm(residential_mmbtu_per_person ~ 
+                         mean_sqft +
+                         single_family_detached_perc_housing_stock +
+                         I(single_family_detached_perc_housing_stock^2) +
+                         singlefamily_percentage_landuse +
+                         I(singlefamily_percentage_landuse^2) +
+                         mean_household_income, 
+                       data = residential_electricity_model)
+summary(regression_model)
+```
+
+```{r}
+plot(residential_electricity_per_ho2$residential_mmbtu_per_person, (residential_electricity_per_ho2$single_family_detached)^2)
+plot(residential_electricity_per_ho2$residential_mmbtu_per_person, (residential_electricity_per_ho2$mean_sqft))
+```
+
+```{r}
+plot(residential_electricity_per_ho3$residential_mmbtu_per_person, residential_electricity_per_ho3$singlefamily_percentage)
+ggplot(residential_electricity_per_ho3, aes(x=residential_mmbtu_per_person, y=singlefamily_percentage))+geom_point()+geom_smooth(method=lm)
+ggplot(residential_electricity_model, aes(residential_mmbtu_per_person, mean_sqft)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
+
+p1 <- ggplot(residential_electricity_model, aes(mean_sqft, residential_mmbtu_per_person)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x, size = 1)
+
+p1 + xlab("Average Building Area (sqft)") + ylab("Per Capita Residential Electricity (MMBtu/person)")
+
+
+
+```
+
+
+```{r}
+p2 <- ggplot(residential_electricity_model, aes(single_family_detached_perc_housing_stock, residential_mmbtu_per_person)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
+
+p2 + xlab("single family detached percentage (of total housing stock)") + ylab("per capita residential electricity (MMBtu/person)")
+```
+
+
+```{r}
+p3 <- ggplot(residential_electricity_model, aes(singlefamily_percentage_landuse, residential_mmbtu_per_person)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
+
+p3 + xlab("single family percentage (of land use)") + ylab("per capita residential electricity (MMBtu/person)")
+```
+
+
+```{r}
+p4 <- ggplot(residential_electricity_model, aes(mean_household_income, residential_mmbtu_per_person)) +
+  geom_point() +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
+
+p4 + xlab("mean household income") + ylab("per capita residential electricity (MMBtu/person)")
+```
