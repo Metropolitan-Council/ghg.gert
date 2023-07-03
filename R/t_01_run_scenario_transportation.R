@@ -31,6 +31,7 @@
 #' @inheritParams vmt_vehicle_occupancy
 #'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
+#'    Emissions returned are in tonnes.
 #'
 #' @export
 #' @importFrom dplyr filter select case_when across bind_rows cur_column
@@ -596,54 +597,12 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     SUT_CUT = freight_truck
   )
 
-  app_output <- dplyr::bind_rows(
-    pass_all %>%
-      dplyr::filter(year %in% c(
-        "2018",
-        "2040"
-      )) %>%
-      dplyr::select(ctu, year, scenario,
-                    direct = dir_ghg,
-                    mode
-      ) %>%
-      unique() %>%
-      dplyr::mutate(
-        module = "transportation",
-        submodule = "people",
-        # tonne == metric ton
-        metric = "emissions_tonnes_co2e"
-      ) %>%
-      tidyr::pivot_longer(cols = c("direct")),
-    freight_all %>%
-      dplyr::filter(year %in% c(
-        "2018",
-        "2040"
-      )) %>%
-      dplyr::select(ctu, year, scenario, mode,
-                    direct = dir_ghg
-      ) %>%
-      unique() %>%
-      dplyr::mutate(
-        module = "transportation",
-        submodule = "freight",
-        metric = "emissions_tonnes_co2e"
-      ) %>%
-      tidyr::pivot_longer(cols = c("direct"))
-  ) %>%
-    dplyr::group_by(
-      ctu, year, scenario, module, submodule, mode,
-      metric, name
-    ) %>%
-    dplyr::summarize(value = sum(value, na.rm = T))
-
-
   return(
     list(
       "passenger" = passenger,
       "passenger_all" = pass_all,
       "freight" = freight,
-      "freight_all" = freight_all,
-      "app_data" = app_output
+      "freight_all" = freight_all
     )
   )
 }
