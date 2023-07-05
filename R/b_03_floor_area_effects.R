@@ -598,17 +598,17 @@ calc_affordable_floor_area <- function(res_tb,
               single_family_average_floor_area_sqft_ctu.2040 - (1 + .single_family_floor_area_growth_pct) *
                 single_family_average_floor_area_sqft_ctu.2018
             ),
-        value = single_family_units.2040 - reduction_floor_area
+        value = single_family_average_floor_area_sqft_ctu.2040 - reduction_floor_area
       ) %>%
       dplyr::mutate(
         year = 2040,
-        var = "single_family_units"
+        var = "single_family_average_floor_area_sqft_ctu"
       ) %>%
       dplyr::select(ctu_name, year, var, value) %>%
       dplyr::bind_rows(
         .,
         res_tb %>%
-          dplyr::filter(var != "single_family_units" &
+          dplyr::filter(var != "single_family_average_floor_area_sqft_ctu" &
             year == 2040)
       ) %>%
       bind_rows(., res_tb %>%
