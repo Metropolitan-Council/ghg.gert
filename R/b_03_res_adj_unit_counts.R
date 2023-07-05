@@ -66,7 +66,13 @@ adj_unit_counts <- function(res_tb,
       "Baseline forecast assumes reducing single family units",
       "Now reducing single family units further"
     ))
+  } else if (any(n_new_homes$new_sf_homes == 0)) {
+    cli::cli_warn(c(
+      "Baseline forecast assumes no change in single family units",
+      "No change in housing stock made"
+    ))
   }
+
 
   sf_now_mf <- n_new_homes %>%
     dplyr::mutate(

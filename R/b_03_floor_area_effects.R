@@ -347,7 +347,7 @@ calc_floor_area_retrofit <- function(res_tb,
       dplyr::left_join(existing_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          case_when(
+          dplyr::case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
               stats::weighted.mean(
                 c(

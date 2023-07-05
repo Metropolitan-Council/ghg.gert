@@ -33,7 +33,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .transit_dist_pct_change = 0,
                                  .comb_5d_impact_pct_change = 0,
                                  .telework_pct = 0,
-                                 .mit_bau_summary = 0,
+                                 .grid_decarbonization_pct = 0.6,
                                  .enviro_factors = enviro_factors,
                                  .factor_values = factor_values,
                                  .elast = elast,
@@ -55,17 +55,47 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
   class <- "CI"
   message("Multimodal, diesel")
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
+
   mm_ci_vmt <-
     calc_vmt_forecast(
-      .scenario,
-      .selected_ctu,
-      tb = .freight_tb, mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
-      .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      tb = .freight_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
@@ -74,9 +104,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   mm_ci_ghg <-
     calc_ghg_direct(
-      mm_ci_vmt,
-      .freight_tb,
-      mode, "MMCI", .aeo_scenario, mpg,
+      tb_vmt = mm_ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "MMCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -89,25 +123,61 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
   class <- "BEV"
   message("Multimodal, battery electric")
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpe,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
+
   mm_bev_vmt <-
     calc_vmt_forecast(
-      .scenario, .selected_ctu,
-      tb = .freight_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      tb = .freight_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .elast = .elast,
+      .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   mm_bev_ghg <-
     calc_ghg_direct(
-      mm_bev_vmt,
-      .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe,
+      tb_vmt = mm_bev_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -123,16 +193,47 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   message("Air, gasoline")
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
 
   air_si_vmt <-
     calc_vmt_forecast(
-      .scenario, .selected_ctu,
-      tb = .freight_tb, mode,
-      stock, var, fcm, .aeo_scenario, .transit_avo_pct,
-      .transit_service_pct, .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      tb = .freight_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
@@ -140,9 +241,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   air_si_ghg <-
     calc_ghg_direct(
-      air_si_vmt, .freight_tb, mode,
-      "ASI",
-      .aeo_scenario, mpg,
+      tb_vmt = air_si_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "ASI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -158,15 +263,47 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
   mpg <- "CIMPG"
   class <- "CI"
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
+
   wat_ci_vmt <-
     calc_vmt_forecast(
-      .scenario, .selected_ctu,
-      tb = .freight_tb, mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      tb = .freight_tb,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
+      .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
@@ -174,8 +311,13 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   wat_ci_ghg <-
     calc_ghg_direct(
-      wat_ci_vmt, .freight_tb,
-      mode, "WCI", .aeo_scenario, mpg,
+      tb_vmt = wat_ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "WCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -201,7 +343,7 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   av_return <- list(
     "vmt" = vmt_all,
-    "ghg" = ghg_all
+    "dir_ghg" = ghg_all
   )
 
   cli::cli_alert_success(paste(

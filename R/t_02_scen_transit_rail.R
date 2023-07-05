@@ -34,7 +34,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .mit_bau_summary = 0,
+                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d,
@@ -47,17 +47,19 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   passenger_rail <- list()
 
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
-
+  # browser()
   # Rail Urban-----
+
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
-    .mode = "PLDV",
+    .mode = "RU",
     .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL,
+    .miles_per_gallon = "EVElec",
+    .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
+
 
   # browser()
 
@@ -117,6 +119,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -129,6 +132,17 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   stock <- "BCIStock"
   mpg <- "BCIMPG"
   class <- "BCI"
+
+
+  fcm <- calc_fuel_cost_mile(
+    .pass_tb,
+    .mode = mode,
+    .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
 
   # cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
 
@@ -177,6 +191,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -185,6 +200,17 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   stock <- "EVStock"
   mpe <- "EVElec"
   class <- "EV"
+
+  fcm <- calc_fuel_cost_mile(
+    .pass_tb,
+    .mode = mode,
+    .aeo_scenario,
+    .miles_per_gallon = mpe,
+    .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
 
   # cli::cli_progress_message("**** Passenger interurban rail, electric \n")
   ev_ri_vmt <-
@@ -231,6 +257,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )

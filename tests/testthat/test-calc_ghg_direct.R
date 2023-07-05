@@ -22,6 +22,8 @@ si_dir_ghg <- calc_ghg_direct(
   .fuel_type = "SI",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
+  .grid_decarbonization_pct = 0.6,
+  .factor_values = factor_values,
   .enviro_factors = enviro_factors
 )
 
@@ -57,7 +59,10 @@ ci_dir_ghg <- calc_ghg_direct(
   .mode = "PLDV",
   .fuel_type = "CI",
   .aeo_scenario = "REF",
-  .miles_per_gallon = "CIMPG"
+  .miles_per_gallon = "CIMPG",
+  .grid_decarbonization_pct = 0.6,
+  .factor_values = factor_values,
+  .enviro_factors = enviro_factors
 )
 
 

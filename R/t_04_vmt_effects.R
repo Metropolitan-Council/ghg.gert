@@ -121,16 +121,16 @@ vmt_land_use_change <- function(.type,
     dplyr::mutate(
       product_all =
         .data$n_population_density *
-        .data$n_employment_density *
-        .data$n_diversity *
-        .data$n_design *
-        .data$n_job_access *
-        .data$n_distance *
-        .data$n_combined_density
+          .data$n_employment_density *
+          .data$n_diversity *
+          .data$n_design *
+          .data$n_job_access *
+          .data$n_distance *
+          .data$n_combined_density
     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      land_use_adj = case_when(
+      land_use_adj = dplyr::case_when(
         .type == "DRIVE" & product_all < max_value ~ max_value,
         .type %in% c(
           "WALK",
@@ -139,7 +139,7 @@ vmt_land_use_change <- function(.type,
         TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-                            land_use_adj
+        land_use_adj
       )
     ) %>%
     dplyr::select(year, land_use_adj)
@@ -225,7 +225,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       dplyr::select(year, ctu, park_price_adj) %>%
       # if adjustment is less than 0, adjust to 0.45
-      dplyr::mutate(park_price_adj = case_when(
+      dplyr::mutate(park_price_adj = dplyr::case_when(
         park_price_adj < 0.45 ~ 0.45,
         TRUE ~ park_price_adj
       ))
@@ -253,9 +253,13 @@ vmt_parking_policy <- function(tb,
 
     park_return <- park_price_current %>%
       dplyr::left_join(.elast %>%
-                         dplyr::select(year, park_elast), by = "year") %>%
+        dplyr::select(year, park_elast), by = "year") %>%
       dplyr::mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
-      dplyr::select(year, ctu, park_price_adj)
+      dplyr::select(year, ctu, park_price_adj) %>%
+      dplyr::mutate(park_price_adj = dplyr::case_when(
+        park_price_adj < 0.45 ~ 0.45,
+        TRUE ~ park_price_adj
+      ))
   } else {
     cli::cli_abort(paste0("Parking adjustment is applicable for ", .mode))
   }
@@ -328,7 +332,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-                             .enviro_factors$CONG_VMT) * cong_elast,
+          .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
@@ -369,7 +373,7 @@ vmt_road_policy <- function(.pass_tb,
 
     fc_return <- .tb_fuel_cost_mile %>%
       # dplyr::select(-ctu, -var) %>%
-      dplyr::left_join(pldv_stocks, by = c("year", "mode")) %>%
+      dplyr::left_join(pldv_stocks, by = c("year")) %>%
       dplyr::left_join(.tb_vmt, by = c("year", "ctu", "type")) %>%
       dplyr::left_join(elast_vmt, by = "year") %>%
       dplyr::mutate(
@@ -550,10 +554,13 @@ vmt_telework <- function(.pass_tb,
       )
     ) %>%
       # assign 2045 and 2050 the given telework pct
-      dplyr::mutate(telework_elast_val =
-                      ifelse(year %in% c("2045", "2050") &
-                               telework_elast_val == 0,
-                             .telework_pct, telework_elast_val))
+      dplyr::mutate(
+        telework_elast_val =
+          ifelse(year %in% c("2045", "2050") &
+            telework_elast_val == 0,
+          .telework_pct, telework_elast_val
+          )
+      )
 
     telework_adj_tb <- telework_elast %>%
       dplyr::mutate(
@@ -742,7 +749,7 @@ vmt_transit_service <- function(tb,
 #'     the average number of people in a car increases.
 #'     An increase in  passenger occupancy implies
 #'     additional **passenger** miles traveled, with no implied
-#'     change in passenger vehicle miles traveled.
+#'     change in vehicle miles traveled.
 #'
 #'     `.transit_avo_pct` and `.pldv_avo_pct` indicate
 #'     the overall effect by the final forecast year.
@@ -780,7 +787,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       dplyr::select(year, ctu,
-                    occupancy_adj = value
+        occupancy_adj = value
       ) %>%
       unique()
 
@@ -796,7 +803,8 @@ vmt_vehicle_occupancy <- function(tb,
     ) %>%
       dplyr::mutate(avo_elast = ifelse(
         year %in% c("2045", "2050") &
-          avo_elast == 0, .pldv_avo_pct, avo_elast))
+          avo_elast == 0, .pldv_avo_pct, avo_elast
+      ))
 
 
     occ_return <- pldv_occupancy %>%
@@ -889,11 +897,11 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       dplyr::select(mode,
-                    year,
-                    ctu,
-                    aeo_mode,
-                    type,
-                    mode_avo = AVO
+        year,
+        ctu,
+        aeo_mode,
+        type,
+        mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%

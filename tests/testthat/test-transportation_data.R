@@ -218,3 +218,42 @@ testthat::test_that("bus AVO correct", {
     )
   )
 })
+
+
+testthat::test_that("All transit is the sum of each transit mode", {
+  at_total <- transportation_data$passenger %>%
+    filter(
+      mode == "AT",
+      var == "PMT"
+    ) %>%
+    group_by(ctu, year) %>%
+    summarise(value = sum(value))
+
+  transit_total <- transportation_data$passenger %>%
+    filter(
+      mode %in% c(
+        "BU",
+        "BRT",
+        "RU",
+        "RI"
+      ),
+      var == "PMT"
+    ) %>%
+    group_by(ctu, year) %>%
+    summarise(value = sum(value))
+
+
+  testthat::expect_equal(at_total,
+    transit_total,
+    tolerance = 1
+  )
+})
+
+
+testthat::test_that("enviro factors and elasticities correct", {
+  testthat::expect_equal(
+    enviro_factors$TRANSIT_SERVICE_ELAST, 0.9
+  )
+
+  testthat::expect_equal(min(elast$vmt_elast), -0.34)
+})

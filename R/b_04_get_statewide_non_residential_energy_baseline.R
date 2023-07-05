@@ -35,7 +35,7 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
     dplyr::select(state_name, year, var, value) %>%
     dplyr::mutate(
       var =
-        case_when(
+        dplyr::case_when(
           (var == "electricity_residential_consumption_mwh")
           ~ "electricity_residential_consumption_mwh_state",
           (var == "electricity_commercial_consumption_mwh")
@@ -52,7 +52,7 @@ get_statewide_non_residential_energy <- function(tb = building_energy_data, .sel
     dplyr::select(state_name, year, naicstitle, emp) %>%
     dplyr::mutate(
       type =
-        case_when(
+        dplyr::case_when(
           (
             naicstitle %in% c(
               "Natural Resources and Mining",

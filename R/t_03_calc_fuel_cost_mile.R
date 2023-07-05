@@ -20,7 +20,6 @@ calc_fuel_cost_mile <- function(tb,
                                 .enviro_factors = ghg.sp::enviro_factors,
                                 .factor_values = ghg.sp::factor_values) {
   # cli::cli_progress_message("*** calculating fuel cost per mile \n")
-
   tb_l <- tb %>%
     dplyr::filter(
       mode == .mode,
@@ -44,6 +43,26 @@ calc_fuel_cost_mile <- function(tb,
     dplyr::select(everything(),
       aeo_val = value
     )
+
+  if (nrow(aeo_f_l) == 0) {
+    cli::cli_warn(
+      paste0("No AEO MPG available for ", .mode, " ", .miles_per_gallon),
+      "Using reference value  = 1 instead"
+    )
+
+    aeo_f_l <- tibble::tribble(
+      ~aeo_scen, ~mode, ~metric, ~year, ~aeo_val,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2015", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2018", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2020", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2025", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2030", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2035", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2040", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2045", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2050", 1
+    )
+  }
 
   re <- dplyr::left_join(tb_l, aeo_f_l,
     by = "year",

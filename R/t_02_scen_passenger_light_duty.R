@@ -33,7 +33,6 @@ scen_passenger_light_duty <- function(.pass_tb,
                                       .transit_dist_pct_change = 0,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
-                                      .mit_bau_summary = 0,
                                       .grid_decarbonization_pct = 0.6,
                                       .enviro_factors = enviro_factors,
                                       .elast = elast,
@@ -82,7 +81,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
+    .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -130,6 +129,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
+    .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
@@ -147,7 +147,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "CIMPG",
+    .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -197,6 +197,7 @@ scen_passenger_light_duty <- function(.pass_tb,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -212,11 +213,11 @@ scen_passenger_light_duty <- function(.pass_tb,
   # Calculate a fuel cost per mile rather than per gallon
 
   fcm <- calc_fuel_cost_mile(
-    .pass_tb,
-    mode,
-    .aeo_scenario,
-    mpg,
-    .enviro_factors$SI_FUEL_COST_GAL,
+    tb = .pass_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
@@ -258,8 +259,13 @@ scen_passenger_light_duty <- function(.pass_tb,
 
   hev_dir_ghg <-
     calc_ghg_direct(
-      hev_vmt, .pass_tb,
-      mode, "SI", .aeo_scenario, mpg,
+      tb_vmt = hev_vmt,
+      tb = .pass_tb,
+      .mode = mode,
+      .fuel_type = "SI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -279,11 +285,11 @@ scen_passenger_light_duty <- function(.pass_tb,
   # browser()
 
   fcm <- calc_fuel_cost_mile(
-    .pass_tb,
-    mode,
-    .aeo_scenario,
-    mpg,
-    .enviro_factors$SI_FUEL_COST_GAL,
+    tb = .pass_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
@@ -327,11 +333,11 @@ scen_passenger_light_duty <- function(.pass_tb,
 
   ### VMT electric ------
   fcm_electric <- calc_fuel_cost_mile(
-    .pass_tb,
-    mode,
-    .aeo_scenario,
-    mpe,
-    .enviro_factors$ELEC_FUEL_COST_KWH,
+    tb = .pass_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpe,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
@@ -407,6 +413,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
+    .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   ) %>%
@@ -422,6 +429,7 @@ scen_passenger_light_duty <- function(.pass_tb,
     .fuel_type = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
+    .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   ) %>%

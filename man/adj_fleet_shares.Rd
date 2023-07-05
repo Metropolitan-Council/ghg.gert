@@ -7,6 +7,7 @@
 adj_fleet_shares(
   .pass_tb,
   .freight_tb,
+  .selected_ctu = "all",
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
@@ -23,6 +24,8 @@ Default is \code{transportation_data$passenger}.}
 
 \item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} Freight input table.
 Default is \code{transportation_data$freight}.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)

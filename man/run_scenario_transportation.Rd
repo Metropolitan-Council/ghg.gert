@@ -38,7 +38,6 @@ run_scenario_transportation(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .mit_bau_summary = 0,
   .enviro_factors = ghg.sp::enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
@@ -135,8 +134,6 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
-
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
@@ -147,6 +144,7 @@ Default is \code{0}.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.
+Emissions returned are in tonnes.
 }
 \description{
 Main function to call other functions for determining VMT,
