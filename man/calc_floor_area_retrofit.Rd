@@ -33,7 +33,7 @@ when \code{year == 2040} relative to the residential inputs table.
 }
 \description{
 adjusts single and multifamily average
-floor area forecast under the assumptio of energy use reduction due to home
+floor area forecast under the assumption of energy use reduction due to home
 retrofits.
 }
 \details{

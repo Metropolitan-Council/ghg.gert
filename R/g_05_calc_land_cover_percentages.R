@@ -119,7 +119,7 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     ) %>%
     dplyr::mutate(
       percent_land_cover_type = dplyr::if_else(
-        hectares > 50,
+        hectares > 50 & !is.na(land_cover_percent),
         land_cover_percent,
         dplyr::if_else(is.na(percent_of_total_area),
           0,
