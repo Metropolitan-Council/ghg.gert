@@ -16,10 +16,10 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
 
   pass <- suppressMessages(
     suppressWarnings(
-    scen_transit_rail(
-      .pass_tb = transportation_data$passenger,
-      .selected_ctu = "St. Paul"
-    )))
+      scen_transit_rail(
+        .pass_tb = transportation_data$passenger,
+        .selected_ctu = "St. Paul"
+      )))
 
   testthat::expect_length(pass, 2)
 
@@ -276,3 +276,40 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     }
   )
 })
+
+
+testthat::test_that("Scandia has no rail PMT",{
+
+  bau <- suppressMessages(suppressWarnings(scen_transit_rail(
+    .selected_ctu = "Scandia"
+  )))
+
+  transit <- suppressMessages(suppressWarnings(scen_transit_rail(
+    .selected_ctu = "Scandia",
+    .transit_service_pct = 1,
+    .pldv_avo_pct = 0.5
+  )))
+
+  vmt_summary <- bind_rows(
+
+    bau$vmt %>%
+      group_by(ctu, year) %>%
+      dplyr::summarize(vmt = sum(vmt)) %>%
+      mutate(scen = "bau"),
+
+    transit$vmt %>%
+      group_by(ctu, year) %>%
+      dplyr::summarize(vmt = sum(vmt)) %>%
+      mutate(scen = "transit")
+  ) %>%
+    pivot_wider(names_from = "scen",
+                values_from = "vmt")
+
+
+  testthat::expect_equal(vmt_summary %>%
+                           mutate(diff = transit - bau) %>%
+                           magrittr::extract2("diff") %>%
+                           sum(),
+                         0)
+})
+
