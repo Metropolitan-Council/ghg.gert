@@ -12,23 +12,24 @@ transit_rail <- suppressMessages(
 )
 testthat::expect_length(transit_rail, 5)
 
-testthat::test_that("St. Paul emissions reduce with interventions",{
-
+testthat::test_that("St. Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
       scen_transit_rail(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul"
-      )))
+      )
+    )
+  )
 
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -64,7 +65,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .pldv_avo_pct = 0.5,
     .cong_price = 0.01,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
   pass_tele <- suppressMessages(suppressWarnings(scen_transit_rail(
@@ -74,7 +76,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
     .telework_pct = 0.5,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
 
@@ -86,7 +89,6 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
       # pass_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -185,8 +187,7 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
 # })
 
 
-testthat::test_that("Minneapolis emissions reduce with interventions",{
-
+testthat::test_that("Minneapolis emissions reduce with interventions", {
   pass <- suppressMessages(suppressWarnings(scen_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis"
@@ -195,14 +196,14 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                           # "emb_ghg",
-                           # "fuel_use",
-                           # "cost"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+      # "emb_ghg",
+      # "fuel_use",
+      # "cost"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -219,7 +220,8 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
       .scenario = "transit",
       .transit_service_pct = .30,
       .transit_avo_pct = 0.5
-    )))
+    )
+  ))
 
   pass_lu <- suppressMessages(
     suppressWarnings(
@@ -230,7 +232,9 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
         .emp_dens_pct_change = 0.10,
         .pop_dens_pct_change = 0.10,
         .grid_decarbonization_pct = 0.8
-      )))
+      )
+    )
+  )
 
 
   pass_road <- suppressMessages(
@@ -243,7 +247,10 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
         .vmt_fee = 0.01,
         .pldv_avo_pct = 0.5,
         .cong_price = 0.01,
-        .parking_price = 20)))
+        .parking_price = 20
+      )
+    )
+  )
 
 
   pass_tele <- suppressMessages(
@@ -254,7 +261,10 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
         .scenario = "telework",
         .emp_dens_pct_change = 0.10,
         .vmt_fee = 0.01,
-        .telework_pct = 0.5)))
+        .telework_pct = 0.5
+      )
+    )
+  )
 
 
 
@@ -266,7 +276,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
       # pass_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -278,8 +287,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
 })
 
 
-testthat::test_that("Scandia has no rail PMT",{
-
+testthat::test_that("Scandia has no rail PMT", {
   bau <- suppressMessages(suppressWarnings(scen_transit_rail(
     .selected_ctu = "Scandia"
   )))
@@ -291,25 +299,26 @@ testthat::test_that("Scandia has no rail PMT",{
   )))
 
   vmt_summary <- bind_rows(
-
     bau$vmt %>%
       group_by(ctu, year) %>%
       dplyr::summarize(vmt = sum(vmt)) %>%
       mutate(scen = "bau"),
-
     transit$vmt %>%
       group_by(ctu, year) %>%
       dplyr::summarize(vmt = sum(vmt)) %>%
       mutate(scen = "transit")
   ) %>%
-    pivot_wider(names_from = "scen",
-                values_from = "vmt")
+    pivot_wider(
+      names_from = "scen",
+      values_from = "vmt"
+    )
 
 
-  testthat::expect_equal(vmt_summary %>%
-                           mutate(diff = transit - bau) %>%
-                           magrittr::extract2("diff") %>%
-                           sum(),
-                         0)
+  testthat::expect_equal(
+    vmt_summary %>%
+      mutate(diff = transit - bau) %>%
+      magrittr::extract2("diff") %>%
+      sum(),
+    0
+  )
 })
-

@@ -88,7 +88,7 @@ calc_ghg_embodied <- function(tb,
 
 
       .mitigation_tb <- .mitigation_tb %>%
-        dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ case_when(
+        dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ dplyr::case_when(
           (mode == .mode & class == .class & .x == 0) ~ 1,
           TRUE ~ .x / 10^5
         )))
@@ -96,7 +96,7 @@ calc_ghg_embodied <- function(tb,
 
 
       .bau_tb <- .bau_tb %>%
-        dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ case_when(
+        dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ dplyr::case_when(
           (mode == .mode & class == .class & .x == 0) ~ 1,
           TRUE ~ .x
         )))

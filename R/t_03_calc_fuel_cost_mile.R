@@ -26,10 +26,10 @@ calc_fuel_cost_mile <- function(tb,
       var == .miles_per_gallon
     ) %>%
     dplyr::select(mode,
-                  year,
-                  fuel_mpg = var,
-                  aeo_mode,
-                  val_mpg = value
+      year,
+      fuel_mpg = var,
+      aeo_mode,
+      val_mpg = value
     ) %>%
     unique()
 
@@ -41,38 +41,39 @@ calc_fuel_cost_mile <- function(tb,
       mode == unique(tb_l$aeo_mode)
     ) %>%
     dplyr::select(everything(),
-                  aeo_val = value
+      aeo_val = value
     )
 
-  if(nrow(aeo_f_l) == 0){
-    cli::cli_warn(paste0("No AEO MPG available for ", .mode, " ", .miles_per_gallon),
-                  "Using reference value  = 1 instead")
+  if (nrow(aeo_f_l) == 0) {
+    cli::cli_warn(
+      paste0("No AEO MPG available for ", .mode, " ", .miles_per_gallon),
+      "Using reference value  = 1 instead"
+    )
 
     aeo_f_l <- tibble::tribble(
-      ~aeo_scen,   ~mode, ~metric,  ~year, ~aeo_val,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2015",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2018",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2020",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2025",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2030",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2035",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2040",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2045",        1,
-      "REF", unique(tb_l$aeo_mode),   "MPG", "2050",        1
+      ~aeo_scen, ~mode, ~metric, ~year, ~aeo_val,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2015", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2018", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2020", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2025", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2030", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2035", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2040", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2045", 1,
+      "REF", unique(tb_l$aeo_mode), "MPG", "2050", 1
     )
-
   }
 
   re <- dplyr::left_join(tb_l, aeo_f_l,
-                         by = "year",
-                         suffix = c(".tb", ".aeo")
+    by = "year",
+    suffix = c(".tb", ".aeo")
   ) %>%
     dplyr::mutate(fuel_cost_mile = .fuel_cost_gallon /
-                    (val_mpg * aeo_val)) %>%
+      (val_mpg * aeo_val)) %>%
     dplyr::select(year,
-                  mode = mode.tb,
-                  fuel_mpg,
-                  fuel_cost_mile
+      mode = mode.tb,
+      fuel_mpg,
+      fuel_cost_mile
     )
 
   return(re)

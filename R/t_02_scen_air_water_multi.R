@@ -105,8 +105,8 @@ scen_air_water_multi <- function(.freight_tb = transportation_data$freight,
   mm_ci_ghg <-
     calc_ghg_direct(
       tb_vmt = mm_ci_vmt,
-      tb =  .freight_tb,
-      .mode =  mode,
+      tb = .freight_tb,
+      .mode = mode,
       .fuel_type = "MMCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,

@@ -12,14 +12,16 @@ bldg_areas <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/202
 bldg <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/20201012/ZAsmt/metro_Building.fst") %>% as.data.table()
 main <- fst::read.fst("/Volumes/shared/CommDev/Research/ZTRAX/fst_data/20201012/ZAsmt/metro_Main.fst") %>% as.data.table()
 
-geo_info <- main[,.(RowID,
-                    PropertyCity,
-                    County,
-                    PropertyAddressLatitude,
-                    PropertyAddressLongitude,
-                    FIPS)]
+geo_info <- main[, .(
+  RowID,
+  PropertyCity,
+  County,
+  PropertyAddressLatitude,
+  PropertyAddressLongitude,
+  FIPS
+)]
 
-bldg_area_geo <- data.table::merge.data.table(bldg, geo_info,by = "RowID")
+bldg_area_geo <- data.table::merge.data.table(bldg, geo_info, by = "RowID")
 
 bldg_all <- data.table::merge.data.table(bldg_area_geo, bldg_areas, by = "RowID") %>% as.data.table()
 
@@ -30,19 +32,23 @@ bldgarea_dict <- read_xlsx("/Volumes/shared/CommDev/Research/ZTRAX/originals/ZTR
 
 
 bldg_all <- data.table::merge.data.table(bldg_all,
-                                         landuse_dict,
-                                         by.x = "PropertyLandUseStndCode",
-                                         by.y = "StndCode") %>% as.data.table()
+  landuse_dict,
+  by.x = "PropertyLandUseStndCode",
+  by.y = "StndCode"
+) %>% as.data.table()
 
 
-bldg_res <- data.table::merge.data.table(bldg_all[Classification %in% c(
-  "Residential",
-  "Residential Income - Multi-Family"),],
+bldg_res <- data.table::merge.data.table(
+  bldg_all[Classification %in% c(
+    "Residential",
+    "Residential Income - Multi-Family"
+  ), ],
   bldgarea_dict,
-  by = "BuildingAreaStndCode")
+  by = "BuildingAreaStndCode"
+)
 
 
-res_small <- bldg_res[,.(
+res_small <- bldg_res[, .(
   RowID,
   PropertyCity,
   PropertyAddressLatitude,
@@ -58,19 +64,26 @@ res_small <- bldg_res[,.(
   PropertyCountyLandUseDescription,
   FIPS.x,
   FIPS.y
-)][BuildingAreaStndCode %in% c("BAL", "BAH"),][!HousingType %in% c("NA",
-                                                                   "Other housing",
-                                                                   "Manufactured housing"), ]
+)][BuildingAreaStndCode %in% c("BAL", "BAH"), ][!HousingType %in% c(
+  "NA",
+  "Other housing",
+  "Manufactured housing"
+), ]
 
 
-res_points <- res_small[,.(RowID,
-                           County,
-                           lat = PropertyAddressLatitude,
-                           lng = PropertyAddressLongitude)] %>%
-  filter(!is.na(lat),
-         !is.na(lng)) %>%
-  sf::st_as_sf(coords = c("lat", "lng"),
-               crs = 4326)
+res_points <- res_small[, .(RowID,
+  County,
+  lat = PropertyAddressLatitude,
+  lng = PropertyAddressLongitude
+)] %>%
+  filter(
+    !is.na(lat),
+    !is.na(lng)
+  ) %>%
+  sf::st_as_sf(
+    coords = c("lat", "lng"),
+    crs = 4326
+  )
 
 library(councilR)
 
@@ -81,7 +94,8 @@ county_geo <- councilR::fetch_county_geo() %>%
   st_transform(4326)
 
 region_geo <- summarize(ctu_geo,
-                        do.union = TRUE)
+  do.union = TRUE
+)
 
 future::plan(future::multisession)
 
@@ -94,9 +108,10 @@ res_county <- res_points %>%
   group_by(County, group_n) %>%
   group_split() %>%
   furrr::future_map_dfr(
-    function(x){
+    function(x) {
       sf::st_intersection(county_geo, x)
-    })
+    }
+  )
 tictoc::toc()
 
 saveRDS(res_county, "data-raw/building_energy_data_processing/ztrax_spatial/res_county.RDS")
@@ -109,9 +124,10 @@ res_ctu <- res_points %>%
   group_by(County, group_n) %>%
   group_split() %>%
   furrr::future_map(
-    function(x){
+    function(x) {
       sf::st_intersection(x, ctu_geo)
-    })
+    }
+  )
 
 tictoc::toc()
 

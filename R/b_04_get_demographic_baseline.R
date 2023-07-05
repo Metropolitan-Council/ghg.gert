@@ -39,10 +39,11 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   county_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_county %>%
     dplyr::select(co_name, property_land_use, designation, mean_sqft) %>%
-    dplyr::filter(designation %in% c("MF5", # apartments
-                                     "DTQ", # duplex/triplex
-                                     "TH" # townhouse
-                                     )) %>%
+    dplyr::filter(designation %in% c(
+      "MF5", # apartments
+      "DTQ", # duplex/triplex
+      "TH" # townhouse
+    )) %>%
     dplyr::group_by(co_name) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = TRUE)) %>%
     dplyr::mutate(
@@ -181,9 +182,10 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   ctu_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_ctu %>%
     dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
-    dplyr::filter(designation %in% c("MF5", # apartments
-                                     "DTQ", # duplex/triplex
-                                     "TH" # townhouse
+    dplyr::filter(designation %in% c(
+      "MF5", # apartments
+      "DTQ", # duplex/triplex
+      "TH" # townhouse
     )) %>%
     dplyr::group_by(ctu_name) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%

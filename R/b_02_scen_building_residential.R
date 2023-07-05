@@ -158,12 +158,17 @@ scen_building_residential <- function(res_tb = res_tb,
         "residential_therms",
         "residential_electricity_emissions_kg_co",
         "residential_natural_gas_emissions_kg_co"
-      )) %>%
+      )
+    ) %>%
     tidyr::pivot_wider(names_from = var, values_from = value) %>%
-    dplyr::mutate(residential_electricity_emissions_tonne = residential_electricity_emissions_kg_co/1000,
-                  residential_natural_gas_emissions_tonne = residential_natural_gas_emissions_kg_co/1000) %>%
-    tidyr::pivot_longer(cols = residential_mwh:residential_natural_gas_emissions_tonne,
-                        names_to = 'var', values_to = 'value')
+    dplyr::mutate(
+      residential_electricity_emissions_tonne = residential_electricity_emissions_kg_co / 1000,
+      residential_natural_gas_emissions_tonne = residential_natural_gas_emissions_kg_co / 1000
+    ) %>%
+    tidyr::pivot_longer(
+      cols = residential_mwh:residential_natural_gas_emissions_tonne,
+      names_to = "var", values_to = "value"
+    )
 
   return(tb09 %>% dplyr::mutate(year = as.numeric(year)))
 }

@@ -108,7 +108,7 @@ check_inputs <- function(name, value) {
       ))
     }
   } else if (name == "selected_ctu") {
-    if(value == "all"){
+    if (value == "all") {
       return()
     } else if (!value %in% unique(transportation_data$passenger$ctu)) {
       cli::cli_abort(c(

@@ -330,7 +330,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
     ci_ri_cost <-
       calc_cost(ci_ri_vmt,
-                .selected_ctu = .selected_ctu, mode, "BCIPrice"
+        .selected_ctu = .selected_ctu, mode, "BCIPrice"
       )
 
     ev_ri_cost <-

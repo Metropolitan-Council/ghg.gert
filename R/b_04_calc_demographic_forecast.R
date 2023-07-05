@@ -39,8 +39,10 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     ) %>%
     dplyr::mutate(year_built_group = cut(year_built, seq(1990, 2025, 3))) %>%
     dplyr::group_by(co_name, year_built_group) %>%
-    dplyr::summarise(average_building_sqft = median(average_building_sqft, na.rm = T),
-                     year_built = min(year_built)) %>%
+    dplyr::summarise(
+      average_building_sqft = median(average_building_sqft, na.rm = T),
+      year_built = min(year_built)
+    ) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
       diff_year = year_built - dplyr::lag(year_built),
@@ -59,12 +61,14 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   ## ----- estimate avg growth in multifamily floor area ----
   multifamily_types <- tb$ztrax_sqft_summary_county %>%
     dplyr::select(property_land_use, designation) %>%
-    dplyr::filter(designation %in% c("MF5", # apartments
-                                     "DTQ", # duplex/triplex
-                                     "TH" # townhouse
+    dplyr::filter(designation %in% c(
+      "MF5", # apartments
+      "DTQ", # duplex/triplex
+      "TH" # townhouse
     )) %>%
     dplyr::mutate(property_land_use = janitor::make_clean_names(property_land_use,
-                                                                allow_dupes = TRUE))
+      allow_dupes = TRUE
+    ))
 
   county_average_annual_growth_multifamily_sqft <-
     tb$ztrax_building_sqft %>%
@@ -74,8 +78,10 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     ) %>%
     dplyr::mutate(year_built_group = cut(year_built, seq(1990, 2025, 3))) %>%
     dplyr::group_by(co_name, year_built_group) %>%
-    dplyr::summarise(average_building_sqft = median(average_building_sqft, na.rm = T),
-                     year_built = min(year_built)) %>%
+    dplyr::summarise(
+      average_building_sqft = median(average_building_sqft, na.rm = T),
+      year_built = min(year_built)
+    ) %>%
     dplyr::arrange(co_name, year_built) %>%
     dplyr::mutate(
       diff_year = year_built - dplyr::lag(year_built),
@@ -95,9 +101,10 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   county_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_county %>%
     dplyr::select(co_name, property_land_use, designation, mean_sqft) %>%
-    dplyr::filter(designation %in% c("MF5", # apartments
-                                     "DTQ", # duplex/triplex
-                                     "TH" # townhouse
+    dplyr::filter(designation %in% c(
+      "MF5", # apartments
+      "DTQ", # duplex/triplex
+      "TH" # townhouse
     )) %>%
     dplyr::group_by(co_name) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = TRUE)) %>%
@@ -231,9 +238,10 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   ctu_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_ctu %>%
     dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
-    dplyr::filter(designation %in% c("MF5", # apartments
-                                     "DTQ", # duplex/triplex
-                                     "TH" # townhouse
+    dplyr::filter(designation %in% c(
+      "MF5", # apartments
+      "DTQ", # duplex/triplex
+      "TH" # townhouse
     )) %>%
     dplyr::group_by(ctu_name) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%

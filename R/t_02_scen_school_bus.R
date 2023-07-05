@@ -66,7 +66,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   fcm <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
-    .aeo_scenario =  .aeo_scenario,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpg,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
@@ -116,7 +116,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   fcm <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
-    .aeo_scenario =  .aeo_scenario,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = mpe,
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
@@ -163,7 +163,7 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
   ci_ghg <-
     calc_ghg_direct(
       tb_vmt = ci_vmt,
-      tb =  .pass_tb,
+      tb = .pass_tb,
       .mode = mode,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
@@ -175,11 +175,11 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
 
   bev_ghg <-
     calc_ghg_direct(
-      tb_vmt =   bev_vmt,
+      tb_vmt = bev_vmt,
       tb = .pass_tb,
       .mode = mode,
       .fuel_type = .electric_scenario,
-      .aeo_scenario =  .aeo_scenario,
+      .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
@@ -246,8 +246,8 @@ scen_school_bus <- function(.pass_tb = transportation_data$passenger,
         type = type
       ) %>%
       dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
-                    ghg_embodied_source,
-                    ghg_embodied = dir_ghg
+        ghg_embodied_source,
+        ghg_embodied = dir_ghg
       )
 
     school_bus$emb_ghg <- emb_ghg_all

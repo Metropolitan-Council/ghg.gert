@@ -1,19 +1,19 @@
-testthat::test_that("St. Paul emissions reduce with interventions",{
-
+testthat::test_that("St. Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     scen_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "St. Paul"
-  ))
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = "St. Paul"
+    )
+  )
 
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -47,7 +47,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .pldv_avo_pct = 0.5,
     .cong_price = 0.01,
-    .parking_price = 20))
+    .parking_price = 20
+  ))
 
 
   pass_tele <- suppressMessages(scen_passenger_light_duty(
@@ -57,7 +58,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
     .telework_pct = 0.5,
-    .parking_price = 20))
+    .parking_price = 20
+  ))
 
 
 
@@ -69,7 +71,6 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
       pass_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -81,8 +82,7 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
 })
 
 
-testthat::test_that("Lake Elmo emissions reduce with interventions",{
-
+testthat::test_that("Lake Elmo emissions reduce with interventions", {
   pass <- suppressMessages(scen_passenger_light_duty(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Lake Elmo",
@@ -94,14 +94,14 @@ testthat::test_that("Lake Elmo emissions reduce with interventions",{
   testthat::expect_length(pass, 5)
 
   testthat::expect_named(pass,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg",
-                           "emb_ghg",
-                           "fuel_use",
-                           "cost"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg",
+      "emb_ghg",
+      "fuel_use",
+      "cost"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -144,7 +144,8 @@ testthat::test_that("Lake Elmo emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .pldv_avo_pct = 0.5,
     .cong_price = 0.01,
-    .parking_price = 20))
+    .parking_price = 20
+  ))
 
 
   pass_tele <- suppressMessages(scen_passenger_light_duty(
@@ -157,7 +158,8 @@ testthat::test_that("Lake Elmo emissions reduce with interventions",{
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
     .telework_pct = 0.5,
-    .parking_price = 20))
+    .parking_price = 20
+  ))
 
 
 
@@ -169,7 +171,6 @@ testthat::test_that("Lake Elmo emissions reduce with interventions",{
       pass_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -181,8 +182,7 @@ testthat::test_that("Lake Elmo emissions reduce with interventions",{
 })
 
 
-testthat::test_that("Minneapolis emissions reduce with interventions",{
-
+testthat::test_that("Minneapolis emissions reduce with interventions", {
   pass <- suppressMessages(scen_passenger_light_duty(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
@@ -194,14 +194,14 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                           # "emb_ghg",
-                           # "fuel_use",
-                           # "cost"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+      # "emb_ghg",
+      # "fuel_use",
+      # "cost"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -245,7 +245,8 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .pldv_avo_pct = 0.5,
     .cong_price = 0.01,
-    .parking_price = 20))
+    .parking_price = 20
+  ))
 
 
   pass_tele <- suppressMessages(scen_passenger_light_duty(
@@ -257,7 +258,8 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     .calc_transp_ghg_embodied = FALSE,
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
-    .telework_pct = 0.5))
+    .telework_pct = 0.5
+  ))
 
 
 
@@ -269,7 +271,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
       pass_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%

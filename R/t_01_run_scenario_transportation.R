@@ -148,11 +148,11 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-      .payd_fee > 0 |
-      .gas_tax > 0 |
-      .bev_pct_sales > 0 |
-      .hev_pct_sales > 0 |
-      .phev_pct_sales > 0) {
+    .payd_fee > 0 |
+    .gas_tax > 0 |
+    .bev_pct_sales > 0 |
+    .hev_pct_sales > 0 |
+    .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -585,10 +585,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
-                                  by = c(
-                                    "type", "scenario", "ctu",
-                                    "year", "mode", "aeo_mode", "class"
-                                  )
+    by = c(
+      "type", "scenario", "ctu",
+      "year", "mode", "aeo_mode", "class"
+    )
   )
 
   freight <- list(

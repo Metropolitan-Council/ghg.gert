@@ -161,9 +161,9 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
   ev_ghg <-
     calc_ghg_direct(
       tb_vmt = ev_vmt,
-      tb =  .freight_tb,
+      tb = .freight_tb,
       .mode = mode,
-      .fuel_type =  .electric_scenario,
+      .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
       .grid_decarbonization_pct = .grid_decarbonization_pct,

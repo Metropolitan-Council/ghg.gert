@@ -1,20 +1,21 @@
-testthat::test_that("St. Paul emissions reduce with interventions",{
-
+testthat::test_that("St. Paul emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
       scen_freight_truck(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "St. Paul"
-      )))
+      )
+    )
+  )
 
   testthat::expect_length(fr, 2)
 
   testthat::expect_named(fr,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -24,11 +25,13 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     dplyr::summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
-  fr_adjusted <- adj_fleet_shares(.pass_tb = transportation_data$passenger,
-                                  .freight_tb = transportation_data$freight,
-                                  .selected_ctu = "St. Paul",
-                                  .vmt_fee = 0.01,
-                                  .bev_pct_sales = 0.10)
+  fr_adjusted <- adj_fleet_shares(
+    .pass_tb = transportation_data$passenger,
+    .freight_tb = transportation_data$freight,
+    .selected_ctu = "St. Paul",
+    .vmt_fee = 0.01,
+    .bev_pct_sales = 0.10
+  )
 
 
   fr_transit <- suppressMessages(suppressWarnings(scen_freight_truck(
@@ -59,7 +62,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .cong_price = 0.01,
     .freight_parking_price = 20,
     .freight_vmt_fee = 0.02,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
   fr_tele <- suppressMessages(suppressWarnings(scen_freight_truck(
@@ -71,7 +75,8 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
 
@@ -83,7 +88,6 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
       fr_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -94,23 +98,24 @@ testthat::test_that("St. Paul emissions reduce with interventions",{
   )
 })
 
-testthat::test_that("Minneapolis emissions reduce with interventions",{
-
+testthat::test_that("Minneapolis emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
       scen_freight_truck(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "Minneapolis"
-      )))
+      )
+    )
+  )
 
   testthat::expect_length(fr, 2)
 
   testthat::expect_named(fr,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -120,11 +125,13 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     dplyr::summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
-  fr_adjusted <- adj_fleet_shares(.pass_tb = transportation_data$passenger,
-                                  .freight_tb = transportation_data$freight,
-                                  .selected_ctu = "Minneapolis",
-                                  .vmt_fee = 0.01,
-                                  .bev_pct_sales = 0.10)
+  fr_adjusted <- adj_fleet_shares(
+    .pass_tb = transportation_data$passenger,
+    .freight_tb = transportation_data$freight,
+    .selected_ctu = "Minneapolis",
+    .vmt_fee = 0.01,
+    .bev_pct_sales = 0.10
+  )
 
 
   fr_transit <- suppressMessages(suppressWarnings(scen_freight_truck(
@@ -155,7 +162,8 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     .cong_price = 0.01,
     .freight_parking_price = 20,
     .freight_vmt_fee = 0.02,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
   fr_tele <- suppressMessages(suppressWarnings(scen_freight_truck(
@@ -167,7 +175,8 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
 
@@ -179,7 +188,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
       fr_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -191,23 +199,24 @@ testthat::test_that("Minneapolis emissions reduce with interventions",{
 })
 
 
-testthat::test_that("Victoria emissions reduce with interventions",{
-
+testthat::test_that("Victoria emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
       scen_freight_truck(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "Victoria"
-      )))
+      )
+    )
+  )
 
   testthat::expect_length(fr, 2)
 
   testthat::expect_named(fr,
-                         expected = c(
-                           "vmt",
-                           "dir_ghg"
-                         ),
-                         ignore.order = TRUE
+    expected = c(
+      "vmt",
+      "dir_ghg"
+    ),
+    ignore.order = TRUE
   )
 
 
@@ -218,11 +227,13 @@ testthat::test_that("Victoria emissions reduce with interventions",{
 
 
 
-  fr_adjusted <- adj_fleet_shares(.pass_tb = transportation_data$passenger,
-                                  .freight_tb = transportation_data$freight,
-                                  .selected_ctu = "Victoria",
-                                  .vmt_fee = 0.01,
-                                  .bev_pct_sales = 0.10)
+  fr_adjusted <- adj_fleet_shares(
+    .pass_tb = transportation_data$passenger,
+    .freight_tb = transportation_data$freight,
+    .selected_ctu = "Victoria",
+    .vmt_fee = 0.01,
+    .bev_pct_sales = 0.10
+  )
 
   fr_transit <- suppressMessages(suppressWarnings(scen_freight_truck(
     .freight_tb = fr_adjusted$freight,
@@ -252,7 +263,8 @@ testthat::test_that("Victoria emissions reduce with interventions",{
     .cong_price = 0.01,
     .freight_parking_price = 20,
     .freight_vmt_fee = 0.02,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
   fr_tele <- suppressMessages(suppressWarnings(scen_freight_truck(
@@ -264,7 +276,8 @@ testthat::test_that("Victoria emissions reduce with interventions",{
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
-    .parking_price = 20)))
+    .parking_price = 20
+  )))
 
 
 
@@ -276,7 +289,6 @@ testthat::test_that("Victoria emissions reduce with interventions",{
       fr_tele
     ),
     function(x) {
-
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
         group_by(ctu, year) %>%
@@ -286,4 +298,3 @@ testthat::test_that("Victoria emissions reduce with interventions",{
     }
   )
 })
-
