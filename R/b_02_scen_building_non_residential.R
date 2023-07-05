@@ -69,6 +69,9 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors = enviro_factors) {
+
+  # browser()
+
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
@@ -119,7 +122,12 @@ scen_building_non_residential <- function(non_res_tb,
         "industrial_natural_gas_emissions_kg_co",
         "total_industrial_commercial_emissions"
       )
-    )
+    ) %>%
+    tidyr::pivot_wider(names_from = var, values_from = value) %>%
+    dplyr::mutate(across(ends_with('kg_co'), ~ .x/1000, .names = "{.col}_conv_tonne"),
+                  total_industrial_commercial_emissions_tonnes = total_industrial_commercial_emissions/1000) %>%
+    tidyr::pivot_longer(cols = commercial_mwh:total_industrial_commercial_emissions_tonnes,
+                        names_to = 'var', values_to = 'value')
 
   return(tb05 %>% dplyr::mutate(year = as.numeric(year)))
 }

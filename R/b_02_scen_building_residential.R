@@ -91,16 +91,17 @@ scen_building_residential <- function(res_tb = res_tb,
     .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct
   )
 
-  # B.R2 (Affordable Floor Area)
-  tb02 <- calc_affordable_floor_area(
-    res_tb = tb01,
-    .selected_ctu = .selected_ctu,
-    .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct
-  )
+  # # B.R2 (Floor Area change)
+  # tb02 <- calc_floor_area_growth(
+  #   res_tb = tb01,
+  #   .selected_ctu = .selected_ctu,
+  #   .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
+  #   .new_homes_affected_pct = .new_homes_affected_pct
+  # )
 
   # B.R3 (New Homes LEED Gold)
   tb03 <- calc_floor_area_leed(
-    res_tb = tb02,
+    res_tb = tb01,
     .selected_ctu = .selected_ctu,
     .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
     .enviro_factors = .enviro_factors
@@ -157,8 +158,12 @@ scen_building_residential <- function(res_tb = res_tb,
         "residential_therms",
         "residential_electricity_emissions_kg_co",
         "residential_natural_gas_emissions_kg_co"
-      )
-    )
+      )) %>%
+    tidyr::pivot_wider(names_from = var, values_from = value) %>%
+    dplyr::mutate(residential_electricity_emissions_tonne = residential_electricity_emissions_kg_co/1000,
+                  residential_natural_gas_emissions_tonne = residential_natural_gas_emissions_kg_co/1000) %>%
+    tidyr::pivot_longer(cols = residential_mwh:residential_natural_gas_emissions_tonne,
+                        names_to = 'var', values_to = 'value')
 
   return(tb09 %>% dplyr::mutate(year = as.numeric(year)))
 }
