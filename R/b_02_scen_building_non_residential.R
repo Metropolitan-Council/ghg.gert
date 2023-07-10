@@ -126,11 +126,6 @@ scen_building_non_residential <- function(non_res_tb,
     dplyr::mutate(across(ends_with("kg_co"), ~ .x / 1000, .names = "{sub('kg_co', 'tonne', col)}"),
       total_industrial_commercial_emissions_tonnes = total_industrial_commercial_emissions / 1000
     ) %>%
-    dplyr::select(!c(commercial_electricity_emissions_kg_co,
-                     industrial_electricity_emissions_kg_co,
-                     commercial_natural_gas_emissions_kg_co,
-                     industrial_natural_gas_emissions_kg_co,
-                     total_industrial_commercial_emissions)) %>%
     tidyr::pivot_longer(
       cols = commercial_mwh:total_industrial_commercial_emissions_tonnes,
       names_to = "var", values_to = "value"

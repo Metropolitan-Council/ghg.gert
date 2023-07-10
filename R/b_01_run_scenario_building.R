@@ -161,7 +161,10 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .enviro_factors = .enviro_factors
       ) %>%
-      dplyr::mutate(year = as.character(year))
+      dplyr::mutate(year = as.character(year)) %>%
+      dplyr::filter(!(var %in% c('residential_electricity_emissions_kg_co', 'residential_natural_gas_emissions_kg_co'))
+      )
+
   }
 
   if (run_non_residential == TRUE) {
@@ -177,7 +180,12 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .renewable_ng_nonres = .renewable_ng_nonres,
         .enviro_factors = .enviro_factors
       ) %>%
-      dplyr::mutate(year = as.character(year))
+      dplyr::mutate(year = as.character(year)) %>%
+      dplyr::filter(!(var %in% c('commercial_electricity_emissions_kg_co',
+                                 'industrial_electricity_emissions_kg_co',
+                                 'commercial_natural_gas_emissions_kg_co',
+                                 'industrial_natural_gas_emissions_kg_co',
+                                 'total_industrial_commercial_emissions')))
   }
 
   building_module_ouput <-
