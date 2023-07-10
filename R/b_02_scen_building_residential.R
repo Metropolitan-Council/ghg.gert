@@ -92,6 +92,7 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # # B.R2 (Floor Area change)
+  # # removed this function from active use as it was causing differences between BAU and scenario (with no strategies selected)
   # tb02 <- calc_floor_area_growth(
   #   res_tb = tb01,
   #   .selected_ctu = .selected_ctu,
