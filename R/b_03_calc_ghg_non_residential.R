@@ -50,7 +50,6 @@ calc_ghg_non_residential <- function(non_res_tb,
 
   emis <- function(tb,
                    grid_decarb,
-                   smart_grid_decarb,
                    .enviro_factors = ghg.sp::enviro_factors) {
     emis_tb <- tb %>%
       dplyr::filter(
@@ -82,30 +81,36 @@ calc_ghg_non_residential <- function(non_res_tb,
       ) %>%
       dplyr::mutate(
         # mw hours
-        commercial_mwh = .enviro_factors$COMMERCIAL_SMART_GRID_PCT *
+        commercial_mwh = .enviro_factors$COMMERCIAL_SMART_GRID_PCT * (1 - .enviro_factors$SMART_GRID_IMPACT) *
           dplyr::if_else(is.finite(commercial_mwh_per_worker * commercial_jobs), commercial_mwh_per_worker * commercial_jobs, commercial_mwh),
-        industrial_mwh = .enviro_factors$INDUSTRIAL_SMART_GRID_PCT *
+        industrial_mwh = .enviro_factors$INDUSTRIAL_SMART_GRID_PCT * (1 - .enviro_factors$SMART_GRID_IMPACT) *
           dplyr::if_else(is.finite(industrial_mwh_per_worker * industrial_jobs), industrial_mwh_per_worker * industrial_jobs, industrial_mwh),
 
         # therms
-        commercial_therms = dplyr::if_else(is.finite(commercial_therm_per_worker * commercial_jobs), commercial_therm_per_worker * commercial_jobs, commercial_therms),
-        industrial_therms = dplyr::if_else(is.finite(industrial_therm_per_worker * industrial_jobs), industrial_therm_per_worker * industrial_jobs, industrial_therms),
+        commercial_therms = dplyr::if_else(
+          is.finite(commercial_therm_per_worker * commercial_jobs),
+          commercial_therm_per_worker * commercial_jobs, commercial_therms),
+        industrial_therms = dplyr::if_else(
+          is.finite(industrial_therm_per_worker * industrial_jobs),
+          industrial_therm_per_worker * industrial_jobs, industrial_therms),
 
 
         # electric emissions
         commercial_electricity_emissions_kg_co =
-          commercial_mwh * (kg_per_mwh * (1 -
-            dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_BASELINE,
-              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
-                grid_decarb + smart_grid_decarb
-              )
-            )
-          )),
+          commercial_mwh * (kg_per_mwh *
+                              (1 - dplyr::if_else(year < 2040,
+                                                  .enviro_factors$GRID_DECARBONIZATION_BASELINE,
+                                                  dplyr::if_else((grid_decarb > 1), 1,
+                                                                 grid_decarb
+                                                                 )
+                                                  )
+                               )
+                            ),
         industrial_electricity_emissions_kg_co =
           industrial_mwh * (kg_per_mwh * (1 -
             dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_BASELINE,
-              dplyr::if_else((grid_decarb + smart_grid_decarb > 1), 1,
-                grid_decarb + smart_grid_decarb
+              dplyr::if_else((grid_decarb > 1), 1,
+                grid_decarb
               )
             )
           )),
@@ -153,7 +158,6 @@ calc_ghg_non_residential <- function(non_res_tb,
     emis(
       tb = non_res_tb_bau,
       grid_decarb = 0.6,
-      smart_grid_decarb = 0,
       .enviro_factors = .enviro_factors
     )
 
@@ -166,7 +170,6 @@ calc_ghg_non_residential <- function(non_res_tb,
         .enviro_factors = .enviro_factors
       ),
       grid_decarb = .grid_decarbonization_pct,
-      smart_grid_decarb = .smart_grid_energy_reduction_pct,
       .enviro_factors = .enviro_factors
     )
 

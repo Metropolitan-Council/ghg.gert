@@ -60,8 +60,10 @@ enviro_factors <- list(
   # The percentage of natural gas that is commonly used for water heating in residential buildings.
 
   RES_NATURAL_GAS_FOR_WATER_HEATING_PCT = 0.24,
-  GRID_DECARBONIZATION_BASELINE = 0 # 2018 baseline decarbonization percent should be taken as 0 for proper calculation of reduction in emissions
-)
+  GRID_DECARBONIZATION_BASELINE = 0, # 2018 baseline decarbonization percent should be taken as 0 for proper calculation of reduction in emissions
+  SMART_GRID_IMPACT = 0.11
+
+  )
 
 
 waldo::compare(ghg.sp::enviro_factors, enviro_factors)
