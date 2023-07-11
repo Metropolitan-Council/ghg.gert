@@ -5,14 +5,15 @@
 #'
 #' @return tibble. Input df with only selected CTU
 #' @export
-#'
+#' @importFrom dplyr filter
 filter_ctu <- function(df, .selected_ctu = "all") {
+  check_inputs(name = "selected_ctu", value = .selected_ctu)
   if (.selected_ctu == "all") {
     return(df)
   } else if ("ctu" %in% colnames(df) && .selected_ctu != "all") {
-    return(df %>% filter(ctu == .selected_ctu))
+    return(df %>% dplyr::filter(ctu == .selected_ctu))
   } else {
-    return(df %>% filter(ctu_name == .selected_ctu))
+    return(df %>% dplyr::filter(ctu_name == .selected_ctu))
   }
 }
 

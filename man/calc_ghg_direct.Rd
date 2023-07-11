@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_03_calc_ghg_direct.R
 \name{calc_ghg_direct}
 \alias{calc_ghg_direct}
-\title{Calculate transportation direct emissions}
+\title{Calculate transportation direct emissions in metric tons.}
 \usage{
 calc_ghg_direct(
   tb_vmt,
@@ -11,8 +11,9 @@ calc_ghg_direct(
   .fuel_type,
   .aeo_scenario = "REF",
   .miles_per_gallon,
-  .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
+  .grid_decarbonization_pct = 0.6,
+  .enviro_factors = ghg.sp::enviro_factors,
+  .factor_values = ghg.sp::factor_values
 )
 }
 \arguments{
@@ -32,9 +33,11 @@ Default is \code{"REF"}}
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names
@@ -42,13 +45,14 @@ Default value is \code{1}.}
 - \code{scenario}
 - \code{mode}
 - \code{class}
+- \code{dir_ghg} numeric, direct greenhouse gas emissions in metric tons
 - ...
 }
 \description{
 Calculate the direct greenhouse gas emissions for a given mode and fuel
 type. If the fuel type is non-electric, the returned value represents
 tail-pipe emissions. If fuel type is electric, the returned value
-represents the equivalent emissions per kilowatt hour, modulated
+represents the \emph{equivalent} emissions per kilowatt hour, modulated
 by the percentage of the grid that is de-carbonized
 (\code{.grid_decarbonization_pct}). If the entire grid is de-carbonized
 (\code{.grid_decarbonization_pct = 1}), then there are no emissions for

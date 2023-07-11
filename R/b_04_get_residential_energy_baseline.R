@@ -13,15 +13,14 @@
 #'    including energy consumption, emissions, and energy intensity values.
 #'
 #' @param tb A data frame containing building energy data (default is building_energy_data).
-#'
-#' @param .selected_ctu A string specifying the selected CTU for filtering (default is "all").
-#'
+#' @inheritParams filter_ctu
 #' @return A data frame containing residential energy baseline data, including electricity
 #' consumption, natural gas consumption, CO2 emissions, and energy intensity per square
 #' foot and per household for each community in the specified CTU.
 #'
 #' @export
-
+#' @importFrom dplyr case_when mutate select group_by
+#' @importFrom tidyr pivot_wider pivot_longer
 get_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* estimating residential energy baseline \n")
@@ -39,7 +38,7 @@ get_residential_energy_baseline <-
           (actual_residential_mwh > 1) ~ actual_residential_mwh,
           (is.na(actual_residential_mwh)) ~ est_residential_mwh
         ),
-        residential_elec_emis_t_co2e = case_when(
+        residential_elec_emis_t_co2e = dplyr::case_when(
           (actual_residential_mwh > 1) ~ actual_residential_electricity_emis_t_co2e,
           (is.na(actual_residential_mwh)) ~ est_residential_electricity_emis_t_co2e
         )
@@ -63,11 +62,11 @@ get_residential_energy_baseline <-
     natural_gas_residential_ctu <-
       tb$natural_gas_residential_ctu %>%
       dplyr::mutate(
-        residential_ng_therms = case_when(
+        residential_ng_therms = dplyr::case_when(
           (actual_residential_ng_therms > 1) ~ actual_residential_ng_therms,
           (is.na(actual_residential_ng_therms)) ~ est_residential_ng_therms
         ),
-        residential_ng_emis_t_co2e = case_when(
+        residential_ng_emis_t_co2e = dplyr::case_when(
           (actual_residential_ng_therms > 1) ~ actual_residential_ng_emis_t_co2e,
           (is.na(actual_residential_ng_therms)) ~ est_residential_ng_emis_t_co2e
         )

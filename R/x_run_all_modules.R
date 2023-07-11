@@ -3,10 +3,39 @@
 #' @param run_land_use logical. Default is `TRUE`
 #' @param run_buildings logical. Default is `TRUE`
 #' @param run_transportation logical. Default is `TRUE`
+#'
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
 #' @inheritParams run_scenario_transportation
+#' @inheritParams scen_building_non_residential
 #' @inheritParams filter_ctu
+#' @inheritParams vmt_annual_energy_outlook
+#' @inheritParams vmt_land_use_change
+#' @inheritParams vmt_parking_policy
+#' @inheritParams vmt_road_policy
+#' @inheritParams vmt_telework
+#' @inheritParams vmt_stock_proportion
+#' @inheritParams vmt_transit_service
+#' @inheritParams vmt_vehicle_occupancy
+#' @inheritParams adj_unit_counts
+#' @inheritParams calc_floor_area_leed
+#' @inheritParams calc_floor_area_growth
+#' @inheritParams calc_floor_area_retrofit
+#' @inheritParams calc_electrify_residential_heating
+#' @inheritParams calc_floor_area_behavior_change
+#' @inheritParams calc_ghg_residential
+#' @inheritParams calc_ghg_non_residential
+#' @inheritParams calc_residential_renewable_ng
+#' @inheritParams calc_existing_comm_building_efficiency
+#' @inheritParams calc_carbon_sequestration_per_ctu
+#' @inheritParams calc_carbon_stock_per_ctu
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams calc_land_cover_by_land_use
+#' @inheritParams calc_tree_planting_land_cover
+#' @inheritParams calc_scen_land_use
+#' @inheritParams calc_land_by_development_type
+#' @inheritParams calc_electrify_commercial_heating
+#'
 #' @return list, list with the outputs of the three modules.
 #' @export
 #'
@@ -23,33 +52,30 @@ run_all_modules <- function(.selected_ctu = "all",
                             non_res_tb_bau = building_data$non_residential,
                             pass_tb = transportation_data$passenger,
                             freight_tb = transportation_data$freight,
+                            .calc_transp_cost = FALSE,
+                            .calc_transp_fuel_cost_mile = FALSE,
+                            .calc_transp_fuel_use = FALSE,
+                            .calc_transp_ghg_embodied = FALSE,
                             detail = FALSE,
                             .renewable_ng_res = FALSE,
-                            .urban_form_scenario = "bau",
                             .conservation_tillage_intervention = "current_conservation_tillage",
-                            .tree_planting_intervention = "tree_planting_on_all_pervious",
+                            .tree_planting_intervention = "none",
                             .tree_planting_per_capita = 0.26,
                             .tree_planting_per_hectare = 247,
-                            .parking_lot_reduction_percentage = 0.8,
-                            .electrified_buildings_pct = 0.40,
+                            .parking_lot_reduction_percentage = 0.0,
+                            .electrified_buildings_pct = 0.00,
                             .renewable_ng_nonres = FALSE,
-                            .non_res_natural_gas_for_water_heating_pct = 0.20,
-                            .non_res_natural_gas_for_space_heating_pct = 0.69,
-                            .commercial_smart_grid_pct = 1.00,
-                            .industrial_smart_grid_pct = 1.00,
-                            .smart_grid_energy_reduction_pct = 0.11,
-                            .new_homes_to_multifamily_pct = 0.50,
-                            .existing_high_efficiency_buildings_pct = 0.80,
-                            .home_behavior_change_pct = 1.00,
+                            .smart_grid_energy_reduction_pct = 0,
+                            .new_homes_to_multifamily_pct = 0,
+                            .existing_high_efficiency_buildings_pct = 0.0,
+                            .home_behavior_change_pct = 0,
                             .single_family_floor_area_growth_pct = 0.05,
-                            .new_homes_affected_pct = 0.30,
-                            .new_homes_leed_gold_pct = 0.50,
-                            .existing_home_retrofit_pct = 0.80,
-                            .existing_home_ultra_retrofit_pct = 0.20,
-                            .res_natural_gas_for_space_heating_pct = 0.71,
-                            .res_natural_gas_for_water_heating_pct = 0.24,
-                            .additional_electrified_residential_buildings_pct = 0.45,
-                            .grid_decarbonization_pct = 1,
+                            .new_homes_affected_pct = 0.0,
+                            .new_homes_leed_gold_pct = 0.0,
+                            .existing_home_retrofit_pct = 0.0,
+                            .existing_home_ultra_retrofit_pct = 0.0,
+                            .additional_electrified_residential_buildings_pct = 0,
+                            .grid_decarbonization_pct = 0.6,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
@@ -63,10 +89,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             .freight_parking_price = 0,
                             .cong_price = 0,
                             .freight_vmt_fee = 0,
-                            .drs_pct = 0,
-                            .av_pct = 0,
-                            .drs_fuel_type = "",
-                            .av_fuel_type = "",
                             .pop_dens_pct_change = 0,
                             .emp_dens_pct_change = 0,
                             .land_use_diversity_pct_change = 0,
@@ -78,8 +100,8 @@ run_all_modules <- function(.selected_ctu = "all",
                             .bev_pct_sales = 0,
                             .phev_pct_sales = 0,
                             .hev_pct_sales = 0,
-                            .mit_bau_summary = 0,
                             .enviro_factors = enviro_factors,
+                            .factor_values = ghg.sp::factor_values,
                             .elast = elast,
                             .elast_5d = elast_5d) {
   output <- c()
@@ -88,13 +110,13 @@ run_all_modules <- function(.selected_ctu = "all",
     output$land_use <- run_scenario_land_use(
       tb = tb,
       .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario,
       .conservation_tillage_intervention = .conservation_tillage_intervention,
       .tree_planting_intervention = .tree_planting_intervention,
       .tree_planting_per_capita = .tree_planting_per_capita,
       .tree_planting_per_hectare = .tree_planting_per_hectare,
       .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      detail = detail
+      detail = detail,
+      .enviro_factors = .enviro_factors
     )
   }
   if (run_buildings == TRUE) {
@@ -107,10 +129,6 @@ run_all_modules <- function(.selected_ctu = "all",
       run_non_residential = run_non_residential,
       .selected_ctu = .selected_ctu,
       .electrified_buildings_pct = .electrified_buildings_pct,
-      .non_res_natural_gas_for_water_heating_pct = .non_res_natural_gas_for_water_heating_pct,
-      .non_res_natural_gas_for_space_heating_pct = .non_res_natural_gas_for_space_heating_pct,
-      .commercial_smart_grid_pct = .commercial_smart_grid_pct,
-      .industrial_smart_grid_pct = .industrial_smart_grid_pct,
       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
       .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
@@ -120,8 +138,6 @@ run_all_modules <- function(.selected_ctu = "all",
       .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
       .existing_home_retrofit_pct = .existing_home_retrofit_pct,
       .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
-      .res_natural_gas_for_space_heating_pct = .res_natural_gas_for_space_heating_pct,
-      .res_natural_gas_for_water_heating_pct = .res_natural_gas_for_water_heating_pct,
       .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors
@@ -132,6 +148,10 @@ run_all_modules <- function(.selected_ctu = "all",
       pass_tb = pass_tb,
       freight_tb = freight_tb,
       .selected_ctu = .selected_ctu,
+      .calc_transp_cost = .calc_transp_cost,
+      .calc_transp_fuel_cost_mile = .calc_transp_fuel_cost_mile,
+      .calc_transp_fuel_use = .calc_transp_fuel_use,
+      .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
       .scenario = .scenario,
       .aeo_scenario = .aeo_scenario,
       .electric_scenario = .electric_scenario,
@@ -156,10 +176,10 @@ run_all_modules <- function(.selected_ctu = "all",
       .bev_pct_sales = .bev_pct_sales,
       .phev_pct_sales = .phev_pct_sales,
       .hev_pct_sales = .hev_pct_sales,
-      .mit_bau_summary = .mit_bau_summary,
-      .elast = elast,
-      .elast_5d = elast_5d,
-      .enviro_factors = enviro_factors,
+      .elast = .elast,
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
       .grid_decarbonization_pct = .grid_decarbonization_pct
     )
   }

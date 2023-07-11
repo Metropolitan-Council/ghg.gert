@@ -48,6 +48,7 @@
 #'   \item{EXISTING_HOME_RETROFIT_REDUCTION_PCT}{Reduction in residential energy use intensity by retrofitting to performance-based high efficiency standards.}
 #'   \item{EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT}{Reduction in residential energy use intensity by retrofitting to high passive housing standards.}
 #'   \item{BEHAVIOR_CHANGE_REDUCTION_PCT}{Reduction in household energy usage by recieving effective messaging, use an in-home energy usage display, and smart meters.}
+#'   \item{SMART_GRID_IMPACT}{Percentage impact on electricity use from non-residential smart grid being implemented.}
 #' }
 #'
 #' @family datasets

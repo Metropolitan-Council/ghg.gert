@@ -5,6 +5,12 @@
 #'      using the bridge table "land_cover_percentages_filled" for the selected land use scenario.
 #'
 #' @inheritParams calc_scen_land_use
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#' @inheritParams calc_electrify_commercial_heating
+
 #'
 #' @return [tibble::tibble()].
 #'      A long table with the percent of land cover for each land use type for each city*/township
@@ -15,16 +21,15 @@
 #' \dontrun{
 #' calc_land_cover_by_land_use(
 #'   tb = land_use_data,
-#'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau"
+#'   .selected_ctu = "all"
 #' )
 #' }
 calc_land_cover_by_land_use <- function(tb,
                                         .selected_ctu,
-                                        .urban_form_scenario) {
+                                        .enviro_factors = enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_percentages <- calc_land_cover_percentages(
-    tb = land_use_data,
+    tb = tb,
     .selected_ctu = .selected_ctu
   )
 
@@ -33,14 +38,12 @@ calc_land_cover_by_land_use <- function(tb,
     if (.selected_ctu == "all") {
       calc_scen_land_use(
         tb = tb,
-        .selected_ctu,
-        .urban_form_scenario = .urban_form_scenario
+        .selected_ctu
       )
     } else {
       calc_scen_land_use(
         tb = tb,
-        .selected_ctu,
-        .urban_form_scenario = .urban_form_scenario
+        .selected_ctu
       ) %>% filter(ctu_name == .selected_ctu)
     }
 

@@ -161,7 +161,7 @@ get_non_residential_energy_baseline <-
         cols = c(commercial_therms, industrial_therms),
         names_to = "var"
       ) %>%
-      dplyr::filter(is.na(value) == FALSE)
+      dplyr::filter(!is.na(value))
 
 
     ## ---- get NREL natural gas consumption data ----
@@ -184,6 +184,15 @@ get_non_residential_energy_baseline <-
       dplyr::select(ctu_name, year, var, value) %>%
       unique()
 
+    if (nrow(xcel_energy_electricity) == 0) {
+      xcel_energy_electricity <- tibble::tibble(
+        "ctu_name" = .selected_ctu,
+        "year" = min(ctu_characteristics$year),
+        "commercial_mwh_xcel" = NA,
+        "industrial_mwh_xcel" = NA
+      )
+    }
+
     # -------------------------------------------------------------------------
     ctu_nonresidential_energy_baseline_1 <-
       dplyr::bind_rows(
@@ -192,25 +201,26 @@ get_non_residential_energy_baseline <-
         commercial_and_industrial_natural_gas_ctu,
         nrel_natural_gas_ctu
       ) %>%
+      group_by(ctu_name, year) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::transmute(
         commercial_mwh = ifelse(
-          is.na(commercial_mwh_xcel) == FALSE,
+          is.finite(commercial_mwh_xcel),
           commercial_mwh_xcel,
           commercial_mwh_nrel
         ),
         industrial_mwh = ifelse(
-          is.na(industrial_mwh_xcel) == FALSE,
+          is.finite(industrial_mwh_xcel),
           industrial_mwh_xcel,
           industrial_mwh_nrel
         ),
         commercial_therms = ifelse(
-          is.na(commercial_therms) == FALSE,
+          is.finite(commercial_therms),
           commercial_therms,
           commercial_therms_nrel
         ),
         industrial_therms = ifelse(
-          is.na(industrial_therms) == FALSE,
+          is.finite(industrial_therms),
           industrial_therms,
           industrial_therms_nrel
         )
@@ -223,7 +233,8 @@ get_non_residential_energy_baseline <-
           "industrial_mwh"
         ),
         names_to = "var"
-      )
+      ) %>%
+      dplyr::filter(!is.na(value))
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_per_worker <-
@@ -256,7 +267,9 @@ get_non_residential_energy_baseline <-
           "industrial_mwh_per_worker"
         ),
         names_to = "var"
-      )
+      ) # %>%
+    # dplyr::filter(!is.na(value))
+
 
     ## -------------------------------------------------------------------------------------------
     ctu_nonresidential_energy_baseline <-

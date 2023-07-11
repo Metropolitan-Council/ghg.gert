@@ -373,8 +373,6 @@ server <- function(input, output) {
       ## non residential energy parameters
       .renewable_ng_nonres = FALSE,
       .electrified_buildings_pct = 0,
-      .commercial_smart_grid_pct = 1,
-      .industrial_smart_grid_pct = 1,
       .smart_grid_energy_reduction_pct = 0,
 
       ## residential energy parameters
@@ -415,8 +413,7 @@ server <- function(input, output) {
       .telework_pct = 0,
       .bev_pct_sales = 0,
       .phev_pct_sales = 0,
-      .hev_pct_sales = 0,
-      .mit_bau_summary = 0
+      .hev_pct_sales = 0
     )
 
     scen <- ghg.sp::run_all_modules(
@@ -437,8 +434,6 @@ server <- function(input, output) {
       ## non residential energy parameters
       .electrified_buildings_pct = .electrified_buildings_pct,
       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-      .commercial_smart_grid_pct = 1,
-      .industrial_smart_grid_pct = 1,
       .smart_grid_energy_reduction_pct = 0.11,
 
       ## residential energy parameters
@@ -478,9 +473,8 @@ server <- function(input, output) {
       .telework_pct = .telework_pct,
       .bev_pct_sales = .bev_pct_sales,
       .phev_pct_sales = .phev_pct_sales,
-      .hev_pct_sales = .hev_pct_sales,
-      .mit_bau_summary = 0
-    )
+      .hev_pct_sales = .hev_pct_sales
+      )
 
     buildings_bau <- bau$buildings %>%
       # Select the variables you want to keep

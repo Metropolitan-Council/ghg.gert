@@ -1,6 +1,11 @@
 #' @title Compile Building Energy Data
 #'
 #' @param tb Tibble.
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 #' @export
 compile_bau_building_energy <-
   function(tb = building_energy_data, .selected_ctu = "all") {
@@ -8,12 +13,24 @@ compile_bau_building_energy <-
 
     building_data <- c()
 
-    demographic_baseline <- ghg.sp::get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
-    demographic_forecast <- calc_demographic_forecast(.selected_ctu = .selected_ctu)$ctu
-    residential_energy_baseline <- ghg.sp::get_residential_energy_baseline(tb = tb, .selected_ctu = .selected_ctu)
-    residential_energy_forecast <- calc_residential_energy_forecast(tb = tb, .selected_ctu = .selected_ctu)
-    non_residential_energy_baseline <- ghg.sp::get_non_residential_energy_baseline(tb = tb, .selected_ctu = .selected_ctu)
-    non_residential_energy_forecast <- calc_non_residential_energy_forecast(tb = tb, .selected_ctu = .selected_ctu)
+    demographic_baseline <- ghg.sp::get_demographic_baseline(
+      .selected_ctu = .selected_ctu
+    )$ctu
+    demographic_forecast <- calc_demographic_forecast(
+      .selected_ctu = .selected_ctu
+    )$ctu
+    residential_energy_baseline <- ghg.sp::get_residential_energy_baseline(
+      tb = tb, .selected_ctu = .selected_ctu
+    )
+    residential_energy_forecast <- calc_residential_energy_forecast(
+      tb = tb, .selected_ctu = .selected_ctu
+    )
+    non_residential_energy_baseline <- ghg.sp::get_non_residential_energy_baseline(
+      tb = tb, .selected_ctu = .selected_ctu
+    )
+    non_residential_energy_forecast <- calc_non_residential_energy_forecast(
+      tb = tb, .selected_ctu = .selected_ctu
+    )
 
 
     if (.selected_ctu == "all") {

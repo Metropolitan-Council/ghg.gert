@@ -948,8 +948,6 @@ calc_electrify_residential_heating(
     .enviro_factors = enviro_factors
   ),
   .additional_electrified_residential_buildings_pct = 0.45,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
   .grid_decarbonization_pct = 0.80,
   .enviro_factors = enviro_factors
 ) %>%
@@ -993,8 +991,6 @@ a <- seq(0.2, 1, .2) %>%
       .enviro_factors = enviro_factors
     ),
     .additional_electrified_residential_buildings_pct = .x,
-    .res_natural_gas_for_space_heating_pct = 0.71,
-    .res_natural_gas_for_water_heating_pct = 0.24,
     .grid_decarbonization_pct = 0.80,
     .enviro_factors = enviro_factors
   )) %>%
@@ -1097,8 +1093,6 @@ calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
     non_res_tb = building_energy_bau_data$non_residential,
     non_res_tb_bau = building_energy_bau_data$non_residential,
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
     .grid_decarbonization_pct = 1,
     .smart_grid_energy_reduction_pct = 1,
     .enviro_factors = enviro_factors,

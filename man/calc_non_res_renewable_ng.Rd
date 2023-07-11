@@ -8,8 +8,21 @@ calc_non_res_renewable_ng(
   non_res_tb,
   .selected_ctu,
   .renewable_ng_nonres,
-  .enviro_factors = .enviro_factors
+  .enviro_factors = enviro_factors
 )
+}
+\arguments{
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+Data table with non-residential building attributes. Package provided.
+Dataset \code{building_data$non_residential} is suitable and the default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.renewable_ng_nonres}{logical, documentation needed}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
@@ -32,8 +45,6 @@ calc_non_res_renewable_ng(
     non_res_tb = building_data$non_residential,
     non_res_tb_bau = building_data$non_residential,
     .selected_ctu = "all",
-    .industrial_smart_grid_pct = 1,
-    .commercial_smart_grid_pct = 1,
     .grid_decarbonization_pct = 0.8,
     .smart_grid_energy_reduction_pct = 1,
     .enviro_factors = enviro_factors,

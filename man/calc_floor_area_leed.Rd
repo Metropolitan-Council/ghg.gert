@@ -8,13 +8,15 @@ calc_floor_area_leed(
   res_tb,
   .selected_ctu,
   .new_homes_leed_gold_pct,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
-Default is \code{0.5}}
+Default is \code{0.0}}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

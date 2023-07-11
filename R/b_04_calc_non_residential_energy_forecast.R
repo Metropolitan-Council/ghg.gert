@@ -1,6 +1,10 @@
 #' @title Calculate Non Residential Energy Forecast
 #' @export
-
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 calc_non_residential_energy_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
   # cli::cli_progress_message("* calculating non-residential energy forecast \n")
   tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
@@ -44,10 +48,10 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data, .sel
     tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      commercial_mwh = dplyr::if_else(is.na(commercial_mwh_per_worker * commercial_jobs) == FALSE, commercial_mwh_per_worker * commercial_jobs, commercial_mwh_nrel),
-      commercial_therms = dplyr::if_else(is.na(commercial_therm_per_worker * commercial_jobs) == FALSE, commercial_therm_per_worker * commercial_jobs, commercial_therms_nrel),
-      industrial_mwh = dplyr::if_else(is.na(industrial_mwh_per_worker * industrial_jobs) == FALSE, industrial_mwh_per_worker * industrial_jobs, industrial_mwh_nrel),
-      industrial_therms = dplyr::if_else(is.na(industrial_therm_per_worker * industrial_jobs) == FALSE, industrial_therm_per_worker * industrial_jobs, industrial_therms_nrel),
+      commercial_mwh = dplyr::if_else(is.finite(commercial_mwh_per_worker * commercial_jobs), commercial_mwh_per_worker * commercial_jobs, commercial_mwh_nrel),
+      commercial_therms = dplyr::if_else(is.finite(commercial_therm_per_worker * commercial_jobs), commercial_therm_per_worker * commercial_jobs, commercial_therms_nrel),
+      industrial_mwh = dplyr::if_else(is.finite(industrial_mwh_per_worker * industrial_jobs), industrial_mwh_per_worker * industrial_jobs, industrial_mwh_nrel),
+      industrial_therms = dplyr::if_else(is.finite(industrial_therm_per_worker * industrial_jobs), industrial_therm_per_worker * industrial_jobs, industrial_therms_nrel),
       year = 2040
     ) %>%
     dplyr::select(

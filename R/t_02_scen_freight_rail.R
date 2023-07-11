@@ -4,13 +4,13 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
-
+#' @importFrom cli cli_alert_success
 scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .selected_ctu = "all",
                               .scenario = "BAU",
@@ -34,8 +34,9 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .mit_bau_summary = 0,
+                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
+                              .factor_values = factor_values,
                               .elast = elast,
                               .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating freight rail scneario \n")
@@ -54,28 +55,64 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
   class <- "CI"
   message("Freight rail, diesel")
 
+  fcm <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
+
   # browser()
   ci_vmt <-
     calc_vmt_forecast(
-      .scenario,
-      .selected_ctu,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo_pct, .transit_service_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change,
-      .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change, .comb_5d_impact_pct_change,
-      .elast = .elast,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast = .elast,
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
   ci_ghg <-
     calc_ghg_direct(
-      ci_vmt,
-      .freight_tb,
-      mode, "RCI", .aeo_scenario, mpg
+      tb_vmt = ci_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = "RCI",
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpg,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -87,27 +124,51 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
 
   ev_vmt <-
     calc_vmt_forecast(
-      .scenario,
-      .selected_ctu,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      mode, stock, var, fcm,
-      .aeo_scenario, .transit_avo_pct, .transit_service_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change,
-      .emp_dens_pct_change, .land_use_diversity_pct_change, .intersection_design_pct_change,
-      .job_access_pct_change, .transit_dist_pct_change,
-      .comb_5d_impact_pct_change,
-      .elast = .elast,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .telework_pct = .telework_pct,
+      .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast = .elast,
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>% mutate(class = class)
 
 
   ev_ghg <-
     calc_ghg_direct(
-      ev_vmt,
-      .freight_tb, mode,
-      .electric_scenario, .aeo_scenario, mpe
+      tb_vmt = ev_vmt,
+      tb = .freight_tb,
+      .mode = mode,
+      .fuel_type = .electric_scenario,
+      .aeo_scenario = .aeo_scenario,
+      .miles_per_gallon = mpe,
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   # Finish up -----
@@ -130,7 +191,7 @@ scen_freight_rail <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  usethis::ui_done(paste("Freight rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Freight rail", emo::ji("train")))
 
   return(freight_rail)
 }

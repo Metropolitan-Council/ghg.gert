@@ -9,7 +9,8 @@
 #'    greenhouse gas (GHG) emissions for the selected city or township..
 #'
 #' @inheritParams run_scenario_building
-#'
+#' @inheritParams filter_ctu
+#' @param .renewable_ng_res logical, documentation needed
 #' @export
 #'
 #' @examples
@@ -33,7 +34,7 @@
 calc_residential_renewable_ng <- function(res_tb,
                                           .selected_ctu,
                                           .renewable_ng_res,
-                                          .enviro_factors) {
+                                          .enviro_factors = enviro_factors) {
 
   # cli::cli_progress_message("*** calculating residential renewable natural gas strategy \n")
 

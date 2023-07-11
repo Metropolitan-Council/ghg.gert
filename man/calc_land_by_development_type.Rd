@@ -4,11 +4,19 @@
 \alias{calc_land_by_development_type}
 \title{Calculate land by development type}
 \usage{
-calc_land_by_development_type(tb, .selected_ctu, .urban_form_scenario)
+calc_land_by_development_type(
+  tb,
+  .selected_ctu,
+  .enviro_factors = ghg.sp::enviro_factors
+)
 }
 \arguments{
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.urban_form_scenario}{character,
 The current land use scenario being explored.
@@ -42,8 +50,7 @@ library(ghg.sp)
 
 calc_land_by_development_type(
   tb = land_use_data,
-  .selected_ctu = "all",
-  .urban_form_scenario = "bau"
+  .selected_ctu = "all"
 )
 }
 }

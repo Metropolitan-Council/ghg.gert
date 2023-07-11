@@ -54,4 +54,4 @@ naics_codes <- list(
 
 # waldo::compare(ghg.sp::naics_codes, naics_codes)
 
-usethis::use_data(naics_codes, overwrite = T)
+usethis::use_data(naics_codes, overwrite = TRUE)

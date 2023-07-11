@@ -13,7 +13,8 @@ calc_ghg_embodied(
   .transit_avo_pct = 0,
   .mitigation_tb = 0,
   .bau_tb = 0,
-  .enviro_factors = enviro_factors
+  .enviro_factors = enviro_factors,
+  .factor_values = factor_values
 )
 }
 \arguments{
@@ -44,6 +45,8 @@ Default is \code{0}.}
 Default is \code{0}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions

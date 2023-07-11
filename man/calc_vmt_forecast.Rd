@@ -33,16 +33,19 @@ calc_vmt_forecast(
   .telework_pct = 0,
   .phev_electric = FALSE,
   .enviro_factors = enviro_factors,
+  .factor_values = factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
 }
 \arguments{
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
+
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
 
 \item{.mode}{character, current mode}
 
@@ -106,13 +109,15 @@ Numeric between 0 and 1. Default is \code{0}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
 a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
-with \code{vmt} in thousands
+with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train

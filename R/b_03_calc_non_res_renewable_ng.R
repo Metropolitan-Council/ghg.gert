@@ -8,6 +8,16 @@
 #'      For more details, see `vignette("building_energy_module_outputs_non_residential")`
 #'
 #' @return [tibble::tibble()]
+#' @param .renewable_ng_nonres logical, documentation needed
+#'
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams run_scenario_building
+#' @inheritParams filter_ctu
+#' @inheritParams calc_ghg_non_residential
+#' @inheritParams scen_building_non_residential
+#'
 #' @export
 #'
 #' @note `calc_non_res_renewable_ng()` is called within `scen_building_non_residential()`
@@ -21,8 +31,6 @@
 #'     non_res_tb = building_data$non_residential,
 #'     non_res_tb_bau = building_data$non_residential,
 #'     .selected_ctu = "all",
-#'     .industrial_smart_grid_pct = 1,
-#'     .commercial_smart_grid_pct = 1,
 #'     .grid_decarbonization_pct = 0.8,
 #'     .smart_grid_energy_reduction_pct = 1,
 #'     .enviro_factors = enviro_factors,
@@ -37,7 +45,7 @@
 calc_non_res_renewable_ng <- function(non_res_tb,
                                       .selected_ctu,
                                       .renewable_ng_nonres,
-                                      .enviro_factors = .enviro_factors) {
+                                      .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating non-residential renewable natural gas strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 

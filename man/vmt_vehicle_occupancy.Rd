@@ -11,7 +11,7 @@ vmt_vehicle_occupancy(
   .stock,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.sp::enviro_factors
 )
 }
 \arguments{
@@ -43,7 +43,7 @@ Passenger vehicle occupancy increase assumes that
 the average number of people in a car increases.
 An increase in  passenger occupancy implies
 additional **passenger** miles traveled, with no implied
-change in passenger vehicle miles traveled.
+change in vehicle miles traveled.
 
 `.transit_avo_pct` and `.pldv_avo_pct` indicate
 the overall effect by the final forecast year.

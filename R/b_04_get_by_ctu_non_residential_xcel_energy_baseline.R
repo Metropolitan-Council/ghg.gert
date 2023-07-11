@@ -1,5 +1,10 @@
 #' @title Get Non Residential Xcel Energy by City/Township
 #' @export
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
+#'
 get_by_ctu_non_residential_xcel_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* obtaining non residential xcelne energy data for the CTU \n")
@@ -13,12 +18,14 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     commercial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "commercial_mwh_per_worker_state")
-          %>% select(value)
+          %>%
+          dplyr::select(value)
       )[, 1]
     industrial_mwh_per_worker_state <-
       (
         statewide_nonresidential_energy %>% filter(year == 2018, var == "industrial_mwh_per_worker_state")
-          %>% select(value)
+          %>%
+          dplyr::select(value)
       )[, 1]
 
     ## ---- check if community is served by more than 90% Xcel Energy ----
@@ -68,7 +75,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::left_join(
         commercial_industrial_electricity_mwh_xcel %>%
-          select(ctu_name, year, mwh_per_year),
+          dplyr::select(ctu_name, year, mwh_per_year),
         by = c("ctu_name", "year")
       ) %>%
       dplyr::mutate(
@@ -84,7 +91,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
         cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
         names_to = "var"
       ) %>%
-      dplyr::filter(is.na(value) == FALSE)
+      dplyr::filter(!is.na(value))
 
     return(xcel_energy_electricity)
   }

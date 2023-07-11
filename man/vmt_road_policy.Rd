@@ -16,11 +16,14 @@ vmt_road_policy(
   .payd_fee = 0,
   .stock,
   .phev_electric = FALSE,
-  .enviro_factors = enviro_factors,
-  .elast = elast
+  .enviro_factors = ghg.sp::enviro_factors,
+  .elast = ghg.sp::elast
 )
 }
 \arguments{
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
+
 \item{.mode}{character, current mode}
 
 \item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}

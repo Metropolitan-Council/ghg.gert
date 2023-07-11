@@ -43,6 +43,8 @@
 #' @param .freight_tb [tibble::tibble()] Freight input table.
 #'    Default is `transportation_data$freight`.
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams vmt_road_policy
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with column names...
 #' @export
@@ -57,6 +59,7 @@
 #'
 adj_fleet_shares <- function(.pass_tb,
                              .freight_tb,
+                             .selected_ctu = "all",
                              .bev_pct_sales = 0,
                              .phev_pct_sales = 0,
                              .hev_pct_sales = 0,
@@ -66,9 +69,8 @@ adj_fleet_shares <- function(.pass_tb,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
   # browser()
-
-  .pass_tb <- .pass_tb %>% unique()
-  .freight_tb <- .freight_tb %>% unique()
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% unique()
+  .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% unique()
 
   pass_tb <- .pass_tb
   freight_tb <- .freight_tb
@@ -158,7 +160,7 @@ adj_fleet_shares <- function(.pass_tb,
     pass_tb <- pass_tb %>%
       dplyr::left_join(adj_alt_sales, by = c("year")) %>%
       dplyr::left_join(adj_si_ci_sales, by = c("year")) %>%
-      rowwise() %>%
+      dplyr::rowwise() %>%
       dplyr::mutate(value = dplyr::case_when(
         (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
         (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
@@ -170,25 +172,25 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::select(names(.pass_tb))
 
     new_tot_exist <- pass_tb %>%
-      filter(
+      dplyr::filter(
         str_detect(var, "Exist"),
         mode == "PLDV"
       ) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
-      rowwise() %>%
-      mutate(
+      dplyr::rowwise() %>%
+      dplyr::mutate(
         TotExist = BEVExist + PHEVExist + HEVExist + SIExist + CIExist,
         var = "TotExist",
         value = TotExist
       ) %>%
-      select(names(.pass_tb))
+      dplyr::select(names(.pass_tb))
 
     pass_tb <- pass_tb %>%
-      anti_join(new_tot_exist, by = c(
+      dplyr::anti_join(new_tot_exist, by = c(
         "year", "mode", "ctu", "aeo_mode",
         "type", "var"
       )) %>%
-      bind_rows(new_tot_exist)
+      dplyr::bind_rows(new_tot_exist)
 
 
 
@@ -206,26 +208,26 @@ adj_fleet_shares <- function(.pass_tb,
     sales_elast <- tibble::tibble(
       year = unique(pass_tb$year),
       bev_elast =
-        calc_elasticity(
+        c(calc_elasticity(
           elas_list = c(rep(0, length(unique(pass_tb$year)))),
           elas = .bev_pct_sales,
           num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        ),
+          num_yrs = length(unique(pass_tb$year)) - 5
+        )[1:7], .bev_pct_sales, .bev_pct_sales),
       hev_elast =
-        calc_elasticity(
+        c(calc_elasticity(
           elas_list = c(rep(0, length(unique(pass_tb$year)))),
           elas = .hev_pct_sales,
           num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        ),
+          num_yrs = length(unique(pass_tb$year)) - 5
+        )[1:7], .hev_pct_sales, .hev_pct_sales),
       phev_elast =
-        calc_elasticity(
+        c(calc_elasticity(
           elas_list = c(rep(0, length(unique(pass_tb$year)))),
           elas = .phev_pct_sales,
           num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        )
+          num_yrs = length(unique(pass_tb$year)) - 5
+        )[1:7], .phev_pct_sales, .phev_pct_sales)
     ) %>%
       # create si/ci elasticity by subtracting the combined alternate fuel
       # vehicle percentages from 1
@@ -647,13 +649,15 @@ adj_fleet_shares <- function(.pass_tb,
         TRUE ~ value
       )) %>%
       unique() %>%
-      select(-aeo_mode) %>%
+      dplyr::select(-aeo_mode) %>%
       tidyr::pivot_wider(
         names_from = c(var, mode),
         values_from = value
       ) %>%
       dplyr::group_by(year, ctu) %>%
-      dplyr::mutate(dplyr::across(4:7, sum, na.rm = T)) %>%
+      dplyr::mutate(dplyr::across(4:7, function(x) {
+        sum(x, na.rm = TRUE)
+      })) %>%
       unique()
 
 

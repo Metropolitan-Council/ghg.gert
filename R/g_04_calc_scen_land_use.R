@@ -5,6 +5,14 @@
 #'       for all cities/townships for the selected scenario.
 #'
 #' @inheritParams calc_land_by_development_type
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams filter_ctu
+#' @inheritParams calc_carbon_sequestration_per_ctu
+#' @inheritParams calc_carbon_stock_per_ctu
+#' @inheritParams calc_land_cover_by_land_use
+#' @inheritParams calc_tree_planting_land_cover
+#' @inheritParams calc_electrify_commercial_heating
 #'
 #'
 #' @return [tibble::tibble()] with column names...
@@ -16,21 +24,20 @@
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,
-#'   .selected_ctu = "all",
-#'   .urban_form_scenario = "bau"
+#'   .selected_ctu = "all"
 #' )
 #' }
 calc_scen_land_use <- function(tb,
                                .selected_ctu,
-                               .urban_form_scenario) {
+                               .enviro_factors = enviro_factors) {
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
-  calc_land_by_development_type <-
+  d_calc_land_by_development_type <-
     calc_land_by_development_type(
       tb = tb,
       .selected_ctu = .selected_ctu,
-      .urban_form_scenario = .urban_form_scenario
+      .enviro_factors = .enviro_factors
     )
 
   # -------------------------------------------------------------------------
@@ -68,15 +75,15 @@ calc_scen_land_use <- function(tb,
     ) %>%
     dplyr::mutate(
       percent_of_hectares =
-        hectares /
-          total_hectares
+        dplyr::case_when(total_hectares == 0 ~ 0, total_hectares != 0 ~hectares /
+          total_hectares)
     ) %>%
     dplyr::filter(year == 2040)
 
   # -------------------------------------------------------------------------
   scen_land_use <-
     # calculate scaling factor
-    calc_land_by_development_type %>%
+    d_calc_land_by_development_type %>%
     tidyr::pivot_wider(
       data = .,
       id_cols = c(ctu_name, development_type),

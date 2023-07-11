@@ -1,4 +1,4 @@
-#' @title Calculate transportation direct emissions
+#' @title Calculate transportation direct emissions in metric tons.
 #' @family emissions
 #' @family transportation
 #'
@@ -6,7 +6,7 @@
 #' Calculate the direct greenhouse gas emissions for a given mode and fuel
 #'   type. If the fuel type is non-electric, the returned value represents
 #'   tail-pipe emissions. If fuel type is electric, the returned value
-#'   represents the equivalent emissions per kilowatt hour, modulated
+#'   represents the *equivalent* emissions per kilowatt hour, modulated
 #'   by the percentage of the grid that is de-carbonized
 #'   (`.grid_decarbonization_pct`). If the entire grid is de-carbonized
 #'   (`.grid_decarbonization_pct = 1`), then there are no emissions for
@@ -17,7 +17,9 @@
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
 #'
+#' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #' @inheritParams run_scenario_building
 #'
 #' @return [tibble::tibble()] with column names
@@ -25,6 +27,7 @@
 #'     - `scenario`
 #'     - `mode`
 #'     - `class`
+#'     - `dir_ghg` numeric, direct greenhouse gas emissions in metric tons
 #'     - ...
 #' @export
 #' @importFrom dplyr filter select case_when rowwise mutate_all left_join
@@ -36,24 +39,25 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
-                            .grid_decarbonization_pct = 1,
-                            .enviro_factors = enviro_factors) {
-  # browser()
-
-  ghg_factors_current <- factor_values$ghg %>%
+                            .grid_decarbonization_pct = 0.6,
+                            .enviro_factors = ghg.sp::enviro_factors,
+                            .factor_values = ghg.sp::factor_values) {
+  # for given fuel type,
+  # find the number of metric tons (tonnes) CO2 per gallon of fuel
+  ghg_factors_current <- .factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
       ghg_factor = value
     )
 
 
-  aeo_factors_current <- factor_values$aeo %>%
+  aeo_factors_current <- .factor_values$aeo %>%
     dplyr::filter(
       metric == "MPG",
       aeo_scen == .aeo_scenario,
       mode == unique(tb_vmt$aeo_mode)
     ) %>%
-    select(aeo_scen, metric, year, aeo_factor = value)
+    dplyr::select(aeo_scen, metric, year, aeo_factor = value)
 
 
   # if there isn't an AEO miles per gallon value for the given mode,
@@ -75,8 +79,8 @@ calc_ghg_direct <- function(tb_vmt,
       mode == .mode,
       var == .miles_per_gallon
     ) %>%
-    mutate(val_mpg = value) %>%
-    select(
+    dplyr::mutate(val_mpg = value) %>%
+    dplyr::select(
       year,
       ctu,
       val_mpg,
@@ -89,9 +93,9 @@ calc_ghg_direct <- function(tb_vmt,
     aeo_ghg,
     by = c("year")
   ) %>%
-    # calculate miles per gallon, multiplied by annual energy outlook factor and AV multiplier
+    # calculate miles per gallon, multiplied by annual energy outlook factor
     dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
-    select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
+    dplyr::select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
 
 
   if (.fuel_type == "BEV" & .grid_decarbonization_pct == 0) {
@@ -100,15 +104,17 @@ calc_ghg_direct <- function(tb_vmt,
     )
   }
 
+  # spread grid decarbonization across intermediate years
   grid_elast <-
     tibble(
       year = unique(tb_vmt$year),
-      grid_decarb = calc_elasticity(
-        elas_list = c(rep(0, length(unique(tb_vmt$year)))),
-        elas = .grid_decarbonization_pct,
-        num_inits = 3,
-        num_yrs = length(unique(tb_vmt$year)) - 3
-      )
+      grid_decarb =
+        c(calc_elasticity(
+          elas_list = c(rep(0, length(unique(tb_vmt$year)))),
+          elas = .grid_decarbonization_pct,
+          num_inits = 3,
+          num_yrs = length(unique(tb_vmt$year)) - 5
+        )[1:7], .grid_decarbonization_pct, .grid_decarbonization_pct)
     )
 
 
@@ -123,10 +129,15 @@ calc_ghg_direct <- function(tb_vmt,
       by = c("year")
     ) %>%
     dplyr::mutate(
+      # VMT is reported in thousands
+      # multiply by 1000 to get _miles_
+      gallons = (vmt * 1000) / val_mpg_aeo,
+      # miles / miles-per-gallon = gallons
+      # emissions  = gallons * ghg_factor
       dir_ghg =
         dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-          ((vmt / val_mpg_aeo) * ghg_factor * (1 - grid_decarb)),
-          ((vmt / val_mpg_aeo) * ghg_factor)
+          (gallons * ghg_factor * (1 - grid_decarb)),
+          (gallons * ghg_factor)
         )
     ) %>%
     dplyr::select(type,

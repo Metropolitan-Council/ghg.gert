@@ -1,4 +1,4 @@
-#' @title Check input iarameters
+#' @title Check input parameters
 #'
 #' @param name parameter name
 #' @param value parameter value
@@ -33,6 +33,9 @@ check_inputs <- function(name, value) {
     "payd_fee",
     "freight_vmt_fee"
   )) {
+    if (!is.numeric(value)) {
+      cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1 dollars per mile"))
+    }
     if (value > 1) {
       cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1 dollars per mile"))
     }
@@ -102,6 +105,14 @@ check_inputs <- function(name, value) {
           "BS", "FR", "PLDV",
           "MM", "AIR", "WAT"
         )
+      ))
+    }
+  } else if (name == "selected_ctu") {
+    if (value == "all") {
+      return()
+    } else if (!value %in% unique(ghg.sp::transportation_data$passenger$ctu)) {
+      cli::cli_abort(c(
+        "Enter a valid ctu name"
       ))
     }
   } else {

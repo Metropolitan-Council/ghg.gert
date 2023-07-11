@@ -6,11 +6,12 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
 #'
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 
 scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .selected_ctu = "all",
@@ -35,9 +36,10 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .transit_dist_pct_change = 0,
                            .comb_5d_impact_pct_change = 0,
                            .telework_pct = 0,
-                           .mit_bau_summary = 0,
+                           .grid_decarbonization_pct = 0.6,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
+                           .factor_values = factor_values,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
@@ -45,9 +47,11 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",
-    .aeo_scenario,
+    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   type <- "P"
@@ -63,16 +67,34 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   walk_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
-      .scenario,
-      .selected_ctu,
-      mode, stock,
-      var, fcm, .aeo_scenario, .transit_avo_pct, .transit_service_pct,
-      .vmt_fee, .payd_fee, .gas_tax, .cong_price, .parking_price,
-      .freight_vmt_fee, .pop_dens_pct_change, .emp_dens_pct_change,
-      .land_use_diversity_pct_change, .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -84,18 +106,34 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   bike_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
-      .scenario,
-      .selected_ctu,
-      mode,
-      stock, var, fcm, .aeo_scenario,
-      .transit_avo_pct, .transit_service_pct, .vmt_fee, .payd_fee,
-      .cong_price, .parking_price,
-      .freight_vmt_fee,
-      .pop_dens_pct_change, .emp_dens_pct_change, .land_use_diversity_pct_change,
-      .intersection_design_pct_change, .job_access_pct_change,
-      .transit_dist_pct_change, .comb_5d_impact_pct_change,
+      .scenario = .scenario,
+      .selected_ctu = .selected_ctu,
+      .mode = mode,
+      .stock = stock,
+      .variable = var,
+      .tb_fuel_cost_mile = fcm,
+      .aeo_scenario = .aeo_scenario,
+      .transit_avo_pct = .transit_avo_pct,
+      .pldv_avo_pct = .pldv_avo_pct,
+      .transit_service_pct = .transit_service_pct,
+      .vmt_fee = .vmt_fee,
+      .payd_fee = .payd_fee,
+      .gas_tax = .gas_tax,
+      .cong_price = .cong_price,
+      .parking_price = .parking_price,
+      .freight_parking_price = .freight_parking_price,
+      .freight_vmt_fee = .freight_vmt_fee,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
+      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .elast = .elast,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values,
+      .elast_5d = .elast_5d
     ) %>%
     mutate(class = class)
 
@@ -108,7 +146,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
   # browser()
   dir_ghg_all <- vmt_all %>%
     dplyr::mutate(
-      dir_ghg = NA,
+      dir_ghg = 0,
       type = type,
       class = mode,
     ) %>%
@@ -123,7 +161,7 @@ scen_walk_bike <- function(.pass_tb = transportation_data$passenger,
     "dir_ghg" = dir_ghg_all
   )
 
-  usethis::ui_done(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
+  cli::cli_alert_success(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
 
   return(wb_fin)
 }

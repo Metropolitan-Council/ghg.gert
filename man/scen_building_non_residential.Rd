@@ -9,15 +9,11 @@ scen_building_non_residential(
   non_res_tb_bau,
   .selected_ctu,
   .electrified_buildings_pct,
-  .non_res_natural_gas_for_water_heating_pct,
-  .non_res_natural_gas_for_space_heating_pct,
-  .commercial_smart_grid_pct,
-  .industrial_smart_grid_pct,
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
   .renewable_ng_nonres,
-  .enviro_factors
+  .enviro_factors = enviro_factors
 )
 }
 \arguments{
@@ -33,35 +29,22 @@ is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}.}
+Default is \code{0.0}.}
 
-\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
-\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}.}
-
-\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of commercial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of industrial buildings that would be on the smart grid for the
-pecified scenario. Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0.6}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
-Default is \code{0.8}.}
+Default is \code{0}.}
+
+\item{.renewable_ng_nonres}{logical, documentation needed}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
@@ -101,10 +84,6 @@ scen_building_non_residential(
   non_res_tb_bau = building_data$non_residential,
   .selected_ctu = "all",
   .electrified_buildings_pct = 0.40,
-  .non_res_natural_gas_for_water_heating_pct = 0.20,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct = 1.00,
-  .industrial_smart_grid_pct = 1.00,
   .smart_grid_energy_reduction_pct = 1.00,
   .grid_decarbonization_pct = 0.80,
   .existing_high_efficiency_buildings_pct = 0.80,

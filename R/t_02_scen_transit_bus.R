@@ -2,6 +2,8 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #'
 #' @family transportation
 #' @family passenger
@@ -9,7 +11,7 @@
 #' @export
 #'
 #' @importFrom emo ji
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .selected_ctu = "all",
                              .scenario = "BAU",
@@ -32,11 +34,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .job_access_pct_change = 0,
                              .transit_dist_pct_change = 0,
                              .comb_5d_impact_pct_change = 0,
+                             .grid_decarbonization_pct = 0.6,
                              .telework_pct = 0,
-                             .mit_bau_summary = 0,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
                              .elast_5d = elast_5d,
+                             .factor_values = factor_values,
                              .calc_transp_cost = FALSE,
                              .calc_transp_fuel_use = FALSE,
                              .calc_transp_ghg_embodied = FALSE) {
@@ -62,11 +65,12 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   fcm <- calc_fuel_cost_mile(
     tb = .pass_tb,
-    .mode = "PLDV",
+    .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
-    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors
+    .miles_per_gallon = mpg,
+    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
 
   ci_vmt <-
@@ -99,7 +103,8 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values,
     ) %>%
     mutate(class = class)
 
@@ -111,7 +116,9 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .enviro_factors = .enviro_factors
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   bus_scenario <- list("vmt" = ci_vmt, "dir_ghg" = ci_dir_ghg)
@@ -140,7 +147,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
         .fuel_type = "BU-BCI-EMB",
         .class = class,
         .transit_avo_pct = .transit_avo_pct,
-        .mit_bau_summary,
         .enviro_factors = .enviro_factors
       )
 
@@ -230,7 +236,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .class = class,
   #     .transit_avo_pct = .transit_avo_pct,
   #     hev_vmt,
-  #     .mit_bau_summary,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -475,7 +480,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .fuel_type = "BU-HEV-EMB",
   #     .class = class,
   #     .transit_avo_pct, hev_brt_vmt,
-  #     .mit_bau_summary,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -555,7 +559,6 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .fuel_type = "BU-BEV-EMB",
   #     .class = class,
   #     .transit_avo_pct = .transit_avo_pct,
-  #     .mit_bau_summary,
   #     .enviro_factors = .enviro_factors
   #   )
   #
@@ -569,7 +572,7 @@ scen_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Finish up -----
 
-  usethis::ui_done(paste("Transit buses and bus rapid transit", emo::ji("bus")))
+  cli::cli_alert_success(paste("Transit buses and bus rapid transit", emo::ji("bus")))
 
   return(bus_scenario)
 }

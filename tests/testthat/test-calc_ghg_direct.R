@@ -11,7 +11,8 @@ si_vmt_test <- tibble::tribble(
   "P", "SIStock", "BAU", "St. Paul", "2040", "PLDV", "LDV", 18.8835183369188, "SI",
   "P", "SIStock", "BAU", "St. Paul", "2045", "PLDV", "LDV", 18.3082802849089, "SI",
   "P", "SIStock", "BAU", "St. Paul", "2050", "PLDV", "LDV", 17.7590876643119, "SI"
-)
+) %>%
+  mutate(vmt = vmt * 1000)
 
 
 si_dir_ghg <- calc_ghg_direct(
@@ -21,6 +22,8 @@ si_dir_ghg <- calc_ghg_direct(
   .fuel_type = "SI",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG",
+  .grid_decarbonization_pct = 0.6,
+  .factor_values = factor_values,
   .enviro_factors = enviro_factors
 )
 
@@ -56,7 +59,10 @@ ci_dir_ghg <- calc_ghg_direct(
   .mode = "PLDV",
   .fuel_type = "CI",
   .aeo_scenario = "REF",
-  .miles_per_gallon = "CIMPG"
+  .miles_per_gallon = "CIMPG",
+  .grid_decarbonization_pct = 0.6,
+  .factor_values = factor_values,
+  .enviro_factors = enviro_factors
 )
 
 
@@ -64,20 +70,34 @@ testthat::expect_equal(dim(ci_dir_ghg)[1], 9)
 
 # battery electric -----
 
-fcm <- calc_fuel_cost_mile(
-  st_paul_passenger,
-  .mode = "PLDV",
-  .aeo_scenario = "REF",
-  "BEVElec",
-  enviro_factors$ELEC_FUEL_COST_KWH
-)
+testthat::test_that("Battery direct ghg", {
+  fcm <- calc_fuel_cost_mile(
+    st_paul_passenger,
+    .mode = "PLDV",
+    .aeo_scenario = "REF",
+    "BEVElec",
+    .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH
+  )
 
+  testthat::expect_warning(calc_ghg_direct(
+    tb_vmt = ci_vmt_test,
+    tb = st_paul_passenger,
+    .mode = "PLDV",
+    .fuel_type = "BEV",
+    .aeo_scenario = "REF",
+    .miles_per_gallon = "BEVElec",
+    .grid_decarbonization_pct = 0
+  ))
 
-bev_dir_ghg <- calc_ghg_direct(
-  tb_vmt = ci_vmt_test,
-  tb = st_paul_passenger,
-  .mode = "PLDV",
-  .fuel_type = "BEV",
-  .aeo_scenario = "REF",
-  .miles_per_gallon = "BEVElec"
-)
+  bev_dir_ghg <- calc_ghg_direct(
+    tb_vmt = ci_vmt_test,
+    tb = st_paul_passenger,
+    .mode = "PLDV",
+    .fuel_type = "BEV",
+    .aeo_scenario = "REF",
+    .miles_per_gallon = "BEVElec",
+    .grid_decarbonization_pct = 1
+  )
+
+  bev_dir_ghg
+})

@@ -16,10 +16,14 @@
 #'      Percentage of all new single-family
 #'      households that will respond to increased energy costs by decreasing
 #'      home size.
-#'      Default is `0.30`.
+#'      Default is `0.0`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
@@ -44,7 +48,7 @@ calc_floor_area_growth <- function(res_tb,
                                    .selected_ctu,
                                    .single_family_floor_area_growth_pct,
                                    .new_homes_affected_pct,
-                                   .enviro_factors) {
+                                   .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area growth \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -139,9 +143,13 @@ calc_floor_area_growth <- function(res_tb,
 #'
 #' @param .new_homes_leed_gold_pct numeric,  a value between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
-#'      Default is `0.5`
+#'      Default is `0.0`
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details
 #'    Uses the average single family floor area in 2018
@@ -169,7 +177,7 @@ calc_floor_area_growth <- function(res_tb,
 calc_floor_area_leed <- function(res_tb,
                                  .selected_ctu,
                                  .new_homes_leed_gold_pct,
-                                 .enviro_factors) {
+                                 .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -248,17 +256,21 @@ calc_floor_area_leed <- function(res_tb,
 #' @family buildings
 #'
 #' @description adjusts single and multifamily average
-#' floor area forecast under the assumptio of energy use reduction due to home
+#' floor area forecast under the assumption of energy use reduction due to home
 #' retrofits.
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
-#'      Default is `0.80`.
+#'      Default is `0.0`.
 #' @param .existing_home_ultra_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *66%*.
-#'      Default is `0.20`.
+#'      Default is `0.00`.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @details Uses the average single family floor area in 2018
 #'
@@ -287,7 +299,7 @@ calc_floor_area_retrofit <- function(res_tb,
                                      .selected_ctu,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
-                                     .enviro_factors) {
+                                     .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -335,7 +347,7 @@ calc_floor_area_retrofit <- function(res_tb,
       dplyr::left_join(existing_units, by = "ctu_name") %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
-          case_when(
+          dplyr::case_when(
             var == "single_family_average_floor_area_sqft_ctu" ~
               stats::weighted.mean(
                 c(
@@ -411,9 +423,13 @@ calc_floor_area_retrofit <- function(res_tb,
 #'
 #' @param .home_behavior_change_pct numeric,  a value between `0` and `1`.
 #'      Percentage of households that change behavior to reduce household emissions.
-#'      Default is `1.00`.
+#'      Default is `0.0`.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
@@ -438,7 +454,7 @@ calc_floor_area_retrofit <- function(res_tb,
 calc_floor_area_behavior_change <- function(res_tb,
                                             .selected_ctu,
                                             .home_behavior_change_pct,
-                                            .enviro_factors) {
+                                            .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area behavior change strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -523,6 +539,10 @@ calc_floor_area_behavior_change <- function(res_tb,
 #'    model assumption, which cities can adjust.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @param .single_family_floor_area_growth_pct numeric, a value between `0` and `1`.
 #'       Percentage of single family floor area that gets reduced due to increase energy prices.
@@ -578,17 +598,17 @@ calc_affordable_floor_area <- function(res_tb,
               single_family_average_floor_area_sqft_ctu.2040 - (1 + .single_family_floor_area_growth_pct) *
                 single_family_average_floor_area_sqft_ctu.2018
             ),
-        value = single_family_units.2040 - reduction_floor_area
+        value = single_family_average_floor_area_sqft_ctu.2040 - reduction_floor_area
       ) %>%
       dplyr::mutate(
         year = 2040,
-        var = "single_family_units"
+        var = "single_family_average_floor_area_sqft_ctu"
       ) %>%
       dplyr::select(ctu_name, year, var, value) %>%
       dplyr::bind_rows(
         .,
         res_tb %>%
-          dplyr::filter(var != "single_family_units" &
+          dplyr::filter(var != "single_family_average_floor_area_sqft_ctu" &
             year == 2040)
       ) %>%
       bind_rows(., res_tb %>%

@@ -28,10 +28,11 @@ scen_transit_rail(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .mit_bau_summary = 0,
+  .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
+  .factor_values = factor_values,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -41,11 +42,14 @@ scen_transit_rail(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -94,13 +98,25 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
+\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
+Default value is \code{0.6}.}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 }
 \description{
 Calculate scenario for passenger rail

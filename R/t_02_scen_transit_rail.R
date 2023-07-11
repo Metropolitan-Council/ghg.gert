@@ -5,9 +5,11 @@
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #'
 #' @export
-#' @importFrom usethis ui_done
+#' @importFrom cli cli_alert_success
 #' @importFrom emo ji
 scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .selected_ctu = "all",
@@ -32,10 +34,11 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .mit_bau_summary = 0,
+                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d,
+                              .factor_values = factor_values,
                               .calc_transp_cost = FALSE,
                               .calc_transp_fuel_use = FALSE,
                               .calc_transp_ghg_embodied = FALSE) {
@@ -44,15 +47,19 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   passenger_rail <- list()
 
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
-
+  # browser()
   # Rail Urban-----
+
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
-    .mode = "PLDV",
+    .mode = "RU",
     .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
-    .enviro_factors$SI_FUEL_COST_GAL
+    .miles_per_gallon = "EVElec",
+    .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
   )
+
 
   # browser()
 
@@ -99,7 +106,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -111,7 +119,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .enviro_factors = .enviro_factors
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
 
@@ -122,6 +132,17 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
   stock <- "BCIStock"
   mpg <- "BCIMPG"
   class <- "BCI"
+
+
+  fcm <- calc_fuel_cost_mile(
+    .pass_tb,
+    .mode = mode,
+    .aeo_scenario,
+    .miles_per_gallon = mpg,
+    .enviro_factors$CI_FUEL_COST_GAL,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
 
   # cli::cli_progress_message("**** Passenger interurban rail, diesel \n")
 
@@ -156,7 +177,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -169,13 +191,26 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpg,
-      .enviro_factors = .enviro_factors
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   ## EV Rail Inter -----
   stock <- "EVStock"
   mpe <- "EVElec"
   class <- "EV"
+
+  fcm <- calc_fuel_cost_mile(
+    .pass_tb,
+    .mode = mode,
+    .aeo_scenario,
+    .miles_per_gallon = mpe,
+    .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values
+  )
+
 
   # cli::cli_progress_message("**** Passenger interurban rail, electric \n")
   ev_ri_vmt <-
@@ -209,7 +244,8 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .phev_electric = .phev_electric,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d
+      .elast_5d = .elast_5d,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = class)
 
@@ -221,7 +257,9 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = mpe,
-      .enviro_factors = .enviro_factors
+      .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
     )
 
   vmt_all <- dplyr::bind_rows(
@@ -316,12 +354,12 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
 
   if (.calc_transp_ghg_embodied == TRUE) {
     emb_ghg_all <- dir_ghg_all %>%
-      mutate(
+      dplyr::mutate(
         ghg_embodied_source = NA,
         ghg_embodied = NA,
         type = type
       ) %>%
-      select(
+      dplyr::select(
         type, ghg_embodied_source, ghg_embodied,
         mode, class, ctu, year, aeo_mode
       ) %>%
@@ -330,7 +368,7 @@ scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
     passenger_rail$emb_ghg <- emb_ghg_all
   }
 
-  usethis::ui_done(paste("Urban and interurban rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Urban and interurban rail", emo::ji("train")))
 
   return(passenger_rail)
 }

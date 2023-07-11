@@ -5,16 +5,15 @@
 #' heat in the residential sector by city/township for the specified scenario.
 #'
 #' @param .additional_electrified_residential_buildings_pct numeric,  a value between `0` and `1`.
+#'   Default is `0`.
 #' The percentage of buildings that would
 #' be electrified under the specified scenario.
-#' @param .res_natural_gas_for_water_heating_pct numeric,  a value between `0` and `1`.
-#' The percentage of natural gas that is commonly used for space heating in residential
-#' buildings.
-#' @param .res_natural_gas_for_water_heating_pct numeric,  a value between `0` and `1`.
-#' The percentage of natural gas that is commonly used for water heating in residential
-#' buildings.
 #'
 #' @inheritParams run_scenario_building
+#' @inheritParams calc_parking_lot_land_cover
+#' @inheritParams run_all_modules
+#' @inheritParams run_scenario_land_use
+#' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
 #' Data table with output of electrify residential heating.
@@ -35,8 +34,6 @@
 #'   ),
 #'   .selected_ctu = "all",
 #'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .res_natural_gas_for_space_heating_pct = 0.71,
-#'   .res_natural_gas_for_water_heating_pct = 0.24,
 #'   .grid_decarbonization_pct = 0.80,
 #'   .enviro_factors = enviro_factors
 #' )
@@ -44,10 +41,8 @@
 calc_electrify_residential_heating <- function(res_tb,
                                                .selected_ctu,
                                                .additional_electrified_residential_buildings_pct,
-                                               .res_natural_gas_for_space_heating_pct,
-                                               .res_natural_gas_for_water_heating_pct,
                                                .grid_decarbonization_pct,
-                                               .enviro_factors) {
+                                               .enviro_factors = enviro_factors) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   new_res_tb <- res_tb %>%
@@ -80,12 +75,12 @@ calc_electrify_residential_heating <- function(res_tb,
           (
             (
               reduced_therms.scen.2040 *
-                .res_natural_gas_for_space_heating_pct *
+                .enviro_factors$RES_NATUAL_GAS_FOR_SPACE_HEATING_PCT *
                 .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
             ) * .enviro_factors$THERM_TO_MWH +
               (
                 reduced_therms.scen.2040 *
-                  .res_natural_gas_for_water_heating_pct *
+                  .enviro_factors$RES_NATURAL_GAS_FOR_WATER_HEATING_PCT *
                   .enviro_factors$BOILER_TO_HEAT_PUMP_EFFICIENCY_RATIO
               ) * .enviro_factors$THERM_TO_MWH
           ),

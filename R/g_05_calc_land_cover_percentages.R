@@ -9,13 +9,10 @@
 #'
 #' @param tb [tibble::tibble()].
 #' The input dataset to be used. Default is `land_use_data`.
-#' @param .selected_ctu character,
-#' The selected city/township  (CTU) for which to calculate land cover land use percentages.
-#'
 #' @return [tibble::tibble()].
 #'      A tibble containing the land cover land use percentages for each CTU,
 #'      land use type, and land cover type based on 2016 data.
-#'
+#' @inheritParams filter_ctu
 #' @export
 #'
 #' @examples
@@ -101,7 +98,8 @@ calc_land_cover_percentages <- function(tb = land_use_data,
             "land_use_type",
             "land_cover_type"
           )
-        ) %>% dplyr::left_join(
+        ) %>%
+        dplyr::left_join(
           .,
           (get_percent_of_land_use_by_land_cover_baseline_year),
           by = c(
@@ -121,7 +119,7 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     ) %>%
     dplyr::mutate(
       percent_land_cover_type = dplyr::if_else(
-        hectares > 50,
+        hectares > 50 & !is.na(land_cover_percent),
         land_cover_percent,
         dplyr::if_else(is.na(percent_of_total_area),
           0,

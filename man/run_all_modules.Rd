@@ -18,33 +18,30 @@ run_all_modules(
   non_res_tb_bau = building_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+  .calc_transp_cost = FALSE,
+  .calc_transp_fuel_cost_mile = FALSE,
+  .calc_transp_fuel_use = FALSE,
+  .calc_transp_ghg_embodied = FALSE,
   detail = FALSE,
   .renewable_ng_res = FALSE,
-  .urban_form_scenario = "bau",
   .conservation_tillage_intervention = "current_conservation_tillage",
-  .tree_planting_intervention = "tree_planting_on_all_pervious",
+  .tree_planting_intervention = "none",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
-  .parking_lot_reduction_percentage = 0.8,
-  .electrified_buildings_pct = 0.4,
+  .parking_lot_reduction_percentage = 0,
+  .electrified_buildings_pct = 0,
   .renewable_ng_nonres = FALSE,
-  .non_res_natural_gas_for_water_heating_pct = 0.2,
-  .non_res_natural_gas_for_space_heating_pct = 0.69,
-  .commercial_smart_grid_pct = 1,
-  .industrial_smart_grid_pct = 1,
-  .smart_grid_energy_reduction_pct = 0.11,
-  .new_homes_to_multifamily_pct = 0.5,
-  .existing_high_efficiency_buildings_pct = 0.8,
-  .home_behavior_change_pct = 1,
+  .smart_grid_energy_reduction_pct = 0,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .home_behavior_change_pct = 0,
   .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0.3,
-  .new_homes_leed_gold_pct = 0.5,
-  .existing_home_retrofit_pct = 0.8,
-  .existing_home_ultra_retrofit_pct = 0.2,
-  .res_natural_gas_for_space_heating_pct = 0.71,
-  .res_natural_gas_for_water_heating_pct = 0.24,
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .grid_decarbonization_pct = 1,
+  .new_homes_affected_pct = 0,
+  .new_homes_leed_gold_pct = 0,
+  .existing_home_retrofit_pct = 0,
+  .existing_home_ultra_retrofit_pct = 0,
+  .additional_electrified_residential_buildings_pct = 0,
+  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -58,10 +55,6 @@ run_all_modules(
   .freight_parking_price = 0,
   .cong_price = 0,
   .freight_vmt_fee = 0,
-  .drs_pct = 0,
-  .av_pct = 0,
-  .drs_fuel_type = "",
-  .av_fuel_type = "",
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
   .land_use_diversity_pct_change = 0,
@@ -73,8 +66,8 @@ run_all_modules(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .mit_bau_summary = 0,
   .enviro_factors = enviro_factors,
+  .factor_values = ghg.sp::factor_values,
   .elast = elast,
   .elast_5d = elast_5d
 )
@@ -87,6 +80,10 @@ run_all_modules(
 \item{run_buildings}{logical. Default is \code{TRUE}}
 
 \item{run_transportation}{logical. Default is \code{TRUE}}
+
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided.
@@ -117,11 +114,22 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
 \item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
+
+\item{.renewable_ng_res}{logical, documentation needed}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
@@ -135,6 +143,16 @@ relative to the baseline year.
 tillage.
 }}
 
+\item{.tree_planting_intervention}{character, specifies the type of tree planting.
+intervention to be explored under the current scenario. options are:
+* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
+* \code{"double"}: Assumes double the tree canopy relative.
+to the baseline year.
+* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
+Los Angeles Million Tree Goal.
+* \code{"none"}: No intervention
+Default is \code{none}.}
+
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 Default is \code{0.26}.}
@@ -146,43 +164,26 @@ Default is \code{247}.}
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
 area to be explored under the current scenario.
-Default is \code{0.8}.}
+Default is \code{0.0}.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.40}.}
+Default is \code{0.0}.}
 
-\item{.non_res_natural_gas_for_water_heating_pct}{numeric, a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for heating water in commercial buildings.
-Default is \code{0.20}.}
-
-\item{.non_res_natural_gas_for_space_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percent of natural gas that is commonly used for space heating in commercial buildings.
-Default is \code{0.69}.}
-
-\item{.commercial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of commercial buildings that would be on the smart grid for the
-specified scenario.
-Default is \code{1}.}
-
-\item{.industrial_smart_grid_pct}{numeric, a value between \code{0} and \code{1}.
-The percentage of industrial buildings that would be on the smart grid for the
-pecified scenario. Default is \code{1}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{1}.}
+\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.50}.}
+Default is \code{0.0}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
-Default is \code{0.8}.}
+Default is \code{0}.}
 
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
-Default is \code{1.00}.}
+Default is \code{0.0}.}
 
 \item{.single_family_floor_area_growth_pct}{numeric,
 a value between \code{0} and \code{1}.
@@ -194,36 +195,34 @@ a value between \code{0} and \code{1}.
 Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
-Default is \code{0.30}.}
+Default is \code{0.0}.}
 
 \item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
-Default is \code{0.5}}
+Default is \code{0.0}}
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.80}.}
+Default is \code{0.0}.}
 
 \item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.20}.}
-
-\item{.res_natural_gas_for_water_heating_pct}{numeric,  a value between \code{0} and \code{1}.
-The percentage of natural gas that is commonly used for water heating in residential
-buildings.}
+Default is \code{0.00}.}
 
 \item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
+Default is \code{0}.
 The percentage of buildings that would
 be electrified under the specified scenario.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{1}.}
+Default value is \code{0.6}.}
 
-\item{.scenario}{character, scenario name. JUST A LABEL}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
 
-\item{.aeo_scenario}{selected EIA Annual Energy Outlook scenario}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -287,9 +286,9 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.mit_bau_summary}{input of BAU data for calculations in MIT scenario}
-
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
