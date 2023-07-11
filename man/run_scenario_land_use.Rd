@@ -9,8 +9,8 @@ run_scenario_land_use(
   .selected_ctu = "all",
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "none",
-  .tree_planting_per_capita = 0,
-  .tree_planting_per_hectare = 0,
+  .tree_planting_per_capita = 0.26,
+  .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
   .enviro_factors = ghg.sp::enviro_factors,
   detail = FALSE
