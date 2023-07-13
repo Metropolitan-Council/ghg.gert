@@ -64,7 +64,6 @@ editor, type: `USDA_KEY="KEY GOES HERE, INSIDE QUOTES"`
 5. Restart R.
 
 ```{r process-usda}
-
 process_usda <- FALSE
 
 if (process_usda == TRUE) {

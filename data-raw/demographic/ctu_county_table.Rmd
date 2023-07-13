@@ -5,8 +5,10 @@ output: rmarkdown::html_document
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE,
-                      echo = F)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = F
+)
 
 library(knitr)
 library(councilR)
@@ -16,8 +18,7 @@ library(tidyr)
 library(sf)
 
 `%not_in%` <- Negate(`%in%`)
-st_erase = function(x, y) st_difference(x, st_union(st_combine(y)))
-
+st_erase <- function(x, y) st_difference(x, st_union(st_combine(y)))
 ```
 
 
@@ -30,26 +31,35 @@ The goal is to create a table which contains each CTU and county pair for the 7-
 ```{r population}
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census2020population/xlsx_society_census2020population.zip", destfile = temp)
-pop <- readxl::read_xlsx(unzip(temp, "Census2020PopulationMCD.xlsx")) %>% 
-  filter(TCFLAG == 1,
-         GEOG_LEVEL == "COCTU") %>%
-  mutate(GEONAME = stringr::str_replace(GEONAME, "township", "Twp."),
-         GEONAME = stringr::str_remove(GEONAME, " city")) %>%
-  transmute(ctu_name = GEONAME, 
-         co_code = COUNTY, 
-         pop = POPTOTAL) %>%
+pop <- readxl::read_xlsx(unzip(temp, "Census2020PopulationMCD.xlsx")) %>%
+  filter(
+    TCFLAG == 1,
+    GEOG_LEVEL == "COCTU"
+  ) %>%
+  mutate(
+    GEONAME = stringr::str_replace(GEONAME, "township", "Twp."),
+    GEONAME = stringr::str_remove(GEONAME, " city")
+  ) %>%
+  transmute(
+    ctu_name = GEONAME,
+    co_code = COUNTY,
+    pop = POPTOTAL
+  ) %>%
   group_by(ctu_name) %>%
-  mutate(n_counties = n(),
-         total_pop = sum(pop),
-         pct_population = round(pop / total_pop, 4)) %>%
-  mutate(ctu_name = case_when(ctu_name == "Credit River Twp." ~ "Credit River",
-                              ctu_name == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
-                              TRUE ~ ctu_name)) %>%
+  mutate(
+    n_counties = n(),
+    total_pop = sum(pop),
+    pct_population = round(pop / total_pop, 4)
+  ) %>%
+  mutate(ctu_name = case_when(
+    ctu_name == "Credit River Twp." ~ "Credit River",
+    ctu_name == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
+    TRUE ~ ctu_name
+  )) %>%
   select(-total_pop, -pop) %>%
   arrange((ctu_name))
 
 fs::file_delete("Census2020PopulationMCD.xlsx")
-
 ```
 
 2.  Get CTU boundary files and remove water. 
@@ -63,11 +73,11 @@ river_lake_all <- sf::read_sf(unzip(temp, "water_lakes_rivers.gpkg")) %>%
   sf::st_transform(26915)
 
 river_lake_buffer <- river_lake_all %>%
-  filter(NAME_DNR %in% c("Mississippi", "Minnesota", "St. Croix")) #%>% #these rivers are boundaries
+  filter(NAME_DNR %in% c("Mississippi", "Minnesota", "St. Croix")) # %>% #these rivers are boundaries
 
 fs::file_delete("water_lakes_rivers.gpkg")
 
-#get ctu boundary, remove water
+# get ctu boundary, remove water
 temp <- tempfile()
 temp2 <- tempfile()
 download.file(
@@ -76,12 +86,14 @@ download.file(
 )
 unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
 ctu_boundary <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
-  transmute(ctu_id = CTU_ID,
-            ctu_name = CTU_NAME) %>%
+  transmute(
+    ctu_id = CTU_ID,
+    ctu_name = CTU_NAME
+  ) %>%
   sf::st_transform(26915) %>%
   st_erase(river_lake_all %>%
-             st_union() %>%
-             st_buffer(0))
+    st_union() %>%
+    st_buffer(0))
 ```
 
 3. Intersect CTU boundaries (less water) with county boundaries. Get the percent LAND AREA of each ctu-county pair.
@@ -90,8 +102,10 @@ ctu_boundary <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
 ## get county boundaries
 metc_counties <- tigris::counties(state = "MN") %>%
   filter(NAME %in% c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")) %>%
-  transmute(co_code = COUNTYFP,
-            co_name = NAME) %>%
+  transmute(
+    co_code = COUNTYFP,
+    co_name = NAME
+  ) %>%
   sf::st_transform(26915)
 
 ## intersection
@@ -100,28 +114,34 @@ land_area <- metc_counties %>%
   mutate(sq_m = as.numeric(sf::st_area(.))) %>%
   st_drop_geometry() %>%
   group_by(ctu_id, ctu_name) %>%
-  mutate(n_counties = n(),
-         ctu_land_area = sum(sq_m),
-         pct_land_area = round(sq_m / ctu_land_area, 4)) %>% 
-  select(co_code, co_name, ctu_id, pct_land_area) 
-
+  mutate(
+    n_counties = n(),
+    ctu_land_area = sum(sq_m),
+    pct_land_area = round(sq_m / ctu_land_area, 4)
+  ) %>%
+  select(co_code, co_name, ctu_id, pct_land_area)
 ```
 
 4. Merge population and land area percents. Export file. 
 
 ```{r}
-ctu_county <- st_drop_geometry(ctu_boundary) %>% #take the full ctu information (with ctu_ids)
-  full_join(pop) %>% #add population percents
-  left_join(land_area) %>%  #add in the percent land area
-  mutate(pct_land_area = if_else(n_counties == 1, 1, pct_land_area)) %>% #clean up errors due to slivers
+ctu_county <- st_drop_geometry(ctu_boundary) %>% # take the full ctu information (with ctu_ids)
+  full_join(pop) %>% # add population percents
+  left_join(land_area) %>% # add in the percent land area
+  mutate(pct_land_area = if_else(n_counties == 1, 1, pct_land_area)) %>% # clean up errors due to slivers
   select(-ctu_name, -co_name) %>%
-  mutate(ctu_id = as.integer(ctu_id),
-         co_code = as.integer(co_code))
+  mutate(
+    ctu_id = as.integer(ctu_id),
+    co_code = as.integer(co_code)
+  )
 
 
-ctu_county %>% group_by(ctu_id) %>%
-  mutate(check_land_area = sum(pct_land_area),
-         check_pop = sum(pct_population)) %>%
+ctu_county %>%
+  group_by(ctu_id) %>%
+  mutate(
+    check_land_area = sum(pct_land_area),
+    check_pop = sum(pct_population)
+  ) %>%
   filter(check_pop != 1 | check_land_area != 1)
 
 usethis::use_data(ctu_county, overwrite = TRUE)

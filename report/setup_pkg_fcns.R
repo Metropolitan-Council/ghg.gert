@@ -35,8 +35,10 @@ if (params$desired_format == "html") {
 } else {
   tableformat <- function(data, .caption) {
     data %>%
-      mutate(Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
-      Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2")) %>%
+      mutate(
+        Variables = str_replace_all(Variables, fixed("<sub>2</sub>"), "2"),
+        Variables = str_replace_all(Variables, fixed("<sup>2</sup>"), "2")
+      ) %>%
       flextable::flextable() %>%
       flextable::autofit(add_w = 0, add_h = 0) %>%
       flextable::set_table_properties(layout = "autofit") %>%

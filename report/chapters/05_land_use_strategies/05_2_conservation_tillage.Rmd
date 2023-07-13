@@ -40,7 +40,7 @@ fig05_2_data <-
       .tree_planting_per_hectare = 247,
       .parking_lot_reduction_percentage = 0.8,
       detail = FALSE
-    )  %>%
+    ) %>%
       mutate(scenario = "bau") %>%
       filter(ctu_name == params$ctu_selection),
     run_scenario_land_use(
@@ -59,9 +59,11 @@ fig05_2_data <-
   )
 
 fig05_2_table <- fig05_2_data %>%
-  select(c(scenario, 
-           var,
-           value)) %>%
+  select(c(
+    scenario,
+    var,
+    value
+  )) %>%
   t() %>%
   tableformat(.caption = paste0("Conservation Tillage Effect for ", params$ctu_selection))
 ```

@@ -75,7 +75,7 @@ calc_scen_land_use <- function(tb,
     ) %>%
     dplyr::mutate(
       percent_of_hectares =
-        dplyr::case_when(total_hectares == 0 ~ 0, total_hectares != 0 ~hectares /
+        dplyr::case_when(total_hectares == 0 ~ 0, total_hectares != 0 ~ hectares /
           total_hectares)
     ) %>%
     dplyr::filter(year == 2040)

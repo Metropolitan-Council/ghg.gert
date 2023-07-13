@@ -49,8 +49,6 @@ tab_existing_home_efficiency <- full_join(
       filter(ctu_name == params$ctu_selection) %>%
       add_variable_names(., "2018 Baseline")
   ),
-  
-  
   (
     calc_floor_area_retrofit(
       .selected_ctu = params$ctu_selection,
@@ -75,7 +73,8 @@ tab_existing_home_efficiency <- full_join(
   by = "Variables"
 ) %>%
   tableformat(.,
-              .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+    .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040")
+  )
 ```
 
 ```{r echo=FALSE}
@@ -177,7 +176,6 @@ chartformat(fig03a4_data)
 
 ```{r tab-existing-home-efficiency2, message=FALSE, warning=FALSE, include=FALSE}
 tab_existing_home_efficiency2 <-
-  
   full_join(
     (
       calc_floor_area_retrofit(
@@ -200,7 +198,6 @@ tab_existing_home_efficiency2 <-
         filter(ctu_name == params$ctu_selection) %>%
         add_variable_names(., "2018 Baseline")
     ),
-    
     (
       calc_floor_area_retrofit(
         res_tb = building_data$residential,
@@ -225,7 +222,8 @@ tab_existing_home_efficiency2 <-
     by = "Variables"
   ) %>%
   tableformat(.,
-              .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040"))
+    .caption = paste("Existing Home Efficiency", params$ctu_selection, "2040")
+  )
 ```
 
 ```{r echo=FALSE}

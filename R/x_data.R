@@ -1,6 +1,6 @@
 #' @title Environmental factors for users
 #'
-#' @format A named list of 19 values.
+#' @format A named list
 #' \describe{
 #'   \item{TRANSIT_SERVICE_ELAST}{Effect of increase in transit service on
 #'       increase in transit ridership and decrease in PLDV. Citation forthcoming.}

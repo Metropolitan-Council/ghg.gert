@@ -64,7 +64,6 @@ save(ctu_tma, file = file.path(here::here(), "data/ctu_tma.rda"))
 2. Map the result
 
 ```{r map}
-
 ctu_tma %>%
   full_join(ctu) %>%
   st_as_sf() %>%
