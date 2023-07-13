@@ -93,12 +93,14 @@ calc_carbon_stock_per_ctu <- function(tb,
     dplyr::left_join(.,
       tb$ctu_county,
       by = "ctu_name",
-      multiple = "all"
+      multiple = "all",
+      relationship = "many-to-many"
     ) %>%
     dplyr::left_join(.,
       tb$current_conservation_tillage_county,
       by = "co_name",
-      multiple = "all"
+      multiple = "all",
+      relationship = "many-to-many"
     )
 
   # -------------------------------------------------------------------------
