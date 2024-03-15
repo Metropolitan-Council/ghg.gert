@@ -5,7 +5,8 @@
 #'     land cover type by city/township under a tree planting scenario.
 #'
 #' @param .tree_planting_intervention character, specifies the type of tree planting.
-#'     intervention to be explored under the current scenario. options are:
+#'     intervention to be explored under the current scenario. Options are:
+#'
 #'     * `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
 #'     * `"double"`: Assumes double the tree canopy relative.
 #'         to the baseline year.
@@ -13,6 +14,7 @@
 #'         Los Angeles Million Tree Goal.
 #'     * `"none"`: No intervention
 #'     Default is `none`.
+#'
 #' @param .tree_planting_per_capita numeric,
 #'      Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.
 #'      Default is `0.26`.
