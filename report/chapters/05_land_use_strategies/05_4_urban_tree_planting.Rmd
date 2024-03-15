@@ -23,5 +23,5 @@ $$ \text{Sequestered Carbon} (t CO_2 e) = CD × A \times 11/3 $$
 
 
 ```{r}
-## RESULST COMING SOON 
+## RESULST COMING SOON
 ```

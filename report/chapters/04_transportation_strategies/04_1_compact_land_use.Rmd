@@ -53,8 +53,8 @@ ghg.sp::elast_5d %>%
   rowwise() %>%
   mutate(across(c(3, 4), function(x) {
     ifelse(x != "NA",
-           paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
-           x
+      paste0(ifelse(x >= 0, "+", ""), x * 100, "%"),
+      x
     )
   })) %>%
   gt::gt(
@@ -247,11 +247,11 @@ density_ctu %>%
   ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() +
   facet_wrap(~type,
-             scales = "free",
-             labeller = as_labeller(c(
-               direct = str_wrap("Direct emissions", 10),
-               embodied = str_wrap("Embodied emissions", 10)
-             ))
+    scales = "free",
+    labeller = as_labeller(c(
+      direct = str_wrap("Direct emissions", 10),
+      embodied = str_wrap("Embodied emissions", 10)
+    ))
   ) +
   scale_color_manual(
     values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
@@ -296,23 +296,23 @@ bau_ctu %>%
     `2040 Business-as-Usual` = `2040`
   ) %>%
   left_join(density_ctu %>%
-              ungroup() %>%
-              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
-              filter(
-                year %in% c("2040"),
-                type == "direct",
-                scenario == "dens50"
-              ) %>%
-              pivot_wider(
-                names_from = year,
-                values_from = emissions
-              ) %>%
-              select(
-                `Mode` = mode_description_1,
-                `2040 Scenario` = `2040`
-              )) %>%
+    ungroup() %>%
+    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+    filter(
+      year %in% c("2040"),
+      type == "direct",
+      scenario == "dens50"
+    ) %>%
+    pivot_wider(
+      names_from = year,
+      values_from = emissions
+    ) %>%
+    select(
+      `Mode` = mode_description_1,
+      `2040 Scenario` = `2040`
+    )) %>%
   tableformat(.,
-              .caption = paste("Emissions in thousands of tonnes CO2e - 50% Increase in Population Density", params$ctu_selection)
+    .caption = paste("Emissions in thousands of tonnes CO2e - 50% Increase in Population Density", params$ctu_selection)
   )
 ```
 
@@ -336,11 +336,11 @@ emp_density_ctu %>%
   ggplot(aes(x = year, y = emissions, color = level, group = level)) +
   geom_line() +
   facet_wrap(~type,
-             scales = "free",
-             labeller = as_labeller(c(
-               direct = str_wrap("Direct emissions", 10),
-               embodied = str_wrap("Embodied emissions", 10)
-             ))
+    scales = "free",
+    labeller = as_labeller(c(
+      direct = str_wrap("Direct emissions", 10),
+      embodied = str_wrap("Embodied emissions", 10)
+    ))
   ) +
   scale_color_manual(
     values = RColorBrewer::brewer.pal(7, "Blues")[2:7],
@@ -385,23 +385,23 @@ bau_ctu %>%
     `2040 Business-as-Usual` = `2040`
   ) %>%
   left_join(emp_density_ctu %>%
-              ungroup() %>%
-              left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
-              filter(
-                year %in% c("2040"),
-                type == "direct",
-                scenario == "empdens50"
-              ) %>%
-              pivot_wider(
-                names_from = year,
-                values_from = emissions
-              ) %>%
-              select(
-                `Mode` = mode_description_1,
-                `2040 Scenario` = `2040`
-              )) %>%
+    ungroup() %>%
+    left_join(transportation_index$modes[2:3], by = c("mode" = "mode_abbrev")) %>%
+    filter(
+      year %in% c("2040"),
+      type == "direct",
+      scenario == "empdens50"
+    ) %>%
+    pivot_wider(
+      names_from = year,
+      values_from = emissions
+    ) %>%
+    select(
+      `Mode` = mode_description_1,
+      `2040 Scenario` = `2040`
+    )) %>%
   tableformat(.,
-              .caption = paste("Emissions in thousands of tonnes CO2e - 50% Increase in Employment Density", params$ctu_selection)
+    .caption = paste("Emissions in thousands of tonnes CO2e - 50% Increase in Employment Density", params$ctu_selection)
   )
 ```
 

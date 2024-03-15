@@ -61,7 +61,6 @@ tab_demographic_assumptions <- get_demographic_baseline(tb = building_energy_dat
       )
   ) %>%
   mutate(across(everything(), ~ if_else(is.na(.x), "", prettyNum(.x, big.mark = ",", digits = 6)))) %>%
-
   tableformat(.caption = paste0("Demographics for ", params$ctu_selection))
 ```
 

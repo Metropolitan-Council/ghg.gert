@@ -12,11 +12,13 @@ library(leaflet)
 
 library(councilR)
 ggplot2::theme_set(
-  if(testthat:::on_ci() == TRUE){
+  if (testthat:::on_ci() == TRUE) {
     theme_minimal()
   } else {
-    councilR::theme_council(use_showtext = T,
-                            use_manual_font_sizes = T)
+    councilR::theme_council(
+      use_showtext = T,
+      use_manual_font_sizes = T
+    )
   }
 )
 ```
@@ -27,25 +29,28 @@ ggplot2::theme_set(
 
 ```{r echo = T}
 geo_year <- 2021
-miles <- .5 #for buffer around transit 
-
+miles <- .5 # for buffer around transit
 ```
 
 ### Make some functions
 
 ```{r}
-coverage_fxn <- function(.geo_main, .geo_census){
+coverage_fxn <- function(.geo_main, .geo_census) {
   .geo_main %>%
     st_transform(26915) %>% # use a better crs projection for this
     st_intersection(.geo_census %>%
-                      st_transform(26915) %>% # use better accuracy projection
-                      st_buffer(-30) %>% # give some breathing room for boundaries
-                      mutate(total_census_area = st_area(.))) %>%
+      st_transform(26915) %>% # use better accuracy projection
+      st_buffer(-30) %>% # give some breathing room for boundaries
+      mutate(total_census_area = st_area(.))) %>%
     mutate(intersect_area = st_area(.)) %>%
-    mutate(coverage = as.numeric(intersect_area / total_census_area),
-           # if coverage is nearly 100, count it all - usually would go with .95 here, but eval shows only 2 dicey block groups w/ interstate issues
-           coverage = case_when(coverage > .8 ~ 1, 
-                                TRUE ~ coverage)) %>%
+    mutate(
+      coverage = as.numeric(intersect_area / total_census_area),
+      # if coverage is nearly 100, count it all - usually would go with .95 here, but eval shows only 2 dicey block groups w/ interstate issues
+      coverage = case_when(
+        coverage > .8 ~ 1,
+        TRUE ~ coverage
+      )
+    ) %>%
     filter(coverage > .2) # get rid of slivers - usually would go with .05, but eval shows only 2 dicey block group and they have interstate problem
 }
 ```
@@ -55,10 +60,10 @@ coverage_fxn <- function(.geo_main, .geo_census){
 Get block groups and assign to CTUs.
 
 ```{r census-geography}
-
 # block groups
-MN_counties <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"
-                 # ,"Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
+MN_counties <- c(
+  "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"
+  # ,"Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
 )
 # WI_counties <- c("St. Croix", "Polk", "Pierce")
 
@@ -70,7 +75,7 @@ MNblock_group <- tigris::block_groups(
 ) %>%
   select(GEOID)
 
-#link with ctu
+# link with ctu
 temp <- tempfile()
 temp2 <- tempfile()
 download.file(
@@ -82,30 +87,28 @@ unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
 ctu_boundary <- sf::read_sf(paste0(temp2, pattern = "/CTUs.shp")) %>%
   select(CTU_ID, CTU_NAME, Shape_Area) %>%
   st_transform(26915) %>%
-  st_buffer(-100) #give some breathing room to intersect with block groups
+  st_buffer(-100) # give some breathing room to intersect with block groups
 
 
 bg_geo <- ctu_boundary %>%
-  st_intersection(MNblock_group%>%
-                    st_transform(26915)) #bind_rows(MNblock_group, WIblock_group)
+  st_intersection(MNblock_group %>%
+    st_transform(26915)) # bind_rows(MNblock_group, WIblock_group)
 # tract_geo <- bind_rows(MNtract, WItract)
 
 # bg_geo %>% st_drop_geometry() %>% count(GEOID) %>% filter(n > 1) %>% arrange(-n)
 # bg_geo %>% filter(GEOID == "271390813022") %>%
-#   ggplot() + 
+#   ggplot() +
 #   geom_sf(fill = "blue") +
 #   geom_sf(data = filter(ctu_boundary, CTU_NAME %in% c("San Francisco Twp.",
 #                                                       "St. Lawrence Twp.",
 #                                                       "Sand Creek Twp.",
 #                                                       "Belle Plaine Twp.",
 #                                                       "Belle Plaine")), color = "red", fill = "transparent")
-
 ```
 
 Get a half mile buffer around transportation stops. 
 
 ```{r feature-geo}
-
 ## transit stops ---------------
 temp <- tempfile()
 temp2 <- tempfile()
@@ -117,10 +120,10 @@ download.file(
 unzip(zipfile = temp, exdir = temp2) # list.files(temp2)
 trans_stops <- sf::read_sf(paste0(temp2, pattern = "/TransitStops.shp")) %>%
   filter(
-    active_sta == "Active"
-    ,busstop_yn == "Y",
+    active_sta == "Active",
+    busstop_yn == "Y",
     board_flag == 1
-  ) 
+  )
 
 trans_buffer <- trans_stops %>%
   # st_transform(4326) %>%
@@ -135,7 +138,7 @@ trans_stops %>%
   geom_sf(color = "red", size = .1) +
   geom_sf(data = ctu_boundary, fill = "transparent") +
   theme_void()
-# 
+#
 # leaflet::leaflet() %>%
 #   leaflet::addTiles() %>%
 #   leaflet::addPolygons(data = trans_buffer %>% st_transform(4326))%>%
@@ -148,13 +151,11 @@ Overlap:
 
 ```{r agency-coverage}
 coverage_bg_transportation <- coverage_fxn(.geo_main = trans_buffer, .geo_census = bg_geo)
-
 ```
 
 Population numbers:
 
 ```{r get-population-estimates}
-
 # ###########
 # # code if using small area estimates; we'll need this for 2021 numbers
 # ##########
@@ -180,7 +181,7 @@ Population numbers:
 ##############
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census2020population/xlsx_society_census2020population.zip",
-              destfile = temp
+  destfile = temp
 )
 bg_pop <- readxl::read_xlsx(unzip(temp, "Census2020PopulationBlockGroup.xlsx")) %>%
   janitor::clean_names() %>%
@@ -198,7 +199,7 @@ bg_pop <- readxl::read_xlsx(unzip(temp, "Census2020PopulationBlockGroup.xlsx")) 
     # othernh_census = othernh / pop2020,
     # multracenh_census = multracenh / pop2020,
     # hisppop_census = hisppop / pop2020
-  ) 
+  )
 
 fs::file_delete("./Census2020PopulationBlockGroup.xlsx")
 ```
@@ -209,18 +210,17 @@ fs::file_delete("./Census2020PopulationBlockGroup.xlsx")
 create function to link at block group and tract levels
 
 ```{r link-census}
-
 link_census_bg_coverage <- function(.df, .group_var) {
   .group_var <- enquos(.group_var)
-  
-  persons <- .df %>% 
+
+  persons <- .df %>%
     # coverage_bg_transportation %>% #
     st_drop_geometry() %>%
     # filter(GEOID == "270530265082") %>%
     left_join(bg_pop, by = c("GEOID" = "geoid20")) %>%
     # in some instances, the census has a population > 0 while acs has a population == 0 and also vice versa
     # filter(is.nan(male) | is.nan(female))
-    filter(pop2020 > 0)  %>%
+    filter(pop2020 > 0) %>%
     # adjust the person count by the coverage
     mutate(
       adj_poptotal = coverage * pop2020
@@ -230,19 +230,19 @@ link_census_bg_coverage <- function(.df, .group_var) {
     group_by(!!!.group_var) %>%
     summarise(
       across(c(adj_poptotal), sum, na.rm = T),
-    )  %>%
+    ) %>%
     mutate(measurement = "persons")
-  
+
   census_agency_summary_1 <- persons %>%
     arrange(!!!.group_var) %>%
     pivot_longer(names_to = "code", values_to = "value", -c(!!!.group_var, measurement)) %>%
-    pivot_wider(names_from = measurement, values_from = value) 
-  
-  
+    pivot_wider(names_from = measurement, values_from = value)
+
+
   return(census_agency_summary_1)
 }
 
-compile_census <- function(.bg_df, .group_var2){
+compile_census <- function(.bg_df, .group_var2) {
   step1 <- link_census_bg_coverage(.df = .bg_df, .group_var = !!enquo(.group_var2)) %>%
     arrange(!!enquo(.group_var2))
   return(step1)
@@ -254,38 +254,41 @@ compile_census <- function(.bg_df, .group_var2){
 ## Summarize and add in census 2020 population from database
 
 ```{r link-census-transpercent}
-
 census2020pop <-
-  # dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts 
-  #                           WHERE subject_area_desc = 'Population and Households' 
+  # dbGetQuery(conn,"SELECT * FROM metro_sp_mod_2.census_facts
+  #                           WHERE subject_area_desc = 'Population and Households'
   #                           AND datasource = 'Census 2020'
   #                           AND subject_level_desc = 'Population Total'" ) %>%
-  councilR::import_from_emissions("metro_sp_mod_2.census_facts") %>% 
+  councilR::import_from_emissions("metro_sp_mod_2.census_facts") %>%
   filter(
     subject_area_desc == "Population and Households",
     datasource == "Census 2020",
-    subject_level_desc == 'Population Total') %>% 
+    subject_level_desc == "Population Total"
+  ) %>%
   tibble::as_tibble() %>%
-  group_by(ctu_id) %>% 
-  summarise(persons_census2020 = sum(measure)) #right now this db is split across counties
+  group_by(ctu_id) %>%
+  summarise(persons_census2020 = sum(measure)) # right now this db is split across counties
 
-ctu_pop2020_transit <- compile_census(.bg_df = coverage_bg_transportation,
-                                      .group_var2 = CTU_ID) %>%
+ctu_pop2020_transit <- compile_census(
+  .bg_df = coverage_bg_transportation,
+  .group_var2 = CTU_ID
+) %>%
   select(-code) %>%
-  rename(persons_0.5mi_transit = persons,
-         ctu_id = CTU_ID) %>%
+  rename(
+    persons_0.5mi_transit = persons,
+    ctu_id = CTU_ID
+  ) %>%
   full_join(census2020pop) %>%
-  
-  #if census 2020 pop is < transit buffer pop, adjst accordingly
-  mutate(persons_0.5mi_transit = if_else(persons_0.5mi_transit > persons_census2020, 
-                                         persons_census2020, persons_0.5mi_transit)) %>%
-  
+  # if census 2020 pop is < transit buffer pop, adjst accordingly
+  mutate(persons_0.5mi_transit = if_else(persons_0.5mi_transit > persons_census2020,
+    persons_census2020, persons_0.5mi_transit
+  )) %>%
   mutate(percent_pop_0.5mi_transit = persons_0.5mi_transit / persons_census2020) %>%
-  full_join(st_drop_geometry(ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
-            by = c("ctu_id" = "CTU_ID")) 
+  full_join(st_drop_geometry(ctu_boundary) %>% select(CTU_ID, CTU_NAME),
+    by = c("ctu_id" = "CTU_ID")
+  )
 
 save(ctu_pop2020_transit, file = "../data-raw/ctu_pop2020_transit.rda")
-
 ```
 
 
@@ -297,31 +300,44 @@ ctu_pop2020_transit %>%
   ggplot(aes(x = percent_pop_0.5mi_transit)) +
   geom_histogram(bins = 50) +
   scale_x_continuous(labels = scales::percent) +
-  labs(y = "CTUs",
-       title = "% of pop. within 0.5 miles of any transit stop")
+  labs(
+    y = "CTUs",
+    title = "% of pop. within 0.5 miles of any transit stop"
+  )
 
 
 ctu_pop2020_transit %>%
-  full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME), 
-            by = c("ctu_id" = "CTU_ID")) %>%
+  full_join((ctu_boundary) %>% select(CTU_ID, CTU_NAME),
+    by = c("ctu_id" = "CTU_ID")
+  ) %>%
   ggplot() +
-  geom_sf(aes(fill = percent_pop_0.5mi_transit,
-              geometry = geometry),
-          color = "darkgray",
-          size = 0.1) +
-  theme(panel.grid = element_blank(),
-        axis.text = element_blank()) +
-  scale_fill_distiller(palette = "PuBuGn",
-                       na.value = "gray",
-                       label = scales::percent) +
-  labs(fill = stringr::str_wrap("% of pop. within 0.5 mile of any transit stop", 15),
-       caption = paste0("2020 Census. Transit stops from MN Geospatial Commons, ", Sys.Date()))
+  geom_sf(
+    aes(
+      fill = percent_pop_0.5mi_transit,
+      geometry = geometry
+    ),
+    color = "darkgray",
+    size = 0.1
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank()
+  ) +
+  scale_fill_distiller(
+    palette = "PuBuGn",
+    na.value = "gray",
+    label = scales::percent
+  ) +
+  labs(
+    fill = stringr::str_wrap("% of pop. within 0.5 mile of any transit stop", 15),
+    caption = paste0("2020 Census. Transit stops from MN Geospatial Commons, ", Sys.Date())
+  )
 
 
 ggsave("../data-raw/peer_review/figs/percent_0.5_mile_transit.png",
-       width = 10,
-       height = 8)
-
+  width = 10,
+  height = 8
+)
 ```
 
 

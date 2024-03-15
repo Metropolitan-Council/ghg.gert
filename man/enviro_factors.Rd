@@ -5,7 +5,7 @@
 \alias{enviro_factors}
 \title{Environmental factors for users}
 \format{
-A named list of 19 values.
+A named list
 \describe{
 \item{TRANSIT_SERVICE_ELAST}{Effect of increase in transit service on
 increase in transit ridership and decrease in PLDV. Citation forthcoming.}
@@ -65,8 +65,8 @@ Environmental factors for users
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
-\code{\link{elast_5d}},
 \code{\link{elast}},
+\code{\link{elast_5d}},
 \code{\link{factor_values}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},

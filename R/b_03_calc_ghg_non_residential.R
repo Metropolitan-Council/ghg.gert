@@ -89,23 +89,25 @@ calc_ghg_non_residential <- function(non_res_tb,
         # therms
         commercial_therms = dplyr::if_else(
           is.finite(commercial_therm_per_worker * commercial_jobs),
-          commercial_therm_per_worker * commercial_jobs, commercial_therms),
+          commercial_therm_per_worker * commercial_jobs, commercial_therms
+        ),
         industrial_therms = dplyr::if_else(
           is.finite(industrial_therm_per_worker * industrial_jobs),
-          industrial_therm_per_worker * industrial_jobs, industrial_therms),
+          industrial_therm_per_worker * industrial_jobs, industrial_therms
+        ),
 
 
         # electric emissions
         commercial_electricity_emissions_kg_co =
           commercial_mwh * (kg_per_mwh *
-                              (1 - dplyr::if_else(year < 2040,
-                                                  .enviro_factors$GRID_DECARBONIZATION_BASELINE,
-                                                  dplyr::if_else((grid_decarb > 1), 1,
-                                                                 grid_decarb
-                                                                 )
-                                                  )
-                               )
-                            ),
+            (1 - dplyr::if_else(year < 2040,
+              .enviro_factors$GRID_DECARBONIZATION_BASELINE,
+              dplyr::if_else((grid_decarb > 1), 1,
+                grid_decarb
+              )
+            )
+            )
+          ),
         industrial_electricity_emissions_kg_co =
           industrial_mwh * (kg_per_mwh * (1 -
             dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_BASELINE,

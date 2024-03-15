@@ -144,14 +144,16 @@ tillage.
 }}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
-intervention to be explored under the current scenario. options are:
-* \code{"tree_planting_on_all_pervious"}: Assumes that all pervious surfaces are converted to tree canopy.
-* \code{"double"}: Assumes double the tree canopy relative.
-to the baseline year.
-* \code{"match_la_million_trees_goal"}: Matches the equivalent tree canopy to
-Los Angeles Million Tree Goal.
-* \code{"none"}: No intervention
-Default is \code{none}.}
+intervention to be explored under the current scenario. Options are:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* `"tree_planting_on_all_pervious"`: Assumes that all pervious surfaces are converted to tree canopy.
+* `"double"`: Assumes double the tree canopy relative.
+    to the baseline year.
+* `"match_la_million_trees_goal"`: Matches the equivalent tree canopy to
+    Los Angeles Million Tree Goal.
+* `"none"`: No intervention
+Default is `none`.
+}\if{html}{\out{</div>}}}
 
 \item{.tree_planting_per_capita}{numeric,
 Tree planting per capita factor from the "Los Angeles 1,000,000 Trees" scenario.

@@ -479,9 +479,11 @@ The transportation module is constructed based on a set of standard forecasts fo
 source_mode_var <- ghg.sp::transportation_index$data_sources %>%
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
-  filter(!is.na(source_short),
-         source_short != "",
-         !is.na(mode_description_1)) %>% 
+  filter(
+    !is.na(source_short),
+    source_short != "",
+    !is.na(mode_description_1)
+  ) %>%
   select(
     Mode = mode_description_1,
     Measure = var_description,
@@ -604,25 +606,26 @@ Average vehicle occupancy  [@federal_highway_administration_fhwa_average_2018].
 ###### Fuel economies   
 
 ```{r}
-transportation_data$passenger %>% 
-  filter(ctu == params$ctu_selection,
-         stringr::str_detect(var, "MPG"),
-         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
-  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
-  left_join(transportation_index$variables, by = c("var" = "var_name")) %>% 
-  left_join(transportation_index$data_sources) %>% 
-    select(
+transportation_data$passenger %>%
+  filter(
+    ctu == params$ctu_selection,
+    stringr::str_detect(var, "MPG"),
+    !mode %in% c("BRT", "WALK", "BIKE")
+  ) %>%
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
+  left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+  left_join(transportation_index$data_sources) %>%
+  select(
     Mode = mode_description_1,
     `Fuel economy` = var_description,
     Year = year,
     `Miles per gallon` = value,
     `Source` = source_short
-  ) %>% 
-  group_by(Mode, `Fuel economy`) %>% 
-  gt::gt() %>% 
-    gt::opt_row_striping() %>%
+  ) %>%
+  group_by(Mode, `Fuel economy`) %>%
+  gt::gt() %>%
+  gt::opt_row_striping() %>%
   gt::tab_options(row_group.font.weight = "bold")
-
 ```
 
 
@@ -728,21 +731,21 @@ tibble::tribble(
 ### Vehicle occupancy values 
 
 ```{r tab-vehicle-occupancy}
-transportation_data$passenger %>% 
-  filter(ctu == params$ctu_selection,
-         var == "AVO", 
-         year == "2018",
-         ! mode %in% c("BRT", "WALK", "BIKE")) %>% 
-  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>% 
-  left_join(transportation_index$data_sources) %>% 
+transportation_data$passenger %>%
+  filter(
+    ctu == params$ctu_selection,
+    var == "AVO",
+    year == "2018",
+    !mode %in% c("BRT", "WALK", "BIKE")
+  ) %>%
+  left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
+  left_join(transportation_index$data_sources) %>%
   select(
     Mode = mode_description_1,
     `Persons per vehicle` = value,
     `Source` = source_short
-  ) %>% 
+  ) %>%
   tableformat(.caption = paste0("Vehicle occupancy values - ", params$ctu_selection))
-
-
 ```
 
 

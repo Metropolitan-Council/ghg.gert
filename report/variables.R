@@ -86,8 +86,8 @@ variables <- rbind(
     desc = "Residential Electricity Emissions (tonnes CO<sub>2</sub>e)"
   ),
 
-  # energy 
-  #baseline (residential, natural gas)
+  # energy
+  # baseline (residential, natural gas)
   data.frame(
     var = "residential_therms",
     desc = "Residential Natural Gas (Therms)"
@@ -372,17 +372,12 @@ variables <- rbind(
     var = "sequestration",
     desc = "Carbon Sequestration (Mg CO<sub>2</sub>e/year)"
   ),
-  
   data.frame(
     var = "carbon_stock_change_from_conservation_ag_mg_c",
     desc = "Carbon Stock Change from Conservation Agriculture (Megagrams of Carbon)"
   ),
-  
   data.frame(
     var = "reduced_tractor_emissions_relative_to_current_conservation_tillage_mg_co2e_per_year",
     desc = "Reduced Tractor Emissions Relative to Current Conservation Tillage (Megagrams of Carbon)"
   )
-  
-  
-  
 )

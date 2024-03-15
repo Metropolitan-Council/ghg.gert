@@ -13,3 +13,6 @@ together <- bind_rows(current, double) %>%
   filter(str_detect(var, "stock")) %>%
   select(ctu_name, year, var, conservation_tillage_intervention, value) %>%
   pivot_wider(names_from = conservation_tillage_intervention, values_from = value)
+
+together %>%
+  filter(maximum_conservation_tillage > current_conservation_tillage)
