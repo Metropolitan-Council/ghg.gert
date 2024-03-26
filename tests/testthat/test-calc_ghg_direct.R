@@ -110,6 +110,10 @@ testthat::test_that("Battery direct ghg", {
     .miles_per_gallon = "BEVElec",
     .grid_decarbonization_pct = 0.75
   )
+
+
+  bev_dir_ghg_decarb <- calc_ghg_direct(
+    tb_vmt = bev_vmt,
     tb = st_paul_passenger,
     .mode = "PLDV",
     .fuel_type = "BEV",
@@ -118,5 +122,8 @@ testthat::test_that("Battery direct ghg", {
     .grid_decarbonization_pct = 1
   )
 
-  bev_dir_ghg
+  # when grid is fully decarbonized,
+  # BEV emissions are 0
+  testthat::expect_equal(bev_dir_ghg_decarb$dir_ghg %>% sum(na.rm = T), 0)
+
 })
