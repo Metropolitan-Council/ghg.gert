@@ -79,7 +79,8 @@ testthat::test_that("Battery direct ghg", {
     .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH
   )
 
-  testthat::expect_warning(calc_ghg_direct(
+  testthat::expect_warning(
+    calc_ghg_direct(
     tb_vmt = ci_vmt_test,
     tb = st_paul_passenger,
     .mode = "PLDV",
