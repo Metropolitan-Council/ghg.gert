@@ -11,7 +11,7 @@ calc_ghg_non_residential(
   .smart_grid_energy_reduction_pct,
   .grid_decarbonization_pct,
   .existing_high_efficiency_buildings_pct,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -46,7 +46,7 @@ detailed explanation, refer to \code{vignette("building_energy_module_outputs_no
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_ghg_non_residential(
   non_res_tb = building_data$non_residential,

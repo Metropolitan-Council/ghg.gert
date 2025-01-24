@@ -2,7 +2,7 @@
 
 library(dplyr)
 library(tidyr)
-library(ghg.sp)
+library(ghg.ccap)
 
 inters <- read.csv("data-raw/intersect_cts.csv") %>%
   mutate(inter_type = paste0(inter_type, "-way")) %>%

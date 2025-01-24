@@ -11,7 +11,7 @@ vmt_vehicle_occupancy(
   .stock,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{

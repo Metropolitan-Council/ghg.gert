@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' run_scenario_land_use(
 #'   tb = land_use_data,
@@ -41,7 +41,7 @@ run_scenario_land_use <- function(tb = land_use_data,
                                   .tree_planting_per_capita = 0.26,
                                   .tree_planting_per_hectare = 247,
                                   .parking_lot_reduction_percentage = 0,
-                                  .enviro_factors = ghg.sp::enviro_factors,
+                                  .enviro_factors = ghg.ccap::enviro_factors,
                                   detail = FALSE) {
   # -------------------------------------------------------------------------
   # store filtered database tables into variables

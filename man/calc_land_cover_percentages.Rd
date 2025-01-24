@@ -27,7 +27,7 @@ for each CTU, land use type, and land cover type.
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_land_cover_percentages(
   tb = land_use_data,

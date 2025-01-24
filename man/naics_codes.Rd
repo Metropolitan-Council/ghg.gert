@@ -22,7 +22,7 @@ naics_codes
 North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes
 }
 \examples{
-library(ghg.sp)
+library(ghg.ccap)
 naics_codes$commercial
 naics_codes$industrial
 }

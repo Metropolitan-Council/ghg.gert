@@ -26,7 +26,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' run_scenario_building(
 #'   res_tb = building_data$residential,
 #'   non_res_tb = building_data$non_residential,
@@ -57,7 +57,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   run_residential = TRUE,
                                   run_non_residential = TRUE,
-                                  .enviro_factors = ghg.sp::enviro_factors,
+                                  .enviro_factors = ghg.ccap::enviro_factors,
                                   # selected CTU
                                   .selected_ctu = "all",
                                   # non-residential

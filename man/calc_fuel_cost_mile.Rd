@@ -10,8 +10,8 @@ calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .fuel_cost_gallon,
-  .enviro_factors = ghg.sp::enviro_factors,
-  .factor_values = ghg.sp::factor_values
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values
 )
 }
 \arguments{

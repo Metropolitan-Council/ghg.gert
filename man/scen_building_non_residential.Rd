@@ -77,7 +77,7 @@ For more details, see \code{vignette("building_energy_module_inputs_non_resident
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 scen_building_non_residential(
   non_res_tb = building_data$non_residential,

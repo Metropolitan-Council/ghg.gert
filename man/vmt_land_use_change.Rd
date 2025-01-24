@@ -13,8 +13,8 @@ vmt_land_use_change(
   .intersection_design_pct_change = 0,
   .job_access_pct_change = 0,
   .transit_dist_pct_change = 0,
-  .enviro_factors = ghg.sp::enviro_factors,
-  .elast_5d = ghg.sp::elast_5d
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .elast_5d = ghg.ccap::elast_5d
 )
 }
 \arguments{

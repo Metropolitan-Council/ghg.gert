@@ -3,7 +3,7 @@ library(tidyr)
 library(dplyr)
 library(magrittr)
 library(purrr)
-library(ghg.sp)
+library(ghg.ccap)
 library(councilR)
 
 # import tables

@@ -1,5 +1,5 @@
 ## code to prepare `building_energy_bau_data` dataset goes here
-library(ghg.sp)
+library(ghg.ccap)
 
 # business as usual
 
@@ -8,7 +8,7 @@ building_energy_bau_data <- compile_bau_building_energy(tb = building_energy_dat
 waldo::compare(
   building_energy_bau_data$residential %>%
     dplyr::filter(var == "multifamily_average_floor_area_sqft_county"),
-  ghg.sp::building_energy_bau_data$residential %>%
+  ghg.ccap::building_energy_bau_data$residential %>%
     dplyr::filter(var == "multifamily_average_floor_area_sqft_county")
 )
 
@@ -16,7 +16,7 @@ waldo::compare(
 waldo::compare(
   building_energy_bau_data$residential %>%
     dplyr::filter(var == "single_family_average_floor_area_sqft_ctu"),
-  ghg.sp::building_energy_bau_data$residential %>%
+  ghg.ccap::building_energy_bau_data$residential %>%
     dplyr::filter(var == "single_family_average_floor_area_sqft_ctu")
 )
 

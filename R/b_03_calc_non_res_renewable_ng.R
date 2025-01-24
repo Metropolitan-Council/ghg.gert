@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_non_res_renewable_ng(
 #'   non_res_tb = calc_ghg_non_residential(

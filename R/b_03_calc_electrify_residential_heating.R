@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_electrify_residential_heating(
 #'   res_tb = calc_ghg_residential(

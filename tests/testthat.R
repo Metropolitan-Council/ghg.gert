@@ -1,4 +1,4 @@
 library(testthat)
-library(ghg.sp)
+library(ghg.ccap)
 
-test_check("ghg.sp")
+test_check("ghg.ccap")

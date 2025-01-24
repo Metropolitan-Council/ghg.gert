@@ -76,7 +76,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' elast
 # elast -----
 "elast"
@@ -100,7 +100,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' elast_5d
 # elast_5d-----
 "elast_5d"
@@ -132,7 +132,7 @@
 #' @family datasets
 #'
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' transportation_data$passenger
 #' transportation_data$freight
 # transportation_data -----
@@ -158,7 +158,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' transportation_index$emission_sources
 #' transportation_index$variables
 #' transportation_index$modes
@@ -181,7 +181,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' db_table_names$mod_1
 #' db_table_names$metro_demos
 # db_table_names -----
@@ -202,7 +202,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' naics_codes$commercial
 #' naics_codes$industrial
 # naics_codes -----

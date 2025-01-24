@@ -15,7 +15,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_carbon_sequestration_per_ctu(
 #'   tb = land_use_data,
@@ -36,7 +36,7 @@ calc_carbon_sequestration_per_ctu <- function(tb,
                                               .tree_planting_per_hectare,
                                               detail = FALSE,
                                               .enviro_factors = enviro_factors) {
-  csf <- ghg.sp::carbon_sequestration_factors
+  csf <- ghg.ccap::carbon_sequestration_factors
 
   # -------------------------------------------------------------------------
   parking_lot_land_cover <- calc_parking_lot_land_cover(

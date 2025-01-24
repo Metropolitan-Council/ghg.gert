@@ -26,7 +26,7 @@ transportation_index
 Reference index for abbreviations
 }
 \examples{
-library(ghg.sp)
+library(ghg.ccap)
 transportation_index$emission_sources
 transportation_index$variables
 transportation_index$modes

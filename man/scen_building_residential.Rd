@@ -103,7 +103,7 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 scen_building_residential(
   res_tb = building_data$residential,

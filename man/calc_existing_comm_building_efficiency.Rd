@@ -8,7 +8,7 @@ calc_existing_comm_building_efficiency(
   non_res_tb,
   .selected_ctu,
   .existing_high_efficiency_buildings_pct,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -34,7 +34,7 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_existing_comm_building_efficiency(
   non_res_tb = building_energy_bau_data$non_residential,

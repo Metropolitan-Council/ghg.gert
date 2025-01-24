@@ -65,7 +65,7 @@ enviro_factors <- list(
 )
 
 
-waldo::compare(ghg.sp::enviro_factors, enviro_factors)
+waldo::compare(ghg.ccap::enviro_factors, enviro_factors)
 
 usethis::use_data(enviro_factors, overwrite = TRUE)
 

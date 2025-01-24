@@ -4,7 +4,7 @@ library(dplyr)
 library(stringr)
 library(councilR)
 library(emo)
-library(ghg.sp)
+library(ghg.ccap)
 
 
 # Define years in model-----
@@ -116,7 +116,7 @@ ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), leng
 # -0.07 is more than the population density decrease, to ensure that
 # population density has a lesser effect than job density
 # based on peer review session with Metro Transit SI folks
-# https://github.com/Metropolitan-Council/ghg.sp/issues/19
+# https://github.com/Metropolitan-Council/ghg.ccap/issues/19
 ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
 ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
@@ -228,9 +228,9 @@ elast_5d <- bind_rows(
 
 # save all -----
 
-# waldo::compare(elast_5d, ghg.sp::elast_5d)
+# waldo::compare(elast_5d, ghg.ccap::elast_5d)
 usethis::use_data(elast_5d, overwrite = TRUE)
 
 
-# waldo::compare(elast, ghg.sp::elast)
+# waldo::compare(elast, ghg.ccap::elast)
 usethis::use_data(elast, overwrite = TRUE)

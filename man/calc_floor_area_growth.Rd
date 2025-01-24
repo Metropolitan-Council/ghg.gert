@@ -47,7 +47,7 @@ Uses the average single family floor area in 2018
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_floor_area_growth(
   res_tb = building_data$residential,

@@ -66,6 +66,6 @@ factor_values <- list(
   ghg = ghg_long
 )
 
-# waldo::compare(ghg.sp::factor_values, factor_values)
+# waldo::compare(ghg.ccap::factor_values, factor_values)
 
 usethis::use_data(factor_values, overwrite = TRUE)

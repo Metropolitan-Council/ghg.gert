@@ -1,6 +1,6 @@
 Type: Package
-Package: ghg.sp
-Title: Greenhouse Gas Scenario Planning for Twin Cities Metropolitan
+Package: ghg.ccap
+Title: Greenhouse Gas Strategy Planning for Twin Cities Metropolitan
     Region
 Version: 1.0.1
 Date: 2024-03-15
@@ -14,9 +14,9 @@ Authors@R: c(
     person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb"),
     person("Zoey", "Yandell", , "zoey.yandell@metc.state.mn.us", role = "ctb")
   )
-Description: Tools for the Metropolitan Council GHG scenario planning app.
+Description: Tools Metropolitan Council GHG strategy planning.
 License: MIT + file LICENSE
-BugReports: https://github.com/Metropolitan-Council/ghg.sp/issues
+BugReports: https://github.com/Metropolitan-Council/ghg.ccap/issues
 Depends: 
     R (>= 3.5)
 Imports: 
@@ -55,5 +55,5 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
-Website: https://github.com/Metropolitan-Council/ghg.sp
+RoxygenNote: 7.3.2
+Website: https://github.com/Metropolitan-Council/ghg.ccap

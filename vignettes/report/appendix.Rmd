@@ -11,7 +11,7 @@ library(tibble)
 library(magrittr)
 library(dplyr)
 library(DT)
-library(ghg.sp)
+library(ghg.ccap)
 library(rsvg)
 ```
 
@@ -25,7 +25,7 @@ The transportation module is built on a series of business-as-usual forecasts fo
 These measures are used to forecast vehicle miles traveled and vehicle emissions. The scenario planning tool then applies selected intervention elasticities and proportional effects to estimate potential emission reductions.  
 
 ```{r "tab-source-mode-var"}
-source_mode_var <- ghg.sp::transportation_index$data_sources %>%
+source_mode_var <- ghg.ccap::transportation_index$data_sources %>%
   left_join(transportation_index$modes, by = c("mode" = "mode_abbrev")) %>%
   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
   select(
@@ -103,7 +103,7 @@ The Annual Energy Outlook (AEO) is a report series by the US Energy Information 
 You can read more on the [EIA website `r fontawesome::fa("external-link-alt")` ](https://www.eia.gov/outlooks/aeo){target="_blank"}.  
 
 ```{r "tab-aeo-values"}
-ghg.sp::factor_values$aeo %>%
+ghg.ccap::factor_values$aeo %>%
   mutate(
     aeo_scen = as.factor(aeo_scen),
     mode = as.factor(mode),
@@ -186,7 +186,7 @@ energy_mix %>%
 ```{r, "emission-sources"}
 gt::gt(
   id = "emission-sources",
-  ghg.sp::transportation_index$emission_sources[2:3],
+  ghg.ccap::transportation_index$emission_sources[2:3],
   caption = "Greenhouse Gas Emission Sources"
 ) %>%
   gt::cols_label(
@@ -201,7 +201,7 @@ gt::gt(
 ```{r, "trans-mode"}
 gt::gt(
   id = "trans-mode",
-  ghg.sp::transportation_index$modes[2:4],
+  ghg.ccap::transportation_index$modes[2:4],
   caption = "Transportation Modes"
 ) %>%
   gt::cols_label(

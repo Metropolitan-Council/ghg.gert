@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' calc_electrify_commercial_heating(
 #'   non_res_tb = calc_ghg_non_residential(
 #'     non_res_tb = building_energy_bau_data$non_residential,
@@ -47,7 +47,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
                                               .selected_ctu,
                                               .electrified_buildings_pct,
                                               .grid_decarbonization_pct,
-                                              .enviro_factors = ghg.sp::enviro_factors) {
+                                              .enviro_factors = ghg.ccap::enviro_factors) {
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   new_non_res_tb <- non_res_tb %>%

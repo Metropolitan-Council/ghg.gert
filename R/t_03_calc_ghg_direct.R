@@ -40,8 +40,8 @@ calc_ghg_direct <- function(tb_vmt,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
                             .grid_decarbonization_pct = 0.6,
-                            .enviro_factors = ghg.sp::enviro_factors,
-                            .factor_values = ghg.sp::factor_values) {
+                            .enviro_factors = ghg.ccap::enviro_factors,
+                            .factor_values = ghg.ccap::factor_values) {
   # for given fuel type,
   # find the number of metric tons (tonnes) CO2 per gallon of fuel
   ghg_factors_current <- .factor_values$ghg %>%

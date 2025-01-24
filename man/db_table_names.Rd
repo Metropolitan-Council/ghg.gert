@@ -23,7 +23,7 @@ db_table_names
 Database table names
 }
 \examples{
-library(ghg.sp)
+library(ghg.ccap)
 db_table_names$mod_1
 db_table_names$metro_demos
 }
