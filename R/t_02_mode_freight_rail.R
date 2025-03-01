@@ -11,7 +11,7 @@
 #'
 #' @importFrom emo ji
 #' @importFrom cli cli_alert_success
-scen_freight_rail <- function(.freight_tb = transportation_data$freight,
+mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .selected_ctu = "all",
                               .scenario = "BAU",
                               .electric_scenario = "ER",

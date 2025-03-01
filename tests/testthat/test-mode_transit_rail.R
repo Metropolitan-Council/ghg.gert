@@ -1,6 +1,6 @@
 transit_rail <- suppressMessages(
   suppressWarnings(
-    scen_transit_rail(
+    mode_transit_rail(
       .pass_tb = transportation_data$passenger %>%
         filter(ctu == "St. Paul"),
       .selected_ctu = "St. Paul",
@@ -15,7 +15,7 @@ testthat::expect_length(transit_rail, 5)
 testthat::test_that("St. Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_transit_rail(
+      mode_transit_rail(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul"
       )
@@ -39,7 +39,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_transit_rail(
+  pass_transit <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "transit",
@@ -47,7 +47,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_transit_rail(
+  pass_lu <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
@@ -57,7 +57,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_transit_rail(
+  pass_road <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "road",
@@ -69,7 +69,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_transit_rail(
+  pass_tele <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "telework",
@@ -102,7 +102,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
 # testthat::test_that("Fridley emissions reduce with interventions",{
 #
-#   pass <- suppressMessages(suppressWarnings(scen_transit_rail(
+#   pass <- suppressMessages(suppressWarnings(mode_transit_rail(
 #     .pass_tb = transportation_data$passenger,
 #     .selected_ctu = "Fridley"
 #   )))
@@ -124,7 +124,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 #
 #
-#   pass_transit <- suppressMessages(suppressWarnings(scen_transit_rail(
+#   pass_transit <- suppressMessages(suppressWarnings(mode_transit_rail(
 #     .pass_tb = transportation_data$passenger,
 #     .selected_ctu = "Fridley",
 #     .scenario = "transit",
@@ -132,7 +132,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #     .grid_decarbonization_pct = 0.8
 #   )))
 #
-#   pass_lu <- suppressMessages(suppressWarnings(scen_transit_rail(
+#   pass_lu <- suppressMessages(suppressWarnings(mode_transit_rail(
 #     .pass_tb = transportation_data$passenger,
 #     .selected_ctu = "Fridley",
 #     .scenario = "land_use",
@@ -143,7 +143,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #   )))
 #
 #
-#   pass_road <- suppressMessages(suppressWarnings(scen_transit_rail(
+#   pass_road <- suppressMessages(suppressWarnings(mode_transit_rail(
 #     .pass_tb = transportation_data$passenger,
 #     .selected_ctu = "Fridley",
 #     .scenario = "road",
@@ -155,7 +155,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #     .parking_price = 20)))
 #
 #
-#   pass_tele <- suppressMessages(suppressWarnings(scen_transit_rail(
+#   pass_tele <- suppressMessages(suppressWarnings(mode_transit_rail(
 #     .pass_tb = transportation_data$passenger,
 #     .selected_ctu = "Fridley",
 #     .scenario = "telework",
@@ -188,7 +188,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
 
 testthat::test_that("Minneapolis emissions reduce with interventions", {
-  pass <- suppressMessages(suppressWarnings(scen_transit_rail(
+  pass <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis"
   )))
@@ -214,7 +214,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
 
   pass_transit <- suppressMessages(suppressWarnings(
-    scen_transit_rail(
+    mode_transit_rail(
       .pass_tb = transportation_data$passenger,
       .selected_ctu = "Minneapolis",
       .scenario = "transit",
@@ -225,7 +225,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
   pass_lu <- suppressMessages(
     suppressWarnings(
-      scen_transit_rail(
+      mode_transit_rail(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis",
         .scenario = "land_use",
@@ -239,7 +239,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
   pass_road <- suppressMessages(
     suppressWarnings(
-      scen_transit_rail(
+      mode_transit_rail(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis",
         .scenario = "road",
@@ -255,7 +255,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
   pass_tele <- suppressMessages(
     suppressWarnings(
-      scen_transit_rail(
+      mode_transit_rail(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis",
         .scenario = "telework",
@@ -288,11 +288,11 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
 
 testthat::test_that("Scandia has no rail PMT", {
-  bau <- suppressMessages(suppressWarnings(scen_transit_rail(
+  bau <- suppressMessages(suppressWarnings(mode_transit_rail(
     .selected_ctu = "Scandia"
   )))
 
-  transit <- suppressMessages(suppressWarnings(scen_transit_rail(
+  transit <- suppressMessages(suppressWarnings(mode_transit_rail(
     .selected_ctu = "Scandia",
     .transit_service_pct = 1,
     .pldv_avo_pct = 0.5

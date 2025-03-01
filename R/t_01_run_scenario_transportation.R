@@ -183,7 +183,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # 4. Calculate VMT with `calc`
 
   ## passenger light-duty -----
-  passenger_light_duty <- scen_passenger_light_duty(
+  passenger_light_duty <- mode_passenger_light_duty(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -219,7 +219,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
 
   ## transit buses -----
-  bus_transit <- scen_transit_bus(
+  bus_transit <- mode_transit_bus(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -255,7 +255,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   ## transit rail -----
 
-  rail_transit <- scen_transit_rail(
+  rail_transit <- mode_transit_rail(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -290,7 +290,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   ## school bus-----
-  school_bus <- scen_school_bus(
+  school_bus <- mode_school_bus(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -326,7 +326,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
 
   ## walk and bike ----
-  walk_bike <- scen_walk_bike(
+  walk_bike <- mode_walk_bike(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -361,7 +361,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   # (measured in ton-miles NOT miles)
 
   ## freight truck ------
-  freight_truck <- scen_freight_truck(
+  freight_truck <- mode_freight_truck(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -394,7 +394,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   ## freight rail -----
 
-  freight_rail <- scen_freight_rail(
+  freight_rail <- mode_freight_rail(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
@@ -427,7 +427,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   ## freight multi-modal, air, and water -----
 
-  freight_multi_air_wat <- scen_air_water_multi(
+  freight_multi_air_wat <- mode_air_water_multi(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,

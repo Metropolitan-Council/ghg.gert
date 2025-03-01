@@ -10,7 +10,7 @@
 #'
 #' @importFrom emo ji
 #' @importFrom cli cli_alert_success
-scen_passenger_light_duty <- function(.pass_tb,
+mode_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu = "all",
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",

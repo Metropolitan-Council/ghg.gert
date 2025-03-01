@@ -1,7 +1,7 @@
 testthat::test_that("St. Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul"
       )
@@ -34,7 +34,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
   pass_transit <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul",
         .scenario = "transit",
@@ -44,7 +44,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     )
   )
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_lu <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
@@ -54,7 +54,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_road <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "road",
@@ -67,7 +67,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
 
   pass_tele <- suppressMessages(suppressWarnings(
-    scen_transit_bus(
+    mode_transit_bus(
       .pass_tb = transportation_data$passenger,
       .selected_ctu = "St. Paul",
       .scenario = "telework",
@@ -123,7 +123,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 testthat::test_that("Minneapolis emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis"
       )
@@ -156,7 +156,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
   pass_transit <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis",
         .scenario = "transit",
@@ -166,7 +166,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     )
   )
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_lu <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "land_use",
@@ -176,7 +176,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_road <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "road",
@@ -189,7 +189,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
 
   pass_tele <- suppressMessages(suppressWarnings(
-    scen_transit_bus(
+    mode_transit_bus(
       .pass_tb = transportation_data$passenger,
       .selected_ctu = "Minneapolis",
       .scenario = "telework",
@@ -245,7 +245,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 testthat::test_that("Fridley emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Fridley"
       )
@@ -278,7 +278,7 @@ testthat::test_that("Fridley emissions reduce with interventions", {
 
   pass_transit <- suppressMessages(
     suppressWarnings(
-      scen_transit_bus(
+      mode_transit_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Fridley",
         .scenario = "transit",
@@ -288,7 +288,7 @@ testthat::test_that("Fridley emissions reduce with interventions", {
     )
   )
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_lu <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "land_use",
@@ -298,7 +298,7 @@ testthat::test_that("Fridley emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_transit_bus(
+  pass_road <- suppressMessages(suppressWarnings(mode_transit_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "road",
@@ -311,7 +311,7 @@ testthat::test_that("Fridley emissions reduce with interventions", {
 
 
   pass_tele <- suppressMessages(suppressWarnings(
-    scen_transit_bus(
+    mode_transit_bus(
       .pass_tb = transportation_data$passenger,
       .selected_ctu = "Fridley",
       .scenario = "telework",
