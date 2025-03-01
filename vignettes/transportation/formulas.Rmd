@@ -61,7 +61,7 @@ $trips$ is the number of trips that are autonomous, $av$ and all passenger trips
 
 $adj_{aeo}$ is the Annual Energy Outlook VMT adjustment factor for the given mode.  
 
-###### VMT fees  
+###### Road pricing
 
 $$adj_{vmt} = 1 + \left( \frac{vmt \space fee}{fuel_{f} + time + payd} \right) \times elast_{vmt} $$
 $vmt \space fee$ is the vehicle miles traveled fee in dollars per mile  
@@ -135,7 +135,38 @@ $elast_{park}$ is the elasticity or effect size of parking price increase on tra
 $adj_{occupancy}$ is the average number of passengers per passenger light duty vehicle, or average vehicle occupancy (AVO).   
 
 
-#### Autonomous vehicles   
+###### Autonomous vehicles   
 
 $$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} \times 1.2 }{adj_{occupancy}} \right ) \times AV$$
  
+## Elasticity tables
+
+```{r}
+elast %>% 
+  filter(year == "2025") %>% 
+  pivot_longer(2:10) %>% 
+  select(-year) %>% 
+  left_join(
+    elast_descriptions <- readLines("../../man/elast.Rd")[11:19] %>% 
+      stringr::str_remove(stringr::str_escape("\\item{")) %>% 
+      stringr:::str_split(stringr::str_escape("}{")) %>% 
+      purrr::list_flatten() %>% 
+      purrr::map(rbind) %>% 
+      purrr::map(as.data.frame, cols = values,
+                 col.names = c("name", "source")) %>% 
+      bind_rows() %>% 
+      select(name = V1,
+             source = V2),
+    by = c("name"))
+  
+```
+
+```{r}
+elast_5d %>% 
+  select(year, type, combined_density)
+```
+
+```{r}
+enviro_factors
+```
+
