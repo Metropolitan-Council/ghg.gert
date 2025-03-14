@@ -37,7 +37,7 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 library(ghg.ccap)
 
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_energy_bau_data$non_residential,
+  non_res_tb = building_data$non_residential,
   .selected_ctu = "all",
   .existing_high_efficiency_buildings_pct = 0.80
 )
