@@ -1,5 +1,7 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
 
+ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
+
 ##### read in and reformat UrbanSim output
 # read in urbansim metadata
 us_meta <- readxl::read_xlsx(
@@ -38,27 +40,47 @@ us_format <- function(year_folder) {
 us_formatted <- lapply(us_list, us_format) %>% bind_rows()%>%
   filter(!is.na(status)) %>%
   #only retain variables marked as ready for public display
-  filter(status == "ready")
+  filter(status != "needs clarification")
 
-urbansim_meta <- tibble::tribble(
-  ~"Column", ~"Class", ~"Description",
-  "inventory_year", class(urbansim$inventory_year), "Inventory year",
-  "coctu_id", class(urbansim$coctu_id), "Unique county-city identifier",
-  "ctu_id", class(urbansim$ctu_id), "City-township-unorganized identifier",
-  "variable", class(urbansim$variable), "Short variable name",
-  "value", class(urbansim$value), "County-city value of variable",
-  "definition", class(urbansim$definition), "Variable description",
-  "broad_category", class(urbansim$broad_category), "Sector grouping of variable",
-  "status", class(urbansim$status), "Internal assessment of variable readiness; interpret cautiously where advised",
-  "notes", class(urbansim$notes), "Research department notes"
-)
+# reduce to categories of interest
+demographic_data <- mutate(us_formatted,
+                 sp_categories = case_when(
+  variable == "total_households" ~ "households",
+  variable == "total_pop" ~ "population",
+  variable == "total_job_spaces" ~ "jobs",
+  variable %in% c("jobs_sectors_1",
+                  "jobs_sectors_2",
+                  "jobs_sectors_3") ~ "industrial_jobs",
+  variable %in% c("jobs_sectors_4",
+                  "jobs_sectors_5",
+                  "jobs_sectors_6",
+                  "jobs_sectors_7",
+                  "jobs_sectors_8",
+                  "jobs_sectors_9",
+                  "jobs_sectors_10") ~ "commercial_jobs",
+  variable == "max_detached" ~ "single_family_units",
+  variable == "max_multifam" ~ "multifamily_units")
+) %>%
+  filter(!is.na(sp_categories)) %>%
+  group_by(inventory_year,
+           # coctu_id,
+           ctu_id,
+           sp_categories) %>%
+  summarize(value = sum(value)) %>%
+  left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
+              distinct(ctu_name,ctu_class,ctu_id)) %>%
+  mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
+                            paste(ctu_name, "Twp."),
+                            ctu_name)) %>%
+  ungroup()
+  select(inventory_year, ctu_id, sp_categories, value, ctu_name)
 
+# urbansim_meta <- tibble::tribble(
+#   ~"Column", ~"Class", ~"Description",
+#   "inventory_year", class(urbansim$inventory_year), "Inventory year",
+#   "coctu_id", class(urbansim$coctu_id), "Unique county-city identifier",
+#   "ctu_id", class(urbansim$ctu_id), "City-township-unorganized identifier",
+#   "sp_categories", class(urbansim$variable), "Short variable name",
+#   "value", class(urbansim$value), "County-city value of variable")
 
-saveRDS(
-  urbansim,
-  "_meta/data/urbansim_data.RDS"
-)
-saveRDS(
-  urbansim_meta,
-  "_meta/data/urbansim_data_meta.RDS"
-)
+usethis::use_data(demographic_data, overwrite = TRUE)
