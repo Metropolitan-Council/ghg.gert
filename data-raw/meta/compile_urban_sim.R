@@ -7,57 +7,38 @@ us_meta <- readxl::read_xlsx(
 ) %>%
   janitor::clean_names()
 
+### trunk path
+us_path <- here::here("data-raw", "meta", "urbansim")
 ### list year files
-us_list <- list.files("data-raw/meta/urbansim")[1:5]
+us_list <- list.files(us_path)[1:5]
 
-# read in urbansim data
-urbansim_2010 <- %>%
-  # group_by(coctu_id) %>%
-  # summarise(across(everything(), sum, na.rm = TRUE), .groups = "drop") %>%  # Sum all columns, excluding the grouping variable
-  pivot_longer(
-    cols = 2:112,
-    names_to = "variable"
-  ) %>%
-  left_join(us_meta,
-            by = "variable"
-  ) %>%
-  mutate(
-    ctu_id = as.numeric(substr(
-      as.character(coctu_id),
-      nchar(as.character(coctu_id)) - 6,
-      nchar(as.character(coctu_id))
-    )),
-    inventory_year = 2010
-  )
+# function to read and process files
+us_format <- function(year_folder) {
+  file_full_path <- file.path(us_path, year_folder)  # Construct folder path
+  files_in_folder <- list.files(file_full_path, full.names = TRUE)  # List files in folder
 
-urbansim_2020 <- read_csv(
-  "N:/CommDev/Research/Research/Forecasts/2050 Forecasts/Draft Preliminary Local Forecasts/Outputs/run_212/evolvingCOCTU/inflationDeflation/2020/results_metcouncil_run_212_inflationPostProcess_COCTU_2020.csv"
-) %>%
-  # group_by(coctu_id) %>%
-  # summarise(across(everything(), sum, na.rm = TRUE), .groups = "drop") %>%  # Sum all columns, excluding the grouping variable
-  pivot_longer(
-    cols = 2:112,
-    names_to = "variable"
-  ) %>%
-  left_join(us_meta,
-            by = "variable"
-  ) %>%
-  mutate(
-    ctu_id = as.numeric(substr(
-      as.character(coctu_id),
-      nchar(as.character(coctu_id)) - 6,
-      nchar(as.character(coctu_id))
-    )),
-    inventory_year = 2020
-  )
+  # Read all files in the folder and bind them
+  urbansim_data <- read.csv(files_in_folder) %>%
+    pivot_longer(
+      cols = 2:112,  # Adjust column selection as needed
+      names_to = "variable"
+    ) %>%
+    left_join(us_meta, by = "variable") %>%
+    mutate(
+      ctu_id = as.numeric(substr(
+        as.character(coctu_id),
+        nchar(as.character(coctu_id)) - 6,
+        nchar(as.character(coctu_id)))
+        ),
+      inventory_year = as.numeric(year_folder)
+      )
+}
 
-# left_join(cprg_ctu, by = c("ctu_id" = "gnis")) %>%
-# filter(!is.na(ctu_name))%>% #Shakopee Mdewakanton Community - revisit if we have utility data
-# st_drop_geometry() %>% select(-geometry) %>%
-# mutate(inventory_year = 2020)
-
-urbansim <- rbind(urbansim_2010, urbansim_2020) %>%
-  filter(!is.na(status))
+# Read and combine all files, assigning inventory year
+us_formatted <- lapply(us_list, us_format) %>% bind_rows()%>%
+  filter(!is.na(status)) %>%
+  #only retain variables marked as ready for public display
+  filter(status == "ready")
 
 urbansim_meta <- tibble::tribble(
   ~"Column", ~"Class", ~"Description",
