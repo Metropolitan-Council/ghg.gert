@@ -19,7 +19,6 @@ livestock <- dplyr::bind_rows(
     rename(geog_name = ctu_name,
            geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
-    mutate(geog_class = "County") %>%
     select(inventory_year, geog_name, county_name, livestock_type,
            head_count = township_head_count, data_type)
 )
@@ -44,33 +43,43 @@ crops <- dplyr::bind_rows(
     rename(geog_name = ctu_name,
            geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
-    mutate(geog_class = "County") %>%
     select(geoid = ctu_id, inventory_year, geog_name, county_name, crop_type,
            metric_tons = ctu_metric_tons)
 )
 
 ### fertilizer data
 
+#temp path (replace with inpath once PR goes through)
+temppath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/quick-ag-fix/_agriculture/data/"
 
-crops_county <- readr::read_rds(paste0(inpath, "county_crop_production.rds"))
-crops_ctu <-readr::read_rds(paste0(inpath, "ctu_usda_crop_data.rds"))
+
+fertilizer_county <- readr::read_rds(paste0(temppath, "county_fertilizer_activity.rds"))
+fertilizer_ctu <-readr::read_rds(paste0(temppath, "ctu_fertilizer_activity.rds"))
 
 ### combine county and ctu into single dataframe
 
 fertilizer <- dplyr::bind_rows(
-  crops_county %>%
+  fertilizer_county %>%
     as_tibble() %>%
     filter(inventory_year >= 2005) %>%
     mutate(geog_class = "County",
            geog_name = county_name,
            geoid = as.numeric(geoid)) %>%
-    select(geoid, inventory_year, geog_name, county_name, crop_type,
-           metric_tons),
-  crops_ctu %>%
+    select(geoid, inventory_year, geog_name, county_name, fertilizer_type,
+           metric_tons_applied),
+  fertilizer_ctu %>%
     rename(geog_name = ctu_name,
            geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
-    mutate(geog_class = "County") %>%
-    select(geoid = ctu_id, inventory_year, geog_name, county_name, crop_type,
-           metric_tons = ctu_metric_tons)
+    select(geoid = ctu_id, inventory_year, geog_name, county_name, fertilizer_type,
+          metric_tons_applied)
 )
+
+
+agriculture_activity_data <- list(
+  livestock = livestock,
+  crops = crops,
+  fertilizer = fertilizer
+)
+
+usethis::use_data(agriculture_activity_data, overwrite=T)
