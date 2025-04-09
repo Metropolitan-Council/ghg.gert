@@ -1,5 +1,5 @@
 testthat::test_that("floor area interventions", {
-  mpls_res <- building_energy_bau_data$residential %>%
+  mpls_res <- building_data$residential %>%
     filter(ctu_name == "Minneapolis")
 
 
@@ -7,7 +7,7 @@ testthat::test_that("floor area interventions", {
   ## residential
 
   floor_area_leed <- calc_floor_area_leed(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_leed_gold_pct = 0.5,
     .enviro_factors = enviro_factors
@@ -15,7 +15,7 @@ testthat::test_that("floor area interventions", {
 
 
   retrofit <- calc_floor_area_retrofit(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .existing_home_retrofit_pct = 0.80,
     .existing_home_ultra_retrofit_pct = 0.20,
@@ -23,7 +23,7 @@ testthat::test_that("floor area interventions", {
   )
 
   behavior_change <- calc_floor_area_behavior_change(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .home_behavior_change_pct = 1.00,
     .enviro_factors = enviro_factors
