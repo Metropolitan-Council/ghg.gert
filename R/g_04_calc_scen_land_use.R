@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,

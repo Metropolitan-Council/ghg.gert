@@ -25,7 +25,7 @@ greenhouse gas (GHG) emissions for the selected city or township..
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_residential_renewable_ng(
   res_tb = calc_ghg_residential(

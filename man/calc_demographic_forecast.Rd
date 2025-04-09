@@ -21,7 +21,7 @@ Calculates demographic forecast characteristics by CTU.
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 calc_demographic_forecast(tb = building_energy_data)$ctu
 }
 }

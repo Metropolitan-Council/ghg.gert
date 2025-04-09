@@ -25,10 +25,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_existing_comm_building_efficiency(
-#'   non_res_tb = building_energy_bau_data$non_residential,
+#'   non_res_tb = building_data$non_residential,
 #'   .selected_ctu = "all",
 #'   .existing_high_efficiency_buildings_pct = 0.80
 #' )
@@ -36,7 +36,7 @@
 calc_existing_comm_building_efficiency <- function(non_res_tb,
                                                    .selected_ctu,
                                                    .existing_high_efficiency_buildings_pct,
-                                                   .enviro_factors = ghg.sp::enviro_factors) {
+                                                   .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating existing commercial building energy efficiency \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 

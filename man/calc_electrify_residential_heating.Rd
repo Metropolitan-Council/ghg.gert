@@ -33,7 +33,7 @@ heat in the residential sector by city/township for the specified scenario.
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_electrify_residential_heating(
   res_tb = calc_ghg_residential(

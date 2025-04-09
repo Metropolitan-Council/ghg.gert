@@ -6,14 +6,14 @@ testthat::test_that("Minneapolis forecasts", {
 
   testthat::expect_equal(
     mpls_compiled$residential,
-    building_energy_bau_data$residential %>%
+    building_data$residential %>%
       filter(ctu_name == "Minneapolis")
   )
 
   # un-comment when ready
   # testthat::expect_equal(
   #   mpls_compiled$non_residential,
-  #   building_energy_bau_data$non_residential %>%
+  #   building_data$non_residential %>%
   #     filter(ctu_name == "Minneapolis"))
 })
 
@@ -26,13 +26,13 @@ testthat::test_that("Lake Elmo forecasts", {
 
   testthat::expect_equal(
     lk_el_compiled$residential,
-    building_energy_bau_data$residential %>%
+    building_data$residential %>%
       filter(ctu_name == "Lake Elmo")
   )
 
   # un-comment when ready
   # testthat::expect_equal(
   #   lk_el_compiled$non_residential,
-  #   building_energy_bau_data$non_residential %>%
+  #   building_data$non_residential %>%
   #     filter(ctu_name == "Lake Elmo"))
 })

@@ -60,7 +60,7 @@ defined in the argument \code{.parking_lot_reduction_percentage}
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_parking_lot_land_cover(
   tb = land_use_data,

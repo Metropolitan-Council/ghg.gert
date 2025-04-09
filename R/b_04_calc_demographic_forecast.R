@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #' calc_demographic_forecast(tb = building_energy_data)$ctu
 #' }
 calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {

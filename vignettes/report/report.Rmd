@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 ```{r libraries}
 #| echo: false
 #| message: false
-library(ghg.sp)
+library(ghg.ccap)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
@@ -1274,7 +1274,7 @@ The Metropolitan Council Transportation Policy Plan discusses the need for commu
 Increasing density decreases travel distances and encourages transit, cycling, and walking. We estimate a `0.4%` decrease in auto VMT for a `10%` increase in population density by 2040, a `7%` increase in walking/cycling VMT for a `10%` increase in population density by 2040, and a `7%` increase in transit VMT for a `10%` increase in population density by 2040.
 
 ```{r, tab-land-use-effects}
-ghg.sp::elast_5d %>%
+ghg.ccap::elast_5d %>%
   dplyr::filter(year == "2050") %>%
   mutate(type = stringr::str_to_title(type)) %>%
   select(
@@ -1442,7 +1442,7 @@ telework_ctu %>%
 Telework is working from home, reducing or eliminating the need to commute. In 2020, an estimated 35% of jobs in the United States could be performed from home, varying by metropolitan area. In Minneapolis and St. Paul, approximately 38-52% of jobs can be completed through telework.1 In a first approximation, telework eliminates commute vehicle miles traveled, which can reduce greenhouse gas emissions. However, the net effect on vehicle miles traveled, and household greenhouse gas production must also be considered. Recent studies that include energy associated with working from home find an effective reduction of about 2.5-3% in household CO2 emissions per telework day.
 
 ```{r}
-help(vmt_telework, package = ghg.sp)
+help(vmt_telework, package = ghg.ccap)
 ```
 
 
@@ -1546,7 +1546,7 @@ $elast_{park}$ is the elasticity or effect size of parking price increase on tra
 Values derived from @TRACE_1999 and referenced in  @litmanUnderstandingTransportDemands2021 and @lehnerPriceElasticityParking2019.  
 
 ```{r, tab-parking-price-effects}
-ghg.sp::elast %>%
+ghg.ccap::elast %>%
   dplyr::filter(year == "2050") %>%
   select(year, contains("park")) %>%
   tidyr::pivot_longer(

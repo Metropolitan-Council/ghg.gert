@@ -11,7 +11,7 @@ run_scenario_building(
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = TRUE,
-  .enviro_factors = ghg.sp::enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   .selected_ctu = "all",
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
@@ -129,7 +129,7 @@ provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \cod
 \examples{
 \dontrun{
 
-library(ghg.sp)
+library(ghg.ccap)
 run_scenario_building(
   res_tb = building_data$residential,
   non_res_tb = building_data$non_residential,

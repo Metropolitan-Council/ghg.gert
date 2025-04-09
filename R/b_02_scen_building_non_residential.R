@@ -46,7 +46,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' scen_building_non_residential(
 #'   non_res_tb = building_data$non_residential,
@@ -76,7 +76,7 @@ scen_building_non_residential <- function(non_res_tb,
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   tb01 <- calc_existing_comm_building_efficiency(
-    non_res_tb = ghg.sp::building_energy_bau_data$non_residential,
+    non_res_tb = ghg.ccap::building_data$non_residential,
     .selected_ctu = .selected_ctu,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
   )

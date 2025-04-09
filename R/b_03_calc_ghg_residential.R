@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_ghg_residential(
 #'   res_tb = building_data$residential,
@@ -44,7 +44,7 @@ calc_ghg_residential <- function(res_tb,
                                  res_tb_bau,
                                  .selected_ctu,
                                  .grid_decarbonization_pct,
-                                 .enviro_factors = ghg.sp::enviro_factors) {
+                                 .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -52,7 +52,7 @@ calc_ghg_residential <- function(res_tb,
 
   emis <- function(tb,
                    grid_decarb,
-                   .enviro_factors = ghg.sp::enviro_factors) {
+                   .enviro_factors = ghg.ccap::enviro_factors) {
     emis_tb <- tb %>%
       dplyr::filter(
         var %in% c(

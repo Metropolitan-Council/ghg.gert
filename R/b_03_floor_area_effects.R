@@ -32,7 +32,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_floor_area_growth(
 #'   res_tb = building_data$residential,
@@ -164,7 +164,7 @@ calc_floor_area_growth <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_floor_area_leed(
 #'   res_tb = building_data$residential,
@@ -284,7 +284,7 @@ calc_floor_area_leed <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_floor_area_retrofit(
 #'   res_tb = building_data$residential,
@@ -442,7 +442,7 @@ calc_floor_area_retrofit <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_floor_area_behavior_change(
 #'   res_tb = building_data$residential,
@@ -558,7 +558,7 @@ calc_floor_area_behavior_change <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' calc_affordable_floor_area
 #' calc_affordable_floor_area(

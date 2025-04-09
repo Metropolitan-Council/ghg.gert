@@ -38,10 +38,10 @@ run_scenario_transportation(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .enviro_factors = ghg.sp::enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
-  .factor_values = ghg.sp::factor_values
+  .factor_values = ghg.ccap::factor_values
 )
 }
 \arguments{

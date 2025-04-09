@@ -1,5 +1,5 @@
 library(dplyr)
-library(ghg.sp)
+library(ghg.ccap)
 library(councilR)
 
 land_use_data <- c()

@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 ```{r libraries}
 #| echo: false
 #| message: false
-library(ghg.sp)
+library(ghg.ccap)
 library(tidyverse)
 library(knitr)
 library(kableExtra)

@@ -8,8 +8,8 @@ vmt_annual_energy_outlook(
   tb,
   .mode,
   .aeo_scenario,
-  .enviro_factors = ghg.sp::enviro_factors,
-  .factor_values = ghg.sp::factor_values
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values
 )
 }
 \arguments{

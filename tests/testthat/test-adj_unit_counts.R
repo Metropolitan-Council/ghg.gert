@@ -55,7 +55,7 @@ test_that("Lake Elmo unit counts", {
 
 test_that("Minneapolis unit counts", {
   mpls_50 <- adj_unit_counts(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_to_multifamily_pct = 0.50
   ) %>%
@@ -77,7 +77,7 @@ test_that("Minneapolis unit counts", {
 
   testthat::expect_warning(
     adj_unit_counts(
-      res_tb = building_energy_bau_data$residential,
+      res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
       .new_homes_to_multifamily_pct = 0.0
     ) %>%
@@ -92,7 +92,7 @@ test_that("Minneapolis unit counts", {
 
 
   mpls_0 <- adj_unit_counts(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_to_multifamily_pct = 0.0
   ) %>%
@@ -106,7 +106,7 @@ test_that("Minneapolis unit counts", {
     ungroup()
 
 
-  bau_forecast <- building_energy_bau_data$residential %>%
+  bau_forecast <- building_data$residential %>%
     filter(
       ctu_name == "Minneapolis",
       var %in% c(

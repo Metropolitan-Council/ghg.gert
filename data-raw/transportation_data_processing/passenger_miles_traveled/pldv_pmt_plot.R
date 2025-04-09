@@ -1,4 +1,4 @@
-library(ghg.sp)
+library(ghg.ccap)
 library(ggplot2)
 library(plotly)
 library(dplyr)

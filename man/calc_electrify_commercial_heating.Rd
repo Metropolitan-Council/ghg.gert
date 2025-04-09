@@ -9,7 +9,7 @@ calc_electrify_commercial_heating(
   .selected_ctu,
   .electrified_buildings_pct,
   .grid_decarbonization_pct,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -41,11 +41,11 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
     .selected_ctu = "all",
     .grid_decarbonization_pct = 1,
     .smart_grid_energy_reduction_pct = 1,

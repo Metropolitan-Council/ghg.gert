@@ -110,7 +110,7 @@ check_inputs <- function(name, value) {
   } else if (name == "selected_ctu") {
     if (value == "all") {
       return()
-    } else if (!value %in% unique(ghg.sp::transportation_data$passenger$ctu)) {
+    } else if (!value %in% unique(ghg.ccap::transportation_data$passenger$ctu)) {
       cli::cli_abort(c(
         "Enter a valid ctu name"
       ))

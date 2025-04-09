@@ -48,7 +48,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.sp)
+#' library(ghg.ccap)
 #'
 #' scen_building_residential(
 #'   res_tb = building_data$residential,
@@ -85,7 +85,7 @@ scen_building_residential <- function(res_tb = res_tb,
   # browser()
 
   # B.R1 (MF to SF)
-  tb01 <- ghg.sp::adj_unit_counts(
+  tb01 <- ghg.ccap::adj_unit_counts(
     res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct

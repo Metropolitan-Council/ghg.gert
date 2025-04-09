@@ -10,7 +10,7 @@ vmt_parking_policy(
   .elast = elast,
   .parking_price = 0,
   .freight_parking_price = 0,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{

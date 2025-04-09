@@ -1,4 +1,4 @@
-library(ghg.sp)
+library(ghg.ccap)
 library(tidyverse)
 
 # all error sources found - check github issue 114
@@ -17,7 +17,7 @@ carbon_stock_na_test <- calc_carbon_stock_per_ctu(
   .tree_planting_per_capita = 0.0,
   .tree_planting_per_hectare = 0,
   .parking_lot_reduction_percentage = 0,
-  .enviro_factors = ghg.sp::enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
 )
 
@@ -34,7 +34,7 @@ parking_lot_land_cover <-
     .tree_planting_per_capita = 0.0,
     .tree_planting_per_hectare = 0,
     .parking_lot_reduction_percentage = 0,
-    .enviro_factors = ghg.sp::enviro_factors,
+    .enviro_factors = ghg.ccap::enviro_factors,
     detail = FALSE
   )
 
@@ -50,7 +50,7 @@ tree_parking_land_cover <- calc_tree_planting_land_cover(
   .tree_planting_intervention = "none",
   .tree_planting_per_capita = 0.0,
   .tree_planting_per_hectare = 0,
-  .enviro_factors = ghg.sp::enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
 )
 

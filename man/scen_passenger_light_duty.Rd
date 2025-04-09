@@ -32,7 +32,7 @@ scen_passenger_light_duty(
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
-  .factor_values = ghg.sp::factor_values,
+  .factor_values = ghg.ccap::factor_values,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE

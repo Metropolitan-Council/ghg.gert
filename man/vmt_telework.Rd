@@ -8,7 +8,7 @@ vmt_telework(
   .pass_tb,
   .mode,
   .telework_pct = 0,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{

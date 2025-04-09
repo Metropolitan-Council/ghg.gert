@@ -16,8 +16,8 @@ vmt_road_policy(
   .payd_fee = 0,
   .stock,
   .phev_electric = FALSE,
-  .enviro_factors = ghg.sp::enviro_factors,
-  .elast = ghg.sp::elast
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .elast = ghg.ccap::elast
 )
 }
 \arguments{

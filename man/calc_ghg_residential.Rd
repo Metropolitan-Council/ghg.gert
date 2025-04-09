@@ -9,7 +9,7 @@ calc_ghg_residential(
   res_tb_bau,
   .selected_ctu,
   .grid_decarbonization_pct,
-  .enviro_factors = ghg.sp::enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -51,7 +51,7 @@ residential strategies refer to \code{\link[=scen_residential_building]{scen_res
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_ghg_residential(
   res_tb = building_data$residential,

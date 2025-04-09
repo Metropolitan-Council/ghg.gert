@@ -54,7 +54,7 @@ model assumption, which cities can adjust.
 }
 \examples{
 \dontrun{
-library(ghg.sp)
+library(ghg.ccap)
 
 calc_affordable_floor_area
 calc_affordable_floor_area(
