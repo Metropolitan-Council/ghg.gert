@@ -46,6 +46,16 @@ ccap_county_meta <- tribble(
 
 # Cities ------
 
+source("data-raw/demographic/thrive_designation.R")
+thrive_des <- mutate(thrive,
+                     ctu_class = if_else(grepl("Twp.",ctu),
+                                         "TOWNSHIP",
+                                         "CITY"),
+                     ctu_name = str_replace_all(ctu_name, " Township", ""),
+                     ctu_name = str_replace_all(ctu_name, "St\\.", "Saint") ) %>%
+  ungroup() %>%
+  distinct(ctu_name, ctu_class, com_des)
+
 # fetch cities from MN Geospatial Commons
 ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dot/bdry_mn_city_township_unorg/gpkg_bdry_mn_city_township_unorg.zip") %>%
   filter(COUNTY_NAME %in% c(ccap_county$county_name)) %>%
@@ -65,9 +75,15 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
     geometry = SHAPE
   ) %>%
   arrange(CTU_NAME) %>%
-  janitor::clean_names()
-
-
+  janitor::clean_names() %>%
+  left_join(thrive_des,
+            by = c("ctu_name","ctu_class")) %>%
+  mutate(thrive_designation = if_else(
+    is.na(com_des),
+    "Unorganized territory",
+    com_des
+  )) %>%
+  select(-com_des)
 
 # compile RDS
 saveRDS(ccap_county, "data-raw/meta/ccap_county.RDS")
