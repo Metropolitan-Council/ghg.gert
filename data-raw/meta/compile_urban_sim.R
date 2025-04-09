@@ -42,6 +42,9 @@ us_formatted <- lapply(us_list, us_format) %>% bind_rows()%>%
   #only retain variables marked as ready for public display
   filter(status != "needs clarification")
 
+#save intermediate file for model prediction
+saveRDS(us_formatted, "data-raw/meta/urbansim_allyrs.RDS")
+
 # reduce to categories of interest
 demographic_data <- mutate(us_formatted,
                  sp_categories = case_when(
@@ -66,7 +69,7 @@ demographic_data <- mutate(us_formatted,
            # coctu_id,
            ctu_id,
            sp_categories) %>%
-  summarize(value = sum(value)) %>%
+  dplyr::summarize(value = sum(value)) %>%
   left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
               distinct(ctu_name,ctu_class,ctu_id)) %>%
   mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
