@@ -1,7 +1,7 @@
 testthat::test_that("St. Paul emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
-      scen_air_water_multi(
+      mode_air_water_multi(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "St. Paul"
       )
@@ -33,7 +33,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     .bev_pct_sales = 0.10
   )
 
-  fr_transit <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_transit <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "St. Paul",
     .scenario = "transit",
@@ -41,7 +41,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  fr_lu <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_lu <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
@@ -51,7 +51,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  fr_road <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_road <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "St. Paul",
     .scenario = "road",
@@ -65,7 +65,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  fr_tele <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_tele <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "St. Paul",
     .scenario = "telework",
@@ -102,7 +102,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 testthat::test_that("Minneapolis emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
-      scen_air_water_multi(
+      mode_air_water_multi(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "Minneapolis"
       )
@@ -135,7 +135,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )
 
 
-  fr_transit <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_transit <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Minneapolis",
     .scenario = "transit",
@@ -143,7 +143,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  fr_lu <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_lu <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Minneapolis",
     .scenario = "land_use",
@@ -153,7 +153,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-  fr_road <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_road <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Minneapolis",
     .scenario = "road",
@@ -167,7 +167,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-  fr_tele <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_tele <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Minneapolis",
     .scenario = "telework",
@@ -202,7 +202,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 testthat::test_that("Champlin emissions reduce with interventions", {
   fr <- suppressMessages(
     suppressWarnings(
-      scen_air_water_multi(
+      mode_air_water_multi(
         .freight_tb = transportation_data$freight,
         .selected_ctu = "Champlin"
       )
@@ -234,7 +234,7 @@ testthat::test_that("Champlin emissions reduce with interventions", {
     .bev_pct_sales = 0.10
   )
 
-  fr_transit <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_transit <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Champlin",
     .scenario = "transit",
@@ -242,7 +242,7 @@ testthat::test_that("Champlin emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  fr_lu <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_lu <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Champlin",
     .scenario = "land_use",
@@ -252,7 +252,7 @@ testthat::test_that("Champlin emissions reduce with interventions", {
   )))
 
 
-  fr_road <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_road <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Champlin",
     .scenario = "road",
@@ -266,7 +266,7 @@ testthat::test_that("Champlin emissions reduce with interventions", {
   )))
 
 
-  fr_tele <- suppressMessages(suppressWarnings(scen_air_water_multi(
+  fr_tele <- suppressMessages(suppressWarnings(mode_air_water_multi(
     .freight_tb = fr_adjusted$freight,
     .selected_ctu = "Champlin",
     .scenario = "telework",

@@ -1,7 +1,7 @@
 testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_walk_bike(
+      mode_walk_bike(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul"
       )
@@ -32,7 +32,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
     )
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_transit <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "transit",
@@ -40,7 +40,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_lu <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
@@ -50,7 +50,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_road <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "road",
@@ -62,7 +62,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_tele <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "telework",
@@ -72,7 +72,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
     .parking_price = 20
   )))
 
-  pass_multi <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_multi <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "St. Paul",
     .scenario = "telework",
@@ -126,7 +126,7 @@ testthat::test_that("St. Paul emissions constant and walk/bike vmt increase", {
 testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_walk_bike(
+      mode_walk_bike(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Fridley"
       )
@@ -157,7 +157,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
     )
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_transit <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "transit",
@@ -165,7 +165,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_lu <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "land_use",
@@ -175,7 +175,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_road <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "road",
@@ -187,7 +187,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_tele <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "telework",
@@ -197,7 +197,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
     .parking_price = 20
   )))
 
-  pass_multi <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_multi <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Fridley",
     .scenario = "telework",
@@ -249,7 +249,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
 testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_walk_bike(
+      mode_walk_bike(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minnetonka"
       )
@@ -280,7 +280,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
     )
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_transit <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minnetonka",
     .scenario = "transit",
@@ -288,7 +288,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_lu <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minnetonka",
     .scenario = "land_use",
@@ -298,7 +298,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_road <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minnetonka",
     .scenario = "road",
@@ -310,7 +310,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_tele <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minnetonka",
     .scenario = "telework",
@@ -320,7 +320,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
     .parking_price = 20
   )))
 
-  pass_multi <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_multi <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minnetonka",
     .scenario = "telework",
@@ -371,7 +371,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
 testthat::test_that("South St. Paul emissions constant and walk/bike vmt increase", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_walk_bike(
+      mode_walk_bike(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "South St. Paul"
       )
@@ -402,7 +402,7 @@ testthat::test_that("South St. Paul emissions constant and walk/bike vmt increas
     )
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_transit <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "South St. Paul",
     .scenario = "transit",
@@ -410,7 +410,7 @@ testthat::test_that("South St. Paul emissions constant and walk/bike vmt increas
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_lu <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "South St. Paul",
     .scenario = "land_use",
@@ -420,7 +420,7 @@ testthat::test_that("South St. Paul emissions constant and walk/bike vmt increas
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_road <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "South St. Paul",
     .scenario = "road",
@@ -432,7 +432,7 @@ testthat::test_that("South St. Paul emissions constant and walk/bike vmt increas
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_tele <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "South St. Paul",
     .scenario = "telework",
@@ -442,7 +442,7 @@ testthat::test_that("South St. Paul emissions constant and walk/bike vmt increas
     .parking_price = 20
   )))
 
-  pass_multi <- suppressMessages(suppressWarnings(scen_walk_bike(
+  pass_multi <- suppressMessages(suppressWarnings(mode_walk_bike(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "South St. Paul",
     .scenario = "telework",

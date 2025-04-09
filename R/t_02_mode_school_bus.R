@@ -10,7 +10,7 @@
 #' @export
 #' @importFrom cli cli_alert_success
 #' @importFrom emo ji
-scen_school_bus <- function(.pass_tb = transportation_data$passenger,
+mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .selected_ctu = "all",
                             .scenario = "BAU",
                             .electric_scenario = "ER",

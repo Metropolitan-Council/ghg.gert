@@ -1,7 +1,7 @@
 testthat::test_that("St. Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_school_bus(
+      mode_school_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "St. Paul"
       )
@@ -35,7 +35,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_transit <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "transit",
@@ -43,7 +43,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_lu <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "land_use",
@@ -53,7 +53,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_road <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = pass_adj$pass,
     .selected_ctu = "St. Paul",
     .scenario = "road",
@@ -66,7 +66,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
 
   pass_tele <- suppressMessages(suppressWarnings(
-    scen_school_bus(
+    mode_school_bus(
       .pass_tb = pass_adj$pass,
       .selected_ctu = "St. Paul",
       .scenario = "telework",
@@ -102,7 +102,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 testthat::test_that("Minneapolis emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
-      scen_school_bus(
+      mode_school_bus(
         .pass_tb = transportation_data$passenger,
         .selected_ctu = "Minneapolis"
       )
@@ -126,7 +126,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
-  pass_transit <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_transit <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "transit",
@@ -134,7 +134,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .transit_avo_pct = 0.5
   )))
 
-  pass_lu <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_lu <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "land_use",
@@ -144,7 +144,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-  pass_road <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_road <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "road",
@@ -156,7 +156,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-  pass_tele <- suppressMessages(suppressWarnings(scen_school_bus(
+  pass_tele <- suppressMessages(suppressWarnings(mode_school_bus(
     .pass_tb = transportation_data$passenger,
     .selected_ctu = "Minneapolis",
     .scenario = "telework",

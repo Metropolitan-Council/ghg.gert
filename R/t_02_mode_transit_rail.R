@@ -11,7 +11,7 @@
 #' @export
 #' @importFrom cli cli_alert_success
 #' @importFrom emo ji
-scen_transit_rail <- function(.pass_tb = transportation_data$passenger,
+mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .selected_ctu = "all",
                               .scenario = "BAU",
                               .electric_scenario = "ER",
