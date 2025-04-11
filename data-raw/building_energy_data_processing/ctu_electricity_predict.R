@@ -89,4 +89,13 @@ urbansim_res <- urbansim %>%
 
 
 coctu_res_predict <- urbansim_res %>%
-  mutate(mwh_predicted = predict(res_rf, newdata = .))
+  mutate(
+    mwh_predicted = predict(res_rf, .))
+
+county_mwh_prediction <- coctu_res_predict %>%
+  group_by(county_name, inventory_year) %>%
+  summarize(mwh_res_predicted = sum(mwh_predicted))
+
+ctu_mwh_prediction <- coctu_res_predict %>%
+  group_by(ctu_name, inventory_year) %>%
+  summarize(mwh_res_predicted = sum(mwh_predicted))
