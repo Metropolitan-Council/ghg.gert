@@ -206,3 +206,23 @@
 #' naics_codes$industrial
 # naics_codes -----
 "naics_codes"
+
+#' @title A list of solid waste activity data tables
+#'
+#' @format A named list of two tibbles
+#' \describe{
+#'   \item{ctu}{tibble with 4,596 rows and 6 columns, `inventory_year`,
+#'       `ctu_id`, `ctu_name`, `source`, `value_activity`, `units_activity`}
+#'   \item{county}{tibble with 168 rows and 5 columns,
+#'       `inventory_year`, `geoid`, `source`, `value_activity`, `units_activity`}
+#' }
+#' @family datasets
+#'
+#' @source https://data.pca.state.mn.us/views/SCOREoverview/SCOREOverview
+#'
+#' @examples
+#' library(ghg.ccap)
+#' waste_data$ctu
+#' waste_data$county
+# waste_data -----
+"waste_data"
