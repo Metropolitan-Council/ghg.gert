@@ -20,7 +20,7 @@ remotes::install_github("Metropolitan-Council/councilR")
 library(councilR)
 
 
-inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/162-new-nlcd-data-rollout/_nature/data/"
+inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
 
 lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds"))
 lc_ctu <- readr::read_rds(paste0(inpath, "nlcd_ctu_landcover_allyrs.rds"))
@@ -35,7 +35,7 @@ land_cover_c <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
 
 
 
-usethis::use_data(lc_county, overwrite=T)
+# usethis::use_data(lc_county, overwrite=T)
 
 
 

@@ -17,15 +17,22 @@ remotes::install_github("Metropolitan-Council/councilR")
 library(councilR)
 
 
-inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/dev-2005-baseline/_nature/data/"
+inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
 
-county_seq <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_sequestration_2001_2021.rds"))
-ctu_seq <- readr::read_rds(paste0(inpath, "nlcd_ctu_landcover_sequestration_2001_2021.rds"))
+county_seq <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_sequestration_allyrs.rds"))
+ctu_seq <- readr::read_rds(paste0(inpath, "nlcd_ctu_landcover_sequestration_allyrs.rds"))
 
-county_waterways <- readr::read_rds(paste0(inpath, "nhd_county_waterways_emissions_2001_2021.rds"))
-ctu_waterways <- readr::read_rds(paste0(inpath, "nhd_ctu_waterways_emissions_2001_2021.rds"))
+county_waterways <- readr::read_rds(paste0(inpath, "nhd_county_waterways_emissions_allyrs.rds"))
+ctu_waterways <- readr::read_rds(paste0(inpath, "nhd_ctu_waterways_emissions_allyrs.rds"))
 
 land_cover_c <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
+
+
+
+
+
+
+
 
 
 
@@ -46,19 +53,18 @@ land_cover_c <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
 p0 <- rbind(
   county_seq,
   county_seq %>%
-    filter(year==2021) %>%
-    dplyr::select(-year) %>%
+    filter(inventory_year==2021) %>%
+    dplyr::select(-inventory_year) %>%
     crossing(
-      year = seq(2022, 2050, by = 1)
+      inventory_year = seq(2023, 2050, by = 1)
     )
 ) %>%
-  arrange(year, county_name, land_cover_type) %>%
+  arrange(inventory_year, county_name, source) %>%
   ggplot() +
-  # geom_area(aes(x = year, y = sequestration_potential, fill = land_cover_type)) +
-  geom_area(aes(x = year, y = sequestration_potential, fill = land_cover_type), alpha=0.5) +
-  geom_area(data=. %>% filter(year <= 2021),
-            mapping=aes(x = year, y = sequestration_potential, fill = land_cover_type)) +
-  geom_vline(xintercept = 2021, linetype="dashed")+
+  geom_area(aes(x = inventory_year, y = sequestration_potential, fill = source), alpha=0.5) +
+  geom_area(data=. %>% filter(inventory_year <= 2022),
+            mapping=aes(x = inventory_year, y = sequestration_potential, fill = source)) +
+  geom_vline(xintercept = 2022, linetype="dashed")+
   scale_fill_manual(
     values = c(
       "Tree" = "#4CAF50",
@@ -104,28 +110,28 @@ p0 <- rbind(
 
 
 df <- county_seq %>% ungroup() %>%
-  filter(year==2021) %>%
-  dplyr::select(c(county_name, state_name, land_cover_type, area))
+  filter(inventory_year==2022) %>%
+  dplyr::select(c(county_name, state_name, source, area))
 
-start_year <- 2021
+start_year <- 2022
 end_year <- 2050
 
 years <- seq(start_year, end_year)
 n_years <- length(years)
 
 df_noChange <- df %>%
-  filter(!(land_cover_type %in% c("Wetland","Tree"))) %>%
+  filter(!(source %in% c("Wetland","Tree"))) %>%
   crossing(
-    year=seq(start_year,end_year,1)
+    inventory_year=seq(start_year,end_year,1)
   ) %>%
-  arrange(county_name,land_cover_type,year)
+  arrange(county_name,source,inventory_year)
 
 df_projected <- df %>%
-  filter(land_cover_type %in% c("Wetland","Tree")) %>%
+  filter(source %in% c("Wetland","Tree")) %>%
   group_by(county_name) %>%
   mutate(
-    wetland_start = area[land_cover_type == "Wetland"],
-    tree_start = area[land_cover_type == "Tree"],
+    wetland_start = area[source == "Wetland"],
+    tree_start = area[source == "Tree"],
     wetland_end = wetland_start / 2, # reduce wetland area by 50%
     tree_end = tree_start + (wetland_start - wetland_end) # wetland area loss gets converted to tree area gain
   ) %>%
@@ -141,11 +147,11 @@ df_coverChange <- rbind(
       names_to="type",
       values_to = "area"
     ) %>%
-    mutate(year=case_when(
+    mutate(inventory_year=case_when(
       type=="wetland_start"~start_year,
       type=="wetland_end"~end_year
     )) %>% dplyr::select(-type) %>%
-    mutate(land_cover_type="Wetland"),
+    mutate(source="Wetland"),
 
   df_projected %>%
     dplyr::select(county_name, state_name, tree_start, tree_end) %>%
@@ -154,44 +160,45 @@ df_coverChange <- rbind(
       names_to="type",
       values_to = "area"
     ) %>%
-    mutate(year=case_when(
+    mutate(inventory_year=case_when(
       type=="tree_start"~start_year,
       type=="tree_end"~end_year
     )) %>% dplyr::select(-type) %>%
-    mutate(land_cover_type="Tree")
+    mutate(source="Tree")
 ) %>%
   full_join(
     crossing(
       county_name=unique(df$county_name),
-      land_cover_type=c("Wetland","Tree"),
-      year=seq(start_year+1,end_year-1,1)
+      source=c("Wetland","Tree"),
+      inventory_year=seq(start_year+1,end_year-1,1)
     ) %>% left_join( # add state_name
       county_seq %>% ungroup() %>%
         group_by(county_name, state_name) %>%
-        summarize(idx = head(year,1)) %>% dplyr::select(-idx)
+        summarize(idx = head(inventory_year,1)) %>% dplyr::select(-idx)
       , by = join_by(county_name))
   ) %>%
-  group_by(county_name, state_name, land_cover_type) %>%
-  arrange(county_name,land_cover_type,year) %>%
+  group_by(county_name, state_name, source) %>%
+  arrange(county_name,source,inventory_year) %>%
   mutate(
     area = zoo::na.approx(area, na.rm = FALSE))
 
 
 county_proj_1 <- rbind(df_coverChange,
                        df_noChange) %>%
-  arrange(county_name,land_cover_type,year) %>%
-  filter(year != 2021) %>%
-  left_join(land_cover_c, by = join_by(land_cover_type)) %>%
+  arrange(county_name,source,inventory_year) %>%
+  filter(inventory_year != 2022) %>%
+  left_join(land_cover_c %>% rename(source=land_cover_type), by = join_by(source)) %>%
   mutate(
     sequestration_potential = area * seq_mtco2e_sqkm,
     stock_potential = area * stock_mtco2e_sqkm
   ) %>%
   dplyr::select(-c(seq_mtco2e_sqkm, stock_mtco2e_sqkm)) %>%
-  arrange(county_name, year, land_cover_type)
+  arrange(county_name, inventory_year, source)
 
 
 county_inv_1 <- county_seq %>% ungroup() %>%
-  dplyr::select(c(county_name, state_name, area, year, land_cover_type, sequestration_potential, stock_potential))
+  dplyr::select(c(county_name, state_name, area, inventory_year, source,
+                  sequestration_potential, stock_potential))
 
 
 
@@ -199,13 +206,13 @@ p1 <- rbind(
   county_inv_1,
   county_proj_1
 ) %>%
-  arrange(year, county_name, land_cover_type) %>%
+  arrange(inventory_year, county_name, source) %>%
   ggplot() +
   # geom_area(aes(x = year, y = sequestration_potential, fill = land_cover_type)) +
-  geom_area(aes(x = year, y = sequestration_potential, fill = land_cover_type), alpha=0.5) +
-  geom_area(data=. %>% filter(year <= 2021),
-            mapping=aes(x = year, y = sequestration_potential, fill = land_cover_type)) +
-  geom_vline(xintercept = 2021, linetype="dashed")+
+  geom_area(aes(x = inventory_year, y = sequestration_potential, fill = source), alpha=0.5) +
+  geom_area(data=. %>% filter(inventory_year <= 2022),
+            mapping=aes(x = inventory_year, y = sequestration_potential, fill = source)) +
+  geom_vline(xintercept = 2022, linetype="dashed")+
   scale_fill_manual(
     values = c(
       "Tree" = "#4CAF50",
