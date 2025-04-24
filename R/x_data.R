@@ -209,12 +209,14 @@
 
 #' @title A list of solid waste activity data tables
 #'
-#' @format A named list of two tibbles
+#' @format A named list of three tibbles
 #' \describe{
 #'   \item{ctu}{tibble with 4,596 rows and 6 columns, `inventory_year`,
 #'       `ctu_id`, `ctu_name`, `source`, `value_activity`, `units_activity`}
 #'   \item{county}{tibble with 168 rows and 5 columns,
 #'       `inventory_year`, `geoid`, `source`, `value_activity`, `units_activity`}
+#'   \item{characterization}{tibble with 50 rows and 5 columns, `Material'`,
+#'   `Mean`, `Lower`, `Upper`, `Category`}
 #' }
 #' @family datasets
 #'
@@ -224,5 +226,6 @@
 #' library(ghg.ccap)
 #' waste_data$ctu
 #' waste_data$county
+#' waste_data$characterization
 # waste_data -----
 "waste_data"
