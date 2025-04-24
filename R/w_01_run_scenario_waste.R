@@ -90,7 +90,7 @@ run_scenario_waste <- function(waste_tb = waste_data$ctu,
   landfill_emis <- calculate_landfill_emissions(
     waste_tb = waste_tb,
     waste_char = waste_char,
-    .methane_recovery_pct = .methane_recovery_pct,
+    .methane_recovery_pct = .methane_recovery_pct
   )
 
   incin_emis <- calculate_incin_emissions(
@@ -103,7 +103,60 @@ run_scenario_waste <- function(waste_tb = waste_data$ctu,
     .methane_recovery_pct = .methane_recovery_pct
   )
 
-  # need to: translate from individual gases to co2e
-  # concatenate
+  # define gwp - MOVE THIS TO A BETTER PLACE later
+  gwp <-
+    list(
+      "co2" = 1,
+      "ch4" = 27.9,
+      "n2o" = 273,
+      "cf4" = 7380,
+      "HFC-152a" = 164
+    )
 
+  # bind emissions together and translate to mt co2e
+  waste_emissions <- landfill_emis %>%
+    dplyr::bind_rows(incin_emis, organic_emis) %>%
+    tidyr::pivot_wider(
+      names_from = units_emissions,
+      values_from = value_emissions
+    ) %>%
+    replace(is.na(.), 0) %>%
+    dplyr::mutate(
+      ch4_co2e = `Metric tons CH4` * gwp$ch4,
+      n2o_co2e = `Metric tons N2O` * gwp$n2o,
+      sector = "Waste",
+      category = "Solid waste",
+      data_source = "MPCA SCORE Report",
+      factor_source = "IPCC solid waste methodology"
+    ) %>%
+    dplyr::mutate(
+      value_emissions = ch4_co2e + n2o_co2e + `Metric tons CO2`,
+      units_emissions = "Metric tons CO2e"
+    ) %>%
+    dplyr::ungroup() %>%
+    # select(
+    #   geoid,
+    #   inventory_year,
+    #   sector,
+    #   category,
+    #   source,
+    #   data_source,
+    #   factor_source,
+    #   value_activity,
+    #   units_activity,
+    #   value_emissions,
+    #   units_emissions
+    # )
+    # the above doesn't work bc county uses geoid and ctu uses ctu_id
+    dplyr::select(
+      -c(
+        `Metric tons CH4`,
+        `Metric tons CO2`,
+        `Metric tons N2O`,
+        ch4_co2e,
+        n2o_co2e
+      )
+    )
+
+  return(waste_emissions)
 }
