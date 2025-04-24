@@ -91,17 +91,19 @@ run_scenario_waste <- function(waste_tb = waste_data$ctu,
     waste_tb = waste_tb,
     waste_char = waste_char,
     .methane_recovery_pct = .methane_recovery_pct,
-  ) #note: NOT FUNCTIONAL YET! ADD waste_char!
+  )
 
   incin_emis <- calculate_incin_emissions(
     waste_tb = waste_tb
   )
-  #check: should we be getting the same tons CO2 and N2O?
 
   organic_emis <- calculate_organic_emissions(
     waste_tb = waste_tb,
     .anaerobic_digestion_pct = .anaerobic_digestion_pct,
     .methane_recovery_pct = .methane_recovery_pct
   )
+
+  # need to: translate from individual gases to co2e
+  # concatenate
 
 }
