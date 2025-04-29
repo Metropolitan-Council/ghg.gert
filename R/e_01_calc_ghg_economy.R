@@ -49,8 +49,8 @@ calc_ghg_mwh <- function(res_mwh,
                          comm_mwh_bau = building_energy_data$electricity_business_ctu,
                          vmt_mwh,
                          vmt_mwh_bau,
-                         grid_emissions = grid_emissions,
-                         grid_scenario = "Miso",
+                         grid_emissions,
+                         grid_scenario = "MISO",
                          .selected_ctu,
                          .grid_decarbonization_estimator,
                          .enviro_factors = ghg.ccap::enviro_factors) {
@@ -64,6 +64,27 @@ calc_ghg_mwh <- function(res_mwh,
 
   vmt_mwh <- filter_ctu(vmt_mwh, .selected_ctu = .selected_ctu)
   vmt_mwh_bau <- filter_ctu(vmt_mwh_bau, .selected_ctu = .selected_ctu)
+
+  grid_emissions <- grid_emissions %>%
+    filter(emissions_year <=2024 | grepl(grid_scenario, factor_source))
+
+  bau_tb <- bind_rows(res_mwh_bau,
+                      #vmt_mwh_bau,
+                      comm_mwh_bau
+                      ) %>%
+    left_join(grid_emissions,
+              by = c("inventory_year" = "emissions_year")) %>%
+    mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
+    select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
+
+  scen_tb <- bind_rows(res_mwh_bau,
+                      #vmt_mwh_bau,
+                      comm_mwh_bau
+  ) %>%
+    left_join(grid_emissions,
+              by = c("inventory_year" = "emissions_year")) %>%
+    mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
+    select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
 
   grid_emis <- function(tb,
                    grid_decarb,
