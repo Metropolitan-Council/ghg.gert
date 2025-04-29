@@ -74,12 +74,16 @@ building_energy_data$industrial_jobs <-
 building_energy_data$electricity_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/refine-ctu-electricity-prediction/_energy/data-raw/forecast_ctu_residential_mwh.rds"
-  )
+  ) %>%
+  mutate(sector = "Residential") %>%
+  rename(mwh = residential_mwh)
 
 building_energy_data$electricity_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/refine-ctu-electricity-prediction/_energy/data-raw/forecast_ctu_business_mwh.rds"
-  )
+  ) %>%
+  mutate(sector = "Busienss") %>%
+  rename(mwh = business_mwh)
 
 building_energy_data$natural_gas_residential_ctu <-
   import_from_emissions("metro_energy.vw_natural_gas_residential_ctu")
