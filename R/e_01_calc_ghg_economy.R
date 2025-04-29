@@ -49,7 +49,7 @@ calc_ghg_mwh <- function(res_mwh,
                          comm_mwh_bau = building_energy_data$electricity_business_ctu,
                          vmt_mwh,
                          vmt_mwh_bau,
-                         grid_emissions,
+                         grid_emissions = grid_emissions,
                          grid_scenario = "MISO",
                          .selected_ctu,
                          .grid_decarbonization_estimator,
@@ -66,118 +66,31 @@ calc_ghg_mwh <- function(res_mwh,
   vmt_mwh_bau <- filter_ctu(vmt_mwh_bau, .selected_ctu = .selected_ctu)
 
   grid_emissions <- grid_emissions %>%
-    filter(emissions_year <=2024 | grepl(grid_scenario, factor_source))
+    filter(inventory_year <=2024 | grepl(grid_scenario, factor_source))
 
-  bau_tb <- bind_rows(res_mwh_bau,
+  emis_bau <- bind_rows(res_mwh_bau,
                       #vmt_mwh_bau,
                       comm_mwh_bau
                       ) %>%
     left_join(grid_emissions,
-              by = c("inventory_year" = "emissions_year")) %>%
+              by = "inventory_year") %>%
     mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
     select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
 
-  scen_tb <- bind_rows(res_mwh_bau,
+  emis_strategy <- bind_rows(res_mwh_bau,
                       #vmt_mwh_bau,
                       comm_mwh_bau
   ) %>%
     left_join(grid_emissions,
-              by = c("inventory_year" = "emissions_year")) %>%
-    mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
+              bau_tb %>%
+              mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
     select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
-
-  grid_emis <- function(tb,
-                   grid_decarb,
-                   .enviro_factors = ghg.ccap::enviro_factors) {
-    emis_tb <- tb %>%
-      dplyr::filter(
-        var %in% c(
-          "population",
-          "single_family_units",
-          "multifamily_units",
-          "population",
-          "residential_kwh_per_floor_area",
-          "residential_therms_per_floor_area",
-          "single_family_average_floor_area_sqft_ctu",
-          "multifamily_average_floor_area_sqft_county"
-        )
-      ) %>%
-      dplyr::group_by(ctu_name, year, var) %>%
-      tidyr::pivot_wider(names_from = "var", values_from = value, values_fn = sum) %>%
-      dplyr::mutate(
-        kg_per_mwh = dplyr::case_when(
-          year < 2040 ~ .enviro_factors$KG_CO2E_PER_MHW_BASELINE,
-          TRUE ~ .enviro_factors$KG_CO2E_PER_MHW_FORECAST
-        ),
-        kg_per_therm = dplyr::case_when(
-          year < 2040 ~ .enviro_factors$KG_CO2E_PER_THERM_BASELINE,
-          TRUE ~ .enviro_factors$KG_CO2E_PER_THERM_FORECAST
-        )
-      ) %>%
-      dplyr::mutate(residential_floor_area_per_capita = (
-        (
-          single_family_average_floor_area_sqft_ctu * single_family_units
-        ) +
-          (
-            multifamily_average_floor_area_sqft_county * multifamily_units
-          )
-      )
-      / population) %>%
-      dplyr::mutate(
-        residential_mwh = population * residential_floor_area_per_capita * (residential_kwh_per_floor_area / 1000),
-        residential_electricity_emissions_kg_co = residential_mwh * (kg_per_mwh * (1 -
-                                                                                     dplyr::if_else(year < 2040, .enviro_factors$GRID_DECARBONIZATION_BASELINE,
-                                                                                                    grid_decarb
-                                                                                     )
-        )
-        )
-      ) %>%
-      dplyr::mutate(
-        residential_therms = population * residential_floor_area_per_capita * residential_therms_per_floor_area,
-        residential_natural_gas_emissions_kg_co =
-          residential_therms * kg_per_therm
-      ) %>%
-      dplyr::mutate(total_residential_emissions = sum(
-        c(
-          residential_natural_gas_emissions_kg_co,
-          residential_electricity_emissions_kg_co
-        ),
-        na.rm = T
-      )) %>%
-      unique() %>%
-      dplyr::select(
-        ctu_name,
-        year,
-        population,
-        residential_mwh,
-        residential_electricity_emissions_kg_co,
-        residential_therms,
-        residential_natural_gas_emissions_kg_co,
-        total_residential_emissions
-      )
-
-    return(emis_tb)
-  }
-
-  emis_bau <-
-    emis(
-      tb = res_tb_bau,
-      grid_decarb = 0.6,
-      .enviro_factors = .enviro_factors
-    )
-
-  emis_strategy <-
-    emis(
-      tb = res_tb,
-      grid_decarb = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors
-    )
 
   emis_final <-
     dplyr::right_join(
       emis_bau,
       emis_strategy,
-      by = c("ctu_name", "year"),
+      by = c("ctu_name", "inventory_year"),
       suffix = c(".bau", ".scen")
     ) %>%
     tidyr::pivot_longer(
