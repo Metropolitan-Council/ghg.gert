@@ -82,7 +82,7 @@ building_energy_data$electricity_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/refine-ctu-electricity-prediction/_energy/data-raw/forecast_ctu_business_mwh.rds"
   ) %>%
-  mutate(sector = "Busienss") %>%
+  mutate(sector = "Business") %>%
   rename(mwh = business_mwh)
 
 building_energy_data$natural_gas_residential_ctu <-

@@ -82,7 +82,7 @@ calc_ghg_mwh <- function(res_mwh,
                       comm_mwh_bau
   ) %>%
     left_join(grid_emissions,
-              bau_tb %>%
+              bau_tb) %>%
               mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
     select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
 
