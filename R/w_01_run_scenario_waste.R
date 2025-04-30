@@ -116,6 +116,9 @@ run_scenario_waste <- function(waste_tb = waste_data$ctu,
   # bind emissions together and translate to mt co2e
   waste_emissions <- landfill_emis %>%
     dplyr::bind_rows(incin_emis, organic_emis) %>%
+    #give each row a unique id to avoid pivoting error
+    dplyr::mutate(id = dplyr::row_number()) %>%
+    dplyr::group_by(id) %>%
     tidyr::pivot_wider(
       names_from = units_emissions,
       values_from = value_emissions
@@ -154,7 +157,8 @@ run_scenario_waste <- function(waste_tb = waste_data$ctu,
         `Metric tons CO2`,
         `Metric tons N2O`,
         ch4_co2e,
-        n2o_co2e
+        n2o_co2e,
+        id
       )
     )
 
