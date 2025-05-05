@@ -77,11 +77,11 @@ demographic_data <- mutate(us_formatted,
            sp_categories) %>%
   dplyr::summarize(value = sum(value)) %>%
   left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
-              distinct(ctu_name,ctu_class,ctu_id)) %>%
-  mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
+              dplyr::distinct(ctu_name,ctu_class,ctu_id)) %>%
+  mutate(ctu_name = dplyr::if_else(ctu_class == "TOWNSHIP",
                             paste(ctu_name, "Twp."),
                             ctu_name)) %>%
-  ungroup()
+  ungroup() %>%
   select(inventory_year, ctu_id, sp_categories, value, ctu_name)
 
 # urbansim_meta <- tibble::tribble(
@@ -92,4 +92,19 @@ demographic_data <- mutate(us_formatted,
 #   "sp_categories", class(urbansim$variable), "Short variable name",
 #   "value", class(urbansim$value), "County-city value of variable")
 
+### calculate differences from 2020 (base value)
+
+# calculate urbansim deltas from base year to each other year
+demographic_data <- demographic_data %>%
+  left_join(
+    demographic_data %>%
+      dplyr::filter(inventory_year == 2020) %>%
+      dplyr::rename(base_value = value) %>%
+      select(-inventory_year)
+  ) %>%
+  mutate(value_change_from_2020 = value - base_value) %>%
+  select(-base_value)
+
+
 usethis::use_data(demographic_data, overwrite = TRUE)
+
