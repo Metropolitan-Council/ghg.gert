@@ -22,8 +22,10 @@ ccap_county <- tigris::counties(state = "MN") %>%
       unique(),
     by = c("statefp" = "state_code")
   ) %>%
+  mutate(county_id_fips = substr(geoid, 3, 5)) %>%
   select(
     county_id = geoid,
+    county_id_fips,
     county_name = name,
     county_name_full = namelsad,
     state_name, statefp,
@@ -71,7 +73,7 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
     STATEFP,
     STATE,
     STATE_ABB,
-    ctu_id = GNIS_FEATURE_ID,
+    ctu_id_gnis = GNIS_FEATURE_ID,
     geometry = SHAPE
   ) %>%
   arrange(CTU_NAME) %>%
@@ -83,7 +85,8 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
     "Unorganized territory",
     com_des
   )) %>%
-  select(-com_des)
+  select(-com_des) %>%
+  mutate(ctu_id_gnis = stringr::str_pad(ctu_id_gnis, width = 8, pad = "0", side = "left"))
 
 # compile RDS
 saveRDS(ccap_county, "data-raw/meta/ccap_county.RDS")
