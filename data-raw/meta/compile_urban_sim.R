@@ -1,6 +1,7 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
 
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
+ccap_county <- readRDS(file.path(here::here(), "data-raw/meta/ccap_county.RDS"))
 
 ##### read in and reformat UrbanSim output
 # read in urbansim metadata
@@ -27,11 +28,13 @@ us_format <- function(year_folder) {
     ) %>%
     left_join(us_meta, by = "variable") %>%
     mutate(
-      ctu_id = as.numeric(substr(
-        as.character(coctu_id),
-        nchar(as.character(coctu_id)) - 6,
-        nchar(as.character(coctu_id)))
-        ),
+      coctu_id_full = stringr::str_pad(coctu_id, width = 11, pad = "0", side = "left"),
+      ctu_id_gnis = substr(
+        coctu_id_full,
+        4,
+        11),
+      county_id_fips = substr(stringr::str_pad(coctu_id, width = 11, pad = "0", side = "left"),
+                                1,3),
       inventory_year = as.numeric(year_folder)
       )
 }
@@ -46,7 +49,7 @@ us_formatted <- lapply(us_list, us_format) %>% bind_rows()%>%
 saveRDS(us_formatted, "data-raw/meta/urbansim_allyrs.RDS")
 
 # reduce to categories of interest
-demographic_data <- mutate(us_formatted,
+us_formatted <- mutate(us_formatted,
                  sp_categories = case_when(
   variable == "total_households" ~ "total_households",
   variable == "total_pop" ~ "population",
@@ -70,19 +73,35 @@ demographic_data <- mutate(us_formatted,
   variable %in% c("multi_fam_own",
                   "multi_fam_rent") ~ "multifamily_units")
 ) %>%
-  filter(!is.na(sp_categories)) %>%
+  filter(!is.na(sp_categories))
+
+demographic_data <- bind_rows(
+  us_formatted%>%
   group_by(inventory_year,
            # coctu_id,
-           ctu_id,
+           ctu_id_gnis,
            sp_categories) %>%
   dplyr::summarize(value = sum(value)) %>%
   left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
-              dplyr::distinct(ctu_name,ctu_class,ctu_id)) %>%
-  mutate(ctu_name = dplyr::if_else(ctu_class == "TOWNSHIP",
+              dplyr::distinct(ctu_name,ctu_class,ctu_id_gnis)) %>%
+  mutate(geog_name = dplyr::if_else(ctu_class == "TOWNSHIP",
                             paste(ctu_name, "Twp."),
-                            ctu_name)) %>%
-  ungroup() %>%
-  select(inventory_year, ctu_id, sp_categories, value, ctu_name)
+                            ctu_name),
+         geog_level = "CTU") %>%
+  ungroup(),
+  us_formatted%>%
+    group_by(inventory_year,
+             # coctu_id,
+             county_id_fips,
+             sp_categories) %>%
+    dplyr::summarize(value = sum(value)) %>%
+    left_join(ccap_county %>% sf::st_drop_geometry() %>%
+                dplyr::distinct(county_name,county_id_fips)) %>%
+    mutate(ctu_class = "County") %>%
+    rename(geog_name = county_name) %>%
+    ungroup()
+)  %>%
+  select(inventory_year, ctu_id_gnis, county_id_fips, sp_categories, value, geog_name, ctu_class)
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
