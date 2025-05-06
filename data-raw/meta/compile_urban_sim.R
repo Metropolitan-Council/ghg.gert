@@ -1,5 +1,7 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
 
+library(imputeTS)
+
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 ccap_county <- readRDS(file.path(here::here(), "data-raw/meta/ccap_county.RDS"))
 
@@ -75,7 +77,7 @@ us_formatted <- mutate(us_formatted,
 ) %>%
   filter(!is.na(sp_categories))
 
-demographic_data <- bind_rows(
+us_ctu <- bind_rows(
   us_formatted%>%
   group_by(inventory_year,
            # coctu_id,
@@ -105,7 +107,13 @@ demographic_data <- bind_rows(
     rename(geog_name = county_name) %>%
     ungroup()
 )  %>%
-  select(inventory_year, geog_name, geog_id, geog_id_type, sp_categories, value, ctu_class)
+  select(inventory_year, geog_name, geog_id, geog_id_type, sp_categories, value, ctu_class) %>%
+  ## fill in interstitial years (and backdate to 2005)
+  group_by(geog_name, geog_id, geog_id_type, sp_categories, ctu_class) %>%
+  complete(inventory_year = full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
+  arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
+  mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
+  ungroup()
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
@@ -115,17 +123,17 @@ demographic_data <- bind_rows(
 #   "sp_categories", class(urbansim$variable), "Short variable name",
 #   "value", class(urbansim$value), "County-city value of variable")
 
-### calculate differences from 2020 (base value)
+### calculate differences from 2021 (current base value)
 
 # calculate urbansim deltas from base year to each other year
-demographic_data <- demographic_data %>%
+demographic_data <- us_ctu %>%
   left_join(
-    demographic_data %>%
-      dplyr::filter(inventory_year == 2020) %>%
+    us_ctu %>%
+      dplyr::filter(inventory_year == 2021) %>%
       dplyr::rename(base_value = value) %>%
       select(-inventory_year)
   ) %>%
-  mutate(value_change_from_2020 = value - base_value) %>%
+  mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
 
 
