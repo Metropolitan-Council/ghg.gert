@@ -1,101 +1,75 @@
 #### import random forest models from inventory repo to project mwh demand forward
-
+load('data/demographic_data.rda')
 # load in predictor data
-urbansim <- readr::read_rds("data-raw/meta/urbansim_allyrs.RDS")
+urbansim_res <- demographic_data %>%
+  filter(sp_categories %in% c( "multifamily_units",
+                               "population",
+                               "single_family_attached",
+                               "single_family_large_lot",
+                               "single_family_small_lot",
+                               "total_households")) %>%
+  pivot_wider(
+    id_cols = c(geog_name, geog_id,ctu_class,  geog_id_type, inventory_year),
+    names_from = sp_categories,
+    values_from = value
+  )
+
+
+urbansim_busi <- demographic_data %>%
+  filter(sp_categories %in% c("commercial_jobs",
+                              "industrial_jobs",
+                              "jobs")) %>%
+  pivot_wider(
+    id_cols = c(geog_name, geog_id,ctu_class,  geog_id_type, inventory_year),
+    names_from = sp_categories,
+    values_from = value
+  )
 
 ccap_ctu <- readr::read_rds("data-raw/meta/ccap_ctu.RDS")
 ccap_county <-readr::read_rds("data-raw/meta/ccap_county.RDS")
 
-# mn_parcel <-  readr::read_rds(
-#   "https://github.com/Metropolitan-Council/ghg-cprg/raw/182-develop-city-utility-demand-model/_meta/data/ctu_parcel_data_2021.RDS"
-# )
+coctu_res_mwh <- readr::read_rds(
+  "https://github.com/Metropolitan-Council/ghg-cprg/raw/refine-ctu-electricity-prediction/_energy/data-raw/predicted_coctu_residential_mwh.rds")
 
-# current weather
-noaa <- readr::read_rds(
-  "https://github.com/Metropolitan-Council/ghg-cprg/raw/182-develop-city-utility-demand-model/_meta/data/noaa_weather_monthly.rds"
-) %>%
-  group_by(inventory_year) %>%
-  summarize(
-    heating_degree_days = sum(heating_degree_days),
-    cooling_degree_days = sum(cooling_degree_days),
-    temperature = mean(dry_bulb_temp)
-  )
+coctu_busi_mwh <- readr::read_rds(
+  "https://github.com/Metropolitan-Council/ghg-cprg/raw/refine-ctu-electricity-prediction/_energy/data-raw/predicted_coctu_residential_mwh.rds")
 
-# use average cooling_degree_days from recent years until future model emerges
-cdd <- noaa %>%
-  filter(inventory_year >= 2018) %>%
-  pull(cooling_degree_days) %>%
-  mean
+### residential predictions
 
-#future weather
-# mnclim <- read_csv("data-raw/climate/MnClimat.csv") %>%
-#   janitor::clean_names()
-# mnclim_scaling <- mnclim %>%
-#   filter(time_frame == "yearly")
-
-
-busi_rf <- readr::read_rds(
-  "https://github.com/Metropolitan-Council/ghg-cprg/raw/182-develop-city-utility-demand-model/_energy/data/ctu_business_elec_random_forest.RDS"
+res_mwh <- bind_rows(
+  coctu_res_mwh %>%
+    mutate(geog_id = substr(coctu_id_gnis, 4, 11)) %>%
+    group_by(geog_id, ctu_name, ctu_class, inventory_year, data_source) %>%
+    summarize(mwh = sum(residential_mwh)) %>%
+    mutate(geog_level = "ctu") %>%
+    rename(geog_name = ctu_name),
+  coctu_res_mwh %>%
+    mutate(geog_id = substr(coctu_id_gnis, 1, 3)) %>%
+    group_by(geog_id, county_name, inventory_year, data_source) %>%
+    summarize(mwh = sum(residential_mwh)) %>%
+    rename(geog_name = county_name) %>%
+    mutate(geog_level = "county")
 )
 
-res_rf <- readr::read_rds(
-  "https://github.com/Metropolitan-Council/ghg-cprg/raw/182-develop-city-utility-demand-model/_energy/data/ctu_residential_elec_random_forest.RDS"
+## electricity_res_coefficients
+
+electricity_res <- left_join(res_mwh,
+                             urbansim_res %>%
+                               select(-geog_name),
+                             by = c("geog_id", "ctu_class", "inventory_year")
 )
 
-
-## create residential dataset for prediction:
-
-residential <- c(
-  "total_pop",
-  "total_households",
-  "total_residential_units",
-  "manufactured_homes",
-  "single_fam_det_sl_own",
-  "single_fam_det_ll_own",
-  "single_fam_det_rent",
-  "single_fam_attached_own",
-  "single_fam_attached_rent",
-  "multi_fam_own",
-  "multi_fam_rent"
+unit_model_res <- lm(
+  mwh ~ multifamily_units +
+    single_family_large_lot +
+    single_family_small_lot +
+    single_family_attached,
+  data = electricity_res
 )
+summary(unit_model_res)
 
-
-### create 2010-2025 urbansim residential dataset
-urbansim_res <- urbansim %>%
-  filter(variable %in% residential) %>%
-  pivot_wider(
-    id_cols = c(coctu_id, inventory_year),
-    names_from = variable,
-    values_from = value
-  ) %>%
-  filter(!is.na(coctu_id)) %>%
-  mutate(
-    ctu_id = str_sub(coctu_id, -7, -1),
-    county_id = as.numeric(str_remove(coctu_id, paste0("0", ctu_id))),
-    ctu_id = as.numeric(ctu_id)
-  ) %>%
-  left_join(
-    ccap_ctu %>% st_drop_geometry() %>%
-      distinct(ctu_name, ctu_id, thrive_designation),
-    by = c("ctu_id")
-  ) %>%
-  left_join(
-    ccap_county %>% st_drop_geometry() %>%
-      mutate(county_id = as.numeric(str_sub(county_id, -3, -1))) %>%
-      select(county_name, county_id),
-    by = c("county_id")
-  ) %>%
-  mutate(cooling_degree_days = cdd)
-
-
-coctu_res_predict <- urbansim_res %>%
-  mutate(
-    mwh_predicted = predict(res_rf, .))
-
-county_mwh_prediction <- coctu_res_predict %>%
-  group_by(county_name, inventory_year) %>%
-  summarize(mwh_res_predicted = sum(mwh_predicted))
-
-ctu_mwh_prediction <- coctu_res_predict %>%
-  group_by(ctu_name, inventory_year) %>%
-  summarize(mwh_res_predicted = sum(mwh_predicted))
+# extract coefficients
+res_unit_coefs <- data.frame(term = names(unit_model_res$coefficients),
+                         estimate = unit_model_res$coefficients) %>%
+  select(term, estimate) %>%
+  filter(term != "(Intercept)")
