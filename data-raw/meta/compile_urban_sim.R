@@ -87,7 +87,9 @@ demographic_data <- bind_rows(
   mutate(geog_name = dplyr::if_else(ctu_class == "TOWNSHIP",
                             paste(ctu_name, "Twp."),
                             ctu_name),
-         geog_level = "CTU") %>%
+         geog_level = "ctu",
+         geog_id = ctu_id_gnis,
+         geog_id_type = "ctu_gnis") %>%
   ungroup(),
   us_formatted%>%
     group_by(inventory_year,
@@ -97,11 +99,13 @@ demographic_data <- bind_rows(
     dplyr::summarize(value = sum(value)) %>%
     left_join(ccap_county %>% sf::st_drop_geometry() %>%
                 dplyr::distinct(county_name,county_id_fips)) %>%
-    mutate(ctu_class = "County") %>%
+    mutate(ctu_class = "county",
+           geog_id = county_id_fips,
+           geog_id_type = "county_fips") %>%
     rename(geog_name = county_name) %>%
     ungroup()
 )  %>%
-  select(inventory_year, ctu_id_gnis, county_id_fips, sp_categories, value, geog_name, ctu_class)
+  select(inventory_year, geog_name, geog_id, geog_id_type, sp_categories, value, ctu_class)
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
