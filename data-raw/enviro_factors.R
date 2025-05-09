@@ -16,11 +16,15 @@ enviro_factors <- list(
   # see transportation_data_processing/eia_datasets.R
   SI_FUEL_COST_GAL = 3.163,
   CI_FUEL_COST_GAL = 3.696,
+  ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
-  AUTO_COST_MI = 61.88 / 100, # 2019 AAA https://exchange.aaa.com/automotive/driving-costs/#.YG7-L-hKiUk (assume mid-distance of 15,000 miles)
-  TIME_COST_MI = 12.814 / 100, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf and adjusted to 2015 using average CPI
-  F_TIME_COST_MI = 119.0 / 100, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf
-  INS_COST_MI = (100 * 808) / 8688, # https://www.forbes.com/advisor/car-insurance/state/minnesota/ and https://www.dot.state.mn.us/traffic/data/reports/vmt/92-17_per_capita_vmt.pdf
+
+  AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile
+  # time cost per mile
+  TIME_COST_MI = 0.128 , # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf
+  F_TIME_COST_MI = 1.190, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf, Table 3
+  # Average annual minimum coverage insurance ($621 via NerdWallet, 2025) divided by annual VMT per person (daily VMT per person (metro, MnDOT 2023) multiplied by annualization factor of 340)
+  INS_COST_MI = (621) / (22.9 * 340), # https://www.nerdwallet.com/insurance/auto/cheap-car-insurance-minnesota and https://metropolitan-council.github.io/tspe-quarto/05-02_reduce_emissions.html#sec-regional-vmt
   CONG_VMT = 0.1087, # Congested VMT as a proportion of total VMT
   BUS_AV = -1.05, # Factors for % change in bus/rail for a 1% change in AV penetration
   RAIL_AV = -1.13,
