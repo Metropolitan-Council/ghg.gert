@@ -23,7 +23,12 @@ get_residential_mwh_baseline <-
 
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
-    ctu_characteristics <- get_demographic_baseline(.selected_ctu = .selected_ctu)$ctu
+    ctu_characteristics <- bind_rows(
+      tb$ctu_mfh,
+      tb$ctu_sfh_attached,
+      tb$ctu_sfh_large_lot,
+      tb$ctu_sfh_small_lot
+    )
 
     # RESIDENTIAL ENERGY BASELINE -----
     ## ----- get electricity by ctu from 'Emissions' ------

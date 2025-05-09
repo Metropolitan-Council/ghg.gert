@@ -104,14 +104,14 @@ us_ctu <- bind_rows(
     mutate(ctu_class = "county",
            geog_id = county_id_fips,
            geog_id_type = "county_fips") %>%
-    rename(geog_name = county_name) %>%
+    dplyr::rename(geog_name = county_name) %>%
     ungroup()
 )  %>%
   select(inventory_year, geog_name, geog_id, geog_id_type, sp_categories, value, ctu_class) %>%
   ## fill in interstitial years (and backdate to 2005)
   group_by(geog_name, geog_id, geog_id_type, sp_categories, ctu_class) %>%
-  complete(inventory_year = full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
-  arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
+  tidyr::complete(inventory_year = tidyr::full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
+  dplyr::arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
   mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
   ungroup()
 

@@ -31,8 +31,8 @@ filter_building_energy_data <-
       return(data_list)
     }
     filtered_list <- lapply(data_list, function(df) {
-      if ("ctu_name" %in% colnames(df)) {
-        df <- df[df$ctu_name == .selected_ctu, ]
+      if ("geog_name" %in% colnames(df)) {
+        df <- df[df$geog_name == .selected_ctu, ]
       }
       df
     })
