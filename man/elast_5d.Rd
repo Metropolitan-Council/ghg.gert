@@ -6,16 +6,16 @@
 \title{5D elasticities}
 \format{
 A tibble with 27 columns and 9 observations.
-\describe{
-\item{year}{Forecast year}
-\item{type}{Transportation mode. One of \code{"DRIVE"}, \code{"WALK"}, or \verb{"TRANSIT}}
-\item{population_density}{Elasticity for population density effect on VMT}
-\item{employment_density}{Elasticity employment population density effect on VMT}
-\item{diversity}{Elasticity for land use diversity effect on VMT}
-\item{design}{Elasticity for intersection design effect on VMT}
-\item{job_access}{Elasticity for job accessibility via transit effect on VMT}
-\item{distance}{Elasticity for minimum distance to transit stops effect on VMT}
-\item{combined_density}{Combined effect of all land use elasticities}
+\itemize{
+\item \strong{year}: Forecast year.
+\item \strong{type}: Transportation mode. One of \code{"DRIVE"}, \code{"WALK"}, or \code{"TRANSIT"}.
+\item \strong{population_density}: Elasticity for population density effect on VMT.
+\item \strong{employment_density}: Elasticity for employment population density effect on VMT.
+\item \strong{diversity}: Elasticity for land use diversity effect on VMT.
+\item \strong{design}: Elasticity for intersection design effect on VMT.
+\item \strong{job_access}: Elasticity for job accessibility via transit effect on VMT.
+\item \strong{distance}: Elasticity for minimum distance to transit stops effect on VMT.
+\item \strong{combined_density}: Combined effect of all land use elasticities.
 }
 }
 \usage{

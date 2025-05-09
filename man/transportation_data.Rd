@@ -6,11 +6,11 @@
 \title{A list of transportation and freight data input tables}
 \format{
 A named list of two tibbles
-\describe{
-\item{passenger}{tibble with 105,652 rows and 7 columns, \code{mode},
-\code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}}
-\item{freight}{tibble with 43,362 rows and 7 columns,
-\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value},\code{aeo_mode}, \code{type}}
+\itemize{
+\item \strong{passenger}: A tibble with 105,652 rows and 7 columns:
+\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
+\item \strong{freight}: A tibble with 43,362 rows and 7 columns:
+\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
 }
 }
 \usage{

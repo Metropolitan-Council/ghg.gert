@@ -60,18 +60,16 @@
 #'
 #' @description Values are specific to forecast year
 #' @format A tibble with 9 columns and 10 observations.
-#' \describe{
-#'   \item{year}{Forecast year}
-#'   \item{vmt_elast}{Elasticity for VMT pricing effect on VMT. INFRAS (2000) and Luk (1999) for range and Hymel and Small (2015) for mean}
-#'   \item{gas_elast}{Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean}
-#'   \item{cong_elast}{Elasticity for congestion pricing effect on VMT. TRACE (1999) and Litman (2019)}
-#'   \item{park_elast}{Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019)}
-#'   \item{freight_vmt_elast}{Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999) quoted in (Litman 2011)}
-#'   \item{vehicle_ownership_elast}{Elasticity for vehicle ownership in response to price changes}
-#'   \item{vmt_cross}{Cross elasticity for transit/walk/bike with regard to PLDV VMT price. Affects VMT. (Litman 2019). https://www.vtpi.org/elasticities.pdf}
-#'   \item{park_active}{Elasticity for parking price effect on active transportation VMT TRACE (1999)}
-#'   \item{park_transit}{Elasticity for parking price effect on transit VMT. TRACE (1999)}
-#' }
+#' - **year**: Forecast year.
+#' - **vmt_elast**: Elasticity for VMT pricing effect on VMT. INFRAS (2000) and Luk (1999) for range; Hymel and Small (2015) for mean.
+#' - **gas_elast**: Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2003) for range; Small (2007) for mean.
+#' - **cong_elast**: Elasticity for congestion pricing effect on VMT. TRACE (1999) and Litman (2019).
+#' - **park_elast**: Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019).
+#' - **freight_vmt_elast**: Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999), quoted in Litman (2011).
+#' - **vehicle_ownership_elast**: Elasticity for vehicle ownership in response to price changes.
+#' - **vmt_cross**: Cross elasticity for transit/walk/bike with respect to PLDV VMT price. Affects VMT. Litman (2019). [Source](https://www.vtpi.org/elasticities.pdf)
+#' - **park_active**: Elasticity for parking price effect on active transportation VMT. TRACE (1999).
+#' - **park_transit**: Elasticity for parking price effect on transit VMT. TRACE (1999).
 #'
 #' @family datasets
 #' @examples
@@ -85,17 +83,15 @@
 #'
 #' @description Values are specific to forecast year
 #' @format A tibble with 27 columns and 9 observations.
-#' \describe{
-#'   \item{year}{Forecast year}
-#'   \item{type}{Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT`}
-#'   \item{population_density}{Elasticity for population density effect on VMT}
-#'   \item{employment_density}{Elasticity employment population density effect on VMT}
-#'   \item{diversity}{Elasticity for land use diversity effect on VMT}
-#'   \item{design}{Elasticity for intersection design effect on VMT}
-#'   \item{job_access}{Elasticity for job accessibility via transit effect on VMT}
-#'   \item{distance}{Elasticity for minimum distance to transit stops effect on VMT}
-#'   \item{combined_density}{Combined effect of all land use elasticities}
-#' }
+#' - **year**: Forecast year.
+#' - **type**: Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT"`.
+#' - **population_density**: Elasticity for population density effect on VMT.
+#' - **employment_density**: Elasticity for employment population density effect on VMT.
+#' - **diversity**: Elasticity for land use diversity effect on VMT.
+#' - **design**: Elasticity for intersection design effect on VMT.
+#' - **job_access**: Elasticity for job accessibility via transit effect on VMT.
+#' - **distance**: Elasticity for minimum distance to transit stops effect on VMT.
+#' - **combined_density**: Combined effect of all land use elasticities.
 #'
 #' @family datasets
 #' @examples
@@ -107,12 +103,10 @@
 #' @title Annual energy outlook, cost, and greenhouse gas factors
 #' @description  Annual energy outlook, cost, and greenhouse gas factors
 #'     by scenario, mode, year, and source
-#' @format A named list of three tibbles
-#' \describe{
-#'   \item{aeo}{tibble with columns `aeo_scen`, `mode`, `metric`, `year`, `value`}
-#'   \item{cost}{tibble with columns `mode`, `var`, `is_av`, `year`, `value`}
-#'   \item{ghg}{tibble with columns `source`, `year`, `value`}
-#' }
+#' @format A list with the following elements:
+#' - **aeo**: A tibble with columns `aeo_scen`, `mode`, `metric`, `year`, `value`.
+#' - **cost**: A tibble with columns `mode`, `var`, `is_av`, `year`, `value`.
+#' - **ghg**: A tibble with columns `source`, `year`, `value`.
 #'
 #' @family datasets
 # factor_values-----
@@ -122,12 +116,11 @@
 #' @title A list of transportation and freight data input tables
 #'
 #' @format A named list of two tibbles
-#' \describe{
-#'   \item{passenger}{tibble with 105,652 rows and 7 columns, `mode`,
-#'       `var`, `ctu`, `year`, `value`, `aeo_mode`, `type`}
-#'   \item{freight}{tibble with 43,362 rows and 7 columns,
-#'       `mode`, `var`, `ctu`, `year`, `value`,`aeo_mode`, `type`}
-#' }
+#' - **passenger**: A tibble with 105,652 rows and 7 columns:
+#'   `mode`, `var`, `ctu`, `year`, `value`, `aeo_mode`, `type`.
+#' - **freight**: A tibble with 43,362 rows and 7 columns:
+#'   `mode`, `var`, `ctu`, `year`, `value`, `aeo_mode`, `type`.
+#'
 #' @family datasets
 #'
 #' @examples
@@ -143,17 +136,12 @@
 #'
 #' @format A list of tibbles with identifiers, abbreviations, and descriptions
 #'     for each emission source, variable, transportation mode, and AEO scenario.
-#' \describe{
-#'   \item{emission_sources}{tibble with columns `source_id`, `source_abbrev`,
-#'       and `source_description`}
-#'   \item{variables}{tibble with columns `var_id`, `var_name`,
-#'       `var_description`, and `var_description_2`}
-#'   \item{modes}{tibble with columns `mode_id`, `mode_abbrev`,
-#'       `mode_description_1`, and `mode_description_2`}
-#'   \item{aeo}{tibble with columns `aeo_scen`, `name`, and `description`}
-#'   \item{data_sources}{tibble with columns `mode`, `var`, `source`, `source_1`,
-#'       `source_2`, `source_3`, and `source_short`}
-#' }
+#' - **emission_sources**: A tibble with columns `source_id`, `source_abbrev`, and `source_description`.
+#' - **variables**: A tibble with columns `var_id`, `var_name`, `var_description`, and `var_description_2`.
+#' - **modes**: A tibble with columns `mode_id`, `mode_abbrev`, `mode_description_1`, and `mode_description_2`.
+#' - **aeo**: A tibble with columns `aeo_scen`, `name`, and `description`.
+#' - **data_sources**: A tibble with columns `mode`, `var`, `source`, `source_1`, `source_2`, `source_3`, and `source_short`.
+
 #'
 #' @family datasets
 #' @examples
@@ -168,15 +156,13 @@
 #' @title Database table names
 #'
 #' @format Nested, named list of table names available in the CD_Emissions database
-#' \describe{
-#'   \item{mod_1}{named list of 1 table name}
-#'   \item{mod_2}{named list of 3 table names}
-#'   \item{mod_3}{named list of 8 table names }
-#'   \item{metro_demos}{named list of 7 table names}
-#'   \item{state_demos}{named list of 2 table names}
-#'   \item{metro_energy}{named list of 9 table names}
-#'   \item{state_energy}{named list of 1 table name}
-#' }
+#' - **mod_1**: A named list of 1 table name.
+#' - **mod_2**: A named list of 3 table names.
+#' - **mod_3**: A named list of 8 table names.
+#' - **metro_demos**: A named list of 7 table names.
+#' - **state_demos**: A named list of 2 table names.
+#' - **metro_energy**: A named list of 9 table names.
+#' - **state_energy**: A named list of 1 table name.
 #'
 #' @family datasets
 #' @examples
@@ -189,15 +175,10 @@
 #' @title North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes
 #'
 #' @format Nested, named list
-#' \describe{
-#'   \item{commercial}{NAICS codes considered commercial}
-#'   \item{industrial}{NAICS codes considered industrial}
-#'   \item{led_commercial}{NAICS codes considered
-#'       commercial for the LED dataset}
-#'   \item{led_industrial}{NAICS codes considered industrial
-#'       for the LED dataset}
-
-#' }
+#' - **commercial** NAICS codes considered commercial
+#' - **industrial** NAICS codes considered industrial
+#' - **led_commercial** NAICS codes considered commercial for the LED dataset
+#' - **led_industrial** NAICS codes considered industrial for the LED dataset
 #'
 #' @family datasets
 #' @examples
