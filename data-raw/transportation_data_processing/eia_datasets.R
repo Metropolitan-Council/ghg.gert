@@ -5,15 +5,17 @@ library(eia)
 
 # Minnesota specific gas
 gas_prices <- eia_data("petroleum/pri/gnd",
-         freq = "annual",
-         data = "value",
-         facets = list(series = "EMM_EPM0_PTE_SMN_DPG"))
+  freq = "annual",
+  data = "value",
+  facets = list(series = "EMM_EPM0_PTE_SMN_DPG")
+)
 
 # Midwest specific diesel
 diesel_prices <- eia_data("petroleum/pri/gnd",
-                       freq = "annual",
-                       data = "value",
-                       facets = list(series = "EMD_EPD2D_PTE_R20_DPG"))
+  freq = "annual",
+  data = "value",
+  facets = list(series = "EMD_EPD2D_PTE_R20_DPG")
+)
 
 si_fuel_cost <- gas_prices %>%
   filter(period == max(period)) %>%

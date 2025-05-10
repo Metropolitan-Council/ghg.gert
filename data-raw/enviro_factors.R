@@ -21,7 +21,7 @@ enviro_factors <- list(
 
   AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile
   # time cost per mile
-  TIME_COST_MI = 0.128 , # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf
+  TIME_COST_MI = 0.128, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf
   F_TIME_COST_MI = 1.190, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf, Table 3
   # Average annual minimum coverage insurance ($621 via NerdWallet, 2025) divided by annual VMT per person (daily VMT per person (metro, MnDOT 2023) multiplied by annualization factor of 340)
   INS_COST_MI = (621) / (22.9 * 340), # https://www.nerdwallet.com/insurance/auto/cheap-car-insurance-minnesota and https://metropolitan-council.github.io/tspe-quarto/05-02_reduce_emissions.html#sec-regional-vmt
