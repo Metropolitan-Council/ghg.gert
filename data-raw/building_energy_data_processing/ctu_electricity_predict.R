@@ -125,3 +125,9 @@ busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),
                              estimate = unit_model_busi$coefficients) %>%
   select(term, estimate) %>%
   filter(term != "(Intercept)")
+
+mwh_coefficients <- bind_rows(res_unit_coefs,
+                              busi_unit_coefs) %>%
+  rename(var = term, mwh_per_unit = estimate)
+
+usethis::use_data(mwh_coefficients, overwrite = TRUE)
