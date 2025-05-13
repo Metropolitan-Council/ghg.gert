@@ -107,6 +107,7 @@ us_ctu <- bind_rows(
     dplyr::rename(geog_name = county_name) %>%
     ungroup()
 )  %>%
+  filter(!is.na(geog_name)) %>% #### 00649741 doesn't have a match - could be old Empire township CTU (now incorporated)
   select(inventory_year, geog_name, geog_id, geog_id_type, sp_categories, value, ctu_class) %>%
   ## fill in interstitial years (and backdate to 2005)
   group_by(geog_name, geog_id, geog_id_type, sp_categories, ctu_class) %>%
