@@ -40,81 +40,75 @@
 #'
 calc_housing_leed <- function(res_tb,
                                  .selected_ctu,
-                                 .new_homes_leed_gold_pct,
+                                 .new_sf_homes_leed_gold_pct,
+                                 .new_mf_homes_leed_gold_pct,
                                  .enviro_factors = enviro_factors) {
+  #temporary load-in
+  res_tb = bind_rows(
+    building_energy_data$ctu_mfh,
+    building_energy_data$ctu_sfh_attached,
+    building_energy_data$ctu_sfh_large_lot,
+    building_energy_data$ctu_sfh_small_lot
+  ) %>%
+    filter(inventory_year >= 2022)
+
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  if (.new_homes_leed_gold_pct == 0) {
+  if (.new_sf_homes_leed_gold_pct == 0) {
     cli::cli_alert_warning("No change in new single family home energy efficiency")
-    return(res_tb)
-  } else if (.new_homes_leed_gold_pct != 0) {
-    new_units <- res_tb %>%
-      dplyr::filter(var == "single_family_units") %>%
-      dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(
-        names_from = year,
-        values_from = value,
-        names_prefix = "year_"
-      ) %>%
+    new_sfh <- res_tb
+  } else if (.new_sf_homes_leed_gold_pct != 0) {
+    new_sfh <- res_tb %>%
+      dplyr::filter(grepl("single",sp_categories)) %>%
       dplyr::mutate(
-        diff_units = year_2040 - year_2018,
-        new_units = ifelse(diff_units < 0, 0, diff_units),
-        new_pct_leed = new_units * .new_homes_leed_gold_pct,
-        prop_of_all_new = new_units / year_2040
-      ) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(ctu_name, prop_of_all_new)
+        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+        new_leed = new_units * .new_sf_homes_leed_gold_pct,
+        effective_value = (value - new_leed) +
+          (new_leed *.enviro_factors$LEED_GOLD_REDUCTION_PCT)
+      ) }
 
-
-    new_leed_floor_area <- res_tb %>%
-      dplyr::filter(var %in% c("single_family_average_floor_area_sqft_ctu")) %>%
-      dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(
-        names_from = year,
-        values_from = value,
-        names_prefix = "year_",
-        values_fn = sum
-      ) %>%
-      dplyr::mutate(new_forecast = year_2040 * .enviro_factors$LEED_GOLD_REDUCTION_PCT) %>%
-      dplyr::left_join(new_units, by = "ctu_name") %>%
+  if (.new_mf_homes_leed_gold_pct == 0) {
+    cli::cli_alert_warning("No change in new single family home energy efficiency")
+    new_mfh <- res_tb
+  } else if (.new_mf_homes_leed_gold_pct != 0) {
+    new_mfh <- res_tb %>%
+      dplyr::filter(grepl("multi",sp_categories)) %>%
       dplyr::mutate(
-        new_weighted_mean_forecast =
-          stats::weighted.mean(
-            c(
-              year_2018,
-              new_forecast,
-              year_2040
-            ),
-            c(
-              1 - prop_of_all_new,
-              prop_of_all_new * .new_homes_leed_gold_pct,
-              prop_of_all_new * (1 - .new_homes_leed_gold_pct)
-            )
-          )
-      )
+        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+        new_leed = new_units * .new_mf_homes_leed_gold_pct,
+        effective_value = (value - new_leed) +
+          (new_leed *.enviro_factors$LEED_GOLD_REDUCTION_PCT)
+      ) }
 
-    new_leed_avg_floor_area <- res_tb %>%
-      dplyr::filter(
-        var %in% c("single_family_average_floor_area_sqft_ctu"),
-        year == 2040
-      ) %>%
-      dplyr::left_join(new_leed_floor_area, by = c("ctu_name", "var")) %>%
-      dplyr::mutate(value = new_weighted_mean_forecast) %>%
-      dplyr::select(names(res_tb))
+  effective_buildings <- bind_rows(
+    new_sfh %>%
+      select(geog_name,
+             geog_id,
+             geog_id_type,
+             sp_categories,
+             ctu_class,
+             inventory_year,
+             value = effective_value,
+             value_change_from_base),
+  new_mfh %>%
+    select(geog_name,
+           geog_id,
+           geog_id_type,
+           sp_categories,
+           ctu_class,
+           inventory_year,
+           value = effective_value,
+           value_change_from_base)
+  )
 
-    new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_leed_avg_floor_area, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_leed_avg_floor_area) %>%
-      dplyr::ungroup()
-
-    return(new_res_tb_fin)
+    return(effective_buildings)
   }
 
-  # Holding the floor area constant, LEED buildings will use less energy
-  # Here, we are effectively reducing the average floor area to account
+  # LEED buildings will use less energy
+  # Here, we are effectively reducing the housing count to account
   # for the energy savings from LEED buildings
-}
+
 
 #' @title Calculate floor area retrofit
 #' @family buildings
@@ -159,11 +153,22 @@ calc_housing_leed <- function(res_tb,
 #' )
 #' }
 #'
-calc_floor_area_retrofit <- function(res_tb,
+calc_residential_retrofit <- function(res_tb,
                                      .selected_ctu,
                                      .existing_home_retrofit_pct,
                                      .existing_home_ultra_retrofit_pct,
                                      .enviro_factors = enviro_factors) {
+
+  #temporary load-in
+  res_tb = bind_rows(
+    building_energy_data$ctu_mfh,
+    building_energy_data$ctu_sfh_attached,
+    building_energy_data$ctu_sfh_large_lot,
+    building_energy_data$ctu_sfh_small_lot
+  ) %>%
+    filter(inventory_year >= 2022)
+
+
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
