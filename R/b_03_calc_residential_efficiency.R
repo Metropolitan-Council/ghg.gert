@@ -43,14 +43,6 @@ calc_housing_leed <- function(res_tb,
                                  .new_sf_homes_leed_gold_pct,
                                  .new_mf_homes_leed_gold_pct,
                                  .enviro_factors = enviro_factors) {
-  #temporary load-in
-  res_tb = bind_rows(
-    building_energy_data$ctu_mfh,
-    building_energy_data$ctu_sfh_attached,
-    building_energy_data$ctu_sfh_large_lot,
-    building_energy_data$ctu_sfh_small_lot
-  ) %>%
-    filter(inventory_year >= 2022)
 
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -64,8 +56,8 @@ calc_housing_leed <- function(res_tb,
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
         new_leed = new_units * .new_sf_homes_leed_gold_pct,
-        effective_value = (value - new_leed) +
-          (new_leed *.enviro_factors$LEED_GOLD_REDUCTION_PCT)
+        effective_unit_change =dplyr::coalesce(effective_unit_change, 0) +
+          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
       ) }
 
   if (.new_mf_homes_leed_gold_pct == 0) {
@@ -77,11 +69,11 @@ calc_housing_leed <- function(res_tb,
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
         new_leed = new_units * .new_mf_homes_leed_gold_pct,
-        effective_value = (value - new_leed) +
-          (new_leed *.enviro_factors$LEED_GOLD_REDUCTION_PCT)
+        effective_unit_change =dplyr::coalesce(effective_unit_change, 0) +
+          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
       ) }
 
-  effective_buildings <- bind_rows(
+  leed_buildings <- bind_rows(
     new_sfh %>%
       select(geog_name,
              geog_id,
@@ -89,8 +81,9 @@ calc_housing_leed <- function(res_tb,
              sp_categories,
              ctu_class,
              inventory_year,
-             value = effective_value,
-             value_change_from_base),
+             value,
+             value_change_from_base,
+             effective_unit_change),
   new_mfh %>%
     select(geog_name,
            geog_id,
@@ -98,11 +91,12 @@ calc_housing_leed <- function(res_tb,
            sp_categories,
            ctu_class,
            inventory_year,
-           value = effective_value,
-           value_change_from_base)
+           value,
+           value_change_from_base,
+           effective_unit_change)
   )
 
-    return(effective_buildings)
+    return(leed_buildings)
   }
 
   # LEED buildings will use less energy
@@ -110,11 +104,11 @@ calc_housing_leed <- function(res_tb,
   # for the energy savings from LEED buildings
 
 
-#' @title Calculate floor area retrofit
+#' @title Calculate housing retrofit
 #' @family buildings
 #'
-#' @description adjusts single and multifamily average
-#' floor area forecast under the assumption of energy use reduction due to home
+#' @description adjusts single and multifamily housing unit
+#' forecast under the assumption of energy use reduction due to home
 #' retrofits.
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
@@ -155,335 +149,72 @@ calc_housing_leed <- function(res_tb,
 #'
 calc_residential_retrofit <- function(res_tb,
                                      .selected_ctu,
-                                     .existing_home_retrofit_pct,
-                                     .existing_home_ultra_retrofit_pct,
+                                     .existing_sfh_retrofit_pct,
+                                     .existing_mfh_retrofit_pct,
                                      .enviro_factors = enviro_factors) {
-
-  #temporary load-in
-  res_tb = bind_rows(
-    building_energy_data$ctu_mfh,
-    building_energy_data$ctu_sfh_attached,
-    building_energy_data$ctu_sfh_large_lot,
-    building_energy_data$ctu_sfh_small_lot
-  ) %>%
-    filter(inventory_year >= 2022)
 
 
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   # browser()
-  if (.existing_home_retrofit_pct == 0) {
+  if (.existing_sfh_retrofit_pct == 0) {
     cli::cli_alert_warning("No change in existing home energy efficiency")
     return(res_tb)
-  } else if (.existing_home_retrofit_pct != 0) {
-    existing_units <- res_tb %>%
-      dplyr::filter(var %in% c(
-        "single_family_units",
-        "multifamily_units"
-      )) %>%
-      dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(names_from = year, values_from = value, names_prefix = "year_") %>%
+  } else if (.existing_sfh_retrofit_pct != 0) {
+    existing_sfh <- res_tb %>%
+      dplyr::filter(grepl("single",sp_categories)) %>%
       dplyr::mutate(
-        existing_units = year_2018,
-        # existing_pct_retrofit = existing_units * .existing_home_retrofit_pct,
-        # proportion of homes in 2040 that were built before 2018
-        prop_of_all_existing = existing_units / year_2040
-      ) %>%
-      dplyr::select(ctu_name, var, prop_of_all_existing) %>%
-      dplyr::ungroup() %>%
-      tidyr::pivot_wider(
-        names_from = var,
-        values_from = prop_of_all_existing,
-        names_glue = "proportion_existing_{var}"
+        lost_units = ifelse(value_change_from_base > 0, 0, value_change_from_base),
+        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+        existing_units = value + lost_units - new_units, #some cities lose sfh,
+        retrofit_units = existing_units * .existing_sfh_retrofit_pct,
+        effective_unit_change = dplyr::coalesce(effective_unit_change, 0) +
+          -1 * (retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT)
       )
-
-
-    retrofit_results <- res_tb %>%
-      dplyr::filter(
-        var %in% c(
-          "single_family_average_floor_area_sqft_ctu",
-          "multifamily_average_floor_area_sqft_county"
-        )
-      ) %>%
-      dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(
-        names_from = year,
-        values_from = value,
-        names_prefix = "year_",
-        values_fn = sum
-      ) %>%
-      dplyr::left_join(existing_units, by = "ctu_name") %>%
-      dplyr::mutate(
-        new_weighted_mean_forecast =
-          dplyr::case_when(
-            var == "single_family_average_floor_area_sqft_ctu" ~
-              stats::weighted.mean(
-                c(
-                  year_2040,
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
-                  ),
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
-                  )
-                ),
-                c(
-                  1 - proportion_existing_single_family_units,
-                  # new homes
-                  proportion_existing_single_family_units * .existing_home_retrofit_pct,
-                  # existing homes, retrofitted
-                  proportion_existing_single_family_units * .existing_home_ultra_retrofit_pct
-                ) # existing homes, ultra retrofitted
-              ),
-            var == "multifamily_average_floor_area_sqft_county" ~
-              stats::weighted.mean(
-                c(
-                  year_2040,
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
-                  ),
-                  year_2040 - (
-                    year_2040 * .enviro_factors$EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT
-                  )
-                ),
-                # existing homes, ultra retrofitted
-                c(
-                  1 - proportion_existing_multifamily_units,
-                  proportion_existing_multifamily_units * .existing_home_retrofit_pct,
-                  proportion_existing_multifamily_units * .existing_home_ultra_retrofit_pct
-                )
-              )
-          )
-      )
-
-    new_retrofit_floor_area <- res_tb %>%
-      dplyr::filter(
-        var %in% c(
-          "single_family_average_floor_area_sqft_ctu",
-          "multifamily_average_floor_area_sqft_county"
-        ),
-        year == 2040
-      ) %>%
-      dplyr::left_join(retrofit_results, by = c("ctu_name", "var")) %>%
-      dplyr::mutate(value = new_weighted_mean_forecast) %>%
-      dplyr::select(names(res_tb))
-
-    new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_retrofit_floor_area, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_retrofit_floor_area) %>%
-      dplyr::ungroup()
-
-    return(new_res_tb_fin)
   }
 
-  # Holding the floor area constant, LEED buildings will use less energy
-  # Here, we are effectively reducing the average floor area to account
-  # for the energy savings from LEED buildings
-}
-
-
-#' @title Calculate floor area energy intensity reduction from behavior change
-#' @family buildings
-#'
-#' @description Adjusts residential floor area
-#'      by city/township based on proportion of households that change
-#'      behavior to reduce energy use.
-#'
-#' @param .home_behavior_change_pct numeric,  a value between `0` and `1`.
-#'      Percentage of households that change behavior to reduce household emissions.
-#'      Default is `0.0`.
-#'
-#' @inheritParams run_scenario_building
-#' @inheritParams calc_parking_lot_land_cover
-#' @inheritParams run_all_modules
-#' @inheritParams run_scenario_land_use
-#' @inheritParams filter_ctu
-#'
-#' @return [tibble::tibble()].
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
-#'       Table contains adjusted
-#'       `single_family_average_floor_area_sqft_ctu` and
-#'       `multifamily_average_floor_area_sqft_county` records for column `var`
-#'       when `year == 2040` relative to the residential inputs table.
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_floor_area_behavior_change(
-#'   res_tb = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .home_behavior_change_pct = 1.00,
-#'   .enviro_factors = enviro_factors
-#' )
-#' }
-calc_floor_area_behavior_change <- function(res_tb,
-                                            .selected_ctu,
-                                            .home_behavior_change_pct,
-                                            .enviro_factors = enviro_factors) {
-  # cli::cli_progress_message("*** calculating floor area behavior change strategy \n")
-  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-
-  if (.home_behavior_change_pct == 0) {
-    cli::cli_alert_warning("No change in household behavior.")
-    return(res_tb)
-  } else if (.home_behavior_change_pct != 0) {
-    # browser()
-    new_behavior_change <- res_tb %>%
-      dplyr::filter(
-        var %in% c(
-          "single_family_average_floor_area_sqft_ctu",
-          "multifamily_average_floor_area_sqft_county"
+    if (.existing_mfh_retrofit_pct == 0) {
+      cli::cli_alert_warning("No change in existing home energy efficiency")
+      return(res_tb)
+    } else if (.existing_mfh_retrofit_pct != 0) {
+      existing_mfh <- res_tb %>%
+        dplyr::filter(grepl("multi",sp_categories)) %>%
+        dplyr::mutate(
+          lost_units = ifelse(value_change_from_base > 0, 0, value_change_from_base),
+          new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+          existing_units = value + lost_units - new_units, #some cities lose sfh,
+          retrofit_units = existing_units * .existing_mfh_retrofit_pct,
+          effective_unit_change = dplyr::coalesce(effective_unit_change, 0) +
+            -1 * (retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT)
         )
-      ) %>%
-      dplyr::group_by(ctu_name, var) %>%
-      tidyr::pivot_wider(
-        names_from = year,
-        values_from = value,
-        values_fn = sum
-      ) %>%
-      dplyr::mutate(new_forecast = `2040` - (.enviro_factors$BEHAVIOR_CHANGE_REDUCTION_PCT * `2040`)) %>%
-      dplyr::mutate(
-        new_weighted_mean_forecast =
-          stats::weighted.mean(
-            c(
-              new_forecast,
-              `2040`
-            ),
-            c(
-              .home_behavior_change_pct,
-              (1 - .home_behavior_change_pct)
-            )
-          )
-      )
-    new_fla <- res_tb %>%
-      dplyr::filter(
-        var %in% c(
-          "single_family_average_floor_area_sqft_ctu",
-          "multifamily_average_floor_area_sqft_county"
-        ),
-        year == 2040
-      ) %>%
-      dplyr::left_join(new_behavior_change, by = c("ctu_name", "var")) %>%
-      dplyr::mutate(value = new_weighted_mean_forecast) %>%
-      dplyr::select(names(res_tb))
+    }
 
+    retrofit_results <- bind_rows(
+      existing_sfh %>%
+        select(geog_name,
+               geog_id,
+               geog_id_type,
+               sp_categories,
+               ctu_class,
+               inventory_year,
+               value,
+               value_change_from_base,
+               effective_unit_change),
+      existing_mfh %>%
+        select(geog_name,
+               geog_id,
+               geog_id_type,
+               sp_categories,
+               ctu_class,
+               inventory_year,
+               value,
+               value_change_from_base,
+               effective_unit_change)
+    )
 
-    new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_fla, by = c("ctu_name", "year", "var")) %>%
-      dplyr::bind_rows(new_fla) %>%
-      dplyr::ungroup()
-
-    return(new_res_tb_fin)
+    return(retrofit_results)
   }
-}
 
-#' @title Calculate affordable floor area effects
-#'
-#' @family residential
-#'
-#' @family buildings
-#'
-#' @description Calculates the anticipated reduction in single-family
-#'    floor area in response to increased energy prices for each city or township.
-#'    This function considers the effects of a net-zero carbon grid, where
-#'    the cost of electricity is expected to more than double. It estimates
-#'    the proportion of single-family homes that will reduce their living
-#'    space due to increased energy prices, providing insights for future
-#'    urban planning and policy-making. The model can be adjusted by cities
-#'    to better reflect local conditions and priorities.
-#'
-#' @note The original intent was to reduce the growth in floor area,
-#'    recognizing that the cost of electricity will more than double in
-#'    a net-zero carbon grid (according to Princeton University’s Net-Zero America report),
-#'    and raise the idea of an affordable floor area. Typically, energy burden is
-#'    expressed when greater than 6% of income is used for energy services,
-#'    but this number is difficult to evaluate, because we do not have
-#'    income distribution data in a 2040 future city. Therefore, we instead
-#'    modeled that about 50% of the single-family homes will respond to
-#'    increased energy prices by decreasing their living space. This is a
-#'    model assumption, which cities can adjust.
-#'
-#' @inheritParams run_scenario_building
-#' @inheritParams calc_parking_lot_land_cover
-#' @inheritParams run_all_modules
-#' @inheritParams run_scenario_land_use
-#' @inheritParams filter_ctu
-#'
-#' @param .single_family_floor_area_growth_pct numeric, a value between `0` and `1`.
-#'       Percentage of single family floor area that gets reduced due to increase energy prices.
-#'       Default is `0.05`.
-#'       Should not be greater than 0.05 or *%5*.
-#'
-#' @return [tibble::tibble()]. A table with columns `ctu_name`, `year`, `var`, and `value`.
-#'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
-#'       `single_family_units` for the `var` column when `year == 2040`relative
-#'       to the residential inputs table.
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_affordable_floor_area
-#' calc_affordable_floor_area(
-#'   res_tb = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .single_family_floor_area_growth_pct = 0.05
-#' )
-#' }
-calc_affordable_floor_area <- function(res_tb,
-                                       .selected_ctu,
-                                       .single_family_floor_area_growth_pct) {
-  # cli::cli_progress_message("*** calculating affordable floor area strategy \n")
-  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-
-  if (.single_family_floor_area_growth_pct > 0.05) {
-    cli::cli_alert_warning("Single family floor area growth cannot be greater than %5")
-    return(res_tb)
-  } else {
-    new_res_tb <-
-      res_tb %>%
-      dplyr::filter(
-        var %in% c(
-          "single_family_average_floor_area_sqft_ctu",
-          "single_family_units"
-        )
-      ) %>%
-      tidyr::pivot_wider(
-        names_from = c(var, year),
-        values_from = value,
-        names_sep = ".",
-        values_fn = sum
-      ) %>%
-      dplyr::mutate(
-        reduction_floor_area =
-          0.5
-        * (
-          single_family_average_floor_area_sqft_ctu.2040 - (1 + .single_family_floor_area_growth_pct) *
-            single_family_average_floor_area_sqft_ctu.2018
-        ),
-        value = single_family_average_floor_area_sqft_ctu.2040 - reduction_floor_area
-      ) %>%
-      dplyr::mutate(
-        year = 2040,
-        var = "single_family_average_floor_area_sqft_ctu"
-      ) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
-      dplyr::bind_rows(
-        .,
-        res_tb %>%
-          dplyr::filter(var != "single_family_average_floor_area_sqft_ctu" &
-                          year == 2040)
-      ) %>%
-      bind_rows(., res_tb %>%
-                  dplyr::filter(year == 2018)) %>%
-      dplyr::ungroup()
-
-    return(new_res_tb)
-  }
-}
+  # Here, we are effectively reducing the effective existing housing count to account
+  # for the energy savings from retrofitted building
