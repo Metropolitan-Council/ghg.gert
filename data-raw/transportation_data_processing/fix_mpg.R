@@ -25,3 +25,13 @@ transportation_data$freight %>%
   bind_rows(future_fuel_economy %>%
               filter(mode !="PLDV")) %>%
   arrange(var, mode, year)
+
+# remove these variables from transportation_data
+transportation_data$passenger <- transportation_data$passenger %>%
+  filter(!var %in% fuel_economy$var)
+
+transportation_data$freight <- transportation_data$freight %>%
+  filter(!var %in% fuel_economy$var)
+
+usethis::use_data(transportation_data, overwrite = TRUE)
+
