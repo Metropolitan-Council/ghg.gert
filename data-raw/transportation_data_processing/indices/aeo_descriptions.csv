@@ -1,8 +1,8 @@
-﻿aeo_scen,name,description
+aeo_scen,name,description
 REF,Reference,"Price of Brent crude oil, in 2020 dollars, reaches $95 per barrel by 2050 and US GDP grows 2.1% per anum."
 HM,High economic growth,U.S. GDP grows by 2.6% per annum
 LM,Low economic growth,U.S. GDP grows by 1.6% per annum
 HP,High oil price,"Price of Brent crude oil, in 2020 dollars, reaches $173 per barrel by 2050"
 LP,Low oil price,"Price of Brent crude oil, in 2020 dollars, reaches $48 per barrel by 2050"
-HOGS,High oil and gas supply,
-LOGS,Low oil and gas supply,
+HOGS,High oil and gas supply, Lower costs and greater resource availability for oil and natural gas in the United States
+LOGS,Low oil and gas supply, Higher costs and fewer resource availability for oil and natural gas in the United States
