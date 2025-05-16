@@ -1,6 +1,6 @@
 testthat::test_that("bus mpg correct", {
   testthat::expect_equal(
-    st_paul_passenger %>%
+    fuel_economy %>%
       filter(
         mode == "BU",
         var == "BCIMPG"
