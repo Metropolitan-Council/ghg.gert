@@ -51,7 +51,10 @@ passenger_fuel_economy <-
                     "CIMPG",
                     "BEVElec",
                     "PHEVMPG",
-                    "PHEVElec")) %>%
+                    "PHEVElec",
+                    "BCIMPG",
+                    "EVElec"
+                    )) %>%
   select(year, mode, aeo_mode, var, value) %>%
   unique() %>%
   bind_rows(phev_elec) %>%
@@ -71,7 +74,9 @@ freight_fuel_economy <-
                "CIMPG",
                "BEVElec",
                "PHEVElec",
-               "PHEVMPG")) %>%
+               "PHEVMPG",
+               "BCIMPG",
+               "EVElec")) %>%
   select(year, mode, aeo_mode, var, value) %>%
   unique()
 

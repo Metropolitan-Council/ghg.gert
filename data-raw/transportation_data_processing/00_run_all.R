@@ -8,6 +8,7 @@ source("data-raw/transportation_data_processing/fix_bus_avo.R")
 # source("data-raw/transportation_data_processing/fix_bus_fuel.R")
 source("data-raw/transportation_data_processing/fix_pmt.R")
 source("data-raw/transportation_data_processing/fix_parking.R")
+source("data-raw/transportation_data_processing/fix_mpg.R")
 source("data-raw/transportation_data_processing/transportation_index.R")
 
 # building energy
