@@ -74,8 +74,8 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .new_homes_affected_pct,
                                       .new_sf_homes_leed_gold_pct,
                                       .new_mf_homes_leed_gold_pct,
-                                      .existing_home_retrofit_pct,
-                                      .existing_home_ultra_retrofit_pct,
+                                      .existing_sf_retrofit_pct,
+                                      .existing_mf_retrofit_pct,
                                       .home_behavior_change_pct,
                                       .grid_decarbonization_pct,
                                       .additional_electrified_residential_buildings_pct,
@@ -114,8 +114,8 @@ scen_building_residential <- function(res_tb = res_tb,
   tb04 <- calc_residential_retrofit(
     res_tb = tb03,
     .selected_ctu = .selected_ctu,
-    .existing_sfh_retrofit_pct = .existing_sfh_retrofit_pct,
-    .existing_mfh_retrofit_pct = .existing_mfh_retrofit_pct,
+    .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
+    .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -153,25 +153,13 @@ scen_building_residential <- function(res_tb = res_tb,
   # )
 
 
-  tb09 <-
-    tb03 %>%
-    dplyr::filter(
-      var %in% c(
-        "residential_mwh",
-        "residential_therms",
-        "residential_electricity_emissions_kg_co",
-        "residential_natural_gas_emissions_kg_co"
-      )
-    ) %>%
-    tidyr::pivot_wider(names_from = var, values_from = value) %>%
-    dplyr::mutate(
-      residential_electricity_emissions_tonne = residential_electricity_emissions_kg_co / 1000,
-      residential_natural_gas_emissions_tonne = residential_natural_gas_emissions_kg_co / 1000
-    ) %>%
-    tidyr::pivot_longer(
-      cols = residential_mwh:residential_natural_gas_emissions_tonne,
-      names_to = "var", values_to = "value"
-    )
+  tb09 <- calc_mwh_residential(
+    res_tb = tb04,
+    res_tb_bau = res_tb_bau,
+    mwh_coefficients = mwh_coefficients,
+    .selected_ctu = .selected_ctu,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
-  return(tb09 %>% dplyr::mutate(year = as.numeric(year)))
+  return(tb09)
 }

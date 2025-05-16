@@ -68,19 +68,20 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # residential
                                   .renewable_ng_res = FALSE,
                                   .renewable_ng_nonres = FALSE,
-                                  # floor_area
+                                  # housing
                                   .new_homes_to_multifamily_pct = 0.0,
                                   .existing_high_efficiency_buildings_pct = 0.0,
-                                  .home_behavior_change_pct = 00,
+                                  .home_behavior_change_pct = 0.0,
                                   .single_family_floor_area_growth_pct = 0.05,
                                   .new_homes_affected_pct = 0.0,
-                                  .new_homes_leed_gold_pct = 0.0,
-                                  .existing_home_retrofit_pct = 0.0,
-                                  .existing_home_ultra_retrofit_pct = 0.0,
+                                  .new_sf_homes_leed_gold_pct = 0.0,
+                                  .new_mf_homes_leed_gold_pct = 0.0,
+                                  .existing_sf_retrofit_pct = 0.0,
+                                  .existing_mf_retrofit_pct = 0.0,
                                   # electrification
-                                  .additional_electrified_residential_buildings_pct = 0.0,
-                                  # grid
-                                  .grid_decarbonization_pct = 0.6) {
+                                  .additional_electrified_residential_buildings_pct = 0.0
+                                  ){
+
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -102,13 +103,13 @@ run_scenario_building <- function(res_tb = building_data$residential,
     "home_behavior_change_pct",
     "single_family_floor_area_growth_pct",
     "new_homes_affected_pct",
-    "new_homes_leed_gold_pct ",
-    "existing_home_retrofit_pct",
-    "existing_home_ultra_retrofit_pct",
+    "new_sf_leed_gold_pct ",
+    "new_mf_leed_gold_pct",
+    "existing_sf_retrofit_pct",
+    "existing_mf_retrofit_pct",
     # electrification
     "additional_electrified_residential_buildings_pct",
     # grid
-    "grid_decarbonization_pct",
     "renewable_ng_res",
     "renewable_ng_nonres"
   )
@@ -130,13 +131,13 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .home_behavior_change_pct,
     .single_family_floor_area_growth_pct,
     .new_homes_affected_pct,
-    .new_homes_leed_gold_pct,
-    .existing_home_retrofit_pct,
-    .existing_home_ultra_retrofit_pct,
+    .new_sf_leed_gold_pct,
+    .new_mf_leed_gold_pct,
+    .existing_sf_retrofit_pct,
+    .existing_mf_retrofit_pct,
     # electrification
     .additional_electrified_residential_buildings_pct,
     # grid
-    .grid_decarbonization_pct,
     .renewable_ng_res,
     .renewable_ng_nonres
   )
@@ -154,15 +155,14 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
         .home_behavior_change_pct = .home_behavior_change_pct,
         .new_homes_affected_pct = .new_homes_affected_pct,
-        .new_homes_leed_gold_pct = .new_homes_leed_gold_pct,
-        .existing_home_retrofit_pct = .existing_home_retrofit_pct,
-        .existing_home_ultra_retrofit_pct = .existing_home_ultra_retrofit_pct,
+        .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
+        .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
+        .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
+        .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
         .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
         .grid_decarbonization_pct = .grid_decarbonization_pct,
         .enviro_factors = .enviro_factors
-      ) %>%
-      dplyr::mutate(year = as.character(year)) %>%
-      dplyr::filter(!(var %in% c("residential_electricity_emissions_kg_co", "residential_natural_gas_emissions_kg_co")))
+      )
   }
 
   if (run_non_residential == TRUE) {

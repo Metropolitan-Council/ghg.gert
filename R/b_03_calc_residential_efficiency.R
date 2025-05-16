@@ -49,12 +49,12 @@ calc_housing_leed <- function(res_tb,
 
   if (.new_sf_homes_leed_gold_pct == 0) {
     cli::cli_alert_warning("No change in new single family home energy efficiency")
-    new_sfh <- res_tb %>%
+    new_sf <- res_tb %>%
       dplyr::filter(grepl("single",sp_categories)) %>%
       mutate(effective_unit_change = 0)
-    return(new_sfh)
+    return(new_sf)
   } else if (.new_sf_homes_leed_gold_pct != 0) {
-    new_sfh <- res_tb %>%
+    new_sf <- res_tb %>%
       dplyr::filter(grepl("single",sp_categories)) %>%
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
@@ -65,12 +65,12 @@ calc_housing_leed <- function(res_tb,
 
   if (.new_mf_homes_leed_gold_pct == 0) {
     cli::cli_alert_warning("No change in new single family home energy efficiency")
-    new_mfh <- res_tb %>%
+    new_mf <- res_tb %>%
       dplyr::filter(grepl("multi",sp_categories)) %>%
       mutate(effective_unit_change = 0)
-    return(new_mfh)
+    return(new_mf)
   } else if (.new_mf_homes_leed_gold_pct != 0) {
-    new_mfh <- res_tb %>%
+    new_mf <- res_tb %>%
       dplyr::filter(grepl("multi",sp_categories)) %>%
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
@@ -80,7 +80,7 @@ calc_housing_leed <- function(res_tb,
       ) }
 
   leed_buildings <- bind_rows(
-    new_sfh %>%
+    new_sf %>%
       select(geog_name,
              geog_id,
              geog_id_type,
@@ -90,7 +90,7 @@ calc_housing_leed <- function(res_tb,
              value,
              value_change_from_base,
              effective_unit_change),
-  new_mfh %>%
+  new_mf %>%
     select(geog_name,
            geog_id,
            geog_id_type,
@@ -155,8 +155,8 @@ calc_housing_leed <- function(res_tb,
 #'
 calc_residential_retrofit <- function(res_tb,
                                      .selected_ctu,
-                                     .existing_sfh_retrofit_pct,
-                                     .existing_mfh_retrofit_pct,
+                                     .existing_sf_retrofit_pct,
+                                     .existing_mf_retrofit_pct,
                                      .enviro_factors = enviro_factors) {
 
 
@@ -164,36 +164,36 @@ calc_residential_retrofit <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   # browser()
-  if (.existing_sfh_retrofit_pct == 0) {
+  if (.existing_sf_retrofit_pct == 0) {
     cli::cli_alert_warning("No change in existing home energy efficiency")
-    existing_sfh <- res_tb
-    return(existing_sfh)
-  } else if (.existing_sfh_retrofit_pct != 0) {
-    existing_sfh <- res_tb %>%
+    existing_sf <- res_tb
+    return(existing_sf)
+  } else if (.existing_sf_retrofit_pct != 0) {
+    existing_sf <- res_tb %>%
       dplyr::filter(grepl("single",sp_categories)) %>%
       dplyr::mutate(
         lost_units = ifelse(value_change_from_base > 0, 0, value_change_from_base),
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        existing_units = value + lost_units - new_units, #some cities lose sfh,
-        retrofit_units = existing_units * .existing_sfh_retrofit_pct,
+        existing_units = value + lost_units - new_units, #some cities lose sf,
+        retrofit_units = existing_units * .existing_sf_retrofit_pct,
         retro_unit_change =
           -1 * (retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT),
         effective_unit_change = effective_unit_change + retro_unit_change
       )
   }
 
-    if (.existing_mfh_retrofit_pct == 0) {
+    if (.existing_mf_retrofit_pct == 0) {
       cli::cli_alert_warning("No change in existing home energy efficiency")
-      existing_mfh <- res_tb
-      return(existing_mfh)
-    } else if (.existing_mfh_retrofit_pct != 0) {
-      existing_mfh <- res_tb %>%
+      existing_mf <- res_tb
+      return(existing_mf)
+    } else if (.existing_mf_retrofit_pct != 0) {
+      existing_mf <- res_tb %>%
         dplyr::filter(grepl("multi",sp_categories)) %>%
         dplyr::mutate(
           lost_units = ifelse(value_change_from_base > 0, 0, value_change_from_base),
           new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-          existing_units = value + lost_units - new_units, #some cities lose sfh,
-          retrofit_units = existing_units * .existing_mfh_retrofit_pct,
+          existing_units = value + lost_units - new_units, #some cities lose sf,
+          retrofit_units = existing_units * .existing_mf_retrofit_pct,
           retro_unit_change =
             -1 * (retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT),
           effective_unit_change = effective_unit_change + retro_unit_change
@@ -201,7 +201,7 @@ calc_residential_retrofit <- function(res_tb,
     }
 
     retrofit_results <- bind_rows(
-      existing_sfh %>%
+      existing_sf %>%
         select(geog_name,
                geog_id,
                geog_id_type,
@@ -211,7 +211,7 @@ calc_residential_retrofit <- function(res_tb,
                value,
                value_change_from_base,
                effective_unit_change),
-      existing_mfh %>%
+      existing_mf %>%
         select(geog_name,
                geog_id,
                geog_id_type,

@@ -21,7 +21,7 @@ compile_bau_building_energy <-
       ) %>%
         filter(inventory_year >= 2021)
 
-    building_data$business <- bind_rows(
+    building_data$non_residential <- bind_rows(
       building_energy_data$commercial_jobs,
       building_energy_data$industrial_jobs
     ) %>%
