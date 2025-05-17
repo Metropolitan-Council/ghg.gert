@@ -285,7 +285,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
         .mode = mode,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe,
+        .miles_per_gallon = "EVElec",
         .enviro_factors = .enviro_factors
       )
 
@@ -296,7 +296,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
         .mode = mode,
         # "BCI",
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpg,
+        .miles_per_gallon = "BCIMPG",
         .enviro_factors = .enviro_factors
       )
 
@@ -307,7 +307,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
         .mode = mode,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe,
+        .miles_per_gallon = "EVElec",
         .enviro_factors = .enviro_factors
       )
 

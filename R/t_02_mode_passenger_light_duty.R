@@ -547,7 +547,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .mode = mode,
       # .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg
+      .miles_per_gallon = "SIMPG"
     )
 
     ci_fuel <-
@@ -567,7 +567,7 @@ mode_passenger_light_duty <- function(.pass_tb,
         .mode = mode,
         # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe
+        .miles_per_gallon = "PHEVElec"
       )
 
     phev_fuel_gas <- calc_fuel_use(
@@ -576,7 +576,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .mode = mode,
       # .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "PHEVMPG",
       .enviro_factors = .enviro_factors
     )
 
@@ -606,7 +606,7 @@ mode_passenger_light_duty <- function(.pass_tb,
         .mode = mode,
         # .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpg
+        .miles_per_gallon = "HEVMPG"
       )
 
     bev_fuel <-
@@ -615,7 +615,7 @@ mode_passenger_light_duty <- function(.pass_tb,
         tb = .pass_tb,
         .mode = mode,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe
+        .miles_per_gallon = "BEVElec"
       )
 
     pldv_scenario$fuel_use <- dplyr::bind_rows(
