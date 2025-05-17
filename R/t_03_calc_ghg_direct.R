@@ -40,6 +40,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .aeo_scenario = "REF",
                             .miles_per_gallon,
                             .grid_decarbonization_pct = 0.6,
+                            .fuel_economy = ghg.ccap::fuel_economy,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values) {
   # for given fuel type,
@@ -74,7 +75,7 @@ calc_ghg_direct <- function(tb_vmt,
     by = c("year")
   )
 
-  tb_current <- tb %>%
+  tb_current <- .fuel_economy %>%
     dplyr::filter(
       mode == .mode,
       var == .miles_per_gallon
@@ -82,7 +83,6 @@ calc_ghg_direct <- function(tb_vmt,
     dplyr::mutate(val_mpg = value) %>%
     dplyr::select(
       year,
-      ctu,
       val_mpg,
       mode,
       aeo_mode

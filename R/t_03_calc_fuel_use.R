@@ -16,11 +16,12 @@ calc_fuel_use <- function(tb_vmt,
                           .mode,
                           .aeo_scenario = "REF",
                           .miles_per_gallon,
+                          .fuel_economy = fuel_economy,
                           .enviro_factors = enviro_factors,
                           .factor_values = factor_values) {
-  # browser()
 
-  tb_l <- tb %>%
+  # browser()
+  tb_l <- .fuel_economy %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     unique() %>%
     tidyr::pivot_wider(
