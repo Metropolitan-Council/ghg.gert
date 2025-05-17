@@ -2,47 +2,50 @@
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  .selected_ctu = "all",
+  .selected_ctu = "St. Paul",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",
   .variable = "PMT",
   .tb_fuel_cost_mile = si_fcm_test,
-  .aeo_scenario = "REF",
-  .transit_avo_pct = 0,
-  .transit_service_pct = 0,
-  .vmt_fee = 0,
-  .payd_fee = 0,
-  .gas_tax = 0,
-  .cong_price = 0,
-  .parking_price = 0,
-  .freight_parking_price = 0,
-  .freight_vmt_fee = 0,
-  .pop_dens_pct_change = 0,
-  .emp_dens_pct_change = 0,
-  .land_use_diversity_pct_change = 0,
-  .intersection_design_pct_change = 0,
-  .job_access_pct_change = 0,
-  .transit_dist_pct_change = 0,
-  .comb_5d_impact_pct_change = 0,
-  .telework_pct = 0,
-  .phev_electric = FALSE
+  .aeo_scenario = "REF"
+  # .transit_avo_pct = 0,
+  # .transit_service_pct = 0,
+  # .vmt_fee = 0,
+  # .payd_fee = 0,
+  # .gas_tax = 0,
+  # .cong_price = 0,
+  # .parking_price = 0,
+  # .freight_parking_price = 0,
+  # .freight_vmt_fee = 0,
+  # .pop_dens_pct_change = 0,
+  # .emp_dens_pct_change = 0,
+  # .land_use_diversity_pct_change = 0,
+  # .intersection_design_pct_change = 0,
+  # .job_access_pct_change = 0,
+  # .transit_dist_pct_change = 0,
+  # .comb_5d_impact_pct_change = 0,
+  # .telework_pct = 0,
+  # .phev_electric = FALSE
 ) %>%
   dplyr::arrange(year) %>%
-  mutate(class = "SI")
+  dplyr::mutate(class = "SI")
 
 si_fuel_use <- calc_fuel_use(
   tb_vmt = si_vmt,
   tb = st_paul_passenger,
   .mode = "PLDV",
-  # .fuel_type = "SI",
   .aeo_scenario = "REF",
   .miles_per_gallon = "SIMPG"
 )
 
 
-# still need to confirm these values
+# TODO still need to confirm these values
 testthat::expect_equal(
+  # VMT is decreasing
+  # fuel efficiency is increasing,
+  # and this is assuming that all VMT is going to SI, not being split across
+  # multiple fuel types
   si_fuel_use$fuel_use / 1000,
   c(
     59171006.0357739, 59547519.1594438, 59810766.7901064, 57313641.874183,
