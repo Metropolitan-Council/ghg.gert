@@ -43,63 +43,29 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_economy = ghg.ccap::fuel_economy,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values) {
+
+  # browser()
   check_inputs(name = "fuel_type", value = .fuel_type)
   # for given fuel type,
   # find the number of metric tons (tonnes) CO2 per gallon of fuel
   ghg_factors_current <- .factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
-      ghg_factor = value
+                  ghg_factor = value
     )
 
-
-  aeo_factors_current <- .factor_values$aeo %>%
-    dplyr::filter(
-      metric == "MPG",
-      aeo_scen == .aeo_scenario,
-      mode == unique(tb_vmt$aeo_mode)
-    ) %>%
-    dplyr::select(aeo_scen, metric, year, aeo_factor = value)
-
-
-  # if there isn't an AEO miles per gallon value for the given mode,
-  # use a value of 1
-  if (nrow(aeo_factors_current) == 0) {
-    aeo_factors_current <- tibble(
-      year = ghg_factors_current$year,
-      aeo_factor = 1
-    )
-  }
-
-  aeo_ghg <- dplyr::left_join(ghg_factors_current,
-    aeo_factors_current,
-    by = c("year")
+  fuel_gallons <- calc_fuel_use(
+    tb_vmt,
+    tb = tb,
+    .mode = .mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = .miles_per_gallon,
+    .fuel_economy = .fuel_economy,
+    .enviro_factors = .enviro_factors,
+    .factor_values =  .factor_values
   )
 
-  tb_current <- .fuel_economy %>%
-    dplyr::filter(
-      mode == .mode,
-      var == .miles_per_gallon
-    ) %>%
-    dplyr::mutate(val_mpg = value) %>%
-    dplyr::select(
-      year,
-      val_mpg,
-      mode,
-      aeo_mode
-    )
-
-
-  tb_aeo_ghg <- dplyr::left_join(tb_current,
-    aeo_ghg,
-    by = c("year")
-  ) %>%
-    # calculate miles per gallon, multiplied by annual energy outlook factor
-    dplyr::mutate(val_mpg_aeo = val_mpg * aeo_factor) %>%
-    dplyr::select(year, mode, aeo_mode, val_mpg_aeo, ghg_factor)
-
-
-  if (.fuel_type == "BEV" & .grid_decarbonization_pct == 0) {
+  if (.fuel_type == "ER" & .grid_decarbonization_pct == 0) {
     cli::cli_warn(
       "No grid de-carbonization present - all BEV fuel evaluated on a 100% carbonized electrial grid "
     )
@@ -119,39 +85,34 @@ calc_ghg_direct <- function(tb_vmt,
     )
 
 
-
-  ghg <- dplyr::left_join(
-    tb_vmt,
-    tb_aeo_ghg,
-    by = c("year", "aeo_mode"),
-    suffix = c(".vmt", ".aeo_ghg")
-  ) %>%
-    dplyr::left_join(grid_elast,
+  ghg <-
+    dplyr::left_join(
+      fuel_gallons, grid_elast,
       by = c("year")
     ) %>%
+    dplyr::left_join(ghg_factors_current,
+                     by = c("year")
+    ) %>%
     dplyr::mutate(
-      # VMT is reported in thousands
-      # multiply by 1000 to get _miles_
-      gallons = (vmt * 1000) / val_mpg_aeo,
-      # miles / miles-per-gallon = gallons
       # emissions  = gallons * ghg_factor
       dir_ghg =
-        dplyr::if_else((mode.vmt == "PLDV" & class == "BEV"),
-          (gallons * ghg_factor * (1 - grid_decarb)),
-          (gallons * ghg_factor)
+        dplyr::if_else(
+          (mode == "PLDV" & class == "BEV"),
+          (fuel_use_gallons_kwh * ghg_factor * (1 - grid_decarb)),
+          (fuel_use_gallons_kwh * ghg_factor)
         )
     ) %>%
     dplyr::select(type,
-      # source,
-      scenario,
-      mode = mode.vmt,
-      class,
-      ctu,
-      year,
-      # aeo_scen,
-      aeo_mode,
-      # vmt,
-      dir_ghg
+                  # source,
+                  scenario,
+                  mode,
+                  class,
+                  ctu,
+                  year,
+                  # aeo_scen,
+                  aeo_mode,
+                  # vmt,
+                  dir_ghg
     ) %>%
     unique()
 
