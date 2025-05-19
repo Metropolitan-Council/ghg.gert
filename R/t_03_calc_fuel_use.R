@@ -1,4 +1,4 @@
-#' @title Calculate use of fuel in thousands of gallons or thousands of kWh
+#' @title Calculate use of fuel in gallons or  kWh
 #'
 #' @inheritParams calc_ghg_direct
 #' @inheritParams run_scenario_transportation
@@ -20,7 +20,6 @@ calc_fuel_use <- function(tb_vmt,
                           .enviro_factors = enviro_factors,
                           .factor_values = factor_values) {
 
-  # browser()
   tb_l <- .fuel_economy %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     unique() %>%
@@ -70,9 +69,8 @@ calc_fuel_use <- function(tb_vmt,
     by = c("year", "aeo_mode")
   ) %>%
     dplyr::rowwise() %>%
-    # VMT is given in thousands
-    # so output is in thousands
-    dplyr::mutate(fuel_use = vmt * fuel_factor) %>%
+    # miles traveled DIVIDED by the miles per gallon to get gallons
+    dplyr::mutate(fuel_use = vmt / fuel_factor) %>%
     dplyr::select(
       type,
       scenario,
