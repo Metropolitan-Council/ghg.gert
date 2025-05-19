@@ -98,7 +98,7 @@ testthat::test_that("Lake Elmo emissions reduce with interventions", {
       "vmt",
       "dir_ghg",
       "emb_ghg",
-      "fuel_use",
+      "fuel_use_gallons_kwh",
       "cost"
     ),
     ignore.order = TRUE
@@ -198,7 +198,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
       "vmt",
       "dir_ghg"
       # "emb_ghg",
-      # "fuel_use",
+      # "fuel_use_gallons_kwh",
       # "cost"
     ),
     ignore.order = TRUE

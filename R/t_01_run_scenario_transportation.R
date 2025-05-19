@@ -518,11 +518,11 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   if (.calc_transp_fuel_use == TRUE) {
     pass_fuel <- dplyr::bind_rows(
-      passenger_light_duty$fuel_use,
-      bus_transit$fuel_use,
-      rail_transit$fuel_use,
-      # walk_bike$fuel_use,
-      school_bus$fuel_use
+      passenger_light_duty$fuel_use_gallons_kwh,
+      bus_transit$fuel_use_gallons_kwh,
+      rail_transit$fuel_use_gallons_kwh,
+      # walk_bike$fuel_use_gallons_kwh,
+      school_bus$fuel_use_gallons_kwh
     )
 
     pass_all <- pass_all %>%
@@ -567,7 +567,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   #     dir_ghg,
   #     ghg_embodied_source,
   #     ghg_embodied,
-  #     fuel_use
+  #     fuel_use_gallons_kwh
   #   )
 
 
