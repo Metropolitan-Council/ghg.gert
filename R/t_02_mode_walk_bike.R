@@ -60,17 +60,17 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
 
   # browser()
   ## Walk -----
-  mode <- "WALK"
-  stock <- ""
-  class <- "WALK"
+  # mode <- "WALK"
+  # stock <- ""
+  # class <- "WALK"
 
   walk_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .stock = stock,
+      .mode = "WALK",
+      .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
@@ -96,20 +96,20 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
-    mutate(class = class)
+    mutate(class = "WALK")
 
   ## Bike -----
-  mode <- "BIKE"
-  stock <- ""
-  class <- "BIKE"
+  # mode <- "BIKE"
+  # stock <- ""
+  # class <- "BIKE"
 
   bike_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .stock = stock,
+      .mode = "BIKE",
+      .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
@@ -135,7 +135,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
-    mutate(class = class)
+    mutate(class = "BIKE")
 
   # Finish up -----
   # browser()

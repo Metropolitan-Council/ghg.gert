@@ -52,18 +52,16 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
   mode <- "CUT"
 
   ### CI -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
-
-
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
 
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
+  fcm_cut <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "CUT",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -74,10 +72,10 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "CUT",
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_cut,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -103,17 +101,17 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "CI")
 
 
   cut_ci_ghg <-
     calc_ghg_direct(
       tb_vmt = cut_ci_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "CUT",
       .fuel_type = "CUTCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -121,16 +119,16 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
 
 
   ### BEV  -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
+  # stock <- "BEVStock"
+  # mpe <- "BEVElec"
+  # class <- "BEV"
 
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_bev_cut <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "CUT",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -141,10 +139,10 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "CUT",
+      .stock = "BEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_bev_cut,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -170,16 +168,16 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "BEV")
 
   cut_bev_ghg <-
     calc_ghg_direct(
       tb_vmt = cut_bev_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "CUT",
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -187,20 +185,20 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
 
 
   ## SUT -----
-  mode <- "SUT"
+  # mode <- "SUT"
 
   ### CI ----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
 
 
   # Calculate a fuel cost per mile rather than per gallon
-  fcm <- calc_fuel_cost_mile(
+  fcm_si_sut <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "SUT",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -211,10 +209,10 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "SUT",
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_si_sut,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -240,16 +238,16 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "CI")
 
   sut_ci_ghg <-
     calc_ghg_direct(
       tb_vmt = sut_ci_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "SUT",
       .fuel_type = "SUTCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -257,16 +255,16 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
 
 
   ### BEV -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
+  # stock <- "BEVStock"
+  # mpe <- "BEVElec"
+  # class <- "BEV"
 
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_bev_sut <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "SUT",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -278,10 +276,10 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "SUT",
+      .stock = "BEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_bev_sut,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -307,7 +305,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "BEV")
 
 
 
@@ -315,10 +313,10 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
     calc_ghg_direct(
       tb_vmt = sut_bev_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "SUT",
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values

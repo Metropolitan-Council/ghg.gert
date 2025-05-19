@@ -69,9 +69,9 @@ mode_passenger_light_duty <- function(.pass_tb,
   # 4. Calculate fuel use (requires VMT)
   # 5. Calculate embodied GHG
 
-  stock <- "SIStock"
-  mpg <- "SIMPG"
-  class <- "SI"
+  # stock <- "SIStock"
+  # mpg <- "SIMPG"
+  # class <- "SI"
 
   # browser()
   message("Passenger vehicles, gasoline")
@@ -81,7 +81,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "SIMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -120,7 +120,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     .elast_5d = .elast_5d,
     .factor_values = .factor_values
   ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class = "SI")
 
   si_dir_ghg <- calc_ghg_direct(
     tb_vmt = si_vmt,
@@ -128,7 +128,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "SIMPG",
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -137,9 +137,9 @@ mode_passenger_light_duty <- function(.pass_tb,
   # complete gasoline table
 
   ## Diesel  (CI)----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
 
   message("Passenger vehicles, diesel")
   # Calculate a fuel cost per mile rather than per gallon
@@ -147,7 +147,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -185,7 +185,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     .elast_5d = .elast_5d,
     .factor_values = .factor_values
   ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class = "CI")
 
 
 
@@ -204,19 +204,19 @@ mode_passenger_light_duty <- function(.pass_tb,
 
 
   ## HEV (Hybrid electric vehicle)----
-  stock <- "HEVStock"
-  mpg <- "HEVMPG"
-  class <- "HEV"
+  # stock <- "HEVStock"
+  # mpg <- "HEVMPG"
+  # class <- "HEV"
 
   message("Passenger vehicles, hybrid")
 
   # Calculate a fuel cost per mile rather than per gallon
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_hev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "HEVMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -228,9 +228,9 @@ mode_passenger_light_duty <- function(.pass_tb,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "HEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_hev,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -255,7 +255,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class = "HEV")
 
   hev_dir_ghg <-
     calc_ghg_direct(
@@ -264,7 +264,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .mode = mode,
       .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "HEVMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -272,23 +272,25 @@ mode_passenger_light_duty <- function(.pass_tb,
 
 
   ## PHEV (Plug-in hybrid) -----
-  ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) x ((Pr(Elec) x elec consumption (MWh per 1000 mi) x GHG per elec) + ((1 - Pr(Elec)) x fuel consumption (per 1000 mi) x GHG per fuel)
+  ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) x ((Pr(Elec) x
+  ### elec consumption (MWh per 1000 mi) x GHG per elec) +
+  ###  ((1 - Pr(Elec)) x fuel consumption (per 1000 mi) x GHG per fuel)
 
-  stock <- "PHEVStock"
-  mpg <- "PHEVMPG"
-  mpe <- "PHEVElec"
-  class <- "PHEV"
+  # stock <- "PHEVStock"
+  # mpg <- "PHEVMPG"
+  # mpe <- "PHEVElec"
+  # class <- "PHEV"
 
   message("Passenger vehicles, plug-in hybrid")
 
   # Calculate a fuel cost per mile rather than per gallon
   # browser()
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_phev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "PHEVMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -301,9 +303,9 @@ mode_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .phev_electric = FALSE,
     .mode = mode,
-    .stock = stock,
+    .stock = "PHEVStock",
     .variable = var,
-    .tb_fuel_cost_mile = fcm,
+    .tb_fuel_cost_mile = fcm_phev,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
     .pldv_avo_pct = .pldv_avo_pct,
@@ -328,7 +330,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     .elast_5d = .elast_5d,
     .factor_values = .factor_values
   ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class = "PHEV")
 
 
   ### VMT electric ------
@@ -336,7 +338,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "PHEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -348,7 +350,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     .selected_ctu = .selected_ctu,
     .phev_electric = TRUE,
     .mode = mode,
-    .stock = stock,
+    .stock = "PHEVStock",
     .variable = var,
     .tb_fuel_cost_mile = fcm_electric,
     .aeo_scenario = .aeo_scenario,
@@ -375,17 +377,17 @@ mode_passenger_light_duty <- function(.pass_tb,
     .elast_5d = .elast_5d,
     .factor_values = .factor_values
   ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class = "PHEV")
 
-  ### VMT all -----
+  ### PHEV VMT all -----
   phev_vmt <- dplyr::left_join(
     phev_vmt_electric %>%
       dplyr::select(everything(),
-        vmt_electric = vmt
+                    vmt_electric = vmt
       ),
     phev_vmt_gas %>%
       dplyr::select(everything(),
-        vmt_gas = vmt
+                    vmt_gas = vmt
       ),
     c(
       "type",
@@ -401,7 +403,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     rowwise() %>%
     dplyr::mutate(
       vmt = vmt_electric + vmt_gas,
-      class = class
+      class = "PHEV"
     ) %>%
     dplyr::select(-vmt_electric, -vmt_gas)
 
@@ -412,13 +414,13 @@ mode_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "PHEVMPG",
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   ) %>%
     dplyr::select(everything(),
-      dir_ghg_gas = dir_ghg
+                  dir_ghg_gas = dir_ghg
     )
 
   ### electric ghg direct -----
@@ -428,13 +430,13 @@ mode_passenger_light_duty <- function(.pass_tb,
     .mode = mode,
     .fuel_type = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "PHEVElec",
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   ) %>%
     dplyr::select(everything(),
-      dir_ghg_electric = dir_ghg
+                  dir_ghg_electric = dir_ghg
     )
 
   phev_dir_ghg <- dplyr::left_join(
@@ -449,18 +451,18 @@ mode_passenger_light_duty <- function(.pass_tb,
     dplyr::select(-dir_ghg_electric, -dir_ghg_gas)
 
   ## BEV (Battery electric vehicle) -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
+  # stock <- "BEVStock"
+  # mpe <- "BEVElec"
+  # class <- "BEV"
 
   message("Passenger vehicles, battery electric")
 
   # browser()
-  fcm <- calc_fuel_cost_mile(
+  fcm_bev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -472,9 +474,9 @@ mode_passenger_light_duty <- function(.pass_tb,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "BEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_bev,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -499,7 +501,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
-    dplyr::mutate(class = class)
+    dplyr::mutate(class ="BEV")
 
   bev_dir_ghg <-
     calc_ghg_direct(
@@ -508,7 +510,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       .mode = mode,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -545,7 +547,6 @@ mode_passenger_light_duty <- function(.pass_tb,
       tb_vmt = si_vmt,
       tb = .pass_tb,
       .mode = mode,
-      # .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "SIMPG"
     )
@@ -555,7 +556,6 @@ mode_passenger_light_duty <- function(.pass_tb,
         tb_vmt = ci_vmt,
         tb = .pass_tb,
         .mode = mode,
-        # .fuel_type = "CI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = "CIMPG"
       )
@@ -565,7 +565,6 @@ mode_passenger_light_duty <- function(.pass_tb,
         tb_vmt = phev_vmt_electric,
         tb = .pass_tb,
         .mode = mode,
-        # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = "PHEVElec"
       )
@@ -574,7 +573,6 @@ mode_passenger_light_duty <- function(.pass_tb,
       tb_vmt = phev_vmt_gas,
       tb = .pass_tb,
       .mode = mode,
-      # .fuel_type = "SI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "PHEVMPG",
       .enviro_factors = .enviro_factors
@@ -583,11 +581,11 @@ mode_passenger_light_duty <- function(.pass_tb,
     phev_fuel <- dplyr::left_join(
       phev_fuel_electric %>%
         dplyr::select(everything(),
-          fuel_use_electric = fuel_use
+                      fuel_use_electric = fuel_use_gallons_kwh
         ),
       phev_fuel_gas %>%
         dplyr::select(everything(),
-          fuel_use_gas = fuel_use
+                      fuel_use_gas = fuel_use_gallons_kwh
         ),
       c(
         "type",
@@ -596,7 +594,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       )
     ) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(fuel_use = fuel_use_gas + fuel_use_electric) %>%
+      dplyr::mutate(fuel_use_gallons_kwh = fuel_use_gas + fuel_use_electric) %>%
       dplyr::select(-fuel_use_gas, -fuel_use_electric)
 
     hev_fuel <-
@@ -604,7 +602,6 @@ mode_passenger_light_duty <- function(.pass_tb,
         tb_vmt = hev_vmt,
         tb = .pass_tb,
         .mode = mode,
-        # .fuel_type = "SI",
         .aeo_scenario = .aeo_scenario,
         .miles_per_gallon = "HEVMPG"
       )
@@ -618,7 +615,7 @@ mode_passenger_light_duty <- function(.pass_tb,
         .miles_per_gallon = "BEVElec"
       )
 
-    pldv_scenario$fuel_use <- dplyr::bind_rows(
+    pldv_scenario$fuel_use_gallons_kwh <- dplyr::bind_rows(
       ci_fuel,
       si_fuel,
       hev_fuel,
@@ -632,8 +629,11 @@ mode_passenger_light_duty <- function(.pass_tb,
     si_cost <-
       calc_cost(
         .selected_ctu = .selected_ctu,
-        si_vmt, mode,
-        "SIPrice"
+        tb_vmt = si_vmt,
+        .mode = mode,
+        .price = "SIPrice",
+        .enviro_factors = .enviro_factors,
+        .factor_values = .factor_values
       )
 
     ci_cost <-
@@ -641,20 +641,26 @@ mode_passenger_light_duty <- function(.pass_tb,
         tb_vmt = ci_vmt,
         .selected_ctu = .selected_ctu,
         .mode = mode,
-        .price = "CIPrice"
+        .price = "CIPrice",
+        .enviro_factors = .enviro_factors,
+        .factor_values = .factor_values
       )
 
     hev_cost <-
       calc_cost(hev_vmt, mode,
-        .selected_ctu = .selected_ctu,
-        "HEVPrice"
+                .selected_ctu = .selected_ctu,
+                .price = "HEVPrice",
+                .enviro_factors = .enviro_factors,
+                .factor_values = .factor_values
       )
 
     phev_cost <-
       calc_cost(phev_vmt,
-        .selected_ctu = .selected_ctu,
-        mode,
-        "PHEVPrice"
+                .selected_ctu = .selected_ctu,
+                .mode = mode,
+                .price = "PHEVPrice",
+                .enviro_factors = .enviro_factors,
+                .factor_values = .factor_values
       )
 
     bev_cost <-
@@ -663,8 +669,8 @@ mode_passenger_light_duty <- function(.pass_tb,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "BEVPrice",
-        .enviro_factors = .enviro_factors
-      )
+        .enviro_factors = .enviro_factors,
+        .factor_values = .factor_values      )
 
     pldv_scenario$cost <- dplyr::bind_rows(
       si_cost,
@@ -680,9 +686,9 @@ mode_passenger_light_duty <- function(.pass_tb,
   if (.calc_transp_ghg_embodied == TRUE) {
     si_emb_ghg <-
       calc_ghg_embodied(.pass_tb, mode,
-        .class = class,
-        "SISales",
-        "SI-EMB"
+                        .class = "SI",
+                        "SISales",
+                        "SI-EMB"
       )
 
     ci_emb_ghg <-
@@ -691,13 +697,13 @@ mode_passenger_light_duty <- function(.pass_tb,
         .mode = mode,
         .sales_mode = "CISales",
         .fuel_type = "CI-EMB",
-        .class = class
+        .class = "CI"
       )
 
     hev_emb_ghg <-
       calc_ghg_embodied(
         tb = .pass_tb,
-        .class = class,
+        .class = "HEV",
         .mode = mode,
         .sales_mode = "HEVSales",
         .fuel_type = "HEV-EMB",
@@ -708,7 +714,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       calc_ghg_embodied(
         tb = .pass_tb,
         .mode = mode,
-        .class = class,
+        .class = "PHEV",
         .sales_mode = "PHEVSales",
         .fuel_type = "PHEV-EMB",
         .enviro_factors = .enviro_factors,
@@ -719,7 +725,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       calc_ghg_embodied(
         .pass_tb,
         .mode = mode,
-        .class = class,
+        .class = "BEV",
         .sales_mode = "BEVSales",
         .fuel_type = "BEV-EMB",
         .enviro_factors = .enviro_factors

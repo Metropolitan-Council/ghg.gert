@@ -59,15 +59,15 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   message("Transit bus, diesel")
 
-  stock <- "BCIStock"
-  mpg <- "BCIMPG"
-  class <- "BCI"
+  # stock <- "BCIStock"
+  # mpg <- "BCIMPG"
+  # class <- "BCI"
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_ci <- calc_fuel_cost_mile(
     tb = .pass_tb,
-    .mode = mode,
+    .mode = "BU",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "BCIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -78,10 +78,10 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "BU",
+      .stock = "BCIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -106,16 +106,16 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values,
     ) %>%
-    mutate(class = class)
+    mutate(class = "BCI")
 
   ci_dir_ghg <-
     calc_ghg_direct(
       tb_vmt = ci_vmt,
       tb = .pass_tb,
-      .mode = mode,
-      .fuel_type = "CI",
+      .mode = "BU",
+      .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "BCIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -131,21 +131,21 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
         .mode = mode,
         # "CI",
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpg,
+        .miles_per_gallon = "BCIMPG",
         .enviro_factors = .enviro_factors
       )
 
-    bus_scenario$fuel_use <- ci_fuel
+    bus_scenario$fuel_use_gallons_kwh <- ci_fuel
   }
 
   if (.calc_transp_ghg_embodied == TRUE) {
     ci_emb_ghg <-
       calc_ghg_embodied(
         tb = .pass_tb,
-        .mode = mode,
+        .mode = "BU",
         .sales_mode = "BCISales",
         .fuel_type = "BU-BCI-EMB",
-        .class = class,
+        .class = "BCI",
         .transit_avo_pct = .transit_avo_pct,
         .enviro_factors = .enviro_factors
       )
@@ -158,7 +158,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       calc_cost(
         tb_vmt = ci_vmt,
         .selected_ctu = .selected_ctu,
-        .mode = mode,
+        .mode = "BU",
         .price = "BCIPrice",
         .enviro_factors = .enviro_factors
       )
