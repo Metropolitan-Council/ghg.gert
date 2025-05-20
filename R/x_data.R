@@ -113,7 +113,7 @@
 
 
 
-#' @title Reference index for abbreviations
+#' @title Reference index for abbreviations, data sources, identifiers
 #'
 #' @format A list of tibbles with identifiers, abbreviations, and descriptions
 #'     for each emission source, variable, transportation mode, and AEO scenario.
@@ -168,3 +168,19 @@
 #' naics_codes$industrial
 # naics_codes -----
 "naics_codes"
+
+
+
+#' @title Fuel economy
+#' @format tibble
+#' - **year** Forecast year.
+#' - **mode** Transportation mode
+#' - **aeo_mod** Equivalent Annual Energy Outlook mode
+#' - **var** Fuel type specific variable
+#' - **value** Fuel economy value
+#' - **metadata** Metadata, where available
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+# fuel_economy -----
+"fuel_economy"
