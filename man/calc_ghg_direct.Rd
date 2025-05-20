@@ -12,6 +12,7 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .grid_decarbonization_pct = 0.6,
+  .fuel_economy = ghg.ccap::fuel_economy,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values
 )
@@ -34,6 +35,8 @@ Default is \code{"REF"}}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 

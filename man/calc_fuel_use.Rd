@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_03_calc_fuel_use.R
 \name{calc_fuel_use}
 \alias{calc_fuel_use}
-\title{Calculate use of fuel in thousands of gallons or thousands of kWh}
+\title{Calculate use of fuel in gallons or  kWh (thousands)}
 \usage{
 calc_fuel_use(
   tb_vmt,
@@ -10,6 +10,7 @@ calc_fuel_use(
   .mode,
   .aeo_scenario = "REF",
   .miles_per_gallon,
+  .fuel_economy = fuel_economy,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values
 )
@@ -28,12 +29,14 @@ Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
 \description{
-Calculate use of fuel in thousands of gallons or thousands of kWh
+Calculate use of fuel in gallons or  kWh (thousands)
 }
 \seealso{
 Other transportation: 

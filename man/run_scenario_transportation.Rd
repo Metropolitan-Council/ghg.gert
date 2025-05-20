@@ -41,6 +41,7 @@ run_scenario_transportation(
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
+  .fuel_economy = fuel_economy,
   .factor_values = ghg.ccap::factor_values
 )
 }
@@ -139,6 +140,8 @@ Default is \code{0}.}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 }
