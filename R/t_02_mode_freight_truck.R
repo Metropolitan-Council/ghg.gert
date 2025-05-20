@@ -2,7 +2,7 @@
 #' @family Freight
 #' @family transportation
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'

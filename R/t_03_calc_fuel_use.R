@@ -1,7 +1,7 @@
 #' @title Calculate use of fuel in gallons or  kWh (thousands)
 #'
 #' @inheritParams calc_ghg_direct
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'

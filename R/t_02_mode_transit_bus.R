@@ -1,6 +1,6 @@
 #' @title Calculate scenario for transit buses
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'

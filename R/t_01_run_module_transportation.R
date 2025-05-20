@@ -41,43 +41,43 @@
 #' @importFrom cli cli_warn
 #'
 #' @family transportation
-run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
-                                        freight_tb = transportation_data$freight,
-                                        .selected_ctu = "all",
-                                        .calc_transp_cost = FALSE,
-                                        .calc_transp_fuel_cost_mile = FALSE,
-                                        .calc_transp_fuel_use = FALSE,
-                                        .calc_transp_ghg_embodied = FALSE,
-                                        .grid_decarbonization_pct = 0.6,
-                                        .scenario = "BAU",
-                                        .electric_scenario = "ER",
-                                        .aeo_scenario = "REF",
-                                        .transit_avo_pct = 0,
-                                        .pldv_avo_pct = 0,
-                                        .transit_service_pct = 0,
-                                        .vmt_fee = 0,
-                                        .payd_fee = 0,
-                                        .gas_tax = 0,
-                                        .parking_price = 0,
-                                        .freight_parking_price = 0,
-                                        .cong_price = 0,
-                                        .freight_vmt_fee = 0,
-                                        .pop_dens_pct_change = 0,
-                                        .emp_dens_pct_change = 0,
-                                        .land_use_diversity_pct_change = 0,
-                                        .intersection_design_pct_change = 0,
-                                        .job_access_pct_change = 0,
-                                        .transit_dist_pct_change = 0,
-                                        .comb_5d_impact_pct_change = 0,
-                                        .telework_pct = 0,
-                                        .bev_pct_sales = 0,
-                                        .phev_pct_sales = 0,
-                                        .hev_pct_sales = 0,
-                                        .enviro_factors = ghg.ccap::enviro_factors,
-                                        .elast = elast,
-                                        .elast_5d = elast_5d,
-                                        .fuel_economy = fuel_economy,
-                                        .factor_values = ghg.ccap::factor_values) {
+run_module_transportation <- function(pass_tb = transportation_data$passenger,
+                                      freight_tb = transportation_data$freight,
+                                      .selected_ctu = "all",
+                                      .calc_transp_cost = FALSE,
+                                      .calc_transp_fuel_cost_mile = FALSE,
+                                      .calc_transp_fuel_use = FALSE,
+                                      .calc_transp_ghg_embodied = FALSE,
+                                      .grid_decarbonization_pct = 0.6,
+                                      .scenario = "BAU",
+                                      .electric_scenario = "ER",
+                                      .aeo_scenario = "REF",
+                                      .transit_avo_pct = 0,
+                                      .pldv_avo_pct = 0,
+                                      .transit_service_pct = 0,
+                                      .vmt_fee = 0,
+                                      .payd_fee = 0,
+                                      .gas_tax = 0,
+                                      .parking_price = 0,
+                                      .freight_parking_price = 0,
+                                      .cong_price = 0,
+                                      .freight_vmt_fee = 0,
+                                      .pop_dens_pct_change = 0,
+                                      .emp_dens_pct_change = 0,
+                                      .land_use_diversity_pct_change = 0,
+                                      .intersection_design_pct_change = 0,
+                                      .job_access_pct_change = 0,
+                                      .transit_dist_pct_change = 0,
+                                      .comb_5d_impact_pct_change = 0,
+                                      .telework_pct = 0,
+                                      .bev_pct_sales = 0,
+                                      .phev_pct_sales = 0,
+                                      .hev_pct_sales = 0,
+                                      .enviro_factors = ghg.ccap::enviro_factors,
+                                      .elast = elast,
+                                      .elast_5d = elast_5d,
+                                      .fuel_economy = fuel_economy,
+                                      .factor_values = ghg.ccap::factor_values) {
   # browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
@@ -150,11 +150,11 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
   if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .gas_tax > 0 |
-    .bev_pct_sales > 0 |
-    .hev_pct_sales > 0 |
-    .phev_pct_sales > 0) {
+      .payd_fee > 0 |
+      .gas_tax > 0 |
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0 |
+      .phev_pct_sales > 0) {
     # browser()
 
     adj_fleet <- adj_fleet_shares(
@@ -595,10 +595,10 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
-    by = c(
-      "type", "scenario", "ctu",
-      "year", "mode", "aeo_mode", "class"
-    )
+                                  by = c(
+                                    "type", "scenario", "ctu",
+                                    "year", "mode", "aeo_mode", "class"
+                                  )
   )
 
   freight <- list(

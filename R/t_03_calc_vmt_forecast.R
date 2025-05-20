@@ -14,7 +14,7 @@
 #' @param .elast table of elasticities. Default is `elast` included in this package.
 #' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams vmt_parking_policy
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy

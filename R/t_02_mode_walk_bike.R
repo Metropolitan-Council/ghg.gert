@@ -4,7 +4,7 @@
 #'
 #' @description Calculates scenario for walk and bike.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'

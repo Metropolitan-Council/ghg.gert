@@ -6,7 +6,7 @@
 #'
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams scen_building_non_residential
 #' @inheritParams filter_ctu
 #' @inheritParams vmt_annual_energy_outlook
@@ -145,7 +145,7 @@ run_all_modules <- function(.selected_ctu = "all",
     )
   }
   if (run_transportation == TRUE) {
-    output$transp <- run_scenario_transportation(
+    output$transp <- run_module_transportation(
       pass_tb = pass_tb,
       freight_tb = freight_tb,
       .selected_ctu = .selected_ctu,

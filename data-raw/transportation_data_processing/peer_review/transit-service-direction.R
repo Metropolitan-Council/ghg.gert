@@ -3,21 +3,21 @@ library(tidyverse)
 library(councilR)
 
 
-transitservice_60 <- run_scenario_transportation(
+transitservice_60 <- run_module_transportation(
   .transit_service_pct = 0.6,
   .transit_avo_pct = 0.6 * 1.6,
   .scenario = "ts60",
   .selected_ctu = "Richfield"
 )
 
-transitservice_40 <- run_scenario_transportation(
+transitservice_40 <- run_module_transportation(
   .transit_service_pct = 0.4,
   .transit_avo_pct = 0.4 * 1.6,
   .scenario = "ts40",
   .selected_ctu = "Richfield"
 )
 
-transitservice_0 <- run_scenario_transportation(
+transitservice_0 <- run_module_transportation(
   .transit_service_pct = 0,
   .scenario = "ts0",
   .transit_avo_pct = 0,
@@ -38,7 +38,7 @@ transit <- bind_rows(
 
 check_avo_pct <- function(avo_pct) {
   suppressMessages(
-    run_scenario_transportation(
+    run_module_transportation(
       .transit_service_pct = 0.6,
       .transit_avo_pct = 0.6 * avo_pct,
       .scenario = avo_pct,
