@@ -26,6 +26,7 @@ Other datasets:
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{fuel_economy}},
+\code{\link{geog_index}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}

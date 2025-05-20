@@ -184,3 +184,19 @@
 #' library(ghg.ccap)
 # fuel_economy -----
 "fuel_economy"
+
+
+
+
+#' @title Geographic index of cities, names, types
+#' @format tibble
+#' - **ctu** CTU name, concurrent with data tables
+#' - **geog_name** Geographic name
+#' - **geog_level** City, township, unorganized territory, county
+#' - **geog_id** ID value
+#' - **geog_id_type** ID value type
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+# geog_index -----
+"geog_index"

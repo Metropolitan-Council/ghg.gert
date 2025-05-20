@@ -31,6 +31,7 @@ mode_walk_bike(
   .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .elast = elast,
+  .fuel_economy = fuel_economy,
   .factor_values = factor_values,
   .elast_5d = elast_5d
 )
@@ -101,6 +102,8 @@ Default value is \code{0.6}.}
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
