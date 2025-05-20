@@ -305,15 +305,15 @@ CUT,TMT,Cottage Grove,2035,63704570,HDT,F
 CUT,TMT,Cottage Grove,2040,68090120,HDT,F
 CUT,TMT,Cottage Grove,2045,72475660,HDT,F
 CUT,TMT,Cottage Grove,2050,76861210,HDT,F
-CUT,TMT,Credit River Twp.,2015,31748100,HDT,F
-CUT,TMT,Credit River Twp.,2018,34705470,HDT,F
-CUT,TMT,Credit River Twp.,2020,36677050,HDT,F
-CUT,TMT,Credit River Twp.,2025,39418070,HDT,F
-CUT,TMT,Credit River Twp.,2030,42073480,HDT,F
-CUT,TMT,Credit River Twp.,2035,44509040,HDT,F
-CUT,TMT,Credit River Twp.,2040,47573130,HDT,F
-CUT,TMT,Credit River Twp.,2045,50637220,HDT,F
-CUT,TMT,Credit River Twp.,2050,53701310,HDT,F
+CUT,TMT,Credit River,2015,31748100,HDT,F
+CUT,TMT,Credit River,2018,34705470,HDT,F
+CUT,TMT,Credit River,2020,36677050,HDT,F
+CUT,TMT,Credit River,2025,39418070,HDT,F
+CUT,TMT,Credit River,2030,42073480,HDT,F
+CUT,TMT,Credit River,2035,44509040,HDT,F
+CUT,TMT,Credit River,2040,47573130,HDT,F
+CUT,TMT,Credit River,2045,50637220,HDT,F
+CUT,TMT,Credit River,2050,53701310,HDT,F
 CUT,TMT,Crystal,2015,0,HDT,F
 CUT,TMT,Crystal,2018,0,HDT,F
 CUT,TMT,Crystal,2020,0,HDT,F
@@ -422,15 +422,15 @@ CUT,TMT,Elko New Market,2035,0,HDT,F
 CUT,TMT,Elko New Market,2040,0,HDT,F
 CUT,TMT,Elko New Market,2045,0,HDT,F
 CUT,TMT,Elko New Market,2050,0,HDT,F
-CUT,TMT,Empire Twp.,2015,0,HDT,F
-CUT,TMT,Empire Twp.,2018,0,HDT,F
-CUT,TMT,Empire Twp.,2020,0,HDT,F
-CUT,TMT,Empire Twp.,2025,0,HDT,F
-CUT,TMT,Empire Twp.,2030,0,HDT,F
-CUT,TMT,Empire Twp.,2035,0,HDT,F
-CUT,TMT,Empire Twp.,2040,0,HDT,F
-CUT,TMT,Empire Twp.,2045,0,HDT,F
-CUT,TMT,Empire Twp.,2050,0,HDT,F
+CUT,TMT,Empire,2015,0,HDT,F
+CUT,TMT,Empire,2018,0,HDT,F
+CUT,TMT,Empire,2020,0,HDT,F
+CUT,TMT,Empire,2025,0,HDT,F
+CUT,TMT,Empire,2030,0,HDT,F
+CUT,TMT,Empire,2035,0,HDT,F
+CUT,TMT,Empire,2040,0,HDT,F
+CUT,TMT,Empire,2045,0,HDT,F
+CUT,TMT,Empire,2050,0,HDT,F
 CUT,TMT,Eureka Twp.,2015,300190,HDT,F
 CUT,TMT,Eureka Twp.,2018,328150,HDT,F
 CUT,TMT,Eureka Twp.,2020,346790,HDT,F
@@ -1979,15 +1979,15 @@ SUT,TMT,Cottage Grove,2035,8196810,MDT,F
 SUT,TMT,Cottage Grove,2040,8761090,MDT,F
 SUT,TMT,Cottage Grove,2045,9325380,MDT,F
 SUT,TMT,Cottage Grove,2050,9889660,MDT,F
-SUT,TMT,Credit River Twp.,2015,11067640,MDT,F
-SUT,TMT,Credit River Twp.,2018,12098610,MDT,F
-SUT,TMT,Credit River Twp.,2020,12785920,MDT,F
-SUT,TMT,Credit River Twp.,2025,13741460,MDT,F
-SUT,TMT,Credit River Twp.,2030,14667160,MDT,F
-SUT,TMT,Credit River Twp.,2035,15516210,MDT,F
-SUT,TMT,Credit River Twp.,2040,16584380,MDT,F
-SUT,TMT,Credit River Twp.,2045,17652550,MDT,F
-SUT,TMT,Credit River Twp.,2050,18720710,MDT,F
+SUT,TMT,Credit River,2015,11067640,MDT,F
+SUT,TMT,Credit River,2018,12098610,MDT,F
+SUT,TMT,Credit River,2020,12785920,MDT,F
+SUT,TMT,Credit River,2025,13741460,MDT,F
+SUT,TMT,Credit River,2030,14667160,MDT,F
+SUT,TMT,Credit River,2035,15516210,MDT,F
+SUT,TMT,Credit River,2040,16584380,MDT,F
+SUT,TMT,Credit River,2045,17652550,MDT,F
+SUT,TMT,Credit River,2050,18720710,MDT,F
 SUT,TMT,Crystal,2015,0,MDT,F
 SUT,TMT,Crystal,2018,0,MDT,F
 SUT,TMT,Crystal,2020,0,MDT,F
@@ -2096,15 +2096,15 @@ SUT,TMT,Elko New Market,2035,0,MDT,F
 SUT,TMT,Elko New Market,2040,0,MDT,F
 SUT,TMT,Elko New Market,2045,0,MDT,F
 SUT,TMT,Elko New Market,2050,0,MDT,F
-SUT,TMT,Empire Twp.,2015,0,MDT,F
-SUT,TMT,Empire Twp.,2018,0,MDT,F
-SUT,TMT,Empire Twp.,2020,0,MDT,F
-SUT,TMT,Empire Twp.,2025,0,MDT,F
-SUT,TMT,Empire Twp.,2030,0,MDT,F
-SUT,TMT,Empire Twp.,2035,0,MDT,F
-SUT,TMT,Empire Twp.,2040,0,MDT,F
-SUT,TMT,Empire Twp.,2045,0,MDT,F
-SUT,TMT,Empire Twp.,2050,0,MDT,F
+SUT,TMT,Empire,2015,0,MDT,F
+SUT,TMT,Empire,2018,0,MDT,F
+SUT,TMT,Empire,2020,0,MDT,F
+SUT,TMT,Empire,2025,0,MDT,F
+SUT,TMT,Empire,2030,0,MDT,F
+SUT,TMT,Empire,2035,0,MDT,F
+SUT,TMT,Empire,2040,0,MDT,F
+SUT,TMT,Empire,2045,0,MDT,F
+SUT,TMT,Empire,2050,0,MDT,F
 SUT,TMT,Eureka Twp.,2015,272170,MDT,F
 SUT,TMT,Eureka Twp.,2018,297530,MDT,F
 SUT,TMT,Eureka Twp.,2020,314430,MDT,F
@@ -3653,15 +3653,15 @@ FR,TMT,Cottage Grove,2035,131470720,FRAIL,F
 FR,TMT,Cottage Grove,2040,137961250,FRAIL,F
 FR,TMT,Cottage Grove,2045,144451790,FRAIL,F
 FR,TMT,Cottage Grove,2050,150942320,FRAIL,F
-FR,TMT,Credit River Twp.,2015,14926580,FRAIL,F
-FR,TMT,Credit River Twp.,2018,14493830,FRAIL,F
-FR,TMT,Credit River Twp.,2020,14205330,FRAIL,F
-FR,TMT,Credit River Twp.,2025,14559620,FRAIL,F
-FR,TMT,Credit River Twp.,2030,14775030,FRAIL,F
-FR,TMT,Credit River Twp.,2035,14727220,FRAIL,F
-FR,TMT,Credit River Twp.,2040,14834090,FRAIL,F
-FR,TMT,Credit River Twp.,2045,14940970,FRAIL,F
-FR,TMT,Credit River Twp.,2050,15047850,FRAIL,F
+FR,TMT,Credit River,2015,14926580,FRAIL,F
+FR,TMT,Credit River,2018,14493830,FRAIL,F
+FR,TMT,Credit River,2020,14205330,FRAIL,F
+FR,TMT,Credit River,2025,14559620,FRAIL,F
+FR,TMT,Credit River,2030,14775030,FRAIL,F
+FR,TMT,Credit River,2035,14727220,FRAIL,F
+FR,TMT,Credit River,2040,14834090,FRAIL,F
+FR,TMT,Credit River,2045,14940970,FRAIL,F
+FR,TMT,Credit River,2050,15047850,FRAIL,F
 FR,TMT,Crystal,2015,71485990,FRAIL,F
 FR,TMT,Crystal,2018,69750870,FRAIL,F
 FR,TMT,Crystal,2020,68594120,FRAIL,F
@@ -3770,15 +3770,15 @@ FR,TMT,Elko New Market,2035,29871300,FRAIL,F
 FR,TMT,Elko New Market,2040,34097960,FRAIL,F
 FR,TMT,Elko New Market,2045,38324630,FRAIL,F
 FR,TMT,Elko New Market,2050,42551290,FRAIL,F
-FR,TMT,Empire Twp.,2015,8345120,FRAIL,F
-FR,TMT,Empire Twp.,2018,8667320,FRAIL,F
-FR,TMT,Empire Twp.,2020,8882130,FRAIL,F
-FR,TMT,Empire Twp.,2025,9945030,FRAIL,F
-FR,TMT,Empire Twp.,2030,10901580,FRAIL,F
-FR,TMT,Empire Twp.,2035,11863420,FRAIL,F
-FR,TMT,Empire Twp.,2040,12937020,FRAIL,F
-FR,TMT,Empire Twp.,2045,14010630,FRAIL,F
-FR,TMT,Empire Twp.,2050,15084230,FRAIL,F
+FR,TMT,Empire,2015,8345120,FRAIL,F
+FR,TMT,Empire,2018,8667320,FRAIL,F
+FR,TMT,Empire,2020,8882130,FRAIL,F
+FR,TMT,Empire,2025,9945030,FRAIL,F
+FR,TMT,Empire,2030,10901580,FRAIL,F
+FR,TMT,Empire,2035,11863420,FRAIL,F
+FR,TMT,Empire,2040,12937020,FRAIL,F
+FR,TMT,Empire,2045,14010630,FRAIL,F
+FR,TMT,Empire,2050,15084230,FRAIL,F
 FR,TMT,Eureka Twp.,2015,5102780,FRAIL,F
 FR,TMT,Eureka Twp.,2018,4941920,FRAIL,F
 FR,TMT,Eureka Twp.,2020,4834670,FRAIL,F
@@ -5327,15 +5327,15 @@ MM,TMT,Cottage Grove,2035,39717470,FSHIP,F
 MM,TMT,Cottage Grove,2040,45293400,FSHIP,F
 MM,TMT,Cottage Grove,2045,50869320,FSHIP,F
 MM,TMT,Cottage Grove,2050,56445250,FSHIP,F
-MM,TMT,Credit River Twp.,2015,3205650,FSHIP,F
-MM,TMT,Credit River Twp.,2018,3408690,FSHIP,F
-MM,TMT,Credit River Twp.,2020,3544050,FSHIP,F
-MM,TMT,Credit River Twp.,2025,3854370,FSHIP,F
-MM,TMT,Credit River Twp.,2030,4164220,FSHIP,F
-MM,TMT,Credit River Twp.,2035,4449110,FSHIP,F
-MM,TMT,Credit River Twp.,2040,4870110,FSHIP,F
-MM,TMT,Credit River Twp.,2045,5291110,FSHIP,F
-MM,TMT,Credit River Twp.,2050,5712110,FSHIP,F
+MM,TMT,Credit River,2015,3205650,FSHIP,F
+MM,TMT,Credit River,2018,3408690,FSHIP,F
+MM,TMT,Credit River,2020,3544050,FSHIP,F
+MM,TMT,Credit River,2025,3854370,FSHIP,F
+MM,TMT,Credit River,2030,4164220,FSHIP,F
+MM,TMT,Credit River,2035,4449110,FSHIP,F
+MM,TMT,Credit River,2040,4870110,FSHIP,F
+MM,TMT,Credit River,2045,5291110,FSHIP,F
+MM,TMT,Credit River,2050,5712110,FSHIP,F
 MM,TMT,Crystal,2015,15352420,FSHIP,F
 MM,TMT,Crystal,2018,16408990,FSHIP,F
 MM,TMT,Crystal,2020,17113360,FSHIP,F
@@ -5444,15 +5444,15 @@ MM,TMT,Elko New Market,2035,9024160,FSHIP,F
 MM,TMT,Elko New Market,2040,11194540,FSHIP,F
 MM,TMT,Elko New Market,2045,13364920,FSHIP,F
 MM,TMT,Elko New Market,2050,15535300,FSHIP,F
-MM,TMT,Empire Twp.,2015,1792210,FSHIP,F
-MM,TMT,Empire Twp.,2018,2046470,FSHIP,F
-MM,TMT,Empire Twp.,2020,2215980,FSHIP,F
-MM,TMT,Empire Twp.,2025,2632750,FSHIP,F
-MM,TMT,Empire Twp.,2030,3072520,FSHIP,F
-MM,TMT,Empire Twp.,2035,3583950,FSHIP,F
-MM,TMT,Empire Twp.,2040,4247290,FSHIP,F
-MM,TMT,Empire Twp.,2045,4910630,FSHIP,F
-MM,TMT,Empire Twp.,2050,5573970,FSHIP,F
+MM,TMT,Empire,2015,1792210,FSHIP,F
+MM,TMT,Empire,2018,2046470,FSHIP,F
+MM,TMT,Empire,2020,2215980,FSHIP,F
+MM,TMT,Empire,2025,2632750,FSHIP,F
+MM,TMT,Empire,2030,3072520,FSHIP,F
+MM,TMT,Empire,2035,3583950,FSHIP,F
+MM,TMT,Empire,2040,4247290,FSHIP,F
+MM,TMT,Empire,2045,4910630,FSHIP,F
+MM,TMT,Empire,2050,5573970,FSHIP,F
 MM,TMT,Eureka Twp.,2015,1095880,FSHIP,F
 MM,TMT,Eureka Twp.,2018,1162070,FSHIP,F
 MM,TMT,Eureka Twp.,2020,1206190,FSHIP,F
@@ -7001,15 +7001,15 @@ AIR,TMT,Cottage Grove,2035,1061810,FSHIP,F
 AIR,TMT,Cottage Grove,2040,1413160,FSHIP,F
 AIR,TMT,Cottage Grove,2045,1764510,FSHIP,F
 AIR,TMT,Cottage Grove,2050,2115850,FSHIP,F
-AIR,TMT,Credit River Twp.,2015,48080,FSHIP,F
-AIR,TMT,Credit River Twp.,2018,60540,FSHIP,F
-AIR,TMT,Credit River Twp.,2020,68850,FSHIP,F
-AIR,TMT,Credit River Twp.,2025,83830,FSHIP,F
-AIR,TMT,Credit River Twp.,2030,99980,FSHIP,F
-AIR,TMT,Credit River Twp.,2035,118940,FSHIP,F
-AIR,TMT,Credit River Twp.,2040,151950,FSHIP,F
-AIR,TMT,Credit River Twp.,2045,184950,FSHIP,F
-AIR,TMT,Credit River Twp.,2050,217960,FSHIP,F
+AIR,TMT,Credit River,2015,48080,FSHIP,F
+AIR,TMT,Credit River,2018,60540,FSHIP,F
+AIR,TMT,Credit River,2020,68850,FSHIP,F
+AIR,TMT,Credit River,2025,83830,FSHIP,F
+AIR,TMT,Credit River,2030,99980,FSHIP,F
+AIR,TMT,Credit River,2035,118940,FSHIP,F
+AIR,TMT,Credit River,2040,151950,FSHIP,F
+AIR,TMT,Credit River,2045,184950,FSHIP,F
+AIR,TMT,Credit River,2050,217960,FSHIP,F
 AIR,TMT,Crystal,2015,230280,FSHIP,F
 AIR,TMT,Crystal,2018,291590,FSHIP,F
 AIR,TMT,Crystal,2020,332460,FSHIP,F
@@ -7118,15 +7118,15 @@ AIR,TMT,Elko New Market,2035,241250,FSHIP,F
 AIR,TMT,Elko New Market,2040,349270,FSHIP,F
 AIR,TMT,Elko New Market,2045,457290,FSHIP,F
 AIR,TMT,Elko New Market,2050,565310,FSHIP,F
-AIR,TMT,Empire Twp.,2015,26880,FSHIP,F
-AIR,TMT,Empire Twp.,2018,36580,FSHIP,F
-AIR,TMT,Empire Twp.,2020,43050,FSHIP,F
-AIR,TMT,Empire Twp.,2025,57260,FSHIP,F
-AIR,TMT,Empire Twp.,2030,73770,FSHIP,F
-AIR,TMT,Empire Twp.,2035,95810,FSHIP,F
-AIR,TMT,Empire Twp.,2040,132520,FSHIP,F
-AIR,TMT,Empire Twp.,2045,169220,FSHIP,F
-AIR,TMT,Empire Twp.,2050,205920,FSHIP,F
+AIR,TMT,Empire,2015,26880,FSHIP,F
+AIR,TMT,Empire,2018,36580,FSHIP,F
+AIR,TMT,Empire,2020,43050,FSHIP,F
+AIR,TMT,Empire,2025,57260,FSHIP,F
+AIR,TMT,Empire,2030,73770,FSHIP,F
+AIR,TMT,Empire,2035,95810,FSHIP,F
+AIR,TMT,Empire,2040,132520,FSHIP,F
+AIR,TMT,Empire,2045,169220,FSHIP,F
+AIR,TMT,Empire,2050,205920,FSHIP,F
 AIR,TMT,Eureka Twp.,2015,16440,FSHIP,F
 AIR,TMT,Eureka Twp.,2018,20630,FSHIP,F
 AIR,TMT,Eureka Twp.,2020,23430,FSHIP,F
@@ -8675,15 +8675,15 @@ WAT,TMT,Cottage Grove,2035,0,FSHIP,F
 WAT,TMT,Cottage Grove,2040,0,FSHIP,F
 WAT,TMT,Cottage Grove,2045,0,FSHIP,F
 WAT,TMT,Cottage Grove,2050,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2015,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2018,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2020,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2025,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2030,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2035,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2040,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2045,0,FSHIP,F
-WAT,TMT,Credit River Twp.,2050,0,FSHIP,F
+WAT,TMT,Credit River,2015,0,FSHIP,F
+WAT,TMT,Credit River,2018,0,FSHIP,F
+WAT,TMT,Credit River,2020,0,FSHIP,F
+WAT,TMT,Credit River,2025,0,FSHIP,F
+WAT,TMT,Credit River,2030,0,FSHIP,F
+WAT,TMT,Credit River,2035,0,FSHIP,F
+WAT,TMT,Credit River,2040,0,FSHIP,F
+WAT,TMT,Credit River,2045,0,FSHIP,F
+WAT,TMT,Credit River,2050,0,FSHIP,F
 WAT,TMT,Crystal,2015,0,FSHIP,F
 WAT,TMT,Crystal,2018,0,FSHIP,F
 WAT,TMT,Crystal,2020,0,FSHIP,F
@@ -8792,15 +8792,15 @@ WAT,TMT,Elko New Market,2035,0,FSHIP,F
 WAT,TMT,Elko New Market,2040,0,FSHIP,F
 WAT,TMT,Elko New Market,2045,0,FSHIP,F
 WAT,TMT,Elko New Market,2050,0,FSHIP,F
-WAT,TMT,Empire Twp.,2015,0,FSHIP,F
-WAT,TMT,Empire Twp.,2018,0,FSHIP,F
-WAT,TMT,Empire Twp.,2020,0,FSHIP,F
-WAT,TMT,Empire Twp.,2025,0,FSHIP,F
-WAT,TMT,Empire Twp.,2030,0,FSHIP,F
-WAT,TMT,Empire Twp.,2035,0,FSHIP,F
-WAT,TMT,Empire Twp.,2040,0,FSHIP,F
-WAT,TMT,Empire Twp.,2045,0,FSHIP,F
-WAT,TMT,Empire Twp.,2050,0,FSHIP,F
+WAT,TMT,Empire,2015,0,FSHIP,F
+WAT,TMT,Empire,2018,0,FSHIP,F
+WAT,TMT,Empire,2020,0,FSHIP,F
+WAT,TMT,Empire,2025,0,FSHIP,F
+WAT,TMT,Empire,2030,0,FSHIP,F
+WAT,TMT,Empire,2035,0,FSHIP,F
+WAT,TMT,Empire,2040,0,FSHIP,F
+WAT,TMT,Empire,2045,0,FSHIP,F
+WAT,TMT,Empire,2050,0,FSHIP,F
 WAT,TMT,Eureka Twp.,2015,0,FSHIP,F
 WAT,TMT,Eureka Twp.,2018,0,FSHIP,F
 WAT,TMT,Eureka Twp.,2020,0,FSHIP,F
@@ -10349,15 +10349,15 @@ CUT,TotStock,Cottage Grove,2035,100,HDT,F
 CUT,TotStock,Cottage Grove,2040,100,HDT,F
 CUT,TotStock,Cottage Grove,2045,100,HDT,F
 CUT,TotStock,Cottage Grove,2050,100,HDT,F
-CUT,TotStock,Credit River Twp.,2015,100,HDT,F
-CUT,TotStock,Credit River Twp.,2018,100,HDT,F
-CUT,TotStock,Credit River Twp.,2020,100,HDT,F
-CUT,TotStock,Credit River Twp.,2025,100,HDT,F
-CUT,TotStock,Credit River Twp.,2030,100,HDT,F
-CUT,TotStock,Credit River Twp.,2035,100,HDT,F
-CUT,TotStock,Credit River Twp.,2040,100,HDT,F
-CUT,TotStock,Credit River Twp.,2045,100,HDT,F
-CUT,TotStock,Credit River Twp.,2050,100,HDT,F
+CUT,TotStock,Credit River,2015,100,HDT,F
+CUT,TotStock,Credit River,2018,100,HDT,F
+CUT,TotStock,Credit River,2020,100,HDT,F
+CUT,TotStock,Credit River,2025,100,HDT,F
+CUT,TotStock,Credit River,2030,100,HDT,F
+CUT,TotStock,Credit River,2035,100,HDT,F
+CUT,TotStock,Credit River,2040,100,HDT,F
+CUT,TotStock,Credit River,2045,100,HDT,F
+CUT,TotStock,Credit River,2050,100,HDT,F
 CUT,TotStock,Crystal,2015,100,HDT,F
 CUT,TotStock,Crystal,2018,100,HDT,F
 CUT,TotStock,Crystal,2020,100,HDT,F
@@ -10466,15 +10466,15 @@ CUT,TotStock,Elko New Market,2035,100,HDT,F
 CUT,TotStock,Elko New Market,2040,100,HDT,F
 CUT,TotStock,Elko New Market,2045,100,HDT,F
 CUT,TotStock,Elko New Market,2050,100,HDT,F
-CUT,TotStock,Empire Twp.,2015,100,HDT,F
-CUT,TotStock,Empire Twp.,2018,100,HDT,F
-CUT,TotStock,Empire Twp.,2020,100,HDT,F
-CUT,TotStock,Empire Twp.,2025,100,HDT,F
-CUT,TotStock,Empire Twp.,2030,100,HDT,F
-CUT,TotStock,Empire Twp.,2035,100,HDT,F
-CUT,TotStock,Empire Twp.,2040,100,HDT,F
-CUT,TotStock,Empire Twp.,2045,100,HDT,F
-CUT,TotStock,Empire Twp.,2050,100,HDT,F
+CUT,TotStock,Empire,2015,100,HDT,F
+CUT,TotStock,Empire,2018,100,HDT,F
+CUT,TotStock,Empire,2020,100,HDT,F
+CUT,TotStock,Empire,2025,100,HDT,F
+CUT,TotStock,Empire,2030,100,HDT,F
+CUT,TotStock,Empire,2035,100,HDT,F
+CUT,TotStock,Empire,2040,100,HDT,F
+CUT,TotStock,Empire,2045,100,HDT,F
+CUT,TotStock,Empire,2050,100,HDT,F
 CUT,TotStock,Eureka Twp.,2015,100,HDT,F
 CUT,TotStock,Eureka Twp.,2018,100,HDT,F
 CUT,TotStock,Eureka Twp.,2020,100,HDT,F
@@ -12023,15 +12023,15 @@ CUT,CIStock,Cottage Grove,2035,95.65,HDT,F
 CUT,CIStock,Cottage Grove,2040,92.52,HDT,F
 CUT,CIStock,Cottage Grove,2045,89.76,HDT,F
 CUT,CIStock,Cottage Grove,2050,87.46,HDT,F
-CUT,CIStock,Credit River Twp.,2015,100,HDT,F
-CUT,CIStock,Credit River Twp.,2018,100,HDT,F
-CUT,CIStock,Credit River Twp.,2020,100,HDT,F
-CUT,CIStock,Credit River Twp.,2025,99.9,HDT,F
-CUT,CIStock,Credit River Twp.,2030,99.63,HDT,F
-CUT,CIStock,Credit River Twp.,2035,98.71,HDT,F
-CUT,CIStock,Credit River Twp.,2040,97.2,HDT,F
-CUT,CIStock,Credit River Twp.,2045,95.95,HDT,F
-CUT,CIStock,Credit River Twp.,2050,94.78,HDT,F
+CUT,CIStock,Credit River,2015,100,HDT,F
+CUT,CIStock,Credit River,2018,100,HDT,F
+CUT,CIStock,Credit River,2020,100,HDT,F
+CUT,CIStock,Credit River,2025,99.9,HDT,F
+CUT,CIStock,Credit River,2030,99.63,HDT,F
+CUT,CIStock,Credit River,2035,98.71,HDT,F
+CUT,CIStock,Credit River,2040,97.2,HDT,F
+CUT,CIStock,Credit River,2045,95.95,HDT,F
+CUT,CIStock,Credit River,2050,94.78,HDT,F
 CUT,CIStock,Crystal,2015,100,HDT,F
 CUT,CIStock,Crystal,2018,100,HDT,F
 CUT,CIStock,Crystal,2020,100,HDT,F
@@ -12140,15 +12140,15 @@ CUT,CIStock,Elko New Market,2035,98.71,HDT,F
 CUT,CIStock,Elko New Market,2040,97.2,HDT,F
 CUT,CIStock,Elko New Market,2045,95.95,HDT,F
 CUT,CIStock,Elko New Market,2050,94.78,HDT,F
-CUT,CIStock,Empire Twp.,2015,100,HDT,F
-CUT,CIStock,Empire Twp.,2018,100,HDT,F
-CUT,CIStock,Empire Twp.,2020,100,HDT,F
-CUT,CIStock,Empire Twp.,2025,99.71,HDT,F
-CUT,CIStock,Empire Twp.,2030,98.99,HDT,F
-CUT,CIStock,Empire Twp.,2035,97,HDT,F
-CUT,CIStock,Empire Twp.,2040,94.48,HDT,F
-CUT,CIStock,Empire Twp.,2045,92.32,HDT,F
-CUT,CIStock,Empire Twp.,2050,90.46,HDT,F
+CUT,CIStock,Empire,2015,100,HDT,F
+CUT,CIStock,Empire,2018,100,HDT,F
+CUT,CIStock,Empire,2020,100,HDT,F
+CUT,CIStock,Empire,2025,99.71,HDT,F
+CUT,CIStock,Empire,2030,98.99,HDT,F
+CUT,CIStock,Empire,2035,97,HDT,F
+CUT,CIStock,Empire,2040,94.48,HDT,F
+CUT,CIStock,Empire,2045,92.32,HDT,F
+CUT,CIStock,Empire,2050,90.46,HDT,F
 CUT,CIStock,Eureka Twp.,2015,100,HDT,F
 CUT,CIStock,Eureka Twp.,2018,100,HDT,F
 CUT,CIStock,Eureka Twp.,2020,100,HDT,F
@@ -13697,15 +13697,15 @@ CUT,BEVStock,Cottage Grove,2035,4.35,HDT,F
 CUT,BEVStock,Cottage Grove,2040,7.48,HDT,F
 CUT,BEVStock,Cottage Grove,2045,10.24,HDT,F
 CUT,BEVStock,Cottage Grove,2050,12.54,HDT,F
-CUT,BEVStock,Credit River Twp.,2015,0,HDT,F
-CUT,BEVStock,Credit River Twp.,2018,0,HDT,F
-CUT,BEVStock,Credit River Twp.,2020,0,HDT,F
-CUT,BEVStock,Credit River Twp.,2025,0.1,HDT,F
-CUT,BEVStock,Credit River Twp.,2030,0.37,HDT,F
-CUT,BEVStock,Credit River Twp.,2035,1.29,HDT,F
-CUT,BEVStock,Credit River Twp.,2040,2.8,HDT,F
-CUT,BEVStock,Credit River Twp.,2045,4.05,HDT,F
-CUT,BEVStock,Credit River Twp.,2050,5.22,HDT,F
+CUT,BEVStock,Credit River,2015,0,HDT,F
+CUT,BEVStock,Credit River,2018,0,HDT,F
+CUT,BEVStock,Credit River,2020,0,HDT,F
+CUT,BEVStock,Credit River,2025,0.1,HDT,F
+CUT,BEVStock,Credit River,2030,0.37,HDT,F
+CUT,BEVStock,Credit River,2035,1.29,HDT,F
+CUT,BEVStock,Credit River,2040,2.8,HDT,F
+CUT,BEVStock,Credit River,2045,4.05,HDT,F
+CUT,BEVStock,Credit River,2050,5.22,HDT,F
 CUT,BEVStock,Crystal,2015,0,HDT,F
 CUT,BEVStock,Crystal,2018,0,HDT,F
 CUT,BEVStock,Crystal,2020,0,HDT,F
@@ -13814,15 +13814,15 @@ CUT,BEVStock,Elko New Market,2035,1.29,HDT,F
 CUT,BEVStock,Elko New Market,2040,2.8,HDT,F
 CUT,BEVStock,Elko New Market,2045,4.05,HDT,F
 CUT,BEVStock,Elko New Market,2050,5.22,HDT,F
-CUT,BEVStock,Empire Twp.,2015,0,HDT,F
-CUT,BEVStock,Empire Twp.,2018,0,HDT,F
-CUT,BEVStock,Empire Twp.,2020,0,HDT,F
-CUT,BEVStock,Empire Twp.,2025,0.29,HDT,F
-CUT,BEVStock,Empire Twp.,2030,1.01,HDT,F
-CUT,BEVStock,Empire Twp.,2035,3,HDT,F
-CUT,BEVStock,Empire Twp.,2040,5.52,HDT,F
-CUT,BEVStock,Empire Twp.,2045,7.68,HDT,F
-CUT,BEVStock,Empire Twp.,2050,9.54,HDT,F
+CUT,BEVStock,Empire,2015,0,HDT,F
+CUT,BEVStock,Empire,2018,0,HDT,F
+CUT,BEVStock,Empire,2020,0,HDT,F
+CUT,BEVStock,Empire,2025,0.29,HDT,F
+CUT,BEVStock,Empire,2030,1.01,HDT,F
+CUT,BEVStock,Empire,2035,3,HDT,F
+CUT,BEVStock,Empire,2040,5.52,HDT,F
+CUT,BEVStock,Empire,2045,7.68,HDT,F
+CUT,BEVStock,Empire,2050,9.54,HDT,F
 CUT,BEVStock,Eureka Twp.,2015,0,HDT,F
 CUT,BEVStock,Eureka Twp.,2018,0,HDT,F
 CUT,BEVStock,Eureka Twp.,2020,0,HDT,F
@@ -15371,15 +15371,15 @@ SUT,TotStock,Cottage Grove,2035,100,MDT,F
 SUT,TotStock,Cottage Grove,2040,100,MDT,F
 SUT,TotStock,Cottage Grove,2045,100,MDT,F
 SUT,TotStock,Cottage Grove,2050,100,MDT,F
-SUT,TotStock,Credit River Twp.,2015,100,MDT,F
-SUT,TotStock,Credit River Twp.,2018,100,MDT,F
-SUT,TotStock,Credit River Twp.,2020,100,MDT,F
-SUT,TotStock,Credit River Twp.,2025,100,MDT,F
-SUT,TotStock,Credit River Twp.,2030,100,MDT,F
-SUT,TotStock,Credit River Twp.,2035,100,MDT,F
-SUT,TotStock,Credit River Twp.,2040,100,MDT,F
-SUT,TotStock,Credit River Twp.,2045,100,MDT,F
-SUT,TotStock,Credit River Twp.,2050,100,MDT,F
+SUT,TotStock,Credit River,2015,100,MDT,F
+SUT,TotStock,Credit River,2018,100,MDT,F
+SUT,TotStock,Credit River,2020,100,MDT,F
+SUT,TotStock,Credit River,2025,100,MDT,F
+SUT,TotStock,Credit River,2030,100,MDT,F
+SUT,TotStock,Credit River,2035,100,MDT,F
+SUT,TotStock,Credit River,2040,100,MDT,F
+SUT,TotStock,Credit River,2045,100,MDT,F
+SUT,TotStock,Credit River,2050,100,MDT,F
 SUT,TotStock,Crystal,2015,100,MDT,F
 SUT,TotStock,Crystal,2018,100,MDT,F
 SUT,TotStock,Crystal,2020,100,MDT,F
@@ -15488,15 +15488,15 @@ SUT,TotStock,Elko New Market,2035,100,MDT,F
 SUT,TotStock,Elko New Market,2040,100,MDT,F
 SUT,TotStock,Elko New Market,2045,100,MDT,F
 SUT,TotStock,Elko New Market,2050,100,MDT,F
-SUT,TotStock,Empire Twp.,2015,100,MDT,F
-SUT,TotStock,Empire Twp.,2018,100,MDT,F
-SUT,TotStock,Empire Twp.,2020,100,MDT,F
-SUT,TotStock,Empire Twp.,2025,100,MDT,F
-SUT,TotStock,Empire Twp.,2030,100,MDT,F
-SUT,TotStock,Empire Twp.,2035,100,MDT,F
-SUT,TotStock,Empire Twp.,2040,100,MDT,F
-SUT,TotStock,Empire Twp.,2045,100,MDT,F
-SUT,TotStock,Empire Twp.,2050,100,MDT,F
+SUT,TotStock,Empire,2015,100,MDT,F
+SUT,TotStock,Empire,2018,100,MDT,F
+SUT,TotStock,Empire,2020,100,MDT,F
+SUT,TotStock,Empire,2025,100,MDT,F
+SUT,TotStock,Empire,2030,100,MDT,F
+SUT,TotStock,Empire,2035,100,MDT,F
+SUT,TotStock,Empire,2040,100,MDT,F
+SUT,TotStock,Empire,2045,100,MDT,F
+SUT,TotStock,Empire,2050,100,MDT,F
 SUT,TotStock,Eureka Twp.,2015,100,MDT,F
 SUT,TotStock,Eureka Twp.,2018,100,MDT,F
 SUT,TotStock,Eureka Twp.,2020,100,MDT,F
@@ -17045,15 +17045,15 @@ SUT,CIStock,Cottage Grove,2035,95.65,MDT,F
 SUT,CIStock,Cottage Grove,2040,92.52,MDT,F
 SUT,CIStock,Cottage Grove,2045,89.76,MDT,F
 SUT,CIStock,Cottage Grove,2050,87.46,MDT,F
-SUT,CIStock,Credit River Twp.,2015,100,MDT,F
-SUT,CIStock,Credit River Twp.,2018,100,MDT,F
-SUT,CIStock,Credit River Twp.,2020,100,MDT,F
-SUT,CIStock,Credit River Twp.,2025,99.9,MDT,F
-SUT,CIStock,Credit River Twp.,2030,99.63,MDT,F
-SUT,CIStock,Credit River Twp.,2035,98.71,MDT,F
-SUT,CIStock,Credit River Twp.,2040,97.2,MDT,F
-SUT,CIStock,Credit River Twp.,2045,95.95,MDT,F
-SUT,CIStock,Credit River Twp.,2050,94.78,MDT,F
+SUT,CIStock,Credit River,2015,100,MDT,F
+SUT,CIStock,Credit River,2018,100,MDT,F
+SUT,CIStock,Credit River,2020,100,MDT,F
+SUT,CIStock,Credit River,2025,99.9,MDT,F
+SUT,CIStock,Credit River,2030,99.63,MDT,F
+SUT,CIStock,Credit River,2035,98.71,MDT,F
+SUT,CIStock,Credit River,2040,97.2,MDT,F
+SUT,CIStock,Credit River,2045,95.95,MDT,F
+SUT,CIStock,Credit River,2050,94.78,MDT,F
 SUT,CIStock,Crystal,2015,100,MDT,F
 SUT,CIStock,Crystal,2018,100,MDT,F
 SUT,CIStock,Crystal,2020,100,MDT,F
@@ -17162,15 +17162,15 @@ SUT,CIStock,Elko New Market,2035,98.71,MDT,F
 SUT,CIStock,Elko New Market,2040,97.2,MDT,F
 SUT,CIStock,Elko New Market,2045,95.95,MDT,F
 SUT,CIStock,Elko New Market,2050,94.78,MDT,F
-SUT,CIStock,Empire Twp.,2015,100,MDT,F
-SUT,CIStock,Empire Twp.,2018,100,MDT,F
-SUT,CIStock,Empire Twp.,2020,100,MDT,F
-SUT,CIStock,Empire Twp.,2025,99.71,MDT,F
-SUT,CIStock,Empire Twp.,2030,98.99,MDT,F
-SUT,CIStock,Empire Twp.,2035,97,MDT,F
-SUT,CIStock,Empire Twp.,2040,94.48,MDT,F
-SUT,CIStock,Empire Twp.,2045,92.32,MDT,F
-SUT,CIStock,Empire Twp.,2050,90.46,MDT,F
+SUT,CIStock,Empire,2015,100,MDT,F
+SUT,CIStock,Empire,2018,100,MDT,F
+SUT,CIStock,Empire,2020,100,MDT,F
+SUT,CIStock,Empire,2025,99.71,MDT,F
+SUT,CIStock,Empire,2030,98.99,MDT,F
+SUT,CIStock,Empire,2035,97,MDT,F
+SUT,CIStock,Empire,2040,94.48,MDT,F
+SUT,CIStock,Empire,2045,92.32,MDT,F
+SUT,CIStock,Empire,2050,90.46,MDT,F
 SUT,CIStock,Eureka Twp.,2015,100,MDT,F
 SUT,CIStock,Eureka Twp.,2018,100,MDT,F
 SUT,CIStock,Eureka Twp.,2020,100,MDT,F
@@ -18719,15 +18719,15 @@ SUT,BEVStock,Cottage Grove,2035,4.35,MDT,F
 SUT,BEVStock,Cottage Grove,2040,7.48,MDT,F
 SUT,BEVStock,Cottage Grove,2045,10.24,MDT,F
 SUT,BEVStock,Cottage Grove,2050,12.54,MDT,F
-SUT,BEVStock,Credit River Twp.,2015,0,MDT,F
-SUT,BEVStock,Credit River Twp.,2018,0,MDT,F
-SUT,BEVStock,Credit River Twp.,2020,0,MDT,F
-SUT,BEVStock,Credit River Twp.,2025,0.1,MDT,F
-SUT,BEVStock,Credit River Twp.,2030,0.37,MDT,F
-SUT,BEVStock,Credit River Twp.,2035,1.29,MDT,F
-SUT,BEVStock,Credit River Twp.,2040,2.8,MDT,F
-SUT,BEVStock,Credit River Twp.,2045,4.05,MDT,F
-SUT,BEVStock,Credit River Twp.,2050,5.22,MDT,F
+SUT,BEVStock,Credit River,2015,0,MDT,F
+SUT,BEVStock,Credit River,2018,0,MDT,F
+SUT,BEVStock,Credit River,2020,0,MDT,F
+SUT,BEVStock,Credit River,2025,0.1,MDT,F
+SUT,BEVStock,Credit River,2030,0.37,MDT,F
+SUT,BEVStock,Credit River,2035,1.29,MDT,F
+SUT,BEVStock,Credit River,2040,2.8,MDT,F
+SUT,BEVStock,Credit River,2045,4.05,MDT,F
+SUT,BEVStock,Credit River,2050,5.22,MDT,F
 SUT,BEVStock,Crystal,2015,0,MDT,F
 SUT,BEVStock,Crystal,2018,0,MDT,F
 SUT,BEVStock,Crystal,2020,0,MDT,F
@@ -18836,15 +18836,15 @@ SUT,BEVStock,Elko New Market,2035,1.29,MDT,F
 SUT,BEVStock,Elko New Market,2040,2.8,MDT,F
 SUT,BEVStock,Elko New Market,2045,4.05,MDT,F
 SUT,BEVStock,Elko New Market,2050,5.22,MDT,F
-SUT,BEVStock,Empire Twp.,2015,0,MDT,F
-SUT,BEVStock,Empire Twp.,2018,0,MDT,F
-SUT,BEVStock,Empire Twp.,2020,0,MDT,F
-SUT,BEVStock,Empire Twp.,2025,0.29,MDT,F
-SUT,BEVStock,Empire Twp.,2030,1.01,MDT,F
-SUT,BEVStock,Empire Twp.,2035,3,MDT,F
-SUT,BEVStock,Empire Twp.,2040,5.52,MDT,F
-SUT,BEVStock,Empire Twp.,2045,7.68,MDT,F
-SUT,BEVStock,Empire Twp.,2050,9.54,MDT,F
+SUT,BEVStock,Empire,2015,0,MDT,F
+SUT,BEVStock,Empire,2018,0,MDT,F
+SUT,BEVStock,Empire,2020,0,MDT,F
+SUT,BEVStock,Empire,2025,0.29,MDT,F
+SUT,BEVStock,Empire,2030,1.01,MDT,F
+SUT,BEVStock,Empire,2035,3,MDT,F
+SUT,BEVStock,Empire,2040,5.52,MDT,F
+SUT,BEVStock,Empire,2045,7.68,MDT,F
+SUT,BEVStock,Empire,2050,9.54,MDT,F
 SUT,BEVStock,Eureka Twp.,2015,0,MDT,F
 SUT,BEVStock,Eureka Twp.,2018,0,MDT,F
 SUT,BEVStock,Eureka Twp.,2020,0,MDT,F
@@ -20393,15 +20393,15 @@ FR,TotStock,Cottage Grove,2035,100,FRAIL,F
 FR,TotStock,Cottage Grove,2040,100,FRAIL,F
 FR,TotStock,Cottage Grove,2045,100,FRAIL,F
 FR,TotStock,Cottage Grove,2050,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2015,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2018,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2020,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2025,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2030,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2035,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2040,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2045,100,FRAIL,F
-FR,TotStock,Credit River Twp.,2050,100,FRAIL,F
+FR,TotStock,Credit River,2015,100,FRAIL,F
+FR,TotStock,Credit River,2018,100,FRAIL,F
+FR,TotStock,Credit River,2020,100,FRAIL,F
+FR,TotStock,Credit River,2025,100,FRAIL,F
+FR,TotStock,Credit River,2030,100,FRAIL,F
+FR,TotStock,Credit River,2035,100,FRAIL,F
+FR,TotStock,Credit River,2040,100,FRAIL,F
+FR,TotStock,Credit River,2045,100,FRAIL,F
+FR,TotStock,Credit River,2050,100,FRAIL,F
 FR,TotStock,Crystal,2015,100,FRAIL,F
 FR,TotStock,Crystal,2018,100,FRAIL,F
 FR,TotStock,Crystal,2020,100,FRAIL,F
@@ -20510,15 +20510,15 @@ FR,TotStock,Elko New Market,2035,100,FRAIL,F
 FR,TotStock,Elko New Market,2040,100,FRAIL,F
 FR,TotStock,Elko New Market,2045,100,FRAIL,F
 FR,TotStock,Elko New Market,2050,100,FRAIL,F
-FR,TotStock,Empire Twp.,2015,100,FRAIL,F
-FR,TotStock,Empire Twp.,2018,100,FRAIL,F
-FR,TotStock,Empire Twp.,2020,100,FRAIL,F
-FR,TotStock,Empire Twp.,2025,100,FRAIL,F
-FR,TotStock,Empire Twp.,2030,100,FRAIL,F
-FR,TotStock,Empire Twp.,2035,100,FRAIL,F
-FR,TotStock,Empire Twp.,2040,100,FRAIL,F
-FR,TotStock,Empire Twp.,2045,100,FRAIL,F
-FR,TotStock,Empire Twp.,2050,100,FRAIL,F
+FR,TotStock,Empire,2015,100,FRAIL,F
+FR,TotStock,Empire,2018,100,FRAIL,F
+FR,TotStock,Empire,2020,100,FRAIL,F
+FR,TotStock,Empire,2025,100,FRAIL,F
+FR,TotStock,Empire,2030,100,FRAIL,F
+FR,TotStock,Empire,2035,100,FRAIL,F
+FR,TotStock,Empire,2040,100,FRAIL,F
+FR,TotStock,Empire,2045,100,FRAIL,F
+FR,TotStock,Empire,2050,100,FRAIL,F
 FR,TotStock,Eureka Twp.,2015,100,FRAIL,F
 FR,TotStock,Eureka Twp.,2018,100,FRAIL,F
 FR,TotStock,Eureka Twp.,2020,100,FRAIL,F
@@ -22067,15 +22067,15 @@ FR,CIStock,Cottage Grove,2035,100,FRAIL,F
 FR,CIStock,Cottage Grove,2040,100,FRAIL,F
 FR,CIStock,Cottage Grove,2045,100,FRAIL,F
 FR,CIStock,Cottage Grove,2050,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2015,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2018,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2020,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2025,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2030,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2035,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2040,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2045,100,FRAIL,F
-FR,CIStock,Credit River Twp.,2050,100,FRAIL,F
+FR,CIStock,Credit River,2015,100,FRAIL,F
+FR,CIStock,Credit River,2018,100,FRAIL,F
+FR,CIStock,Credit River,2020,100,FRAIL,F
+FR,CIStock,Credit River,2025,100,FRAIL,F
+FR,CIStock,Credit River,2030,100,FRAIL,F
+FR,CIStock,Credit River,2035,100,FRAIL,F
+FR,CIStock,Credit River,2040,100,FRAIL,F
+FR,CIStock,Credit River,2045,100,FRAIL,F
+FR,CIStock,Credit River,2050,100,FRAIL,F
 FR,CIStock,Crystal,2015,100,FRAIL,F
 FR,CIStock,Crystal,2018,100,FRAIL,F
 FR,CIStock,Crystal,2020,100,FRAIL,F
@@ -22184,15 +22184,15 @@ FR,CIStock,Elko New Market,2035,100,FRAIL,F
 FR,CIStock,Elko New Market,2040,100,FRAIL,F
 FR,CIStock,Elko New Market,2045,100,FRAIL,F
 FR,CIStock,Elko New Market,2050,100,FRAIL,F
-FR,CIStock,Empire Twp.,2015,100,FRAIL,F
-FR,CIStock,Empire Twp.,2018,100,FRAIL,F
-FR,CIStock,Empire Twp.,2020,100,FRAIL,F
-FR,CIStock,Empire Twp.,2025,100,FRAIL,F
-FR,CIStock,Empire Twp.,2030,100,FRAIL,F
-FR,CIStock,Empire Twp.,2035,100,FRAIL,F
-FR,CIStock,Empire Twp.,2040,100,FRAIL,F
-FR,CIStock,Empire Twp.,2045,100,FRAIL,F
-FR,CIStock,Empire Twp.,2050,100,FRAIL,F
+FR,CIStock,Empire,2015,100,FRAIL,F
+FR,CIStock,Empire,2018,100,FRAIL,F
+FR,CIStock,Empire,2020,100,FRAIL,F
+FR,CIStock,Empire,2025,100,FRAIL,F
+FR,CIStock,Empire,2030,100,FRAIL,F
+FR,CIStock,Empire,2035,100,FRAIL,F
+FR,CIStock,Empire,2040,100,FRAIL,F
+FR,CIStock,Empire,2045,100,FRAIL,F
+FR,CIStock,Empire,2050,100,FRAIL,F
 FR,CIStock,Eureka Twp.,2015,100,FRAIL,F
 FR,CIStock,Eureka Twp.,2018,100,FRAIL,F
 FR,CIStock,Eureka Twp.,2020,100,FRAIL,F
@@ -23741,15 +23741,15 @@ FR,EVStock,Cottage Grove,2035,0,FRAIL,F
 FR,EVStock,Cottage Grove,2040,0,FRAIL,F
 FR,EVStock,Cottage Grove,2045,0,FRAIL,F
 FR,EVStock,Cottage Grove,2050,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2015,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2018,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2020,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2025,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2030,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2035,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2040,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2045,0,FRAIL,F
-FR,EVStock,Credit River Twp.,2050,0,FRAIL,F
+FR,EVStock,Credit River,2015,0,FRAIL,F
+FR,EVStock,Credit River,2018,0,FRAIL,F
+FR,EVStock,Credit River,2020,0,FRAIL,F
+FR,EVStock,Credit River,2025,0,FRAIL,F
+FR,EVStock,Credit River,2030,0,FRAIL,F
+FR,EVStock,Credit River,2035,0,FRAIL,F
+FR,EVStock,Credit River,2040,0,FRAIL,F
+FR,EVStock,Credit River,2045,0,FRAIL,F
+FR,EVStock,Credit River,2050,0,FRAIL,F
 FR,EVStock,Crystal,2015,0,FRAIL,F
 FR,EVStock,Crystal,2018,0,FRAIL,F
 FR,EVStock,Crystal,2020,0,FRAIL,F
@@ -23858,15 +23858,15 @@ FR,EVStock,Elko New Market,2035,0,FRAIL,F
 FR,EVStock,Elko New Market,2040,0,FRAIL,F
 FR,EVStock,Elko New Market,2045,0,FRAIL,F
 FR,EVStock,Elko New Market,2050,0,FRAIL,F
-FR,EVStock,Empire Twp.,2015,0,FRAIL,F
-FR,EVStock,Empire Twp.,2018,0,FRAIL,F
-FR,EVStock,Empire Twp.,2020,0,FRAIL,F
-FR,EVStock,Empire Twp.,2025,0,FRAIL,F
-FR,EVStock,Empire Twp.,2030,0,FRAIL,F
-FR,EVStock,Empire Twp.,2035,0,FRAIL,F
-FR,EVStock,Empire Twp.,2040,0,FRAIL,F
-FR,EVStock,Empire Twp.,2045,0,FRAIL,F
-FR,EVStock,Empire Twp.,2050,0,FRAIL,F
+FR,EVStock,Empire,2015,0,FRAIL,F
+FR,EVStock,Empire,2018,0,FRAIL,F
+FR,EVStock,Empire,2020,0,FRAIL,F
+FR,EVStock,Empire,2025,0,FRAIL,F
+FR,EVStock,Empire,2030,0,FRAIL,F
+FR,EVStock,Empire,2035,0,FRAIL,F
+FR,EVStock,Empire,2040,0,FRAIL,F
+FR,EVStock,Empire,2045,0,FRAIL,F
+FR,EVStock,Empire,2050,0,FRAIL,F
 FR,EVStock,Eureka Twp.,2015,0,FRAIL,F
 FR,EVStock,Eureka Twp.,2018,0,FRAIL,F
 FR,EVStock,Eureka Twp.,2020,0,FRAIL,F
@@ -25415,15 +25415,15 @@ MM,TotStock,Cottage Grove,2035,100,FSHIP,F
 MM,TotStock,Cottage Grove,2040,100,FSHIP,F
 MM,TotStock,Cottage Grove,2045,100,FSHIP,F
 MM,TotStock,Cottage Grove,2050,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2015,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2018,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2020,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2025,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2030,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2035,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2040,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2045,100,FSHIP,F
-MM,TotStock,Credit River Twp.,2050,100,FSHIP,F
+MM,TotStock,Credit River,2015,100,FSHIP,F
+MM,TotStock,Credit River,2018,100,FSHIP,F
+MM,TotStock,Credit River,2020,100,FSHIP,F
+MM,TotStock,Credit River,2025,100,FSHIP,F
+MM,TotStock,Credit River,2030,100,FSHIP,F
+MM,TotStock,Credit River,2035,100,FSHIP,F
+MM,TotStock,Credit River,2040,100,FSHIP,F
+MM,TotStock,Credit River,2045,100,FSHIP,F
+MM,TotStock,Credit River,2050,100,FSHIP,F
 MM,TotStock,Crystal,2015,100,FSHIP,F
 MM,TotStock,Crystal,2018,100,FSHIP,F
 MM,TotStock,Crystal,2020,100,FSHIP,F
@@ -25532,15 +25532,15 @@ MM,TotStock,Elko New Market,2035,100,FSHIP,F
 MM,TotStock,Elko New Market,2040,100,FSHIP,F
 MM,TotStock,Elko New Market,2045,100,FSHIP,F
 MM,TotStock,Elko New Market,2050,100,FSHIP,F
-MM,TotStock,Empire Twp.,2015,100,FSHIP,F
-MM,TotStock,Empire Twp.,2018,100,FSHIP,F
-MM,TotStock,Empire Twp.,2020,100,FSHIP,F
-MM,TotStock,Empire Twp.,2025,100,FSHIP,F
-MM,TotStock,Empire Twp.,2030,100,FSHIP,F
-MM,TotStock,Empire Twp.,2035,100,FSHIP,F
-MM,TotStock,Empire Twp.,2040,100,FSHIP,F
-MM,TotStock,Empire Twp.,2045,100,FSHIP,F
-MM,TotStock,Empire Twp.,2050,100,FSHIP,F
+MM,TotStock,Empire,2015,100,FSHIP,F
+MM,TotStock,Empire,2018,100,FSHIP,F
+MM,TotStock,Empire,2020,100,FSHIP,F
+MM,TotStock,Empire,2025,100,FSHIP,F
+MM,TotStock,Empire,2030,100,FSHIP,F
+MM,TotStock,Empire,2035,100,FSHIP,F
+MM,TotStock,Empire,2040,100,FSHIP,F
+MM,TotStock,Empire,2045,100,FSHIP,F
+MM,TotStock,Empire,2050,100,FSHIP,F
 MM,TotStock,Eureka Twp.,2015,100,FSHIP,F
 MM,TotStock,Eureka Twp.,2018,100,FSHIP,F
 MM,TotStock,Eureka Twp.,2020,100,FSHIP,F
@@ -27089,15 +27089,15 @@ MM,CIStock,Cottage Grove,2035,95.65,FSHIP,F
 MM,CIStock,Cottage Grove,2040,92.52,FSHIP,F
 MM,CIStock,Cottage Grove,2045,89.76,FSHIP,F
 MM,CIStock,Cottage Grove,2050,87.46,FSHIP,F
-MM,CIStock,Credit River Twp.,2015,100,FSHIP,F
-MM,CIStock,Credit River Twp.,2018,100,FSHIP,F
-MM,CIStock,Credit River Twp.,2020,100,FSHIP,F
-MM,CIStock,Credit River Twp.,2025,99.9,FSHIP,F
-MM,CIStock,Credit River Twp.,2030,99.63,FSHIP,F
-MM,CIStock,Credit River Twp.,2035,98.71,FSHIP,F
-MM,CIStock,Credit River Twp.,2040,97.2,FSHIP,F
-MM,CIStock,Credit River Twp.,2045,95.95,FSHIP,F
-MM,CIStock,Credit River Twp.,2050,94.78,FSHIP,F
+MM,CIStock,Credit River,2015,100,FSHIP,F
+MM,CIStock,Credit River,2018,100,FSHIP,F
+MM,CIStock,Credit River,2020,100,FSHIP,F
+MM,CIStock,Credit River,2025,99.9,FSHIP,F
+MM,CIStock,Credit River,2030,99.63,FSHIP,F
+MM,CIStock,Credit River,2035,98.71,FSHIP,F
+MM,CIStock,Credit River,2040,97.2,FSHIP,F
+MM,CIStock,Credit River,2045,95.95,FSHIP,F
+MM,CIStock,Credit River,2050,94.78,FSHIP,F
 MM,CIStock,Crystal,2015,100,FSHIP,F
 MM,CIStock,Crystal,2018,100,FSHIP,F
 MM,CIStock,Crystal,2020,100,FSHIP,F
@@ -27206,15 +27206,15 @@ MM,CIStock,Elko New Market,2035,98.71,FSHIP,F
 MM,CIStock,Elko New Market,2040,97.2,FSHIP,F
 MM,CIStock,Elko New Market,2045,95.95,FSHIP,F
 MM,CIStock,Elko New Market,2050,94.78,FSHIP,F
-MM,CIStock,Empire Twp.,2015,100,FSHIP,F
-MM,CIStock,Empire Twp.,2018,100,FSHIP,F
-MM,CIStock,Empire Twp.,2020,100,FSHIP,F
-MM,CIStock,Empire Twp.,2025,99.71,FSHIP,F
-MM,CIStock,Empire Twp.,2030,98.99,FSHIP,F
-MM,CIStock,Empire Twp.,2035,97,FSHIP,F
-MM,CIStock,Empire Twp.,2040,94.48,FSHIP,F
-MM,CIStock,Empire Twp.,2045,92.32,FSHIP,F
-MM,CIStock,Empire Twp.,2050,90.46,FSHIP,F
+MM,CIStock,Empire,2015,100,FSHIP,F
+MM,CIStock,Empire,2018,100,FSHIP,F
+MM,CIStock,Empire,2020,100,FSHIP,F
+MM,CIStock,Empire,2025,99.71,FSHIP,F
+MM,CIStock,Empire,2030,98.99,FSHIP,F
+MM,CIStock,Empire,2035,97,FSHIP,F
+MM,CIStock,Empire,2040,94.48,FSHIP,F
+MM,CIStock,Empire,2045,92.32,FSHIP,F
+MM,CIStock,Empire,2050,90.46,FSHIP,F
 MM,CIStock,Eureka Twp.,2015,100,FSHIP,F
 MM,CIStock,Eureka Twp.,2018,100,FSHIP,F
 MM,CIStock,Eureka Twp.,2020,100,FSHIP,F
@@ -28763,15 +28763,15 @@ MM,BEVStock,Cottage Grove,2035,4.35,FSHIP,F
 MM,BEVStock,Cottage Grove,2040,7.48,FSHIP,F
 MM,BEVStock,Cottage Grove,2045,10.24,FSHIP,F
 MM,BEVStock,Cottage Grove,2050,12.54,FSHIP,F
-MM,BEVStock,Credit River Twp.,2015,0,FSHIP,F
-MM,BEVStock,Credit River Twp.,2018,0,FSHIP,F
-MM,BEVStock,Credit River Twp.,2020,0,FSHIP,F
-MM,BEVStock,Credit River Twp.,2025,0.1,FSHIP,F
-MM,BEVStock,Credit River Twp.,2030,0.37,FSHIP,F
-MM,BEVStock,Credit River Twp.,2035,1.29,FSHIP,F
-MM,BEVStock,Credit River Twp.,2040,2.8,FSHIP,F
-MM,BEVStock,Credit River Twp.,2045,4.05,FSHIP,F
-MM,BEVStock,Credit River Twp.,2050,5.22,FSHIP,F
+MM,BEVStock,Credit River,2015,0,FSHIP,F
+MM,BEVStock,Credit River,2018,0,FSHIP,F
+MM,BEVStock,Credit River,2020,0,FSHIP,F
+MM,BEVStock,Credit River,2025,0.1,FSHIP,F
+MM,BEVStock,Credit River,2030,0.37,FSHIP,F
+MM,BEVStock,Credit River,2035,1.29,FSHIP,F
+MM,BEVStock,Credit River,2040,2.8,FSHIP,F
+MM,BEVStock,Credit River,2045,4.05,FSHIP,F
+MM,BEVStock,Credit River,2050,5.22,FSHIP,F
 MM,BEVStock,Crystal,2015,0,FSHIP,F
 MM,BEVStock,Crystal,2018,0,FSHIP,F
 MM,BEVStock,Crystal,2020,0,FSHIP,F
@@ -28880,15 +28880,15 @@ MM,BEVStock,Elko New Market,2035,1.29,FSHIP,F
 MM,BEVStock,Elko New Market,2040,2.8,FSHIP,F
 MM,BEVStock,Elko New Market,2045,4.05,FSHIP,F
 MM,BEVStock,Elko New Market,2050,5.22,FSHIP,F
-MM,BEVStock,Empire Twp.,2015,0,FSHIP,F
-MM,BEVStock,Empire Twp.,2018,0,FSHIP,F
-MM,BEVStock,Empire Twp.,2020,0,FSHIP,F
-MM,BEVStock,Empire Twp.,2025,0.29,FSHIP,F
-MM,BEVStock,Empire Twp.,2030,1.01,FSHIP,F
-MM,BEVStock,Empire Twp.,2035,3,FSHIP,F
-MM,BEVStock,Empire Twp.,2040,5.52,FSHIP,F
-MM,BEVStock,Empire Twp.,2045,7.68,FSHIP,F
-MM,BEVStock,Empire Twp.,2050,9.54,FSHIP,F
+MM,BEVStock,Empire,2015,0,FSHIP,F
+MM,BEVStock,Empire,2018,0,FSHIP,F
+MM,BEVStock,Empire,2020,0,FSHIP,F
+MM,BEVStock,Empire,2025,0.29,FSHIP,F
+MM,BEVStock,Empire,2030,1.01,FSHIP,F
+MM,BEVStock,Empire,2035,3,FSHIP,F
+MM,BEVStock,Empire,2040,5.52,FSHIP,F
+MM,BEVStock,Empire,2045,7.68,FSHIP,F
+MM,BEVStock,Empire,2050,9.54,FSHIP,F
 MM,BEVStock,Eureka Twp.,2015,0,FSHIP,F
 MM,BEVStock,Eureka Twp.,2018,0,FSHIP,F
 MM,BEVStock,Eureka Twp.,2020,0,FSHIP,F
@@ -30437,15 +30437,15 @@ AIR,TotStock,Cottage Grove,2035,100,FSHIP,F
 AIR,TotStock,Cottage Grove,2040,100,FSHIP,F
 AIR,TotStock,Cottage Grove,2045,100,FSHIP,F
 AIR,TotStock,Cottage Grove,2050,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2015,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2018,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2020,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2025,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2030,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2035,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2040,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2045,100,FSHIP,F
-AIR,TotStock,Credit River Twp.,2050,100,FSHIP,F
+AIR,TotStock,Credit River,2015,100,FSHIP,F
+AIR,TotStock,Credit River,2018,100,FSHIP,F
+AIR,TotStock,Credit River,2020,100,FSHIP,F
+AIR,TotStock,Credit River,2025,100,FSHIP,F
+AIR,TotStock,Credit River,2030,100,FSHIP,F
+AIR,TotStock,Credit River,2035,100,FSHIP,F
+AIR,TotStock,Credit River,2040,100,FSHIP,F
+AIR,TotStock,Credit River,2045,100,FSHIP,F
+AIR,TotStock,Credit River,2050,100,FSHIP,F
 AIR,TotStock,Crystal,2015,100,FSHIP,F
 AIR,TotStock,Crystal,2018,100,FSHIP,F
 AIR,TotStock,Crystal,2020,100,FSHIP,F
@@ -30554,15 +30554,15 @@ AIR,TotStock,Elko New Market,2035,100,FSHIP,F
 AIR,TotStock,Elko New Market,2040,100,FSHIP,F
 AIR,TotStock,Elko New Market,2045,100,FSHIP,F
 AIR,TotStock,Elko New Market,2050,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2015,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2018,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2020,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2025,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2030,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2035,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2040,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2045,100,FSHIP,F
-AIR,TotStock,Empire Twp.,2050,100,FSHIP,F
+AIR,TotStock,Empire,2015,100,FSHIP,F
+AIR,TotStock,Empire,2018,100,FSHIP,F
+AIR,TotStock,Empire,2020,100,FSHIP,F
+AIR,TotStock,Empire,2025,100,FSHIP,F
+AIR,TotStock,Empire,2030,100,FSHIP,F
+AIR,TotStock,Empire,2035,100,FSHIP,F
+AIR,TotStock,Empire,2040,100,FSHIP,F
+AIR,TotStock,Empire,2045,100,FSHIP,F
+AIR,TotStock,Empire,2050,100,FSHIP,F
 AIR,TotStock,Eureka Twp.,2015,100,FSHIP,F
 AIR,TotStock,Eureka Twp.,2018,100,FSHIP,F
 AIR,TotStock,Eureka Twp.,2020,100,FSHIP,F
@@ -32111,15 +32111,15 @@ AIR,SIStock,Cottage Grove,2035,100,FSHIP,F
 AIR,SIStock,Cottage Grove,2040,100,FSHIP,F
 AIR,SIStock,Cottage Grove,2045,100,FSHIP,F
 AIR,SIStock,Cottage Grove,2050,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2015,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2018,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2020,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2025,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2030,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2035,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2040,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2045,100,FSHIP,F
-AIR,SIStock,Credit River Twp.,2050,100,FSHIP,F
+AIR,SIStock,Credit River,2015,100,FSHIP,F
+AIR,SIStock,Credit River,2018,100,FSHIP,F
+AIR,SIStock,Credit River,2020,100,FSHIP,F
+AIR,SIStock,Credit River,2025,100,FSHIP,F
+AIR,SIStock,Credit River,2030,100,FSHIP,F
+AIR,SIStock,Credit River,2035,100,FSHIP,F
+AIR,SIStock,Credit River,2040,100,FSHIP,F
+AIR,SIStock,Credit River,2045,100,FSHIP,F
+AIR,SIStock,Credit River,2050,100,FSHIP,F
 AIR,SIStock,Crystal,2015,100,FSHIP,F
 AIR,SIStock,Crystal,2018,100,FSHIP,F
 AIR,SIStock,Crystal,2020,100,FSHIP,F
@@ -32228,15 +32228,15 @@ AIR,SIStock,Elko New Market,2035,100,FSHIP,F
 AIR,SIStock,Elko New Market,2040,100,FSHIP,F
 AIR,SIStock,Elko New Market,2045,100,FSHIP,F
 AIR,SIStock,Elko New Market,2050,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2015,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2018,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2020,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2025,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2030,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2035,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2040,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2045,100,FSHIP,F
-AIR,SIStock,Empire Twp.,2050,100,FSHIP,F
+AIR,SIStock,Empire,2015,100,FSHIP,F
+AIR,SIStock,Empire,2018,100,FSHIP,F
+AIR,SIStock,Empire,2020,100,FSHIP,F
+AIR,SIStock,Empire,2025,100,FSHIP,F
+AIR,SIStock,Empire,2030,100,FSHIP,F
+AIR,SIStock,Empire,2035,100,FSHIP,F
+AIR,SIStock,Empire,2040,100,FSHIP,F
+AIR,SIStock,Empire,2045,100,FSHIP,F
+AIR,SIStock,Empire,2050,100,FSHIP,F
 AIR,SIStock,Eureka Twp.,2015,100,FSHIP,F
 AIR,SIStock,Eureka Twp.,2018,100,FSHIP,F
 AIR,SIStock,Eureka Twp.,2020,100,FSHIP,F
@@ -33785,15 +33785,15 @@ AIR,BEVStock,Cottage Grove,2035,0,FSHIP,F
 AIR,BEVStock,Cottage Grove,2040,0,FSHIP,F
 AIR,BEVStock,Cottage Grove,2045,0,FSHIP,F
 AIR,BEVStock,Cottage Grove,2050,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2015,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2018,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2020,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2025,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2030,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2035,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2040,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2045,0,FSHIP,F
-AIR,BEVStock,Credit River Twp.,2050,0,FSHIP,F
+AIR,BEVStock,Credit River,2015,0,FSHIP,F
+AIR,BEVStock,Credit River,2018,0,FSHIP,F
+AIR,BEVStock,Credit River,2020,0,FSHIP,F
+AIR,BEVStock,Credit River,2025,0,FSHIP,F
+AIR,BEVStock,Credit River,2030,0,FSHIP,F
+AIR,BEVStock,Credit River,2035,0,FSHIP,F
+AIR,BEVStock,Credit River,2040,0,FSHIP,F
+AIR,BEVStock,Credit River,2045,0,FSHIP,F
+AIR,BEVStock,Credit River,2050,0,FSHIP,F
 AIR,BEVStock,Crystal,2015,0,FSHIP,F
 AIR,BEVStock,Crystal,2018,0,FSHIP,F
 AIR,BEVStock,Crystal,2020,0,FSHIP,F
@@ -33902,15 +33902,15 @@ AIR,BEVStock,Elko New Market,2035,0,FSHIP,F
 AIR,BEVStock,Elko New Market,2040,0,FSHIP,F
 AIR,BEVStock,Elko New Market,2045,0,FSHIP,F
 AIR,BEVStock,Elko New Market,2050,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2015,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2018,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2020,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2025,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2030,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2035,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2040,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2045,0,FSHIP,F
-AIR,BEVStock,Empire Twp.,2050,0,FSHIP,F
+AIR,BEVStock,Empire,2015,0,FSHIP,F
+AIR,BEVStock,Empire,2018,0,FSHIP,F
+AIR,BEVStock,Empire,2020,0,FSHIP,F
+AIR,BEVStock,Empire,2025,0,FSHIP,F
+AIR,BEVStock,Empire,2030,0,FSHIP,F
+AIR,BEVStock,Empire,2035,0,FSHIP,F
+AIR,BEVStock,Empire,2040,0,FSHIP,F
+AIR,BEVStock,Empire,2045,0,FSHIP,F
+AIR,BEVStock,Empire,2050,0,FSHIP,F
 AIR,BEVStock,Eureka Twp.,2015,0,FSHIP,F
 AIR,BEVStock,Eureka Twp.,2018,0,FSHIP,F
 AIR,BEVStock,Eureka Twp.,2020,0,FSHIP,F
@@ -35459,15 +35459,15 @@ WAT,TotStock,Cottage Grove,2035,100,FSHIP,F
 WAT,TotStock,Cottage Grove,2040,100,FSHIP,F
 WAT,TotStock,Cottage Grove,2045,100,FSHIP,F
 WAT,TotStock,Cottage Grove,2050,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2015,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2018,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2020,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2025,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2030,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2035,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2040,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2045,100,FSHIP,F
-WAT,TotStock,Credit River Twp.,2050,100,FSHIP,F
+WAT,TotStock,Credit River,2015,100,FSHIP,F
+WAT,TotStock,Credit River,2018,100,FSHIP,F
+WAT,TotStock,Credit River,2020,100,FSHIP,F
+WAT,TotStock,Credit River,2025,100,FSHIP,F
+WAT,TotStock,Credit River,2030,100,FSHIP,F
+WAT,TotStock,Credit River,2035,100,FSHIP,F
+WAT,TotStock,Credit River,2040,100,FSHIP,F
+WAT,TotStock,Credit River,2045,100,FSHIP,F
+WAT,TotStock,Credit River,2050,100,FSHIP,F
 WAT,TotStock,Crystal,2015,100,FSHIP,F
 WAT,TotStock,Crystal,2018,100,FSHIP,F
 WAT,TotStock,Crystal,2020,100,FSHIP,F
@@ -35576,15 +35576,15 @@ WAT,TotStock,Elko New Market,2035,100,FSHIP,F
 WAT,TotStock,Elko New Market,2040,100,FSHIP,F
 WAT,TotStock,Elko New Market,2045,100,FSHIP,F
 WAT,TotStock,Elko New Market,2050,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2015,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2018,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2020,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2025,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2030,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2035,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2040,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2045,100,FSHIP,F
-WAT,TotStock,Empire Twp.,2050,100,FSHIP,F
+WAT,TotStock,Empire,2015,100,FSHIP,F
+WAT,TotStock,Empire,2018,100,FSHIP,F
+WAT,TotStock,Empire,2020,100,FSHIP,F
+WAT,TotStock,Empire,2025,100,FSHIP,F
+WAT,TotStock,Empire,2030,100,FSHIP,F
+WAT,TotStock,Empire,2035,100,FSHIP,F
+WAT,TotStock,Empire,2040,100,FSHIP,F
+WAT,TotStock,Empire,2045,100,FSHIP,F
+WAT,TotStock,Empire,2050,100,FSHIP,F
 WAT,TotStock,Eureka Twp.,2015,100,FSHIP,F
 WAT,TotStock,Eureka Twp.,2018,100,FSHIP,F
 WAT,TotStock,Eureka Twp.,2020,100,FSHIP,F
@@ -37133,15 +37133,15 @@ WAT,CIStock,Cottage Grove,2035,100,FSHIP,F
 WAT,CIStock,Cottage Grove,2040,100,FSHIP,F
 WAT,CIStock,Cottage Grove,2045,100,FSHIP,F
 WAT,CIStock,Cottage Grove,2050,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2015,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2018,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2020,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2025,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2030,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2035,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2040,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2045,100,FSHIP,F
-WAT,CIStock,Credit River Twp.,2050,100,FSHIP,F
+WAT,CIStock,Credit River,2015,100,FSHIP,F
+WAT,CIStock,Credit River,2018,100,FSHIP,F
+WAT,CIStock,Credit River,2020,100,FSHIP,F
+WAT,CIStock,Credit River,2025,100,FSHIP,F
+WAT,CIStock,Credit River,2030,100,FSHIP,F
+WAT,CIStock,Credit River,2035,100,FSHIP,F
+WAT,CIStock,Credit River,2040,100,FSHIP,F
+WAT,CIStock,Credit River,2045,100,FSHIP,F
+WAT,CIStock,Credit River,2050,100,FSHIP,F
 WAT,CIStock,Crystal,2015,100,FSHIP,F
 WAT,CIStock,Crystal,2018,100,FSHIP,F
 WAT,CIStock,Crystal,2020,100,FSHIP,F
@@ -37250,15 +37250,15 @@ WAT,CIStock,Elko New Market,2035,100,FSHIP,F
 WAT,CIStock,Elko New Market,2040,100,FSHIP,F
 WAT,CIStock,Elko New Market,2045,100,FSHIP,F
 WAT,CIStock,Elko New Market,2050,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2015,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2018,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2020,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2025,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2030,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2035,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2040,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2045,100,FSHIP,F
-WAT,CIStock,Empire Twp.,2050,100,FSHIP,F
+WAT,CIStock,Empire,2015,100,FSHIP,F
+WAT,CIStock,Empire,2018,100,FSHIP,F
+WAT,CIStock,Empire,2020,100,FSHIP,F
+WAT,CIStock,Empire,2025,100,FSHIP,F
+WAT,CIStock,Empire,2030,100,FSHIP,F
+WAT,CIStock,Empire,2035,100,FSHIP,F
+WAT,CIStock,Empire,2040,100,FSHIP,F
+WAT,CIStock,Empire,2045,100,FSHIP,F
+WAT,CIStock,Empire,2050,100,FSHIP,F
 WAT,CIStock,Eureka Twp.,2015,100,FSHIP,F
 WAT,CIStock,Eureka Twp.,2018,100,FSHIP,F
 WAT,CIStock,Eureka Twp.,2020,100,FSHIP,F
@@ -38807,15 +38807,15 @@ WAT,BEVStock,Cottage Grove,2035,0,FSHIP,F
 WAT,BEVStock,Cottage Grove,2040,0,FSHIP,F
 WAT,BEVStock,Cottage Grove,2045,0,FSHIP,F
 WAT,BEVStock,Cottage Grove,2050,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2015,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2018,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2020,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2025,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2030,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2035,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2040,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2045,0,FSHIP,F
-WAT,BEVStock,Credit River Twp.,2050,0,FSHIP,F
+WAT,BEVStock,Credit River,2015,0,FSHIP,F
+WAT,BEVStock,Credit River,2018,0,FSHIP,F
+WAT,BEVStock,Credit River,2020,0,FSHIP,F
+WAT,BEVStock,Credit River,2025,0,FSHIP,F
+WAT,BEVStock,Credit River,2030,0,FSHIP,F
+WAT,BEVStock,Credit River,2035,0,FSHIP,F
+WAT,BEVStock,Credit River,2040,0,FSHIP,F
+WAT,BEVStock,Credit River,2045,0,FSHIP,F
+WAT,BEVStock,Credit River,2050,0,FSHIP,F
 WAT,BEVStock,Crystal,2015,0,FSHIP,F
 WAT,BEVStock,Crystal,2018,0,FSHIP,F
 WAT,BEVStock,Crystal,2020,0,FSHIP,F
@@ -38924,15 +38924,15 @@ WAT,BEVStock,Elko New Market,2035,0,FSHIP,F
 WAT,BEVStock,Elko New Market,2040,0,FSHIP,F
 WAT,BEVStock,Elko New Market,2045,0,FSHIP,F
 WAT,BEVStock,Elko New Market,2050,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2015,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2018,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2020,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2025,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2030,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2035,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2040,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2045,0,FSHIP,F
-WAT,BEVStock,Empire Twp.,2050,0,FSHIP,F
+WAT,BEVStock,Empire,2015,0,FSHIP,F
+WAT,BEVStock,Empire,2018,0,FSHIP,F
+WAT,BEVStock,Empire,2020,0,FSHIP,F
+WAT,BEVStock,Empire,2025,0,FSHIP,F
+WAT,BEVStock,Empire,2030,0,FSHIP,F
+WAT,BEVStock,Empire,2035,0,FSHIP,F
+WAT,BEVStock,Empire,2040,0,FSHIP,F
+WAT,BEVStock,Empire,2045,0,FSHIP,F
+WAT,BEVStock,Empire,2050,0,FSHIP,F
 WAT,BEVStock,Eureka Twp.,2015,0,FSHIP,F
 WAT,BEVStock,Eureka Twp.,2018,0,FSHIP,F
 WAT,BEVStock,Eureka Twp.,2020,0,FSHIP,F
@@ -40607,15 +40607,15 @@ SUT,PARK,Eagan,2035,1,MDT,F
 SUT,PARK,Eagan,2040,1,MDT,F
 SUT,PARK,Eagan,2045,1,MDT,F
 SUT,PARK,Eagan,2050,1,MDT,F
-SUT,PARK,Empire Twp.,2015,0.1,MDT,F
-SUT,PARK,Empire Twp.,2018,0.1,MDT,F
-SUT,PARK,Empire Twp.,2020,0.1,MDT,F
-SUT,PARK,Empire Twp.,2025,0.1,MDT,F
-SUT,PARK,Empire Twp.,2030,0.1,MDT,F
-SUT,PARK,Empire Twp.,2035,0.1,MDT,F
-SUT,PARK,Empire Twp.,2040,0.1,MDT,F
-SUT,PARK,Empire Twp.,2045,0.1,MDT,F
-SUT,PARK,Empire Twp.,2050,0.1,MDT,F
+SUT,PARK,Empire,2015,0.1,MDT,F
+SUT,PARK,Empire,2018,0.1,MDT,F
+SUT,PARK,Empire,2020,0.1,MDT,F
+SUT,PARK,Empire,2025,0.1,MDT,F
+SUT,PARK,Empire,2030,0.1,MDT,F
+SUT,PARK,Empire,2035,0.1,MDT,F
+SUT,PARK,Empire,2040,0.1,MDT,F
+SUT,PARK,Empire,2045,0.1,MDT,F
+SUT,PARK,Empire,2050,0.1,MDT,F
 SUT,PARK,Eureka Twp.,2015,0.1,MDT,F
 SUT,PARK,Eureka Twp.,2018,0.1,MDT,F
 SUT,PARK,Eureka Twp.,2020,0.1,MDT,F
@@ -41444,15 +41444,15 @@ SUT,PARK,Cedar Lake Twp.,2035,0.1,MDT,F
 SUT,PARK,Cedar Lake Twp.,2040,0.1,MDT,F
 SUT,PARK,Cedar Lake Twp.,2045,0.1,MDT,F
 SUT,PARK,Cedar Lake Twp.,2050,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2015,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2018,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2020,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2025,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2030,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2035,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2040,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2045,0.1,MDT,F
-SUT,PARK,Credit River Twp.,2050,0.1,MDT,F
+SUT,PARK,Credit River,2015,0.1,MDT,F
+SUT,PARK,Credit River,2018,0.1,MDT,F
+SUT,PARK,Credit River,2020,0.1,MDT,F
+SUT,PARK,Credit River,2025,0.1,MDT,F
+SUT,PARK,Credit River,2030,0.1,MDT,F
+SUT,PARK,Credit River,2035,0.1,MDT,F
+SUT,PARK,Credit River,2040,0.1,MDT,F
+SUT,PARK,Credit River,2045,0.1,MDT,F
+SUT,PARK,Credit River,2050,0.1,MDT,F
 SUT,PARK,Elko New Market,2015,0.1,MDT,F
 SUT,PARK,Elko New Market,2018,0.1,MDT,F
 SUT,PARK,Elko New Market,2020,0.1,MDT,F
@@ -41883,7 +41883,7 @@ CUT,AVO,Columbus,2015,1,HDT,F
 CUT,AVO,Coon Rapids,2015,1,HDT,F
 CUT,AVO,Corcoran,2015,1,HDT,F
 CUT,AVO,Cottage Grove,2015,1,HDT,F
-CUT,AVO,Credit River Twp.,2015,1,HDT,F
+CUT,AVO,Credit River,2015,1,HDT,F
 CUT,AVO,Crystal,2015,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2015,1,HDT,F
 CUT,AVO,Dayton,2015,1,HDT,F
@@ -41896,7 +41896,7 @@ CUT,AVO,East Bethel,2015,1,HDT,F
 CUT,AVO,Eden Prairie,2015,1,HDT,F
 CUT,AVO,Edina,2015,1,HDT,F
 CUT,AVO,Elko New Market,2015,1,HDT,F
-CUT,AVO,Empire Twp.,2015,1,HDT,F
+CUT,AVO,Empire,2015,1,HDT,F
 CUT,AVO,Eureka Twp.,2015,1,HDT,F
 CUT,AVO,Excelsior,2015,1,HDT,F
 CUT,AVO,Falcon Heights,2015,1,HDT,F
@@ -42069,7 +42069,7 @@ CUT,AVO,Columbus,2018,1,HDT,F
 CUT,AVO,Coon Rapids,2018,1,HDT,F
 CUT,AVO,Corcoran,2018,1,HDT,F
 CUT,AVO,Cottage Grove,2018,1,HDT,F
-CUT,AVO,Credit River Twp.,2018,1,HDT,F
+CUT,AVO,Credit River,2018,1,HDT,F
 CUT,AVO,Crystal,2018,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2018,1,HDT,F
 CUT,AVO,Dayton,2018,1,HDT,F
@@ -42082,7 +42082,7 @@ CUT,AVO,East Bethel,2018,1,HDT,F
 CUT,AVO,Eden Prairie,2018,1,HDT,F
 CUT,AVO,Edina,2018,1,HDT,F
 CUT,AVO,Elko New Market,2018,1,HDT,F
-CUT,AVO,Empire Twp.,2018,1,HDT,F
+CUT,AVO,Empire,2018,1,HDT,F
 CUT,AVO,Eureka Twp.,2018,1,HDT,F
 CUT,AVO,Excelsior,2018,1,HDT,F
 CUT,AVO,Falcon Heights,2018,1,HDT,F
@@ -42255,7 +42255,7 @@ CUT,AVO,Columbus,2020,1,HDT,F
 CUT,AVO,Coon Rapids,2020,1,HDT,F
 CUT,AVO,Corcoran,2020,1,HDT,F
 CUT,AVO,Cottage Grove,2020,1,HDT,F
-CUT,AVO,Credit River Twp.,2020,1,HDT,F
+CUT,AVO,Credit River,2020,1,HDT,F
 CUT,AVO,Crystal,2020,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2020,1,HDT,F
 CUT,AVO,Dayton,2020,1,HDT,F
@@ -42268,7 +42268,7 @@ CUT,AVO,East Bethel,2020,1,HDT,F
 CUT,AVO,Eden Prairie,2020,1,HDT,F
 CUT,AVO,Edina,2020,1,HDT,F
 CUT,AVO,Elko New Market,2020,1,HDT,F
-CUT,AVO,Empire Twp.,2020,1,HDT,F
+CUT,AVO,Empire,2020,1,HDT,F
 CUT,AVO,Eureka Twp.,2020,1,HDT,F
 CUT,AVO,Excelsior,2020,1,HDT,F
 CUT,AVO,Falcon Heights,2020,1,HDT,F
@@ -42441,7 +42441,7 @@ CUT,AVO,Columbus,2025,1,HDT,F
 CUT,AVO,Coon Rapids,2025,1,HDT,F
 CUT,AVO,Corcoran,2025,1,HDT,F
 CUT,AVO,Cottage Grove,2025,1,HDT,F
-CUT,AVO,Credit River Twp.,2025,1,HDT,F
+CUT,AVO,Credit River,2025,1,HDT,F
 CUT,AVO,Crystal,2025,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2025,1,HDT,F
 CUT,AVO,Dayton,2025,1,HDT,F
@@ -42454,7 +42454,7 @@ CUT,AVO,East Bethel,2025,1,HDT,F
 CUT,AVO,Eden Prairie,2025,1,HDT,F
 CUT,AVO,Edina,2025,1,HDT,F
 CUT,AVO,Elko New Market,2025,1,HDT,F
-CUT,AVO,Empire Twp.,2025,1,HDT,F
+CUT,AVO,Empire,2025,1,HDT,F
 CUT,AVO,Eureka Twp.,2025,1,HDT,F
 CUT,AVO,Excelsior,2025,1,HDT,F
 CUT,AVO,Falcon Heights,2025,1,HDT,F
@@ -42627,7 +42627,7 @@ CUT,AVO,Columbus,2030,1,HDT,F
 CUT,AVO,Coon Rapids,2030,1,HDT,F
 CUT,AVO,Corcoran,2030,1,HDT,F
 CUT,AVO,Cottage Grove,2030,1,HDT,F
-CUT,AVO,Credit River Twp.,2030,1,HDT,F
+CUT,AVO,Credit River,2030,1,HDT,F
 CUT,AVO,Crystal,2030,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2030,1,HDT,F
 CUT,AVO,Dayton,2030,1,HDT,F
@@ -42640,7 +42640,7 @@ CUT,AVO,East Bethel,2030,1,HDT,F
 CUT,AVO,Eden Prairie,2030,1,HDT,F
 CUT,AVO,Edina,2030,1,HDT,F
 CUT,AVO,Elko New Market,2030,1,HDT,F
-CUT,AVO,Empire Twp.,2030,1,HDT,F
+CUT,AVO,Empire,2030,1,HDT,F
 CUT,AVO,Eureka Twp.,2030,1,HDT,F
 CUT,AVO,Excelsior,2030,1,HDT,F
 CUT,AVO,Falcon Heights,2030,1,HDT,F
@@ -42813,7 +42813,7 @@ CUT,AVO,Columbus,2035,1,HDT,F
 CUT,AVO,Coon Rapids,2035,1,HDT,F
 CUT,AVO,Corcoran,2035,1,HDT,F
 CUT,AVO,Cottage Grove,2035,1,HDT,F
-CUT,AVO,Credit River Twp.,2035,1,HDT,F
+CUT,AVO,Credit River,2035,1,HDT,F
 CUT,AVO,Crystal,2035,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2035,1,HDT,F
 CUT,AVO,Dayton,2035,1,HDT,F
@@ -42826,7 +42826,7 @@ CUT,AVO,East Bethel,2035,1,HDT,F
 CUT,AVO,Eden Prairie,2035,1,HDT,F
 CUT,AVO,Edina,2035,1,HDT,F
 CUT,AVO,Elko New Market,2035,1,HDT,F
-CUT,AVO,Empire Twp.,2035,1,HDT,F
+CUT,AVO,Empire,2035,1,HDT,F
 CUT,AVO,Eureka Twp.,2035,1,HDT,F
 CUT,AVO,Excelsior,2035,1,HDT,F
 CUT,AVO,Falcon Heights,2035,1,HDT,F
@@ -42999,7 +42999,7 @@ CUT,AVO,Columbus,2040,1,HDT,F
 CUT,AVO,Coon Rapids,2040,1,HDT,F
 CUT,AVO,Corcoran,2040,1,HDT,F
 CUT,AVO,Cottage Grove,2040,1,HDT,F
-CUT,AVO,Credit River Twp.,2040,1,HDT,F
+CUT,AVO,Credit River,2040,1,HDT,F
 CUT,AVO,Crystal,2040,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2040,1,HDT,F
 CUT,AVO,Dayton,2040,1,HDT,F
@@ -43012,7 +43012,7 @@ CUT,AVO,East Bethel,2040,1,HDT,F
 CUT,AVO,Eden Prairie,2040,1,HDT,F
 CUT,AVO,Edina,2040,1,HDT,F
 CUT,AVO,Elko New Market,2040,1,HDT,F
-CUT,AVO,Empire Twp.,2040,1,HDT,F
+CUT,AVO,Empire,2040,1,HDT,F
 CUT,AVO,Eureka Twp.,2040,1,HDT,F
 CUT,AVO,Excelsior,2040,1,HDT,F
 CUT,AVO,Falcon Heights,2040,1,HDT,F
@@ -43185,7 +43185,7 @@ CUT,AVO,Columbus,2045,1,HDT,F
 CUT,AVO,Coon Rapids,2045,1,HDT,F
 CUT,AVO,Corcoran,2045,1,HDT,F
 CUT,AVO,Cottage Grove,2045,1,HDT,F
-CUT,AVO,Credit River Twp.,2045,1,HDT,F
+CUT,AVO,Credit River,2045,1,HDT,F
 CUT,AVO,Crystal,2045,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2045,1,HDT,F
 CUT,AVO,Dayton,2045,1,HDT,F
@@ -43198,7 +43198,7 @@ CUT,AVO,East Bethel,2045,1,HDT,F
 CUT,AVO,Eden Prairie,2045,1,HDT,F
 CUT,AVO,Edina,2045,1,HDT,F
 CUT,AVO,Elko New Market,2045,1,HDT,F
-CUT,AVO,Empire Twp.,2045,1,HDT,F
+CUT,AVO,Empire,2045,1,HDT,F
 CUT,AVO,Eureka Twp.,2045,1,HDT,F
 CUT,AVO,Excelsior,2045,1,HDT,F
 CUT,AVO,Falcon Heights,2045,1,HDT,F
@@ -43371,7 +43371,7 @@ CUT,AVO,Columbus,2050,1,HDT,F
 CUT,AVO,Coon Rapids,2050,1,HDT,F
 CUT,AVO,Corcoran,2050,1,HDT,F
 CUT,AVO,Cottage Grove,2050,1,HDT,F
-CUT,AVO,Credit River Twp.,2050,1,HDT,F
+CUT,AVO,Credit River,2050,1,HDT,F
 CUT,AVO,Crystal,2050,1,HDT,F
 CUT,AVO,Dahlgren Twp.,2050,1,HDT,F
 CUT,AVO,Dayton,2050,1,HDT,F
@@ -43384,7 +43384,7 @@ CUT,AVO,East Bethel,2050,1,HDT,F
 CUT,AVO,Eden Prairie,2050,1,HDT,F
 CUT,AVO,Edina,2050,1,HDT,F
 CUT,AVO,Elko New Market,2050,1,HDT,F
-CUT,AVO,Empire Twp.,2050,1,HDT,F
+CUT,AVO,Empire,2050,1,HDT,F
 CUT,AVO,Eureka Twp.,2050,1,HDT,F
 CUT,AVO,Excelsior,2050,1,HDT,F
 CUT,AVO,Falcon Heights,2050,1,HDT,F
@@ -43557,7 +43557,7 @@ SUT,AVO,Columbus,2015,1,MDT,F
 SUT,AVO,Coon Rapids,2015,1,MDT,F
 SUT,AVO,Corcoran,2015,1,MDT,F
 SUT,AVO,Cottage Grove,2015,1,MDT,F
-SUT,AVO,Credit River Twp.,2015,1,MDT,F
+SUT,AVO,Credit River,2015,1,MDT,F
 SUT,AVO,Crystal,2015,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2015,1,MDT,F
 SUT,AVO,Dayton,2015,1,MDT,F
@@ -43570,7 +43570,7 @@ SUT,AVO,East Bethel,2015,1,MDT,F
 SUT,AVO,Eden Prairie,2015,1,MDT,F
 SUT,AVO,Edina,2015,1,MDT,F
 SUT,AVO,Elko New Market,2015,1,MDT,F
-SUT,AVO,Empire Twp.,2015,1,MDT,F
+SUT,AVO,Empire,2015,1,MDT,F
 SUT,AVO,Eureka Twp.,2015,1,MDT,F
 SUT,AVO,Excelsior,2015,1,MDT,F
 SUT,AVO,Falcon Heights,2015,1,MDT,F
@@ -43743,7 +43743,7 @@ SUT,AVO,Columbus,2018,1,MDT,F
 SUT,AVO,Coon Rapids,2018,1,MDT,F
 SUT,AVO,Corcoran,2018,1,MDT,F
 SUT,AVO,Cottage Grove,2018,1,MDT,F
-SUT,AVO,Credit River Twp.,2018,1,MDT,F
+SUT,AVO,Credit River,2018,1,MDT,F
 SUT,AVO,Crystal,2018,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2018,1,MDT,F
 SUT,AVO,Dayton,2018,1,MDT,F
@@ -43756,7 +43756,7 @@ SUT,AVO,East Bethel,2018,1,MDT,F
 SUT,AVO,Eden Prairie,2018,1,MDT,F
 SUT,AVO,Edina,2018,1,MDT,F
 SUT,AVO,Elko New Market,2018,1,MDT,F
-SUT,AVO,Empire Twp.,2018,1,MDT,F
+SUT,AVO,Empire,2018,1,MDT,F
 SUT,AVO,Eureka Twp.,2018,1,MDT,F
 SUT,AVO,Excelsior,2018,1,MDT,F
 SUT,AVO,Falcon Heights,2018,1,MDT,F
@@ -43929,7 +43929,7 @@ SUT,AVO,Columbus,2020,1,MDT,F
 SUT,AVO,Coon Rapids,2020,1,MDT,F
 SUT,AVO,Corcoran,2020,1,MDT,F
 SUT,AVO,Cottage Grove,2020,1,MDT,F
-SUT,AVO,Credit River Twp.,2020,1,MDT,F
+SUT,AVO,Credit River,2020,1,MDT,F
 SUT,AVO,Crystal,2020,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2020,1,MDT,F
 SUT,AVO,Dayton,2020,1,MDT,F
@@ -43942,7 +43942,7 @@ SUT,AVO,East Bethel,2020,1,MDT,F
 SUT,AVO,Eden Prairie,2020,1,MDT,F
 SUT,AVO,Edina,2020,1,MDT,F
 SUT,AVO,Elko New Market,2020,1,MDT,F
-SUT,AVO,Empire Twp.,2020,1,MDT,F
+SUT,AVO,Empire,2020,1,MDT,F
 SUT,AVO,Eureka Twp.,2020,1,MDT,F
 SUT,AVO,Excelsior,2020,1,MDT,F
 SUT,AVO,Falcon Heights,2020,1,MDT,F
@@ -44115,7 +44115,7 @@ SUT,AVO,Columbus,2025,1,MDT,F
 SUT,AVO,Coon Rapids,2025,1,MDT,F
 SUT,AVO,Corcoran,2025,1,MDT,F
 SUT,AVO,Cottage Grove,2025,1,MDT,F
-SUT,AVO,Credit River Twp.,2025,1,MDT,F
+SUT,AVO,Credit River,2025,1,MDT,F
 SUT,AVO,Crystal,2025,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2025,1,MDT,F
 SUT,AVO,Dayton,2025,1,MDT,F
@@ -44128,7 +44128,7 @@ SUT,AVO,East Bethel,2025,1,MDT,F
 SUT,AVO,Eden Prairie,2025,1,MDT,F
 SUT,AVO,Edina,2025,1,MDT,F
 SUT,AVO,Elko New Market,2025,1,MDT,F
-SUT,AVO,Empire Twp.,2025,1,MDT,F
+SUT,AVO,Empire,2025,1,MDT,F
 SUT,AVO,Eureka Twp.,2025,1,MDT,F
 SUT,AVO,Excelsior,2025,1,MDT,F
 SUT,AVO,Falcon Heights,2025,1,MDT,F
@@ -44301,7 +44301,7 @@ SUT,AVO,Columbus,2030,1,MDT,F
 SUT,AVO,Coon Rapids,2030,1,MDT,F
 SUT,AVO,Corcoran,2030,1,MDT,F
 SUT,AVO,Cottage Grove,2030,1,MDT,F
-SUT,AVO,Credit River Twp.,2030,1,MDT,F
+SUT,AVO,Credit River,2030,1,MDT,F
 SUT,AVO,Crystal,2030,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2030,1,MDT,F
 SUT,AVO,Dayton,2030,1,MDT,F
@@ -44314,7 +44314,7 @@ SUT,AVO,East Bethel,2030,1,MDT,F
 SUT,AVO,Eden Prairie,2030,1,MDT,F
 SUT,AVO,Edina,2030,1,MDT,F
 SUT,AVO,Elko New Market,2030,1,MDT,F
-SUT,AVO,Empire Twp.,2030,1,MDT,F
+SUT,AVO,Empire,2030,1,MDT,F
 SUT,AVO,Eureka Twp.,2030,1,MDT,F
 SUT,AVO,Excelsior,2030,1,MDT,F
 SUT,AVO,Falcon Heights,2030,1,MDT,F
@@ -44487,7 +44487,7 @@ SUT,AVO,Columbus,2035,1,MDT,F
 SUT,AVO,Coon Rapids,2035,1,MDT,F
 SUT,AVO,Corcoran,2035,1,MDT,F
 SUT,AVO,Cottage Grove,2035,1,MDT,F
-SUT,AVO,Credit River Twp.,2035,1,MDT,F
+SUT,AVO,Credit River,2035,1,MDT,F
 SUT,AVO,Crystal,2035,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2035,1,MDT,F
 SUT,AVO,Dayton,2035,1,MDT,F
@@ -44500,7 +44500,7 @@ SUT,AVO,East Bethel,2035,1,MDT,F
 SUT,AVO,Eden Prairie,2035,1,MDT,F
 SUT,AVO,Edina,2035,1,MDT,F
 SUT,AVO,Elko New Market,2035,1,MDT,F
-SUT,AVO,Empire Twp.,2035,1,MDT,F
+SUT,AVO,Empire,2035,1,MDT,F
 SUT,AVO,Eureka Twp.,2035,1,MDT,F
 SUT,AVO,Excelsior,2035,1,MDT,F
 SUT,AVO,Falcon Heights,2035,1,MDT,F
@@ -44673,7 +44673,7 @@ SUT,AVO,Columbus,2040,1,MDT,F
 SUT,AVO,Coon Rapids,2040,1,MDT,F
 SUT,AVO,Corcoran,2040,1,MDT,F
 SUT,AVO,Cottage Grove,2040,1,MDT,F
-SUT,AVO,Credit River Twp.,2040,1,MDT,F
+SUT,AVO,Credit River,2040,1,MDT,F
 SUT,AVO,Crystal,2040,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2040,1,MDT,F
 SUT,AVO,Dayton,2040,1,MDT,F
@@ -44686,7 +44686,7 @@ SUT,AVO,East Bethel,2040,1,MDT,F
 SUT,AVO,Eden Prairie,2040,1,MDT,F
 SUT,AVO,Edina,2040,1,MDT,F
 SUT,AVO,Elko New Market,2040,1,MDT,F
-SUT,AVO,Empire Twp.,2040,1,MDT,F
+SUT,AVO,Empire,2040,1,MDT,F
 SUT,AVO,Eureka Twp.,2040,1,MDT,F
 SUT,AVO,Excelsior,2040,1,MDT,F
 SUT,AVO,Falcon Heights,2040,1,MDT,F
@@ -44859,7 +44859,7 @@ SUT,AVO,Columbus,2045,1,MDT,F
 SUT,AVO,Coon Rapids,2045,1,MDT,F
 SUT,AVO,Corcoran,2045,1,MDT,F
 SUT,AVO,Cottage Grove,2045,1,MDT,F
-SUT,AVO,Credit River Twp.,2045,1,MDT,F
+SUT,AVO,Credit River,2045,1,MDT,F
 SUT,AVO,Crystal,2045,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2045,1,MDT,F
 SUT,AVO,Dayton,2045,1,MDT,F
@@ -44872,7 +44872,7 @@ SUT,AVO,East Bethel,2045,1,MDT,F
 SUT,AVO,Eden Prairie,2045,1,MDT,F
 SUT,AVO,Edina,2045,1,MDT,F
 SUT,AVO,Elko New Market,2045,1,MDT,F
-SUT,AVO,Empire Twp.,2045,1,MDT,F
+SUT,AVO,Empire,2045,1,MDT,F
 SUT,AVO,Eureka Twp.,2045,1,MDT,F
 SUT,AVO,Excelsior,2045,1,MDT,F
 SUT,AVO,Falcon Heights,2045,1,MDT,F
@@ -45045,7 +45045,7 @@ SUT,AVO,Columbus,2050,1,MDT,F
 SUT,AVO,Coon Rapids,2050,1,MDT,F
 SUT,AVO,Corcoran,2050,1,MDT,F
 SUT,AVO,Cottage Grove,2050,1,MDT,F
-SUT,AVO,Credit River Twp.,2050,1,MDT,F
+SUT,AVO,Credit River,2050,1,MDT,F
 SUT,AVO,Crystal,2050,1,MDT,F
 SUT,AVO,Dahlgren Twp.,2050,1,MDT,F
 SUT,AVO,Dayton,2050,1,MDT,F
@@ -45058,7 +45058,7 @@ SUT,AVO,East Bethel,2050,1,MDT,F
 SUT,AVO,Eden Prairie,2050,1,MDT,F
 SUT,AVO,Edina,2050,1,MDT,F
 SUT,AVO,Elko New Market,2050,1,MDT,F
-SUT,AVO,Empire Twp.,2050,1,MDT,F
+SUT,AVO,Empire,2050,1,MDT,F
 SUT,AVO,Eureka Twp.,2050,1,MDT,F
 SUT,AVO,Excelsior,2050,1,MDT,F
 SUT,AVO,Falcon Heights,2050,1,MDT,F
@@ -45231,7 +45231,7 @@ FR,AVO,Columbus,2015,1,FRAIL,F
 FR,AVO,Coon Rapids,2015,1,FRAIL,F
 FR,AVO,Corcoran,2015,1,FRAIL,F
 FR,AVO,Cottage Grove,2015,1,FRAIL,F
-FR,AVO,Credit River Twp.,2015,1,FRAIL,F
+FR,AVO,Credit River,2015,1,FRAIL,F
 FR,AVO,Crystal,2015,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2015,1,FRAIL,F
 FR,AVO,Dayton,2015,1,FRAIL,F
@@ -45244,7 +45244,7 @@ FR,AVO,East Bethel,2015,1,FRAIL,F
 FR,AVO,Eden Prairie,2015,1,FRAIL,F
 FR,AVO,Edina,2015,1,FRAIL,F
 FR,AVO,Elko New Market,2015,1,FRAIL,F
-FR,AVO,Empire Twp.,2015,1,FRAIL,F
+FR,AVO,Empire,2015,1,FRAIL,F
 FR,AVO,Eureka Twp.,2015,1,FRAIL,F
 FR,AVO,Excelsior,2015,1,FRAIL,F
 FR,AVO,Falcon Heights,2015,1,FRAIL,F
@@ -45417,7 +45417,7 @@ FR,AVO,Columbus,2018,1,FRAIL,F
 FR,AVO,Coon Rapids,2018,1,FRAIL,F
 FR,AVO,Corcoran,2018,1,FRAIL,F
 FR,AVO,Cottage Grove,2018,1,FRAIL,F
-FR,AVO,Credit River Twp.,2018,1,FRAIL,F
+FR,AVO,Credit River,2018,1,FRAIL,F
 FR,AVO,Crystal,2018,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2018,1,FRAIL,F
 FR,AVO,Dayton,2018,1,FRAIL,F
@@ -45430,7 +45430,7 @@ FR,AVO,East Bethel,2018,1,FRAIL,F
 FR,AVO,Eden Prairie,2018,1,FRAIL,F
 FR,AVO,Edina,2018,1,FRAIL,F
 FR,AVO,Elko New Market,2018,1,FRAIL,F
-FR,AVO,Empire Twp.,2018,1,FRAIL,F
+FR,AVO,Empire,2018,1,FRAIL,F
 FR,AVO,Eureka Twp.,2018,1,FRAIL,F
 FR,AVO,Excelsior,2018,1,FRAIL,F
 FR,AVO,Falcon Heights,2018,1,FRAIL,F
@@ -45603,7 +45603,7 @@ FR,AVO,Columbus,2020,1,FRAIL,F
 FR,AVO,Coon Rapids,2020,1,FRAIL,F
 FR,AVO,Corcoran,2020,1,FRAIL,F
 FR,AVO,Cottage Grove,2020,1,FRAIL,F
-FR,AVO,Credit River Twp.,2020,1,FRAIL,F
+FR,AVO,Credit River,2020,1,FRAIL,F
 FR,AVO,Crystal,2020,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2020,1,FRAIL,F
 FR,AVO,Dayton,2020,1,FRAIL,F
@@ -45616,7 +45616,7 @@ FR,AVO,East Bethel,2020,1,FRAIL,F
 FR,AVO,Eden Prairie,2020,1,FRAIL,F
 FR,AVO,Edina,2020,1,FRAIL,F
 FR,AVO,Elko New Market,2020,1,FRAIL,F
-FR,AVO,Empire Twp.,2020,1,FRAIL,F
+FR,AVO,Empire,2020,1,FRAIL,F
 FR,AVO,Eureka Twp.,2020,1,FRAIL,F
 FR,AVO,Excelsior,2020,1,FRAIL,F
 FR,AVO,Falcon Heights,2020,1,FRAIL,F
@@ -45789,7 +45789,7 @@ FR,AVO,Columbus,2025,1,FRAIL,F
 FR,AVO,Coon Rapids,2025,1,FRAIL,F
 FR,AVO,Corcoran,2025,1,FRAIL,F
 FR,AVO,Cottage Grove,2025,1,FRAIL,F
-FR,AVO,Credit River Twp.,2025,1,FRAIL,F
+FR,AVO,Credit River,2025,1,FRAIL,F
 FR,AVO,Crystal,2025,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2025,1,FRAIL,F
 FR,AVO,Dayton,2025,1,FRAIL,F
@@ -45802,7 +45802,7 @@ FR,AVO,East Bethel,2025,1,FRAIL,F
 FR,AVO,Eden Prairie,2025,1,FRAIL,F
 FR,AVO,Edina,2025,1,FRAIL,F
 FR,AVO,Elko New Market,2025,1,FRAIL,F
-FR,AVO,Empire Twp.,2025,1,FRAIL,F
+FR,AVO,Empire,2025,1,FRAIL,F
 FR,AVO,Eureka Twp.,2025,1,FRAIL,F
 FR,AVO,Excelsior,2025,1,FRAIL,F
 FR,AVO,Falcon Heights,2025,1,FRAIL,F
@@ -45975,7 +45975,7 @@ FR,AVO,Columbus,2030,1,FRAIL,F
 FR,AVO,Coon Rapids,2030,1,FRAIL,F
 FR,AVO,Corcoran,2030,1,FRAIL,F
 FR,AVO,Cottage Grove,2030,1,FRAIL,F
-FR,AVO,Credit River Twp.,2030,1,FRAIL,F
+FR,AVO,Credit River,2030,1,FRAIL,F
 FR,AVO,Crystal,2030,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2030,1,FRAIL,F
 FR,AVO,Dayton,2030,1,FRAIL,F
@@ -45988,7 +45988,7 @@ FR,AVO,East Bethel,2030,1,FRAIL,F
 FR,AVO,Eden Prairie,2030,1,FRAIL,F
 FR,AVO,Edina,2030,1,FRAIL,F
 FR,AVO,Elko New Market,2030,1,FRAIL,F
-FR,AVO,Empire Twp.,2030,1,FRAIL,F
+FR,AVO,Empire,2030,1,FRAIL,F
 FR,AVO,Eureka Twp.,2030,1,FRAIL,F
 FR,AVO,Excelsior,2030,1,FRAIL,F
 FR,AVO,Falcon Heights,2030,1,FRAIL,F
@@ -46161,7 +46161,7 @@ FR,AVO,Columbus,2035,1,FRAIL,F
 FR,AVO,Coon Rapids,2035,1,FRAIL,F
 FR,AVO,Corcoran,2035,1,FRAIL,F
 FR,AVO,Cottage Grove,2035,1,FRAIL,F
-FR,AVO,Credit River Twp.,2035,1,FRAIL,F
+FR,AVO,Credit River,2035,1,FRAIL,F
 FR,AVO,Crystal,2035,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2035,1,FRAIL,F
 FR,AVO,Dayton,2035,1,FRAIL,F
@@ -46174,7 +46174,7 @@ FR,AVO,East Bethel,2035,1,FRAIL,F
 FR,AVO,Eden Prairie,2035,1,FRAIL,F
 FR,AVO,Edina,2035,1,FRAIL,F
 FR,AVO,Elko New Market,2035,1,FRAIL,F
-FR,AVO,Empire Twp.,2035,1,FRAIL,F
+FR,AVO,Empire,2035,1,FRAIL,F
 FR,AVO,Eureka Twp.,2035,1,FRAIL,F
 FR,AVO,Excelsior,2035,1,FRAIL,F
 FR,AVO,Falcon Heights,2035,1,FRAIL,F
@@ -46347,7 +46347,7 @@ FR,AVO,Columbus,2040,1,FRAIL,F
 FR,AVO,Coon Rapids,2040,1,FRAIL,F
 FR,AVO,Corcoran,2040,1,FRAIL,F
 FR,AVO,Cottage Grove,2040,1,FRAIL,F
-FR,AVO,Credit River Twp.,2040,1,FRAIL,F
+FR,AVO,Credit River,2040,1,FRAIL,F
 FR,AVO,Crystal,2040,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2040,1,FRAIL,F
 FR,AVO,Dayton,2040,1,FRAIL,F
@@ -46360,7 +46360,7 @@ FR,AVO,East Bethel,2040,1,FRAIL,F
 FR,AVO,Eden Prairie,2040,1,FRAIL,F
 FR,AVO,Edina,2040,1,FRAIL,F
 FR,AVO,Elko New Market,2040,1,FRAIL,F
-FR,AVO,Empire Twp.,2040,1,FRAIL,F
+FR,AVO,Empire,2040,1,FRAIL,F
 FR,AVO,Eureka Twp.,2040,1,FRAIL,F
 FR,AVO,Excelsior,2040,1,FRAIL,F
 FR,AVO,Falcon Heights,2040,1,FRAIL,F
@@ -46533,7 +46533,7 @@ FR,AVO,Columbus,2045,1,FRAIL,F
 FR,AVO,Coon Rapids,2045,1,FRAIL,F
 FR,AVO,Corcoran,2045,1,FRAIL,F
 FR,AVO,Cottage Grove,2045,1,FRAIL,F
-FR,AVO,Credit River Twp.,2045,1,FRAIL,F
+FR,AVO,Credit River,2045,1,FRAIL,F
 FR,AVO,Crystal,2045,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2045,1,FRAIL,F
 FR,AVO,Dayton,2045,1,FRAIL,F
@@ -46546,7 +46546,7 @@ FR,AVO,East Bethel,2045,1,FRAIL,F
 FR,AVO,Eden Prairie,2045,1,FRAIL,F
 FR,AVO,Edina,2045,1,FRAIL,F
 FR,AVO,Elko New Market,2045,1,FRAIL,F
-FR,AVO,Empire Twp.,2045,1,FRAIL,F
+FR,AVO,Empire,2045,1,FRAIL,F
 FR,AVO,Eureka Twp.,2045,1,FRAIL,F
 FR,AVO,Excelsior,2045,1,FRAIL,F
 FR,AVO,Falcon Heights,2045,1,FRAIL,F
@@ -46719,7 +46719,7 @@ FR,AVO,Columbus,2050,1,FRAIL,F
 FR,AVO,Coon Rapids,2050,1,FRAIL,F
 FR,AVO,Corcoran,2050,1,FRAIL,F
 FR,AVO,Cottage Grove,2050,1,FRAIL,F
-FR,AVO,Credit River Twp.,2050,1,FRAIL,F
+FR,AVO,Credit River,2050,1,FRAIL,F
 FR,AVO,Crystal,2050,1,FRAIL,F
 FR,AVO,Dahlgren Twp.,2050,1,FRAIL,F
 FR,AVO,Dayton,2050,1,FRAIL,F
@@ -46732,7 +46732,7 @@ FR,AVO,East Bethel,2050,1,FRAIL,F
 FR,AVO,Eden Prairie,2050,1,FRAIL,F
 FR,AVO,Edina,2050,1,FRAIL,F
 FR,AVO,Elko New Market,2050,1,FRAIL,F
-FR,AVO,Empire Twp.,2050,1,FRAIL,F
+FR,AVO,Empire,2050,1,FRAIL,F
 FR,AVO,Eureka Twp.,2050,1,FRAIL,F
 FR,AVO,Excelsior,2050,1,FRAIL,F
 FR,AVO,Falcon Heights,2050,1,FRAIL,F
@@ -46905,7 +46905,7 @@ MM,AVO,Columbus,2015,1,FSHIP,F
 MM,AVO,Coon Rapids,2015,1,FSHIP,F
 MM,AVO,Corcoran,2015,1,FSHIP,F
 MM,AVO,Cottage Grove,2015,1,FSHIP,F
-MM,AVO,Credit River Twp.,2015,1,FSHIP,F
+MM,AVO,Credit River,2015,1,FSHIP,F
 MM,AVO,Crystal,2015,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2015,1,FSHIP,F
 MM,AVO,Dayton,2015,1,FSHIP,F
@@ -46918,7 +46918,7 @@ MM,AVO,East Bethel,2015,1,FSHIP,F
 MM,AVO,Eden Prairie,2015,1,FSHIP,F
 MM,AVO,Edina,2015,1,FSHIP,F
 MM,AVO,Elko New Market,2015,1,FSHIP,F
-MM,AVO,Empire Twp.,2015,1,FSHIP,F
+MM,AVO,Empire,2015,1,FSHIP,F
 MM,AVO,Eureka Twp.,2015,1,FSHIP,F
 MM,AVO,Excelsior,2015,1,FSHIP,F
 MM,AVO,Falcon Heights,2015,1,FSHIP,F
@@ -47091,7 +47091,7 @@ MM,AVO,Columbus,2018,1,FSHIP,F
 MM,AVO,Coon Rapids,2018,1,FSHIP,F
 MM,AVO,Corcoran,2018,1,FSHIP,F
 MM,AVO,Cottage Grove,2018,1,FSHIP,F
-MM,AVO,Credit River Twp.,2018,1,FSHIP,F
+MM,AVO,Credit River,2018,1,FSHIP,F
 MM,AVO,Crystal,2018,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2018,1,FSHIP,F
 MM,AVO,Dayton,2018,1,FSHIP,F
@@ -47104,7 +47104,7 @@ MM,AVO,East Bethel,2018,1,FSHIP,F
 MM,AVO,Eden Prairie,2018,1,FSHIP,F
 MM,AVO,Edina,2018,1,FSHIP,F
 MM,AVO,Elko New Market,2018,1,FSHIP,F
-MM,AVO,Empire Twp.,2018,1,FSHIP,F
+MM,AVO,Empire,2018,1,FSHIP,F
 MM,AVO,Eureka Twp.,2018,1,FSHIP,F
 MM,AVO,Excelsior,2018,1,FSHIP,F
 MM,AVO,Falcon Heights,2018,1,FSHIP,F
@@ -47277,7 +47277,7 @@ MM,AVO,Columbus,2020,1,FSHIP,F
 MM,AVO,Coon Rapids,2020,1,FSHIP,F
 MM,AVO,Corcoran,2020,1,FSHIP,F
 MM,AVO,Cottage Grove,2020,1,FSHIP,F
-MM,AVO,Credit River Twp.,2020,1,FSHIP,F
+MM,AVO,Credit River,2020,1,FSHIP,F
 MM,AVO,Crystal,2020,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2020,1,FSHIP,F
 MM,AVO,Dayton,2020,1,FSHIP,F
@@ -47290,7 +47290,7 @@ MM,AVO,East Bethel,2020,1,FSHIP,F
 MM,AVO,Eden Prairie,2020,1,FSHIP,F
 MM,AVO,Edina,2020,1,FSHIP,F
 MM,AVO,Elko New Market,2020,1,FSHIP,F
-MM,AVO,Empire Twp.,2020,1,FSHIP,F
+MM,AVO,Empire,2020,1,FSHIP,F
 MM,AVO,Eureka Twp.,2020,1,FSHIP,F
 MM,AVO,Excelsior,2020,1,FSHIP,F
 MM,AVO,Falcon Heights,2020,1,FSHIP,F
@@ -47463,7 +47463,7 @@ MM,AVO,Columbus,2025,1,FSHIP,F
 MM,AVO,Coon Rapids,2025,1,FSHIP,F
 MM,AVO,Corcoran,2025,1,FSHIP,F
 MM,AVO,Cottage Grove,2025,1,FSHIP,F
-MM,AVO,Credit River Twp.,2025,1,FSHIP,F
+MM,AVO,Credit River,2025,1,FSHIP,F
 MM,AVO,Crystal,2025,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2025,1,FSHIP,F
 MM,AVO,Dayton,2025,1,FSHIP,F
@@ -47476,7 +47476,7 @@ MM,AVO,East Bethel,2025,1,FSHIP,F
 MM,AVO,Eden Prairie,2025,1,FSHIP,F
 MM,AVO,Edina,2025,1,FSHIP,F
 MM,AVO,Elko New Market,2025,1,FSHIP,F
-MM,AVO,Empire Twp.,2025,1,FSHIP,F
+MM,AVO,Empire,2025,1,FSHIP,F
 MM,AVO,Eureka Twp.,2025,1,FSHIP,F
 MM,AVO,Excelsior,2025,1,FSHIP,F
 MM,AVO,Falcon Heights,2025,1,FSHIP,F
@@ -47649,7 +47649,7 @@ MM,AVO,Columbus,2030,1,FSHIP,F
 MM,AVO,Coon Rapids,2030,1,FSHIP,F
 MM,AVO,Corcoran,2030,1,FSHIP,F
 MM,AVO,Cottage Grove,2030,1,FSHIP,F
-MM,AVO,Credit River Twp.,2030,1,FSHIP,F
+MM,AVO,Credit River,2030,1,FSHIP,F
 MM,AVO,Crystal,2030,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2030,1,FSHIP,F
 MM,AVO,Dayton,2030,1,FSHIP,F
@@ -47662,7 +47662,7 @@ MM,AVO,East Bethel,2030,1,FSHIP,F
 MM,AVO,Eden Prairie,2030,1,FSHIP,F
 MM,AVO,Edina,2030,1,FSHIP,F
 MM,AVO,Elko New Market,2030,1,FSHIP,F
-MM,AVO,Empire Twp.,2030,1,FSHIP,F
+MM,AVO,Empire,2030,1,FSHIP,F
 MM,AVO,Eureka Twp.,2030,1,FSHIP,F
 MM,AVO,Excelsior,2030,1,FSHIP,F
 MM,AVO,Falcon Heights,2030,1,FSHIP,F
@@ -47835,7 +47835,7 @@ MM,AVO,Columbus,2035,1,FSHIP,F
 MM,AVO,Coon Rapids,2035,1,FSHIP,F
 MM,AVO,Corcoran,2035,1,FSHIP,F
 MM,AVO,Cottage Grove,2035,1,FSHIP,F
-MM,AVO,Credit River Twp.,2035,1,FSHIP,F
+MM,AVO,Credit River,2035,1,FSHIP,F
 MM,AVO,Crystal,2035,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2035,1,FSHIP,F
 MM,AVO,Dayton,2035,1,FSHIP,F
@@ -47848,7 +47848,7 @@ MM,AVO,East Bethel,2035,1,FSHIP,F
 MM,AVO,Eden Prairie,2035,1,FSHIP,F
 MM,AVO,Edina,2035,1,FSHIP,F
 MM,AVO,Elko New Market,2035,1,FSHIP,F
-MM,AVO,Empire Twp.,2035,1,FSHIP,F
+MM,AVO,Empire,2035,1,FSHIP,F
 MM,AVO,Eureka Twp.,2035,1,FSHIP,F
 MM,AVO,Excelsior,2035,1,FSHIP,F
 MM,AVO,Falcon Heights,2035,1,FSHIP,F
@@ -48021,7 +48021,7 @@ MM,AVO,Columbus,2040,1,FSHIP,F
 MM,AVO,Coon Rapids,2040,1,FSHIP,F
 MM,AVO,Corcoran,2040,1,FSHIP,F
 MM,AVO,Cottage Grove,2040,1,FSHIP,F
-MM,AVO,Credit River Twp.,2040,1,FSHIP,F
+MM,AVO,Credit River,2040,1,FSHIP,F
 MM,AVO,Crystal,2040,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2040,1,FSHIP,F
 MM,AVO,Dayton,2040,1,FSHIP,F
@@ -48034,7 +48034,7 @@ MM,AVO,East Bethel,2040,1,FSHIP,F
 MM,AVO,Eden Prairie,2040,1,FSHIP,F
 MM,AVO,Edina,2040,1,FSHIP,F
 MM,AVO,Elko New Market,2040,1,FSHIP,F
-MM,AVO,Empire Twp.,2040,1,FSHIP,F
+MM,AVO,Empire,2040,1,FSHIP,F
 MM,AVO,Eureka Twp.,2040,1,FSHIP,F
 MM,AVO,Excelsior,2040,1,FSHIP,F
 MM,AVO,Falcon Heights,2040,1,FSHIP,F
@@ -48207,7 +48207,7 @@ MM,AVO,Columbus,2045,1,FSHIP,F
 MM,AVO,Coon Rapids,2045,1,FSHIP,F
 MM,AVO,Corcoran,2045,1,FSHIP,F
 MM,AVO,Cottage Grove,2045,1,FSHIP,F
-MM,AVO,Credit River Twp.,2045,1,FSHIP,F
+MM,AVO,Credit River,2045,1,FSHIP,F
 MM,AVO,Crystal,2045,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2045,1,FSHIP,F
 MM,AVO,Dayton,2045,1,FSHIP,F
@@ -48220,7 +48220,7 @@ MM,AVO,East Bethel,2045,1,FSHIP,F
 MM,AVO,Eden Prairie,2045,1,FSHIP,F
 MM,AVO,Edina,2045,1,FSHIP,F
 MM,AVO,Elko New Market,2045,1,FSHIP,F
-MM,AVO,Empire Twp.,2045,1,FSHIP,F
+MM,AVO,Empire,2045,1,FSHIP,F
 MM,AVO,Eureka Twp.,2045,1,FSHIP,F
 MM,AVO,Excelsior,2045,1,FSHIP,F
 MM,AVO,Falcon Heights,2045,1,FSHIP,F
@@ -48393,7 +48393,7 @@ MM,AVO,Columbus,2050,1,FSHIP,F
 MM,AVO,Coon Rapids,2050,1,FSHIP,F
 MM,AVO,Corcoran,2050,1,FSHIP,F
 MM,AVO,Cottage Grove,2050,1,FSHIP,F
-MM,AVO,Credit River Twp.,2050,1,FSHIP,F
+MM,AVO,Credit River,2050,1,FSHIP,F
 MM,AVO,Crystal,2050,1,FSHIP,F
 MM,AVO,Dahlgren Twp.,2050,1,FSHIP,F
 MM,AVO,Dayton,2050,1,FSHIP,F
@@ -48406,7 +48406,7 @@ MM,AVO,East Bethel,2050,1,FSHIP,F
 MM,AVO,Eden Prairie,2050,1,FSHIP,F
 MM,AVO,Edina,2050,1,FSHIP,F
 MM,AVO,Elko New Market,2050,1,FSHIP,F
-MM,AVO,Empire Twp.,2050,1,FSHIP,F
+MM,AVO,Empire,2050,1,FSHIP,F
 MM,AVO,Eureka Twp.,2050,1,FSHIP,F
 MM,AVO,Excelsior,2050,1,FSHIP,F
 MM,AVO,Falcon Heights,2050,1,FSHIP,F
@@ -48579,7 +48579,7 @@ AIR,AVO,Columbus,2015,1,FSHIP,F
 AIR,AVO,Coon Rapids,2015,1,FSHIP,F
 AIR,AVO,Corcoran,2015,1,FSHIP,F
 AIR,AVO,Cottage Grove,2015,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2015,1,FSHIP,F
+AIR,AVO,Credit River,2015,1,FSHIP,F
 AIR,AVO,Crystal,2015,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2015,1,FSHIP,F
 AIR,AVO,Dayton,2015,1,FSHIP,F
@@ -48592,7 +48592,7 @@ AIR,AVO,East Bethel,2015,1,FSHIP,F
 AIR,AVO,Eden Prairie,2015,1,FSHIP,F
 AIR,AVO,Edina,2015,1,FSHIP,F
 AIR,AVO,Elko New Market,2015,1,FSHIP,F
-AIR,AVO,Empire Twp.,2015,1,FSHIP,F
+AIR,AVO,Empire,2015,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2015,1,FSHIP,F
 AIR,AVO,Excelsior,2015,1,FSHIP,F
 AIR,AVO,Falcon Heights,2015,1,FSHIP,F
@@ -48765,7 +48765,7 @@ AIR,AVO,Columbus,2018,1,FSHIP,F
 AIR,AVO,Coon Rapids,2018,1,FSHIP,F
 AIR,AVO,Corcoran,2018,1,FSHIP,F
 AIR,AVO,Cottage Grove,2018,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2018,1,FSHIP,F
+AIR,AVO,Credit River,2018,1,FSHIP,F
 AIR,AVO,Crystal,2018,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2018,1,FSHIP,F
 AIR,AVO,Dayton,2018,1,FSHIP,F
@@ -48778,7 +48778,7 @@ AIR,AVO,East Bethel,2018,1,FSHIP,F
 AIR,AVO,Eden Prairie,2018,1,FSHIP,F
 AIR,AVO,Edina,2018,1,FSHIP,F
 AIR,AVO,Elko New Market,2018,1,FSHIP,F
-AIR,AVO,Empire Twp.,2018,1,FSHIP,F
+AIR,AVO,Empire,2018,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2018,1,FSHIP,F
 AIR,AVO,Excelsior,2018,1,FSHIP,F
 AIR,AVO,Falcon Heights,2018,1,FSHIP,F
@@ -48951,7 +48951,7 @@ AIR,AVO,Columbus,2020,1,FSHIP,F
 AIR,AVO,Coon Rapids,2020,1,FSHIP,F
 AIR,AVO,Corcoran,2020,1,FSHIP,F
 AIR,AVO,Cottage Grove,2020,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2020,1,FSHIP,F
+AIR,AVO,Credit River,2020,1,FSHIP,F
 AIR,AVO,Crystal,2020,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2020,1,FSHIP,F
 AIR,AVO,Dayton,2020,1,FSHIP,F
@@ -48964,7 +48964,7 @@ AIR,AVO,East Bethel,2020,1,FSHIP,F
 AIR,AVO,Eden Prairie,2020,1,FSHIP,F
 AIR,AVO,Edina,2020,1,FSHIP,F
 AIR,AVO,Elko New Market,2020,1,FSHIP,F
-AIR,AVO,Empire Twp.,2020,1,FSHIP,F
+AIR,AVO,Empire,2020,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2020,1,FSHIP,F
 AIR,AVO,Excelsior,2020,1,FSHIP,F
 AIR,AVO,Falcon Heights,2020,1,FSHIP,F
@@ -49137,7 +49137,7 @@ AIR,AVO,Columbus,2025,1,FSHIP,F
 AIR,AVO,Coon Rapids,2025,1,FSHIP,F
 AIR,AVO,Corcoran,2025,1,FSHIP,F
 AIR,AVO,Cottage Grove,2025,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2025,1,FSHIP,F
+AIR,AVO,Credit River,2025,1,FSHIP,F
 AIR,AVO,Crystal,2025,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2025,1,FSHIP,F
 AIR,AVO,Dayton,2025,1,FSHIP,F
@@ -49150,7 +49150,7 @@ AIR,AVO,East Bethel,2025,1,FSHIP,F
 AIR,AVO,Eden Prairie,2025,1,FSHIP,F
 AIR,AVO,Edina,2025,1,FSHIP,F
 AIR,AVO,Elko New Market,2025,1,FSHIP,F
-AIR,AVO,Empire Twp.,2025,1,FSHIP,F
+AIR,AVO,Empire,2025,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2025,1,FSHIP,F
 AIR,AVO,Excelsior,2025,1,FSHIP,F
 AIR,AVO,Falcon Heights,2025,1,FSHIP,F
@@ -49323,7 +49323,7 @@ AIR,AVO,Columbus,2030,1,FSHIP,F
 AIR,AVO,Coon Rapids,2030,1,FSHIP,F
 AIR,AVO,Corcoran,2030,1,FSHIP,F
 AIR,AVO,Cottage Grove,2030,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2030,1,FSHIP,F
+AIR,AVO,Credit River,2030,1,FSHIP,F
 AIR,AVO,Crystal,2030,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2030,1,FSHIP,F
 AIR,AVO,Dayton,2030,1,FSHIP,F
@@ -49336,7 +49336,7 @@ AIR,AVO,East Bethel,2030,1,FSHIP,F
 AIR,AVO,Eden Prairie,2030,1,FSHIP,F
 AIR,AVO,Edina,2030,1,FSHIP,F
 AIR,AVO,Elko New Market,2030,1,FSHIP,F
-AIR,AVO,Empire Twp.,2030,1,FSHIP,F
+AIR,AVO,Empire,2030,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2030,1,FSHIP,F
 AIR,AVO,Excelsior,2030,1,FSHIP,F
 AIR,AVO,Falcon Heights,2030,1,FSHIP,F
@@ -49509,7 +49509,7 @@ AIR,AVO,Columbus,2035,1,FSHIP,F
 AIR,AVO,Coon Rapids,2035,1,FSHIP,F
 AIR,AVO,Corcoran,2035,1,FSHIP,F
 AIR,AVO,Cottage Grove,2035,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2035,1,FSHIP,F
+AIR,AVO,Credit River,2035,1,FSHIP,F
 AIR,AVO,Crystal,2035,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2035,1,FSHIP,F
 AIR,AVO,Dayton,2035,1,FSHIP,F
@@ -49522,7 +49522,7 @@ AIR,AVO,East Bethel,2035,1,FSHIP,F
 AIR,AVO,Eden Prairie,2035,1,FSHIP,F
 AIR,AVO,Edina,2035,1,FSHIP,F
 AIR,AVO,Elko New Market,2035,1,FSHIP,F
-AIR,AVO,Empire Twp.,2035,1,FSHIP,F
+AIR,AVO,Empire,2035,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2035,1,FSHIP,F
 AIR,AVO,Excelsior,2035,1,FSHIP,F
 AIR,AVO,Falcon Heights,2035,1,FSHIP,F
@@ -49695,7 +49695,7 @@ AIR,AVO,Columbus,2040,1,FSHIP,F
 AIR,AVO,Coon Rapids,2040,1,FSHIP,F
 AIR,AVO,Corcoran,2040,1,FSHIP,F
 AIR,AVO,Cottage Grove,2040,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2040,1,FSHIP,F
+AIR,AVO,Credit River,2040,1,FSHIP,F
 AIR,AVO,Crystal,2040,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2040,1,FSHIP,F
 AIR,AVO,Dayton,2040,1,FSHIP,F
@@ -49708,7 +49708,7 @@ AIR,AVO,East Bethel,2040,1,FSHIP,F
 AIR,AVO,Eden Prairie,2040,1,FSHIP,F
 AIR,AVO,Edina,2040,1,FSHIP,F
 AIR,AVO,Elko New Market,2040,1,FSHIP,F
-AIR,AVO,Empire Twp.,2040,1,FSHIP,F
+AIR,AVO,Empire,2040,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2040,1,FSHIP,F
 AIR,AVO,Excelsior,2040,1,FSHIP,F
 AIR,AVO,Falcon Heights,2040,1,FSHIP,F
@@ -49881,7 +49881,7 @@ AIR,AVO,Columbus,2045,1,FSHIP,F
 AIR,AVO,Coon Rapids,2045,1,FSHIP,F
 AIR,AVO,Corcoran,2045,1,FSHIP,F
 AIR,AVO,Cottage Grove,2045,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2045,1,FSHIP,F
+AIR,AVO,Credit River,2045,1,FSHIP,F
 AIR,AVO,Crystal,2045,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2045,1,FSHIP,F
 AIR,AVO,Dayton,2045,1,FSHIP,F
@@ -49894,7 +49894,7 @@ AIR,AVO,East Bethel,2045,1,FSHIP,F
 AIR,AVO,Eden Prairie,2045,1,FSHIP,F
 AIR,AVO,Edina,2045,1,FSHIP,F
 AIR,AVO,Elko New Market,2045,1,FSHIP,F
-AIR,AVO,Empire Twp.,2045,1,FSHIP,F
+AIR,AVO,Empire,2045,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2045,1,FSHIP,F
 AIR,AVO,Excelsior,2045,1,FSHIP,F
 AIR,AVO,Falcon Heights,2045,1,FSHIP,F
@@ -50067,7 +50067,7 @@ AIR,AVO,Columbus,2050,1,FSHIP,F
 AIR,AVO,Coon Rapids,2050,1,FSHIP,F
 AIR,AVO,Corcoran,2050,1,FSHIP,F
 AIR,AVO,Cottage Grove,2050,1,FSHIP,F
-AIR,AVO,Credit River Twp.,2050,1,FSHIP,F
+AIR,AVO,Credit River,2050,1,FSHIP,F
 AIR,AVO,Crystal,2050,1,FSHIP,F
 AIR,AVO,Dahlgren Twp.,2050,1,FSHIP,F
 AIR,AVO,Dayton,2050,1,FSHIP,F
@@ -50080,7 +50080,7 @@ AIR,AVO,East Bethel,2050,1,FSHIP,F
 AIR,AVO,Eden Prairie,2050,1,FSHIP,F
 AIR,AVO,Edina,2050,1,FSHIP,F
 AIR,AVO,Elko New Market,2050,1,FSHIP,F
-AIR,AVO,Empire Twp.,2050,1,FSHIP,F
+AIR,AVO,Empire,2050,1,FSHIP,F
 AIR,AVO,Eureka Twp.,2050,1,FSHIP,F
 AIR,AVO,Excelsior,2050,1,FSHIP,F
 AIR,AVO,Falcon Heights,2050,1,FSHIP,F
@@ -50253,7 +50253,7 @@ WAT,AVO,Columbus,2015,1,FSHIP,F
 WAT,AVO,Coon Rapids,2015,1,FSHIP,F
 WAT,AVO,Corcoran,2015,1,FSHIP,F
 WAT,AVO,Cottage Grove,2015,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2015,1,FSHIP,F
+WAT,AVO,Credit River,2015,1,FSHIP,F
 WAT,AVO,Crystal,2015,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2015,1,FSHIP,F
 WAT,AVO,Dayton,2015,1,FSHIP,F
@@ -50266,7 +50266,7 @@ WAT,AVO,East Bethel,2015,1,FSHIP,F
 WAT,AVO,Eden Prairie,2015,1,FSHIP,F
 WAT,AVO,Edina,2015,1,FSHIP,F
 WAT,AVO,Elko New Market,2015,1,FSHIP,F
-WAT,AVO,Empire Twp.,2015,1,FSHIP,F
+WAT,AVO,Empire,2015,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2015,1,FSHIP,F
 WAT,AVO,Excelsior,2015,1,FSHIP,F
 WAT,AVO,Falcon Heights,2015,1,FSHIP,F
@@ -50439,7 +50439,7 @@ WAT,AVO,Columbus,2018,1,FSHIP,F
 WAT,AVO,Coon Rapids,2018,1,FSHIP,F
 WAT,AVO,Corcoran,2018,1,FSHIP,F
 WAT,AVO,Cottage Grove,2018,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2018,1,FSHIP,F
+WAT,AVO,Credit River,2018,1,FSHIP,F
 WAT,AVO,Crystal,2018,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2018,1,FSHIP,F
 WAT,AVO,Dayton,2018,1,FSHIP,F
@@ -50452,7 +50452,7 @@ WAT,AVO,East Bethel,2018,1,FSHIP,F
 WAT,AVO,Eden Prairie,2018,1,FSHIP,F
 WAT,AVO,Edina,2018,1,FSHIP,F
 WAT,AVO,Elko New Market,2018,1,FSHIP,F
-WAT,AVO,Empire Twp.,2018,1,FSHIP,F
+WAT,AVO,Empire,2018,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2018,1,FSHIP,F
 WAT,AVO,Excelsior,2018,1,FSHIP,F
 WAT,AVO,Falcon Heights,2018,1,FSHIP,F
@@ -50625,7 +50625,7 @@ WAT,AVO,Columbus,2020,1,FSHIP,F
 WAT,AVO,Coon Rapids,2020,1,FSHIP,F
 WAT,AVO,Corcoran,2020,1,FSHIP,F
 WAT,AVO,Cottage Grove,2020,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2020,1,FSHIP,F
+WAT,AVO,Credit River,2020,1,FSHIP,F
 WAT,AVO,Crystal,2020,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2020,1,FSHIP,F
 WAT,AVO,Dayton,2020,1,FSHIP,F
@@ -50638,7 +50638,7 @@ WAT,AVO,East Bethel,2020,1,FSHIP,F
 WAT,AVO,Eden Prairie,2020,1,FSHIP,F
 WAT,AVO,Edina,2020,1,FSHIP,F
 WAT,AVO,Elko New Market,2020,1,FSHIP,F
-WAT,AVO,Empire Twp.,2020,1,FSHIP,F
+WAT,AVO,Empire,2020,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2020,1,FSHIP,F
 WAT,AVO,Excelsior,2020,1,FSHIP,F
 WAT,AVO,Falcon Heights,2020,1,FSHIP,F
@@ -50811,7 +50811,7 @@ WAT,AVO,Columbus,2025,1,FSHIP,F
 WAT,AVO,Coon Rapids,2025,1,FSHIP,F
 WAT,AVO,Corcoran,2025,1,FSHIP,F
 WAT,AVO,Cottage Grove,2025,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2025,1,FSHIP,F
+WAT,AVO,Credit River,2025,1,FSHIP,F
 WAT,AVO,Crystal,2025,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2025,1,FSHIP,F
 WAT,AVO,Dayton,2025,1,FSHIP,F
@@ -50824,7 +50824,7 @@ WAT,AVO,East Bethel,2025,1,FSHIP,F
 WAT,AVO,Eden Prairie,2025,1,FSHIP,F
 WAT,AVO,Edina,2025,1,FSHIP,F
 WAT,AVO,Elko New Market,2025,1,FSHIP,F
-WAT,AVO,Empire Twp.,2025,1,FSHIP,F
+WAT,AVO,Empire,2025,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2025,1,FSHIP,F
 WAT,AVO,Excelsior,2025,1,FSHIP,F
 WAT,AVO,Falcon Heights,2025,1,FSHIP,F
@@ -50997,7 +50997,7 @@ WAT,AVO,Columbus,2030,1,FSHIP,F
 WAT,AVO,Coon Rapids,2030,1,FSHIP,F
 WAT,AVO,Corcoran,2030,1,FSHIP,F
 WAT,AVO,Cottage Grove,2030,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2030,1,FSHIP,F
+WAT,AVO,Credit River,2030,1,FSHIP,F
 WAT,AVO,Crystal,2030,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2030,1,FSHIP,F
 WAT,AVO,Dayton,2030,1,FSHIP,F
@@ -51010,7 +51010,7 @@ WAT,AVO,East Bethel,2030,1,FSHIP,F
 WAT,AVO,Eden Prairie,2030,1,FSHIP,F
 WAT,AVO,Edina,2030,1,FSHIP,F
 WAT,AVO,Elko New Market,2030,1,FSHIP,F
-WAT,AVO,Empire Twp.,2030,1,FSHIP,F
+WAT,AVO,Empire,2030,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2030,1,FSHIP,F
 WAT,AVO,Excelsior,2030,1,FSHIP,F
 WAT,AVO,Falcon Heights,2030,1,FSHIP,F
@@ -51183,7 +51183,7 @@ WAT,AVO,Columbus,2035,1,FSHIP,F
 WAT,AVO,Coon Rapids,2035,1,FSHIP,F
 WAT,AVO,Corcoran,2035,1,FSHIP,F
 WAT,AVO,Cottage Grove,2035,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2035,1,FSHIP,F
+WAT,AVO,Credit River,2035,1,FSHIP,F
 WAT,AVO,Crystal,2035,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2035,1,FSHIP,F
 WAT,AVO,Dayton,2035,1,FSHIP,F
@@ -51196,7 +51196,7 @@ WAT,AVO,East Bethel,2035,1,FSHIP,F
 WAT,AVO,Eden Prairie,2035,1,FSHIP,F
 WAT,AVO,Edina,2035,1,FSHIP,F
 WAT,AVO,Elko New Market,2035,1,FSHIP,F
-WAT,AVO,Empire Twp.,2035,1,FSHIP,F
+WAT,AVO,Empire,2035,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2035,1,FSHIP,F
 WAT,AVO,Excelsior,2035,1,FSHIP,F
 WAT,AVO,Falcon Heights,2035,1,FSHIP,F
@@ -51369,7 +51369,7 @@ WAT,AVO,Columbus,2040,1,FSHIP,F
 WAT,AVO,Coon Rapids,2040,1,FSHIP,F
 WAT,AVO,Corcoran,2040,1,FSHIP,F
 WAT,AVO,Cottage Grove,2040,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2040,1,FSHIP,F
+WAT,AVO,Credit River,2040,1,FSHIP,F
 WAT,AVO,Crystal,2040,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2040,1,FSHIP,F
 WAT,AVO,Dayton,2040,1,FSHIP,F
@@ -51382,7 +51382,7 @@ WAT,AVO,East Bethel,2040,1,FSHIP,F
 WAT,AVO,Eden Prairie,2040,1,FSHIP,F
 WAT,AVO,Edina,2040,1,FSHIP,F
 WAT,AVO,Elko New Market,2040,1,FSHIP,F
-WAT,AVO,Empire Twp.,2040,1,FSHIP,F
+WAT,AVO,Empire,2040,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2040,1,FSHIP,F
 WAT,AVO,Excelsior,2040,1,FSHIP,F
 WAT,AVO,Falcon Heights,2040,1,FSHIP,F
@@ -51555,7 +51555,7 @@ WAT,AVO,Columbus,2045,1,FSHIP,F
 WAT,AVO,Coon Rapids,2045,1,FSHIP,F
 WAT,AVO,Corcoran,2045,1,FSHIP,F
 WAT,AVO,Cottage Grove,2045,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2045,1,FSHIP,F
+WAT,AVO,Credit River,2045,1,FSHIP,F
 WAT,AVO,Crystal,2045,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2045,1,FSHIP,F
 WAT,AVO,Dayton,2045,1,FSHIP,F
@@ -51568,7 +51568,7 @@ WAT,AVO,East Bethel,2045,1,FSHIP,F
 WAT,AVO,Eden Prairie,2045,1,FSHIP,F
 WAT,AVO,Edina,2045,1,FSHIP,F
 WAT,AVO,Elko New Market,2045,1,FSHIP,F
-WAT,AVO,Empire Twp.,2045,1,FSHIP,F
+WAT,AVO,Empire,2045,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2045,1,FSHIP,F
 WAT,AVO,Excelsior,2045,1,FSHIP,F
 WAT,AVO,Falcon Heights,2045,1,FSHIP,F
@@ -51741,7 +51741,7 @@ WAT,AVO,Columbus,2050,1,FSHIP,F
 WAT,AVO,Coon Rapids,2050,1,FSHIP,F
 WAT,AVO,Corcoran,2050,1,FSHIP,F
 WAT,AVO,Cottage Grove,2050,1,FSHIP,F
-WAT,AVO,Credit River Twp.,2050,1,FSHIP,F
+WAT,AVO,Credit River,2050,1,FSHIP,F
 WAT,AVO,Crystal,2050,1,FSHIP,F
 WAT,AVO,Dahlgren Twp.,2050,1,FSHIP,F
 WAT,AVO,Dayton,2050,1,FSHIP,F
@@ -51754,7 +51754,7 @@ WAT,AVO,East Bethel,2050,1,FSHIP,F
 WAT,AVO,Eden Prairie,2050,1,FSHIP,F
 WAT,AVO,Edina,2050,1,FSHIP,F
 WAT,AVO,Elko New Market,2050,1,FSHIP,F
-WAT,AVO,Empire Twp.,2050,1,FSHIP,F
+WAT,AVO,Empire,2050,1,FSHIP,F
 WAT,AVO,Eureka Twp.,2050,1,FSHIP,F
 WAT,AVO,Excelsior,2050,1,FSHIP,F
 WAT,AVO,Falcon Heights,2050,1,FSHIP,F
