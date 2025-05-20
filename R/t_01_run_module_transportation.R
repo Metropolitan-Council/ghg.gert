@@ -507,7 +507,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       "aeo_mode",
       "class"
     )
-  )
+  ) %>%
+    dplyr::left_join(geog_index, by = c("ctu"))
+
 
   if (.calc_transp_ghg_embodied == TRUE) {
     pass_emb_ghg <- dplyr::bind_rows(
@@ -599,7 +601,8 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                     "type", "scenario", "ctu",
                                     "year", "mode", "aeo_mode", "class"
                                   )
-  )
+  ) %>%
+    dplyr::left_join(geog_index, by = c("ctu"))
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,
