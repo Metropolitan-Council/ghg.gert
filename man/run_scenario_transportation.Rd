@@ -147,7 +147,7 @@ Default is \code{0}.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.
-Emissions returned are in tonnes.
+Emissions returned are in metric tons.
 }
 \description{
 Main function to call other functions for determining VMT,

@@ -32,7 +32,7 @@
 #' @inheritParams vmt_vehicle_occupancy
 #'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
-#'    Emissions returned are in tonnes.
+#'    Emissions returned are in metric tons.
 #'
 #' @export
 #' @importFrom dplyr filter select case_when across bind_rows cur_column

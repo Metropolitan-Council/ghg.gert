@@ -3,7 +3,7 @@
 \docType{data}
 \name{transportation_index}
 \alias{transportation_index}
-\title{Reference index for abbreviations}
+\title{Reference index for abbreviations, data sources, identifiers}
 \format{
 A list of tibbles with identifiers, abbreviations, and descriptions
 for each emission source, variable, transportation mode, and AEO scenario.
@@ -19,7 +19,7 @@ for each emission source, variable, transportation mode, and AEO scenario.
 transportation_index
 }
 \description{
-Reference index for abbreviations
+Reference index for abbreviations, data sources, identifiers
 }
 \examples{
 library(ghg.ccap)
@@ -35,6 +35,7 @@ Other datasets:
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
+\code{\link{fuel_economy}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}}
 }
