@@ -1,5 +1,7 @@
 # Gasoline -----
 
+# vmt in this table is in thousands,
+# so multiply by 1000 to get to miles
 si_vmt_test <- tibble::tribble(
   ~type, ~stock, ~scenario, ~ctu, ~year, ~mode, ~aeo_mode, ~vmt, ~class,
   "P", "SIStock", "BAU", "St. Paul", "2015", "PLDV", "LDV", 22.1801380413249, "SI",
@@ -75,25 +77,30 @@ testthat::test_that("Battery direct ghg", {
     st_paul_passenger,
     .mode = "PLDV",
     .aeo_scenario = "REF",
-    "BEVElec",
-    .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH
+    .miles_per_gallon = "BEVElec",
+    .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH,
+    .fuel_economy = fuel_economy,
+    .enviro_factors = enviro_factors,
+    .factor_values = factor_values
   )
 
-  testthat::expect_warning(calc_ghg_direct(
-    tb_vmt = ci_vmt_test,
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .fuel_type = "BEV",
-    .aeo_scenario = "REF",
-    .miles_per_gallon = "BEVElec",
-    .grid_decarbonization_pct = 0
-  ))
+  testthat::expect_warning(
+    calc_ghg_direct(
+      tb_vmt = ci_vmt_test,
+      tb = st_paul_passenger,
+      .mode = "PLDV",
+      .fuel_type = "ER",
+      .aeo_scenario = "REF",
+      .miles_per_gallon = "BEVElec",
+      .grid_decarbonization_pct = 0
+    )
+  )
 
   bev_dir_ghg <- calc_ghg_direct(
     tb_vmt = ci_vmt_test,
     tb = st_paul_passenger,
     .mode = "PLDV",
-    .fuel_type = "BEV",
+    .fuel_type = "ER",
     .aeo_scenario = "REF",
     .miles_per_gallon = "BEVElec",
     .grid_decarbonization_pct = 1

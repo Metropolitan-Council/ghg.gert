@@ -1,5 +1,5 @@
 # Business as usual scenario testing -----
-
+# testing values are divided by 1000 for comparison with the old Excel workbook
 # passenger si ------
 
 si_vmt <- calc_vmt_forecast(
