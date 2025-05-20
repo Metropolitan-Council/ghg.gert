@@ -121,7 +121,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
-
     )
 
   bus_scenario <- list("vmt" = ci_vmt, "dir_ghg" = ci_dir_ghg)
@@ -581,4 +580,3 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   return(bus_scenario)
 }
-

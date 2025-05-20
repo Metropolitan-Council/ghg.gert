@@ -22,8 +22,10 @@ aeo_factors_new <- vmt_change %>%
     seriesName,
     " (", seriesId, ")"
   )) %>%
-  select(aeo_scen, mode = aeo_mode, year = period, metric= var, value = one_min_ref,
-         metadata) %>%
+  select(aeo_scen,
+    mode = aeo_mode, year = period, metric = var, value = one_min_ref,
+    metadata
+  ) %>%
   bind_rows(
     mpg_change %>%
       filter(var %in% c("MPG", "Light-duty MPG")) %>%
@@ -36,7 +38,8 @@ aeo_factors_new <- vmt_change %>%
         seriesName,
         " (", seriesId, ")"
       )) %>%
-      select(aeo_scen, mode = aeo_mode, year = period, metric = var, value = one_min_ref, metadata))
+      select(aeo_scen, mode = aeo_mode, year = period, metric = var, value = one_min_ref, metadata)
+  )
 
 
 
@@ -62,7 +65,8 @@ aeo_long <- aeo %>%
 aeo_long %>%
   filter(metric == "MPG") %>%
   select(mode, aeo_scen, metric) %>%
-  unique() %>% nrow()
+  unique() %>%
+  nrow()
 
 
 aeo_final <- aeo_long %>%
@@ -76,7 +80,8 @@ aeo_final <- aeo_long %>%
 aeo_final %>%
   filter(metric == "MPG") %>%
   select(mode, aeo_scen, metric) %>%
-  unique() %>% nrow()
+  unique() %>%
+  nrow()
 
 # waldo::compare(aeo_final, aeo_long)
 
@@ -91,15 +96,16 @@ cost_long <- cost %>%
   ungroup() %>%
   mutate(AV = as.logical(AV)) %>%
   select(mode,
-         var,
-         is_av = AV,
-         year,
-         value
+    var,
+    is_av = AV,
+    year,
+    value
   )
 
 
 # ghg factors ------
 # https://www.epa.gov/sites/default/files/2015-07/documents/emission-factors_2014.pdf
+# all values were converted to metric tons
 
 ghg_long <- ghg %>%
   group_by(source) %>%

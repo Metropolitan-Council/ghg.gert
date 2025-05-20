@@ -16,7 +16,7 @@
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
-#' @param .fuel_economy table, table with GHG factor values. Default is ghg.ccap::fuel_economy
+#' @param .fuel_economy table, table with GHG factor values. Default is `ghg.ccap::fuel_economy`
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast
@@ -44,7 +44,6 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_economy = ghg.ccap::fuel_economy,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values) {
-
   # browser()
   check_inputs(name = "fuel_type", value = .fuel_type)
   # for given fuel type,
@@ -52,7 +51,7 @@ calc_ghg_direct <- function(tb_vmt,
   ghg_factors_current <- .factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
-                  ghg_factor = value
+      ghg_factor = value
     )
 
   fuel_gallons <- calc_fuel_use(
@@ -63,7 +62,7 @@ calc_ghg_direct <- function(tb_vmt,
     .miles_per_gallon = .miles_per_gallon,
     .fuel_economy = .fuel_economy,
     .enviro_factors = .enviro_factors,
-    .factor_values =  .factor_values
+    .factor_values = .factor_values
   )
 
   if (.fuel_type == "ER" & .grid_decarbonization_pct == 0) {
@@ -92,7 +91,7 @@ calc_ghg_direct <- function(tb_vmt,
       by = c("year")
     ) %>%
     dplyr::left_join(ghg_factors_current,
-                     by = c("year")
+      by = c("year")
     ) %>%
     dplyr::mutate(
       # emissions  = gallons * ghg_factor
@@ -103,17 +102,18 @@ calc_ghg_direct <- function(tb_vmt,
           (fuel_use_gallons_kwh * ghg_factor)
         )
     ) %>%
-    dplyr::select(type,
-                  # source,
-                  scenario,
-                  mode,
-                  class,
-                  ctu,
-                  year,
-                  # aeo_scen,
-                  aeo_mode,
-                  # vmt,
-                  dir_ghg
+    dplyr::select(
+      type,
+      # source,
+      scenario,
+      mode,
+      class,
+      ctu,
+      year,
+      # aeo_scen,
+      aeo_mode,
+      # vmt,
+      dir_ghg
     ) %>%
     unique()
 

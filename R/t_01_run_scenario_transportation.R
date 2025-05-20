@@ -20,6 +20,7 @@
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
 #' @inheritParams adj_fleet_shares
+#' @inheritParams calc_ghg_direct
 #' @inheritParams filter_ctu
 #' @inheritParams vmt_annual_energy_outlook
 #' @inheritParams vmt_land_use_change
@@ -217,7 +218,6 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .fuel_economy = .fuel_economy
-
   )
 
 

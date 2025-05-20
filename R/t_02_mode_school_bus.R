@@ -80,7 +80,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
-      .stock =  "CIStock",
+      .stock = "CIStock",
       .variable = var,
       .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
@@ -173,7 +173,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
-
     )
 
   bev_ghg <-
@@ -231,14 +230,16 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
 
   if (.calc_transp_cost == TRUE) {
     ci_cost <- calc_cost(ci_vmt, .selected_ctu,
-                         .mode = mode,
-                         .price = "CIPrice",
-                         .factor_values = .factor_values,
-                         .enviro_factors = .enviro_factors)
+      .mode = mode,
+      .price = "CIPrice",
+      .factor_values = .factor_values,
+      .enviro_factors = .enviro_factors
+    )
 
     bev_cost <- calc_cost(bev_vmt, .selected_ctu, mode, "BEVPrice",
-                          .enviro_factors = .enviro_factors,
-                          .factor_values = .factor_values)
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
+    )
 
     school_bus$cost <- dplyr::bind_rows(
       ci_cost,

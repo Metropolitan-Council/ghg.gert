@@ -12,6 +12,6 @@ transportation_data$freight <- transportation_data$freight %>%
   filter(var == "TMT") %>%
   mutate(value = round(value * 1000, 2)) %>%
   bind_rows(transportation_data$freight %>%
-              filter(var != "TMT"))
+    filter(var != "TMT"))
 
 usethis::use_data(transportation_data, overwrite = TRUE)

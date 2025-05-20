@@ -122,7 +122,6 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
-
     )
 
 

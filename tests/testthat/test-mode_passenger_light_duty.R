@@ -9,11 +9,11 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg"
-    ),
-    ignore.order = TRUE
+                         expected = c(
+                           "vmt",
+                           "dir_ghg"
+                         ),
+                         ignore.order = TRUE
   )
 
 
@@ -94,14 +94,14 @@ testthat::test_that("Lake Elmo emissions reduce with interventions", {
   testthat::expect_length(pass, 5)
 
   testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg",
-      "emb_ghg",
-      "fuel_use_gallons_kwh",
-      "cost"
-    ),
-    ignore.order = TRUE
+                         expected = c(
+                           "vmt",
+                           "dir_ghg",
+                           "emb_ghg",
+                           "fuel_use_gallons_kwh",
+                           "cost"
+                         ),
+                         ignore.order = TRUE
   )
 
 
@@ -194,14 +194,14 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   testthat::expect_length(pass, 2)
 
   testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg"
-      # "emb_ghg",
-      # "fuel_use_gallons_kwh",
-      # "cost"
-    ),
-    ignore.order = TRUE
+                         expected = c(
+                           "vmt",
+                           "dir_ghg"
+                           # "emb_ghg",
+                           # "fuel_use_gallons_kwh",
+                           # "cost"
+                         ),
+                         ignore.order = TRUE
   )
 
 

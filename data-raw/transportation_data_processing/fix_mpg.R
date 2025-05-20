@@ -18,26 +18,32 @@ future_fuel_economy <- aeo_fuel_economy %>%
   mutate(value = ifelse(var == "BEVElec", value / 33.7, value))
 
 pldv_fuel_economy <- transportation_data$passenger %>%
-  filter(mode == "PLDV",
-         var %in% c("HEVMPG",
-                    "SIMPG",
-                    "CIMPG",
-                    "BEVElec",
-                    "PHEVMPG")) %>%
+  filter(
+    mode == "PLDV",
+    var %in% c(
+      "HEVMPG",
+      "SIMPG",
+      "CIMPG",
+      "BEVElec",
+      "PHEVMPG"
+    )
+  ) %>%
   select(mode, aeo_mode, var, year, value) %>%
   unique() %>%
   filter(year %in% c(2015, 2018, 2020)) %>%
   bind_rows(future_fuel_economy %>%
-              filter(aeo_mode == "LDV") %>%
-              mutate(mode = "PLDV")) %>%
+    filter(aeo_mode == "LDV") %>%
+    mutate(mode = "PLDV")) %>%
   arrange(var, year) %>%
   mutate(metadata = ifelse(is.na(metadata), "EIA Annual Energy Outlook, 2021", metadata))
 
 
 # no updates to PHEVElec value
 phev_elec <- transportation_data$passenger %>%
-  filter(mode == "PLDV",
-         var == "PHEVElec") %>%
+  filter(
+    mode == "PLDV",
+    var == "PHEVElec"
+  ) %>%
   select(mode, aeo_mode, var, year, value) %>%
   unique()
 
@@ -46,15 +52,17 @@ passenger_fuel_economy <-
   # get all non-PLDV
   filter(
     mode != "PLDV",
-         var %in% c("HEVMPG",
-                    "SIMPG",
-                    "CIMPG",
-                    "BEVElec",
-                    "PHEVMPG",
-                    "PHEVElec",
-                    "BCIMPG",
-                    "EVElec"
-                    )) %>%
+    var %in% c(
+      "HEVMPG",
+      "SIMPG",
+      "CIMPG",
+      "BEVElec",
+      "PHEVMPG",
+      "PHEVElec",
+      "BCIMPG",
+      "EVElec"
+    )
+  ) %>%
   select(year, mode, aeo_mode, var, value) %>%
   unique() %>%
   bind_rows(phev_elec) %>%
@@ -69,22 +77,27 @@ passenger_fuel_economy <-
 freight_fuel_economy <-
   transportation_data$freight %>%
   filter(
-    var %in% c("HEVMPG",
-               "SIMPG",
-               "CIMPG",
-               "BEVElec",
-               "PHEVElec",
-               "PHEVMPG",
-               "BCIMPG",
-               "EVElec")) %>%
+    var %in% c(
+      "HEVMPG",
+      "SIMPG",
+      "CIMPG",
+      "BEVElec",
+      "PHEVElec",
+      "PHEVMPG",
+      "BCIMPG",
+      "EVElec"
+    )
+  ) %>%
   select(year, mode, aeo_mode, var, value) %>%
   unique()
 
 # combine and export -----
 
 fuel_economy <-
-  bind_rows(passenger_fuel_economy,
-            freight_fuel_economy)
+  bind_rows(
+    passenger_fuel_economy,
+    freight_fuel_economy
+  )
 
 
 usethis::use_data(fuel_economy, overwrite = TRUE)
@@ -98,4 +111,3 @@ transportation_data$freight <- transportation_data$freight %>%
   filter(!var %in% fuel_economy$var)
 
 usethis::use_data(transportation_data, overwrite = TRUE)
-
