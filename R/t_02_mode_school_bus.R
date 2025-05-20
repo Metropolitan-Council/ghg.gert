@@ -38,6 +38,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .elast = elast,
                             .elast_5d = elast_5d,
                             .factor_values = factor_values,
+                            .fuel_economy = fuel_economy,
                             .calc_transp_cost = FALSE,
                             .calc_transp_fuel_use = FALSE,
                             .calc_transp_ghg_embodied = FALSE) {
@@ -170,7 +171,9 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
   bev_ghg <-
@@ -183,7 +186,8 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
     )
 
   vmt_all <- dplyr::bind_rows(

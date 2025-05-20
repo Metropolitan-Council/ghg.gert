@@ -37,7 +37,9 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .enviro_factors = enviro_factors,
                                .factor_values = factor_values,
                                .elast = elast,
-                               .elast_5d = elast_5d) {
+                               .elast_5d = elast_5d,
+                               .fuel_economy = fuel_economy
+) {
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
   mode <- "FR"
@@ -114,7 +116,9 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
 
@@ -180,7 +184,9 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
 
@@ -250,7 +256,9 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
 
@@ -319,7 +327,9 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
 

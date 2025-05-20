@@ -16,6 +16,7 @@
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
+#' @param .fuel_economy table, table with GHG factor values. Default is ghg.ccap::fuel_economy
 #'
 #' @inheritParams run_scenario_transportation
 #' @inheritParams calc_vmt_forecast

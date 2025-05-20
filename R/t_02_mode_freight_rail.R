@@ -38,7 +38,9 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
-                              .elast_5d = elast_5d) {
+                              .elast_5d = elast_5d,
+                              .fuel_economy = fuel_economy
+) {
   # cli::cli_progress_message("** calculating freight rail scneario \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
@@ -112,7 +114,9 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
     )
 
 
@@ -129,7 +133,9 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
     .miles_per_gallon = "EVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
+    .factor_values = .factor_values,
+    .fuel_economy = .fuel_economy
+
   )
 
 
@@ -180,7 +186,10 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .miles_per_gallon = "EVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
+
+
     )
 
   # Finish up -----

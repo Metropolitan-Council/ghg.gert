@@ -103,6 +103,7 @@ run_all_modules <- function(.selected_ctu = "all",
                             .enviro_factors = enviro_factors,
                             .factor_values = ghg.ccap::factor_values,
                             .elast = elast,
+                            .fuel_economy = fuel_economy,
                             .elast_5d = elast_5d) {
   output <- c()
 

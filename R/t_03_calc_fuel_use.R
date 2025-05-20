@@ -69,10 +69,8 @@ calc_fuel_use <- function(tb_vmt,
     by = c("year", "aeo_mode")
   ) %>%
     dplyr::rowwise() %>%
-    # VMT is reported in thousands
-    # multiply by 1000 to get _miles_
     # miles traveled DIVIDED by the miles per gallon to get gallons
-    dplyr::mutate(fuel_use_gallons_kwh = (vmt * 1000) / fuel_factor) %>%
+    dplyr::mutate(fuel_use_gallons_kwh = (vmt) / fuel_factor) %>%
     dplyr::select(
       type,
       scenario,

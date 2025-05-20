@@ -75,6 +75,7 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
                                         .enviro_factors = ghg.ccap::enviro_factors,
                                         .elast = elast,
                                         .elast_5d = elast_5d,
+                                        .fuel_economy = fuel_economy,
                                         .factor_values = ghg.ccap::factor_values) {
   # browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
@@ -214,7 +215,9 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-    .grid_decarbonization_pct = .grid_decarbonization_pct
+    .grid_decarbonization_pct = .grid_decarbonization_pct,
+    .fuel_economy = .fuel_economy
+
   )
 
 
@@ -250,7 +253,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
+    .fuel_economy = .fuel_economy
   )
 
   ## transit rail -----
@@ -286,7 +290,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
+    .fuel_economy = .fuel_economy
   )
 
   ## school bus-----
@@ -321,7 +326,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .factor_values = .factor_values,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied
+    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
+    .fuel_economy = .fuel_economy
   )
 
 
@@ -354,7 +360,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
-    .factor_values = .factor_values
+    .factor_values = .factor_values,
+    .fuel_economy = .fuel_economy
   )
 
   # Freight -------------------------------
@@ -389,7 +396,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
-    .factor_values = .factor_values
+    .factor_values = .factor_values,
+    .fuel_economy = .fuel_economy
   )
 
   ## freight rail -----
@@ -422,7 +430,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .factor_values = .factor_values,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .fuel_economy = .fuel_economy
   )
 
   ## freight multi-modal, air, and water -----
@@ -455,7 +464,8 @@ run_scenario_transportation <- function(pass_tb = transportation_data$passenger,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .factor_values = .factor_values,
-    .elast_5d = .elast_5d
+    .elast_5d = .elast_5d,
+    .fuel_economy = .fuel_economy
   )
 
   # Finish up -----

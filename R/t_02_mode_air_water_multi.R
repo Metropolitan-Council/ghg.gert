@@ -37,7 +37,8 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .enviro_factors = enviro_factors,
                                  .factor_values = factor_values,
                                  .elast = elast,
-                                 .elast_5d = elast_5d) {
+                                 .elast_5d = elast_5d,
+                                 .fuel_economy = fuel_economy) {
   # cli::cli_progress_message("** calculating scenario for air and water travel \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
@@ -111,6 +112,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -167,7 +169,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "BEV")
 
   mm_bev_ghg <-
     calc_ghg_direct(
@@ -178,6 +180,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -248,6 +251,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "SIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -318,6 +322,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
