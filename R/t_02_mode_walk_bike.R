@@ -39,6 +39,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .grid_decarbonization_pct = 0.6,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
+                           .fuel_economy = fuel_economy,
                            .factor_values = factor_values,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
