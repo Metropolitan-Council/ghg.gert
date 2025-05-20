@@ -1,10 +1,9 @@
 test_that("Density changes have anticipated effect", {
-
   popdens_decrease <- run_module_transportation(
     .selected_ctu = "Minneapolis",
     .pop_dens_pct_change = -0.2,
     .scenario = "pop_decrease"
-  )%>%
+  ) %>%
     suppressMessages() %>%
     suppressWarnings()
 
@@ -12,7 +11,7 @@ test_that("Density changes have anticipated effect", {
     .selected_ctu = "Minneapolis",
     .pop_dens_pct_change = 0.2,
     .scenario = "pop_increase"
-  )%>%
+  ) %>%
     suppressMessages() %>%
     suppressWarnings()
 
@@ -20,7 +19,7 @@ test_that("Density changes have anticipated effect", {
     .selected_ctu = "Minneapolis",
     .pop_dens_pct_change = 0,
     .scenario = "pop_bau"
-  )%>%
+  ) %>%
     suppressMessages() %>%
     suppressWarnings()
 
@@ -28,7 +27,7 @@ test_that("Density changes have anticipated effect", {
     .selected_ctu = "Minneapolis",
     .emp_dens_pct_change = -0.2,
     .scenario = "emp_decrease"
-  )%>%
+  ) %>%
     suppressMessages() %>%
     suppressWarnings()
 
@@ -36,7 +35,7 @@ test_that("Density changes have anticipated effect", {
     .selected_ctu = "Minneapolis",
     .emp_dens_pct_change = 0.2,
     .scenario = "emp_increase"
-  )%>%
+  ) %>%
     suppressMessages() %>%
     suppressWarnings()
 
@@ -70,6 +69,4 @@ test_that("Density changes have anticipated effect", {
 
 
   testthat::expect_equal(unique(dens_result$flag), NA_character_)
-
-
 })
