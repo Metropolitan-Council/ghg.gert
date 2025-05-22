@@ -21,4 +21,11 @@ ghg_inventory <- bind_rows(ghg_ctu %>%
                        dplyr::select(-c(data_source, factor_source,geoid,population_data_source))
 )
 
+### remap sectors for alternate graphing
+ghg_inventory_alt <- ghg_inventory %>%
+  mutate(sector = case_when(
+    category
+  ))
+
+
 usethis::use_data(ghg_inventory, overwrite = TRUE)

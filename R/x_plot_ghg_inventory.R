@@ -26,25 +26,7 @@ plot_inventory <- function(ghg_inv = ghg_inventory,
     dplyr::filter(ghg_inv,
                   emissions_year == inventory_year)
 
-  if(sector_level == "sector") {
-    color_list = sector_colors
-  } else {
-    grouping_col <- sym(sector_level)
 
-    color_list <- ghg_inv_year %>%
-      dplyr::distinct(!!grouping_col, sector) %>%
-      dplyr::arrange(sector, !!grouping_col) %>%
-      group_by(sector) %>%
-      mutate(n_within_sector = dplyr::n(),
-             shade_index = dplyr::row_number(),
-             lighten_factor = shade_index / (n_within_sector + 1)) %>%
-      ungroup() %>%
-      rowwise() %>%
-      mutate(color = colorspace::lighten(sector_colors[[sector]], lighten_factor)) %>%
-      ungroup() %>%
-      select(name = !!grouping_col, color) %>%
-      tibble::deframe()  # creates named character vector
-}
 
   ghg_plot <- ggplot2::ggplot(
     data = ghg_inv_year,
@@ -53,7 +35,7 @@ plot_inventory <- function(ghg_inv = ghg_inventory,
         fill = sector_level)
   ) +
     ggplot2::geom_bar(stat = "identity") +
-    scale_fill_manual(values = color_palette_vector_sector, guide = FALSE) +
+    scale_fill_manual(values = color_palette_vector_sector, guide = FALSE)
 
 
 }
