@@ -5,7 +5,7 @@
 #'
 #' @return [tibble::tibble()]
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams run_all_modules
 #' @inheritParams run_scenario_land_use

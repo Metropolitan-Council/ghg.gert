@@ -69,6 +69,7 @@ run_all_modules(
   .enviro_factors = enviro_factors,
   .factor_values = ghg.ccap::factor_values,
   .elast = elast,
+  .fuel_economy = fuel_economy,
   .elast_5d = elast_5d
 )
 }
@@ -293,6 +294,8 @@ Default is \code{0}.}
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }

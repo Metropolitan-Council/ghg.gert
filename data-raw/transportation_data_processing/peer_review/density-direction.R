@@ -1,37 +1,37 @@
 library(ghg.ccap)
 library(tidyverse)
 
-popdens_decrease <- run_scenario_transportation(
+popdens_decrease <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .pop_dens_pct_change = -0.2,
   .scenario = "pop_decrease"
 )
 
-popdens_increase <- run_scenario_transportation(
+popdens_increase <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .pop_dens_pct_change = 0.2,
   .scenario = "pop_increase"
 )
 
-popdens_bau <- run_scenario_transportation(
+popdens_bau <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .pop_dens_pct_change = 0,
   .scenario = "pop_bau"
 )
 
-empdens_decrease <- run_scenario_transportation(
+empdens_decrease <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .emp_dens_pct_change = -0.2,
   .scenario = "emp_decrease"
 )
 
-empdens_increase <- run_scenario_transportation(
+empdens_increase <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .emp_dens_pct_change = 0.2,
   .scenario = "emp_increase"
 )
 
-empdens_bau <- run_scenario_transportation(
+empdens_bau <- run_module_transportation(
   .selected_ctu = "Minneapolis",
   .emp_dens_pct_change = -0,
   .scenario = "emp_bau"

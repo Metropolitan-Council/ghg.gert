@@ -12,6 +12,7 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .grid_decarbonization_pct = 0.6,
+  .fuel_economy = ghg.ccap::fuel_economy,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values
 )
@@ -34,6 +35,8 @@ Default is \code{"REF"}}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
@@ -75,14 +78,14 @@ Other transportation:
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{run_scenario_transportation}()},
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
-\code{\link{scen_walk_bike}()},
+\code{\link{mode_freight_rail}()},
+\code{\link{mode_freight_truck}()},
+\code{\link{mode_passenger_light_duty}()},
+\code{\link{mode_school_bus}()},
+\code{\link{mode_transit_bus}()},
+\code{\link{mode_transit_rail}()},
+\code{\link{mode_walk_bike}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{emissions}
