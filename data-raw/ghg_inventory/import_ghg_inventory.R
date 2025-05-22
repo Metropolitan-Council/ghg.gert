@@ -18,6 +18,9 @@ ghg_inventory <- bind_rows(ghg_ctu %>%
                                      population = county_total_population,
                                      fips_id = geoid) %>%
                        dplyr::select(-c(data_source, factor_source,population_data_source))
-)
+) %>% # patch category issue (fix in inventory repo later)
+  mutate(category = dplyr::if_else(category == "Stationary combustion",
+                            stringr::str_to_sentence(paste(sector, category)),
+                            category))
 
 usethis::use_data(ghg_inventory, overwrite = TRUE)
