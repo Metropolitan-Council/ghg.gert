@@ -10,10 +10,8 @@ filter_ctu <- function(df, .selected_ctu = "all") {
   check_inputs(name = "selected_ctu", value = .selected_ctu)
   if (.selected_ctu == "all") {
     return(df)
-  } else if ("ctu" %in% colnames(df) && .selected_ctu != "all") {
-    return(df %>% dplyr::filter(ctu == .selected_ctu))
   } else {
-    return(df %>% dplyr::filter(ctu_name == .selected_ctu))
+    return(df %>% dplyr::filter(geog_name == .selected_ctu))
   }
 }
 
@@ -31,8 +29,8 @@ filter_building_energy_data <-
       return(data_list)
     }
     filtered_list <- lapply(data_list, function(df) {
-      if ("ctu_name" %in% colnames(df)) {
-        df <- df[df$ctu_name == .selected_ctu, ]
+      if ("geog_name" %in% colnames(df)) {
+        df <- df[df$geog_name == .selected_ctu, ]
       }
       df
     })
