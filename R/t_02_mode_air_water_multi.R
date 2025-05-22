@@ -1,7 +1,7 @@
 #'
 #' @title Calculate scenario for freight multi-modal, air, and water transportation
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #' @family transportation results, freight
@@ -37,7 +37,8 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .enviro_factors = enviro_factors,
                                  .factor_values = factor_values,
                                  .elast = elast,
-                                 .elast_5d = elast_5d) {
+                                 .elast_5d = elast_5d,
+                                 .fuel_economy = fuel_economy) {
   # cli::cli_progress_message("** calculating scenario for air and water travel \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
@@ -50,16 +51,16 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
   mode <- "MM"
 
   ## CI -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
   message("Multimodal, diesel")
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_mm_diesel <- calc_fuel_cost_mile(
     tb = .freight_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -71,10 +72,10 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "MM",
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_mm_diesel,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -100,17 +101,18 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "CI")
 
   mm_ci_ghg <-
     calc_ghg_direct(
       tb_vmt = mm_ci_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "MM",
       .fuel_type = "MMCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
@@ -118,16 +120,16 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
 
   ## battery electric-----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
+  # stock <- "BEVStock"
+  # mpe <- "BEVElec"
+  # class <- "BEV"
   message("Multimodal, battery electric")
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_mm_bev <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "MM",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -139,10 +141,10 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "MM",
+      .stock = "BEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_mm_bev,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -167,37 +169,38 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "BEV")
 
   mm_bev_ghg <-
     calc_ghg_direct(
       tb_vmt = mm_bev_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "MM",
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
 
 
   # Air------
-  mode <- "AIR"
+  # mode <- "AIR"
 
   ## SI
-  stock <- "SIStock"
-  mpg <- "SIMPG"
-  class <- "SI"
+  # stock <- "SIStock"
+  # mpg <- "SIMPG"
+  # class <- "SI"
 
   message("Air, gasoline")
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_air <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "AIR",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "SIMPG",
     .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -209,10 +212,10 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "AIR",
+      .stock = "SIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_air,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -237,37 +240,38 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "SI")
 
   air_si_ghg <-
     calc_ghg_direct(
       tb_vmt = air_si_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "AIR",
       .fuel_type = "ASI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "SIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
 
 
   # Water ------
-  mode <- "WAT"
+  # mode <- "WAT"
 
   message("Water, diesel")
 
   ## CI -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_wat <- calc_fuel_cost_mile(
     tb = .freight_tb,
-    .mode = mode,
+    .mode = "WAT",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -279,10 +283,10 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
-      .mode = mode,
-      .stock = stock,
+      .mode = "WAT",
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_wat,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -307,17 +311,18 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "CI")
 
   wat_ci_ghg <-
     calc_ghg_direct(
       tb_vmt = wat_ci_vmt,
       tb = .freight_tb,
-      .mode = mode,
+      .mode = "WAT",
       .fuel_type = "WCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
+      .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )

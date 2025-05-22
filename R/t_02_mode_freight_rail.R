@@ -2,7 +2,7 @@
 #' @family freight
 #' @family transportation
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -38,7 +38,8 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
-                              .elast_5d = elast_5d) {
+                              .elast_5d = elast_5d,
+                              .fuel_economy = fuel_economy) {
   # cli::cli_progress_message("** calculating freight rail scneario \n")
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
@@ -50,16 +51,16 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
 
   # browser()
   # diesel -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
   message("Freight rail, diesel")
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_ci <- calc_fuel_cost_mile(
     tb = .freight_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -73,9 +74,9 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -100,7 +101,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "CI")
 
   ci_ghg <-
     calc_ghg_direct(
@@ -109,18 +110,32 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .mode = mode,
       .fuel_type = "RCI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
     )
 
 
   # battery electric ------
-  stock <- "EVStock"
-  mpe <- "EVElec"
-  class <- "EV"
+  # stock <- "EVStock"
+  # mpe <- "EVElec"
+  # class <- "EV"
   message("Freight rail, electric")
+
+  fcm_ev <- calc_fuel_cost_mile(
+    tb = .freight_tb,
+    .mode = mode,
+    .aeo_scenario = .aeo_scenario,
+    .miles_per_gallon = "EVElec",
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
+    .enviro_factors = .enviro_factors,
+    .factor_values = .factor_values,
+    .fuel_economy = .fuel_economy
+  )
+
+
 
   ev_vmt <-
     calc_vmt_forecast(
@@ -128,9 +143,9 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .selected_ctu = .selected_ctu,
       tb = .freight_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "EVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_ev,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -155,7 +170,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .elast = .elast,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
-    ) %>% mutate(class = class)
+    ) %>% mutate(class = "EV")
 
 
   ev_ghg <-
@@ -165,10 +180,11 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .mode = mode,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "EVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
     )
 
   # Finish up -----

@@ -4,7 +4,7 @@
 #'
 #' @description Calculates scenario for walk and bike.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -39,6 +39,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .grid_decarbonization_pct = 0.6,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
+                           .fuel_economy = fuel_economy,
                            .factor_values = factor_values,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
@@ -60,17 +61,17 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
 
   # browser()
   ## Walk -----
-  mode <- "WALK"
-  stock <- ""
-  class <- "WALK"
+  # mode <- "WALK"
+  # stock <- ""
+  # class <- "WALK"
 
   walk_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .stock = stock,
+      .mode = "WALK",
+      .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
@@ -96,20 +97,20 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
-    mutate(class = class)
+    mutate(class = "WALK")
 
   ## Bike -----
-  mode <- "BIKE"
-  stock <- ""
-  class <- "BIKE"
+  # mode <- "BIKE"
+  # stock <- ""
+  # class <- "BIKE"
 
   bike_vmt <-
     calc_vmt_forecast(
       tb = .pass_tb,
       .scenario = .scenario,
       .selected_ctu = .selected_ctu,
-      .mode = mode,
-      .stock = stock,
+      .mode = "BIKE",
+      .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
       .aeo_scenario = .aeo_scenario,
@@ -135,7 +136,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .factor_values = .factor_values,
       .elast_5d = .elast_5d
     ) %>%
-    mutate(class = class)
+    mutate(class = "BIKE")
 
   # Finish up -----
   # browser()

@@ -1,15 +1,47 @@
 ## code to prepare `factors` dataset goes here
 
 library(tidyverse)
+source("data-raw/transportation_data_processing/eia_datasets.R")
 
 aeo <- read_csv("data-raw/transportation_data_processing/factors/aeo_factor_dat.csv") # Average Energy Outlook
 cost <- read_csv("data-raw/transportation_data_processing/factors/cost_factor_dat.csv")
 ghg <- read_csv("data-raw/transportation_data_processing/factors/ghg_factor_dat.csv")
 
-
+# AEO -----
 # AEO recognizes that there is uncertainty in the macroeconomic future
 # in addition to the AEO reference scenarios,
 # changes forecasts on mileage
+
+
+aeo_factors_new <- vmt_change %>%
+  ungroup() %>%
+  mutate(metadata = paste0(
+    "EIA Annual Energy Outlook, ",
+    aeo_year,
+    " ", name, " Scenario. ",
+    seriesName,
+    " (", seriesId, ")"
+  )) %>%
+  select(aeo_scen,
+    mode = aeo_mode, year = period, metric = var, value = one_min_ref,
+    metadata
+  ) %>%
+  bind_rows(
+    mpg_change %>%
+      filter(var %in% c("MPG", "Light-duty MPG")) %>%
+      mutate(var = "MPG") %>%
+      ungroup() %>%
+      mutate(metadata = paste0(
+        "EIA Annual Energy Outlook, ",
+        aeo_year,
+        " ", name, " Scenario. ",
+        seriesName,
+        " (", seriesId, ")"
+      )) %>%
+      select(aeo_scen, mode = aeo_mode, year = period, metric = var, value = one_min_ref, metadata)
+  )
+
+
 
 
 aeo_long <- aeo %>%
@@ -26,10 +58,34 @@ aeo_long <- aeo %>%
     metric = Metric,
     year,
     value
-  )
+  ) %>%
+  arrange(aeo_scen, mode, metric, year)
 
 
+aeo_long %>%
+  filter(metric == "MPG") %>%
+  select(mode, aeo_scen, metric) %>%
+  unique() %>%
+  nrow()
 
+
+aeo_final <- aeo_long %>%
+  filter(year %in% c(2015, 2018, 2020)) %>%
+  # reset relative value to 1 for 2015-2020
+  mutate(value = 1) %>%
+  # bind rows with new dataset
+  bind_rows(aeo_factors_new) %>%
+  arrange(aeo_scen, mode, metric, year)
+
+aeo_final %>%
+  filter(metric == "MPG") %>%
+  select(mode, aeo_scen, metric) %>%
+  unique() %>%
+  nrow()
+
+# waldo::compare(aeo_final, aeo_long)
+
+# cost -----
 cost_long <- cost %>%
   group_by(mode, var, AV) %>%
   pivot_longer(cols = c(
@@ -46,7 +102,10 @@ cost_long <- cost %>%
     value
   )
 
+
+# ghg factors ------
 # https://www.epa.gov/sites/default/files/2015-07/documents/emission-factors_2014.pdf
+# all values were converted to metric tons
 
 ghg_long <- ghg %>%
   group_by(source) %>%
@@ -56,12 +115,13 @@ ghg_long <- ghg %>%
     `2040`, `2045`, `2050`
   ), names_to = "year") %>%
   select(-ctu) %>%
+  unique() %>%
   ungroup()
 
 
-
+# finish up -----
 factor_values <- list(
-  aeo = aeo_long,
+  aeo = aeo_final,
   cost = cost_long,
   ghg = ghg_long
 )

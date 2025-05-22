@@ -33,6 +33,7 @@ mode_school_bus(
   .elast = elast,
   .elast_5d = elast_5d,
   .factor_values = factor_values,
+  .fuel_economy = fuel_economy,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -109,6 +110,8 @@ Default value is \code{0.6}.}
 
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
@@ -146,7 +149,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{passenger}

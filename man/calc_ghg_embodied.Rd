@@ -80,7 +80,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{emissions}

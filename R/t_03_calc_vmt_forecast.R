@@ -14,7 +14,7 @@
 #' @param .elast table of elasticities. Default is `elast` included in this package.
 #' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams vmt_parking_policy
 #' @inheritParams vmt_land_use_change
 #' @inheritParams vmt_road_policy
@@ -228,11 +228,13 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::rowwise() %>%
       dplyr::mutate(
         pass_ld_vmt =
-          (miles_traveled - (transit_adj * mode_stock_adj)) *
-            aeo_adj *
-            vmt_fee_adj * cong_adjust * gas_adj *
-            telework_adj * land_use_adj *
-            park_price_adj / occupancy_adj * mode_stock_adj,
+          (
+            (
+              (miles_traveled - (transit_adj * mode_stock_adj)) *
+                aeo_adj *
+                vmt_fee_adj * cong_adjust * gas_adj *
+                telework_adj * land_use_adj *
+                park_price_adj) / occupancy_adj) * mode_stock_adj,
         stock = .stock
       ) %>%
       dplyr::select(type, stock, scenario,
@@ -346,11 +348,12 @@ calc_vmt_forecast <- function(.scenario,
       unique() %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        transit_vmt = miles_traveled *
-          aeo_adj * transit_adj *
-          (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-          land_use_adj * park_price_adj * gas_adj / (occupancy_adj *
-            mode_stock_adj),
+        transit_vmt = (
+          (miles_traveled *
+            aeo_adj * transit_adj *
+            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
+            land_use_adj * park_price_adj * gas_adj) / occupancy_adj) *
+          mode_stock_adj,
         stock = .stock,
         transit_vmt = dplyr::case_when(
           is.infinite(transit_vmt) | is.na(transit_vmt) | transit_vmt < 0 ~ 0,
@@ -432,8 +435,8 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::rowwise() %>%
       dplyr::mutate(
         stock = .stock,
-        sut_vmt = (miles_traveled * aeo_adj *
-          vmt_fee_adj * park_price_adj / occupancy_adj) *
+        sut_vmt = ((miles_traveled * aeo_adj *
+          vmt_fee_adj * park_price_adj) / occupancy_adj) *
           mode_stock_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu,
@@ -508,7 +511,7 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::rowwise() %>%
       dplyr::mutate(
         stock = .stock,
-        cut_vmt = (miles_traveled * aeo_adj * vmt_fee_adj / occupancy_adj) *
+        cut_vmt = ((miles_traveled * aeo_adj * vmt_fee_adj) / occupancy_adj) *
           mode_stock_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = cut_vmt)
@@ -683,7 +686,7 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::rowwise() %>%
       dplyr::mutate(
         stock = .stock,
-        fr_vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj
+        fr_vmt = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
       ) %>%
       dplyr::select(type, stock, scenario, ctu, year, mode, aeo_mode, vmt = fr_vmt)
 
@@ -725,7 +728,7 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::mutate(
         scenario = .scenario,
         stock = .stock,
-        vmt = miles_traveled * aeo_adj / occupancy_adj * mode_stock_adj,
+        vmt = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj,
         vmt = dplyr::case_when(
           is.infinite(vmt) | is.na(vmt) | vmt < 0 ~ 0,
           TRUE ~ vmt

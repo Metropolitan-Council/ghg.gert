@@ -7,7 +7,7 @@
 #'     the number of commercial and industrial workers, the population and number of households, and the number of jobs by industry.
 #'     These characteristics are stored in a list and returned by the function.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @return Tibble.
 #'
 #' @export
