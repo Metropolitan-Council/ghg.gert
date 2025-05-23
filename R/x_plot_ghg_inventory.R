@@ -3,7 +3,6 @@
 #' @return Error if values do not pass
 #' @export
 #'
-#' @examples
 #'
 plot_inventory <- function(ghg_inv = ghg_inventory,
                          inventory_colors = inventory_colors,
