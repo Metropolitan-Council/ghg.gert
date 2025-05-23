@@ -71,16 +71,28 @@ testthat::expect_equal(dim(ci_dir_ghg)[1], 9)
 # battery electric -----
 
 testthat::test_that("Battery direct ghg", {
+
   fcm <- calc_fuel_cost_mile(
     st_paul_passenger,
     .mode = "PLDV",
     .aeo_scenario = "REF",
-    "BEVElec",
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH
   )
 
-  testthat::expect_warning(calc_ghg_direct(
-    tb_vmt = ci_vmt_test,
+  bev_vmt <- calc_vmt_forecast(
+    .scenario = "BAU",
+    tb = st_paul_passenger,
+    .mode = "PLDV",
+    .stock = "BEVStock",
+    .variable = "PMT",
+    .tb_fuel_cost_mile = fcm
+  ) %>%
+    mutate(class = "BEV")
+
+  testthat::expect_warning(
+    calc_ghg_direct(
+    tb_vmt = bev_vmt,
     tb = st_paul_passenger,
     .mode = "PLDV",
     .fuel_type = "BEV",
@@ -90,7 +102,18 @@ testthat::test_that("Battery direct ghg", {
   ))
 
   bev_dir_ghg <- calc_ghg_direct(
-    tb_vmt = ci_vmt_test,
+    tb_vmt = bev_vmt,
+    tb = st_paul_passenger,
+    .mode = "PLDV",
+    .fuel_type = "BEV",
+    .aeo_scenario = "REF",
+    .miles_per_gallon = "BEVElec",
+    .grid_decarbonization_pct = 0.75
+  )
+
+
+  bev_dir_ghg_decarb <- calc_ghg_direct(
+    tb_vmt = bev_vmt,
     tb = st_paul_passenger,
     .mode = "PLDV",
     .fuel_type = "BEV",
@@ -99,5 +122,8 @@ testthat::test_that("Battery direct ghg", {
     .grid_decarbonization_pct = 1
   )
 
-  bev_dir_ghg
+  # when grid is fully decarbonized,
+  # BEV emissions are 0
+  testthat::expect_equal(bev_dir_ghg_decarb$dir_ghg %>% sum(na.rm = T), 0)
+
 })

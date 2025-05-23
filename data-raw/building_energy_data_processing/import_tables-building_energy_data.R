@@ -9,6 +9,11 @@ library(councilR)
 # import tables
 building_energy_data <- c()
 
+##### SP 1.0 used data stored in SQL server.
+##### SP 2.0 will incorporate data from other sources
+
+load('data/demographic_data.rda')
+
 # demographic baseline
 ## -------------------------------------------------------------------------------------------
 building_energy_data$ztrax_sqft_summary_county <-
@@ -18,13 +23,13 @@ building_energy_data$led_industry_county <-
   import_from_emissions("metro_demographic.vw_led_industry_county")
 
 building_energy_data$ctu_population <-
-  import_from_emissions("metro_demographic.vw_ctu_population")
+  demographic_data %>% filter(sp_categories == "population")
 
 building_energy_data$ctu_qcew_ctu <-
   import_from_emissions("metro_demographic.vw_qcew_ctu")
-
-building_energy_data$forecast_lu_ctu <-
-  import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
+#
+# building_energy_data$forecast_lu_ctu <-
+#   import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
 
 building_energy_data$ztrax_sqft_summary_ctu <-
   import_from_emissions("metro_energy.vw_ztrax_sqft_summary_ctu")
