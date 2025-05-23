@@ -49,7 +49,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
   # For all freight, var = TMT
   var <- "TMT"
 
-  # browser()
+
   # diesel -----
   # stock <- "CIStock"
   # mpg <- "CIMPG"
@@ -67,7 +67,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
   )
 
 
-  # browser()
+
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,

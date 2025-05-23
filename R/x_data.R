@@ -97,10 +97,10 @@
 #' @title A list of transportation and freight data input tables
 #'
 #' @format A named list of two tibbles
-#' - **passenger**: A tibble with 105,652 rows and 7 columns:
-#'   `mode`, `var`, `geog_name`, `year`, `value`, `aeo_mode`, `type`.
-#' - **freight**: A tibble with 43,362 rows and 7 columns:
-#'   `mode`, `var`, `geog_name`, `year`, `value`, `aeo_mode`, `type`.
+#' - **passenger**: A tibble with columns:
+#'   `mode`, `var`, `geog_name`, `geog_id`,  `year`, `value`, `aeo_mode`, `type`.
+#' - **freight**: A tibble columns:
+#'   `mode`, `var`, `geog_name`, `geog_id`, `year`, `value`, `aeo_mode`, `type`.
 #'
 #' @family datasets
 #'

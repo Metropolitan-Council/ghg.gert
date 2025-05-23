@@ -11,7 +11,7 @@ get_by_county_non_residential_energy_baseline(
 )
 }
 \arguments{
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 

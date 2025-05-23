@@ -47,7 +47,7 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
   type <- "F"
   # For all freight, var = TMT
   var <- "TMT"
-  # browser()
+
   mode <- "MM"
 
   ## CI -----

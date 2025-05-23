@@ -37,7 +37,6 @@ calc_ghg_embodied <- function(tb,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values) {
-  # browser()
   if ((.mode == "BU") | (.mode == "BRT")) {
     # bus or brt
     # get ghg factor values
@@ -84,9 +83,6 @@ calc_ghg_embodied <- function(tb,
     # handled by vehicle purchases
     # Update bau_vmt and mit_vmt to equal 1 if they are zero (to avoid division error)
     if (.bau_tb != 0) {
-      # browser()
-
-
       .mitigation_tb <- .mitigation_tb %>%
         dplyr::mutate(dplyr::across(tidyselect::all_of(YRS), ~ dplyr::case_when(
           (mode == .mode & class == .class & .x == 0) ~ 1,
@@ -131,8 +127,6 @@ calc_ghg_embodied <- function(tb,
   )) {
     cli::cli_abort("Embodied emissions only calculated for passenger type")
   } else {
-    # browser()
-
     ghg_factors_current <- .factor_values$ghg %>%
       dplyr::filter(source == .fuel_type) %>%
       dplyr::select(year, ghg_value = value)

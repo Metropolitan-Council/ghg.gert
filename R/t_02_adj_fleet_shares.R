@@ -68,10 +68,9 @@ adj_fleet_shares <- function(.pass_tb,
                              .gas_tax = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-  # browser()
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% unique()
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% unique()
-  # browser()
+
   pass_tb <- .pass_tb
   freight_tb <- .freight_tb
   # check inputs -----
@@ -93,13 +92,11 @@ adj_fleet_shares <- function(.pass_tb,
     cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
-  # browser()
+
   # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
   if (.vmt_fee > 0 | .payd_fee > 0 | .gas_tax > 0) {
-    # browser()
-
     if (.vmt_fee > 0 & .payd_fee > 0) {
       cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
     }
@@ -201,7 +198,6 @@ adj_fleet_shares <- function(.pass_tb,
 
   # hev/bev/phev  -----
   if (.bev_pct_sales > 0 | .phev_pct_sales > 0 | .hev_pct_sales > 0) {
-    # browser()
     ## passenger-----
 
     # spread the final increase across intermediate years
@@ -627,7 +623,7 @@ adj_fleet_shares <- function(.pass_tb,
     # helps to account for this being sales
     # not total stock (i.e., should be lower as percent of total stock)
 
-    # browser()
+
     freight_battery_fin_year <- pass_sales_portions_alt %>%
       dplyr::ungroup() %>%
       dplyr::filter(year == max(year)) %>%

@@ -13,7 +13,7 @@
 #'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `geog_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`
 #'       relative to residential inputs table.
 #'

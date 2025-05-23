@@ -82,7 +82,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("** compiling residential strategies \n")
 
-  # browser()
+
 
   # B.R1 (MF to SF)
   tb01 <- ghg.ccap::adj_unit_counts(

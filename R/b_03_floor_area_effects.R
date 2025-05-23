@@ -155,7 +155,7 @@ calc_floor_area_growth <- function(res_tb,
 #'    Uses the average single family floor area in 2018
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `geog_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and
 #'       `single_family_average_floor_area_sqft_ctu` records for column `var`
 #'       when `year == 2040` relative to the residential inputs table.
@@ -275,7 +275,7 @@ calc_floor_area_leed <- function(res_tb,
 #' @details Uses the average single family floor area in 2018
 #'
 #' @return [tibble::tibble()]
-#'       A table with columns `geog_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units`,
 #'       `single_family_average_floor_area_sqft_ctu`, `multifamily_units`, and
 #'       `multifamily_average_floor_area_sqft_county` records for column `var`
@@ -303,7 +303,7 @@ calc_floor_area_retrofit <- function(res_tb,
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  # browser()
+
   if (.existing_home_retrofit_pct == 0) {
     cli::cli_alert_warning("No change in existing home energy efficiency")
     return(res_tb)
@@ -432,7 +432,7 @@ calc_floor_area_retrofit <- function(res_tb,
 #' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `geog_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted
 #'       `single_family_average_floor_area_sqft_ctu` and
 #'       `multifamily_average_floor_area_sqft_county` records for column `var`
@@ -462,7 +462,6 @@ calc_floor_area_behavior_change <- function(res_tb,
     cli::cli_alert_warning("No change in household behavior.")
     return(res_tb)
   } else if (.home_behavior_change_pct != 0) {
-    # browser()
     new_behavior_change <- res_tb %>%
       dplyr::filter(
         var %in% c(
@@ -549,7 +548,7 @@ calc_floor_area_behavior_change <- function(res_tb,
 #'       Default is `0.05`.
 #'       Should not be greater than 0.05 or *%5*.
 #'
-#' @return [tibble::tibble()]. A table with columns `geog_name`, `year`, `var`, and `value`.
+#' @return [tibble::tibble()]. A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
 #'       `single_family_units` for the `var` column when `year == 2040`relative
 #'       to the residential inputs table.

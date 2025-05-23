@@ -19,7 +19,7 @@ vmt_annual_energy_outlook <- function(tb,
     value = .aeo_scenario
   )
 
-  # browser()
+
   tb_fin <- tb %>%
     dplyr::filter(mode == .mode) %>%
     unique() %>%
@@ -97,7 +97,7 @@ vmt_land_use_change <- function(.type,
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     cli::cli_abort(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
-  # browser()
+
   max_value <- if (.type == "DRIVE") {
     1 + .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
@@ -249,8 +249,6 @@ vmt_parking_policy <- function(tb,
       ) %>%
       dplyr::select(year, geog_name, geog_id, park_price_adj)
   } else if (.mode == "SUT") {
-    # browser()
-
     park_return <- park_price_current %>%
       dplyr::left_join(.elast %>%
         dplyr::select(year, park_elast), by = "year") %>%
@@ -310,7 +308,7 @@ vmt_road_policy <- function(.pass_tb,
   if (.vmt_fee > 0 & .payd_fee > 0) {
     cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
-  # browser()
+
   if (.mode == "PLDV") {
     ev_multiplier <- ifelse(
       (.stock %in% c(
@@ -348,7 +346,6 @@ vmt_road_policy <- function(.pass_tb,
     "RU",
     "RI"
   )) {
-    # browser()
     pldv_stocks <- .pass_tb %>%
       filter(
         mode == "PLDV",
@@ -435,7 +432,6 @@ vmt_road_policy <- function(.pass_tb,
 
     return(fc_return)
   } else if (.mode == "CUT") {
-    # browser()
     fc_return <- .tb_fuel_cost_mile %>%
       dplyr::left_join(
         .elast %>%
@@ -450,7 +446,6 @@ vmt_road_policy <- function(.pass_tb,
 
     return(fc_return)
   } else if (.mode == "DRS") {
-    # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
         "SIStock",
@@ -460,7 +455,7 @@ vmt_road_policy <- function(.pass_tb,
       ), 1, 0
     )
 
-    # browser()
+
 
     pldv_stocks <- .pass_tb %>%
       filter(
@@ -538,7 +533,6 @@ vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct = 0,
                          .enviro_factors = ghg.ccap::enviro_factors) {
-  # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
       year = unique(.pass_tb$year),
@@ -580,7 +574,7 @@ vmt_telework <- function(.pass_tb,
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
-#' @return table with columns `geog_name`, `year`, `mode`, and `mode_stock_adj`
+#' @return table with columns `geog_name`, `geog_id`, `year`, `mode`, and `mode_stock_adj`
 #' @export
 #' @family VMT effects
 #'
@@ -698,7 +692,6 @@ vmt_transit_service <- function(tb,
     "PLDV",
     "AV"
   )) {
-    # browser()
     tb %>%
       dplyr::select(year, geog_name, geog_id) %>%
       unique() %>%
@@ -733,7 +726,7 @@ vmt_transit_service <- function(tb,
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
-#' @return table with columns `geog_name`, `year`, `occupancy_adj`
+#' @return table with columns `geog_name`, `geog_id`, `year`, `occupancy_adj`
 #' @export
 #'
 #'
@@ -775,9 +768,6 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo_pct = 0,
                                   .pldv_avo_pct = 0,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
-  # browser()
-
-
   # some modes apply the same AVO to all CTUs
   if (.mode %in% c("PLDV", "AV")) {
     pldv_occupancy <- tb %>%

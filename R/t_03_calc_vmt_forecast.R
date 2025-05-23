@@ -1,7 +1,7 @@
 #' @title Calculate vehicle miles traveled by mode and power train
 #'
 #' @param .scenario character, scenario name. Useful for labeling.
-#' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `geog_name`,
+#' @param tb input table for appropriate mode type. Should have columns `mode`, `var`, `geog_name`, `geog_id`,
 #'    and one for each year. Package provided datasets `transportation_data$passenger` or
 #'    `transportation_data$freight` are suitable.
 #' @param .mode character, current mode
@@ -66,7 +66,7 @@ calc_vmt_forecast <- function(.scenario,
                               .elast = elast,
                               .elast_5d = elast_5d) {
   tb <- filter_ctu(tb, .selected_ctu)
-  # browser()
+
   check_inputs("mode", .mode)
 
   tb_vmt <- tb %>%
@@ -81,14 +81,13 @@ calc_vmt_forecast <- function(.scenario,
     dplyr::select(scenario, mode, geog_name, geog_id, year, aeo_mode, type, miles_traveled) %>%
     unique()
 
-  # browser()
+
 
   if (.mode == "PLDV") {
     # passenger light duty --------
-    # browser()
+
 
     if (.stock == "PHEVStock") {
-      # browser()
       # account for proportion of PHEV electric and gas
       phev_proportion <- tb %>%
         dplyr::filter(mode == mode, var == "PHEVPr") %>%
@@ -254,7 +253,7 @@ calc_vmt_forecast <- function(.scenario,
     # transit bus and rail -----
     # If it's a transit mode, then apply transit service and average vehicle occupancy factors (including cross elasticity from PLDV fees)
 
-    # browser()
+
 
     # formula is such
     # transit vmt = PMT * aeo_adj * transit_adj *
@@ -263,7 +262,7 @@ calc_vmt_forecast <- function(.scenario,
     # occupancy_adj /  mode_stock_adj
     #
 
-    # browser()
+
     mode_stock <- vmt_stock_proportion(
       .tb = tb,
       .mode = .mode,
@@ -368,7 +367,7 @@ calc_vmt_forecast <- function(.scenario,
     # return(vmt_forecast)
   } else if (.mode == "SUT") {
     # single truck --------
-    # browser()
+
 
     mode_stock <- vmt_stock_proportion(
       .tb = tb,
@@ -458,7 +457,7 @@ calc_vmt_forecast <- function(.scenario,
     #            tb_mode$tot_stock)
   } else if (.mode == "CUT") {
     # combined truck ------
-    # browser()
+
     # miles_traveled * aeo_adj * vmt_fee_adj / occpancy_adj
 
     mode_stock <- vmt_stock_proportion(
@@ -533,7 +532,7 @@ calc_vmt_forecast <- function(.scenario,
     #      tb_mode$tot_stock)
   } else if (.mode == "WALK") {
     # walk -----
-    # browser()
+
 
     # miles_traveled * land_use_adj * aeo_adj * parking_adj
 
@@ -653,7 +652,7 @@ calc_vmt_forecast <- function(.scenario,
       )
   } else if (.mode == "FR") {
     # freight rail ------
-    # browser()
+
     # miles_traveled * aeo_adj / occupancy_adj
 
     mode_stock <- vmt_stock_proportion(
@@ -697,7 +696,7 @@ calc_vmt_forecast <- function(.scenario,
   } else if (.mode %in% c("MM", "AIR", "WAT")) {
     # freight multimodal, air, water-----
 
-    # browser()
+
 
     mode_stock <- vmt_stock_proportion(
       .tb = tb,

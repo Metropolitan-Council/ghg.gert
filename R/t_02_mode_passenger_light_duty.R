@@ -73,7 +73,7 @@ mode_passenger_light_duty <- function(.pass_tb,
   # mpg <- "SIMPG"
   # class <- "SI"
 
-  # browser()
+
   message("Passenger vehicles, gasoline")
 
   # Calculate a fuel cost per mile rather than per gallon
@@ -287,7 +287,7 @@ mode_passenger_light_duty <- function(.pass_tb,
   message("Passenger vehicles, plug-in hybrid")
 
   # Calculate a fuel cost per mile rather than per gallon
-  # browser()
+
 
   fcm_phev <- calc_fuel_cost_mile(
     tb = .pass_tb,
@@ -462,7 +462,7 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   message("Passenger vehicles, battery electric")
 
-  # browser()
+
   fcm_bev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,

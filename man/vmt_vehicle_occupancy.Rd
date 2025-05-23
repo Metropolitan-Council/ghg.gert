@@ -15,7 +15,7 @@ vmt_vehicle_occupancy(
 )
 }
 \arguments{
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -30,7 +30,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-table with columns \code{geog_name}, \code{year}, \code{occupancy_adj}
+table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{occupancy_adj}
 }
 \description{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Transit vehicle occupancy increase assumes that

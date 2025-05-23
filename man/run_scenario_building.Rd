@@ -114,7 +114,7 @@ Default value is \code{0.6}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-Returns a table with columns \code{geog_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+Returns a table with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 The table is the output of the building energy module, any modification to
 the inputs of the building energy module must be specified as an argument
 to the function \code{run_scenario_building()}
@@ -124,7 +124,7 @@ This function generates the outputs of the building energy module
 for the given scenario at the city/township level. It incorporates various
 parameters to evaluate and analyze different energy consumption and efficiency
 scenarios for both residential and non-residential buildings. Outputs are
-provided as a tibble with columns \code{geog_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+provided as a tibble with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 }
 \examples{
 \dontrun{

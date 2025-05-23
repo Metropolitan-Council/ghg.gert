@@ -82,7 +82,7 @@ run_all_modules(
 
 \item{run_transportation}{logical. Default is \code{TRUE}}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -109,10 +109,10 @@ is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
+\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
+\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.

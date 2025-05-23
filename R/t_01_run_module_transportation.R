@@ -1,9 +1,9 @@
 #' @title  Main function to call other functions for determining VMT,
 #'      direct GHG, indirect GHG, and costs
 #'
-#' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `geog_name`,
+#' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `geog_name`, `geog_id`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
-#' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `geog_name`,
+#' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `geog_name`, `geog_id`,
 #'    and one for each year. Package provided dataset `transportation_data$freight` is suitable.
 #' @param .electric_scenario electricity scenario
 #' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
@@ -78,7 +78,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .elast_5d = elast_5d,
                                       .fuel_economy = fuel_economy,
                                       .factor_values = ghg.ccap::factor_values) {
-  # browser()
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -155,8 +154,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .bev_pct_sales > 0 |
     .hev_pct_sales > 0 |
     .phev_pct_sales > 0) {
-    # browser()
-
     adj_fleet <- adj_fleet_shares(
       .pass_tb = pass_tb,
       .freight_tb = freight_tb,
@@ -470,7 +467,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   # Finish up -----
   ## passenger ------
-  # browser()
+
   passenger <- list(
     PLDV = passenger_light_duty,
     RAIL = rail_transit,
@@ -561,7 +558,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       ))
   }
 
-  # browser()
+
 
   pass_all <- pass_all %>%
     unique()

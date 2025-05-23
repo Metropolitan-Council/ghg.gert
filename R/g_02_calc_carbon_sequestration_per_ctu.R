@@ -51,7 +51,7 @@ calc_carbon_sequestration_per_ctu <- function(tb,
   )
 
   # -------------------------------------------------------------------------
-  # browser()
+
   carbon_sequestration_per_ctu <-
     parking_lot_land_cover %>%
     tidyr::pivot_wider(

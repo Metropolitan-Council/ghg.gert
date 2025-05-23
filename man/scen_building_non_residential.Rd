@@ -50,7 +50,7 @@ Default is \code{0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with columns \code{geog_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+Data table with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{value}, \code{scen}, and \code{year}.
 The output of the non-residential portion of the Building Energy Module of the.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{ @field geog_name character, Name of the city/township.

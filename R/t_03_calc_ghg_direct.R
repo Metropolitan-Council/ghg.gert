@@ -44,7 +44,6 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_economy = ghg.ccap::fuel_economy,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values) {
-  # browser()
   check_inputs(name = "fuel_type", value = .fuel_type)
   # for given fuel type,
   # find the number of metric tons (tonnes) CO2 per gallon of fuel
@@ -54,7 +53,7 @@ calc_ghg_direct <- function(tb_vmt,
       ghg_factor = value
     )
 
-  # browser()
+
   fuel_gallons <- calc_fuel_use(
     tb_vmt,
     tb = tb,

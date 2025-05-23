@@ -50,7 +50,7 @@ calc_land_by_development_type <- function(tb,
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
-  # browser()
+
   # -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == ghg.ccap::enviro_factors$URBAN_FORM_SCENARIO)

@@ -354,7 +354,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
   }
 
   # Finish up -----
-  # browser()
+
 
   if (.calc_transp_ghg_embodied == TRUE) {
     emb_ghg_all <- dir_ghg_all %>%

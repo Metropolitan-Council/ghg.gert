@@ -15,7 +15,7 @@ Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns \code{geog_name}, \code{year}, \code{var}, and \code{value}.
+A table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}
 relative to residential inputs table.
 }

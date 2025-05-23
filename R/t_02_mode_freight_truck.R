@@ -46,7 +46,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
   type <- "F"
   # For all freight, var = TMT
   var <- "TMT"
-  # browser()
+
 
 
 

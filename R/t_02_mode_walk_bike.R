@@ -44,7 +44,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
-  # browser()
+
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",
@@ -59,7 +59,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
   # For all passenger modes, variable = PMT
   var <- "PMT"
 
-  # browser()
+
   ## Walk -----
   # mode <- "WALK"
   # stock <- ""
@@ -139,12 +139,12 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
     mutate(class = "BIKE")
 
   # Finish up -----
-  # browser()
+
   vmt_all <- dplyr::bind_rows(
     bike_vmt,
     walk_vmt
   )
-  # browser()
+
   dir_ghg_all <- vmt_all %>%
     dplyr::mutate(
       dir_ghg = 0,

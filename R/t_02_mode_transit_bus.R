@@ -47,7 +47,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   # cli::cli_progress_message("** calculating scenario transit bus \n")
 
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
-  # browser()
+
 
   type <- "P"
   # For all passenger modes, variable = PMT
@@ -332,7 +332,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Bus Rapid Transit----
 
-  # browser()
+
 
   # ### CI BRT -----
   # mode <- "BRT"

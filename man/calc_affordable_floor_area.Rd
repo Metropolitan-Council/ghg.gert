@@ -25,7 +25,7 @@ Default is \code{0.05}.
 Should not be greater than 0.05 or \emph{\%5}.}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}. A table with columns \code{geog_name}, \code{year}, \code{var}, and \code{value}.
+\code{\link[tibble:tibble]{tibble::tibble()}}. A table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
 \code{single_family_units} for the \code{var} column when \code{year == 2040}relative
 to the residential inputs table.

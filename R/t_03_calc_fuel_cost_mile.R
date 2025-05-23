@@ -21,7 +21,7 @@ calc_fuel_cost_mile <- function(tb,
                                 .enviro_factors = ghg.ccap::enviro_factors,
                                 .factor_values = ghg.ccap::factor_values) {
   # cli::cli_progress_message("*** calculating fuel cost per mile \n")
-  # browser()
+
   tb_l <- .fuel_economy %>%
     dplyr::filter(
       mode == .mode,
