@@ -1,5 +1,5 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
-
+# TODO fix city naming
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
 ##### read in and reformat UrbanSim output
@@ -76,13 +76,13 @@ demographic_data <- mutate(us_formatted,
   ) %>%
   summarize(value = sum(value)) %>%
   left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
-    distinct(ctu_name, ctu_class, ctu_id)) %>%
-  mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
-    paste(ctu_name, "Twp."),
-    ctu_name
+    distinct(geog_name, ctu_class, ctu_id)) %>%
+  mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+    paste(geog_name, "Twp."),
+    geog_name
   )) %>%
   ungroup()
-select(inventory_year, ctu_id, sp_categories, value, ctu_name)
+select(inventory_year, ctu_id, sp_categories, value, geog_name)
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
