@@ -1,16 +1,18 @@
-transit_rail <- suppressMessages(
-  suppressWarnings(
-    mode_transit_rail(
-      .pass_tb = transportation_data$passenger %>%
-        filter(geog_name == "Saint Paul"),
-      .selected_ctu = "Saint Paul",
-      .calc_transp_cost = TRUE,
-      .calc_transp_fuel_use = TRUE,
-      .calc_transp_ghg_embodied = TRUE
+testthat::test_that("Transit rail length correct", {
+  transit_rail <- suppressMessages(
+    suppressWarnings(
+      mode_transit_rail(
+        .pass_tb = transportation_data$passenger %>%
+          filter(geog_name == "Saint Paul"),
+        .selected_ctu = "Saint Paul",
+        .calc_transp_cost = TRUE,
+        .calc_transp_fuel_use = TRUE,
+        .calc_transp_ghg_embodied = TRUE
+      )
     )
   )
-)
-testthat::expect_length(transit_rail, 5)
+  testthat::expect_length(transit_rail, 5)
+})
 
 testthat::test_that("Saint Paul emissions reduce with interventions", {
   pass <- suppressMessages(
