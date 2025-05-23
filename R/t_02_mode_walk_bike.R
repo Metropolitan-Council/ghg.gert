@@ -44,7 +44,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .elast_5d = elast_5d) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
-
+  # browser()
   fcm <- calc_fuel_cost_mile(
     .pass_tb,
     .mode = "PLDV",
@@ -152,7 +152,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       class = mode,
     ) %>%
     dplyr::select(
-      type, class, scenario, mode, ctu, year, aeo_mode,
+      type, class, scenario, mode, geog_name, geog_id, year, aeo_mode,
       dir_ghg
     ) %>%
     unique()

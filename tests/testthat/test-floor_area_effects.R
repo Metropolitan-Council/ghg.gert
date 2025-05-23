@@ -1,6 +1,6 @@
 testthat::test_that("floor area interventions", {
   mpls_res <- building_data$residential %>%
-    filter(ctu_name == "Minneapolis")
+    filter(geog_name == "Minneapolis")
 
 
   # strategies
@@ -37,7 +37,7 @@ testthat::test_that("floor area interventions", {
       behavior_change
     ),
     function(x) {
-      # ctu floor area
+      # geog_name floor area
       testthat::expect_lte(
         x %>%
           filter(

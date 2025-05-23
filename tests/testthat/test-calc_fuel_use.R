@@ -2,7 +2,7 @@
 
 si_vmt <- calc_vmt_forecast(
   .scenario = "BAU",
-  .selected_ctu = "St. Paul",
+  .selected_ctu = "Saint Paul",
   tb = st_paul_passenger,
   .mode = "PLDV",
   .stock = "SIStock",

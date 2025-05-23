@@ -25,7 +25,7 @@ Default is \code{transportation_data$passenger}.}
 \item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} Freight input table.
 Default is \code{transportation_data$freight}.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)

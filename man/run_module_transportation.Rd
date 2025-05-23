@@ -46,13 +46,13 @@ run_module_transportation(
 )
 }
 \arguments{
-\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}

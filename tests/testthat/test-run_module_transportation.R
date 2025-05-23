@@ -60,7 +60,7 @@ test_that("Density changes have anticipated effect", {
     bind_rows(empdens_increase$passenger_all) %>%
     bind_rows(empdens_increase$freight_all) %>%
     filter(year == "2040") %>%
-    group_by(ctu, scenario, year) %>% # mode, sector
+    group_by(geog_name, scenario, year) %>% # mode, sector
     summarise(emissions = sum(dir_ghg, na.rm = T), .groups = "keep") %>%
     tidyr::separate(scenario, into = c("density type", "change"), sep = "_") %>%
     pivot_wider(names_from = change, values_from = emissions) %>%

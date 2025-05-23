@@ -189,7 +189,7 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   ctu_emp_forecast <-
     tb$emp_forecast_industry_ctu %>%
     dplyr::filter(year == 2040) %>%
-    dplyr::group_by(ctu_name, year, indlabel) %>%
+    dplyr::group_by(geog_name, geog_id, year, indlabel) %>%
     dplyr::mutate(
       var =
         dplyr::case_when(
@@ -201,14 +201,14 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
           )
         )
     ) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
     dplyr::summarise(value = sum(emp, na.rm = T), .groups = "keep")
 
   ## ---- get housing stock forecast from 'Emissions' ----
   housing_stock_ctu_forecast <- tb$forecast_lu_ctu %>%
     dplyr::filter(
       year == 2040,
-      ctu_name %in% unique(tb$ctu_forecast$ctu_name),
+      geog_name %in% unique(tb$ctu_forecast$geog_name),
       var %in% (c("SFD_Units", "MF_Units"))
     ) %>%
     dplyr::mutate(
@@ -222,46 +222,46 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-
     tb$ztrax_sqft_summary_ctu %>%
-    dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
+    dplyr::select(geog_name, geog_id, property_land_use, designation, mean_sqft) %>%
     unique() %>%
     dplyr::filter(designation == "SFD") %>% # single family
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%
     dplyr::mutate(
       var = "single_family_average_floor_area_sqft_ctu",
       year = 2018
     ) %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ---- get average multifamily floor area from ZTRAX ----
   ctu_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_ctu %>%
-    dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
+    dplyr::select(geog_name, geog_id, property_land_use, designation, mean_sqft) %>%
     dplyr::filter(designation %in% c(
       "MF5", # apartments
       "DTQ", # duplex/triplex
       "TH" # townhouse
     )) %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%
     dplyr::mutate(
       var = "multifamily_average_floor_area_sqft_ctu",
       year = 2018
     ) %>%
     # dplyr::rename(value = mean_sqft) %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
   ## ---- estimate average growth of building area for single family ----
   ctu_average_floor_area_single_family_forecast <-
     ctu_average_floor_area_single_family %>%
-    dplyr::left_join(tb$ctu_county, by = "ctu_name") %>%
+    dplyr::left_join(tb$ctu_county, by = c("geog_name", "geog_id")) %>%
     dplyr::left_join(county_average_annual_growth_single_family_sqft, by = "co_name") %>%
     dplyr::select(-co_name) %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%
     unique() %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::mutate(
       value =
         dplyr::case_when(
@@ -271,19 +271,19 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
       year = 2040
     ) %>%
     unique() %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## -----multifamily floor area growth --------------------------------------------------------
   ctu_average_floor_area_multifamily_forecast <-
     ctu_average_floor_area_multifamily %>%
-    dplyr::left_join(tb$ctu_county, by = "ctu_name") %>%
+    dplyr::left_join(tb$ctu_county, by = c("geog_name", "geog_id")) %>%
     dplyr::left_join(county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
     dplyr::select(-co_name) %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::mutate(mean_growth_rate = mean(mean_growth_rate, na.rm = T)) %>%
     unique() %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::mutate(
       value =
         dplyr::case_when(
@@ -293,16 +293,16 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
       year = 2040
     ) %>%
     unique() %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ----get county forecast for avg multifamily floor area for when ctu equivalent is missing ----
   ctu_county_forecast <- county_characteristics_forecast %>%
     dplyr::left_join(tb$ctu_county, by = "co_name") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(ctu_name)) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
+    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(geog_name)) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
     dplyr::summarize(value = mean(value), .groups = "keep") %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ----- compile forecast of ctu demographic characteristics -----

@@ -50,7 +50,7 @@ calc_land_by_development_type <- function(tb,
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
   # -------------------------------------------------------------------------
-
+  # browser()
   # -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
     dplyr::filter(scenario_description_2 == ghg.ccap::enviro_factors$URBAN_FORM_SCENARIO)
@@ -59,7 +59,7 @@ calc_land_by_development_type <- function(tb,
   ctu_land_use_hectares_by_dev_type <-
     ctu_land_use_hectares %>%
     dplyr::filter(year == 2040) %>%
-    dplyr::group_by(ctu_name, development_type)
+    dplyr::group_by(geog_name, geog_id, development_type)
 
   # -------------------------------------------------------------------------
   bau_total <-
@@ -105,11 +105,11 @@ calc_land_by_development_type <- function(tb,
       (
         ctu_land_use_hectares %>%
           dplyr::filter(year == 2040) %>%
-          dplyr::group_by(ctu_name) %>%
+          dplyr::group_by(geog_name, geog_id) %>%
           dplyr::summarise(total_hectares_bau = sum(hectares)) %>%
           dplyr::ungroup()
       ),
-      by = "ctu_name"
+      by = c("geog_name", "geog_id")
     ) %>%
     tidyr::pivot_wider(.,
       names_from = development_type,
@@ -129,7 +129,11 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::select(., -c(total_hectares_bau)) %>%
     tidyr::pivot_longer(.,
-      cols = 3:5,
+      cols = c(
+        exurban_development,
+        urban_expansion,
+        urban_infill
+      ),
       names_to = "development_type",
       values_to = "hectares"
     )
@@ -172,9 +176,10 @@ calc_land_by_development_type <- function(tb,
         ),
       scenario_mixed_use_mf_new.exurban_development = 0
     ) %>%
+    group_by(geog_name, geog_id) %>%
     tidyr::pivot_longer(
       .,
-      cols = !ctu_name,
+      cols = 3:14,
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
@@ -209,7 +214,7 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     tidyr::pivot_longer(
       .,
-      cols = !ctu_name,
+      cols = 3:14,
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"

@@ -98,9 +98,9 @@
 #'
 #' @format A named list of two tibbles
 #' - **passenger**: A tibble with 105,652 rows and 7 columns:
-#'   `mode`, `var`, `ctu`, `year`, `value`, `aeo_mode`, `type`.
+#'   `mode`, `var`, `geog_name`, `year`, `value`, `aeo_mode`, `type`.
 #' - **freight**: A tibble with 43,362 rows and 7 columns:
-#'   `mode`, `var`, `ctu`, `year`, `value`, `aeo_mode`, `type`.
+#'   `mode`, `var`, `geog_name`, `year`, `value`, `aeo_mode`, `type`.
 #'
 #' @family datasets
 #'
@@ -190,7 +190,7 @@
 
 #' @title Geographic index of cities, names, types
 #' @format tibble
-#' - **ctu** CTU name, concurrent with data tables
+#' - **ctu_name** CTU name, concurrent with original data tables
 #' - **geog_name** Geographic name
 #' - **geog_level** City, township, unorganized territory, county
 #' - **geog_id** ID value

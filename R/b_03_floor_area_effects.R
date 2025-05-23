@@ -58,7 +58,7 @@ calc_floor_area_growth <- function(res_tb,
   } else if (.single_family_floor_area_growth_pct != 0) {
     res_tb_units <- res_tb %>%
       dplyr::filter(var == "single_family_units") %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
@@ -71,7 +71,7 @@ calc_floor_area_growth <- function(res_tb,
         prop_of_all_new = new_units / year_2040
       ) %>%
       dplyr::ungroup() %>%
-      dplyr::select(ctu_name, prop_of_all_new)
+      dplyr::select(geog_name, geog_id, prop_of_all_new)
 
     # in the new units ONLY, 50% will have the adjusted floor area mean
     # otherwise, they will have the BAU floor area mean
@@ -88,14 +88,14 @@ calc_floor_area_growth <- function(res_tb,
 
     new_avg_floor_area <- res_tb %>%
       dplyr::filter(var %in% c("single_family_average_floor_area_sqft_ctu")) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
         names_prefix = "year_"
       ) %>%
       dplyr::mutate(new_forecast = (.single_family_floor_area_growth_pct * year_2018) + year_2018) %>%
-      dplyr::left_join(res_tb_units, by = "ctu_name") %>%
+      dplyr::left_join(res_tb_units, by = c("geog_name", "geog_id")) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
           stats::weighted.mean(
@@ -118,12 +118,12 @@ calc_floor_area_growth <- function(res_tb,
         var %in% c("single_family_average_floor_area_sqft_ctu"),
         year == 2040
       ) %>%
-      dplyr::left_join(new_avg_floor_area, by = c("ctu_name", "var")) %>%
+      dplyr::left_join(new_avg_floor_area, by = c("geog_name", "geog_id", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))
 
     new_res_tb <- res_tb %>%
-      dplyr::anti_join(new_res_avg_floor_area, by = c("ctu_name", "year", "var")) %>%
+      dplyr::anti_join(new_res_avg_floor_area, by = c("geog_name", "geog_id", "year", "var")) %>%
       dplyr::bind_rows(new_res_avg_floor_area) %>%
       dplyr::ungroup()
 
@@ -155,7 +155,7 @@ calc_floor_area_growth <- function(res_tb,
 #'    Uses the average single family floor area in 2018
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and
 #'       `single_family_average_floor_area_sqft_ctu` records for column `var`
 #'       when `year == 2040` relative to the residential inputs table.
@@ -187,7 +187,7 @@ calc_floor_area_leed <- function(res_tb,
   } else if (.new_homes_leed_gold_pct != 0) {
     new_units <- res_tb %>%
       dplyr::filter(var == "single_family_units") %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
@@ -200,12 +200,12 @@ calc_floor_area_leed <- function(res_tb,
         prop_of_all_new = new_units / year_2040
       ) %>%
       dplyr::ungroup() %>%
-      dplyr::select(ctu_name, prop_of_all_new)
+      dplyr::select(geog_name, geog_id, prop_of_all_new)
 
 
     new_leed_floor_area <- res_tb %>%
       dplyr::filter(var %in% c("single_family_average_floor_area_sqft_ctu")) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
@@ -213,7 +213,7 @@ calc_floor_area_leed <- function(res_tb,
         values_fn = sum
       ) %>%
       dplyr::mutate(new_forecast = year_2040 * .enviro_factors$LEED_GOLD_REDUCTION_PCT) %>%
-      dplyr::left_join(new_units, by = "ctu_name") %>%
+      dplyr::left_join(new_units, by = c("geog_name", "geog_id")) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
           stats::weighted.mean(
@@ -235,12 +235,12 @@ calc_floor_area_leed <- function(res_tb,
         var %in% c("single_family_average_floor_area_sqft_ctu"),
         year == 2040
       ) %>%
-      dplyr::left_join(new_leed_floor_area, by = c("ctu_name", "var")) %>%
+      dplyr::left_join(new_leed_floor_area, by = c("geog_name", "geog_id", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))
 
     new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_leed_avg_floor_area, by = c("ctu_name", "year", "var")) %>%
+      dplyr::anti_join(new_leed_avg_floor_area, by = c("geog_name", "geog_id", "year", "var")) %>%
       dplyr::bind_rows(new_leed_avg_floor_area) %>%
       dplyr::ungroup()
 
@@ -275,7 +275,7 @@ calc_floor_area_leed <- function(res_tb,
 #' @details Uses the average single family floor area in 2018
 #'
 #' @return [tibble::tibble()]
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units`,
 #'       `single_family_average_floor_area_sqft_ctu`, `multifamily_units`, and
 #'       `multifamily_average_floor_area_sqft_county` records for column `var`
@@ -313,7 +313,7 @@ calc_floor_area_retrofit <- function(res_tb,
         "single_family_units",
         "multifamily_units"
       )) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(names_from = year, values_from = value, names_prefix = "year_") %>%
       dplyr::mutate(
         existing_units = year_2018,
@@ -321,7 +321,7 @@ calc_floor_area_retrofit <- function(res_tb,
         # proportion of homes in 2040 that were built before 2018
         prop_of_all_existing = existing_units / year_2040
       ) %>%
-      dplyr::select(ctu_name, var, prop_of_all_existing) %>%
+      dplyr::select(geog_name, geog_id, var, prop_of_all_existing) %>%
       dplyr::ungroup() %>%
       pivot_wider(
         names_from = var,
@@ -337,14 +337,14 @@ calc_floor_area_retrofit <- function(res_tb,
           "multifamily_average_floor_area_sqft_county"
         )
       ) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
         names_prefix = "year_",
         values_fn = sum
       ) %>%
-      dplyr::left_join(existing_units, by = "ctu_name") %>%
+      dplyr::left_join(existing_units, by = c("geog_name", "geog_id")) %>%
       dplyr::mutate(
         new_weighted_mean_forecast =
           dplyr::case_when(
@@ -396,12 +396,12 @@ calc_floor_area_retrofit <- function(res_tb,
         ),
         year == 2040
       ) %>%
-      dplyr::left_join(retrofit_results, by = c("ctu_name", "var")) %>%
+      dplyr::left_join(retrofit_results, by = c("geog_name", "geog_id", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))
 
     new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_retrofit_floor_area, by = c("ctu_name", "year", "var")) %>%
+      dplyr::anti_join(new_retrofit_floor_area, by = c("geog_name", "geog_id", "year", "var")) %>%
       dplyr::bind_rows(new_retrofit_floor_area) %>%
       dplyr::ungroup()
 
@@ -432,7 +432,7 @@ calc_floor_area_retrofit <- function(res_tb,
 #' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted
 #'       `single_family_average_floor_area_sqft_ctu` and
 #'       `multifamily_average_floor_area_sqft_county` records for column `var`
@@ -470,7 +470,7 @@ calc_floor_area_behavior_change <- function(res_tb,
           "multifamily_average_floor_area_sqft_county"
         )
       ) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       tidyr::pivot_wider(
         names_from = year,
         values_from = value,
@@ -498,13 +498,13 @@ calc_floor_area_behavior_change <- function(res_tb,
         ),
         year == 2040
       ) %>%
-      dplyr::left_join(new_behavior_change, by = c("ctu_name", "var")) %>%
+      dplyr::left_join(new_behavior_change, by = c("geog_name", "geog_id", "var")) %>%
       dplyr::mutate(value = new_weighted_mean_forecast) %>%
       dplyr::select(names(res_tb))
 
 
     new_res_tb_fin <- res_tb %>%
-      dplyr::anti_join(new_fla, by = c("ctu_name", "year", "var")) %>%
+      dplyr::anti_join(new_fla, by = c("geog_name", "geog_id", "year", "var")) %>%
       dplyr::bind_rows(new_fla) %>%
       dplyr::ungroup()
 
@@ -549,7 +549,7 @@ calc_floor_area_behavior_change <- function(res_tb,
 #'       Default is `0.05`.
 #'       Should not be greater than 0.05 or *%5*.
 #'
-#' @return [tibble::tibble()]. A table with columns `ctu_name`, `year`, `var`, and `value`.
+#' @return [tibble::tibble()]. A table with columns `geog_name`, `year`, `var`, and `value`.
 #'       Table contains adjusted records for `single_family_average_floor_area_sqft_ctu` and
 #'       `single_family_units` for the `var` column when `year == 2040`relative
 #'       to the residential inputs table.
@@ -604,7 +604,7 @@ calc_affordable_floor_area <- function(res_tb,
         year = 2040,
         var = "single_family_average_floor_area_sqft_ctu"
       ) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
+      dplyr::select(geog_name, geog_id, year, var, value) %>%
       dplyr::bind_rows(
         .,
         res_tb %>%

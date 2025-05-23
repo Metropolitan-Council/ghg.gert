@@ -12,7 +12,7 @@ vmt_telework(
 )
 }
 \arguments{
-\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
 \item{.mode}{character, current mode}

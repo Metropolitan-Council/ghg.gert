@@ -54,6 +54,7 @@ calc_ghg_direct <- function(tb_vmt,
       ghg_factor = value
     )
 
+  # browser()
   fuel_gallons <- calc_fuel_use(
     tb_vmt,
     tb = tb,
@@ -108,7 +109,7 @@ calc_ghg_direct <- function(tb_vmt,
       scenario,
       mode,
       class,
-      ctu,
+      geog_name, geog_id,
       year,
       # aeo_scen,
       aeo_mode,

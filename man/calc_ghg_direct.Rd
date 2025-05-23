@@ -20,7 +20,7 @@ calc_ghg_direct(
 \arguments{
 \item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 

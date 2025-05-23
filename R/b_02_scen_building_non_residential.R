@@ -27,10 +27,10 @@
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @return [tibble::tibble()].
-#'      Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
+#'      Data table with columns `geog_name`, `var`, `value`, `scen`, and `year`.
 #'      The output of the non-residential portion of the Building Energy Module of the.
 #'
-#'      @field ctu_name character, Name of the city/township.
+#'      @field geog_name character, Name of the city/township.
 #'      @field year, numeric, Year.
 #'      @field var character, one of `commercial_mwh`, `industrial_mwh`,
 #'          `commercial_therms`, `industrial_therms`,

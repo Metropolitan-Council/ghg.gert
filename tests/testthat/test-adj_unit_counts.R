@@ -24,9 +24,9 @@ test_that("Lake Elmo unit counts", {
 
 
   expected_25_res_tb <- tibble::tribble(
-    ~ctu_name, ~year, ~var, ~value,
-    "Lake Elmo", 2040, "single_family_units", 3865,
-    "Lake Elmo", 2040, "multifamily_units", 4040
+    ~geog_name, ~geog_id, ~year, ~var, ~value,
+    "Lake Elmo", "02395589", 2040, "single_family_units", 3865,
+    "Lake Elmo", "02395589", 2040, "multifamily_units", 4040
   )
 
   testthat::expect_equal(expected_25_res_tb, new_25)
@@ -70,9 +70,9 @@ test_that("Minneapolis unit counts", {
     ungroup()
 
   expected_mpls_res_tb <- tibble::tribble(
-    ~ctu_name, ~year, ~var, ~value,
-    "Minneapolis", 2040, "multifamily_units", 145873.5,
-    "Minneapolis", 2040, "single_family_units", 76273.5
+    ~geog_name, ~geog_id, ~year, ~var, ~value,
+    "Minneapolis", "02395345", 2040, "multifamily_units", 145873.5,
+    "Minneapolis", "02395345", 2040, "single_family_units", 76273.5
   )
 
   testthat::expect_warning(
@@ -108,7 +108,7 @@ test_that("Minneapolis unit counts", {
 
   bau_forecast <- building_data$residential %>%
     filter(
-      ctu_name == "Minneapolis",
+      geog_name == "Minneapolis",
       var %in% c(
         "single_family_units",
         "multifamily_units"

@@ -15,7 +15,7 @@
 get_non_residential_energy_baseline <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* obtaining non-residential energy baseline by CTU \n")
-
+    # browser()
     tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
     statewide_nonresidential_energy <-
@@ -65,7 +65,7 @@ get_non_residential_energy_baseline <-
         source == "elec",
         year == "2018"
       ) %>%
-      dplyr::select(ctu_name, year, sector, consumption_mmbtu) %>%
+      dplyr::select(geog_name, geog_id, year, sector, consumption_mmbtu) %>%
       dplyr::mutate(value = consumption_mmbtu * 0.29307107) %>%
       dplyr::mutate(
         var =
@@ -74,7 +74,7 @@ get_non_residential_energy_baseline <-
             (sector == "commercial") ~ "commercial_mwh_nrel",
           )
       ) %>%
-      dplyr::select(ctu_name, year, var, value)
+      dplyr::select(geog_name, geog_id, year, var, value)
 
     ## ---- get available utility natural gas data from 'Emissions' ----
     nonresidential_naturalgas_ctu <-
@@ -89,7 +89,7 @@ get_non_residential_energy_baseline <-
               "Non-Residential"
             )
           ) %>%
-          dplyr::group_by(ctu_name, year) %>%
+          dplyr::group_by(geog_name, geog_id, year) %>%
           dplyr::summarise(
             mcf_per_year = sum(mcf_per_year, na.rm = T),
             number_of_customers = sum(number_of_customers, na.rm = T),
@@ -107,7 +107,7 @@ get_non_residential_energy_baseline <-
             "Commercial",
             "Non-Residential"
           )) %>%
-          dplyr::group_by(ctu_name, year) %>%
+          dplyr::group_by(geog_name, geog_id, year) %>%
           dplyr::summarise(
             mcf_per_year = sum(mcf_per_year, na.rm = T),
             number_of_customers = sum(number_of_customers, na.rm = T),
@@ -140,13 +140,13 @@ get_non_residential_energy_baseline <-
           ),
         value = value * state_therms_per_worker
       ) %>%
-      dplyr::group_by(ctu_name, year) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
+      dplyr::select(geog_name, geog_id, year, var, value) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::left_join(
         nonresidential_naturalgas_ctu %>%
-          dplyr::select(ctu_name, year, therms_per_year),
-        by = c("ctu_name", "year")
+          dplyr::select(geog_name, geog_id, year, therms_per_year),
+        by = c("geog_name", "geog_id", "year")
       ) %>%
       dplyr::mutate(
         commercial_therms = therms_per_year * (
@@ -156,7 +156,7 @@ get_non_residential_energy_baseline <-
           expected_industrial_therms / (expected_commercial_therms + expected_industrial_therms)
         )
       ) %>%
-      dplyr::select(ctu_name, year, commercial_therms, industrial_therms) %>%
+      dplyr::select(geog_name, geog_id, year, commercial_therms, industrial_therms) %>%
       tidyr::pivot_longer(
         cols = c(commercial_therms, industrial_therms),
         names_to = "var"
@@ -172,7 +172,7 @@ get_non_residential_energy_baseline <-
         source == "ng",
         year == "2018"
       ) %>%
-      dplyr::select(ctu_name, year, sector, consumption_mmbtu) %>%
+      dplyr::select(geog_name, geog_id, year, sector, consumption_mmbtu) %>%
       dplyr::mutate(
         value = consumption_mmbtu * 10,
         var =
@@ -181,12 +181,12 @@ get_non_residential_energy_baseline <-
             (sector == "commercial") ~ "commercial_therms_nrel",
           )
       ) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
+      dplyr::select(geog_name, geog_id, year, var, value) %>%
       unique()
 
     if (nrow(xcel_energy_electricity) == 0) {
       xcel_energy_electricity <- tibble::tibble(
-        "ctu_name" = .selected_ctu,
+        "geog_name" = .selected_ctu,
         "year" = min(ctu_characteristics$year),
         "commercial_mwh_xcel" = NA,
         "industrial_mwh_xcel" = NA
@@ -201,7 +201,7 @@ get_non_residential_energy_baseline <-
         commercial_and_industrial_natural_gas_ctu,
         nrel_natural_gas_ctu
       ) %>%
-      group_by(ctu_name, year) %>%
+      group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::transmute(
         commercial_mwh = ifelse(
@@ -252,7 +252,7 @@ get_non_residential_energy_baseline <-
         industrial_mwh_per_worker = industrial_mwh / industrial_jobs
       ) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         commercial_therm_per_worker,
         industrial_therm_per_worker,

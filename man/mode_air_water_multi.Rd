@@ -37,10 +37,10 @@ mode_air_water_multi(
 )
 }
 \arguments{
-\item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

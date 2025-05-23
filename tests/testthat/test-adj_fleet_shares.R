@@ -9,7 +9,7 @@ testthat::test_that("Expected number of rows", {
     .hev_pct_sales = .40,
     .pass_tb = st_paul_passenger,
     .freight_tb = st_paul_freight,
-    .selected_ctu = "St. Paul",
+    .selected_ctu = "Saint Paul",
     .vmt_fee = 0,
     .payd_fee = 0,
     .gas_tax = 0,
@@ -28,7 +28,7 @@ testthat::test_that("Expected number of rows", {
         mode == "PLDV",
         str_detect(var, "Tot")
       ),
-    by = c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+    by = c("mode", "var", "geog_name", "year", "aeo_mode", "type"),
     suffix = c(".orig", ".adj")
   ) %>%
     mutate(diff = round(value.orig - value.adj)) %>%
@@ -44,8 +44,8 @@ testthat::test_that("Expected number of rows", {
         .bev_pct_sales = 1,
         .pass_tb = st_paul_passenger,
         .freight_tb = st_paul_freight %>%
-          filter(ctu == "St. Paul"),
-        .selected_ctu = "St. Paul",
+          filter(geog_name == "Saint Paul"),
+        .selected_ctu = "Saint Paul",
         .vmt_fee = 0,
         .payd_fee = 0,
         .gas_tax = 0,
@@ -67,7 +67,7 @@ testthat::test_that("Expected number of rows", {
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")
       ),
-    by = c("mode", "var", "ctu", "year", "aeo_mode", "type"),
+    by = c("mode", "var", "geog_name", "year", "aeo_mode", "type"),
     suffix = c(".orig", ".adj")
   ) %>%
     mutate(diff = round(value.orig - value.adj)) %>%

@@ -21,7 +21,7 @@ vmt_road_policy(
 )
 }
 \arguments{
-\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
 \item{.mode}{character, current mode}
@@ -49,7 +49,7 @@ Default is \code{0}}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 }
 \value{
-a table with columns   \code{year}, \code{ctu}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},
+a table with columns   \code{year}, \code{geog_name}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},
 \code{vmt_fee_adj}, \code{cong_adjust}, \code{cross_vmt}, \code{gas_adj}
 }
 \description{

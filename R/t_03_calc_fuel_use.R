@@ -61,9 +61,9 @@ calc_fuel_use <- function(tb_vmt,
       fuel_factor,
       aeo_mode
     )
-  # browser()
 
-  fuel_use_gallons_kwh <- dplyr::left_join(tb_vmt,
+  fuel_use_gallons_kwh <- dplyr::left_join(
+    tb_vmt,
     tb_aeo,
     by = c("year", "aeo_mode")
   ) %>%
@@ -74,7 +74,7 @@ calc_fuel_use <- function(tb_vmt,
       type,
       scenario,
       mode,
-      ctu,
+      geog_name, geog_id,
       class,
       year,
       aeo_mode,

@@ -1,9 +1,9 @@
 #' @title  Main function to call other functions for determining VMT,
 #'      direct GHG, indirect GHG, and costs
 #'
-#' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `ctu`,
+#' @param pass_tb input table for passenger modes. Should have columns `mode`, `var`, `geog_name`,
 #'    and one for each year. Package provided dataset `transportation_data$passenger` is suitable.
-#' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `ctu`,
+#' @param freight_tb input table for freight modes. Should have columns `mode`, `var`, `geog_name`,
 #'    and one for each year. Package provided dataset `transportation_data$freight` is suitable.
 #' @param .electric_scenario electricity scenario
 #' @param .aeo_scenario character, selected EIA Annual Energy Outlook scenario.
@@ -501,14 +501,14 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     c(
       "type",
       "scenario",
-      "ctu",
+      "geog_name",
       "year",
       "mode",
       "aeo_mode",
       "class"
     )
   ) %>%
-    dplyr::left_join(geog_index, by = c("ctu"))
+    dplyr::left_join(geog_index, by = c("geog_name"))
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -523,7 +523,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_emb_ghg, c(
-        "type", "scenario", "ctu",
+        "type", "scenario", "geog_name",
         "year", "mode", "aeo_mode", "class"
       ))
   }
@@ -540,7 +540,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     pass_all <- pass_all %>%
       dplyr::left_join(pass_fuel, by = c(
         "type", "scenario",
-        "ctu", "year", "mode",
+        "geog_name", "year", "mode",
         "aeo_mode", "class"
       ))
   }
@@ -556,7 +556,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_cost, by = c(
-        "type", "scenario", "ctu",
+        "type", "scenario", "geog_name",
         "year", "mode", "aeo_mode", "class"
       ))
   }
@@ -569,7 +569,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   #   dplyr::select(
   #     type,
   #     scenario,
-  #     ctu,
+  #     geog_name,
   #     year,
   #     mode,
   #     aeo_mode,
@@ -598,11 +598,11 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
     by = c(
-      "type", "scenario", "ctu",
+      "type", "scenario", "geog_name",
       "year", "mode", "aeo_mode", "class"
     )
   ) %>%
-    dplyr::left_join(geog_index, by = c("ctu"))
+    dplyr::left_join(geog_index, by = c("geog_name"))
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,

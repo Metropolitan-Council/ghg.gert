@@ -34,9 +34,9 @@
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns
-#'     `ctu_name`, `var`, `value`, `scen`, and `year`.
+#'     `geog_name`, `var`, `value`, `scen`, and `year`.
 #'
-#'      @field `ctu_name` character,  Name of the city/township.
+#'      @field `geog_name` character,  Name of the city/township.
 #'      @field `year` numeric, Year.
 #'      @field `var` character,. Can be `residential_mwh`, `residential_therms`,
 #'           `residential_electricity_emissions_kg_co`,

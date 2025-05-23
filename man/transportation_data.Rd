@@ -8,9 +8,9 @@
 A named list of two tibbles
 \itemize{
 \item \strong{passenger}: A tibble with 105,652 rows and 7 columns:
-\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
+\code{mode}, \code{var}, \code{geog_name}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
 \item \strong{freight}: A tibble with 43,362 rows and 7 columns:
-\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
+\code{mode}, \code{var}, \code{geog_name}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
 }
 }
 \usage{
