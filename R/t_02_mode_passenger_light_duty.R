@@ -43,7 +43,6 @@ mode_passenger_light_duty <- function(.pass_tb,
                                       .calc_transp_fuel_use = FALSE,
                                       .calc_transp_ghg_embodied = FALSE) {
   # cli::cli_progress_message("** calculating scenario for passenger light duty vehicles \n")
-
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
   # Sequence for each
@@ -74,7 +73,7 @@ mode_passenger_light_duty <- function(.pass_tb,
   # mpg <- "SIMPG"
   # class <- "SI"
 
-  # browser()
+
   message("Passenger vehicles, gasoline")
 
   # Calculate a fuel cost per mile rather than per gallon
@@ -288,7 +287,7 @@ mode_passenger_light_duty <- function(.pass_tb,
   message("Passenger vehicles, plug-in hybrid")
 
   # Calculate a fuel cost per mile rather than per gallon
-  # browser()
+
 
   fcm_phev <- calc_fuel_cost_mile(
     tb = .pass_tb,
@@ -399,7 +398,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       "class",
       "scenario",
       "mode",
-      "ctu",
+      "geog_name",
       "year",
       "aeo_mode"
     )
@@ -449,7 +448,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     phev_ghg_gas,
     phev_ghg_electric,
     c(
-      "type", "scenario", "mode", "ctu",
+      "type", "scenario", "mode", "geog_name",
       "year", "aeo_mode", "class"
     )
   ) %>%
@@ -463,7 +462,7 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   message("Passenger vehicles, battery electric")
 
-  # browser()
+
   fcm_bev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
@@ -596,7 +595,7 @@ mode_passenger_light_duty <- function(.pass_tb,
         ),
       c(
         "type",
-        "scenario", "mode", "ctu", "year",
+        "scenario", "mode", "geog_name", "year",
         "aeo_mode"
       )
     ) %>%

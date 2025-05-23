@@ -59,7 +59,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
   # For all passenger modes, variable = PMT
   var <- "PMT"
 
-  # browser()
+
   ## Walk -----
   # mode <- "WALK"
   # stock <- ""
@@ -139,12 +139,12 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
     mutate(class = "BIKE")
 
   # Finish up -----
-  # browser()
+
   vmt_all <- dplyr::bind_rows(
     bike_vmt,
     walk_vmt
   )
-  # browser()
+
   dir_ghg_all <- vmt_all %>%
     dplyr::mutate(
       dir_ghg = 0,
@@ -152,7 +152,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       class = mode,
     ) %>%
     dplyr::select(
-      type, class, scenario, mode, ctu, year, aeo_mode,
+      type, class, scenario, mode, geog_name, geog_id, year, aeo_mode,
       dir_ghg
     ) %>%
     unique()

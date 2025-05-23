@@ -255,7 +255,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
         ghg_embodied_source = NA,
         type = type
       ) %>%
-      dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+      dplyr::select(type, scenario, mode, geog_name, year, aeo_mode,
         ghg_embodied_source,
         ghg_embodied = dir_ghg
       )

@@ -56,7 +56,12 @@ calc_carbon_sequestration_per_ctu <- function(tb,
     parking_lot_land_cover %>%
     tidyr::pivot_wider(
       names_from = year,
-      values_from = !ctu_name,
+      id_cols = c("geog_name", "geog_id"),
+      values_from = c(
+        "agriculture", "barren", "forest",
+        "grass", "grassland", "impervious", "parking_lot", "shrub", "trees",
+        "water", "wetland", "woody_wetland", "total_area_hectares"
+      ),
       names_sep = "."
     ) %>%
     dplyr::mutate(
@@ -85,9 +90,9 @@ calc_carbon_sequestration_per_ctu <- function(tb,
       parking_lot.2040 = ((parking_lot.2016 + parking_lot.2040) / 2) *
         csf$PARKING_LOT_SEQUEST_MG_C_PER_HECTARE_PER_YEAR
     ) %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     tidyr::pivot_longer(
-      cols = -ctu_name,
+      cols = c(-geog_name, -geog_id),
       names_to = c("var", "year"),
       names_sep = "\\."
     ) %>%
@@ -98,7 +103,7 @@ calc_carbon_sequestration_per_ctu <- function(tb,
     # Use pivot_wider to pivot the year column
     tidyr::pivot_wider(names_from = var, values_from = value) %>%
     dplyr::select(
-      ctu_name,
+      geog_name, geog_id,
       year,
       agriculture,
       barren,

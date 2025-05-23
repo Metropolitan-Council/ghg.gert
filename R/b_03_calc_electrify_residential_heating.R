@@ -47,7 +47,7 @@ calc_electrify_residential_heating <- function(res_tb,
 
   new_res_tb <- res_tb %>%
     tidyr::pivot_wider(
-      id_cols = c(ctu_name),
+      id_cols = c(geog_name),
       names_from = c(var, scen, year),
       values_from = value,
       names_sep = "."

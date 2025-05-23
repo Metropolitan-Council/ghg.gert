@@ -67,7 +67,7 @@ calc_ghg_non_residential <- function(non_res_tb,
           "industrial_therms"
         )
       ) %>%
-      dplyr::group_by(ctu_name, year, var) %>%
+      dplyr::group_by(geog_name, geog_id, year, var) %>%
       tidyr::pivot_wider(names_from = "var", values_from = value) %>%
       dplyr::mutate(
         kg_per_mwh = dplyr::case_when(
@@ -133,7 +133,7 @@ calc_ghg_non_residential <- function(non_res_tb,
         )
       ) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         population,
         commercial_jobs,
@@ -179,13 +179,13 @@ calc_ghg_non_residential <- function(non_res_tb,
     dplyr::right_join(
       emis_bau,
       emis_strategy,
-      by = c("ctu_name", "year"),
+      by = c("geog_name", "geog_id", "year"),
       suffix = c(".bau", ".scen")
     ) %>%
     tidyr::pivot_longer(
       names_to = "var",
       values_to = "value",
-      cols = -c(ctu_name, year)
+      cols = -c(geog_name, geog_id, year)
     ) %>%
     tidyr::separate(
       col = var,

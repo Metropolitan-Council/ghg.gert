@@ -49,6 +49,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
 
 
 
+
   ## CUT ----
   mode <- "CUT"
 

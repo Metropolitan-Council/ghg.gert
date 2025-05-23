@@ -12,7 +12,7 @@ units_fxn <- function(.pct, .selected_ctu = "all") {
         # "single_family_units"
       )
     ) %>%
-    group_by(ctu_name, year) %>%
+    group_by(geog_name, year) %>%
     summarise(value = sum(value, na.rm = T))
 }
 
@@ -31,7 +31,7 @@ mfunits <- mfunits_60 %>%
 # ctus where multifamily replacing single family decreases multifamily units - this seems problematic
 mfunits %>%
   filter(mfunits_60 < mf_units_0) %>%
-  select(ctu_name) %>%
+  select(geog_name) %>%
   paste(collapse = "")
 # now, MF units increase
 # [1] "character(0)"
@@ -44,7 +44,7 @@ mfunits %>%
 # ctus where multifamily replacing single family increases multifamily units - this seems correct!!
 mfunits %>%
   filter(mfunits_60 > mf_units_0) %>%
-  select(ctu_name) %>%
+  select(geog_name) %>%
   paste(collapse = "")
 # [1] "c(\"Afton\", \"Andover\", \"Apple Valley\", \"Arden Hills\", \"Bayport\", \"Belle Plaine\", \"Bethel\", \"Birchwood Village\", \"Blaine\", \"Bloomington\", \"Brooklyn Center\", \"Brooklyn Park\", \"Burnsville\", \"Carver\", \"Castle Rock Twp.\", \"Cedar Lake Twp.\", \"Centerville\", \"Champlin\", \"Chanhassen\", \"Chaska\", \"Circle Pines\", \"Coates\", \"Cologne\", \"Columbia Heights\", \"Columbus\", \"Coon Rapids\", \"Corcoran\", \"Cottage Grove\", \"Credit River Twp.\", \"Crystal\", \"Dayton\", \"Deephaven\", \"Dellwood\", \"Denmark Twp.\", \"Douglas Twp.\", \"Eagan\", \n\"East Bethel\", \"Eden Prairie\", \"Edina\", \"Elko New Market\", \"Empire Twp.\", \"Excelsior\", \"Farmington\", \"Forest Lake\", \"Fridley\", \"Gem Lake\", \"Golden Valley\", \"Grant\", \"Greenfield\", \"Greenvale Twp.\", \"Ham Lake\", \"Hamburg\", \"Hampton\", \"Hampton Twp.\", \"Hancock Twp.\", \"Hastings\", \"Helena Twp.\", \"Hollywood Twp.\", \"Hopkins\", \"Hugo\", \"Independence\", \"Inver Grove Heights\", \"Jackson Twp.\", \"Jordan\", \"Lake Elmo\", \"Lake St. Croix Beach\", \"Lakeland\", \"Lakeland Shores\", \"Lakeville\", \"Lexington\", \"Lilydale\", \"Lino Lakes\", \n\"Linwood Twp.\", \"Long Lake\", \"Loretto\", \"Mahtomedi\", \"Maple Grove\", \"Maple Plain\", \"Maplewood\", \"Marine on St. Croix\", \"May Twp.\", \"Mayer\", \"Medicine Lake\", \"Medina\", \"Mendota\", \"Mendota Heights\", \"Miesville\", \"Minnetonka\", \"Minnetonka Beach\", \"Minnetrista\", \"Mound\", \"New Brighton\", \"New Germany\", \"New Hope\", \"New Prague\", \"New Trier\", \"Newport\", \"Nininger Twp.\", \"North Oaks\", \"North St. Paul\", \"Northfield\", \"Norwood Young America\", \"Nowthen\", \"Oak Grove\", \"Oakdale\", \"Orono\", \"Pine Springs\", \"Plymouth\", \n\"Prior Lake\", \"Ramsey\", \"Randolph\", \"Ravenna Twp.\", \"Rockford\", \"Rosemount\", \"San Francisco Twp.\", \"Savage\", \"Scandia\", \"Sciota Twp.\", \"Shakopee\", \"Shoreview\", \"Shorewood\", \"South St. Paul\", \"Spring Lake Park\", \"Spring Lake Twp.\", \"Spring Park\", \"St. Anthony\", \"St. Bonifacius\", \"St. Francis\", \"St. Marys Point\", \"St. Paul Park\", \"Stillwater\", \"Stillwater Twp.\", \"Sunfish Lake\", \"Tonka Bay\", \"Vadnais Heights\", \"Vermillion\", \"Vermillion Twp.\", \"Victoria\", \"Waconia\", \"Waconia Twp.\", \"Waterford Twp.\", \n\"Watertown\", \"Watertown Twp.\", \"Wayzata\", \"West Lakeland Twp.\", \"Woodbury\", \"Woodland\", \"Young America Twp.\")
 #
@@ -54,7 +54,7 @@ mfunits %>%
 # ctus where multifamily replacing single family does *not* change multifamily units - these are ctus without single-family unit growth
 mfunits %>%
   filter(mfunits_60 == mf_units_0) %>%
-  select(ctu_name) %>%
+  select(geog_name) %>%
   paste(collapse = "")
 # now, just four
 # [1] "c(\"Eureka Twp.\", \"Falcon Heights\", \"Landfall\", \"Osseo\")"

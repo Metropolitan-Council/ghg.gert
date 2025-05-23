@@ -1,23 +1,25 @@
-transit_rail <- suppressMessages(
-  suppressWarnings(
-    mode_transit_rail(
-      .pass_tb = transportation_data$passenger %>%
-        filter(ctu == "St. Paul"),
-      .selected_ctu = "St. Paul",
-      .calc_transp_cost = TRUE,
-      .calc_transp_fuel_use = TRUE,
-      .calc_transp_ghg_embodied = TRUE
+testthat::test_that("Transit rail length correct", {
+  transit_rail <- suppressMessages(
+    suppressWarnings(
+      mode_transit_rail(
+        .pass_tb = transportation_data$passenger %>%
+          filter(geog_name == "Saint Paul"),
+        .selected_ctu = "Saint Paul",
+        .calc_transp_cost = TRUE,
+        .calc_transp_fuel_use = TRUE,
+        .calc_transp_ghg_embodied = TRUE
+      )
     )
   )
-)
-testthat::expect_length(transit_rail, 5)
+  testthat::expect_length(transit_rail, 5)
+})
 
-testthat::test_that("St. Paul emissions reduce with interventions", {
+testthat::test_that("Saint Paul emissions reduce with interventions", {
   pass <- suppressMessages(
     suppressWarnings(
       mode_transit_rail(
         .pass_tb = transportation_data$passenger,
-        .selected_ctu = "St. Paul"
+        .selected_ctu = "Saint Paul"
       )
     )
   )
@@ -35,13 +37,13 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
   pass_bau <- pass$dir_ghg %>%
     filter(year == "2040") %>%
-    group_by(ctu, year) %>%
+    group_by(geog_name, year) %>%
     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
   pass_transit <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
-    .selected_ctu = "St. Paul",
+    .selected_ctu = "Saint Paul",
     .scenario = "transit",
     .transit_service_pct = .30,
     .transit_avo_pct = 0.5
@@ -49,7 +51,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
   pass_lu <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
-    .selected_ctu = "St. Paul",
+    .selected_ctu = "Saint Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
     .pop_dens_pct_change = 0.10,
@@ -59,7 +61,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
   pass_road <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
-    .selected_ctu = "St. Paul",
+    .selected_ctu = "Saint Paul",
     .scenario = "road",
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
@@ -71,7 +73,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 
   pass_tele <- suppressMessages(suppressWarnings(mode_transit_rail(
     .pass_tb = transportation_data$passenger,
-    .selected_ctu = "St. Paul",
+    .selected_ctu = "Saint Paul",
     .scenario = "telework",
     .emp_dens_pct_change = 0.10,
     .vmt_fee = 0.01,
@@ -91,7 +93,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
     function(x) {
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
-        group_by(ctu, year) %>%
+        group_by(geog_name, year) %>%
         summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
       testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
@@ -120,7 +122,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #
 #   pass_bau <- pass$dir_ghg %>%
 #     filter(year == "2040") %>%
-#     group_by(ctu, year) %>%
+#     group_by(geog_name, year) %>%
 #     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 #
 #
@@ -178,7 +180,7 @@ testthat::test_that("St. Paul emissions reduce with interventions", {
 #
 #       test_ghg <- x$dir_ghg %>%
 #         filter(year == "2040") %>%
-#         group_by(ctu, year) %>%
+#         group_by(geog_name, year) %>%
 #         summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 #
 #       testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
@@ -209,7 +211,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
 
   pass_bau <- pass$dir_ghg %>%
     filter(year == "2040") %>%
-    group_by(ctu, year) %>%
+    group_by(geog_name, year) %>%
     summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
@@ -278,7 +280,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     function(x) {
       test_ghg <- x$dir_ghg %>%
         filter(year == "2040") %>%
-        group_by(ctu, year) %>%
+        group_by(geog_name, year) %>%
         summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
       testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
@@ -300,11 +302,11 @@ testthat::test_that("Scandia has no rail PMT", {
 
   vmt_summary <- bind_rows(
     bau$vmt %>%
-      group_by(ctu, year) %>%
+      group_by(geog_name, year) %>%
       dplyr::summarize(vmt = sum(vmt), .groups = "keep") %>%
       mutate(scen = "bau"),
     transit$vmt %>%
-      group_by(ctu, year) %>%
+      group_by(geog_name, year) %>%
       dplyr::summarize(vmt = sum(vmt), .groups = "keep") %>%
       mutate(scen = "transit")
   ) %>%

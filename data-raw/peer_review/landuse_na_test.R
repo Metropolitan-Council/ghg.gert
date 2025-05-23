@@ -60,7 +60,7 @@ land_cover_by_city <- calc_land_cover_by_land_use(
   tb = land_use_data,
   .selected_ctu = "all"
 ) %>%
-  dplyr::group_by(ctu_name, year, land_cover_type) %>%
+  dplyr::group_by(geog_name, geog_id, year, land_cover_type) %>%
   dplyr::summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
 
 # likewise

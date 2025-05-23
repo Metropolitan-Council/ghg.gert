@@ -249,7 +249,6 @@ emissions <- purrr::map2_dfr(
       x,
       y,
       function(x2, y2) {
-        # browser()
         x2$passenger_all %>%
           filter(mode %in% c("AV", "PLDV", "DRS", "BU", "BRT")) %>%
           group_by(year, scenario) %>%

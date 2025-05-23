@@ -354,7 +354,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
   }
 
   # Finish up -----
-  # browser()
+
 
   if (.calc_transp_ghg_embodied == TRUE) {
     emb_ghg_all <- dir_ghg_all %>%
@@ -365,7 +365,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       ) %>%
       dplyr::select(
         type, ghg_embodied_source, ghg_embodied,
-        mode, class, ctu, year, aeo_mode
+        mode, class, geog_name, year, aeo_mode
       ) %>%
       unique()
 

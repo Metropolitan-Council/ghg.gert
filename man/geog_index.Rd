@@ -7,7 +7,7 @@
 \format{
 tibble
 \itemize{
-\item \strong{ctu} CTU name, concurrent with data tables
+\item \strong{ctu_name} CTU name, concurrent with original data tables
 \item \strong{geog_name} Geographic name
 \item \strong{geog_level} City, township, unorganized territory, county
 \item \strong{geog_id} ID value

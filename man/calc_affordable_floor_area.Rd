@@ -17,7 +17,7 @@ default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.single_family_floor_area_growth_pct}{numeric, a value between \code{0} and \code{1}.
 Percentage of single family floor area that gets reduced due to increase energy prices.
@@ -25,7 +25,7 @@ Default is \code{0.05}.
 Should not be greater than 0.05 or \emph{\%5}.}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}. A table with columns \code{ctu_name}, \code{year}, \code{var}, and \code{value}.
+\code{\link[tibble:tibble]{tibble::tibble()}}. A table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{var}, and \code{value}.
 Table contains adjusted records for \code{single_family_average_floor_area_sqft_ctu} and
 \code{single_family_units} for the \code{var} column when \code{year == 2040}relative
 to the residential inputs table.

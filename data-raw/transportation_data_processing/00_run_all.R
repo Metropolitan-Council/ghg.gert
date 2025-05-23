@@ -16,6 +16,7 @@ source("data-raw/transportation_data_processing/transportation_index.R")
 
 source("data-raw/enviro_factors.R")
 source("data-raw/transportation_data_processing/factor_values.R")
+source("data-raw/fix_names.R")
 
 write_csv(transportation_data$passenger, "data-raw/transportation_data_processing/csv_copies/transportation_data_passenger.csv")
 

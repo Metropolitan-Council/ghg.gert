@@ -21,7 +21,7 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
@@ -31,7 +31,7 @@ Default value is \code{0.6}.}
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns
-\code{ctu_name},
+\code{geog_name},
 \code{year},
 \code{population},
 \code{residential_mwh},
