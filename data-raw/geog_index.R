@@ -53,7 +53,7 @@ geog_index <- dplyr::left_join(
   cprg_ctu,
   transportation_geog
 ) %>%
-  select(ctu, geog_name = ctu_name_full, geog_level = ctu_class, geog_id = gnis) %>%
+  select(ctu, geog_name = ctu_name_full, ctu_name, geog_level = ctu_class, geog_id = gnis) %>%
   mutate(geog_id_type = "ctu_gnis") %>%
   unique()
 
