@@ -71,16 +71,18 @@ test_that("Density changes have anticipated effect, Minneapolis", {
   testthat::expect_equal(unique(dens_result$flag), NA_character_)
 
 
-  test_names <- function(df){
+  test_names <- function(df) {
     df_names <- names(df)
 
     testthat::expect_equal(
       df_names,
-      c("type", "stock", "scenario",
+      c(
+        "type", "stock", "scenario",
         "geog_name", "geog_id", "year",
         "mode", "aeo_mode", "vmt", "class",
         "dir_ghg",
-        "geog_level", "geog_id_type")
+        "geog_level", "geog_id_type"
+      )
     )
   }
 
@@ -92,7 +94,6 @@ test_that("Density changes have anticipated effect, Minneapolis", {
       popdens_bau$freight_all,
       popdens_decrease$freight_all,
       popdens_increase$freight_all,
-
       empdens_bau$passenger_all,
       empdens_increase$passenger_all,
       empdens_decrease$passenger_all,
@@ -100,10 +101,8 @@ test_that("Density changes have anticipated effect, Minneapolis", {
       empdens_decrease$freight_all,
       empdens_increase$freight_all
     ),
-    test_names)
-
-
-
+    test_names
+  )
 })
 
 
@@ -180,16 +179,18 @@ test_that("Density changes have anticipated effect, Brooklyn Park", {
   testthat::expect_equal(unique(dens_result$flag), NA_character_)
 
 
-  test_names <- function(df){
+  test_names <- function(df) {
     df_names <- names(df)
 
     testthat::expect_equal(
       df_names,
-      c("type", "stock", "scenario",
+      c(
+        "type", "stock", "scenario",
         "geog_name", "geog_id", "year",
         "mode", "aeo_mode", "vmt", "class",
         "dir_ghg",
-        "geog_level", "geog_id_type")
+        "geog_level", "geog_id_type"
+      )
     )
   }
 
@@ -201,7 +202,6 @@ test_that("Density changes have anticipated effect, Brooklyn Park", {
       popdens_bau$freight_all,
       popdens_decrease$freight_all,
       popdens_increase$freight_all,
-
       empdens_bau$passenger_all,
       empdens_increase$passenger_all,
       empdens_decrease$passenger_all,
@@ -209,6 +209,6 @@ test_that("Density changes have anticipated effect, Brooklyn Park", {
       empdens_decrease$freight_all,
       empdens_increase$freight_all
     ),
-    test_names)
-
+    test_names
+  )
 })

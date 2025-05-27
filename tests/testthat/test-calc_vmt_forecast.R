@@ -4,7 +4,6 @@
 
 
 testthat::test_that("BAU, Passenger gasoline correct", {
-
   si_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -51,8 +50,6 @@ testthat::test_that("BAU, Passenger gasoline correct", {
 
 
 testthat::test_that("BAU walk VMT correct", {
-
-
   walk_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -101,7 +98,6 @@ testthat::test_that("BAU walk VMT correct", {
 
 # passenger ci -----
 testthat::test_that("Passenger, CI, BAU VMT correct", {
-
   ci_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -146,7 +142,6 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
 })
 # rail -----
 testthat::test_that("Urban rail passenger vmt correct", {
-
   ru_vmt <- testthat::expect_no_error(calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -177,14 +172,11 @@ testthat::test_that("Urban rail passenger vmt correct", {
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(vmt = vmt / 10^5))
-
-
 })
 # bus ci ------
 
 
 testthat::test_that("BAU, Bus diesel correct", {
-
   bus_ci_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -235,7 +227,6 @@ testthat::test_that("BAU, Bus diesel correct", {
 
 
 testthat::test_that("PHEV passenger vmt correct", {
-
   phev_vmt_elec <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -312,11 +303,9 @@ testthat::test_that("PHEV passenger vmt correct", {
       1.27017703337147, 1.45027628483017
     )
   )
-
 })
 # dynamic ride share error ------
 testthat::test_that("Dynamic ride share error", {
-
   testthat::expect_error(calc_vmt_forecast(
     .scenario = "MIT",
     .selected_ctu = "all",

@@ -112,8 +112,8 @@ calc_land_by_development_type <- function(tb,
       by = c("geog_name", "geog_id")
     ) %>%
     tidyr::pivot_wider(.,
-                       names_from = development_type,
-                       values_from = hectares
+      names_from = development_type,
+      values_from = hectares
     ) %>%
     dplyr::mutate(
       urban_expansion =
@@ -129,13 +129,13 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::select(., -c(total_hectares_bau)) %>%
     tidyr::pivot_longer(.,
-                        cols = c(
-                          exurban_development,
-                          urban_expansion,
-                          urban_infill
-                        ),
-                        names_to = "development_type",
-                        values_to = "hectares"
+      cols = c(
+        exurban_development,
+        urban_expansion,
+        urban_infill
+      ),
+      names_to = "development_type",
+      values_to = "hectares"
     )
 
   # -------------------------------------------------------------------------
@@ -163,12 +163,12 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::mutate(
       scenario_mixed_use_mf_new.urban_infill =
-        # if (.urban_form_scenario == "compact_dev_with_drs") {
-        #   dplyr::if_else(bau.urban_expansion > bau.urban_infill,
-        #     bau.urban_infill,
-        #     bau.urban_expansion
-        #   )
-        # } else {
+      # if (.urban_form_scenario == "compact_dev_with_drs") {
+      #   dplyr::if_else(bau.urban_expansion > bau.urban_infill,
+      #     bau.urban_infill,
+      #     bau.urban_expansion
+      #   )
+      # } else {
         ((
           scenario_total.urban_infill -
             scenario_mixed_use_compact_zoning_park.urban_infill
@@ -180,14 +180,16 @@ calc_land_by_development_type <- function(tb,
     group_by(geog_name, geog_id) %>%
     tidyr::pivot_longer(
       .,
-      cols = any_of(c("scenario_total.exurban_development", "scenario_total.urban_expansion",
-                      "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
-                      "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
-                      "scenario_mixed_use_compact_zoning_park.exurban_development",
-                      "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
-                      "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
-                      "scenario_other_zoning.exurban_development", "bau.urban_expansion",
-                      "bau.urban_infill", "bau.exurban_development")),
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
@@ -210,26 +212,28 @@ calc_land_by_development_type <- function(tb,
     dplyr::mutate(
       scenario_other_zoning.urban_expansion =
         scenario_total.urban_expansion -
-        scenario_mixed_use_mf_new.urban_expansion -
-        scenario_mixed_use_compact_zoning_park.urban_expansion,
+          scenario_mixed_use_mf_new.urban_expansion -
+          scenario_mixed_use_compact_zoning_park.urban_expansion,
       scenario_other_zoning.urban_infill =
         scenario_total.urban_infill -
-        scenario_mixed_use_mf_new.urban_infill -
-        scenario_mixed_use_compact_zoning_park.urban_infill,
+          scenario_mixed_use_mf_new.urban_infill -
+          scenario_mixed_use_compact_zoning_park.urban_infill,
       scenario_other_zoning.exurban_development =
         scenario_total.exurban_development -
-        scenario_mixed_use_mf_new.exurban_development
+          scenario_mixed_use_mf_new.exurban_development
     ) %>%
     tidyr::pivot_longer(
       .,
-      cols = any_of(c("scenario_total.exurban_development", "scenario_total.urban_expansion",
-                      "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
-                      "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
-                      "scenario_mixed_use_compact_zoning_park.exurban_development",
-                      "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
-                      "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
-                      "scenario_other_zoning.exurban_development", "bau.urban_expansion",
-                      "bau.urban_infill", "bau.exurban_development")),
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
