@@ -468,6 +468,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   # Finish up -----
   ## passenger ------
 
+  # browser()
   passenger <- list(
     PLDV = passenger_light_duty,
     RAIL = rail_transit,
@@ -499,13 +500,15 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       "type",
       "scenario",
       "geog_name",
+      "geog_id",
       "year",
       "mode",
       "aeo_mode",
       "class"
     )
   ) %>%
-    dplyr::left_join(geog_index, by = c("geog_name"))
+    dplyr::left_join(ghg.ccap::geog_index %>%
+                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -520,7 +523,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_emb_ghg, c(
-        "type", "scenario", "geog_name",
+        "type", "scenario", "geog_name", "geog_id",
         "year", "mode", "aeo_mode", "class"
       ))
   }
@@ -537,7 +540,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     pass_all <- pass_all %>%
       dplyr::left_join(pass_fuel, by = c(
         "type", "scenario",
-        "geog_name", "year", "mode",
+        "geog_name","geog_id",  "year", "mode",
         "aeo_mode", "class"
       ))
   }
@@ -553,7 +556,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_cost, by = c(
-        "type", "scenario", "geog_name",
+        "type", "scenario", "geog_name", "geog_id",
         "year", "mode", "aeo_mode", "class"
       ))
   }
@@ -595,11 +598,12 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
     by = c(
-      "type", "scenario", "geog_name",
+      "type", "scenario", "geog_name", "geog_id",
       "year", "mode", "aeo_mode", "class"
     )
   ) %>%
-    dplyr::left_join(geog_index, by = c("geog_name"))
+    dplyr::left_join(ghg.ccap::geog_index %>%
+                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,
