@@ -1,6 +1,6 @@
 #' Calculate GHG emissions from municipal solid waste sent to organics facilities.
 #'
-#' @inheritParams _calculate_landfill_emissions.R
+#' @inheritParams calculate_landfill_emissions
 #' @param .anaerobic_digestion_pct single value, anaerobic digestion percentage
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions

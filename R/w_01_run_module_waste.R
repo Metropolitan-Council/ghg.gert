@@ -7,18 +7,18 @@
 #'    organics, recycling, and waste to energy. Outputs are
 #'    provided as a tibble with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'
-#' @inheritParams calc_landfill_emissions
+#' @inheritParams calculate_landfill_emissions
 #'
 #' @return [tibble::tibble()].
 #'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
 #'       The table is the output of the waste module, any modification to
 #'       the inputs of the waste module must be specified as an argument
-#'       to the function `run_scenario_waste()`
+#'       to the function `run_module_waste()`
 #'
 #' @export
 #' @importFrom cli cli_progress_message
 #'
-run_scenario_waste <- function(waste_tb = waste_data$ctu,
+run_module_waste <- function(waste_tb = waste_data$ctu,
                                waste_char = waste_data$characterization,
                                .selected_ctu = "all",
                                .methane_recovery_pct = 0,
