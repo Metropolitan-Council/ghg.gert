@@ -110,10 +110,14 @@ check_inputs <- function(name, value) {
   } else if (name == "selected_ctu") {
     if (value == "all") {
       return()
-    } else if (!value %in% unique(ghg.ccap::transportation_data$passenger$ctu)) {
+    } else if (!value %in% unique(ghg.ccap::transportation_data$passenger$geog_name)) {
       cli::cli_abort(c(
-        "Enter a valid ctu name"
+        "Enter a valid geog_name name"
       ))
+    }
+  } else if (name == "fuel_type") {
+    if (!value %in% unique(factor_values$ghg$source)) {
+      cli::cli_abort("Enter a valid fuel type: ", paste0(unique(factor_values$ghg$source), collapse = ", "))
     }
   } else {
     return()

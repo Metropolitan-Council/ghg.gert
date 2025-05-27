@@ -18,19 +18,19 @@ new_freight <- transportation_data$freight %>%
   ) | ctu == "All")
 
 
-parking5 <- run_scenario_transportation(
+parking5 <- run_module_transportation(
   .parking_price = 5, .scenario = "p5",
   pass_tb = new_passenger,
   freight_tb = new_freight
 )
 
-parking10 <- run_scenario_transportation(
+parking10 <- run_module_transportation(
   .parking_price = 10, .scenario = "p10",
   pass_tb = new_passenger,
   freight_tb = new_freight
 )
 
-parking15 <- run_scenario_transportation(
+parking15 <- run_module_transportation(
   .parking_price = 15, .scenario = "p15",
   pass_tb = new_passenger,
   freight_tb = new_freight

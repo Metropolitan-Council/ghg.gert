@@ -5,7 +5,7 @@
 #'    for the given scenario at the city/township level. It incorporates various
 #'    parameters to evaluate and analyze different energy consumption and efficiency
 #'    scenarios for both residential and non-residential buildings. Outputs are
-#'    provided as a tibble with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
+#'    provided as a tibble with columns `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
@@ -16,7 +16,7 @@
 #'   Default value is `0.6`.
 #'
 #' @return [tibble::tibble()].
-#'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
+#'       Returns a table with columns `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
 #'       The table is the output of the building energy module, any modification to
 #'       the inputs of the building energy module must be specified as an argument
 #'       to the function `run_scenario_building()`

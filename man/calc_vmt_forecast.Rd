@@ -41,11 +41,11 @@ calc_vmt_forecast(
 \arguments{
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.mode}{character, current mode}
 
@@ -116,7 +116,7 @@ Numeric between 0 and 1. Default is \code{0}}
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
 }
 \value{
-a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
+a tibble with columns \code{scenario}, \code{geog_name}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
 with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
@@ -138,7 +138,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{transportation}

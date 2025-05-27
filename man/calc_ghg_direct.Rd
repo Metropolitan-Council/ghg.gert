@@ -12,6 +12,7 @@ calc_ghg_direct(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .grid_decarbonization_pct = 0.6,
+  .fuel_economy = ghg.ccap::fuel_economy,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values
 )
@@ -19,7 +20,7 @@ calc_ghg_direct(
 \arguments{
 \item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -34,6 +35,8 @@ Default is \code{"REF"}}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
@@ -82,7 +85,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{emissions}

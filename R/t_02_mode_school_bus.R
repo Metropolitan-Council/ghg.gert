@@ -2,7 +2,7 @@
 #' @family passenger
 #' @family transportation
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -38,6 +38,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .elast = elast,
                             .elast_5d = elast_5d,
                             .factor_values = factor_values,
+                            .fuel_economy = fuel_economy,
                             .calc_transp_cost = FALSE,
                             .calc_transp_fuel_use = FALSE,
                             .calc_transp_ghg_embodied = FALSE) {
@@ -58,16 +59,16 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
   # VMT Calculation
 
   ## CI School bus -----
-  stock <- "CIStock"
-  mpg <- "CIMPG"
-  class <- "CI"
+  # stock <- "CIStock"
+  # mpg <- "CIMPG"
+  # class <- "CI"
   message("School bus, diesel")
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_ci <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpg,
+    .miles_per_gallon = "CIMPG",
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -79,9 +80,9 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "CIStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -106,18 +107,18 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values,
     ) %>%
-    mutate(class = class)
+    mutate(class = "CI")
 
   ## BEV school bus -----
-  stock <- "BEVStock"
-  mpe <- "BEVElec"
-  class <- "BEV"
+  # stock <- "BEVStock"
+  # mpe <- "BEVElec"
+  # class <- "BEV"
 
-  fcm <- calc_fuel_cost_mile(
+  fcm_ev <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = mpe,
+    .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -130,9 +131,9 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .selected_ctu = .selected_ctu,
       tb = .pass_tb,
       .mode = mode,
-      .stock = stock,
+      .stock = "BEVStock",
       .variable = var,
-      .tb_fuel_cost_mile = fcm,
+      .tb_fuel_cost_mile = fcm_ev,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -157,7 +158,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .elast_5d = .elast_5d,
       .factor_values = .factor_values
     ) %>%
-    mutate(class = class)
+    mutate(class = "BEV")
 
   # GHG Calculation
   ci_ghg <-
@@ -167,10 +168,11 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpg,
+      .miles_per_gallon = "CIMPG",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
     )
 
   bev_ghg <-
@@ -180,10 +182,11 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .mode = mode,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = mpe,
+      .miles_per_gallon = "BEVElec",
       .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values
+      .factor_values = .factor_values,
+      .fuel_economy = .fuel_economy
     )
 
   vmt_all <- dplyr::bind_rows(
@@ -207,7 +210,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
         tb = .pass_tb,
         .mode = mode,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpg
+        .miles_per_gallon = "CIMPG"
       )
 
     bev_fuel <-
@@ -215,21 +218,28 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
         tb_vmt = bev_vmt,
         tb = .pass_tb,
         .mode = mode,
-        # .electric_scenario,
         .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = mpe
+        .miles_per_gallon = "BEVElec"
       )
 
-    school_bus$fuel_use <- dplyr::bind_rows(
+    school_bus$fuel_use_gallons_kwh <- dplyr::bind_rows(
       ci_fuel,
       bev_fuel
     )
   }
 
   if (.calc_transp_cost == TRUE) {
-    ci_cost <- calc_cost(ci_vmt, .selected_ctu, mode, "CIPrice")
+    ci_cost <- calc_cost(ci_vmt, .selected_ctu,
+      .mode = mode,
+      .price = "CIPrice",
+      .factor_values = .factor_values,
+      .enviro_factors = .enviro_factors
+    )
 
-    bev_cost <- calc_cost(bev_vmt, .selected_ctu, mode, "BEVPrice")
+    bev_cost <- calc_cost(bev_vmt, .selected_ctu, mode, "BEVPrice",
+      .enviro_factors = .enviro_factors,
+      .factor_values = .factor_values
+    )
 
     school_bus$cost <- dplyr::bind_rows(
       ci_cost,
@@ -245,7 +255,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
         ghg_embodied_source = NA,
         type = type
       ) %>%
-      dplyr::select(type, scenario, mode, ctu, year, aeo_mode,
+      dplyr::select(type, scenario, mode, geog_name, year, aeo_mode,
         ghg_embodied_source,
         ghg_embodied = dir_ghg
       )

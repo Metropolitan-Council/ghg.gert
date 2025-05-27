@@ -13,7 +13,7 @@
 #'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`
 #'       relative to residential inputs table.
 #'
@@ -49,7 +49,7 @@ adj_unit_counts <- function(res_tb,
       "multifamily_units",
       "single_family_units"
     )) %>%
-    dplyr::group_by(ctu_name, var) %>%
+    dplyr::group_by(geog_name, geog_id, var) %>%
     tidyr::pivot_wider(names_from = c(var, year), values_from = value, names_sep = ".") %>%
     dplyr::mutate(
       new_sf_homes = single_family_units.2040 - single_family_units.2018,
@@ -80,7 +80,7 @@ adj_unit_counts <- function(res_tb,
       now_mf = new_homes * .new_homes_to_multifamily_pct
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(ctu_name, now_mf) %>%
+    dplyr::select(geog_name, geog_id, now_mf) %>%
     unique()
 
 
@@ -92,7 +92,7 @@ adj_unit_counts <- function(res_tb,
       ),
       year == 2040
     ) %>%
-    dplyr::left_join(sf_now_mf, by = "ctu_name") %>%
+    dplyr::left_join(sf_now_mf, by = c("geog_name", "geog_id")) %>%
     # if multifamily, add the now-multifamily units
     # if single family, subtract the now-multifamily units
     dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
@@ -103,7 +103,7 @@ adj_unit_counts <- function(res_tb,
   # anti_join to replace original values
   # return a new version of res_tb
   new_res_tb <- res_tb %>%
-    dplyr::anti_join(new_units, by = c("ctu_name", "year", "var")) %>%
+    dplyr::anti_join(new_units, by = c("geog_name", "geog_id", "year", "var")) %>%
     dplyr::bind_rows(new_units)
 
   return(new_res_tb)

@@ -16,7 +16,7 @@ calc_cost(
 \arguments{
 \item{tb_vmt}{VMT input table}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.mode}{character, given transportation mode.}
 
@@ -45,7 +45,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{transportation}

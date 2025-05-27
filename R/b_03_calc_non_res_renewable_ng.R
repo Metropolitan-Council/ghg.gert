@@ -73,7 +73,7 @@ calc_non_res_renewable_ng <- function(non_res_tb,
       tidyr::pivot_longer(
         names_to = "var",
         values_to = "value",
-        cols = -c(ctu_name)
+        cols = -c(geog_name, geog_id)
       ) %>%
       tidyr::separate(
         col = var,

@@ -43,7 +43,7 @@ calc_scen_land_use <- function(tb,
   # -------------------------------------------------------------------------
   get_total_hectares_by_development_type <-
     ctu_land_use_hectares %>%
-    dplyr::group_by(ctu_name, development_type, year) %>%
+    dplyr::group_by(geog_name, geog_id, development_type, year) %>%
     dplyr::summarise(
       total_hectares = sum(hectares, na.rm = TRUE),
       .groups = "drop"
@@ -55,7 +55,7 @@ calc_scen_land_use <- function(tb,
   merge_datasets_hecates_by_dev_type_with_land_use_land_cover <-
     ctu_land_use_hectares %>%
     dplyr::group_by(
-      ctu_name,
+      geog_name, geog_id,
       development_type,
       year,
       land_use_type
@@ -68,7 +68,7 @@ calc_scen_land_use <- function(tb,
       .,
       (get_total_hectares_by_development_type),
       by = c(
-        "ctu_name",
+        "geog_name", "geog_id",
         "development_type",
         "year"
       )
@@ -86,7 +86,7 @@ calc_scen_land_use <- function(tb,
     d_calc_land_by_development_type %>%
     tidyr::pivot_wider(
       data = .,
-      id_cols = c(ctu_name, development_type),
+      id_cols = c(geog_name, geog_id, development_type),
       names_from = c(scenario),
       values_from = c(hectares)
     ) %>%
@@ -105,7 +105,7 @@ calc_scen_land_use <- function(tb,
         merge_datasets_hecates_by_dev_type_with_land_use_land_cover
       ),
       by = c(
-        "ctu_name",
+        "geog_name", "geog_id",
         "development_type"
       )
     ) %>%
@@ -150,13 +150,13 @@ calc_scen_land_use <- function(tb,
         )
     ) %>%
     dplyr::select(c(
-      "ctu_name",
+      "geog_name", "geog_id",
       "development_type",
       "land_use_type",
       "scenario_hectares"
     )) %>%
     dplyr::group_by(
-      ctu_name,
+      geog_name, geog_id,
       development_type,
       land_use_type
     ) %>%
@@ -164,7 +164,7 @@ calc_scen_land_use <- function(tb,
       scenario_hectares = sum(scenario_hectares),
       .groups = "drop"
     ) %>%
-    dplyr::group_by(ctu_name)
+    dplyr::group_by(geog_name, geog_id)
 
   # -------------------------------------------------------------------------
   return(scen_land_use)

@@ -142,27 +142,31 @@ $$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo}
 ## Elasticity tables
 
 ```{r}
-elast %>% 
-  filter(year == "2025") %>% 
-  pivot_longer(2:10) %>% 
-  select(-year) %>% 
+elast %>%
+  filter(year == "2025") %>%
+  pivot_longer(2:10) %>%
+  select(-year) %>%
   left_join(
-    elast_descriptions <- readLines("../../man/elast.Rd")[11:19] %>% 
-      stringr::str_remove(stringr::str_escape("\\item{")) %>% 
-      stringr:::str_split(stringr::str_escape("}{")) %>% 
-      purrr::list_flatten() %>% 
-      purrr::map(rbind) %>% 
-      purrr::map(as.data.frame, cols = values,
-                 col.names = c("name", "source")) %>% 
-      bind_rows() %>% 
-      select(name = V1,
-             source = V2),
-    by = c("name"))
-  
+    elast_descriptions <- readLines("../../man/elast.Rd")[11:19] %>%
+      stringr::str_remove(stringr::str_escape("\\item{")) %>%
+      stringr:::str_split(stringr::str_escape("}{")) %>%
+      purrr::list_flatten() %>%
+      purrr::map(rbind) %>%
+      purrr::map(as.data.frame,
+        cols = values,
+        col.names = c("name", "source")
+      ) %>%
+      bind_rows() %>%
+      select(
+        name = V1,
+        source = V2
+      ),
+    by = c("name")
+  )
 ```
 
 ```{r}
-elast_5d %>% 
+elast_5d %>%
   select(year, type, combined_density)
 ```
 

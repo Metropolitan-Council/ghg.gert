@@ -7,7 +7,7 @@
 #'     the number of commercial and industrial workers, the population and number of households, and the number of jobs by industry.
 #'     These characteristics are stored in a list and returned by the function.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @return Tibble.
 #'
 #' @export
@@ -83,15 +83,15 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   ## ---- get population & households from 'Emissions'----
   ctu_population <-
     tb$ctu_population %>%
-    dplyr::select(ctu_name, year, population, households) %>%
+    dplyr::select(geog_name, geog_id, year, population, households) %>%
     dplyr::filter(year == 2018) %>%
-    dplyr::group_by(ctu_name, year) %>%
+    dplyr::group_by(geog_name, geog_id, year) %>%
     tidyr::pivot_longer(
       cols = c("population", "households"),
       names_to = "var",
       values_to = "value"
     ) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
     dplyr::summarise(value = sum(value, na.rm = T), .groups = "keep")
   # portions of a city that fall in more than one county
   # are aggregated.
@@ -101,10 +101,10 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
     tb$ctu_qcew_ctu %>%
     dplyr::filter(naicstitle == "Total, All Industries") %>%
     dplyr::filter(year == 2018) %>%
-    dplyr::select(ctu_name, year, emp) %>%
+    dplyr::select(geog_name, geog_id, year, emp) %>%
     dplyr::rename(value = emp) %>%
     dplyr::mutate(var = "jobs") %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ----- aggregate industrial jobs by NAICS -----
@@ -119,11 +119,11 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
       )
     ) %>%
     dplyr::filter(year == 2018) %>%
-    dplyr::select(ctu_name, year, naicstitle, emp) %>%
-    dplyr::group_by(ctu_name, year) %>%
+    dplyr::select(geog_name, geog_id, year, naicstitle, emp) %>%
+    dplyr::group_by(geog_name, geog_id, year) %>%
     dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
     dplyr::mutate(var = "industrial_jobs") %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ----- aggregate commercial jobs by NAICS ----
@@ -140,11 +140,11 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
       )
     ) %>%
     dplyr::filter(year == 2018) %>%
-    dplyr::select(ctu_name, year, naicstitle, emp) %>%
-    dplyr::group_by(ctu_name, year) %>%
+    dplyr::select(geog_name, geog_id, year, naicstitle, emp) %>%
+    dplyr::group_by(geog_name, geog_id, year) %>%
     dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
     dplyr::mutate(var = "commercial_jobs") %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ----- get forecast of single and multifamily units from 'Emissions' ----
@@ -161,51 +161,51 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
           (var == "SFD_Units") ~ "single_family_units"
         )
     ) %>%
-    dplyr::group_by(ctu_name, year)
+    dplyr::group_by(geog_name, geog_id, year)
 
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-
     tb$ztrax_sqft_summary_ctu %>%
-    dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
+    dplyr::select(geog_name, geog_id, property_land_use, designation, mean_sqft) %>%
     unique() %>%
     dplyr::filter(designation == "SFD") %>% # single family
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%
     dplyr::mutate(
       var = "single_family_average_floor_area_sqft_ctu",
       year = 2018
     ) %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ---- get average multifamily floor area from ZTRAX ----
   ctu_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_ctu %>%
-    dplyr::select(ctu_name, property_land_use, designation, mean_sqft) %>%
+    dplyr::select(geog_name, geog_id, property_land_use, designation, mean_sqft) %>%
     dplyr::filter(designation %in% c(
       "MF5", # apartments
       "DTQ", # duplex/triplex
       "TH" # townhouse
     )) %>%
-    dplyr::group_by(ctu_name) %>%
+    dplyr::group_by(geog_name, geog_id) %>%
     dplyr::summarise(value = median(mean_sqft, na.rm = T)) %>%
     dplyr::mutate(
       var = "multifamily_average_floor_area_sqft_ctu",
       year = 2018
     ) %>%
     # dplyr::rename(value = mean_sqft) %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
 
   ## ---- get county multifamily floor area for when ctu equivalent is missing ----
   # should probably indicate is weighted
   ctu_county <- demographic_characteristics$county %>%
     dplyr::left_join(tb$ctu_county, by = "co_name", relationship = "many-to-many") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(ctu_name)) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
+    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(geog_name)) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
     dplyr::mutate(value = value * pct_population) %>%
-    dplyr::select(ctu_name, year, var, value) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
+    dplyr::select(geog_name, geog_id, year, var, value) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
     dplyr::summarise(value = sum(value), .groups = "keep")
   # uses weighted average based on population
 

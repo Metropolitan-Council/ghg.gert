@@ -14,7 +14,7 @@
 #'      The fraction of additional commercial buildings that will be electrified.
 #'      Default is `0.0`.
 #' @return [tibble::tibble()]
-#'     A table with columns `year`, `ctu_name`, `population`,
+#'     A table with columns `year`, `geog_name`, `population`,
 #'    `residential_mwh`,
 #'    `residential_electricity_emissions_kg_co`,
 #'    `residential_therms`, and
@@ -89,7 +89,7 @@ calc_electrify_commercial_heating <- function(non_res_tb,
     tidyr::pivot_longer(
       names_to = "var",
       values_to = "value",
-      cols = -c(ctu_name)
+      cols = -c(geog_name, geog_id)
     ) %>%
     tidyr::separate(
       col = var,

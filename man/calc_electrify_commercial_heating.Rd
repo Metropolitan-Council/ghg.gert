@@ -13,7 +13,7 @@ calc_electrify_commercial_heating(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -26,7 +26,7 @@ Default value is \code{0.6}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
-A table with columns \code{year}, \code{ctu_name}, \code{population},
+A table with columns \code{year}, \code{geog_name}, \code{population},
 \code{residential_mwh},
 \code{residential_electricity_emissions_kg_co},
 \code{residential_therms}, and

@@ -32,14 +32,15 @@ mode_air_water_multi(
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .fuel_economy = fuel_economy
 )
 }
 \arguments{
-\item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -105,6 +106,8 @@ Default value is \code{0.6}.}
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 }
 \description{
 Calculate scenario for freight multi-modal, air, and water transportation

@@ -31,15 +31,16 @@ mode_walk_bike(
   .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .elast = elast,
+  .fuel_economy = fuel_economy,
   .factor_values = factor_values,
   .elast_5d = elast_5d
 )
 }
 \arguments{
-\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -102,6 +103,8 @@ Default value is \code{0.6}.}
 
 \item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
 
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+
 \item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
@@ -131,7 +134,7 @@ Other transportation:
 \code{\link{mode_school_bus}()},
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
-\code{\link{run_scenario_transportation}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{passenger}
