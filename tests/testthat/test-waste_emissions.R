@@ -1,5 +1,5 @@
 testthat::test_that("2020 emissions match ghg.cprg results",{
-  # ccap_emissions <- run_scenario_waste() %>%
+  # ccap_emissions <- run_module_waste() %>%
   #   dplyr::filter(inventory_year == 2020) %>%
   #   dplyr::select(-ctu_name) %>%
   #   dplyr::arrange(ctu_id)
