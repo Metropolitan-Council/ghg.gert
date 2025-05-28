@@ -203,6 +203,34 @@
 "geog_index"
 
 
+#' @title Land cover type by county and year (2001 to 20221)
+#'
+#' @format Single dataframe
+#' \describe{
+#'   \item{county_id}{County GEOID (5-digit)}
+#'   \item{county_name}{County name}
+#'   \item{state_name}{State name}
+#'   \item{inventory_year}{Year}
+#'   \item{land_cover_main}{Land cover type (Built-Up includes Urban_Tree,
+#'   Urban_Grassland, and the remaining Built-Up)}
+#'   \item{area}{Land cover area in square kilometers}
+#'   \item{total_area}{Total area by county}
+#'   \item{tcc_available}{Tree canopy data available for current year}
+#'   \item{source}{Indicates whether data come directly from NLCD or are
+#'   extrapolated values}
+
+#' }
+#'
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' unique(lc_county$land_cover_type)
+#' unique(lc_county$county_name)
+# lc_county -----
+"lc_county"
+
+
+
 #' @title Future city and county demographic information from UrbanSim
 #' @format tibble
 #' - **inventory_year** year
@@ -218,3 +246,4 @@
 #' demographic_data
 # demographic_data -----
 "demographic_data"
+
