@@ -12,7 +12,7 @@ calc_residential_renewable_ng(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.renewable_ng_res}{logical, documentation needed}
 }
@@ -29,17 +29,16 @@ library(ghg.ccap)
 
 calc_residential_renewable_ng(
   res_tb = calc_ghg_residential(
-   res_tb = building_data$residential,
-   res_tb_bau = building_data$residential,
-   .selected_ctu = "all",
-   .grid_decarbonization_pct = 1,
-   .enviro_factors = enviro_factors
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .selected_ctu = "all",
+    .grid_decarbonization_pct = 1,
+    .enviro_factors = enviro_factors
   ),
-.  selected_ctu = "all",
- .enviro_factors = enviro_factors
- )
+  .selected_ctu = "all",
+  .enviro_factors = enviro_factors
+)
 }
-
 
 }
 \seealso{

@@ -17,10 +17,12 @@ calc_fuel_cost_mile <- function(tb,
                                 .aeo_scenario = "REF",
                                 .miles_per_gallon,
                                 .fuel_cost_gallon,
+                                .fuel_economy = ghg.ccap::fuel_economy,
                                 .enviro_factors = ghg.ccap::enviro_factors,
                                 .factor_values = ghg.ccap::factor_values) {
   # cli::cli_progress_message("*** calculating fuel cost per mile \n")
-  tb_l <- tb %>%
+
+  tb_l <- .fuel_economy %>%
     dplyr::filter(
       mode == .mode,
       var == .miles_per_gallon

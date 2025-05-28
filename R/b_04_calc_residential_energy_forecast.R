@@ -42,7 +42,7 @@ calc_residential_energy_forecast <-
         year = 2040
       ) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         residential_kwh_per_floor_area,
         total_residential_kwh_forecast
@@ -64,7 +64,7 @@ calc_residential_energy_forecast <-
       dplyr::select(-c(year)) %>%
       dplyr::bind_rows(., ctu_characteristics_forecast %>%
         dplyr::select(-c(year))) %>%
-      dplyr::group_by(ctu_name, var) %>%
+      dplyr::group_by(geog_name, geog_id, var) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value") %>%
       # assumption that natural gas per floor area stays static
@@ -80,7 +80,7 @@ calc_residential_energy_forecast <-
       ) %>%
       dplyr::mutate(year = 2040) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         residential_therms_per_floor_area,
         total_residential_therms_forecast

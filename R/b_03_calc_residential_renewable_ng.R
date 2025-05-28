@@ -19,23 +19,21 @@
 #'
 #' calc_residential_renewable_ng(
 #'   res_tb = calc_ghg_residential(
-#'    res_tb = building_data$residential,
-#'    res_tb_bau = building_data$residential,
-#'    .selected_ctu = "all",
-#'    .grid_decarbonization_pct = 1,
-#'    .enviro_factors = enviro_factors
+#'     res_tb = building_data$residential,
+#'     res_tb_bau = building_data$residential,
+#'     .selected_ctu = "all",
+#'     .grid_decarbonization_pct = 1,
+#'     .enviro_factors = enviro_factors
 #'   ),
-#'.  selected_ctu = "all",
-#'  .enviro_factors = enviro_factors
-#'  )
+#'   .selected_ctu = "all",
+#'   .enviro_factors = enviro_factors
+#' )
 #' }
-#'
 #'
 calc_residential_renewable_ng <- function(res_tb,
                                           .selected_ctu,
                                           .renewable_ng_res,
                                           .enviro_factors = enviro_factors) {
-
   # cli::cli_progress_message("*** calculating residential renewable natural gas strategy \n")
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -43,9 +41,11 @@ calc_residential_renewable_ng <- function(res_tb,
   if (.renewable_ng_res == TRUE) {
     new_res_tb <-
       res_tb %>%
-      tidyr::pivot_wider(., names_from = c(var, scen, year),
-                         names_sep = ".",
-                         values_from = value) %>%
+      tidyr::pivot_wider(.,
+        names_from = c(var, scen, year),
+        names_sep = ".",
+        values_from = value
+      ) %>%
       dplyr::mutate(
         reduced_therms.scen.2040 =
           (residential_therms.bau.2040 - residential_therms.scen.2040),
@@ -59,7 +59,7 @@ calc_residential_renewable_ng <- function(res_tb,
       tidyr::pivot_longer(
         names_to = "var",
         values_to = "value",
-        cols = -c(ctu_name)
+        cols = -c(geog_name, geog_id)
       ) %>%
       tidyr::separate(
         col = var,
@@ -72,5 +72,4 @@ calc_residential_renewable_ng <- function(res_tb,
   }
 
   return(new_res_tb)
-
 }

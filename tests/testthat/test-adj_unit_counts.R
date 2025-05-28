@@ -24,9 +24,9 @@ test_that("Lake Elmo unit counts", {
 
 
   expected_25_res_tb <- tibble::tribble(
-    ~ctu_name, ~year, ~var, ~value,
-    "Lake Elmo", 2040, "single_family_units", 3865,
-    "Lake Elmo", 2040, "multifamily_units", 4040
+    ~geog_name, ~geog_id, ~year, ~var, ~value,
+    "Lake Elmo", "02395589", 2040, "single_family_units", 3865,
+    "Lake Elmo", "02395589", 2040, "multifamily_units", 4040
   )
 
   testthat::expect_equal(expected_25_res_tb, new_25)
@@ -55,7 +55,7 @@ test_that("Lake Elmo unit counts", {
 
 test_that("Minneapolis unit counts", {
   mpls_50 <- adj_unit_counts(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_to_multifamily_pct = 0.50
   ) %>%
@@ -70,14 +70,14 @@ test_that("Minneapolis unit counts", {
     ungroup()
 
   expected_mpls_res_tb <- tibble::tribble(
-    ~ctu_name, ~year, ~var, ~value,
-    "Minneapolis", 2040, "multifamily_units", 145873.5,
-    "Minneapolis", 2040, "single_family_units", 76273.5
+    ~geog_name, ~geog_id, ~year, ~var, ~value,
+    "Minneapolis", "02395345", 2040, "multifamily_units", 145873.5,
+    "Minneapolis", "02395345", 2040, "single_family_units", 76273.5
   )
 
   testthat::expect_warning(
     adj_unit_counts(
-      res_tb = building_energy_bau_data$residential,
+      res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
       .new_homes_to_multifamily_pct = 0.0
     ) %>%
@@ -92,7 +92,7 @@ test_that("Minneapolis unit counts", {
 
 
   mpls_0 <- adj_unit_counts(
-    res_tb = building_energy_bau_data$residential,
+    res_tb = building_data$residential,
     .selected_ctu = "Minneapolis",
     .new_homes_to_multifamily_pct = 0.0
   ) %>%
@@ -106,9 +106,9 @@ test_that("Minneapolis unit counts", {
     ungroup()
 
 
-  bau_forecast <- building_energy_bau_data$residential %>%
+  bau_forecast <- building_data$residential %>%
     filter(
-      ctu_name == "Minneapolis",
+      geog_name == "Minneapolis",
       var %in% c(
         "single_family_units",
         "multifamily_units"

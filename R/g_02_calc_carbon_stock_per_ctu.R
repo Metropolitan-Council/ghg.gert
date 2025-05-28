@@ -92,7 +92,7 @@ calc_carbon_stock_per_ctu <- function(tb,
     parking_lot_land_cover %>%
     dplyr::left_join(.,
       tb$ctu_county,
-      by = "ctu_name",
+      by = c("geog_name", "geog_id"),
       multiple = "all",
       relationship = "many-to-many"
     ) %>%
@@ -152,7 +152,7 @@ calc_carbon_stock_per_ctu <- function(tb,
       .this_enviro_factors = .enviro_factors
     )) %>%
     dplyr::select(
-      ctu_name,
+      geog_name, geog_id,
       year,
       agriculture,
       barren,
@@ -172,7 +172,7 @@ calc_carbon_stock_per_ctu <- function(tb,
   # -------------------------------------------------------------------------
   carbon_stock_per_ctu <-
     carbon_stock_per_ctu %>%
-    dplyr::group_by(ctu_name, year) %>%
+    dplyr::group_by(geog_name, geog_id, year) %>%
     tidyr::pivot_wider(
       values_from = c(
         grass,

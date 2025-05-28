@@ -13,12 +13,12 @@
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams scen_building_residential
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
-#'    `ctu_name`,
+#'    `geog_name`,
 #'    `year`,
 #'    `population`,
 #'    `residential_mwh`,
@@ -66,7 +66,7 @@ calc_ghg_residential <- function(res_tb,
           "multifamily_average_floor_area_sqft_county"
         )
       ) %>%
-      dplyr::group_by(ctu_name, year, var) %>%
+      dplyr::group_by(geog_name, geog_id, year, var) %>%
       tidyr::pivot_wider(names_from = "var", values_from = value, values_fn = sum) %>%
       dplyr::mutate(
         kg_per_mwh = dplyr::case_when(
@@ -110,7 +110,7 @@ calc_ghg_residential <- function(res_tb,
       )) %>%
       unique() %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         population,
         residential_mwh,
@@ -141,13 +141,13 @@ calc_ghg_residential <- function(res_tb,
     dplyr::right_join(
       emis_bau,
       emis_strategy,
-      by = c("ctu_name", "year"),
+      by = c("geog_name", "geog_id", "year"),
       suffix = c(".bau", ".scen")
     ) %>%
     tidyr::pivot_longer(
       names_to = "var",
       values_to = "value",
-      cols = -c(ctu_name, year)
+      cols = -c(geog_name, geog_id, year)
     ) %>%
     tidyr::separate(
       col = var,

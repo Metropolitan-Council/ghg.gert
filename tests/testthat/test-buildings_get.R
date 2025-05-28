@@ -128,7 +128,7 @@ testthat::test_that("Minneapolis baseline buildings data returned is correct", {
   testthat::expect_equal(nrow(mpls_non_res_xcel), 2)
 
 
-  # test for county and ctu  ------
+  # test for county and geog_name  ------
   # expected counties
   purrr::map(
     list(
@@ -149,7 +149,7 @@ testthat::test_that("Minneapolis baseline buildings data returned is correct", {
   )
 
 
-  # expected ctu
+  # expected geog_name
   purrr::map(
     list(
       mpls_demo_baseline[[2]],
@@ -158,7 +158,7 @@ testthat::test_that("Minneapolis baseline buildings data returned is correct", {
       mpls_non_res_xcel
     ),
     function(x) {
-      testthat::expect_equal(unique(x$ctu_name), "Minneapolis")
+      testthat::expect_equal(unique(x$geog_name), "Minneapolis")
     }
   )
 
@@ -304,7 +304,7 @@ testthat::test_that("Woodbury baseline buildings data returned is correct", {
   testthat::expect_equal(nrow(wdbry_non_res_xcel), 0)
 
 
-  # test for county and ctu  ------
+  # test for county and geog_name  ------
   # expected counties
   purrr::map(
     list(
@@ -325,7 +325,7 @@ testthat::test_that("Woodbury baseline buildings data returned is correct", {
   )
 
 
-  # expected ctu
+  # expected geog_name
   purrr::map(
     list(
       wdbry_demo_baseline[[2]],
@@ -334,7 +334,7 @@ testthat::test_that("Woodbury baseline buildings data returned is correct", {
       # wdbry_non_res_xcel
     ),
     function(x) {
-      testthat::expect_equal(unique(x$ctu_name), "Woodbury")
+      testthat::expect_equal(unique(x$geog_name), "Woodbury")
     }
   )
 

@@ -44,12 +44,12 @@ get_residential_energy_baseline <-
         )
       ) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         residential_mwh,
         residential_elec_emis_t_co2e
       ) %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_longer(
         cols = c(
           "residential_mwh",
@@ -72,12 +72,12 @@ get_residential_energy_baseline <-
         )
       ) %>%
       dplyr::select(
-        ctu_name,
+        geog_name, geog_id,
         year,
         residential_ng_therms,
         residential_ng_emis_t_co2e
       ) %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_longer(
         cols = c("residential_ng_therms", "residential_ng_emis_t_co2e"),
         names_to = "var"
@@ -98,7 +98,7 @@ get_residential_energy_baseline <-
           )
       ) %>%
       unique() %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_wider(
         names_from = "var",
         values_from = "value",
@@ -110,8 +110,8 @@ get_residential_energy_baseline <-
           (multifamily_units * multifamily_average_floor_area_sqft_county)
         )) *
         1000) %>%
-      dplyr::select(ctu_name, year, residential_kwh_per_floor_area) %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::select(geog_name, geog_id, year, residential_kwh_per_floor_area) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_longer(
         cols = c("residential_kwh_per_floor_area"),
         names_to = "var"
@@ -133,8 +133,8 @@ get_residential_energy_baseline <-
           single_family_average_floor_area_sqft_ctu) +
           (multifamily_units * multifamily_average_floor_area_sqft_county)
         ))) %>%
-      dplyr::select(ctu_name, year, residential_therms_per_floor_area) %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::select(geog_name, geog_id, year, residential_therms_per_floor_area) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_longer(
         cols = c("residential_therms_per_floor_area"),
         names_to = "var"
@@ -152,8 +152,8 @@ get_residential_energy_baseline <-
         values_fn = mean
       ) %>%
       dplyr::mutate(residential_mwh_per_households = residential_mwh / households) %>%
-      dplyr::select(ctu_name, year, residential_mwh_per_households) %>%
-      dplyr::group_by(ctu_name, year) %>%
+      dplyr::select(geog_name, geog_id, year, residential_mwh_per_households) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
       tidyr::pivot_longer(
         cols = c("residential_mwh_per_households"),
         names_to = "var"
@@ -171,8 +171,8 @@ get_residential_energy_baseline <-
         values_fn = mean
       ) %>%
       dplyr::mutate(residential_therms_per_households = residential_ng_therms / households) %>%
-      dplyr::group_by(ctu_name, year) %>%
-      dplyr::select(ctu_name, year, residential_therms_per_households) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
+      dplyr::select(geog_name, geog_id, year, residential_therms_per_households) %>%
       tidyr::pivot_longer(
         cols = c("residential_therms_per_households"),
         names_to = "var"

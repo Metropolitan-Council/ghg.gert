@@ -23,3 +23,9 @@ report/spreadsheet/
 buildings.xlsx
 
 Minneapolis.xlsx
+data-raw/meta/urbansim/datadictionary.xlsx
+data-raw/meta/urbansim/2050/results_metcouncil_run_212_inflationPostProcess_COCTU_2050.csv
+data-raw/meta/urbansim/2040/results_metcouncil_run_212_inflationPostProcess_COCTU_2040.csv
+data-raw/meta/urbansim/2030/results_metcouncil_run_212_inflationPostProcess_COCTU_2030.csv
+data-raw/meta/urbansim/2020/results_metcouncil_run_212_inflationPostProcess_COCTU_2020.csv
+data-raw/meta/urbansim/2010/results_metcouncil_run_212_inflationPostProcess_COCTU_2010.csv

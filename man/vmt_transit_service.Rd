@@ -13,7 +13,7 @@ vmt_transit_service(
 )
 }
 \arguments{
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -26,7 +26,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
-a table with columns \code{year}, \code{ctu}, and \code{transit_adj}.
+a table with columns \code{year}, \code{geog_name}, and \code{transit_adj}.
 }
 \description{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Transit service increase assumes that the base level of

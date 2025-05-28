@@ -10,7 +10,7 @@ filter_building_energy_data(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
 \description{
 Filter Building Energy Data

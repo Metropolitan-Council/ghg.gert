@@ -12,7 +12,7 @@ calc_existing_comm_building_efficiency(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
@@ -37,7 +37,7 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 library(ghg.ccap)
 
 calc_existing_comm_building_efficiency(
-  non_res_tb = building_energy_bau_data$non_residential,
+  non_res_tb = building_data$non_residential,
   .selected_ctu = "all",
   .existing_high_efficiency_buildings_pct = 0.80
 )
