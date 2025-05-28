@@ -76,7 +76,6 @@ testthat::test_that("Diesel direct emissions correct", {
 # battery electric -----
 
 testthat::test_that("Battery direct ghg", {
-
   ci_vmt_test <- tibble::tribble(
     ~type, ~stock, ~scenario, ~geog_name, ~year, ~mode, ~aeo_mode, ~vmt, ~class,
     "P", "CIStock", "BAU", "Saint Paul", "2015", "PLDV", "LDV", 0.319054791655997, "CI",

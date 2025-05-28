@@ -139,6 +139,7 @@ calc_land_by_development_type <- function(tb,
     )
 
   # -------------------------------------------------------------------------
+  # browser()
   scenario_mixed_use_mf_new <-
     dplyr::bind_rows(
       bau_total,
@@ -179,7 +180,16 @@ calc_land_by_development_type <- function(tb,
     group_by(geog_name, geog_id) %>%
     tidyr::pivot_longer(
       .,
-      cols = 3:14,
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
@@ -214,7 +224,16 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     tidyr::pivot_longer(
       .,
-      cols = 3:14,
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
