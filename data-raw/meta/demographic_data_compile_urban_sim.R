@@ -57,26 +57,28 @@ us_formatted <- lapply(us_list, us_format) %>%
   filter(status != "needs clarification") %>%
   # reduce to categories of interest
   mutate(sp_categories = case_when(
-    variable == "total_households" ~ "households",
+    variable == "total_households" ~ "total_households",
     variable == "total_pop" ~ "population",
     variable == "total_job_spaces" ~ "jobs",
-    variable %in% c(
-      "jobs_sectors_1",
-      "jobs_sectors_2",
-      "jobs_sectors_3"
-    ) ~ "industrial_jobs",
-    variable %in% c(
-      "jobs_sectors_4",
-      "jobs_sectors_5",
-      "jobs_sectors_6",
-      "jobs_sectors_7",
-      "jobs_sectors_8",
-      "jobs_sectors_9",
-      "jobs_sectors_10"
-    ) ~ "commercial_jobs",
-    variable == "max_detached" ~ "single_family_units",
-    variable == "max_multifam" ~ "multifamily_units"
-  )) %>%
+    variable %in% c("jobs_sector_1",
+                    "jobs_sector_2",
+                    "jobs_sector_3") ~ "industrial_jobs",
+    variable %in% c("jobs_sector_4",
+                    "jobs_sector_5",
+                    "jobs_sector_6",
+                    "jobs_sector_7",
+                    "jobs_sector_8",
+                    "jobs_sector_9",
+                    "jobs_sector_10") ~ "commercial_jobs",
+    variable %in% c("single_fam_det_sl_own",
+                    "single_fam_det_rent",
+                    "manufactured_homes") ~ "single_family_small_lot",
+    variable == "single_fam_det_ll_own" ~ "single_family_large_lot",
+    variable %in% c("single_fam_attached_own",
+                    "single_fam_attached_rent") ~ "single_family_attached",
+    variable %in% c("multi_fam_own",
+                    "multi_fam_rent") ~ "multifamily_units")
+  ) %>%
   filter(!is.na(sp_categories))
 
 
