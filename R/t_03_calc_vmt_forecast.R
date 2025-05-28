@@ -251,7 +251,8 @@ calc_vmt_forecast <- function(.scenario,
     "RI"
   )) {
     # transit bus and rail -----
-    # If it's a transit mode, then apply transit service and average vehicle occupancy factors (including cross elasticity from PLDV fees)
+    # If it's a transit mode, then apply transit service
+    # and average vehicle occupancy factors (including cross elasticity from PLDV fees)
 
 
 

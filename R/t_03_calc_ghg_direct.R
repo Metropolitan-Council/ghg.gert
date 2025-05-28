@@ -46,7 +46,7 @@ calc_ghg_direct <- function(tb_vmt,
                             .factor_values = ghg.ccap::factor_values) {
   check_inputs(name = "fuel_type", value = .fuel_type)
   # for given fuel type,
-  # find the number of metric tons (tonnes) CO2 per gallon of fuel
+  # find the number of metric tons CO2 per gallon of fuel/kilowatt hour
   ghg_factors_current <- .factor_values$ghg %>%
     dplyr::filter(source == .fuel_type) %>%
     dplyr::select(source, year,
