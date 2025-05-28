@@ -218,5 +218,3 @@
 #' demographic_data
 # demographic_data -----
 "demographic_data"
-
-

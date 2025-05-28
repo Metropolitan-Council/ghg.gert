@@ -76,7 +76,6 @@ testthat::test_that("Diesel direct emissions correct", {
 # battery electric -----
 
 testthat::test_that("Battery direct ghg", {
-
   bev_vmt_test <- tibble::tribble(
     ~type, ~stock, ~scenario, ~geog_name, ~year, ~mode, ~aeo_mode, ~vmt, ~class,
     "P", "BEVStock", "BAU", "Saint Paul", "2015", "PLDV", "LDV", 0.319054791655997, "BEV",
@@ -140,5 +139,4 @@ testthat::test_that("Battery direct ghg", {
   # when grid is fully decarbonized,
   # BEV emissions are 0
   testthat::expect_equal(bev_dir_ghg_decarb$dir_ghg %>% sum(na.rm = T), 0)
-
 })
