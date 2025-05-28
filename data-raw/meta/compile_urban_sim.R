@@ -45,7 +45,8 @@ us_format <- function(year_folder) {
 # Read and combine all files, assigning inventory year
 us_formatted <- lapply(us_list, us_format) %>%
   bind_rows() %>%
-  filter(!is.na(status)) %>%
+  filter(!is.na(status),
+         ctu_id_gnis != "00649741") %>%
   #only retain variables marked as ready for public display
   filter(status != "needs clarification") %>%
   # reduce to categories of interest
@@ -74,14 +75,8 @@ demographic_data_ctu <- us_formatted %>%
            # coctu_id,
            ctu_id_gnis,
            sp_categories) %>%
-  dplyr::summarize(value = sum(value)) %>%
-  left_join(ccap_ctu %>% sf::st_drop_geometry() %>%
-              dplyr::distinct(geog_name,ctu_class,ctu_id_gnis)) %>%
-  mutate(geog_name = dplyr::if_else(ctu_class == "TOWNSHIP",
-                            paste(geog_name, "Twp."),
-                            geog_name),
-         geog_id_type = "CTU GNIS",
-         geog_level = "ctu") %>%
+  dplyr::summarize(value = sum(value), .groups= "keep") %>%
+  left_join(geog_index, by = c("ctu_id_gnis" = "geog_id")) %>%
   ungroup() %>%
   select(inventory_year, geog_name, geog_id = ctu_id_gnis, geog_id_type, geog_level, sp_categories, value)
 
@@ -90,13 +85,14 @@ demographic_data_county <- us_formatted %>%
            # coctu_id,
            county_id_fips,
            sp_categories) %>%
-  dplyr::summarize(value = sum(value)) %>%
+  dplyr::summarize(value = sum(value), .groups = "keep") %>%
   left_join(ccap_county %>% sf::st_drop_geometry() %>%
               dplyr::distinct(geog_name,geog_level,county_id) %>%
               mutate(geog_name = paste(geog_name, "County"),
-                county_id_fips = substr(county_id, 3,5))
+                county_id_fips = substr(county_id, 3,5)),
+            by = join_by(county_id_fips)
             ) %>%
-  mutate(geog_id_type = "County FIPS") %>%
+  mutate(geog_id_type = "county_fips") %>%
   ungroup() %>%
   select(inventory_year, geog_name, geog_id = county_id_fips, geog_id_type, geog_level, sp_categories, value)
 
