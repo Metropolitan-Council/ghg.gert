@@ -68,6 +68,7 @@ Other datasets:
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{factor_values}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}
