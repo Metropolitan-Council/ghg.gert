@@ -2,9 +2,9 @@
 #'
 #' @param df_hist Input dataframe of inventory land cover area from 2001 to 2022
 #' @param df_null Input dataframe of land cover area estimates left unchanged from 2022 to 2050
-#' @param start_yr Numeric start year for land conversion (2025 to 2045)
-#' @param comp_time Numeric time to complete land conversion (5 to 30 years)
-#' @param area_pct Available area for land conversion (0 to 100)
+#' @param .urban_tree_start Numeric start year for land conversion (2025 to 2045)
+#' @param .urban_tree_time Numeric time to complete land conversion (5 to 30 years)
+#' @param .urban_tree_area_perc Available area for land conversion (0 to 100)
 #'
 #'
 #' @return [tibble::tibble()].
@@ -12,21 +12,21 @@
 #'      after applying module 2, urban tree planting
 #' @export
 # Module 2: Urban Tree Planting -------------------------------------------
-mod2_urbanTreePlanting <- function(df_hist,
+urban_tree_planting <- function(df_hist,
                                    df_null,
-                                   start_yr,
-                                   comp_time,
-                                   area_pct
+                                   .urban_tree_start,
+                                   .urban_tree_time,
+                                   .urban_tree_area_perc
 ) {
   # Input checks
-  if (!is.numeric(area_pct) || area_pct < 0 || area_pct > 100) {
-    stop("area_pct must be a number between 0 and 100.")
+  if (!is.numeric(.urban_tree_area_perc) || .urban_tree_area_perc < 0 || .urban_tree_area_perc > 100) {
+    stop(".urban_tree_area_perc must be a number between 0 and 100.")
   }
-  if (!is.numeric(start_yr) || start_yr < 2025 || start_yr > 2045) {
-    stop("start_yr must be between 2025 and 2045.")
+  if (!is.numeric(.urban_tree_start) || .urban_tree_start < 2025 || .urban_tree_start > 2045) {
+    stop(".urban_tree_start must be between 2025 and 2045.")
   }
-  if (!is.numeric(comp_time) || comp_time < 5 || comp_time > 30) {
-    stop("comp_time must be between 5 and 30 years.")
+  if (!is.numeric(.urban_tree_time) || .urban_tree_time < 5 || .urban_tree_time > 30) {
+    stop(".urban_tree_time must be between 5 and 30 years.")
   }
 
   # Total Developed area in 2022
@@ -52,7 +52,7 @@ mod2_urbanTreePlanting <- function(df_hist,
   )
   total_plantable <- sum(developed_vals)
 
-  area_to_convert <- (area_pct / 100) * total_plantable
+  area_to_convert <- (.urban_tree_area_perc / 100) * total_plantable
 
   proportions <- developed_vals / total_plantable
 
@@ -74,16 +74,16 @@ mod2_urbanTreePlanting <- function(df_hist,
   # Logistic deltas for each developed class
   deltas <- lapply(names(proportions), function(class_name) {
     sapply(future_years, function(year) {
-      if (year < start_yr) {
+      if (year < .urban_tree_start) {
         0
       } else {
         reduction <- logisticGrowth(
           t = year,
           K = area_to_convert * proportions[[class_name]],
-          r = 4 / comp_time,
-          t0 = start_yr + comp_time / 2,
-          start_year = start_yr,
-          end_year = start_yr + comp_time
+          r = 4 / .urban_tree_time,
+          t0 = .urban_tree_start + .urban_tree_time / 2,
+          start_year = .urban_tree_start,
+          end_year = .urban_tree_start + .urban_tree_time
         )
         -reduction
       }
@@ -110,10 +110,35 @@ mod2_urbanTreePlanting <- function(df_hist,
     result[[name]] <- deltas[[name]]
   }
 
-  # Add total delta (should be zero-sum overall)
-  result <- result %>%
-    mutate(delta_total = delta_Urban_Tree + delta_Developed_Low + delta_Developed_Med + delta_Developed_High)
+  # create mergeable data frame with df_null for new output
+  result_out <- result %>%
+    pivot_longer(
+    cols = starts_with("delta_"),
+    names_to = "land_cover",
+    values_to = "delta"
+  ) %>%
+  mutate(
+    land_cover = sub("delta_", "", land_cover)  # Remove "delta_" prefix
+  ) %>%
+    right_join(df_null %>%
+                 pivot_longer(
+                   cols = Bare:TOTAL,  # Assuming these are all land cover columns
+                   names_to = "land_cover",
+                   values_to = "value"
+                 ),
+               by = c("inventory_year", "land_cover")
+               )  %>%
+    mutate(
+      new_value = if_else(!is.na(delta), value + delta, value)
+    ) %>%
+    select(-value, -delta) %>%
+    rename(value = new_value) %>%
+    # turn back to wide form
+    pivot_wider(
+      names_from = land_cover,
+      values_from = value
+    )
 
 
-  return(result)
+  return(result_out)
 }
