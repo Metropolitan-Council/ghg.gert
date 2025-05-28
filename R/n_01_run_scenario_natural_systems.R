@@ -1,10 +1,9 @@
-#' @title Run land use scenario
-#' @family land use
+#' @title Run natural systems scenario
+#' @family natural systems
 #'
 #' @description This function simulates the impact of various land use scenarios on carbon
-#'    sequestration and carbon stock in cities or townships. It considers factors such as
-#'    urban form, conservation tillage intervention, tree planting intervention, tree planting
-#'    per capita, tree planting per hectare, and parking lot reduction percentage.
+#'    sequestration and carbon stock in cities or townships. It considers urban tree planting and
+#'    restoration of abandoned agriculture.
 #'
 #' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
@@ -19,22 +18,7 @@
 #'
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' run_scenario_land_use(
-#'   tb = land_use_data,
-#'   .selected_ctu = all,
-#'   .conservation_tillage_intervention = "current_conservation_tillage",
-#'   .tree_planting_intervention = "tree_planting_on_all_pervious",
-#'   .tree_planting_per_capita = 0.26,
-#'   .tree_planting_per_hectare = 247,
-#'   .parking_lot_reduction_percentage = 0.8,
-#'   detail = FALSE
-#' )
-#' }
-run_scenario_land_use <- function(tb_inv = natural_systems_data$ctu_lc_inventory,
+run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_inventory,
                                   tb_future = natural_systems_data$ctu_lc_null,
                                   tb_seq = natural_systems_data$land_cover_carbon,
                                   .selected_ctu = "all",
@@ -75,79 +59,28 @@ run_scenario_land_use <- function(tb_inv = natural_systems_data$ctu_lc_inventory
     .restoration_time = .restoration_time,
     .restoration_area_perc = .restoration_area_perc
   )
+  }
 
   # -------------------------------------------------------------------------
   # store carbon sequestration function output into variable
-  carbon_sequestration_per_ctu <-
-    calc_carbon_sequestration_per_ctu(
-      tb = tb,
-      .selected_ctu = .selected_ctu,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      detail = detail
-    )
-
-  # -------------------------------------------------------------------------
-  # store carbon stock function output into variable
-  carbon_stock_per_ctu <-
-    calc_carbon_stock_per_ctu(
-      tb = tb,
-      .selected_ctu = .selected_ctu,
-      .conservation_tillage_intervention = .conservation_tillage_intervention,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      detail = detail,
-      .enviro_factors = .enviro_factors
-    )
-
-  # -------------------------------------------------------------------------
-  check_inputs(
-    "parking_lot_reduction_percentage",
-    .parking_lot_reduction_percentage
-  )
-
-  # -------------------------------------------------------------------------
-
-  land_cover_results <- dplyr::bind_rows(
-    carbon_sequestration_per_ctu %>%
-      dplyr::mutate(
-        var = "sequestration_tonnes_co2e_per_year",
-        year = as.numeric(year)
-      ),
-    carbon_stock_per_ctu %>%
-      dplyr::mutate(
-        var = "stock_tonnes_co2e_per_year (land conversion emissions)",
-        year = as.numeric(year)
-      )
-  ) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
-    tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(ctu_name, year, var)) %>%
-    dplyr::mutate(
-      urban_form_scenario = .enviro_factors$URBAN_FORM_SCENARIO,
-      tree_planting_intervention = .tree_planting_intervention,
-      parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      conservation_tillage_intervention = .conservation_tillage_intervention
-    )
-
-  # -------------------------------------------------------------------------
-  land_use_module_output <-
-    land_cover_results %>%
-    dplyr::group_by(
-      ctu_name,
-      year,
-      var,
-      urban_form_scenario,
-      tree_planting_intervention,
-      conservation_tillage_intervention,
-      parking_lot_reduction_percentage,
+  carbon_sequestration_out <- tb02 %>%
+    pivot_longer(
+      cols = natural_systems_data$land_cover_carbon$land_cover_type,
+      names_to = "land_cover_type",
+      values_to = "area"
     ) %>%
-    dplyr::summarise(value = sum(value), .groups = "drop")
+    left_join(
+      natural_systems_data$land_cover_carbon
+    ) %>%
+    mutate(value_emissions = area * seq_mtco2e_sqkm,
+           value_stock_potential = area * stock_mtco2e_sqkm)
 
+
+  # # -------------------------------------------------------------------------
+  # check_inputs(
+  #   "parking_lot_reduction_percentage",
+  #   .parking_lot_re
 
   # -------------------------------------------------------------------------
-  return(land_use_module_output)
+  return(carbon_sequestration_out)
 }
