@@ -76,17 +76,18 @@ testthat::test_that("Diesel direct emissions correct", {
 # battery electric -----
 
 testthat::test_that("Battery direct ghg", {
-  ci_vmt_test <- tibble::tribble(
+
+  bev_vmt_test <- tibble::tribble(
     ~type, ~stock, ~scenario, ~geog_name, ~year, ~mode, ~aeo_mode, ~vmt, ~class,
-    "P", "CIStock", "BAU", "Saint Paul", "2015", "PLDV", "LDV", 0.319054791655997, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2018", "PLDV", "LDV", 0.321548660412793, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2020", "PLDV", "LDV", 0.323142027478914, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2025", "PLDV", "LDV", 0.327578572046905, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2030", "PLDV", "LDV", 0.324350232511664, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2035", "PLDV", "LDV", 0.319227114245039, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2040", "PLDV", "LDV", 0.315217992720498, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2045", "PLDV", "LDV", 0.314529126022104, "CI",
-    "P", "CIStock", "BAU", "Saint Paul", "2050", "PLDV", "LDV", 0.313899242344753, "CI"
+    "P", "BEVStock", "BAU", "Saint Paul", "2015", "PLDV", "LDV", 0.319054791655997, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2018", "PLDV", "LDV", 0.321548660412793, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2020", "PLDV", "LDV", 0.323142027478914, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2025", "PLDV", "LDV", 0.327578572046905, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2030", "PLDV", "LDV", 0.324350232511664, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2035", "PLDV", "LDV", 0.319227114245039, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2040", "PLDV", "LDV", 0.315217992720498, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2045", "PLDV", "LDV", 0.314529126022104, "BEV",
+    "P", "BEVStock", "BAU", "Saint Paul", "2050", "PLDV", "LDV", 0.313899242344753, "BEV"
   ) %>%
     left_join(geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
@@ -104,7 +105,7 @@ testthat::test_that("Battery direct ghg", {
 
   testthat::expect_warning(
     calc_ghg_direct(
-      tb_vmt = ci_vmt_test,
+      tb_vmt = bev_vmt_test,
       tb = st_paul_passenger,
       .mode = "PLDV",
       .fuel_type = "ER",
@@ -115,7 +116,7 @@ testthat::test_that("Battery direct ghg", {
   )
 
   bev_dir_ghg <- calc_ghg_direct(
-    tb_vmt = bev_vmt,
+    tb_vmt = bev_vmt_test,
     tb = st_paul_passenger,
     .mode = "PLDV",
     .fuel_type = "ER",
@@ -126,14 +127,15 @@ testthat::test_that("Battery direct ghg", {
 
 
   bev_dir_ghg_decarb <- calc_ghg_direct(
-    tb_vmt = bev_vmt,
+    tb_vmt = bev_vmt_test,
     tb = st_paul_passenger,
     .mode = "PLDV",
-    .fuel_type = "BEV",
+    .fuel_type = "ER",
     .aeo_scenario = "REF",
     .miles_per_gallon = "BEVElec",
     .grid_decarbonization_pct = 1
-  )
+  ) %>%
+    filter(year == "2050")
 
   # when grid is fully decarbonized,
   # BEV emissions are 0
