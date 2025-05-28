@@ -323,7 +323,7 @@ calc_floor_area_retrofit <- function(res_tb,
       ) %>%
       dplyr::select(geog_name, geog_id, var, prop_of_all_existing) %>%
       dplyr::ungroup() %>%
-      pivot_wider(
+      tidyr::pivot_wider(
         names_from = var,
         values_from = prop_of_all_existing,
         names_glue = "proportion_existing_{var}"

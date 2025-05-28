@@ -29,6 +29,7 @@ db_table_names$metro_demos
 }
 \seealso{
 Other datasets: 
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
