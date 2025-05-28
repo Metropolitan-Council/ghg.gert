@@ -56,7 +56,7 @@ compile_bau_building_energy <-
         residential_energy_baseline,
         residential_energy_forecast
       ) %>%
-        dplyr::filter(ctu_name == .selected_ctu) %>%
+        dplyr::filter(geog_name == .selected_ctu) %>%
         dplyr::ungroup()
 
       building_data$non_residential <- dplyr::bind_rows(
@@ -65,7 +65,7 @@ compile_bau_building_energy <-
         non_residential_energy_baseline,
         non_residential_energy_forecast
       ) %>%
-        dplyr::filter(ctu_name == .selected_ctu) %>%
+        dplyr::filter(geog_name == .selected_ctu) %>%
         dplyr::ungroup()
     }
 

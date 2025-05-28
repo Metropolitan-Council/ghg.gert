@@ -1,6 +1,6 @@
 testthat::test_that("bus mpg correct", {
   testthat::expect_equal(
-    st_paul_passenger %>%
+    fuel_economy %>%
       filter(
         mode == "BU",
         var == "BCIMPG"
@@ -21,14 +21,38 @@ testthat::test_that("bus mpg correct", {
   )
 })
 
+testthat::test_that("no abbreviated Saint names", {
+  testthat::expect_equal(
+    transportation_data$passenger %>%
+      select(geog_name) %>%
+      unique() %>%
+      filter(stringr::str_detect(geog_name, "Saint")) %>%
+      nrow(),
+    13
+  )
+})
+
+
+testthat::test_that("no unorg. suffix", {
+  testthat::expect_equal(
+    transportation_data$passenger %>%
+      select(geog_name) %>%
+      unique() %>%
+      filter(stringr::str_detect(geog_name, "unorg")) %>%
+      nrow(),
+    0
+  )
+})
+
+
 testthat::test_that("bus AVO correct", {
   testthat::expect_equal(
     transportation_data$passenger %>%
       filter(mode == "BU", var == "AVO") %>%
-      select(ctu, value) %>%
+      select(geog_name, value) %>%
       unique(),
     tibble::tribble(
-      ~ctu, ~value,
+      ~geog_name, ~value,
       "Afton", 25.64,
       "Andover", 9.1,
       "Anoka", 9.1,
@@ -63,7 +87,7 @@ testthat::test_that("bus AVO correct", {
       "Coon Rapids", 9.1,
       "Corcoran", 15.38,
       "Cottage Grove", 15.38,
-      "Credit River Twp.", 9.1,
+      "Credit River", 9.1,
       "Crystal", 8.09,
       "Dahlgren Twp.", 15.38,
       "Dayton", 9.1,
@@ -76,13 +100,13 @@ testthat::test_that("bus AVO correct", {
       "Eden Prairie", 9.1,
       "Edina", 8.09,
       "Elko New Market", 25.64,
-      "Empire Twp.", 9.1,
+      "Empire", 9.1,
       "Eureka Twp.", 15.38,
       "Excelsior", 15.38,
       "Falcon Heights", 8.09,
       "Farmington", 9.1,
       "Forest Lake", 15.38,
-      "Fort Snelling (unorg.)", 8.09,
+      "Fort Snelling", 8.09,
       "Fridley", 8.09,
       "Gem Lake", 9.1,
       "Golden Valley", 8.09,
@@ -108,7 +132,7 @@ testthat::test_that("bus AVO correct", {
       "Jackson Twp.", 9.1,
       "Jordan", 25.64,
       "Lake Elmo", 9.1,
-      "Lake St. Croix Beach", 25.64,
+      "Lake Saint Croix Beach", 25.64,
       "Lakeland", 25.64,
       "Lakeland Shores", 25.64,
       "Laketown Twp.", 15.38,
@@ -127,7 +151,7 @@ testthat::test_that("bus AVO correct", {
       "Maple Grove", 9.1,
       "Maple Plain", 25.64,
       "Maplewood", 9.44,
-      "Marine on St. Croix", 25.64,
+      "Marine on Saint Croix", 25.64,
       "Marshan Twp.", 25.64,
       "May Twp.", 25.64,
       "Mayer", 25.64,
@@ -151,7 +175,7 @@ testthat::test_that("bus AVO correct", {
       "Newport", 9.1,
       "Nininger Twp.", 8.09,
       "North Oaks", 9.1,
-      "North St. Paul", 9.1,
+      "North Saint Paul", 9.1,
       "Northfield", 25.64,
       "Norwood Young America", 25.64,
       "Nowthen", 25.64,
@@ -181,18 +205,18 @@ testthat::test_that("bus AVO correct", {
       "Shakopee", 9.1,
       "Shoreview", 9.1,
       "Shorewood", 9.1,
-      "South St. Paul", 8.09,
+      "South Saint Paul", 8.09,
       "Spring Lake Park", 9.1,
       "Spring Lake Twp.", 15.38,
       "Spring Park", 15.38,
-      "St. Anthony", 8.09,
-      "St. Bonifacius", 25.64,
-      "St. Francis", 25.64,
-      "St. Lawrence Twp.", 25.64,
-      "St. Louis Park", 9.44,
-      "St. Marys Point", 25.64,
-      "St. Paul", 9.44,
-      "St. Paul Park", 9.1,
+      "Saint Anthony", 8.09,
+      "Saint Bonifacius", 25.64,
+      "Saint Francis", 25.64,
+      "Saint Lawrence Twp.", 25.64,
+      "Saint Louis Park", 9.44,
+      "Saint Marys Point", 25.64,
+      "Saint Paul", 9.44,
+      "Saint Paul Park", 9.1,
       "Stillwater", 8.09,
       "Stillwater Twp.", 9.1,
       "Sunfish Lake", 9.1,
@@ -208,7 +232,7 @@ testthat::test_that("bus AVO correct", {
       "Watertown Twp.", 15.38,
       "Wayzata", 9.1,
       "West Lakeland Twp.", 15.38,
-      "West St. Paul", 8.09,
+      "West Saint Paul", 8.09,
       "White Bear Lake", 9.1,
       "White Bear Twp.", 9.1,
       "Willernie", 9.1,
@@ -226,7 +250,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
       mode == "AT",
       var == "PMT"
     ) %>%
-    group_by(ctu, year) %>%
+    group_by(geog_name, year) %>%
     summarise(value = sum(value))
 
   transit_total <- transportation_data$passenger %>%
@@ -239,7 +263,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
       ),
       var == "PMT"
     ) %>%
-    group_by(ctu, year) %>%
+    group_by(geog_name, year) %>%
     summarise(value = sum(value))
 
 

@@ -4,7 +4,7 @@
 #'
 #' @description Calculates annual energy outlook (AEO)
 #' multipliers for each forecast year.
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @return a table with columns `aeo_scen`, `metric`, `mode`, `year`, and `aeo_adj`.
 #' @export
@@ -19,7 +19,7 @@ vmt_annual_energy_outlook <- function(tb,
     value = .aeo_scenario
   )
 
-  # browser()
+
   tb_fin <- tb %>%
     dplyr::filter(mode == .mode) %>%
     unique() %>%
@@ -45,7 +45,7 @@ vmt_annual_energy_outlook <- function(tb,
 
 #' Calculate combined 5D land use change impact
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -97,7 +97,7 @@ vmt_land_use_change <- function(.type,
   if (!.type %in% c("WALK", "DRIVE", "TRANSIT")) {
     cli::cli_abort(".type must be one of 'WALK', 'DRIVE', or 'TRANSIT'. ")
   }
-  # browser()
+
   max_value <- if (.type == "DRIVE") {
     1 + .enviro_factors$MAX_5D_DR
   } else if (.type == "TRANSIT") {
@@ -151,7 +151,7 @@ vmt_land_use_change <- function(.type,
 #'
 #' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
 #' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -223,7 +223,7 @@ vmt_parking_policy <- function(tb,
           1 + (.parking_price / PARK) * park_elast
         # park_price_adj = ifelse(is.na(park_price_adj), 1, park_price_adj)
       ) %>%
-      dplyr::select(year, ctu, park_price_adj) %>%
+      dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
       # if adjustment is less than 0, adjust to 0.45
       dplyr::mutate(park_price_adj = dplyr::case_when(
         park_price_adj < 0.45 ~ 0.45,
@@ -247,15 +247,13 @@ vmt_parking_policy <- function(tb,
         park_price_adj =
           1 + (.parking_price / PARK) * park_transit
       ) %>%
-      dplyr::select(year, ctu, park_price_adj)
+      dplyr::select(year, geog_name, geog_id, park_price_adj)
   } else if (.mode == "SUT") {
-    # browser()
-
     park_return <- park_price_current %>%
       dplyr::left_join(.elast %>%
         dplyr::select(year, park_elast), by = "year") %>%
       dplyr::mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
-      dplyr::select(year, ctu, park_price_adj) %>%
+      dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
       dplyr::mutate(park_price_adj = dplyr::case_when(
         park_price_adj < 0.45 ~ 0.45,
         TRUE ~ park_price_adj
@@ -277,7 +275,7 @@ vmt_parking_policy <- function(tb,
 #'     is paid to an insurance provider in place of a flat insurance rate. The main difference is
 #'     whether the driver would prefer to pay the cost to a government agency or insurance provider.
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -289,7 +287,7 @@ vmt_parking_policy <- function(tb,
 #'     congested miles in MSP). Default is `0`
 #' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
 #'
-#' @return a table with columns   `year`, `ctu`, `fuel_time_cost_mile`, `payd_ins_adj`,
+#' @return a table with columns   `year`, `geog_name`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adj`, `cong_adjust`, `cross_vmt`, `gas_adj`
 #'
 #' @export
@@ -312,7 +310,6 @@ vmt_road_policy <- function(.pass_tb,
   }
 
   if (.mode == "PLDV") {
-    # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
         "SIStock",
@@ -337,7 +334,7 @@ vmt_road_policy <- function(.pass_tb,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
       dplyr::select(
-        year, ctu, fuel_time_cost_mile, payd_ins_adj,
+        year, geog_name, geog_id, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_adj, cong_adjust, cross_vmt, gas_adj
       ) %>%
       unique()
@@ -349,7 +346,6 @@ vmt_road_policy <- function(.pass_tb,
     "RU",
     "RI"
   )) {
-    # browser()
     pldv_stocks <- .pass_tb %>%
       filter(
         mode == "PLDV",
@@ -372,9 +368,9 @@ vmt_road_policy <- function(.pass_tb,
       dplyr::select(year, vmt_elas = vmt_cross)
 
     fc_return <- .tb_fuel_cost_mile %>%
-      # dplyr::select(-ctu, -var) %>%
+      # dplyr::select(-geog_name, -var) %>%
       dplyr::left_join(pldv_stocks, by = c("year")) %>%
-      dplyr::left_join(.tb_vmt, by = c("year", "ctu", "type")) %>%
+      dplyr::left_join(.tb_vmt, by = c("year", "geog_name", "geog_id", "type")) %>%
       dplyr::left_join(elast_vmt, by = "year") %>%
       dplyr::mutate(
         fuel_time_cost_mile = fuel_cost_mile + .enviro_factors$TIME_COST_MI,
@@ -386,7 +382,7 @@ vmt_road_policy <- function(.pass_tb,
         gas_adj = 1 + ((.gas_tax / fuel_cost_mile) * stock_proportion * cross_vmt)
       ) %>%
       dplyr::select(
-        year, ctu, fuel_time_cost_mile, payd_ins_adj,
+        year, geog_name, geog_id, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_adj, cong_adjust,
         cross_vmt, gas_adj
       ) %>%
@@ -405,7 +401,7 @@ vmt_road_policy <- function(.pass_tb,
 
 
     fc_return <- .tb_fuel_cost_mile %>%
-      # dplyr::select(-ctu) %>%
+      # dplyr::select(-geog_name) %>%
       dplyr::left_join(.elast, by = "year") %>%
       dplyr::left_join(.tb_vmt, by = c("year", "mode")) %>%
       dplyr::mutate(
@@ -417,7 +413,7 @@ vmt_road_policy <- function(.pass_tb,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
       dplyr::select(
-        year, ctu, fuel_time_cost_mile, payd_ins_adj,
+        year, geog_name, geog_id, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_adj, cong_adjust, cross_vmt, gas_adj
       )
   } else if (.mode == "SUT") {
@@ -436,7 +432,6 @@ vmt_road_policy <- function(.pass_tb,
 
     return(fc_return)
   } else if (.mode == "CUT") {
-    # browser()
     fc_return <- .tb_fuel_cost_mile %>%
       dplyr::left_join(
         .elast %>%
@@ -451,7 +446,6 @@ vmt_road_policy <- function(.pass_tb,
 
     return(fc_return)
   } else if (.mode == "DRS") {
-    # browser()
     ev_multiplier <- ifelse(
       (.stock %in% c(
         "SIStock",
@@ -461,7 +455,7 @@ vmt_road_policy <- function(.pass_tb,
       ), 1, 0
     )
 
-    # browser()
+
 
     pldv_stocks <- .pass_tb %>%
       filter(
@@ -502,7 +496,7 @@ vmt_road_policy <- function(.pass_tb,
           vmt_cross * ev_multiplier
       ) %>%
       dplyr::select(
-        year, ctu, fuel_time_cost_mile, payd_ins_adj,
+        year, geog_name, fuel_time_cost_mile, payd_ins_adj,
         vmt_fee_cross_adj, vmt_fee_elas_adj, cong_adjust,
         stock_proportion,
         cross_vmt = vmt_cross, gas_adj
@@ -517,7 +511,7 @@ vmt_road_policy <- function(.pass_tb,
 #' Calculate telework multiplier
 #' @param .telework_pct additional percent of people teleworking in the final forecast year.
 #'     Numeric between 0 and 1. Default is `0`
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -539,7 +533,6 @@ vmt_telework <- function(.pass_tb,
                          .mode,
                          .telework_pct = 0,
                          .enviro_factors = ghg.ccap::enviro_factors) {
-  # browser()
   if (.mode == "PLDV") {
     telework_elast <- tibble(
       year = unique(.pass_tb$year),
@@ -577,11 +570,11 @@ vmt_telework <- function(.pass_tb,
 
 #' Calculate stock adjustment
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
-#' @return table with columns `ctu`, `year`, `mode`, and `mode_stock_adj`
+#' @return table with columns `geog_name`, `geog_id`, `year`, `mode`, and `mode_stock_adj`
 #' @export
 #' @family VMT effects
 #'
@@ -595,7 +588,7 @@ vmt_stock_proportion <- function(.tb,
     tb_stock_proportion <- .tb %>%
       filter(mode == .mode) %>%
       dplyr::mutate(mode_stock_adj = 1) %>%
-      dplyr::select(year, ctu, mode, mode_stock_adj) %>%
+      dplyr::select(year, geog_name, mode, mode_stock_adj) %>%
       unique()
   } else if (.mode == "DRS") {
     tb_stock_proportion <- .tb %>%
@@ -616,7 +609,7 @@ vmt_stock_proportion <- function(.tb,
         mode_stock_adj = (SIStock + CIStock + HEVStock) / TotStock,
         mode = .mode
       ) %>%
-      dplyr::select(ctu, year, mode, mode_stock_adj) %>%
+      dplyr::select(geog_name, geog_id, year, mode, mode_stock_adj) %>%
       unique()
   } else {
     tb_stock_proportion <- .tb %>%
@@ -632,7 +625,7 @@ vmt_stock_proportion <- function(.tb,
         values_from = value
       ) %>%
       dplyr::mutate(mode_stock_adj = !!as.name(.stock) / TotStock) %>%
-      dplyr::select(ctu, year, mode, mode_stock_adj) %>%
+      dplyr::select(geog_name, geog_id, year, mode, mode_stock_adj) %>%
       unique()
   }
 
@@ -662,11 +655,11 @@ vmt_stock_proportion <- function(.tb,
 #'    - If `.mode` is `"BS"`, `"BU"`, `"BRT"`, `"RU"`, or `"RI"`, value returned
 #'        is the proportion of increase in transit VMT (i.e., 1.2).
 #'
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
-#' @return a table with columns `year`, `ctu`, and `transit_adj`.
+#' @return a table with columns `year`, `geog_name`, and `transit_adj`.
 #' @export
 #' @family VMT effects
 vmt_transit_service <- function(tb,
@@ -690,7 +683,7 @@ vmt_transit_service <- function(tb,
 
   additional_transit <- tb %>%
     filter(mode == "AT", var == "PMT") %>%
-    dplyr::select(ctu, year, all_transit = value) %>%
+    dplyr::select(geog_name, geog_id, year, all_transit = value) %>%
     dplyr::left_join(transit_service_elast, by = c("year")) %>%
     dplyr::mutate(all_transit_plus = all_transit * elast_new)
 
@@ -699,14 +692,13 @@ vmt_transit_service <- function(tb,
     "PLDV",
     "AV"
   )) {
-    # browser()
     tb %>%
-      dplyr::select(year, ctu) %>%
+      dplyr::select(year, geog_name, geog_id) %>%
       unique() %>%
-      dplyr::left_join(additional_transit, by = c("year", "ctu")) %>%
+      dplyr::left_join(additional_transit, by = c("year", "geog_name", "geog_id")) %>%
       dplyr::mutate(transit_adj = (all_transit_plus * .enviro_factors$TRANSIT_SERVICE_ELAST)) %>%
       # dplyr::mutate(transit_adj = (all_transit_plus)) %>%
-      dplyr::select(year, ctu, transit_adj) %>%
+      dplyr::select(year, geog_name, geog_id, transit_adj) %>%
       unique() %>%
       return()
   } else if (.mode %in% c(
@@ -716,11 +708,11 @@ vmt_transit_service <- function(tb,
     "RI"
   )) {
     tb %>%
-      dplyr::select(year, ctu) %>%
+      dplyr::select(year, geog_name, geog_id) %>%
       unique() %>%
       dplyr::left_join(transit_service_elast, by = c("year")) %>%
       dplyr::mutate(transit_adj = 1 + elast_new) %>%
-      dplyr::select(year, ctu, transit_adj) %>%
+      dplyr::select(year, geog_name, geog_id, transit_adj) %>%
       unique() %>%
       return()
   }
@@ -730,11 +722,11 @@ vmt_transit_service <- function(tb,
 #'
 #' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
-#' @return table with columns `ctu`, `year`, `occupancy_adj`
+#' @return table with columns `geog_name`, `geog_id`, `year`, `occupancy_adj`
 #' @export
 #'
 #'
@@ -776,9 +768,6 @@ vmt_vehicle_occupancy <- function(tb,
                                   .transit_avo_pct = 0,
                                   .pldv_avo_pct = 0,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
-  # browser()
-
-
   # some modes apply the same AVO to all CTUs
   if (.mode %in% c("PLDV", "AV")) {
     pldv_occupancy <- tb %>%
@@ -786,7 +775,7 @@ vmt_vehicle_occupancy <- function(tb,
         mode == .mode,
         var == "AVO"
       ) %>%
-      dplyr::select(year, ctu,
+      dplyr::select(year, geog_name, geog_id,
         occupancy_adj = value
       ) %>%
       unique()
@@ -853,19 +842,19 @@ vmt_vehicle_occupancy <- function(tb,
       dplyr::select(
         mode,
         year,
-        ctu,
+        geog_name, geog_id,
         aeo_mode,
         type,
         mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%
-      dplyr::left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
+      dplyr::left_join(.tb_vmt, by = c("year", "geog_name", "geog_id", "mode", "aeo_mode", "type")) %>%
       dplyr::rowwise() %>%
       dplyr::left_join(transit_avo_pct_elast, by = c("year")) %>%
       # new occupancy is the current occupancy x (1 + change in occupancy)
       dplyr::mutate(occupancy_adj = mode_avo * (1 + avo_elast)) %>%
-      dplyr::select(ctu, year, occupancy_adj) %>%
+      dplyr::select(geog_name, geog_id, year, occupancy_adj) %>%
       unique()
 
     return(occ_return)
@@ -898,16 +887,19 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       dplyr::select(mode,
         year,
-        ctu,
+        geog_name, geog_id,
         aeo_mode,
         type,
         mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%
-      dplyr::left_join(.tb_vmt, by = c("year", "ctu", "mode", "aeo_mode", "type")) %>%
+      dplyr::left_join(.tb_vmt, by = c(
+        "year", "geog_name", "geog_id",
+        "mode", "aeo_mode", "type"
+      )) %>%
       dplyr::mutate(occupancy_adj = mode_avo) %>%
-      dplyr::select(ctu, year, occupancy_adj) %>%
+      dplyr::select(geog_name, geog_id, year, occupancy_adj) %>%
       unique()
 
     return(occ_return)

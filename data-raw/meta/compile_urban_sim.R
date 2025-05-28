@@ -1,5 +1,5 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
-
+# TODO fix city naming
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 ccap_county <- readRDS(file.path(here::here(), "data-raw/meta/ccap_county.RDS"))
 
@@ -17,14 +17,14 @@ us_list <- list.files(us_path)[1:5]
 
 # function to read and process files
 us_format <- function(year_folder) {
-  file_full_path <- file.path(us_path, year_folder)  # Construct folder path
-  files_in_folder <- list.files(file_full_path, full.names = TRUE)  # List files in folder
+  file_full_path <- file.path(us_path, year_folder) # Construct folder path
+  files_in_folder <- list.files(file_full_path, full.names = TRUE) # List files in folder
 
   # Read all files in the folder and bind them
   urbansim_data <- read.csv(files_in_folder) %>%
     filter(!is.na(coctu_id)) %>%
     pivot_longer(
-      cols = 2:112,  # Adjust column selection as needed
+      cols = 2:112, # Adjust column selection as needed
       names_to = "variable"
     ) %>%
     left_join(us_meta, by = "variable") %>%
@@ -39,11 +39,12 @@ us_format <- function(year_folder) {
         nchar(as.character(coctu_id)) - 8),
         width = 3, pad = "0", side = "left"),
       inventory_year = as.numeric(year_folder)
-      )
+    )
 }
 
 # Read and combine all files, assigning inventory year
-us_formatted <- lapply(us_list, us_format) %>% bind_rows()%>%
+us_formatted <- lapply(us_list, us_format) %>%
+  bind_rows() %>%
   filter(!is.na(status)) %>%
   #only retain variables marked as ready for public display
   filter(status != "needs clarification") %>%

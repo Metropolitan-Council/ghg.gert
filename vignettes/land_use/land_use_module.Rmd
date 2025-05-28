@@ -20,28 +20,28 @@ library(ghg.ccap)
 
 ```{r}
 calc_land_cover_percentages(tb = land_use_data) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ```{r}
 calc_land_by_development_type(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ```{r}
 calc_land_cover_by_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ```{r}
 calc_scen_land_use(
   tb = land_use_data,
   .urban_form_scenario = "bau"
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ## Additional Strategies
 
@@ -54,7 +54,7 @@ calc_tree_planting_land_cover(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ```{r}
 calc_parking_lot_land_cover(
@@ -66,7 +66,7 @@ calc_parking_lot_land_cover(
   .tree_planting_per_hectare = 247,
   detail = FALSE
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 
 ```{r}
@@ -80,7 +80,7 @@ calc_conservation_tillage(
   .parking_lot_reduction_percentage = 0.8,
   detail = FALSE
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 ```{r}
 ghg.ccap::run_scenario_land_use(
@@ -93,6 +93,6 @@ ghg.ccap::run_scenario_land_use(
   .parking_lot_reduction_percentage = 0.8,
   detail = FALSE
 ) %>%
-  dplyr::filter(ctu_name == "Lake Elmo")
+  dplyr::filter(geog_name == "Lake Elmo")
 ```
 

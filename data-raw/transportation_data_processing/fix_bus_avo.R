@@ -1,4 +1,5 @@
-# Replace bus average vehicle occupancy (AVO) with TMA specific values
+# Replace bus average vehicle occupancy (AVO) with
+# transit market area (TMA) specific values
 
 devtools::load_all()
 
@@ -9,7 +10,8 @@ load("data-raw/transportation_data_processing/ctu_tma/ctu_tma.rda")
 
 ctu_tma <- ctu_tma %>%
   mutate(CTU_NAME = case_when(
-    CTU_NAME == "Credit River" ~ "Credit River Twp.",
+    CTU_NAME == "Empire Twp." ~ "Empire",
+    # CTU_NAME == "Credit River" ~ "Credit River Twp.",
     # CTU_NAME == "Fort Snelling (unorg.)" ~ "Fort Snelling UT",
     TRUE ~ CTU_NAME
   ))

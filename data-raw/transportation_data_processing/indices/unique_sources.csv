@@ -75,7 +75,7 @@ BRT,BEVElec,NA,,,,
 BRT,AVO,NA,,,,
 RU,EVElec,Derived from National Transit Database,Derived from National Transit Database,,,National Transit Database
 RU,AVO,http://www.dot.state.mn.us/research/reports/2018/201835.pdf,"Khani, Alireza, Jason Cao, Benjamin Tomhave, Yufeng Zhang, John Hourdos, Peter Dirks, Jack Olsson, Tao Tao, and Xinyi Wu. �After Study of the Bus Rapid Transit �A Line� Impacts.� Government. Transitway Impacts Research Program. Center for Transportation Studies: University of Minnesota, December 2018. https://www.cts.umn.edu/research/project/after-study-of-the-bus-rapid-transit-a-line-impacts.",,,"Khani, Cao et. al., 2018"
-RI,AVO,"http://www.dot.state.mn.us/research/reports/2018/201835.pdf & Seattle study ""A core framework and scenario for deep GHG reductions at thecity scale"" by Michael Lazarusn, Chelsea Chandler, Peter Erickson","Khani, Alireza, Jason Cao, Benjamin Tomhave, Yufeng Zhang, John Hourdos, Peter Dirks, Jack Olsson, Tao Tao, and Xinyi Wu. �After Study of the Bus Rapid Transit �A Line� Impacts.� Government. Transitway Impacts Research Program. Center for Transportation Studies: University of Minnesota, December 2018. https://www.cts.umn.edu/research/project/after-study-of-the-bus-rapid-transit-a-line-impacts.","Lazarus, Michael, Chelsea Chandler, and Peter Erickson. �A Core Framework and Scenario for Deep GHG Reductions at the City Scale.� Energy Policy 57 (June 1, 2013): 563�74. https://doi.org/10.1016/j.enpol.2013.02.031.",,"Khani, Cao et. al., 2018"
+RI,AVO,"http://www.dot.state.mn.us/research/reports/2018/201835.pdf & Seattle study ""A core framework and scenario for deep GHG reductions at the city scale"" by Michael Lazarusn, Chelsea Chandler, Peter Erickson","Khani, Alireza, Jason Cao, Benjamin Tomhave, Yufeng Zhang, John Hourdos, Peter Dirks, Jack Olsson, Tao Tao, and Xinyi Wu. �After Study of the Bus Rapid Transit �A Line� Impacts.� Government. Transitway Impacts Research Program. Center for Transportation Studies: University of Minnesota, December 2018. https://www.cts.umn.edu/research/project/after-study-of-the-bus-rapid-transit-a-line-impacts.","Lazarus, Michael, Chelsea Chandler, and Peter Erickson. �A Core Framework and Scenario for Deep GHG Reductions at the City Scale.� Energy Policy 57 (June 1, 2013): 563�74. https://doi.org/10.1016/j.enpol.2013.02.031.",,"Khani, Cao et. al., 2018"
 RI,BCIMPG,Derived from National Transit Database,Derived from National Transit Database,,,National Transit Database
 RI,EVElec,Derived from National Transit Database,Derived from National Transit Database,,,National Transit Database
 BS,TotStock,"Stock change not measured, so just assume 100 to get the fraction by fuel type.","Stock change not measured, so just assume 100 to get the fraction by fuel type.",,,Not measured
@@ -91,3 +91,8 @@ DRS,SAVSales,NA,,,,
 DRS,VMT,NA,,,,
 DRS,DRSShare,NA,,,,
 AV,AVShare,NA,,,,
+FRAIL,CIMPG,"2015 value from https://nationalwaterwaysfoundation.org/file/31/final%20tti%20report%202001-2014%20approved.pdf, forecasted using AEO",,,,
+CUT,CIMPG,"2015 value from https://www.govinfo.gov/content/pkg/FR-2011-09-15/pdf/2011-20740.pdf, forecasted using AEO",,,,
+SUT,CIMPG,"2015 value from https://www.govinfo.gov/content/pkg/FR-2011-09-15/pdf/2011-20740.pdf, forecasted using AEO",,,,
+AIR,SIMPG,"2015 value from http://www.icas.org/ICAS_ARCHIVE/ICAS2008/PAPERS/546.PDF, forecasted using AEO",,,,
+FSHIP,CIMPG,"2015 value from http://nationalwaterwaysfoundation.org/documents/Final%20TTI%20Report%202001-2014%20Approved.pdf, forecasted using AEO",,,,

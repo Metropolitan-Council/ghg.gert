@@ -18,7 +18,7 @@ calc_ghg_embodied(
 )
 }
 \arguments{
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -73,14 +73,14 @@ Other transportation:
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{run_scenario_transportation}()},
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
-\code{\link{scen_walk_bike}()},
+\code{\link{mode_freight_rail}()},
+\code{\link{mode_freight_truck}()},
+\code{\link{mode_passenger_light_duty}()},
+\code{\link{mode_school_bus}()},
+\code{\link{mode_transit_bus}()},
+\code{\link{mode_transit_rail}()},
+\code{\link{mode_walk_bike}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{emissions}
