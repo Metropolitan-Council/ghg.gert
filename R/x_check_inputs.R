@@ -116,8 +116,8 @@ check_inputs <- function(name, value) {
       ))
     }
   } else if (name == "fuel_type") {
-    if (!value %in% unique(factor_values$ghg$source)) {
-      cli::cli_abort("Enter a valid fuel type: ", paste0(unique(factor_values$ghg$source), collapse = ", "))
+    if (!value %in% unique(ghg.ccap::factor_values$ghg$source)) {
+      cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.ccap::factor_values$ghg$source), collapse = ", "))
     }
   } else {
     return()
