@@ -34,12 +34,9 @@ Other datasets:
 \code{\link{elast}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
-<<<<<<< HEAD
-\code{\link{lc_county}},
-=======
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
->>>>>>> dev
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}
