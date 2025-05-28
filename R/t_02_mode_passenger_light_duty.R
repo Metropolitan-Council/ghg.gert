@@ -399,6 +399,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       "scenario",
       "mode",
       "geog_name",
+      "geog_id",
       "year",
       "aeo_mode"
     )
@@ -448,7 +449,7 @@ mode_passenger_light_duty <- function(.pass_tb,
     phev_ghg_gas,
     phev_ghg_electric,
     c(
-      "type", "scenario", "mode", "geog_name",
+      "type", "scenario", "mode", "geog_name", "geog_id",
       "year", "aeo_mode", "class"
     )
   ) %>%

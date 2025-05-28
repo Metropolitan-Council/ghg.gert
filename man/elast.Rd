@@ -32,6 +32,7 @@ elast
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},

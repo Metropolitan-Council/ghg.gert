@@ -198,9 +198,9 @@
 #' @family datasets
 #' @examples
 #' library(ghg.ccap)
+#' geog_index
 # geog_index -----
 "geog_index"
-
 
 
 #' @title Land cover type by county and year (2001 to 20221)
@@ -231,4 +231,19 @@
 
 
 
+#' @title Future city and county demographic information from UrbanSim
+#' @format tibble
+#' - **inventory_year** year
+#' - **geog_name** Geographic name
+#' - **geog_level** City, township, unorganized territory, county
+#' - **geog_id** ID value
+#' - **geog_id_type** ID value type
+#' - **sp_categories** alue category. One of "households", "jobs", "multifamily_units", "population", "single_family_units"
+#' - **value** value
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' demographic_data
+# demographic_data -----
+"demographic_data"
 
