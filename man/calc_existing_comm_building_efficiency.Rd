@@ -12,7 +12,7 @@ calc_existing_comm_building_efficiency(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.

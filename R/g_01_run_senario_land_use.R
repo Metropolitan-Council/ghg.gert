@@ -98,8 +98,8 @@ run_scenario_land_use <- function(tb = land_use_data,
         year = as.numeric(year)
       )
   ) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
-    tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(ctu_name, year, var)) %>%
+    dplyr::group_by(geog_name, geog_id, year, var) %>%
+    tidyr::pivot_longer(names_to = "land_cover_type", cols = -c(geog_name, geog_id, year, var)) %>%
     dplyr::mutate(
       urban_form_scenario = .enviro_factors$URBAN_FORM_SCENARIO,
       tree_planting_intervention = .tree_planting_intervention,
@@ -111,7 +111,7 @@ run_scenario_land_use <- function(tb = land_use_data,
   land_use_module_output <-
     land_cover_results %>%
     dplyr::group_by(
-      ctu_name,
+      geog_name,
       year,
       var,
       urban_form_scenario,

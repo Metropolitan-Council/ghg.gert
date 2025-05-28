@@ -33,7 +33,7 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
@@ -81,9 +81,9 @@ be electrified under the specified scenario.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
-\code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+\code{geog_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `ctu_name` character,  Name of the city/township.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `geog_name` character,  Name of the city/township.
  @field `year` numeric, Year.
  @field `var` character,. Can be `residential_mwh`, `residential_therms`,
       `residential_electricity_emissions_kg_co`,

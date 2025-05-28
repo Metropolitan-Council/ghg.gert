@@ -57,7 +57,7 @@ calc_existing_comm_building_efficiency <- function(non_res_tb,
       var = "commercial_jobs",
       year = 2040
     ) %>%
-    dplyr::select(ctu_name, year, var, value) %>%
+    dplyr::select(geog_name, geog_id, year, var, value) %>%
     dplyr::bind_rows(
       .,
       non_res_tb %>%

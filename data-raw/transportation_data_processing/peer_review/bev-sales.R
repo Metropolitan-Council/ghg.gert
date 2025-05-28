@@ -2,14 +2,14 @@ pkgload::load_all()
 library(tidyverse)
 
 # debug(adj_fleet_shares)
-bev95 <- run_scenario_transportation(
+bev95 <- run_module_transportation(
   .selected_ctu = "Afton",
   .calc_transp_ghg_embodied = TRUE,
   .bev_pct_sales = .90,
   .scenario = "bev95"
 )
 
-bev40 <- run_scenario_transportation(
+bev40 <- run_module_transportation(
   .selected_ctu = "Afton",
   .calc_transp_ghg_embodied = TRUE,
   .bev_pct_sales = .4,
@@ -17,7 +17,7 @@ bev40 <- run_scenario_transportation(
   .scenario = "bev40"
 )
 
-bev20 <- run_scenario_transportation(
+bev20 <- run_module_transportation(
   .selected_ctu = "Afton",
   .calc_transp_ghg_embodied = TRUE,
   .bev_pct_sales = .2,
@@ -25,7 +25,7 @@ bev20 <- run_scenario_transportation(
   .scenario = "bev20"
 )
 
-bev0 <- run_scenario_transportation(
+bev0 <- run_module_transportation(
   .selected_ctu = "Afton",
   .calc_transp_ghg_embodied = TRUE,
   .scenario = "bev0"

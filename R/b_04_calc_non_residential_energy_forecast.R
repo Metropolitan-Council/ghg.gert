@@ -33,7 +33,7 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data, .sel
     ) %>%
     tidyr::unite("var", c(sector, unit), remove = FALSE) %>%
     dplyr::filter(year %in% c(2040)) %>%
-    dplyr::select(ctu_name, year, var, value)
+    dplyr::select(geog_name, geog_id, year, var, value)
 
   # non residential forecast
   ## -------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ calc_non_residential_energy_forecast <- function(tb = building_energy_data, .sel
       year = 2040
     ) %>%
     dplyr::select(
-      ctu_name,
+      geog_name,
       year,
       commercial_mwh,
       commercial_therms,

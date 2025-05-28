@@ -18,8 +18,6 @@ calc_cost <- function(tb_vmt,
                       .price,
                       .enviro_factors = enviro_factors,
                       .factor_values = factor_values) {
-  # browser()
-
   tb_vmt <- filter_ctu(tb_vmt, .selected_ctu)
 
   tb_cost_current <- .factor_values$cost %>%
@@ -45,7 +43,7 @@ calc_cost <- function(tb_vmt,
       scenario,
       type,
       mode,
-      ctu,
+      geog_name,
       year,
       aeo_mode,
       class,

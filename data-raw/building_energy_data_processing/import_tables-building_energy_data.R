@@ -12,7 +12,7 @@ building_energy_data <- c()
 ##### SP 1.0 used data stored in SQL server.
 ##### SP 2.0 will incorporate data from other sources
 
-load('data/demographic_data.rda')
+load("data/demographic_data.rda")
 
 # demographic baseline
 ## -------------------------------------------------------------------------------------------

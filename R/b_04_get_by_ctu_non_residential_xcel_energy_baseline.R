@@ -31,7 +31,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
     ## ---- check if community is served by more than 90% Xcel Energy ----
     xcel_energy_percent <-
       tb$intersect_landuse_utility_service_area_ctu %>%
-      dplyr::group_by(ctu_name, utility_name) %>%
+      dplyr::group_by(geog_name, geog_id, utility_name) %>%
       dplyr::summarise(acres = sum(acres), .groups = "keep") %>%
       dplyr::mutate(percent = acres / acres) %>%
       dplyr::filter(utility_name == "Xcel Energy")
@@ -70,13 +70,13 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
           ),
         value = value * state_mwh_per_worker
       ) %>%
-      dplyr::group_by(ctu_name, year) %>%
-      dplyr::select(ctu_name, year, var, value) %>%
+      dplyr::group_by(geog_name, geog_id, year) %>%
+      dplyr::select(geog_name, geog_id, year, var, value) %>%
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::left_join(
         commercial_industrial_electricity_mwh_xcel %>%
-          dplyr::select(ctu_name, year, mwh_per_year),
-        by = c("ctu_name", "year")
+          dplyr::select(geog_name, geog_id, year, mwh_per_year),
+        by = c("geog_name", "geog_id", "year")
       ) %>%
       dplyr::mutate(
         commercial_mwh_xcel = mwh_per_year * (
@@ -86,7 +86,7 @@ get_by_ctu_non_residential_xcel_energy_baseline <-
           expected_industrial_mwh / (expected_commercial_mwh + expected_industrial_mwh)
         )
       ) %>%
-      dplyr::select(ctu_name, year, commercial_mwh_xcel, industrial_mwh_xcel) %>%
+      dplyr::select(geog_name, geog_id, year, commercial_mwh_xcel, industrial_mwh_xcel) %>%
       tidyr::pivot_longer(
         cols = c(commercial_mwh_xcel, industrial_mwh_xcel),
         names_to = "var"

@@ -24,7 +24,7 @@ testthat::test_that("Minneapolis population forecast matches January 2023 releas
       filter(
         year == 2040,
         var == "population",
-        ctu_name == "Minneapolis"
+        geog_name == "Minneapolis"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -41,7 +41,7 @@ testthat::test_that("Maple Plain population forecast matches January 2023 releas
       filter(
         year == 2040,
         var == "population",
-        ctu_name == "Maple Plain"
+        geog_name == "Maple Plain"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -55,7 +55,7 @@ testthat::test_that("Medina population forecast matches January 2023 released", 
       filter(
         year == 2040,
         var == "population",
-        ctu_name == "Medina"
+        geog_name == "Medina"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -69,7 +69,7 @@ testthat::test_that("Andover employment forecast matches January 2023 released",
       filter(
         year == 2040,
         var == "jobs",
-        ctu_name == "Andover"
+        geog_name == "Andover"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -77,13 +77,13 @@ testthat::test_that("Andover employment forecast matches January 2023 released",
   )
 })
 
-testthat::test_that("West St. Paul population forecast matches January 2023 released", {
+testthat::test_that("West Saint Paul population forecast matches January 2023 released", {
   testthat::expect_equal(
     building_data$residential %>%
       filter(
         year == 2040,
         var == "jobs",
-        ctu_name == "West St. Paul"
+        geog_name == "West Saint Paul"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -98,7 +98,7 @@ testthat::test_that("Rogers total number of jobs missing", {
       filter(
         year == 2040,
         var == "jobs",
-        ctu_name == "Rogers"
+        geog_name == "Rogers"
       ) %>%
       magrittr::extract2("value") %>%
       sum(),
@@ -113,7 +113,7 @@ testthat::test_that("Cities in the same county have same county avg multifamily 
     filter(
       var == "multifamily_average_floor_area_sqft_county",
       year == 2040,
-      ctu_name %in% c(
+      geog_name %in% c(
         "Minneapolis",
         "Eden Prairie",
         "Edina",
@@ -133,7 +133,7 @@ testthat::test_that("Cities in the same county have same county avg multifamily 
     filter(
       var == "multifamily_average_floor_area_sqft_county",
       year == 2040,
-      ctu_name %in% c(
+      geog_name %in% c(
         "Woodbury",
         "Lake Elmo",
         "Scandia",
@@ -150,8 +150,8 @@ testthat::test_that("Cities in the same county have same county avg multifamily 
     filter(
       var == "multifamily_average_floor_area_sqft_county",
       year == 2040,
-      ctu_name %in% c(
-        "St. Paul",
+      geog_name %in% c(
+        "Saint Paul",
         "North Oaks",
         "Arden Hills",
         "New Brighton",
@@ -166,7 +166,7 @@ testthat::test_that("Cities in the same county have same county avg multifamily 
 testthat::test_that("Lauderdale industrial employment baseline and forecast correct", {
   building_data$non_residential %>%
     dplyr::filter(
-      ctu_name == "Lauderdale",
+      geog_name == "Lauderdale",
       var == "industrial_jobs",
       year == 2018
     ) %>%
@@ -182,13 +182,13 @@ testthat::test_that("job counts are same in residential and non-residential data
         "industrial_jobs",
         "commercial_jobs"
       )) %>%
-      dplyr::arrange(ctu_name),
+      dplyr::arrange(geog_name),
     building_data$non_residential %>%
       filter(var %in% c(
         "jobs",
         "industrial_jobs",
         "commercial_jobs"
       )) %>%
-      dplyr::arrange(ctu_name)
+      dplyr::arrange(geog_name)
   )
 })

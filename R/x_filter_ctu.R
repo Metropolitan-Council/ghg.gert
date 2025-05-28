@@ -1,7 +1,7 @@
 #' @title Filter CTU
 #'
 #' @param df table
-#' @param .selected_ctu character, selected city. Default is `"all"`.
+#' @param .selected_ctu character, selected city or county. Default is `"all"`.
 #'
 #' @return tibble. Input df with only selected CTU
 #' @export
