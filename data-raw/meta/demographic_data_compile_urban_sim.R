@@ -17,14 +17,14 @@ us_list <- list.files(us_path)[1:5]
 
 # function to read and process files
 us_format <- function(year_folder) {
-  file_full_path <- file.path(us_path, year_folder) # Construct folder path
-  files_in_folder <- list.files(file_full_path, full.names = TRUE) # List files in folder
+  file_full_path <- file.path(us_path, year_folder)
+  files_in_folder <- list.files(file_full_path, full.names = TRUE)
 
-  # Read all files in the folder and bind them
+  # read all files in the folder and bind them
   urbansim_data <- read.csv(files_in_folder) %>%
     filter(!is.na(coctu_id)) %>%
     pivot_longer(
-      cols = 2:112, # Adjust column selection as needed
+      cols = 2:112,
       names_to = "variable"
     ) %>%
     left_join(us_meta, by = "variable") %>%
@@ -70,6 +70,10 @@ us_formatted <- lapply(us_list, us_format) %>%
                     "jobs_sector_8",
                     "jobs_sector_9",
                     "jobs_sector_10") ~ "commercial_jobs",
+    variable %in% c("js_type_12") ~ "industrial_job_space",
+    variable %in% c("js_type_1011",
+                    "js_type_13",
+                    "js_type_14") ~ "commercial_job_space",
     variable %in% c("single_fam_det_sl_own",
                     "single_fam_det_rent",
                     "manufactured_homes") ~ "single_family_small_lot",

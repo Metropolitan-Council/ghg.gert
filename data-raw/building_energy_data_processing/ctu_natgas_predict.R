@@ -1,5 +1,6 @@
-#### import random forest models from inventory repo to project mwh demand forward
+#### import random forest models from inventory repo to project mcf demand forward
 load('data/demographic_data.rda')
+
 # load in predictor data
 urbansim_res <- demographic_data %>%
   filter(sp_categories %in% c( "multifamily_units",
@@ -28,32 +29,32 @@ urbansim_busi <- demographic_data %>%
 ccap_ctu <- readr::read_rds("data-raw/meta/ccap_ctu.RDS")
 ccap_county <-readr::read_rds("data-raw/meta/ccap_county.RDS")
 
-coctu_res_mwh <- readr::read_rds(
-  "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_residential_mwh.rds")
+coctu_res_mcf <- readr::read_rds(
+  "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_residential_mcf.rds")
 
-coctu_busi_mwh <- readr::read_rds(
-  "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_business_mwh.rds")
+coctu_busi_mcf <- readr::read_rds(
+  "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_business_mcf.rds")
 
 ### residential predictions
 
-res_mwh <- bind_rows(
-  coctu_res_mwh %>%
+res_mcf <- bind_rows(
+  coctu_res_mcf %>%
     mutate(geog_id = substr(coctu_id_gnis, 4, 11)) %>%
     group_by(geog_id, ctu_name, ctu_class, inventory_year, data_source) %>%
-    summarize(mwh = sum(residential_mwh)) %>%
+    summarize(mcf = sum(residential_mcf)) %>%
     rename(geog_name = ctu_name,
            geog_level = ctu_class),
-  coctu_res_mwh %>%
+  coctu_res_mcf %>%
     mutate(geog_id = substr(coctu_id_gnis, 1, 3)) %>%
     group_by(geog_id, county_name, inventory_year, data_source) %>%
-    summarize(mwh = sum(residential_mwh)) %>%
+    summarize(mcf = sum(residential_mcf)) %>%
     rename(geog_name = county_name) %>%
     mutate(geog_level = "county")
 )
 
 ## electricity_res_coefficients
 
-electricity_res <- left_join(res_mwh,
+electricity_res <- left_join(res_mcf,
                              urbansim_res %>%
                                select(-geog_name),
                              by = c("geog_id", "geog_level", "inventory_year")
@@ -61,7 +62,7 @@ electricity_res <- left_join(res_mwh,
 
 
 unit_model_res <- lm(
-  mwh ~ multifamily_units +
+  mcf ~ multifamily_units +
     single_family_large_lot +
     single_family_small_lot +
     single_family_attached,
@@ -73,34 +74,34 @@ summary(unit_model_res)
 
 # extract coefficients
 res_unit_coefs <- data.frame(term = names(unit_model_res$coefficients),
-                         estimate = unit_model_res$coefficients) %>%
+                             estimate = unit_model_res$coefficients) %>%
   select(term, estimate) %>%
   filter(term != "(Intercept)")
 
 
 ### business predictions
 
-busi_mwh <- bind_rows(
-  coctu_busi_mwh %>%
+busi_mcf <- bind_rows(
+  coctu_busi_mcf %>%
     mutate(geog_id = substr(coctu_id_gnis, 4, 11)) %>%
     group_by(geog_id, ctu_name, ctu_class , inventory_year, data_source) %>%
-    summarize(mwh = sum(business_mwh)) %>%
+    summarize(mcf = sum(business_mcf)) %>%
     rename(geog_name = ctu_name,
            geog_level = ctu_class),
-  coctu_busi_mwh %>%
+  coctu_busi_mcf %>%
     mutate(geog_id = substr(coctu_id_gnis, 1, 3)) %>%
     group_by(geog_id, county_name, inventory_year, data_source) %>%
-    summarize(mwh = sum(business_mwh)) %>%
+    summarize(mcf = sum(business_mcf)) %>%
     rename(geog_name = county_name) %>%
     mutate(geog_level = "county")
 )
 
 ## electricity_res_coefficients
 
-electricity_busi <- left_join(busi_mwh,
-                             urbansim_busi %>%
-                               select(-geog_name),
-                             by = c("geog_id", "geog_level", "inventory_year")
+electricity_busi <- left_join(busi_mcf,
+                              urbansim_busi %>%
+                                select(-geog_name),
+                              by = c("geog_id", "geog_level", "inventory_year")
 )
 
 #performs better
@@ -112,7 +113,7 @@ electricity_busi_max_year <- electricity_busi %>%
 
 
 unit_model_busi <- lm(
-  mwh ~ commercial_jobs +
+  mcf ~ commercial_jobs +
     industrial_jobs,
   data = electricity_busi_max_year %>%
     filter(geog_level != "county")
@@ -122,12 +123,12 @@ summary(unit_model_busi)
 
 # extract coefficients
 busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),
-                             estimate = unit_model_busi$coefficients) %>%
+                              estimate = unit_model_busi$coefficients) %>%
   select(term, estimate) %>%
   filter(term != "(Intercept)")
 
-mwh_coefficients <- bind_rows(res_unit_coefs,
+mcf_coefficients <- bind_rows(res_unit_coefs,
                               busi_unit_coefs) %>%
-  rename(var = term, mwh_per_unit = estimate)
+  rename(var = term, mcf_per_unit = estimate)
 
-usethis::use_data(mwh_coefficients, overwrite = TRUE)
+usethis::use_data(mcf_coefficients, overwrite = TRUE)
