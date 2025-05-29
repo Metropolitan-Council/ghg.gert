@@ -1,8 +1,6 @@
 #### import random forest models from inventory repo to project mcf demand forward
 load('data/demographic_data.rda')
 
-ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
-
 # load in predictor data
 urbansim_res <- demographic_data %>%
   filter(sp_categories %in% c( "multifamily_units",
@@ -62,25 +60,66 @@ electricity_res <- left_join(res_mcf,
                              urbansim_res %>%
                                select(-geog_name),
                              by = c("geog_id", "geog_level", "inventory_year")
-)
+) %>%
+  left_join(ccap_ctu %>% st_drop_geometry() %>%
+              distinct(ctu_id_gnis, thrive_designation) %>%
+              rename(geog_id = ctu_id_gnis)) %>%
+  mutate(broad_designation = case_when(
+    grepl("Urban", thrive_designation) ~ "Urban",
+    grepl("Suburban", thrive_designation) ~ "Suburban",
+    TRUE ~ "Rural"
+  ))
 
+
+# unit_model_res_rural <- lm(
+#   mcf ~ multifamily_units +
+#     single_family_large_lot +
+#     single_family_small_lot +
+#     single_family_attached - 1,
+#   data = electricity_res %>%
+#     filter(geog_level != "county",
+#            broad_designation == "Rural")
+# )
+# summary(unit_model_res_rural)
+#
+# unit_model_res_urban <- lm(
+#   mcf ~ multifamily_units +
+#     single_family_large_lot +
+#     single_family_small_lot +
+#     single_family_attached,
+#   data = electricity_res %>%
+#     filter(geog_level != "county",
+#            broad_designation == "Urban")
+# )
+#
+# summary(unit_model_res_urban)
 
 unit_model_res <- lm(
   mcf ~ multifamily_units +
     single_family_large_lot +
     single_family_small_lot +
-    single_family_attached,
+    single_family_attached - 1,
   data = electricity_res %>%
     filter(geog_level != "county")
 )
 
 summary(unit_model_res)
 
+
+
+
+
 # extract coefficients
 res_unit_coefs <- data.frame(term = names(unit_model_res$coefficients),
                              estimate = unit_model_res$coefficients) %>%
   select(term, estimate) %>%
-  filter(term != "(Intercept)")
+  filter(term != "(Intercept)") %>%
+  mutate(eia_estimate = c(
+    10,
+    115,
+    90,
+    70
+  ))
 
 
 ### business predictions
@@ -117,9 +156,9 @@ electricity_busi_max_year <- electricity_busi %>%
 
 
 unit_model_busi <- lm(
-  mcf ~
+  mcf ~ commercial_jobs +
     industrial_jobs - 1,
-  data = electricity_busi_max_year %>%
+  data = electricity_busi %>%
     filter(geog_level != "county")
 )
 
@@ -138,10 +177,13 @@ summary(unit_model_busi_space)
 busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),
                               estimate = unit_model_busi$coefficients) %>%
   select(term, estimate) %>%
-  filter(term != "(Intercept)")
+  filter(term != "(Intercept)") %>%
+  mutate(eia_estimate = c(20, 250)) # rough estimates, look at later
+
+
 
 mcf_coefficients <- bind_rows(res_unit_coefs,
                               busi_unit_coefs) %>%
-  rename(var = term, mcf_per_unit = estimate)
+  rename(var = term, mcf_per_unit = estimate, mcf_per_unit_eia = eia_estimate)
 
 usethis::use_data(mcf_coefficients, overwrite = TRUE)
