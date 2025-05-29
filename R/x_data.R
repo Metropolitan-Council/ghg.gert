@@ -198,6 +198,7 @@
 #' @family datasets
 #' @examples
 #' library(ghg.ccap)
+#' geog_index
 # geog_index -----
 "geog_index"
 
@@ -218,3 +219,44 @@
 #' waste_data$characterization
 # waste_data -----
 "waste_data"
+
+
+#' @title Land cover type by county and year (2001 to 20221)
+#' 
+#' @format A single data frame with the following columns:
+#' - **county_id**: County GEOID (5-digit).
+#' - **county_name**: County name.
+#' - **state_name**: State name.
+#' - **inventory_year**: Year.
+#' - **land_cover_main**: Land cover type (Built-Up includes Urban_Tree, Urban_Grassland, and the remaining Built-Up).
+#' - **area**: Land cover area in square kilometers.
+#' - **total_area**: Total area by county.
+#' - **tcc_available**: Tree canopy data available for current year.
+#' - **source**: Indicates whether data come directly from NLCD or are extrapolated values.
+#'
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' unique(lc_county$land_cover_type)
+#' unique(lc_county$county_name)
+# lc_county -----
+"lc_county"
+
+
+
+#' @title Future city and county demographic information from UrbanSim
+#' @format tibble
+#' - **inventory_year** year
+#' - **geog_name** Geographic name
+#' - **geog_level** City, township, unorganized territory, county
+#' - **geog_id** ID value
+#' - **geog_id_type** ID value type
+#' - **sp_categories** alue category. One of "households", "jobs", "multifamily_units", "population", "single_family_units"
+#' - **value** value
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' demographic_data
+# demographic_data -----
+"demographic_data"
+
