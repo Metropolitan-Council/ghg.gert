@@ -1,6 +1,8 @@
 #### import random forest models from inventory repo to project mcf demand forward
 load('data/demographic_data.rda')
 
+ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
+
 # load in predictor data
 urbansim_res <- demographic_data %>%
   filter(sp_categories %in% c( "multifamily_units",
@@ -19,6 +21,8 @@ urbansim_res <- demographic_data %>%
 urbansim_busi <- demographic_data %>%
   filter(sp_categories %in% c("commercial_jobs",
                               "industrial_jobs",
+                              "commercial_job_space",
+                              "industrial_job_space",
                               "jobs")) %>%
   pivot_wider(
     id_cols = c(geog_name, geog_id,geog_level,  geog_id_type, inventory_year),
@@ -113,13 +117,22 @@ electricity_busi_max_year <- electricity_busi %>%
 
 
 unit_model_busi <- lm(
-  mcf ~ commercial_jobs +
-    industrial_jobs,
+  mcf ~
+    industrial_jobs - 1,
   data = electricity_busi_max_year %>%
     filter(geog_level != "county")
 )
 
 summary(unit_model_busi)
+
+unit_model_busi_space <- lm(
+  mcf ~ commercial_job_space +
+    industrial_job_space - 1,
+  data = electricity_busi_max_year %>%
+    filter(geog_level != "county")
+)
+
+summary(unit_model_busi_space)
 
 # extract coefficients
 busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),

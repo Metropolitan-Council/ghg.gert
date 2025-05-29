@@ -50,6 +50,16 @@ ccap_county <- tigris::counties(state = "MN") %>%
 
 # Cities ------
 
+source("data-raw/demographic/thrive_designation.R")
+thrive_des <- mutate(thrive,
+                     ctu_class = if_else(grepl("Twp.",ctu),
+                                         "TOWNSHIP",
+                                         "CITY"),
+                     geog_name = str_replace_all(ctu_name, " Township", ""),
+                     geog_name = str_replace_all(geog_name, "St\\.", "Saint") ) %>%
+  ungroup() %>%
+  distinct(geog_name, ctu_class, com_des)
+
 # fetch cities from MN Geospatial Commons
 ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dot/bdry_mn_city_township_unorg/gpkg_bdry_mn_city_township_unorg.zip") %>%
   filter(COUNTY_NAME %in% c(ccap_county$geog_name)) %>%
@@ -71,7 +81,15 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
     geometry = SHAPE
   ) %>%
   dplyr::arrange(geog_name) %>%
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  left_join(thrive_des,
+            by = c("geog_name","ctu_class")) %>%
+  mutate(thrive_designation = if_else(
+    is.na(com_des),
+    "Unorganized territory",
+    com_des
+  )) %>%
+  select(-com_des)
 
 
 
