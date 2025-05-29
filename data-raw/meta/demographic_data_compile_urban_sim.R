@@ -118,7 +118,12 @@ demographic_data_county <- us_formatted %>%
 demographic_data <- bind_rows(
   demographic_data_ctu,
   demographic_data_county
-)
+) %>%
+  group_by(geog_name, geog_id, geog_id_type, sp_categories, geog_level) %>%
+  tidyr::complete(inventory_year = tidyr::full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
+  dplyr::arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
+  mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
+  ungroup()
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
