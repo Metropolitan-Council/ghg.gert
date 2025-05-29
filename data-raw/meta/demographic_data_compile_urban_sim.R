@@ -129,6 +129,17 @@ demographic_data <- bind_rows(
   mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
   ungroup()
 
+# calculate urbansim deltas from base year to each other year
+demographic_data <- demographic_data %>%
+  left_join(
+    demographic_data %>%
+      dplyr::filter(inventory_year == 2021) %>%
+      dplyr::rename(base_value = value) %>%
+      select(-inventory_year)
+  ) %>%
+  mutate(value_change_from_base = value - base_value) %>%
+  select(-base_value)
+
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
 #   "inventory_year", class(urbansim$inventory_year), "Inventory year",
