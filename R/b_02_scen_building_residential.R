@@ -136,13 +136,12 @@ scen_building_residential <- function(res_tb = res_tb,
   # )
   #
   # # B.R (Electrify residential Buildings)
-  # tb07 <- calc_electrify_residential_heating(
-  #   res_tb = tb06,
-  #   .selected_ctu = .selected_ctu,
-  #   .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-  #   .grid_decarbonization_pct = .grid_decarbonization_pct,
-  #   .enviro_factors = .enviro_factors
-  # )
+  tb07 <- calc_electrify_residential_heating(
+    res_tb = tb04,
+    .selected_ctu = .selected_ctu,
+    .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
+    .enviro_factors = .enviro_factors
+  )
   #
   # # (Renewable Natural Gas)
   # tb08 <- calc_residential_renewable_ng(
@@ -152,6 +151,14 @@ scen_building_residential <- function(res_tb = res_tb,
   #   .enviro_factors = .enviro_factors
   # )
 
+
+  tb09 <- calc_mwh_residential(
+    res_tb = tb04,
+    res_tb_bau = res_tb_bau,
+    mwh_coefficients = mwh_coefficients,
+    .selected_ctu = .selected_ctu,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
   tb09 <- calc_mwh_residential(
     res_tb = tb04,

@@ -78,6 +78,10 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
                                   .existing_mf_retrofit_pct = 0.0,
+                                  .sf_heat_pump_pct = 0.0,
+                                  .mf_heat_pump_pct = 0.0,
+                                  .sf_elec_appliance_pct = 0.0,
+                                  .sf_elec_appliance_pct = 0.0,
                                   # electrification
                                   .additional_electrified_residential_buildings_pct = 0.0
                                   ){
