@@ -119,7 +119,12 @@ res_unit_coefs <- data.frame(term = names(unit_model_res$coefficients),
     115,
     90,
     70
-  ))
+  ),
+  # coefficient for heat pump, assuming heating accounts ~ 60-70% of nat gas use
+  # and some residual natural gas heating. 50% reduction until firmer numbers are available
+  heat_pump_estimate =
+    eia_estimate * 0.5
+    )
 
 
 ### business predictions
@@ -178,12 +183,18 @@ busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),
                               estimate = unit_model_busi$coefficients) %>%
   select(term, estimate) %>%
   filter(term != "(Intercept)") %>%
-  mutate(eia_estimate = c(20, 250)) # rough estimates, look at later
+  mutate(eia_estimate = c(20, 250),
+         ### do not use below value, industrial has many non-heating nat gas boilers
+         heat_pump_estimate =
+           eia_estimate * 0.5
+         ) # rough estimates, look at later
 
 
 
 mcf_coefficients <- bind_rows(res_unit_coefs,
                               busi_unit_coefs) %>%
-  rename(var = term, mcf_per_unit = estimate, mcf_per_unit_eia = eia_estimate)
+  rename(var = term, mcf_per_unit = estimate,
+         mcf_per_unit_eia = eia_estimate,
+         mcf_per_unit_heat_pump = heat_pump_estimate)
 
 usethis::use_data(mcf_coefficients, overwrite = TRUE)

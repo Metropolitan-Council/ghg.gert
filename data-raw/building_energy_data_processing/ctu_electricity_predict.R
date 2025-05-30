@@ -75,7 +75,21 @@ summary(unit_model_res)
 res_unit_coefs <- data.frame(term = names(unit_model_res$coefficients),
                          estimate = unit_model_res$coefficients) %>%
   select(term, estimate) %>%
-  filter(term != "(Intercept)")
+  filter(term != "(Intercept)") %>%
+  mutate(eia_estimate = c(
+    4,
+    12,
+    7.5,
+    5.75
+  ),
+  # heat pump additional electricity use estimates
+  heat_pump_estimate = c(
+    4 + 3,
+    12 + 6.5,
+    7.5 + 4.5,
+    5.75 + 3.75
+  )
+  )
 
 
 ### business predictions
@@ -124,10 +138,17 @@ summary(unit_model_busi)
 busi_unit_coefs <- data.frame(term = names(unit_model_busi$coefficients),
                              estimate = unit_model_busi$coefficients) %>%
   select(term, estimate) %>%
-  filter(term != "(Intercept)")
+  filter(term != "(Intercept)")  %>%
+  # no eia estimates for business yet, holding data
+  mutate(eia_estimate = estimate,
+  # heat pump additional electricity use estimates
+  heat_pump_estimate = estimate
+  )
 
 mwh_coefficients <- bind_rows(res_unit_coefs,
                               busi_unit_coefs) %>%
-  rename(var = term, mwh_per_unit = estimate)
+  rename(var = term, mwh_per_unit = estimate,
+         mwh_per_unit_eia = eia_estimate,
+         mwh_per_unit_heat_pump = heat_pump_estimate)
 
 usethis::use_data(mwh_coefficients, overwrite = TRUE)

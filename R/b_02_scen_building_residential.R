@@ -78,7 +78,8 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .existing_mf_retrofit_pct,
                                       .home_behavior_change_pct,
                                       .grid_decarbonization_pct,
-                                      .additional_electrified_residential_buildings_pct,
+                                      .sf_heat_pump_pct,
+                                      .mf_heat_pump_pct,
                                       .renewable_ng_res,
                                       .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("** compiling residential strategies \n")
@@ -136,12 +137,12 @@ scen_building_residential <- function(res_tb = res_tb,
   # )
   #
   # # B.R (Electrify residential Buildings)
-  tb07 <- calc_electrify_residential_heating(
-    res_tb = tb04,
-    .selected_ctu = .selected_ctu,
-    .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-    .enviro_factors = .enviro_factors
-  )
+  # tb07 <- calc_electrify_residential_heating(
+  #   res_tb = tb04,
+  #   .selected_ctu = .selected_ctu,
+  #   .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
+  #   .enviro_factors = .enviro_factors
+  # )
   #
   # # (Renewable Natural Gas)
   # tb08 <- calc_residential_renewable_ng(
@@ -160,7 +161,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .enviro_factors = ghg.ccap::enviro_factors
   )
 
-  tb09 <- calc_mwh_residential(
+  tb09 <- calc_mcf_residential(
     res_tb = tb04,
     res_tb_bau = res_tb_bau,
     mwh_coefficients = mwh_coefficients,
