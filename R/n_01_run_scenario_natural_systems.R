@@ -17,6 +17,8 @@
 #' @inheritParams filter_ctu
 #'
 #' @export
+#' @import dplyr
+#' @import tidyr
 #'
 run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_inventory,
                                   tb_future = natural_systems_data$ctu_lc_null,
@@ -63,16 +65,20 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
 
   # -------------------------------------------------------------------------
   # store carbon sequestration function output into variable
-  carbon_sequestration_out <- tb02 %>%
-    pivot_longer(
-      cols = natural_systems_data$land_cover_carbon$land_cover_type,
+  carbon_sequestration_out <- rbind(df_hist, tb02) %>%
+    dplyr::arrange(inventory_year) %>%
+    tidyr::pivot_longer(
+      # cols = natural_systems_data$land_cover_carbon$land_cover_type,
+      cols = c("Bare", "Cropland", "Developed_Low", "Developed_Med",
+               "Developed_High", "Water", "Grassland", "Tree",
+               "Urban_Grassland", "Urban_Tree", "Wetland"),
       names_to = "land_cover_type",
       values_to = "area"
     ) %>%
-    left_join(
+    dplyr::left_join(
       natural_systems_data$land_cover_carbon
     ) %>%
-    mutate(value_emissions = area * seq_mtco2e_sqkm,
+    dplyr::mutate(value_emissions = area * seq_mtco2e_sqkm,
            value_stock_potential = area * stock_mtco2e_sqkm)
 
 
