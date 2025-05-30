@@ -63,7 +63,8 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
 
   # -------------------------------------------------------------------------
   # store carbon sequestration function output into variable
-  carbon_sequestration_out <- tb02 %>%
+  carbon_sequestration_out <- rbind(df_hist, tb02) %>%
+    arrange(inventory_year) %>%
     pivot_longer(
       # cols = natural_systems_data$land_cover_carbon$land_cover_type,
       cols = c("Bare", "Cropland", "Developed_Low", "Developed_Med",
