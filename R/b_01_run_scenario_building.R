@@ -56,7 +56,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   res_tb_bau = building_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   run_residential = TRUE,
-                                  run_non_residential = TRUE,
+                                  # run_non_residential = TRUE,
                                   .enviro_factors = ghg.ccap::enviro_factors,
                                   # selected CTU
                                   .selected_ctu = "all",
@@ -78,12 +78,12 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
                                   .existing_mf_retrofit_pct = 0.0,
-                                  .sf_heat_pump_pct = 0.0,
-                                  .mf_heat_pump_pct = 0.0,
-                                  .sf_elec_appliance_pct = 0.0,
-                                  .sf_elec_appliance_pct = 0.0,
                                   # electrification
-                                  .additional_electrified_residential_buildings_pct = 0.0
+                                  .sf_heat_pump_pct = 0.0,
+                                  .mf_heat_pump_pct = 0.0
+                                  # .sf_elec_appliance_pct = 0.0,
+                                  # # .mf_elec_appliance_pct = 0.0,
+                                  # .additional_electrified_residential_buildings_pct = 0.0
                                   ){
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -112,7 +112,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
     "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct",
     # electrification
-    "additional_electrified_residential_buildings_pct",
+    "single_family_heat_pump_pct",
+    "multifamily_heat_pump_pct",
     # grid
     "renewable_ng_res",
     "renewable_ng_nonres"
@@ -135,12 +136,13 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .home_behavior_change_pct,
     .single_family_floor_area_growth_pct,
     .new_homes_affected_pct,
-    .new_sf_leed_gold_pct,
-    .new_mf_leed_gold_pct,
+    .new_sf_homes_leed_gold_pct,
+    .new_mf_homes_leed_gold_pct,
     .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct,
     # electrification
-    .additional_electrified_residential_buildings_pct,
+    .sf_heat_pump_pct,
+    .mf_heat_pump_pct,
     # grid
     .renewable_ng_res,
     .renewable_ng_nonres
@@ -163,48 +165,50 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
         .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
         .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
-        .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-        .grid_decarbonization_pct = .grid_decarbonization_pct,
+        .sf_heat_pump_pct = .sf_heat_pump_pct,
+        .mf_heat_pump_pct = .mf_heat_pump_pct,
         .enviro_factors = .enviro_factors
       )
   }
 
-  if (run_non_residential == TRUE) {
-    non_res <-
-      scen_building_non_residential(
-        non_res_tb = non_res_tb,
-        non_res_tb_bau = non_res_tb_bau,
-        .selected_ctu = .selected_ctu,
-        .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-        .electrified_buildings_pct = .electrified_buildings_pct,
-        .grid_decarbonization_pct = .grid_decarbonization_pct,
-        .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-        .renewable_ng_nonres = .renewable_ng_nonres,
-        .enviro_factors = .enviro_factors
-      ) %>%
-      dplyr::mutate(year = as.character(year)) %>%
-      dplyr::filter(!(var %in% c(
-        "commercial_electricity_emissions_kg_co",
-        "industrial_electricity_emissions_kg_co",
-        "commercial_natural_gas_emissions_kg_co",
-        "industrial_natural_gas_emissions_kg_co",
-        "total_industrial_commercial_emissions"
-      )))
-  }
+  # if (run_non_residential == TRUE) {
+  #   non_res <-
+  #     scen_building_non_residential(
+  #       non_res_tb = non_res_tb,
+  #       non_res_tb_bau = non_res_tb_bau,
+  #       .selected_ctu = .selected_ctu,
+  #       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+  #       .electrified_buildings_pct = .electrified_buildings_pct,
+  #       .grid_decarbonization_pct = .grid_decarbonization_pct,
+  #       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
+  #       .renewable_ng_nonres = .renewable_ng_nonres,
+  #       .enviro_factors = .enviro_factors
+  #     ) %>%
+  #     dplyr::mutate(year = as.character(year)) %>%
+  #     dplyr::filter(!(var %in% c(
+  #       "commercial_electricity_emissions_kg_co",
+  #       "industrial_electricity_emissions_kg_co",
+  #       "commercial_natural_gas_emissions_kg_co",
+  #       "industrial_natural_gas_emissions_kg_co",
+  #       "total_industrial_commercial_emissions"
+  #     )))
+  # }
 
-  building_module_ouput <-
-    if (run_residential == TRUE & run_non_residential == TRUE) {
-      dplyr::bind_rows(
-        (res %>%
-          dplyr::mutate(year = as.character(year))),
-        (non_res %>%
-          dplyr::mutate(year = as.character(year)))
-      )
-    } else if (run_residential == FALSE) {
-      non_res
-    } else {
-      res
-    }
+  # building_module_ouput <-
+  #   if (run_residential == TRUE & run_non_residential == TRUE) {
+  #     dplyr::bind_rows(
+  #       (res %>%
+  #         dplyr::mutate(year = as.character(year))),
+  #       (non_res %>%
+  #         dplyr::mutate(year = as.character(year)))
+  #     )
+  #   } else if (run_residential == FALSE) {
+  #     non_res
+  #   } else {
+  #     res
+  #   }
+
+  building_module_ouput <- res
 
   return(building_module_ouput)
 }

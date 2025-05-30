@@ -153,21 +153,24 @@ scen_building_residential <- function(res_tb = res_tb,
   # )
 
 
-  tb09 <- calc_mwh_residential(
+  tb09 <- calc_energy_residential(
     res_tb = tb04,
     res_tb_bau = res_tb_bau,
     mwh_coefficients = mwh_coefficients,
+    mcf_coefficients = mcf_coefficients,
+    .sf_heat_pump_pct = .sf_heat_pump_pct,
+    .mf_heat_pump_pct = .mf_heat_pump_pct,
     .selected_ctu = .selected_ctu,
     .enviro_factors = ghg.ccap::enviro_factors
   )
 
-  tb09 <- calc_mcf_residential(
-    res_tb = tb04,
-    res_tb_bau = res_tb_bau,
-    mwh_coefficients = mwh_coefficients,
+  tb_out <- calc_ghg_residential(
+    res_tb = tb09,
     .selected_ctu = .selected_ctu,
+    grid_emissions = grid_emissions,
     .enviro_factors = ghg.ccap::enviro_factors
   )
 
-  return(tb09)
+
+  return(tb_out)
 }

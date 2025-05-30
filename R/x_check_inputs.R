@@ -76,12 +76,13 @@ check_inputs <- function(name, value) {
     "home_behavior_change_pct",
     "single_family_floor_area_growth_pct",
     "new_homes_affected_pct",
-    "new_homes_leed_gold_pct ",
-    "existing_home_retrofit_pct",
-    "existing_home_ultra_retrofit_pct",
+    "new_sf_leed_gold_pct ",
+    "new_mf_leed_gold_pct",
+    "existing_sf_retrofit_pct",
+    "existing_mf_retrofit_pct",
     # electrification
-    "res_natural_gas_for_space_heating_pct",
-    "res_natural_gas_for_water_heating_pct",
+    "single_family_heat_pump_pct",
+    "multifamily_heat_pump_pct",
     "additional_electrified_residential_buildings_pct",
     # grid
     "grid_decarbonization_pct",

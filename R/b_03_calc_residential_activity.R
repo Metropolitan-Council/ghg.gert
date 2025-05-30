@@ -7,7 +7,7 @@
 #'      from the residential building sector by city/township
 #'      for the user-specified scenario, and the business-as-usual scenario.
 #'
-#' @note `calc_mwh_residential()` estimates the building energy demand and emissions
+#' @note `calc_energy_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
 #'      residential strategies refer to [`scen_residential_building()`].
 #'
@@ -18,13 +18,12 @@
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
-#'    `ctu_name`,
-#'    `year`,
-#'    `population`,
+#'    `geog_name`,
+#'    `inventory_year`,
+#'    `geog_id`,
 #'    `residential_mwh`,
-#'    `residential_electricity_emissions_kg_co`,
-#'    `residential_therms`, and
-#'    `residential_natural_gas_emissions_kg_co`
+#'    `residential_mcf`,
+#'    `scenario`
 #'
 #' @examples
 #' \dontrun{
@@ -40,10 +39,13 @@
 #' }
 #' @export
 #'
-calc_mwh_residential <- function(res_tb,
+calc_energy_residential <- function(res_tb,
                                  res_tb_bau,
                                  mwh_coefficients = mwh_coefficients,
+                                 mcf_coefficients = mcf_coefficients,
                                  .selected_ctu = .selected_ctu,
+                                 .sf_heat_pump_pct = .sf_heat_pump_pct,
+                                 .mf_heat_pump_pct = .mf_heat_pump_pct,
                                  .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
@@ -51,42 +53,84 @@ calc_mwh_residential <- function(res_tb,
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu) %>%
     mutate(effective_unit_change = 0)
 
-  mwh_calc <- function(tb,
-                   mwh_coefficients = mwh_coefficients) {
-    mwh_tb <- tb %>%
+  ### calculate heat pump effects here
+  energy_calc <- function(tb,
+                   mwh_coefficients = mwh_coefficients,
+                   mcf_coefficients = mcf_coefficients,
+                   .sf_heat_pump_pct = .sf_heat_pump_pct,
+                   .mf_heat_pump_pct = .mf_heat_pump_pct) {
+    energy_tb <- tb %>%
       left_join(mwh_coefficients,
                 by = c("sp_categories" = "var")) %>%
-      mutate(residential_mwh = mwh_per_unit * (value + effective_unit_change)) %>%
+      left_join(mcf_coefficients,
+                by = c("sp_categories" = "var")) %>%
+      mutate(
+        effective_units = value + effective_unit_change,
+        residential_mwh = case_when(
+        grepl("single", sp_categories) ~
+               #homes with natural gas
+               mwh_per_unit_eia * (effective_units * (1- .sf_heat_pump_pct)) +
+             #homes with heat pumps
+          mwh_per_unit_heat_pump * (effective_units * .sf_heat_pump_pct),
+        grepl("multi", sp_categories) ~
+          #homes with natural gas
+          mwh_per_unit_eia * (effective_units * (1- .mf_heat_pump_pct)) +
+          #homes with heat pumps
+          mwh_per_unit_heat_pump * (effective_units * .mf_heat_pump_pct)
+             ),
+        residential_mcf = case_when(
+          grepl("single", sp_categories) ~
+            #homes with natural gas
+            mcf_per_unit_eia * (effective_units * (1- .sf_heat_pump_pct)) +
+            #homes with heat pumps
+            mcf_per_unit_heat_pump * (effective_units * .sf_heat_pump_pct),
+          grepl("multi", sp_categories) ~
+            #homes with natural gas
+            mcf_per_unit_eia * (effective_units * (1- .mf_heat_pump_pct)) +
+            #homes with heat pumps
+            mcf_per_unit_heat_pump * (effective_units * .mf_heat_pump_pct)
+        )
+        ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
-      dplyr::summarize(residential_mwh = sum(residential_mwh)) %>%
+      dplyr::summarize(residential_mwh = sum(residential_mwh),
+                       residential_mcf = sum(residential_mcf)) %>%
       dplyr::select(
         geog_name,
         inventory_year,
         geog_id,
-        residential_mwh
+        residential_mwh,
+        residential_mcf
       )
 
-    return(mwh_tb)
+    return(energy_tb)
   }
 
-  mwh_bau <-
-    mwh_calc(
+
+
+  energy_bau <-
+    energy_calc(
       tb = res_tb_bau,
-      mwh_coefficients = mwh_coefficients
+      mwh_coefficients = mwh_coefficients,
+      mcf_coefficients = mcf_coefficients,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0
     )
 
-  mwh_strategy <-
-    mwh_calc(
+  energy_strategy <-
+    energy_calc(
       tb = res_tb,
-      mwh_coefficients = mwh_coefficients
+      mwh_coefficients = mwh_coefficients,
+      mcf_coefficients = mcf_coefficients,
+      .sf_heat_pump_pct = .sf_heat_pump_pct,
+      .mf_heat_pump_pct = .mf_heat_pump_pct
     )
 
-  mwh_final <-bind_rows(
-    mwh_bau %>%
+  energy_final <-bind_rows(
+    energy_bau %>%
       mutate(scenario = "bau"),
-    mwh_strategy %>%
+    energy_strategy %>%
       mutate(scenario = "strategy")
   )
 
-  return(mwh_final)
+  return(energy_final)
 }
