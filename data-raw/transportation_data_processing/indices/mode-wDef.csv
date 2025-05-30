@@ -20,6 +20,6 @@ Passenger,Off-road,18,RI,Intercity rail,Northstar commuter rail
 Passenger,Buses,19,BS,School bus,
 Passenger,Passenger vehicles,20,DRS,Dynamic ride sharing,
 Passenger,Buses,21,AT,All transit, Used for internal calculations
-Passenger,NA,22,WALK,Walk,
-Passenger,NA,23,BIKE,Bike,
+Passenger,Active,22,WALK,Walk,
+Passenger,Active,23,BIKE,Bike,
 Passenger,Passenger vehicles,24,AV,Autonomous vehicle,autonomous_vehicle
