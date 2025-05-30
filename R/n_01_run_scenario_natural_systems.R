@@ -38,7 +38,7 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
   df_hist <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
   df_null <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
-
+browser()
   tb01 <- if(.urban_tree_area_perc == 0) {df_null} else {
     ghg.ccap::urban_tree_planting(
     df_hist = df_hist,
