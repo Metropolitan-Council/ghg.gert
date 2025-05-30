@@ -45,6 +45,7 @@ Other transportation:
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{mode_freight_rail}()},

@@ -11,12 +11,14 @@ scen_building_residential(
   .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
   .single_family_floor_area_growth_pct,
   .new_homes_affected_pct,
-  .new_homes_leed_gold_pct,
-  .existing_home_retrofit_pct,
-  .existing_home_ultra_retrofit_pct,
+  .new_sf_homes_leed_gold_pct,
+  .new_mf_homes_leed_gold_pct,
+  .existing_sf_retrofit_pct,
+  .existing_mf_retrofit_pct,
   .home_behavior_change_pct,
   .grid_decarbonization_pct,
-  .additional_electrified_residential_buildings_pct,
+  .sf_heat_pump_pct,
+  .mf_heat_pump_pct,
   .renewable_ng_res,
   .enviro_factors = enviro_factors
 )
@@ -51,29 +53,12 @@ households that will respond to increased energy costs by decreasing
 home size.
 Default is \code{0.0}.}
 
-\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
-The percentage of new single-family homes built according to \emph{LEED Gold} standards.
-Default is \code{0.0}}
-
-\item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.0}.}
-
-\item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.00}.}
-
 \item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of households that change behavior to reduce household emissions.
 Default is \code{0.0}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
-
-\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-Default is \code{0}.
-The percentage of buildings that would
-be electrified under the specified scenario.}
 
 \item{.renewable_ng_res}{logical, documentation needed}
 
