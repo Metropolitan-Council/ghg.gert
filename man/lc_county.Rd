@@ -34,6 +34,7 @@ unique(lc_county$county_name)
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
