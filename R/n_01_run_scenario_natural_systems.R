@@ -38,7 +38,7 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
   df_hist <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
   df_null <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
-browser()
+
   tb01 <- if(.urban_tree_area_perc == 0) {df_null} else {
     ghg.ccap::urban_tree_planting(
     df_hist = df_hist,
@@ -65,7 +65,10 @@ browser()
   # store carbon sequestration function output into variable
   carbon_sequestration_out <- tb02 %>%
     pivot_longer(
-      cols = natural_systems_data$land_cover_carbon$land_cover_type,
+      # cols = natural_systems_data$land_cover_carbon$land_cover_type,
+      cols = c("Bare", "Cropland", "Developed_Low", "Developed_Med",
+               "Developed_High", "Water", "Grassland", "Tree",
+               "Urban_Grassland", "Urban_Tree", "Wetland"),
       names_to = "land_cover_type",
       values_to = "area"
     ) %>%
