@@ -36,6 +36,7 @@ adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
+  browser()
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_to_multifamily_pct <= 0) {
@@ -45,28 +46,27 @@ adj_unit_counts <- function(res_tb,
 
   n_new_homes <-
     res_tb %>%
-    dplyr::filter(var %in% c(
+    # select(-value_change_from_base) %>%
+    dplyr::filter(sp_categories %in% c(
       "multifamily_units",
-      "single_family_units"
+      "single_family_units",
+      "single_family_attached",
+      "single_family_small_lot",
+      "single_family_large_lot"
     )) %>%
-    dplyr::group_by(geog_name, geog_id, var) %>%
-    tidyr::pivot_wider(names_from = c(var, year), values_from = value, names_sep = ".") %>%
-    dplyr::mutate(
-      new_sf_homes = single_family_units.2040 - single_family_units.2018,
-      new_mf_homes = multifamily_units.2040 - multifamily_units.2018
-    )
+    filter(inventory_year == max(inventory_year))
 
   # some CTUs are going to decrease the number of single family units
   # over the next few decades.
   # We will consider the number of SF units reduced as if they were
   # being constructed and add them onto the multifamily unit count
 
-  if (any(n_new_homes$new_sf_homes < 0)) {
+  if (any(n_new_homes$value_change_from_base < 0)) {
     cli::cli_warn(c(
       "Baseline forecast assumes reducing single family units",
       "Now reducing single family units further"
     ))
-  } else if (any(n_new_homes$new_sf_homes == 0)) {
+  } else if (any(n_new_homes$value_change_from_base == 0)) {
     cli::cli_warn(c(
       "Baseline forecast assumes no change in single family units",
       "No change in housing stock made"
