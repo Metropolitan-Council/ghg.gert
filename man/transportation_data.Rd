@@ -34,6 +34,7 @@ Other datasets:
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_index}}
 }
