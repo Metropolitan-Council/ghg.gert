@@ -1,25 +1,25 @@
-sector,mode_id,mode_abbrev,mode_description_1,mode_description_2
-Passenger,1,BUS,Bus,bus
-Freight,2,FRAIL,Freight rail,freight_rail
-Freight,3,FSHIP,Freight ship,Mostly barges going to port in St. Paul
-Freight,4,HDT,Heavy duty vehicle,heavy_duty_veh
-Freight,5,LDV,Light duty vehicle,light_duty_veh
-Freight,6,MDT,Medium duty vehicle,medium_duty_veh
-Passenger,7,RAIL,Rail,rail
-Freight,8,CUT,Combined unit truck,Eqivalent to HDT
-Freight,9,SUT,Single unit truck,Equivalent to MDT
-Freight,10,FR,Freight rail,
-Freight,11,MM,Multi-modal freight (combination of truck and rail),
-Freight,12,AIR,Air freight,
-Freight,13,WAT,Water freight,Equivalent to FSHIP
-Passenger,14,PLDV,Passenger light duty vehicle,
-Passenger,15,BU,Urban bus,
-Passenger,16,BRT,Bus rapid transit,
-Passenger,17,RU,Urban rail,LRT
-Passenger,18,RI,Intercity rail,Northstar commuter rail
-Passenger,19,BS,School bus,
-Passenger,20,DRS,Dynamic ride sharing,
-Passenger,21,AT,All transit, Used for internal calculations
-Passenger,22,WALK,Walk,
-Passenger,23,BIKE,Bike,
-Passenger,24,AV,Autonomous vehicle,autonomous_vehicle
+sector,category,mode_id,mode_abbrev,mode_description_1,mode_description_2
+Passenger,Buses,1,BUS,Bus,bus
+Freight,Off-road,2,FRAIL,Freight rail,freight_rail
+Freight,Off-road,3,FSHIP,Freight ship,Mostly barges going to port in St. Paul
+Freight,Trucks,4,HDT,Heavy duty vehicle,heavy_duty_veh
+Passenger,Passenger vehicles,5,LDV,Light duty vehicle,light_duty_veh
+Freight,Trucks,6,MDT,Medium duty vehicle,medium_duty_veh
+Passenger,Off-road,7,RAIL,Rail,rail
+Freight,Trucks,8,CUT,Combined unit truck,Eqivalent to HDT
+Freight,Trucks,9,SUT,Single unit truck,Equivalent to MDT
+Freight,Off-road,10,FR,Freight rail,
+Freight,Off-road,11,MM,Multi-modal freight (combination of truck and rail),
+Freight,Off-road,12,AIR,Air freight,
+Freight,Off-road,13,WAT,Water freight,Equivalent to FSHIP
+Passenger,Passenger vehicles,14,PLDV,Passenger light duty vehicle,
+Passenger,Buses,15,BU,Urban bus,
+Passenger,Buses,16,BRT,Bus rapid transit,
+Passenger,Off-road,17,RU,Urban rail,LRT
+Passenger,Off-road,18,RI,Intercity rail,Northstar commuter rail
+Passenger,Buses,19,BS,School bus,
+Passenger,Passenger vehicles,20,DRS,Dynamic ride sharing,
+Passenger,Buses,21,AT,All transit, Used for internal calculations
+Passenger,NA,22,WALK,Walk,
+Passenger,NA,23,BIKE,Bike,
+Passenger,Passenger vehicles,24,AV,Autonomous vehicle,autonomous_vehicle
