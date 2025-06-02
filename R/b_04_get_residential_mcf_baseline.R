@@ -37,14 +37,17 @@ get_residential_mcf_baseline <-
     nat_gas_residential_ctu_baseline <-
       ctu_characteristics %>%
       left_join(mcf_coefficients,
-                by = c("sp_categories" = "var")) %>%
+        by = c("sp_categories" = "var")
+      ) %>%
       dplyr::mutate(
         mcf_delta = mcf_per_unit_eia * value_change_from_base,
         mcf = mcf_per_unit_eia * value
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
-      summarize(mcf_residential = sum(mcf),
-                mcf_residential_delta = sum(mcf_delta))
+      summarize(
+        mcf_residential = sum(mcf),
+        mcf_residential_delta = sum(mcf_delta)
+      )
 
     return(electricity_residential_ctu_baseline)
   }

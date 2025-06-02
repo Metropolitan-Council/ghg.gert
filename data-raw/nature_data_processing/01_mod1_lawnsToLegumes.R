@@ -1,14 +1,10 @@
 # Module 1: Lawns to Legumes ----------------------------------------------
-mod1_lawnsToLegumes <- function(df_hist,   # dataframe of inventory land cover area from 2001 to 2022
-                                df_null,   # dataframe of land cover area estimates left unchanged from 2022 to 2050
-                                start_yr,  # start year for land conversion (2025 to 2045)
+mod1_lawnsToLegumes <- function(df_hist, # dataframe of inventory land cover area from 2001 to 2022
+                                df_null, # dataframe of land cover area estimates left unchanged from 2022 to 2050
+                                start_yr, # start year for land conversion (2025 to 2045)
                                 comp_time, # time to complete land conversion (5 to 30 years)
-                                area_pct   # available area for land conversion (0 to 100)
-
+                                area_pct # available area for land conversion (0 to 100)
 ) {
-
-
-
   # Input checks
   if (!is.numeric(area_pct) || area_pct < 0 || area_pct > 100) {
     stop("area_pct must be a number between 0 and 100.")

@@ -76,36 +76,44 @@ building_energy_data$electricity_residential_ctu <-
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mwh.rds"
   ) %>%
   mutate(sector = "Residential") %>%
-  rename(mwh = residential_mwh,
-         geog_name = ctu_name,
-         geog_level = ctu_class)
+  rename(
+    mwh = residential_mwh,
+    geog_name = ctu_name,
+    geog_level = ctu_class
+  )
 
 building_energy_data$electricity_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mwh.rds"
   ) %>%
   mutate(sector = "Business") %>%
-  rename(mwh = business_mwh,
-         geog_name = ctu_name,
-         geog_level = ctu_class)
+  rename(
+    mwh = business_mwh,
+    geog_name = ctu_name,
+    geog_level = ctu_class
+  )
 
 building_energy_data$natural_gas_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mcf.rds"
   ) %>%
   mutate(sector = "Residential") %>%
-  rename(mcf = residential_mcf,
-         geog_name = ctu_name,
-         geog_level = ctu_class)
+  rename(
+    mcf = residential_mcf,
+    geog_name = ctu_name,
+    geog_level = ctu_class
+  )
 
 building_energy_data$natural_gas_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mcf.rds"
   ) %>%
   mutate(sector = "Business") %>%
-  rename(mcf = business_mcf,
-         geog_name = ctu_name,
-         geog_level = ctu_class)
+  rename(
+    mcf = business_mcf,
+    geog_name = ctu_name,
+    geog_level = ctu_class
+  )
 
 ## -------------------------------------------------------------------------------------------
 # building_energy_data$eia_electricity_servicewide <-

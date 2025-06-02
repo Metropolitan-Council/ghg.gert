@@ -66,24 +66,29 @@ calc_ghg_mwh <- function(res_mwh,
   vmt_mwh_bau <- filter_ctu(vmt_mwh_bau, .selected_ctu = .selected_ctu)
 
   grid_emissions <- grid_emissions %>%
-    filter(inventory_year <=2024 | grepl(grid_scenario, factor_source))
+    filter(inventory_year <= 2024 | grepl(grid_scenario, factor_source))
 
-  emis_bau <- bind_rows(res_mwh_bau,
-                      #vmt_mwh_bau,
-                      comm_mwh_bau
-                      ) %>%
+  emis_bau <- bind_rows(
+    res_mwh_bau,
+    # vmt_mwh_bau,
+    comm_mwh_bau
+  ) %>%
     left_join(grid_emissions,
-              by = "inventory_year") %>%
+      by = "inventory_year"
+    ) %>%
     mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
     select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
 
-  emis_strategy <- bind_rows(res_mwh_bau,
-                      #vmt_mwh_bau,
-                      comm_mwh_bau
+  emis_strategy <- bind_rows(
+    res_mwh_bau,
+    # vmt_mwh_bau,
+    comm_mwh_bau
   ) %>%
-    left_join(grid_emissions,
-              bau_tb) %>%
-              mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
+    left_join(
+      grid_emissions,
+      bau_tb
+    ) %>%
+    mutate(mt_co2e = mwh * mt_co2e_per_mwh) %>%
     select(ctu_name, ctu_class, sector, inventory_year, mwh, mt_co2e)
 
   emis_final <-

@@ -37,14 +37,17 @@ get_residential_mwh_baseline <-
     electricity_residential_ctu_baseline <-
       ctu_characteristics %>%
       left_join(mwh_coefficients,
-                by = c("sp_categories" = "var")) %>%
+        by = c("sp_categories" = "var")
+      ) %>%
       dplyr::mutate(
         mwh_delta = mwh_per_unit * value_change_from_base,
         mwh = mwh_per_unit * value
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
-      summarize(mwh_residential = sum(mwh),
-                mwh_residential_delta = sum(mwh_delta))
+      summarize(
+        mwh_residential = sum(mwh),
+        mwh_residential_delta = sum(mwh_delta)
+      )
 
     return(electricity_residential_ctu_baseline)
   }

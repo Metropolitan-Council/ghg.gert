@@ -20,8 +20,6 @@ crop_restoration <- function(df_hist,
                              .restoration_start,
                              .restoration_time,
                              .restoration_area_perc) {
-
-
   # Input checks
   if (!is.numeric(.restoration_area_perc) || .restoration_area_perc < 0 || .restoration_area_perc > 100) {
     stop(".restoration_area_perc must be a number between 0 and 100.")
@@ -87,16 +85,17 @@ crop_restoration <- function(df_hist,
       values_to = "delta"
     ) %>%
     mutate(
-      land_cover = sub("delta_", "", land_cover)  # Remove "delta_" prefix
+      land_cover = sub("delta_", "", land_cover) # Remove "delta_" prefix
     ) %>%
-    right_join(df_null %>%
-                 pivot_longer(
-                   cols = Bare:TOTAL,  # Assuming these are all land cover columns
-                   names_to = "land_cover",
-                   values_to = "value"
-                 ),
-               by = c("inventory_year", "land_cover")
-    )  %>%
+    right_join(
+      df_null %>%
+        pivot_longer(
+          cols = Bare:TOTAL, # Assuming these are all land cover columns
+          names_to = "land_cover",
+          values_to = "value"
+        ),
+      by = c("inventory_year", "land_cover")
+    ) %>%
     mutate(
       new_value = if_else(!is.na(delta), value + delta, value)
     ) %>%
@@ -110,5 +109,4 @@ crop_restoration <- function(df_hist,
 
 
   return(result_out)
-
 }

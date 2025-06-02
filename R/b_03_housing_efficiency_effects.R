@@ -43,9 +43,9 @@
 #' }
 #'
 calc_sfh_leed <- function(res_tb,
-                                 .selected_ctu,
-                                 .new_homes_leed_gold_pct,
-                                 .enviro_factors = enviro_factors) {
+                          .selected_ctu,
+                          .new_homes_leed_gold_pct,
+                          .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -164,10 +164,10 @@ calc_sfh_leed <- function(res_tb,
 #' }
 #'
 calc_sfh_retrofit <- function(res_tb,
-                                     .selected_ctu,
-                                     .existing_home_retrofit_pct,
-                                     .existing_home_ultra_retrofit_pct,
-                                     .enviro_factors = enviro_factors) {
+                              .selected_ctu,
+                              .existing_home_retrofit_pct,
+                              .existing_home_ultra_retrofit_pct,
+                              .enviro_factors = enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -325,7 +325,6 @@ calc_sfh_retrofit <- function(res_tb,
 #' )
 #' }
 #'
-
 calc_mfh_retrofit <- function(res_tb,
                               .selected_ctu,
                               .existing_home_retrofit_pct,
@@ -443,4 +442,3 @@ calc_mfh_retrofit <- function(res_tb,
   # Here, we are effectively reducing the average floor area to account
   # for the energy savings from LEED buildings
 }
-

@@ -85,7 +85,7 @@ testthat::test_that("Andover employment forecast matches January 2023 released",
 
 testthat::test_that("West Saint Paul population forecast matches January 2023 released", {
   testthat::expect_equal(
-  demographic_data %>%
+    demographic_data %>%
       filter(
         inventory_year == 2040,
         sp_categories == "jobs",
@@ -94,7 +94,7 @@ testthat::test_that("West Saint Paul population forecast matches January 2023 re
       magrittr::extract2("value") %>%
       sum(),
     9300,
-  tolerance = 1000
+    tolerance = 1000
   )
 })
 
@@ -191,6 +191,6 @@ testthat::test_that("job counts not in residential dataset", {
       )) %>%
       dplyr::arrange(geog_name) %>%
       nrow(),
-    0)
+    0
+  )
 })
-
