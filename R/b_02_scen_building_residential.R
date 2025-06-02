@@ -68,24 +68,30 @@
 #' }
 scen_building_residential <- function(res_tb = res_tb,
                                       res_tb_bau = res_tb_bau,
-                                      .selected_ctu = .selected_ctu,
-                                      .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-                                      .single_family_floor_area_growth_pct,
-                                      .new_homes_affected_pct,
+                                      .scenario = "",
+                                      .selected_ctu,
+                                      # .new_homes_to_multifamily_pct,
+                                      # .single_family_floor_area_growth_pct,
+                                      # .new_homes_affected_pct,
+                                      # .new_homes_leed_gold_pct,
+                                      # .existing_home_retrofit_pct,
+                                      # .existing_home_ultra_retrofit_pct,
                                       .new_sf_homes_leed_gold_pct,
                                       .new_mf_homes_leed_gold_pct,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
-                                      .home_behavior_change_pct,
-                                      .grid_decarbonization_pct,
+                                      # .home_behavior_change_pct,
+                                      # .grid_decarbonization_pct,
+                                      # .additional_electrified_residential_buildings_pct,
                                       .sf_heat_pump_pct,
                                       .mf_heat_pump_pct,
-                                      .renewable_ng_res,
-                                      .enviro_factors = enviro_factors) {
+                                      # .renewable_ng_res,
+                                      .grid_emissions = ghg.ccap::grid_emissions,
+                                      .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("** compiling residential strategies \n")
 
 
-
+  # browser()
   # B.R1 (MF to SF)
   # tb01 <- ghg.ccap::adj_unit_counts(
   #   res_tb = res_tb,
@@ -156,19 +162,19 @@ scen_building_residential <- function(res_tb = res_tb,
   tb09 <- calc_energy_residential(
     res_tb = tb04,
     res_tb_bau = res_tb_bau,
-    mwh_coefficients = mwh_coefficients,
-    mcf_coefficients = mcf_coefficients,
+    .mwh_coefficients = ghg.ccap::mwh_coefficients,
+    .mcf_coefficients = ghg.ccap::mcf_coefficients,
     .sf_heat_pump_pct = .sf_heat_pump_pct,
     .mf_heat_pump_pct = .mf_heat_pump_pct,
     .selected_ctu = .selected_ctu,
-    .enviro_factors = ghg.ccap::enviro_factors
+    .enviro_factors = .enviro_factors
   )
 
   tb_out <- calc_ghg_residential(
-    res_tb = tb09,
+    res_energy = tb09,
     .selected_ctu = .selected_ctu,
-    grid_emissions = grid_emissions,
-    .enviro_factors = ghg.ccap::enviro_factors
+    .grid_emissions = .grid_emissions,
+    .enviro_factors = .enviro_factors
   )
 
 
