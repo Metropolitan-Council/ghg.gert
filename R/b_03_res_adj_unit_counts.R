@@ -36,7 +36,6 @@ adj_unit_counts <- function(res_tb,
                             .selected_ctu,
                             .new_homes_to_multifamily_pct) {
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
-  browser()
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_to_multifamily_pct <= 0) {
