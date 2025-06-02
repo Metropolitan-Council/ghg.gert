@@ -7,9 +7,9 @@
 calc_housing_leed(
   res_tb,
   .selected_ctu,
-  .new_sf_homes_leed_gold_pct,
-  .new_mf_homes_leed_gold_pct,
-  .enviro_factors = enviro_factors
+  .new_sf_homes_leed_gold_pct = 0,
+  .new_mf_homes_leed_gold_pct = 0,
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -21,15 +21,18 @@ default value.
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
-
-\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+\item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
+
+\item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
+
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns \code{ctu_name}, \code{inventory_year}, \code{var}, and \code{value}.
 }
 \description{
 Calculates the efficiency of single-family homes

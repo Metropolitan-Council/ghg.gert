@@ -5,15 +5,16 @@
 \title{Calculate residential building emissions}
 \usage{
 calc_ghg_residential(
-  res_tb,
+  res_energy,
   .selected_ctu,
-  grid_emissions = grid_emissions,
+  .grid_emissions = ghg.ccap::grid_emissions,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Table, table with residential building data.}
+\item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+Table, table with residential energy,
+including columns \code{residential_mwh}, \code{residential_mcf}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
@@ -39,19 +40,6 @@ for the user-specified scenario, and the business-as-usual scenario.
 \code{calc_ghg_residential()} estimates the building energy demand and emissions
 based on the floor area assumptions. For a function that compiles all
 residential strategies refer to \code{\link[=scen_residential_building]{scen_residential_building()}}.
-}
-\examples{
-\dontrun{
-library(ghg.ccap)
-
-calc_ghg_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
-)
-}
 }
 \seealso{
 Other buildings: 

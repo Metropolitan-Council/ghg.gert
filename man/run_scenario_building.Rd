@@ -10,23 +10,21 @@ run_scenario_building(
   res_tb_bau = building_data$residential,
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  run_non_residential = FALSE,
+  .scenario = "",
   .selected_ctu = "all",
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
-  .renewable_ng_res = FALSE,
-  .renewable_ng_nonres = FALSE,
   .new_homes_to_multifamily_pct = 0,
   .existing_high_efficiency_buildings_pct = 0,
-  .home_behavior_change_pct = 0,
-  .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
   .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0
+  .mf_heat_pump_pct = 0,
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -53,7 +51,7 @@ is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
@@ -63,34 +61,12 @@ Default is \code{0.0}.}
 
 \item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
-\item{.renewable_ng_res}{logical, documentation needed}
-
-\item{.renewable_ng_nonres}{logical, documentation needed}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
 
-\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of households that change behavior to reduce household emissions.
-Default is \code{0.0}.}
-
-\item{.single_family_floor_area_growth_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage growth rate in single family home floor area.
-Default is \code{0.05}.}
-
-\item{.new_homes_affected_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage of all new single-family
-households that will respond to increased energy costs by decreasing
-home size.
-Default is \code{0.0}.}
+\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}

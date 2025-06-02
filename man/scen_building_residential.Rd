@@ -7,20 +7,16 @@
 scen_building_residential(
   res_tb = res_tb,
   res_tb_bau = res_tb_bau,
-  .selected_ctu = .selected_ctu,
-  .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-  .single_family_floor_area_growth_pct,
-  .new_homes_affected_pct,
+  .scenario = "",
+  .selected_ctu,
   .new_sf_homes_leed_gold_pct,
   .new_mf_homes_leed_gold_pct,
   .existing_sf_retrofit_pct,
   .existing_mf_retrofit_pct,
-  .home_behavior_change_pct,
-  .grid_decarbonization_pct,
   .sf_heat_pump_pct,
   .mf_heat_pump_pct,
-  .renewable_ng_res,
-  .enviro_factors = enviro_factors
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -35,32 +31,9 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
+\item{.scenario}{character, scenario name. Useful for labeling.}
+
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-
-\item{.single_family_floor_area_growth_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage growth rate in single family home floor area.
-Default is \code{0.05}.}
-
-\item{.new_homes_affected_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage of all new single-family
-households that will respond to increased energy costs by decreasing
-home size.
-Default is \code{0.0}.}
-
-\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of households that change behavior to reduce household emissions.
-Default is \code{0.0}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
-\item{.renewable_ng_res}{logical, documentation needed}
 
 \item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
