@@ -75,35 +75,45 @@ adj_unit_counts <- function(res_tb,
 
 
   sf_now_mf <- n_new_homes %>%
+    dplyr::filter(sp_categories != "multifamily_units") %>%
     dplyr::mutate(
-      new_homes = ifelse(new_sf_homes < 0, abs(new_sf_homes), new_sf_homes),
-      now_mf = new_homes * .new_homes_to_multifamily_pct
+      new_homes = ifelse(value_change_from_base < 0, abs(value_change_from_base), value_change_from_base),
+      # spread the new % new home to multifamily across
+      # all single family home types
+      now_mf = new_homes * (.new_homes_to_multifamily_pct / nrow(.))
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(geog_name, geog_id, now_mf) %>%
+    dplyr::select(geog_name, geog_id, sp_categories, now_mf) %>%
     unique()
 
+  total_new_mf <- sum(sf_now_mf$now_mf)
 
   new_units <- res_tb %>%
-    dplyr::filter(
-      var %in% c(
-        "multifamily_units",
-        "single_family_units"
-      ),
-      year == 2040
-    ) %>%
-    dplyr::left_join(sf_now_mf, by = c("geog_name", "geog_id")) %>%
+    dplyr::filter(sp_categories %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_attached",
+      "single_family_small_lot",
+      "single_family_large_lot"
+    )) %>%
+    dplyr::filter(inventory_year == max(inventory_year)) %>%
+    dplyr::left_join(sf_now_mf, by = c("geog_name", "geog_id", "sp_categories")) %>%
     # if multifamily, add the now-multifamily units
     # if single family, subtract the now-multifamily units
-    dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
-      value - now_mf
-    )) %>%
+    dplyr::mutate(
+      value = ifelse(sp_categories == "multifamily_units", value + total_new_mf,
+        value - now_mf
+      ),
+      value_change_from_base = ifelse(sp_categories == "multifamily_units", value_change_from_base + total_new_mf,
+        value_change_from_base - now_mf
+      )
+    ) %>%
     dplyr::select(names(res_tb))
 
   # anti_join to replace original values
   # return a new version of res_tb
   new_res_tb <- res_tb %>%
-    dplyr::anti_join(new_units, by = c("geog_name", "geog_id", "year", "var")) %>%
+    dplyr::anti_join(new_units, by = c("geog_name", "geog_id", "inventory_year", "sp_categories")) %>%
     dplyr::bind_rows(new_units)
 
   return(new_res_tb)
