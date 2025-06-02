@@ -76,8 +76,8 @@ check_inputs <- function(name, value) {
     "home_behavior_change_pct",
     "single_family_floor_area_growth_pct",
     "new_homes_affected_pct",
-    "new_sf_leed_gold_pct ",
-    "new_mf_leed_gold_pct",
+    "new_sf_homes_leed_gold_pct",
+    "new_mf_homes_leed_gold_pct",
     "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct",
     # electrification
