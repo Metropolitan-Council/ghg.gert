@@ -30,7 +30,8 @@ test_that("Lake Elmo unit counts", {
     "Lake Elmo", "02395589", "ctu_gnis", "single_family_attached", "CITY", 2050, 480.183333333333, 154.083333333333,
     "Lake Elmo", "02395589", "ctu_gnis", "single_family_large_lot", "CITY", 2050, 3517.51666666667, 22.4166666666667,
     "Lake Elmo", "02395589", "ctu_gnis", "single_family_small_lot", "CITY", 2050, 2036.51666666667, 187.416666666667
-  )
+  )%>%
+    select(-geog_level, -geog_id_type)
 
   testthat::expect_equal(expected_25_res_tb, new_25)
 
@@ -113,7 +114,8 @@ test_that("Minneapolis unit counts", {
     "Minneapolis", "02395345", "ctu_gnis", "single_family_attached", "CITY", 2050, 35540.1833333333, -1342.71666666667,
     "Minneapolis", "02395345", "ctu_gnis", "single_family_large_lot", "CITY", 2050, 1561.51666666667, 52.4166666666667,
     "Minneapolis", "02395345", "ctu_gnis", "single_family_small_lot", "CITY", 2050, 66312.75, -2955.75
-  )
+  ) %>%
+    select(-geog_level, -geog_id_type)
 
 
 
@@ -235,7 +237,8 @@ test_that("Coon Rapids unit counts", {
     "Coon Rapids", "02393628", "ctu_gnis", "single_family_attached", "CITY", 2050, 2618.1, 199.5,
     "Coon Rapids", "02393628", "ctu_gnis", "single_family_large_lot", "CITY", 2050, 556.383333333333, -18.3166666666667,
     "Coon Rapids", "02393628", "ctu_gnis", "single_family_small_lot", "CITY", 2050, 14482.6666666667, -1906.33333333333
-  )
+  )%>%
+    select(-geog_level, -geog_id_type)
 
   testthat::expect_equal(t_50, expected_res_tb)
 
@@ -360,7 +363,8 @@ test_that("Champlin unit counts", {
     "Champlin", "02393797",    "ctu_gnis",  "single_family_attached",      "CITY",            2050, 1209.63333333333,        11.8333333333334,
     "Champlin", "02393797",    "ctu_gnis", "single_family_large_lot",      "CITY",            2050,            502.3,                    28.5,
     "Champlin", "02393797",    "ctu_gnis", "single_family_small_lot",      "CITY",            2050, 6060.53333333333,       -255.266666666667
-  )
+  )%>%
+    select(-geog_level, -geog_id_type)
 
   testthat::expect_equal(t_50, expected_res_tb)
 
@@ -484,7 +488,8 @@ test_that("Deephaven unit counts", {
     "Deephaven", "02394486", "ctu_gnis", "single_family_attached", "CITY", 2050, 74.25, -12.25,
     "Deephaven", "02394486", "ctu_gnis", "single_family_large_lot", "CITY", 2050, 373.05, -48.65,
     "Deephaven", "02394486", "ctu_gnis", "single_family_small_lot", "CITY", 2050, 844.966666666667, 5.16666666666671
-  )
+  )%>%
+    select(-geog_level, -geog_id_type)
 
 
   testthat::expect_equal(t_50, expected_res_tb)
