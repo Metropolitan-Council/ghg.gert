@@ -123,13 +123,14 @@ demographic_data_county <- us_formatted %>%
       dplyr::distinct(geog_name, geog_level, county_id) %>%
       mutate(
         geog_name = paste(geog_name, "County"),
-        county_id_fips = substr(county_id, 3, 5)
+        county_id_fips = substr(county_id, 3, 5),
+        geog_level = toupper(geog_level)
       ),
     by = join_by(county_id_fips)
   ) %>%
   mutate(geog_id_type = "county_fips") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id = county_id_fips, geog_id_type, geog_level, sp_categories, value)
+  select(inventory_year, geog_name, geog_id = county_id, geog_id_type, geog_level, sp_categories, value)
 
 demographic_data <- bind_rows(
   demographic_data_ctu,
@@ -151,6 +152,10 @@ demographic_data <- demographic_data %>%
   ) %>%
   mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
+
+anti_join(demographic_data,
+          geog_index) %>%
+  distinct(geog_name, geog_level)
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",
