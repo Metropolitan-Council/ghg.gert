@@ -14,7 +14,7 @@ ccap_county <- tigris::counties(state = "MN") %>%
   )) %>%
   mutate(
     STATE_ABB = "MN",
-    geog_level = "county"
+    geog_level = "COUNTY"
   ) %>%
   janitor::clean_names() %>%
   # Combine to get cprg_counties

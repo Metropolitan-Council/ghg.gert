@@ -1,6 +1,6 @@
 #### import random forest models from inventory repo to project mcf demand forward
 load("data/demographic_data.rda")
-
+library(sf)
 # load in predictor data
 urbansim_res <- demographic_data %>%
   filter(sp_categories %in% c(
@@ -59,7 +59,7 @@ res_mcf <- bind_rows(
     group_by(geog_id, county_name, inventory_year, data_source) %>%
     summarize(mcf = sum(residential_mcf)) %>%
     rename(geog_name = county_name) %>%
-    mutate(geog_level = "county")
+    mutate(geog_level = "COUNTY")
 )
 
 ## electricity_res_coefficients
@@ -108,7 +108,7 @@ unit_model_res <- lm(
     single_family_small_lot +
     single_family_attached - 1,
   data = electricity_res %>%
-    filter(geog_level != "county")
+    filter(geog_level != "COUNTY")
 )
 
 summary(unit_model_res)
@@ -154,7 +154,7 @@ busi_mcf <- bind_rows(
     group_by(geog_id, county_name, inventory_year, data_source) %>%
     summarize(mcf = sum(business_mcf)) %>%
     rename(geog_name = county_name) %>%
-    mutate(geog_level = "county")
+    mutate(geog_level = "COUNTY")
 )
 
 ## electricity_res_coefficients
@@ -177,7 +177,7 @@ unit_model_busi <- lm(
   mcf ~ commercial_jobs +
     industrial_jobs - 1,
   data = electricity_busi %>%
-    filter(geog_level != "county")
+    filter(geog_level != "COUNTY")
 )
 
 summary(unit_model_busi)
@@ -186,7 +186,7 @@ unit_model_busi_space <- lm(
   mcf ~ commercial_job_space +
     industrial_job_space - 1,
   data = electricity_busi_max_year %>%
-    filter(geog_level != "county")
+    filter(geog_level != "COUNTY")
 )
 
 summary(unit_model_busi_space)

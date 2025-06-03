@@ -56,7 +56,7 @@ res_mwh <- bind_rows(
     group_by(geog_id, county_name, inventory_year, data_source) %>%
     summarize(mwh = sum(residential_mwh)) %>%
     rename(geog_name = county_name) %>%
-    mutate(geog_level = "county")
+    mutate(geog_level = "COUNTY")
 )
 
 ## electricity_res_coefficients
@@ -74,7 +74,7 @@ unit_model_res <- lm(
     single_family_small_lot +
     single_family_attached,
   data = electricity_res %>%
-    filter(geog_level != "county")
+    filter(geog_level != "COUNTY")
 )
 
 summary(unit_model_res)
@@ -119,7 +119,7 @@ busi_mwh <- bind_rows(
     group_by(geog_id, county_name, inventory_year, data_source) %>%
     summarize(mwh = sum(business_mwh)) %>%
     rename(geog_name = county_name) %>%
-    mutate(geog_level = "county")
+    mutate(geog_level = "COUNTY")
 )
 
 ## electricity_res_coefficients
@@ -142,7 +142,7 @@ unit_model_busi <- lm(
   mwh ~ commercial_jobs +
     industrial_jobs,
   data = electricity_busi_max_year %>%
-    filter(geog_level != "county")
+    filter(geog_level != "COUNTY")
 )
 
 summary(unit_model_busi)
