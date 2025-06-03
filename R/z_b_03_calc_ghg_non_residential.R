@@ -1,7 +1,8 @@
-#' @title Calculate non-residential building emissions
+#' @title DEPRECATED Calculate non-residential building emissions
 #' @family commercial-industrial
 #' @family buildings
 #' @family emissions
+#' @family deprecated
 #'
 #' @description This function calculates the total energy demand and greenhouse gas (GHG) emissions
 #'    for non-residential buildings in the commercial and industrial sectors, by city or township,

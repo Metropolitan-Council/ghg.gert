@@ -1,5 +1,6 @@
-#' @title Calculate Demographic Forecast
+#' @title DEPRECATED Calculate Demographic Forecast
 #' @family buildings
+#' @family deprecated
 #'
 #' @description Calculates demographic forecast characteristics by CTU.
 #'

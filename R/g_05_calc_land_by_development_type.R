@@ -12,14 +12,13 @@
 #' @param tb [tibble::tibble()].
 #' The input dataset to be used.
 #'
-#' @param .urban_form_scenario character,
-#' The current land use scenario being explored.
-#' Default is `"bau"`.
-#' The options are:
-#' * `"bau"`: the business as usual scenario.
-#' * `"post_covid_sprawl"`: post covid sprawl scenario.
-#' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
-#' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
+#' @param .urban_form_scenario character, the current land use scenario being explored.
+#'   Default is `"bau"`.
+#'   The options are:
+#'   * `"bau"`: the business as usual scenario.
+#'   * `"post_covid_sprawl"`: post covid sprawl scenario.
+#'   * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
+#'   * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
 #'
 #'
 #' @inheritParams calc_parking_lot_land_cover

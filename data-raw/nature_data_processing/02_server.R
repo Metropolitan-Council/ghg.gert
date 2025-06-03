@@ -1,5 +1,4 @@
 server <- function(input, output, session) {
-
   observe({
     tree_percentage <- input$cropRestoration_lc_props[1]
     wetland_percentage <- 100 - input$cropRestoration_lc_props[2]
@@ -66,7 +65,7 @@ server <- function(input, output, session) {
     updateSliderInput(session, "cropRestoration_comp_time", value = 15)
   })
   observeEvent(input$reset_cropRestoration_lc_props, {
-    updateSliderInput(session, "cropRestoration_lc_props", value = c(33,66))
+    updateSliderInput(session, "cropRestoration_lc_props", value = c(33, 66))
   })
 
 
@@ -75,7 +74,7 @@ server <- function(input, output, session) {
     updateSliderInput(session, "cropRestoration_area_pct", value = 0)
     updateSliderInput(session, "cropRestoration_comp_time", value = 15)
     updateSliderInput(session, "cropRestoration_start_yr", value = 2025)
-    updateSliderInput(session, "cropRestoration_lc_props", value = c(33,66))
+    updateSliderInput(session, "cropRestoration_lc_props", value = c(33, 66))
 
     updateSliderInput(session, "urbanTreePlanting_area_pct", value = 0)
     updateSliderInput(session, "urbanTreePlanting_start_yr", value = 2025)
@@ -92,7 +91,7 @@ server <- function(input, output, session) {
     updateSliderInput(session, "cropRestoration_area_pct", value = 0)
     updateSliderInput(session, "cropRestoration_comp_time", value = 15)
     updateSliderInput(session, "cropRestoration_start_yr", value = 2025)
-    updateSliderInput(session, "cropRestoration_lc_props", value = c(33,66))
+    updateSliderInput(session, "cropRestoration_lc_props", value = c(33, 66))
   })
 
 
@@ -117,8 +116,8 @@ server <- function(input, output, session) {
   future_years <- 2023:2050
 
 
-  filtered_data <- reactiveVal(NULL)  # container for dynamically loaded dataset
-  null_data <- reactiveVal(NULL)  # container for dynamically loaded dataset
+  filtered_data <- reactiveVal(NULL) # container for dynamically loaded dataset
+  null_data <- reactiveVal(NULL) # container for dynamically loaded dataset
 
 
   observe({
@@ -156,7 +155,6 @@ server <- function(input, output, session) {
       comp_time = input$lawnsToLegumes_comp_time,
       area_pct = input$lawnsToLegumes_area_pct
     )
-
   })
 
   # Module 2 - Urban Tree Planting ---------------------------------------------
@@ -191,7 +189,6 @@ server <- function(input, output, session) {
       grass_pct = grass_pct,
       wetland_pct = wetland_pct
     )
-
   })
 
   # Reactive data for projections
@@ -217,7 +214,7 @@ server <- function(input, output, session) {
         Developed_Med = Developed_Med + delta_Developed_Med,
         Developed_High = Developed_High + delta_Developed_High
       ) %>%
-      select(-starts_with("delta_")) %>%  # optional: remove delta columns
+      select(-starts_with("delta_")) %>% # optional: remove delta columns
       mutate(newTOTAL = rowSums(across(c(
         Bare, Developed_Low, Developed_Med, Developed_High,
         Urban_Grassland, Urban_Tree,
@@ -225,8 +222,10 @@ server <- function(input, output, session) {
         Wetland
       ))))
 
-    combined_data <- rbind(filtered_data(),
-                           df_projections %>% select(-TOTAL) %>% rename(TOTAL=newTOTAL))
+    combined_data <- rbind(
+      filtered_data(),
+      df_projections %>% select(-TOTAL) %>% rename(TOTAL = newTOTAL)
+    )
 
     combined_data
   })
@@ -236,7 +235,7 @@ server <- function(input, output, session) {
 
   theme_settings <- function() {
     theme(
-      plot.title = element_text(size=17, face="bold"),
+      plot.title = element_text(size = 17, face = "bold"),
       axis.title.x = element_text(size = 16),
       axis.title.y = element_text(size = 16),
       axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
@@ -271,26 +270,33 @@ server <- function(input, output, session) {
         Bare, Developed_Low, Developed_Med, Developed_High,
         Urban_Grassland, Urban_Tree,
         Cropland, Grassland, Tree, Water,
-        Wetland), names_to = "land_cover_type", values_to = "area") %>%
+        Wetland
+      ), names_to = "land_cover_type", values_to = "area") %>%
       mutate(land_cover_type = factor(land_cover_type,
-                                      levels =
-                                        c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
-                                          "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water")
+        levels =
+          c(
+            "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
+            "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water"
+          )
       )) %>%
       filter(land_cover_type != "TOTAL")
 
 
 
-    lc_brks <- c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
-                 "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Cropland", "Water")
-    lc_labs <- c("Tree", "Grassland", "Wetland", "Urban Tree", "Urban Grassland",
-                 "Bare", "Developed (Low)", "Developed (Med)", "Developed (High)", "Cropland", "Water")
+    lc_brks <- c(
+      "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
+      "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Cropland", "Water"
+    )
+    lc_labs <- c(
+      "Tree", "Grassland", "Wetland", "Urban Tree", "Urban Grassland",
+      "Bare", "Developed (Low)", "Developed (Med)", "Developed (High)", "Cropland", "Water"
+    )
 
 
     p1 <- ggplot(plot_data) +
-      geom_area(aes(x = inventory_year, y = area, fill = land_cover_type), alpha=0.5, show.legend = F) +
-      geom_area(aes(x = inventory_year, y = area, color = land_cover_type), fill=NA, linewidth=1, show.legend = F) +
-      geom_vline(xintercept = 2023, linetype = "dashed", alpha=0.5) +
+      geom_area(aes(x = inventory_year, y = area, fill = land_cover_type), alpha = 0.5, show.legend = F) +
+      geom_area(aes(x = inventory_year, y = area, color = land_cover_type), fill = NA, linewidth = 1, show.legend = F) +
+      geom_vline(xintercept = 2023, linetype = "dashed", alpha = 0.5) +
       scale_fill_manual(values = plot_colors, breaks = lc_brks, labels = lc_labs) +
       scale_color_manual(values = plot_colors, breaks = lc_brks, labels = lc_labs) +
       labs(
@@ -310,18 +316,19 @@ server <- function(input, output, session) {
 
     p2 <- rbind(
       plot_data %>%
-        filter(inventory_year == future_years[1]-1) %>%
-        mutate(tag = factor("initial", levels=c("initial","final"))),
+        filter(inventory_year == future_years[1] - 1) %>%
+        mutate(tag = factor("initial", levels = c("initial", "final"))),
       plot_data %>%
         filter(inventory_year == 2050) %>%
-        mutate(tag = factor("final", levels=c("initial","final")))
-    ) %>% arrange(tag) %>%
+        mutate(tag = factor("final", levels = c("initial", "final")))
+    ) %>%
+      arrange(tag) %>%
       # filter(!is.na(sequestration_potential)) %>%
-      mutate(inventory_year = factor(inventory_year, levels=c(as.character(future_years[1]-1), as.character(2050)))) %>%
+      mutate(inventory_year = factor(inventory_year, levels = c(as.character(future_years[1] - 1), as.character(2050)))) %>%
       ggplot() +
       theme_minimal() +
-      geom_col(aes(x = inventory_year, y = area, fill = land_cover_type), alpha=0.5) +
-      geom_col(aes(x = inventory_year, y = area, color = land_cover_type), fill=NA, linewidth=1, show.legend = F) +
+      geom_col(aes(x = inventory_year, y = area, fill = land_cover_type), alpha = 0.5) +
+      geom_col(aes(x = inventory_year, y = area, color = land_cover_type), fill = NA, linewidth = 1, show.legend = F) +
       scale_fill_manual(values = plot_colors, breaks = lc_brks, labels = lc_labs) +
       scale_color_manual(values = plot_colors, breaks = lc_brks, labels = lc_labs) +
       labs(
@@ -343,12 +350,10 @@ server <- function(input, output, session) {
     }
 
 
-    wrap_elements(p1 + p2 + plot_layout(widths=c(9,1))) +
+    wrap_elements(p1 + p2 + plot_layout(widths = c(9, 1))) +
       labs(title = paste("Land Cover Change Projection for", plot_lab)) +
       theme_minimal() +
       theme_settings()
-
-
   })
 
   # Render Sequestration Plot
@@ -361,11 +366,14 @@ server <- function(input, output, session) {
         Bare, Developed_Low, Developed_Med, Developed_High,
         Urban_Grassland, Urban_Tree,
         Cropland, Grassland, Tree, Water,
-        Wetland), names_to = "land_cover_type", values_to = "area") %>%
+        Wetland
+      ), names_to = "land_cover_type", values_to = "area") %>%
       mutate(land_cover_type = factor(land_cover_type,
-                                      levels =
-                                        c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
-                                          "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water")
+        levels =
+          c(
+            "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
+            "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water"
+          )
       )) %>%
       filter(land_cover_type != "TOTAL")
 
@@ -385,32 +393,31 @@ server <- function(input, output, session) {
     baseline_sequestration <- plot_data %>%
       filter(inventory_year == 2022) %>%
       ungroup() %>%
-      pull(sequestration_potential) %>% sum()
+      pull(sequestration_potential) %>%
+      sum()
 
 
     final_sequestration <- plot_data %>%
       filter(inventory_year == 2050) %>%
       ungroup() %>%
-      pull(sequestration_potential) %>% sum()
+      pull(sequestration_potential) %>%
+      sum()
 
     seq_brks <- c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland")
     seq_labs <- c("Tree", "Grassland", "Wetland", "Urban Tree", "Urban Grassland")
 
     p1 <- ggplot(plot_data) +
-      geom_area(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha=0.5, show.legend = F) +
-      geom_area(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill=NA, linewidth=1, show.legend = F) +
-
-      geom_vline(xintercept = 2023, linetype = "dashed", alpha=0.5) +
-      geom_hline(yintercept = baseline_sequestration, linetype = "dashed", alpha=0.5) +
-      geom_hline(yintercept = final_sequestration, linetype = "dashed", alpha=0.5) +
-
+      geom_area(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha = 0.5, show.legend = F) +
+      geom_area(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill = NA, linewidth = 1, show.legend = F) +
+      geom_vline(xintercept = 2023, linetype = "dashed", alpha = 0.5) +
+      geom_hline(yintercept = baseline_sequestration, linetype = "dashed", alpha = 0.5) +
+      geom_hline(yintercept = final_sequestration, linetype = "dashed", alpha = 0.5) +
       scale_fill_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
       scale_color_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
-
       labs(
         title = NULL,
         x = "Year",
-        y = expression("Metric tons"~CO[2]*e),
+        y = expression("Metric tons" ~ CO[2] * e),
         fill = "Land Cover Type"
       ) +
       theme_minimal() +
@@ -424,18 +431,19 @@ server <- function(input, output, session) {
 
     p2 <- rbind(
       plot_data %>%
-        filter(inventory_year == future_years[1]-1) %>%
-        mutate(tag = factor("initial", levels=c("initial","final"))),
+        filter(inventory_year == future_years[1] - 1) %>%
+        mutate(tag = factor("initial", levels = c("initial", "final"))),
       plot_data %>%
         filter(inventory_year == 2050) %>%
-        mutate(tag = factor("final", levels=c("initial","final")))
-    ) %>% arrange(tag) %>%
+        mutate(tag = factor("final", levels = c("initial", "final")))
+    ) %>%
+      arrange(tag) %>%
       filter(!is.na(sequestration_potential)) %>%
-      mutate(inventory_year = factor(inventory_year, levels=c(as.character(future_years[1]-1), as.character(2050)))) %>%
+      mutate(inventory_year = factor(inventory_year, levels = c(as.character(future_years[1] - 1), as.character(2050)))) %>%
       ggplot() +
       theme_minimal() +
-      geom_col(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha=0.5) +
-      geom_col(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill=NA, linewidth=1, show.legend = F) +
+      geom_col(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha = 0.5) +
+      geom_col(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill = NA, linewidth = 1, show.legend = F) +
       scale_fill_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
       scale_color_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
       labs(
@@ -455,11 +463,10 @@ server <- function(input, output, session) {
       paste(input$selected_ctu)
     }
 
-    wrap_elements(p1 + p2 + plot_layout(widths=c(9,1))) +
+    wrap_elements(p1 + p2 + plot_layout(widths = c(9, 1))) +
       labs(title = paste("Sequestration potential for", plot_lab)) +
       theme_minimal() +
       theme_settings()
-
   })
 
   output$summaryPlot1 <- renderPlot({
@@ -471,11 +478,14 @@ server <- function(input, output, session) {
         Bare, Developed_Low, Developed_Med, Developed_High,
         Urban_Grassland, Urban_Tree,
         Cropland, Grassland, Tree, Water,
-        Wetland), names_to = "land_cover_type", values_to = "area") %>%
+        Wetland
+      ), names_to = "land_cover_type", values_to = "area") %>%
       mutate(land_cover_type = factor(land_cover_type,
-                                      levels =
-                                        c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
-                                          "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water")
+        levels =
+          c(
+            "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
+            "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water"
+          )
       )) %>%
       filter(land_cover_type != "TOTAL")
 
@@ -494,11 +504,11 @@ server <- function(input, output, session) {
 
     plot_data <- rbind(
       plot_data %>%
-        filter(inventory_year == future_years[1]-1) %>%
-        mutate(tag = factor("initial", levels=c("initial","final"))),
+        filter(inventory_year == future_years[1] - 1) %>%
+        mutate(tag = factor("initial", levels = c("initial", "final"))),
       plot_data %>%
         filter(inventory_year == 2050) %>%
-        mutate(tag = factor("final", levels=c("initial","final")))
+        mutate(tag = factor("final", levels = c("initial", "final")))
     ) %>% arrange(tag)
 
     seq_brks <- c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland")
@@ -506,11 +516,11 @@ server <- function(input, output, session) {
 
     plot_data %>%
       filter(!is.na(sequestration_potential)) %>%
-      mutate(inventory_year = factor(inventory_year, levels=c(as.character(future_years[1]-1), as.character(2050)))) %>%
+      mutate(inventory_year = factor(inventory_year, levels = c(as.character(future_years[1] - 1), as.character(2050)))) %>%
       ggplot() +
       theme_minimal() +
-      geom_col(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha=0.5) +
-      geom_col(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill=NA, linewidth=1, show.legend = F) +
+      geom_col(aes(x = inventory_year, y = sequestration_potential, fill = land_cover_type), alpha = 0.5) +
+      geom_col(aes(x = inventory_year, y = sequestration_potential, color = land_cover_type), fill = NA, linewidth = 1, show.legend = F) +
       scale_fill_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
       scale_color_manual(values = plot_colors, breaks = seq_brks, labels = seq_labs) +
       scale_y_continuous(
@@ -523,8 +533,6 @@ server <- function(input, output, session) {
         fill = "Land Cover Type"
       ) +
       theme_settings()
-
-
   })
 
 
@@ -535,11 +543,14 @@ server <- function(input, output, session) {
         Bare, Developed_Low, Developed_Med, Developed_High,
         Urban_Grassland, Urban_Tree,
         Cropland, Grassland, Tree, Water,
-        Wetland), names_to = "land_cover_type", values_to = "area") %>%
+        Wetland
+      ), names_to = "land_cover_type", values_to = "area") %>%
       mutate(land_cover_type = factor(land_cover_type,
-                                      levels =
-                                        c("Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
-                                          "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water")
+        levels =
+          c(
+            "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
+            "Cropland", "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Water"
+          )
       )) %>%
       filter(land_cover_type != "TOTAL")
 
@@ -559,17 +570,19 @@ server <- function(input, output, session) {
     baseline_sequestration <- summary_data %>%
       filter(inventory_year == 2022) %>%
       ungroup() %>%
-      pull(sequestration_potential) %>% sum()
+      pull(sequestration_potential) %>%
+      sum()
 
 
     final_sequestration <- summary_data %>%
       filter(inventory_year == 2050) %>%
       ungroup() %>%
-      pull(sequestration_potential) %>% sum()
+      pull(sequestration_potential) %>%
+      sum()
 
 
-    seq_change_pct <- round(((final_sequestration-baseline_sequestration)/baseline_sequestration)*100,1)
-    seq_change_actual <- round(abs(final_sequestration-baseline_sequestration)/1000,0)
+    seq_change_pct <- round(((final_sequestration - baseline_sequestration) / baseline_sequestration) * 100, 1)
+    seq_change_actual <- round(abs(final_sequestration - baseline_sequestration) / 1000, 0)
 
 
 
@@ -581,26 +594,26 @@ server <- function(input, output, session) {
 
 
     if (seq_change_pct > 0) {
-      HTML(paste0("+",
-                  seq_change_pct,
-                  "% increase (+",
-                  seq_change_actual,
-                  "k metric tons CO<sub>2</sub>e) in C sequestered by natural systems in ",
-                  geog_name,
-                  "."))
+      HTML(paste0(
+        "+",
+        seq_change_pct,
+        "% increase (+",
+        seq_change_actual,
+        "k metric tons CO<sub>2</sub>e) in C sequestered by natural systems in ",
+        geog_name,
+        "."
+      ))
     } else if (seq_change_pct < 0) {
-      HTML(paste0(seq_change_pct,
-                  "% decrease (",
-                  seq_change_actual,
-                  "k metric tons CO<sub>2</sub>e) in C sequestered by natural systems in ",
-                  geog_name,
-                  "."))
+      HTML(paste0(
+        seq_change_pct,
+        "% decrease (",
+        seq_change_actual,
+        "k metric tons CO<sub>2</sub>e) in C sequestered by natural systems in ",
+        geog_name,
+        "."
+      ))
     } else {
       HTML("No change in C sequestered by natural systems.")
     }
-
-
   })
-
-
 }

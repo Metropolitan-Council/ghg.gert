@@ -13,11 +13,10 @@
 #' @export
 # Module 2: Urban Tree Planting -------------------------------------------
 urban_tree_planting <- function(df_hist,
-                                   df_null,
-                                   .urban_tree_start,
-                                   .urban_tree_time,
-                                   .urban_tree_area_perc
-) {
+                                df_null,
+                                .urban_tree_start,
+                                .urban_tree_time,
+                                .urban_tree_area_perc) {
   # Input checks
   if (!is.numeric(.urban_tree_area_perc) || .urban_tree_area_perc < 0 || .urban_tree_area_perc > 100) {
     stop(".urban_tree_area_perc must be a number between 0 and 100.")
@@ -36,9 +35,9 @@ urban_tree_planting <- function(df_hist,
 
   # Plantable fractions per developed type
   plantable_fraction <- c(
-    Developed_Low = 0.30,  # 30% plantable area, 70% impervious
-    Developed_Med = 0.15,  # 15% plantable area, 85% impervious
-    Developed_High = 0.05  #  5% plantable area, 95% impervious
+    Developed_Low = 0.30, # 30% plantable area, 70% impervious
+    Developed_Med = 0.15, # 15% plantable area, 85% impervious
+    Developed_High = 0.05 #  5% plantable area, 95% impervious
   )
 
   # Get last year of inventory
@@ -46,8 +45,8 @@ urban_tree_planting <- function(df_hist,
 
   # Calculate plantable area from each class
   developed_vals <- c(
-    Developed_Low  = inventory_end$Developed_Low  * plantable_fraction["Developed_Low"],
-    Developed_Med  = inventory_end$Developed_Med  * plantable_fraction["Developed_Med"],
+    Developed_Low  = inventory_end$Developed_Low * plantable_fraction["Developed_Low"],
+    Developed_Med  = inventory_end$Developed_Med * plantable_fraction["Developed_Med"],
     Developed_High = inventory_end$Developed_High * plantable_fraction["Developed_High"]
   )
   total_plantable <- sum(developed_vals)
@@ -113,21 +112,22 @@ urban_tree_planting <- function(df_hist,
   # create mergeable data frame with df_null for new output
   result_out <- result %>%
     pivot_longer(
-    cols = starts_with("delta_"),
-    names_to = "land_cover",
-    values_to = "delta"
-  ) %>%
-  mutate(
-    land_cover = sub("delta_", "", land_cover)  # Remove "delta_" prefix
-  ) %>%
-    right_join(df_null %>%
-                 pivot_longer(
-                   cols = Bare:TOTAL,  # Assuming these are all land cover columns
-                   names_to = "land_cover",
-                   values_to = "value"
-                 ),
-               by = c("inventory_year", "land_cover")
-               )  %>%
+      cols = starts_with("delta_"),
+      names_to = "land_cover",
+      values_to = "delta"
+    ) %>%
+    mutate(
+      land_cover = sub("delta_", "", land_cover) # Remove "delta_" prefix
+    ) %>%
+    right_join(
+      df_null %>%
+        pivot_longer(
+          cols = Bare:TOTAL, # Assuming these are all land cover columns
+          names_to = "land_cover",
+          values_to = "value"
+        ),
+      by = c("inventory_year", "land_cover")
+    ) %>%
     mutate(
       new_value = if_else(!is.na(delta), value + delta, value)
     ) %>%

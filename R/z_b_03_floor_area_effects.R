@@ -1,6 +1,7 @@
-#' @title Calculate floor area growth
+#' @title DEPRECATED Calculate floor area growth
 #' @family residential
 #' @family buildings
+#' @family deprecated
 #'
 #' @description Adjusts single and multifamily average floor area
 #'      forecast in residential table. Allows the user to specify the percentage
@@ -53,7 +54,7 @@ calc_floor_area_growth <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.single_family_floor_area_growth_pct == 0) {
-    cli::cli_alert_warning("No change in single family floor area growth.")
+    cli::cli_warn("No change in single family floor area growth.")
     return(res_tb)
   } else if (.single_family_floor_area_growth_pct != 0) {
     res_tb_units <- res_tb %>%
@@ -130,9 +131,9 @@ calc_floor_area_growth <- function(res_tb,
     return(new_res_tb)
   }
 }
-#' @title Calculate floor area LEED
+#' @title DEPRECATED Calculate floor area LEED
 #' @family buildings
-#'
+#' @family deprecated
 #' @description Calculates the adjusted floor area of single-family homes
 #'    in accordance with LEED Gold standards, considering the proportion of
 #'    new homes built to these standards, the difference in single-family
@@ -182,7 +183,7 @@ calc_floor_area_leed <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_leed_gold_pct == 0) {
-    cli::cli_alert_warning("No change in new single family home energy efficiency")
+    cli::cli_warn("No change in new single family home energy efficiency")
     return(res_tb)
   } else if (.new_homes_leed_gold_pct != 0) {
     new_units <- res_tb %>%
@@ -252,8 +253,9 @@ calc_floor_area_leed <- function(res_tb,
   # for the energy savings from LEED buildings
 }
 
-#' @title Calculate floor area retrofit
+#' @title DEPRECATED Calculate floor area retrofit
 #' @family buildings
+#' @family deprecated
 #'
 #' @description adjusts single and multifamily average
 #' floor area forecast under the assumption of energy use reduction due to home
@@ -305,7 +307,7 @@ calc_floor_area_retrofit <- function(res_tb,
 
 
   if (.existing_home_retrofit_pct == 0) {
-    cli::cli_alert_warning("No change in existing home energy efficiency")
+    cli::cli_warn("No change in existing home energy efficiency")
     return(res_tb)
   } else if (.existing_home_retrofit_pct != 0) {
     existing_units <- res_tb %>%
@@ -414,8 +416,9 @@ calc_floor_area_retrofit <- function(res_tb,
 }
 
 
-#' @title Calculate floor area energy intensity reduction from behavior change
+#' @title DEPRECATED Calculate floor area energy intensity reduction from behavior change
 #' @family buildings
+#' @family deprecated
 #'
 #' @description Adjusts residential floor area
 #'      by city/township based on proportion of households that change
@@ -459,7 +462,7 @@ calc_floor_area_behavior_change <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.home_behavior_change_pct == 0) {
-    cli::cli_alert_warning("No change in household behavior.")
+    cli::cli_warn("No change in household behavior.")
     return(res_tb)
   } else if (.home_behavior_change_pct != 0) {
     new_behavior_change <- res_tb %>%
@@ -511,10 +514,10 @@ calc_floor_area_behavior_change <- function(res_tb,
   }
 }
 
-#' @title Calculate affordable floor area effects
+#' @title DEPRECATED Calculate affordable floor area effects
 #'
 #' @family residential
-#'
+#' @family deprecated
 #' @family buildings
 #'
 #' @description Calculates the anticipated reduction in single-family
@@ -573,7 +576,7 @@ calc_affordable_floor_area <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.single_family_floor_area_growth_pct > 0.05) {
-    cli::cli_alert_warning("Single family floor area growth cannot be greater than %5")
+    cli::cli_warn("Single family floor area growth cannot be greater than %5")
     return(res_tb)
   } else {
     new_res_tb <-

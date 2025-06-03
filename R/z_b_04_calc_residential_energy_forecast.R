@@ -1,5 +1,6 @@
-#' @title Calculate Residential Energy Forecast
+#' @title DEPRECATED Calculate Residential Energy Forecast
 #' @export
+#' @family deprecated
 calc_residential_energy_forecast <-
   function(tb = building_energy_data, .selected_ctu = "all") {
     # cli::cli_progress_message("* calculating residential energy forecast \n")

@@ -12,7 +12,7 @@
 #'   (`.grid_decarbonization_pct = 1`), then there are no emissions for
 #'   electric vehicles.
 #'
-#' @param tb_vmt [tibble::tibble()], output VMT table
+#' @param tb_vmt [tibble::tibble()], VMT table
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.

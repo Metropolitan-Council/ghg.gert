@@ -15,6 +15,7 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()
@@ -36,6 +37,7 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()
@@ -57,6 +59,7 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()

@@ -11,8 +11,6 @@ calc_scen_land_use(tb, .selected_ctu, .enviro_factors = enviro_factors)
 The input dataset to be used.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...

@@ -20,7 +20,7 @@ bev_grid_combo <- furrr::future_map(
     purrr::map(
       grid_percent_seq,
       function(grid_pct) {
-        run_scenario_transportation(
+        run_module_transportation(
           .selected_ctu = "St. Paul",
           .calc_transp_ghg_embodied = TRUE,
           .bev_pct_sales = bev_pct,

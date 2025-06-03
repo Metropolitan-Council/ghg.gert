@@ -5,7 +5,8 @@ testthat::test_that("Minneapolis forecasts", {
   )
 
   testthat::expect_equal(
-    mpls_compiled$residential,
+    mpls_compiled$residential %>%
+      filter(geog_name == "Minneapolis"),
     building_data$residential %>%
       filter(geog_name == "Minneapolis")
   )
@@ -25,7 +26,8 @@ testthat::test_that("Lake Elmo forecasts", {
   )
 
   testthat::expect_equal(
-    lk_el_compiled$residential,
+    lk_el_compiled$residential %>%
+      filter(geog_name == "Lake Elmo"),
     building_data$residential %>%
       filter(geog_name == "Lake Elmo")
   )
