@@ -35,7 +35,23 @@ scenario, in contrast \code{res_tb} is used as the input for the decarbonization
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new single-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
+
+\item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
+
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns

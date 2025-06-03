@@ -9,19 +9,11 @@ calc_residential_retrofit(
   .selected_ctu,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with residential building attributes.
-Package provided dataset \code{building_energy$residential} is suitable and the
-default value.
-\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{res_tb} is used as the input for the decarbonization scenario.}
-
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
@@ -56,7 +48,7 @@ calc_floor_area_retrofit(
   .selected_ctu = "all",
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = enviro_factors
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 

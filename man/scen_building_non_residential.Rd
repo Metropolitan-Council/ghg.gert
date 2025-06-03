@@ -46,7 +46,8 @@ Default is \code{0}.}
 
 \item{.renewable_ng_nonres}{logical, documentation needed}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

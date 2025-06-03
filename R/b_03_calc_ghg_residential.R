@@ -16,6 +16,8 @@
 #'      including columns `residential_mwh`, `residential_mcf`.
 #' @inheritParams run_module_transportation
 #' @inheritParams scen_building_residential
+#' @inheritParams calc_energy_residential
+#'
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns

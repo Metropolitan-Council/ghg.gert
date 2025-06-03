@@ -29,7 +29,8 @@ Default is \code{0.0}.}
 Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
 Default is \code{0.00}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}

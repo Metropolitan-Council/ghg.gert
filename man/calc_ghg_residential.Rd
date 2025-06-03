@@ -18,7 +18,11 @@ including columns \code{residential_mwh}, \code{residential_mcf}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

@@ -24,7 +24,8 @@ default value.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

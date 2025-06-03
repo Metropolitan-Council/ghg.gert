@@ -20,17 +20,16 @@
 #'     scenario, in contrast `res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @inheritParams adj_unit_counts
-#' @inheritParams calc_floor_area_leed
-#' @inheritParams calc_floor_area_growth
-#' @inheritParams calc_floor_area_retrofit
 #' @inheritParams calc_electrify_residential_heating
-#' @inheritParams calc_floor_area_behavior_change
 #' @inheritParams calc_ghg_residential
+#' @inheritParams calc_energy_residential
 #' @inheritParams calc_residential_renewable_ng
 #' @inheritParams scen_building_non_residential
 #' @inheritParams run_scenario_building
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams run_all_modules
+#' @inheritParams calc_housing_leed
+#' @inheritParams calc_residential_retrofit
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns

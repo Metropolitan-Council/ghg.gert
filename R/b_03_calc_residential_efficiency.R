@@ -4,7 +4,7 @@
 #' @description Calculates the efficiency of single-family homes
 #'    built in accordance with LEED Gold standards, considering the proportion of
 #'    new homes built to these standards, the difference in single-family
-#'    housing units between 2018 and 2040, and the reduction in energy use
+#'    housing units between 2021 and 2050, and the reduction in energy use
 #'    intensity due to LEED Gold construction. This function is designed to
 #'    estimate the impact of energy-efficient construction on residential
 #'    greenhouse gas emissions.
@@ -68,7 +68,7 @@ calc_housing_leed <- function(res_tb,
   }
 
   if (.new_mf_homes_leed_gold_pct == 0) {
-    cli::cli_warn("No change in new single family home energy efficiency")
+    cli::cli_warn("No change in new multifamily home energy efficiency")
     new_mf <- res_tb %>%
       dplyr::filter(grepl("multi", sp_categories)) %>%
       mutate(effective_unit_change = 0)
@@ -157,23 +157,26 @@ calc_housing_leed <- function(res_tb,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .enviro_factors = enviro_factors
+#'   .enviro_factors = ghg.ccap::enviro_factors
 #' )
 #' }
 #'
 calc_residential_retrofit <- function(res_tb,
                                       .selected_ctu,
-                                      .existing_sf_retrofit_pct,
-                                      .existing_mf_retrofit_pct,
-                                      .enviro_factors = enviro_factors) {
+                                      .existing_sf_retrofit_pct = 0,
+                                      .existing_mf_retrofit_pct = 0,
+                                      .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  # browser()
+
+  check_inputs(name = "existing_sf_retrofit_pct", .existing_sf_retrofit_pct)
+  check_inputs(name = "existing_mf_retrofit_pct", .existing_mf_retrofit_pct)
+
+
   if (.existing_sf_retrofit_pct == 0) {
-    cli::cli_alert_warning("No change in existing home energy efficiency")
+    cli::cli_warn("No change in existing single family home energy efficiency")
     existing_sf <- res_tb
-    return(existing_sf)
   } else if (.existing_sf_retrofit_pct != 0) {
     existing_sf <- res_tb %>%
       dplyr::filter(grepl("single", sp_categories)) %>%
@@ -189,9 +192,8 @@ calc_residential_retrofit <- function(res_tb,
   }
 
   if (.existing_mf_retrofit_pct == 0) {
-    cli::cli_alert_warning("No change in existing home energy efficiency")
+    cli::cli_warn("No change in existing mutifamily home energy efficiency")
     existing_mf <- res_tb
-    return(existing_mf)
   } else if (.existing_mf_retrofit_pct != 0) {
     existing_mf <- res_tb %>%
       dplyr::filter(grepl("multi", sp_categories)) %>%

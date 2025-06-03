@@ -22,9 +22,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \value{
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.

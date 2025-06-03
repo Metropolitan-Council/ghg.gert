@@ -61,6 +61,10 @@ Default is \code{0.0}.}
 
 \item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
+\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of new single-family homes to instead be built as multifamily homes.
+Default is \code{0.0}.}
+
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
@@ -78,7 +82,11 @@ Default is \code{0.0}}
 
 \item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}

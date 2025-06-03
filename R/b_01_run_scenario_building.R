@@ -11,9 +11,16 @@
 #' @inheritParams scen_building_non_residential
 #' @inheritParams calc_residential_renewable_ng
 #' @inheritParams calc_ghg_non_residential
+#' @inheritParams calc_energy_residential
+#' @inheritParams calc_residential_retrofit
+#' @inheritParams calc_housing_leed
+#' @inheritParams adj_unit_counts
+#' @inheritParams run_all_modules
 #'
 #' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
 #'   Default value is `0.6`.
+#' @param .grid_emissions table,
+#'   Default is `ghg.ccap::grid_emissions`
 #'
 #' @return [tibble::tibble()].
 #'       Returns a table with columns `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
@@ -165,7 +172,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
         .sf_heat_pump_pct = .sf_heat_pump_pct,
         .mf_heat_pump_pct = .mf_heat_pump_pct,
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .grid_emissions = .grid_emissions
       )
   }
 

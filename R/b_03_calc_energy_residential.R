@@ -13,6 +13,13 @@
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
+#' @param .sf_heat_pump_pct numeric, percent of single family homes converting to heat pumps
+#' @param .mf_heat_pump_pct numeric, percent of multifamily homes converting to heat pumps
+#' @param .mwh_coefficients table, table with megawatt hour coefficients. Default is
+#'   `ghg.ccap::mwh_coefficients`
+#' @param .mcf_coefficients table, table with natural gas cubic feet coefficients. Default is
+#'   `ghg.ccap::mcf_coefficients`
+#'
 #' @inheritParams run_module_transportation
 #' @inheritParams scen_building_residential
 #'

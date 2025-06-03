@@ -33,7 +33,14 @@ scenario, in contrast \code{res_tb} is used as the input for the decarbonization
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.mwh_coefficients}{table, table with megawatt hour coefficients. Default is
+\code{ghg.ccap::mwh_coefficients}}
+
+\item{.mcf_coefficients}{table, table with natural gas cubic feet coefficients. Default is
+\code{ghg.ccap::mcf_coefficients}}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

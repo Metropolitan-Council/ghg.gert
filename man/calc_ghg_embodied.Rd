@@ -44,9 +44,10 @@ Default is \code{0}.}
 \item{.bau_tb}{Output table for results.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions

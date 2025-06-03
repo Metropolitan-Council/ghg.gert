@@ -13,12 +13,6 @@ calc_housing_leed(
 )
 }
 \arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with residential building attributes.
-Package provided dataset \code{building_energy$residential} is suitable and the
-default value.
-\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{res_tb} is used as the input for the decarbonization scenario.}
-
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
@@ -28,8 +22,6 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
-
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

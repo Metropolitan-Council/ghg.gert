@@ -35,7 +35,8 @@ a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \description{
 This function calculates the total energy demand and greenhouse gas (GHG) emissions

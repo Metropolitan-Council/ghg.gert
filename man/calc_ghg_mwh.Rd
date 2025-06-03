@@ -19,9 +19,13 @@ calc_ghg_mwh(
 )
 }
 \arguments{
+\item{grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}

@@ -16,10 +16,7 @@ The input dataset to be used.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
-
-\item{.urban_form_scenario}{character,
-The current land use scenario being explored.
+\item{.urban_form_scenario}{character, the current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
 \itemize{

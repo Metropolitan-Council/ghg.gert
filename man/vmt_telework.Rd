@@ -20,7 +20,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \description{
 Calculate telework multiplier

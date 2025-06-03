@@ -80,9 +80,8 @@ run_all_modules(
 
 \item{run_transportation}{logical. Default is \code{TRUE}}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
-and one for each year. Package provided datasets \code{transportation_data$passenger} or
-\code{transportation_data$freight} are suitable.}
+\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+The input dataset to be used.}
 
 \item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided.
@@ -95,6 +94,11 @@ Package provided dataset \code{building_energy$residential} is suitable and the
 default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
+
+\item{res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with residential building attributes.
+Package provided dataset \code{building_energy$residential} is suitable and
+the default value. \code{res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
 \item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
@@ -109,6 +113,9 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_cost_mile}{logical, whether to calculate transportation fuel cost per mile tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
 \item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
@@ -172,6 +179,18 @@ Default is \code{0.0}.}
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
+
+\item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new single-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
+
+\item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
+
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
@@ -245,15 +264,19 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 }
 \value{
 list, list with the outputs of the three modules.

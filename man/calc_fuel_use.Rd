@@ -16,7 +16,7 @@ calc_fuel_use(
 )
 }
 \arguments{
-\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
+\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, VMT table}
 
 \item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
@@ -31,9 +31,10 @@ Default is \code{"REF"}}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \description{
 Calculate use of fuel in gallons or  kWh (thousands)

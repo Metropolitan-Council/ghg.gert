@@ -32,6 +32,9 @@ Percentage of all new single-family
 households that will respond to increased energy costs by decreasing
 home size.
 Default is \code{0.0}.}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 data table
