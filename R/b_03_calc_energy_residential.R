@@ -142,7 +142,7 @@ calc_energy_residential <- function(res_tb,
     energy_bau %>%
       mutate(scenario = "bau"),
     energy_strategy %>%
-      mutate(scenario = .scenario)
+      mutate(scenario = "scenario")
   )
 
   return(energy_final)
