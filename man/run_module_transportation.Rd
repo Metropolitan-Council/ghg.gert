@@ -39,9 +39,9 @@ run_module_transportation(
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
-  .elast = elast,
-  .elast_5d = elast_5d,
-  .fuel_economy = fuel_economy,
+  .elast = ghg.ccap::elast,
+  .elast_5d = ghg.ccap::elast_5d,
+  .fuel_economy = ghg.ccap::fuel_economy,
   .factor_values = ghg.ccap::factor_values
 )
 }
@@ -55,6 +55,9 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_cost_mile}{logical, whether to calculate transportation fuel cost per mile tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
 \item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
@@ -135,15 +138,16 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \value{
 A named list of four objects: \code{passenger}, \code{passenger_all}, \code{freight}, and \code{freight_all}.
@@ -161,6 +165,7 @@ Other transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{mode_freight_rail}()},

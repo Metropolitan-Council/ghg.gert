@@ -1,4 +1,5 @@
-#' @title Get Non Residential Energy Baseline
+#' @title DEPRECATED Get Non Residential Energy Baseline
+#' @family deprecated
 #'
 #' @description This function retrieves statewide non-residential energy data
 #'    from the given building energy dataset. It calculates electricity consumption

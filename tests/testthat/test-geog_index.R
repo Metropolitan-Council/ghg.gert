@@ -1,8 +1,10 @@
 testthat::test_that("Geog index joins smoothly", {
   check_join <- function(x) {
     if ("geog_name" %in% names(x)) {
+      join_columns <- intersect(names(geog_index), names(x))
+
       test_val <- geog_index %>%
-        left_join(x, by = c("geog_name", "geog_id")) %>%
+        left_join(x, by = join_columns) %>%
         filter(is.na(geog_level) | is.na(geog_id) | is.na(geog_id_type)) %>%
         nrow()
     } else {

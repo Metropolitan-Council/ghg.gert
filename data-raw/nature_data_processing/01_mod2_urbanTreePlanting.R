@@ -3,8 +3,7 @@ mod2_urbanTreePlanting <- function(df_hist,
                                    df_null,
                                    start_yr,
                                    comp_time,
-                                   area_pct
-) {
+                                   area_pct) {
   # Input checks
   if (!is.numeric(area_pct) || area_pct < 0 || area_pct > 100) {
     stop("area_pct must be a number between 0 and 100.")
@@ -23,9 +22,9 @@ mod2_urbanTreePlanting <- function(df_hist,
 
   # Plantable fractions per developed type
   plantable_fraction <- c(
-    Developed_Low = 0.30,  # 30% plantable area, 70% impervious
-    Developed_Med = 0.15,  # 15% plantable area, 85% impervious
-    Developed_High = 0.05  #  5% plantable area, 95% impervious
+    Developed_Low = 0.30, # 30% plantable area, 70% impervious
+    Developed_Med = 0.15, # 15% plantable area, 85% impervious
+    Developed_High = 0.05 #  5% plantable area, 95% impervious
   )
 
   # Get last year of inventory
@@ -33,8 +32,8 @@ mod2_urbanTreePlanting <- function(df_hist,
 
   # Calculate plantable area from each class
   developed_vals <- c(
-    Developed_Low  = inventory_end$Developed_Low  * plantable_fraction["Developed_Low"],
-    Developed_Med  = inventory_end$Developed_Med  * plantable_fraction["Developed_Med"],
+    Developed_Low  = inventory_end$Developed_Low * plantable_fraction["Developed_Low"],
+    Developed_Med  = inventory_end$Developed_Med * plantable_fraction["Developed_Med"],
     Developed_High = inventory_end$Developed_High * plantable_fraction["Developed_High"]
   )
   total_plantable <- sum(developed_vals)

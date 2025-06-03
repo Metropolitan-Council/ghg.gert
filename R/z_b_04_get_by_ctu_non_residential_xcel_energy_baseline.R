@@ -1,4 +1,5 @@
-#' @title Get Non Residential Xcel Energy by City/Township
+#' @title DEPRECATED Get Non Residential Xcel Energy by City/Township
+#' @family deprecated
 #' @export
 #' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams run_all_modules

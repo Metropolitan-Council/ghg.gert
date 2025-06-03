@@ -12,8 +12,6 @@ calc_land_cover_by_land_use(
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

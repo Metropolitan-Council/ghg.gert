@@ -1,7 +1,7 @@
-#' @title Get by County Non Residential Energy
+#' @title DEPRECATED Get by County Non Residential Energy
 #'
 #' @family buildings
-#'
+#' @family deprecated
 #' @description This function calculates and returns the non-residential energy baseline (in MWh/year)
 #'    at the county level for a specified City or Township (CTU) or all CTUs.
 #'    It processes building energy data, statewide energy information, county energy baselines, utility natural gas data, and

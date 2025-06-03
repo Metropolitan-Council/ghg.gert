@@ -17,14 +17,14 @@ us_list <- list.files(us_path)[1:5]
 
 # function to read and process files
 us_format <- function(year_folder) {
-  file_full_path <- file.path(us_path, year_folder) # Construct folder path
-  files_in_folder <- list.files(file_full_path, full.names = TRUE) # List files in folder
+  file_full_path <- file.path(us_path, year_folder)
+  files_in_folder <- list.files(file_full_path, full.names = TRUE)
 
-  # Read all files in the folder and bind them
+  # read all files in the folder and bind them
   urbansim_data <- read.csv(files_in_folder) %>%
     filter(!is.na(coctu_id)) %>%
     pivot_longer(
-      cols = 2:112, # Adjust column selection as needed
+      cols = 2:112,
       names_to = "variable"
     ) %>%
     left_join(us_meta, by = "variable") %>%
@@ -57,25 +57,43 @@ us_formatted <- lapply(us_list, us_format) %>%
   filter(status != "needs clarification") %>%
   # reduce to categories of interest
   mutate(sp_categories = case_when(
-    variable == "total_households" ~ "households",
+    variable == "total_households" ~ "total_households",
     variable == "total_pop" ~ "population",
     variable == "total_job_spaces" ~ "jobs",
     variable %in% c(
-      "jobs_sectors_1",
-      "jobs_sectors_2",
-      "jobs_sectors_3"
+      "jobs_sector_1",
+      "jobs_sector_2",
+      "jobs_sector_3"
     ) ~ "industrial_jobs",
     variable %in% c(
-      "jobs_sectors_4",
-      "jobs_sectors_5",
-      "jobs_sectors_6",
-      "jobs_sectors_7",
-      "jobs_sectors_8",
-      "jobs_sectors_9",
-      "jobs_sectors_10"
+      "jobs_sector_4",
+      "jobs_sector_5",
+      "jobs_sector_6",
+      "jobs_sector_7",
+      "jobs_sector_8",
+      "jobs_sector_9",
+      "jobs_sector_10"
     ) ~ "commercial_jobs",
-    variable == "max_detached" ~ "single_family_units",
-    variable == "max_multifam" ~ "multifamily_units"
+    variable %in% c("js_type_12") ~ "industrial_job_space",
+    variable %in% c(
+      "js_type_1011",
+      "js_type_13",
+      "js_type_14"
+    ) ~ "commercial_job_space",
+    variable %in% c(
+      "single_fam_det_sl_own",
+      "single_fam_det_rent",
+      "manufactured_homes"
+    ) ~ "single_family_small_lot",
+    variable == "single_fam_det_ll_own" ~ "single_family_large_lot",
+    variable %in% c(
+      "single_fam_attached_own",
+      "single_fam_attached_rent"
+    ) ~ "single_family_attached",
+    variable %in% c(
+      "multi_fam_own",
+      "multi_fam_rent"
+    ) ~ "multifamily_units"
   )) %>%
   filter(!is.na(sp_categories))
 
@@ -105,18 +123,39 @@ demographic_data_county <- us_formatted %>%
       dplyr::distinct(geog_name, geog_level, county_id) %>%
       mutate(
         geog_name = paste(geog_name, "County"),
-        county_id_fips = substr(county_id, 3, 5)
+        county_id_fips = substr(county_id, 3, 5),
+        geog_level = toupper(geog_level)
       ),
     by = join_by(county_id_fips)
   ) %>%
   mutate(geog_id_type = "county_fips") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id = county_id_fips, geog_id_type, geog_level, sp_categories, value)
+  select(inventory_year, geog_name, geog_id = county_id, geog_id_type, geog_level, sp_categories, value)
 
 demographic_data <- bind_rows(
   demographic_data_ctu,
   demographic_data_county
-)
+) %>%
+  group_by(geog_name, geog_id, geog_id_type, sp_categories, geog_level) %>%
+  tidyr::complete(inventory_year = tidyr::full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
+  dplyr::arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
+  mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
+  ungroup()
+
+# calculate urbansim deltas from base year to each other year
+demographic_data <- demographic_data %>%
+  left_join(
+    demographic_data %>%
+      dplyr::filter(inventory_year == 2021) %>%
+      dplyr::rename(base_value = value) %>%
+      select(-inventory_year)
+  ) %>%
+  mutate(value_change_from_base = value - base_value) %>%
+  select(-base_value)
+
+anti_join(demographic_data,
+          geog_index) %>%
+  distinct(geog_name, geog_level)
 
 # urbansim_meta <- tibble::tribble(
 #   ~"Column", ~"Class", ~"Description",

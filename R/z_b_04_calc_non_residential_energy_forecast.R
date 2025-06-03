@@ -1,9 +1,10 @@
-#' @title Calculate Non Residential Energy Forecast
+#' @title DEPRECATED Calculate Non Residential Energy Forecast
 #' @export
 #' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams run_all_modules
 #' @inheritParams run_scenario_land_use
 #' @inheritParams filter_ctu
+#' @family deprecated
 #'
 calc_non_residential_energy_forecast <- function(tb = building_energy_data, .selected_ctu = "all") {
   # cli::cli_progress_message("* calculating non-residential energy forecast \n")

@@ -21,9 +21,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 a table with columns \code{year}, \code{geog_name}, and \code{transit_adj}.

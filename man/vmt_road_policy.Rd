@@ -24,6 +24,8 @@ vmt_road_policy(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
+\item{.tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, VMT table}
+
 \item{.mode}{character, current mode}
 
 \item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}
@@ -44,9 +46,10 @@ Default is \code{0}}
 
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 }
 \value{
 a table with columns   \code{year}, \code{geog_name}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},

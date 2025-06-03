@@ -44,9 +44,10 @@ Default is \code{0}.}
 \item{.bau_tb}{Output table for results.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions
@@ -60,10 +61,14 @@ b) similarly affected by changes in local grid mix
 Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
+\code{\link{calc_energy_residential}()},
 \code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()}
+\code{\link{get_residential_energy_baseline}()},
+\code{\link{get_residential_mcf_baseline}()},
+\code{\link{get_residential_mwh_baseline}()}
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
@@ -71,6 +76,7 @@ Other transportation:
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{mode_freight_rail}()},

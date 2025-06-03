@@ -1,5 +1,5 @@
-#' @title Get Non Residential Energy Baseline
-#'
+#' @title DEPRECATED Get Non Residential Energy Baseline
+#' @family deprecated
 #' @description This function calculates and returns the non-residential
 #'    energy baseline for a specified City or Township (CTU) or all CTUs.
 #'    It processes building energy data, statewide energy information,

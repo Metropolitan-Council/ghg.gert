@@ -1,6 +1,7 @@
-#' @title Calculate existing commercial buildings efficiency
+#' @title DEPRECATED Calculate existing commercial buildings efficiency
 #' @family commercial-industrial
 #' @family buildings
+#' @family deprecated
 #'
 #' @description Helps to calculate the reduced
 #'      emissions from implementing high energy efficiency retrofits to existing buildings.

@@ -12,8 +12,12 @@
 #'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
 #' @param .calc_transp_fuel_use  logical, whether to calculate transportation fuel use tables.
 #'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
+#' @param .calc_transp_fuel_cost_mile  logical, whether to calculate transportation fuel cost per mile tables.
+#'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
 #' @param .calc_transp_ghg_embodied logical, whether to calculate embodied emissions.
 #'   Default is `FALSE`. Changing this value to `TRUE` increased runtime.
+#' @param .enviro_factors list, named list of environmental factors. Default is
+#'   `ghg.ccap::enviro_factors`.
 #'
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams run_scenario_land_use
@@ -74,9 +78,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .phev_pct_sales = 0,
                                       .hev_pct_sales = 0,
                                       .enviro_factors = ghg.ccap::enviro_factors,
-                                      .elast = elast,
-                                      .elast_5d = elast_5d,
-                                      .fuel_economy = fuel_economy,
+                                      .elast = ghg.ccap::elast,
+                                      .elast_5d = ghg.ccap::elast_5d,
+                                      .fuel_economy = ghg.ccap::fuel_economy,
                                       .factor_values = ghg.ccap::factor_values) {
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
