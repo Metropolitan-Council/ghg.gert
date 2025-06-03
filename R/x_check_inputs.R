@@ -120,7 +120,13 @@ check_inputs <- function(name, value) {
     if (!value %in% unique(ghg.ccap::factor_values$ghg$source)) {
       cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.ccap::factor_values$ghg$source), collapse = ", "))
     }
-  } else {
+  }
+  else if (name == "miles_per_gallon") {
+    if (!value %in% unique(ghg.ccap::fuel_economy$var)) {
+      cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.ccap::fuel_economy$var), collapse = ", "))
+    }
+  }
+  else {
     return()
   }
 }
