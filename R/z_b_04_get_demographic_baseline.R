@@ -85,15 +85,15 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   ## ---- get population & households from 'Emissions'----
   ctu_population <-
     tb$ctu_population
-    # dplyr::select(ctu_name, inventory_year, population, households) %>%
-    # dplyr::group_by(ctu_name, year) %>%
-    # tidyr::pivot_longer(
-    #   cols = c("population", "households"),
-    #   names_to = "var",
-    #   values_to = "value"
-    # ) %>%
-    # dplyr::group_by(ctu_name, year, var) %>%
-    # dplyr::summarise(value = sum(value, na.rm = T), .groups = "keep")
+  # dplyr::select(ctu_name, inventory_year, population, households) %>%
+  # dplyr::group_by(ctu_name, year) %>%
+  # tidyr::pivot_longer(
+  #   cols = c("population", "households"),
+  #   names_to = "var",
+  #   values_to = "value"
+  # ) %>%
+  # dplyr::group_by(ctu_name, year, var) %>%
+  # dplyr::summarise(value = sum(value, na.rm = T), .groups = "keep")
   # portions of a city that fall in more than one county
   # are aggregated.
 
@@ -112,41 +112,41 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   ## ----- aggregate industrial jobs by NAICS -----
   ctu_industrial_jobs <-
     tb$industrial_jobs
-    # dplyr::filter(
-    #   naicstitle %in% c(
-    #     "Natural Resources and Mining",
-    #     "Construction",
-    #     "Trade, Transportation and Utilities",
-    #     "Manufacturing"
-    #   )
-    # ) %>%
-    # dplyr::filter(year == 2018) %>%
-    # dplyr::select(ctu_name, year, naicstitle, emp) %>%
-    # dplyr::group_by(ctu_name, year) %>%
-    # dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
-    # dplyr::mutate(var = "industrial_jobs") %>%
-    # dplyr::select(ctu_name, year, var, value)
+  # dplyr::filter(
+  #   naicstitle %in% c(
+  #     "Natural Resources and Mining",
+  #     "Construction",
+  #     "Trade, Transportation and Utilities",
+  #     "Manufacturing"
+  #   )
+  # ) %>%
+  # dplyr::filter(year == 2018) %>%
+  # dplyr::select(ctu_name, year, naicstitle, emp) %>%
+  # dplyr::group_by(ctu_name, year) %>%
+  # dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
+  # dplyr::mutate(var = "industrial_jobs") %>%
+  # dplyr::select(ctu_name, year, var, value)
 
 
   ## ----- aggregate commercial jobs by NAICS ----
   ctu_commercial_jobs <-
     tb$commercial_jobs
-    # dplyr::filter(
-    #   naicstitle %in% c(
-    #     "Financial Activities",
-    #     "Professional and Business Services",
-    #     "Education and Health Services",
-    #     "Leisure and Hospitality",
-    #     "Public Administration",
-    #     "Other Services"
-    #   )
-    # ) %>%
-    # dplyr::filter(year == 2018) %>%
-    # dplyr::select(ctu_name, year, naicstitle, emp) %>%
-    # dplyr::group_by(ctu_name, year) %>%
-    # dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
-    # dplyr::mutate(var = "commercial_jobs") %>%
-    # dplyr::select(ctu_name, year, var, value)
+  # dplyr::filter(
+  #   naicstitle %in% c(
+  #     "Financial Activities",
+  #     "Professional and Business Services",
+  #     "Education and Health Services",
+  #     "Leisure and Hospitality",
+  #     "Public Administration",
+  #     "Other Services"
+  #   )
+  # ) %>%
+  # dplyr::filter(year == 2018) %>%
+  # dplyr::select(ctu_name, year, naicstitle, emp) %>%
+  # dplyr::group_by(ctu_name, year) %>%
+  # dplyr::summarise(value = sum(emp, na.rm = TRUE), .groups = "keep") %>%
+  # dplyr::mutate(var = "commercial_jobs") %>%
+  # dplyr::select(ctu_name, year, var, value)
 
 
   ## ----- get forecast of single and multifamily units from 'Emissions' ----

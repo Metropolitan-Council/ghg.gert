@@ -2,7 +2,8 @@ test_that("run_scenario_building works, Minneapolis", {
   testthat::capture_warnings(
     run_scenario_building(
       .selected_ctu = "Minneapolis"
-    )) %>%
+    )
+  ) %>%
     length() %>%
     testthat::expect_equal(4)
 
@@ -15,7 +16,8 @@ test_that("run_scenario_building works, Minneapolis", {
       .existing_mf_retrofit_pct = 0.5,
       .existing_sf_retrofit_pct = 0.2,
       .smart_grid_energy_reduction_pct = 0.1
-    ))
+    )
+  )
 
 
 
@@ -25,8 +27,8 @@ test_that("run_scenario_building works, Minneapolis", {
       .sf_heat_pump_pct = 0.3,
       .mf_heat_pump_pct = 0.2,
     ) %>%
-      suppressWarnings())
-
+      suppressWarnings()
+  )
 })
 
 
@@ -34,7 +36,8 @@ test_that("run_scenario_building works, Lake Elmo", {
   testthat::capture_warnings(
     run_scenario_building(
       .selected_ctu = "Lake Elmo"
-    )) %>%
+    )
+  ) %>%
     length() %>%
     testthat::expect_equal(4)
 
@@ -47,7 +50,8 @@ test_that("run_scenario_building works, Lake Elmo", {
       .existing_mf_retrofit_pct = 0.5,
       .existing_sf_retrofit_pct = 0.2,
       .smart_grid_energy_reduction_pct = 0.1
-    ))
+    )
+  )
 
 
 
@@ -57,8 +61,8 @@ test_that("run_scenario_building works, Lake Elmo", {
       .sf_heat_pump_pct = 0.3,
       .mf_heat_pump_pct = 0.2,
     ) %>%
-      suppressWarnings())
-
+      suppressWarnings()
+  )
 })
 
 
@@ -66,7 +70,8 @@ test_that("run_scenario_building works, Inver Grove Heights", {
   testthat::capture_warnings(
     run_scenario_building(
       .selected_ctu = "Inver Grove Heights"
-    )) %>%
+    )
+  ) %>%
     length() %>%
     testthat::expect_equal(4)
 
@@ -79,7 +84,8 @@ test_that("run_scenario_building works, Inver Grove Heights", {
       .existing_mf_retrofit_pct = 0.5,
       .existing_sf_retrofit_pct = 0.2,
       .smart_grid_energy_reduction_pct = 0.1
-    ))
+    )
+  )
 
 
 
@@ -89,17 +95,17 @@ test_that("run_scenario_building works, Inver Grove Heights", {
       .sf_heat_pump_pct = 0.3,
       .mf_heat_pump_pct = 0.2,
     ) %>%
-      suppressWarnings())
-
+      suppressWarnings()
+  )
 })
 
 
 test_that("run_scenario_building works, Waterford Twp.", {
-
   testthat::capture_warnings(
     run_scenario_building(
       .selected_ctu = "Waterford Twp."
-    )) %>%
+    )
+  ) %>%
     length() %>%
     testthat::expect_equal(4)
 
@@ -112,7 +118,8 @@ test_that("run_scenario_building works, Waterford Twp.", {
       .existing_mf_retrofit_pct = 0.5,
       .existing_sf_retrofit_pct = 0.2,
       .smart_grid_energy_reduction_pct = 0.1
-    ))
+    )
+  )
 
 
 
@@ -122,7 +129,6 @@ test_that("run_scenario_building works, Waterford Twp.", {
       .sf_heat_pump_pct = 0.3,
       .mf_heat_pump_pct = 0.2,
     ) %>%
-      suppressWarnings())
-
+      suppressWarnings()
+  )
 })
-

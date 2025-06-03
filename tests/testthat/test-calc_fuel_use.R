@@ -1,5 +1,4 @@
 testthat::test_that("Gasoline fuel correct", {
-
   si_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "Saint Paul",
@@ -22,17 +21,21 @@ testthat::test_that("Gasoline fuel correct", {
   )
 
 
-  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
-                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+  testthat::expect_gt(
+    dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+    dplyr::last(si_fuel_use$fuel_use_gallons_kwh)
+  )
 
   testthat::expect_equal(
     # VMT is decreasing
     # fuel efficiency is increasing,
     # so lower gallons over time
     si_fuel_use$fuel_use_gallons_kwh,
-    c(100913978.794603, 98332827.9556061, 96121304.0820201, 90533083.7173244,
+    c(
+      100913978.794603, 98332827.9556061, 96121304.0820201, 90533083.7173244,
       78959203.3353295, 66035006.7391961, 51891579.1425269, 44401177.1372552,
-      39659177.6987387),
+      39659177.6987387
+    ),
     tolerance = 0.01
   )
 })
@@ -185,7 +188,6 @@ testthat::test_that("BEV fuel correct", {
 
 
 testthat::test_that("Gasoline fuel correct with strategy", {
-
   si_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "Saint Paul",
@@ -210,21 +212,24 @@ testthat::test_that("Gasoline fuel correct with strategy", {
   )
 
 
-  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
-                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+  testthat::expect_gt(
+    dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+    dplyr::last(si_fuel_use$fuel_use_gallons_kwh)
+  )
 
   testthat::expect_equal(
     si_fuel_use$fuel_use_gallons_kwh,
-    c(100913978.794603, 98332827.9556061, 96121304.0820201, 76213069.6862021,
+    c(
+      100913978.794603, 98332827.9556061, 96121304.0820201, 76213069.6862021,
       66464759.7555275, 55578791.6508259, 43668101.3971846, 37359953.47729,
-      33366836.8533895),
+      33366836.8533895
+    ),
     tolerance = 0.01
   )
 })
 
 
 testthat::test_that("Gasoline fuel correct with strategy, Eagan", {
-
   si_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "Eagan",
@@ -249,14 +254,18 @@ testthat::test_that("Gasoline fuel correct with strategy, Eagan", {
   )
 
 
-  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
-                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+  testthat::expect_gt(
+    dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+    dplyr::last(si_fuel_use$fuel_use_gallons_kwh)
+  )
 
   testthat::expect_equal(
     si_fuel_use$fuel_use_gallons_kwh,
-    c(26971063.920759, 26801175.3970082, 26534061.8548255, 11487251.412213,
+    c(
+      26971063.920759, 26801175.3970082, 26534061.8548255, 11487251.412213,
       10161759.830737, 8611599.095806, 6909397.84615116, 6007143.7220859,
-      5449517.9969384),
+      5449517.9969384
+    ),
     tolerance = 0.01
   )
 })

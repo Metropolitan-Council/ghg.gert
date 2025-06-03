@@ -221,8 +221,7 @@ testthat::test_that("Expected changes, Centerville", {
 })
 
 test_that("fleet shares adjust to pricing inputs", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Saint Paul")
 
   t_fleet <- adj_fleet_shares(
@@ -251,7 +250,7 @@ test_that("fleet shares adjust to pricing inputs", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev decrease
     expect_gt(
       ref_fleet %>%
@@ -305,22 +304,21 @@ test_that("fleet shares adjust to pricing inputs", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 
 test_that("fleet shares adjust to pricing inputs, Orono", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Orono")
 
   t_fleet <- adj_fleet_shares(
@@ -349,7 +347,7 @@ test_that("fleet shares adjust to pricing inputs, Orono", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev decrease
     expect_gt(
       ref_fleet %>%
@@ -403,22 +401,21 @@ test_that("fleet shares adjust to pricing inputs, Orono", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 
 test_that("fleet shares adjust to pricing inputs, Marshan Twp.", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Marshan Twp.")
 
   t_fleet <- adj_fleet_shares(
@@ -447,7 +444,7 @@ test_that("fleet shares adjust to pricing inputs, Marshan Twp.", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev increase
     expect_lte(
       ref_fleet %>%
@@ -501,22 +498,21 @@ test_that("fleet shares adjust to pricing inputs, Marshan Twp.", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 
 test_that("fleet shares adjust to pricing inputs, Hanover", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Hanover")
 
   t_fleet <- adj_fleet_shares(
@@ -545,7 +541,7 @@ test_that("fleet shares adjust to pricing inputs, Hanover", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev increase
     expect_lte(
       ref_fleet %>%
@@ -599,22 +595,21 @@ test_that("fleet shares adjust to pricing inputs, Hanover", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 
 test_that("fleet shares adjust to sales inputs, Hanover", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Hanover")
 
   t_fleet <- adj_fleet_shares(
@@ -643,7 +638,7 @@ test_that("fleet shares adjust to sales inputs, Hanover", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev increase
     expect_gte(
       ref_fleet %>%
@@ -697,21 +692,20 @@ test_that("fleet shares adjust to sales inputs, Hanover", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 test_that("fleet shares adjust to sales inputs, Birchwood Village", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("Birchwood Village")
 
   t_fleet <- adj_fleet_shares(
@@ -740,7 +734,7 @@ test_that("fleet shares adjust to sales inputs, Birchwood Village", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev increase
     expect_gte(
       ref_fleet %>%
@@ -812,21 +806,20 @@ test_that("fleet shares adjust to sales inputs, Birchwood Village", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })
 
 test_that("fleet shares adjust to sales inputs, New Trier", {
-
-  ref_fleet <-  transportation_data$passenger %>%
+  ref_fleet <- transportation_data$passenger %>%
     filter_ctu("New Trier")
 
   t_fleet <- adj_fleet_shares(
@@ -858,7 +851,7 @@ test_that("fleet shares adjust to sales inputs, New Trier", {
   )
 
 
-  compare_fleet <- function(comp_fleet){
+  compare_fleet <- function(comp_fleet) {
     # bev increase
     expect_gte(
       ref_fleet %>%
@@ -930,14 +923,14 @@ test_that("fleet shares adjust to sales inputs, New Trier", {
         ) %>%
         pull(value)
     )
-
   }
 
   purrr::map(
-    list(t_fleet,
-         t_fleet2,
-         t_fleet3),
+    list(
+      t_fleet,
+      t_fleet2,
+      t_fleet3
+    ),
     compare_fleet
   )
-
 })

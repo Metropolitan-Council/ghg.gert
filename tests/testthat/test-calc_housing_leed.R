@@ -1,19 +1,18 @@
 testthat::test_that("calc_housing_leed", {
+  expect_true(exists("calc_housing_leed")) # prevent "empty test" notification
 
-  expect_true(exists("calc_housing_leed"))  # prevent "empty test" notification
-
-  test_leed <- function(leed_table){
+  test_leed <- function(leed_table) {
     leed_table %>%
       dplyr::filter(
         inventory_year == 2050,
-        effective_unit_change > 0) %>%
+        effective_unit_change > 0
+      ) %>%
       nrow() %>%
       testthat::expect_equal(0)
   }
 
 
   test_that("Minnaepolis LEED works", {
-
     expect_warning(
       calc_housing_leed(
         res_tb = building_data$residential,
@@ -21,7 +20,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     expect_warning(
@@ -31,7 +31,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     leed0 <- calc_housing_leed(
@@ -93,13 +94,10 @@ testthat::test_that("calc_housing_leed", {
       list(leed6, leed4, leed9, leed1),
       test_leed
     )
-
-
   })
 
 
   test_that("Blaine LEED works", {
-
     expect_warning(
       calc_housing_leed(
         res_tb = building_data$residential,
@@ -107,7 +105,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     expect_warning(
@@ -117,7 +116,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     leed0 <- calc_housing_leed(
@@ -180,14 +180,11 @@ testthat::test_that("calc_housing_leed", {
       list(leed6, leed4, leed9, leed1),
       test_leed
     )
-
-
   })
 
 
 
   test_that("Willernie LEED works", {
-
     expect_warning(
       calc_housing_leed(
         res_tb = building_data$residential,
@@ -195,7 +192,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     expect_warning(
@@ -205,7 +203,8 @@ testthat::test_that("calc_housing_leed", {
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
-      ))
+      )
+    )
 
 
     leed0 <- calc_housing_leed(
@@ -268,7 +267,5 @@ testthat::test_that("calc_housing_leed", {
       list(leed6, leed4, leed9, leed1),
       test_leed
     )
-
-
   })
 })
