@@ -6,7 +6,9 @@
 #'
 #' @inheritParams run_scenario_land_use
 #' @inheritParams run_scenario_building
+#' @inheritParams scen_building_residential
 #' @inheritParams run_module_transportation
+#' @inheritParams calc_vmt_forecast
 #' @inheritParams scen_building_non_residential
 #' @inheritParams filter_ctu
 #' @inheritParams vmt_annual_energy_outlook
@@ -112,10 +114,11 @@ run_all_modules <- function(.selected_ctu = "all",
                             .bev_pct_sales = 0,
                             .phev_pct_sales = 0,
                             .hev_pct_sales = 0,
-                            .enviro_factors = enviro_factors,
+                            .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values,
-                            .elast = elast,
-                            .fuel_economy = fuel_economy,
+                            .elast = ghg.ccap::elast,
+                            .fuel_economy = ghg.ccap::fuel_economy,
+                            .grid_emissions = ghg.ccap::grid_emissions,
                             .elast_5d = elast_5d) {
   output <- c()
 
@@ -151,12 +154,15 @@ run_all_modules <- function(.selected_ctu = "all",
       # .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
       .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
       .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
+      .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
+      .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
       .sf_heat_pump_pct = .sf_heat_pump_pct,
       .mf_heat_pump_pct = .mf_heat_pump_pct,
 
       # .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
       # .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors
+      .enviro_factors = .enviro_factors,
+      .grid_emissions = .grid_emissions
     )
   }
   if (run_transportation == TRUE) {

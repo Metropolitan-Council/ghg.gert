@@ -38,13 +38,12 @@
 #' )
 #' }
 #' @export
-#'
 calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
                                     .scenario = "",
-                                    .selected_ctu = .selected_ctu,
                                     .sf_heat_pump_pct,
                                     .mf_heat_pump_pct,
+                                    .selected_ctu = .selected_ctu,
                                     .mwh_coefficients = ghg.ccap::mwh_coefficients,
                                     .mcf_coefficients = ghg.ccap::mcf_coefficients,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
