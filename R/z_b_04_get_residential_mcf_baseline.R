@@ -1,8 +1,9 @@
-#' @title Get Residential Natural Gas Baseline
+#' @title DEPRECATED Get Residential Natural Gas Baseline
 #'
 #' @family buildings
 #' @family residential
 #' @family emissions
+#' @family deprecated
 #'
 #' @description This function calculates the residential natural gas baseline by
 #'    processing building type data and building type natural gas demand data for

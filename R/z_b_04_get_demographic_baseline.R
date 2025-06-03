@@ -1,4 +1,4 @@
-#' @title Get Demographic Baseline
+#' @title DEPRECATED Get Demographic Baseline
 #' @family buildings
 #' @description Compiles the demographic characteristics from the 'Emissions' database
 #'     required for running the building energy module.
@@ -9,6 +9,7 @@
 #'
 #' @inheritParams run_module_transportation
 #' @return Tibble.
+#' @family deprecated
 #'
 #' @export
 #'
@@ -16,6 +17,7 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
   # cli::cli_progress_message("* obtaining baseline demographic characteristics at the CTU level \n")
   tb <- filter_building_energy_data(data_list = tb, .selected_ctu = .selected_ctu)
 
+  # browser()
   # COUNTY DEMOGRAPHIC BASELINE ----
 
   demographic_characteristics <- c()
@@ -148,20 +150,20 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
 
 
   ## ----- get forecast of single and multifamily units from 'Emissions' ----
-  ctu_housing_stock <-
-    tb$forecast_lu_ctu %>%
-    dplyr::filter(
-      var %in% c("SFD_Units", "MF_Units"),
-      year == 2018
-    ) %>%
-    dplyr::mutate(
-      var =
-        dplyr::case_when(
-          (var == "MF_Units") ~ "multifamily_units",
-          (var == "SFD_Units") ~ "single_family_units"
-        )
-    ) %>%
-    dplyr::group_by(ctu_name, year)
+  # ctu_housing_stock <-
+  #   tb$forecast_lu_ctu %>%
+  #   dplyr::filter(
+  #     var %in% c("SFD_Units", "MF_Units"),
+  #     year == 2018
+  #   ) %>%
+  #   dplyr::mutate(
+  #     var =
+  #       dplyr::case_when(
+  #         (var == "MF_Units") ~ "multifamily_units",
+  #         (var == "SFD_Units") ~ "single_family_units"
+  #       )
+  #   ) %>%
+  #   dplyr::group_by(ctu_name, year)
 
   ## ----- estimate single family average floor area from ZTRAX ----
   ctu_average_floor_area_single_family <-
@@ -199,27 +201,27 @@ get_demographic_baseline <- function(tb = building_energy_data, .selected_ctu = 
 
   ## ---- get county multifamily floor area for when ctu equivalent is missing ----
   # should probably indicate is weighted
-  ctu_county <- demographic_characteristics$county %>%
-    dplyr::left_join(tb$ctu_county, by = "co_name", relationship = "many-to-many") %>%
-    dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(ctu_name)) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
-    dplyr::mutate(value = value * pct_population) %>%
-    dplyr::select(ctu_name, year, var, value) %>%
-    dplyr::group_by(ctu_name, year, var) %>%
-    dplyr::summarise(value = sum(value), .groups = "keep")
+  # ctu_county <- demographic_characteristics$county %>%
+  #   dplyr::left_join(tb$ctu_county, by = "co_name", relationship = "many-to-many") %>%
+  #   dplyr::filter(var == "multifamily_average_floor_area_sqft_county" & !is.na(ctu_name)) %>%
+  #   dplyr::group_by(ctu_name, year, var) %>%
+  #   dplyr::mutate(value = value * pct_population) %>%
+  #   dplyr::select(ctu_name, year, var, value) %>%
+  #   dplyr::group_by(ctu_name, year, var) %>%
+  #   dplyr::summarise(value = sum(value), .groups = "keep")
   # uses weighted average based on population
 
   #---- compile ctu demographic baseline characterics -----
   demographic_characteristics$ctu <-
     dplyr::bind_rows(
       ctu_population,
-      ctu_jobs,
+      # ctu_jobs,
       ctu_commercial_jobs,
       ctu_industrial_jobs,
-      ctu_housing_stock,
+      # ctu_housing_stock,
       ctu_average_floor_area_single_family,
       ctu_average_floor_area_multifamily,
-      ctu_county
+      # ctu_county
     ) %>%
     unique()
 

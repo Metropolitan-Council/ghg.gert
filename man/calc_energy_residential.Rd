@@ -8,9 +8,9 @@ calc_energy_residential(
   res_tb,
   res_tb_bau,
   .scenario = "",
-  .selected_ctu = .selected_ctu,
   .sf_heat_pump_pct,
   .mf_heat_pump_pct,
+  .selected_ctu = .selected_ctu,
   .mwh_coefficients = ghg.ccap::mwh_coefficients,
   .mcf_coefficients = ghg.ccap::mcf_coefficients,
   .enviro_factors = ghg.ccap::enviro_factors
@@ -26,6 +26,10 @@ the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
+
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 

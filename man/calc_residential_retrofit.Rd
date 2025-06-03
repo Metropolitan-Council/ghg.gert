@@ -7,8 +7,8 @@
 calc_residential_retrofit(
   res_tb,
   .selected_ctu,
-  .existing_sf_retrofit_pct,
-  .existing_mf_retrofit_pct,
+  .existing_sf_retrofit_pct = 0,
+  .existing_mf_retrofit_pct = 0,
   .enviro_factors = enviro_factors
 )
 }

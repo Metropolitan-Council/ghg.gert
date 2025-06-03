@@ -1,8 +1,9 @@
-#' @title Get Residential Electricity Baseline
+#' @title DEPRECATED Get Residential Electricity Baseline
 #'
 #' @family buildings
 #' @family residential
 #' @family emissions
+#' @family deprecaetd
 #'
 #' @description This function calculates the residential electricity baseline by
 #'    processing building type data and building type electricity demand data for

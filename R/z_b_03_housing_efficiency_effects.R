@@ -1,6 +1,6 @@
-#' @title Calculate new home LEED
+#' @title DEPRECATED Calculate new home LEED
 #' @family buildings
-#'
+#' @family deprecated
 #' @description Calculates the adjusted floor area of single-family homes
 #'    in accordance with LEED Gold standards, considering the proportion of
 #'    new homes built to these standards, the difference in single-family
@@ -50,7 +50,7 @@ calc_sfh_leed <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   if (.new_homes_leed_gold_pct == 0) {
-    cli::cli_alert_warning("No change in new single family home energy efficiency")
+    cli::cli_warn("No change in new single family home energy efficiency")
     return(res_tb)
   } else if (.new_homes_leed_gold_pct != 0) {
     new_units <- res_tb %>%
@@ -120,9 +120,9 @@ calc_sfh_leed <- function(res_tb,
   # for the energy savings from LEED buildings
 }
 
-#' @title Calculate floor area retrofit
+#' @title DEPRECATED Calculate floor area retrofit
 #' @family buildings
-#'
+#' @family deprecated
 #' @description adjusts single and multifamily average
 #' floor area forecast under the assumption of energy use reduction due to home
 #' retrofits.
@@ -173,7 +173,7 @@ calc_sfh_retrofit <- function(res_tb,
 
   # browser()
   if (.existing_home_retrofit_pct == 0) {
-    cli::cli_alert_warning("No change in existing home energy efficiency")
+    cli::cli_warn("No change in existing home energy efficiency")
     return(res_tb)
   } else if (.existing_home_retrofit_pct != 0) {
     existing_units <- res_tb %>%
@@ -282,9 +282,9 @@ calc_sfh_retrofit <- function(res_tb,
 }
 
 
-#' @title Calculate floor area retrofit
+#' @title DEPRECATED Calculate floor area retrofit
 #' @family buildings
-#'
+#' @family deprecated
 #' @description adjusts single and multifamily average
 #' floor area forecast under the assumption of energy use reduction due to home
 #' retrofits.
@@ -335,7 +335,7 @@ calc_mfh_retrofit <- function(res_tb,
 
   # browser()
   if (.existing_home_retrofit_pct == 0) {
-    cli::cli_alert_warning("No change in existing home energy efficiency")
+    cli::cli_warn("No change in existing home energy efficiency")
     return(res_tb)
   } else if (.existing_home_retrofit_pct != 0) {
     existing_units <- res_tb %>%

@@ -38,7 +38,7 @@ Default is \code{0.0}}
 Calculates the efficiency of single-family homes
 built in accordance with LEED Gold standards, considering the proportion of
 new homes built to these standards, the difference in single-family
-housing units between 2018 and 2040, and the reduction in energy use
+housing units between 2021 and 2050, and the reduction in energy use
 intensity due to LEED Gold construction. This function is designed to
 estimate the impact of energy-efficient construction on residential
 greenhouse gas emissions.

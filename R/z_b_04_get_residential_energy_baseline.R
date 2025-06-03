@@ -1,8 +1,9 @@
-#' @title Get Residential Energy Baseline
+#' @title DEPRECATED Get Residential Energy Baseline
 #'
 #' @family buildings
 #' @family residential
 #' @family emissions
+#' @family deprecated
 #'
 #' @description This function calculates the residential energy baseline by
 #'    processing building energy data and demographic data for the specified CTU.

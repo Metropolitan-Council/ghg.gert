@@ -63,10 +63,11 @@ run_all_modules(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .enviro_factors = enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
-  .elast = elast,
-  .fuel_economy = fuel_economy,
+  .elast = ghg.ccap::elast,
+  .fuel_economy = ghg.ccap::fuel_economy,
+  .grid_emissions = ghg.ccap::grid_emissions,
   .elast_5d = elast_5d
 )
 }

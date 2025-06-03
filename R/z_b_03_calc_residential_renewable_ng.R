@@ -1,7 +1,7 @@
-#' @title Calculate Residential Renewable Natural Gas Impact
+#' @title DEPRECATED Calculate Residential Renewable Natural Gas Impact
 #' @family residential
 #' @family buildings
-#'
+#' @family deprecated
 #' @description This function estimates the impact of transitioning from natural gas
 #'    to renewable natural gas (RNG) on residential building emissions.
 #'    The function takes into account the differences in emissions between
