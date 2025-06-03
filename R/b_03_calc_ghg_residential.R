@@ -41,7 +41,7 @@ calc_ghg_residential <- function(res_energy,
   res_energy <- filter_ctu(res_energy, .selected_ctu = .selected_ctu)
 
   res_emissions <- res_energy %>%
-    dplyr::left_join(grid_emissions, by = c("inventory_year")) %>%
+    dplyr::left_join(.grid_emissions, by = c("inventory_year")) %>%
     dplyr::mutate(
       electricity_emissions = residential_mwh * mt_co2e_per_mwh,
       natural_gas_emissions = residential_mcf * .enviro_factors$MT_CO2E_PER_MCF_NATGAS
