@@ -1,5 +1,4 @@
 testthat::test_that("Gasoline fuel correct", {
-  # Gasoline ------
 
   si_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
@@ -10,24 +9,6 @@ testthat::test_that("Gasoline fuel correct", {
     .variable = "PMT",
     .tb_fuel_cost_mile = si_fcm_test,
     .aeo_scenario = "REF"
-    # .transit_avo_pct = 0,
-    # .transit_service_pct = 0,
-    # .vmt_fee = 0,
-    # .payd_fee = 0,
-    # .gas_tax = 0,
-    # .cong_price = 0,
-    # .parking_price = 0,
-    # .freight_parking_price = 0,
-    # .freight_vmt_fee = 0,
-    # .pop_dens_pct_change = 0,
-    # .emp_dens_pct_change = 0,
-    # .land_use_diversity_pct_change = 0,
-    # .intersection_design_pct_change = 0,
-    # .job_access_pct_change = 0,
-    # .transit_dist_pct_change = 0,
-    # .comb_5d_impact_pct_change = 0,
-    # .telework_pct = 0,
-    # .phev_electric = FALSE
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(class = "SI")
@@ -41,21 +22,20 @@ testthat::test_that("Gasoline fuel correct", {
   )
 
 
-  # TODO still need to confirm these values
+  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+
   testthat::expect_equal(
     # VMT is decreasing
     # fuel efficiency is increasing,
     # so lower gallons over time
     si_fuel_use$fuel_use_gallons_kwh,
-    c(
-      83142284.2294327, 82185316.0060959, 81575607.4697369, 50927638.7525893,
-      47373642.5660466, 45978730.4061788, 42401815.3244438, 40998043.8219366,
-      39849741.8040462
-    ),
+    c(100913978.794603, 98332827.9556061, 96121304.0820201, 90533083.7173244,
+      78959203.3353295, 66035006.7391961, 51891579.1425269, 44401177.1372552,
+      39659177.6987387),
     tolerance = 0.01
   )
 })
-# Diesel ------
 
 testthat::test_that("Diesel fuel correct", {
   ci_vmt <- calc_vmt_forecast(
@@ -66,25 +46,7 @@ testthat::test_that("Diesel fuel correct", {
     .stock = "CIStock",
     .variable = "PMT",
     .tb_fuel_cost_mile = ci_fcm_test,
-    .aeo_scenario = "REF",
-    .transit_avo_pct = 0,
-    .transit_service_pct = 0,
-    .vmt_fee = 0,
-    .payd_fee = 0,
-    .gas_tax = 0,
-    .cong_price = 0,
-    .parking_price = 0,
-    .freight_parking_price = 0,
-    .freight_vmt_fee = 0,
-    .pop_dens_pct_change = 0,
-    .emp_dens_pct_change = 0,
-    .land_use_diversity_pct_change = 0,
-    .intersection_design_pct_change = 0,
-    .job_access_pct_change = 0,
-    .transit_dist_pct_change = 0,
-    .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .aeo_scenario = "REF"
   ) %>%
     dplyr::arrange(year) %>%
     mutate(class = "CI")
@@ -110,7 +72,6 @@ testthat::test_that("Diesel fuel correct", {
     tolerance = 0.01
   )
 })
-# Hybrid -------
 
 testthat::test_that("Hybrid fuel correct", {
   fcm_test_hev <- calc_fuel_cost_mile(
@@ -132,24 +93,6 @@ testthat::test_that("Hybrid fuel correct", {
     .variable = "PMT",
     .tb_fuel_cost_mile = fcm_test_hev,
     .aeo_scenario = "REF",
-    .transit_avo_pct = 0,
-    .transit_service_pct = 0,
-    .vmt_fee = 0,
-    .payd_fee = 0,
-    .gas_tax = 0,
-    .cong_price = 0,
-    .parking_price = 0,
-    .freight_parking_price = 0,
-    .freight_vmt_fee = 0,
-    .pop_dens_pct_change = 0,
-    .emp_dens_pct_change = 0,
-    .land_use_diversity_pct_change = 0,
-    .intersection_design_pct_change = 0,
-    .job_access_pct_change = 0,
-    .transit_dist_pct_change = 0,
-    .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
   ) %>%
     dplyr::arrange(year) %>%
     mutate(class = "HEV")
@@ -175,7 +118,6 @@ testthat::test_that("Hybrid fuel correct", {
   )
 })
 
-# BEV -------
 
 
 testthat::test_that("BEV fuel correct", {
@@ -237,6 +179,84 @@ testthat::test_that("BEV fuel correct", {
       14268190.7619578, 12710591.9531019, 24547070.0801707, 28816858.3206686,
       32941504.6987717
     ),
+    tolerance = 0.01
+  )
+})
+
+
+testthat::test_that("Gasoline fuel correct with strategy", {
+
+  si_vmt <- calc_vmt_forecast(
+    .scenario = "BAU",
+    .selected_ctu = "Saint Paul",
+    tb = transportation_data$passenger,
+    .mode = "PLDV",
+    .stock = "SIStock",
+    .variable = "PMT",
+    .tb_fuel_cost_mile = si_fcm_test,
+    .vmt_fee = 0.01,
+    .aeo_scenario = "REF",
+    .gas_tax = 0.03,
+    .parking_price = 5,
+  ) %>%
+    dplyr::arrange(year) %>%
+    dplyr::mutate(class = "SI")
+
+  si_fuel_use <- calc_fuel_use(
+    tb_vmt = si_vmt,
+    .mode = "PLDV",
+    .aeo_scenario = "REF",
+    .miles_per_gallon = "SIMPG"
+  )
+
+
+  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+
+  testthat::expect_equal(
+    si_fuel_use$fuel_use_gallons_kwh,
+    c(100913978.794603, 98332827.9556061, 96121304.0820201, 76213069.6862021,
+      66464759.7555275, 55578791.6508259, 43668101.3971846, 37359953.47729,
+      33366836.8533895),
+    tolerance = 0.01
+  )
+})
+
+
+testthat::test_that("Gasoline fuel correct with strategy, Eagan", {
+
+  si_vmt <- calc_vmt_forecast(
+    .scenario = "BAU",
+    .selected_ctu = "Eagan",
+    tb = transportation_data$passenger,
+    .mode = "PLDV",
+    .stock = "SIStock",
+    .variable = "PMT",
+    .tb_fuel_cost_mile = si_fcm_test,
+    .vmt_fee = 0.01,
+    .aeo_scenario = "REF",
+    .gas_tax = 0.03,
+    .parking_price = 5,
+  ) %>%
+    dplyr::arrange(year) %>%
+    dplyr::mutate(class = "SI")
+
+  si_fuel_use <- calc_fuel_use(
+    tb_vmt = si_vmt,
+    .mode = "PLDV",
+    .aeo_scenario = "REF",
+    .miles_per_gallon = "SIMPG"
+  )
+
+
+  testthat::expect_gt(dplyr::first(si_fuel_use$fuel_use_gallons_kwh),
+                      dplyr::last(si_fuel_use$fuel_use_gallons_kwh))
+
+  testthat::expect_equal(
+    si_fuel_use$fuel_use_gallons_kwh,
+    c(26971063.920759, 26801175.3970082, 26534061.8548255, 11487251.412213,
+      10161759.830737, 8611599.095806, 6909397.84615116, 6007143.7220859,
+      5449517.9969384),
     tolerance = 0.01
   )
 })
