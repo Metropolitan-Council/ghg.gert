@@ -64,7 +64,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   non_res_tb_bau = building_data$non_residential,
                                   run_residential = TRUE,
                                   run_non_residential = FALSE,
-                                  .scenario = "",
                                   # run_non_residential = TRUE,
                                   # selected CTU
                                   .selected_ctu = "all",

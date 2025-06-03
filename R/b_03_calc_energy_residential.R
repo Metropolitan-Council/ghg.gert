@@ -47,7 +47,6 @@
 #' @export
 calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
-                                    .scenario = "",
                                     .sf_heat_pump_pct,
                                     .mf_heat_pump_pct,
                                     .selected_ctu = .selected_ctu,
