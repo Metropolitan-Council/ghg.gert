@@ -12,6 +12,7 @@ run_scenario_building(
   run_residential = TRUE,
   run_non_residential = FALSE,
   .selected_ctu = "all",
+  .scenario = "alt",
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
   .new_homes_to_multifamily_pct = 0,
@@ -51,6 +52,8 @@ is suitable and the default value.
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
