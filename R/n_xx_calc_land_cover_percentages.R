@@ -78,7 +78,7 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     dplyr::left_join(
       .,
       ctu_forecast %>%
-        dplyr::distinct(geog_name, geog_id, ) %>%
+        dplyr::distinct(geog_name, geog_id) %>%
         dplyr::cross_join(
           .,
           tb$land_use_2016_types %>%
