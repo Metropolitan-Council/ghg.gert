@@ -1,16 +1,19 @@
 test_that("calc_ghg_residential", {
-
   testthat::expect_true(exists("calc_ghg_residential"))
 
-  test_emissions <- function(ghg_table){
+  test_emissions <- function(ghg_table) {
     # MWH should decreas
     ghg_table %>%
       filter(inventory_year == 2050) %>%
       group_by(geog_name, scenario) %>%
-      summarize(emissions = sum(electricity_emissions, natural_gas_emissions),
-                .groups = "keep") %>%
-      pivot_wider(names_from = scenario,
-                  values_from = emissions) %>%
+      summarize(
+        emissions = sum(electricity_emissions, natural_gas_emissions),
+        .groups = "keep"
+      ) %>%
+      pivot_wider(
+        names_from = scenario,
+        values_from = emissions
+      ) %>%
       filter(bau >= alt) %>%
       nrow() %>%
       testthat::expect_equal(1)
@@ -18,7 +21,6 @@ test_that("calc_ghg_residential", {
 
 
   testthat::test_that("Minneapolis  emissions", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -50,12 +52,9 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
   testthat::test_that("Minneapolis  emissions interventions 1", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -87,13 +86,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Minneapolis  emissions interventions 2", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -125,13 +121,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Minneapolis  emissions interventions 3", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -163,7 +156,6 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
@@ -171,7 +163,6 @@ test_that("calc_ghg_residential", {
 
 
   testthat::test_that("Saint Paul  emissions", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
@@ -203,12 +194,9 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
   testthat::test_that("Saint Paul  emissions interventions 1", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
@@ -240,13 +228,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Saint Paul  emissions interventions 2", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
@@ -278,13 +263,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Saint Paul  emissions interventions 3", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
@@ -316,13 +298,11 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
 
   testthat::test_that("Brooklyn Park  emissions", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
@@ -354,12 +334,9 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
   testthat::test_that("Brooklyn Park  emissions interventions 1", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
@@ -391,13 +368,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Brooklyn Park  emissions interventions 2", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
@@ -429,13 +403,10 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
 
 
   testthat::test_that("Brooklyn Park  emissions interventions 3", {
-
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
@@ -467,9 +438,5 @@ test_that("calc_ghg_residential", {
     )
 
     test_emissions(ghg_table)
-
   })
-
-
-
-  })
+})

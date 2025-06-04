@@ -65,7 +65,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             .tree_planting_per_capita = 0.26,
                             .tree_planting_per_hectare = 247,
                             .parking_lot_reduction_percentage = 0.0,
-
                             # electrification
                             .electrified_buildings_pct = 0.0,
                             # smartgrid
@@ -86,9 +85,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             # electrification
                             .sf_heat_pump_pct = 0.0,
                             .mf_heat_pump_pct = 0.0,
-
-
-
                             .grid_decarbonization_pct = 0.6,
                             .scenario = "BAU",
                             .electric_scenario = "ER",

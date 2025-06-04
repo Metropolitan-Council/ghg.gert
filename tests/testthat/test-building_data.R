@@ -199,8 +199,9 @@ testthat::test_that("job counts not in residential dataset", {
 testthat::test_that("Generic tests on residential data", {
   testthat::expect_equal(
     building_data$residential$sp_categories %>% unique(),
-    c("multifamily_units", "single_family_attached", "single_family_large_lot",
-      "single_family_small_lot")
+    c(
+      "multifamily_units", "single_family_attached", "single_family_large_lot",
+      "single_family_small_lot"
+    )
   )
-
 })

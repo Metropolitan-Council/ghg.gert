@@ -1,14 +1,15 @@
 testthat::test_that("calc_energy_residential", {
+  expect_true(exists("calc_energy_residential")) # prevent "empty test" notification
 
-  expect_true(exists("calc_energy_residential"))  # prevent "empty test" notification
-
-  test_energy <- function(en_table){
+  test_energy <- function(en_table) {
     # MWH should decreas
     en_table %>%
       filter(inventory_year == 2050) %>%
       select(-residential_mcf) %>%
-      pivot_wider(names_from = scenario,
-                  values_from = residential_mwh) %>%
+      pivot_wider(
+        names_from = scenario,
+        values_from = residential_mwh
+      ) %>%
       filter(bau < alt) %>%
       nrow() %>%
       testthat::expect_equal(1)
@@ -17,8 +18,10 @@ testthat::test_that("calc_energy_residential", {
     en_table %>%
       filter(inventory_year == 2050) %>%
       select(-residential_mwh) %>%
-      pivot_wider(names_from = scenario,
-                  values_from = residential_mcf) %>%
+      pivot_wider(
+        names_from = scenario,
+        values_from = residential_mcf
+      ) %>%
       filter(bau > alt) %>%
       nrow() %>%
       testthat::expect_equal(1)
@@ -26,7 +29,6 @@ testthat::test_that("calc_energy_residential", {
 
 
   testthat::test_that("Energy residential should reduce with interventions - Minneapolis", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -78,12 +80,10 @@ testthat::test_that("calc_energy_residential", {
       list(t_hp50, t_hp60, t_hp70),
       test_energy
     )
-
   })
 
 
   testthat::test_that("Energy residential should reduce with interventions - Maple Plain", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Maple Plain",
@@ -137,13 +137,11 @@ testthat::test_that("calc_energy_residential", {
       list(t_hp50, t_hp60, t_hp70),
       test_energy
     )
-
   })
 
 
 
   testthat::test_that("Energy residential should reduce with interventions - New Germany", {
-
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "New Germany",
@@ -196,7 +194,5 @@ testthat::test_that("calc_energy_residential", {
       list(t_hp50, t_hp60, t_hp70),
       test_energy
     )
-
   })
 })
-
