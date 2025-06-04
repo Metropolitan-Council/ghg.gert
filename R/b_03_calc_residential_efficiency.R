@@ -56,6 +56,7 @@ calc_housing_leed <- function(res_tb,
     new_sf <- res_tb %>%
       dplyr::filter(grepl("single", sp_categories)) %>%
       mutate(new_leed = 0,
+             new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
              effective_unit_change_leed = 0)
   } else if (.new_sf_homes_leed_gold_pct != 0) {
     new_sf <- res_tb %>%
@@ -73,6 +74,7 @@ calc_housing_leed <- function(res_tb,
     new_mf <- res_tb %>%
       dplyr::filter(grepl("multi", sp_categories)) %>%
       mutate(new_leed = 0,
+             new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
              effective_unit_change_leed = 0)
   } else if (.new_mf_homes_leed_gold_pct != 0) {
     new_mf <- res_tb %>%
@@ -183,13 +185,15 @@ calc_residential_retrofit <- function(res_tb,
   if (.existing_sf_retrofit_pct == 0) {
     cli::cli_warn("No change in existing single family home energy efficiency")
     existing_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories))
+      dplyr::filter(grepl("single", sp_categories)) %>%
+      mutate(retrofit_units = 0,
+             effective_unit_change_retro = 0)
   } else if (.existing_sf_retrofit_pct != 0) {
     existing_sf <- res_tb %>%
       dplyr::filter(grepl("single", sp_categories)) %>%
       dplyr::mutate(
         existing_units = value - new_units,
-        retrofit_units = existing_units * .existing_mf_retrofit_pct,
+        retrofit_units = existing_units * .existing_sf_retrofit_pct,
         effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
       )
   }
@@ -197,7 +201,9 @@ calc_residential_retrofit <- function(res_tb,
   if (.existing_mf_retrofit_pct == 0) {
     cli::cli_warn("No change in existing mutifamily home energy efficiency")
     existing_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories))
+      dplyr::filter(grepl("multi", sp_categories))%>%
+      mutate(retrofit_units = 0,
+             effective_unit_change_retro = 0)
   } else if (.existing_mf_retrofit_pct != 0) {
     existing_mf <- res_tb %>%
       dplyr::filter(grepl("multi", sp_categories)) %>%
