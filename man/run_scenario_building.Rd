@@ -11,7 +11,6 @@ run_scenario_building(
   non_res_tb_bau = building_data$non_residential,
   run_residential = TRUE,
   run_non_residential = FALSE,
-  .scenario = "",
   .selected_ctu = "all",
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
@@ -50,8 +49,6 @@ Data table with non-residential building attributes. Package provided dataset \c
 is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
-
-\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 

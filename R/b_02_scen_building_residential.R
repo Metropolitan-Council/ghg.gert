@@ -161,6 +161,7 @@ scen_building_residential <- function(res_tb = res_tb,
   tb09 <- calc_energy_residential(
     res_tb = tb04,
     res_tb_bau = res_tb_bau,
+    .scenario = .scenario,
     .mwh_coefficients = ghg.ccap::mwh_coefficients,
     .mcf_coefficients = ghg.ccap::mcf_coefficients,
     .sf_heat_pump_pct = .sf_heat_pump_pct,
