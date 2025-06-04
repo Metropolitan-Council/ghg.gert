@@ -67,6 +67,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # run_non_residential = TRUE,
                                   # selected CTU
                                   .selected_ctu = "all",
+                                  .scenario = "alt",
                                   # non-residential
                                   # electrification
                                   .electrified_buildings_pct = 0.0,

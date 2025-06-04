@@ -1,4 +1,5 @@
 source("data-raw/transportation_data_processing/eia_datasets.R")
+source("data-raw/transportation_data_processing/bts_fuel_economy.R")
 
 mode_aeo_mode_index <- transportation_data$passenger %>%
   select(mode, aeo_mode) %>%
@@ -22,7 +23,7 @@ pldv_fuel_economy <- transportation_data$passenger %>%
     mode == "PLDV",
     var %in% c(
       "HEVMPG",
-      "SIMPG",
+      # "SIMPG",
       "CIMPG",
       "BEVElec",
       "PHEVMPG"
@@ -31,6 +32,7 @@ pldv_fuel_economy <- transportation_data$passenger %>%
   select(mode, aeo_mode, var, year, value) %>%
   unique() %>%
   filter(year %in% c(2015, 2018, 2020)) %>%
+  bind_rows(bts_fuel_economy) %>%
   bind_rows(future_fuel_economy %>%
     filter(aeo_mode == "LDV") %>%
     mutate(mode = "PLDV")) %>%

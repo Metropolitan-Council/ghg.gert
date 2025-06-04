@@ -49,6 +49,7 @@ calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
                                     .sf_heat_pump_pct,
                                     .mf_heat_pump_pct,
+                                    .scenario = "alt",
                                     .selected_ctu = .selected_ctu,
                                     .mwh_coefficients = ghg.ccap::mwh_coefficients,
                                     .mcf_coefficients = ghg.ccap::mcf_coefficients,
@@ -141,7 +142,7 @@ calc_energy_residential <- function(res_tb,
     energy_bau %>%
       mutate(scenario = "bau"),
     energy_strategy %>%
-      mutate(scenario = "scenario")
+      mutate(scenario = .scenario)
   )
 
   return(energy_final)

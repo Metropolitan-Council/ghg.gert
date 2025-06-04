@@ -153,8 +153,10 @@ demographic_data <- demographic_data %>%
   mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
 
-anti_join(demographic_data,
-          geog_index) %>%
+anti_join(
+  demographic_data,
+  geog_index
+) %>%
   distinct(geog_name, geog_level)
 
 # urbansim_meta <- tibble::tribble(

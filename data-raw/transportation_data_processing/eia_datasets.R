@@ -97,9 +97,9 @@ aeo_fuel_economy <- aeo_mpg %>%
       seriesName %in% c("Freight : Truck Stock : Fuel Efficiency : Medium : Average") ~ "MDT"
     ),
     var = case_when(
-      seriesName %in% c("Light-Duty Fuel Economy : Conventional Cars : Gasoline") ~ "SIMPG",
+      seriesName %in% c("Light-Duty Fuel Economy : Stock Average") ~ "SIMPG",
       seriesName %in% c("Light-Duty Fuel Economy : Alternative-Fuel Cars : 200-Mile Electric Vehicle") ~ "BEVElec",
-      seriesName == "Light-Duty Fuel Economy : Stock Average" ~ "Light-duty MPG",
+      # seriesName == "Light-Duty Fuel Economy : Stock Average" ~ "Light-duty MPG",
       seriesName %in% c("Light-Duty Fuel Economy : Conventional Light Trucks : TDI Diesel") ~ "CIMPG",
       seriesName %in% c("Light-Duty Fuel Economy : Alternative-Fuel Cars : Electric-Gasoline Hybrid") ~ "HEVMPG",
       seriesName %in% c("Light-Duty Fuel Economy : Alternative-Fuel Cars : Plug-in 50 Gasoline Hybrid") ~ "PHEVMPG",
