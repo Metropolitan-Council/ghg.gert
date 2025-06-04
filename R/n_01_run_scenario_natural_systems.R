@@ -81,9 +81,7 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
       names_to = "land_cover_type",
       values_to = "area"
     ) %>%
-    dplyr::left_join(
-      natural_systems_data$land_cover_carbon
-    ) %>%
+    dplyr::left_join(tb_seq, by = c("land_cover_type")) %>%
     dplyr::mutate(
       value_emissions = area * seq_mtco2e_sqkm,
       value_stock_potential = area * stock_mtco2e_sqkm

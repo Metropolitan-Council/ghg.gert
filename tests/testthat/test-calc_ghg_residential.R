@@ -28,6 +28,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings()%>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Minneapolis")%>%
       suppressWarnings()
 
 
@@ -62,6 +65,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Minneapolis")%>%
       suppressWarnings()
 
 
@@ -97,6 +103,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Minneapolis")%>%
       suppressWarnings()
 
 
@@ -132,6 +141,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Minneapolis")%>%
       suppressWarnings()
 
 
@@ -170,6 +182,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Saint Paul")%>%
       suppressWarnings()
 
 
@@ -204,6 +219,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Saint Paul")%>%
       suppressWarnings()
 
 
@@ -239,6 +257,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Saint Paul")%>%
       suppressWarnings()
 
 
@@ -274,6 +295,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Saint Paul")%>%
       suppressWarnings()
 
 
@@ -310,6 +334,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Brooklyn Park")%>%
       suppressWarnings()
 
 
@@ -344,6 +371,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Brooklyn Park")%>%
       suppressWarnings()
 
 
@@ -379,6 +409,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Brooklyn Park")%>%
       suppressWarnings()
 
 
@@ -414,6 +447,9 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Brooklyn Park")%>%
       suppressWarnings()
 
 

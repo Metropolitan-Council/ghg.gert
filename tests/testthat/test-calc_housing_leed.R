@@ -5,7 +5,7 @@ testthat::test_that("calc_housing_leed", {
     leed_table %>%
       dplyr::filter(
         inventory_year == 2050,
-        effective_unit_change > 0
+        effective_unit_change_leed > 0
       ) %>%
       nrow() %>%
       testthat::expect_equal(0)
@@ -45,7 +45,7 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change), 0)
+    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
 
 
     # expect error
@@ -130,7 +130,7 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change), 0)
+    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
 
 
     # expect error
@@ -217,7 +217,7 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change), 0)
+    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
 
 
     # expect error

@@ -2,7 +2,7 @@ testthat::test_that("calc_energy_residential", {
   expect_true(exists("calc_energy_residential")) # prevent "empty test" notification
 
   test_energy <- function(en_table) {
-    # MWH should decreas
+    # MWH should decrease
     en_table %>%
       filter(inventory_year == 2050) %>%
       select(-residential_mcf) %>%
@@ -36,6 +36,9 @@ testthat::test_that("calc_energy_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu = "Minneapolis")%>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -91,6 +94,9 @@ testthat::test_that("calc_energy_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu =  "Maple Plain") %>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -149,6 +155,9 @@ testthat::test_that("calc_energy_residential", {
       .new_mf_homes_leed_gold_pct = 0.6,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(res_tb = .,
+                                .selected_ctu =  "New Germany") %>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
