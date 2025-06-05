@@ -42,14 +42,16 @@
 #'
 calc_housing_leed <- function(res_tb,
                               .selected_ctu,
-                              .new_sf_homes_leed_gold_pct = 0,
-                              .new_mf_homes_leed_gold_pct = 0,
+                              .new_sf_homes_leed_gold_pct,
+                              .new_mf_homes_leed_gold_pct,
+                              .leed_start_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
   check_inputs(name = "new_sf_homes_leed_gold_pct", .new_sf_homes_leed_gold_pct)
   check_inputs(name = "new_mf_homes_leed_gold_pct", .new_mf_homes_leed_gold_pct)
+  check_inputs(name = "leed_start_year", .leed_start_year)
 
   if (.new_sf_homes_leed_gold_pct == 0) {
     cli::cli_warn("No change in new single family home energy efficiency")
@@ -63,7 +65,9 @@ calc_housing_leed <- function(res_tb,
       dplyr::filter(grepl("single", sp_categories)) %>%
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = new_units * .new_sf_homes_leed_gold_pct,
+        new_leed = if_else(inventory_year < .leed_start_year,
+                           0,
+          new_units * .new_sf_homes_leed_gold_pct),
         effective_unit_change_leed =
           -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
       )
@@ -81,7 +85,9 @@ calc_housing_leed <- function(res_tb,
       dplyr::filter(grepl("multi", sp_categories)) %>%
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = new_units * .new_mf_homes_leed_gold_pct,
+        new_leed = if_else(inventory_year < .leed_start_year,
+                           0,
+                           new_units * .new_mf_homes_leed_gold_pct),
         effective_unit_change_leed =
           -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
       )
@@ -171,8 +177,9 @@ calc_housing_leed <- function(res_tb,
 #'
 calc_residential_retrofit <- function(res_tb,
                                       .selected_ctu,
-                                      .existing_sf_retrofit_pct = 0,
-                                      .existing_mf_retrofit_pct = 0,
+                                      .existing_sf_retrofit_pct,
+                                      .existing_mf_retrofit_pct,
+                                      .retrofit_start_year,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -180,7 +187,7 @@ calc_residential_retrofit <- function(res_tb,
 
   check_inputs(name = "existing_sf_retrofit_pct", .existing_sf_retrofit_pct)
   check_inputs(name = "existing_mf_retrofit_pct", .existing_mf_retrofit_pct)
-
+  check_inputs(name = "retrofit_start_year", .retrofit_start_year)
 
   if (.existing_sf_retrofit_pct == 0) {
     cli::cli_warn("No change in existing single family home energy efficiency")
@@ -193,7 +200,9 @@ calc_residential_retrofit <- function(res_tb,
       dplyr::filter(grepl("single", sp_categories)) %>%
       dplyr::mutate(
         existing_units = value - new_units,
-        retrofit_units = existing_units * .existing_sf_retrofit_pct,
+        retrofit_units = if_else(inventory_year < .retrofit_start_year,
+                                 0,
+                                 existing_units * .existing_sf_retrofit_pct),
         effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
       )
   }
@@ -210,7 +219,9 @@ calc_residential_retrofit <- function(res_tb,
       dplyr::mutate(
         new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base), # some cities lose sf,
         existing_units = value - new_units,
-        retrofit_units = existing_units * .existing_mf_retrofit_pct,
+        retrofit_units = if_else(inventory_year < .retrofit_start_year,
+                                 0,
+                                 existing_units * .existing_mf_retrofit_pct),
         effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
       )
   }

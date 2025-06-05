@@ -18,14 +18,12 @@ compile_bau_building_energy <-
       building_energy_data$ctu_sfh_attached,
       building_energy_data$ctu_sfh_large_lot,
       building_energy_data$ctu_sfh_small_lot
-    ) %>%
-      filter(inventory_year >= 2021)
+    )
 
     building_data$non_residential <- bind_rows(
       building_energy_data$commercial_jobs,
       building_energy_data$industrial_jobs
-    ) %>%
-      filter(inventory_year >= 2021)
+    )
 
     return(building_data)
   }

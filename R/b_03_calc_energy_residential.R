@@ -66,6 +66,7 @@ calc_energy_residential <- function(res_tb,
   energy_calc <- function(tb,
                           .mwh_coefficients = .mwh_coefficients,
                           .mcf_coefficients = .mcf_coefficients,
+                          .heatpump_start_year = .heatpump_start_year,
                           .sf_heat_pump_pct = .sf_heat_pump_pct,
                           .mf_heat_pump_pct = .mf_heat_pump_pct) {
     # browser()
