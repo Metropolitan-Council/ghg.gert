@@ -115,6 +115,26 @@ building_energy_data$natural_gas_business_ctu <-
     geog_level = ctu_class
   )
 
+building_energy_data$electricity_inventory <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_electricity_emissions.RDS") %>%
+  select(
+    geog_name = ctu_name,
+    geog_level = ctu_class,
+    sector,
+    inventory_year,
+    mwh
+    )
+
+building_energy_data$natgas_inventory <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_natgas_emissions.RDS") %>%
+  select(
+    geog_name = ctu_name,
+    geog_level = ctu_class,
+    sector,
+    inventory_year,
+    mcf
+  )
+
 ## -------------------------------------------------------------------------------------------
 # building_energy_data$eia_electricity_servicewide <-
 #   import_from_emissions("metro_energy.vw_eia_electricity_servicewide")
