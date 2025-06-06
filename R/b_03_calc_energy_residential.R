@@ -75,7 +75,8 @@ calc_energy_residential <- function(res_tb,
                                filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
                                           .selected_ctu = .selected_ctu) %>%
                                  dplyr::filter(inventory_year <= .baseline_year,
-                                               sector == "Residential")
+                                               sector == "Residential"),
+                               by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
   ### adjsut the model prediction to the sum of the last 5 observed years
