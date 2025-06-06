@@ -126,7 +126,8 @@ county_elec_data <-
          geog_level = "COUNTY",
          sector = if_else(sector == "Residential",
                           "Residential",
-                          "Business")) %>%
+                          "Business"),
+         county_name = paste(county_name, "County")) %>%
   group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
   summarize(mwh = sum(mwh)) %>%
   select(
@@ -160,7 +161,8 @@ county_gas_data <-
          geog_level = "COUNTY",
          sector = if_else(sector == "Residential",
                           "Residential",
-                          "Business")) %>%
+                          "Business"),
+         county_name = paste(county_name, "County")) %>%
   group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
   summarize(mcf = sum(mcf)) %>%
   select(
