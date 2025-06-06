@@ -9,8 +9,10 @@ calc_energy_residential(
   res_tb_bau,
   .sf_heat_pump_pct,
   .mf_heat_pump_pct,
+  .baseline_year,
   .scenario = "alt",
-  .selected_ctu = .selected_ctu,
+  .selected_ctu,
+  .heatpump_start_year,
   .mwh_coefficients = ghg.ccap::mwh_coefficients,
   .mcf_coefficients = ghg.ccap::mcf_coefficients,
   .enviro_factors = ghg.ccap::enviro_factors

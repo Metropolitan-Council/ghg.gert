@@ -7,8 +7,9 @@
 calc_housing_leed(
   res_tb,
   .selected_ctu,
-  .new_sf_homes_leed_gold_pct = 0,
-  .new_mf_homes_leed_gold_pct = 0,
+  .new_sf_homes_leed_gold_pct,
+  .new_mf_homes_leed_gold_pct,
+  .leed_start_year,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
