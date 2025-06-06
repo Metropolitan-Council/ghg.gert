@@ -91,6 +91,14 @@ check_inputs <- function(name, value) {
     if (value > 1 | value < 0) {
       cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1"))
     }
+  } else if (name %in% c(
+    "leed_start_year",
+    "retrofit_start_year",
+    "heatpump_start_year"
+  )) {
+    if (value < 2025 | value > 2045) {
+      cli::cli_abort(paste("Enter a valid", name, "value between 2025 and 2045"))
+    }
   } else if (name == "mode") {
     if (!value %in% c(
       "BU", "BRT", "RU", "RI",

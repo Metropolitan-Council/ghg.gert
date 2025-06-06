@@ -24,13 +24,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings()%>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis")%>%
+                                .selected_ctu = "Minneapolis",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -39,6 +44,8 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0,
       .scenario = "alt",
@@ -61,13 +68,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.5,
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis")%>%
+                                .selected_ctu = "Minneapolis",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -76,12 +88,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -99,13 +114,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.1,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis")%>%
+                                .selected_ctu = "Minneapolis",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -114,12 +134,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.25,
       .mf_heat_pump_pct = 0.15,
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -137,13 +160,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.60,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis")%>%
+                                .selected_ctu = "Minneapolis",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -152,12 +180,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.8,
       .mf_heat_pump_pct = 0.0,
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -178,13 +209,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul")%>%
+                                .selected_ctu = "Saint Paul",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -193,12 +229,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0,
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -215,13 +254,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.5,
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul")%>%
+                                .selected_ctu = "Saint Paul",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -230,12 +274,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -253,13 +300,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.1,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul")%>%
+                                .selected_ctu = "Saint Paul",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -268,12 +320,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.25,
       .mf_heat_pump_pct = 0.15,
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -291,13 +346,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Saint Paul",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.60,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul")%>%
+                                .selected_ctu = "Saint Paul",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -306,12 +366,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.8,
       .mf_heat_pump_pct = 0.0,
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -330,13 +393,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park")%>%
+                                .selected_ctu = "Brooklyn Park",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -345,12 +413,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0,
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -367,13 +438,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.5,
       .new_mf_homes_leed_gold_pct = 0.5,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park")%>%
+                                .selected_ctu = "Brooklyn Park",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -382,12 +458,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -405,13 +484,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.1,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park")%>%
+                                .selected_ctu = "Brooklyn Park",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -420,12 +504,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.25,
       .mf_heat_pump_pct = 0.15,
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(
@@ -443,13 +530,18 @@ test_that("calc_ghg_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Brooklyn Park",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.60,
       .new_mf_homes_leed_gold_pct = 0.1,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park")%>%
+                                .selected_ctu = "Brooklyn Park",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
 
@@ -458,12 +550,15 @@ test_that("calc_ghg_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .heatpump_start_year = 2025,
+      .baseline_year = 2021,
       .sf_heat_pump_pct = 0.8,
       .mf_heat_pump_pct = 0.0,
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )
+    )%>%
+      suppressWarnings()
 
 
     ghg_table <- calc_ghg_residential(

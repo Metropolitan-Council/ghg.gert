@@ -115,6 +115,79 @@ building_energy_data$natural_gas_business_ctu <-
     geog_level = ctu_class
   )
 
+county_elec_data <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(sector_alt == "Electricity") %>%
+  left_join(grid_emissions %>%
+              select(emissions_year = inventory_year,
+                     mt_co2e_per_mwh),
+            by = "emissions_year") %>%
+  mutate(mwh = value_emissions / mt_co2e_per_mwh,
+         geog_level = "COUNTY",
+         sector = if_else(sector == "Residential",
+                          "Residential",
+                          "Business"),
+         county_name = paste(county_name, "County")) %>%
+  group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
+  summarize(mwh = sum(mwh)) %>%
+  select(
+    geog_name = county_name,
+    geog_id = geoid,
+    geog_level,
+    sector,
+    inventory_year = emissions_year,
+    mwh
+  )
+
+building_energy_data$electricity_inventory <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_electricity_emissions.RDS") %>%
+  rename(geog_level = ctu_class) %>%
+  left_join(geog_index) %>%
+  select(
+    geog_name,
+    geog_id,
+    geog_level,
+    sector,
+    inventory_year,
+    mwh
+  ) %>%
+  bind_rows(county_elec_data)
+
+
+county_gas_data <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(sector_alt == "Building fuel") %>%
+  mutate(mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
+         geog_level = "COUNTY",
+         sector = if_else(sector == "Residential",
+                          "Residential",
+                          "Business"),
+         county_name = paste(county_name, "County")) %>%
+  group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
+  summarize(mcf = sum(mcf)) %>%
+  select(
+    geog_name = county_name,
+    geog_id = geoid,
+    geog_level,
+    sector,
+    inventory_year = emissions_year,
+    mcf
+  )
+
+building_energy_data$natgas_inventory <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_natgas_emissions.RDS") %>%
+  rename(geog_level = ctu_class) %>%
+  left_join(geog_index) %>%
+  select(
+    geog_name,
+    geog_id,
+    geog_level,
+    sector,
+    inventory_year,
+    mcf
+  ) %>%
+  bind_rows(county_gas_data)
+
 ## -------------------------------------------------------------------------------------------
 # building_energy_data$eia_electricity_servicewide <-
 #   import_from_emissions("metro_energy.vw_eia_electricity_servicewide")

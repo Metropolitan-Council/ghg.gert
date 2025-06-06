@@ -32,13 +32,18 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis")%>%
+                                .selected_ctu = "Minneapolis",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+                                )%>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -46,6 +51,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
@@ -59,6 +66,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.60,
       .mf_heat_pump_pct = 0.60,
       .scenario = "alt",
@@ -72,6 +81,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.70,
       .mf_heat_pump_pct = 0.70,
       .scenario = "alt",
@@ -90,13 +101,18 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Maple Plain",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu =  "Maple Plain") %>%
+                                .selected_ctu = "Maple Plain",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -104,6 +120,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
@@ -117,6 +135,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.60,
       .mf_heat_pump_pct = 0.60,
       .scenario = "alt",
@@ -130,6 +150,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.70,
       .mf_heat_pump_pct = 0.70,
       .scenario = "alt",
@@ -151,13 +173,18 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "New Germany",
-      .new_sf_homes_leed_gold_pct = 0.6,
-      .new_mf_homes_leed_gold_pct = 0.6,
+      .leed_start_year = 2025,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
       calc_residential_retrofit(res_tb = .,
-                                .selected_ctu =  "New Germany") %>%
+                                .selected_ctu = "New Germany",
+                                .retrofit_start_year = 2025,
+                                .existing_sf_retrofit_pct = 0,
+                                .existing_mf_retrofit_pct = 0,
+      )%>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -165,6 +192,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
@@ -178,6 +207,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.60,
       .mf_heat_pump_pct = 0.60,
       .scenario = "alt",
@@ -191,6 +222,8 @@ testthat::test_that("calc_energy_residential", {
       res_tb_bau = building_data$residential,
       .mwh_coefficients = mwh_coefficients,
       .mcf_coefficients = mcf_coefficients,
+      .baseline_year = 2021,
+      .heatpump_start_year = 2025,
       .sf_heat_pump_pct = 0.70,
       .mf_heat_pump_pct = 0.70,
       .scenario = "alt",
