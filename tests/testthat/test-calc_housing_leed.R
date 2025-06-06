@@ -17,6 +17,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Minneapolis",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -28,6 +29,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Minneapolis",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -38,6 +40,7 @@ testthat::test_that("calc_housing_leed", {
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -52,6 +55,7 @@ testthat::test_that("calc_housing_leed", {
     testthat::expect_error(calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -60,6 +64,7 @@ testthat::test_that("calc_housing_leed", {
     leed6 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -68,6 +73,7 @@ testthat::test_that("calc_housing_leed", {
     leed4 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -76,6 +82,7 @@ testthat::test_that("calc_housing_leed", {
     leed9 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -85,6 +92,7 @@ testthat::test_that("calc_housing_leed", {
     leed1 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -102,6 +110,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Blaine",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -113,6 +122,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Blaine",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -123,6 +133,7 @@ testthat::test_that("calc_housing_leed", {
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -137,6 +148,7 @@ testthat::test_that("calc_housing_leed", {
     testthat::expect_error(calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -145,6 +157,7 @@ testthat::test_that("calc_housing_leed", {
     leed6 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -153,6 +166,7 @@ testthat::test_that("calc_housing_leed", {
     leed4 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -161,6 +175,7 @@ testthat::test_that("calc_housing_leed", {
     leed9 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -170,6 +185,7 @@ testthat::test_that("calc_housing_leed", {
     leed1 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -189,6 +205,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Willernie",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0.5,
         .new_mf_homes_leed_gold_pct = 0,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -200,6 +217,7 @@ testthat::test_that("calc_housing_leed", {
       calc_housing_leed(
         res_tb = building_data$residential,
         .selected_ctu = "Willernie",
+        .leed_start_year = 2025,
         .new_sf_homes_leed_gold_pct = 0,
         .new_mf_homes_leed_gold_pct = 0.5,
         .enviro_factors = ghg.ccap::enviro_factors
@@ -210,6 +228,7 @@ testthat::test_that("calc_housing_leed", {
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -224,6 +243,7 @@ testthat::test_that("calc_housing_leed", {
     testthat::expect_error(calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -232,6 +252,7 @@ testthat::test_that("calc_housing_leed", {
     leed6 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -240,6 +261,7 @@ testthat::test_that("calc_housing_leed", {
     leed4 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -248,6 +270,7 @@ testthat::test_that("calc_housing_leed", {
     leed9 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
       .enviro_factors = ghg.ccap::enviro_factors
@@ -257,6 +280,7 @@ testthat::test_that("calc_housing_leed", {
     leed1 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
+      .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
       .enviro_factors = ghg.ccap::enviro_factors
