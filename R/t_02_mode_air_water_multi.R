@@ -8,7 +8,6 @@
 #'
 #' @export
 #'
-#' @importFrom emo ji
 #' @importFrom cli cli_alert_success
 mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
                                  .selected_ctu = "all",
@@ -353,9 +352,9 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
 
   cli::cli_alert_success(paste(
     "Freight air, water, multimodal",
-    emo::ji("airplane"),
-    emo::ji("ship"),
-    emo::ji("frog")
+    "✈️",
+    "🚢",
+    "🐸"
   ))
 
   return(av_return)

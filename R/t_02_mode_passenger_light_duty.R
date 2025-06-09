@@ -8,7 +8,6 @@
 #'
 #' @export
 #'
-#' @importFrom emo ji
 #' @importFrom cli cli_alert_success
 mode_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu = "all",
@@ -750,7 +749,7 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   cli::cli_alert_success(paste(
     "Passenger light-duty vehicles",
-    emo::ji("automobile")
+    "🚗"
   ))
 
   # return ------
