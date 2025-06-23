@@ -68,45 +68,52 @@ calc_energy_residential <- function(res_tb,
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu) %>%
     mutate(effective_unit_change = 0)
 
-  baseline_energy <- left_join(filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-                                          .selected_ctu = .selected_ctu) %>%
-                                 dplyr::filter(inventory_year <= .baseline_year,
-                                               sector == "Residential"),
-                               filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-                                          .selected_ctu = .selected_ctu) %>%
-                                 dplyr::filter(inventory_year <= .baseline_year,
-                                               sector == "Residential"),
-                               by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
+  baseline_energy <- left_join(
+    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
+      .selected_ctu = .selected_ctu
+    ) %>%
+      dplyr::filter(
+        inventory_year <= .baseline_year,
+        sector == "Residential"
+      ),
+    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
+      .selected_ctu = .selected_ctu
+    ) %>%
+      dplyr::filter(
+        inventory_year <= .baseline_year,
+        sector == "Residential"
+      ),
+    by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
   ### adjsut the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
-       filter(inventory_year >= (.baseline_year - 4)) %>%
-    pull(mwh)  %>%
+      filter(inventory_year >= (.baseline_year - 4)) %>%
+      pull(mwh) %>%
       sum()) /
-    (res_tb_bau %>%
-    filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-    left_join(.mwh_coefficients,
-              by = c("sp_categories" = "var")
-    ) %>%
-    mutate(mwh_pred = value * mwh_per_unit_eia) %>%
-    pull(mwh_pred) %>%
-    sum())
+      (res_tb_bau %>%
+        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+        left_join(.mwh_coefficients,
+          by = c("sp_categories" = "var")
+        ) %>%
+        mutate(mwh_pred = value * mwh_per_unit_eia) %>%
+        pull(mwh_pred) %>%
+        sum())
 
   mcf_adjustment <-
     (baseline_energy %>%
-       filter(inventory_year >= (.baseline_year - 4)) %>%
-       pull(mcf)  %>%
-       sum()) /
-    (res_tb_bau %>%
-       filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       left_join(.mcf_coefficients,
-                 by = c("sp_categories" = "var")
-       ) %>%
-       mutate(mcf_pred = value * mcf_per_unit_eia) %>%
-       pull(mcf_pred) %>%
-       sum())
+      filter(inventory_year >= (.baseline_year - 4)) %>%
+      pull(mcf) %>%
+      sum()) /
+      (res_tb_bau %>%
+        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+        left_join(.mcf_coefficients,
+          by = c("sp_categories" = "var")
+        ) %>%
+        mutate(mcf_pred = value * mcf_per_unit_eia) %>%
+        pull(mcf_pred) %>%
+        sum())
 
   ### calculate heat pump effects here
   energy_calc <- function(tb,
@@ -136,34 +143,31 @@ calc_energy_residential <- function(res_tb,
             # homes with heat pumps
             # little wonky due to city-level adjustment, better would be to have a heat pump mwh number to add pre-loaded
             (mwh_adjustment * mwh_per_unit_eia + # municipality adjustment
-               (mwh_per_unit_heat_pump - mwh_per_unit_eia)) * # heat pump add-on
-            (effective_units * .sf_heat_pump_pct),
+              (mwh_per_unit_heat_pump - mwh_per_unit_eia)) * # heat pump add-on
+              (effective_units * .sf_heat_pump_pct),
           grepl("multi", sp_categories) &
             inventory_year >= .heatpump_start_year ~
             # homes with natural gas
             mwh_adjustment * mwh_per_unit_eia * (effective_units * (1 - .mf_heat_pump_pct)) +
             # homes with heat pumps
             mwh_per_unit_heat_pump * (effective_units * .mf_heat_pump_pct)
-          )
-
-        ,
+        ),
         residential_mcf = case_when(
           inventory_year < .heatpump_start_year ~
-        mcf_adjustment * mcf_per_unit_eia * effective_units,
+            mcf_adjustment * mcf_per_unit_eia * effective_units,
           grepl("single", sp_categories) &
-          inventory_year >= .heatpump_start_year ~
+            inventory_year >= .heatpump_start_year ~
             # homes with natural gas
             mcf_adjustment * mcf_per_unit_eia * (effective_units * (1 - .sf_heat_pump_pct)) +
             # homes with heat pumps
-            mcf_adjustment *mcf_per_unit_heat_pump * (effective_units * .sf_heat_pump_pct),
+            mcf_adjustment * mcf_per_unit_heat_pump * (effective_units * .sf_heat_pump_pct),
           grepl("multi", sp_categories) &
-          inventory_year >= .heatpump_start_year ~
+            inventory_year >= .heatpump_start_year ~
             # homes with natural gas
             mcf_adjustment * mcf_per_unit_eia * (effective_units * (1 - .mf_heat_pump_pct)) +
             # homes with heat pumps
             mcf_adjustment * mcf_per_unit_heat_pump * (effective_units * .mf_heat_pump_pct)
         )
-
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
       dplyr::summarize(
@@ -182,12 +186,14 @@ calc_energy_residential <- function(res_tb,
   }
 
 
-  energy_bau <- bind_rows(baseline_energy %>%
-                           select(geog_name,
-                                  geog_id,
-                                  inventory_year,
-                                  residential_mwh = mwh,
-                                  residential_mcf = mcf),
+  energy_bau <- bind_rows(
+    baseline_energy %>%
+      select(geog_name,
+        geog_id,
+        inventory_year,
+        residential_mwh = mwh,
+        residential_mcf = mcf
+      ),
     energy_calc(
       tb = res_tb_bau,
       .mwh_coefficients = .mwh_coefficients,
@@ -199,12 +205,14 @@ calc_energy_residential <- function(res_tb,
   )
 
 
-  energy_strategy <- bind_rows(baseline_energy %>%
-                                select(geog_name,
-                                       geog_id,
-                                       inventory_year,
-                                       residential_mwh = mwh,
-                                       residential_mcf = mcf),
+  energy_strategy <- bind_rows(
+    baseline_energy %>%
+      select(geog_name,
+        geog_id,
+        inventory_year,
+        residential_mwh = mwh,
+        residential_mcf = mcf
+      ),
     energy_calc(
       tb = res_tb,
       .mwh_coefficients = .mwh_coefficients,
