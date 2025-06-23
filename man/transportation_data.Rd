@@ -6,11 +6,11 @@
 \title{A list of transportation and freight data input tables}
 \format{
 A named list of two tibbles
-\describe{
-\item{passenger}{tibble with 105,652 rows and 7 columns, \code{mode},
-\code{var}, \code{ctu}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}}
-\item{freight}{tibble with 43,362 rows and 7 columns,
-\code{mode}, \code{var}, \code{ctu}, \code{year}, \code{value},\code{aeo_mode}, \code{type}}
+\itemize{
+\item \strong{passenger}: A tibble with columns:
+\code{mode}, \code{var}, \code{geog_name}, \code{geog_id},  \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
+\item \strong{freight}: A tibble columns:
+\code{mode}, \code{var}, \code{geog_name}, \code{geog_id}, \code{year}, \code{value}, \code{aeo_mode}, \code{type}.
 }
 }
 \usage{
@@ -27,10 +27,14 @@ transportation_data$freight
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
+\code{\link{fuel_economy}},
+\code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_index}}
 }

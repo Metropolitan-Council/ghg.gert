@@ -32,7 +32,6 @@ calc_land_cover_by_land_use <- function(tb,
     tb = tb,
     .selected_ctu = .selected_ctu
   )
-
   # -------------------------------------------------------------------------
   scen_land_use <-
     if (.selected_ctu == "all") {
@@ -44,7 +43,7 @@ calc_land_cover_by_land_use <- function(tb,
       calc_scen_land_use(
         tb = tb,
         .selected_ctu
-      ) %>% filter(ctu_name == .selected_ctu)
+      ) %>% filter(geog_name == .selected_ctu)
     }
 
   # -------------------------------------------------------------------------
@@ -52,7 +51,7 @@ calc_land_cover_by_land_use <- function(tb,
     dplyr::bind_rows(
       land_cover_percentages %>%
         dplyr::group_by(
-          ctu_name,
+          geog_name, geog_id,
           land_use_type,
           land_cover_type
         ) %>%
@@ -64,18 +63,18 @@ calc_land_cover_by_land_use <- function(tb,
       dplyr::right_join(
         land_cover_percentages %>%
           dplyr::select(
-            ctu_name,
+            geog_name, geog_id,
             land_use_type,
             land_cover_type,
             percent_land_cover_type
           ),
         scen_land_use %>%
-          dplyr::group_by(ctu_name, land_use_type) %>%
+          dplyr::group_by(geog_name, geog_id, land_use_type) %>%
           dplyr::summarise(scenario_hectares = sum(scenario_hectares)),
-        by = c("ctu_name", "land_use_type")
+        by = c("geog_name", "geog_id", "land_use_type")
       ) %>%
         dplyr::group_by(
-          ctu_name,
+          geog_name, geog_id,
           land_use_type,
           land_cover_type
         ) %>%
@@ -85,7 +84,7 @@ calc_land_cover_by_land_use <- function(tb,
         ) %>%
         dplyr::mutate(year = 2040) %>%
         dplyr::select(
-          ctu_name,
+          geog_name, geog_id,
           year,
           land_use_type,
           land_cover_type,

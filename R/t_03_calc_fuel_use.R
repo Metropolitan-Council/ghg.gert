@@ -1,7 +1,7 @@
-#' @title Calculate use of fuel in thousands of gallons or thousands of kWh
+#' @title Calculate use of fuel in gallons or  kWh (thousands)
 #'
 #' @inheritParams calc_ghg_direct
-#' @inheritParams run_scenario_transportation
+#' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
@@ -16,11 +16,10 @@ calc_fuel_use <- function(tb_vmt,
                           .mode,
                           .aeo_scenario = "REF",
                           .miles_per_gallon,
+                          .fuel_economy = fuel_economy,
                           .enviro_factors = enviro_factors,
                           .factor_values = factor_values) {
-  # browser()
-
-  tb_l <- tb %>%
+  tb_l <- .fuel_economy %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     unique() %>%
     tidyr::pivot_wider(
@@ -62,27 +61,26 @@ calc_fuel_use <- function(tb_vmt,
       fuel_factor,
       aeo_mode
     )
-  # browser()
 
-  fuel_use <- dplyr::left_join(tb_vmt,
+  fuel_use_gallons_kwh <- dplyr::left_join(
+    tb_vmt,
     tb_aeo,
     by = c("year", "aeo_mode")
   ) %>%
     dplyr::rowwise() %>%
-    # VMT is given in thousands
-    # so output is in thousands
-    dplyr::mutate(fuel_use = vmt * fuel_factor) %>%
+    # miles traveled DIVIDED by the miles per gallon to get gallons
+    dplyr::mutate(fuel_use_gallons_kwh = (vmt) / fuel_factor) %>%
     dplyr::select(
       type,
       scenario,
       mode,
-      ctu,
+      geog_name, geog_id,
       class,
       year,
       aeo_mode,
-      fuel_use
+      fuel_use_gallons_kwh
     )
 
 
-  return(fuel_use)
+  return(fuel_use_gallons_kwh)
 }

@@ -91,7 +91,7 @@ calc_parking_lot_land_cover <- function(tb,
   parking_lot_land_cover_short <-
     parking_lot_land_cover %>%
     dplyr::select(
-      ctu_name,
+      geog_name, geog_id,
       year,
       agriculture,
       barren,

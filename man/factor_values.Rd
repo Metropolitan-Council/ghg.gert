@@ -5,11 +5,11 @@
 \alias{factor_values}
 \title{Annual energy outlook, cost, and greenhouse gas factors}
 \format{
-A named list of three tibbles
-\describe{
-\item{aeo}{tibble with columns \code{aeo_scen}, \code{mode}, \code{metric}, \code{year}, \code{value}}
-\item{cost}{tibble with columns \code{mode}, \code{var}, \code{is_av}, \code{year}, \code{value}}
-\item{ghg}{tibble with columns \code{source}, \code{year}, \code{value}}
+A list with the following elements:
+\itemize{
+\item \strong{aeo}: A tibble with columns \code{aeo_scen}, \code{mode}, \code{metric}, \code{year}, \code{value}.
+\item \strong{cost}: A tibble with columns \code{mode}, \code{var}, \code{is_av}, \code{year}, \code{value}.
+\item \strong{ghg}: A tibble with columns \code{source}, \code{year}, \code{value}.
 }
 }
 \usage{
@@ -22,9 +22,13 @@ by scenario, mode, year, and source
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
+\code{\link{fuel_economy}},
+\code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}

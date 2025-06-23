@@ -12,14 +12,13 @@
 #' @param tb [tibble::tibble()].
 #' The input dataset to be used.
 #'
-#' @param .urban_form_scenario character,
-#' The current land use scenario being explored.
-#' Default is `"bau"`.
-#' The options are:
-#' * `"bau"`: the business as usual scenario.
-#' * `"post_covid_sprawl"`: post covid sprawl scenario.
-#' * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
-#' * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
+#' @param .urban_form_scenario character, the current land use scenario being explored.
+#'   Default is `"bau"`.
+#'   The options are:
+#'   * `"bau"`: the business as usual scenario.
+#'   * `"post_covid_sprawl"`: post covid sprawl scenario.
+#'   * `"compact_development_beyond_bau`: compact development beyond the business as usual scenario.
+#'   * `"compact_development_with_drs"`: compact development with dynamic ride sharing.
 #'
 #'
 #' @inheritParams calc_parking_lot_land_cover
@@ -59,7 +58,7 @@ calc_land_by_development_type <- function(tb,
   ctu_land_use_hectares_by_dev_type <-
     ctu_land_use_hectares %>%
     dplyr::filter(year == 2040) %>%
-    dplyr::group_by(ctu_name, development_type)
+    dplyr::group_by(geog_name, geog_id, development_type)
 
   # -------------------------------------------------------------------------
   bau_total <-
@@ -105,11 +104,11 @@ calc_land_by_development_type <- function(tb,
       (
         ctu_land_use_hectares %>%
           dplyr::filter(year == 2040) %>%
-          dplyr::group_by(ctu_name) %>%
+          dplyr::group_by(geog_name, geog_id) %>%
           dplyr::summarise(total_hectares_bau = sum(hectares)) %>%
           dplyr::ungroup()
       ),
-      by = "ctu_name"
+      by = c("geog_name", "geog_id")
     ) %>%
     tidyr::pivot_wider(.,
       names_from = development_type,
@@ -129,12 +128,17 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     dplyr::select(., -c(total_hectares_bau)) %>%
     tidyr::pivot_longer(.,
-      cols = 3:5,
+      cols = c(
+        exurban_development,
+        urban_expansion,
+        urban_infill
+      ),
       names_to = "development_type",
       values_to = "hectares"
     )
 
   # -------------------------------------------------------------------------
+  # browser()
   scenario_mixed_use_mf_new <-
     dplyr::bind_rows(
       bau_total,
@@ -172,9 +176,19 @@ calc_land_by_development_type <- function(tb,
         ),
       scenario_mixed_use_mf_new.exurban_development = 0
     ) %>%
+    group_by(geog_name, geog_id) %>%
     tidyr::pivot_longer(
       .,
-      cols = !ctu_name,
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"
@@ -209,7 +223,16 @@ calc_land_by_development_type <- function(tb,
     ) %>%
     tidyr::pivot_longer(
       .,
-      cols = !ctu_name,
+      cols = any_of(c(
+        "scenario_total.exurban_development", "scenario_total.urban_expansion",
+        "scenario_total.urban_infill", "scenario_mixed_use_mf_new.urban_expansion",
+        "scenario_mixed_use_mf_new.urban_infill", "scenario_mixed_use_mf_new.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.exurban_development",
+        "scenario_mixed_use_compact_zoning_park.urban_expansion", "scenario_mixed_use_compact_zoning_park.urban_infill",
+        "scenario_other_zoning.urban_expansion", "scenario_other_zoning.urban_infill",
+        "scenario_other_zoning.exurban_development", "bau.urban_expansion",
+        "bau.urban_infill", "bau.exurban_development"
+      )),
       names_to = c("scenario", "development_type"),
       names_sep = "[.]",
       values_to = "hectares"

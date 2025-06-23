@@ -7,7 +7,7 @@
 vmt_stock_proportion(.tb, .mode, .stock)
 }
 \arguments{
-\item{.tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{.tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -16,7 +16,7 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.stock}{character, stock for current mode}
 }
 \value{
-table with columns \code{ctu}, \code{year}, \code{mode}, and \code{mode_stock_adj}
+table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{mode}, and \code{mode_stock_adj}
 }
 \description{
 Calculate stock adjustment

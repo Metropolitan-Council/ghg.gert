@@ -27,10 +27,10 @@
 #'      `non_res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @return [tibble::tibble()].
-#'      Data table with columns `ctu_name`, `var`, `value`, `scen`, and `year`.
+#'      Data table with columns `geog_name`, `geog_id`, `var`, `value`, `scen`, and `year`.
 #'      The output of the non-residential portion of the Building Energy Module of the.
 #'
-#'      @field ctu_name character, Name of the city/township.
+#'      @field geog_name character, Name of the city/township.
 #'      @field year, numeric, Year.
 #'      @field var character, one of `commercial_mwh`, `industrial_mwh`,
 #'          `commercial_therms`, `industrial_therms`,
@@ -69,14 +69,12 @@ scen_building_non_residential <- function(non_res_tb,
                                           .existing_high_efficiency_buildings_pct,
                                           .renewable_ng_nonres,
                                           .enviro_factors = enviro_factors) {
-  # browser()
-
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   tb01 <- calc_existing_comm_building_efficiency(
-    non_res_tb = ghg.ccap::building_energy_bau_data$non_residential,
+    non_res_tb = ghg.ccap::building_data$non_residential,
     .selected_ctu = .selected_ctu,
     .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct
   )

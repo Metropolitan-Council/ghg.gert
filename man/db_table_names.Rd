@@ -6,14 +6,14 @@
 \title{Database table names}
 \format{
 Nested, named list of table names available in the CD_Emissions database
-\describe{
-\item{mod_1}{named list of 1 table name}
-\item{mod_2}{named list of 3 table names}
-\item{mod_3}{named list of 8 table names }
-\item{metro_demos}{named list of 7 table names}
-\item{state_demos}{named list of 2 table names}
-\item{metro_energy}{named list of 9 table names}
-\item{state_energy}{named list of 1 table name}
+\itemize{
+\item \strong{mod_1}: A named list of 1 table name.
+\item \strong{mod_2}: A named list of 3 table names.
+\item \strong{mod_3}: A named list of 8 table names.
+\item \strong{metro_demos}: A named list of 7 table names.
+\item \strong{state_demos}: A named list of 2 table names.
+\item \strong{metro_energy}: A named list of 9 table names.
+\item \strong{state_energy}: A named list of 1 table name.
 }
 }
 \usage{
@@ -29,10 +29,14 @@ db_table_names$metro_demos
 }
 \seealso{
 Other datasets: 
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
+\code{\link{fuel_economy}},
+\code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}

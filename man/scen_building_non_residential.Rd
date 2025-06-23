@@ -29,7 +29,7 @@ is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -46,14 +46,15 @@ Default is \code{0}.}
 
 \item{.renewable_ng_nonres}{logical, documentation needed}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with columns \code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+Data table with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{value}, \code{scen}, and \code{year}.
 The output of the non-residential portion of the Building Energy Module of the.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field ctu_name character, Name of the city/township.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field geog_name character, Name of the city/township.
  @field year, numeric, Year.
  @field var character, one of `commercial_mwh`, `industrial_mwh`,
      `commercial_therms`, `industrial_therms`,
@@ -105,18 +106,27 @@ Other buildings:
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_housing_leed}()},
+\code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{calc_residential_retrofit}()},
+\code{\link{calc_sfh_leed}()},
+\code{\link{calc_sfh_retrofit}()},
 \code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
 \code{\link{get_residential_energy_baseline}()},
+\code{\link{get_residential_mcf_baseline}()},
+\code{\link{get_residential_mwh_baseline}()},
 \code{\link{run_scenario_building}()}
 }
 \concept{buildings}

@@ -37,7 +37,7 @@ st_paul_freight <- transportation_data$freight %>%
   )
 
 
-bau_summary <- run_scenario_transportation(
+bau_summary <- run_module_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "BAU",
@@ -48,7 +48,7 @@ bau_summary <- run_scenario_transportation(
 
 
 # browser()
-mitigation_trans <- run_scenario_transportation(
+mitigation_trans <- run_module_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_improve_transit",
@@ -61,7 +61,7 @@ mitigation_trans <- run_scenario_transportation(
   suppressMessages()
 
 
-mitigation_lu <- run_scenario_transportation(
+mitigation_lu <- run_module_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use",
@@ -77,7 +77,7 @@ mitigation_lu <- run_scenario_transportation(
   suppressMessages()
 
 # debug(vmt_transit_service)
-mitigation_lu_transit <- run_scenario_transportation(
+mitigation_lu_transit <- run_module_transportation(
   pass_tb = st_paul_pass,
   freight_tb = st_paul_freight,
   .scenario = "strategy_land_use_and_transit",
