@@ -29,13 +29,14 @@ test_that("calc_ghg_residential", {
       .new_mf_homes_leed_gold_pct = 0,
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
-      suppressWarnings()%>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      suppressWarnings() %>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Minneapolis",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -74,12 +75,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Minneapolis",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -95,7 +97,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -120,12 +122,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Minneapolis",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -141,7 +144,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -166,12 +169,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Minneapolis",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -187,7 +191,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -215,12 +219,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Saint Paul",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -236,7 +241,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -260,12 +265,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Saint Paul",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -281,7 +287,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -306,12 +312,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Saint Paul",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -327,7 +334,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -352,12 +359,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Saint Paul",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Saint Paul",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -373,7 +381,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Saint Paul",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -399,12 +407,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Brooklyn Park",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -420,7 +429,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -444,12 +453,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Brooklyn Park",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -465,7 +475,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -490,12 +500,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Brooklyn Park",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -511,7 +522,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 
@@ -536,12 +547,13 @@ test_that("calc_ghg_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Brooklyn Park",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Brooklyn Park",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
 
@@ -557,7 +569,7 @@ test_that("calc_ghg_residential", {
       .scenario = "alt",
       .selected_ctu = "Brooklyn Park",
       .enviro_factors = enviro_factors
-    )%>%
+    ) %>%
       suppressWarnings()
 
 

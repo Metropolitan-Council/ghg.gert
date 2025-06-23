@@ -38,12 +38,13 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Minneapolis",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-                                )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Minneapolis",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -107,12 +108,13 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "Maple Plain",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "Maple Plain",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(
@@ -179,12 +181,13 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     ) %>%
       suppressWarnings() %>%
-      calc_residential_retrofit(res_tb = .,
-                                .selected_ctu = "New Germany",
-                                .retrofit_start_year = 2025,
-                                .existing_sf_retrofit_pct = 0,
-                                .existing_mf_retrofit_pct = 0,
-      )%>%
+      calc_residential_retrofit(
+        res_tb = .,
+        .selected_ctu = "New Germany",
+        .retrofit_start_year = 2025,
+        .existing_sf_retrofit_pct = 0,
+        .existing_mf_retrofit_pct = 0,
+      ) %>%
       suppressWarnings()
 
     t_hp50 <- calc_energy_residential(

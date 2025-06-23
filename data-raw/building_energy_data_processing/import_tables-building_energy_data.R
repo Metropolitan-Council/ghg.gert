@@ -118,16 +118,23 @@ building_energy_data$natural_gas_business_ctu <-
 county_elec_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
   filter(sector_alt == "Electricity") %>%
-  left_join(grid_emissions %>%
-              select(emissions_year = inventory_year,
-                     mt_co2e_per_mwh),
-            by = "emissions_year") %>%
-  mutate(mwh = value_emissions / mt_co2e_per_mwh,
-         geog_level = "COUNTY",
-         sector = if_else(sector == "Residential",
-                          "Residential",
-                          "Business"),
-         county_name = paste(county_name, "County")) %>%
+  left_join(
+    grid_emissions %>%
+      select(
+        emissions_year = inventory_year,
+        mt_co2e_per_mwh
+      ),
+    by = "emissions_year"
+  ) %>%
+  mutate(
+    mwh = value_emissions / mt_co2e_per_mwh,
+    geog_level = "COUNTY",
+    sector = if_else(sector == "Residential",
+      "Residential",
+      "Business"
+    ),
+    county_name = paste(county_name, "County")
+  ) %>%
   group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
   summarize(mwh = sum(mwh)) %>%
   select(
@@ -157,12 +164,15 @@ building_energy_data$electricity_inventory <-
 county_gas_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
   filter(sector_alt == "Building fuel") %>%
-  mutate(mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
-         geog_level = "COUNTY",
-         sector = if_else(sector == "Residential",
-                          "Residential",
-                          "Business"),
-         county_name = paste(county_name, "County")) %>%
+  mutate(
+    mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
+    geog_level = "COUNTY",
+    sector = if_else(sector == "Residential",
+      "Residential",
+      "Business"
+    ),
+    county_name = paste(county_name, "County")
+  ) %>%
   group_by(county_name, geoid, geog_level, sector, emissions_year) %>%
   summarize(mcf = sum(mcf)) %>%
   select(
