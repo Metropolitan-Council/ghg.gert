@@ -1,5 +1,7 @@
 ### load in agricultural activity data
 
+library(dplyr)
+
 inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_agriculture/data/"
 
 livestock_county <- readr::read_rds(paste0(inpath, "usda_census_data.rds"))
@@ -49,12 +51,8 @@ crops <- dplyr::bind_rows(
 
 ### fertilizer data
 
-#temp path (replace with inpath once PR goes through)
-temppath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/quick-ag-fix/_agriculture/data/"
-
-
-fertilizer_county <- readr::read_rds(paste0(temppath, "county_fertilizer_activity.rds"))
-fertilizer_ctu <-readr::read_rds(paste0(temppath, "ctu_fertilizer_activity.rds"))
+fertilizer_county <- readr::read_rds(paste0(inpath, "county_fertilizer_activity.rds"))
+fertilizer_ctu <-readr::read_rds(paste0(inpath, "ctu_fertilizer_activity.rds"))
 
 ### combine county and ctu into single dataframe
 
