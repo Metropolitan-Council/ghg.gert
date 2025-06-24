@@ -82,56 +82,31 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
     filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
 
   l_names <- c(
-    # non-residential
-    # electrification
-    "electrified_buildings_pct",
-    # smartgrid
-    "smart_grid_energy_reduction_pct",
-    # residential
-    # floor_area
-    # "new_homes_to_multifamily_pct",
-    "existing_high_efficiency_buildings_pct",
-    # "home_behavior_change_pct",
-    # "single_family_floor_area_growth_pct",
-    # "new_homes_affected_pct",
-    "new_sf_homes_leed_gold_pct ",
-    "new_mf_homes_leed_gold_pct",
-    "existing_sf_retrofit_pct",
-    "existing_mf_retrofit_pct",
-    # electrification
-    "sf_heat_pump_pct",
-    "mf_heat_pump_pct"
-    # grid
-    # "renewable_ng_res",
-    # "renewable_ng_nonres"
+    # manure
+    "manure_management_start_year",
+    "manure_management",
+    # fertilizer
+    "smart_fertilizer_start_year",
+    "smart_fertilizer_application",
+    # crops
+    "cover_crops_start_year",
+    "cover_crops",
+    "no_till_start_year",
+    "no_till_agriculture"
   )
 
   l_vals <- list(
-    # non-residential
-    # electrification
-    .electrified_buildings_pct,
-
-    # smartgrid
-    .smart_grid_energy_reduction_pct,
-
-    # residential
-
-    # floor_area
-    # .new_homes_to_multifamily_pct,
-    .existing_high_efficiency_buildings_pct,
-    # .home_behavior_change_pct,
-    # .single_family_floor_area_growth_pct,
-    # .new_homes_affected_pct,
-    .new_sf_homes_leed_gold_pct,
-    .new_mf_homes_leed_gold_pct,
-    .existing_sf_retrofit_pct,
-    .existing_mf_retrofit_pct,
-    # electrification
-    .sf_heat_pump_pct,
-    .mf_heat_pump_pct
-    # grid
-    # .renewable_ng_res,
-    # .renewable_ng_nonres
+    # manure
+    .manure_start_year,
+    .manure_handling,
+    # fertilizer
+    .smart_fertilizer_start_year ,
+    .smart_fertilizer,
+    # crops
+    .cover_crops_start_year,
+    .cover_crops,
+    .no_till_start_year,
+    .no_till
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
