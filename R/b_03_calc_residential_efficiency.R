@@ -72,7 +72,7 @@ calc_housing_leed <- function(res_tb,
           new_units * .new_sf_homes_leed_gold_pct
         ),
         effective_unit_change_leed =
-          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
+          -1 * (new_leed * (1 - .enviro_factors$LEED_GOLD_REDUCTION_PCT))
       )
   }
 
@@ -95,7 +95,7 @@ calc_housing_leed <- function(res_tb,
           new_units * .new_mf_homes_leed_gold_pct
         ),
         effective_unit_change_leed =
-          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
+          -1 * (new_leed * (1 - .enviro_factors$LEED_GOLD_REDUCTION_PCT))
       )
   }
 
@@ -212,7 +212,7 @@ calc_residential_retrofit <- function(res_tb,
           0,
           existing_units * .existing_sf_retrofit_pct
         ),
-        effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+        effective_unit_change_retro = -1 * retrofit_units * (1 - .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT)
       )
   }
 
@@ -234,7 +234,7 @@ calc_residential_retrofit <- function(res_tb,
           0,
           existing_units * .existing_mf_retrofit_pct
         ),
-        effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+        effective_unit_change_retro = -1 * retrofit_units * (1 - .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT)
       )
   }
 
