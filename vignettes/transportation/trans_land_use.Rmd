@@ -87,7 +87,7 @@ import_from_emissions("metro_demographic.vw_ctu_population") %>%
         ) ~ "undeveloped_sq_mi",
         TRUE ~ "developed_sq_mi"
       )) %>%
-      group_by(ctu_name, is_developed) %>%
+      group_by(geog_name, is_developed) %>%
       summarize(total_area_sq_mi = sum(hectares) * 2.471) %>%
       tidyr::pivot_wider(
         names_from = is_developed,
@@ -95,7 +95,7 @@ import_from_emissions("metro_demographic.vw_ctu_population") %>%
       )
   ) %>%
   mutate(pop_density_developed = population / developed_sq_mi) %>%
-  arrange(ctu_name) %>%
+  arrange(geog_name) %>%
   View()
 ```
 
@@ -146,7 +146,7 @@ tibble::tribble(
 SHCN did provide us with a complete dataset for all CTUs, but did NOT provide reproducible code.  
 
 
-1. Figure out how intersections were identified in OSM and how they quantified the number of ways. Key columns here would be `intersection_id`, `ctu_name`, `n_ways`. `n_ways` should be a factor, with levels `2-way`, `3-way` and `4+  way`
+1. Figure out how intersections were identified in OSM and how they quantified the number of ways. Key columns here would be `intersection_id`, `geog_name`, `n_ways`. `n_ways` should be a factor, with levels `2-way`, `3-way` and `4+  way`
 1. `dplyr::group_by()` CTU and calculate distribution by each number of ways. 
 
 

@@ -6,54 +6,37 @@
 \title{Environmental factors for users}
 \format{
 A named list
-\describe{
-\item{TRANSIT_SERVICE_ELAST}{Effect of increase in transit service on
-increase in transit ridership and decrease in PLDV. Citation forthcoming.}
-\item{TRANSIT_SERVICE_AVO_MIN}{Minimum percent of transit service increase
-that transit vehicle occupancy must increase by.}
-\item{SI_FUEL_COST_GAL}{Gasoline fuel cost in cents per gal
-https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm
-(about 8.8 cents per mile, so lower than Barnes estimate because mpg went up)}
-\item{CI_FUEL_COST_GAL}{Diesel fuel in cents per gal
-https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_a.htm
-(about 44 cents per mile, so about equal to Barnes estimate)}
-\item{ELEC_FUEL_COST_KWH}{Electric fuel cost in cents per kWh
-https://www.xcelenergy.com/staticfiles/xe/PDF/Marketing/MN-SST-Interim-Rates.pdf}
-\item{F_FRACT}{Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)}
-\item{AUTO_COST_MI}{https://exchange.aaa.com/automotive/driving-costs/#.YG7-L-hKiUk
-(assume mid-distance of 15,000 miles)}
-\item{TIME_COST_MI}{cents per mile according to https://www.vtpi.org/tca/tca0502.pdf
-and adjusted to 2015 using average CPI}
-\item{F_TIME_COST_MI}{cents per mile according to
-https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf}
-\item{INS_COST_MI}{https://www.forbes.com/advisor/car-insurance/state/minnesota/ and
-https://www.dot.state.mn.us/traffic/data/reports/vmt/92-17_per_capita_vmt.pdf}
-\item{CONG_VMT}{Congested VMT as a proportion of total VMT}
-\item{BUS_AV}{Factors for \% change in bus for a 1\% change in AV penetration}
-\item{RAIL_AV}{Factors for \% change in rail for a 1\% change in AV penetration}
-\item{VMT_AV}{Increase in VMT due to AV}
-\item{EVCS_VMT}{Need to account for additional VMT due to charging for PHEV and BEV DRS}
-\item{MPG_AV}{15\% reduction in consumption of fuel with AV based on
-Forecasting the Impact of Connected and Automated Vehicles on Energy
-Use: A Microeconomic Study of Induced Travel and Energy Rebound
-Morteza Taiebata,b, Samuel Stolpera, Ming Xua,b}
-\item{MAX_5D_DR}{Maximum 5D impact on driving}
-\item{MAX_5D_ACT}{Maximum 5D impact on active mode (walk and bike)}
-\item{MAX_5D_TRANS}{Maximum 5d impact on transit}
-\item{MARG_TELEWORK}{Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)}
-\item{KG_CO2E_PER_THERM_BASELINE}{Kilograms of CO_2_ equivalent emitted
-per therm of natural gas in 2018}
-\item{KG_CO2E_PER_THERM_FORECAST}{Kilograms of CO_2_ equivalent emitted
-per therm of natural gas in 2040}
-\item{KG_CO2E_PER_MHW_BASELINE}{Kilograms of CO_2_ equivalent emitted
-per megawatt hour of electricity in 2018}
-\item{KG_CO2E_PER_MHW_FORECAST}{Kilograms of CO_2_ equivalent emitted
-per megawatt hour of electricity in 2040}
-\item{LEED_GOLD_REDUCTION_PCT}{Reduction in single family home energy use intensity (EUI) by building according to LEED Gold standards  (25 kBTU/sf).}
-\item{EXISTING_HOME_RETROFIT_REDUCTION_PCT}{Reduction in residential energy use intensity by retrofitting to performance-based high efficiency standards.}
-\item{EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT}{Reduction in residential energy use intensity by retrofitting to high passive housing standards.}
-\item{BEHAVIOR_CHANGE_REDUCTION_PCT}{Reduction in household energy usage by recieving effective messaging, use an in-home energy usage display, and smart meters.}
-\item{SMART_GRID_IMPACT}{Percentage impact on electricity use from non-residential smart grid being implemented.}
+\itemize{
+\item \strong{TRANSIT_SERVICE_ELAST}: Effect of increase in transit service on increase in transit ridership and decrease in PLDV. Citation forthcoming.
+\item \strong{TRANSIT_SERVICE_AVO_MIN}: Minimum percent of transit service increase that transit vehicle occupancy must increase by.
+\item \strong{SI_FUEL_COST_GAL}: Gasoline fuel cost in dollars per gallon. EIA 2024 Annual estimate.
+\item \strong{CI_FUEL_COST_GAL}: Diesel fuel cost in dollars per gallon. EIA 2024 Annual estimate.
+\item \strong{ELEC_FUEL_COST_KWH}: Electric fuel cost in dollars per kWh. Regular residential rate, June through September. \href{https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates\%20&\%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf}{Xcel Energy, 2024}.
+\item \strong{F_FRACT}: Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee).
+\item \strong{AUTO_COST_MI}: 2024 \href{https://exchange.aaa.com/automotive/aaas-your-driving-costs/}{AAA driving costs} (assume mid-distance of 15,000 miles).
+\item \strong{TIME_COST_MI}: Cents per mile. Time cost per mile informed by \href{https://www.vtpi.org/tca/tca0502.pdf}{Transportation Cost and Benefit Analysis - Travel Time Costs}.
+\item \strong{F_TIME_COST_MI}: Cents per mile according to \href{https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf}{TTI}.
+\item \strong{INS_COST_MI}: Average annual minimum coverage insurance ($621 via NerdWallet, 2025) divided by annual VMT per person (daily VMT per person (metro, MnDOT 2023) multiplied by annualization factor of 340)
+\item \strong{CONG_VMT}: Congested VMT as a proportion of total VMT.
+\item \strong{BUS_AV}: Factors for \% change in bus for a 1\% change in AV penetration.
+\item \strong{RAIL_AV}: Factors for \% change in rail for a 1\% change in AV penetration.
+\item \strong{VMT_AV}: Increase in VMT due to AV.
+\item \strong{EVCS_VMT}: Additional VMT due to charging for PHEV and BEV DRS.
+\item \strong{MPG_AV}: 15\% reduction in fuel consumption with AV. Based on:
+\emph{Forecasting the Impact of Connected and Automated Vehicles on Energy Use: A Microeconomic Study of Induced Travel and Energy Rebound} — Taiebat, Stolper, Xu.
+\item \strong{MAX_5D_DR}: Maximum 5D impact on driving.
+\item \strong{MAX_5D_ACT}: Maximum 5D impact on active mode (walk and bike).
+\item \strong{MAX_5D_TRANS}: Maximum 5D impact on transit.
+\item \strong{MARG_TELEWORK}: Telework marginal effect percent change in PMT (per household). From Kim et al. (2015).
+\item \strong{KG_CO2E_PER_THERM_BASELINE}: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2018.
+\item \strong{KG_CO2E_PER_THERM_FORECAST}: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2040.
+\item \strong{KG_CO2E_PER_MHW_BASELINE}: Kilograms of CO₂ equivalent emitted per megawatt hour of electricity in 2018.
+\item \strong{KG_CO2E_PER_MHW_FORECAST}: Kilograms of CO₂ equivalent emitted per megawatt hour of electricity in 2040.
+\item \strong{LEED_GOLD_REDUCTION_PCT}: Reduction in single family home energy use intensity (EUI) by building to LEED Gold (25 kBTU/sf).
+\item \strong{EXISTING_HOME_RETROFIT_REDUCTION_PCT}: Reduction in residential energy use intensity via performance-based high efficiency retrofits.
+\item \strong{EXISTING_HOME_ULTRA_RETROFIT_REDUCTION_PCT}: Reduction in residential energy use via high passive housing retrofits.
+\item \strong{BEHAVIOR_CHANGE_REDUCTION_PCT}: Household energy reduction from messaging, in-home displays, and smart meters.
+\item \strong{SMART_GRID_IMPACT}: Percentage reduction in electricity use from non-residential smart grid implementation.
 }
 }
 \usage{
@@ -65,9 +48,13 @@ Environmental factors for users
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{factor_values}},
+\code{\link{fuel_economy}},
+\code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}

@@ -13,7 +13,7 @@ calc_electrify_commercial_heating(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -22,11 +22,12 @@ Default is \code{0.0}.}
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
-A table with columns \code{year}, \code{ctu_name}, \code{population},
+A table with columns \code{year}, \code{geog_name}, \code{population},
 \code{residential_mwh},
 \code{residential_electricity_emissions_kg_co},
 \code{residential_therms}, and
@@ -44,8 +45,8 @@ For more details, see \code{vignette("building_energy_module_outputs_non_residen
 library(ghg.ccap)
 calc_electrify_commercial_heating(
   non_res_tb = calc_ghg_non_residential(
-    non_res_tb = building_energy_bau_data$non_residential,
-    non_res_tb_bau = building_energy_bau_data$non_residential,
+    non_res_tb = building_data$non_residential,
+    non_res_tb_bau = building_data$non_residential,
     .selected_ctu = "all",
     .grid_decarbonization_pct = 1,
     .smart_grid_energy_reduction_pct = 1,
@@ -71,18 +72,27 @@ Other buildings:
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_housing_leed}()},
+\code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{calc_residential_retrofit}()},
+\code{\link{calc_sfh_leed}()},
+\code{\link{calc_sfh_retrofit}()},
 \code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
 \code{\link{get_residential_energy_baseline}()},
+\code{\link{get_residential_mcf_baseline}()},
+\code{\link{get_residential_mwh_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }

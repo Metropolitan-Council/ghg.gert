@@ -21,7 +21,7 @@ returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. Options are:

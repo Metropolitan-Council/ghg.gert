@@ -8,12 +8,13 @@
 #'
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
+#' @inheritParams calc_ghg_residential
 #' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
 #'      Percentage of new single-family homes to instead be built as multifamily homes.
 #'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `ctu_name`, `year`, `var`, and `value`.
+#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
 #'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`
 #'       relative to residential inputs table.
 #'
@@ -45,28 +46,27 @@ adj_unit_counts <- function(res_tb,
 
   n_new_homes <-
     res_tb %>%
-    dplyr::filter(var %in% c(
+    # select(-value_change_from_base) %>%
+    dplyr::filter(sp_categories %in% c(
       "multifamily_units",
-      "single_family_units"
+      "single_family_units",
+      "single_family_attached",
+      "single_family_small_lot",
+      "single_family_large_lot"
     )) %>%
-    dplyr::group_by(ctu_name, var) %>%
-    tidyr::pivot_wider(names_from = c(var, year), values_from = value, names_sep = ".") %>%
-    dplyr::mutate(
-      new_sf_homes = single_family_units.2040 - single_family_units.2018,
-      new_mf_homes = multifamily_units.2040 - multifamily_units.2018
-    )
+    filter(inventory_year == max(inventory_year))
 
   # some CTUs are going to decrease the number of single family units
   # over the next few decades.
   # We will consider the number of SF units reduced as if they were
   # being constructed and add them onto the multifamily unit count
 
-  if (any(n_new_homes$new_sf_homes < 0)) {
+  if (any(n_new_homes$value_change_from_base < 0)) {
     cli::cli_warn(c(
       "Baseline forecast assumes reducing single family units",
       "Now reducing single family units further"
     ))
-  } else if (any(n_new_homes$new_sf_homes == 0)) {
+  } else if (any(n_new_homes$value_change_from_base == 0)) {
     cli::cli_warn(c(
       "Baseline forecast assumes no change in single family units",
       "No change in housing stock made"
@@ -75,35 +75,45 @@ adj_unit_counts <- function(res_tb,
 
 
   sf_now_mf <- n_new_homes %>%
+    dplyr::filter(sp_categories != "multifamily_units") %>%
     dplyr::mutate(
-      new_homes = ifelse(new_sf_homes < 0, abs(new_sf_homes), new_sf_homes),
-      now_mf = new_homes * .new_homes_to_multifamily_pct
+      new_homes = ifelse(value_change_from_base < 0, abs(value_change_from_base), value_change_from_base),
+      # spread the new % new home to multifamily across
+      # all single family home types
+      now_mf = new_homes * (.new_homes_to_multifamily_pct / nrow(.))
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(ctu_name, now_mf) %>%
+    dplyr::select(geog_name, geog_id, sp_categories, now_mf) %>%
     unique()
 
+  total_new_mf <- sum(sf_now_mf$now_mf)
 
   new_units <- res_tb %>%
-    dplyr::filter(
-      var %in% c(
-        "multifamily_units",
-        "single_family_units"
-      ),
-      year == 2040
-    ) %>%
-    dplyr::left_join(sf_now_mf, by = "ctu_name") %>%
+    dplyr::filter(sp_categories %in% c(
+      "multifamily_units",
+      "single_family_units",
+      "single_family_attached",
+      "single_family_small_lot",
+      "single_family_large_lot"
+    )) %>%
+    dplyr::filter(inventory_year == max(inventory_year)) %>%
+    dplyr::left_join(sf_now_mf, by = c("geog_name", "geog_id", "sp_categories")) %>%
     # if multifamily, add the now-multifamily units
     # if single family, subtract the now-multifamily units
-    dplyr::mutate(value = ifelse(var == "multifamily_units", value + now_mf,
-      value - now_mf
-    )) %>%
+    dplyr::mutate(
+      value = ifelse(sp_categories == "multifamily_units", value + total_new_mf,
+        value - now_mf
+      ),
+      value_change_from_base = ifelse(sp_categories == "multifamily_units", value_change_from_base + total_new_mf,
+        value_change_from_base - now_mf
+      )
+    ) %>%
     dplyr::select(names(res_tb))
 
   # anti_join to replace original values
   # return a new version of res_tb
   new_res_tb <- res_tb %>%
-    dplyr::anti_join(new_units, by = c("ctu_name", "year", "var")) %>%
+    dplyr::anti_join(new_units, by = c("geog_name", "geog_id", "inventory_year", "sp_categories")) %>%
     dplyr::bind_rows(new_units)
 
   return(new_res_tb)

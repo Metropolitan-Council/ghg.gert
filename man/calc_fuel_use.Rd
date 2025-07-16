@@ -2,7 +2,7 @@
 % Please edit documentation in R/t_03_calc_fuel_use.R
 \name{calc_fuel_use}
 \alias{calc_fuel_use}
-\title{Calculate use of fuel in thousands of gallons or thousands of kWh}
+\title{Calculate use of fuel in gallons or  kWh (thousands)}
 \usage{
 calc_fuel_use(
   tb_vmt,
@@ -10,14 +10,15 @@ calc_fuel_use(
   .mode,
   .aeo_scenario = "REF",
   .miles_per_gallon,
+  .fuel_economy = fuel_economy,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values
 )
 }
 \arguments{
-\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, output VMT table}
+\item{tb_vmt}{\code{\link[tibble:tibble]{tibble::tibble()}}, VMT table}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -28,12 +29,15 @@ Default is \code{"REF"}}
 
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
+
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \description{
-Calculate use of fuel in thousands of gallons or thousands of kWh
+Calculate use of fuel in gallons or  kWh (thousands)
 }
 \seealso{
 Other transportation: 
@@ -42,16 +46,17 @@ Other transportation:
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{run_scenario_transportation}()},
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
-\code{\link{scen_walk_bike}()},
+\code{\link{mode_freight_rail}()},
+\code{\link{mode_freight_truck}()},
+\code{\link{mode_passenger_light_duty}()},
+\code{\link{mode_school_bus}()},
+\code{\link{mode_transit_bus}()},
+\code{\link{mode_transit_rail}()},
+\code{\link{mode_walk_bike}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{transportation}

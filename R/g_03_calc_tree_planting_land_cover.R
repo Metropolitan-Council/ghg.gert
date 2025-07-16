@@ -61,7 +61,7 @@ calc_tree_planting_land_cover <- function(tb,
     tb = tb,
     .selected_ctu = .selected_ctu
   ) %>%
-    dplyr::group_by(ctu_name, year, land_cover_type) %>%
+    dplyr::group_by(geog_name, geog_id, year, land_cover_type) %>%
     dplyr::summarise(land_cover_hectares = sum(land_cover_land_use_hectares))
 
 
@@ -81,8 +81,8 @@ calc_tree_planting_land_cover <- function(tb,
   total_plantable_area <-
     # Start with the land_cover_by_city dataset
     land_cover_by_city %>%
-    # Group the dataset by ctu_name (city) and year
-    dplyr::group_by(ctu_name, year) %>%
+    # Group the dataset by geog_name (city) and year
+    dplyr::group_by(geog_name, geog_id, year) %>%
     # Pivot the dataset to make land cover types as columns with their corresponding hectare values
     tidyr::pivot_wider(names_from = land_cover_type, values_from = land_cover_hectares) %>%
     # Create new variables for the dataset
@@ -98,7 +98,7 @@ calc_tree_planting_land_cover <- function(tb,
           + impervious + water + wetland
       )
     ) %>%
-    # Ungroup the dataset to remove the grouping by ctu_name and year
+    # Ungroup the dataset to remove the grouping by geog_name and year
     dplyr::ungroup()
 
   # -------------------------------------------------------------------------
@@ -124,7 +124,7 @@ calc_tree_planting_land_cover <- function(tb,
         ) %>%
         # Select rows with land_cover_type as "trees" and year as 2040, and remove the 'land_cover_type' column
         dplyr::select(-c(land_cover_type)),
-      by = "ctu_name"
+      by = c("geog_name", "geog_id")
     ) %>%
     # Rename the 'land_cover_hectares' column to 'total_tree_canopy_hectares'
     dplyr::rename(total_tree_canopy_hectares = land_cover_hectares) %>%
@@ -147,7 +147,7 @@ calc_tree_planting_land_cover <- function(tb,
               plantable_area_hectares
           )
       ),
-      by = "ctu_name"
+      by = c("geog_name", "geog_id")
     ) %>%
     # Ungroup the dataset
     dplyr::ungroup()
@@ -157,9 +157,9 @@ calc_tree_planting_land_cover <- function(tb,
   tree_planting_scenario <-
     # Start with the tree_planting_factors dataset
     tree_planting_factors %>%
-    # Group the dataset by ctu_name (city)
-    dplyr::group_by(ctu_name) %>%
-    # Create new variables for the dataset while keeping only the new variables and grouping variable (ctu_name)
+    # Group the dataset by geog_name (city)
+    dplyr::group_by(geog_name, geog_id) %>%
+    # Create new variables for the dataset while keeping only the new variables and grouping variable (geog_name)
     dplyr::transmute(
       match_los_angeles_million_trees_plan_percent =
       # Calculate the percentage of matching Los Angeles Million Trees Plan by dividing the sum of
@@ -172,7 +172,7 @@ calc_tree_planting_land_cover <- function(tb,
         (pervious_surface_hectares + total_tree_canopy_hectares) /
           total_tree_canopy_hectares,
     ) %>%
-    # Ungroup the dataset to remove the grouping by ctu_name
+    # Ungroup the dataset to remove the grouping by geog_name
     dplyr::ungroup()
 
 
@@ -184,7 +184,7 @@ calc_tree_planting_land_cover <- function(tb,
     # Perform a right join with the tree_planting_scenario dataset
     dplyr::right_join(.,
       tree_planting_scenario,
-      by = "ctu_name"
+      by = c("geog_name", "geog_id")
     ) %>%
     # Create new variables and modify existing ones
     dplyr::mutate(
@@ -254,7 +254,7 @@ calc_tree_planting_land_cover <- function(tb,
   tree_planting_land_cover_short <-
     tree_planting_land_cover %>%
     dplyr::select(
-      ctu_name,
+      geog_name, geog_id,
       year,
       agriculture,
       barren,

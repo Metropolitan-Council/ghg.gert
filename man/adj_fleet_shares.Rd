@@ -25,7 +25,7 @@ Default is \code{transportation_data$passenger}.}
 \item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} Freight input table.
 Default is \code{transportation_data$freight}.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
@@ -49,9 +49,10 @@ Default is \code{0}}
 
 \item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
@@ -91,16 +92,17 @@ Other transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
-\code{\link{run_scenario_transportation}()},
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
-\code{\link{scen_walk_bike}()},
+\code{\link{mode_freight_rail}()},
+\code{\link{mode_freight_truck}()},
+\code{\link{mode_passenger_light_duty}()},
+\code{\link{mode_school_bus}()},
+\code{\link{mode_transit_bus}()},
+\code{\link{mode_transit_rail}()},
+\code{\link{mode_walk_bike}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{stock adjustments}

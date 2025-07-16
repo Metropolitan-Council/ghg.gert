@@ -41,11 +41,11 @@ calc_vmt_forecast(
 \arguments{
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.mode}{character, current mode}
 
@@ -107,16 +107,17 @@ Numeric between 0 and 1. Default is \code{0}}
 
 \item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 }
 \value{
-a tibble with columns \code{scenario}, \code{ctu}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
+a tibble with columns \code{scenario}, \code{geog_name}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
 with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
@@ -130,15 +131,16 @@ Other transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
-\code{\link{run_scenario_transportation}()},
-\code{\link{scen_freight_rail}()},
-\code{\link{scen_freight_truck}()},
-\code{\link{scen_passenger_light_duty}()},
-\code{\link{scen_school_bus}()},
-\code{\link{scen_transit_bus}()},
-\code{\link{scen_transit_rail}()},
-\code{\link{scen_walk_bike}()},
+\code{\link{mode_freight_rail}()},
+\code{\link{mode_freight_truck}()},
+\code{\link{mode_passenger_light_duty}()},
+\code{\link{mode_school_bus}()},
+\code{\link{mode_transit_bus}()},
+\code{\link{mode_transit_rail}()},
+\code{\link{mode_walk_bike}()},
+\code{\link{run_module_transportation}()},
 \code{\link{vmt_annual_energy_outlook}()}
 }
 \concept{transportation}
