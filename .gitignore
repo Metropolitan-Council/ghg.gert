@@ -23,3 +23,8 @@ report/spreadsheet/
 buildings.xlsx
 
 Minneapolis.xlsx
+data-raw/land_use_data_processing/Thrive_2040/PlannedLandUseData.xls
+data-raw/land_use_data_processing/Thrive_2040/PLU_DetailedDesc.xls
+data-raw/land_use_data_processing/Thrive_2040/PLU_GeneralDesc - Copy.xls
+data-raw/land_use_data_processing/Thrive_2040/PLU_GeneralDesc.xls
+data-raw/land_use_data_processing/Thrive_2040/PLU_HsgDensity.xls
