@@ -1,11 +1,10 @@
 #' @title Execute land use scenarios
 #' @family land_use
 #'
-#' @description This function generates the outputs of the land use module
-#'    for change in land use plans at the city/township level. It incorporates
-#'    residential density inputs from Thrive 2040 and allows cities to make 2050
-#'    modifications. On the backend, we will calculate a change in expected density
-#'    and allow that to percolate to other sectors. Outputs are
+#' @description This function generates the expected density of land use inputs.
+#'    It incorporates residential density inputs from Thrive 2040 and allows
+#'    cities to make 2050 modifications that in turn change expected density
+#'    that can percolate to other sectors. Outputs are
 #'    provided as a tibble with columns `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
 #'
 #' @return [tibble::tibble()].
@@ -45,134 +44,21 @@
 #' }
 #'
 #'
-run_scenario_land_use <- function(tb_bau = ctu_planned_land_use_residential,
+run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_parcel,
+                                  tb_strategy = planned_land_use$ctu_planned_land_use_parcel,
                                   .selected_ctu = "all",
                                   .scenario = "alt"
 ) {
   # browser()
-  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  res_tb_bau <-
-    filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
-  non_res_tb <-
-    filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <-
-    filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+  tb_bau <- filter_ctu(tb, .selected_ctu = .selected_ctu)
+  tb_strategy <- filter_ctu(tb_strategy, .selected_ctu = .selected_ctu)
 
-  l_names <- c(
-    # non-residential
-    # electrification
-    "electrified_buildings_pct",
-    # smartgrid
-    "smart_grid_energy_reduction_pct",
-    # residential
-    # floor_area
-    # "new_homes_to_multifamily_pct",
-    "existing_high_efficiency_buildings_pct",
-    # "home_behavior_change_pct",
-    # "single_family_floor_area_growth_pct",
-    # "new_homes_affected_pct",
-    "new_sf_homes_leed_gold_pct ",
-    "new_mf_homes_leed_gold_pct",
-    "existing_sf_retrofit_pct",
-    "existing_mf_retrofit_pct",
-    # electrification
-    "sf_heat_pump_pct",
-    "mf_heat_pump_pct"
-    # grid
-    # "renewable_ng_res",
-    # "renewable_ng_nonres"
-  )
+  bau_avg_dens <- sum(tb_bau$unit_mean * tb_bau$acres) / sum(tb_bau$acres)
+  strategy_avg_dens <- sum(tb_strategy$unit_mean * tb_strategy$acres) / sum(tb_strategy$acres)
 
-  l_vals <- list(
-    # non-residential
-    # electrification
-    .electrified_buildings_pct,
+  density_ouput <- data.frame(scenario = c("BAU", .scenario),
+                              expected_density = c(bau_avg_dens,
+                                                   strategy_avg_dens))
 
-    # smartgrid
-    .smart_grid_energy_reduction_pct,
-
-    # residential
-
-    # floor_area
-    # .new_homes_to_multifamily_pct,
-    .existing_high_efficiency_buildings_pct,
-    # .home_behavior_change_pct,
-    # .single_family_floor_area_growth_pct,
-    # .new_homes_affected_pct,
-    .new_sf_homes_leed_gold_pct,
-    .new_mf_homes_leed_gold_pct,
-    .existing_sf_retrofit_pct,
-    .existing_mf_retrofit_pct,
-    # electrification
-    .sf_heat_pump_pct,
-    .mf_heat_pump_pct
-    # grid
-    # .renewable_ng_res,
-    # .renewable_ng_nonres
-  )
-
-  purrr::map2(l_names, l_vals, check_inputs)
-
-  if (run_residential == TRUE) {
-    res <-
-      scen_building_residential(
-        res_tb = res_tb,
-        res_tb_bau = res_tb_bau,
-        .selected_ctu = .selected_ctu,
-        .scenario = .scenario,
-        .baseline_year = .baseline_year,
-        .leed_start_year = .leed_start_year,
-        .retrofit_start_year = .retrofit_start_year,
-        .heatpump_start_year = .heatpump_start_year,
-        .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
-        .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
-        .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
-        .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
-        .sf_heat_pump_pct = .sf_heat_pump_pct,
-        .mf_heat_pump_pct = .mf_heat_pump_pct,
-        .enviro_factors = .enviro_factors,
-        .grid_emissions = .grid_emissions
-      )
-  }
-
-  # if (run_non_residential == TRUE) {
-  #   non_res <-
-  #     scen_building_non_residential(
-  #       non_res_tb = non_res_tb,
-  #       non_res_tb_bau = non_res_tb_bau,
-  #       .selected_ctu = .selected_ctu,
-  #       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-  #       .electrified_buildings_pct = .electrified_buildings_pct,
-  #       .grid_decarbonization_pct = .grid_decarbonization_pct,
-  #       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-  #       .renewable_ng_nonres = .renewable_ng_nonres,
-  #       .enviro_factors = .enviro_factors
-  #     ) %>%
-  #     dplyr::mutate(year = as.character(year)) %>%
-  #     dplyr::filter(!(var %in% c(
-  #       "commercial_electricity_emissions_kg_co",
-  #       "industrial_electricity_emissions_kg_co",
-  #       "commercial_natural_gas_emissions_kg_co",
-  #       "industrial_natural_gas_emissions_kg_co",
-  #       "total_industrial_commercial_emissions"
-  #     )))
-  # }
-
-  # building_module_ouput <-
-  #   if (run_residential == TRUE & run_non_residential == TRUE) {
-  #     dplyr::bind_rows(
-  #       (res %>%
-  #         dplyr::mutate(year = as.character(year))),
-  #       (non_res %>%
-  #         dplyr::mutate(year = as.character(year)))
-  #     )
-  #   } else if (run_residential == FALSE) {
-  #     non_res
-  #   } else {
-  #     res
-  #   }
-
-  building_module_ouput <- res
-
-  return(building_module_ouput)
+  return(density_ouput)
 }
