@@ -30,9 +30,7 @@ run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_par
   tb_bau <- filter_ctu(tb, .selected_ctu = .selected_ctu)
 
   if(is.null(tb_strategy)){
-  tb_strategy <- filter_ctu(
-    ghg.ccap::planned_land_use$ctu_planned_land_use_parcel,
-    .selected_ctu = .selected_ctu) } else {
+  tb_strategy <- tb_bau} else {
     tb_strategy <- land_use_update(tb_bau = tb_bau,
                                    tb_strategy = tb_strategy,
                     .selected_ctu = .selected_ctu,
