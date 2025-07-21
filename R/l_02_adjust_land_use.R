@@ -14,7 +14,7 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #' @examples
-#' \dontrun{
+#' \dontrun
 #'
 #' library(ghg.ccap)
 #'
