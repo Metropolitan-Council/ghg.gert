@@ -56,6 +56,8 @@ landuse_density <- filter(landuse, !is.na(hsg_den)) %>%
   # )
 
 ctu_planned_land_use_council <- landuse_density %>%
+  #remove cats with no acreage
+  filter(acres  >0) %>%
   group_by(ctu = ctu_name, ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
            unit_maximum, unit_mean) %>%
   summarize(acres = sum(acres)) %>%
@@ -98,6 +100,8 @@ landuse_density_parcel <- filter(landuse_parcel, !is.na(hsg_den)) %>%
   )
 
 ctu_planned_land_use_parcel <- landuse_density_parcel %>%
+  #remove cats with no acreage
+  filter(sum_acres >0) %>%
   group_by(ctu = ctu_name, ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
            unit_maximum, unit_mean) %>%
   summarize(acres = sum(sum_acres)) %>%
@@ -149,7 +153,9 @@ planned_land_use_regionalized <- filter(landuse, !is.na(hsgden_rng)) %>%
   ungroup() %>%
   select(ctu = ctu_name, housing_density, acres, minimum_density_per_acre,
          maximum_density_per_acre, expected_density) %>%
-  left_join(geog_index)
+  left_join(geog_index) %>%
+  #remove cats with no acreage
+  filter(acres >0)
 
 planned_land_use <- list(
   ctu_planned_land_use_council = ctu_planned_land_use_council,
