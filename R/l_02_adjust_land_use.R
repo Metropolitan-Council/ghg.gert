@@ -25,17 +25,15 @@ land_use_update <- function(tb_bau = tb_bau,
                                   .scenario = "alt"
 ) {
   # browser()
-  tb_bau_tmp <- filter_ctu(tb_bau, .selected_ctu = .selected_ctu) %>%
+  tb_bau <- filter_ctu(tb_bau, .selected_ctu = .selected_ctu) %>%
     dplyr::select(geog_name,
            ctu_landuse_desc,
            unit_mean,
            acres)
 
-  tb_strategy <- read.csv("C:\\Users\\WilfahPA\\Desktop\\Plymouth_plan_change_example.csv")
-
   ### join 2040 table with user input
 
-  tb_adj <- full_join(tb_bau_tmp,
+  tb_adj <- full_join(tb_bau,
                       tb_strategy,
                       by = c("geog_name",
                       "ctu_landuse_desc"),
