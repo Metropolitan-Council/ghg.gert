@@ -11,6 +11,9 @@ calc_scen_land_use(tb, .selected_ctu, .enviro_factors = enviro_factors)
 The input dataset to be used.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
@@ -37,6 +40,6 @@ Other land use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use}()}
+\code{\link{run_scenario_land_use_deprecated}()}
 }
 \concept{land use}
