@@ -263,7 +263,7 @@
 #'   \item{county$projections}{tibble with 1,176 rows and 8 columns, `inventory_year`,
 #'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
 #'       `units_activity`, `data_type`}
-#'   \item{characterization}{tibble with 50 rows and 5 columns, `Material'`,
+#'   \item{characterization}{tibble with 50 rows and 5 columns, `Material`,
 #'   `Mean`, `Lower`, `Upper`, `Category`}
 #' }
 #' @family datasets
