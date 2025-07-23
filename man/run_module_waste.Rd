@@ -5,7 +5,7 @@
 \title{Execute waste scenarios}
 \usage{
 run_module_waste(
-  waste_tb = waste_data$ctu,
+  waste_tb = waste_data$ctu$projections,
   waste_char = waste_data$characterization,
   .selected_ctu = "all",
   .methane_recovery_pct = 0,
@@ -15,11 +15,18 @@ run_module_waste(
 \arguments{
 \item{waste_tb}{table, waste activity data}
 
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
+
+\item{.anaerobic_digestion_pct}{single value, anaerobic digestion percentage}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-Returns a table with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+Returns a table with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+\code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
+\code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
+and \code{units_emissions}.
 The table is the output of the waste module, any modification to
 the inputs of the waste module must be specified as an argument
 to the function \code{run_module_waste()}
@@ -29,6 +36,9 @@ This function generates the outputs of the waste module
 for the given scenario at the city/township level. It incorporates various
 parameters to evaluate and analyze different waste scenarios for landfill,
 organics, recycling, and waste to energy. Outputs are
-provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+provided as a tibble with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+\code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
+\code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
+and \code{units_emissions}.
 }
 \concept{waste}

@@ -5,7 +5,7 @@
 #' @param .methane_recovery_pct single value, percentage of landfills using methane recovery
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
-#'
+#' @export
 calculate_landfill_emissions <- function(waste_tb,
                                          waste_char,
                                          .methane_recovery_pct = 0) {

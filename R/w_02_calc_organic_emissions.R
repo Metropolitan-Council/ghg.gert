@@ -4,7 +4,7 @@
 #' @param .anaerobic_digestion_pct single value, anaerobic digestion percentage
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
-#'
+#' @export
 calculate_organic_emissions <- function(
     waste_tb,
     .anaerobic_digestion_pct = 0,

@@ -5,12 +5,22 @@
 #'    for the given scenario at the city/township level. It incorporates various
 #'    parameters to evaluate and analyze different waste scenarios for landfill,
 #'    organics, recycling, and waste to energy. Outputs are
-#'    provided as a tibble with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
+#'    provided as a tibble with columns `inventory_year`, `geog_id`, `geog_name`,
+#'       `geog_level`, `source`, `value_activity`, `units_activity`, `data_type`,
+#'       `sector`, `category`, `data_source`, `factor_source`, `value_emissions`,
+#'       and `units_emissions`.
 #'
+#' @inheritParams filter_ctu
 #' @inheritParams calculate_landfill_emissions
+#' @inheritParams calculate_incin_emissions
+#' @inheritParams calculate_organic_emissions
+#'
 #'
 #' @return [tibble::tibble()].
-#'       Returns a table with columns `ctu_name`, `var`, `scen`, `year`, and `value`.
+#'       Returns a table with columns `inventory_year`, `geog_id`, `geog_name`,
+#'       `geog_level`, `source`, `value_activity`, `units_activity`, `data_type`,
+#'       `sector`, `category`, `data_source`, `factor_source`, `value_emissions`,
+#'       and `units_emissions`.
 #'       The table is the output of the waste module, any modification to
 #'       the inputs of the waste module must be specified as an argument
 #'       to the function `run_module_waste()`
@@ -18,7 +28,7 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #'
-run_module_waste <- function(waste_tb = waste_data$ctu,
+run_module_waste <- function(waste_tb = waste_data$ctu$projections,
                                waste_char = waste_data$characterization,
                                .selected_ctu = "all",
                                .methane_recovery_pct = 0,

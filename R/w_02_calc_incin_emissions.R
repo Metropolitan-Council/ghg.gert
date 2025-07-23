@@ -3,7 +3,7 @@
 #' @param waste_tb table, waste activity data
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
-#'
+#' @export
 calculate_incin_emissions <- function(waste_tb){
   # assign factors
   # future workflow (ghg-ccap): save all relevant factors in global table (incl landfill, compost)

@@ -19,7 +19,7 @@ A named list of five tibbles
 \item{county$projections}{tibble with 1,176 rows and 8 columns, \code{inventory_year},
 \code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
 \code{units_activity}, \code{data_type}}
-\item{characterization}{tibble with 50 rows and 5 columns, \verb{Material'},
+\item{characterization}{tibble with 50 rows and 5 columns, \code{Material},
 \code{Mean}, \code{Lower}, \code{Upper}, \code{Category}}
 }
 }
