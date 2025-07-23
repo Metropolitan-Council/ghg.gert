@@ -81,6 +81,7 @@ ctu_population_data <- demographic_data %>%
 
 
 
+
 # 4. Load MPCA score data (2005 to 2022) ----------------------------------
 
 # inpath_mpca_scores <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_waste/data-raw/solid_waste/"
