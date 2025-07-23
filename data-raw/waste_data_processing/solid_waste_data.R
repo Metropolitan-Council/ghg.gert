@@ -88,4 +88,4 @@ waste_data$county <- waste_data_county %>%
 waste_char <- readr::read_rds(paste0(inpath, "mpca_waste_composition.RDS"))
 waste_data$characterization <- waste_char
 
-usethis::use_data(waste_data, overwrite = TRUE)
+# usethis::use_data(waste_data, overwrite = TRUE)
