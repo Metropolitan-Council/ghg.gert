@@ -69,6 +69,7 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
   # to wte
   # return: modified activity data tb
 
+
   # calculate landfill emissions
   landfill_emis <- calculate_landfill_emissions(
     waste_tb = waste_tb,
@@ -86,6 +87,9 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
     .methane_recovery_pct = .methane_recovery_pct
   )
 
+
+  # recycling emissions?
+
   # define gwp - MOVE THIS TO A BETTER PLACE later
   gwp <-
     list(
@@ -96,9 +100,67 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
       "HFC-152a" = 164
     )
 
+  # # bind emissions together and translate to mt co2e
+  # waste_emissions <- landfill_emis %>%
+  #   dplyr::bind_rows(incin_emis, organic_emis) %>%
+  #   #give each row a unique id to avoid pivoting error
+  #   dplyr::mutate(id = dplyr::row_number()) %>%
+  #   dplyr::group_by(id) %>%
+  #   tidyr::pivot_wider(
+  #     names_from = units_emissions,
+  #     values_from = value_emissions
+  #   ) %>%
+  #   replace(is.na(.), 0) %>%
+  #   dplyr::mutate(
+  #     ch4_co2e = `Metric tons CH4` * gwp$ch4,
+  #     n2o_co2e = `Metric tons N2O` * gwp$n2o,
+  #     sector = "Waste",
+  #     category = "Solid waste",
+  #     data_source = "MPCA SCORE Report",
+  #     factor_source = "IPCC solid waste methodology"
+  #   ) %>%
+  #   dplyr::mutate(
+  #     value_emissions = ch4_co2e + n2o_co2e + `Metric tons CO2`,
+  #     units_emissions = "Metric tons CO2e"
+  #   ) %>%
+  #   dplyr::ungroup() %>%
+  #   # select(
+  #   #   geoid,
+  #   #   inventory_year,
+  #   #   sector,
+  #   #   category,
+  #   #   source,
+  #   #   data_source,
+  #   #   factor_source,
+  #   #   value_activity,
+  #   #   units_activity,
+  #   #   value_emissions,
+  #   #   units_emissions
+  #   # )
+  #   # the above doesn't work bc county uses geoid and ctu uses ctu_id
+  #   dplyr::select(
+  #     -c(
+  #       `Metric tons CH4`,
+  #       `Metric tons CO2`,
+  #       `Metric tons N2O`,
+  #       ch4_co2e,
+  #       n2o_co2e,
+  #       id
+  #     )
+  #   )
+
+
+
+  # waste_tb %>%
+  #   filter(!(source %in% c("Landfill", "Onsite", "Organics", "Waste to energy")))
+
+
+
+
   # bind emissions together and translate to mt co2e
   waste_emissions <- landfill_emis %>%
     dplyr::bind_rows(incin_emis, organic_emis) %>%
+    arrange(inventory_year, source, units_emissions) %>%
     #give each row a unique id to avoid pivoting error
     dplyr::mutate(id = dplyr::row_number()) %>%
     dplyr::group_by(id) %>%
@@ -110,30 +172,14 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
     dplyr::mutate(
       ch4_co2e = `Metric tons CH4` * gwp$ch4,
       n2o_co2e = `Metric tons N2O` * gwp$n2o,
-      sector = "Waste",
-      category = "Solid waste",
-      data_source = "MPCA SCORE Report",
-      factor_source = "IPCC solid waste methodology"
-    ) %>%
-    dplyr::mutate(
-      value_emissions = ch4_co2e + n2o_co2e + `Metric tons CO2`,
+      co2_co2e = `Metric tons CO2`,
+      value_emissions = ch4_co2e + n2o_co2e + co2_co2e,
       units_emissions = "Metric tons CO2e"
-    ) %>%
-    dplyr::ungroup() %>%
-    # select(
-    #   geoid,
-    #   inventory_year,
-    #   sector,
-    #   category,
-    #   source,
-    #   data_source,
-    #   factor_source,
-    #   value_activity,
-    #   units_activity,
-    #   value_emissions,
-    #   units_emissions
-    # )
-    # the above doesn't work bc county uses geoid and ctu uses ctu_id
+      # sector = "Waste",
+      # category = "Solid waste",
+      # data_source = "MPCA SCORE Report",
+      # factor_source = "IPCC solid waste methodology"
+    ) %>% ungroup() %>%
     dplyr::select(
       -c(
         `Metric tons CH4`,
@@ -141,9 +187,21 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
         `Metric tons N2O`,
         ch4_co2e,
         n2o_co2e,
+        co2_co2e,
         id
       )
-    )
+    ) %>%
+    group_by(inventory_year, source) %>%
+    summarize(
+      value_activity = head(value_activity,1),
+      units_activity = head(units_activity,1),
+      data_type = head(data_type,1),
+      value_emissions = sum(value_emissions),
+      units_emissions = head(units_emissions,1)
+    ) %>%
+    ungroup()
+
+
 
   return(waste_emissions)
 }

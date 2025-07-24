@@ -25,6 +25,7 @@ calculate_incin_emissions <- function(waste_tb){
       as.numeric()
   )
 
+
   incineration_emissions <- waste_tb %>%
     dplyr::filter(source %in% c("Waste to energy", "Onsite")) %>%
     dplyr::left_join(incin_factors, by = dplyr::join_by(source)) %>%

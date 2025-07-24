@@ -11,6 +11,9 @@ current <- run_module_waste(waste_tb = waste_data$ctu$projections,
                             .selected_ctu = .ctu,
                             .methane_recovery_pct = 0.5,
                             .anaerobic_digestion_pct = 0)
+current %>% filter(source %in% c("Waste to energy"))
+current %>% arrange(inventory_year, source)
+waste_data$ctu$projections %>% filter(source %in% c("Waste to energy"))
 
 # current <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "current_conservation_tillage")
 # double <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "double_conservation_tillage")
