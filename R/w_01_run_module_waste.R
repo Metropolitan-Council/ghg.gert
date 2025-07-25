@@ -29,20 +29,26 @@
 #' @importFrom cli cli_progress_message
 #'
 run_module_waste <- function(waste_tb = waste_data$ctu$projections,
-                               waste_char = waste_data$characterization,
-                               .selected_ctu = "all",
-                               .methane_recovery_pct = 0,
-                               .anaerobic_digestion_pct = 0
-                               # later: add vars for waste reduction and source diversion
-                               # .waste_reduction_pct = 0,
-                               # .diverted_to_recycle_pct = 0,
-                               # .diverted_to_organics_pct = 0,
-                               # .diverted_to_wte_pct = 0
+                             waste_char = waste_data$characterization,
+                             .selected_ctu = "all",
+                             .methane_recovery_pct = 0,
+                             .methane_recovery_start = 2025,
+                             .methane_recovery_end = 2050,
+                             .anaerobic_digestion_pct = 0
+                             # later: add vars for waste reduction and source diversion
+                             # .waste_reduction_pct = 0,
+                             # .diverted_to_recycle_pct = 0,
+                             # .diverted_to_organics_pct = 0,
+                             # .diverted_to_wte_pct = 0
 ){
   waste_tb <- filter_ctu(waste_tb, .selected_ctu = .selected_ctu)
 
+
+
   l_names <- c(
     "methane_recovery_pct",
+    "methane_recovery_start",
+    "methane_recovery_end",
     "anaerobic_digestion_pct"
     # "waste_reduction_pct",
     # "diverted_to_recycle_pct",
@@ -52,6 +58,8 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
 
   l_vals <- list(
     .methane_recovery_pct,
+    .methane_recovery_start,
+    .methane_recovery_end,
     .anaerobic_digestion_pct
     # .waste_reduction_pct,
     # .diverted_to_recycle_pct,
@@ -74,7 +82,9 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
   landfill_emis <- calculate_landfill_emissions(
     waste_tb = waste_tb,
     waste_char = waste_char,
-    .methane_recovery_pct = .methane_recovery_pct
+    .methane_recovery_pct = .methane_recovery_pct,
+    .methane_recovery_start = .methane_recovery_start,
+    .methane_recovery_end = .methane_recovery_end
   )
 
   incin_emis <- calculate_incin_emissions(
@@ -87,6 +97,7 @@ run_module_waste <- function(waste_tb = waste_data$ctu$projections,
     .methane_recovery_pct = .methane_recovery_pct
   )
 
+  # browser()
 
   # recycling emissions?
 

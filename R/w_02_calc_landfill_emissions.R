@@ -8,12 +8,34 @@
 #' @export
 calculate_landfill_emissions <- function(waste_tb,
                                          waste_char,
-                                         .methane_recovery_pct = 0) {
+                                         .methane_recovery_pct = 0,
+                                         .methane_recovery_start = 2025,
+                                         .methane_recovery_end = 2050) {
+
+
   # create empty methane recovery df
   inventory_year = unique(waste_tb$inventory_year)
   methane_recovery_table = tibble::tibble(
     inventory_year, percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
     )
+
+  # now let's create a table but where the percentage increases linearly over time
+  # between methane_recovery_start and methane_recovery_end. So if methane_recovery_pct == 0.5,
+  # and methane_recovery_start == 2025, and methane_recovery_end == 2050, then
+  # the percentage will be 0 in 2025 and will increase linearly to 0.5 by the year 2050
+
+  if (.methane_recovery_pct > 0) {
+    methane_recovery_table <- methane_recovery_table %>%
+      dplyr::mutate(
+        percent_recovered = dplyr::case_when(
+          inventory_year < .methane_recovery_start ~ 0,
+          inventory_year >= .methane_recovery_start & inventory_year <= .methane_recovery_end ~
+            (.methane_recovery_pct / (.methane_recovery_end - .methane_recovery_start)) * (inventory_year - .methane_recovery_start),
+          TRUE ~ .methane_recovery_pct
+        )
+      )
+  }
+
 
   # methane correction factor (MCF)
   # assuming landfills managed well, semi-aerobic (see GHG Protocol)

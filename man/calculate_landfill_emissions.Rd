@@ -4,7 +4,13 @@
 \alias{calculate_landfill_emissions}
 \title{Calculate GHG emissions from municipal solid waste sent to landfills using waste composition.}
 \usage{
-calculate_landfill_emissions(waste_tb, waste_char, .methane_recovery_pct = 0)
+calculate_landfill_emissions(
+  waste_tb,
+  waste_char,
+  .methane_recovery_pct = 0,
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050
+)
 }
 \arguments{
 \item{waste_tb}{table, waste activity data}

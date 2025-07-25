@@ -9,6 +9,8 @@ run_module_waste(
   waste_char = waste_data$characterization,
   .selected_ctu = "all",
   .methane_recovery_pct = 0,
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050,
   .anaerobic_digestion_pct = 0
 )
 }

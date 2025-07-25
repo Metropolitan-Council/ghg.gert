@@ -10,6 +10,8 @@ current <- run_module_waste(waste_tb = waste_data$ctu$projections,
                             waste_char = waste_data$characterization,
                             .selected_ctu = .ctu,
                             .methane_recovery_pct = 0.5,
+                            .methane_recovery_start = 2030,
+                            .methane_recovery_end = 2040,
                             .anaerobic_digestion_pct = 0)
 current %>% filter(source %in% c("Waste to energy"))
 current %>% arrange(inventory_year, source)
