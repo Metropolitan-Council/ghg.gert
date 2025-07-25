@@ -64,6 +64,7 @@ calc_housing_leed <- function(res_tb,
   #       effective_unit_change_leed = 0
   #     )
   # } else if (.new_sf_homes_leed_gold_pct != 0) {
+
     new_sf <- res_tb %>%
       dplyr::filter(grepl("single", sp_categories)) %>%
       dplyr::mutate(
@@ -77,6 +78,7 @@ calc_housing_leed <- function(res_tb,
       pivot_longer(cols = c(new_leed, new_non_leed),
                    names_to = "efficiency_description",
                    values_to = "efficiency_unit_value")
+
   # }
 
   # if (.new_mf_homes_leed_gold_pct == 0) {
@@ -191,6 +193,7 @@ calc_residential_retrofit <- function(res_tb,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
                                       .retrofit_start_year,
+                                      .retrofit_end_year,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -199,6 +202,42 @@ calc_residential_retrofit <- function(res_tb,
   check_inputs(name = "existing_sf_retrofit_pct", .existing_sf_retrofit_pct)
   check_inputs(name = "existing_mf_retrofit_pct", .existing_mf_retrofit_pct)
   check_inputs(name = "retrofit_start_year", .retrofit_start_year)
+
+  ### ramp up retrofits evenly from start year to end year
+
+  ramp_years <- .retrofit_start_year:.retrofit_end_year
+  n_ramp <- length(ramp_years)
+
+  pct_ramp <- tibble::tibble(
+    inventory_year = ramp_years,
+    sf_pct = seq(
+    from = .existing_sf_retrofit_pct / n_ramp,
+    to = .existing_sf_retrofit_pct,
+    length.out = n_ramp
+  ),
+  mf_pct  = seq(
+    from = .existing_mf_retrofit_pct / n_ramp,
+    to = .existing_mf_retrofit_pct,
+    length.out = n_ramp
+  )
+  )
+
+  # Join pct values by condition
+  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+    left_join(pct_ramp, by = "inventory_year") %>%
+    dplyr::mutate(
+      sf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_sf_retrofit_pct,
+        TRUE ~ sf_pct
+      ),
+      mf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
+        TRUE ~ mf_pct
+      )
+    )
+
 
   # if (.existing_sf_retrofit_pct == 0) {
   #   cli::cli_warn("No change in existing single family home energy efficiency")
@@ -211,13 +250,15 @@ calc_residential_retrofit <- function(res_tb,
   # } else if (.existing_sf_retrofit_pct != 0) {
     existing_sf <- res_tb %>%
       dplyr::filter(grepl("single", sp_categories)) %>%
+      left_join(pct_by_year %>% select(inventory_year, sf_pct),
+                by= "inventory_year") %>%
       dplyr::mutate(
         existing_units = value - new_units,
         retrofit_units = if_else(inventory_year < .retrofit_start_year,
           0,
-          round(existing_units * .existing_sf_retrofit_pct)),
+          round(existing_units * sf_pct)),
         existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-c(efficiency_description,efficiency_unit_value)) %>%
+      select(-c(efficiency_description,efficiency_unit_value, sf_pct)) %>%
   pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
                names_to = "efficiency_description",
                values_to = "efficiency_unit_value")
@@ -237,13 +278,15 @@ calc_residential_retrofit <- function(res_tb,
   # } else if (.existing_mf_retrofit_pct != 0) {
     existing_mf <- res_tb %>%
       dplyr::filter(grepl("multi", sp_categories)) %>%
+      left_join(pct_by_year %>% select(inventory_year, mf_pct),
+                by= "inventory_year") %>%
       dplyr::mutate(
         existing_units = value - new_units,
         retrofit_units = if_else(inventory_year < .retrofit_start_year,
                                  0,
-                                 round(existing_units * .existing_mf_retrofit_pct)),
+                                 round(existing_units * mf_pct)),
         existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-c(efficiency_description,efficiency_unit_value)) %>%
+      select(-c(efficiency_description,efficiency_unit_value, mf_pct)) %>%
       pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
                    names_to = "efficiency_description",
                    values_to = "efficiency_unit_value")
