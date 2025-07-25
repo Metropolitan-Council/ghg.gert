@@ -45,7 +45,6 @@ calc_housing_leed <- function(res_tb,
                               .new_sf_homes_leed_gold_pct,
                               .new_mf_homes_leed_gold_pct,
                               .leed_start_year,
-                              .leed_end_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -53,6 +52,7 @@ calc_housing_leed <- function(res_tb,
   check_inputs(name = "new_sf_homes_leed_gold_pct", .new_sf_homes_leed_gold_pct)
   check_inputs(name = "new_mf_homes_leed_gold_pct", .new_mf_homes_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
+
 
   # if (.new_sf_homes_leed_gold_pct == 0) {
   #   #cli::cli_warn("No change in new single family home energy efficiency")
