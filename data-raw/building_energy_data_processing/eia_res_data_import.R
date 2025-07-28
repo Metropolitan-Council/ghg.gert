@@ -26,7 +26,7 @@ eia_housing_age <- eia_recs[32:40,] %>%
 eia_housing_sqft <- eia_recs[42:47,] %>%
   mutate(mwh = as.numeric(electricity_k_wh)/1000,
          mcf = as.numeric(natural_gas_ccf)/10) %>%
-  select(year_built = x1,
+  select(sqft = x1,
          mwh,
          mcf)
 

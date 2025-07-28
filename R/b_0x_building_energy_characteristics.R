@@ -60,7 +60,7 @@ calc_building_energy <- function(
   # create adjustment tables
   sqft_adj <- eia_sqft %>%
     mutate(across(c(mwh, mcf), ~ .x / mean(.x, na.rm = TRUE), .names = "adj_{.col}")) %>%
-    rename(sqft_bin = year_built)
+    rename(sqft_bin = sqft)
 
   age_adj <- eia_age %>%
     mutate(across(c(mwh, mcf), ~ .x / mean(.x, na.rm = TRUE), .names = "adj_{.col}")) %>%
