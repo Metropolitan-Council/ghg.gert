@@ -35,12 +35,9 @@
 #' @importFrom cli cli_warn
 calc_building_energy <- function(
     .selected_ctu,
-    parcel_data = parcel_ctu,
-    eia_type = eia_recs_energy_usage$eia_housing_type,
-    eia_age = eia_recs_energy_usage$eia_housing_age,
-    eia_sqft = eia_recs_energy_usage$eia_housing_sqft
+    parcel_data = parcel_ctu
 ) {
-  # bin based on eia categories
+  # bin based on resstock categories
   bin_sqft <- function(sqft) {
     cut(sqft,
         breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
@@ -51,20 +48,11 @@ calc_building_energy <- function(
 
   bin_year <- function(year) {
     cut(year,
-        breaks = c(0, 1949, 1959, 1969, 1979, 1989, 1999, 2009, 2015, 2020),
-        labels = c("Before 1950", "1950 to 1959", "1960 to 1969", "1970 to 1979",
-                   "1980 to 1989", "1990 to 1999", "2000 to 2009", "2010 to 2015", "2016 to 2020"),
+        breaks = c(0, 1939, 1959, 1979, 1999, 2009, 2025.1),
+        labels = c("<1940", "1940-59", "1960-79", "1980-99",
+                   "2000-09", "2010s"),
         right = TRUE)
   }
-
-  # create adjustment tables
-  sqft_adj <- eia_sqft %>%
-    mutate(across(c(mwh, mcf), ~ .x / mean(.x, na.rm = TRUE), .names = "adj_{.col}")) %>%
-    rename(sqft_bin = sqft)
-
-  age_adj <- eia_age %>%
-    mutate(across(c(mwh, mcf), ~ .x / mean(.x, na.rm = TRUE), .names = "adj_{.col}")) %>%
-    rename(year_bin = year_built)
 
   # Filter and bin parcels
   ctu_binned <- parcel_data %>%
@@ -72,35 +60,42 @@ calc_building_energy <- function(
            mc_classification %in% c("sf_detached", "sf_attached")) %>%
     mutate(
       sqft_bin = bin_sqft(sq_ft_use),
-      year_bin = bin_year(median_year)
+      year_bin = as.character(bin_year(median_year))
     )
 
-  # Join adjustment factors
-  ctu_adj <- ctu_binned %>%
-    left_join(sqft_adj, by = "sqft_bin") %>%
-    left_join(age_adj, by = "year_bin") %>%
-    mutate(
-      base_mwh = case_when(
-        mc_classification == "sf_detached" ~ eia_type$mwh[eia_type$housing_type == "Single-family detached"],
-        mc_classification == "sf_attached" ~ eia_type$mwh[eia_type$housing_type == "Single-family attached"]
-      ),
-      base_mcf = case_when(
-        mc_classification == "sf_detached" ~ eia_type$mcf[eia_type$housing_type == "Single-family detached"],
-        mc_classification == "sf_attached" ~ eia_type$mcf[eia_type$housing_type == "Single-family attached"]
-      ),
-      adj_mwh = base_mwh * adj_mwh.x * adj_mwh.y,
-      adj_mcf = base_mcf * adj_mcf.x * adj_mcf.y
-    )
+  ### calculate ctu single family baseline based on size and year
+  ctu_sf <- left_join(ctu_binned,
+                      bind_rows(resstock_summaries$sf_attached_sqft_baseline,
+                                resstock_summaries$sf_detached_sqft_baseline),
+                      by = c("mc_classification",
+                             "sqft_bin")) %>%
+    left_join(bind_rows(resstock_summaries$sf_attached_year_baseline,
+                        resstock_summaries$sf_detached_year_baseline),
+              by = c("mc_classification",
+                     "year_bin" = "build_year")) %>%
+    # take the mean mwh and mcf of the two characteristics
+    mutate(baseline_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           baseline_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    select(mc_classification,
+           baseline_mwh,
+           baseline_mcf)
 
-  # Summarize by housing type
-  ctu_adj %>%
-    group_by(mc_classification) %>%
-    summarise(
-      n_parcels = n(),
-      median_sqft = median(sq_ft_use, na.rm = TRUE),
-      median_year = median(median_year, na.rm = TRUE),
-      adj_mwh = mean(adj_mwh, na.rm = TRUE),
-      adj_mcf = mean(adj_mcf, na.rm = TRUE),
-      .groups = "drop"
-    )
-}
+  ctu_baseline <- bind_rows(
+    ctu_sf,
+    resstock_summaries$mf_baseline %>%
+      mutate(baseline_mwh = median_kwh / 1000,
+             baseline_mcf = median_mcf) %>%
+      select(mc_classification,
+             baseline_mwh,
+             baseline_mcf),
+    resstock_summaries$manufactured_baseline %>%
+      mutate(baseline_mwh = median_kwh / 1000,
+             baseline_mcf = median_mcf) %>%
+      select(mc_classification,
+             baseline_mwh,
+             baseline_mcf)
+  )
+
+  return(ctu_baseline)
+
+  }
