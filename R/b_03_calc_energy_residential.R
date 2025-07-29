@@ -86,7 +86,14 @@ calc_energy_residential <- function(res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  ctu_baseline_tmp <- calc_building_energy(.selected_ctu = .selected_ctu)
+  ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu) %>%
+    mutate(cat_match = case_when(
+      scenario == "baseline" ~ "existing_nonretrofit",
+      scenario == "retrofit" ~ "retrofit_units",
+      scenario == "new_build" ~ "new_non_leed",
+      TRUE ~ scenario
+    )
+    )
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
@@ -96,10 +103,11 @@ calc_energy_residential <- function(res_tb,
       sum()) /
       (res_tb_bau %>%
         filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        left_join(ctu_baseline_tmp,
+        left_join(ctu_energy_profile %>%
+                    filter(scenario == "baseline"),
           by = c("sp_categories" = "mc_classification")
         ) %>%
-        mutate(mwh_pred = value * mwh_per_unit_eia) %>%
+        mutate(mwh_pred = value * scenario_mwh) %>%
         pull(mwh_pred) %>%
         sum())
 
@@ -109,29 +117,93 @@ calc_energy_residential <- function(res_tb,
       pull(mcf) %>%
       sum()) /
       (res_tb_bau %>%
-        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        left_join(.mcf_coefficients,
-          by = c("sp_categories" = "var")
-        ) %>%
-        mutate(mcf_pred = value * mcf_per_unit_eia) %>%
+         filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+         left_join(ctu_energy_profile %>%
+                     filter(scenario == "baseline"),
+                   by = c("sp_categories" = "mc_classification")
+         ) %>%
+        mutate(mcf_pred = value * scenario_mcf) %>%
         pull(mcf_pred) %>%
         sum())
 
+  # calculate expected energy load for cities here
+  # heat pump expected energy will be lowered for retrofit homes
+  # ctu average energy load will be split based on heat pump percentage
+
+  ctu_energy_profile_adjustments <- ctu_energy_profile %>%
+    tidyr::pivot_wider(
+      id_cols = mc_classification,
+      names_from = scenario,
+      values_from = c(scenario_mwh, scenario_mcf),
+      names_glue = "{scenario}_{.value}"
+    ) %>%
+    mutate(
+      heatpump_mwh = heatpump_scenario_mwh - baseline_scenario_mwh, # heat pump scen mwh addition to baseline is assumed to be all heating gain
+      retrofit_heating_pct =  (retrofit_scenario_mcf - heatpump_scenario_mcf) / #calculate what amount of nat gas was for heating in retrofit
+        (baseline_scenario_mcf - heatpump_scenario_mcf)
+    ) %>%
+    select(mc_classification,
+           heatpump_mwh,
+           retrofit_heating_pct)
+
+  ### TEMPORARY LEED ADD-ON UNTIL BETTER DATA IS AVAILABILE
+  ctu_energy_profile <- bind_rows(ctu_energy_profile,
+                                  ctu_energy_profile %>%
+                                    filter(scenario == "new_build") %>%
+                                    mutate(scenario = "new_leed_build",
+                                           cat_match = "new_leed")
+                                  )
+
   ### calculate heat pump effects here
   energy_calc <- function(tb,
-                          .mwh_coefficients = .mwh_coefficients,
-                          .mcf_coefficients = .mcf_coefficients,
                           .heatpump_start_year = .heatpump_start_year,
+                          .heatpump_end_year = .heatpump_end_year,
                           .sf_heat_pump_pct = .sf_heat_pump_pct,
                           .mf_heat_pump_pct = .mf_heat_pump_pct) {
+
+    ### ramp up heat pump installation evenly from start year to end year
+
+    ramp_years <- .heatpump_start_year:.heatpump_end_year
+    n_ramp <- length(ramp_years)
+
+    pct_ramp <- tibble::tibble(
+      inventory_year = ramp_years,
+      sf_pct = seq(
+        from = .sf_heat_pump_pct / n_ramp,
+        to = .sf_heat_pump_pct,
+        length.out = n_ramp
+      ),
+      mf_pct  = seq(
+        from = .mf_heat_pump_pct / n_ramp,
+        to = .mf_heat_pump_pct,
+        length.out = n_ramp
+      )
+    )
+
+    # Join pct values by condition
+    pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+      left_join(pct_ramp, by = "inventory_year") %>%
+      dplyr::mutate(
+        sf_pct = dplyr::case_when(
+          inventory_year < .heatpump_start_year ~ 0,
+          inventory_year > .heatpump_end_year ~ .sf_heat_pump_pct,
+          TRUE ~ sf_pct
+        ),
+        mf_pct = dplyr::case_when(
+          inventory_year < .heatpump_start_year ~ 0,
+          inventory_year > .heatpump_end_year ~ .mf_heat_pump_pct,
+          TRUE ~ mf_pct
+        )
+      )
+
     # browser()
-    energy_tb <- tb %>%
-      filter(inventory_year > .baseline_year) %>%
-      left_join(.mwh_coefficients,
-        by = c("sp_categories" = "var")
-      ) %>%
-      left_join(.mcf_coefficients,
-        by = c("sp_categories" = "var")
+    sf_tb <- tb %>%
+      filter(inventory_year > .baseline_year,
+             !grepl("multi",sp_categories)) %>%
+      left_join(pct_by_year[,c("inventory_year","sf_pct")]) %>%
+      left_join(ctu_energy_profile,
+        by = c("sp_categories" = "mc_classification",
+               "efficiency_description" = "cat_match")
       ) %>%
       mutate(
         effective_units = value + effective_unit_change,
@@ -201,6 +273,7 @@ calc_energy_residential <- function(res_tb,
       .mwh_coefficients = .mwh_coefficients,
       .mcf_coefficients = .mcf_coefficients,
       .heatpump_start_year = .heatpump_start_year,
+      .heatpump_end_year = .heatpump_end_year,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0
     )
@@ -220,6 +293,7 @@ calc_energy_residential <- function(res_tb,
       .mwh_coefficients = .mwh_coefficients,
       .mcf_coefficients = .mcf_coefficients,
       .heatpump_start_year = .heatpump_start_year,
+      .heatpump_end_year = .heatpump_end_year,
       .sf_heat_pump_pct = .sf_heat_pump_pct,
       .mf_heat_pump_pct = .mf_heat_pump_pct
     )

@@ -74,26 +74,26 @@ calc_building_energy <- function(
               by = c("mc_classification",
                      "year_bin" = "build_year")) %>%
     # take the mean mwh and mcf of the two characteristics
-    mutate(baseline_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-           baseline_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    mutate(scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           scenario_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
     select(mc_classification,
-           baseline_mwh,
-           baseline_mcf)
+           scenario_mwh,
+           scenario_mcf)
 
   ctu_baseline <- bind_rows(
     ctu_sf_baseline,
     resstock_summaries$mf_baseline %>%
-      mutate(baseline_mwh = median_kwh / 1000,
-             baseline_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             baseline_mwh,
-             baseline_mcf),
+             scenario_mwh,
+             scenario_mcf),
     resstock_summaries$manufactured_baseline %>%
-      mutate(baseline_mwh = median_kwh / 1000,
-             baseline_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             baseline_mwh,
-             baseline_mcf)
+             scenario_mwh,
+             scenario_mcf)
   ) %>%
     mutate(scenario = "baseline")
 
@@ -107,26 +107,26 @@ calc_building_energy <- function(
               by = c("mc_classification",
                      "year_bin" = "build_year")) %>%
     # take the mean mwh and mcf of the two characteristics
-    mutate(retrofit_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-           retrofit_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    mutate(scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           scenario_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
     select(mc_classification,
-           retrofit_mwh,
-           retrofit_mcf)
+           scenario_mwh,
+           scenario_mcf)
 
   ctu_retrofit <- bind_rows(
     ctu_sf_retrofit,
     resstock_summaries$mf_envelope %>%
-      mutate(retrofit_mwh = median_kwh / 1000,
-             retrofit_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             retrofit_mwh,
-             retrofit_mcf),
+             scenario_mwh,
+             scenario_mcf),
     resstock_summaries$manufactured_envelope %>%
-      mutate(retrofit_mwh = median_kwh / 1000,
-             retrofit_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             retrofit_mwh,
-             retrofit_mcf)
+             scenario_mwh,
+             scenario_mcf)
   ) %>%
     mutate(scenario = "retrofit")
 
@@ -140,26 +140,26 @@ calc_building_energy <- function(
               by = c("mc_classification",
                      "year_bin" = "build_year")) %>%
     # take the mean mwh and mcf of the two characteristics
-    mutate(heatpump_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-           heatpump_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    mutate(scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           scenario_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
     select(mc_classification,
-           heatpump_mwh,
-           heatpump_mcf)
+           scenario_mwh,
+           scenario_mcf)
 
   ctu_heatpump <- bind_rows(
     ctu_sf_heatpump,
     resstock_summaries$mf_heatpump %>%
-      mutate(heatpump_mwh = median_kwh / 1000,
-             heatpump_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             heatpump_mwh,
-             heatpump_mcf),
+             scenario_mwh,
+             scenario_mcf),
     resstock_summaries$manufactured_heatpump %>%
-      mutate(heatpump_mwh = median_kwh / 1000,
-             heatpump_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             heatpump_mwh,
-             heatpump_mcf)
+             scenario_mwh,
+             scenario_mcf)
   ) %>%
     mutate(scenario = "heatpump")
 
@@ -173,30 +173,35 @@ calc_building_energy <- function(
                 filter(build_year == "2010s"),
               by = c("mc_classification")) %>%
     # take the mean mwh and mcf of the two characteristics
-    mutate(new_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-           new_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    mutate(scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           scenario_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
     select(mc_classification,
-           new_mwh,
-           new_mcf)
+           scenario_mwh,
+           scenario_mcf)
 
   ctu_new <- bind_rows(
     ctu_sf_new,
     resstock_summaries$mf_baseline %>%
-      mutate(new_mwh = median_kwh / 1000,
-             new_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             new_mwh,
-             new_mcf),
+             scenario_mwh,
+             scenario_mcf),
     resstock_summaries$manufactured_envelope %>%
-      mutate(new_mwh = median_kwh / 1000,
-             new_mcf = median_mcf) %>%
+      mutate(scenario_mwh = median_kwh / 1000,
+             scenario_mcf = median_mcf) %>%
       select(mc_classification,
-             new_mwh,
-             new_mcf)
+             scenario_mwh,
+             scenario_mcf)
   ) %>%
     mutate(scenario = "new_build")
 
-  bind
+  ctu_energy_profile <- bind_rows(
+    ctu_baseline,
+    ctu_new,
+    ctu_retrofit,
+    ctu_heatpump
+  )
 
   return(ctu_energy_profile)
 
