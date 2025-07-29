@@ -83,17 +83,17 @@ mn_parcel <- mn_parcel %>%
       grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_home",
 
       # multifamily
-      grepl("townh|duplex|triplex|two-family|two family|three family|two residences|twin|multi res", DWELL_TYPE, ignore.case = TRUE) ~ "sf_attached",
-      grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS1, ignore.case = TRUE) ~ "sf_attached",
-      grepl("Quad|Townh|duplex", HOME_STYLE, ignore.case = TRUE) ~ "sf_attached",
-      grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS2, ignore.case = TRUE) ~ "sf_attached",
+      grepl("townh|duplex|triplex|two-family|two family|three family|two residences|twin|multi res", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_attached",
+      grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS1, ignore.case = TRUE) ~ "single_family_attached",
+      grepl("Quad|Townh|duplex", HOME_STYLE, ignore.case = TRUE) ~ "single_family_attached",
+      grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS2, ignore.case = TRUE) ~ "single_family_attached",
 
 
       # Single-Family Homes
-      grepl("Frame|Cabin|BUNGALOW|SPLIT|Rambler|Log", HOME_STYLE, ignore.case = TRUE) ~ "sf_detached",
-      grepl("single|s.fam", DWELL_TYPE, ignore.case = TRUE) ~ "sf_detached",
-      grepl("Res 1 unit|CABIN|Residential|Zero Lot Line", USECLASS1, ignore.case = TRUE) ~ "sf_detached",
-      grepl("Res 1 unit|CABIN|Residential|Zero Lot Line", USECLASS2, ignore.case = TRUE) ~ "sf_detached",
+      grepl("Frame|Cabin|BUNGALOW|SPLIT|Rambler|Log", HOME_STYLE, ignore.case = TRUE) ~ "single_family_detached",
+      grepl("single|s.fam", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_detached",
+      grepl("Res 1 unit|CABIN|Residential|Zero Lot Line", USECLASS1, ignore.case = TRUE) ~ "single_family_detached",
+      grepl("Res 1 unit|CABIN|Residential|Zero Lot Line", USECLASS2, ignore.case = TRUE) ~ "single_family_detached",
       TRUE ~ NA
     )
   ) %>%
@@ -161,8 +161,6 @@ mn_parcel_assigned <- mn_parcel %>%
   )) %>%
   filter(!is.na(mc_classification))
 
-rm(mn_parcel)
-gc()
 
 # quick check
 tapply(mn_parcel_assigned$FIN_SQ_FT, mn_parcel_assigned$mc_classification, "median")
@@ -218,8 +216,6 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   # select columns
   select(CO_NAME, CTU_NAME, CTU_ID_TXT, FIN_SQ_FT, EMV_BLDG, YEAR_BUILT, mc_classification)
 
-rm(mn_parcel_assigned)
-gc()
 
 mn_parcel_map <- mn_parcel_predict %>%
   group_by(CO_NAME, CTU_NAME, CTU_ID_TXT, mc_classification) %>%
@@ -243,8 +239,7 @@ mn_parcel_map <- mn_parcel_predict %>%
   )) %>%
   sf::st_as_sf()
 
-rm(mn_parcel_predict)
-gc()
+
 
 ### ctu_parcel output
 
@@ -258,8 +253,8 @@ ctu_parcel <- mn_parcel_map %>%
 
 ### go back and use simple lm to fill in 0 sq ft cities (Hennepin)
 
-sfa_parcel <- filter(ctu_parcel, mc_classification == "sf_attached")
-sfd_parcel <- filter(ctu_parcel, mc_classification == "sf_detached")
+sfa_parcel <- filter(ctu_parcel, mc_classification == "single_family_attached")
+sfd_parcel <- filter(ctu_parcel, mc_classification == "single_family_detached")
 mfh_parcel <- filter(ctu_parcel, mc_classification == "multifamily")
 
 #which cities are missing sfa?
@@ -274,8 +269,8 @@ mn_parcel %>% filter(CTU_NAME %in% no_detached$geog_name, is.na(mc_classificatio
 sqft_lm_sfd <- lm(median_sq_ft ~ median_emv,
                sfd_parcel %>% filter(county_name != "Hennepin"))
 
-ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
-                              col = county_name)) + geom_point()
+# ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
+#                               col = county_name)) + geom_point()
 ### counties all have similar slope but different intercept.
 ### However, Ramsey, Carver, and Anoka (Hennepin neighbors) are all median,
 ### so not going to try to adjust slope away from prediction for Hennepin
@@ -283,9 +278,9 @@ ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
 sfd_parcel$sq_ft_pred <- predict(sqft_lm_sfd,
                                  sfd_parcel)
 
-ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-                              col = county_name)) + geom_point() +
-  geom_abline(intercept = 0, slope = 1)
+# ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
+#                               col = county_name)) + geom_point() +
+#   geom_abline(intercept = 0, slope = 1)
 
 
 # repeat for sfd
@@ -294,16 +289,16 @@ ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
 sqft_lm_sfa <- lm(median_sq_ft ~ median_emv,
                   sfa_parcel %>% filter(county_name != "Hennepin"))
 
-ggplot(data = sfa_parcel, aes(y = median_sq_ft, x =median_emv,
-                              col = county_name)) + geom_point()
+# ggplot(data = sfa_parcel, aes(y = median_sq_ft, x =median_emv,
+#                               col = county_name)) + geom_point()
 ### not as tight of a relationship, but potentially less important for sfa
 
 sfa_parcel$sq_ft_pred <- predict(sqft_lm_sfa,
                                  sfa_parcel)
 
-ggplot(data = sfa_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-                              col = county_name)) + geom_point() +
-  geom_abline(intercept = 0, slope = 1)
+# ggplot(data = sfa_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
+#                               col = county_name)) + geom_point() +
+#   geom_abline(intercept = 0, slope = 1)
 
 sfd_out <- sfd_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
@@ -334,5 +329,11 @@ missing_sfa_rows <- missing_cities %>%
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)
 
 parcel_ctu <- rbind(sfd_out, sfa_out_completed)
+
+rm(mn_parcel)
+rm(mn_parcel_assigned)
+rm(mn_parcel_predict)
+gc()
+
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)

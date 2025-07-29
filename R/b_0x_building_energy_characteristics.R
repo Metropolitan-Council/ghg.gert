@@ -57,7 +57,7 @@ calc_building_energy <- function(
   # Filter and bin parcels
   ctu_binned <- parcel_data %>%
     filter(geog_name == .selected_ctu,
-           mc_classification %in% c("sf_detached", "sf_attached")) %>%
+           mc_classification %in% c("single_family_detached", "single_family_attached")) %>%
     mutate(
       sqft_bin = bin_sqft(sq_ft_use),
       year_bin = as.character(bin_year(median_year))

@@ -140,17 +140,12 @@ calc_housing_leed <- function(res_tb,
   return(leed_buildings)
 }
 
-# LEED buildings will use less energy
-# Here, we are effectively reducing the housing count to account
-# for the energy savings from LEED buildings
-
 
 #' @title Calculate housing retrofit
 #' @family buildings
 #'
-#' @description adjusts single and multifamily housing unit
-#' forecast under the assumption of energy use reduction due to home
-#' retrofits.
+#' @description Calculates number of homes targeted for retrofits based on user inputs
+#' and CTU housing projections. This function must inherit an object from calc_housing_leed()
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.

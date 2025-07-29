@@ -86,7 +86,9 @@ calc_energy_residential <- function(res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  ### adjsut the model prediction to the sum of the last 5 observed years
+  ctu_baseline_tmp <- calc_building_energy(.selected_ctu = .selected_ctu)
+
+  ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
       filter(inventory_year >= (.baseline_year - 4)) %>%
@@ -94,8 +96,8 @@ calc_energy_residential <- function(res_tb,
       sum()) /
       (res_tb_bau %>%
         filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        left_join(.mwh_coefficients,
-          by = c("sp_categories" = "var")
+        left_join(ctu_baseline_tmp,
+          by = c("sp_categories" = "mc_classification")
         ) %>%
         mutate(mwh_pred = value * mwh_per_unit_eia) %>%
         pull(mwh_pred) %>%

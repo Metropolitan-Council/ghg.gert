@@ -1,6 +1,6 @@
 ### import ResStock data for electrification and retrofit elasticities
 
-library(dplyr, tidyr, readr)
+# library(dplyr, tidyr, readr)
 
 ## function to match eia sqft bins
 bin_sqft <- function(sqft) {
@@ -28,8 +28,8 @@ load_resstock <- function(path) {
       building_mcf = building_nat_gas_kwh * 0.00329026,
       mc_classification = case_when(
         grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily_units",
-        grepl("Detached", building_type, ignore.case = TRUE) ~ "sf_detached",
-        grepl("Attached", building_type, ignore.case = TRUE) ~ "sf_attached",
+        grepl("Detached", building_type, ignore.case = TRUE) ~ "single_family_detached",
+        grepl("Attached", building_type, ignore.case = TRUE) ~ "single_family_attached",
         grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_homes",
         TRUE ~ "other"
       ),
