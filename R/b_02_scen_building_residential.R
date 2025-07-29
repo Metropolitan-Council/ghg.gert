@@ -126,6 +126,7 @@ scen_building_residential <- function(res_tb = res_tb,
     res_tb = tb03,
     .selected_ctu = .selected_ctu,
     .retrofit_start_year = .retrofit_start_year,
+    .retrofit_end_year = .retrofit_end_year,
     .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
     .enviro_factors = .enviro_factors

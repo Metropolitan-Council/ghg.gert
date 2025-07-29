@@ -1,5 +1,7 @@
 # Script to import ancillary housing data from MN geospatial commons
 
+library(ggplot2)
+
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
 # fetch parcel data from MN Geospatial Commons
@@ -269,8 +271,9 @@ mn_parcel %>% filter(CTU_NAME %in% no_detached$geog_name, is.na(mc_classificatio
 sqft_lm_sfd <- lm(median_sq_ft ~ median_emv,
                sfd_parcel %>% filter(county_name != "Hennepin"))
 
-# ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
-#                               col = county_name)) + geom_point()
+ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
+                              col = county_name)) + geom_point()
+
 ### counties all have similar slope but different intercept.
 ### However, Ramsey, Carver, and Anoka (Hennepin neighbors) are all median,
 ### so not going to try to adjust slope away from prediction for Hennepin
@@ -278,9 +281,9 @@ sqft_lm_sfd <- lm(median_sq_ft ~ median_emv,
 sfd_parcel$sq_ft_pred <- predict(sqft_lm_sfd,
                                  sfd_parcel)
 
-# ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-#                               col = county_name)) + geom_point() +
-#   geom_abline(intercept = 0, slope = 1)
+ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
+                              col = county_name)) + geom_point() +
+  geom_abline(intercept = 0, slope = 1)
 
 
 # repeat for sfd
@@ -289,16 +292,16 @@ sfd_parcel$sq_ft_pred <- predict(sqft_lm_sfd,
 sqft_lm_sfa <- lm(median_sq_ft ~ median_emv,
                   sfa_parcel %>% filter(county_name != "Hennepin"))
 
-# ggplot(data = sfa_parcel, aes(y = median_sq_ft, x =median_emv,
-#                               col = county_name)) + geom_point()
+ggplot(data = sfa_parcel, aes(y = median_sq_ft, x =median_emv,
+                              col = county_name)) + geom_point()
 ### not as tight of a relationship, but potentially less important for sfa
 
 sfa_parcel$sq_ft_pred <- predict(sqft_lm_sfa,
                                  sfa_parcel)
 
-# ggplot(data = sfa_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-#                               col = county_name)) + geom_point() +
-#   geom_abline(intercept = 0, slope = 1)
+ggplot(data = sfa_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
+                              col = county_name)) + geom_point() +
+  geom_abline(intercept = 0, slope = 1)
 
 sfd_out <- sfd_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
@@ -323,7 +326,7 @@ county_medians <- sfa_out %>%
 missing_sfa_rows <- missing_cities %>%
   select(county_name, ctu_id, geog_name, inventory_year) %>%
   left_join(county_medians, by = "county_name") %>%
-  mutate(mc_classification = "sf_attached") %>%
+  mutate(mc_classification = "single_family_attached") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)

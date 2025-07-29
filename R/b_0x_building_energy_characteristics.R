@@ -64,7 +64,7 @@ calc_building_energy <- function(
     )
 
   ### calculate ctu single family baseline based on size and year
-  ctu_sf <- left_join(ctu_binned,
+  ctu_sf_baseline <- left_join(ctu_binned,
                       bind_rows(resstock_summaries$sf_attached_sqft_baseline,
                                 resstock_summaries$sf_detached_sqft_baseline),
                       by = c("mc_classification",
@@ -81,7 +81,7 @@ calc_building_energy <- function(
            baseline_mcf)
 
   ctu_baseline <- bind_rows(
-    ctu_sf,
+    ctu_sf_baseline,
     resstock_summaries$mf_baseline %>%
       mutate(baseline_mwh = median_kwh / 1000,
              baseline_mcf = median_mcf) %>%
@@ -94,8 +94,110 @@ calc_building_energy <- function(
       select(mc_classification,
              baseline_mwh,
              baseline_mcf)
-  )
+  ) %>%
+    mutate(scenario = "baseline")
 
-  return(ctu_baseline)
+  ctu_sf_retrofit <- left_join(ctu_binned,
+                               bind_rows(resstock_summaries$sf_attached_sqft_envelope,
+                                         resstock_summaries$sf_detached_sqft_envelope),
+                               by = c("mc_classification",
+                                      "sqft_bin")) %>%
+    left_join(bind_rows(resstock_summaries$sf_attached_year_envelope,
+                        resstock_summaries$sf_detached_year_envelope),
+              by = c("mc_classification",
+                     "year_bin" = "build_year")) %>%
+    # take the mean mwh and mcf of the two characteristics
+    mutate(retrofit_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           retrofit_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    select(mc_classification,
+           retrofit_mwh,
+           retrofit_mcf)
+
+  ctu_retrofit <- bind_rows(
+    ctu_sf_retrofit,
+    resstock_summaries$mf_envelope %>%
+      mutate(retrofit_mwh = median_kwh / 1000,
+             retrofit_mcf = median_mcf) %>%
+      select(mc_classification,
+             retrofit_mwh,
+             retrofit_mcf),
+    resstock_summaries$manufactured_envelope %>%
+      mutate(retrofit_mwh = median_kwh / 1000,
+             retrofit_mcf = median_mcf) %>%
+      select(mc_classification,
+             retrofit_mwh,
+             retrofit_mcf)
+  ) %>%
+    mutate(scenario = "retrofit")
+
+  ctu_sf_heatpump <- left_join(ctu_binned,
+                               bind_rows(resstock_summaries$sf_attached_sqft_heatpump,
+                                         resstock_summaries$sf_detached_sqft_heatpump),
+                               by = c("mc_classification",
+                                      "sqft_bin")) %>%
+    left_join(bind_rows(resstock_summaries$sf_attached_year_heatpump,
+                        resstock_summaries$sf_detached_year_heatpump),
+              by = c("mc_classification",
+                     "year_bin" = "build_year")) %>%
+    # take the mean mwh and mcf of the two characteristics
+    mutate(heatpump_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           heatpump_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    select(mc_classification,
+           heatpump_mwh,
+           heatpump_mcf)
+
+  ctu_heatpump <- bind_rows(
+    ctu_sf_heatpump,
+    resstock_summaries$mf_heatpump %>%
+      mutate(heatpump_mwh = median_kwh / 1000,
+             heatpump_mcf = median_mcf) %>%
+      select(mc_classification,
+             heatpump_mwh,
+             heatpump_mcf),
+    resstock_summaries$manufactured_heatpump %>%
+      mutate(heatpump_mwh = median_kwh / 1000,
+             heatpump_mcf = median_mcf) %>%
+      select(mc_classification,
+             heatpump_mwh,
+             heatpump_mcf)
+  ) %>%
+    mutate(scenario = "heatpump")
+
+  ctu_sf_new <- left_join(ctu_binned,
+                                 bind_rows(resstock_summaries$sf_attached_sqft_baseline,
+                                           resstock_summaries$sf_detached_sqft_baseline),
+                                 by = c("mc_classification",
+                                        "sqft_bin")) %>%
+    left_join(bind_rows(resstock_summaries$sf_attached_year_baseline,
+                        resstock_summaries$sf_detached_year_baseline) %>%
+                filter(build_year == "2010s"),
+              by = c("mc_classification")) %>%
+    # take the mean mwh and mcf of the two characteristics
+    mutate(new_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
+           new_mcf = (median_mcf.x + median_mcf.y) / 2) %>%
+    select(mc_classification,
+           new_mwh,
+           new_mcf)
+
+  ctu_new <- bind_rows(
+    ctu_sf_new,
+    resstock_summaries$mf_baseline %>%
+      mutate(new_mwh = median_kwh / 1000,
+             new_mcf = median_mcf) %>%
+      select(mc_classification,
+             new_mwh,
+             new_mcf),
+    resstock_summaries$manufactured_envelope %>%
+      mutate(new_mwh = median_kwh / 1000,
+             new_mcf = median_mcf) %>%
+      select(mc_classification,
+             new_mwh,
+             new_mcf)
+  ) %>%
+    mutate(scenario = "new_build")
+
+  bind
+
+  return(ctu_energy_profile)
 
   }
