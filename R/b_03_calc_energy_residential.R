@@ -203,7 +203,7 @@ calc_energy_residential <- function(res_tb,
     # browser()
     energy_tb <- tb %>%
       filter(inventory_year > .baseline_year) %>%
-      left_join(pct_by_year) %>%
+      left_join(pct_by_year, by = "inventory_year") %>%
       mutate(hp_pct = if_else(grepl("multi",sp_categories),
                               hp_mf_pct,
                               hp_sf_pct)
