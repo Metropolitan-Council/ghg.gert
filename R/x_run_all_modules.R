@@ -118,19 +118,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             .elast_5d = elast_5d) {
   output <- c()
 
-  if (run_land_use == TRUE) {
-    output$land_use <- run_scenario_land_use(
-      tb = tb,
-      .selected_ctu = .selected_ctu,
-      .conservation_tillage_intervention = .conservation_tillage_intervention,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      detail = detail,
-      .enviro_factors = .enviro_factors
-    )
-  }
   if (run_buildings == TRUE) {
     output$buildings <- run_scenario_building(
       res_tb = res_tb,

@@ -34,7 +34,7 @@
 #'   detail = FALSE
 #' )
 #' }
-run_scenario_land_use <- function(tb = land_use_data,
+run_scenario_land_use_deprecated <- function(tb = land_use_data,
                                   .selected_ctu = "all",
                                   .conservation_tillage_intervention = "current_conservation_tillage",
                                   .tree_planting_intervention = "none",
