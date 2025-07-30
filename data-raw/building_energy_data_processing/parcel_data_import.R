@@ -71,7 +71,7 @@ mn_parcel <- mn_parcel %>%
   mutate(
     mc_classification = case_when(
       ## RESIDENTIAL
-      # Apartments
+      # Multifamily
       grepl("apartment|condo|apt|nursing|astd|eldry|fraternity|sorority", DWELL_TYPE, ignore.case = TRUE) ~ "multifamily",
       grepl("Apartment|APARMENT|Apt|Elderly Liv Fac|Housing - Low Income > 3 Units|HRA|Nursing|Sr Citizens", USECLASS1, ignore.case = TRUE) ~ "multifamily",
       grepl("APT|condo", HOME_STYLE, ignore.case = TRUE) ~ "multifamily",
@@ -84,14 +84,14 @@ mn_parcel <- mn_parcel %>%
       grepl("manufactured|MH", HOME_STYLE, ignore.case = TRUE) ~ "manufactured_home",
       grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_home",
 
-      # multifamily
+      # Single family attached
       grepl("townh|duplex|triplex|two-family|two family|three family|two residences|twin|multi res", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_attached",
       grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS1, ignore.case = TRUE) ~ "single_family_attached",
       grepl("Quad|Townh|duplex", HOME_STYLE, ignore.case = TRUE) ~ "single_family_attached",
       grepl("Res 2-3|Double Bungalow|Duplex|Apartment|Low Income < 4 Units|Townh|Triplex", USECLASS2, ignore.case = TRUE) ~ "single_family_attached",
 
 
-      # Single-Family Homes
+      # Single family detached
       grepl("Frame|Cabin|BUNGALOW|SPLIT|Rambler|Log", HOME_STYLE, ignore.case = TRUE) ~ "single_family_detached",
       grepl("single|s.fam", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_detached",
       grepl("Res 1 unit|CABIN|Residential|Zero Lot Line", USECLASS1, ignore.case = TRUE) ~ "single_family_detached",
