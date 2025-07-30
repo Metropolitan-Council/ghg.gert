@@ -139,7 +139,7 @@ scen_building_residential <- function(res_tb = res_tb,
     tb03
   )
 
-  #repeat with no changes for BAU scenario
+  # repeat with no changes for BAU scenario
 
   tb05 <- calc_housing_leed(
     res_tb = res_tb,

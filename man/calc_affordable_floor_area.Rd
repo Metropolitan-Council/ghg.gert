@@ -67,6 +67,7 @@ calc_affordable_floor_area(
 \seealso{
 Other residential: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_energy_residential}()},
 \code{\link{calc_floor_area_growth}()},
@@ -103,6 +104,7 @@ Other deprecated:
 
 Other buildings: 
 \code{\link{adj_unit_counts}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},

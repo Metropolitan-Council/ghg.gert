@@ -65,19 +65,21 @@ calc_housing_leed <- function(res_tb,
   #     )
   # } else if (.new_sf_homes_leed_gold_pct != 0) {
 
-    new_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      dplyr::mutate(
-        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = if_else(inventory_year < .leed_start_year,
-          0,
-          round(new_units * .new_sf_homes_leed_gold_pct)
-        ),
-        new_non_leed = new_units - new_leed
-      ) %>%
-      pivot_longer(cols = c(new_leed, new_non_leed),
-                   names_to = "efficiency_description",
-                   values_to = "efficiency_unit_value")
+  new_sf <- res_tb %>%
+    dplyr::filter(grepl("single", sp_categories)) %>%
+    dplyr::mutate(
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_sf_homes_leed_gold_pct)
+      ),
+      new_non_leed = new_units - new_leed
+    ) %>%
+    pivot_longer(
+      cols = c(new_leed, new_non_leed),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
 
   # }
 
@@ -91,19 +93,21 @@ calc_housing_leed <- function(res_tb,
   #       effective_unit_change_leed = 0
   #     )
   # } else if (.new_mf_homes_leed_gold_pct != 0) {
-    new_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories)) %>%
-      dplyr::mutate(
-        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = if_else(inventory_year < .leed_start_year,
-                           0,
-                           round(new_units * .new_mf_homes_leed_gold_pct)
-        ),
-        new_non_leed = new_units - new_leed
-      ) %>%
-      pivot_longer(cols = c(new_leed, new_non_leed),
-                   names_to = "efficiency_description",
-                   values_to = "efficiency_unit_value")
+  new_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    dplyr::mutate(
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_mf_homes_leed_gold_pct)
+      ),
+      new_non_leed = new_units - new_leed
+    ) %>%
+    pivot_longer(
+      cols = c(new_leed, new_non_leed),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
   # }
 
   leed_buildings <- bind_rows(
@@ -202,15 +206,15 @@ calc_residential_retrofit <- function(res_tb,
   pct_ramp <- tibble::tibble(
     inventory_year = ramp_years,
     sf_pct = seq(
-    from = .existing_sf_retrofit_pct / n_ramp,
-    to = .existing_sf_retrofit_pct,
-    length.out = n_ramp
-  ),
-  mf_pct  = seq(
-    from = .existing_mf_retrofit_pct / n_ramp,
-    to = .existing_mf_retrofit_pct,
-    length.out = n_ramp
-  )
+      from = .existing_sf_retrofit_pct / n_ramp,
+      to = .existing_sf_retrofit_pct,
+      length.out = n_ramp
+    ),
+    mf_pct = seq(
+      from = .existing_mf_retrofit_pct / n_ramp,
+      to = .existing_mf_retrofit_pct,
+      length.out = n_ramp
+    )
   )
 
   # Join pct values by condition
@@ -239,24 +243,29 @@ calc_residential_retrofit <- function(res_tb,
   #       effective_unit_change_retro = 0
   #     )
   # } else if (.existing_sf_retrofit_pct != 0) {
-    existing_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      left_join(pct_by_year %>% select(inventory_year, sf_pct),
-                by= "inventory_year") %>%
-      dplyr::mutate(
-        new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
-        existing_units = value - new_units,
-        retrofit_units = if_else(inventory_year < .retrofit_start_year,
-          0,
-          round(existing_units * sf_pct)),
-        existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-sf_pct) %>%
-  pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
-               names_to = "efficiency_description",
-               values_to = "efficiency_unit_value")
+  existing_sf <- res_tb %>%
+    dplyr::filter(grepl("single", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, sf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * sf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-sf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
 
 
-    # }
+  # }
 
 
   # if (.existing_mf_retrofit_pct == 0) {
@@ -268,21 +277,26 @@ calc_residential_retrofit <- function(res_tb,
   #       effective_unit_change_retro = 0
   #     )
   # } else if (.existing_mf_retrofit_pct != 0) {
-    existing_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories)) %>%
-      left_join(pct_by_year %>% select(inventory_year, mf_pct),
-                by= "inventory_year") %>%
-      dplyr::mutate(
-        new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
-        existing_units = value - new_units,
-        retrofit_units = if_else(inventory_year < .retrofit_start_year,
-                                 0,
-                                 round(existing_units * mf_pct)),
-        existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-mf_pct) %>%
-      pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
-                   names_to = "efficiency_description",
-                   values_to = "efficiency_unit_value")
+  existing_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, mf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * mf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-mf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
   # }
 
   retrofit_results <- bind_rows(
