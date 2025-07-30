@@ -111,9 +111,7 @@ calc_housing_leed <- function(res_tb,
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
@@ -125,9 +123,7 @@ calc_housing_leed <- function(res_tb,
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
@@ -248,12 +244,13 @@ calc_residential_retrofit <- function(res_tb,
       left_join(pct_by_year %>% select(inventory_year, sf_pct),
                 by= "inventory_year") %>%
       dplyr::mutate(
+        new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
         existing_units = value - new_units,
         retrofit_units = if_else(inventory_year < .retrofit_start_year,
           0,
           round(existing_units * sf_pct)),
         existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-c(efficiency_description,efficiency_unit_value, sf_pct)) %>%
+      select(-sf_pct) %>%
   pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
                names_to = "efficiency_description",
                values_to = "efficiency_unit_value")
@@ -276,12 +273,13 @@ calc_residential_retrofit <- function(res_tb,
       left_join(pct_by_year %>% select(inventory_year, mf_pct),
                 by= "inventory_year") %>%
       dplyr::mutate(
+        new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
         existing_units = value - new_units,
         retrofit_units = if_else(inventory_year < .retrofit_start_year,
                                  0,
                                  round(existing_units * mf_pct)),
         existing_nonretrofit = existing_units - retrofit_units) %>%
-      select(-c(efficiency_description,efficiency_unit_value, mf_pct)) %>%
+      select(-mf_pct) %>%
       pivot_longer(cols = c(retrofit_units, existing_nonretrofit),
                    names_to = "efficiency_description",
                    values_to = "efficiency_unit_value")
@@ -289,12 +287,11 @@ calc_residential_retrofit <- function(res_tb,
 
   retrofit_results <- bind_rows(
     existing_sf %>%
+      ungroup() %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
@@ -303,20 +300,18 @@ calc_residential_retrofit <- function(res_tb,
         efficiency_unit_value
       ),
     existing_mf %>%
+      ungroup() %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
         new_units,
         efficiency_description,
         efficiency_unit_value
-      ),
-    res_tb
+      )
   )
 
   return(retrofit_results)

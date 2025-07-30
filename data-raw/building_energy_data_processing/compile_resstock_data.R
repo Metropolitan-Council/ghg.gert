@@ -80,6 +80,7 @@ sf_attached_year_heatpump = summarize_resstock(heatpump, "Attached", c("mc_class
 sf_detached_sqft_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "sqft_bin")),
 sf_detached_year_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "build_year")),
 
+# Retrofit summaries
 mf_envelope = summarize_resstock(envelope, "Multi", "mc_classification"),
 manufactured_envelope = summarize_resstock(envelope, "Mobile", "mc_classification"),
 sf_attached_sqft_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "sqft_bin")),
