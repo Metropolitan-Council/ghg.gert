@@ -224,7 +224,7 @@ calc_energy_residential <- function(res_tb,
           efficiency_description == "new_non_leed" ~
             ((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "new_leed" ~
-            (((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + (heatpump_mwh)) * hp_pct))) * enviro_factors$LEED_GOLD_REDUCTION_PCT * efficiency_unit_value * mwh_adjustment
+            (((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + (heatpump_mwh)) * hp_pct))) * .enviro_factors$LEED_GOLD_REDUCTION_PCT * efficiency_unit_value * mwh_adjustment
         ),
         residential_mcf = case_when(
           efficiency_description == "existing_nonretrofit" ~
@@ -234,7 +234,7 @@ calc_energy_residential <- function(res_tb,
           efficiency_description == "new_non_leed" ~
             ((scenario_mcf * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_leed" ~
-            (((scenario_mcf * (1 - hp_pct))* enviro_factors$LEED_GOLD_REDUCTION_PCT + (appliance_mcf * hp_pct))) * efficiency_unit_value * mcf_adjustment
+            (((scenario_mcf * (1 - hp_pct))* .enviro_factors$LEED_GOLD_REDUCTION_PCT + (appliance_mcf * hp_pct))) * efficiency_unit_value * mcf_adjustment
         )
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
