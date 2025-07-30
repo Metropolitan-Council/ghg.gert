@@ -144,10 +144,11 @@ demographic_data <- bind_rows(
   ungroup()
 
 # calculate urbansim deltas from base year to each other year
+# BASELINE YEAR SHOULD BE UPDATEABLE IN BUILDING ENERGY FLOW
 demographic_data <- demographic_data %>%
   left_join(
     demographic_data %>%
-      dplyr::filter(inventory_year == 2021) %>%
+      dplyr::filter(inventory_year == 2022) %>%
       dplyr::rename(base_value = value) %>%
       select(-inventory_year)
   ) %>%
