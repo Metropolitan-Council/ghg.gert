@@ -14,10 +14,10 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #' @examples
-#' \dontrun
+#' \dontrun{
 #'
 #' library(ghg.ccap)
-#'
+#' }
 #'
 land_use_update <- function(tb_bau = tb_bau,
                                   tb_strategy = tb_strategy,
