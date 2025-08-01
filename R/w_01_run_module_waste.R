@@ -236,8 +236,13 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     category = "Solid waste",
     data_source = "MPCA SCORE Report",
     factor_source = "IPCC solid waste methodology"
-  )
+  ) %>%
+      cross_join(df %>%
+                   dplyr::select(geog_id,geog_name,geog_level) %>%
+                   head(1)) %>%
+      relocate(c(geog_id,geog_name,geog_level), .after=inventory_year)
   }
+
 
 
   waste_emissions <- list()
@@ -253,6 +258,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   waste_emissions$emissions$future <- landfill_emis$future %>%
     dplyr::bind_rows(incin_emis$future, organic_emis$future) %>%
     compile_waste_emis()
+
 
 
   return(waste_emissions)
