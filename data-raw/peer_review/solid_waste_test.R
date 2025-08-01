@@ -7,9 +7,9 @@ library(tidyverse)
 
 test <- run_module_waste(
   .selected_ctu = .ctu,
-  .diverted_to_recycle_pct = 50,
-  .diverted_to_recycle_start = 2025,
-  .diverted_to_recycle_end = 2050,
+  .diverted_to_recycle_pct = 35,
+  .diverted_to_recycle_start = 2035,
+  .diverted_to_recycle_end = 2044,
 )
 
 test$emissions$inv %>% tail(5)

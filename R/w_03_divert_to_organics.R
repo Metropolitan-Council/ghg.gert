@@ -18,28 +18,62 @@ divert_to_organics <- function(waste_tb,
     stop(".diverted_to_organics_pct must be a number between 0 and 100.")
   }
 
+
+  # Return the current percentage of waste that's diverted to organics
+  diverted_to_organics_current <- waste_tb %>%
+    group_by(inventory_year) %>%
+    mutate(
+      total_activity = sum(value_activity, na.rm = TRUE),
+      pct_of_total = value_activity / total_activity * 100
+    ) %>%
+    ungroup() %>%
+    filter(source %in% c("Landfill","Organics")) %>%
+    pivot_wider(
+      names_from = source,
+      values_from = c(value_activity, pct_of_total),
+      values_fill = 0
+    ) %>%
+    # calculate the current percentage of Organics at the start of change
+    filter(inventory_year == .diverted_to_organics_start) %>%
+    pull(pct_of_total_Organics)
+
+
+
   # create empty df
   inventory_year = unique(waste_tb$inventory_year)
   projections_table = tibble::tibble(
     inventory_year, percent_diverted_to_organics = rep(.diverted_to_organics_pct, length(inventory_year))
     )
 
+
   # now let's create a table but where the percentage increases linearly over time
-  # between start and end year. So if pct change == 0.5,
+  # between start and end year. So if pct change == 50,
   # and start == 2025, and end == 2050, then
-  # the percentage will be 0 in 2025 and will increase linearly to 0.5 by the year 2050
+  # the percentage will be 0 in 2025 and will increase linearly to 50 by the year 2050.
+  # However, if the percentage that's already diverted is to organics is greater than 0
+  # then we will start from that percentage and increase from there.
+  # finally, we need to make sure that the final value that is reached is maintained
+  # through the end of the dataset
 
   if (.diverted_to_organics_pct > 0) {
     projections_table <- projections_table %>%
       dplyr::mutate(
         percent_diverted_to_organics = dplyr::case_when(
-          inventory_year < .diverted_to_organics_start ~ 0,
+          inventory_year < .diverted_to_organics_start ~ diverted_to_organics_current,
           inventory_year >= .diverted_to_organics_start & inventory_year <= .diverted_to_organics_end ~
-            (.diverted_to_organics_pct / (.diverted_to_organics_end - .diverted_to_organics_start)) * (inventory_year - .diverted_to_organics_start),
+            (diverted_to_organics_current + (.diverted_to_organics_pct / (.diverted_to_organics_end - .diverted_to_organics_start)) * (inventory_year - .diverted_to_organics_start)),
+          # when inventory_year is greater than the end of the diverted to organics period
+          # use the final value of the diverted to organics percentage
+          inventory_year > .diverted_to_organics_end ~
+            dplyr::if_else(diverted_to_organics_current == 0,
+                           0,
+                           diverted_to_organics_current + .diverted_to_organics_pct),
+
           TRUE ~ .diverted_to_organics_pct
         )
       )
   }
+
 
 
 

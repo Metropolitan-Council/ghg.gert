@@ -33,7 +33,8 @@ divert_to_recycling <- function(waste_tb,
       values_from = c(value_activity, pct_of_total),
       values_fill = 0
     ) %>%
-    head(1) %>%
+    # calculate the current percentage of Recycling at the start of change
+    filter(inventory_year == .diverted_to_recycle_start) %>%
     pull(pct_of_total_Recycling)
 
 
@@ -50,28 +51,23 @@ divert_to_recycling <- function(waste_tb,
   # the percentage will be 0 in 2025 and will increase linearly to 50 by the year 2050.
   # However, if the percentage that's already diverted is to recycling is greater than 0
   # then we will start from that percentage and increase from there.
+  # finally, we need to make sure that the final value that is reached is maintained
+  # through the end of the dataset
 
-
-
-
-
-  if (.diverted_to_recycle_pct > 0 & diverted_to_recycle_current == 0) {
-    projections_table <- projections_table %>%
-      dplyr::mutate(
-        percent_diverted_to_recycling = dplyr::case_when(
-          inventory_year < .diverted_to_recycle_start ~ 0,
-          inventory_year >= .diverted_to_recycle_start & inventory_year <= .diverted_to_recycle_end ~
-            (.diverted_to_recycle_pct / (.diverted_to_recycle_end - .diverted_to_recycle_start)) * (inventory_year - .diverted_to_recycle_start),
-          TRUE ~ .diverted_to_recycle_pct
-        )
-      )
-  } else if (.diverted_to_recycle_pct > 0 & diverted_to_recycle_current > 0) {
+  if (.diverted_to_recycle_pct > 0) {
     projections_table <- projections_table %>%
       dplyr::mutate(
         percent_diverted_to_recycling = dplyr::case_when(
           inventory_year < .diverted_to_recycle_start ~ diverted_to_recycle_current,
           inventory_year >= .diverted_to_recycle_start & inventory_year <= .diverted_to_recycle_end ~
             (diverted_to_recycle_current + (.diverted_to_recycle_pct / (.diverted_to_recycle_end - .diverted_to_recycle_start)) * (inventory_year - .diverted_to_recycle_start)),
+          # when inventory_year is greater than the end of the diverted to recycle period
+          # use the final value of the diverted to recycle percentage
+          inventory_year > .diverted_to_recycle_end ~
+            dplyr::if_else(diverted_to_recycle_current == 0,
+                           0,
+                           diverted_to_recycle_current + .diverted_to_recycle_pct),
+
           TRUE ~ .diverted_to_recycle_pct
         )
       )
