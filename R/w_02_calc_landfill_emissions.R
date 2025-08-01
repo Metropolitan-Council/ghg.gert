@@ -1,20 +1,25 @@
 #' Calculate GHG emissions from municipal solid waste sent to landfills using waste composition.
 #'
-#' @param waste_tb table, waste activity data
-#' @param waste_characterization table, output of 01_mpca_waste_characterization.R
+#' @param waste_inv table, waste inventory data
+#' @param waste_future table, projected waste data
+#' @param waste_char table, output of 01_mpca_waste_characterization.R
 #' @param .methane_recovery_pct single value, percentage of landfills using methane recovery
-#' @return a data table with geoid, source, inventory_year, value_activity,
+#' @param .methane_recovery_start single value, year when methane recovery starts
+#' @param .methane_recovery_end single value, year when methane recovery ends
+#' @return a list containing two data tables with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
 #' @export
-calculate_landfill_emissions <- function(waste_tb,
+calculate_landfill_emissions <- function(waste_inv,
+                                         waste_future,
                                          waste_char,
                                          .methane_recovery_pct = 0,
                                          .methane_recovery_start = 2025,
                                          .methane_recovery_end = 2050) {
 
 
+
   # create empty methane recovery df
-  inventory_year = unique(waste_tb$inventory_year)
+  inventory_year = unique(waste_future$inventory_year)
   methane_recovery_table = tibble::tibble(
     inventory_year, percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
     )
@@ -67,7 +72,17 @@ calculate_landfill_emissions <- function(waste_tb,
   # methane generation potential
   l_0 <- mcf * doc * doc_f * f * 16 / 12
 
-  landfill_emissions <- waste_tb %>%
+  landfill_emissions <- list()
+
+  landfill_emissions$inv <- waste_inv %>%
+    dplyr::mutate(source = "Landfill") %>%
+    dplyr::mutate(
+      value_emissions = (value_activity * l_0) * (1 - ox),
+      units_emissions = "Metric tons CH4"
+    )
+
+
+  landfill_emissions$future <- waste_future %>%
     dplyr::filter(source == "Landfill") %>%
     dplyr::left_join(methane_recovery_table, by = dplyr::join_by(inventory_year)) %>%
     dplyr::mutate(

@@ -5,23 +5,64 @@
 \title{Execute waste scenarios}
 \usage{
 run_module_waste(
-  waste_tb = waste_data$ctu$projections,
-  waste_char = waste_data$characterization,
+  tb_inv = waste_data$inventory,
+  tb_future = waste_data$projections,
+  tb_base = waste_data$baseline,
+  tb_char = waste_data$characterization,
+  tb_target = waste_data$mpca,
   .selected_ctu = "all",
+  .waste_reduction_pct = 0,
+  .waste_reduction_start = 2025,
+  .waste_reduction_end = 2050,
+  .diverted_to_recycle_pct = 0,
+  .diverted_to_recycle_start = 2025,
+  .diverted_to_recycle_end = 2050,
+  .diverted_to_organics_pct = 0,
+  .diverted_to_organics_start = 2025,
+  .diverted_to_organics_end = 2050,
+  .diverted_to_wte_pct = 0,
+  .diverted_to_wte_start = 2025,
+  .diverted_to_wte_end = 2050,
   .methane_recovery_pct = 0,
   .methane_recovery_start = 2025,
   .methane_recovery_end = 2050,
-  .anaerobic_digestion_pct = 0
+  .anaerobic_digestion_pct = 0,
+  .anaerobic_digestion_start = 2025,
+  .anaerobic_digestion_end = 2050
 )
 }
 \arguments{
-\item{waste_tb}{table, waste activity data}
-
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.waste_reduction_pct}{single value, percent reduction in waste activity}
+
+\item{.waste_reduction_start}{single value, year to start waste reduction}
+
+\item{.waste_reduction_end}{single value, year to end waste reduction}
+
+\item{.diverted_to_recycle_pct}{single value, percent of all solid waste activity that is recycled}
+
+\item{.diverted_to_recycle_start}{single value, year to start source diversion}
+
+\item{.diverted_to_recycle_end}{single value, year to end source diversion}
+
+\item{.diverted_to_organics_pct}{single value, percent of all solid waste activity that is composted}
+
+\item{.diverted_to_organics_start}{single value, year to start source diversion}
+
+\item{.diverted_to_organics_end}{single value, year to end source diversion}
 
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
 
+\item{.methane_recovery_start}{single value, year when methane recovery starts}
+
+\item{.methane_recovery_end}{single value, year when methane recovery ends}
+
 \item{.anaerobic_digestion_pct}{single value, anaerobic digestion percentage}
+
+\item{.anaerobic_digestion_start}{single value, year when anaerobic digestion starts}
+
+\item{.anaerobic_digestion_end}{single value, year when anaerobic digestion ends}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
