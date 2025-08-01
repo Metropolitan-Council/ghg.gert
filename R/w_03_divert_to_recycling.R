@@ -18,18 +18,44 @@ divert_to_recycling <- function(waste_tb,
     stop(".diverted_to_recycle_pct must be a number between 0 and 100.")
   }
 
+
+  # Return the current percentage of waste that's diverted to recycling
+  diverted_to_recycle_current <- waste_tb %>%
+    group_by(inventory_year) %>%
+    mutate(
+      total_activity = sum(value_activity, na.rm = TRUE),
+      pct_of_total = value_activity / total_activity * 100
+    ) %>%
+    ungroup() %>%
+    filter(source %in% c("Landfill","Recycling")) %>%
+    pivot_wider(
+      names_from = source,
+      values_from = c(value_activity, pct_of_total),
+      values_fill = 0
+    ) %>%
+    head(1) %>%
+    pull(pct_of_total_Recycling)
+
+
   # create empty methane recovery df
   inventory_year = unique(waste_tb$inventory_year)
   projections_table = tibble::tibble(
     inventory_year, percent_diverted_to_recycling = rep(.diverted_to_recycle_pct, length(inventory_year))
     )
 
-  # now let's create a table but where the percentage increases linearly over time
-  # between start and end year. So if pct change == 0.5,
-  # and start == 2025, and end == 2050, then
-  # the percentage will be 0 in 2025 and will increase linearly to 0.5 by the year 2050
 
-  if (.diverted_to_recycle_pct > 0) {
+  # now let's create a table but where the percentage increases linearly over time
+  # between start and end year. So if pct change == 50,
+  # and start == 2025, and end == 2050, then
+  # the percentage will be 0 in 2025 and will increase linearly to 50 by the year 2050.
+  # However, if the percentage that's already diverted is to recycling is greater than 0
+  # then we will start from that percentage and increase from there.
+
+
+
+
+
+  if (.diverted_to_recycle_pct > 0 & diverted_to_recycle_current == 0) {
     projections_table <- projections_table %>%
       dplyr::mutate(
         percent_diverted_to_recycling = dplyr::case_when(
@@ -39,7 +65,19 @@ divert_to_recycling <- function(waste_tb,
           TRUE ~ .diverted_to_recycle_pct
         )
       )
+  } else if (.diverted_to_recycle_pct > 0 & diverted_to_recycle_current > 0) {
+    projections_table <- projections_table %>%
+      dplyr::mutate(
+        percent_diverted_to_recycling = dplyr::case_when(
+          inventory_year < .diverted_to_recycle_start ~ diverted_to_recycle_current,
+          inventory_year >= .diverted_to_recycle_start & inventory_year <= .diverted_to_recycle_end ~
+            (diverted_to_recycle_current + (.diverted_to_recycle_pct / (.diverted_to_recycle_end - .diverted_to_recycle_start)) * (inventory_year - .diverted_to_recycle_start)),
+          TRUE ~ .diverted_to_recycle_pct
+        )
+      )
   }
+
+
 
 
   waste_proj <- waste_tb %>%
