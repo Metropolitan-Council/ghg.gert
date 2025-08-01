@@ -33,3 +33,35 @@ data-raw/climate/MnClimat.csv
 data-raw/building_energy_data_processing/grid/generated_emissions_MISO_LRZ_1_2023_2043_co2_for_electricity_1y.csv
 
 data-raw/transportation_data_processing/table_04_23_042425.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/Networks/
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5.7/
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/
+
+data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network_-2814967379817715728/
+
+data-raw/transportation_data_processing/ton-miles-traveled/National_NHFN_Designated_PHFS/
+
+data-raw/transportation_data_processing/ton-miles-traveled/faf4/
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/
+
+data-raw/transportation_data_processing/ton-miles-traveled/2020_Census_ua_list_all.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/27 - Minnesota.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_metadata.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Model_Highway_Network.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5.7.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/Freight_Analysis_Framework_Network_Links.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/National_NHFN_Designated_PHFS.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network_-2814967379817715728.zip
