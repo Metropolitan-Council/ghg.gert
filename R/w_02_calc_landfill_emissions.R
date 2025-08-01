@@ -75,12 +75,12 @@ calculate_landfill_emissions <- function(waste_inv,
   landfill_emissions <- list()
 
   landfill_emissions$inv <- waste_inv %>%
-    dplyr::mutate(source = "Landfill") %>%
+    dplyr::filter(source == "Landfill") %>%
     dplyr::mutate(
       value_emissions = (value_activity * l_0) * (1 - ox),
       units_emissions = "Metric tons CH4"
     )
-
+# browser()
 
   landfill_emissions$future <- waste_future %>%
     dplyr::filter(source == "Landfill") %>%

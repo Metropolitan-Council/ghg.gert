@@ -3,7 +3,7 @@ library(ghg.ccap)
 library(tidyverse)
 
 .ctu <- "all"
-.ctu <- "Benton Twp."
+.ctu <- "Eagan"
 
 test <- run_module_waste(
   .selected_ctu = .ctu,
@@ -12,8 +12,8 @@ test <- run_module_waste(
   .diverted_to_organics_end = 2042,
 )
 
-
-
+test$emissions$inv %>% tail(5)
+test$emissions$future %>% head(5)
 
 
 
