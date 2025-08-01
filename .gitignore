@@ -33,3 +33,259 @@ data-raw/climate/MnClimat.csv
 data-raw/building_energy_data_processing/grid/generated_emissions_MISO_LRZ_1_2023_2043_co2_for_electricity_1y.csv
 
 data-raw/transportation_data_processing/table_04_23_042425.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/2020_Census_ua_list_all.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/27 - Minnesota.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Assignment Flow Tables Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Domestic Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Export Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Import Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Total CU Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Total SU Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/FAF5 Total Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/CSV Format/Linking FAF 5 Assignment Flow Tables to TransCAD and ArcMap Networks.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Assignment Flow Tables Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Domestic Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Domestic Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Export Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Export Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Import Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Import Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total CU Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total CU Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total SU Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total SU Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total Truck Flows by Commodity_2017.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/FAF5 Total Truck Flows by Commodity_2017.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Assignment Flow Tables/TransCAD Format/Linking FAF 5 Assignment Flow Tables to TransCAD and ArcMap Networks.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/FAF5_2017_HighwayAssignmentResults_04_07_2022.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/FAF5_2022_HighwayAssignmentResults_04_07_2022.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/FAF5_2050_HighwayAssignmentResults_09_17_2022.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/FAF5_Model_Highway_Network.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/FAF5 Network Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5 Network Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000001.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000001.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000001.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000001.TablesByName.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000002.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000002.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000003.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000003.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000003.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.CatItemsByPhysicalName.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.CatItemsByType.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.FDO_UUID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000004.spx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.CatItemTypesByName.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.CatItemTypesByParentTypeID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.CatItemTypesByUUID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000005.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.CatRelsByDestinationID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.CatRelsByOriginID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.CatRelsByType.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.FDO_UUID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000006.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByBackwardLabel.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByDestItemTypeID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByForwardLabel.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByName.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByOriginItemTypeID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.CatRelTypesByUUID.atx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000007.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000009.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000009.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000009.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a00000009.spx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a0000000a.gdbindexes
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a0000000a.gdbtable
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a0000000a.gdbtablx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/a0000000a.spx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/gdb
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/Geodatabase Format/FAF5Network.gdb/timestamps
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet_.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet_.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet_.sty
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet.BIN
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet.cdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet.DCB
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/CFNFAFNet.sty
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF_Truck_Flows/Networks/TransCAD Format/FAF5 Network Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Assignment Flow Tables Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Domestic Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Export Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Import Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Total CU Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Total SU Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/FAF5 Total Truck Flows by Commodity_2017.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2017_Highway_Assignment_Results/CSV Format/Linking FAF 5 Assignment Flow Tables to TransCAD and ArcMap Networks.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Assignment Flow Tables Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Domestic Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Export Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Import Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Total CU Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Total SU Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/FAF5 Total Truck Flows by Commodity_2022.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2022_Highway_Assignment_Results/CSV Format/Linking FAF 5 Assignment Flow Tables to TransCAD and ArcMap Networks.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Assignment Flow Tables Data Dictionary.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Domestic Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Domestic Truck Flows by Commodity_2050Base.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Export Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Export Truck Flows by Commodity_2050Base.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Import Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Import Truck Flows by Commodity_2050Base.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Total CU Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Total SU Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Total SU Truck Flows by Commodity_2050Base.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Total Truck Flows by Commodity 2050.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/FAF5 Total Truck Flows by Commodity_2050Base.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Highway_Assignment_Results/FAF5_2050_Highway_Assignment_Results/CSV Format/Linking FAF 5 Assignment Flow Tables to TransCAD and ArcMap Networks.pdf
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_metadata.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5_Model_Highway_Network.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5.7.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5.7/FAF5_metadata.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/FAF5.7/FAF5.7.csv
+
+data-raw/transportation_data_processing/ton-miles-traveled/Freight_Analysis_Framework_Network_Links.xlsx
+
+data-raw/transportation_data_processing/ton-miles-traveled/National_NHFN_Designated_PHFS.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network_-2814967379817715728.zip
+
+data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network_-2814967379817715728/
+
+data-raw/transportation_data_processing/ton-miles-traveled/Networks/
+
+data-raw/transportation_data_processing/ton-miles-traveled/National_NHFN_Designated_PHFS/
+
+data-raw/transportation_data_processing/ton-miles-traveled/faf4/
