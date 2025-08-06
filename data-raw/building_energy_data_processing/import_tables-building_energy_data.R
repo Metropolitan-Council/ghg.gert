@@ -28,14 +28,14 @@ building_energy_data$ctu_population <-
 building_energy_data$ctu_mfh <-
   demographic_data %>% filter(sp_categories == "multifamily_units")
 
-building_energy_data$ctu_sfh_small_lot <-
-  demographic_data %>% filter(sp_categories == "single_family_small_lot")
-
-building_energy_data$ctu_sfh_large_lot <-
-  demographic_data %>% filter(sp_categories == "single_family_large_lot")
-
-building_energy_data$ctu_sfh_attached <-
+building_energy_data$ctu_sf_attached <-
   demographic_data %>% filter(sp_categories == "single_family_attached")
+
+building_energy_data$ctu_sf_detached <-
+  demographic_data %>% filter(sp_categories == "single_family_detached")
+
+building_energy_data$ctu_manufactured <-
+  demographic_data %>% filter(sp_categories == "manufactured_homes")
 
 # building_energy_data$ctu_qcew_ctu <-
 #   import_from_emissions("metro_demographic.vw_qcew_ctu")

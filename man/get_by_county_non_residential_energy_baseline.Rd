@@ -29,6 +29,7 @@ The output is a tibble containing the non-residential energy baseline for the se
 Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},

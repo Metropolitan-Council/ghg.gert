@@ -5,36 +5,16 @@ testthat::test_that("calc_housing_leed", {
     leed_table %>%
       dplyr::filter(
         inventory_year == 2050,
-        effective_unit_change_leed > 0
+        new_units > 0,
+        efficiency_description== "new_leed",
+        efficiency_unit_value == 0
       ) %>%
       nrow() %>%
       testthat::expect_equal(0)
   }
 
 
-  test_that("Minnaepolis LEED works", {
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Minneapolis",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0.5,
-        .new_mf_homes_leed_gold_pct = 0,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
-
-
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Minneapolis",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0,
-        .new_mf_homes_leed_gold_pct = 0.5,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
+  test_that("Minneapolis LEED works", {
 
 
     leed0 <- calc_housing_leed(
@@ -48,7 +28,9 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
+    testthat::expect_equal(sum(leed0 %>%
+                                 filter(efficiency_description == "new_leed") %>%
+                                 pull(efficiency_unit_value)), 0)
 
 
     # expect error
@@ -106,29 +88,6 @@ testthat::test_that("calc_housing_leed", {
 
 
   test_that("Blaine LEED works", {
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Blaine",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0.5,
-        .new_mf_homes_leed_gold_pct = 0,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
-
-
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Blaine",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0,
-        .new_mf_homes_leed_gold_pct = 0.5,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
-
 
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
@@ -141,7 +100,9 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
+    testthat::expect_equal(sum(leed0 %>%
+                                 filter(efficiency_description == "new_leed") %>%
+                                 pull(efficiency_unit_value)), 0)
 
 
     # expect error
@@ -201,28 +162,7 @@ testthat::test_that("calc_housing_leed", {
 
 
   test_that("Willernie LEED works", {
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Willernie",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0.5,
-        .new_mf_homes_leed_gold_pct = 0,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
 
-
-    expect_warning(
-      calc_housing_leed(
-        res_tb = building_data$residential,
-        .selected_ctu = "Willernie",
-        .leed_start_year = 2025,
-        .new_sf_homes_leed_gold_pct = 0,
-        .new_mf_homes_leed_gold_pct = 0.5,
-        .enviro_factors = ghg.ccap::enviro_factors
-      )
-    )
 
 
     leed0 <- calc_housing_leed(
@@ -236,7 +176,9 @@ testthat::test_that("calc_housing_leed", {
       suppressWarnings()
 
     # BAU should have no change in effective units
-    testthat::expect_equal(sum(leed0$effective_unit_change_leed), 0)
+    testthat::expect_equal(sum(leed0 %>%
+                                 filter(efficiency_description == "new_leed") %>%
+                                 pull(efficiency_unit_value)), 0)
 
 
     # expect error
