@@ -230,7 +230,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
   #     res
   #   }
 
-  building_module_ouput <- res
+  # building_module_output <- res
 
-  return(building_module_ouput)
+  return(building_module_output)
 }
