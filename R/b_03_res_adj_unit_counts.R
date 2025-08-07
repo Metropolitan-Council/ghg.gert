@@ -3,8 +3,9 @@
 #' @family buildings
 #'
 #' @description This function adjusts the forecasted single-family and multi-family unit counts
-#'    for cities/townships based on the residential inputs table. The purpose is to allow for a specified
-#'    percentage of new single-family homes to be built as multi-family homes instead.
+#'    for cities/townships based on the land use inputs table. Land use will provide an expected change
+#'    in residential density and the ratio to that change and 2040 plans will reduce single family
+#'    detached home to increase single family attached and multifamily homes.
 #'
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
@@ -34,87 +35,59 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn
 adj_unit_counts <- function(res_tb,
-                            .selected_ctu,
-                            .new_homes_to_multifamily_pct) {
+                            density_output = NULL,
+                            .selected_ctu) {
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  if (.new_homes_to_multifamily_pct <= 0) {
-    cli::cli_warn("No single family homes instead built as multifamily homes.")
-    return(res_tb)
-  }
+  if(is.null(density_output)){
+    density_use <- run_scenario_land_use(.selected_ctu = .selected_ctu)} else {
+      density_use <- density_output
+    }
 
-  n_new_homes <-
-    res_tb %>%
-    # select(-value_change_from_base) %>%
-    dplyr::filter(sp_categories %in% c(
-      "multifamily_units",
-      "single_family_units",
-      "single_family_attached",
-      "single_family_small_lot",
-      "single_family_large_lot"
-    )) %>%
-    filter(inventory_year == max(inventory_year))
-
-  # some CTUs are going to decrease the number of single family units
-  # over the next few decades.
-  # We will consider the number of SF units reduced as if they were
-  # being constructed and add them onto the multifamily unit count
-
-  if (any(n_new_homes$value_change_from_base < 0)) {
-    cli::cli_warn(c(
-      "Baseline forecast assumes reducing single family units",
-      "Now reducing single family units further"
-    ))
-  } else if (any(n_new_homes$value_change_from_base == 0)) {
-    cli::cli_warn(c(
-      "Baseline forecast assumes no change in single family units",
-      "No change in housing stock made"
-    ))
-  }
+  density_change = (density_use$expected_density[2] - density_use$expected_density[1]) /
+    density_use$expected_density[1]
 
 
-  sf_now_mf <- n_new_homes %>%
-    dplyr::filter(sp_categories != "multifamily_units") %>%
+  # We will estimate a number of SF units that will be reduced
+  # from 2050 land use changes and assume the same number of single
+  # family attached and multifamily units will be constructed
+
+
+  sfd_reduction <- res_tb %>%
+    dplyr::filter(inventory_year >= 2028,
+                  sp_categories == "single_family_attached") %>%
+    ### ctus that already reducing sfd will reduce further
     dplyr::mutate(
-      new_homes = ifelse(value_change_from_base < 0, abs(value_change_from_base), value_change_from_base),
-      # spread the new % new home to multifamily across
-      # all single family home types
-      now_mf = new_homes * (.new_homes_to_multifamily_pct / nrow(.))
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(geog_name, geog_id, sp_categories, now_mf) %>%
-    unique()
-
-  total_new_mf <- sum(sf_now_mf$now_mf)
-
-  new_units <- res_tb %>%
-    dplyr::filter(sp_categories %in% c(
-      "multifamily_units",
-      "single_family_units",
-      "single_family_attached",
-      "single_family_small_lot",
-      "single_family_large_lot"
+      density_sfd_change =
+        ifelse(value_change_from_base < 0,
+               value_change_from_base * density_change, # for negative values, get more negative with increased density
+               -1 * value_change_from_base * density_change # for positive values, decrease with increased density
     )) %>%
-    dplyr::filter(inventory_year == max(inventory_year)) %>%
-    dplyr::left_join(sf_now_mf, by = c("geog_name", "geog_id", "sp_categories")) %>%
-    # if multifamily, add the now-multifamily units
-    # if single family, subtract the now-multifamily units
+    dplyr::select(geog_name, geog_id, density_sfd_change, inventory_year)
+
+
+  new_res_tb <- res_tb %>%
+   left_join(sfd_reduction,
+             by = join_by(geog_name, geog_id, inventory_year)) %>%
     dplyr::mutate(
-      value = ifelse(sp_categories == "multifamily_units", value + total_new_mf,
-        value - now_mf
-      ),
-      value_change_from_base = ifelse(sp_categories == "multifamily_units", value_change_from_base + total_new_mf,
-        value_change_from_base - now_mf
-      )
-    ) %>%
+      value = case_when(
+        sp_categories %in% c("multifamily_units",
+                             "single_family_attached") &
+          inventory_year >= 2028 ~ value - (density_sfd_change / 2), #half to sfa, half to multifamily
+        sp_categories %in% c("single_family_detached") &
+          inventory_year >= 2028 ~ value + density_sfd_change,
+        TRUE ~ value),
+      value_change_from_base = case_when(
+        sp_categories %in% c("multifamily_units",
+                             "single_family_attached") &
+          inventory_year >= 2028 ~ value_change_from_base - (density_sfd_change / 2), #half to sfa, half to multifamily
+        sp_categories %in% c("single_family_detached") &
+          inventory_year >= 2028 ~ value_change_from_base + density_sfd_change,
+        TRUE ~ value_change_from_base )
+      ) %>%
     dplyr::select(names(res_tb))
 
-  # anti_join to replace original values
-  # return a new version of res_tb
-  new_res_tb <- res_tb %>%
-    dplyr::anti_join(new_units, by = c("geog_name", "geog_id", "inventory_year", "sp_categories")) %>%
-    dplyr::bind_rows(new_units)
 
   return(new_res_tb)
 }

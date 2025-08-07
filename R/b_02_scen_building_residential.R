@@ -97,25 +97,16 @@ scen_building_residential <- function(res_tb = res_tb,
 
 
   # browser()
-  # B.R1 (MF to SF)
-  # tb01 <- ghg.ccap::adj_unit_counts(
-  #   res_tb = res_tb,
-  #   .selected_ctu = .selected_ctu,
-  #   .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct
-  # )
-
-  # # B.R2 (Floor Area change)
-  # # removed this function from active use as it was causing differences between BAU and scenario (with no strategies selected)
-  # tb02 <- calc_floor_area_growth(
-  #   res_tb = tb01,
-  #   .selected_ctu = .selected_ctu,
-  #   .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-  #   .new_homes_affected_pct = .new_homes_affected_pct
-  # )
+  # B.R1 (SF to MF)
+  tb01 <- ghg.ccap::adj_unit_counts(
+    res_tb = res_tb,
+    density_output = NULL,
+    .selected_ctu = .selected_ctu,
+  )
 
   # B.R3 (New Homes LEED Gold)
   tb02 <- calc_housing_leed(
-    res_tb = res_tb,
+    res_tb = tb01,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
     .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
