@@ -33,3 +33,4 @@ data-raw/climate/MnClimat.csv
 data-raw/building_energy_data_processing/grid/generated_emissions_MISO_LRZ_1_2023_2043_co2_for_electricity_1y.csv
 
 data-raw/transportation_data_processing/table_04_23_042425.xlsx
+/data-raw/building_energy_data_processing/resstock data
