@@ -43,7 +43,7 @@ testthat::test_that("All modules run when together", {
       suppressMessages()
   })
 
-  testthat::expect_error({
+  testthat::expect_no_error({
     ft_snelling <- run_all_modules(
       .scenario = "bau",
       .selected_ctu = "Fort Snelling",

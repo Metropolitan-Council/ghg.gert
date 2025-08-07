@@ -20,566 +20,316 @@ test_that("calc_ghg_residential", {
   }
 
 
-  testthat::test_that("Minneapolis  emissions", {
-    leed_table <- calc_housing_leed(
+  testthat::test_that("Residential emission should reduce with interventions - Minneapolis", {
+
+    ### Efficient new buildings
+
+    leed_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Minneapolis",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0,
-      .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Minneapolis",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
+      .scenario = "alt",
+      .selected_ctu = "Minneapolis",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0,
-      .scenario = "alt",
-      .selected_ctu = "Minneapolis",
-      .enviro_factors = enviro_factors
-    )
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Minneapolis",
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
-  })
 
-  testthat::test_that("Minneapolis  emissions interventions 1", {
-    leed_table <- calc_housing_leed(
+    ### Retrofit existing buildings
+
+    retro_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Minneapolis",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.5,
-      .new_mf_homes_leed_gold_pct = 0.5,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Minneapolis",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.5,
-      .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Minneapolis",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-  testthat::test_that("Minneapolis  emissions interventions 2", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Minneapolis",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.1,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Minneapolis",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.25,
-      .mf_heat_pump_pct = 0.15,
-      .scenario = "alt",
-      .selected_ctu = "Minneapolis",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Minneapolis",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-  testthat::test_that("Minneapolis  emissions interventions 3", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Minneapolis",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.60,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Minneapolis",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.8,
-      .mf_heat_pump_pct = 0.0,
-      .scenario = "alt",
-      .selected_ctu = "Minneapolis",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Minneapolis",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-
-
-
-  testthat::test_that("Saint Paul  emissions", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Saint Paul",
-      .leed_start_year = 2025,
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Saint Paul",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.3,
+      .existing_mf_retrofit_pct = 0.3,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
       .sf_heat_pump_pct = 0,
       .mf_heat_pump_pct = 0,
-      .scenario = "alt",
-      .selected_ctu = "Saint Paul",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Saint Paul",
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
-  })
+    #install heat pumps
 
-  testthat::test_that("Saint Paul  emissions interventions 1", {
-    leed_table <- calc_housing_leed(
+    heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Saint Paul",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.5,
-      .new_mf_homes_leed_gold_pct = 0.5,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Saint Paul",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.5,
-      .mf_heat_pump_pct = 0.5,
       .scenario = "alt",
-      .selected_ctu = "Saint Paul",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Saint Paul",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-  testthat::test_that("Saint Paul  emissions interventions 2", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Saint Paul",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.1,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Saint Paul",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.25,
-      .mf_heat_pump_pct = 0.15,
-      .scenario = "alt",
-      .selected_ctu = "Saint Paul",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Saint Paul",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-  testthat::test_that("Saint Paul  emissions interventions 3", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Saint Paul",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.60,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Saint Paul",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.8,
-      .mf_heat_pump_pct = 0.0,
-      .scenario = "alt",
-      .selected_ctu = "Saint Paul",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Saint Paul",
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
-    )
-
-    test_emissions(ghg_table)
-  })
-
-
-
-  testthat::test_that("Brooklyn Park  emissions", {
-    leed_table <- calc_housing_leed(
-      res_tb = building_data$residential,
-      .selected_ctu = "Brooklyn Park",
-      .leed_start_year = 2025,
+      .selected_ctu = "Minneapolis",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Brooklyn Park",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
-      res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0,
-      .mf_heat_pump_pct = 0,
-      .scenario = "alt",
-      .selected_ctu = "Brooklyn Park",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Brooklyn Park",
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.3,
+      .mf_heat_pump_pct = 0.3,
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
-  })
+    # combination
 
-  testthat::test_that("Brooklyn Park  emissions interventions 1", {
-    leed_table <- calc_housing_leed(
+
+    combo_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Brooklyn Park",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.5,
-      .new_mf_homes_leed_gold_pct = 0.5,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Brooklyn Park",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
+      .scenario = "alt",
+      .selected_ctu = "Minneapolis",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.4,
+      .existing_mf_retrofit_pct = 0.4,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
       .sf_heat_pump_pct = 0.5,
       .mf_heat_pump_pct = 0.5,
-      .scenario = "alt",
-      .selected_ctu = "Brooklyn Park",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Brooklyn Park",
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
+    purrr::map(
+      list(leed_table, retro_table, heatpump_table, combo_table),
+      test_emissions
+    )
+
+  })
+
+  testthat::test_that("Energy residential should reduce with interventions - Maple Grove", {
+
+    ### Maple Grove ----
+
+    ### Efficient new buildings
+
+    leed_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+
+    ### Retrofit existing buildings
+
+    retro_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.3,
+      .existing_mf_retrofit_pct = 0.3,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    #install heat pumps
+
+    heatpump_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.3,
+      .mf_heat_pump_pct = 0.3,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    # combination
+
+
+    combo_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.4,
+      .existing_mf_retrofit_pct = 0.4,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.5,
+      .mf_heat_pump_pct = 0.5,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    purrr::map(
+      list(leed_table, retro_table, heatpump_table, combo_table),
+      test_emissions
+    )
   })
 
 
-  testthat::test_that("Brooklyn Park  emissions interventions 2", {
-    leed_table <- calc_housing_leed(
+
+  testthat::test_that("Energy residential should reduce with interventions - New Germany", {
+
+    ### New Germany ----
+
+    ### Efficient new buildings
+
+    leed_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Brooklyn Park",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.1,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Brooklyn Park",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.25,
-      .mf_heat_pump_pct = 0.15,
       .scenario = "alt",
-      .selected_ctu = "Brooklyn Park",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Brooklyn Park",
+      .selected_ctu = "New Germany",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
-  })
 
+    ### Retrofit existing buildings
 
-  testthat::test_that("Brooklyn Park  emissions interventions 3", {
-    leed_table <- calc_housing_leed(
+    retro_table <- scen_building_residential(
       res_tb = building_data$residential,
-      .selected_ctu = "Brooklyn Park",
-      .leed_start_year = 2025,
-      .new_sf_homes_leed_gold_pct = 0.60,
-      .new_mf_homes_leed_gold_pct = 0.1,
-      .enviro_factors = ghg.ccap::enviro_factors
-    ) %>%
-      suppressWarnings() %>%
-      calc_residential_retrofit(
-        res_tb = .,
-        .selected_ctu = "Brooklyn Park",
-        .retrofit_start_year = 2025,
-        .existing_sf_retrofit_pct = 0,
-        .existing_mf_retrofit_pct = 0,
-      ) %>%
-      suppressWarnings()
-
-
-    energy_table <- calc_energy_residential(
-      res_tb = leed_table,
       res_tb_bau = building_data$residential,
-      .mwh_coefficients = mwh_coefficients,
-      .mcf_coefficients = mcf_coefficients,
-      .heatpump_start_year = 2025,
-      .baseline_year = 2021,
-      .sf_heat_pump_pct = 0.8,
-      .mf_heat_pump_pct = 0.0,
       .scenario = "alt",
-      .selected_ctu = "Brooklyn Park",
-      .enviro_factors = enviro_factors
-    ) %>%
-      suppressWarnings()
-
-
-    ghg_table <- calc_ghg_residential(
-      res_energy = energy_table,
-      .selected_ctu = "Brooklyn Park",
+      .selected_ctu = "New Germany",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.3,
+      .existing_mf_retrofit_pct = 0.3,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
       .grid_emissions = ghg.ccap::grid_emissions,
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    test_emissions(ghg_table)
+    #install heat pumps
+
+    heatpump_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "New Germany",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.3,
+      .mf_heat_pump_pct = 0.3,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    # combination
+
+
+    combo_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "New Germany",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.4,
+      .existing_mf_retrofit_pct = 0.4,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.5,
+      .mf_heat_pump_pct = 0.5,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    purrr::map(
+      list(leed_table, retro_table, heatpump_table, combo_table),
+      test_emissions
+    )
   })
 })

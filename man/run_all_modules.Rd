@@ -80,8 +80,9 @@ run_all_modules(
 
 \item{run_transportation}{logical. Default is \code{TRUE}}
 
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Data table with non-residential building attributes. Package provided.

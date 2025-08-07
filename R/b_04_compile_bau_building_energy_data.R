@@ -15,9 +15,9 @@ compile_bau_building_energy <-
 
     building_data$residential <- bind_rows(
       building_energy_data$ctu_mfh,
-      building_energy_data$ctu_sfh_attached,
-      building_energy_data$ctu_sfh_large_lot,
-      building_energy_data$ctu_sfh_small_lot
+      building_energy_data$ctu_sf_attached,
+      building_energy_data$ctu_sf_detached,
+      building_energy_data$ctu_manufactured
     )
 
     building_data$non_residential <- bind_rows(

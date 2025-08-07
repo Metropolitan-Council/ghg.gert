@@ -11,8 +11,9 @@ get_by_county_non_residential_energy_baseline(
 )
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
@@ -28,6 +29,7 @@ The output is a tibble containing the non-residential energy baseline for the se
 Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
