@@ -45,7 +45,8 @@ imagineCommDesgn_mwh_per_job_2022 <- electricity_mwh_per_job_ctu_2022 %>%
   ) %>%
   mutate(
     mwh_per_job = total_mwh / total_jobs
-  )
+  ) %>%
+  select(-total_mwh, -total_jobs)
 
 
 regional_mwh_per_job_2022 <- electricity_mwh_per_job_ctu_2022 %>%
@@ -87,7 +88,8 @@ imagineCommDesgn_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
   ) %>%
   mutate(
     mcf_per_job = total_mcf / total_jobs
-  )
+  ) %>%
+  select(-total_mcf, -total_jobs)
 
 regional_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
   summarise(
@@ -97,3 +99,11 @@ regional_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
   mutate(
     mcf_per_job = total_mcf / total_jobs
   )
+
+imagine_commDesgn_mwh_mcf_perJob_coefficients <- imagineCommDesgn_mcf_per_job_2022 %>%
+  left_join(imagineCommDesgn_mwh_per_job_2022,
+            by = join_by(imagine_designation)
+  )
+
+
+usethis::use_data(imagine_commDesgn_mwh_mcf_perJob_coefficients, overwrite = TRUE)

@@ -19,17 +19,15 @@
 #'     the default value. `res_tb_bau` is only used for the "business as usual"
 #'     scenario, in contrast `res_tb` is used as the input for the decarbonization scenario.
 #'
-#' @inheritParams adj_unit_counts
 #' @inheritParams calc_electrify_residential_heating
-#' @inheritParams calc_ghg_residential
-#' @inheritParams calc_energy_residential
-#' @inheritParams calc_residential_renewable_ng
+#' @inheritParams calc_ghg_non_residential
+#' @inheritParams calc_energy_non_residential
 #' @inheritParams scen_building_non_residential
 #' @inheritParams run_scenario_building
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams run_all_modules
 #' @inheritParams calc_housing_leed
-#' @inheritParams calc_residential_retrofit
+#' @inheritParams calc_non_residential_retrofit
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns
@@ -65,8 +63,8 @@
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
-scen_building_non_residential <- function(res_tb = res_tb,
-                                      res_tb_bau = res_tb_bau,
+scen_building_non_residential <- function(non_res_tb = non_res_tb,
+                                      non_res_tb_bau = non_res_tb_bau,
                                       .scenario = "",
                                       .selected_ctu,
                                       .baseline_year,
