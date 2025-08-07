@@ -101,7 +101,7 @@ scen_building_residential <- function(res_tb = res_tb,
   tb01 <- ghg.ccap::adj_unit_counts(
     res_tb = res_tb,
     density_output = NULL,
-    .selected_ctu = .selected_ctu,
+    .selected_ctu = .selected_ctu
   )
 
   # B.R3 (New Homes LEED Gold)
