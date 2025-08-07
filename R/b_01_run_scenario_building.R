@@ -193,28 +193,20 @@ run_scenario_building <- function(res_tb = building_data$residential,
       )
   }
 
-  # if (run_non_residential == TRUE) {
-  #   non_res <-
-  #     scen_building_non_residential(
-  #       non_res_tb = non_res_tb,
-  #       non_res_tb_bau = non_res_tb_bau,
-  #       .selected_ctu = .selected_ctu,
-  #       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-  #       .electrified_buildings_pct = .electrified_buildings_pct,
-  #       .grid_decarbonization_pct = .grid_decarbonization_pct,
-  #       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-  #       .renewable_ng_nonres = .renewable_ng_nonres,
-  #       .enviro_factors = .enviro_factors
-  #     ) %>%
-  #     dplyr::mutate(year = as.character(year)) %>%
-  #     dplyr::filter(!(var %in% c(
-  #       "commercial_electricity_emissions_kg_co",
-  #       "industrial_electricity_emissions_kg_co",
-  #       "commercial_natural_gas_emissions_kg_co",
-  #       "industrial_natural_gas_emissions_kg_co",
-  #       "total_industrial_commercial_emissions"
-  #     )))
-  # }
+  if (run_non_residential == TRUE) {
+    non_res <-
+      scen_building_non_residential(
+        non_res_tb = non_res_tb,
+        non_res_tb_bau = non_res_tb_bau,
+        .selected_ctu = .selected_ctu,
+        .scenario = .scenario,
+        .baseline_year = .baseline_year,
+        .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+        .electrified_buildings_pct = .electrified_buildings_pct,
+        .enviro_factors = .enviro_factors,
+        .grid_emissions = .grid_emissions
+      )
+  }
 
   # building_module_ouput <-
   #   if (run_residential == TRUE & run_non_residential == TRUE) {
