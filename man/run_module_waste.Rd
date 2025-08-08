@@ -52,6 +52,12 @@ run_module_waste(
 
 \item{.diverted_to_organics_end}{single value, year to end source diversion}
 
+\item{.diverted_to_wte_pct}{single value, percent of solid waste that's diverted to waste-to-energy}
+
+\item{.diverted_to_wte_start}{single value, year to start source diversion (waste-to-energy)}
+
+\item{.diverted_to_wte_end}{single value, year to end source diversion (waste-to-energy)}
+
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
 
 \item{.methane_recovery_start}{single value, year when methane recovery starts}

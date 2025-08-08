@@ -14,6 +14,7 @@
 #' @inheritParams calculate_waste_reduction
 #' @inheritParams divert_to_recycling
 #' @inheritParams divert_to_organics
+#' @inheritParams divert_waste
 #' @inheritParams calculate_landfill_emissions
 #' @inheritParams calculate_incin_emissions
 #' @inheritParams calculate_organic_emissions
@@ -128,6 +129,28 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       .waste_reduction_end = .waste_reduction_end
     )
   }
+
+  browser()
+  # Module 2 - Divert from Landfills to Recycling, Organics, WTE
+  if (.diverted_to_recycle_pct == 0 & .diverted_to_organics_pct == 0 & .diverted_to_wte_pct == 0) {
+    tb_future <- tb_future
+  } else {
+    tb_future <- ghg.ccap::divert_waste(
+      waste_tb = tb_future,
+      .diverted_to_recycle_pct = .diverted_to_recycle_pct,
+      .diverted_to_recycle_start = .diverted_to_recycle_start,
+      .diverted_to_recycle_end = .diverted_to_recycle_end,
+      .diverted_to_organics_pct = .diverted_to_organics_pct,
+      .diverted_to_organics_start = .diverted_to_organics_start,
+      .diverted_to_organics_end = .diverted_to_organics_end,
+      .diverted_to_wte_pct = .diverted_to_wte_pct,
+      .diverted_to_wte_start = .diverted_to_wte_start,
+      .diverted_to_wte_end = .diverted_to_wte_end
+    )
+  }
+
+  browser()
+
 
 
   # Module 2 - Source diversion: Landfills to Recycling
