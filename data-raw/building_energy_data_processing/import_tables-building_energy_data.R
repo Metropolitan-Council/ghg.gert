@@ -6,6 +6,11 @@ library(purrr)
 library(ghg.ccap)
 library(councilR)
 
+# get Imagine community designations
+cprg_ctu_desgn <- readRDS("C:/Users/LimeriSA/Documents/Projects/ghg-cprg/_meta/data/cprg_ctu.RDS") %>%
+  sf::st_drop_geometry() %>%
+  select(ctu_name, ctu_class, imagine_designation)
+
 # import tables
 building_energy_data <- c()
 
@@ -91,7 +96,13 @@ building_energy_data$electricity_business_ctu <-
     mwh = business_mwh,
     geog_name = ctu_name,
     geog_level = ctu_class
+  ) %>%
+  left_join(cprg_ctu_desgn,
+            by = join_by(geog_name == ctu_name,
+                         geog_level == ctu_class),
+            relationship = "many-to-many"
   )
+
 
 building_energy_data$natural_gas_residential_ctu <-
   readr::read_rds(
@@ -113,6 +124,11 @@ building_energy_data$natural_gas_business_ctu <-
     mcf = business_mcf,
     geog_name = ctu_name,
     geog_level = ctu_class
+  ) %>%
+  left_join(cprg_ctu_desgn,
+            by = join_by(geog_name == ctu_name,
+                         geog_level == ctu_class),
+            relationship = "many-to-many"
   )
 
 county_elec_data <-
