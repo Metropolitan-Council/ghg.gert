@@ -95,9 +95,9 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   tb02 <- calc_electrified_buildings(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .electrified_buildings_start_year,
-    .electrified_buildings_end_year,
-    .electrified_buildings_pct,
+    .electrified_buildings_start_year = .electrified_buildings_start_year,
+    .electrified_buildings_end_year = .electrified_buildings_end_year,
+    .electrified_buildings_pct = .electrified_buildings_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -105,10 +105,9 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   tb03 <- calc_high_efficiency(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .retrofit_start_year = .retrofit_start_year,
-    .retrofit_end_year = .retrofit_end_year,
-    .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
-    .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
+    .high_efficiency_start_year = .high_efficiency_start_year,
+    .high_efficiency_end_year = .high_efficiency_end_year,
+    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
     .enviro_factors = .enviro_factors
   )
 
@@ -118,23 +117,21 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   )
 
   # repeat with no changes for BAU scenario
-
-  tb05 <- calc_housing_leed(
-    res_tb = res_tb,
+  tb05 <- calc_electrified_buildings(
+    non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .leed_start_year = .leed_start_year,
-    .new_sf_homes_leed_gold_pct = 0,
-    .new_mf_homes_leed_gold_pct = 0,
+    .electrified_buildings_start_year = .electrified_buildings_start_year,
+    .electrified_buildings_end_year = .electrified_buildings_end_year,
+    .electrified_buildings_pct = 0.0,
     .enviro_factors = .enviro_factors
   )
 
-  tb06 <- calc_residential_retrofit(
-    res_tb = res_tb,
+  tb06 <- calc_high_efficiency(
+    non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .retrofit_start_year = .retrofit_start_year,
-    .retrofit_end_year = .retrofit_end_year,
-    .existing_sf_retrofit_pct = 0,
-    .existing_mf_retrofit_pct = 0,
+    .high_efficiency_start_year = .high_efficiency_start_year,
+    .high_efficiency_end_year = .high_efficiency_end_year,
+    .existing_high_efficiency_buildings_pct = 0.0,
     .enviro_factors = .enviro_factors
   )
 
@@ -143,9 +140,9 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     tb06
   )
 
-  tb09 <- calc_energy_residential(
-    res_tb = tb04,
-    res_tb_bau = tb07,
+  tb09 <- calc_energy_non_residential(
+    non_res_tb = tb04,
+    non_res_tb_bau = tb07,
     .scenario = .scenario,
     .baseline_year = .baseline_year,
     .heatpump_start_year = .heatpump_start_year,
@@ -156,8 +153,8 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .enviro_factors = .enviro_factors
   )
 
-  tb_out <- calc_ghg_residential(
-    res_energy = tb09,
+  tb_out <- calc_ghg_non_residential(
+    non_res_energy = tb09,
     .selected_ctu = .selected_ctu,
     .grid_emissions = .grid_emissions,
     .enviro_factors = .enviro_factors
