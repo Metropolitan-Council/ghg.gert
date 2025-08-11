@@ -9,15 +9,15 @@
 #' @note To run the Building Energy Module, refer to function `run_scenario_building()`
 #'     For more details, see `vignette("building_energy_module_inputs_residential")`
 #'
-#' @param res_tb [tibble::tibble()], data table with residential building attributes.
-#'      Package provided dataset `building_energy$residential` is suitable and the
+#' @param non_res_tb [tibble::tibble()], data table with non-residential building attributes (jobs).
+#'      Package provided dataset `building_energy$non_residential` is suitable and the
 #'      default value.
-#'     `res_tb_bau` is only used for the "business as usual" scenario, in contrast
-#'     `res_tb` is used as the input for the decarbonization scenario.
-#' @param res_tb_bau [tibble::tibble()]. Data table with residential building attributes.
-#'     Package provided dataset `building_energy$residential` is suitable and
-#'     the default value. `res_tb_bau` is only used for the "business as usual"
-#'     scenario, in contrast `res_tb` is used as the input for the decarbonization scenario.
+#'     `non_res_tb_bau` is only used for the "business as usual" scenario, in contrast
+#'     `non_res_tb` is used as the input for the decarbonization scenario.
+#' @param non_res_tb_bau [tibble::tibble()]. Data table with non residential building attributes (jobs).
+#'     Package provided dataset `building_energy$non_residential` is suitable and
+#'     the default value. `non_res_tb_bau` is only used for the "business as usual"
+#'     scenario, in contrast `non_res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @inheritParams calc_electrify_residential_heating
 #' @inheritParams calc_ghg_non_residential
@@ -35,7 +35,7 @@
 #'
 #'      @field `geog_name` character,  Name of the city/township.
 #'      @field `year` numeric, Year.
-#'      @field `var` character,. Can be `residential_mwh`, `residential_therms`,
+#'      @field `var` character,. Can be `non_residential_mwh`, `non_residential_therms`,
 #'           `residential_electricity_emissions_kg_co`,
 #'           or `residential_natural_gas_emissions_kg_co`.
 #'      @field value, numeric. The numeric value of `var`.
@@ -47,51 +47,31 @@
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' scen_building_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .new_homes_to_multifamily_pct = 0.50,
-#'   .single_family_floor_area_growth_pct = 0.05,
-#'   .new_homes_affected_pct = 0.50,
-#'   .new_homes_leed_gold_pct = 0.50,
-#'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .home_behavior_change_pct = 1.00,
-#'   .grid_decarbonization_pct = 1,
-#'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .enviro_factors = enviro_factors
-#' )
+#' scen_building_non_residential(
+#'    non_res_tb = non_res_tb,
+#'    non_res_tb_bau = non_res_tb_bau,
+#'    .selected_ctu = "all"
+#'    .existing_high_efficiency_buildings_pct = 0.25
+#'    .electrified_buildings_pct = 0.5
+#'    .enviro_factors = .enviro_factors,
+#'    .grid_emissions = .grid_emissions
+#'   )
+#'
 #' }
 scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                       non_res_tb_bau = non_res_tb_bau,
                                       .scenario = "",
                                       .selected_ctu,
                                       .baseline_year,
-                                      # .new_homes_to_multifamily_pct,
-                                      # .single_family_floor_area_growth_pct,
-                                      # .new_homes_affected_pct,
-                                      # .new_homes_leed_gold_pct,
-                                      # .existing_home_retrofit_pct,
-                                      # .existing_home_ultra_retrofit_pct,
-                                      .leed_start_year,
-                                      .new_sf_homes_leed_gold_pct,
-                                      .new_mf_homes_leed_gold_pct,
-                                      .retrofit_start_year,
-                                      .retrofit_end_year,
-                                      .existing_sf_retrofit_pct,
-                                      .existing_mf_retrofit_pct,
-                                      # .home_behavior_change_pct,
-                                      # .grid_decarbonization_pct,
-                                      # .additional_electrified_residential_buildings_pct,
-                                      .heatpump_start_year,
-                                      .heatpump_end_year,
-                                      .sf_heat_pump_pct,
-                                      .mf_heat_pump_pct,
-                                      # .renewable_ng_res,
+                                      .electrified_buildings_start_year,
+                                      .electrified_buildings_end_year,
+                                      .electrified_buildings_pct,
+                                      .high_efficiency_start_year,
+                                      .high_efficiency_end_year,
+                                      .existing_high_efficiency_buildings_pct,
                                       .grid_emissions = ghg.ccap::grid_emissions,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
-  # cli::cli_progress_message("** compiling residential strategies \n")
+  # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
 
   # browser()
@@ -111,19 +91,19 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   #   .new_homes_affected_pct = .new_homes_affected_pct
   # )
 
-  # B.R3 (New Homes LEED Gold)
-  tb02 <- calc_housing_leed(
-    res_tb = res_tb,
+  # B.R3 Electrified Buildigns.... new and existing?
+  tb02 <- calc_electrified_buildings(
+    non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .leed_start_year = .leed_start_year,
-    .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
-    .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
+    .electrified_buildings_start_year,
+    .electrified_buildings_end_year,
+    .electrified_buildings_pct,
     .enviro_factors = .enviro_factors
   )
 
   # B.R4 + BR5 (Retrofit Homes)
-  tb03 <- calc_residential_retrofit(
-    res_tb = res_tb,
+  tb03 <- calc_high_efficiency(
+    non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .retrofit_start_year = .retrofit_start_year,
     .retrofit_end_year = .retrofit_end_year,
