@@ -1,38 +1,36 @@
-#' @title Calculate residential building mwh
+#' @title Calculate non-residential building mwh
 #' @family buildings
-#' @family residential
+#' @family non-residential
 #' @family emissions
 #'
 #' @description Estimates total energy demand
-#'      from the residential building sector by city/township
+#'      from the non-residential building sector by city/township
 #'      for the user-specified scenario, and the business-as-usual scenario.
 #'
-#' @note `calc_energy_residential()` estimates the building energy demand
+#' @note `calc_energy_non_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_residential_building()`].
+#'      residential strategies refer to [`scen_non_residential_building()`].
 #'
-#' @param res_tb [tibble::tibble()].
+#' @param non_res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
-#' @param .sf_heat_pump_pct numeric, percent of single family homes converting to heat pumps
-#' @param .mf_heat_pump_pct numeric, percent of multifamily homes converting to heat pumps
 #'
 #' @inheritParams run_module_transportation
-#' @inheritParams scen_building_residential
+#' @inheritParams scen_building_non_residential
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
 #'    `geog_name`,
 #'    `inventory_year`,
 #'    `geog_id`,
-#'    `residential_mwh`,
-#'    `residential_mcf`,
+#'    `non_residential_mwh`,
+#'    `non_residential_mcf`,
 #'    `scenario`
 #'
 #' @examples
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' calc_ghg_residential(
+#' calc_ghg_non_residential(
 #'   res_tb = building_data$residential,
 #'   res_tb_bau = building_data$residential,
 #'   .selected_ctu = "all",
@@ -41,15 +39,17 @@
 #' )
 #' }
 #' @export
-calc_energy_residential <- function(res_tb,
-                                    res_tb_bau,
-                                    .sf_heat_pump_pct,
-                                    .mf_heat_pump_pct,
+calc_energy_non_residential <- function(non_res_tb,
+                                    non_res_tb_bau,
+                                    .electrified_buildings_start_year,
+                                    .electrified_buildings_end_year,
+                                    .electrified_buildings_pct,
                                     .baseline_year,
                                     .scenario = "alt",
                                     .selected_ctu,
-                                    .heatpump_start_year,
-                                    .heatpump_end_year,
+                                    .high_efficiency_start_year,
+                                    .high_efficiency_end_year,
+                                    .existing_high_efficiency_buildings_pct,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
@@ -59,8 +59,8 @@ calc_energy_residential <- function(res_tb,
 
   # browser()
 
-  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
@@ -68,18 +68,19 @@ calc_energy_residential <- function(res_tb,
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
-        sector == "Residential"
+        sector == "Business"
       ),
     filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
                .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
-        sector == "Residential"
+        sector == "Business"
       ),
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
+  # This is where we scaffold in the Imagine Community Designation lookup table -- imagine_commDesgn_mwh_mcf_perJob_coefficients
   ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu) %>%
     mutate(cat_match = case_when(
       scenario == "baseline" ~ "existing_nonretrofit",
@@ -94,7 +95,7 @@ calc_energy_residential <- function(res_tb,
        filter(inventory_year >= (.baseline_year - 4)) %>%
        pull(mwh) %>%
        sum()) /
-    (res_tb_bau %>%
+    (non_res_tb_bau %>%
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
        distinct(geog_name, sp_categories, inventory_year, value) %>%
        left_join(
