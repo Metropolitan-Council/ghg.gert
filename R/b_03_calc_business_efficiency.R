@@ -137,12 +137,13 @@ calc_high_efficiency <- function(non_res_tb,
 #' )
 #' }
 #'
-calc_residential_retrofit <- function(res_tb,
+
+#
+calc_non_residential_retrofit <- function(res_tb,
                                       .selected_ctu,
-                                      .existing_sf_retrofit_pct,
-                                      .existing_mf_retrofit_pct,
-                                      .retrofit_start_year,
-                                      .retrofit_end_year,
+                                      .existing_non_res_retrofit_pct,
+                                      .non_res_retrofit_start_year,
+                                      .non_res_retrofit_end_year,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
