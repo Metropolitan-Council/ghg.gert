@@ -35,15 +35,10 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn
 adj_unit_counts <- function(res_tb,
-                            density_output = NULL,
+                            density_output,
                             .selected_ctu) {
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-
-  if(is.null(density_output)){
-    density_use <- run_scenario_land_use(.selected_ctu = .selected_ctu)} else {
-      density_use <- density_output
-    }
 
   density_change = (density_use$expected_density[2] - density_use$expected_density[1]) /
     density_use$expected_density[1]
