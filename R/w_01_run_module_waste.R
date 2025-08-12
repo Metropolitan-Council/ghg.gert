@@ -28,6 +28,7 @@
 #'
 #' @export
 #' @importFrom cli cli_progress_message
+#' @importFrom tibble deframe
 #'
 run_module_waste <- function(tb_inv = waste_data$inventory,
                              tb_future = waste_data$projections,
@@ -265,7 +266,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       TRUE ~ source
     )) %>%
     # convert to named vector
-    deframe()
+    tibble::deframe()
 
   # Next let's compile the user inputs for the diversion targets (where applicable)
   user_targets <- c(
