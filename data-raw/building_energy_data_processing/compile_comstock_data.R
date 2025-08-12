@@ -10,7 +10,13 @@ load_comstock <- function(path) {
   readr::read_csv(path) %>%
     janitor::clean_names() %>%
     select(
+      sq_ft = in_sqft_ft2,
+      build_year = in_year_built,
+      building_subtype = in_building_subtype,
+      comstock_building_type = in_comstock_building_type,
+      comstock_building_type_group = in_comstock_building_type_group,
       heating_fuel = in_heating_fuel,
+      hvac_heating_type = in_hvac_heat_type,
       building_kwh = out_electricity_net_energy_consumption_kwh,
       building_nat_gas_kwh = out_natural_gas_total_energy_consumption_kwh,
       building_kwh_savings = out_electricity_net_energy_savings_kwh,
@@ -24,65 +30,47 @@ load_comstock <- function(path) {
 }
 
 ## summarize function
-
-summarize_comstock <- function(df, building_pattern, grouping_vars) {
+summarize_comstock <- function(df) {
   df %>%
-    filter(grepl(building_pattern, building_type, ignore.case = TRUE)) %>%
     summarize(
       median_kwh = median(building_kwh, na.rm = TRUE),
       median_mcf = median(building_mcf, na.rm = TRUE),
+      mean_kwh_savings_nonzero = mean(building_kwh_savings[building_kwh_savings != 0], na.rm = TRUE),
+      mean_mcf_savings_nonzero = mean(building_mcf_savings[building_mcf_savings != 0], na.rm = TRUE),
       .groups = "drop"
     )
 }
 
+# name changed from
 baseline <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock data/MN_baseline_metadata_and_annual_results.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_business_baseline.csv")
 
+# CCHPC — Cold-Climate Heat Pump conversion case (10)
+cchpc <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade10_agg.csv")
 
-# CCHPC — Cold-Climate Heat Pump conversion case
-heatpump <- load_comstock(
-  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade02_metadata_and_annual_results_heat_pump.csv")
-
-envelope <- load_resstock(
-  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade2.04_metadata_and_annual_results_intermediate_envelope.csv")
-
-electrification
+# "Full Electrification": Geothermal Heat Pumps + High-Efficiency Envelope + LED Lighting Package
+electrification <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade57_agg.csv")
 
 # pkg_0009	Demand Flexibility, Lighting + Thermostat Control, Load Shed for Daily Bldg Peak Reduction
-demand_flex <-
+demand_flex <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade55_agg.csv")
 
-deep_efficiency
+# Wall and Roof Insulation, New Windows, LED Lighting,  HP-RTU and ASHP-Boiler (package 3)
+deep_efficiency_retrofit <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade49_agg.csv")
 
 
 
 # summary list
-
-resstock_summaries <- list(
-
-  #baseline summaries
-  mf_baseline = summarize_resstock(baseline, "Multi", "mc_classification"),
-  manufactured_baseline = summarize_resstock(baseline, "Mobile", "mc_classification"),
-  sf_attached_sqft_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "sqft_bin")),
-  sf_attached_year_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "build_year")),
-  sf_detached_sqft_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "build_year")),
-
-  # Heat pump summaries
-  mf_heatpump = summarize_resstock(heatpump, "Multi", "mc_classification"),
-  manufactured_heatpump = summarize_resstock(heatpump, "Mobile", "mc_classification"),
-  sf_attached_sqft_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "sqft_bin")),
-  sf_attached_year_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "build_year")),
-  sf_detached_sqft_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "build_year")),
-
-  # Retrofit summaries
-  mf_envelope = summarize_resstock(envelope, "Multi", "mc_classification"),
-  manufactured_envelope = summarize_resstock(envelope, "Mobile", "mc_classification"),
-  sf_attached_sqft_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "sqft_bin")),
-  sf_attached_year_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "build_year")),
-  sf_detached_sqft_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year"))
+comstock_summaries <- list(
+  baseline = summarize_comstock(baseline),
+  cchpc = summarize_comstock(cchpc),
+  electrification = summarize_comstock(electrification),
+  demand_flex = summarize_comstock(demand_flex),
+  deep_efficiency_retrofit = summarize_comstock(deep_efficiency_retrofit)
 )
 
 
-usethis::use_data(resstock_summaries, overwrite = TRUE)
+usethis::use_data(comstock_summaries, overwrite = TRUE)
