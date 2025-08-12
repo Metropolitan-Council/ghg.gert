@@ -69,6 +69,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # selected CTU
                                   .selected_ctu = "all",
                                   .scenario = "alt",
+                                  # land use module data
+                                  .density_output = density_output,
                                   # non-residential
                                   # electrification
                                   .electrified_buildings_pct = 0.0,
@@ -176,6 +178,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
         res_tb_bau = res_tb_bau,
         .selected_ctu = .selected_ctu,
         .scenario = .scenario,
+        .density_output = .density_output,
         .baseline_year = .baseline_year,
         .leed_start_year = .leed_start_year,
         .retrofit_start_year = .retrofit_start_year,

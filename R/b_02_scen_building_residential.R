@@ -70,6 +70,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .scenario = "",
                                       .selected_ctu,
                                       .baseline_year,
+                                      .density_output,
                                       # .new_homes_to_multifamily_pct,
                                       # .single_family_floor_area_growth_pct,
                                       # .new_homes_affected_pct,
@@ -100,7 +101,7 @@ scen_building_residential <- function(res_tb = res_tb,
   # B.R1 (SF to MF)
   tb01 <- ghg.ccap::adj_unit_counts(
     res_tb = res_tb,
-    density_output = NULL,
+    density_output = .density_output,
     .selected_ctu = .selected_ctu
   )
 
