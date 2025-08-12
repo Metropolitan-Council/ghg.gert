@@ -15,8 +15,8 @@ calculate_waste_reduction <- function(waste_tb,
 
 
   # Input checks
-  if (!is.numeric(.waste_reduction_pct) || .waste_reduction_pct < 0 || .waste_reduction_pct > 100) {
-    stop(".waste_reduction_pct must be a number between 0 and 100.")
+  if (!is.numeric(.waste_reduction_pct) || .waste_reduction_pct < 0 || .waste_reduction_pct > 1) {
+    stop(".waste_reduction_pct must be a number between 0 and 1.")
   }
 
 
@@ -47,7 +47,7 @@ calculate_waste_reduction <- function(waste_tb,
   waste_proj <- waste_tb %>%
     left_join(projections_table, by = "inventory_year") %>%
     dplyr::mutate(
-      value_activity = value_activity * (1 - percent_reduced / 100)
+      value_activity = value_activity * (1 - percent_reduced)
     ) %>%
     dplyr::select(-percent_reduced)
 

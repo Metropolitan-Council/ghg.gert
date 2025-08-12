@@ -14,15 +14,14 @@ run_module_waste(
   .waste_reduction_pct = 0,
   .waste_reduction_start = 2025,
   .waste_reduction_end = 2050,
-  .diverted_to_recycle_pct = 0,
-  .diverted_to_recycle_start = 2025,
-  .diverted_to_recycle_end = 2050,
-  .diverted_to_organics_pct = 0,
-  .diverted_to_organics_start = 2025,
-  .diverted_to_organics_end = 2050,
-  .diverted_to_wte_pct = 0,
-  .diverted_to_wte_start = 2025,
-  .diverted_to_wte_end = 2050,
+  .source_diversion_start = 2025,
+  .source_diversion_end = 2050,
+  .diverted_to_landfill_pct = NULL,
+  .diverted_to_recycle_pct = NULL,
+  .diverted_to_organics_pct = NULL,
+  .diverted_to_wte_pct = NULL,
+  .diverted_to_onsite_pct = NULL,
+  .diverted_to_compost_pct = NULL,
   .methane_recovery_pct = 0,
   .methane_recovery_start = 2025,
   .methane_recovery_end = 2050,
@@ -40,24 +39,6 @@ run_module_waste(
 
 \item{.waste_reduction_end}{single value, year to end waste reduction}
 
-\item{.diverted_to_recycle_pct}{single value, percent of all solid waste activity that is recycled}
-
-\item{.diverted_to_recycle_start}{single value, year to start source diversion}
-
-\item{.diverted_to_recycle_end}{single value, year to end source diversion}
-
-\item{.diverted_to_organics_pct}{single value, percent of all solid waste activity that is composted}
-
-\item{.diverted_to_organics_start}{single value, year to start source diversion}
-
-\item{.diverted_to_organics_end}{single value, year to end source diversion}
-
-\item{.diverted_to_wte_pct}{single value, percent of solid waste that's diverted to waste-to-energy}
-
-\item{.diverted_to_wte_start}{single value, year to start source diversion (waste-to-energy)}
-
-\item{.diverted_to_wte_end}{single value, year to end source diversion (waste-to-energy)}
-
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
 
 \item{.methane_recovery_start}{single value, year when methane recovery starts}
@@ -71,11 +52,11 @@ run_module_waste(
 \item{.anaerobic_digestion_end}{single value, year when anaerobic digestion ends}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
-Returns a table with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+\code{\link[=list]{list()}}.
+Returns a list of tables with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
 \code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
 \code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
-and \code{units_emissions}.
+\code{units_emissions}, \code{bau_activity} and \code{bau_emissions}.
 The table is the output of the waste module, any modification to
 the inputs of the waste module must be specified as an argument
 to the function \code{run_module_waste()}
@@ -85,9 +66,9 @@ This function generates the outputs of the waste module
 for the given scenario at the city/township level. It incorporates various
 parameters to evaluate and analyze different waste scenarios for landfill,
 organics, recycling, and waste to energy. Outputs are
-provided as a tibble with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+provided as a list of tibbles with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
 \code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
 \code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
-and \code{units_emissions}.
+\code{units_emissions}, \code{bau_activity} and \code{bau_emissions}.
 }
 \concept{waste}

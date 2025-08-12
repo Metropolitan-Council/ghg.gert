@@ -7,51 +7,94 @@ library(tidyverse)
 
 test <- run_module_waste(
   .selected_ctu = .ctu,
-  .diverted_to_recycle_pct = 38,
-  .diverted_to_recycle_start = 2030,
-  .diverted_to_recycle_end = 2040,
-  .diverted_to_organics_pct = 35,
-  .diverted_to_organics_start = 2025,
-  .diverted_to_organics_end = 2050
+  .waste_reduction_pct = 0.05,
+  .waste_reduction_end = 2035,
+  .source_diversion_start = 2030,
+  .source_diversion_end = 2040,
+  .diverted_to_landfill_pct = 0.05
+  # .source_diversion_start = 2030,
+  # .source_diversion_end = 2040,
+  # .diverted_to_landfill_pct = 0.05
 )
 
-test$emissions$inv %>% tail(5)
-test$emissions$future %>% head(5)
 
 
 
-current <- run_module_waste(waste_tb = waste_data$ctu$projections,
-                            waste_char = waste_data$characterization,
-                            .selected_ctu = .ctu,
-                            .methane_recovery_pct = 0.5,
-                            .methane_recovery_start = 2030,
-                            .methane_recovery_end = 2040,
-                            .anaerobic_digestion_pct = 0)
-current %>% filter(source %in% c("Waste to energy"))
-current %>% arrange(inventory_year, source)
-waste_data$ctu$projections %>% filter(source %in% c("Waste to energy"))
 
 
-waste_data$ctu$baseline %>%
-  filter(inventory_year == 2022) %>%
-  group_by(geog_id) %>%
-  mutate(total_activity = sum(value_activity),
-         pct_of_total = value_activity / total_activity) %>%
+
+p1 <- rbind(test$activity$inv,
+            test$activity$future) %>%
+  # create a wedge diagram of activities separated by fill color based on source
+  # use ggplot2
   ggplot() +
-  geom_histogram(aes(x=pct_of_total)) +
-  facet_wrap(~source, scales = "free_y")
+  geom_area(
+    aes(
+      x = inventory_year,
+      y = value_activity,
+      fill = source,
+      group = source
+    ),
+    position = "stack",
+    alpha = 0.8, show.legend = FALSE
+  ) +
+  geom_line(aes(x=inventory_year, y=bau_activity), color="black", size=1, linetype="11") +
+  lims(y=c(0,1e5)) +
+  labs(title="BAU waste scenario",
+       y="Waste generated (metric tons)",
+       x=NULL) +
 
+  rbind(
+    tb_inv,
+    tb_proj_01
+  ) %>%
+  left_join(tb_bau %>% group_by(inventory_year) %>% summarize(bau_activity = head(bau_activity,1))) %>%
+  # create a wedge diagram of activities separated by fill color based on source
+  # use ggplot2
+  ggplot() +
+  geom_area(
+    aes(
+      x = inventory_year,
+      y = value_activity,
+      fill = source,
+      group = source
+    ),
+    position = "stack",
+    alpha = 0.8, show.legend = FALSE
+  ) +
+  geom_line(aes(x=inventory_year, y=bau_activity), color="black", size=1, linetype="11") +
+  lims(y=c(0,1e5)) +
+  labs(
+    title = paste0("Waste reduced by ", .waste_reduction_pct*100, "%"),
+    y = NULL,
+    x = NULL
+  ) +
+  theme(axis.text.y = element_blank()) +
 
-# current <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "current_conservation_tillage")
-# double <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "double_conservation_tillage")
-# all <- run_scenario_land_use(.selected_ctu = .ctu, .conservation_tillage_intervention = "maximum_conservation_tillage")
-#
-#
-# together <- bind_rows(current, double) %>%
-#   bind_rows(all) %>%
-#   filter(str_detect(var, "stock")) %>%
-#   select(geog_name, year, var, conservation_tillage_intervention, value) %>%
-#   pivot_wider(names_from = conservation_tillage_intervention, values_from = value)
-#
-# together %>%
-#   filter(maximum_conservation_tillage > current_conservation_tillage)
+  rbind(
+    tb_inv,
+    tb_proj_02
+  ) %>%
+  left_join(tb_bau %>% group_by(inventory_year) %>% summarize(bau_activity = head(bau_activity,1))) %>%
+  # create a wedge diagram of activities separated by fill color based on source
+  # use ggplot2
+  ggplot() +
+  geom_area(
+    aes(
+      x = inventory_year,
+      y = value_activity,
+      fill = source,
+      group = source
+    ),
+    position = "stack",
+    alpha = 0.8
+  ) +
+  geom_line(aes(x=inventory_year, y=bau_activity), color="black", size=1, linetype="11") +
+  lims(y=c(0,1e5)) +
+  labs(
+    title = paste0("Waste reduced by ", .waste_reduction_pct*100, "%, with source diversions"),
+    y = NULL,
+    x = NULL
+  ) +
+  theme(axis.text.y = element_blank())
+
