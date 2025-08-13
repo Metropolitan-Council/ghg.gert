@@ -40,8 +40,8 @@ adj_unit_counts <- function(res_tb,
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  density_change = (density_use$expected_density[2] - density_use$expected_density[1]) /
-    density_use$expected_density[1]
+  density_change = (density_output$expected_density[2] - density_output$expected_density[1]) /
+    density_output$expected_density[1]
 
 
   # We will estimate a number of SF units that will be reduced
