@@ -139,7 +139,7 @@ calc_energy_non_residential <- function(non_res_tb,
 
 
   inventories_combined <- (ghg.ccap::building_energy_data$electricity_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mwh)) %>%
-    inner_join((ghg.ccap::building_energy_data$natgas_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mcf)),
+    left_join((ghg.ccap::building_energy_data$natgas_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mcf)),
               by = join_by(geog_name,  geog_level, sector, inventory_year)
     ) %>%
     filter(!is.na(mcf) | !is.na(mwh)) %>%
