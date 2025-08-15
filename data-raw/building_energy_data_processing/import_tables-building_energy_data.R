@@ -185,6 +185,10 @@ building_energy_data$electricity_inventory <-
     inventory_year,
     mwh
   ) %>%
+  # Get rid of Twp. in names
+  mutate(
+    geog_name = gsub("\\s*Twp\\.", "", geog_name)
+  )
   bind_rows(county_elec_data)
 
 

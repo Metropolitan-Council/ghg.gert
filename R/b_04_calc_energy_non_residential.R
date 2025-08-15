@@ -81,6 +81,24 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
+  baseline_energy_all_temp <- left_join(
+    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
+               .selected_ctu = .selected_ctu
+    ) %>%
+      dplyr::filter(
+        inventory_year <= .baseline_year,
+        sector == "Business"
+      ),
+    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
+               .selected_ctu = .selected_ctu
+    ) %>%
+      dplyr::filter(
+        inventory_year <= .baseline_year,
+        sector == "Business"
+      ),
+    by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
+  )
+
   # This is where we scaffold in the Imagine Community Designation lookup table -- imagine_commDesgn_mwh_mcf_perJob_coefficients
   commDesgn_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients
 
@@ -118,6 +136,35 @@ calc_energy_non_residential <- function(non_res_tb,
        mutate(mcf_pred = value * mcf_per_job) %>%
        pull(mcf_pred) %>%
        sum())
+
+
+  inventories_combined <- (ghg.ccap::building_energy_data$electricity_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mwh)) %>%
+    inner_join((ghg.ccap::building_energy_data$natgas_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mcf)),
+              by = join_by(geog_name,  geog_level, sector, inventory_year)
+    ) %>%
+    filter(!is.na(mcf) | !is.na(mwh)) %>%
+    filter(sector == "Business") %>%
+    left_join(
+      cprg_ctu_desgn,
+      by = join_by("geog_name" == "ctu_name",
+                   "geog_level" == "ctu_class")
+    )
+
+  elec<- ghg.ccap::building_energy_data$electricity_inventory
+  ng <- ghg.ccap::building_energy_data$natgas_inventory
+
+  temp_bau_forecast_approach <- non_res_tb_bau %>%
+    distinct(geog_name, imagine_designation, inventory_year, value) %>%
+    left_join(
+      commDesgn_energy_profile %>%
+        filter(scenario == "baseline"),
+      by = "imagine_designation"
+    ) %>%
+    filter(!is.na(imagine_designation)) %>%
+    mutate(mcf_pred = value * mcf_per_job) %>%
+    left_join(inventories_combined,
+              by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
+    )
 
   # calculate expected energy load for cities here
   # heat pump expected energy will be lowered for retrofit homes
