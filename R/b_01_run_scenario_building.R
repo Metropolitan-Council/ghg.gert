@@ -59,9 +59,9 @@
 #' }
 #'
 run_scenario_building <- function(res_tb = building_data$residential,
-                                  non_res_tb = building_data$non_residential,
+                                  non_res_tb = building_energy_data$jobs,
                                   res_tb_bau = building_data$residential,
-                                  non_res_tb_bau = building_data$non_residential,
+                                  non_res_tb_bau = building_energy_data$jobs,
                                   run_residential = TRUE,
                                   run_non_residential = FALSE,
                                   .baseline_year = 2022,

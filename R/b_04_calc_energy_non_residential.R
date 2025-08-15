@@ -53,14 +53,15 @@ calc_energy_non_residential <- function(non_res_tb,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
-  check_inputs(name = "single_family_heat_pump_pct", .sf_heat_pump_pct)
-  check_inputs(name = "multifamily_heat_pump_pct", .mf_heat_pump_pct)
-  check_inputs(name = "heatpump_start_year", .heatpump_start_year)
+  check_inputs(name = "electrified_buildings_pct", .electrified_buildings_pct)
+  check_inputs(name = "existing_high_efficiency_buildings_pct", .existing_high_efficiency_buildings_pct)
+  check_inputs(name = "electrified_buildings_start_year", .electrified_buildings_start_year)
+  check_inputs(name = "high_efficiency_start_year", .high_efficiency_start_year)
 
   # browser()
 
   non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
@@ -81,13 +82,7 @@ calc_energy_non_residential <- function(non_res_tb,
   )
 
   # This is where we scaffold in the Imagine Community Designation lookup table -- imagine_commDesgn_mwh_mcf_perJob_coefficients
-  ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu) %>%
-    mutate(cat_match = case_when(
-      scenario == "baseline" ~ "existing_nonretrofit",
-      scenario == "retrofit" ~ "retrofit_units",
-      scenario == "new_build" ~ "new_non_leed",
-      TRUE ~ scenario
-    ))
+  commDesgn_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-

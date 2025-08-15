@@ -74,6 +74,9 @@ building_energy_data$commercial_jobs <-
 building_energy_data$industrial_jobs <-
   demographic_data %>% filter(sp_categories == "industrial_jobs")
 
+building_energy_data$jobs <-
+  demographic_data %>% filter(sp_categories == "jobs")
+
 # residential baseline
 ## -------------------------------------------------------------------------------------------
 building_energy_data$electricity_residential_ctu <-
