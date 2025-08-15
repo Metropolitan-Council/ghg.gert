@@ -65,4 +65,36 @@ comstock_summaries <- list(
   electrification = summarize_comstock(electrification)
 )
 
+# JOIN COMSTOCK DATA TO COMMUNITY DESIGNATION FACTORS TO DERIVE PER-SCENARIO, PER-JOB MWH & MWH NUMBERS FOR EACH COMM DESIGNATION
+
+# Baseline per job numbers for each community designation
+baseline_tbl <- ghg.ccap::imagine_commDesgn_mwh_mcf_perJob_coefficients
+
+# Extract baseline medians
+baseline_mcf <- comstock_summaries$baseline$median_mcf
+baseline_kwh <- comstock_summaries$baseline$median_kwh
+
+# Function to compute scaled per-job values for each community designation
+scale_scenario <- function(scenario_name) {
+  median_vals <- comstock_summaries[[scenario_name]]
+  mcf_ratio <- median_vals$median_mcf / baseline_mcf
+  mwh_ratio <- median_vals$median_kwh / baseline_kwh
+
+  baseline_tbl %>%
+    mutate(
+      mcf_per_job = mcf_per_job * mcf_ratio,
+      mwh_per_job = mwh_per_job * mwh_ratio,
+      scenario = scenario_name
+    )
+}
+
+# Bind all scenarios together -- probably a nicer way to name this
+imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients <- bind_rows(
+  baseline_tbl %>% mutate(scenario = "baseline"),
+  scale_scenario("retrofit_efficiency"),
+  scale_scenario("electrification")
+) %>%
+  select(scenario, imagine_designation, mcf_per_job, mwh_per_job)
+
 usethis::use_data(comstock_summaries, overwrite = TRUE)
+usethis::use_data(imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients, overwrite = TRUE)
