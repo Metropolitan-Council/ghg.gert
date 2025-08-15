@@ -19,6 +19,7 @@ building_energy_data <- c()
 
 load("data/demographic_data.rda")
 
+
 # demographic baseline
 ## -------------------------------------------------------------------------------------------
 building_energy_data$ztrax_sqft_summary_county <-
@@ -75,7 +76,14 @@ building_energy_data$industrial_jobs <-
   demographic_data %>% filter(sp_categories == "industrial_jobs")
 
 building_energy_data$jobs <-
-  demographic_data %>% filter(sp_categories == "jobs")
+  demographic_data %>% filter(sp_categories == "jobs") %>%
+  mutate(
+    geog_name = gsub("\\s*Twp\\.", "", geog_name)
+  ) %>%
+  left_join(cprg_ctu_desgn,
+            by = join_by(geog_name == ctu_name,
+                         geog_level == ctu_class)
+  )
 
 # residential baseline
 ## -------------------------------------------------------------------------------------------

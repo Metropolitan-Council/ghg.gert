@@ -60,7 +60,7 @@ calc_energy_non_residential <- function(non_res_tb,
 
   # browser()
 
-  non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   baseline_energy <- left_join(
@@ -92,13 +92,13 @@ calc_energy_non_residential <- function(non_res_tb,
        sum()) /
     (non_res_tb_bau %>%
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, sp_categories, inventory_year, value) %>%
+       distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
-         ctu_energy_profile %>%
+         commDesgn_energy_profile %>%
            filter(scenario == "baseline"),
-         by = c("sp_categories" = "mc_classification")
+         by = "imagine_designation"
        ) %>%
-       mutate(mwh_pred = value * scenario_mwh) %>%
+       mutate(mwh_pred = value * mwh_per_job) %>%
        pull(mwh_pred) %>%
        sum())
 
@@ -107,15 +107,15 @@ calc_energy_non_residential <- function(non_res_tb,
        filter(inventory_year >= (.baseline_year - 4)) %>%
        pull(mcf) %>%
        sum()) /
-    (res_tb_bau %>%
+    (non_res_tb_bau %>%
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, sp_categories, inventory_year, value) %>%
+       distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
-         ctu_energy_profile %>%
+         commDesgn_energy_profile %>%
            filter(scenario == "baseline"),
-         by = c("sp_categories" = "mc_classification")
+         by = "imagine_designation"
        ) %>%
-       mutate(mcf_pred = value * scenario_mcf) %>%
+       mutate(mcf_pred = value * mcf_per_job) %>%
        pull(mcf_pred) %>%
        sum())
 

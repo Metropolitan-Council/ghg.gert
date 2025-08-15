@@ -74,24 +74,8 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
 
-  # browser()
-  # B.R1 (MF to SF)
-  # tb01 <- ghg.ccap::adj_unit_counts(
-  #   res_tb = res_tb,
-  #   .selected_ctu = .selected_ctu,
-  #   .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct
-  # )
-
-  # # B.R2 (Floor Area change)
-  # # removed this function from active use as it was causing differences between BAU and scenario (with no strategies selected)
-  # tb02 <- calc_floor_area_growth(
-  #   res_tb = tb01,
-  #   .selected_ctu = .selected_ctu,
-  #   .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-  #   .new_homes_affected_pct = .new_homes_affected_pct
-  # )
-
-  # B.R3 Electrified Buildigns.... new and existing?
+  # Apply Imagine community designation-specific per-job mwh/mcf factors to generate scenario estimates
+  # Based on 'electrification' in comstock_summaries, derived from p
   tb02 <- calc_electrified_buildings(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
@@ -102,7 +86,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   )
 
   # B.R4 + BR5 (Retrofit Homes)
-  tb03 <- calc_high_efficiency(
+  tb03 <- calc_retrofit_efficiency(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .high_efficiency_start_year = .high_efficiency_start_year,
