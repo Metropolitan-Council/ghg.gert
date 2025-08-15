@@ -41,36 +41,28 @@ summarize_comstock <- function(df) {
     )
 }
 
+
 # name changed from
 baseline <- load_comstock(
   "./data-raw/building_energy_data_processing/comstock_data/MN_business_baseline.csv")
 
-# CCHPC — Cold-Climate Heat Pump conversion case (10)
-cchpc <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade10_agg.csv")
+# pkg1 --- energy efficiency-focused basic retrofit (wall, roof and windows)
+retrofit_efficiency <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade47_agg.csv")
 
-# "Full Electrification": Geothermal Heat Pumps + High-Efficiency Envelope + LED Lighting Package
+# Upgrade 50: LED Lighting, Standard Performance HP-RTU and ASHP-Boiler
 electrification <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade57_agg.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade50_agg.csv")
 
-# pkg_0009	Demand Flexibility, Lighting + Thermostat Control, Load Shed for Daily Bldg Peak Reduction
-demand_flex <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade55_agg.csv")
-
-# Wall and Roof Insulation, New Windows, LED Lighting,  HP-RTU and ASHP-Boiler (package 3)
-deep_efficiency_retrofit <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade49_agg.csv")
-
-
+# Upgrade 10: CCHPC — Cold-Climate Heat Pump conversion case (10)
+# Upgrade 55: pkg_0009 -- Demand Flexibility, Lighting + Thermostat Control, Load Shed for Daily Bldg Peak Reduction
+# Upgrade 49: pkg_0003 -- Wall and Roof Insulation, New Windows, LED Lighting,  HP-RTU and ASHP-Boiler
 
 # summary list
 comstock_summaries <- list(
   baseline = summarize_comstock(baseline),
-  cchpc = summarize_comstock(cchpc),
-  electrification = summarize_comstock(electrification),
-  demand_flex = summarize_comstock(demand_flex),
-  deep_efficiency_retrofit = summarize_comstock(deep_efficiency_retrofit)
+  retrofit_efficiency = summarize_comstock(retrofit_efficiency),
+  electrification = summarize_comstock(electrification)
 )
-
 
 usethis::use_data(comstock_summaries, overwrite = TRUE)
