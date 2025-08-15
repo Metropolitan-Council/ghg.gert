@@ -331,12 +331,44 @@ missing_sfa_rows <- missing_cities %>%
 
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)
 
-parcel_ctu <- rbind(sfd_out, sfa_out_completed)
+parcel_ctu <- rbind(sfd_out, sfa_out_completed) %>%
+  left_join(geog_index %>% # homogenize names
+              select(geog_id, geog_name),
+            by = c("ctu_id" = "geog_id")) %>%
+  rename(geog_name = geog_name.y) %>%
+  select(-geog_name.x)
+
+## issue with with COCTUs (of course)
+
+multi_county_ctus <- parcel_ctu %>%
+  group_by(ctu_id, geog_name) %>%
+  summarise(county_count = n_distinct(county_name), .groups = "drop") %>%
+  filter(county_count > 1)
+
+parcel_ctu %>% filter(geog_name %in% multi_county_ctus$geog_name) %>%
+  arrange(geog_name)
+# some problematic ctus that are very close - needs to be properly fixed above
+# (a ctu parcel data should be aggregated across county boundaries but need county medians when missing data)
+
+parcel_ctu_collapsed <- parcel_ctu %>%
+  group_by(ctu_id, geog_name, mc_classification, inventory_year) %>%
+  summarise(
+    sq_ft_use = floor(median(sq_ft_use, na.rm = TRUE)),
+    median_year = floor(median(median_year, na.rm = TRUE)),
+    .groups = "drop"
+  )
+
+# Verify the results for the problematic cases
+parcel_ctu_collapsed %>%
+  filter(geog_name %in% c("Hastings", "Saint Anthony", "Spring Lake Park", "White Bear Lake")) %>%
+  arrange(geog_name)
+
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
 rm(mn_parcel_predict)
 gc()
 
+parcel_ctu <- parcel_ctu_collapsed
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)
