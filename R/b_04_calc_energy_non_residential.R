@@ -81,25 +81,7 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  baseline_energy_all_temp <- left_join(
-    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-               .selected_ctu = .selected_ctu
-    ) %>%
-      dplyr::filter(
-        inventory_year <= .baseline_year,
-        sector == "Business"
-      ),
-    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-               .selected_ctu = .selected_ctu
-    ) %>%
-      dplyr::filter(
-        inventory_year <= .baseline_year,
-        sector == "Business"
-      ),
-    by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
-  )
-
-  # This is where we scaffold in the Imagine Community Designation lookup table -- imagine_commDesgn_mwh_mcf_perJob_coefficients
+  # table with per-job mcf/mwh numbers by community designation
   commDesgn_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients
 
   ### adjust the model prediction to the sum of the last 5 observed years
@@ -137,34 +119,6 @@ calc_energy_non_residential <- function(non_res_tb,
        pull(mcf_pred) %>%
        sum())
 
-
-  inventories_combined <- (ghg.ccap::building_energy_data$electricity_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mwh)) %>%
-    left_join((ghg.ccap::building_energy_data$natgas_inventory %>% distinct(geog_name, geog_level, sector, inventory_year, mcf)),
-              by = join_by(geog_name,  geog_level, sector, inventory_year)
-    ) %>%
-    filter(!is.na(mcf) | !is.na(mwh)) %>%
-    filter(sector == "Business") %>%
-    left_join(
-      cprg_ctu_desgn,
-      by = join_by("geog_name" == "ctu_name",
-                   "geog_level" == "ctu_class")
-    )
-
-  elec<- ghg.ccap::building_energy_data$electricity_inventory
-  ng <- ghg.ccap::building_energy_data$natgas_inventory
-
-  temp_bau_forecast_approach <- non_res_tb_bau %>%
-    distinct(geog_name, imagine_designation, inventory_year, value) %>%
-    left_join(
-      commDesgn_energy_profile %>%
-        filter(scenario == "baseline"),
-      by = "imagine_designation"
-    ) %>%
-    filter(!is.na(imagine_designation)) %>%
-    mutate(mcf_pred = value * mcf_per_job) %>%
-    left_join(inventories_combined,
-              by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
-    )
 
   # calculate expected energy load for cities here
   # heat pump expected energy will be lowered for retrofit homes
@@ -342,3 +296,256 @@ calc_energy_non_residential <- function(non_res_tb,
 
   return(energy_final)
 }
+
+
+# ALL OF THE BELOW CODE IS TEMPORARY TO FACILITATE GETTING THE FORECAST BAU NUMBERS OUT OF THE PACKAGE EARLY.
+elec_inv <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_electricity_emissions.RDS") %>%
+  rename(
+    value_emissions_elec = value_emissions
+  ) %>%
+  distinct(ctu_name, ctu_class, sector, inventory_year, .keep_all = TRUE) %>%
+  select(
+    -category, -source, -Source, -factor_source, -mt_co2e_mwh, -units_emissions
+  )
+
+ng_inv <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_natgas_emissions.RDS") %>%
+  rename(
+    value_emissions_ng = value_emissions
+  ) %>%
+  distinct(ctu_name, ctu_class, sector, inventory_year, .keep_all = TRUE) %>%
+  select(
+    -category, -source, -factor_source, -mt_co2e_mcf, -units_emissions
+  )
+
+inventories_combined <- elec_inv %>%
+  left_join(ng_inv,
+            by = join_by(ctu_name, ctu_class, sector, inventory_year)
+  ) %>%
+  #some 2015-2018 (and two 2022... Minnetrista and Medicine Lake) missing from NG data, need to revisit
+  #filter(!is.na(mcf) | !is.na(mwh)) %>%
+  filter(sector == "Business") %>%
+  left_join(
+    cprg_ctu_desgn,
+    by = join_by("ctu_name", "ctu_class")
+  )
+
+
+# MWH AND MCF ADJUSTMENT
+# Observed inventories (both electricity and natural gas)
+obs_df <- inventories_combined %>%
+  filter(inventory_year >= (.baseline_year - 4)) %>%
+  group_by(ctu_name, ctu_class, sector) %>%
+  summarize(
+    ctu_five_yr_window_mwh = sum(mwh, na.rm = TRUE),
+    ctu_five_yr_window_mcf = sum(mcf, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  filter(sector == "Business") %>%
+  select(ctu_name, ctu_class, ctu_five_yr_window_mwh, ctu_five_yr_window_mcf)
+
+# Predicted values for inventory years for both mwh & mcf
+pred_df <- non_res_tb_bau %>%
+  filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+  distinct(geog_name, geog_level, sp_categories, imagine_designation, inventory_year, value) %>%
+  left_join(
+    commDesgn_energy_profile %>% filter(scenario == "baseline"),
+    by = "imagine_designation"
+  ) %>%
+  mutate(
+    mwh_pred = value * mwh_per_job,
+    mcf_pred = value * mcf_per_job
+  ) %>%
+  group_by(geog_name, geog_level, sp_categories) %>%
+  summarize(
+    ctu_five_yr_window_pred_mwh = sum(mwh_pred, na.rm = TRUE),
+    ctu_five_yr_window_pred_mcf = sum(mcf_pred, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  transmute(ctu_name = geog_name,
+            ctu_class = geog_level,
+            ctu_five_yr_window_pred_mwh,
+            ctu_five_yr_window_pred_mcf)
+
+
+# Join and compute both adjustment ratios at ctu_name-ctu_class granularity. Inner join to remove counties from pred_df.
+adjustments <- inner_join(obs_df, pred_df, by = c("ctu_name", "ctu_class")) %>%
+  mutate(
+    mwh_adjustment = case_when(
+      is.na(ctu_five_yr_window_pred_mwh) | ctu_five_yr_window_pred_mwh == 0 ~ NA_real_,
+      TRUE ~ ctu_five_yr_window_mwh / ctu_five_yr_window_pred_mwh
+    ),
+    mcf_adjustment = case_when(
+      is.na(ctu_five_yr_window_pred_mcf) | ctu_five_yr_window_pred_mcf == 0 ~ NA_real_,
+      TRUE ~ ctu_five_yr_window_mcf / ctu_five_yr_window_pred_mcf
+    )
+  ) %>%
+  select(ctu_name, ctu_class, mwh_adjustment, mcf_adjustment)
+
+
+temp_bau_forecast_approach <- non_res_tb_bau %>%
+  distinct(geog_name, geog_level, imagine_designation, inventory_year, value) %>%
+  left_join(
+    commDesgn_energy_profile %>%
+      filter(scenario == "baseline"),
+    by = "imagine_designation"
+  ) %>%
+  filter(!is.na(imagine_designation)) %>%
+  mutate(mcf_pred = value * mcf_per_job,
+         mwh_pred = value * mwh_per_job) %>%
+  left_join(adjustments,
+            by = join_by(geog_name == ctu_name,
+                         geog_level == ctu_class)
+  ) %>%
+  mutate(mcf_adj = mcf_pred * mcf_adjustment,
+         mwh_adj = mwh_pred * mwh_adjustment
+  )
+
+# Clean and harmonize observed and predicted
+# Observed inventories (2005–2022)
+observed_clean <- inventories_combined %>%
+  transmute(
+    ctu_name,
+    ctu_class,
+    sector = "Business",
+    imagine_designation,
+    inventory_year,
+    mwh = as.numeric(mwh),
+    mcf = as.numeric(mcf),
+    source = "observed",
+    # keep the raw source fields, but also a concise note
+    data_source_elec = data_source.x,
+    data_source_ng   = data_source.y,
+  ) %>%
+  filter(inventory_year >= 2005, inventory_year <= 2022)
+
+# Adjusted forecast (2023–2050),
+forecast_clean <- temp_bau_forecast_approach %>%
+  transmute(
+    ctu_name = geog_name,
+    ctu_class = geog_level,
+    sector = "Business",
+    imagine_designation,
+    inventory_year,
+    mwh = as.numeric(mwh_adj),            # use adjusted values
+    mcf = as.numeric(mcf_adj),            # use adjusted values
+    source = "Adjusted forecast: jobs × baseline coeffs × CTU-level 5yr ratio (obs/pred)",
+    # keep the adjustment scalars so you can audit later (still "minimal" + meaningful)
+    mwh_adjustment,
+    mcf_adjustment
+  ) %>%
+  filter(inventory_year >= 2023, inventory_year <= 2050)
+
+# Combine into one clean df
+nonres_bau_2005_2050 <- bind_rows(
+  observed_clean,
+  forecast_clean
+) %>%
+  arrange(ctu_name, ctu_class, inventory_year)
+
+write.csv(nonres_bau_2005_2050, "C:/Users/LimeriSA/Documents/Projects/ghg.ccap/data-raw/building_energy_data_processing/nonres_bau_2005_2050.csv")
+
+
+# --- 3) REGION plot: actual vs predicted (color = source) --------------------
+
+region_series <- nonres_bau_2005_2050 %>%
+  group_by(inventory_year, source) %>%
+  summarize(
+    mwh = sum(mwh, na.rm = TRUE),
+    mcf = sum(mcf, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Electricity (MWh) region-wide
+ggplot(region_series, aes(x = inventory_year, y = mwh, color = source)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(breaks = seq(2005, 2050, 5)) +
+  labs(
+    title = "Region-wide Business Electricity (MWh), 2005–2050",
+    x = NULL, y = "MWh", color = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+#If you also want a natural gas region plot (MCF), uncomment:
+ggplot(region_series, aes(x = inventory_year, y = mcf, color = source)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(breaks = seq(2005, 2050, 5)) +
+  labs(
+    title = "Region-wide Business Natural Gas (MCF), 2005–2050",
+    x = NULL, y = "MCF", color = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+# --- 4) FACET plot by city, color-coded by imagine_designation --------------
+
+# For the city facets, show MWh; encode "actual/predicted" as linetype and
+# land-use designation as color (so you can read both at once).
+# ----- Build a clean city-level series you can trust -----
+city_series <- nonres_bau_2005_2050 %>%
+  # keep cities and the Business sector (matches your observed sample + forecast)
+  filter(ctu_class == "CITY", sector == "Business") %>%
+  # keep only rows that can actually plot
+  drop_na(ctu_name, imagine_designation, inventory_year, mwh) %>%
+  mutate(
+    # nice labels without needing forcats
+    source = dplyr::recode(
+      source,
+      "observed" = "Actual (Observed)",
+      "forecast_adjusted" = "Predicted (Adjusted)"
+    )
+  ) %>%
+  arrange(ctu_name, imagine_designation, source, inventory_year)
+
+# ----- Quick diagnostics (helps avoid silent empty data) -----
+if (nrow(city_series) == 0) {
+  message("city_series is empty after filtering. Here are some quick checks:")
+  message("Distinct ctu_class: ", paste(unique(nonres_bau_2005_2050$ctu_class), collapse = ", "))
+  message("Distinct sector: ", paste(unique(nonres_bau_2005_2050$sector), collapse = ", "))
+  message("Years: ", paste(range(nonres_bau_2005_2050$inventory_year, na.rm = TRUE), collapse = "–"))
+}
+
+# Optional: view counts by label to confirm data presence
+city_series %>%
+  count(source) %>%
+  print(n = 50)
+
+# Split once for plotting
+city_obs <- filter(city_series, source == "Actual (Observed)")
+city_fc  <- filter(city_series, source == "Predicted (Adjusted)")
+
+# If either side is empty, ggplot can still draw the other layer safely.
+ggplot() +
+  # Actual
+  geom_line(
+    data = city_obs,
+    aes(x = inventory_year, y = mwh,
+        color = imagine_designation,
+        linetype = "Actual (Observed)",
+        group = interaction(ctu_name, imagine_designation)),
+    linewidth = 0.8
+  ) +
+  # Forecast
+  geom_line(
+    data = city_fc,
+    aes(x = inventory_year, y = mwh,
+        color = imagine_designation,
+        linetype = "Predicted (Adjusted)",
+        group = interaction(ctu_name, imagine_designation)),
+    linewidth = 0.8
+  ) +
+  scale_linetype_manual(
+    name = NULL,
+    values = c("Actual (Observed)" = "solid",
+               "Predicted (Adjusted)" = "longdash")
+  ) +
+  scale_x_continuous(breaks = seq(2005, 2050, 5)) +
+  labs(
+    title = "Business Electricity (MWh) by City, 2005–2050",
+    subtitle = "Color = Imagine designation; Linetype = Actual vs Predicted",
+    x = NULL, y = "MWh", color = "Imagine designation"
+  ) +
+  facet_wrap(~ ctu_name, scales = "free_y") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+
+# --- (Optional) If you want to save the harmonized table for downstream use ---
+# write_csv(nonres_bau_2005_2050, "nonres_business_bau_2005_2050.csv")
