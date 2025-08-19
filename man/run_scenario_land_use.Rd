@@ -26,10 +26,10 @@ that can percolate to other sectors. Outputs are
 provided as a tibble with columns \code{geog_name}, \code{scen}, \code{expected_density}.
 }
 \examples{
-\dontrun
+  /dontrun{
 
-library(ghg.ccap)
-
+  library(ghg.ccap)
+  }
 
 }
 \seealso{
