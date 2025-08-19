@@ -5,8 +5,10 @@ coctu_vmt_forecast <- readRDS(url("https://github.com/Metropolitan-Council/ghg-c
 
 ctu_vmt_forecast <- coctu_vmt_forecast %>%
   group_by(gnis, inventory_year) %>%
-  summarize(final_city_vmt = sum(final_city_vmt),
-            final_vmt_source = first(final_vmt_source))
+  summarize(
+    final_city_vmt = sum(final_city_vmt),
+    final_vmt_source = first(final_vmt_source)
+  )
 
 
 ctu_vmt_source <- ctu_vmt_forecast %>%
@@ -17,15 +19,20 @@ ctu_vmt_source <- ctu_vmt_forecast %>%
 
 
 pmt_exist <- transportation_data$passenger %>%
-  filter(mode == "PLDV",
-         var == "PMT")
+  filter(
+    mode == "PLDV",
+    var == "PMT"
+  )
 
 pldv_avo <- transportation_data$passenger %>%
-  filter(var == "AVO",
-         mode == "PLDV") %>%
+  filter(
+    var == "AVO",
+    mode == "PLDV"
+  ) %>%
   select(
     geog_id, geog_name,
-    AVO =  value) %>%
+    AVO = value
+  ) %>%
   unique()
 
 pmt_new <- ctu_vmt_forecast %>%
@@ -33,33 +40,37 @@ pmt_new <- ctu_vmt_forecast %>%
   filter(inventory_year %in% transportation_data$passenger$year) %>%
   left_join(pldv_avo, by = c("gnis" = "geog_id")) %>%
   rowwise() %>%
-  mutate(value =
-           # PMT is VMT multiplied by average vehicle occupancy
-           # then annualized with 340
-           (final_city_vmt * AVO) * 340,
-         mode = "PLDV",
-         var = "PMT",
-         geog_id = gnis,
-         year = as.character(inventory_year)) %>%
+  mutate(
+    value =
+    # PMT is VMT multiplied by average vehicle occupancy
+    # then annualized with 340
+    # and multiplied by 0.9 to account for truck traffic
+      ((final_city_vmt * AVO) * 340) * 0.9,
+    mode = "PLDV",
+    var = "PMT",
+    geog_id = gnis,
+    year = as.character(inventory_year)
+  ) %>%
   ungroup() %>%
   select(mode, var, geog_name, geog_id, year, value)
 
 
 pmt_replace <- pmt_new %>%
   left_join(pmt_exist %>% select(-value),
-            by = join_by(mode, var, geog_name, geog_id, year))
+    by = join_by(mode, var, geog_name, geog_id, year)
+  )
 
 
 testthat::expect_equal(
   pmt_replace %>%
-    filter(is.na(geog_id)| is.na(geog_name)| is.na(value)| is.na(aeo_mode)| is.na(type)) %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(aeo_mode) | is.na(type)) %>%
     nrow(),
   0
 )
 
 
 # replace in our transportation_data
-transportation_data$passenger  <- transportation_data$passenger %>%
+transportation_data$passenger <- transportation_data$passenger %>%
   filter(!(var == "PMT" & mode == "PLDV")) %>%
   bind_rows(pmt_replace)
 
@@ -76,5 +87,3 @@ ctu_vmt_year_source <- ctu_vmt_source %>%
 transportation_index$ctu_vmt_year_source <- ctu_vmt_year_source
 
 usethis::use_data(transportation_index, overwrite = TRUE)
-
-
