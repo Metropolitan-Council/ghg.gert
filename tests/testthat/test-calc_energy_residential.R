@@ -55,7 +55,6 @@ testthat::test_that("calc_energy_residential", {
 
 
   testthat::test_that("Energy residential should reduce with interventions - Minneapolis", {
-
     ### Efficient new buildings
 
     leed_table <- scen_building_residential(
@@ -103,7 +102,7 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    #install heat pumps
+    # install heat pumps
 
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
@@ -159,122 +158,119 @@ testthat::test_that("calc_energy_residential", {
       list(heatpump_table, combo_table),
       test_energy_electrification
     )
-
   })
 
   testthat::test_that("Energy residential should reduce with interventions - Maple Grove", {
+    ### Maple Grove ----
 
-  ### Maple Grove ----
+    ### Efficient new buildings
 
-  ### Efficient new buildings
-
-  leed_table <- scen_building_residential(
-    res_tb = building_data$residential,
-    res_tb_bau = building_data$residential,
-    .scenario = "alt",
-    .selected_ctu = "Maple Grove",
-    .baseline_year = 2022,
-    .leed_start_year = 2028,
-    .new_sf_homes_leed_gold_pct = 0.3,
-    .new_mf_homes_leed_gold_pct = 0.3,
-    .retrofit_start_year = 2028,
-    .retrofit_end_year = 2050,
-    .existing_sf_retrofit_pct = 0,
-    .existing_mf_retrofit_pct = 0,
-    .heatpump_start_year = 2028,
-    .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
-    .grid_emissions = ghg.ccap::grid_emissions,
-    .enviro_factors = ghg.ccap::enviro_factors
-  )
-
-
-  ### Retrofit existing buildings
-
-  retro_table <- scen_building_residential(
-    res_tb = building_data$residential,
-    res_tb_bau = building_data$residential,
-    .scenario = "alt",
-    .selected_ctu = "Maple Grove",
-    .baseline_year = 2022,
-    .leed_start_year = 2028,
-    .new_sf_homes_leed_gold_pct = 0,
-    .new_mf_homes_leed_gold_pct = 0,
-    .retrofit_start_year = 2028,
-    .retrofit_end_year = 2050,
-    .existing_sf_retrofit_pct = 0.3,
-    .existing_mf_retrofit_pct = 0.3,
-    .heatpump_start_year = 2028,
-    .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
-    .grid_emissions = ghg.ccap::grid_emissions,
-    .enviro_factors = ghg.ccap::enviro_factors
-  )
-
-  #install heat pumps
-
-  heatpump_table <- scen_building_residential(
-    res_tb = building_data$residential,
-    res_tb_bau = building_data$residential,
-    .scenario = "alt",
-    .selected_ctu = "Maple Grove",
-    .baseline_year = 2022,
-    .leed_start_year = 2028,
-    .new_sf_homes_leed_gold_pct = 0,
-    .new_mf_homes_leed_gold_pct = 0,
-    .retrofit_start_year = 2028,
-    .retrofit_end_year = 2050,
-    .existing_sf_retrofit_pct = 0,
-    .existing_mf_retrofit_pct = 0,
-    .heatpump_start_year = 2028,
-    .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.3,
-    .mf_heat_pump_pct = 0.3,
-    .grid_emissions = ghg.ccap::grid_emissions,
-    .enviro_factors = ghg.ccap::enviro_factors
-  )
-
-  # combination
+    leed_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
 
 
-  combo_table <- scen_building_residential(
-    res_tb = building_data$residential,
-    res_tb_bau = building_data$residential,
-    .scenario = "alt",
-    .selected_ctu = "Maple Grove",
-    .baseline_year = 2022,
-    .leed_start_year = 2028,
-    .new_sf_homes_leed_gold_pct = 0.3,
-    .new_mf_homes_leed_gold_pct = 0.3,
-    .retrofit_start_year = 2028,
-    .retrofit_end_year = 2050,
-    .existing_sf_retrofit_pct = 0.4,
-    .existing_mf_retrofit_pct = 0.4,
-    .heatpump_start_year = 2028,
-    .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.5,
-    .mf_heat_pump_pct = 0.5,
-    .grid_emissions = ghg.ccap::grid_emissions,
-    .enviro_factors = ghg.ccap::enviro_factors
-  )
+    ### Retrofit existing buildings
 
-  purrr::map(
-    list(leed_table, retro_table),
-    test_energy_efficiency
-  )
+    retro_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.3,
+      .existing_mf_retrofit_pct = 0.3,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0,
+      .mf_heat_pump_pct = 0,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
 
-  purrr::map(
-    list(heatpump_table, combo_table),
-    test_energy_electrification
-  )
+    # install heat pumps
+
+    heatpump_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0,
+      .new_mf_homes_leed_gold_pct = 0,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0,
+      .existing_mf_retrofit_pct = 0,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.3,
+      .mf_heat_pump_pct = 0.3,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    # combination
+
+
+    combo_table <- scen_building_residential(
+      res_tb = building_data$residential,
+      res_tb_bau = building_data$residential,
+      .scenario = "alt",
+      .selected_ctu = "Maple Grove",
+      .baseline_year = 2022,
+      .leed_start_year = 2028,
+      .new_sf_homes_leed_gold_pct = 0.3,
+      .new_mf_homes_leed_gold_pct = 0.3,
+      .retrofit_start_year = 2028,
+      .retrofit_end_year = 2050,
+      .existing_sf_retrofit_pct = 0.4,
+      .existing_mf_retrofit_pct = 0.4,
+      .heatpump_start_year = 2028,
+      .heatpump_end_year = 2050,
+      .sf_heat_pump_pct = 0.5,
+      .mf_heat_pump_pct = 0.5,
+      .grid_emissions = ghg.ccap::grid_emissions,
+      .enviro_factors = ghg.ccap::enviro_factors
+    )
+
+    purrr::map(
+      list(leed_table, retro_table),
+      test_energy_efficiency
+    )
+
+    purrr::map(
+      list(heatpump_table, combo_table),
+      test_energy_electrification
+    )
   })
 
 
 
   testthat::test_that("Energy residential should reduce with interventions - New Germany", {
-
     ### New Germany ----
 
     ### Efficient new buildings
@@ -324,7 +320,7 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    #install heat pumps
+    # install heat pumps
 
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
@@ -382,4 +378,3 @@ testthat::test_that("calc_energy_residential", {
     )
   })
 })
-
