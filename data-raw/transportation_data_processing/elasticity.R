@@ -3,7 +3,6 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(councilR)
-library(emo)
 library(ghg.ccap)
 
 
@@ -106,6 +105,7 @@ DAYS <- 340
 
 # Define a default starting list for elasticities for 5Ds
 ELAST_DEF_5D <- c(rep(0, length(YRS)))
+
 # Driving elasticity
 # All taken from Ewing and Cervero, 2010
 # Density population (RANGE)
@@ -116,7 +116,7 @@ ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), leng
 # -0.07 is more than the population density decrease, to ensure that
 # population density has a lesser effect than job density
 # based on peer review session with Metro Transit SI folks
-# https://github.com/Metropolitan-Council/ghg.ccap/issues/19
+# https://github.com/Metropolitan-Council/ghg.sp/issues/19
 ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
 ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
@@ -160,6 +160,8 @@ ELAST_JOBS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.128, length(INIT_YRS), lengt
 ELAST_DIST_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.290, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.620, length(INIT_YRS), length(FOR_YRS))
+
+
 # Max 5D by mode
 MAX_5D_DR <- -0.25
 MAX_5D_ACT <- 0.37
