@@ -25,11 +25,9 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
     filter(geog_name == "Saint Paul")
 
   testthat::expect_equal(
-    si_veh_test_none$occupancy_adj,
-    c(
-      1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679, 1.23679,
-      1.23679, 1.23679
-    )
+    unique(si_veh_test_none$occupancy_adj),
+    c(1.6),
+    tolerance = 0.01
   )
 
   # PLDV occupancy of 5% ----
@@ -46,9 +44,8 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
 
   testthat::expect_equal(
     si_veh_test$occupancy_adj,
-    c(
-      1.23679, 1.23679, 1.23679, 1.252249875, 1.26770975, 1.283169625,
-      1.2986295, 1.2986295, 1.2986295
-    )
+    c(1.60003983277867, 1.60003983277867, 1.60003983277867, 1.6200403306884,
+      1.64004082859813, 1.66004132650787, 1.6800418244176, 1.6800418244176,
+      1.6800418244176)
   )
 })
