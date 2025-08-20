@@ -32,7 +32,7 @@ bau_results <- purrr::map_dfr(
   filter(scenario == "bau")
 
 # readr::write_csv(bau_results,
-#           "C:/Users/WilfahPA/OneDrive - Metropolitan Council/CPRG/CCAP graphics/residential_bau.csv")
+#           paste0(wd,"residential_bau.csv"))
 
 net_zero_results <- purrr::map_dfr(
   ctu_index$geog_name,
