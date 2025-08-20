@@ -3,6 +3,7 @@
 library(purrr)
 library(dplyr)
 library(scales)
+library(ggplot2)
 
 ctu_index <- geog_index %>%
   filter(geog_level != "COUNTY",
@@ -30,6 +31,8 @@ bau_results <- purrr::map_dfr(
   ungroup() %>%
   filter(scenario == "bau")
 
+# readr::write_csv(bau_results,
+#           "C:/Users/WilfahPA/OneDrive - Metropolitan Council/CPRG/CCAP graphics/residential_bau.csv")
 
 net_zero_results <- purrr::map_dfr(
   ctu_index$geog_name,
@@ -61,7 +64,7 @@ net_zero_results <- purrr::map_dfr(
   ungroup() %>%
   filter(scenario == "net_zero")
 
-### potential policy pathways
+### Accelerated policy pathways
 
 ppp_results <- purrr::map_dfr(
   ctu_index$geog_name,
@@ -167,21 +170,26 @@ emissions_gg <- ggplot() +
             linetype = "dashed", size = 1) +
 
   geom_line(data = diverging_data %>% filter(scenario == "ppp"),
-            aes(x = inventory_year, y = total_emissions, color = "Potential policy pathways"),
+            aes(x = inventory_year, y = total_emissions, color = "Accelerated policy pathways"),
             size = 1) +
 
   geom_line(data = diverging_data %>% filter(scenario == "net_zero"),
             aes(x = inventory_year, y = total_emissions, color = "Net zero"),
             size = 1) +
 
+  geom_segment(aes(x = 2025, xend = 2025, y = 0, yend = base_data %>% filter(inventory_year == 2025) %>% pull(total_emissions)),
+               color = "black", linetype = "solid", size = 0.8) +
+  # annotate("text", x = 2025, y = max(your_data$total_emissions) * 0.9,
+  #          label = "Historical | Projected", angle = 90, hjust = 1, size = 3.5) +
+
   # Manual color scale with correct order
   scale_color_manual(
     values = c(
       "Business as usual" = "black",
       "Net zero" = "maroon",
-      "Potential policy pathways" = "rosybrown3"
+      "Accelerated policy pathways" = "rosybrown3"
     ),
-    breaks = c("Business as usual", "Potential policy pathways", "Net zero")  # Force legend order
+    breaks = c("Business as usual", "Accelerated policy pathways", "Net zero")  # Force legend order
   ) +
 
   # Manual legend guide to show line types
@@ -212,6 +220,15 @@ emissions_gg <- ggplot() +
   xlim(2005, 2050)
 
 print(emissions_gg)
+
+ggplot2::ggsave(plot = emissions_gg,
+       filename = paste0(wd,"/residential_decarbonization.png"),  # add your file path here
+       width = 12,
+       height = 6,
+       units = "in",
+       dpi = 300,
+       bg = "white")
+
 
 ### mwh graph ####
 
@@ -257,7 +274,7 @@ p_mwh <- ggplot() +
             aes(x = inventory_year, y = mwh, color = "Business as usual"),
             linetype = "dashed", size = 1) +
   geom_line(data = diverging_data %>% filter(scenario == "ppp"),
-            aes(x = inventory_year, y = mwh, color = "Potential policy pathways"),
+            aes(x = inventory_year, y = mwh, color = "Accelerated policy pathways"),
             size = 1) +
   geom_line(data = diverging_data %>% filter(scenario == "net_zero"),
             aes(x = inventory_year, y = mwh, color = "Net zero"),
@@ -266,10 +283,10 @@ p_mwh <- ggplot() +
   scale_color_manual(
     values = c(
       "Business as usual" = "black",
-      "Potential policy pathways" = "rosybrown3",
+      "Accelerated policy pathways" = "rosybrown3",
       "Net zero" = "maroon"
     ),
-    breaks = c("Business as usual", "Potential policy pathways", "Net zero")
+    breaks = c("Business as usual", "Accelerated policy pathways", "Net zero")
   ) +
   guides(
     color = guide_legend(
