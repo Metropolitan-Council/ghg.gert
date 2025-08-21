@@ -58,7 +58,8 @@ pmt_new <- ctu_vmt_forecast %>%
 pmt_replace <- pmt_new %>%
   left_join(pmt_exist %>% select(-value),
     by = join_by(mode, var, geog_name, geog_id, year)
-  )
+  ) %>%
+  mutate(value = round(value, digits = 2))
 
 
 testthat::expect_equal(
