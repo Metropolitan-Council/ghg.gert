@@ -46,8 +46,8 @@ testthat::test_that("BAU, Passenger gasoline correct", {
       20.4560042356456, 20.1703333769814, 18.883570859419, 18.3083312074456,
       17.7591370593277
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
 })
@@ -141,11 +141,10 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
       0.324351134657379, 0.319228002141346, 0.315218869465859, 0.314530000851455,
       0.31390011542215
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
 })
 # rail -----
 testthat::test_that("Urban rail passenger vmt correct", {
@@ -309,11 +308,10 @@ testthat::test_that("PHEV passenger vmt correct", {
       0.488533544848253, 0.699758476732484, 0.776709798716421, 1.08225928912365,
       1.27017703337147, 1.45027628483017
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
 })
 # dynamic ride share error ------
 testthat::test_that("Dynamic ride share error", {

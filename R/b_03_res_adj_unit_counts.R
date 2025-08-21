@@ -40,7 +40,7 @@ adj_unit_counts <- function(res_tb,
   # cli::cli_progress_message("*** adjusting residential building unit counts \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  density_change = (density_output$expected_density[2] - density_output$expected_density[1]) /
+  density_change <- (density_output$expected_density[2] - density_output$expected_density[1]) /
     density_output$expected_density[1]
 
 
@@ -50,37 +50,47 @@ adj_unit_counts <- function(res_tb,
 
 
   sfd_reduction <- res_tb %>%
-    dplyr::filter(inventory_year >= 2028,
-                  sp_categories == "single_family_attached") %>%
+    dplyr::filter(
+      inventory_year >= 2028,
+      sp_categories == "single_family_attached"
+    ) %>%
     ### ctus that already reducing sfd will reduce further
     dplyr::mutate(
       density_sfd_change =
         ifelse(value_change_from_base < 0,
-               value_change_from_base * density_change, # for negative values, get more negative with increased density
-               -1 * value_change_from_base * density_change # for positive values, decrease with increased density
-    )) %>%
+          value_change_from_base * density_change, # for negative values, get more negative with increased density
+          -1 * value_change_from_base * density_change # for positive values, decrease with increased density
+        )
+    ) %>%
     dplyr::select(geog_name, geog_id, density_sfd_change, inventory_year)
 
 
   new_res_tb <- res_tb %>%
-   left_join(sfd_reduction,
-             by = join_by(geog_name, geog_id, inventory_year)) %>%
+    left_join(sfd_reduction,
+      by = join_by(geog_name, geog_id, inventory_year)
+    ) %>%
     dplyr::mutate(
       value = case_when(
-        sp_categories %in% c("multifamily_units",
-                             "single_family_attached") &
-          inventory_year >= 2028 ~ value - (density_sfd_change / 2), #half to sfa, half to multifamily
+        sp_categories %in% c(
+          "multifamily_units",
+          "single_family_attached"
+        ) &
+          inventory_year >= 2028 ~ value - (density_sfd_change / 2), # half to sfa, half to multifamily
         sp_categories %in% c("single_family_detached") &
           inventory_year >= 2028 ~ value + density_sfd_change,
-        TRUE ~ value),
+        TRUE ~ value
+      ),
       value_change_from_base = case_when(
-        sp_categories %in% c("multifamily_units",
-                             "single_family_attached") &
-          inventory_year >= 2028 ~ value_change_from_base - (density_sfd_change / 2), #half to sfa, half to multifamily
+        sp_categories %in% c(
+          "multifamily_units",
+          "single_family_attached"
+        ) &
+          inventory_year >= 2028 ~ value_change_from_base - (density_sfd_change / 2), # half to sfa, half to multifamily
         sp_categories %in% c("single_family_detached") &
           inventory_year >= 2028 ~ value_change_from_base + density_sfd_change,
-        TRUE ~ value_change_from_base )
-      ) %>%
+        TRUE ~ value_change_from_base
+      )
+    ) %>%
     dplyr::select(names(res_tb))
 
 

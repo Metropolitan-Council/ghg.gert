@@ -33,11 +33,10 @@ testthat::test_that("Gasoline fuel correct", {
       78959203.3353295, 66035006.7391961, 51891579.1425269, 44401177.1372552,
       39659177.6987387
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
 })
 
 testthat::test_that("Diesel fuel correct", {
@@ -72,11 +71,10 @@ testthat::test_that("Diesel fuel correct", {
       1041862.90621712, 1028925.88831946, 1016713.58191866, 1018380.81644028,
       1018620.12045657
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
 })
 
 testthat::test_that("Hybrid fuel correct", {
@@ -122,12 +120,10 @@ testthat::test_that("Hybrid fuel correct", {
       825012.655224193, 1393645.17530972, 2044383.9828009, 2391574.71008681,
       2737695.72982986
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
-
 })
 
 
@@ -190,8 +186,8 @@ testthat::test_that("BEV fuel correct", {
       14268190.7619578, 12710591.9531019, 24547070.0801707, 28816858.3206686,
       32941504.6987717
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
 
@@ -237,12 +233,10 @@ testthat::test_that("Gasoline fuel correct with strategy", {
       66464759.7555275, 55578791.6508259, 43668101.3971846, 37359953.47729,
       33366836.8533895
     ),
-    function(x,y){
-      testthat::expect_lt(x,y)
+    function(x, y) {
+      testthat::expect_lt(x, y)
     }
   )
-
-
 })
 
 
