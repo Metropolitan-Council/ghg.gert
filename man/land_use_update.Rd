@@ -24,6 +24,7 @@ inputs for 2050 changes (guidance areas). Outputs are
 provided as a tibble with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{scen}, \code{year}, and \code{value}.
 }
 \examples{
+\dontrun{
 
 
 library(ghg.ccap)
