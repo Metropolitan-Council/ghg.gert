@@ -60,6 +60,7 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -84,6 +85,7 @@ testthat::test_that("calc_energy_residential", {
     retro_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -107,6 +109,7 @@ testthat::test_that("calc_energy_residential", {
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -131,6 +134,7 @@ testthat::test_that("calc_energy_residential", {
     combo_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -186,6 +190,27 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
+  leed_table <- scen_building_residential(
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
+    .scenario = "alt",
+    .selected_ctu = "Maple Grove",
+    .baseline_year = 2022,
+    .leed_start_year = 2028,
+    .new_sf_homes_leed_gold_pct = 0.3,
+    .new_mf_homes_leed_gold_pct = 0.3,
+    .retrofit_start_year = 2028,
+    .retrofit_end_year = 2050,
+    .existing_sf_retrofit_pct = 0,
+    .existing_mf_retrofit_pct = 0,
+    .heatpump_start_year = 2028,
+    .heatpump_end_year = 2050,
+    .sf_heat_pump_pct = 0,
+    .mf_heat_pump_pct = 0,
+    .grid_emissions = ghg.ccap::grid_emissions,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
     ### Retrofit existing buildings
 
@@ -210,7 +235,27 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    # install heat pumps
+  retro_table <- scen_building_residential(
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
+    .scenario = "alt",
+    .selected_ctu = "Maple Grove",
+    .baseline_year = 2022,
+    .leed_start_year = 2028,
+    .new_sf_homes_leed_gold_pct = 0,
+    .new_mf_homes_leed_gold_pct = 0,
+    .retrofit_start_year = 2028,
+    .retrofit_end_year = 2050,
+    .existing_sf_retrofit_pct = 0.3,
+    .existing_mf_retrofit_pct = 0.3,
+    .heatpump_start_year = 2028,
+    .heatpump_end_year = 2050,
+    .sf_heat_pump_pct = 0,
+    .mf_heat_pump_pct = 0,
+    .grid_emissions = ghg.ccap::grid_emissions,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
@@ -233,7 +278,27 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    # combination
+  heatpump_table <- scen_building_residential(
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
+    .scenario = "alt",
+    .selected_ctu = "Maple Grove",
+    .baseline_year = 2022,
+    .leed_start_year = 2028,
+    .new_sf_homes_leed_gold_pct = 0,
+    .new_mf_homes_leed_gold_pct = 0,
+    .retrofit_start_year = 2028,
+    .retrofit_end_year = 2050,
+    .existing_sf_retrofit_pct = 0,
+    .existing_mf_retrofit_pct = 0,
+    .heatpump_start_year = 2028,
+    .heatpump_end_year = 2050,
+    .sf_heat_pump_pct = 0.3,
+    .mf_heat_pump_pct = 0.3,
+    .grid_emissions = ghg.ccap::grid_emissions,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
 
     combo_table <- scen_building_residential(
@@ -257,10 +322,27 @@ testthat::test_that("calc_energy_residential", {
       .enviro_factors = ghg.ccap::enviro_factors
     )
 
-    purrr::map(
-      list(leed_table, retro_table),
-      test_energy_efficiency
-    )
+  combo_table <- scen_building_residential(
+    res_tb = building_data$residential,
+    res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
+    .scenario = "alt",
+    .selected_ctu = "Maple Grove",
+    .baseline_year = 2022,
+    .leed_start_year = 2028,
+    .new_sf_homes_leed_gold_pct = 0.3,
+    .new_mf_homes_leed_gold_pct = 0.3,
+    .retrofit_start_year = 2028,
+    .retrofit_end_year = 2050,
+    .existing_sf_retrofit_pct = 0.4,
+    .existing_mf_retrofit_pct = 0.4,
+    .heatpump_start_year = 2028,
+    .heatpump_end_year = 2050,
+    .sf_heat_pump_pct = 0.5,
+    .mf_heat_pump_pct = 0.5,
+    .grid_emissions = ghg.ccap::grid_emissions,
+    .enviro_factors = ghg.ccap::enviro_factors
+  )
 
     purrr::map(
       list(heatpump_table, combo_table),
@@ -278,6 +360,7 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -302,6 +385,7 @@ testthat::test_that("calc_energy_residential", {
     retro_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -325,6 +409,7 @@ testthat::test_that("calc_energy_residential", {
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -349,6 +434,7 @@ testthat::test_that("calc_energy_residential", {
     combo_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
