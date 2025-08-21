@@ -69,9 +69,20 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
                              .anaerobic_digestion_end = 2050
 
 ){
+  # browser()
+
+  if (.selected_ctu == "all") {
+    tb_inv <- filter(tb_inv, geog_level == "CITY")
+    tb_future <- filter(tb_future, geog_level == "CITY")
+    tb_base <- filter(tb_base, geog_level == "CITY")
+  }
+
   tb_inv <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
   tb_future <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
   tb_base <- filter_ctu(tb_base, .selected_ctu = .selected_ctu)
+
+
+  # browser()
 
   l_names <- c(
     "waste_reduction_pct",
