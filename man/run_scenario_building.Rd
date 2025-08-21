@@ -14,6 +14,7 @@ run_scenario_building(
   .baseline_year = 2022,
   .selected_ctu = "all",
   .scenario = "alt",
+  .density_output = density_output,
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
   .new_homes_to_multifamily_pct = 0,
