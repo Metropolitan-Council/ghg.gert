@@ -46,3 +46,5 @@ data-raw/building_energy_data_processing/resstock data/MN_upgrade2.04_metadata_a
 data-raw/building_energy_data_processing/resstock data/MN_upgrade3.03_metadata_and_annual_results_electric_dryer.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade3.04_metadata_and_annual_results_electric_oven.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade4.04_metadata_and_annual_results_water_heater.csv
+
+data-raw/transportation_data_processing/tbi/

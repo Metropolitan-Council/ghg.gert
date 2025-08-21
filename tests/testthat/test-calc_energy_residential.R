@@ -61,6 +61,7 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -85,6 +86,7 @@ testthat::test_that("calc_energy_residential", {
     retro_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -108,6 +110,7 @@ testthat::test_that("calc_energy_residential", {
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -132,6 +135,7 @@ testthat::test_that("calc_energy_residential", {
     combo_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "Minneapolis",
       .baseline_year = 2022,
@@ -171,6 +175,7 @@ testthat::test_that("calc_energy_residential", {
   leed_table <- scen_building_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
     .scenario = "alt",
     .selected_ctu = "Maple Grove",
     .baseline_year = 2022,
@@ -195,6 +200,7 @@ testthat::test_that("calc_energy_residential", {
   retro_table <- scen_building_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
     .scenario = "alt",
     .selected_ctu = "Maple Grove",
     .baseline_year = 2022,
@@ -218,6 +224,7 @@ testthat::test_that("calc_energy_residential", {
   heatpump_table <- scen_building_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
     .scenario = "alt",
     .selected_ctu = "Maple Grove",
     .baseline_year = 2022,
@@ -242,6 +249,7 @@ testthat::test_that("calc_energy_residential", {
   combo_table <- scen_building_residential(
     res_tb = building_data$residential,
     res_tb_bau = building_data$residential,
+    .density_output = run_scenario_land_use(),
     .scenario = "alt",
     .selected_ctu = "Maple Grove",
     .baseline_year = 2022,
@@ -282,6 +290,7 @@ testthat::test_that("calc_energy_residential", {
     leed_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -306,6 +315,7 @@ testthat::test_that("calc_energy_residential", {
     retro_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -329,6 +339,7 @@ testthat::test_that("calc_energy_residential", {
     heatpump_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
@@ -353,6 +364,7 @@ testthat::test_that("calc_energy_residential", {
     combo_table <- scen_building_residential(
       res_tb = building_data$residential,
       res_tb_bau = building_data$residential,
+      .density_output = run_scenario_land_use(),
       .scenario = "alt",
       .selected_ctu = "New Germany",
       .baseline_year = 2022,
