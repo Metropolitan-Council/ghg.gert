@@ -9,6 +9,7 @@ run_module_waste(
   tb_future = waste_data$projections,
   tb_base = waste_data$solid_waste_baseline,
   tb_char = waste_data$characterization,
+  tb_target = waste_data$mpca,
   .selected_ctu = "all",
   .waste_reduction_pct = 0,
   .waste_reduction_start = 2025,
