@@ -32,9 +32,8 @@
 #'
 run_module_waste <- function(tb_inv = waste_data$inventory,
                              tb_future = waste_data$projections,
-                             tb_base = waste_data$baseline,
+                             tb_base = waste_data$solid_waste_baseline,
                              tb_char = waste_data$characterization,
-                             tb_target = waste_data$mpca,
 
                              .selected_ctu = "all",
 
@@ -53,13 +52,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
                              .diverted_to_onsite_pct =  NULL,
                              .diverted_to_compost_pct =  NULL,
 
-                             # .diverted_to_landfill_pct = 0.05,
-                             # .diverted_to_recycle_pct = 0.474,
-                             # .diverted_to_organics_pct = 0.276,
-                             # .diverted_to_wte_pct = 0.2,
-                             # .diverted_to_onsite_pct = 0,
-                             # .diverted_to_compost_pct = 0,
-
                              .methane_recovery_pct = 0,
                              .methane_recovery_start = 2025,
                              .methane_recovery_end = 2050,
@@ -69,7 +61,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
                              .anaerobic_digestion_end = 2050
 
 ){
-  # browser()
 
   if (.selected_ctu == "all") {
     tb_inv <- filter(tb_inv, geog_level == "CITY")
@@ -81,8 +72,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   tb_future <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
   tb_base <- filter_ctu(tb_base, .selected_ctu = .selected_ctu)
 
-
-  # browser()
 
   l_names <- c(
     "waste_reduction_pct",
@@ -131,14 +120,13 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
 
 
-
 # 1. Calculate BAU scenario -----------------------------------------------
   # bind your activity inventory and projections together to create a business as usual scenario
   bau_activity <- rbind(
     tb_inv, tb_future
   ) %>%
     group_by(inventory_year) %>%
-    summarize(value_activity = sum(value_activity)) %>%
+    summarize(value_activity = sum(value_activity, na.rm=T)) %>%
     ungroup()
 
 
@@ -157,6 +145,11 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     waste_future = tb_future
   )
 
+  ## NEW! wastewater emissions
+  wastewater_emis_bau <- ghg.ccap::calculate_wastewater_emissions(
+    waste_inv = tb_inv,
+    waste_future = tb_future
+  )
 
   # define global warming potential
   gwp <-
@@ -170,6 +163,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
   # Function to compile all emissions sources into metric tons CO2e
   compile_waste_emis <- function(df) {
+    # browser()
     df %>%
       arrange(inventory_year, source, units_emissions) %>%
       #give each row a unique id to avoid pivoting error
@@ -206,9 +200,9 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       mutate(
         units_emissions = "Metric tons CO2e",
         sector = "Waste",
-        category = "Solid waste",
-        data_source = "MPCA SCORE Report",
-        factor_source = "IPCC solid waste methodology"
+        # category = "Solid waste and wastewater",
+        # data_source = "MPCA SCORE Report",
+        # factor_source = "IPCC solid waste methodology"
       ) %>%
       cross_join(df %>%
                    dplyr::select(geog_id,geog_name,geog_level) %>%
@@ -221,7 +215,8 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   bau_emissions <- rbind(
     rbind(landfill_emis_bau$inv, landfill_emis_bau$future),
     rbind(incin_emis_bau$inv, incin_emis_bau$future),
-    rbind(organic_emis_bau$inv, organic_emis_bau$future)
+    rbind(organic_emis_bau$inv, organic_emis_bau$future),
+    rbind(wastewater_emis_bau$inv, wastewater_emis_bau$future)
   )  %>%
     compile_waste_emis() %>%
     group_by(inventory_year) %>%
@@ -261,6 +256,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
   # First determine the current shares of each source in the inventory year
   baseline_shares <- tb_proj_01 %>%
+    filter(source != "Wastewater") %>%
     filter(inventory_year == .source_diversion_start) %>%
     mutate(
       total_activity = sum(value_activity),
@@ -288,6 +284,8 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     recycle  = if (is.null(.diverted_to_recycle_pct)) NA_real_ else .diverted_to_recycle_pct,
     wte      = if (is.null(.diverted_to_wte_pct)) NA_real_ else .diverted_to_wte_pct
   )
+
+
 
 
   # If the user sets only one (or a few) variable, we should absolutely retain that value,
@@ -335,10 +333,12 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       is.null(.diverted_to_compost_pct) ) {
 
     tb_proj_02 <- tb_proj_01
+
   } else {
     # If ANY of the .diverted_to_*_pct are not NULL, we need to adjust the share of that
     # source's activity.
     tb_proj_02 <- tb_proj_01 %>%
+      filter(source != "Wastewater") %>%
       group_by(inventory_year) %>%
       mutate(
         total_activity = sum(value_activity)
@@ -375,7 +375,13 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     # reselect and rename columns to match original tb_inv structure
     tb_proj_02 <- tb_proj_02 %>% dplyr::select(-value_activity) %>%
       rename(value_activity = adjusted_activity) %>%
-      dplyr::select(colnames(tb_inv))
+      dplyr::select(colnames(tb_inv)) %>%
+      # add wastewater back in
+      bind_rows(
+        tb_proj_01 %>%
+          filter(source == "Wastewater")
+      ) %>%
+      arrange(inventory_year, source)
   }
 
 
@@ -409,6 +415,12 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     )
 
 
+  ## NEW! wastewater emissions
+  wastewater_emis <- ghg.ccap::calculate_wastewater_emissions(
+    waste_inv = tb_inv,
+    waste_future = tb_proj_02
+  )
+
   # 5. Compile the results --------------------------------------------------
   waste_emissions <- list()
 
@@ -417,12 +429,12 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   waste_emissions$activity$future <- tb_proj_02 %>% left_join(tb_bau, by = join_by(inventory_year))
 
   waste_emissions$emissions$inv <-
-    rbind(landfill_emis$inv, incin_emis$inv, organic_emis$inv) %>%
+    rbind(landfill_emis$inv, incin_emis$inv, organic_emis$inv, wastewater_emis$inv) %>%
     compile_waste_emis() %>% left_join(tb_bau, by = join_by(inventory_year))
 
 
   waste_emissions$emissions$future <-
-    rbind(landfill_emis$future, incin_emis$future, organic_emis$future) %>%
+    rbind(landfill_emis$future, incin_emis$future, organic_emis$future, wastewater_emis$future) %>%
     compile_waste_emis() %>% left_join(tb_bau, by = join_by(inventory_year))
 
 

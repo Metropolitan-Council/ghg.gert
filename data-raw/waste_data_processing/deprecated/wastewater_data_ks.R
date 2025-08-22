@@ -87,6 +87,10 @@ ctu_population_data <- demographic_data %>%
 epa_wastewater_constants <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_waste/data-raw/wastewater/epa/epa_wastewater_constants.rds")
 epa_protein_consumption <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_waste/data-raw/wastewater/epa/epa_protein_consumption.rds")
 
+
+
+
+
 # Vectorized municipal wastewater methane emissions
 calculate_mww_ch4_emissions <- function(population, years) {
   # Pre-calculate days per year for all years
