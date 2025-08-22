@@ -37,7 +37,7 @@ pldv_avo <- transportation_data$passenger %>%
 
 pmt_new <- ctu_vmt_forecast %>%
   # only pull out the years that are in the current dataset
-  filter(inventory_year %in% transportation_data$passenger$year) %>%
+  filter(inventory_year %in% c(transportation_data$passenger$year)) %>%
   left_join(pldv_avo, by = c("gnis" = "geog_id")) %>%
   rowwise() %>%
   mutate(
@@ -49,15 +49,17 @@ pmt_new <- ctu_vmt_forecast %>%
     mode = "PLDV",
     var = "PMT",
     geog_id = gnis,
-    year = as.character(inventory_year)
+    year = as.character(inventory_year),
+    type = "P",
+    aeo_mode = "LDV"
   ) %>%
   ungroup() %>%
-  select(mode, var, geog_name, geog_id, year, value)
+  select(mode, var, geog_name, geog_id, year, value, type, aeo_mode)
 
 
 pmt_replace <- pmt_new %>%
   left_join(pmt_exist %>% select(-value),
-    by = join_by(mode, var, geog_name, geog_id, year)
+    by = join_by(mode, var, geog_name, geog_id, year, type, aeo_mode)
   ) %>%
   mutate(value = round(value, digits = 2))
 

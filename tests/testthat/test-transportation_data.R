@@ -268,8 +268,27 @@ testthat::test_that("All transit is the sum of each transit mode", {
 
 
   testthat::expect_equal(at_total,
-    transit_total,
-    tolerance = 1
+                         transit_total,
+                         tolerance = 1
+  )
+})
+
+
+
+testthat::test_that("All transit is the sum of each transit mode", {
+
+  brt_total <- transportation_data$passenger %>%
+    filter(
+      mode %in% c(
+        "BRT"
+      )
+    ) %>%
+    group_by(geog_name, year) %>%
+    summarise(value = sum(value))
+
+
+  testthat::expect_equal(nrow(brt_total),
+                         0
   )
 })
 
