@@ -3,7 +3,7 @@
 pkgload::load_all()
 
 # pull modeling dataset, which has imagine designations for each CTU
-vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/integrate-mndot-forecast-vmt/_transportation/data/vmt_model_data.RDS"))
+vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
 
 ctu_imagine <- vmt_model_data %>%
   select(ctu_name, gnis, imagine_designation) %>%

@@ -1,5 +1,5 @@
 ## code to prepare `00_run_all` dataset goes here
-
+options(readr.show_col_types = FALSE)
 source("data-raw/transportation_data_processing/transportation_data.R")
 
 source("data-raw/transportation_data_processing/fix_bus_fleet.R")
