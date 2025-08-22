@@ -10,7 +10,12 @@
 #' @importFrom lubridate leap_year
 #'
 #'
-calculate_mww_ch4_emissions <- function(population, years, lookup = waste_data$epa$wastewater_constants) {
+calculate_mww_ch4_emissions <- function(population, years, lookup = NULL) {
+
+  if (is.null(lookup)) {
+    lookup <- ghg.ccap::waste_data$epa$wastewater_constants
+  }
+
   # Pre-calculate days per year for all years
   days_per_year <- ifelse(lubridate::leap_year(years), 366, 365)
 
