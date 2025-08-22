@@ -7,8 +7,8 @@
 calculate_mww_n2o_effluent_emissions(
   population,
   years,
-  lookup = waste_data$epa$wastewater_constants,
-  epa_protein_consumption = waste_data$epa$protein_consumption
+  lookup = NULL,
+  epa_protein_consumption = NULL
 )
 }
 \arguments{

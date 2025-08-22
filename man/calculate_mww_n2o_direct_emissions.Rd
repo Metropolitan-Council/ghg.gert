@@ -4,11 +4,7 @@
 \alias{calculate_mww_n2o_direct_emissions}
 \title{Calculate direct nitrous oxide emissions from municipal wastewater}
 \usage{
-calculate_mww_n2o_direct_emissions(
-  population,
-  years,
-  lookup = waste_data$epa$wastewater_constants
-)
+calculate_mww_n2o_direct_emissions(population, years, lookup = NULL)
 }
 \arguments{
 \item{population}{single value or multiple, values of population from which to scale emissions}

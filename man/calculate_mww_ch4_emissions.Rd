@@ -4,11 +4,7 @@
 \alias{calculate_mww_ch4_emissions}
 \title{Calculate methane emissions from municipal wastewater}
 \usage{
-calculate_mww_ch4_emissions(
-  population,
-  years,
-  lookup = waste_data$epa$wastewater_constants
-)
+calculate_mww_ch4_emissions(population, years, lookup = NULL)
 }
 \arguments{
 \item{population}{single value or multiple, values of population from which to scale emissions}
