@@ -9,7 +9,7 @@ var_id,var_name,var_description,unit,var_description_2,var_description_short
 8,PARK,Parking cost,dollars per hour,,
 9,SIMPG,Spark ignition (gasoline) fuel economy,miles per gallon,,
 10,SIStock,Spark ignition (gasoline) stock,vehicles,vehicle sales + existing vehicle stock,Gasoline
-11,TMT,Tonne-miles traveled for freight modes,Tonne-miles,Movement of one tonne of freight the distance of one mile,
+11,TMT,Metric ton-miles traveled,metric ton-miles,Movement of one metric ton of freight the distance of one mile,
 12,TotStock,Total stock of vehicles,vehicles,,Total
 13,SIPrice,Cost of operating a gasoline vehicle per mile,dollars per mile,"Based on depreciated purchase cost, operations, and maintenance.",
 14,CIPrice,Cost of operating a diesel vehicle per mile,dollars per mile,,
