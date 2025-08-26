@@ -7,7 +7,6 @@ source("data-raw/transportation_data_processing/fix_bus_pmt.R")
 source("data-raw/transportation_data_processing/fix_bus_avo.R")
 # source("data-raw/transportation_data_processing/fix_bus_fuel.R")
 source("data-raw/transportation_data_processing/fix_pmt_tmt.R")
-source("data-raw/transportation_data_processing/fix_parking.R")
 source("data-raw/transportation_data_processing/fix_fuel_economy.R")
 source("data-raw/transportation_data_processing/transportation_index.R")
 
@@ -29,6 +28,7 @@ transportation_data$freight <- transportation_data$freight %>%
 
 # these need to be run AFTER we fix city names
 source("data-raw/transportation_data_processing/fix_pldv_avo.R")
+source("data-raw/transportation_data_processing/fix_parking.R")
 source("data-raw/transportation_data_processing/fix_update_pmt.R")
 
 

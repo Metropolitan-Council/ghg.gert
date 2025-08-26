@@ -300,3 +300,15 @@ testthat::test_that("enviro factors and elasticities correct", {
 
   testthat::expect_equal(min(elast$vmt_elast), -0.34)
 })
+
+
+testthat::test_that("minimum parking value correct", {
+  transportation_data$passenger %>%
+    filter(mode == "PLDV", var == "PARK") %>%
+    ungroup() %>%
+    filter(value == min(value)) %>%
+    magrittr::extract2("value") %>% unique() %>%
+
+  testthat::expect_equal(0.01)
+
+})
