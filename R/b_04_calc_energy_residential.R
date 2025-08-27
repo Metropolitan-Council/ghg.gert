@@ -64,14 +64,14 @@ calc_energy_residential <- function(res_tb,
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-      .selected_ctu = .selected_ctu
+               .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
         sector == "Residential"
       ),
     filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-      .selected_ctu = .selected_ctu
+               .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
@@ -91,48 +91,51 @@ calc_energy_residential <- function(res_tb,
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
-      filter(inventory_year >= (.baseline_year - 4)) %>%
-      pull(mwh) %>%
-      sum()) /
-      (res_tb_bau %>%
-        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        distinct(geog_name, sp_categories, inventory_year, value) %>%
-        left_join(
-          ctu_energy_profile %>%
-            filter(scenario == "baseline"),
-          by = c("sp_categories" = "mc_classification")
-        ) %>%
-        mutate(mwh_pred = value * scenario_mwh) %>%
-        pull(mwh_pred) %>%
-        sum())
+       filter(inventory_year >= (.baseline_year - 4)) %>%
+       pull(mwh) %>%
+       sum()) /
+    (res_tb_bau %>%
+       filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+       distinct(geog_name, sp_categories, inventory_year, value) %>%
+       left_join(
+         ctu_energy_profile %>%
+           filter(scenario == "baseline"),
+         by = c("sp_categories" = "mc_classification")
+       ) %>%
+       mutate(mwh_pred = value * scenario_mwh) %>%
+       pull(mwh_pred) %>%
+       sum())
 
   mcf_adjustment <-
     (baseline_energy %>%
-      filter(inventory_year >= (.baseline_year - 4)) %>%
-      pull(mcf) %>%
-      sum()) /
-      (res_tb_bau %>%
-        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        distinct(geog_name, sp_categories, inventory_year, value) %>%
-        left_join(
-          ctu_energy_profile %>%
-            filter(scenario == "baseline"),
-          by = c("sp_categories" = "mc_classification")
-        ) %>%
-        mutate(mcf_pred = value * scenario_mcf) %>%
-        pull(mcf_pred) %>%
-        sum())
+       filter(inventory_year >= (.baseline_year - 4)) %>%
+       pull(mcf) %>%
+       sum()) /
+    (res_tb_bau %>%
+       filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+       distinct(geog_name, sp_categories, inventory_year, value) %>%
+       left_join(
+         ctu_energy_profile %>%
+           filter(scenario == "baseline"),
+         by = c("sp_categories" = "mc_classification")
+       ) %>%
+       mutate(mcf_pred = value * scenario_mcf) %>%
+       pull(mcf_pred) %>%
+       sum())
 
   # calculate expected energy load for cities here
   # heat pump expected energy will be lowered for retrofit homes
   # ctu average energy load will be split based on heat pump percentage
 
   ctu_energy_profile_adjustments <- ctu_energy_profile %>%
+    unique() %>%
     tidyr::pivot_wider(
       id_cols = mc_classification,
       names_from = scenario,
       values_from = c(scenario_mwh, scenario_mcf),
-      names_glue = "{scenario}_{.value}"
+      names_glue = "{scenario}_{.value}",
+      # if multiple values, use minimum
+      values_fn = min
     ) %>%
     mutate(
       heatpump_mwh = heatpump_scenario_mwh - baseline_scenario_mwh, # heat pump scen mwh addition to baseline is assumed to be all heating gain
@@ -204,17 +207,17 @@ calc_energy_residential <- function(res_tb,
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%
       mutate(hp_pct = if_else(grepl("multi", sp_categories),
-        hp_mf_pct,
-        hp_sf_pct
+                              hp_mf_pct,
+                              hp_sf_pct
       )) %>%
       left_join(ctu_energy_profile,
-        by = c(
-          "sp_categories" = "mc_classification",
-          "efficiency_description" = "cat_match"
-        )
+                by = c(
+                  "sp_categories" = "mc_classification",
+                  "efficiency_description" = "cat_match"
+                )
       ) %>%
       left_join(ctu_energy_profile_adjustments,
-        by = c("sp_categories" = "mc_classification")
+                by = c("sp_categories" = "mc_classification")
       ) %>%
       mutate(
         residential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
@@ -258,10 +261,10 @@ calc_energy_residential <- function(res_tb,
   energy_bau <- bind_rows(
     baseline_energy %>%
       select(geog_name,
-        geog_id,
-        inventory_year,
-        residential_mwh = mwh,
-        residential_mcf = mcf
+             geog_id,
+             inventory_year,
+             residential_mwh = mwh,
+             residential_mcf = mcf
       ),
     energy_calc(
       tb = res_tb_bau,
@@ -276,10 +279,10 @@ calc_energy_residential <- function(res_tb,
   energy_strategy <- bind_rows(
     baseline_energy %>%
       select(geog_name,
-        geog_id,
-        inventory_year,
-        residential_mwh = mwh,
-        residential_mcf = mcf
+             geog_id,
+             inventory_year,
+             residential_mwh = mwh,
+             residential_mcf = mcf
       ),
     energy_calc(
       tb = res_tb,

@@ -16,9 +16,10 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #' @examples
+#'   /dontrun{
 #'
-#'
-#' library(ghg.ccap)
+#'   library(ghg.ccap)
+#'   }
 #'
 run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_parcel,
                                   tb_strategy = NULL,

@@ -1,7 +1,13 @@
-# replace parking values with up to date TBI
+# update passenger light-duty vehicle AVO to most recent TBI
+# create average using Imagine 2050 Community Designation
 pkgload::load_all()
-library(stringr)
 
+# pull modeling dataset, which has imagine designations for each CTU
+vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
+
+ctu_imagine <- vmt_model_data %>%
+  select(ctu_name, gnis, imagine_designation) %>%
+  unique()
 
 # load TBI data if it doesn't already exist
 if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Trip.csv")) {
@@ -41,7 +47,6 @@ hh <- bind_rows(
   read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Household.csv")
 )
 
-
 cprg_tbi_hh_counties <- c(
   "Anoka MN", "Carver MN",
   "Dakota MN", "Hennepin MN",
@@ -64,8 +69,13 @@ hh_region <- hh %>%
   ) %>%
   unique()
 
+# get index of CD levels
+hh_cd_levels <- hh_region %>%
+  select(cd_2050, cd_2050_broad, cd_2050_rsd) %>%
+  unique()
 
-tbi_parking_cost <- trip %>%
+
+avo_imagine <- trip %>%
   filter(
     hh_id %in% hh$hh_id,
     mode_type %in% c(
@@ -82,53 +92,74 @@ tbi_parking_cost <- trip %>%
     duration_minutes > 0,
     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
-    park_type %in% c("Paid via cash, credit card, or ticket(s)",
-                     "Parking reservation service (e.g., SpotHero, ParkMobile)",
-                     "Used a parking pass (any type)"),
     distance_miles < 720,
     distance_miles > 0
   ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
   filter(
     trip_weight > 0,
-    !is.na(vehicle_park_cost)
+    !is.na(cd_2050)
   ) %>%
   srvyr::as_survey_design(id = trip_id, weights = trip_weight) %>%
-  group_by(trip_d_city) %>%
+  group_by(cd_2050_broad) %>%
   summarize(
-    vehicle_park_cost = srvyr::survey_mean(vehicle_park_cost, na.rm = T),
+    num_travelers_numeric = srvyr::survey_mean(num_hh_travelers_int, na.rm = T),
     n_trips = srvyr::survey_total(),
     n_trips_sample = n()
   ) %>%
-  ungroup() %>%
-  filter(n_trips_sample >= 10) %>%
-  arrange(-n_trips_sample) %>%
-  mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
-           str_replace("St. ", "Saint ") %>%
-           str_remove("(unorg.)") %>%
-           str_remove_all("[:punct:]") %>%
-           str_trim())
+  ungroup()
 
 
-parking_replace <-
-  transportation_data$passenger %>%
-  filter(var == "PARK",
-         mode == "PLDV") %>%
-  left_join(tbi_parking_cost %>%
-              select(geog_name, vehicle_park_cost),
-            by = join_by(geog_name)) %>%
-  mutate(value = case_when(
-    # use TBI if possible
-    !is.na(vehicle_park_cost) ~ vehicle_park_cost,
-    # otherwise use $0.01
-    TRUE ~ 0.01
-  )) %>%
-  select(names(transportation_data$passenger))
 
+# compare new with previous ------
+avo_new <- avo_imagine %>%
+  left_join(hh_cd_levels, join_by(cd_2050_broad)) %>%
+  left_join(ctu_imagine,
+    by = c("cd_2050" = "imagine_designation")
+  ) %>%
+  mutate(
+    var = "AVO",
+    mode = "PLDV",
+    aeo_mode = "LDV",
+    type = "P",
+    value = num_travelers_numeric
+  ) %>%
+  select(geog_id = gnis, var, mode, value, aeo_mode, type) %>%
+  unique()
+
+avo_exist <- transportation_data$passenger %>%
+  filter(
+    mode == "PLDV",
+    var == "AVO"
+  ) %>%
+  # select(mode, var, year, geog_id, geog_name, value) %>%
+  unique()
+
+# average AVO has increased
+# avo_exist$value %>% mean()
+# avo_new$value %>% mean()
+
+# replace AVO -----
+
+avo_replace <- avo_exist %>%
+  select(-value) %>%
+  left_join(avo_new)
+
+# make sure no NA values
+testthat::expect_equal(
+  avo_replace %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(aeo_mode) | is.na(type)) %>%
+    nrow(),
+  0
+)
+
+
+# replace in our transportation_data object
 transportation_data$passenger <- transportation_data$passenger %>%
-  filter(!(mode == "PLDV" & var == "PARK")) %>%
-  bind_rows(parking_replace)
+  filter(!(var == "AVO" & mode == "PLDV")) %>%
+  bind_rows(avo_replace)
 
 
 usethis::use_data(transportation_data, overwrite = TRUE)
 
-rm(trip, hh, parking_replace, tbi_parking_cost)
+rm(trip, hh)

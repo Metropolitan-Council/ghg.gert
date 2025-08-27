@@ -70,7 +70,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .selected_ctu = "all",
                                   .scenario = "alt",
                                   # land use module data
-                                  .density_output = density_output,
+                                  .density_output,
                                   # non-residential
                                   # electrification
                                   .electrified_buildings_pct = 0.0,
