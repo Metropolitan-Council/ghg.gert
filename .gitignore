@@ -47,6 +47,11 @@ data-raw/building_energy_data_processing/resstock data/MN_upgrade3.03_metadata_a
 data-raw/building_energy_data_processing/resstock data/MN_upgrade3.04_metadata_and_annual_results_electric_oven.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade4.04_metadata_and_annual_results_water_heater.csv
 
+
+data-raw/transportation_data_processing/tbi/metadata/
+
+data-raw/transportation_data_processing/tbi/
+
 data-raw/transportation_data_processing/tbi/
 
 data-raw/meta/urbansim/datadictionary.xlsx
@@ -384,3 +389,4 @@ data-raw/transportation_data_processing/ton-miles-traveled/Freight_Analysis_Fram
 data-raw/transportation_data_processing/ton-miles-traveled/National_NHFN_Designated_PHFS.zip
 
 data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network_-2814967379817715728.zip
+

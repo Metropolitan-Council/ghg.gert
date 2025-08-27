@@ -57,7 +57,8 @@ Other datasets:
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
-\code{\link{transportation_index}}
+\code{\link{transportation_index}},
+\code{\link{waste_data}}
 }
 \concept{datasets}
 \keyword{datasets}
