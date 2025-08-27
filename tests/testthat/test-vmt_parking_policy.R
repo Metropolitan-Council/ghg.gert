@@ -7,18 +7,19 @@ test_that("Parking policy effects correct", {
   )
 
   testthat::expect_equal(
-    parking_adj,
+    parking_adj %>%
+      select(-geog_id),
     tibble::tribble(
-      ~year, ~ctu, ~park_price_adj,
-      "2015", "St. Paul", 1,
-      "2018", "St. Paul", 1,
-      "2020", "St. Paul", 1,
-      "2025", "St. Paul", 0.4500000,
-      "2030", "St. Paul", 0.4500000,
-      "2035", "St. Paul", 0.4500000,
-      "2040", "St. Paul", 0.4500000,
-      "2045", "St. Paul", 0.4500000,
-      "2050", "St. Paul", 0.4500000
+      ~year, ~geog_name, ~park_price_adj,
+      "2015", "Saint Paul", 1,
+      "2018", "Saint Paul", 1,
+      "2020", "Saint Paul", 1,
+      "2025", "Saint Paul", 0.731618027,
+      "2030", "Saint Paul", 0.731618027,
+      "2035", "Saint Paul", 0.731618027,
+      "2040", "Saint Paul", 0.731618027,
+      "2045", "Saint Paul", 0.731618027,
+      "2050", "Saint Paul", 0.731618027
     )
   )
 
@@ -29,18 +30,18 @@ test_that("Parking policy effects correct", {
       .mode = "PLDV",
       .parking_price = 66,
       .enviro_factors = enviro_factors
-    ),
+    ) %>% select(-geog_id),
     tibble::tribble(
-      ~year, ~ctu, ~park_price_adj,
-      "2015", "St. Paul", 1,
-      "2018", "St. Paul", 1,
-      "2020", "St. Paul", 1,
-      "2025", "St. Paul", 0.4500000,
-      "2030", "St. Paul", 0.4500000,
-      "2035", "St. Paul", 0.4500000,
-      "2040", "St. Paul", 0.4500000,
-      "2045", "St. Paul", 0.4500000,
-      "2050", "St. Paul", 0.4500000
+      ~year, ~geog_name, ~park_price_adj,
+      "2015", "Saint Paul", 1,
+      "2018", "Saint Paul", 1,
+      "2020", "Saint Paul", 1,
+      "2025", "Saint Paul", 0.597427040,
+      "2030", "Saint Paul", 0.597427040,
+      "2035", "Saint Paul", 0.597427040,
+      "2040", "Saint Paul", 0.597427040,
+      "2045", "Saint Paul", 0.597427040,
+      "2050", "Saint Paul", 0.597427040
     )
   )
 
@@ -51,19 +52,20 @@ test_that("Parking policy effects correct", {
       .mode = "BU",
       .parking_price = 66,
       .enviro_factors = enviro_factors
-    ),
+    ) %>% select(-geog_id),
     tibble::tribble(
-      ~year, ~ctu, ~park_price_adj,
-      "2015", "St. Paul", 1,
-      "2018", "St. Paul", 1,
-      "2020", "St. Paul", 1,
-      "2025", "St. Paul", 1.29727734,
-      "2030", "St. Paul", 1.29727734,
-      "2035", "St. Paul", 1.29727734,
-      "2040", "St. Paul", 1.29727734,
-      "2045", "St. Paul", 1.29727734,
-      "2050", "St. Paul", 1.29727734
-    )
+      ~year, ~geog_name, ~park_price_adj,
+      "2015", "Saint Paul", 1,
+      "2018", "Saint Paul", 1,
+      "2020", "Saint Paul", 1,
+      "2025", "Saint Paul", 1.057510,
+      "2030", "Saint Paul", 1.057510,
+      "2035", "Saint Paul", 1.057510,
+      "2040", "Saint Paul", 1.057510,
+      "2045", "Saint Paul", 1.057510,
+      "2050", "Saint Paul", 1.057510
+    ),
+    tolerance = 0.001
   )
 
 
@@ -76,18 +78,18 @@ test_that("Parking policy effects correct", {
   )
 
   testthat::expect_equal(
-    sut_park,
+    sut_park %>% select(-geog_id),
     tibble::tribble(
-      ~year, ~ctu, ~park_price_adj,
-      "2015", "St. Paul", 1,
-      "2018", "St. Paul", 1,
-      "2020", "St. Paul", 1,
-      "2025", "St. Paul", 0.86,
-      "2030", "St. Paul", 0.86,
-      "2035", "St. Paul", 0.86,
-      "2040", "St. Paul", 0.86,
-      "2045", "St. Paul", 0.86,
-      "2050", "St. Paul", 0.86
+      ~year, ~geog_name, ~park_price_adj,
+      "2015", "Saint Paul", 1,
+      "2018", "Saint Paul", 1,
+      "2020", "Saint Paul", 1,
+      "2025", "Saint Paul", 0.86,
+      "2030", "Saint Paul", 0.86,
+      "2035", "Saint Paul", 0.86,
+      "2040", "Saint Paul", 0.86,
+      "2045", "Saint Paul", 0.86,
+      "2050", "Saint Paul", 0.86
     )
   )
 
@@ -115,18 +117,18 @@ test_that("Parking policy effects correct", {
       .mode = "PLDV",
       .parking_price = 0,
       .enviro_factors = enviro_factors
-    ),
+    ) %>% select(-geog_id),
     tibble::tribble(
-      ~year, ~ctu, ~park_price_adj,
-      "2015", "St. Paul", 1,
-      "2018", "St. Paul", 1,
-      "2020", "St. Paul", 1,
-      "2025", "St. Paul", 1,
-      "2030", "St. Paul", 1,
-      "2035", "St. Paul", 1,
-      "2040", "St. Paul", 1,
-      "2045", "St. Paul", 1,
-      "2050", "St. Paul", 1
+      ~year, ~geog_name, ~park_price_adj,
+      "2015", "Saint Paul", 1,
+      "2018", "Saint Paul", 1,
+      "2020", "Saint Paul", 1,
+      "2025", "Saint Paul", 1,
+      "2030", "Saint Paul", 1,
+      "2035", "Saint Paul", 1,
+      "2040", "Saint Paul", 1,
+      "2045", "Saint Paul", 1,
+      "2050", "Saint Paul", 1
     )
   )
 

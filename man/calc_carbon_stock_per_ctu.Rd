@@ -17,7 +17,7 @@ calc_carbon_stock_per_ctu(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. Options are:
@@ -95,15 +95,19 @@ Other land use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use}()}
+\code{\link{run_scenario_land_use_deprecated}()}
 
 Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
+\code{\link{calc_energy_residential}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()}
+\code{\link{get_residential_energy_baseline}()},
+\code{\link{get_residential_mcf_baseline}()},
+\code{\link{get_residential_mwh_baseline}()}
 }
 \concept{emissions}
 \concept{land use}

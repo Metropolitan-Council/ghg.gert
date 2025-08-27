@@ -9,7 +9,7 @@ filter_ctu(df, .selected_ctu = "all")
 \arguments{
 \item{df}{table}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
 \value{
 tibble. Input df with only selected CTU

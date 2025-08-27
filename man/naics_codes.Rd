@@ -6,13 +6,11 @@
 \title{North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes}
 \format{
 Nested, named list
-\describe{
-\item{commercial}{NAICS codes considered commercial}
-\item{industrial}{NAICS codes considered industrial}
-\item{led_commercial}{NAICS codes considered
-commercial for the LED dataset}
-\item{led_industrial}{NAICS codes considered industrial
-for the LED dataset}
+\itemize{
+\item \strong{commercial} NAICS codes considered commercial
+\item \strong{industrial} NAICS codes considered industrial
+\item \strong{led_commercial} NAICS codes considered commercial for the LED dataset
+\item \strong{led_industrial} NAICS codes considered industrial for the LED dataset
 }
 }
 \usage{
@@ -29,12 +27,17 @@ naics_codes$industrial
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
+\code{\link{fuel_economy}},
+\code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{transportation_data}},
-\code{\link{transportation_index}}
+\code{\link{transportation_index}},
+\code{\link{waste_data}}
 }
 \concept{datasets}
 \keyword{datasets}

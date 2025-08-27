@@ -14,12 +14,9 @@ calc_land_by_development_type(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
-
-\item{.urban_form_scenario}{character,
-The current land use scenario being explored.
+\item{.urban_form_scenario}{character, the current land use scenario being explored.
 Default is \code{"bau"}.
 The options are:
 \itemize{
@@ -62,6 +59,6 @@ Other land use:
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
 \code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use}()}
+\code{\link{run_scenario_land_use_deprecated}()}
 }
 \concept{land use}

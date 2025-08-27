@@ -30,17 +30,14 @@ run_all_modules(
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
   .electrified_buildings_pct = 0,
-  .renewable_ng_nonres = FALSE,
   .smart_grid_energy_reduction_pct = 0,
-  .new_homes_to_multifamily_pct = 0,
   .existing_high_efficiency_buildings_pct = 0,
-  .home_behavior_change_pct = 0,
-  .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0,
-  .new_homes_leed_gold_pct = 0,
-  .existing_home_retrofit_pct = 0,
-  .existing_home_ultra_retrofit_pct = 0,
-  .additional_electrified_residential_buildings_pct = 0,
+  .new_sf_homes_leed_gold_pct = 0,
+  .new_mf_homes_leed_gold_pct = 0,
+  .existing_sf_retrofit_pct = 0,
+  .existing_mf_retrofit_pct = 0,
+  .sf_heat_pump_pct = 0,
+  .mf_heat_pump_pct = 0,
   .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
@@ -66,14 +63,16 @@ run_all_modules(
   .bev_pct_sales = 0,
   .phev_pct_sales = 0,
   .hev_pct_sales = 0,
-  .enviro_factors = enviro_factors,
+  .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
-  .elast = elast,
+  .elast = ghg.ccap::elast,
+  .fuel_economy = ghg.ccap::fuel_economy,
+  .grid_emissions = ghg.ccap::grid_emissions,
   .elast_5d = elast_5d
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{run_land_use}{logical. Default is \code{TRUE}}
 
@@ -81,7 +80,7 @@ run_all_modules(
 
 \item{run_transportation}{logical. Default is \code{TRUE}}
 
-\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
@@ -108,13 +107,16 @@ is suitable and the default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{ctu},
+\item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_cost_mile}{logical, whether to calculate transportation fuel cost per mile tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
 \item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
@@ -174,47 +176,22 @@ Default is \code{0.0}.}
 
 \item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
 
-\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of households that change behavior to reduce household emissions.
-Default is \code{0.0}.}
-
-\item{.single_family_floor_area_growth_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage growth rate in single family home floor area.
-Default is \code{0.05}.}
-
-\item{.new_homes_affected_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage of all new single-family
-households that will respond to increased energy costs by decreasing
-home size.
-Default is \code{0.0}.}
-
-\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+\item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.0}.}
+\item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
 
-\item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.00}.}
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
 
-\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-Default is \code{0}.
-The percentage of buildings that would
-be electrified under the specified scenario.}
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
@@ -288,13 +265,19 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 
-\item{.elast}{table of elasticities. Default is \code{elast} included in this package.}
+\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{elast_5d} included in this package.}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
+
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 }
 \value{
 list, list with the outputs of the three modules.

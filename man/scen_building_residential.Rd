@@ -7,18 +7,23 @@
 scen_building_residential(
   res_tb = res_tb,
   res_tb_bau = res_tb_bau,
-  .selected_ctu = .selected_ctu,
-  .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-  .single_family_floor_area_growth_pct,
-  .new_homes_affected_pct,
-  .new_homes_leed_gold_pct,
-  .existing_home_retrofit_pct,
-  .existing_home_ultra_retrofit_pct,
-  .home_behavior_change_pct,
-  .grid_decarbonization_pct,
-  .additional_electrified_residential_buildings_pct,
-  .renewable_ng_res,
-  .enviro_factors = enviro_factors
+  .scenario = "",
+  .selected_ctu,
+  .baseline_year,
+  .density_output,
+  .leed_start_year,
+  .new_sf_homes_leed_gold_pct,
+  .new_mf_homes_leed_gold_pct,
+  .retrofit_start_year,
+  .retrofit_end_year,
+  .existing_sf_retrofit_pct,
+  .existing_mf_retrofit_pct,
+  .heatpump_start_year,
+  .heatpump_end_year,
+  .sf_heat_pump_pct,
+  .mf_heat_pump_pct,
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
@@ -33,57 +38,33 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city. Default is \code{"all"}.}
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.single_family_floor_area_growth_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage growth rate in single family home floor area.
-Default is \code{0.05}.}
-
-\item{.new_homes_affected_pct}{numeric,
-a value between \code{0} and \code{1}.
-Percentage of all new single-family
-households that will respond to increased energy costs by decreasing
-home size.
-Default is \code{0.0}.}
-
-\item{.new_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+\item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
-Default is \code{0.0}.}
+\item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
+Default is \code{0.0}}
 
-\item{.existing_home_ultra_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of existing homes retrofitted to reduce energy usage by \emph{66\%}.
-Default is \code{0.00}.}
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
 
-\item{.home_behavior_change_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of households that change behavior to reduce household emissions.
-Default is \code{0.0}.}
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
 
-\item{.additional_electrified_residential_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-Default is \code{0}.
-The percentage of buildings that would
-be electrified under the specified scenario.}
-
-\item{.renewable_ng_res}{logical, documentation needed}
-
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
-\code{ctu_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
+\code{geog_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `ctu_name` character,  Name of the city/township.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `geog_name` character,  Name of the city/township.
  @field `year` numeric, Year.
  @field `var` character,. Can be `residential_mwh`, `residential_therms`,
       `residential_electricity_emissions_kg_co`,

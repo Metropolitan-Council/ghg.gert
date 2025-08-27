@@ -16,6 +16,8 @@ pass_transpo_new <- read_csv("data-raw/transportation_data_processing/pass_trans
   mutate_at(4:12, round, digits = 8) %>%
   mutate(ctu = case_when(
     ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
+    ctu == "Empire Twp." ~ "Empire",
+    ctu == "Credit River Twp." ~ "Credit River",
     TRUE ~ ctu
   ))
 
@@ -25,6 +27,8 @@ freight_transpo <- read_csv("data-raw/transportation_data_processing/freight_tra
   unique() %>%
   mutate(ctu = case_when(
     ctu == "Fort Snelling UT" ~ "Fort Snelling (unorg.)",
+    ctu == "Empire Twp." ~ "Empire",
+    ctu == "Credit River Twp." ~ "Credit River",
     TRUE ~ ctu
   ))
 
@@ -74,7 +78,7 @@ ctu_year_unique <- pass_transpo_long %>%
 passenger_transpo_all <- pass_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
-  right_join(ctu_year_unique) %>%
+  right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(pass_transpo_long))
 
 
@@ -106,7 +110,7 @@ freight_transpo_all <- freight_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
   unique() %>%
-  right_join(ctu_year_unique) %>%
+  right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(freight_transpo_long))
 
 

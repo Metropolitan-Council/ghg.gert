@@ -1,49 +1,49 @@
-var_id,var_name,var_description,unit,var_description_2
-1,AVO,Average vehicle occupancy,people per vehicle,
-2,BEVElec,Battery electric vehicle electricity conusmption,miles per kilowatt-hour,
-3,BEVStock,Battery electric vehicle stock,vehicles,vehicle sales + existing vehicle stock
-4,CIMPG,Compression ignition (diesel) fuel economy,miles per gallon,
-5,CIStock,Compression ignition (diesel) stock,vehicles,vehicle sales + existing vehicle stock
-6,EVElec,Electric vehicle electricity consumption for rail,miles per kilowatt-hour,
-7,EVStock,Stock of electric train vehicles,vehicles,
-8,PARK,Parking cost,dollars per hour,
-9,SIMPG,Spark ignition (gasoline) fuel economy,miles per gallon,
-10,SIStock,Spark ignition (gasoline) stock,vehicles,vehicle sales + existing vehicle stock
-11,TMT,Tonne-miles traveled for freight modes,Tonne-miles,Movement of one tonne of freight the distance of one mile
-12,TotStock,Total stock of vehicles,vehicles,
-13,SIPrice,Cost of operating a gasoline vehicle per mile,dollars per mile,"Based on depreciated purchase cost, operations, and maintenance."
-14,CIPrice,Cost of operating a diesel vehicle per mile,dollars per mile,
-15,HEVPrice,Cost of operating a hybrid electric vehicle per mile,dollars per mile,
-16,PHEVPrice,Cost of operating a plug-in hybrid electric vehicle per mile,dollars per mile,
-17,BEVPrice,Cost of operating a battery electric vehicle per mile,dollars per mile,
-18,BCIPrice,Price of biodiesel bus,dollars,
-19,EVPrice,Price of battery electric bus,dollars,
-20,HEVStock,Hybrid electric vehicle stock,vehicles,vehicle sales + existing vehicle stock
-21,PHEVStock,Plug-in hybrid electric vehicle stock,vehicles,vehicle sales + existing vehicle stock
-22,PHEVPr,Proportion of plug-in hybrid electric vehicle miles traveled operated in electric mode,NA,
-23,TotExist,Total existing vehicles,vehicles,
-24,SIExist,Existing gasoline vehicles,vehicles,
-25,CIExist,Existing diesel vehicles,vehicles,
-26,HEVExist,Existing hybrid electric vehicles,vehicles,
-27,PHEVExist,Existing plug-in hybrid electric vehicles,vehicles,
-28,BEVExist,Existing battery electric vehicles,vehicles,
-29,TotSales,Total vehicle sales,vehicles,
-30,SISales,Total gasoline vehicle sales,vehicles,
-31,CISales,Total diesel vehicle sales,vehicles,
-32,HEVSales,Total hybrid electric sales,vehicles,
-33,PHEVSales,Total plug-in hybrid electric sales,vehicles,
-34,BEVSales,Total battery electric sales,vehicles,
-35,HEVMPG,Hybrid electric fuel economy ,miles per gallon,
-36,PHEVMPG,Plug-in hybrid electric fuel economy in gasoline mode,miles per gallon,
-37,PHEVElec,Plug-in hybrid electric economy in electric mode,miles per kilowatt-hour,
-38,PMT,Passenger miles traveled,miles,Vehicle miles traveled x average vehicle occupancy
-39,BCIStock,Biodiesel bus stock,vehicles,
-40,BCIExist,Biodiesel bus existing stock,vehicles,
-41,BCISales,Biodiesel bus sales,vehicles,
-42,BCIMPG,"Biodiesel bus fuel economy, miles per gallon",miles per gallon,
-43,SAV,Shared electric vehicles per traveler for dynamic ride sharing,vehicles per traveler,1/passengers per vehicle
-44,SAVSales,Shared autonomous vehicle sales per traveler for dynamic ride sharing,vehicles per traveler,
-45,VMT,Vehicle miles traveled per shared electric vehicle for dyanmic ride sharing,miles per vehicle,vehicle miles traveled per shared autonomous vehicle
-46,POP,Population of the city or township unit,people,
-47,DRSShare,Dynamic ride sharing share adjustment to translate across years,NA,
-48,AVShare,Autonomous vehicle share adjustment to translate across years,NA,
+var_id,var_name,var_description,unit,var_description_2,var_description_short
+1,AVO,Average vehicle occupancy,people per vehicle,,
+2,BEVElec,Battery electric vehicle electricity conusmption,miles per kilowatt-hour,,Battery electric
+3,BEVStock,Battery electric vehicle stock,vehicles,vehicle sales + existing vehicle stock,Battery electric
+4,CIMPG,Compression ignition (diesel) fuel economy,miles per gallon,,
+5,CIStock,Compression ignition (diesel) stock,vehicles,vehicle sales + existing vehicle stock,Diesel
+6,EVElec,Electric vehicle electricity consumption for rail,miles per kilowatt-hour,,
+7,EVStock,Stock of electric train vehicles,vehicles,,
+8,PARK,Parking cost,dollars per hour,,
+9,SIMPG,Spark ignition (gasoline) fuel economy,miles per gallon,,
+10,SIStock,Spark ignition (gasoline) stock,vehicles,vehicle sales + existing vehicle stock,Gasoline
+11,TMT,Metric ton-miles traveled,metric ton-miles,Movement of one metric ton of freight the distance of one mile,
+12,TotStock,Total stock of vehicles,vehicles,,Total
+13,SIPrice,Cost of operating a gasoline vehicle per mile,dollars per mile,"Based on depreciated purchase cost, operations, and maintenance.",
+14,CIPrice,Cost of operating a diesel vehicle per mile,dollars per mile,,
+15,HEVPrice,Cost of operating a hybrid electric vehicle per mile,dollars per mile,,
+16,PHEVPrice,Cost of operating a plug-in hybrid electric vehicle per mile,dollars per mile,,
+17,BEVPrice,Cost of operating a battery electric vehicle per mile,dollars per mile,,
+18,BCIPrice,Price of biodiesel bus,dollars,,
+19,EVPrice,Price of battery electric bus,dollars,,
+20,HEVStock,Hybrid electric vehicle stock,vehicles,vehicle sales + existing vehicle stock,Hybrid electric
+21,PHEVStock,Plug-in hybrid electric vehicle stock,vehicles,vehicle sales + existing vehicle stock,Plug-in hybrid
+22,PHEVPr,Proportion of plug-in hybrid electric vehicle miles traveled operated in electric mode,NA,,
+23,TotExist,Total existing vehicles,vehicles,,
+24,SIExist,Existing gasoline vehicles,vehicles,,
+25,CIExist,Existing diesel vehicles,vehicles,,
+26,HEVExist,Existing hybrid electric vehicles,vehicles,,
+27,PHEVExist,Existing plug-in hybrid electric vehicles,vehicles,,
+28,BEVExist,Existing battery electric vehicles,vehicles,,
+29,TotSales,Total vehicle sales,vehicles,,
+30,SISales,Total gasoline vehicle sales,vehicles,,
+31,CISales,Total diesel vehicle sales,vehicles,,
+32,HEVSales,Total hybrid electric sales,vehicles,,
+33,PHEVSales,Total plug-in hybrid electric sales,vehicles,,
+34,BEVSales,Total battery electric sales,vehicles,,
+35,HEVMPG,Hybrid electric fuel economy ,miles per gallon,,
+36,PHEVMPG,Plug-in hybrid electric fuel economy in gasoline mode,miles per gallon,,
+37,PHEVElec,Plug-in hybrid electric economy in electric mode,miles per kilowatt-hour,,
+38,PMT,Passenger miles traveled,miles,Vehicle miles traveled x average vehicle occupancy,
+39,BCIStock,Biodiesel bus stock,vehicles,,
+40,BCIExist,Biodiesel bus existing stock,vehicles,,
+41,BCISales,Biodiesel bus sales,vehicles,,
+42,BCIMPG,"Biodiesel bus fuel economy, miles per gallon",miles per gallon,,
+43,SAV,Shared electric vehicles per traveler for dynamic ride sharing,vehicles per traveler,1/passengers per vehicle,
+44,SAVSales,Shared autonomous vehicle sales per traveler for dynamic ride sharing,vehicles per traveler,,
+45,VMT,Vehicle miles traveled per shared electric vehicle for dyanmic ride sharing,miles per vehicle,vehicle miles traveled per shared autonomous vehicle,
+46,POP,Population of the city or township unit,people,,
+47,DRSShare,Dynamic ride sharing share adjustment to translate across years,NA,,
+48,AVShare,Autonomous vehicle share adjustment to translate across years,NA,,
