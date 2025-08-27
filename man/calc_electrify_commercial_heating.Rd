@@ -22,7 +22,8 @@ Default is \code{0.0}.}
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
@@ -69,20 +70,30 @@ Other commercial-industrial:
 Other buildings: 
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_ghg_residential}()},
+\code{\link{calc_housing_leed}()},
+\code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_residential_renewable_ng}()},
+\code{\link{calc_residential_retrofit}()},
+\code{\link{calc_sfh_leed}()},
+\code{\link{calc_sfh_retrofit}()},
 \code{\link{get_by_county_non_residential_energy_baseline}()},
 \code{\link{get_demographic_baseline}()},
 \code{\link{get_residential_energy_baseline}()},
+\code{\link{get_residential_mcf_baseline}()},
+\code{\link{get_residential_mwh_baseline}()},
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 }

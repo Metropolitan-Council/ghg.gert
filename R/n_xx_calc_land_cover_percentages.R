@@ -30,12 +30,11 @@ calc_land_cover_percentages <- function(tb = land_use_data,
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
   ctu_land_use_2016_land_cover <- filter_ctu(tb$ctu_land_use_2016_land_cover, .selected_ctu)
   ctu_forecast <- filter_ctu(tb$ctu_forecast, .selected_ctu)
-
   # -------------------------------------------------------------------------
   get_hectares_by_land_use_baseline_year <- (
     ctu_land_use_hectares %>%
       dplyr::filter(year == 2016) %>%
-      dplyr::group_by(ctu_name, land_use_type) %>%
+      dplyr::group_by(geog_name, geog_id, land_use_type) %>%
       dplyr::summarise(
         hectares = sum(hectares),
         .groups = "drop"
@@ -46,10 +45,10 @@ calc_land_cover_percentages <- function(tb = land_use_data,
   # -------------------------------------------------------------------------
   get_land_use_by_land_cover_baseline_year <-
     ctu_land_use_2016_land_cover %>%
-    dplyr::group_by(ctu_name, land_use_type) %>%
+    dplyr::group_by(geog_name, geog_id, land_use_type) %>%
     dplyr::mutate(total_hectares = sum(hectares)) %>%
     dplyr::group_by(
-      ctu_name,
+      geog_name, geog_id,
       land_use_type,
       land_cover_type
     ) %>%
@@ -79,7 +78,7 @@ calc_land_cover_percentages <- function(tb = land_use_data,
     dplyr::left_join(
       .,
       ctu_forecast %>%
-        dplyr::distinct(ctu_name) %>%
+        dplyr::distinct(geog_name, geog_id) %>%
         dplyr::cross_join(
           .,
           tb$land_use_2016_types %>%
@@ -94,7 +93,7 @@ calc_land_cover_percentages <- function(tb = land_use_data,
           .,
           (get_land_use_by_land_cover_baseline_year),
           by = c(
-            "ctu_name",
+            "geog_name", "geog_id",
             "land_use_type",
             "land_cover_type"
           )
@@ -109,13 +108,13 @@ calc_land_cover_percentages <- function(tb = land_use_data,
         )
         %>%
         dplyr::select(
-          ctu_name,
+          geog_name, geog_id,
           land_cover_type,
           land_use_type,
           land_cover_percent,
           percent_of_total_area
         ),
-      by = c("ctu_name", "land_use_type")
+      by = c("geog_name", "geog_id", "land_use_type")
     ) %>%
     dplyr::mutate(
       percent_land_cover_type = dplyr::if_else(

@@ -77,13 +77,19 @@ adj_fleet_shares <- function(.pass_tb,
   l_names <- c(
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales"
+    "phev_pct_sales",
+    "vmt_fee",
+    "payd_fee",
+    "gas_tax"
   )
 
   l_vals <- list(
     .bev_pct_sales,
     .hev_pct_sales,
-    .phev_pct_sales
+    .phev_pct_sales,
+    .vmt_fee,
+    .payd_fee,
+    .gas_tax
   )
 
   purrr::map2(l_names, l_vals, check_inputs)

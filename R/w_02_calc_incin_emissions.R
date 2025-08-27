@@ -1,10 +1,14 @@
 #' Calculate GHG emissions from municipal solid waste sent to landfills using waste composition.
 #'
-#' @param waste_tb table, waste activity data
+#' @param waste_inv table, waste inventory data
+#' @param waste_future table, projected waste data
+#'
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
-#'
-calculate_incin_emissions <- function(waste_tb){
+#' @export
+calculate_incin_emissions <- function(waste_inv,
+                                      waste_future
+                                      ){
   # assign factors
   # future workflow (ghg-ccap): save all relevant factors in global table (incl landfill, compost)
   # check with liz
@@ -25,9 +29,12 @@ calculate_incin_emissions <- function(waste_tb){
       as.numeric()
   )
 
-  incineration_emissions <- waste_tb %>%
+
+  ## Turn the following into a function:
+  calc_incin <- function(df) {
+    df %>%
     dplyr::filter(source %in% c("Waste to energy", "Onsite")) %>%
-    dplyr::left_join(incin_factors, by = dplyr::join_by(source)) %>%
+    dplyr::left_join(incin_factors, by = dplyr::join_by(source))  %>%
     dplyr::mutate(
       "Metric tons CO2" = value_activity * co2,
       "Metric tons N2O" = value_activity * n2o
@@ -40,6 +47,15 @@ calculate_incin_emissions <- function(waste_tb){
     dplyr::select(
       -c(co2, n2o)
     )
+  }
+
+
+
+  incineration_emissions <- list()
+
+  incineration_emissions$inv <- waste_inv %>% calc_incin()
+  incineration_emissions$future <- waste_future %>% calc_incin()
+
 
   return(incineration_emissions)
 }

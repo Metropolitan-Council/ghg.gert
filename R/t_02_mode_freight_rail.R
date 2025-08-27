@@ -9,7 +9,6 @@
 #' @return [tibble::tibble()] with column names...
 #' @export
 #'
-#' @importFrom emo ji
 #' @importFrom cli cli_alert_success
 mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .selected_ctu = "all",
@@ -207,7 +206,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Freight rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Freight rail", "🚆"))
 
   return(freight_rail)
 }

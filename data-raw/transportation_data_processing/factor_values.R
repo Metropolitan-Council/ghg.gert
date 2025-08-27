@@ -28,7 +28,7 @@ aeo_factors_new <- vmt_change %>%
   ) %>%
   bind_rows(
     mpg_change %>%
-      filter(var %in% c("MPG", "Light-duty MPG")) %>%
+      filter(var %in% c("MPG", "SIMPG")) %>%
       mutate(var = "MPG") %>%
       ungroup() %>%
       mutate(metadata = paste0(

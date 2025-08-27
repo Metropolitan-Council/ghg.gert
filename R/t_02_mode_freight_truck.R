@@ -8,7 +8,6 @@
 #'
 #' @export
 #'
-#' @importFrom emo ji
 #' @importFrom cli cli_alert_success
 mode_freight_truck <- function(.freight_tb = transportation_data$freight,
                                .selected_ctu = "all",
@@ -353,7 +352,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Freight trucks", emo::ji("truck")))
+  cli::cli_alert_success(paste("Freight trucks", "🚚"))
 
   return(freight_truck)
 }

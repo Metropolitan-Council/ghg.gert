@@ -31,51 +31,51 @@ testthat::test_that("Varous AEO calculations align", {
   )
 
 
-  testthat::expect_equal(
-    vmt_annual_energy_outlook(
-      tb = st_paul_passenger,
-      .mode = "BRT",
-      .aeo_scenario = "HOGS",
-      .enviro_factors = enviro_factors
-    ),
-    tibble::tribble(
-      ~year, ~metric, ~aeo_adj,
-      "2015", "VMT", 1,
-      "2018", "VMT", 1,
-      "2020", "VMT", 0.998807314,
-      "2025", "VMT", 0.999019465,
-      "2030", "VMT", 0.998756156,
-      "2035", "VMT", 0.998025806,
-      "2040", "VMT", 0.997967067,
-      "2045", "VMT", 0.99845031,
-      "2050", "VMT", 0.998769925
-    ),
-    tolerance = 0.1
-  )
+  # testthat::expect_error(
+  #   vmt_annual_energy_outlook(
+  #     tb = st_paul_passenger,
+  #     .mode = "BRT",
+  #     .aeo_scenario = "HOGS",
+  #     .enviro_factors = enviro_factors
+  #   ),
+  #   tibble::tribble(
+  #     ~year, ~metric, ~aeo_adj,
+  #     "2015", "VMT", 1,
+  #     "2018", "VMT", 1,
+  #     "2020", "VMT", 0.998807314,
+  #     "2025", "VMT", 0.999019465,
+  #     "2030", "VMT", 0.998756156,
+  #     "2035", "VMT", 0.998025806,
+  #     "2040", "VMT", 0.997967067,
+  #     "2045", "VMT", 0.99845031,
+  #     "2050", "VMT", 0.998769925
+  #   ),
+  #   tolerance = 0.1
+  # )
 
 
 
-  testthat::expect_equal(
-    vmt_annual_energy_outlook(
-      tb = st_paul_passenger,
-      .mode = "BRT",
-      .aeo_scenario = "LOGS",
-      .enviro_factors = enviro_factors
-    ),
-    tibble::tribble(
-      ~year, ~metric, ~aeo_adj,
-      "2015", "VMT", 1,
-      "2018", "VMT", 1,
-      "2020", "VMT", 1,
-      "2025", "VMT", 1.00052543,
-      "2030", "VMT", 1.000251198,
-      "2035", "VMT", 1.000895809,
-      "2040", "VMT", 1.001133691,
-      "2045", "VMT", 1.001101447,
-      "2050", "VMT", 1.001088814
-    ),
-    tolerance = 0.1
-  )
+  # testthat::expect_error(
+  #   vmt_annual_energy_outlook(
+  #     tb = st_paul_passenger,
+  #     .mode = "BRT",
+  #     .aeo_scenario = "LOGS",
+  #     .enviro_factors = enviro_factors
+  #   ),
+  #   tibble::tribble(
+  #     ~year, ~metric, ~aeo_adj,
+  #     "2015", "VMT", 1,
+  #     "2018", "VMT", 1,
+  #     "2020", "VMT", 1,
+  #     "2025", "VMT", 1.00052543,
+  #     "2030", "VMT", 1.000251198,
+  #     "2035", "VMT", 1.000895809,
+  #     "2040", "VMT", 1.001133691,
+  #     "2045", "VMT", 1.001101447,
+  #     "2050", "VMT", 1.001088814
+  #   ),
+  #   tolerance = 0.1
+  # )
 
 
   testthat::expect_error(

@@ -170,7 +170,6 @@
 "naics_codes"
 
 
-
 #' @title Fuel economy
 #' @format tibble
 #' - **year** Forecast year.
@@ -202,37 +201,23 @@
 # geog_index -----
 "geog_index"
 
-#' @title A list of solid waste activity data tables
-#'
-#' @format A named list of three tibbles
-#' - **ctu** A tibble with 4,596 rows and 6 columns: `inventory_year`, `ctu_id`, `ctu_name`, `source`, `value_activity`, `units_activity`.
-#' - **county** A tibble with 168 rows and 5 columns: `inventory_year`, `geoid`, `source`, `value_activity`, `units_activity`.
-#' - **characterization** A tibble with 50 rows and 5 columns: `Material`, `Mean`, `Lower`, `Upper`, `Category`.
-#' @family datasets
-#'
-#' @source https://data.pca.state.mn.us/views/SCOREoverview/SCOREOverview
-#'
-#' @examples
-#' library(ghg.ccap)
-#' waste_data$ctu
-#' waste_data$county
-#' waste_data$characterization
-# waste_data -----
-"waste_data"
 
-
-#' @title Land cover type by county and year (2001 to 20221)
-#' 
-#' @format A single data frame with the following columns:
-#' - **county_id**: County GEOID (5-digit).
-#' - **county_name**: County name.
-#' - **state_name**: State name.
-#' - **inventory_year**: Year.
-#' - **land_cover_main**: Land cover type (Built-Up includes Urban_Tree, Urban_Grassland, and the remaining Built-Up).
-#' - **area**: Land cover area in square kilometers.
-#' - **total_area**: Total area by county.
-#' - **tcc_available**: Tree canopy data available for current year.
-#' - **source**: Indicates whether data come directly from NLCD or are extrapolated values.
+#' @title Land cover type by county and year (2001 to 2021)
+#'
+#' @format Single dataframe
+#' \describe{
+#'   \item{county_id}{County GEOID (5-digit)}
+#'   \item{county_name}{County name}
+#'   \item{state_name}{State name}
+#'   \item{inventory_year}{Year}
+#'   \item{land_cover_main}{Land cover type (Built-Up includes Urban_Tree,
+#'   Urban_Grassland, and the remaining Built-Up)}
+#'   \item{area}{Land cover area in square kilometers}
+#'   \item{total_area}{Total area by county}
+#'   \item{tcc_available}{Tree canopy data available for current year}
+#'   \item{source}{Indicates whether data come directly from NLCD or are
+#'   extrapolated values}
+#' }
 #'
 #' @family datasets
 #' @examples
@@ -259,4 +244,39 @@
 #' demographic_data
 # demographic_data -----
 "demographic_data"
+
+
+
+#' @title A list of solid waste activity data tables
+#'
+#' @format A named list of five tibbles
+#' \describe{
+#'   \item{ctu$baseline}{tibble with 20,088 rows and 8 columns, `inventory_year`,
+#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
+#'       `units_activity`, `data_type`}
+#'   \item{ctu$projections}{tibble with 31,248 rows and 8 columns, `inventory_year`,
+#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
+#'       `units_activity`, `data_type`}
+#'   \item{county$baseline}{tibble with 756 rows and 8 columns, `inventory_year`,
+#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
+#'       `units_activity`, `data_type`}
+#'   \item{county$projections}{tibble with 1,176 rows and 8 columns, `inventory_year`,
+#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
+#'       `units_activity`, `data_type`}
+#'   \item{characterization}{tibble with 50 rows and 5 columns, `Material`,
+#'   `Mean`, `Lower`, `Upper`, `Category`}
+#' }
+#' @family datasets
+#'
+#' @source https://data.pca.state.mn.us/views/SCOREoverview/SCOREOverview
+#'
+#' @examples
+#' library(ghg.ccap)
+#' waste_data$ctu$baseline
+#' waste_data$ctu$projections
+#' waste_data$county$baseline
+#' waste_data$county$projections
+#' waste_data$characterization
+# waste_data -----
+"waste_data"
 

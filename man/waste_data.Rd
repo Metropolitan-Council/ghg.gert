@@ -5,11 +5,22 @@
 \alias{waste_data}
 \title{A list of solid waste activity data tables}
 \format{
-A named list of three tibbles
-\itemize{
-\item \strong{ctu} A tibble with 4,596 rows and 6 columns: \code{inventory_year}, \code{ctu_id}, \code{ctu_name}, \code{source}, \code{value_activity}, \code{units_activity}.
-\item \strong{county} A tibble with 168 rows and 5 columns: \code{inventory_year}, \code{geoid}, \code{source}, \code{value_activity}, \code{units_activity}.
-\item \strong{characterization} A tibble with 50 rows and 5 columns: \code{Material}, \code{Mean}, \code{Lower}, \code{Upper}, \code{Category}.
+A named list of five tibbles
+\describe{
+\item{ctu$baseline}{tibble with 20,088 rows and 8 columns, \code{inventory_year},
+\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
+\code{units_activity}, \code{data_type}}
+\item{ctu$projections}{tibble with 31,248 rows and 8 columns, \code{inventory_year},
+\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
+\code{units_activity}, \code{data_type}}
+\item{county$baseline}{tibble with 756 rows and 8 columns, \code{inventory_year},
+\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
+\code{units_activity}, \code{data_type}}
+\item{county$projections}{tibble with 1,176 rows and 8 columns, \code{inventory_year},
+\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
+\code{units_activity}, \code{data_type}}
+\item{characterization}{tibble with 50 rows and 5 columns, \code{Material},
+\code{Mean}, \code{Lower}, \code{Upper}, \code{Category}}
 }
 }
 \source{
@@ -23,19 +34,23 @@ A list of solid waste activity data tables
 }
 \examples{
 library(ghg.ccap)
-waste_data$ctu
-waste_data$county
+waste_data$ctu$baseline
+waste_data$ctu$projections
+waste_data$county$baseline
+waste_data$county$projections
 waste_data$characterization
 }
 \seealso{
 Other datasets: 
 \code{\link{db_table_names}},
+\code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
+\code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
 \code{\link{transportation_index}}

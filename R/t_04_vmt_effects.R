@@ -279,6 +279,7 @@ vmt_parking_policy <- function(tb,
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
 #'
+#' @param .tb_vmt [tibble::tibble()], VMT table
 #' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
 #'      Default is `0`
@@ -725,6 +726,7 @@ vmt_transit_service <- function(tb,
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
+#' @inheritParams vmt_road_policy
 #'
 #' @return table with columns `geog_name`, `geog_id`, `year`, `occupancy_adj`
 #' @export

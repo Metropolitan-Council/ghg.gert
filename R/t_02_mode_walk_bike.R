@@ -10,9 +10,7 @@
 #'
 #' @export
 #'
-#' @importFrom emo ji
 #' @importFrom cli cli_alert_success
-
 mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .selected_ctu = "all",
                            .scenario = "BAU",
@@ -162,7 +160,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Walk and bike", emo::ji("walking"), emo::ji("bike")))
+  cli::cli_alert_success(paste("Walk and bike", "🚶", "🚴"))
 
   return(wb_fin)
 }

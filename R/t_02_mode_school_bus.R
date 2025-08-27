@@ -9,7 +9,6 @@
 #' @return [tibble::tibble()] with column names...
 #' @export
 #' @importFrom cli cli_alert_success
-#' @importFrom emo ji
 mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .selected_ctu = "all",
                             .scenario = "BAU",
@@ -263,7 +262,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
     school_bus$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success(paste("School bus", emo::ji("school")))
+  cli::cli_alert_success(paste("School bus", "🏫"))
 
   return(school_bus)
 }

@@ -24,6 +24,13 @@ uni_sources <- read.csv("data-raw/transportation_data_processing/indices/unique_
   as_tibble()
 
 
+
+
+
+# sources_key <-
+
+
+
 transportation_index <- list(
   "emission_sources" = emission_sources,
   "variables" = variables,
@@ -31,5 +38,9 @@ transportation_index <- list(
   "aeo" = aeo_desc,
   "data_sources" = uni_sources
 )
+
+
+
+
 
 usethis::use_data(transportation_index, overwrite = TRUE)

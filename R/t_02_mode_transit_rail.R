@@ -10,7 +10,6 @@
 #'
 #' @export
 #' @importFrom cli cli_alert_success
-#' @importFrom emo ji
 mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .selected_ctu = "all",
                               .scenario = "BAU",
@@ -372,7 +371,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
     passenger_rail$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success(paste("Urban and interurban rail", emo::ji("train")))
+  cli::cli_alert_success(paste("Urban and interurban rail", "🚆"))
 
   return(passenger_rail)
 }

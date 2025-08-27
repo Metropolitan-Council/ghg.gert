@@ -9,10 +9,9 @@
 #' @param .variable character, variable name - e.g., "VMT"
 #' @param .tb_fuel_cost_mile table, table with fuel cost per mile
 #' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
-#' @param .enviro_factors list, environmental factors. Default is `enviro_factors`, included in this package.
-#' @param .factor_values list, generalized factor values. Default is `factor_values`.
-#' @param .elast table of elasticities. Default is `elast` included in this package.
-#' @param .elast_5d table of 5D elasticities. Default is `elast_5d` included in this package.
+#' @param .factor_values list, generalized factor values. Default is `ghg.ccap::factor_values`.
+#' @param .elast table of elasticities. Default is `ghg.ccap::elast`.
+#' @param .elast_5d table of 5D elasticities. Default is `ghg.ccap::elast_5d` included in this package.
 #'
 #' @inheritParams run_module_transportation
 #' @inheritParams vmt_parking_policy

@@ -5,21 +5,58 @@
 \title{Execute waste scenarios}
 \usage{
 run_module_waste(
-  waste_tb = waste_data$ctu,
-  waste_char = waste_data$characterization,
+  tb_inv = waste_data$inventory,
+  tb_future = waste_data$projections,
+  tb_base = waste_data$solid_waste_baseline,
+  tb_char = waste_data$characterization,
+  tb_target = waste_data$mpca,
   .selected_ctu = "all",
+  .waste_reduction_pct = 0,
+  .waste_reduction_start = 2025,
+  .waste_reduction_end = 2050,
+  .source_diversion_start = 2025,
+  .source_diversion_end = 2050,
+  .diverted_to_landfill_pct = NULL,
+  .diverted_to_recycle_pct = NULL,
+  .diverted_to_organics_pct = NULL,
+  .diverted_to_wte_pct = NULL,
+  .diverted_to_onsite_pct = NULL,
+  .diverted_to_compost_pct = NULL,
   .methane_recovery_pct = 0,
-  .anaerobic_digestion_pct = 0
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050,
+  .anaerobic_digestion_pct = 0,
+  .anaerobic_digestion_start = 2025,
+  .anaerobic_digestion_end = 2050
 )
 }
 \arguments{
-\item{waste_tb}{table, waste activity data}
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.waste_reduction_pct}{single value, percent reduction in waste activity}
+
+\item{.waste_reduction_start}{single value, year to start waste reduction}
+
+\item{.waste_reduction_end}{single value, year to end waste reduction}
 
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
+
+\item{.methane_recovery_start}{single value, year when methane recovery starts}
+
+\item{.methane_recovery_end}{single value, year when methane recovery ends}
+
+\item{.anaerobic_digestion_pct}{single value, anaerobic digestion percentage}
+
+\item{.anaerobic_digestion_start}{single value, year when anaerobic digestion starts}
+
+\item{.anaerobic_digestion_end}{single value, year when anaerobic digestion ends}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
-Returns a table with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+\code{\link[=list]{list()}}.
+Returns a list of tables with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+\code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
+\code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
+\code{units_emissions}, \code{bau_activity} and \code{bau_emissions}.
 The table is the output of the waste module, any modification to
 the inputs of the waste module must be specified as an argument
 to the function \code{run_module_waste()}
@@ -29,6 +66,9 @@ This function generates the outputs of the waste module
 for the given scenario at the city/township level. It incorporates various
 parameters to evaluate and analyze different waste scenarios for landfill,
 organics, recycling, and waste to energy. Outputs are
-provided as a tibble with columns \code{ctu_name}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+provided as a list of tibbles with columns \code{inventory_year}, \code{geog_id}, \code{geog_name},
+\code{geog_level}, \code{source}, \code{value_activity}, \code{units_activity}, \code{data_type},
+\code{sector}, \code{category}, \code{data_source}, \code{factor_source}, \code{value_emissions},
+\code{units_emissions}, \code{bau_activity} and \code{bau_emissions}.
 }
 \concept{waste}

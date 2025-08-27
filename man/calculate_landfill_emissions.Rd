@@ -4,17 +4,30 @@
 \alias{calculate_landfill_emissions}
 \title{Calculate GHG emissions from municipal solid waste sent to landfills using waste composition.}
 \usage{
-calculate_landfill_emissions(waste_tb, waste_char, .methane_recovery_pct = 0)
+calculate_landfill_emissions(
+  waste_inv,
+  waste_future,
+  waste_char,
+  .methane_recovery_pct = 0,
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050
+)
 }
 \arguments{
-\item{waste_tb}{table, waste activity data}
+\item{waste_inv}{table, waste inventory data}
+
+\item{waste_future}{table, projected waste data}
+
+\item{waste_char}{table, output of 01_mpca_waste_characterization.R}
 
 \item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
 
-\item{waste_characterization}{table, output of 01_mpca_waste_characterization.R}
+\item{.methane_recovery_start}{single value, year when methane recovery starts}
+
+\item{.methane_recovery_end}{single value, year when methane recovery ends}
 }
 \value{
-a data table with geoid, source, inventory_year, value_activity,
+a list containing two data tables with geoid, source, inventory_year, value_activity,
 units_activity, value_emissions, and units_emissions
 }
 \description{

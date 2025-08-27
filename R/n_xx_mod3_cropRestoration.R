@@ -23,8 +23,6 @@ mod3_cropRestoration <- function(df_hist,
                                  tree_pct,
                                  grass_pct,
                                  wetland_pct) {
-
-
   # Input checks
   if (!is.numeric(area_pct) || area_pct < 0 || area_pct > 100) {
     stop("area_pct must be a number between 0 and 100.")
@@ -95,5 +93,4 @@ mod3_cropRestoration <- function(df_hist,
   )
 
   return(result)
-
 }

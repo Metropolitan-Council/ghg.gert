@@ -15,6 +15,7 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()
@@ -36,12 +37,13 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()
   })
 
-  testthat::expect_error({
+  testthat::expect_no_error({
     ft_snelling <- run_all_modules(
       .scenario = "bau",
       .selected_ctu = "Fort Snelling",
@@ -57,6 +59,7 @@ testthat::test_that("All modules run when together", {
       res_tb = ghg.ccap::building_data$residential,
       res_tb_bau = ghg.ccap::building_data$residential,
       non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
       suppressMessages()

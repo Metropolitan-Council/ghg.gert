@@ -5,17 +5,32 @@
 \title{Calculate GHG emissions from municipal solid waste sent to organics facilities.}
 \usage{
 calculate_organic_emissions(
-  waste_tb,
+  waste_inv,
+  waste_future,
   .anaerobic_digestion_pct = 0,
-  .methane_recovery_pct = 0
+  .anaerobic_digestion_start = 2025,
+  .anaerobic_digestion_end = 2050,
+  .methane_recovery_pct = 0,
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050
 )
 }
 \arguments{
-\item{waste_tb}{table, waste activity data}
+\item{waste_inv}{table, waste inventory data}
+
+\item{waste_future}{table, projected waste data}
 
 \item{.anaerobic_digestion_pct}{single value, anaerobic digestion percentage}
 
-\item{.methane_recovery_pct}{single value, percentage of landfills using methane recovery}
+\item{.anaerobic_digestion_start}{single value, year when anaerobic digestion starts}
+
+\item{.anaerobic_digestion_end}{single value, year when anaerobic digestion ends}
+
+\item{.methane_recovery_pct}{single value, methane recovery percentage}
+
+\item{.methane_recovery_start}{single value, year when methane recovery starts}
+
+\item{.methane_recovery_end}{single value, year when methane recovery ends}
 }
 \value{
 a data table with geoid, source, inventory_year, value_activity,

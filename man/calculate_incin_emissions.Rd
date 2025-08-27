@@ -4,10 +4,12 @@
 \alias{calculate_incin_emissions}
 \title{Calculate GHG emissions from municipal solid waste sent to landfills using waste composition.}
 \usage{
-calculate_incin_emissions(waste_tb)
+calculate_incin_emissions(waste_inv, waste_future)
 }
 \arguments{
-\item{waste_tb}{table, waste activity data}
+\item{waste_inv}{table, waste inventory data}
+
+\item{waste_future}{table, projected waste data}
 }
 \value{
 a data table with geoid, source, inventory_year, value_activity,

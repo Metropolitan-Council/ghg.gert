@@ -33,9 +33,10 @@ Fuel cost per gallon for current mode}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.enviro_factors}{list, environmental factors. Default is \code{enviro_factors}, included in this package.}
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 }
 \value{
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.
@@ -50,6 +51,7 @@ Other transportation:
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
+\code{\link{calc_ghg_mwh}()},
 \code{\link{calc_treatment}()},
 \code{\link{calc_vmt_forecast}()},
 \code{\link{mode_freight_rail}()},

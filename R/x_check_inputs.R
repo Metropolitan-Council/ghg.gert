@@ -41,7 +41,7 @@ check_inputs <- function(name, value) {
     }
   } else if (name %in% c("parking_price")) {
     if (value > 200 | value < 0) {
-      cli::cli_abort("Enter a valid parking price between 0 and 200 dollars per hour")
+      cli::cli_abort("Enter a valid parking price between 0 and 200 dollars per hour, not ", value)
     }
   } else if (name %in% c(
     "bev_pct_sales",
@@ -56,8 +56,8 @@ check_inputs <- function(name, value) {
     "comb_5d_impact_pct_change",
     "telework_pct"
   )) {
-    if (value > 1 | value < -1) {
-      cli::cli_abort(paste("Enter a valid", name, "value between -1 and 1"))
+    if ((!is.numeric(value)) | value > 1 | value < -1) {
+      cli::cli_abort(paste("Enter a valid", name, "value between -1 and 1, not ", value))
     }
   } else if (name %in% c(
     # non-residential
@@ -76,12 +76,13 @@ check_inputs <- function(name, value) {
     "home_behavior_change_pct",
     "single_family_floor_area_growth_pct",
     "new_homes_affected_pct",
-    "new_homes_leed_gold_pct ",
-    "existing_home_retrofit_pct",
-    "existing_home_ultra_retrofit_pct",
+    "new_sf_homes_leed_gold_pct",
+    "new_mf_homes_leed_gold_pct",
+    "existing_sf_retrofit_pct",
+    "existing_mf_retrofit_pct",
     # electrification
-    "res_natural_gas_for_space_heating_pct",
-    "res_natural_gas_for_water_heating_pct",
+    "single_family_heat_pump_pct",
+    "multifamily_heat_pump_pct",
     "additional_electrified_residential_buildings_pct",
     # grid
     "grid_decarbonization_pct",
@@ -90,9 +91,19 @@ check_inputs <- function(name, value) {
     if (value > 1 | value < 0) {
       cli::cli_abort(paste("Enter a valid", name, "value between 0 and 1"))
     }
+  } else if (name %in% c(
+    "leed_start_year",
+    "retrofit_start_year",
+    "heatpump_start_year"
+  )) {
+    if (value < 2025 | value > 2045) {
+      cli::cli_abort(paste("Enter a valid", name, "value between 2025 and 2045"))
+    }
   } else if (name == "mode") {
     if (!value %in% c(
-      "BU", "BRT", "RU", "RI",
+      "BU",
+      # "BRT",
+      "RU", "RI",
       "SUT", "CUT", "BIKE", "WALK",
       "BS", "FR", "PLDV",
       "MM", "AIR", "WAT"
@@ -100,7 +111,9 @@ check_inputs <- function(name, value) {
       cli::cli_abort(c(
         "Enter a valid mode",
         paste(
-          "BU", "BRT", "RU", "RI",
+          "BU",
+          # "BRT",
+          "RU", "RI",
           "SUT", "CUT", "BIKE", "WALK",
           "BS", "FR", "PLDV",
           "MM", "AIR", "WAT"
@@ -118,6 +131,10 @@ check_inputs <- function(name, value) {
   } else if (name == "fuel_type") {
     if (!value %in% unique(ghg.ccap::factor_values$ghg$source)) {
       cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.ccap::factor_values$ghg$source), collapse = ", "))
+    }
+  } else if (name == "miles_per_gallon") {
+    if (!value %in% unique(ghg.ccap::fuel_economy$var)) {
+      cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.ccap::fuel_economy$var), collapse = ", "))
     }
   } else {
     return()

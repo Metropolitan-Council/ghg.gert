@@ -16,12 +16,7 @@ mod1_lawnsToLegumes <- function(df_hist,
                                 df_null,
                                 start_yr,
                                 comp_time,
-                                area_pct
-
-) {
-
-
-
+                                area_pct) {
   # Input checks
   if (!is.numeric(area_pct) || area_pct < 0 || area_pct > 100) {
     stop("area_pct must be a number between 0 and 100.")
