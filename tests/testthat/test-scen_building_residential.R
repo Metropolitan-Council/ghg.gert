@@ -62,7 +62,7 @@ test_that("Residential building energy runs", {
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
     .selected_ctu = "Saint Paul",
-    .scenario = "leed",
+    .scenario = "retrofit",
     .density_output = run_scenario_land_use(
       tb = planned_land_use$ctu_planned_land_use_parcel,
       tb_strategy = NULL,
@@ -221,7 +221,7 @@ test_that("Residential building energy runs", {
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
     .selected_ctu = "Afton",
-    .scenario = "leed",
+    .scenario = "retrofit",
     .density_output = run_scenario_land_use(
       tb = planned_land_use$ctu_planned_land_use_parcel,
       tb_strategy = NULL,
@@ -381,7 +381,7 @@ test_that("Residential building energy runs", {
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
     .selected_ctu = "Eagan",
-    .scenario = "leed",
+    .scenario = "retrofit",
     .density_output = run_scenario_land_use(
       tb = planned_land_use$ctu_planned_land_use_parcel,
       tb_strategy = NULL,
@@ -540,7 +540,7 @@ test_that("Residential building energy runs", {
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
     .selected_ctu = "Shorewood",
-    .scenario = "leed",
+    .scenario = "retrofit",
     .density_output = run_scenario_land_use(
       tb = planned_land_use$ctu_planned_land_use_parcel,
       tb_strategy = NULL,
@@ -697,7 +697,7 @@ test_that("Residential building energy runs", {
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
     .selected_ctu = "Belle Plaine",
-    .scenario = "leed",
+    .scenario = "retrofit",
     .density_output = run_scenario_land_use(
       tb = planned_land_use$ctu_planned_land_use_parcel,
       tb_strategy = NULL,
