@@ -620,7 +620,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       "passenger" = passenger,
       "passenger_all" = pass_all,
       "freight" = freight,
-      "freight_all" = freight_all
+      "freight_all" = freight_all,
+      "pass_tb" = pass_tb,
+      "freight_tb" = freight_tb
     )
   )
 }

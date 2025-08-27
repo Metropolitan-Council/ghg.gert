@@ -97,7 +97,10 @@ if (interactive()) {
 
 
 transportation_data$passenger <- transportation_data$passenger %>%
-  anti_join(bus_avo, by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
+  filter(!(mode %in% c("BRT", "BU") & var == "AVO")) %>%
   bind_rows(bus_avo)
+
+  # anti_join(bus_avo, by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
+  # bind_rows(bus_avo)
 
 usethis::use_data(transportation_data, overwrite = TRUE)

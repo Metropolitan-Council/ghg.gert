@@ -6,7 +6,7 @@ testthat::test_that("calc_housing_leed", {
       dplyr::filter(
         inventory_year == 2050,
         new_units > 0,
-        efficiency_description== "new_leed",
+        efficiency_description == "new_leed",
         efficiency_unit_value == 0
       ) %>%
       nrow() %>%
@@ -15,8 +15,6 @@ testthat::test_that("calc_housing_leed", {
 
 
   test_that("Minneapolis LEED works", {
-
-
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Minneapolis",
@@ -29,8 +27,8 @@ testthat::test_that("calc_housing_leed", {
 
     # BAU should have no change in effective units
     testthat::expect_equal(sum(leed0 %>%
-                                 filter(efficiency_description == "new_leed") %>%
-                                 pull(efficiency_unit_value)), 0)
+      filter(efficiency_description == "new_leed") %>%
+      pull(efficiency_unit_value)), 0)
 
 
     # expect error
@@ -88,7 +86,6 @@ testthat::test_that("calc_housing_leed", {
 
 
   test_that("Blaine LEED works", {
-
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Blaine",
@@ -101,8 +98,8 @@ testthat::test_that("calc_housing_leed", {
 
     # BAU should have no change in effective units
     testthat::expect_equal(sum(leed0 %>%
-                                 filter(efficiency_description == "new_leed") %>%
-                                 pull(efficiency_unit_value)), 0)
+      filter(efficiency_description == "new_leed") %>%
+      pull(efficiency_unit_value)), 0)
 
 
     # expect error
@@ -162,9 +159,6 @@ testthat::test_that("calc_housing_leed", {
 
 
   test_that("Willernie LEED works", {
-
-
-
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,
       .selected_ctu = "Willernie",
@@ -177,8 +171,8 @@ testthat::test_that("calc_housing_leed", {
 
     # BAU should have no change in effective units
     testthat::expect_equal(sum(leed0 %>%
-                                 filter(efficiency_description == "new_leed") %>%
-                                 pull(efficiency_unit_value)), 0)
+      filter(efficiency_description == "new_leed") %>%
+      pull(efficiency_unit_value)), 0)
 
 
     # expect error

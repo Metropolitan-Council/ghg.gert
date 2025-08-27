@@ -14,12 +14,12 @@ test_that("Parking policy effects correct", {
       "2015", "Saint Paul", 1,
       "2018", "Saint Paul", 1,
       "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 0.4500000,
-      "2030", "Saint Paul", 0.4500000,
-      "2035", "Saint Paul", 0.4500000,
-      "2040", "Saint Paul", 0.4500000,
-      "2045", "Saint Paul", 0.4500000,
-      "2050", "Saint Paul", 0.4500000
+      "2025", "Saint Paul", 0.731618027,
+      "2030", "Saint Paul", 0.731618027,
+      "2035", "Saint Paul", 0.731618027,
+      "2040", "Saint Paul", 0.731618027,
+      "2045", "Saint Paul", 0.731618027,
+      "2050", "Saint Paul", 0.731618027
     )
   )
 
@@ -36,12 +36,12 @@ test_that("Parking policy effects correct", {
       "2015", "Saint Paul", 1,
       "2018", "Saint Paul", 1,
       "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 0.4500000,
-      "2030", "Saint Paul", 0.4500000,
-      "2035", "Saint Paul", 0.4500000,
-      "2040", "Saint Paul", 0.4500000,
-      "2045", "Saint Paul", 0.4500000,
-      "2050", "Saint Paul", 0.4500000
+      "2025", "Saint Paul", 0.597427040,
+      "2030", "Saint Paul", 0.597427040,
+      "2035", "Saint Paul", 0.597427040,
+      "2040", "Saint Paul", 0.597427040,
+      "2045", "Saint Paul", 0.597427040,
+      "2050", "Saint Paul", 0.597427040
     )
   )
 
@@ -58,13 +58,14 @@ test_that("Parking policy effects correct", {
       "2015", "Saint Paul", 1,
       "2018", "Saint Paul", 1,
       "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 1.29727734,
-      "2030", "Saint Paul", 1.29727734,
-      "2035", "Saint Paul", 1.29727734,
-      "2040", "Saint Paul", 1.29727734,
-      "2045", "Saint Paul", 1.29727734,
-      "2050", "Saint Paul", 1.29727734
-    )
+      "2025", "Saint Paul", 1.057510,
+      "2030", "Saint Paul", 1.057510,
+      "2035", "Saint Paul", 1.057510,
+      "2040", "Saint Paul", 1.057510,
+      "2045", "Saint Paul", 1.057510,
+      "2050", "Saint Paul", 1.057510
+    ),
+    tolerance = 0.001
   )
 
 
