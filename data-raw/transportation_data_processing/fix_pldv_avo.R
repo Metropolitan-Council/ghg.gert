@@ -36,9 +36,9 @@ if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehavior
 
 # warning that these are hefty, around 4gb
 trip <- bind_rows(
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Trip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021Trip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Trip.csv")
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019LinkedTrip.csv"),
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021LinkedTrip.csv"),
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023LinkedTrip.csv")
 )
 
 hh <- bind_rows(
@@ -97,13 +97,13 @@ avo_imagine <- trip %>%
   ) %>%
   left_join(hh_region, join_by(survey_year, hh_id)) %>%
   filter(
-    trip_weight > 0,
+    linked_trip_weight > 0,
     !is.na(cd_2050)
   ) %>%
-  srvyr::as_survey_design(id = trip_id, weights = trip_weight) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
   group_by(cd_2050_broad) %>%
   summarize(
-    num_travelers_numeric = srvyr::survey_mean(num_hh_travelers_int, na.rm = T),
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
     n_trips_sample = n()
   ) %>%
