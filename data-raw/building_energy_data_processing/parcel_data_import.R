@@ -158,8 +158,8 @@ mn_parcel <- mn_parcel %>%
 mn_parcel_assigned <- mn_parcel %>%
   # remaining properties are EXEMPT - implying non-profit status, putting in commercial
   mutate(mc_classification = ifelse(is.na(mc_classification) & FIN_SQ_FT > 0,
-                                    "commercial",
-                                    mc_classification
+    "commercial",
+    mc_classification
   )) %>%
   filter(!is.na(mc_classification))
 
@@ -259,58 +259,84 @@ sfa_parcel <- filter(ctu_parcel, mc_classification == "single_family_attached")
 sfd_parcel <- filter(ctu_parcel, mc_classification == "single_family_detached")
 mfh_parcel <- filter(ctu_parcel, mc_classification == "multifamily")
 
-#which cities are missing sfa?
-no_detached <- anti_join( sfd_parcel,sfa_parcel, by = "geog_name") %>% distinct(county_name, geog_name, ctu_class) %>% print(n = 50)
-mn_parcel %>% filter(CTU_NAME %in% no_detached$geog_name) %>% distinct(mc_classification)
+# which cities are missing sfa?
+no_detached <- anti_join(sfd_parcel, sfa_parcel, by = "geog_name") %>%
+  distinct(county_name, geog_name, ctu_class) %>%
+  print(n = 50)
+mn_parcel %>%
+  filter(CTU_NAME %in% no_detached$geog_name) %>%
+  distinct(mc_classification)
 mn_parcel %>% filter(CTU_NAME %in% no_detached$geog_name, is.na(mc_classification))
 
 # seem to legitimitely not have these housing types
 # will add median value to these city-house styles in case they're predicted to build
 
 ### Hennepin does not report square footage, need to predict from other counties estimated mean value ~ square footage relationship
-sqft_lm_sfd <- lm(median_sq_ft ~ median_emv,
-               sfd_parcel %>% filter(county_name != "Hennepin"))
+sqft_lm_sfd <- lm(
+  median_sq_ft ~ median_emv,
+  sfd_parcel %>% filter(county_name != "Hennepin")
+)
 
-ggplot(data = sfd_parcel, aes(y = median_sq_ft, x =median_emv,
-                              col = county_name)) + geom_point()
+ggplot(data = sfd_parcel, aes(
+  y = median_sq_ft, x = median_emv,
+  col = county_name
+)) +
+  geom_point()
 
 ### counties all have similar slope but different intercept.
 ### However, Ramsey, Carver, and Anoka (Hennepin neighbors) are all median,
 ### so not going to try to adjust slope away from prediction for Hennepin
 
-sfd_parcel$sq_ft_pred <- predict(sqft_lm_sfd,
-                                 sfd_parcel)
+sfd_parcel$sq_ft_pred <- predict(
+  sqft_lm_sfd,
+  sfd_parcel
+)
 
-ggplot(data = sfd_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-                              col = county_name)) + geom_point() +
+ggplot(data = sfd_parcel, aes(
+  x = median_sq_ft, y = sq_ft_pred,
+  col = county_name
+)) +
+  geom_point() +
   geom_abline(intercept = 0, slope = 1)
 
 
 # repeat for sfd
 
 ### Hennepin does not report square footage, need to predict from other counties estimated mean value ~ square footage relationship
-sqft_lm_sfa <- lm(median_sq_ft ~ median_emv,
-                  sfa_parcel %>% filter(county_name != "Hennepin"))
+sqft_lm_sfa <- lm(
+  median_sq_ft ~ median_emv,
+  sfa_parcel %>% filter(county_name != "Hennepin")
+)
 
-ggplot(data = sfa_parcel, aes(y = median_sq_ft, x =median_emv,
-                              col = county_name)) + geom_point()
+ggplot(data = sfa_parcel, aes(
+  y = median_sq_ft, x = median_emv,
+  col = county_name
+)) +
+  geom_point()
 ### not as tight of a relationship, but potentially less important for sfa
 
-sfa_parcel$sq_ft_pred <- predict(sqft_lm_sfa,
-                                 sfa_parcel)
+sfa_parcel$sq_ft_pred <- predict(
+  sqft_lm_sfa,
+  sfa_parcel
+)
 
-ggplot(data = sfa_parcel, aes(x = median_sq_ft, y =sq_ft_pred,
-                              col = county_name)) + geom_point() +
+ggplot(data = sfa_parcel, aes(
+  x = median_sq_ft, y = sq_ft_pred,
+  col = county_name
+)) +
+  geom_point() +
   geom_abline(intercept = 0, slope = 1)
 
 sfd_out <- sfd_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
-         sq_ft_pred, median_sq_ft)) %>%
+    sq_ft_pred, median_sq_ft
+  )) %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 sfa_out <- sfa_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
-                             sq_ft_pred, median_sq_ft)) %>%
+    sq_ft_pred, median_sq_ft
+  )) %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 missing_cities <- anti_join(sfd_out, sfa_out, by = "ctu_id")

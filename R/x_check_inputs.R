@@ -101,7 +101,9 @@ check_inputs <- function(name, value) {
     }
   } else if (name == "mode") {
     if (!value %in% c(
-      "BU", "BRT", "RU", "RI",
+      "BU",
+      # "BRT",
+      "RU", "RI",
       "SUT", "CUT", "BIKE", "WALK",
       "BS", "FR", "PLDV",
       "MM", "AIR", "WAT"
@@ -109,7 +111,9 @@ check_inputs <- function(name, value) {
       cli::cli_abort(c(
         "Enter a valid mode",
         paste(
-          "BU", "BRT", "RU", "RI",
+          "BU",
+          # "BRT",
+          "RU", "RI",
           "SUT", "CUT", "BIKE", "WALK",
           "BS", "FR", "PLDV",
           "MM", "AIR", "WAT"

@@ -86,7 +86,8 @@ us_formatted <- lapply(us_list, us_format) %>%
     variable %in% c(
       "single_fam_det_sl_own",
       "single_fam_det_rent",
-      "single_fam_det_ll_own") ~ "single_family_detached",
+      "single_fam_det_ll_own"
+    ) ~ "single_family_detached",
     variable %in% c(
       "single_fam_attached_own",
       "single_fam_attached_rent"
