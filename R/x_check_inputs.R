@@ -123,7 +123,7 @@ check_inputs <- function(name, value) {
   } else if (name == "selected_ctu") {
     if (value == "all") {
       return()
-    } else if (!value %in% unique(ghg.ccap::transportation_data$passenger$geog_name)) {
+    } else if (!value %in% unique(ghg.ccap::building_energy_data$natgas_inventory$geog_name)) {
       cli::cli_abort(c(
         "Enter a valid geog_name name"
       ))

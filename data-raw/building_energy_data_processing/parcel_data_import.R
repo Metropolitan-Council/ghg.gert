@@ -242,7 +242,6 @@ mn_parcel_map <- mn_parcel_predict %>%
   sf::st_as_sf()
 
 
-
 ### ctu_parcel output
 
 ctu_parcel <- mn_parcel_map %>%
@@ -358,6 +357,24 @@ missing_sfa_rows <- missing_cities %>%
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)
 
 parcel_ctu <- rbind(sfd_out, sfa_out_completed)
+
+### develop regional estimate by getting parcels per classification by city and calculating weighted average
+parcels_per_ctu <- mn_parcel_predict %>%
+  filter(mc_classification %in% unique(parcel_ctu$mc_classification)) %>%
+  group_by(CTU_ID_TXT, mc_classification) %>%
+  summarize(
+    n = n()
+  ) %>%
+  rename(ctu_id = CTU_ID_TXT)
+
+regional_parcel <- parcel_ctu %>%
+  left_join(parcels_per_ctu) %>%
+  group_by(mc_classification) %>%
+  summarise(
+    weighted_sqft = weighted.mean(sq_ft_use, n, na.rm = TRUE),
+    weighted_year = weighted.mean(median_year, n, na.rm = TRUE),
+    .groups = "drop"
+  )
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
