@@ -16,8 +16,8 @@ load("data/demographic_data.rda")
 
 # demographic baseline
 ## -------------------------------------------------------------------------------------------
-building_energy_data$ztrax_sqft_summary_county <-
-  import_from_emissions("metro_energy.ztrax_sqft_summary_county")
+# building_energy_data$ztrax_sqft_summary_county <-
+#   import_from_emissions("metro_energy.ztrax_sqft_summary_county")
 
 # building_energy_data$led_industry_county <-
 #   import_from_emissions("metro_demographic.vw_led_industry_county")
@@ -43,16 +43,16 @@ building_energy_data$ctu_manufactured <-
 # building_energy_data$forecast_lu_ctu <-
 #   import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
 
-building_energy_data$ztrax_sqft_summary_ctu <-
-  import_from_emissions("metro_energy.vw_ztrax_sqft_summary_ctu")
-
-building_energy_data$ctu_county <-
-  import_from_emissions("metro_demographic.vw_ctu_county")
+# building_energy_data$ztrax_sqft_summary_ctu <-
+#   import_from_emissions("metro_energy.vw_ztrax_sqft_summary_ctu")
+#
+# building_energy_data$ctu_county <-
+#   import_from_emissions("metro_demographic.vw_ctu_county")
 
 # demographic forecast
 ## -------------------------------------------------------------------------------------------
-building_energy_data$ztrax_building_sqft <-
-  import_from_emissions("metro_energy.vw_ztrax_building_sqft")
+# building_energy_data$ztrax_building_sqft <-
+#   import_from_emissions("metro_energy.vw_ztrax_building_sqft")
 
 # building_energy_data$emp_forecast_industry_county <-
 #   import_from_emissions("metro_demographic.vw_emp_forecast_industry_county")
@@ -60,8 +60,8 @@ building_energy_data$ztrax_building_sqft <-
 # building_energy_data$ctu_forecast <-
 #   import_from_emissions("metro_demographic.vw_ctu_forecast")
 
-building_energy_data$emp_forecast_industry_ctu <-
-  import_from_emissions("metro_demographic.vw_emp_forecast_industry_ctu")
+# building_energy_data$emp_forecast_industry_ctu <-
+#   import_from_emissions("metro_demographic.vw_emp_forecast_industry_ctu")
 
 building_energy_data$commercial_jobs <-
   demographic_data %>% filter(sp_categories == "commercial_jobs")
@@ -116,8 +116,8 @@ building_energy_data$natural_gas_business_ctu <-
   )
 
 county_elec_data <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
-  filter(sector_alt == "Electricity") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/ccap-graphics/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(category == "Electricity") %>%
   left_join(
     grid_emissions %>%
       select(
@@ -146,8 +146,41 @@ county_elec_data <-
     mwh
   )
 
+regional_elec_data <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/ccap-graphics/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(category == "Electricity") %>%
+  left_join(
+    grid_emissions %>%
+      select(
+        emissions_year = inventory_year,
+        mt_co2e_per_mwh
+      ),
+    by = "emissions_year"
+  ) %>%
+  mutate(
+    mwh = value_emissions / mt_co2e_per_mwh,
+    sector = if_else(sector == "Residential",
+                     "Residential",
+                     "Business"
+    )
+  ) %>%
+  group_by(sector, emissions_year) %>%
+  summarize(mwh = sum(mwh)) %>%
+  ungroup() %>%
+  mutate(geog_name = "CCAP Region",
+         geog_id = "1",
+         geog_level = "Regional") %>%
+  select(
+    geog_name,
+    geog_id,
+    geog_level,
+    sector,
+    inventory_year = emissions_year,
+    mwh
+  )
+
 building_energy_data$electricity_inventory <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_electricity_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data/_ctu_electricity_emissions.RDS") %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index) %>%
   select(
@@ -158,12 +191,13 @@ building_energy_data$electricity_inventory <-
     inventory_year,
     mwh
   ) %>%
-  bind_rows(county_elec_data)
+  bind_rows(county_elec_data,
+            regional_elec_data)
 
 
 county_gas_data <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
-  filter(sector_alt == "Building fuel") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/ccap-graphics/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(grepl("natural gas", source)) %>%
   mutate(
     mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
     geog_level = "COUNTY",
@@ -184,8 +218,36 @@ county_gas_data <-
     mcf
   )
 
+
+regional_gas_data <-
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/ccap-graphics/_meta/data/cprg_county_emissions.RDS") %>%
+  filter(grepl("natural gas", source)) %>%
+  mutate(
+    mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
+    sector = if_else(sector == "Residential",
+                     "Residential",
+                     "Business"
+    )
+  ) %>%
+  group_by(sector, emissions_year) %>%
+  summarize(mcf = sum(mcf)) %>%
+  ungroup() %>%
+  mutate(geog_name = "CCAP Region",
+         geog_id = "1",
+         geog_level = "Regional") %>%
+  select(
+    geog_name,
+    geog_id,
+    geog_level,
+    sector,
+    inventory_year = emissions_year,
+    mcf
+  )
+
+
+
 building_energy_data$natgas_inventory <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_natgas_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data/_ctu_natgas_emissions.RDS") %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index) %>%
   select(
@@ -196,7 +258,8 @@ building_energy_data$natgas_inventory <-
     inventory_year,
     mcf
   ) %>%
-  bind_rows(county_gas_data)
+  bind_rows(county_gas_data,
+            regional_gas_data)
 
 ## -------------------------------------------------------------------------------------------
 # building_energy_data$eia_electricity_servicewide <-
