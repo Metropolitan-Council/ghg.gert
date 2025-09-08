@@ -363,18 +363,26 @@ parcels_per_ctu <- mn_parcel_predict %>%
   filter(mc_classification %in% unique(parcel_ctu$mc_classification)) %>%
   group_by(CTU_ID_TXT, mc_classification) %>%
   summarize(
-    n = n()
+    n = n(), .groups = 'drop'
   ) %>%
+  # complete(CTU_ID_TXT, mc_classification, fill = list(n = 0)) %>%
   rename(ctu_id = CTU_ID_TXT)
 
-regional_parcel <- parcel_ctu %>%
-  left_join(parcels_per_ctu) %>%
+regional_parcel <- parcels_per_ctu %>%
+  left_join(parcel_ctu) %>%
   group_by(mc_classification) %>%
   summarise(
-    weighted_sqft = weighted.mean(sq_ft_use, n, na.rm = TRUE),
-    weighted_year = weighted.mean(median_year, n, na.rm = TRUE),
+    sq_ft_use  = weighted.mean(sq_ft_use, n, na.rm = TRUE),
+    median_year = weighted.mean(median_year, n, na.rm = TRUE),
     .groups = "drop"
-  )
+  ) %>%
+  mutate(county_name = "Region",
+         ctu_id = "1",
+         geog_name = "CCAP Region",
+         inventory_year = 2021)
+
+parcel_ctu <- bind_rows(parcel_ctu,
+                        regional_parcel)
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
