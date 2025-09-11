@@ -63,6 +63,11 @@ calc_energy_non_residential <- function(non_res_tb,
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
+  # snag the .selected community designation -- breaks when .selected_city = "all" and just uses Afton/first city
+  pluck_commDesgn <- non_res_tb_bau %>%
+    summarise(val = first(imagine_designation)) %>%
+    pull(val)
+
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
                .selected_ctu = .selected_ctu
@@ -81,8 +86,9 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  # table with per-job mcf/mwh numbers by community designation
-  commDesgn_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients
+  # Pull relevant community designation's energy profile for .selected_ctu
+  ctu_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients %>%
+    filter(imagine_designation == pluck_commDesgn)
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
@@ -94,7 +100,7 @@ calc_energy_non_residential <- function(non_res_tb,
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
        distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
-         commDesgn_energy_profile %>%
+         ctu_energy_profile %>%
            filter(scenario == "baseline"),
          by = "imagine_designation"
        ) %>%
@@ -111,7 +117,7 @@ calc_energy_non_residential <- function(non_res_tb,
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
        distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
-         commDesgn_energy_profile %>%
+         ctu_energy_profile %>%
            filter(scenario == "baseline"),
          by = "imagine_designation"
        ) %>%
