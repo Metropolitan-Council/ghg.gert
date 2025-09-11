@@ -1,4 +1,4 @@
-### import ResStock data for electrification and retrofit elasticities
+### import ComStock data for electrification and retrofit elasticities
 
 library(dplyr)
 library(tidyr)
