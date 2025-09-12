@@ -132,19 +132,18 @@ calc_energy_non_residential <- function(non_res_tb,
 
   ctu_energy_profile_adjustments <- ctu_energy_profile %>%
     tidyr::pivot_wider(
-      id_cols = mc_classification,
       names_from = scenario,
-      values_from = c(scenario_mwh, scenario_mcf),
+      values_from = c(mwh_per_job, mcf_per_job),
       names_glue = "{scenario}_{.value}"
     ) %>%
     mutate(
-      heatpump_mwh = heatpump_scenario_mwh - baseline_scenario_mwh, # heat pump scen mwh addition to baseline is assumed to be all heating gain
-      retrofit_heating_pct = (retrofit_scenario_mcf - heatpump_scenario_mcf) / # calculate what amount of nat gas was for heating in retrofit
-        (baseline_scenario_mcf - heatpump_scenario_mcf),
-      appliance_mcf = heatpump_scenario_mcf # how much nat gas used when no heating required?
+      heatpump_mwh = electrification_mwh_per_job - baseline_mwh_per_job, # heat pump scen mwh addition to baseline is assumed to be all heating gain
+      retrofit_heating_pct = (retrofit_efficiency_mcf_per_job - electrification_mwh_per_job) / # calculate what amount of nat gas was for heating in retrofit
+        (baseline_mcf_per_job - electrification_mcf_per_job),
+      appliance_mcf = electrification_mcf_per_job # how much nat gas used when no heating required?
     ) %>%
     select(
-      mc_classification,
+      imagine_designation,
       heatpump_mwh,
       retrofit_heating_pct,
       appliance_mcf
