@@ -4,6 +4,17 @@ library(dplyr)
 library(tidyr)
 library(readr)
 
+# helper to bin year in data -- for commercial buildings, we're just looking for 2010s, but labeling all for now in case we want to do deeper analysis later
+bin_year <- function(year) {
+  cut(year,
+      breaks = c(0, 1939, 1959, 1979, 1999, 2009, 2025.1),
+      labels = c(
+        "<1940", "1940-59", "1960-79", "1980-99",
+        "2000-09", "2010s"
+      ),
+      right = TRUE
+  )
+}
 
 # function to load in resstock files
 load_comstock <- function(path) {
@@ -23,6 +34,7 @@ load_comstock <- function(path) {
       building_nat_gas_kwh_savings = out_natural_gas_total_energy_savings_kwh
     ) %>%
     mutate(
+      year_bin = as.character(bin_year(build_year)),
       building_mcf = building_nat_gas_kwh * 0.00329026,
       building_mcf_savings = building_nat_gas_kwh_savings * 0.00329026,
       mc_classification = "jobs"
@@ -41,28 +53,37 @@ summarize_comstock <- function(df) {
     )
 }
 
+## summarize function
+summarize_comstock_new <- function(df) {
+  df %>%
+    filter(year_bin == "2010s") %>%
+    summarize(
+      median_kwh = median(building_kwh, na.rm = TRUE),
+      median_mcf = median(building_mcf, na.rm = TRUE),
+      mean_kwh_savings_nonzero = mean(building_kwh_savings[building_kwh_savings != 0], na.rm = TRUE),
+      mean_mcf_savings_nonzero = mean(building_mcf_savings[building_mcf_savings != 0], na.rm = TRUE),
+      .groups = "drop"
+    )
+}
 
-# name changed from
+# "0": "Baseline"
 baseline <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_business_baseline.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade0_agg.csv")
 
-# pkg1 --- energy efficiency-focused basic retrofit (wall, roof and windows)
+# "50": "Package 1, Wall + Roof Insulation + New Windows",
 retrofit_efficiency <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade47_agg.csv")
-
-# Upgrade 50: LED Lighting, Standard Performance HP-RTU and ASHP-Boiler
-electrification <- load_comstock(
   "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade50_agg.csv")
 
-# Upgrade 10: CCHPC — Cold-Climate Heat Pump conversion case (10)
-# Upgrade 55: pkg_0009 -- Demand Flexibility, Lighting + Thermostat Control, Load Shed for Daily Bldg Peak Reduction
-# Upgrade 49: pkg_0003 -- Wall and Roof Insulation, New Windows, LED Lighting,  HP-RTU and ASHP-Boiler
+# "10": "Cold Climate Challenge HP RTU, Electric Backup",
+electrification <- load_comstock(
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade10_agg.csv")
 
 # summary list
 comstock_summaries <- list(
   baseline = summarize_comstock(baseline),
   retrofit_efficiency = summarize_comstock(retrofit_efficiency),
   electrification = summarize_comstock(electrification)
+
 )
 
 # JOIN COMSTOCK DATA TO COMMUNITY DESIGNATION FACTORS TO DERIVE PER-SCENARIO, PER-JOB MWH & MWH NUMBERS FOR EACH COMM DESIGNATION
