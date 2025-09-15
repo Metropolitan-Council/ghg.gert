@@ -69,6 +69,8 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                       .high_efficiency_start_year,
                                       .high_efficiency_end_year,
                                       .existing_high_efficiency_buildings_pct,
+                                      .new_business_leed_gold_pct,
+                                      .leed_start_year,
                                       .grid_emissions = ghg.ccap::grid_emissions,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("** compiling nonresidential strategies \n")

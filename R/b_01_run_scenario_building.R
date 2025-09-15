@@ -202,11 +202,18 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .scenario = .scenario,
         .baseline_year = .baseline_year,
         .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+        .high_efficiency_start_year = .high_efficiency_start_year,
+        .high_efficiency_end_year = .high_efficiency_end_year,
         .electrified_buildings_pct = .electrified_buildings_pct,
+        .electrified_buildings_start_year = .electrified_buildings_start_year,
+        .electrified_buildings_end_year = .electrified_buildings_end_year,
+        .new_business_leed_gold_pct = .new_business_leed_gold_pct,
+        .leed_start_year = .leed_start_year,
         .enviro_factors = .enviro_factors,
         .grid_emissions = .grid_emissions
       )
   }
+
 
   # building_module_ouput <-
   #   if (run_residential == TRUE & run_non_residential == TRUE) {

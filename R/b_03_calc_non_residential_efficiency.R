@@ -1,19 +1,16 @@
-#' @title Calculate new housing - LEED certified
+#' @title Calculate new jobs - LEED certified facilities
 #' @family buildings
 #'
-#' @description Calculates the efficiency of single-family homes
+#' @description Calculates the efficiency of business facilities
 #'    built in accordance with LEED Gold standards, considering the proportion of
-#'    new homes built to these standards, the difference in single-family
-#'    housing units between 2021 and 2050, and the reduction in energy use
+#'    new homes built to these standards, the difference in jobs
+#'    between 2022 and 2050, and the reduction in energy use
 #'    intensity due to LEED Gold construction. This function is designed to
-#'    estimate the impact of energy-efficient construction on residential
+#'    estimate the impact of energy-efficient construction on non-residential
 #'    greenhouse gas emissions.
 #'
-#' @param .new_sf_homes_leed_gold_pct numeric,  a value between `0` and `1`.
+#' @param .new_business_leed_gold_pct numeric,  a value between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
-#'      Default is `0.0`
-#' @param .new_mf_homes_leed_gold_pct numeric,  a value between `0` and `1`.
-#'      The percentage of new multi-family homes built according to *LEED Gold* standards.
 #'      Default is `0.0`
 #'
 #' @inheritParams run_scenario_building
@@ -42,15 +39,13 @@
 #'
 calc_housing_leed <- function(res_tb,
                               .selected_ctu,
-                              .new_sf_homes_leed_gold_pct,
-                              .new_mf_homes_leed_gold_pct,
+                              .new_business_leed_gold_pct,
                               .leed_start_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
-  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
-  check_inputs(name = "new_sf_homes_leed_gold_pct", .new_sf_homes_leed_gold_pct)
-  check_inputs(name = "new_mf_homes_leed_gold_pct", .new_mf_homes_leed_gold_pct)
+  check_inputs(name = "new_business_leed_gold_pct", .new_business_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 
 
@@ -65,7 +60,7 @@ calc_housing_leed <- function(res_tb,
   #     )
   # } else if (.new_sf_homes_leed_gold_pct != 0) {
 
-  new_sf <- res_tb %>%
+  new_sf <- non_res_tb %>%
     dplyr::filter(grepl("single", sp_categories)) %>%
     dplyr::mutate(
       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
