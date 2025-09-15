@@ -138,7 +138,7 @@ calc_energy_non_residential <- function(non_res_tb,
     ) %>%
     mutate(
       heatpump_mwh = electrification_mwh_per_job - baseline_mwh_per_job, # heat pump scen mwh addition to baseline is assumed to be all heating gain
-      retrofit_heating_pct = (retrofit_efficiency_mcf_per_job - electrification_mwh_per_job) / # calculate what amount of nat gas was for heating in retrofit
+      retrofit_heating_pct = (retrofit_efficiency_mcf_per_job - electrification_mcf_per_job) / # calculate what amount of nat gas was for heating in retrofit
         (baseline_mcf_per_job - electrification_mcf_per_job),
       appliance_mcf = electrification_mcf_per_job # how much nat gas used when no heating required?
     ) %>%
@@ -149,7 +149,7 @@ calc_energy_non_residential <- function(non_res_tb,
       appliance_mcf
     )
 
-  ### TEMPORARY LEED ADD-ON UNTIL BETTER DATA IS AVAILABILE
+  ### TEMPORARY LEED ADD-ON FOR NEW BUILDS UNTIL BETTER DATA IS AVAILABILE
   ctu_energy_profile <- bind_rows(
     ctu_energy_profile,
     ctu_energy_profile %>%
