@@ -67,11 +67,16 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     tb_inv <- filter(tb_inv, geog_level == "CITY")
     tb_future <- filter(tb_future, geog_level == "CITY")
     tb_base <- filter(tb_base, geog_level == "CITY")
+  } else if (.selected_ctu == "Regional") {
+    tb_inv <- filter(tb_inv, geog_name == "Regional")
+    tb_future <- filter(tb_future, geog_name == "Regional")
+    tb_base <- filter(tb_base, geog_name == "Regional")
+  } else {
+    tb_inv <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
+    tb_future <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
+    tb_base <- filter_ctu(tb_base, .selected_ctu = .selected_ctu)
   }
 
-  tb_inv <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
-  tb_future <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
-  tb_base <- filter_ctu(tb_base, .selected_ctu = .selected_ctu)
 
 
   l_names <- c(

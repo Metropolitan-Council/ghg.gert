@@ -33,12 +33,25 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
                                          .restoration_start = 2025,
                                          .restoration_time = 10,
                                          .restoration_area_perc = 0,
+                                         .grassland_area_perc = 0.5,
+                                         .bare_area_perc = 0.5,
+                                         .cropland_area_perc = 0.5,
                                          .enviro_factors = ghg.ccap::enviro_factors,
                                          detail = FALSE) {
   # -------------------------------------------------------------------------
-  # store filtered database tables into variables
-  df_hist <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
-  df_null <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
+
+  if (.selected_ctu == "all") {
+    df_hist <- filter(tb_inv, geog_level == "CITY")
+    df_null <- filter(tb_future, geog_level == "CITY")
+  } else if (.selected_ctu == "Regional") {
+    df_hist <- filter(tb_inv, geog_name == "Regional")
+    df_null <- filter(tb_future, geog_name == "Regional")
+  } else {
+    df_hist <- filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
+    df_null <- filter_ctu(tb_future, .selected_ctu = .selected_ctu)
+  }
+
+
 
 
   tb01 <- if (.urban_tree_area_perc == 0) {
@@ -54,18 +67,35 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
     )
   }
 
-  tb02 <- if (.restoration_area_perc == 0) {
+
+
+  tb02 <- if (.grassland_area_perc == 0 & .bare_area_perc == 0 & .cropland_area_perc == 0) {
     tb01
   } else {
-    ghg.ccap::crop_restoration(
+    ghg.ccap::forest_restoration(
       df_hist = df_hist,
       df_null = tb01,
       # .selected_ctu = .selected_ctu,
       .restoration_start = .restoration_start,
       .restoration_time = .restoration_time,
-      .restoration_area_perc = .restoration_area_perc
+      .grassland_area_perc = .grassland_area_perc,
+      .bare_area_perc = .bare_area_perc,
+      .cropland_area_perc = .cropland_area_perc
     )
   }
+
+
+  # tb02 <- if (.restoration_area_perc == 0) {
+  #   tb01
+  # } else {
+  #   ghg.ccap::crop_restoration(
+  #     df_hist = df_hist,
+  #     df_null = tb01,
+  #     # .selected_ctu = .selected_ctu,
+  #     .restoration_start = .restoration_start,
+  #     .restoration_time = .restoration_time,
+  #     .restoration_area_perc = .restoration_area_perc
+  #   )
 
   # -------------------------------------------------------------------------
   # store carbon sequestration function output into variable
