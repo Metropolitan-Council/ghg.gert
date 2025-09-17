@@ -1,16 +1,16 @@
 #' @title Calculate new housing - LEED certified
 #' @family buildings
 #'
-#' @description Calculates the efficiency of new commercial/industrial facilities
-#'    built high efficiency (????), considering the proportion of
+#' @description Calculates the efficiency of single-family homes
+#'    built in accordance with LEED Gold standards, considering the proportion of
 #'    new homes built to these standards, the difference in single-family
-#'    jobs between 2022 and 2050, and the reduction in energy use
+#'    housing units between 2021 and 2050, and the reduction in energy use
 #'    intensity due to LEED Gold construction. This function is designed to
-#'    estimate the impact of energy-efficient construction on non-residential
+#'    estimate the impact of energy-efficient construction on residential
 #'    greenhouse gas emissions.
 #'
-#' @param .existing_high_efficiency_buildings_pct numeric,  a value between `0` and `1`.
-#'      The percentage of new jobs (as an analogue for new commercial/industrial buildings) subject to high efficiency construction
+#' @param .new_business_leed_gold_pct numeric,  a value between `0` and `1`.
+#'      The percentage of new single-family homes built according to *LEED Gold* standards.
 #'      Default is `0.0`
 #'
 #' @inheritParams run_scenario_building
@@ -20,7 +20,7 @@
 #' @inheritParams filter_ctu
 #'
 #' @details
-#'    Uses the expected growth of jobs according to UrbanSim estimates as an analogue for commercial/industrial building construction
+#'    Uses the expected growth of new housing according to UrbanSim estimates
 #'
 #' @return [tibble::tibble()].
 #' @export
@@ -37,19 +37,17 @@
 #' )
 #' }
 #'
-calc_retrofit_efficiency <- function(non_res_tb,
+calc_business_leed <- function(res_tb,
                               .selected_ctu,
-                              .existing_high_efficiency_buildings_pct,
-                              .high_efficiency_start_year,
-                              .high_efficiency_end_year,
+                              .new_jobs_leed_gold_pct,
+                              .leed_start_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
+  non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
-  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+  check_inputs(name = "new_business_leed_gold_pct", .new_sf_homes_leed_gold_pct)
+  check_inputs(name = "leed_start_year", .leed_start_year)
 
-  check_inputs(name = ".existing_high_efficiency_buildings_pct", .existing_high_efficiency_buildings_pct)
-  check_inputs(name = ".high_efficiency_start_year ", .high_efficiency_start_year)
-  check_inputs(name = ".high_efficiency_end_year ", .high_efficiency_end_year)
 
   # if (.new_sf_homes_leed_gold_pct == 0) {
   #   #cli::cli_warn("No change in new single family home energy efficiency")
@@ -62,18 +60,18 @@ calc_retrofit_efficiency <- function(non_res_tb,
   #     )
   # } else if (.new_sf_homes_leed_gold_pct != 0) {
 
-  new_jobs <- non_res_tb %>%
+  new_sf <- non_res_tb %>%
     dplyr::filter(grepl("single", sp_categories)) %>%
     dplyr::mutate(
-      new_jobs = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_efficient_jobs = if_else(inventory_year < .high_efficiency_start_year,
-                         0,
-                         round(new_jobs * .existing_high_efficiency_buildings_pct)
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_sf_homes_leed_gold_pct)
       ),
-      new_non_efficient_jobs = new_jobs - new_efficient_jobs
+      new_non_leed = new_units - new_leed
     ) %>%
     pivot_longer(
-      cols = c(new_efficient_jobs, new_non_efficient_jobs),
+      cols = c(new_leed, new_non_leed),
       names_to = "efficiency_description",
       values_to = "efficiency_unit_value"
     )
@@ -90,8 +88,51 @@ calc_retrofit_efficiency <- function(non_res_tb,
   #       effective_unit_change_leed = 0
   #     )
   # } else if (.new_mf_homes_leed_gold_pct != 0) {
+  new_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    dplyr::mutate(
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_mf_homes_leed_gold_pct)
+      ),
+      new_non_leed = new_units - new_leed
+    ) %>%
+    pivot_longer(
+      cols = c(new_leed, new_non_leed),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+  # }
 
-  return(new_jobs)
+  leed_buildings <- bind_rows(
+    new_sf %>%
+      select(
+        geog_name,
+        geog_id,
+        sp_categories,
+        inventory_year,
+        value,
+        value_change_from_base,
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
+      ),
+    new_mf %>%
+      select(
+        geog_name,
+        geog_id,
+        sp_categories,
+        inventory_year,
+        value,
+        value_change_from_base,
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
+      )
+  )
+
+  return(leed_buildings)
 }
 
 
@@ -137,3 +178,152 @@ calc_retrofit_efficiency <- function(non_res_tb,
 #' )
 #' }
 #'
+calc_business_retrofit <- function(res_tb,
+                                      .selected_ctu,
+                                      .existing_jobs_retrofit_pct,
+                                      .retrofit_start_year,
+                                      .retrofit_end_year,
+                                      .enviro_factors = ghg.ccap::enviro_factors) {
+  # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
+  non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
+
+  check_inputs(name = "existing_sf_retrofit_pct", .existing_sf_retrofit_pct)
+  check_inputs(name = "existing_mf_retrofit_pct", .existing_mf_retrofit_pct)
+  check_inputs(name = "retrofit_start_year", .retrofit_start_year)
+
+  ### ramp up retrofits evenly from start year to end year
+
+  ramp_years <- .retrofit_start_year:.retrofit_end_year
+  n_ramp <- length(ramp_years)
+
+  pct_ramp <- tibble::tibble(
+    inventory_year = ramp_years,
+    sf_pct = seq(
+      from = .existing_sf_retrofit_pct / n_ramp,
+      to = .existing_sf_retrofit_pct,
+      length.out = n_ramp
+    ),
+    mf_pct = seq(
+      from = .existing_mf_retrofit_pct / n_ramp,
+      to = .existing_mf_retrofit_pct,
+      length.out = n_ramp
+    )
+  )
+
+  # Join pct values by condition
+  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+    left_join(pct_ramp, by = "inventory_year") %>%
+    dplyr::mutate(
+      sf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_sf_retrofit_pct,
+        TRUE ~ sf_pct
+      ),
+      mf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
+        TRUE ~ mf_pct
+      )
+    )
+
+
+  # if (.existing_sf_retrofit_pct == 0) {
+  #   cli::cli_warn("No change in existing single family home energy efficiency")
+  #   existing_sf <- res_tb %>%
+  #     dplyr::filter(grepl("single", sp_categories)) %>%
+  #     mutate(
+  #       retrofit_units = 0,
+  #       effective_unit_change_retro = 0
+  #     )
+  # } else if (.existing_sf_retrofit_pct != 0) {
+  existing_sf <- res_tb %>%
+    dplyr::filter(grepl("single", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, sf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * sf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-sf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+
+
+  # }
+
+
+  # if (.existing_mf_retrofit_pct == 0) {
+  #   cli::cli_warn("No change in existing multifamily home energy efficiency")
+  #   existing_mf <- res_tb %>%
+  #     dplyr::filter(grepl("multi", sp_categories)) %>%
+  #     mutate(
+  #       retrofit_units = 0,
+  #       effective_unit_change_retro = 0
+  #     )
+  # } else if (.existing_mf_retrofit_pct != 0) {
+  existing_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, mf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * mf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-mf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+  # }
+
+  retrofit_results <- bind_rows(
+    existing_sf %>%
+      ungroup() %>%
+      select(
+        geog_name,
+        geog_id,
+        sp_categories,
+        inventory_year,
+        value,
+        value_change_from_base,
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
+      ),
+    existing_mf %>%
+      ungroup() %>%
+      select(
+        geog_name,
+        geog_id,
+        sp_categories,
+        inventory_year,
+        value,
+        value_change_from_base,
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
+      )
+  )
+
+  return(retrofit_results)
+}
+
+# Here, we are effectively reducing the effective existing housing count to account
+# for the energy savings from retrofitted building
