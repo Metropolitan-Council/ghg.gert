@@ -1,4 +1,4 @@
-#' @title Calculate new housing - LEED certified
+#' @title Calculate energy from new business buildings - LEED certified
 #' @family buildings
 #'
 #' @description Calculates the efficiency of new buildings housing new jobs
@@ -20,7 +20,7 @@
 #' @inheritParams filter_ctu
 #'
 #' @details
-#'    Uses the expected growth of new housing according to UrbanSim estimates
+#'    Uses the expected growth of new jobs according to UrbanSim estimates
 #'
 #' @return [tibble::tibble()].
 #' @export
@@ -81,18 +81,15 @@ calc_business_leed <- function(non_res_tb,
 }
 
 
-#' @title Calculate housing retrofit
+#' @title Calculate business retrofit
 #' @family buildings
 #'
-#' @description Calculates number of homes targeted for retrofits based on user inputs
-#' and CTU housing projections. This function must inherit an object from calc_housing_leed()
+#' @description Calculates number of jobs (analog for buildings) targeted for retrofits based on user inputs
+#' and CTU jobs projections. This function must inherit an object from calc_business_leed() ????
 #'
-#' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
-#'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
+#' @param .existing_jobs_retrofit_pct numeric,  a value between `0` and `1`.
+#'      Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by *33%*. ??? update to include ComStock data
 #'      Default is `0.0`.
-#' @param .existing_home_ultra_retrofit_pct numeric,  a value between `0` and `1`.
-#'      Percentage of existing homes retrofitted to reduce energy usage by *66%*.
-#'      Default is `0.00`.
 #'
 #' @inheritParams run_scenario_building
 #' @inheritParams calc_parking_lot_land_cover
@@ -100,7 +97,7 @@ calc_business_leed <- function(non_res_tb,
 #' @inheritParams run_scenario_land_use
 #' @inheritParams filter_ctu
 #'
-#' @details Uses the average single family floor area in 2018
+#' @details Uses the expected growth of new jobs according to UrbanSim estimates
 #'
 #' @return [tibble::tibble()]
 #'       A table with columns `ctu_name`, `year`, `var`, and `value`.
