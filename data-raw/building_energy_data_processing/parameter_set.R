@@ -7,7 +7,7 @@ run_non_residential = FALSE
 .baseline_year = 2022
 # run_non_residential = TRUE
 # selected CTU
-.selected_ctu = "all"
+.selected_ctu = "Minneapolis"
 .scenario = "alt"
 # non-residential
 # electrification

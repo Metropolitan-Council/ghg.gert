@@ -37,102 +37,46 @@
 #' )
 #' }
 #'
-calc_business_leed <- function(res_tb,
+calc_business_leed <- function(non_res_tb,
                               .selected_ctu,
                               .new_jobs_leed_gold_pct,
                               .leed_start_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
-  non_res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
   check_inputs(name = "new_business_leed_gold_pct", .new_sf_homes_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 
-
-  # if (.new_sf_homes_leed_gold_pct == 0) {
-  #   #cli::cli_warn("No change in new single family home energy efficiency")
-  #   new_sf <- res_tb %>%
-  #     dplyr::filter(grepl("single", sp_categories)) %>%
-  #     mutate(
-  #       new_leed = 0,
-  #       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-  #       effective_unit_change_leed = 0
-  #     )
-  # } else if (.new_sf_homes_leed_gold_pct != 0) {
-
-  new_sf <- non_res_tb %>%
-    dplyr::filter(grepl("single", sp_categories)) %>%
+  leed_jobs <- non_res_tb %>%
     dplyr::mutate(
-      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_leed = if_else(inventory_year < .leed_start_year,
+      new_jobs = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed_jobs = if_else(inventory_year < .leed_start_year,
         0,
-        round(new_units * .new_sf_homes_leed_gold_pct)
+        round(new_jobs * .new_jobs_leed_gold_pct)
       ),
-      new_non_leed = new_units - new_leed
+      new_non_leed_jobs = new_jobs - new_leed_jobs
     ) %>%
     pivot_longer(
-      cols = c(new_leed, new_non_leed),
+      cols = c(new_leed_jobs, new_non_leed_jobs),
       names_to = "efficiency_description",
       values_to = "efficiency_unit_value"
-    )
-
-  # }
-
-  # if (.new_mf_homes_leed_gold_pct == 0) {
-  #   cli::cli_warn("No change in new multifamily home energy efficiency")
-  #   new_mf <- res_tb %>%
-  #     dplyr::filter(grepl("multi", sp_categories)) %>%
-  #     mutate(
-  #       new_leed = 0,
-  #       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-  #       effective_unit_change_leed = 0
-  #     )
-  # } else if (.new_mf_homes_leed_gold_pct != 0) {
-  new_mf <- res_tb %>%
-    dplyr::filter(grepl("multi", sp_categories)) %>%
-    dplyr::mutate(
-      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_leed = if_else(inventory_year < .leed_start_year,
-        0,
-        round(new_units * .new_mf_homes_leed_gold_pct)
-      ),
-      new_non_leed = new_units - new_leed
     ) %>%
-    pivot_longer(
-      cols = c(new_leed, new_non_leed),
-      names_to = "efficiency_description",
-      values_to = "efficiency_unit_value"
+    # subset of columns to match residential pull
+    select(
+      geog_name,
+      geog_id,
+      sp_categories,
+      inventory_year,
+      value,
+      value_change_from_base,
+      new_units,
+      efficiency_description,
+      efficiency_unit_value
     )
-  # }
 
-  leed_buildings <- bind_rows(
-    new_sf %>%
-      select(
-        geog_name,
-        geog_id,
-        sp_categories,
-        inventory_year,
-        value,
-        value_change_from_base,
-        new_units,
-        efficiency_description,
-        efficiency_unit_value
-      ),
-    new_mf %>%
-      select(
-        geog_name,
-        geog_id,
-        sp_categories,
-        inventory_year,
-        value,
-        value_change_from_base,
-        new_units,
-        efficiency_description,
-        efficiency_unit_value
-      )
-  )
-
-  return(leed_buildings)
+  return(leed_jobs)
 }
 
 
