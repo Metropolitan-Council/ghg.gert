@@ -19,7 +19,7 @@ run_non_residential = FALSE
 # .renewable_ng_nonres = FALSE
 # housing
 .new_homes_to_multifamily_pct = 0.0
-.existing_high_efficiency_buildings_pct = 0.0
+.existing_jobs_retrofit_pct = 0.0
 # .home_behavior_change_pct = 0.0
 # .single_family_floor_area_growth_pct = 0.05
 # .new_homes_affected_pct = 0.0
@@ -35,6 +35,7 @@ run_non_residential = FALSE
 .heatpump_end_year = 2050
 .sf_heat_pump_pct = 0.0
 .mf_heat_pump_pct = 0.0
+.jobs_heatpump_pct = 0.0
 .app_elec_start_year = 2028
 .app_elec_end_year = 2050
 .sf_app_elec_pct = 0.0

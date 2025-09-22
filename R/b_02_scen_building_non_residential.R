@@ -75,7 +75,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
-
+  # STILL NEED TO RECTIFY FUNCTION COMPOSITION
   # Apply Imagine community designation-specific per-job mwh/mcf factors to generate scenario estimates
   # Based on 'electrification' in comstock_summaries, derived from p
   tb02 <- calc_electrified_buildings(
@@ -88,12 +88,12 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   )
 
   # B.R4 + BR5 (Retrofit Homes)
-  tb03 <- calc_retrofit_efficiency(
+  tb03 <- calc_business_retrofit(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .high_efficiency_start_year = .high_efficiency_start_year,
-    .high_efficiency_end_year = .high_efficiency_end_year,
-    .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
+    .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
+    .retrofit_start_year = .retrofit_start_year,
+    .retrofit_end_year = .retrofit_end_year,
     .enviro_factors = .enviro_factors
   )
 
@@ -133,8 +133,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .baseline_year = .baseline_year,
     .heatpump_start_year = .heatpump_start_year,
     .heatpump_end_year = .heatpump_end_year,
-    .sf_heat_pump_pct = .sf_heat_pump_pct,
-    .mf_heat_pump_pct = .mf_heat_pump_pct,
+    .jobs_heatpump_pct = .jobs_heatpump_pct,
     .selected_ctu = .selected_ctu,
     .enviro_factors = .enviro_factors
   )

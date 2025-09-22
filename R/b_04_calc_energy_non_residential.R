@@ -41,22 +41,17 @@
 #' @export
 calc_energy_non_residential <- function(non_res_tb,
                                     non_res_tb_bau,
-                                    .electrified_buildings_start_year,
-                                    .electrified_buildings_end_year,
-                                    .electrified_buildings_pct,
+                                    .heatpump_start_year,
+                                    .heatpump_end_year,
                                     .baseline_year,
                                     .scenario = "alt",
                                     .selected_ctu,
-                                    .high_efficiency_start_year,
-                                    .high_efficiency_end_year,
-                                    .existing_high_efficiency_buildings_pct,
+                                    .jobs_heatpump_pct,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
-  check_inputs(name = "electrified_buildings_pct", .electrified_buildings_pct)
-  check_inputs(name = "existing_high_efficiency_buildings_pct", .existing_high_efficiency_buildings_pct)
-  check_inputs(name = "electrified_buildings_start_year", .electrified_buildings_start_year)
-  check_inputs(name = "high_efficiency_start_year", .high_efficiency_start_year)
+  check_inputs(name = "jobs_heatpumps_pct", .jobs_heatpump_pct)
+  check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
   # browser()
 
