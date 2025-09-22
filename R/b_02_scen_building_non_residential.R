@@ -75,19 +75,17 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
-  # STILL NEED TO RECTIFY FUNCTION COMPOSITION
-  # Apply Imagine community designation-specific per-job mwh/mcf factors to generate scenario estimates
-  # Based on 'electrification' in comstock_summaries, derived from p
-  tb02 <- calc_electrified_buildings(
+
+  # scenario numbers applied for new LEED construction (new jobs over time --> new buildings as an analogue)
+  tb02 <- calc_business_leed(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .electrified_buildings_start_year = .electrified_buildings_start_year,
-    .electrified_buildings_end_year = .electrified_buildings_end_year,
-    .electrified_buildings_pct = .electrified_buildings_pct,
+    .leed_start_year =  .leed_start_year,
+    .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
     .enviro_factors = .enviro_factors
   )
 
-  # B.R4 + BR5 (Retrofit Homes)
+  #
   tb03 <- calc_business_retrofit(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
@@ -97,30 +95,31 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .enviro_factors = .enviro_factors
   )
 
+  # tb04 is the scenario results with selected LEED construction and retrofit pcts applied
   tb04 <- bind_rows(
     tb02,
     tb03
   )
 
-  # repeat with no changes for BAU scenario
-  tb05 <- calc_electrified_buildings(
+  # repeat with no changes for BAU
+  tb05 <- calc_business_leed(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .electrified_buildings_start_year = .electrified_buildings_start_year,
-    .electrified_buildings_end_year = .electrified_buildings_end_year,
-    .electrified_buildings_pct = 0.0,
+    .leed_start_year =  .leed_start_year,
+    .new_jobs_leed_gold_pct = 0.0,
     .enviro_factors = .enviro_factors
   )
 
-  tb06 <- calc_high_efficiency(
+  tb06 <- calc_business_retrofit(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .high_efficiency_start_year = .high_efficiency_start_year,
-    .high_efficiency_end_year = .high_efficiency_end_year,
-    .existing_high_efficiency_buildings_pct = 0.0,
+    .existing_jobs_retrofit_pct = 0.0,
+    .retrofit_start_year = .retrofit_start_year,
+    .retrofit_end_year = .retrofit_end_year,
     .enviro_factors = .enviro_factors
   )
 
+  # tb07 is the BAU results with BAU LEED construction and retrofit pcts applied
   tb07 <- bind_rows(
     tb05,
     tb06

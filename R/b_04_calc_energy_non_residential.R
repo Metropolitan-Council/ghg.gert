@@ -50,7 +50,7 @@ calc_energy_non_residential <- function(non_res_tb,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
-  check_inputs(name = "jobs_heatpumps_pct", .jobs_heatpump_pct)
+  check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
   check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
   # browser()
@@ -159,8 +159,8 @@ calc_energy_non_residential <- function(non_res_tb,
   energy_calc <- function(tb,
                           .heatpump_start_year = .heatpump_start_year,
                           .heatpump_end_year = .heatpump_end_year,
-                          .sf_heat_pump_pct = .sf_heat_pump_pct,
-                          .mf_heat_pump_pct = .mf_heat_pump_pct) {
+                          .jobs_heatpump_pct = .jobs_heatpump_pct
+                          ) {
     ### ramp up heat pump installation evenly from start year to end year
 
     ramp_years <- .heatpump_start_year:.heatpump_end_year
