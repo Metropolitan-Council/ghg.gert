@@ -136,10 +136,14 @@ combined_scenarios <-
 
 # Add a placeholder for new builds... use the baseline data as an analog. New build analysis was inconclusive
 imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients <- combined_scenarios %>%
+  # two new_build rows, same values as baseline,
   bind_rows(
     combined_scenarios %>%
       filter(scenario == "baseline") %>%
-      mutate(scenario = "new_build")
+      mutate(scenario = "new_leed_jobs"),
+    combined_scenarios %>%
+      filter(scenario == "baseline") %>%
+      mutate(scenario = "new_non_leed_jobs"),
   )
 
 usethis::use_data(comstock_summaries, overwrite = TRUE)
