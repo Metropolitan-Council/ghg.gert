@@ -86,7 +86,7 @@ calc_energy_non_residential <- function(non_res_tb,
     filter(imagine_designation == pluck_commDesgn) %>%
     mutate(cat_match = case_when(
       scenario == "baseline" ~ "existing_nonretrofit_jobs",
-      scenario == "retrofit" ~ "retrofit_jobs",
+      scenario == "retrofit_efficiency" ~ "retrofit_jobs",
       scenario == "new_build" ~ "new_non_leed_jobs",
       scenario == "electrification" ~ "heatpump_jobs",
       TRUE ~ scenario)
@@ -182,20 +182,17 @@ calc_energy_non_residential <- function(non_res_tb,
       )
 
     # browser()
-    energy_tb <- non_res_tb_bau %>% # replace with just tb after dev
+    energy_tb <- tb04 %>% # replace with just tb after dev
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%
       left_join(ctu_energy_profile,
-                by = c(
-                  "sp_categories" = "mc_classification",
-                  "efficiency_description" = "cat_match"
-                )
-      ) %>%
+                by = join_by("efficiency_description" = "cat_match")
+                ) %>%
       left_join(ctu_energy_profile_adjustments,
                 by = c("sp_categories" = "mc_classification")
       ) %>%
       mutate(
-        residential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
+        nonresidential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
           efficiency_description == "existing_nonretrofit" ~
             ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "retrofit_job" ~
@@ -205,7 +202,7 @@ calc_energy_non_residential <- function(non_res_tb,
           efficiency_description == "new_leed_jobs" ~
             (((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh)) * hp_pct))) * .enviro_factors$LEED_GOLD_REDUCTION_PCT * efficiency_unit_value * mwh_adjustment
         ),
-        residential_mcf = case_when(
+        nonresidential_mcf = case_when(
           efficiency_description == "existing_nonretrofit" ~
             ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "retrofit_units" ~
