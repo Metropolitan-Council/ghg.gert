@@ -83,7 +83,14 @@ calc_energy_non_residential <- function(non_res_tb,
 
   # Pull relevant community designation's energy profile for .selected_ctu
   ctu_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients %>%
-    filter(imagine_designation == pluck_commDesgn)
+    filter(imagine_designation == pluck_commDesgn) %>%
+    mutate(cat_match = case_when(
+      scenario == "baseline" ~ "existing_nonretrofit_jobs",
+      scenario == "retrofit" ~ "retrofit_jobs",
+      scenario == "new_build" ~ "new_non_leed_jobs",
+      scenario == "electrification" ~ "heatpump_jobs",
+      TRUE ~ scenario)
+    )
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
@@ -121,11 +128,9 @@ calc_energy_non_residential <- function(non_res_tb,
        sum())
 
 
-  # calculate expected energy load for cities here
   # heat pump expected energy will be lowered for retrofit homes
   # ctu average energy load will be split based on heat pump percentage
-
-  ctu_energy_profile_adjustments <- ctu_energy_profile %>%
+  ctu_energy_profile_adjustments <- ctu_energy_profile %>% select(-cat_match) %>%
     tidyr::pivot_wider(
       names_from = scenario,
       values_from = c(mwh_per_job, mcf_per_job),
@@ -144,17 +149,6 @@ calc_energy_non_residential <- function(non_res_tb,
       appliance_mcf
     )
 
-  ### NEED NEW NON LEED AND EXISTING NONRETROFIT TO BOTH EVLAUATE TO BASELINE NUMBERS!!!!
-  ### TEMPORARY LEED ADD-ON FOR NEW BUILDS UNTIL BETTER DATA IS AVAILABILE
-  ctu_energy_profile <- bind_rows(
-    ctu_energy_profile,
-    ctu_energy_profile %>%
-      filter(scenario == "new_build") %>%
-      mutate(
-        scenario = "new_leed_build",
-        cat_match = "new_leed"
-      )
-  )
 
   ### calculate heat pump effects here
   energy_calc <- function(tb,
@@ -162,21 +156,16 @@ calc_energy_non_residential <- function(non_res_tb,
                           .heatpump_end_year = .heatpump_end_year,
                           .jobs_heatpump_pct = .jobs_heatpump_pct
                           ) {
-    ### ramp up heat pump installation evenly from start year to end year
 
+    ### ramp up heat pump installation evenly from start year to end year
     ramp_years <- .heatpump_start_year:.heatpump_end_year
     n_ramp <- length(ramp_years)
 
     pct_ramp <- tibble::tibble(
       inventory_year = ramp_years,
-      hp_sf_pct = seq(
-        from = .sf_heat_pump_pct / n_ramp,
-        to = .sf_heat_pump_pct,
-        length.out = n_ramp
-      ),
-      hp_mf_pct = seq(
-        from = .mf_heat_pump_pct / n_ramp,
-        to = .mf_heat_pump_pct,
+      hp_pct = seq(
+        from = .jobs_heatpump_pct / n_ramp,
+        to = .jobs_heatpump_pct,
         length.out = n_ramp
       )
     )
@@ -185,15 +174,10 @@ calc_energy_non_residential <- function(non_res_tb,
     pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
       left_join(pct_ramp, by = "inventory_year") %>%
       dplyr::mutate(
-        hp_sf_pct = dplyr::case_when(
+        hp_pct = dplyr::case_when(
           inventory_year < .heatpump_start_year ~ 0,
-          inventory_year > .heatpump_end_year ~ .sf_heat_pump_pct,
-          TRUE ~ hp_sf_pct
-        ),
-        hp_mf_pct = dplyr::case_when(
-          inventory_year < .heatpump_start_year ~ 0,
-          inventory_year > .heatpump_end_year ~ .mf_heat_pump_pct,
-          TRUE ~ hp_mf_pct
+          inventory_year > .heatpump_end_year ~ .jobs_heatpump_pct,
+          TRUE ~ hp_pct
         )
       )
 
@@ -262,11 +246,10 @@ calc_energy_non_residential <- function(non_res_tb,
              residential_mcf = mcf
       ),
     energy_calc(
-      tb = res_tb_bau,
+      tb = non_res_tb_bau,
       .heatpump_start_year = .heatpump_start_year,
       .heatpump_end_year = .heatpump_end_year,
-      .sf_heat_pump_pct = 0,
-      .mf_heat_pump_pct = 0
+      .jobs_heatpump_pct = 0
     )
   )
 
@@ -280,11 +263,10 @@ calc_energy_non_residential <- function(non_res_tb,
              residential_mcf = mcf
       ),
     energy_calc(
-      tb = res_tb,
+      tb = non_res_tb,
       .heatpump_start_year = .heatpump_start_year,
       .heatpump_end_year = .heatpump_end_year,
-      .sf_heat_pump_pct = .sf_heat_pump_pct,
-      .mf_heat_pump_pct = .mf_heat_pump_pct
+      .jobs_heatpump_pct = .jobs_heatpump_pct
     )
   )
 
