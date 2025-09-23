@@ -73,7 +73,7 @@ Default is \code{ghg.ccap::grid_emissions}}
 }\if{html}{\out{</div>}}
 }
 \description{
-This function estimates the emissions of non-residential buildings under a user defined
+This function estimates the emissions of residential buildings under a user defined
 decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 }

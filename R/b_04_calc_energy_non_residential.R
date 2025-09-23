@@ -182,13 +182,9 @@ calc_energy_non_residential <- function(non_res_tb,
       )
 
     # browser()
-    energy_tb <- tb %>%
+    energy_tb <- non_res_tb_bau %>% # replace with just tb after dev
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%
-      mutate(hp_pct = if_else(grepl("multi", sp_categories),
-                              hp_mf_pct,
-                              hp_sf_pct
-      )) %>%
       left_join(ctu_energy_profile,
                 by = c(
                   "sp_categories" = "mc_classification",
@@ -201,23 +197,23 @@ calc_energy_non_residential <- function(non_res_tb,
       mutate(
         residential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
           efficiency_description == "existing_nonretrofit" ~
-            ((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
-          efficiency_description == "retrofit_units" ~
-            ((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + (heatpump_mwh * retrofit_heating_pct)) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
-          efficiency_description == "new_non_leed" ~
-            ((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
-          efficiency_description == "new_leed" ~
-            (((scenario_mwh * (1 - hp_pct)) + ((scenario_mwh + (heatpump_mwh)) * hp_pct))) * .enviro_factors$LEED_GOLD_REDUCTION_PCT * efficiency_unit_value * mwh_adjustment
+            ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
+          efficiency_description == "retrofit_job" ~
+            ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh * retrofit_heating_pct)) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
+          efficiency_description == "new_non_leed_jobs" ~
+            ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
+          efficiency_description == "new_leed_jobs" ~
+            (((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh)) * hp_pct))) * .enviro_factors$LEED_GOLD_REDUCTION_PCT * efficiency_unit_value * mwh_adjustment
         ),
         residential_mcf = case_when(
           efficiency_description == "existing_nonretrofit" ~
-            ((scenario_mcf * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
+            ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "retrofit_units" ~
-            ((scenario_mcf * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment, # this might be overselling non_heating_perc doesn't take into account efficient
+            ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment, # this might be overselling non_heating_perc doesn't take into account efficient
           efficiency_description == "new_non_leed" ~
-            ((scenario_mcf * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
+            ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_leed" ~
-            (((scenario_mcf * (1 - hp_pct)) * .enviro_factors$LEED_GOLD_REDUCTION_PCT + (appliance_mcf * hp_pct))) * efficiency_unit_value * mcf_adjustment
+            (((mcf_per_job * (1 - hp_pct)) * .enviro_factors$LEED_GOLD_REDUCTION_PCT + (appliance_mcf * hp_pct))) * efficiency_unit_value * mcf_adjustment
         )
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%

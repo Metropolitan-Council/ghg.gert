@@ -26,8 +26,8 @@
 #' @inheritParams run_scenario_building
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams run_all_modules
-#' @inheritParams calc_housing_leed
-#' @inheritParams calc_non_residential_retrofit
+#' @inheritParams calc_business_leed
+#' @inheritParams calc_business_retrofit
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns
