@@ -63,11 +63,10 @@ calc_business_leed <- function(non_res_tb,
       names_to = "efficiency_description",
       values_to = "efficiency_unit_value"
     ) %>%
-    # subset of columns to match residential pull
     select(
       geog_name,
       geog_id,
-      #imagine_designation,
+      imagine_designation,
       sp_categories,
       inventory_year,
       value,
@@ -180,7 +179,7 @@ calc_business_retrofit <- function(non_res_tb,
     select(
       geog_name,
       geog_id,
-      #imagine_designation,
+      imagine_designation,
       sp_categories,
       inventory_year,
       value,

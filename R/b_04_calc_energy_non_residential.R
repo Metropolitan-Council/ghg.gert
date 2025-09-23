@@ -1,4 +1,4 @@
-#' @title Calculate non-residential building mwh
+#' @title Calculate non-residential building energy
 #' @family buildings
 #' @family non-residential
 #' @family emissions
@@ -9,7 +9,7 @@
 #'
 #' @note `calc_energy_non_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_non_residential_building()`].
+#'      nonresidential strategies refer to [`scen_non_residential_building()`].
 #'
 #' @param non_res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
@@ -22,8 +22,8 @@
 #'    `geog_name`,
 #'    `inventory_year`,
 #'    `geog_id`,
-#'    `non_residential_mwh`,
-#'    `non_residential_mcf`,
+#'    `nonresidential_mwh`,
+#'    `nonresidential_mcf`,
 #'    `scenario`
 #'
 #' @examples
@@ -183,14 +183,15 @@ calc_energy_non_residential <- function(non_res_tb,
       )
 
     # browser()
-    energy_tb <- tb04 %>% # replace with just tb after dev
+    energy_tb <- tb %>%
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%
       left_join(ctu_energy_profile,
-                by = join_by("efficiency_description" == "cat_match")
+                by = join_by(efficiency_description == cat_match,
+                             imagine_designation == imagine_designation)
                 ) %>%
       left_join(ctu_energy_profile_adjustments,
-                by =join_by("imagine_designation")
+                by = join_by("imagine_designation")
       ) %>%
       mutate(
         nonresidential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
@@ -232,8 +233,8 @@ calc_energy_non_residential <- function(non_res_tb,
       select(geog_name,
              geog_id,
              inventory_year,
-             residential_mwh = mwh,
-             residential_mcf = mcf
+             nonresidential_mwh = mwh,
+             nonresidential_mcf = mcf
       ),
     energy_calc(
       tb = non_res_tb_bau,
@@ -249,8 +250,8 @@ calc_energy_non_residential <- function(non_res_tb,
       select(geog_name,
              geog_id,
              inventory_year,
-             residential_mwh = mwh,
-             residential_mcf = mcf
+             nonresidential_mwh = mwh,
+             nonresidential_mcf = mcf
       ),
     energy_calc(
       tb = non_res_tb,

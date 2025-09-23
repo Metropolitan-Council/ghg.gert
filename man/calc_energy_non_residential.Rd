@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_04_calc_energy_non_residential.R
 \name{calc_energy_non_residential}
 \alias{calc_energy_non_residential}
-\title{Calculate non-residential building mwh}
+\title{Calculate non-residential building energy}
 \usage{
 calc_energy_non_residential(
   non_res_tb,
@@ -39,8 +39,8 @@ A table with columns
 \code{geog_name},
 \code{inventory_year},
 \code{geog_id},
-\code{non_residential_mwh},
-\code{non_residential_mcf},
+\code{nonresidential_mwh},
+\code{nonresidential_mcf},
 \code{scenario}
 }
 \description{
@@ -51,7 +51,7 @@ for the user-specified scenario, and the business-as-usual scenario.
 \note{
 \code{calc_energy_non_residential()} estimates the building energy demand
 based on the housing efficiency assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_non_residential_building]{scen_non_residential_building()}}.
+nonresidential strategies refer to \code{\link[=scen_non_residential_building]{scen_non_residential_building()}}.
 }
 \examples{
 \dontrun{
