@@ -129,10 +129,18 @@ scenarios <- c(
   # "electrification_newBuild"
 )
 
-# Build the final table
-imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients <-
+# Build the final table -- first, take baseline, retrofit, and heatpump
+combined_scenarios <-
   map_dfr(scenarios, scale_scenario) %>%
   select(scenario, imagine_designation, mcf_per_job, mwh_per_job)
+
+# Add a placeholder for new builds... use the baseline data as an analog. New build analysis was inconclusive
+imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients <- combined_scenarios %>%
+  bind_rows(
+    combined_scenarios %>%
+      filter(scenario == "baseline") %>%
+      mutate(scenario = "new_build")
+  )
 
 usethis::use_data(comstock_summaries, overwrite = TRUE)
 usethis::use_data(imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients, overwrite = TRUE)

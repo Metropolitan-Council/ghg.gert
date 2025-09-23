@@ -144,6 +144,7 @@ calc_energy_non_residential <- function(non_res_tb,
       appliance_mcf
     )
 
+  ### NEED NEW NON LEED AND EXISTING NONRETROFIT TO BOTH EVLAUATE TO BASELINE NUMBERS!!!!
   ### TEMPORARY LEED ADD-ON FOR NEW BUILDS UNTIL BETTER DATA IS AVAILABILE
   ctu_energy_profile <- bind_rows(
     ctu_energy_profile,
