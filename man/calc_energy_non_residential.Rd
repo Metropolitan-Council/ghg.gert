@@ -100,6 +100,9 @@ Other buildings:
 \code{\link{run_scenario_building}()},
 \code{\link{scen_building_non_residential}()}
 
+Other non-residential: 
+\code{\link{calc_ghg_non_residential}()}
+
 Other emissions: 
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},

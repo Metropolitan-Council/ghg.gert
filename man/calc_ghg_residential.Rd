@@ -18,9 +18,6 @@ including columns \code{residential_mwh}, \code{residential_mcf}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 }
