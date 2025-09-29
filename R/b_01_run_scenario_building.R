@@ -65,45 +65,50 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   run_residential = TRUE,
                                   run_non_residential = FALSE,
                                   .baseline_year = 2022,
-                                  # run_non_residential = TRUE,
-                                  # selected CTU
                                   .selected_ctu = "all",
                                   .scenario = "alt",
-                                  # non-residential
-                                  # electrification
-                                  .electrified_buildings_pct = 0.0,
-                                  # smartgrid
-                                  .smart_grid_energy_reduction_pct = 0.0,
-                                  # residential
-                                  # .renewable_ng_res = FALSE,
-                                  # .renewable_ng_nonres = FALSE,
-                                  # housing
-                                  .new_homes_to_multifamily_pct = 0.0,
-                                  .existing_high_efficiency_buildings_pct = 0.0,
-                                  # .home_behavior_change_pct = 0.0,
-                                  # .single_family_floor_area_growth_pct = 0.05,
-                                  # .new_homes_affected_pct = 0.0,
-                                  .leed_start_year = 2028,
-                                  .new_sf_homes_leed_gold_pct = 0.0,
-                                  .new_mf_homes_leed_gold_pct = 0.0,
+
+                                  # shared -- may need to break out parameters for res and non-res retrofitting
                                   .retrofit_start_year = 2028,
                                   .retrofit_end_year = 2050,
-                                  .existing_sf_retrofit_pct = 0.0,
-                                  .existing_mf_retrofit_pct = 0.0,
-                                  # electrification
                                   .heatpump_start_year = 2028,
                                   .heatpump_end_year = 2050,
+
+                                  # residential
+                                  .new_homes_to_multifamily_pct = 0.0,
+                                  .existing_high_efficiency_buildings_pct = 0.0,
+                                  .electrified_buildings_pct = 0.0,
                                   .sf_heat_pump_pct = 0.0,
                                   .mf_heat_pump_pct = 0.0,
                                   .app_elec_start_year = 2028,
                                   .app_elec_end_year = 2050,
                                   .sf_app_elec_pct = 0.0,
                                   .mf_app_elec_pct = 0.0,
+                                  .smart_grid_energy_reduction_pct = 0.0,
+                                  .new_sf_homes_leed_gold_pct = 0.0,
+                                  .new_mf_homes_leed_gold_pct = 0.0,
+                                  .existing_sf_retrofit_pct = 0.0,
+                                  .existing_mf_retrofit_pct = 0.0,
+
+                                  # non-residential
+                                  .new_jobs_leed_gold_pct = 0.0,
+                                  .existing_jobs_retrofit_pct = 0.0,
+                                  .leed_start_year = 2028,
+                                  .jobs_heatpump_pct = 0.0,
+
+                                  # emissions factors and elasticities
                                   .grid_emissions = ghg.ccap::grid_emissions,
                                   .enviro_factors = ghg.ccap::enviro_factors
+
+                                  # Deprecated parameters
                                   # .sf_elec_appliance_pct = 0.0,
-                                  # # .mf_elec_appliance_pct = 0.0,
+                                  # .mf_elec_appliance_pct = 0.0,
                                   # .additional_electrified_residential_buildings_pct = 0.0
+                                  # .renewable_ng_res = FALSE,
+                                  # .renewable_ng_nonres = FALSE,
+                                  # .home_behavior_change_pct = 0.0,
+                                  # .single_family_floor_area_growth_pct = 0.05,
+                                  # .new_homes_affected_pct = 0.0,
 ) {
   # browser()
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -114,57 +119,47 @@ run_scenario_building <- function(res_tb = building_data$residential,
   non_res_tb_bau <-
     filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
+
   l_names <- c(
-    # non-residential
-    # electrification
-    "electrified_buildings_pct",
-    # smartgrid
-    "smart_grid_energy_reduction_pct",
-    # residential
-    # floor_area
-    # "new_homes_to_multifamily_pct",
+
+    # Residential – efficiency / LEED / retrofits / demand flex
     "existing_high_efficiency_buildings_pct",
-    # "home_behavior_change_pct",
-    # "single_family_floor_area_growth_pct",
-    # "new_homes_affected_pct",
-    "new_sf_homes_leed_gold_pct ",
+    "new_sf_homes_leed_gold_pct",
     "new_mf_homes_leed_gold_pct",
     "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct",
-    # electrification
+    "smart_grid_energy_reduction_pct",
+
+    # Residential – electrification via heatpump
     "sf_heat_pump_pct",
-    "mf_heat_pump_pct"
-    # grid
-    # "renewable_ng_res",
-    # "renewable_ng_nonres"
+    "mf_heat_pump_pct",
+    "electrified_buildings_pct",
+
+    # Non-residential – LEED / retrofits / electrification via heatpump
+    "new_jobs_leed_gold_pct",
+    "existing_jobs_retrofit_pct",
+    "jobs_heatpump_pct"
   )
 
   l_vals <- list(
-    # non-residential
-    # electrification
-    .electrified_buildings_pct,
 
-    # smartgrid
-    .smart_grid_energy_reduction_pct,
-
-    # residential
-
-    # floor_area
-    # .new_homes_to_multifamily_pct,
+    # Residential – efficiency / LEED / retrofits / demand flex
     .existing_high_efficiency_buildings_pct,
-    # .home_behavior_change_pct,
-    # .single_family_floor_area_growth_pct,
-    # .new_homes_affected_pct,
     .new_sf_homes_leed_gold_pct,
     .new_mf_homes_leed_gold_pct,
     .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct,
-    # electrification
+    .smart_grid_energy_reduction_pct,
+
+    # Residential – electrification via heatpump
     .sf_heat_pump_pct,
-    .mf_heat_pump_pct
-    # grid
-    # .renewable_ng_res,
-    # .renewable_ng_nonres
+    .mf_heat_pump_pct,
+    .electrified_buildings_pct,
+
+    # Non-residential – LEED / retrofits / electrification via heatpump
+    .new_jobs_leed_gold_pct,
+    .existing_jobs_retrofit_pct,
+    .jobs_heatpump_pct
   )
 
   purrr::map2(l_names, l_vals, check_inputs)
@@ -204,9 +199,9 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
         .retrofit_start_year = .retrofit_start_year,
         .retrofit_end_year = .retrofit_end_year,
-        .electrified_buildings_pct = .electrified_buildings_pct,
-        .electrified_buildings_start_year = .electrified_buildings_start_year,
-        .electrified_buildings_end_year = .electrified_buildings_end_year,
+        .jobs_heatpump_pct = .jobs_heatpump_pct,
+        .heatpump_start_year = .heatpump_start_year,
+        .heatpump_end_year = .heatpump_end_year,
         .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
         .leed_start_year = .leed_start_year,
         .enviro_factors = .enviro_factors,
@@ -215,21 +210,19 @@ run_scenario_building <- function(res_tb = building_data$residential,
   }
 
 
-  # building_module_ouput <-
-  #   if (run_residential == TRUE & run_non_residential == TRUE) {
-  #     dplyr::bind_rows(
-  #       (res %>%
-  #         dplyr::mutate(year = as.character(year))),
-  #       (non_res %>%
-  #         dplyr::mutate(year = as.character(year)))
-  #     )
-  #   } else if (run_residential == FALSE) {
-  #     non_res
-  #   } else {
-  #     res
-  #   }
-
-  # building_module_output <- res
+  # building_module_output <-
+    if (run_residential == TRUE & run_non_residential == TRUE) {
+      dplyr::bind_rows(
+        (res %>%
+          dplyr::mutate(year = as.character(year))),
+        (non_res %>%
+          dplyr::mutate(year = as.character(year)))
+      )
+    } else if (run_residential == FALSE) {
+      non_res
+    } else {
+      res
+    }
 
   return(building_module_output)
 }
