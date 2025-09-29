@@ -14,25 +14,28 @@ run_scenario_building(
   .baseline_year = 2022,
   .selected_ctu = "all",
   .scenario = "alt",
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
-  .new_homes_to_multifamily_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
-  .leed_start_year = 2028,
-  .new_sf_homes_leed_gold_pct = 0,
-  .new_mf_homes_leed_gold_pct = 0,
   .retrofit_start_year = 2028,
   .retrofit_end_year = 2050,
-  .existing_sf_retrofit_pct = 0,
-  .existing_mf_retrofit_pct = 0,
   .heatpump_start_year = 2028,
   .heatpump_end_year = 2050,
+  .new_homes_to_multifamily_pct = 0,
+  .existing_high_efficiency_buildings_pct = 0,
+  .electrified_buildings_pct = 0,
   .sf_heat_pump_pct = 0,
   .mf_heat_pump_pct = 0,
   .app_elec_start_year = 2028,
   .app_elec_end_year = 2050,
   .sf_app_elec_pct = 0,
   .mf_app_elec_pct = 0,
+  .smart_grid_energy_reduction_pct = 0,
+  .new_sf_homes_leed_gold_pct = 0,
+  .new_mf_homes_leed_gold_pct = 0,
+  .existing_sf_retrofit_pct = 0,
+  .existing_mf_retrofit_pct = 0,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .leed_start_year = 2028,
+  .jobs_heatpump_pct = 0,
   .grid_emissions = ghg.ccap::grid_emissions,
   .enviro_factors = ghg.ccap::enviro_factors
 )
@@ -65,12 +68,6 @@ is suitable and the default value.
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.0}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
-
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.0}.}
@@ -80,6 +77,14 @@ a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.
 Default is \code{0}.}
 
+\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
+The fraction of additional commercial buildings that will be electrified.
+Default is \code{0.0}.}
+
+\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
@@ -87,10 +92,6 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
-
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}
@@ -146,6 +147,7 @@ run_scenario_building(
 }
 \seealso{
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

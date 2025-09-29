@@ -174,8 +174,6 @@ Default is \code{0.0}.}
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.0}.}
 
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
-
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.
 Percent of existing commercial buildings are LEED Gold.

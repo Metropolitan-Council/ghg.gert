@@ -64,6 +64,7 @@ electric vehicles.
 }
 \seealso{
 Other emissions: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},

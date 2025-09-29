@@ -49,6 +49,7 @@ calc_floor_area_leed(
 }
 \seealso{
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

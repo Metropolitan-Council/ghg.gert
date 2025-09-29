@@ -48,8 +48,6 @@ is suitable and the default value.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.0}.}
 
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
-
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 
@@ -142,12 +140,13 @@ scen_building_non_residential(
 }
 \seealso{
 Other commercial-industrial: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_non_res_renewable_ng}()}
 
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

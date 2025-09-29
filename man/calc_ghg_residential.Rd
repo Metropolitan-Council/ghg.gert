@@ -44,6 +44,7 @@ residential strategies refer to \code{\link[=scen_residential_building]{scen_res
 }
 \seealso{
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
@@ -90,6 +91,7 @@ Other residential:
 \code{\link{get_residential_mwh_baseline}()}
 
 Other emissions: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},

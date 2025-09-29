@@ -98,6 +98,7 @@ Other land use:
 \code{\link{run_scenario_land_use_deprecated}()}
 
 Other emissions: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
