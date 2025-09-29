@@ -9,7 +9,7 @@
 #'    estimate the impact of energy-efficient construction on non-residential
 #'    greenhouse gas emissions.
 #'
-#' @param .new_business_leed_gold_pct numeric,  a value between `0` and `1`.
+#' @param .new_jobs_leed_gold_pct numeric,  a value between `0` and `1`.
 #'      The percentage of new single-family homes built according to *LEED Gold* standards.
 #'      Default is `0.0`
 #'
@@ -39,13 +39,13 @@
 #'
 calc_housing_leed <- function(res_tb,
                               .selected_ctu,
-                              .new_business_leed_gold_pct,
+                              .new_jobs_leed_gold_pct,
                               .leed_start_year,
                               .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
-  check_inputs(name = "new_business_leed_gold_pct", .new_business_leed_gold_pct)
+  check_inputs(name = "new_jobs_leed_gold_pct", .new_jobs_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 
 

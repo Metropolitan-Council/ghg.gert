@@ -199,7 +199,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
         .retrofit_start_year = .retrofit_start_year,
         .retrofit_end_year = .retrofit_end_year,
-        .new_business_leed_gold_pct = .new_business_leed_gold_pct,
+        .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
         .leed_start_year = .leed_start_year,
         .grid_emissions = ghg.ccap::grid_emissions,
       )
