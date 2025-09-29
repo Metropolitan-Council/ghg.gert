@@ -75,8 +75,7 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 
 Other deprecated: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},

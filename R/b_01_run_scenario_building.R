@@ -76,7 +76,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
 
                                   # residential
                                   .new_homes_to_multifamily_pct = 0.0,
-                                  .existing_high_efficiency_buildings_pct = 0.0,
                                   .electrified_buildings_pct = 0.0,
                                   .sf_heat_pump_pct = 0.0,
                                   .mf_heat_pump_pct = 0.0,
@@ -123,7 +122,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
   l_names <- c(
 
     # Residential – efficiency / LEED / retrofits / demand flex
-    "existing_high_efficiency_buildings_pct",
     "new_sf_homes_leed_gold_pct",
     "new_mf_homes_leed_gold_pct",
     "existing_sf_retrofit_pct",
@@ -144,7 +142,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
   l_vals <- list(
 
     # Residential – efficiency / LEED / retrofits / demand flex
-    .existing_high_efficiency_buildings_pct,
     .new_sf_homes_leed_gold_pct,
     .new_mf_homes_leed_gold_pct,
     .existing_sf_retrofit_pct,
@@ -193,24 +190,23 @@ run_scenario_building <- function(res_tb = building_data$residential,
       scen_building_non_residential(
         non_res_tb = non_res_tb,
         non_res_tb_bau = non_res_tb_bau,
-        .selected_ctu = .selected_ctu,
         .scenario = .scenario,
+        .selected_ctu = .selected_ctu,
         .baseline_year = .baseline_year,
-        .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
-        .retrofit_start_year = .retrofit_start_year,
-        .retrofit_end_year = .retrofit_end_year,
         .jobs_heatpump_pct = .jobs_heatpump_pct,
         .heatpump_start_year = .heatpump_start_year,
         .heatpump_end_year = .heatpump_end_year,
-        .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
+        .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
+        .retrofit_start_year = .retrofit_start_year,
+        .retrofit_end_year = .retrofit_end_year,
+        .new_business_leed_gold_pct = .new_business_leed_gold_pct,
         .leed_start_year = .leed_start_year,
-        .enviro_factors = .enviro_factors,
-        .grid_emissions = .grid_emissions
+        .grid_emissions = ghg.ccap::grid_emissions,
       )
   }
 
 
-  # building_module_output <-
+  building_module_output <-
     if (run_residential == TRUE & run_non_residential == TRUE) {
       dplyr::bind_rows(
         (res %>%

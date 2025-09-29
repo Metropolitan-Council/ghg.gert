@@ -12,15 +12,18 @@ calc_non_res_renewable_ng(
 )
 }
 \arguments{
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.renewable_ng_nonres}{logical, documentation needed}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
@@ -59,8 +62,7 @@ calc_non_res_renewable_ng(
 Other commercial-industrial: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{calc_existing_comm_building_efficiency}()}
 
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
@@ -93,8 +95,7 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 
 Other deprecated: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},

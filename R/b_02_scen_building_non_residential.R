@@ -69,7 +69,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                       .existing_jobs_retrofit_pct,
                                       .retrofit_start_year,
                                       .retrofit_end_year,
-                                      .new_business_leed_gold_pct,
+                                      .new_jobs_leed_gold_pct,
                                       .leed_start_year,
                                       .grid_emissions = ghg.ccap::grid_emissions,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
@@ -128,13 +128,13 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   tb09 <- calc_energy_non_residential(
     non_res_tb = tb04,
     non_res_tb_bau = tb07,
-    .scenario = .scenario,
-    .baseline_year = .baseline_year,
     .heatpump_start_year = .heatpump_start_year,
     .heatpump_end_year = .heatpump_end_year,
-    .jobs_heatpump_pct = .jobs_heatpump_pct,
+    .baseline_year = .baseline_year,
+    .scenario = .scenario,
     .selected_ctu = .selected_ctu,
-    .enviro_factors = .enviro_factors
+    .jobs_heatpump_pct = .jobs_heatpump_pct,
+    .enviro_factors = ghg.ccap::enviro_factors
   )
 
   tb_out <- calc_ghg_non_residential(

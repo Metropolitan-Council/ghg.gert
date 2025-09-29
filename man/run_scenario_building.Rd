@@ -19,7 +19,6 @@ run_scenario_building(
   .heatpump_start_year = 2028,
   .heatpump_end_year = 2050,
   .new_homes_to_multifamily_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
   .electrified_buildings_pct = 0,
   .sf_heat_pump_pct = 0,
   .mf_heat_pump_pct = 0,
@@ -47,9 +46,9 @@ default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
@@ -58,11 +57,10 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
-is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with non residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and
+the default value. \code{non_res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
@@ -71,11 +69,6 @@ is suitable and the default value.
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.0}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
 
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
@@ -92,6 +85,10 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
+
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
 
 \item{.grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}
@@ -177,7 +174,6 @@ Other buildings:
 \code{\link{get_demographic_baseline}()},
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{get_residential_mwh_baseline}()}
 }
 \concept{buildings}

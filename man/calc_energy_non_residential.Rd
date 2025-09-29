@@ -20,11 +20,10 @@ calc_energy_non_residential(
 \item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}
 
-\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
-is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with non residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and
+the default value. \code{non_res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -98,8 +97,7 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 
 Other non-residential: 
 \code{\link{calc_ghg_non_residential}()}
