@@ -151,7 +151,7 @@ calc_business_retrofit <- function(non_res_tb,
     dplyr::mutate(
       ret_pct = dplyr::case_when(
         inventory_year < .retrofit_start_year ~ 0,
-        inventory_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
+        inventory_year > .retrofit_end_year ~ .existing_jobs_retrofit_pct,
         TRUE ~ job_pct
       )
     )
