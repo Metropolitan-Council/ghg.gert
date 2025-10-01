@@ -85,6 +85,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .enviro_factors = .enviro_factors
   )
 
+  browser()
   #
   tb03 <- calc_business_retrofit(
     non_res_tb = non_res_tb,

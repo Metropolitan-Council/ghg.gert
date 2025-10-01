@@ -22,8 +22,8 @@ load("data/demographic_data.rda")
 
 # demographic baseline
 ## -------------------------------------------------------------------------------------------
-building_energy_data$ztrax_sqft_summary_county <-
-  import_from_emissions("metro_energy.ztrax_sqft_summary_county")
+# building_energy_data$ztrax_sqft_summary_county <-
+#   import_from_emissions("metro_energy.ztrax_sqft_summary_county")
 
 # building_energy_data$led_industry_county <-
 #   import_from_emissions("metro_demographic.vw_led_industry_county")
@@ -49,16 +49,16 @@ building_energy_data$ctu_manufactured <-
 # building_energy_data$forecast_lu_ctu <-
 #   import_from_emissions("metro_demographic.vw_forecast_lu_ctu")
 
-building_energy_data$ztrax_sqft_summary_ctu <-
-  import_from_emissions("metro_energy.vw_ztrax_sqft_summary_ctu")
-
-building_energy_data$ctu_county <-
-  import_from_emissions("metro_demographic.vw_ctu_county")
+# building_energy_data$ztrax_sqft_summary_ctu <-
+#   import_from_emissions("metro_energy.vw_ztrax_sqft_summary_ctu")
+#
+# building_energy_data$ctu_county <-
+#   import_from_emissions("metro_demographic.vw_ctu_county")
 
 # demographic forecast
 ## -------------------------------------------------------------------------------------------
-building_energy_data$ztrax_building_sqft <-
-  import_from_emissions("metro_energy.vw_ztrax_building_sqft")
+# building_energy_data$ztrax_building_sqft <-
+#   import_from_emissions("metro_energy.vw_ztrax_building_sqft")
 
 # building_energy_data$emp_forecast_industry_county <-
 #   import_from_emissions("metro_demographic.vw_emp_forecast_industry_county")
@@ -66,8 +66,8 @@ building_energy_data$ztrax_building_sqft <-
 # building_energy_data$ctu_forecast <-
 #   import_from_emissions("metro_demographic.vw_ctu_forecast")
 
-building_energy_data$emp_forecast_industry_ctu <-
-  import_from_emissions("metro_demographic.vw_emp_forecast_industry_ctu")
+# building_energy_data$emp_forecast_industry_ctu <-
+#   import_from_emissions("metro_demographic.vw_emp_forecast_industry_ctu")
 
 building_energy_data$commercial_jobs <-
   demographic_data %>% filter(sp_categories == "commercial_jobs")
@@ -78,12 +78,13 @@ building_energy_data$industrial_jobs <-
 building_energy_data$jobs <-
   demographic_data %>% filter(sp_categories == "jobs") %>%
   mutate(
-    geog_name = gsub("\\s*Twp\\.", "", geog_name)
+    geog_name_tmp = gsub("\\s*Twp\\.", "", geog_name)
   ) %>%
-  left_join(cprg_ctu_desgn,
-            by = join_by(geog_name == ctu_name,
+  left_join(cprg_ctu_desgn %>% distinct(ctu_name, ctu_class, imagine_designation),
+            by = join_by(geog_name_tmp == ctu_name,
                          geog_level == ctu_class)
-  )
+  ) %>%
+  select(-geog_name_tmp)
 
 # residential baseline
 ## -------------------------------------------------------------------------------------------
@@ -143,7 +144,7 @@ building_energy_data$natural_gas_business_ctu <-
   )
 
 county_elec_data <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_county_emissions.RDS") %>%
   filter(sector_alt == "Electricity") %>%
   left_join(
     grid_emissions %>%
@@ -174,7 +175,7 @@ county_elec_data <-
   )
 
 building_energy_data$electricity_inventory <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_electricity_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data/_ctu_electricity_emissions.RDS") %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index) %>%
   select(
@@ -193,7 +194,7 @@ building_energy_data$electricity_inventory <-
 
 
 county_gas_data <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_meta/data/cprg_county_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_county_emissions.RDS") %>%
   filter(sector_alt == "Building fuel") %>%
   mutate(
     mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
@@ -216,7 +217,7 @@ county_gas_data <-
   )
 
 building_energy_data$natgas_inventory <-
-  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/205-ctu-ghg-compiler/_energy/data/_ctu_natgas_emissions.RDS") %>%
+  readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data/_ctu_natgas_emissions.RDS") %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index) %>%
   select(
