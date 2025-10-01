@@ -7,7 +7,7 @@ library(ghg.ccap)
 library(councilR)
 
 # get Imagine community designations
-cprg_ctu_desgn <- readRDS("C:/Users/LimeriSA/Documents/Projects/ghg-cprg/_meta/data/cprg_ctu.RDS") %>%
+cprg_ctu_desgn <- read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_ctu.RDS") %>%
   sf::st_drop_geometry() %>%
   select(ctu_name, ctu_class, imagine_designation)
 
