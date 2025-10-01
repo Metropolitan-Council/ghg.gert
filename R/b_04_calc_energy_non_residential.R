@@ -129,7 +129,7 @@ calc_energy_non_residential <- function(non_res_tb,
        sum())
 
 
-  # heat pump expected energy will be lowered for retrofit homes
+  # heat pump expected energy will be lowered for retrofit buildings
   # ctu average energy load will be split based on heat pump percentage
   ctu_energy_profile_adjustments <- ctu_energy_profile %>% select(-cat_match) %>%
     tidyr::pivot_wider(

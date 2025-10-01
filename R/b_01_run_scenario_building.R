@@ -101,7 +101,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .enviro_factors = ghg.ccap::enviro_factors
 
 ) {
-   browser()
+
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
