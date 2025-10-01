@@ -10,6 +10,7 @@ scen_building_residential(
   .scenario = "",
   .selected_ctu,
   .baseline_year,
+  .density_output,
   .leed_start_year,
   .new_sf_homes_leed_gold_pct,
   .new_mf_homes_leed_gold_pct,

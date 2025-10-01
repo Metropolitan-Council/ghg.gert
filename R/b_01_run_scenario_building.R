@@ -67,8 +67,26 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .baseline_year = 2022,
                                   .selected_ctu = "all",
                                   .scenario = "alt",
-
                                   # shared -- may need to break out parameters for res and non-res retrofitting
+                                  # land use module data
+                                  .density_output,
+                                  # non-residential
+                                  # electrification
+                                  .electrified_buildings_pct = 0.0,
+                                  # smartgrid
+                                  .smart_grid_energy_reduction_pct = 0.0,
+                                  # residential
+                                  # .renewable_ng_res = FALSE,
+                                  # .renewable_ng_nonres = FALSE,
+                                  # housing
+                                  .new_homes_to_multifamily_pct = 0.0,
+                                  .existing_high_efficiency_buildings_pct = 0.0,
+                                  # .home_behavior_change_pct = 0.0,
+                                  # .single_family_floor_area_growth_pct = 0.05,
+                                  # .new_homes_affected_pct = 0.0,
+                                  .leed_start_year = 2028,
+                                  .new_sf_homes_leed_gold_pct = 0.0,
+                                  .new_mf_homes_leed_gold_pct = 0.0,
                                   .retrofit_start_year = 2028,
                                   .retrofit_end_year = 2050,
                                   .heatpump_start_year = 2028,
@@ -168,6 +186,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
         res_tb_bau = res_tb_bau,
         .selected_ctu = .selected_ctu,
         .scenario = .scenario,
+        .density_output = .density_output,
         .baseline_year = .baseline_year,
         .leed_start_year = .leed_start_year,
         .retrofit_start_year = .retrofit_start_year,
