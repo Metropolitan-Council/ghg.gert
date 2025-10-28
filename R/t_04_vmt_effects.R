@@ -151,6 +151,7 @@ vmt_land_use_change <- function(.type,
 #'
 #' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
 #' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
+#' @param .parking_cost table, existing parking cost assumptions.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -186,13 +187,16 @@ vmt_land_use_change <- function(.type,
 #' @importFrom tidyr pivot_wider
 vmt_parking_policy <- function(tb,
                                .mode,
+                               .parking_cost = parking_cost,
                                .elast = elast,
                                .parking_price = 0,
                                .freight_parking_price = 0,
                                .enviro_factors = ghg.ccap::enviro_factors) {
   # fetch current parking prices
-  park_price_current <- tb %>%
+  park_price_current <- parking_cost %>%
+    filter_ctu(unique(tb$geog_name)) %>%
     filter(
+      mode == .mode,
       var %in% c(
         "PARK"
       )
@@ -236,7 +240,22 @@ vmt_parking_policy <- function(tb,
     "RI",
     "WALK"
   )) {
-    park_return <- park_price_current %>%
+    # browser()
+    park_return <- park_price_current <- parking_cost %>%
+      filter_ctu(unique(tb$geog_name)) %>%
+      filter(
+        # use PLDV parking rate, since we are doing the inverse for
+        # transit, walk, bike
+        mode == "PLDV",
+        var %in% c(
+          "PARK"
+        )
+      ) %>%
+      unique() %>%
+      tidyr::pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
       dplyr::left_join(
         .elast %>%
           dplyr::select(year, park_transit),
@@ -249,6 +268,7 @@ vmt_parking_policy <- function(tb,
       ) %>%
       dplyr::select(year, geog_name, geog_id, park_price_adj)
   } else if (.mode == "SUT") {
+    # browser()
     park_return <- park_price_current %>%
       dplyr::left_join(.elast %>%
         dplyr::select(year, park_elast), by = "year") %>%
@@ -259,7 +279,7 @@ vmt_parking_policy <- function(tb,
         TRUE ~ park_price_adj
       ))
   } else {
-    cli::cli_abort(paste0("Parking adjustment is applicable for ", .mode))
+    cli::cli_abort(paste0("Parking adjustment is not applicable for ", .mode))
   }
 
   return(park_return)

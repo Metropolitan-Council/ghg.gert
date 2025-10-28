@@ -303,7 +303,7 @@ testthat::test_that("enviro factors and elasticities correct", {
 
 
 testthat::test_that("minimum parking value correct", {
-  transportation_data$passenger %>%
+  parking_cost %>%
     filter(mode == "PLDV", var == "PARK") %>%
     ungroup() %>%
     filter(value == min(value)) %>%

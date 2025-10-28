@@ -7,6 +7,7 @@
 vmt_parking_policy(
   tb,
   .mode,
+  .parking_cost = parking_cost,
   .elast = elast,
   .parking_price = 0,
   .freight_parking_price = 0,
@@ -19,6 +20,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \code{transportation_data$freight} are suitable.}
 
 \item{.mode}{character, current mode}
+
+\item{.parking_cost}{table, existing parking cost assumptions.}
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
