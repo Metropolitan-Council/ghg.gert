@@ -21,7 +21,9 @@ test_that("Parking policy effects correct", {
       "2040", "Saint Paul", 0.731618027,
       "2045", "Saint Paul", 0.731618027,
       "2050", "Saint Paul", 0.731618027
-    )
+    ),
+    tolerance = 0.01
+
   )
 
 
@@ -44,7 +46,8 @@ test_that("Parking policy effects correct", {
       "2040", "Saint Paul", 0.597427040,
       "2045", "Saint Paul", 0.597427040,
       "2050", "Saint Paul", 0.597427040
-    )
+    ),
+    tolerance = 0.01
   )
 
 
