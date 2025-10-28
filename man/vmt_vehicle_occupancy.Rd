@@ -11,6 +11,7 @@ vmt_vehicle_occupancy(
   .stock,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
+  .vehicle_occupancy = vehicle_occupancy,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -28,6 +29,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

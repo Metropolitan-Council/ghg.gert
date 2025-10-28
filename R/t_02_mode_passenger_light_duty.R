@@ -9,12 +9,14 @@
 #' @export
 #'
 #' @importFrom cli cli_alert_success
+#' @importFrom purrr pmap
+#' @importFrom stringr str_to_lower
 mode_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu = "all",
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
-                                      .parking_cost = .parking_cost,
+                                      .parking_cost = parking_cost,
                                       .vehicle_occupancy = vehicle_occupancy,
                                       .transit_avo_pct = 0,
                                       .pldv_avo_pct = 0,
@@ -60,44 +62,24 @@ mode_passenger_light_duty <- function(.pass_tb,
   # PLDV by fuel and CTU
   mode <- "PLDV"
 
+  # browser()
 
-
-  ## Gasoline (SI) -----
-  # Calculate aggregate GHG in kt CO2 by year
-  # 1. Calculate fuel cost per mile (FCM)
-  # 2. Calculate VMT (requires FCM, )
-  # 3. Calculate direct emissions (requires VMT)
-  # 4. Calculate fuel use (requires VMT)
-  # 5. Calculate embodied GHG
-
-  # stock <- "SIStock"
-  # mpg <- "SIMPG"
-  # class <- "SI"
-
-
-  message("Passenger vehicles, gasoline")
-
-  # Calculate a fuel cost per mile rather than per gallon
-  si_fcm <- calc_fuel_cost_mile(
-    tb = .pass_tb,
+  # establish commonly passed parameters
+  fcm_common <- list(
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
-    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
 
-  si_vmt <- calc_vmt_forecast(
-    .scenario = .scenario,
-    .selected_ctu = .selected_ctu,
+  vmt_common <- list(
     tb = .pass_tb,
     .mode = mode,
-    .stock = "SIStock",
     .variable = var,
+    .scenario = .scenario,
+    .selected_ctu = .selected_ctu,
     .parking_cost = .parking_cost,
     .vehicle_occupancy = .vehicle_occupancy,
-    .tb_fuel_cost_mile = si_fcm,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
     .pldv_avo_pct = .pldv_avo_pct,
@@ -117,302 +99,57 @@ mode_passenger_light_duty <- function(.pass_tb,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
-    .phev_electric = NA,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
     .elast_5d = .elast_5d,
     .factor_values = .factor_values
-  ) %>%
-    dplyr::mutate(class = "SI")
+  )
 
-  si_dir_ghg <- calc_ghg_direct(
-    tb_vmt = si_vmt,
+  dir_ghg_common <- list(
     tb = .pass_tb,
     .mode = mode,
-    .fuel_type = "SI",
     .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "SIMPG",
     .grid_decarbonization_pct = .grid_decarbonization_pct,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values,
     .fuel_economy = .fuel_economy
   )
 
-  # complete gasoline table
-
-  ## Diesel  (CI)----
-  # stock <- "CIStock"
-  # mpg <- "CIMPG"
-  # class <- "CI"
-
-  message("Passenger vehicles, diesel")
-  # Calculate a fuel cost per mile rather than per gallon
-  ci_fcm <- calc_fuel_cost_mile(
-    tb = .pass_tb,
-    .mode = mode,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "CIMPG",
-    .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
+  # create parameter table
+  vehicle_params <- tibble::tribble(
+    ~fuel_label, ~mpg_name, ~stock_name, ~fuel_label2, ~fuel_cost_var, ~phev_electric,
+    "SI", "SIMPG", "SIStock", "SI", .enviro_factors$SI_FUEL_COST_GAL, NA,
+    "CI", "CIMPG", "CIStock", "CI", .enviro_factors$CI_FUEL_COST_GAL, NA,
+    "HEV", "HEVMPG", "HEVStock", "SI", .enviro_factors$SI_FUEL_COST_GAL, NA,
+    "BEV", "BEVElec", "BEVStock", .electric_scenario, .enviro_factors$ELEC_FUEL_COST_KWH, NA,
+    "PHEV", "PHEVMPG", "PHEVStock", "SI", enviro_factors$SI_FUEL_COST_GAL, FALSE,
+    "PHEV", "PHEVElec", "PHEVStock", .electric_scenario, enviro_factors$ELEC_FUEL_COST_KWH, TRUE,
   )
 
-  ci_vmt <- calc_vmt_forecast(
-    .scenario = .scenario,
-    .selected_ctu = .selected_ctu,
-    tb = .pass_tb,
-    .mode = mode,
-    .stock = "CIStock",
-    .parking_cost = .parking_cost,
-    .vehicle_occupancy = .vehicle_occupancy,
-    .variable = var,
-    .tb_fuel_cost_mile = ci_fcm,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .cong_price = .cong_price,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct,
-    .elast = .elast,
-    .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values
-  ) %>%
-    dplyr::mutate(class = "CI")
+  # run for each vehicle fuel type
+  results_list <- purrr::pmap(vehicle_params, run_vehicle_calculations, fcm_common, vmt_common, dir_ghg_common)
 
-
-
-  ci_dir_ghg <-
-    calc_ghg_direct(
-      tb_vmt = ci_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .fuel_type = "CI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = "CIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values,
-      .fuel_economy = .fuel_economy
-    )
-
-
-  ## HEV (Hybrid electric vehicle)----
-  # stock <- "HEVStock"
-  # mpg <- "HEVMPG"
-  # class <- "HEV"
-
-  message("Passenger vehicles, hybrid")
-
-  # Calculate a fuel cost per mile rather than per gallon
-
-  fcm_hev <- calc_fuel_cost_mile(
-    tb = .pass_tb,
-    .mode = mode,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "HEVMPG",
-    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
+  # move results to environment---
+  purrr::map(
+    results_list[1:4],
+    list2env,
+    envir = environment()
   )
 
-  hev_vmt <-
-    calc_vmt_forecast(
-      .scenario = .scenario,
-      .selected_ctu = .selected_ctu,
-      tb = .pass_tb,
-      .mode = mode,
-      .stock = "HEVStock",
-      .parking_cost = .parking_cost,
-      .vehicle_occupancy = .vehicle_occupancy,
-      .variable = var,
-      .tb_fuel_cost_mile = fcm_hev,
-      .aeo_scenario = .aeo_scenario,
-      .transit_avo_pct = .transit_avo_pct,
-      .pldv_avo_pct = .pldv_avo_pct,
-      .transit_service_pct = .transit_service_pct,
-      .vmt_fee = .vmt_fee,
-      .payd_fee = .payd_fee,
-      .gas_tax = .gas_tax,
-      .cong_price = .cong_price,
-      .parking_price = .parking_price,
-      .freight_parking_price = .freight_parking_price,
-      .freight_vmt_fee = .freight_vmt_fee,
-      .pop_dens_pct_change = .pop_dens_pct_change,
-      .emp_dens_pct_change = .emp_dens_pct_change,
-      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-      .intersection_design_pct_change = .intersection_design_pct_change,
-      .job_access_pct_change = .job_access_pct_change,
-      .transit_dist_pct_change = .transit_dist_pct_change,
-      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-      .telework_pct = .telework_pct,
-      .elast = .elast,
-      .enviro_factors = .enviro_factors,
-      .elast_5d = .elast_5d,
-      .factor_values = .factor_values
-    ) %>%
-    dplyr::mutate(class = "HEV")
 
-  hev_dir_ghg <-
-    calc_ghg_direct(
-      tb_vmt = hev_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .fuel_type = "SI",
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = "HEVMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values,
-      .fuel_economy = .fuel_economy
-    )
-
-
-  ## PHEV (Plug-in hybrid) -----
-  ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) x ((Pr(Elec) x
-  ### elec consumption (MWh per 1000 mi) x GHG per elec) +
-  ###  ((1 - Pr(Elec)) x fuel consumption (per 1000 mi) x GHG per fuel)
-
-  # stock <- "PHEVStock"
-  # mpg <- "PHEVMPG"
-  # mpe <- "PHEVElec"
-  # class <- "PHEV"
-
-  message("Passenger vehicles, plug-in hybrid")
-
-  # Calculate a fuel cost per mile rather than per gallon
-
-
-  fcm_phev <- calc_fuel_cost_mile(
-    tb = .pass_tb,
-    .mode = mode,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "PHEVMPG",
-    .fuel_cost_gallon = .enviro_factors$SI_FUEL_COST_GAL,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
-  )
-
-  ### VMT gas ----
-  phev_vmt_gas <- calc_vmt_forecast(
-    .scenario = .scenario,
-    .selected_ctu = .selected_ctu,
-    tb = .pass_tb,
-    .phev_electric = FALSE,
-    .mode = mode,
-    .stock = "PHEVStock",
-    .parking_cost = .parking_cost,
-    .vehicle_occupancy = .vehicle_occupancy,
-    .variable = var,
-    .tb_fuel_cost_mile = fcm_phev,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .cong_price = .cong_price,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct,
-    .elast = .elast,
-    .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values
-  ) %>%
-    dplyr::mutate(class = "PHEV")
-
-
-  ### VMT electric ------
-  fcm_electric <- calc_fuel_cost_mile(
-    tb = .pass_tb,
-    .mode = mode,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "PHEVElec",
-    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
-  )
-
-  phev_vmt_electric <- calc_vmt_forecast(
-    .scenario = .scenario,
-    tb = .pass_tb,
-    .selected_ctu = .selected_ctu,
-    .phev_electric = TRUE,
-    .mode = mode,
-    .stock = "PHEVStock",
-    .parking_cost = .parking_cost,
-    .vehicle_occupancy = .vehicle_occupancy,
-    .variable = var,
-    .tb_fuel_cost_mile = fcm_electric,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .cong_price = .cong_price,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .telework_pct = .telework_pct,
-    .elast = .elast,
-    .enviro_factors = .enviro_factors,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values
-  ) %>%
-    dplyr::mutate(class = "PHEV")
-
-  ### PHEV VMT all -----
+  # fix PHEV electric and gas -----
   phev_vmt <- dplyr::left_join(
-    phev_vmt_electric %>%
-      dplyr::select(everything(),
-        vmt_electric = vmt
-      ),
-    phev_vmt_gas %>%
+    results_list[[6]]$phev_vmt %>%
       dplyr::select(everything(),
         vmt_gas = vmt
       ),
+    results_list[[6]]$phev_vmt %>%
+      dplyr::select(everything(),
+        vmt_electric = vmt
+      ),
     c(
-      "type",
-      "stock",
-      "class",
-      "scenario",
-      "mode",
-      "geog_name",
-      "geog_id",
-      "year",
-      "aeo_mode"
+      "type", "stock", "class", "scenario", "mode",
+      "geog_name", "geog_id", "year", "aeo_mode"
     )
   ) %>%
     rowwise() %>%
@@ -422,121 +159,26 @@ mode_passenger_light_duty <- function(.pass_tb,
     ) %>%
     dplyr::select(-vmt_electric, -vmt_gas)
 
-  ### gas ghg direct -----
-  phev_ghg_gas <- calc_ghg_direct(
-    tb_vmt = phev_vmt_gas,
-    tb = .pass_tb,
-    .mode = mode,
-    .fuel_type = "SI",
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "PHEVMPG",
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .enviro_factors = .enviro_factors,
-    .fuel_economy = .fuel_economy,
-    .factor_values = .factor_values
-  ) %>%
-    dplyr::select(everything(),
-      dir_ghg_gas = dir_ghg
-    )
 
-  ### electric ghg direct -----
-  phev_ghg_electric <- calc_ghg_direct(
-    tb_vmt = phev_vmt_electric,
-    tb = .pass_tb,
-    .mode = mode,
-    .fuel_type = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "PHEVElec",
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values,
-    .fuel_economy = .fuel_economy
-  ) %>%
-    dplyr::select(everything(),
-      dir_ghg_electric = dir_ghg
-    )
 
   phev_dir_ghg <- dplyr::left_join(
-    phev_ghg_gas,
-    phev_ghg_electric,
+    results_list[[5]]$phev_dir_ghg %>%
+      dplyr::select(everything(),
+        ghg_gas = dir_ghg
+      ),
+    results_list[[6]]$phev_dir_ghg %>%
+      dplyr::select(everything(),
+        ghg_electric = dir_ghg
+      ),
     c(
       "type", "scenario", "mode", "geog_name", "geog_id",
       "year", "aeo_mode", "class"
     )
   ) %>%
-    dplyr::mutate(dir_ghg = dir_ghg_electric + dir_ghg_gas) %>%
-    dplyr::select(-dir_ghg_electric, -dir_ghg_gas)
+    dplyr::mutate(dir_ghg = ghg_electric + ghg_gas) %>%
+    dplyr::select(-ghg_gas, -ghg_electric)
 
-  ## BEV (Battery electric vehicle) -----
-  # stock <- "BEVStock"
-  # mpe <- "BEVElec"
-  # class <- "BEV"
-
-  message("Passenger vehicles, battery electric")
-
-
-  fcm_bev <- calc_fuel_cost_mile(
-    tb = .pass_tb,
-    .mode = mode,
-    .aeo_scenario = .aeo_scenario,
-    .miles_per_gallon = "BEVElec",
-    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
-    .enviro_factors = .enviro_factors,
-    .factor_values = .factor_values
-  )
-
-  bev_vmt <-
-    calc_vmt_forecast(
-      .scenario = .scenario,
-      .selected_ctu = .selected_ctu,
-      tb = .pass_tb,
-      .mode = mode,
-      .stock = "BEVStock",
-      .variable = var,
-      .vehicle_occupancy = .vehicle_occupancy,
-      .parking_cost = .parking_cost,
-      .tb_fuel_cost_mile = fcm_bev,
-      .aeo_scenario = .aeo_scenario,
-      .transit_avo_pct = .transit_avo_pct,
-      .pldv_avo_pct = .pldv_avo_pct,
-      .transit_service_pct = .transit_service_pct,
-      .vmt_fee = .vmt_fee,
-      .payd_fee = .payd_fee,
-      .gas_tax = .gas_tax,
-      .cong_price = .cong_price,
-      .parking_price = .parking_price,
-      .freight_parking_price = .freight_parking_price,
-      .freight_vmt_fee = .freight_vmt_fee,
-      .pop_dens_pct_change = .pop_dens_pct_change,
-      .emp_dens_pct_change = .emp_dens_pct_change,
-      .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-      .intersection_design_pct_change = .intersection_design_pct_change,
-      .job_access_pct_change = .job_access_pct_change,
-      .transit_dist_pct_change = .transit_dist_pct_change,
-      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-      .telework_pct = .telework_pct,
-      .elast = .elast,
-      .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values,
-      .elast_5d = .elast_5d
-    ) %>%
-    dplyr::mutate(class = "BEV")
-
-  bev_dir_ghg <-
-    calc_ghg_direct(
-      tb_vmt = bev_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .fuel_type = .electric_scenario,
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = "BEVElec",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
-      .enviro_factors = .enviro_factors,
-      .factor_values = .factor_values,
-      .fuel_economy = .fuel_economy
-    )
-
-
+  # compile -----
   vmt_all <- dplyr::bind_rows(
     ci_vmt,
     si_vmt,
@@ -561,6 +203,8 @@ mode_passenger_light_duty <- function(.pass_tb,
   )
 
 
+
+
   # if calculate fuel use -----
   if (.calc_transp_fuel_use == TRUE) {
     si_fuel <- calc_fuel_use(
@@ -582,7 +226,7 @@ mode_passenger_light_duty <- function(.pass_tb,
 
     phev_fuel_electric <-
       calc_fuel_use(
-        tb_vmt = phev_vmt_electric,
+        tb_vmt = results_list[[6]]$phev_vmt,
         tb = .pass_tb,
         .mode = mode,
         .aeo_scenario = .aeo_scenario,
@@ -590,7 +234,7 @@ mode_passenger_light_duty <- function(.pass_tb,
       )
 
     phev_fuel_gas <- calc_fuel_use(
-      tb_vmt = phev_vmt_gas,
+      tb_vmt = results_list[[6]]$phev_vmt,
       tb = .pass_tb,
       .mode = mode,
       .aeo_scenario = .aeo_scenario,
@@ -667,7 +311,9 @@ mode_passenger_light_duty <- function(.pass_tb,
       )
 
     hev_cost <-
-      calc_cost(hev_vmt, mode,
+      calc_cost(
+        tb_vmt = hev_vmt,
+        .mode = mode,
         .selected_ctu = .selected_ctu,
         .price = "HEVPrice",
         .enviro_factors = .enviro_factors,
@@ -675,7 +321,8 @@ mode_passenger_light_duty <- function(.pass_tb,
       )
 
     phev_cost <-
-      calc_cost(phev_vmt,
+      calc_cost(
+        tb_vmt = phev_vmt,
         .selected_ctu = .selected_ctu,
         .mode = mode,
         .price = "PHEVPrice",
@@ -706,10 +353,14 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   if (.calc_transp_ghg_embodied == TRUE) {
     si_emb_ghg <-
-      calc_ghg_embodied(.pass_tb, mode,
+      calc_ghg_embodied(
+        tb = .pass_tb,
+        .mode = mode,
         .class = "SI",
-        "SISales",
-        "SI-EMB"
+        .sales_mode = "SISales",
+        .fuel_type = "SI-EMB",
+        .enviro_factors = .enviro_factors,
+        .transit_avo_pct = .transit_avo_pct
       )
 
     ci_emb_ghg <-
@@ -718,7 +369,9 @@ mode_passenger_light_duty <- function(.pass_tb,
         .mode = mode,
         .sales_mode = "CISales",
         .fuel_type = "CI-EMB",
-        .class = "CI"
+        .class = "CI",
+        .enviro_factors = .enviro_factors,
+        .transit_avo_pct = .transit_avo_pct
       )
 
     hev_emb_ghg <-
@@ -728,7 +381,8 @@ mode_passenger_light_duty <- function(.pass_tb,
         .mode = mode,
         .sales_mode = "HEVSales",
         .fuel_type = "HEV-EMB",
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .transit_avo_pct = .transit_avo_pct
       )
 
     phev_emb_ghg <-
@@ -749,7 +403,8 @@ mode_passenger_light_duty <- function(.pass_tb,
         .class = "BEV",
         .sales_mode = "BEVSales",
         .fuel_type = "BEV-EMB",
-        .enviro_factors = .enviro_factors
+        .enviro_factors = .enviro_factors,
+        .transit_avo_pct = .transit_avo_pct
       )
 
     pldv_scenario$emb_ghg <- dplyr::bind_rows(
@@ -768,4 +423,65 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   # return ------
   return(pldv_scenario)
+}
+
+
+
+#' @keywords internal
+#' @importFrom stringr str_to_lower
+run_vehicle_calculations <- function(
+    fuel_label, # e.g. "SI", "DI", "PHEV", "EV"
+    mpg_name, # e.g. "SIMPG", "DIMPG", "PHEVMIXMPG", "EVMPG"
+    stock_name, # e.g. "SIStock", "DIStock", etc.
+    fuel_label2,
+    fuel_cost_var, # e.g. .enviro_factors$SI_FUEL_COST_GAL
+    phev_electric = NA, # Optional: % electric share for PHEVs
+    fcm_common,
+    vmt_common,
+    dir_ghg_common) {
+  message(paste("Passenger vehicles,", fuel_label))
+
+  # 1. Fuel cost per mile
+  fcm <- do.call(
+    calc_fuel_cost_mile,
+    c(
+      .miles_per_gallon = mpg_name,
+      .fuel_cost_gallon = fuel_cost_var,
+      fcm_common
+    )
+  )
+
+  # 2. VMT forecast
+  vmt <- do.call(
+    calc_vmt_forecast,
+    c(
+      .stock = stock_name,
+      .phev_electric = phev_electric,
+      append(vmt_common, list(.tb_fuel_cost_mile = fcm))
+    )
+  ) %>%
+    dplyr::mutate(class = fuel_label)
+
+  # 3. Direct GHG emissions
+  dir_ghg <- do.call(
+    calc_ghg_direct,
+    c(
+      .fuel_type = fuel_label2,
+      .miles_per_gallon = mpg_name,
+      append(dir_ghg_common, list(tb_vmt = vmt))
+    )
+  )
+
+  fuel_label_lower <- stringr::str_to_lower(fuel_label)
+
+  return(
+    list(fcm, vmt, dir_ghg) %>%
+      setNames(
+        nm = c(
+          paste0(fuel_label_lower, "_fcm"),
+          paste0(fuel_label_lower, "_vmt"),
+          paste0(fuel_label_lower, "_dir_ghg")
+        )
+      )
+  )
 }

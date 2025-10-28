@@ -10,6 +10,7 @@ run_module_transportation(
   freight_tb = transportation_data$freight,
   .selected_ctu = "all",
   .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
@@ -56,6 +57,8 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}

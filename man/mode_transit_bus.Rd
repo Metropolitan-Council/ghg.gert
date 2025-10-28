@@ -12,6 +12,7 @@ mode_transit_bus(
   .aeo_scenario = "REF",
   .transit_avo_pct = 0,
   .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
   .vmt_fee = 0,
@@ -56,6 +57,8 @@ Default is \code{"REF"}}
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 

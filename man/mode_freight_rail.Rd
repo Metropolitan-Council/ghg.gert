@@ -11,6 +11,7 @@ mode_freight_rail(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
@@ -51,6 +52,8 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 Default is \code{"REF"}}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 

@@ -11,6 +11,7 @@ mode_walk_bike(
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
@@ -34,7 +35,10 @@ mode_walk_bike(
   .elast = elast,
   .fuel_economy = fuel_economy,
   .factor_values = factor_values,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .calc_transp_cost = FALSE,
+  .calc_transp_fuel_use = FALSE,
+  .calc_transp_ghg_embodied = FALSE
 )
 }
 \arguments{
@@ -51,6 +55,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 Default is \code{"REF"}}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -112,6 +118,15 @@ Default value is \code{0.6}.}
 \item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+
+\item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_fuel_use}{logical, whether to calculate transportation fuel use tables.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
+
+\item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
+Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 }
 \description{
 Calculates scenario for walk and bike.

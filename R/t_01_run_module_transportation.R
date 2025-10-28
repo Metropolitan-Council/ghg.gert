@@ -43,6 +43,8 @@
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
 #' @importFrom cli cli_warn
+#' @importFrom rlang exec
+#' @importFrom purrr map
 #'
 #' @family transportation
 run_module_transportation <- function(pass_tb = transportation_data$passenger,
@@ -84,7 +86,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .elast_5d = ghg.ccap::elast_5d,
                                       .fuel_economy = ghg.ccap::fuel_economy,
                                       .factor_values = ghg.ccap::factor_values) {
-
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
@@ -182,18 +183,20 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   # Passenger-----
 
-  # Sequence for each
-  # 1. Establish `type`, `var`, `mode`
-  # 2. Establish `stock`, `mpg`, `class`
-  # 3. Calculate fuel cost per mile with `calc_fuel_cost_mile()`
-  # 4. Calculate VMT with `calc`
+  pass_funs <- c(
+    mode_passenger_light_duty,
+    mode_transit_bus,
+    mode_transit_rail,
+    mode_walk_bike,
+    mode_school_bus
+  )
 
-  ## passenger light-duty -----
-  passenger_light_duty <- mode_passenger_light_duty(
+  pass_args <- list(
     .pass_tb = pass_tb,
     .selected_ctu = .selected_ctu,
     .scenario = .scenario,
     .parking_cost = .parking_cost,
+    .vehicle_occupancy = .vehicle_occupancy,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
@@ -225,163 +228,34 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .fuel_economy = .fuel_economy
   )
 
+  passenger_tables <-
+    purrr::map(pass_funs, rlang::exec, !!!pass_args)
 
-  ## transit buses -----
-  bus_transit <- mode_transit_bus(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .parking_cost = .parking_cost,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values,
-    .calc_transp_cost = .calc_transp_cost,
-    .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-    .fuel_economy = .fuel_economy
+  names(passenger_tables) <- c(
+    "passenger_light_duty",
+    "bus_transit",
+    "rail_transit",
+    "walk_bike",
+    "school_bus"
   )
 
-  ## transit rail -----
-
-  rail_transit <- mode_transit_rail(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .parking_cost = .parking_cost,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values,
-    .calc_transp_cost = .calc_transp_cost,
-    .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-    .fuel_economy = .fuel_economy
-  )
-
-  ## school bus-----
-  school_bus <- mode_school_bus(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .parking_cost = .parking_cost,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values,
-    .calc_transp_cost = .calc_transp_cost,
-    .calc_transp_fuel_use = .calc_transp_fuel_use,
-    .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-    .fuel_economy = .fuel_economy
-  )
-
-
-  ## walk and bike ----
-  walk_bike <- mode_walk_bike(
-    .pass_tb = pass_tb,
-    .selected_ctu = .selected_ctu,
-    .parking_cost = .parking_cost,
-    .scenario = .scenario,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .elast_5d = .elast_5d,
-    .factor_values = .factor_values,
-    .fuel_economy = .fuel_economy
-  )
+  list2env(passenger_tables, envir = environment())
 
   # Freight -------------------------------
   # (measured in ton-miles NOT miles)
 
-  ## freight truck ------
-  freight_truck <- mode_freight_truck(
+  freight_funs <- c(
+    mode_freight_truck,
+    mode_freight_rail,
+    mode_air_water_multi
+  )
+
+  freight_args <- list(
     .freight_tb = freight_tb,
     .selected_ctu = .selected_ctu,
     .parking_cost = .parking_cost,
     .scenario = .scenario,
+    .vehicle_occupancy = .vehicle_occupancy,
     .electric_scenario = .electric_scenario,
     .aeo_scenario = .aeo_scenario,
     .transit_avo_pct = .transit_avo_pct,
@@ -410,80 +284,21 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .fuel_economy = .fuel_economy
   )
 
-  ## freight rail -----
 
-  freight_rail <- mode_freight_rail(
-    .freight_tb = freight_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .parking_cost = .parking_cost,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .factor_values = .factor_values,
-    .elast_5d = .elast_5d,
-    .fuel_economy = .fuel_economy
+  freight_tables <-
+    purrr::map(freight_funs, rlang::exec, !!!freight_args)
+
+  names(freight_tables) <- c(
+    "freight_truck",
+    "freight_rail",
+    "freight_multi_air_wat"
   )
 
-  ## freight multi-modal, air, and water -----
-
-  freight_multi_air_wat <- mode_air_water_multi(
-    .freight_tb = freight_tb,
-    .selected_ctu = .selected_ctu,
-    .scenario = .scenario,
-    .parking_cost = .parking_cost,
-    .electric_scenario = .electric_scenario,
-    .aeo_scenario = .aeo_scenario,
-    .transit_avo_pct = .transit_avo_pct,
-    .pldv_avo_pct = .pldv_avo_pct,
-    .transit_service_pct = .transit_service_pct,
-    .vmt_fee = .vmt_fee,
-    .payd_fee = .payd_fee,
-    .gas_tax = .gas_tax,
-    .parking_price = .parking_price,
-    .freight_parking_price = .freight_parking_price,
-    .cong_price = .cong_price,
-    .freight_vmt_fee = .freight_vmt_fee,
-    .pop_dens_pct_change = .pop_dens_pct_change,
-    .emp_dens_pct_change = .emp_dens_pct_change,
-    .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-    .intersection_design_pct_change = .intersection_design_pct_change,
-    .job_access_pct_change = .job_access_pct_change,
-    .transit_dist_pct_change = .transit_dist_pct_change,
-    .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
-    .telework_pct = .telework_pct,
-    .enviro_factors = .enviro_factors,
-    .elast = .elast,
-    .factor_values = .factor_values,
-    .elast_5d = .elast_5d,
-    .fuel_economy = .fuel_economy
-  )
+  list2env(freight_tables, envir = environment())
 
   # Finish up -----
   ## passenger ------
 
-  # browser()
   passenger <- list(
     PLDV = passenger_light_duty,
     RAIL = rail_transit,
@@ -538,8 +353,14 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_emb_ghg, c(
-        "type", "scenario", "geog_name", "geog_id",
-        "year", "mode", "aeo_mode", "class"
+        "type",
+        "scenario",
+        "geog_name",
+        "geog_id",
+        "year",
+        "mode",
+        "aeo_mode",
+        "class"
       ))
   }
 
@@ -554,9 +375,14 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_fuel, by = c(
-        "type", "scenario",
-        "geog_name", "geog_id", "year", "mode",
-        "aeo_mode", "class"
+        "type",
+        "scenario",
+        "geog_name",
+        "geog_id",
+        "year",
+        "mode",
+        "aeo_mode",
+        "class"
       ))
   }
 
@@ -571,8 +397,14 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
     pass_all <- pass_all %>%
       dplyr::left_join(pass_cost, by = c(
-        "type", "scenario", "geog_name", "geog_id",
-        "year", "mode", "aeo_mode", "class"
+        "type",
+        "scenario",
+        "geog_name",
+        "geog_id",
+        "year",
+        "mode",
+        "aeo_mode",
+        "class"
       ))
   }
 
