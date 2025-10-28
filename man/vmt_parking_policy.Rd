@@ -21,7 +21,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.parking_cost}{table, existing parking cost assumptions.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is
+\code{ghg.ccap::parking_cost}.}
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 

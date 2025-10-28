@@ -18,6 +18,7 @@ run_all_modules(
   non_res_tb_bau = building_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+  .parking_cost = parking_cost,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
@@ -112,6 +113,9 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is
+\code{ghg.ccap::parking_cost}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}

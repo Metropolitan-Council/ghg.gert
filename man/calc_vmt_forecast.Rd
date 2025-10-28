@@ -8,6 +8,7 @@ calc_vmt_forecast(
   .scenario,
   tb,
   .selected_ctu = "all",
+  .parking_cost = parking_cost,
   .mode,
   .stock,
   .variable,
@@ -46,6 +47,9 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \code{transportation_data$freight} are suitable.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is
+\code{ghg.ccap::parking_cost}.}
 
 \item{.mode}{character, current mode}
 

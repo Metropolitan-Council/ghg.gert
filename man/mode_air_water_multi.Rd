@@ -10,6 +10,7 @@ mode_air_water_multi(
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
+  .parking_cost = parking_cost,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
@@ -48,6 +49,9 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is
+\code{ghg.ccap::parking_cost}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
