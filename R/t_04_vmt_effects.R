@@ -743,6 +743,7 @@ vmt_transit_service <- function(tb,
 #'
 #' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
 #' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
+#' @param .vehicle_occupancy table, vehicle occupancy averages by mode. Default is `ghg.ccap::vehicle_occupancy`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -789,10 +790,11 @@ vmt_vehicle_occupancy <- function(tb,
                                   .stock,
                                   .transit_avo_pct = 0,
                                   .pldv_avo_pct = 0,
+                                  .vehicle_occupancy = vehicle_occupancy,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
   # some modes apply the same AVO to all CTUs
   if (.mode %in% c("PLDV", "AV")) {
-    pldv_occupancy <- tb %>%
+    pldv_occupancy <- .vehicle_occupancy %>%
       filter(
         mode == .mode,
         var == "AVO"
@@ -847,7 +849,7 @@ vmt_vehicle_occupancy <- function(tb,
 
 
 
-    mode_avo <- tb %>%
+    mode_avo <- .vehicle_occupancy %>%
       filter(
         mode == .mode,
         var %in% c(
@@ -893,7 +895,7 @@ vmt_vehicle_occupancy <- function(tb,
       cli::cli_warn("Occupany has no effect on school bus or freight modes")
     }
     # return same value, no change
-    mode_avo <- tb %>%
+    mode_avo <- .vehicle_occupancy %>%
       filter(
         mode == .mode,
         var %in% c(

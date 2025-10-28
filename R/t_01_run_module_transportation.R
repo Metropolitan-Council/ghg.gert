@@ -49,6 +49,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       freight_tb = transportation_data$freight,
                                       .selected_ctu = "all",
                                       .parking_cost = parking_cost,
+                                      .vehicle_occupancy = vehicle_occupancy,
                                       .calc_transp_cost = FALSE,
                                       .calc_transp_fuel_cost_mile = FALSE,
                                       .calc_transp_fuel_use = FALSE,
@@ -83,6 +84,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .elast_5d = ghg.ccap::elast_5d,
                                       .fuel_economy = ghg.ccap::fuel_economy,
                                       .factor_values = ghg.ccap::factor_values) {
+
   pass_tb <- filter_ctu(pass_tb, .selected_ctu)
   freight_tb <- filter_ctu(freight_tb, .selected_ctu)
 
