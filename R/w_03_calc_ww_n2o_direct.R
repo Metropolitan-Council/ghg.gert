@@ -11,9 +11,6 @@
 #'
 #'
 calculate_mww_n2o_direct_emissions <- function(population, years, lookup = NULL) {
-
-
-
   if (is.null(lookup)) {
     lookup <- ghg.ccap::waste_data$epa$wastewater_constants
   }

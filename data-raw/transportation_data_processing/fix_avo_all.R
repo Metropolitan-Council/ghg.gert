@@ -5,7 +5,8 @@ vehicle_occupancy <- transportation_data$passenger %>%
   filter(var == "AVO") %>%
   bind_rows(
     transportation_data$freight %>%
-      filter(var == "AVO"))
+      filter(var == "AVO")
+  )
 
 
 transportation_data$passenger <- transportation_data$passenger %>%

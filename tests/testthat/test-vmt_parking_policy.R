@@ -23,7 +23,6 @@ test_that("Parking policy effects correct", {
       "2050", "Saint Paul", 0.731618027
     ),
     tolerance = 0.01
-
   )
 
 

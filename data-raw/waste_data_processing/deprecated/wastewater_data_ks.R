@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 
 
 # 1. Load CTU and county boundaries ---------------------------------------
@@ -12,7 +12,6 @@ ref_year <- 2022
 lookup_ctu_county <- rbind(
   geog_index %>%
     dplyr::select(geog_name, geog_level, geog_id, geog_id_type),
-
   demographic_data %>% filter(geog_level == "COUNTY") %>%
     filter(inventory_year == ref_year & sp_categories == "population") %>%
     dplyr::select(geog_name, geog_level, geog_id, geog_id_type)
@@ -24,19 +23,19 @@ lookup_ctu_county <- rbind(
 ctu_pop_by_county <-
   ctu_county %>% # Load ctu_county - includes information about CTUs that span multiple counties
   dplyr::select(-pct_land_area) %>%
-  mutate(ctu_id = stringr::str_pad(ctu_id, width = 8, pad = "0"),
-         co_code = paste0("27",stringr::str_pad(co_code, width = 3, pad = "0"))) %>%
-
+  mutate(
+    ctu_id = stringr::str_pad(ctu_id, width = 8, pad = "0"),
+    co_code = paste0("27", stringr::str_pad(co_code, width = 3, pad = "0"))
+  ) %>%
   # NOTE: Empire (ctu_id = "02831011") was not in the ctu_county dataframe,
   # so it needs to be added here. Not sure why it was missing...
   bind_rows(tibble(ctu_id = "02831011", co_code = "27037", n_counties = 1, pct_population = 1)) %>%
-
   # add county metadata
   left_join(lookup_ctu_county %>%
-              dplyr::select(geog_id, "co_name"=geog_name), by=join_by(co_code == geog_id)) %>%
+    dplyr::select(geog_id, "co_name" = geog_name), by = join_by(co_code == geog_id)) %>%
   # add ctu metadata
   left_join(lookup_ctu_county %>%
-              dplyr::select(geog_id, "ctu_name"=geog_name), by=join_by(ctu_id == geog_id)) %>%
+    dplyr::select(geog_id, "ctu_name" = geog_name), by = join_by(ctu_id == geog_id)) %>%
   dplyr::select(ctu_id, co_code, ctu_name, co_name, everything()) %>%
   filter(pct_population != 0) %>% # remove rows where the population is zero
   # after removing the rows with zero population, re-classify the CTUs that span
@@ -44,7 +43,7 @@ ctu_pop_by_county <-
   # single county's boundary.
   mutate(n_counties = case_when(
     pct_population == 1 & n_counties > 1 ~ 1,
-    .default=n_counties
+    .default = n_counties
   ))
 
 
@@ -75,7 +74,7 @@ ctu_population_data <- demographic_data %>%
   # than one county. This will affect which per capita estimates we use for solid
   # waste source.
   mutate(flag = case_when(
-    geog_id %in% duplicate_ctus$ctu_id~"duplicate",
+    geog_id %in% duplicate_ctus$ctu_id ~ "duplicate",
     .default = NA
   ))
 
@@ -245,7 +244,6 @@ calculate_mww_n2o_effluent_emissions <- function(population, years) {
       biosolids_pct_vec[i] <- epa_protein_consumption %>%
         filter(year == !!year) %>%
         pull(pct_of_biosolids_as_fertilizer)
-
     } else if (year > max_year) {
       # Use the most recent year's data for extrapolation
       protein_consumption_vec[i] <- epa_protein_consumption %>%
@@ -255,7 +253,6 @@ calculate_mww_n2o_effluent_emissions <- function(population, years) {
       biosolids_pct_vec[i] <- epa_protein_consumption %>%
         filter(year == max_year) %>%
         pull(pct_of_biosolids_as_fertilizer)
-
     } else {
       # Use the earliest year's data for extrapolation
       protein_consumption_vec[i] <- epa_protein_consumption %>%
@@ -333,7 +330,7 @@ wastewater_proj_county <- county_population_data %>%
   mutate(
     MWW_CH4 = calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
     MWW_N20_direct = calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-    MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years= inventory_year)$value_emissions
+    MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
   )
 
 wastewater_proj_county <- wastewater_proj_county %>%
@@ -360,11 +357,14 @@ wastewater_proj_county <- wastewater_proj_county %>%
   summarize(
     value_emissions = sum(mt_co2e),
     .groups = "keep"
-  ) %>% ungroup() %>%
-  mutate(source = "Wastewater",
-         units_emissions = "metric tons CO2e",
-         data_type = "forecast using future population growth") %>%
-  relocate(source, .before="value_emissions")
+  ) %>%
+  ungroup() %>%
+  mutate(
+    source = "Wastewater",
+    units_emissions = "metric tons CO2e",
+    data_type = "forecast using future population growth"
+  ) %>%
+  relocate(source, .before = "value_emissions")
 
 
 
@@ -405,11 +405,14 @@ wastewater_baseline_county <- wastewater_baseline_county %>%
   summarize(
     value_emissions = sum(mt_co2e),
     .groups = "keep"
-  ) %>% ungroup() %>%
-  mutate(source = "Wastewater",
-         units_emissions = "metric tons CO2e",
-         data_type = "estimated using historical population data") %>%
-  relocate(source, .before="value_emissions")
+  ) %>%
+  ungroup() %>%
+  mutate(
+    source = "Wastewater",
+    units_emissions = "metric tons CO2e",
+    data_type = "estimated using historical population data"
+  ) %>%
+  relocate(source, .before = "value_emissions")
 
 
 
@@ -430,7 +433,7 @@ wastewater_proj_ctu <- ctu_population_data %>%
   mutate(
     MWW_CH4 = calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
     MWW_N20_direct = calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-    MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years= inventory_year)$value_emissions
+    MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
   )
 
 wastewater_proj_ctu <- wastewater_proj_ctu %>%
@@ -457,11 +460,14 @@ wastewater_proj_ctu <- wastewater_proj_ctu %>%
   summarize(
     value_emissions = sum(mt_co2e),
     .groups = "keep"
-  ) %>% ungroup() %>%
-  mutate(source = "Wastewater",
-         units_emissions = "metric tons CO2e",
-         data_type = "forecast using future population growth") %>%
-  relocate(source, .before="value_emissions") %>%
+  ) %>%
+  ungroup() %>%
+  mutate(
+    source = "Wastewater",
+    units_emissions = "metric tons CO2e",
+    data_type = "forecast using future population growth"
+  ) %>%
+  relocate(source, .before = "value_emissions") %>%
   arrange(geog_name, inventory_year)
 
 
@@ -503,11 +509,14 @@ wastewater_baseline_ctu <- wastewater_baseline_ctu %>%
   summarize(
     value_emissions = sum(mt_co2e),
     .groups = "keep"
-  ) %>% ungroup() %>%
-  mutate(source = "Wastewater",
-         units_emissions = "metric tons CO2e",
-         data_type = "estimated using historical population data") %>%
-  relocate(source, .before="value_emissions")
+  ) %>%
+  ungroup() %>%
+  mutate(
+    source = "Wastewater",
+    units_emissions = "metric tons CO2e",
+    data_type = "estimated using historical population data"
+  ) %>%
+  relocate(source, .before = "value_emissions")
 
 
 
@@ -519,23 +528,19 @@ wastewater_baseline_ctu <- wastewater_baseline_ctu %>%
 
 # ?. Compile wastewater data ---------------------------------------------------
 ## Store data in a list
-wastewater_data <-list()
+wastewater_data <- list()
 
 # add inventory data
-wastewater_data$inventory <- rbind(wastewater_baseline_ctu,
-                                   wastewater_baseline_county)
+wastewater_data$inventory <- rbind(
+  wastewater_baseline_ctu,
+  wastewater_baseline_county
+)
 
 # add projections
-wastewater_data$projections <- rbind(wastewater_proj_ctu,
-                                     wastewater_proj_county)
+wastewater_data$projections <- rbind(
+  wastewater_proj_ctu,
+  wastewater_proj_county
+)
 
 
 usethis::use_data(wastewater_data, overwrite = TRUE)
-
-
-
-
-
-
-
-

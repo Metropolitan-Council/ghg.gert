@@ -29,7 +29,7 @@ population_county <- population_data %>%
 waste_per_cap <- waste_baseline %>%
   dplyr::right_join(population_county %>% dplyr::filter(inventory_year == 2020)) %>%
   dplyr::mutate(
-    value_per_cap = value_activity/county_pop
+    value_per_cap = value_activity / county_pop
   ) %>%
   dplyr::select(
     geoid,
@@ -62,9 +62,10 @@ waste_data_county <- population_county %>%
 waste_data_ctu <- population_data %>%
   dplyr::right_join(ctu_county, relationship = "many-to-many") %>%
   dplyr::right_join(waste_data_county, relationship = "many-to-many") %>%
-  dplyr::mutate(ctu_percent_of_county_pop = value/county_pop) %>%
-  dplyr::mutate(value_activity = value_activity*ctu_percent_of_county_pop,
-                units_activity = "metric tons MSW"
+  dplyr::mutate(ctu_percent_of_county_pop = value / county_pop) %>%
+  dplyr::mutate(
+    value_activity = value_activity * ctu_percent_of_county_pop,
+    units_activity = "metric tons MSW"
   ) %>%
   dplyr::select(
     inventory_year,
@@ -77,7 +78,7 @@ waste_data_ctu <- population_data %>%
 
 # to test: is waste_projections 2020 activity data equal to waste_baseline 2020 data
 
-waste_data <-list()
+waste_data <- list()
 waste_data$ctu <- waste_data_ctu
 waste_data$county <- waste_data_county %>%
   dplyr::select(

@@ -82,9 +82,11 @@ tbi_parking_cost <- trip %>%
     duration_minutes > 0,
     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
-    park_type %in% c("Paid via cash, credit card, or ticket(s)",
-                     "Parking reservation service (e.g., SpotHero, ParkMobile)",
-                     "Used a parking pass (any type)"),
+    park_type %in% c(
+      "Paid via cash, credit card, or ticket(s)",
+      "Parking reservation service (e.g., SpotHero, ParkMobile)",
+      "Used a parking pass (any type)"
+    ),
     distance_miles < 720,
     distance_miles > 0
   ) %>%
@@ -103,19 +105,23 @@ tbi_parking_cost <- trip %>%
   filter(n_trips_sample >= 10) %>%
   arrange(-n_trips_sample) %>%
   mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
-           str_replace("St. ", "Saint ") %>%
-           str_remove("(unorg.)") %>%
-           str_remove_all("[:punct:]") %>%
-           str_trim())
+    str_replace("St. ", "Saint ") %>%
+    str_remove("(unorg.)") %>%
+    str_remove_all("[:punct:]") %>%
+    str_trim())
 
 
 parking_cost <-
   transportation_data$passenger %>%
-  filter(var == "PARK",
-         mode == "PLDV") %>%
-  left_join(tbi_parking_cost %>%
-              select(geog_name, vehicle_park_cost),
-            by = join_by(geog_name)) %>%
+  filter(
+    var == "PARK",
+    mode == "PLDV"
+  ) %>%
+  left_join(
+    tbi_parking_cost %>%
+      select(geog_name, vehicle_park_cost),
+    by = join_by(geog_name)
+  ) %>%
   mutate(value = case_when(
     # use TBI if possible
     !is.na(vehicle_park_cost) ~ vehicle_park_cost,
@@ -126,14 +132,16 @@ parking_cost <-
   bind_rows(
     transportation_data$freight %>%
       filter(var == "PARK")
-  ) %>% bind_rows(
+  ) %>%
+  bind_rows(
     transportation_data$freight %>% filter(var == "PARK") %>%
       mutate(value = case_when(
         # use TBI if possible
         value == 1 ~ value,
-        value == ~ 0.1 ~ 0.01,
+        value == ~0.1 ~ 0.01,
         TRUE ~ value
-      )))
+      ))
+  )
 
 
 transportation_data$passenger <- transportation_data$passenger %>%

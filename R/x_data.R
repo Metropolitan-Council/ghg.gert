@@ -279,4 +279,3 @@
 #' waste_data$characterization
 # waste_data -----
 "waste_data"
-

@@ -194,10 +194,12 @@ new_bus_fleet <- new_stock %>%
 
 
 new_pass <- transportation_data$passenger %>%
-  filter(!(mode == "BRT" & var %in% c(new_bus_fleet$var,
-                                     "HEVExist", "BEVExist",
-                                     "HEVSales", "BEVSales",
-                                     "HEVStock", "BEVStock"))) %>%
+  filter(!(mode == "BRT" & var %in% c(
+    new_bus_fleet$var,
+    "HEVExist", "BEVExist",
+    "HEVSales", "BEVSales",
+    "HEVStock", "BEVStock"
+  ))) %>%
   anti_join(new_bus_fleet,
     by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
   ) %>%

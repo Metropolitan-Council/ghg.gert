@@ -20,16 +20,15 @@ calculate_organic_emissions <- function(
     .anaerobic_digestion_end = 2050,
     .methane_recovery_pct = 0,
     .methane_recovery_start = 2025,
-    .methane_recovery_end = 2050
-) {
-
-
-  inventory_year = unique(waste_future$inventory_year)
-  methane_recovery_table = tibble::tibble(
-    inventory_year, percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
+    .methane_recovery_end = 2050) {
+  inventory_year <- unique(waste_future$inventory_year)
+  methane_recovery_table <- tibble::tibble(
+    inventory_year,
+    percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
   )
-  anaerobic_digestion_table = tibble::tibble(
-    inventory_year, percent_ad = rep(.anaerobic_digestion_pct, length(inventory_year))
+  anaerobic_digestion_table <- tibble::tibble(
+    inventory_year,
+    percent_ad = rep(.anaerobic_digestion_pct, length(inventory_year))
   )
 
   # now let's create a table but where the percentage increases linearly over time
@@ -80,7 +79,7 @@ calculate_organic_emissions <- function(
     dplyr::mutate(
       percent_recovered = 0,
       percent_ad = 0,
-      "Metric tons CH4" = (value_activity * ch4_factor_compost * (1-percent_ad)) * (1 - percent_recovered) +
+      "Metric tons CH4" = (value_activity * ch4_factor_compost * (1 - percent_ad)) * (1 - percent_recovered) +
         (value_activity * ch4_factor_ad * percent_ad),
       # Note methane recovery not included for anaerobic digestion as default emission
       # factors for anaerobic digestion already account for CH4 recovery.
@@ -102,8 +101,8 @@ calculate_organic_emissions <- function(
     dplyr::left_join(methane_recovery_table, by = dplyr::join_by(inventory_year)) %>%
     dplyr::left_join(anaerobic_digestion_table, by = dplyr::join_by(inventory_year)) %>%
     dplyr::mutate(
-      "Metric tons CH4" = (value_activity * ch4_factor_compost * (1-percent_ad)) * (1 - percent_recovered) +
-          (value_activity * ch4_factor_ad * percent_ad),
+      "Metric tons CH4" = (value_activity * ch4_factor_compost * (1 - percent_ad)) * (1 - percent_recovered) +
+        (value_activity * ch4_factor_ad * percent_ad),
       # Note methane recovery not included for anaerobic digestion as default emission
       # factors for anaerobic digestion already account for CH4 recovery.
       "Metric tons N2O" = (value_activity * n2o_factor_compost * (1 - percent_ad))

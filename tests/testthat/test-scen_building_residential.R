@@ -788,4 +788,3 @@ test_that("Residential building energy runs", {
     }
   )
 })
-

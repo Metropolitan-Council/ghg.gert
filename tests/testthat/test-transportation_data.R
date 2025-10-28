@@ -268,15 +268,14 @@ testthat::test_that("All transit is the sum of each transit mode", {
 
 
   testthat::expect_equal(at_total,
-                         transit_total,
-                         tolerance = 1
+    transit_total,
+    tolerance = 1
   )
 })
 
 
 
 testthat::test_that("All transit is the sum of each transit mode", {
-
   brt_total <- transportation_data$passenger %>%
     filter(
       mode %in% c(
@@ -287,8 +286,9 @@ testthat::test_that("All transit is the sum of each transit mode", {
     summarise(value = sum(value))
 
 
-  testthat::expect_equal(nrow(brt_total),
-                         0
+  testthat::expect_equal(
+    nrow(brt_total),
+    0
   )
 })
 
@@ -307,8 +307,7 @@ testthat::test_that("minimum parking value correct", {
     filter(mode == "PLDV", var == "PARK") %>%
     ungroup() %>%
     filter(value == min(value)) %>%
-    magrittr::extract2("value") %>% unique() %>%
-
-  testthat::expect_equal(0.01)
-
+    magrittr::extract2("value") %>%
+    unique() %>%
+    testthat::expect_equal(0.01)
 })

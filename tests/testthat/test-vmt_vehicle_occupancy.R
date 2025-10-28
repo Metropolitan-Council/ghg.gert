@@ -51,6 +51,6 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
       1.64004082859813, 1.66004132650787, 1.6800418244176, 1.6800418244176,
       1.6800418244176
     ),
-  tolerance = 0.001
+    tolerance = 0.001
   )
 })
