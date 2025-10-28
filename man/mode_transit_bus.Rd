@@ -55,8 +55,7 @@ Default is \code{"REF"}}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
-\item{.parking_cost}{table, existing parking cost assumptions. Default is
-\code{ghg.ccap::parking_cost}.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
 
 \item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
 

@@ -151,11 +151,7 @@ vmt_land_use_change <- function(.type,
 #'
 #' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
 #' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
-<<<<<<< HEAD
 #' @param .parking_cost table, existing parking cost assumptions. Default is `ghg.ccap::parking_cost`.
-=======
-#' @param .parking_cost table, existing parking cost assumptions.
->>>>>>> origin/transport-region-proj
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu

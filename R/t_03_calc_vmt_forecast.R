@@ -177,11 +177,7 @@ calc_vmt_forecast <- function(.scenario,
     parking <- vmt_parking_policy(
       tb = tb,
       .mode = .mode,
-<<<<<<< HEAD
       .parking_cost = .parking_cost,
-=======
-      .parking_cost = parking_cost,
->>>>>>> origin/transport-region-proj
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
       .elast = .elast,
@@ -325,11 +321,7 @@ calc_vmt_forecast <- function(.scenario,
     parking <- vmt_parking_policy(
       tb = tb,
       .mode = .mode,
-<<<<<<< HEAD
       .parking_cost = .parking_cost,
-=======
-      .parking_cost = parking_cost,
->>>>>>> origin/transport-region-proj
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
       .elast = .elast,
@@ -408,11 +400,7 @@ calc_vmt_forecast <- function(.scenario,
     parking <- vmt_parking_policy(
       tb = tb,
       .mode = .mode,
-<<<<<<< HEAD
       .parking_cost = .parking_cost,
-=======
-      .parking_cost = parking_cost,
->>>>>>> origin/transport-region-proj
       .parking_price = .parking_price,
       .freight_parking_price = .freight_parking_price,
       .elast = .elast,
@@ -555,11 +543,7 @@ calc_vmt_forecast <- function(.scenario,
     parking <- vmt_parking_policy(
       tb = tb,
       .mode = .mode,
-<<<<<<< HEAD
       .parking_cost = .parking_cost,
-=======
-      .parking_cost = parking_cost,
->>>>>>> origin/transport-region-proj
       .freight_parking_price = .freight_parking_price,
       .parking_price = .parking_price,
       .elast = .elast,
