@@ -771,7 +771,7 @@ adj_fleet_shares <- function(.pass_tb,
       tidyr::pivot_longer(
         cols = c(
           "TMT", "TotStock",
-          "CIStock", "BEVStock", "PARK", "AVO"
+          "CIStock", "BEVStock", "AVO"
         ),
         names_to = "var",
         values_to = "value",

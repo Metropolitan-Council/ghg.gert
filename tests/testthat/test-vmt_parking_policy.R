@@ -1,6 +1,7 @@
 test_that("Parking policy effects correct", {
   parking_adj <- vmt_parking_policy(
     tb = st_paul_passenger,
+    .parking_cost = parking_cost,
     .mode = "PLDV",
     .parking_price = 44,
     .enviro_factors = enviro_factors
@@ -27,6 +28,7 @@ test_that("Parking policy effects correct", {
   testthat::expect_equal(
     vmt_parking_policy(
       tb = st_paul_passenger,
+      .parking_cost = parking_cost,
       .mode = "PLDV",
       .parking_price = 66,
       .enviro_factors = enviro_factors
@@ -49,6 +51,7 @@ test_that("Parking policy effects correct", {
   testthat::expect_equal(
     vmt_parking_policy(
       tb = st_paul_passenger,
+      .parking_cost = parking_cost,
       .mode = "BU",
       .parking_price = 66,
       .enviro_factors = enviro_factors
@@ -72,6 +75,7 @@ test_that("Parking policy effects correct", {
 
   sut_park <- vmt_parking_policy(
     tb = st_paul_freight,
+    .parking_cost = parking_cost,
     .mode = "SUT",
     .freight_parking_price = 2,
     .enviro_factors = enviro_factors
@@ -114,6 +118,7 @@ test_that("Parking policy effects correct", {
   testthat::expect_equal(
     vmt_parking_policy(
       tb = st_paul_passenger,
+      .parking_cost = parking_cost,
       .mode = "PLDV",
       .parking_price = 0,
       .enviro_factors = enviro_factors

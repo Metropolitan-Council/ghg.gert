@@ -109,7 +109,7 @@ tbi_parking_cost <- trip %>%
            str_trim())
 
 
-parking_replace <-
+parking_cost <-
   transportation_data$passenger %>%
   filter(var == "PARK",
          mode == "PLDV") %>%
@@ -122,13 +122,29 @@ parking_replace <-
     # otherwise use $0.01
     TRUE ~ 0.01
   )) %>%
-  select(names(transportation_data$passenger))
+  select(names(transportation_data$passenger)) %>%
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "PARK")
+  ) %>% bind_rows(
+    transportation_data$freight %>% filter(var == "PARK") %>%
+      mutate(value = case_when(
+        # use TBI if possible
+        value == 1 ~ value,
+        value == ~ 0.1 ~ 0.01,
+        TRUE ~ value
+      )))
+
 
 transportation_data$passenger <- transportation_data$passenger %>%
-  filter(!(mode == "PLDV" & var == "PARK")) %>%
-  bind_rows(parking_replace)
+  filter(!(var == "PARK"))
 
+transportation_data$freight <- transportation_data$freight %>%
+  filter(!(var == "PARK"))
 
 usethis::use_data(transportation_data, overwrite = TRUE)
 
-rm(trip, hh, parking_replace, tbi_parking_cost)
+usethis::use_data(parking_cost, overwrite = TRUE)
+
+
+rm(trip, hh, parking_cost, tbi_parking_cost)
