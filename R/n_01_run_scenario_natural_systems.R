@@ -33,9 +33,10 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
                                          .restoration_start = 2025,
                                          .restoration_time = 10,
                                          .restoration_area_perc = 0,
-                                         .grassland_area_perc = 0.5,
-                                         .bare_area_perc = 0.5,
-                                         .cropland_area_perc = 0.5,
+                                         .grassland_area_perc = 0,
+                                         .bare_area_perc = 0,
+                                         .cropland_area_perc = 0,
+                                         .wetland_area_perc = 0,
                                          .enviro_factors = ghg.ccap::enviro_factors,
                                          detail = FALSE) {
   # -------------------------------------------------------------------------
@@ -85,6 +86,30 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
   }
 
 
+
+  # here we want a module that will maximize the restoration potential of wetlands
+  tb03 <- if (.wetland_area_perc == 0) {
+    tb02
+  } else {
+    ghg.ccap::wetland_restoration(
+      df_hist = df_hist,
+      df_null = tb02,
+      # .selected_ctu = .selected_ctu,
+      .restoration_start = .restoration_start,
+      .restoration_time = .restoration_time,
+      .wetland_area_perc = .wetland_area_perc
+    )
+  }
+
+
+  tb03 <- tb03 %>% dplyr::select(-newTotal)
+
+
+
+
+  # browser()
+
+
   # tb02 <- if (.restoration_area_perc == 0) {
   #   tb01
   # } else {
@@ -99,7 +124,7 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
 
   # -------------------------------------------------------------------------
   # store carbon sequestration function output into variable
-  carbon_sequestration_out <- rbind(df_hist, tb02) %>%
+  carbon_sequestration_out <- rbind(df_hist, tb03) %>%
     dplyr::arrange(inventory_year) %>%
     tidyr::pivot_longer(
       # cols = natural_systems_data$land_cover_carbon$land_cover_type,

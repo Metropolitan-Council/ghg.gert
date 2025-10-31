@@ -7,6 +7,7 @@ library(tidyverse)
 
 
 inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
+inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/236-incorporate-restorable-wetlands-into-natural-systems-projections/_nature/data/"
 
 natural_systems_data <- c()
 
@@ -153,12 +154,23 @@ mod_bau <- ghg.ccap::run_scenario_natural_systems(
 )
 
 
+#+ Let's max everything out and call it net-zero
+#+ Don't worry about potentially wet histosols at this stage
+#+ Change to 100% planting trees in developed areas
+#+ 5% of croplands to trees
+#+ 100% of barren to trees
+#+ 10% of grassland to trees
 
-
-target_urbanTree_2050 <- 10
+target_urbanTree_2050 <- 100
 target_cropland_2050 <- 5
 target_bare_2050 <- 100
 target_grassland_2050 <- 10
+# for wetlands, we need to figure out on a 9 county-scale what we HAVE
+# vs. what could be
+target_wetland_2050 <- 33
+
+
+
 
 mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .selected_ctu = "Regional",
@@ -177,6 +189,8 @@ mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .grassland_area_perc = target_grassland_2050,
   .cropland_area_perc = target_cropland_2050,
   .bare_area_perc = target_bare_2050,
+
+  .wetland_area_perc = target_wetland_2050,
 
   .restoration_start = 2025,
   .restoration_time = 25,

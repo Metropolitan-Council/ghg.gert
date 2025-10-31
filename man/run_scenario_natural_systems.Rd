@@ -18,9 +18,10 @@ run_scenario_natural_systems(
   .restoration_start = 2025,
   .restoration_time = 10,
   .restoration_area_perc = 0,
-  .grassland_area_perc = 0.5,
-  .bare_area_perc = 0.5,
-  .cropland_area_perc = 0.5,
+  .grassland_area_perc = 0,
+  .bare_area_perc = 0,
+  .cropland_area_perc = 0,
+  .wetland_area_perc = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
 )
