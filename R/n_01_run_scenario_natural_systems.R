@@ -98,11 +98,11 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$ctu_lc_in
       .restoration_start = .restoration_start,
       .restoration_time = .restoration_time,
       .wetland_area_perc = .wetland_area_perc
-    )
+    ) %>% dplyr::select(-newTotal)
   }
 
 
-  tb03 <- tb03 %>% dplyr::select(-newTotal)
+
 
 
 
