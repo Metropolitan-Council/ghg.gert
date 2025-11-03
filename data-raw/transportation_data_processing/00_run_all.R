@@ -30,6 +30,7 @@ transportation_data$freight <- transportation_data$freight %>%
 source("data-raw/transportation_data_processing/fix_pldv_avo.R")
 source("data-raw/transportation_data_processing/fix_parking.R")
 source("data-raw/transportation_data_processing/fix_update_pmt.R")
+source("data-raw/transportation_data_processing/fix_remove_av.R")
 source("data-raw/transportation_data_processing/fix_avo_all.R")
 
 
