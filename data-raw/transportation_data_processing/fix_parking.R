@@ -105,10 +105,10 @@ tbi_parking_cost <- trip %>%
   filter(n_trips_sample >= 10) %>%
   arrange(-n_trips_sample) %>%
   mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
-    str_replace("St. ", "Saint ") %>%
-    str_remove("(unorg.)") %>%
-    str_remove_all("[:punct:]") %>%
-    str_trim())
+           str_replace("St. ", "Saint ") %>%
+           str_remove("(unorg.)") %>%
+           str_remove_all("[:punct:]") %>%
+           str_trim())
 
 
 parking_cost <-
@@ -131,17 +131,17 @@ parking_cost <-
   select(names(transportation_data$passenger)) %>%
   bind_rows(
     transportation_data$freight %>%
-      filter(var == "PARK")
-  ) %>%
-  bind_rows(
-    transportation_data$freight %>% filter(var == "PARK") %>%
+      filter(var == "PARK") %>%
       mutate(value = case_when(
-        # use TBI if possible
+        # use existing data and
+        # change 0.10 to 0.01
         value == 1 ~ value,
-        value == ~0.1 ~ 0.01,
+        value == 0.1 ~ 0.01,
         TRUE ~ value
       ))
-  )
+  ) %>%
+  select(-year) %>%
+  unique()
 
 
 transportation_data$passenger <- transportation_data$passenger %>%

@@ -6,7 +6,9 @@ vehicle_occupancy <- transportation_data$passenger %>%
   bind_rows(
     transportation_data$freight %>%
       filter(var == "AVO")
-  )
+  ) %>%
+  select(-year) %>%
+  unique()
 
 
 transportation_data$passenger <- transportation_data$passenger %>%

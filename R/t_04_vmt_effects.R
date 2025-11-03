@@ -121,12 +121,12 @@ vmt_land_use_change <- function(.type,
     dplyr::mutate(
       product_all =
         .data$n_population_density *
-          .data$n_employment_density *
-          .data$n_diversity *
-          .data$n_design *
-          .data$n_job_access *
-          .data$n_distance *
-          .data$n_combined_density
+        .data$n_employment_density *
+        .data$n_diversity *
+        .data$n_design *
+        .data$n_job_access *
+        .data$n_distance *
+        .data$n_combined_density
     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
@@ -139,7 +139,7 @@ vmt_land_use_change <- function(.type,
         TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-        land_use_adj
+                            land_use_adj
       )
     ) %>%
     dplyr::select(year, land_use_adj)
@@ -185,6 +185,7 @@ vmt_land_use_change <- function(.type,
 #'     and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 #' @family VMT effects
 #' @importFrom tidyr pivot_wider
+#' @importFrom dplyr cross_join
 vmt_parking_policy <- function(tb,
                                .mode,
                                .parking_cost = parking_cost,
@@ -193,7 +194,7 @@ vmt_parking_policy <- function(tb,
                                .freight_parking_price = 0,
                                .enviro_factors = ghg.ccap::enviro_factors) {
   # fetch current parking prices
-  park_price_current <- parking_cost %>%
+  park_price_current <- .parking_cost %>%
     filter_ctu(unique(tb$geog_name)) %>%
     filter(
       mode == .mode,
@@ -217,10 +218,8 @@ vmt_parking_policy <- function(tb,
     "AV"
   )) {
     park_return <- park_price_current %>%
-      dplyr::left_join(
-        .elast %>%
-          dplyr::select(year, park_elast),
-        by = "year"
+      dplyr::cross_join(
+        .elast
       ) %>%
       dplyr::mutate(
         park_price_adj =
@@ -241,7 +240,7 @@ vmt_parking_policy <- function(tb,
     "WALK"
   )) {
     # browser()
-    park_return <- park_price_current <- parking_cost %>%
+    park_return <- .parking_cost  %>%
       filter_ctu(unique(tb$geog_name)) %>%
       filter(
         # use PLDV parking rate, since we are doing the inverse for
@@ -256,10 +255,8 @@ vmt_parking_policy <- function(tb,
         names_from = var,
         values_from = value
       ) %>%
-      dplyr::left_join(
-        .elast %>%
-          dplyr::select(year, park_transit),
-        by = "year"
+      dplyr::cross_join(
+        .elast
       ) %>%
       dplyr::mutate(
         # 1 + (parking price pct change) * parking elasticity
@@ -270,8 +267,7 @@ vmt_parking_policy <- function(tb,
   } else if (.mode == "SUT") {
     # browser()
     park_return <- park_price_current %>%
-      dplyr::left_join(.elast %>%
-        dplyr::select(year, park_elast), by = "year") %>%
+      dplyr::cross_join(.elast) %>%
       dplyr::mutate(park_price_adj = 1 + (.freight_parking_price / PARK) * park_elast) %>%
       dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
       dplyr::mutate(park_price_adj = dplyr::case_when(
@@ -350,7 +346,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-          .enviro_factors$CONG_VMT) * cong_elast,
+                             .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
@@ -571,8 +567,8 @@ vmt_telework <- function(.pass_tb,
       dplyr::mutate(
         telework_elast_val =
           ifelse(year %in% c("2045", "2050") &
-            telework_elast_val == 0,
-          .telework_pct, telework_elast_val
+                   telework_elast_val == 0,
+                 .telework_pct, telework_elast_val
           )
       )
 
@@ -795,12 +791,13 @@ vmt_vehicle_occupancy <- function(tb,
   # some modes apply the same AVO to all CTUs
   if (.mode %in% c("PLDV", "AV")) {
     pldv_occupancy <- .vehicle_occupancy %>%
+      filter_ctu(unique(tb$geog_name)) %>%
       filter(
         mode == .mode,
         var == "AVO"
       ) %>%
-      dplyr::select(year, geog_name, geog_id,
-        occupancy_adj = value
+      dplyr::select(geog_name, geog_id,
+                    occupancy_adj = value
       ) %>%
       unique()
 
@@ -820,8 +817,9 @@ vmt_vehicle_occupancy <- function(tb,
       ))
 
 
-    occ_return <- pldv_occupancy %>%
-      dplyr::left_join(pldv_avo_elast, by = "year") %>%
+    occ_return <-
+      pldv_avo_elast %>%
+      dplyr::cross_join(pldv_occupancy) %>%
       dplyr::rowwise() %>%
       # new occupancy is the current occupancy x (1 + change in occupancy)
       dplyr::mutate(occupancy_adj = occupancy_adj * (1 + avo_elast))
@@ -850,6 +848,7 @@ vmt_vehicle_occupancy <- function(tb,
 
 
     mode_avo <- .vehicle_occupancy %>%
+      filter_ctu(unique(tb$geog_name)) %>%
       filter(
         mode == .mode,
         var %in% c(
@@ -865,15 +864,12 @@ vmt_vehicle_occupancy <- function(tb,
       ) %>%
       dplyr::select(
         mode,
-        year,
         geog_name, geog_id,
-        aeo_mode,
-        type,
         mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%
-      dplyr::left_join(.tb_vmt, by = c("year", "geog_name", "geog_id", "mode", "aeo_mode", "type")) %>%
+      dplyr::left_join(.tb_vmt, by = c("geog_name", "geog_id", "mode")) %>%
       dplyr::rowwise() %>%
       dplyr::left_join(transit_avo_pct_elast, by = c("year")) %>%
       # new occupancy is the current occupancy x (1 + change in occupancy)
@@ -896,11 +892,10 @@ vmt_vehicle_occupancy <- function(tb,
     }
     # return same value, no change
     mode_avo <- .vehicle_occupancy %>%
+      filter_ctu(unique(tb$geog_name)) %>%
       filter(
         mode == .mode,
         var %in% c(
-          # .stock,
-          # "TotStock",
           "AVO"
         )
       ) %>%
@@ -910,17 +905,13 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       dplyr::select(mode,
-        year,
-        geog_name, geog_id,
-        aeo_mode,
-        type,
-        mode_avo = AVO
+                    geog_name, geog_id,
+                    mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%
       dplyr::left_join(.tb_vmt, by = c(
-        "year", "geog_name", "geog_id",
-        "mode", "aeo_mode", "type"
+      "geog_name", "geog_id", "mode"
       )) %>%
       dplyr::mutate(occupancy_adj = mode_avo) %>%
       dplyr::select(geog_name, geog_id, year, occupancy_adj) %>%
