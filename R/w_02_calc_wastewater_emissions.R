@@ -3,10 +3,6 @@
 #' @param waste_inv table, waste inventory data
 #' @param waste_future table, projected waste data
 #'
-#' @inheritParams calculate_mww_ch4_emissions
-#' @inheritParams calculate_mww_n2o_direct_emissions
-#' @inheritParams calculate_mww_n2o_effluent_emissions
-#'
 #' @return a list containing two data tables with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
 #' @export
