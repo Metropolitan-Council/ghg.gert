@@ -251,6 +251,42 @@ test_that("fleet shares adjust to pricing inputs", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev decrease
     expect_gt(
       ref_fleet %>%
@@ -348,6 +384,24 @@ test_that("fleet shares adjust to pricing inputs, Orono", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev decrease
     expect_gt(
       ref_fleet %>%
@@ -445,6 +499,24 @@ test_that("fleet shares adjust to pricing inputs, Marshan Twp.", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev increase
     expect_lte(
       ref_fleet %>%
@@ -542,6 +614,24 @@ test_that("fleet shares adjust to pricing inputs, Hanover", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev increase
     expect_lte(
       ref_fleet %>%
@@ -639,6 +729,24 @@ test_that("fleet shares adjust to sales inputs, Hanover", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev increase
     expect_gte(
       ref_fleet %>%
@@ -735,6 +843,24 @@ test_that("fleet shares adjust to sales inputs, Birchwood Village", {
 
 
   compare_fleet <- function(comp_fleet) {
+
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev increase
     expect_gte(
       ref_fleet %>%
@@ -852,6 +978,23 @@ test_that("fleet shares adjust to sales inputs, New Trier", {
 
 
   compare_fleet <- function(comp_fleet) {
+    expect_equal(
+      ref_fleet %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value),
+      comp_fleet$pass %>%
+        filter(
+          year == "2050",
+          mode == "PLDV",
+          var == "PMT"
+        ) %>%
+        pull(value)
+    )
+
     # bev increase
     expect_gte(
       ref_fleet %>%

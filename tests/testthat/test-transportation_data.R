@@ -304,10 +304,22 @@ testthat::test_that("enviro factors and elasticities correct", {
 
 testthat::test_that("minimum parking value correct", {
   parking_cost %>%
-    filter(mode == "PLDV", var == "PARK") %>%
+    filter(var == "PARK") %>%
     ungroup() %>%
     filter(value == min(value)) %>%
     magrittr::extract2("value") %>%
     unique() %>%
     testthat::expect_equal(0.01)
 })
+
+
+testthat::test_that("PHEVPr correct", {
+  transportation_data$passenger %>%
+    filter(var == "PHEVPr") %>%
+    ungroup() %>%
+    filter(value == max(value)) %>%
+    magrittr::extract2("value") %>%
+    unique() %>%
+    testthat::expect_lt(1)
+})
+
