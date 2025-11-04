@@ -5,7 +5,6 @@ testthat::test_that("Expected changes, Saint Paul", {
   testthat::expect_error(
     adj_fleet_shares(
       .bev_pct_sales = .20,
-      .phev_pct_sales = .15,
       .hev_pct_sales = .40,
       .pass_tb = transportation_data$passenger,
       .freight_tb = transportation_data$freight,
@@ -19,7 +18,6 @@ testthat::test_that("Expected changes, Saint Paul", {
   testthat::expect_error(
     adj_fleet_shares(
       .bev_pct_sales = .20,
-      .phev_pct_sales = .15,
       .hev_pct_sales = .40,
       .pass_tb = transportation_data$passenger,
       .freight_tb = transportation_data$freight,
@@ -33,8 +31,7 @@ testthat::test_that("Expected changes, Saint Paul", {
 
   testthat::expect_warning(
     adj_fleet_shares(
-      .bev_pct_sales = 0.20,
-      .phev_pct_sales = 0.20,
+      .bev_pct_sales = 0.35,
       .hev_pct_sales = 0.60,
       .pass_tb = transportation_data$passenger,
       .freight_tb = transportation_data$freight,
@@ -44,9 +41,8 @@ testthat::test_that("Expected changes, Saint Paul", {
   )
 
 
-  t_hev_bev_phev <- adj_fleet_shares(
+  t_hev_bev <- adj_fleet_shares(
     .bev_pct_sales = .20,
-    .phev_pct_sales = .15,
     .hev_pct_sales = .40,
     .pass_tb = transportation_data$passenger,
     .freight_tb = transportation_data$freight,
@@ -64,7 +60,7 @@ testthat::test_that("Expected changes, Saint Paul", {
         mode == "PLDV",
         str_detect(var, "Tot")
       ),
-    t_hev_bev_phev$pass %>%
+    t_hev_bev$pass %>%
       filter(
         mode == "PLDV",
         str_detect(var, "Tot")
@@ -94,7 +90,7 @@ testthat::test_that("Expected changes, Saint Paul", {
       )
     )
   )
-  # t_hev_bev_phev$freight
+  # t_hev_bev$freight
 
 
   freight_test_total_table <- left_join(
@@ -103,7 +99,7 @@ testthat::test_that("Expected changes, Saint Paul", {
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")
       ),
-    t_hev_bev_phev$freight %>%
+    t_hev_bev$freight %>%
       filter(
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")
@@ -124,7 +120,6 @@ testthat::test_that("Expected changes, Centerville", {
   testthat::expect_error(
     adj_fleet_shares(
       .bev_pct_sales = .20,
-      .phev_pct_sales = .15,
       .hev_pct_sales = .40,
       .pass_tb = transportation_data$passenger,
       .freight_tb = transportation_data$freight,
@@ -136,8 +131,7 @@ testthat::test_that("Expected changes, Centerville", {
 
   testthat::expect_warning(
     adj_fleet_shares(
-      .bev_pct_sales = 0.20,
-      .phev_pct_sales = 0.20,
+      .bev_pct_sales = 0.35,
       .hev_pct_sales = 0.60,
       .pass_tb = transportation_data$passenger,
       .freight_tb = transportation_data$freight,
@@ -147,9 +141,8 @@ testthat::test_that("Expected changes, Centerville", {
   )
 
 
-  t_hev_bev_phev <- adj_fleet_shares(
+  t_hev_bev <- adj_fleet_shares(
     .bev_pct_sales = .20,
-    .phev_pct_sales = .15,
     .hev_pct_sales = .40,
     .pass_tb = transportation_data$passenger,
     .freight_tb = transportation_data$freight,
@@ -167,7 +160,7 @@ testthat::test_that("Expected changes, Centerville", {
         mode == "PLDV",
         str_detect(var, "Tot")
       ),
-    t_hev_bev_phev$pass %>%
+    t_hev_bev$pass %>%
       filter(
         mode == "PLDV",
         str_detect(var, "Tot")
@@ -197,7 +190,7 @@ testthat::test_that("Expected changes, Centerville", {
       )
     )
   )
-  # t_hev_bev_phev$freight
+  # t_hev_bev$freight
 
 
   freight_test_total_table <- left_join(
@@ -206,7 +199,7 @@ testthat::test_that("Expected changes, Centerville", {
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")
       ),
-    t_hev_bev_phev$freight %>%
+    t_hev_bev$freight %>%
       filter(
         mode %in% c("SUT", "CUT"),
         str_detect(var, "Tot")

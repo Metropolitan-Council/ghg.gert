@@ -108,7 +108,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
-      .factor_values = .factor_values,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = "CI")
 

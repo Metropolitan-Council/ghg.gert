@@ -107,9 +107,12 @@ usethis::use_data(fuel_economy, overwrite = TRUE)
 
 # remove these variables from transportation_data
 transportation_data$passenger <- transportation_data$passenger %>%
-  filter(!var %in% fuel_economy$var)
+  filter(!var %in% fuel_economy$var) %>%
+  filter(!var %in% c("PHEVElec", "PHEVMPG"))
 
 transportation_data$freight <- transportation_data$freight %>%
-  filter(!var %in% fuel_economy$var)
+  filter(!var %in% fuel_economy$var) %>%
+  filter(!var %in% c("PHEVElec", "PHEVMPG"))
+
 
 usethis::use_data(transportation_data, overwrite = TRUE)

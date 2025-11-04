@@ -132,7 +132,6 @@ avo_exist <- transportation_data$passenger %>%
     mode == "PLDV",
     var == "AVO"
   ) %>%
-  # select(mode, var, year, geog_id, geog_name, value) %>%
   unique()
 
 # average AVO has increased

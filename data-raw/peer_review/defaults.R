@@ -65,7 +65,6 @@ c(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
@@ -137,6 +136,5 @@ bau <- ghg.ccap::run_all_modules(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0
 )

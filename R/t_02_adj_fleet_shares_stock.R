@@ -8,7 +8,7 @@
 #'     Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 #'     cost elasticity, gas taxes, and VMT and PAYD fees.
 #'     If battery electric, plug-in hybrid, and/or hybrid percent of stock in the final forecast year
-#'     (`.bev_pct_stock`, `.phev_pct_stock`, `.hev_pct_stock`) are specified,
+#'     (`.bev_pct_stock`, `.hev_pct_stock`) are specified,
 #'     Freight data is dependent on passenger data,
 #' @note This function restricts inputs to include either a PAYD fee or a VMT fee, but not both.
 #'     There are differences in their acceptability and implementation, but they are essentially
@@ -21,10 +21,6 @@
 #'     Percent of all vehicle stock that are battery electric vehicles (BEV)
 #'     in the final forecast year.
 #'     Default is `0`.
-#' @param .phev_pct_stock numeric,  a value between `0` and `1.`
-#'    Percent of all vehicle stock that are plug-in hybrid electric (PHEV)
-#'    in the final forecast year.
-#'    Default is `0`.
 #' @param .hev_pct_stock  numeric,   a value between `0` and `1.`
 #'    Percent of all vehicle stock that are hybrid electric vehicles (HEV)
 #'    in the final forecast year.
@@ -52,13 +48,13 @@ adj_fleet_shares_stock <- function(.pass_tb,
                                    .freight_tb,
                                    .selected_ctu = "all",
                                    .bev_pct_stock = 0,
-                                   .phev_pct_stock = 0,
                                    .hev_pct_stock = 0,
                                    .vmt_fee = 0,
                                    .payd_fee = 0,
                                    .gas_tax = 0,
                                    .elast = elast,
                                    .enviro_factors = enviro_factors) {
+  # browser()
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% unique()
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% unique()
 
@@ -68,7 +64,6 @@ adj_fleet_shares_stock <- function(.pass_tb,
   l_names <- c(
     "bev_pct_stock",
     "hev_pct_stock",
-    "phev_pct_stock",
     "vmt_fee",
     "payd_fee",
     "gas_tax"
@@ -77,7 +72,6 @@ adj_fleet_shares_stock <- function(.pass_tb,
   l_vals <- list(
     .bev_pct_stock,
     .hev_pct_stock,
-    .phev_pct_stock,
     .vmt_fee,
     .payd_fee,
     .gas_tax
@@ -85,7 +79,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
   purrr::map2(l_names, l_vals, check_inputs)
 
-  if ((.bev_pct_stock + .hev_pct_stock + .phev_pct_stock) > 0.9) {
+  if ((.bev_pct_stock + .hev_pct_stock) > 0.9) {
     cli::cli_warn("Proportion of alternate fuel vehicle stock will exceed 90% of all vehicles.")
   }
 
@@ -126,7 +120,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
     )
 
 
-    # Assume HEV, PHEV, and BEV not affected by .gas_tax price
+    # Assume HEV, and BEV not affected by .gas_tax price
     # because already switched stock type
     adj_alt_stock <- tibble::tibble(
       year = .elast$year,
@@ -157,7 +151,6 @@ adj_fleet_shares_stock <- function(.pass_tb,
       dplyr::rowwise() %>%
       dplyr::mutate(value = dplyr::case_when(
         (mode == "PLDV" & var == "BEVExist") ~ value * adj_alt,
-        (mode == "PLDV" & var == "PHEVExist") ~ value * adj_alt,
         (mode == "PLDV" & var == "HEVExist") ~ value * adj_alt,
         (mode == "PLDV" & var == "SIExist") ~ value * adj_si_ci,
         (mode == "PLDV" & var == "CIExist") ~ value * adj_si_ci,
@@ -173,7 +166,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        TotExist = BEVExist + PHEVExist + HEVExist + SIExist + CIExist,
+        TotExist = BEVExist  + HEVExist + SIExist + CIExist,
         var = "TotExist",
         value = TotExist
       ) %>%
@@ -193,8 +186,8 @@ adj_fleet_shares_stock <- function(.pass_tb,
     }
   }
 
-  # hev/bev/phev  -----
-  if (.bev_pct_stock > 0 | .phev_pct_stock > 0 | .hev_pct_stock > 0) {
+  # hev/bev  -----
+  if (.bev_pct_stock > 0 | .hev_pct_stock > 0) {
     ## passenger-----
 
 
@@ -209,23 +202,20 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
 
 
-    if(.phev_pct_stock == 0){.phev_pct_stock <- stock_percentages_original$PHEVStock %>% round(digits = 2)}
     if(.hev_pct_stock == 0){.hev_pct_stock <- stock_percentages_original$HEVStock %>% round(digits = 2)}
 
-    if(sum(.bev_pct_stock, .phev_pct_stock, .hev_pct_stock) >= 1){
-      .phev_pct_stock <- 0.01
-      .hev_pct_stock <- 0.01
-    }
+    # if(sum(.bev_pct_stock, .hev_pct_stock) >= 1){
+    #   .hev_pct_stock <- 0.03
+    # }
 
-    all_stock_pcts <- as.numeric(1 - (.bev_pct_stock + .phev_pct_stock + .hev_pct_stock))
+    all_stock_pcts <- as.numeric(1 - (.bev_pct_stock  + .hev_pct_stock))
 
     if(all_stock_pcts < 0 ){
       cli::cli_warn("Maximum BEV percentage reached")
-      .bev_pct_stock <- 0.96
-      .phev_pct_stock <- 0.01
-      .hev_pct_stock <- 0.01
+      .bev_pct_stock <- 0.95
+      .hev_pct_stock <- 0.03
 
-      all_stock_pcts <- as.numeric(1 - (.bev_pct_stock + .phev_pct_stock + .hev_pct_stock))
+      all_stock_pcts <- as.numeric(1 - (.bev_pct_stock  + .hev_pct_stock))
 
       # leaving 0.02 for SI/CI
     }
@@ -247,17 +237,10 @@ adj_fleet_shares_stock <- function(.pass_tb,
           elas = .hev_pct_stock,
           num_inits = 3,
           num_yrs = length(unique(pass_tb$year)) - 3
-        )[1:7], .hev_pct_stock, .hev_pct_stock),
-      phev_elast =
-        c(calc_elasticity(
-          elas_list = c(rep(0, length(unique(pass_tb$year)))),
-          elas = .phev_pct_stock,
-          num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        ))
+        )[1:7], .hev_pct_stock, .hev_pct_stock)
     ) %>%
       mutate(
-        si_ci_elast = 1 - (bev_elast + phev_elast + hev_elast),
+        si_ci_elast = 1 - (bev_elast + hev_elast),
         si_ci_elast = ifelse(year %in% c("2015", "2018", "2020"), 1, si_ci_elast)
       )
 
@@ -283,24 +266,21 @@ adj_fleet_shares_stock <- function(.pass_tb,
         ptb_si   = si_ci_elast * (SIStock / (SIStock + CIStock)),
         ptb_ci   = si_ci_elast * (CIStock / (CIStock + SIStock)),
         ptb_hev  = hev_elast,
-        ptb_phev = phev_elast,
         ptb_bev  = bev_elast,
         ptb_tot_stock =
-          ptb_si + ptb_ci + ptb_hev + ptb_phev + ptb_bev,
+          ptb_si + ptb_ci + ptb_hev + ptb_bev,
         new_si_portion   = ptb_si / ptb_tot_stock,
         new_ci_portion   = ptb_ci / ptb_tot_stock,
         new_hev_portion  = ptb_hev / ptb_tot_stock,
-        new_phev_portion = ptb_phev / ptb_tot_stock,
         new_bev_portion  = ptb_bev / ptb_tot_stock,
         sum_check = new_si_portion + new_ci_portion +
-          new_bev_portion + new_hev_portion + new_phev_portion
+          new_bev_portion + new_hev_portion
       ) %>%
       mutate(HEVStock = TotStock * new_hev_portion,
              BEVStock = TotStock * new_bev_portion,
-             PHEVStock = TotStock * new_phev_portion,
              SIStock = TotStock * new_si_portion,
              CIStock = TotStock * new_ci_portion,
-             TotStock_check = sum(HEVStock, BEVStock, PHEVStock, SIStock, CIStock))
+             TotStock_check = sum(HEVStock, BEVStock, SIStock, CIStock))
 
     # browser()
     # pass_tb_stock_new %>%
@@ -309,10 +289,10 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
     ptb_stock_new <- pass_tb_stock_new %>%
       select(any_of(c(names(pass_tb),
-                      "SIStock", "CIStock", "HEVStock", "PHEVStock", "BEVStock", "TotStock"))) %>%
+                      "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"))) %>%
       pivot_longer(
         cols = c(
-          "SIStock", "CIStock", "HEVStock", "PHEVStock", "BEVStock", "TotStock"
+          "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"
         ),
         names_to = "var", values_to = "value"
       ) %>%
@@ -333,7 +313,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
 
     if (nrow(ptb_new) != nrow(.pass_tb)) {
-      cli::cli_abort("Passenger data did not pass HEV/PHEV/BEV adjustment")
+      cli::cli_abort("Passenger data did not pass HEV/BEV adjustment")
     }
 
 
@@ -369,7 +349,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
     # freight --------
     # BAU assumes 1/3 and 2/3 change (relative to PLDV in 2025-2040) to
-    #  freight sales to include BEV (as summation of BEV+PHEV+HEV from PLDV)
+    #  freight sales to include BEV (as summation of BEV+HEV from PLDV)
     #  for SUT and CUT, respectively
     #
     # We do not have good stock numbers on freight so we do NOT consider
@@ -397,7 +377,8 @@ adj_fleet_shares_stock <- function(.pass_tb,
     freight_battery <- stock_elast %>%
       dplyr::ungroup() %>%
       dplyr::mutate(bev_pcts = bev_elast) %>% # * (BEVSales / BEVStock)) %>%
-      dplyr::select(year, bev_pcts)
+      dplyr::select(year, bev_pcts) %>%
+      unique()
 
 
     ### stock ----
@@ -449,7 +430,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
       ) %>%
       unique() %>%
       filter(!is.na(ci_cut_fin))
-
+    # browser()
 
     freight_stock_new <- freight_stock %>%
       dplyr::left_join(freight_stock_fin_year, by = c("geog_name", "geog_id")) %>%

@@ -46,7 +46,8 @@ check_inputs <- function(name, value) {
   } else if (name %in% c(
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales",
+    "bev_pct_stock",
+    "hev_pct_stock",
     "transit_service_pct",
     "emp_dens_pct_change",
     "pop_dens_pct_change",

@@ -168,8 +168,7 @@ testthat::test_that("BEV fuel correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     mutate(class = "BEV")

@@ -4,10 +4,10 @@
 #'
 #' @param .sales_mode character,
 #'     Sales name for calculation of embodied emissions of new vehicles.
-#'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, or `"BEVSales"`.
+#'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, or `"BEVSales"`.
 #' @param .fuel_type fuel source for current mode
 #' @param .class character,
-#'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`.
+#'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`,  or `"BEV"`.
 #' @param .transit_avo_pct numeric,
 #'     Percent change in transit AVO.
 #'     Default is `0`.

@@ -68,8 +68,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   fcm_ci <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = "BU",
-    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "BCIMPG",
+    .aeo_scenario = .aeo_scenario,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -108,7 +108,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
-      .factor_values = .factor_values,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = "BCI")
 

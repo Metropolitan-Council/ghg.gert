@@ -316,10 +316,7 @@ testthat::test_that("minimum parking value correct", {
 testthat::test_that("PHEVPr correct", {
   transportation_data$passenger %>%
     filter(var == "PHEVPr") %>%
-    ungroup() %>%
-    filter(value == max(value)) %>%
-    magrittr::extract2("value") %>%
-    unique() %>%
-    testthat::expect_lt(1)
+    nrow() %>%
+    testthat::expect_equal(0)
 })
 

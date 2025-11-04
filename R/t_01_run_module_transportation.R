@@ -50,8 +50,8 @@
 run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       freight_tb = transportation_data$freight,
                                       .selected_ctu = "all",
-                                      .parking_cost = parking_cost,
-                                      .vehicle_occupancy = vehicle_occupancy,
+                                      .parking_cost = ghg.ccap::parking_cost,
+                                      .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                                       .calc_transp_cost = FALSE,
                                       .calc_transp_fuel_cost_mile = FALSE,
                                       .calc_transp_fuel_use = FALSE,
@@ -78,9 +78,13 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .transit_dist_pct_change = 0,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
+
                                       .bev_pct_sales = 0,
-                                      .phev_pct_sales = 0,
                                       .hev_pct_sales = 0,
+
+                                      .bev_pct_stock = 0,
+                                      .hev_pct_stock = 0,
+
                                       .enviro_factors = ghg.ccap::enviro_factors,
                                       .elast = ghg.ccap::elast,
                                       .elast_5d = ghg.ccap::elast_5d,
@@ -106,7 +110,8 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     "telework_pct",
     "bev_pct_sales",
     "hev_pct_sales",
-    "phev_pct_sales",
+    "bev_pct_stock",
+    "hev_pct_stock",
     "calc_transp_cost",
     "calc_transp_fuel_use",
     "calc_transp_ghg_embodied",
@@ -131,7 +136,8 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .telework_pct,
     .bev_pct_sales,
     .hev_pct_sales,
-    .phev_pct_sales,
+    .bev_pct_stock,
+    .hev_pct_stock,
     .calc_transp_cost,
     .calc_transp_fuel_use,
     .calc_transp_ghg_embodied,
@@ -156,25 +162,55 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   }
 
   # adjust fleet size if neccessary -----
+
+  if((.bev_pct_stock > 0 & .bev_pct_sales > 0) |
+     (.hev_pct_stock > 0 & .hev_pct_sales > 0)){
+    cli::cli_abort("Cannot have both sales and stock adjustment factors")
+  }
+
+
   if (.vmt_fee > 0 |
-    .payd_fee > 0 |
-    .gas_tax > 0 |
-    .bev_pct_sales > 0 |
-    .hev_pct_sales > 0 |
-    .phev_pct_sales > 0) {
-    adj_fleet <- adj_fleet_shares(
-      .pass_tb = pass_tb,
-      .freight_tb = freight_tb,
-      .selected_ctu = .selected_ctu,
-      .bev_pct_sales = .bev_pct_sales,
-      .phev_pct_sales = .phev_pct_sales,
-      .hev_pct_sales = .hev_pct_sales,
-      .vmt_fee = .vmt_fee,
-      .payd_fee = .payd_fee,
-      .gas_tax = .gas_tax,
-      .enviro_factors = .enviro_factors,
-      .elast = .elast
-    )
+      .payd_fee > 0 |
+      .gas_tax > 0 |
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0 |
+
+      .bev_pct_stock > 0 |
+      .hev_pct_stock > 0) {
+
+    if(.bev_pct_stock > 0 |
+       .hev_pct_stock > 0){
+
+      adj_fleet <- adj_fleet_shares_stock(
+        .pass_tb = pass_tb,
+        .freight_tb = freight_tb,
+        .selected_ctu = .selected_ctu,
+        .bev_pct_stock = .bev_pct_stock,
+        .hev_pct_stock = .hev_pct_stock,
+        .vmt_fee = .vmt_fee,
+        .payd_fee = .payd_fee,
+        .gas_tax = .gas_tax,
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
+      )
+
+    } else if(
+      .bev_pct_sales > 0 |
+      .hev_pct_sales > 0
+    ) {
+      adj_fleet <- adj_fleet_shares(
+        .pass_tb = pass_tb,
+        .freight_tb = freight_tb,
+        .selected_ctu = .selected_ctu,
+        .bev_pct_sales = .bev_pct_sales,
+        .hev_pct_sales = .hev_pct_sales,
+        .vmt_fee = .vmt_fee,
+        .payd_fee = .payd_fee,
+        .gas_tax = .gas_tax,
+        .enviro_factors = .enviro_factors,
+        .elast = .elast
+      )
+    }
 
     pass_tb <- adj_fleet$pass
     freight_tb <- adj_fleet$freight
@@ -338,7 +374,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     )
   ) %>%
     dplyr::left_join(ghg.ccap::geog_index %>%
-      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -444,13 +480,13 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
-    by = c(
-      "type", "scenario", "geog_name", "geog_id",
-      "year", "mode", "aeo_mode", "class"
-    )
+                                  by = c(
+                                    "type", "scenario", "geog_name", "geog_id",
+                                    "year", "mode", "aeo_mode", "class"
+                                  )
   ) %>%
     dplyr::left_join(ghg.ccap::geog_index %>%
-      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,

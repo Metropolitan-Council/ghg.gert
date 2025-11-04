@@ -319,7 +319,6 @@ vmt_road_policy <- function(.pass_tb,
                             .gas_tax = 0,
                             .payd_fee = 0,
                             .stock,
-                            .phev_electric = FALSE,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .elast = ghg.ccap::elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
@@ -332,7 +331,7 @@ vmt_road_policy <- function(.pass_tb,
         "SIStock",
         "CIStock",
         "HEVStock"
-      ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
+      )
       ), 1, 0
     )
 
@@ -412,7 +411,7 @@ vmt_road_policy <- function(.pass_tb,
         "SIStock",
         "CIStock",
         "HEVStock"
-      ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
+      )
       ), 1, 0
     )
 
@@ -468,7 +467,7 @@ vmt_road_policy <- function(.pass_tb,
         "SIStock",
         "CIStock",
         "HEVStock"
-      ) | (.stock == "PHEVStock" & .phev_electric == FALSE)
+      )
       ), 1, 0
     )
 
@@ -644,6 +643,14 @@ vmt_stock_proportion <- function(.tb,
       dplyr::mutate(mode_stock_adj = !!as.name(.stock) / TotStock) %>%
       dplyr::select(geog_name, geog_id, year, mode, mode_stock_adj) %>%
       unique()
+
+    if(tb_stock_proportion %>%
+       filter(mode_stock_adj == 0,
+              mode == "PLDV",
+              year == max(year)) %>%
+       nrow() != 0){
+      browser()
+    }
   }
 
   return(tb_stock_proportion)
@@ -791,7 +798,7 @@ vmt_vehicle_occupancy <- function(tb,
   # some modes apply the same AVO to all CTUs
   if (.mode %in% c("PLDV", "AV")) {
     pldv_occupancy <- .vehicle_occupancy %>%
-      filter_ctu(unique(tb$geog_name)) %>%
+      filter_ctu(unique(.tb_vmt$geog_name)) %>%
       filter(
         mode == .mode,
         var == "AVO"
@@ -846,14 +853,11 @@ vmt_vehicle_occupancy <- function(tb,
       dplyr::mutate(avo_elast = ifelse(year %in% c("2045", "2050") & avo_elast == 0, .transit_avo_pct, avo_elast))
 
 
-
     mode_avo <- .vehicle_occupancy %>%
       filter_ctu(unique(tb$geog_name)) %>%
       filter(
         mode == .mode,
         var %in% c(
-          # .stock,
-          # "TotStock",
           "AVO"
         )
       ) %>%

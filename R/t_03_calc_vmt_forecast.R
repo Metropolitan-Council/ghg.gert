@@ -8,7 +8,6 @@
 #' @param .stock character, stock for current mode
 #' @param .variable character, variable name - e.g., "VMT"
 #' @param .tb_fuel_cost_mile table, table with fuel cost per mile
-#' @param .phev_electric logical, is the current PHEV distinction electric. Default is `FALSE`.
 #' @param .factor_values list, generalized factor values. Default is `ghg.ccap::factor_values`.
 #' @param .elast table of elasticities. Default is `ghg.ccap::elast`.
 #' @param .elast_5d table of 5D elasticities. Default is `ghg.ccap::elast_5d` included in this package.
@@ -61,7 +60,6 @@ calc_vmt_forecast <- function(.scenario,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .phev_electric = FALSE,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
@@ -87,34 +85,7 @@ calc_vmt_forecast <- function(.scenario,
   if (.mode == "PLDV") {
     # passenger light duty --------
 
-
-    if (.stock == "PHEVStock") {
-      # account for proportion of PHEV electric and gas
-      phev_proportion <- tb %>%
-        dplyr::filter(mode == mode, var == "PHEVPr") %>%
-        dplyr::select(mode, var, geog_name, year,
-          phev_prop_electric = value, aeo_mode, type
-        )
-
-      tb_vmt <- tb_vmt %>%
-        dplyr::left_join(phev_proportion,
-          by = c(
-            "geog_name", "mode", "year",
-            "aeo_mode", "type"
-          )
-        ) %>%
-        dplyr::mutate(
-          miles_traveled = dplyr::case_when(
-            .phev_electric == TRUE ~
-              miles_traveled * phev_prop_electric,
-            .phev_electric == FALSE ~
-              miles_traveled * (1 - phev_prop_electric)
-          )
-        ) %>%
-        dplyr::select(names(tb_vmt))
-    }
-
-
+    # browser()
     mode_stock <- vmt_stock_proportion(
       .tb = tb,
       .mode = .mode,
@@ -156,7 +127,7 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-      .phev_electric = .phev_electric,
+
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -301,7 +272,7 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-      .phev_electric = .phev_electric,
+
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -335,6 +306,7 @@ calc_vmt_forecast <- function(.scenario,
       .tb_vmt = tb_vmt,
       .mode = .mode,
       .stock = .stock,
+      .vehicle_occupancy = .vehicle_occupancy,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
       .enviro_factors = .enviro_factors
@@ -420,7 +392,7 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-      .phev_electric = .phev_electric,
+
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -503,7 +475,7 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-      .phev_electric = .phev_electric,
+
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
