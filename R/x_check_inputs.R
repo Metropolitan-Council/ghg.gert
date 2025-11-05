@@ -124,7 +124,9 @@ check_inputs <- function(name, value) {
   } else if (name == "selected_ctu") {
     if (value == "all") {
       return()
-    } else if (!value %in% unique(ghg.ccap::geog_index$geog_name)) {
+    } else if (!value %in% c(unique(ghg.ccap::geog_index$geog_name),
+                             "Twin Cities Region",
+                             "CCAP Region")) {
       cli::cli_abort(c(
         "Enter a valid geog_name name"
       ))
