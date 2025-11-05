@@ -212,8 +212,8 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
     if(all_stock_pcts < 0 ){
       cli::cli_warn("Maximum BEV percentage reached")
-      .bev_pct_stock <- 0.95
-      .hev_pct_stock <- 0.03
+      .bev_pct_stock <- 0.98
+      .hev_pct_stock <- 0.01
 
       all_stock_pcts <- as.numeric(1 - (.bev_pct_stock  + .hev_pct_stock))
 
