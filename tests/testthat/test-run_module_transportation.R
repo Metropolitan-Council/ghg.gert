@@ -243,8 +243,8 @@ test_that("VMT does not change when adjusting stock proportions only", {
       .vehicle_occupancy = region_avo,
       .bev_pct_stock = bev
     ) %>%
-      suppressMessages()
-
+      suppressMessages() %>%
+      suppressWarnings()
   }
 
   summarize_emiss <-   function(x){
@@ -304,7 +304,9 @@ test_that("VMT does not change when adjusting stock proportions only", {
     .selected_ctu = "Twin Cities Region",
     .parking_cost = region_parking,
     .vehicle_occupancy = region_avo
-  )
+  ) %>%
+    suppressMessages() %>%
+    suppressWarnings()
 
   baseline_summary <- summarize_emiss(baseline)
 
