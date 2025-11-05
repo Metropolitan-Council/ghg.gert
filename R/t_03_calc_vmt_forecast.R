@@ -50,6 +50,7 @@ calc_vmt_forecast <- function(.scenario,
                               .gas_tax = 0,
                               .cong_price = 0,
                               .parking_price = 0,
+                              .vmt_reduction_pct = 0,
                               .freight_parking_price = 0,
                               .freight_vmt_fee = 0,
                               .pop_dens_pct_change = 0,
@@ -176,6 +177,15 @@ calc_vmt_forecast <- function(.scenario,
     )
 
 
+
+    vmt_total_adj <- vmt_total_reduction(
+      .pass_tb = tb,
+      .mode = .mode,
+      .vmt_reduction_pct = .vmt_reduction_pct,
+      .enviro_factors = .enviro_factors
+    )
+
+
     # formula is such
     # pldv_vmt <- miles_traveled - transit shift * AV adjustment *
     # aeo adjustment *
@@ -195,6 +205,7 @@ calc_vmt_forecast <- function(.scenario,
       dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
       dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
       dplyr::left_join(telework_adjust, by = c("year")) %>%
+      dplyr::left_join(vmt_total_adj, by = c("year")) %>%
       dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
       dplyr::left_join(at_adjustment, by = c("year", "geog_name", "geog_id")) %>%
       unique() %>%
@@ -203,7 +214,7 @@ calc_vmt_forecast <- function(.scenario,
         pass_ld_vmt =
           (
             (
-              (miles_traveled - (transit_adj * mode_stock_adj)) *
+              ((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
                 aeo_adj *
                 vmt_fee_adj * cong_adjust * gas_adj *
                 telework_adj * land_use_adj *

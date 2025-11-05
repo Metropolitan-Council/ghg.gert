@@ -915,12 +915,69 @@ vmt_vehicle_occupancy <- function(tb,
 
     occ_return <- mode_avo %>%
       dplyr::left_join(.tb_vmt, by = c(
-      "geog_name", "geog_id", "mode"
+        "geog_name", "geog_id", "mode"
       )) %>%
       dplyr::mutate(occupancy_adj = mode_avo) %>%
       dplyr::select(geog_name, geog_id, year, occupancy_adj) %>%
       unique()
 
     return(occ_return)
+  }
+}
+
+
+
+
+#' Calculate VMT reduction multiplier
+#' @param .vmt_reduction_pct total percent reduction in PLDV VMT by final forecast year.
+#'     Numeric between 0 and 1. Default is `0`
+#' @inheritParams run_module_transportation
+#' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
+#' @export
+#' @family VMT effects
+#' @details
+#' Only applicable for passenger light-duty vehicles (PLDV).
+#'
+#'
+vmt_total_reduction <- function(.pass_tb,
+                                .mode,
+                                .vmt_reduction_pct = 0,
+                                .enviro_factors = ghg.ccap::enviro_factors) {
+  if (.mode == "PLDV") {
+
+    # browser()
+    vmt_reduction_elast <- tibble(
+      year = unique(.pass_tb$year),
+      vmt_total_reduction_val = calc_elasticity(
+        elas_list = c(rep(
+          0, length(unique(.pass_tb$year))
+        )),
+        elas = .vmt_reduction_pct,
+        num_inits = 3,
+        # estimate up to 2040
+        num_yrs = length(unique(.pass_tb$year)) - 5
+      )
+    ) %>%
+      # assign 2045 and 2050 the given telework pct
+      dplyr::mutate(
+        vmt_total_reduction_val =
+          ifelse(year %in% c("2045", "2050") &
+                   vmt_total_reduction_val == 0,
+                 .vmt_reduction_pct,
+                 vmt_total_reduction_val
+          )
+      )
+
+    vmt_adj_tb <- vmt_reduction_elast %>%
+      dplyr::mutate(
+        vmt_reduction_adj = 1 - vmt_total_reduction_val
+      ) %>%
+      dplyr::select(year, vmt_reduction_adj)
+
+    return(vmt_adj_tb)
+  } else {
+    cli::cli_abort("VMT reduction adjustment is only applicable for passenger light-duty vehicles")
   }
 }
