@@ -45,8 +45,7 @@ testthat::test_that("Saint Paul emissions constant and walk/bike vmt increase", 
     .selected_ctu = "Saint Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -170,8 +169,7 @@ testthat::test_that("Fridley emissions constant and walk/bike vmt increase", {
     .selected_ctu = "Fridley",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -293,8 +291,7 @@ testthat::test_that("Minnetonka emissions constant and walk/bike vmt increase", 
     .selected_ctu = "Minnetonka",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -414,8 +411,7 @@ testthat::test_that("South Saint Paul emissions constant and walk/bike vmt incre
     .selected_ctu = "South Saint Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 

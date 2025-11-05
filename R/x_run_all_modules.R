@@ -110,12 +110,15 @@ run_all_modules <- function(.selected_ctu = "all",
                             .telework_pct = 0,
                             .bev_pct_sales = 0,
                             .hev_pct_sales = 0,
+                            .bev_pct_stock = 0,
+                            .hev_pct_stock = 0,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .factor_values = ghg.ccap::factor_values,
                             .elast = ghg.ccap::elast,
                             .fuel_economy = ghg.ccap::fuel_economy,
                             .grid_emissions = ghg.ccap::grid_emissions,
-                            .elast_5d = elast_5d) {
+                            .elast_5d = elast_5d,
+                            .vehicle_occupancy = vehicle_occupancy) {
   output <- c()
 
   if (run_buildings == TRUE) {
@@ -189,7 +192,12 @@ run_all_modules <- function(.selected_ctu = "all",
       .elast_5d = .elast_5d,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
-      .grid_decarbonization_pct = .grid_decarbonization_pct
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
+      .fuel_economy = .fuel_economy,
+      .hev_pct_sales = .hev_pct_sales,
+      .bev_pct_stock = .bev_pct_stock,
+      .hev_pct_stock = .hev_pct_stock
     )
   }
 

@@ -38,7 +38,6 @@ c(
   # .res_natural_gas_for_space_heating_pct = 0.71, # env factor
   # .res_natural_gas_for_water_heating_pct = 0.24, # env factor
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -89,8 +88,6 @@ bau <- ghg.ccap::run_all_modules(
 
   ## building energy module parameters
 
-  # 38% in 2018
-  .grid_decarbonization_pct = 0.6, # user can modify
   ## non residential energy parameters
   .renewable_ng_nonres = FALSE,
   # switch to electric heating

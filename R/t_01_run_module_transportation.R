@@ -56,7 +56,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .calc_transp_fuel_cost_mile = FALSE,
                                       .calc_transp_fuel_use = FALSE,
                                       .calc_transp_ghg_embodied = FALSE,
-                                      .grid_decarbonization_pct = 0.6,
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
@@ -115,7 +114,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     "calc_transp_cost",
     "calc_transp_fuel_use",
     "calc_transp_ghg_embodied",
-    "grid_decarbonization_pct",
     "freight_vmt_fee"
   )
 
@@ -141,7 +139,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost,
     .calc_transp_fuel_use,
     .calc_transp_ghg_embodied,
-    .grid_decarbonization_pct,
     .freight_vmt_fee
   )
 
@@ -260,7 +257,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
+
     .fuel_economy = .fuel_economy
   )
 
@@ -311,7 +308,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .job_access_pct_change = .job_access_pct_change,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-    .grid_decarbonization_pct = .grid_decarbonization_pct,
+
     .telework_pct = .telework_pct,
     .enviro_factors = .enviro_factors,
     .elast = .elast,

@@ -35,7 +35,6 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
                               .elast = elast,
                               .elast_5d = elast_5d,
@@ -105,7 +104,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-     
+
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
@@ -121,7 +120,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "EVElec",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
+
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -179,7 +178,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-     
+
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
@@ -196,7 +195,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "RCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BCIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
+
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -249,7 +248,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-     
+
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
@@ -265,7 +264,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "EVElec",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
+
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
