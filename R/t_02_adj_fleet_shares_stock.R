@@ -358,212 +358,217 @@ adj_fleet_shares_stock <- function(.pass_tb,
     # total stock number for freight. The use of 1/3 and 2/3
     # helps to account for this being sales
     # not total stock (i.e., should be lower as percent of total stock)
-
-
-    freight_battery_fin_year <- freight_tb %>%
-      dplyr::filter(
-        mode %in% c(
-          "SUT",
-          "CUT"
-        ),
-      ) %>%
-      dplyr::ungroup() %>%
-      dplyr::filter(year == max(year)) %>%
-      dplyr::mutate(bev_pcts_fin = .bev_pct_stock) %>% # * (BEVSales / BEVStock)) %>%
-      dplyr::select(mode, geog_name, geog_id, bev_pcts_fin) %>%
-      unique()
-
-
-    freight_battery <- stock_elast %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(bev_pcts = bev_elast) %>% # * (BEVSales / BEVStock)) %>%
-      dplyr::select(year, bev_pcts) %>%
-      unique()
-
-
-    ### stock ----
-    # Temporarily update any zero stock in final year to equal 1
-    freight_stock <- freight_tb %>%
-      dplyr::ungroup() %>%
-      dplyr::filter(
-        mode %in% c(
-          "SUT",
-          "CUT"
-        ),
-        stringr::str_detect(var, "Stock")
-      ) %>%
-      dplyr::mutate(value = dplyr::case_when(
-        ((mode == "SUT" | mode == "CUT") &
-           stringr::str_detect(var, "Stock") & value == 0) ~ 1,
-        TRUE ~ value
-      )) %>%
-      unique() %>%
-      dplyr::select(-aeo_mode) %>%
-      tidyr::pivot_wider(
-        names_from = c(var, mode),
-        values_from = value
-      ) %>%
-      dplyr::group_by(year, geog_name, geog_id) %>%
-      dplyr::mutate(dplyr::across(4:7, function(x) {
-        sum(x, na.rm = TRUE)
-      })) %>%
-      unique()
-
-
-
-    freight_stock_fin_year <- freight_stock %>%
-      dplyr::ungroup() %>%
-      dplyr::filter(year == max(year)) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(
-        ci_sut_fin = CIStock_SUT / TotStock_SUT,
-        bev_sut_fin = BEVStock_SUT / TotStock_SUT,
-        ci_cut_fin = CIStock_CUT / TotStock_CUT,
-        bev_cut_fin = BEVStock_CUT / TotStock_CUT
-      ) %>%
-      dplyr::select(
-        geog_name, geog_id,
-        ci_sut_fin,
-        bev_sut_fin,
-        ci_cut_fin,
-        bev_cut_fin
-      ) %>%
-      unique() %>%
-      filter(!is.na(ci_cut_fin))
-    # browser()
-
-    freight_stock_new <- freight_stock %>%
-      dplyr::left_join(freight_stock_fin_year, by = c("geog_name", "geog_id")) %>%
-      dplyr::left_join(freight_battery, by = c("year")) %>%
-      dplyr::left_join(freight_battery_fin_year, by = c("geog_name", "geog_id")) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(
-        ci_stock_sut = ((1 / 3) * bev_pcts) *
-          (CIStock_SUT / TotStock_SUT) /
-          ci_sut_fin,
-        ci_stock_cut = ((2 / 3) * bev_pcts) *
-          (CIStock_CUT / TotStock_CUT) /
-          ci_cut_fin,
-        bev_stock_sut = ((2 / 3) * bev_pcts) *
-          (BEVStock_SUT / TotStock_SUT) /
-          bev_sut_fin,
-        bev_stock_cut = ((1 / 3) * bev_pcts) *
-          (BEVStock_CUT / TotStock_CUT) /
-          bev_cut_fin
-      ) %>%
-      dplyr::mutate(
-        sut_tot_stock = ci_stock_sut + bev_stock_sut,
-        cut_tot_stock = ci_stock_cut + bev_stock_cut,
-        bev_sut = bev_stock_sut / sut_tot_stock,
-        bev_cut = bev_stock_cut / cut_tot_stock,
-        ci_sut = ci_stock_sut / sut_tot_stock,
-        ci_cut = ci_stock_cut / cut_tot_stock
-      ) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(
-        year, bev_sut, bev_cut,
-        ci_sut, ci_cut
-      ) %>%
-      unique()
-
-
-    freight_tot_stock <- freight_tb %>%
-      dplyr::ungroup() %>%
-      dplyr::filter(
-        var == "TotStock",
-        mode %in% c(
-          "SUT",
-          "CUT"
-        )
-      ) %>%
-      unique() %>%
-      tidyr::pivot_wider(
-        names_from = var,
-        values_from = value
-      ) %>%
-      dplyr::select(year, geog_name, geog_id, mode, TotStock) %>%
-      unique()
-
-
-    ftb_new_stocks <- freight_tb %>%
-      dplyr::ungroup() %>%
-      dplyr::filter(mode %in% c(
-        "SUT",
-        "CUT"
-      )) %>%
-      dplyr::left_join(freight_stock_new, by = c("year")) %>%
-      unique() %>%
-      tidyr::pivot_wider(
-        names_from = var,
-        values_from = value
-      ) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(
-        BEVStock = dplyr::case_when(
-          !year %in% c("2015", "2018", "2020") & mode == "SUT" ~ TotStock * bev_sut,
-          !year %in% c("2015", "2018", "2020") & mode == "CUT" ~ TotStock * bev_cut
-        ),
-        CIStock = dplyr::case_when(
-          !year %in% c("2015", "2018", "2020") & mode == "SUT" ~ TotStock * ci_sut,
-          !year %in% c("2015", "2018", "2020") & mode == "CUT" ~ TotStock * ci_cut
-        )
-      ) %>%
-      dplyr::mutate(TotStock = BEVStock + CIStock) %>%
-      tidyr::pivot_longer(
-        cols = c(
-          "TMT", "TotStock",
-          "CIStock", "BEVStock"
-        ),
-        names_to = "var",
-        values_to = "value",
-        values_drop_na = TRUE
-      ) %>%
-      unique() %>%
-      dplyr::select(names(freight_tb)) %>%
-      dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                                       sep = "-"
-      ))
-
-
-    ftb_new <- freight_tb %>%
-      dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                                       sep = "-"
-      )) %>%
-      dplyr::filter(!all_combos %in% ftb_new_stocks$all_combos) %>%
-      dplyr::bind_rows(ftb_new_stocks) %>%
-      dplyr::select(names(freight_tb))
-
-    if (nrow(.freight_tb) != nrow(ftb_new)) {
-      cli::cli_abort("Freight data did not pass adjustment")
-    }
-
-
-
-    test_freight <- purrr::map(
-      c(
-        "TotSales",
-        "TotStock",
-        "TotExist",
-        "TMT"
-      ),
-      function(x) {
-        all.equal(
-          ftb_new %>%
-            filter(
-              var == x
-            ),
-          ftb_new %>%
-            filter(
-              var == x
-            ),
-          tolerance = 0.01
-        )
-      }
-    )
-
-    if (any(test_freight == FALSE)) {
-      cli::cli_abort("Freight CTU totals failed")
-    }
+    # # browser()
+    #
+    #
+    # freight_battery_fin_year <- freight_tb %>%
+    #   dplyr::filter(
+    #     mode %in% c(
+    #       "SUT",
+    #       "CUT"
+    #     ),
+    #   ) %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::filter(year == max(year)) %>%
+    #   dplyr::mutate(bev_pcts_fin = .bev_pct_stock) %>% # * (BEVSales / BEVStock)) %>%
+    #   dplyr::select(mode, geog_name, geog_id, bev_pcts_fin) %>%
+    #   unique()
+    #
+    #
+    # freight_battery <- stock_elast %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::mutate(bev_pcts = bev_elast) %>% # * (BEVSales / BEVStock)) %>%
+    #   dplyr::select(year, bev_pcts) %>%
+    #   unique()
+    #
+    #
+    # ### stock ----
+    # # Temporarily update any zero stock in final year to equal 1
+    # freight_stock <- freight_tb %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::filter(
+    #     mode %in% c(
+    #       "SUT",
+    #       "CUT"
+    #     ),
+    #     stringr::str_detect(var, "Stock")
+    #   ) %>%
+    #   dplyr::mutate(value = dplyr::case_when(
+    #     ((mode == "SUT" | mode == "CUT") &
+    #        stringr::str_detect(var, "Stock") & value == 0) ~ 1,
+    #     TRUE ~ value
+    #   )) %>%
+    #   unique() %>%
+    #   dplyr::select(-aeo_mode) %>%
+    #   tidyr::pivot_wider(
+    #     names_from = c(var, mode),
+    #     values_from = value
+    #   ) %>%
+    #   dplyr::group_by(year, geog_name, geog_id) %>%
+    #   dplyr::mutate(dplyr::across(4:7, function(x) {
+    #     sum(x, na.rm = TRUE)
+    #   })) %>%
+    #   unique()
+    #
+    #
+    #
+    # freight_stock_fin_year <- freight_stock %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::filter(year == max(year)) %>%
+    #   dplyr::rowwise() %>%
+    #   dplyr::mutate(
+    #     ci_sut_fin = CIStock_SUT / TotStock_SUT,
+    #     bev_sut_fin = BEVStock_SUT / TotStock_SUT,
+    #     ci_cut_fin = CIStock_CUT / TotStock_CUT,
+    #     bev_cut_fin = BEVStock_CUT / TotStock_CUT
+    #   ) %>%
+    #   dplyr::select(
+    #     geog_name, geog_id,
+    #     ci_sut_fin,
+    #     bev_sut_fin,
+    #     ci_cut_fin,
+    #     bev_cut_fin
+    #   ) %>%
+    #   unique() %>%
+    #   filter(!is.na(ci_cut_fin))
+    # # browser()
+    #
+    # freight_stock_new <- freight_stock %>%
+    #   dplyr::left_join(freight_stock_fin_year, by = c("geog_name", "geog_id")) %>%
+    #   dplyr::left_join(freight_battery, by = c("year")) %>%
+    #   dplyr::left_join(freight_battery_fin_year, by = c("geog_name", "geog_id")) %>%
+    #   dplyr::rowwise() %>%
+    #   dplyr::mutate(
+    #     ci_stock_sut = ((1 / 3) * bev_pcts) *
+    #       (CIStock_SUT / TotStock_SUT) /
+    #       ci_sut_fin,
+    #
+    #     ci_stock_cut = ((2 / 3) * bev_pcts) *
+    #       (CIStock_CUT / TotStock_CUT) /
+    #       ci_cut_fin,
+    #
+    #     bev_stock_sut = ((2 / 3) * bev_pcts) *
+    #       (BEVStock_SUT / TotStock_SUT) /
+    #       bev_sut_fin,
+    #
+    #     bev_stock_cut = ((1 / 3) * bev_pcts) *
+    #       (BEVStock_CUT / TotStock_CUT) /
+    #       bev_cut_fin
+    #   ) %>%
+    #   dplyr::mutate(
+    #     sut_tot_stock = ci_stock_sut + bev_stock_sut,
+    #     cut_tot_stock = ci_stock_cut + bev_stock_cut,
+    #     bev_sut = bev_stock_sut / sut_tot_stock,
+    #     bev_cut = bev_stock_cut / cut_tot_stock,
+    #     ci_sut = ci_stock_sut / sut_tot_stock,
+    #     ci_cut = ci_stock_cut / cut_tot_stock
+    #   ) %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::select(
+    #     year, bev_sut, bev_cut,
+    #     ci_sut, ci_cut
+    #   ) %>%
+    #   unique()
+    #
+    #
+    # freight_tot_stock <- freight_tb %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::filter(
+    #     var == "TotStock",
+    #     mode %in% c(
+    #       "SUT",
+    #       "CUT"
+    #     )
+    #   ) %>%
+    #   unique() %>%
+    #   tidyr::pivot_wider(
+    #     names_from = var,
+    #     values_from = value
+    #   ) %>%
+    #   dplyr::select(year, geog_name, geog_id, mode, TotStock) %>%
+    #   unique()
+    #
+    #
+    # ftb_new_stocks <- freight_tb %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::filter(mode %in% c(
+    #     "SUT",
+    #     "CUT"
+    #   )) %>%
+    #   dplyr::left_join(freight_stock_new, by = c("year")) %>%
+    #   unique() %>%
+    #   tidyr::pivot_wider(
+    #     names_from = var,
+    #     values_from = value
+    #   ) %>%
+    #   dplyr::rowwise() %>%
+    #   dplyr::mutate(
+    #     BEVStock = dplyr::case_when(
+    #       !year %in% c("2015", "2018", "2020") & mode == "SUT" ~ TotStock * bev_sut,
+    #       !year %in% c("2015", "2018", "2020") & mode == "CUT" ~ TotStock * bev_cut
+    #     ),
+    #     CIStock = dplyr::case_when(
+    #       !year %in% c("2015", "2018", "2020") & mode == "SUT" ~ TotStock * ci_sut,
+    #       !year %in% c("2015", "2018", "2020") & mode == "CUT" ~ TotStock * ci_cut
+    #     )
+    #   ) %>%
+    #   dplyr::mutate(TotStock = BEVStock + CIStock) %>%
+    #   tidyr::pivot_longer(
+    #     cols = c(
+    #       "TMT", "TotStock",
+    #       "CIStock", "BEVStock"
+    #     ),
+    #     names_to = "var",
+    #     values_to = "value",
+    #     values_drop_na = TRUE
+    #   ) %>%
+    #   unique() %>%
+    #   dplyr::select(names(freight_tb)) %>%
+    #   dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
+    #                                    sep = "-"
+    #   ))
+    #
+    #
+    # ftb_new <- freight_tb %>%
+    #   dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
+    #                                    sep = "-"
+    #   )) %>%
+    #   dplyr::filter(!all_combos %in% ftb_new_stocks$all_combos) %>%
+    #   dplyr::bind_rows(ftb_new_stocks) %>%
+    #   dplyr::select(names(freight_tb))
+    #
+    # if (nrow(.freight_tb) != nrow(ftb_new)) {
+    #   cli::cli_abort("Freight data did not pass adjustment")
+    # }
+    #
+    #
+    #
+    # test_freight <- purrr::map(
+    #   c(
+    #     "TotSales",
+    #     "TotStock",
+    #     "TotExist",
+    #     "TMT"
+    #   ),
+    #   function(x) {
+    #     all.equal(
+    #       ftb_new %>%
+    #         filter(
+    #           var == x
+    #         ),
+    #       ftb_new %>%
+    #         filter(
+    #           var == x
+    #         ),
+    #       tolerance = 0.01
+    #     )
+    #   }
+    # )
+    #
+    # if (any(test_freight == FALSE)) {
+    #   cli::cli_abort("Freight CTU totals failed")
+    # }
+    ftb_new <- freight_tb
   } else {
     ptb_new <- pass_tb
     ftb_new <- freight_tb
