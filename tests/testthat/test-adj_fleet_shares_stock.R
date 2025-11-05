@@ -1,6 +1,5 @@
-test_stock_changes <- function(ctu){
+test_stock_changes <- function(ctu) {
   test_that(paste0("fleet shares adjust to stock inputs, ", ctu), {
-
     # browser()
     testthat::expect_error(
       adj_fleet_shares_stock(
@@ -58,19 +57,19 @@ test_stock_changes <- function(ctu){
 
     testthat::expect_equal(nrow(test_total_table), 0)
 
-      adj_fleet_shares_stock(
-        .bev_pct_stock = 1,
-        .pass_tb = transportation_data$passenger,
-        .freight_tb = transportation_data$freight %>%
-          filter(geog_name == ctu),
-        .selected_ctu = ctu,
-        .vmt_fee = 0,
-        .payd_fee = 0,
-        .gas_tax = 0,
-        .enviro_factors = enviro_factors
-      ) %>%
-        testthat::expect_warning() %>%
-        testthat::expect_warning()
+    adj_fleet_shares_stock(
+      .bev_pct_stock = 1,
+      .pass_tb = transportation_data$passenger,
+      .freight_tb = transportation_data$freight %>%
+        filter(geog_name == ctu),
+      .selected_ctu = ctu,
+      .vmt_fee = 0,
+      .payd_fee = 0,
+      .gas_tax = 0,
+      .enviro_factors = enviro_factors
+    ) %>%
+      testthat::expect_warning() %>%
+      testthat::expect_warning()
 
 
     freight_test_total_table <- left_join(
@@ -203,15 +202,16 @@ test_stock_changes <- function(ctu){
       compare_fleet
     )
   })
-
 }
 
 purrr::map(
-  list("Saint Paul",
-       "Centerville",
-       "Hanover",
-       "Birchwood Village",
-       "New Trier",
-       "Twin Cities Region"),
+  list(
+    "Saint Paul",
+    "Centerville",
+    "Hanover",
+    "Birchwood Village",
+    "New Trier",
+    "Twin Cities Region"
+  ),
   test_stock_changes
 )

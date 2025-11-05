@@ -120,7 +120,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BCIMPG",
-
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy

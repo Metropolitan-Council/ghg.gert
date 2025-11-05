@@ -111,7 +111,6 @@ mode_passenger_light_duty <- function(.pass_tb,
     tb = .pass_tb,
     .mode = mode,
     .aeo_scenario = .aeo_scenario,
-
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values,
     .fuel_economy = .fuel_economy

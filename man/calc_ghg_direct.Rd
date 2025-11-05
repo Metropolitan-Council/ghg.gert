@@ -9,9 +9,8 @@ calc_ghg_direct(
   tb,
   .mode,
   .fuel_type,
-  .aeo_scenario = "REF",
   .miles_per_gallon,
-  .grid_decarbonization_pct = 0.6,
+  .aeo_scenario = "REF",
   .fuel_economy = ghg.ccap::fuel_economy,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values
@@ -28,13 +27,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.fuel_type}{character, fuel type for given mode.}
 
-\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
-Default is \code{"REF"}}
-
 \item{.miles_per_gallon}{numeric, miles per gallon for mode.}
 
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
+\item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
+Default is \code{"REF"}}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
@@ -56,11 +52,7 @@ Default value is \code{0.6}.}
 Calculate the direct greenhouse gas emissions for a given mode and fuel
 type. If the fuel type is non-electric, the returned value represents
 tail-pipe emissions. If fuel type is electric, the returned value
-represents the \emph{equivalent} emissions per kilowatt hour, modulated
-by the percentage of the grid that is de-carbonized
-(\code{.grid_decarbonization_pct}). If the entire grid is de-carbonized
-(\code{.grid_decarbonization_pct = 1}), then there are no emissions for
-electric vehicles.
+represents the \emph{equivalent} emissions per kilowatt hour.
 }
 \seealso{
 Other emissions: 
@@ -77,6 +69,7 @@ Other emissions:
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

@@ -78,13 +78,10 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
                                       .vmt_reduction_pct = 0,
-
                                       .bev_pct_sales = 0,
                                       .hev_pct_sales = 0,
-
                                       .bev_pct_stock = 0,
                                       .hev_pct_stock = 0,
-
                                       .enviro_factors = ghg.ccap::enviro_factors,
                                       .elast = ghg.ccap::elast,
                                       .elast_5d = ghg.ccap::elast_5d,
@@ -161,24 +158,22 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   # adjust fleet size if neccessary -----
 
-  if((.bev_pct_stock > 0 & .bev_pct_sales > 0) |
-     (.hev_pct_stock > 0 & .hev_pct_sales > 0)){
+  if ((.bev_pct_stock > 0 & .bev_pct_sales > 0) |
+    (.hev_pct_stock > 0 & .hev_pct_sales > 0)) {
     cli::cli_abort("Cannot have both sales and stock adjustment factors")
   }
 
 
   if (.vmt_fee > 0 |
-      .payd_fee > 0 |
-      .gas_tax > 0 |
-      .bev_pct_sales > 0 |
-      .hev_pct_sales > 0 |
+    .payd_fee > 0 |
+    .gas_tax > 0 |
+    .bev_pct_sales > 0 |
+    .hev_pct_sales > 0 |
 
-      .bev_pct_stock > 0 |
+    .bev_pct_stock > 0 |
+    .hev_pct_stock > 0) {
+    if (.bev_pct_stock > 0 |
       .hev_pct_stock > 0) {
-
-    if(.bev_pct_stock > 0 |
-       .hev_pct_stock > 0){
-
       adj_fleet <- adj_fleet_shares_stock(
         .pass_tb = pass_tb,
         .freight_tb = freight_tb,
@@ -191,10 +186,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
         .enviro_factors = .enviro_factors,
         .elast = .elast
       )
-
-    } else if(
+    } else if (
       .bev_pct_sales > 0 |
-      .hev_pct_sales > 0
+        .hev_pct_sales > 0
     ) {
       adj_fleet <- adj_fleet_shares(
         .pass_tb = pass_tb,
@@ -259,7 +253,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost = .calc_transp_cost,
     .calc_transp_fuel_use = .calc_transp_fuel_use,
     .calc_transp_ghg_embodied = .calc_transp_ghg_embodied,
-
     .fuel_economy = .fuel_economy
   )
 
@@ -310,7 +303,6 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .job_access_pct_change = .job_access_pct_change,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
-
     .telework_pct = .telework_pct,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
@@ -373,7 +365,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     )
   ) %>%
     dplyr::left_join(ghg.ccap::geog_index %>%
-                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -479,13 +471,13 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
-                                  by = c(
-                                    "type", "scenario", "geog_name", "geog_id",
-                                    "year", "mode", "aeo_mode", "class"
-                                  )
+    by = c(
+      "type", "scenario", "geog_name", "geog_id",
+      "year", "mode", "aeo_mode", "class"
+    )
   ) %>%
     dplyr::left_join(ghg.ccap::geog_index %>%
-                       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
   freight <- list(
     AIR_WAT_MM = freight_multi_air_wat,

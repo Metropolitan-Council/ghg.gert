@@ -244,7 +244,6 @@ test_that("fleet shares adjust to pricing inputs", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(
@@ -377,7 +376,6 @@ test_that("fleet shares adjust to pricing inputs, Orono", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(
@@ -492,7 +490,6 @@ test_that("fleet shares adjust to pricing inputs, Marshan Twp.", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(
@@ -607,7 +604,6 @@ test_that("fleet shares adjust to pricing inputs, Hanover", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(
@@ -722,7 +718,6 @@ test_that("fleet shares adjust to sales inputs, Hanover", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(
@@ -836,7 +831,6 @@ test_that("fleet shares adjust to sales inputs, Birchwood Village", {
 
 
   compare_fleet <- function(comp_fleet) {
-
     expect_equal(
       ref_fleet %>%
         filter(

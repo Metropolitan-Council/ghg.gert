@@ -62,14 +62,16 @@ run_all_modules(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
+  .bev_pct_stock = 0,
+  .hev_pct_stock = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
   .elast = ghg.ccap::elast,
   .fuel_economy = ghg.ccap::fuel_economy,
   .grid_emissions = ghg.ccap::grid_emissions,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .vehicle_occupancy = vehicle_occupancy
 )
 }
 \arguments{
@@ -258,11 +260,6 @@ Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
-
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
@@ -281,6 +278,8 @@ Default is \code{0}.}
 Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 }
 \value{
 list, list with the outputs of the three modules.

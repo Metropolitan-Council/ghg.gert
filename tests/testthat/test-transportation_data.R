@@ -319,4 +319,3 @@ testthat::test_that("PHEVPr correct", {
     nrow() %>%
     testthat::expect_equal(0)
 })
-

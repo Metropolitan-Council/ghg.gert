@@ -97,7 +97,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-
       .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
@@ -113,7 +112,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "MMCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
-
       .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -168,7 +166,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
@@ -183,7 +180,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BEVElec",
-
       .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -241,7 +237,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-
       .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
@@ -256,7 +251,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "ASI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "SIMPG",
-
       .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
@@ -314,7 +308,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-
       .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
@@ -329,7 +322,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "WCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
-
       .fuel_economy = .fuel_economy,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values

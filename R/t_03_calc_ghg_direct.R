@@ -68,7 +68,8 @@ calc_ghg_direct <- function(tb_vmt,
     ) %>%
     dplyr::mutate(
       # emissions  = gallons * ghg_factor
-      dir_ghg = (fuel_use_gallons_kwh * ghg_factor)) %>%
+      dir_ghg = (fuel_use_gallons_kwh * ghg_factor)
+    ) %>%
     dplyr::select(
       type,
       # source,

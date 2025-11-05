@@ -74,6 +74,7 @@ Other VMT effects:
 \code{\link{vmt_road_policy}()},
 \code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
+\code{\link{vmt_total_reduction}()},
 \code{\link{vmt_transit_service}()}
 }
 \concept{VMT effects}

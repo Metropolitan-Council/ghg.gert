@@ -9,7 +9,6 @@ adj_fleet_shares(
   .freight_tb,
   .selected_ctu = "all",
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .vmt_fee = 0,
   .payd_fee = 0,
@@ -29,11 +28,6 @@ Default is \code{transportation_data$freight}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
-in the final forecast year.
-Default is \code{0}.}
-
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
 in the final forecast year.
 Default is \code{0}.}
 
@@ -70,7 +64,7 @@ vehicles and new sales
 Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 cost elasticity, gas taxes, and VMT and PAYD fees.
 If battery electric, plug-in hybrid, and/or hybrid percent of sales in the final forecast year
-(`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
+(`.bev_pct_sales`, `.hev_pct_sales`) are specified,
 Freight data is dependent on passenger data,
 }\if{html}{\out{</div>}}
 }
@@ -86,7 +80,11 @@ whether the driver would prefer to pay the cost to a government agency or insura
 }\if{html}{\out{</div>}}
 }
 \seealso{
+Other stock adjustments: 
+\code{\link{adj_fleet_shares_stock}()}
+
 Other transportation: 
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

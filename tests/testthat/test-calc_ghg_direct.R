@@ -25,7 +25,6 @@ testthat::test_that("Gasoline direct emissions correct", {
     .fuel_type = "SI",
     .aeo_scenario = "REF",
     .miles_per_gallon = "SIMPG",
-
     .factor_values = factor_values,
     .enviro_factors = enviro_factors
   )
@@ -65,7 +64,6 @@ testthat::test_that("Diesel direct emissions correct", {
     .fuel_type = "CI",
     .aeo_scenario = "REF",
     .miles_per_gallon = "CIMPG",
-
     .factor_values = factor_values,
     .enviro_factors = enviro_factors
   )

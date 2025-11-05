@@ -215,25 +215,27 @@ test_that("Density changes have anticipated effect, Brooklyn Park", {
 
 
 test_that("VMT does not change when adjusting stock proportions only", {
-
-
   region_parking <- parking_cost %>%
     group_by(mode, var, type, aeo_mode) %>%
     summarize(value = min(value)) %>%
-    mutate(geog_id = "00000000",
-           geog_name = "Twin Cities Region") %>%
+    mutate(
+      geog_id = "00000000",
+      geog_name = "Twin Cities Region"
+    ) %>%
     ungroup()
 
   region_avo <- vehicle_occupancy %>%
     group_by(mode, var, type, aeo_mode) %>%
     summarise(value = mean(value)) %>%
-    mutate(geog_id = "00000000",
-           geog_name = "Twin Cities Region") %>%
+    mutate(
+      geog_id = "00000000",
+      geog_name = "Twin Cities Region"
+    ) %>%
     ungroup()
 
 
 
-  run_transport <- function(bev){
+  run_transport <- function(bev) {
     run_module_transportation(
       .scenario = paste0("bev_", bev),
       pass_tb = transportation_data$passenger,
@@ -247,7 +249,7 @@ test_that("VMT does not change when adjusting stock proportions only", {
       suppressWarnings()
   }
 
-  summarize_emiss <-   function(x){
+  summarize_emiss <- function(x) {
     bau_mode_year <- x$passenger_all %>%
       dplyr::bind_rows(x$freight_all) %>%
       dplyr::filter(!mode %in% c(
@@ -272,29 +274,31 @@ test_that("VMT does not change when adjusting stock proportions only", {
     pldv_bev <- x$pass_tb %>%
       filter(
         stringr::str_detect(var, "BEVStock"),
-        mode == "PLDV")
+        mode == "PLDV"
+      )
 
-    return(list("bau_mode_year" = bau_mode_year,
-                "pldv_bev" = pldv_bev))
+    return(list(
+      "bau_mode_year" = bau_mode_year,
+      "pldv_bev" = pldv_bev
+    ))
   }
 
 
-  baseline_diff <- function(x, baseline){
+  baseline_diff <- function(x, baseline) {
     x$bau_mode_year %>%
       filter(emissions_year == 2050) %>%
       left_join(
         baseline_summary$bau_mode_year,
         join_by(emissions_year, type, geog_name, geog_id, category, sector),
-        suffix =  c(".scen", ".baseline")
+        suffix = c(".scen", ".baseline")
       ) %>%
-      mutate(dir_ghg_diff = round(dir_ghg.scen - dir_ghg.baseline, digits = 2),
-             dir_ghg_pct_diff = dir_ghg_diff / dir_ghg.baseline,
-
-             vmt_diff = round(vmt.scen - vmt.baseline, digits = 2),
-             vmt_pct_diff = vmt_diff / vmt.baseline
+      mutate(
+        dir_ghg_diff = round(dir_ghg.scen - dir_ghg.baseline, digits = 2),
+        dir_ghg_pct_diff = dir_ghg_diff / dir_ghg.baseline,
+        vmt_diff = round(vmt.scen - vmt.baseline, digits = 2),
+        vmt_pct_diff = vmt_diff / vmt.baseline
       ) %>%
       return()
-
   }
 
   baseline <- run_module_transportation(
@@ -311,8 +315,10 @@ test_that("VMT does not change when adjusting stock proportions only", {
   baseline_summary <- summarize_emiss(baseline)
 
 
-  bev_percentages <- purrr::map(seq(0.01, 1, 0.7),
-                                run_transport)
+  bev_percentages <- purrr::map(
+    seq(0.01, 1, 0.7),
+    run_transport
+  )
 
 
   bev_percentages_summary <-
@@ -321,10 +327,9 @@ test_that("VMT does not change when adjusting stock proportions only", {
 
   # TODO fix tolerance in future
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
-                 baseline = baseline) %>%
+    baseline = baseline
+  ) %>%
     filter(vmt_diff != 0) %>%
     nrow() %>%
     testthat::expect_equal(0, tolerance = 5)
-
-
 })

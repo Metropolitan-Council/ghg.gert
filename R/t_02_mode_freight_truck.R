@@ -95,7 +95,6 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
   dir_ghg_common_freight <- list(
     tb = .freight_tb,
     .aeo_scenario = .aeo_scenario,
-
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values,
     .fuel_economy = .fuel_economy

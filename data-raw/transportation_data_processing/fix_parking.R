@@ -105,10 +105,10 @@ tbi_parking_cost <- trip %>%
   filter(n_trips_sample >= 10) %>%
   arrange(-n_trips_sample) %>%
   mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
-           str_replace("St. ", "Saint ") %>%
-           str_remove("(unorg.)") %>%
-           str_remove_all("[:punct:]") %>%
-           str_trim())
+    str_replace("St. ", "Saint ") %>%
+    str_remove("(unorg.)") %>%
+    str_remove_all("[:punct:]") %>%
+    str_trim())
 
 
 parking_cost <-

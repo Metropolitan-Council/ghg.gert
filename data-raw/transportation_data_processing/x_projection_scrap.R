@@ -1,48 +1,62 @@
-
-stock_diff <- function(x, baseline){
+stock_diff <- function(x, baseline) {
   x$pass_tb %>%
-
-    filter(mode == "PLDV",
-           stringr::str_detect(var, "Stock")) %>%
-    pivot_wider(names_from = var,
-                values_from = value) %>%
+    filter(
+      mode == "PLDV",
+      stringr::str_detect(var, "Stock")
+    ) %>%
+    pivot_wider(
+      names_from = var,
+      values_from = value
+    ) %>%
     left_join(
       baseline$pass_tb %>%
-        filter(mode == "PLDV",
-               stringr::str_detect(var, "Stock")) %>%
-        pivot_wider(names_from = var,
-                    values_from = value),
+        filter(
+          mode == "PLDV",
+          stringr::str_detect(var, "Stock")
+        ) %>%
+        pivot_wider(
+          names_from = var,
+          values_from = value
+        ),
       by = join_by(mode, geog_id, geog_name, year, aeo_mode, type),
-      suffix =  c(".scen", ".baseline")
+      suffix = c(".scen", ".baseline")
     ) %>%
-    mutate(BEV_diff = BEVStock.baseline - BEVStock.scen,
-           SI_diff = SIStock.baseline - SIStock.scen,
-           CI_diff = CIStock.baseline - CIStock.scen,
-           HEV_diff = HEVStock.baseline - HEVStock.scen,
-           Tot_diff = TotStock.baseline - TotStock.scen)
-
+    mutate(
+      BEV_diff = BEVStock.baseline - BEVStock.scen,
+      SI_diff = SIStock.baseline - SIStock.scen,
+      CI_diff = CIStock.baseline - CIStock.scen,
+      HEV_diff = HEVStock.baseline - HEVStock.scen,
+      Tot_diff = TotStock.baseline - TotStock.scen
+    )
 }
 
-pmt_diff <- function(x, baseline){
+pmt_diff <- function(x, baseline) {
   x$pass_tb %>%
-    filter(mode == "PLDV",
-           stringr::str_detect(var, "PMT")) %>%
-    pivot_wider(names_from = var,
-                values_from = value) %>%
+    filter(
+      mode == "PLDV",
+      stringr::str_detect(var, "PMT")
+    ) %>%
+    pivot_wider(
+      names_from = var,
+      values_from = value
+    ) %>%
     left_join(
       baseline$pass_tb %>%
-        filter(mode == "PLDV",
-               stringr::str_detect(var, "PMT")) %>%
-        pivot_wider(names_from = var,
-                    values_from = value),
+        filter(
+          mode == "PLDV",
+          stringr::str_detect(var, "PMT")
+        ) %>%
+        pivot_wider(
+          names_from = var,
+          values_from = value
+        ),
       by = join_by(mode, geog_id, geog_name, year, aeo_mode, type),
-      suffix =  c(".scen", ".baseline")
+      suffix = c(".scen", ".baseline")
     ) %>%
     mutate(PMT_dfif = PMT.baseline - PMT.scen)
-
 }
 
-vmt_diff <- function(x, baseline){
+vmt_diff <- function(x, baseline) {
   x$passenger_all %>%
     filter(year == 2050) %>%
     filter(mode == "PLDV") %>%
@@ -50,15 +64,14 @@ vmt_diff <- function(x, baseline){
       baseline$passenger_all %>%
         filter(mode == "PLDV"),
       by = join_by(mode, stock, geog_id, geog_name, year, aeo_mode, type, class, geog_level, geog_id_type),
-      suffix =  c(".scen", ".baseline")
+      suffix = c(".scen", ".baseline")
     ) %>%
-    mutate(dir_ghg_diff = round(dir_ghg.scen - dir_ghg.baseline, digits = 2),
-           dir_ghg_pct_diff = dir_ghg_diff / dir_ghg.baseline,
-
-           vmt_diff = round(vmt.scen - vmt.baseline, digits = 2),
-           vmt_pct_diff = vmt_diff / vmt.baseline
+    mutate(
+      dir_ghg_diff = round(dir_ghg.scen - dir_ghg.baseline, digits = 2),
+      dir_ghg_pct_diff = dir_ghg_diff / dir_ghg.baseline,
+      vmt_diff = round(vmt.scen - vmt.baseline, digits = 2),
+      vmt_pct_diff = vmt_diff / vmt.baseline
     )
-
 }
 
 all_bau <- purrr::map(
@@ -84,7 +97,7 @@ all_bau <- purrr::map(
 
 
 
-run_transport_bev <- function(bev){
+run_transport_bev <- function(bev) {
   purrr::map(
     geog_index$geog_name,
     (function(x) {
@@ -101,14 +114,14 @@ run_transport_bev <- function(bev){
           .elast_5d = ghg.ccap::elast_5d,
           .fuel_economy = ghg.ccap::fuel_economy,
           .bev_pct_stock = bev
-
         )
       )
-    }))
+    })
+  )
 }
 
 
-summarize_emiss <-   function(x){
+summarize_emiss <- function(x) {
   bau_mode_year <- x$passenger_all %>%
     dplyr::bind_rows(x$freight_all) %>%
     dplyr::filter(!mode %in% c(
@@ -133,15 +146,18 @@ summarize_emiss <-   function(x){
   pldv_bev <- x$pass_tb %>%
     filter(
       stringr::str_detect(var, "BEVStock"),
-      mode == "PLDV")
+      mode == "PLDV"
+    )
 
-  return(list("bau_mode_year" = bau_mode_year,
-              "pldv_bev" = pldv_bev))
+  return(list(
+    "bau_mode_year" = bau_mode_year,
+    "pldv_bev" = pldv_bev
+  ))
 }
 
 
 
-bev_percentages <- purrr::map(seq(0.01, 1, 0.05),
-                              run_transport_bev)
-
-
+bev_percentages <- purrr::map(
+  seq(0.01, 1, 0.05),
+  run_transport_bev
+)

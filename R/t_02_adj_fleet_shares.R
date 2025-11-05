@@ -506,9 +506,9 @@ adj_fleet_shares <- function(.pass_tb,
         HEVStock = HEVExist + HEVSales,
         CIStock = CIExist + CISales,
         SIStock = SIExist + SISales,
-        TotStock = BEVStock  + HEVStock + CIStock + SIStock,
-        TotExist = BEVExist  + HEVExist + CIExist + SIExist,
-        TotSales = BEVSales  + HEVSales + CISales + SISales
+        TotStock = BEVStock + HEVStock + CIStock + SIStock,
+        TotExist = BEVExist + HEVExist + CIExist + SIExist,
+        TotSales = BEVSales + HEVSales + CISales + SISales
       ) %>%
       # tidyr::pivot_longer(cols = 6:23,
       #              names_to = "var",
@@ -522,9 +522,9 @@ adj_fleet_shares <- function(.pass_tb,
     ptb_new <- ptb_stock_new %>%
       tidyr::pivot_longer(
         cols = c(
-          "TotExist", "SIExist", "CIExist", "HEVExist",  "BEVExist",
-          "TotSales", "SISales", "CISales", "HEVSales",  "BEVSales",
-          "SIStock", "CIStock", "HEVStock",  "BEVStock", "TotStock"
+          "TotExist", "SIExist", "CIExist", "HEVExist", "BEVExist",
+          "TotSales", "SISales", "CISales", "HEVSales", "BEVSales",
+          "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"
         ),
         names_to = "var",
         values_to = "value"

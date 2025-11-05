@@ -47,6 +47,7 @@ Calculate fuel cost per mile
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},

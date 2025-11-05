@@ -1,18 +1,20 @@
-
-
-test_stock_proportion <- function(ctu){
+test_stock_proportion <- function(ctu) {
   testthat::test_that("Stock proportions adjust correctly", {
     # browser()
 
 
     manual_percentages <- transportation_data$passenger %>%
       filter_ctu(ctu) %>%
-      filter(stringr::str_detect(var, "Stock"),
-             mode == "PLDV",
-             var != "TotStock") %>%
+      filter(
+        stringr::str_detect(var, "Stock"),
+        mode == "PLDV",
+        var != "TotStock"
+      ) %>%
       group_by(mode, geog_name, geog_id, year) %>%
-      pivot_wider(names_from = var,
-                  values_from = value) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
       janitor::adorn_percentages()
 
 
@@ -101,20 +103,20 @@ test_stock_proportion <- function(ctu){
 }
 
 purrr::map(
-  list("Saint Paul",
-       "Minneapolis",
-       "Bloomington",
-       "Lake Elmo",
-       "Burnsville",
-       "Apple Valley",
-       "Edina",
-       # Smaller CTUs don't have good rail estimates
-       # "Centerville",
-       # "Hanover",
-       # "Birchwood Village",
-       # "New Trier",
-       "Twin Cities Region"),
+  list(
+    "Saint Paul",
+    "Minneapolis",
+    "Bloomington",
+    "Lake Elmo",
+    "Burnsville",
+    "Apple Valley",
+    "Edina",
+    # Smaller CTUs don't have good rail estimates
+    # "Centerville",
+    # "Hanover",
+    # "Birchwood Village",
+    # "New Trier",
+    "Twin Cities Region"
+  ),
   test_stock_proportion
 )
-
-

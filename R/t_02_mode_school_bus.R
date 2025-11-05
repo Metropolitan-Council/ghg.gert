@@ -174,7 +174,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
-
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -188,7 +187,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BEVElec",
-
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy

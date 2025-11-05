@@ -121,12 +121,12 @@ vmt_land_use_change <- function(.type,
     dplyr::mutate(
       product_all =
         .data$n_population_density *
-        .data$n_employment_density *
-        .data$n_diversity *
-        .data$n_design *
-        .data$n_job_access *
-        .data$n_distance *
-        .data$n_combined_density
+          .data$n_employment_density *
+          .data$n_diversity *
+          .data$n_design *
+          .data$n_job_access *
+          .data$n_distance *
+          .data$n_combined_density
     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
@@ -139,7 +139,7 @@ vmt_land_use_change <- function(.type,
         TRUE ~ product_all
       ),
       land_use_adj = ifelse(land_use_adj == 0, 1,
-                            land_use_adj
+        land_use_adj
       )
     ) %>%
     dplyr::select(year, land_use_adj)
@@ -240,7 +240,7 @@ vmt_parking_policy <- function(tb,
     "WALK"
   )) {
     # browser()
-    park_return <- .parking_cost  %>%
+    park_return <- .parking_cost %>%
       filter_ctu(unique(tb$geog_name)) %>%
       filter(
         # use PLDV parking rate, since we are doing the inverse for
@@ -345,7 +345,7 @@ vmt_road_policy <- function(.pass_tb,
         payd_ins_adj = .payd_fee / .enviro_factors$INS_COST_MI,
         vmt_fee_adj = 1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast,
         cong_adjust = 1 + ((.cong_price / fuel_time_cost_mile) *
-                             .enviro_factors$CONG_VMT) * cong_elast,
+          .enviro_factors$CONG_VMT) * cong_elast,
         cross_vmt = vmt_cross,
         gas_adj = 1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
       ) %>%
@@ -566,8 +566,8 @@ vmt_telework <- function(.pass_tb,
       dplyr::mutate(
         telework_elast_val =
           ifelse(year %in% c("2045", "2050") &
-                   telework_elast_val == 0,
-                 .telework_pct, telework_elast_val
+            telework_elast_val == 0,
+          .telework_pct, telework_elast_val
           )
       )
 
@@ -644,11 +644,13 @@ vmt_stock_proportion <- function(.tb,
       dplyr::select(geog_name, geog_id, year, mode, mode_stock_adj) %>%
       unique()
 
-    if(tb_stock_proportion %>%
-       filter(mode_stock_adj == 0,
-              mode == "PLDV",
-              year == max(year)) %>%
-       nrow() != 0){
+    if (tb_stock_proportion %>%
+      filter(
+        mode_stock_adj == 0,
+        mode == "PLDV",
+        year == max(year)
+      ) %>%
+      nrow() != 0) {
       browser()
     }
   }
@@ -804,7 +806,7 @@ vmt_vehicle_occupancy <- function(tb,
         var == "AVO"
       ) %>%
       dplyr::select(geog_name, geog_id,
-                    occupancy_adj = value
+        occupancy_adj = value
       ) %>%
       unique()
 
@@ -909,8 +911,8 @@ vmt_vehicle_occupancy <- function(tb,
         values_from = value
       ) %>%
       dplyr::select(mode,
-                    geog_name, geog_id,
-                    mode_avo = AVO
+        geog_name, geog_id,
+        mode_avo = AVO
       )
 
     occ_return <- mode_avo %>%
@@ -946,7 +948,6 @@ vmt_total_reduction <- function(.pass_tb,
                                 .vmt_reduction_pct = 0,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   if (.mode == "PLDV") {
-
     # browser()
     vmt_reduction_elast <- tibble(
       year = unique(.pass_tb$year),
@@ -964,9 +965,9 @@ vmt_total_reduction <- function(.pass_tb,
       dplyr::mutate(
         vmt_total_reduction_val =
           ifelse(year %in% c("2045", "2050") &
-                   vmt_total_reduction_val == 0,
-                 .vmt_reduction_pct,
-                 vmt_total_reduction_val
+            vmt_total_reduction_val == 0,
+          .vmt_reduction_pct,
+          vmt_total_reduction_val
           )
       )
 

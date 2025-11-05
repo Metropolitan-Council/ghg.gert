@@ -23,6 +23,7 @@ calc_vmt_forecast(
   .gas_tax = 0,
   .cong_price = 0,
   .parking_price = 0,
+  .vmt_reduction_pct = 0,
   .freight_parking_price = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
@@ -33,7 +34,6 @@ calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .phev_electric = FALSE,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
@@ -111,8 +111,6 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -132,6 +130,7 @@ Calculate vehicle miles traveled by mode and power train
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

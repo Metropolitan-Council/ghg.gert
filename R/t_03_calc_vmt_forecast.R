@@ -128,7 +128,6 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -283,7 +282,6 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -403,7 +401,6 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast
@@ -486,7 +483,6 @@ calc_vmt_forecast <- function(.scenario,
       .gas_tax = .gas_tax,
       .payd_fee = .payd_fee,
       .stock = .stock,
-
       .freight_vmt_fee = .freight_vmt_fee,
       .enviro_factors = .enviro_factors,
       .elast = .elast

@@ -21,6 +21,7 @@ mode_passenger_light_duty(
   .parking_price = 0,
   .freight_parking_price = 0,
   .cong_price = 0,
+  .vmt_reduction_pct = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
   .emp_dens_pct_change = 0,
@@ -30,12 +31,11 @@ mode_passenger_light_duty(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .grid_decarbonization_pct = 0.6,
-  .enviro_factors = enviro_factors,
-  .elast = elast,
-  .elast_5d = elast_5d,
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .elast = ghg.ccap::elast,
+  .elast_5d = ghg.ccap::elast_5d,
   .factor_values = ghg.ccap::factor_values,
-  .fuel_economy = fuel_economy,
+  .fuel_economy = ghg.ccap::fuel_economy,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -105,9 +105,6 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -140,6 +137,7 @@ Other passenger:
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

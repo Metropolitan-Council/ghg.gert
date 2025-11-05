@@ -26,12 +26,12 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.sales_mode}{character,
 Sales name for calculation of embodied emissions of new vehicles.
-Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, \code{"PHEVSales"}, or \code{"BEVSales"}.}
+Options include \code{"SISales"}, \code{"CISales"}, \code{"HEVSales"}, or \code{"BEVSales"}.}
 
 \item{.fuel_type}{fuel source for current mode}
 
 \item{.class}{character,
-Vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"}, \code{"PHEV"},  or \code{"BEV"}.}
+Vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"},  or \code{"BEV"}.}
 
 \item{.transit_avo_pct}{numeric,
 Percent change in transit AVO.
@@ -72,6 +72,7 @@ Other emissions:
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

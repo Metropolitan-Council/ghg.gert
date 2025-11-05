@@ -122,9 +122,11 @@ ghg_long <- ghg %>%
 grid_emissions_kwh <- ghg.ccap::grid_emissions %>%
   filter(inventory_year %in% ghg_long$year) %>%
   mutate(mt_co2e_per_kwh = mt_co2e_per_mwh / 1000) %>%
-  mutate(source = "ER",
-         year = as.character(inventory_year),
-         value = mt_co2e_per_kwh) %>%
+  mutate(
+    source = "ER",
+    year = as.character(inventory_year),
+    value = mt_co2e_per_kwh
+  ) %>%
   select(names(ghg_long))
 
 

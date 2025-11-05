@@ -96,16 +96,16 @@ adj_fleet_shares_stock <- function(.pass_tb,
     adj_si_ci_stock <- tibble::tibble(
       year = .elast$year,
       adj_si_ci =
-        # (1 + vmt_fee / car cost per mile) +
-        # (payd_fee /car cost per mile) *
-        # vehicle ownership elasticity over time *
-        # 1 + (gas tax / car cost per mile) *
-        # vehicle ownership elasticity over time
+      # (1 + vmt_fee / car cost per mile) +
+      # (payd_fee /car cost per mile) *
+      # vehicle ownership elasticity over time *
+      # 1 + (gas tax / car cost per mile) *
+      # vehicle ownership elasticity over time
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-                (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
-           .elast$vehicle_ownership_elast) *
-        (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
-           .elast$vehicle_ownership_elast)
+          (.payd_fee / .enviro_factors$AUTO_COST_MI)) *
+          .elast$vehicle_ownership_elast) *
+          (1 + (.gas_tax / .enviro_factors$AUTO_COST_MI) *
+            .elast$vehicle_ownership_elast)
     )
 
 
@@ -114,7 +114,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
       adj_si_ci = c(
         1, 1,
         seq(1, adj_si_ci_stock$adj_si_ci[8],
-            by = -(1 - adj_si_ci_stock$adj_si_ci[8]) / 6
+          by = -(1 - adj_si_ci_stock$adj_si_ci[8]) / 6
         )
       )
     )
@@ -126,8 +126,8 @@ adj_fleet_shares_stock <- function(.pass_tb,
       year = .elast$year,
       adj_alt =
         (1 + (.vmt_fee / .enviro_factors$AUTO_COST_MI +
-                .payd_fee / .enviro_factors$AUTO_COST_MI) *
-           .elast$vehicle_ownership_elast)
+          .payd_fee / .enviro_factors$AUTO_COST_MI) *
+          .elast$vehicle_ownership_elast)
     )
 
 
@@ -166,7 +166,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
       tidyr::pivot_wider(names_from = var, values_from = value) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        TotExist = BEVExist  + HEVExist + SIExist + CIExist,
+        TotExist = BEVExist + HEVExist + SIExist + CIExist,
         var = "TotExist",
         value = TotExist
       ) %>%
@@ -192,30 +192,36 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
 
     stock_percentages_original <- pass_tb %>%
-      filter(!var %in% c("TotStock"),
-             stringr::str_detect(var, "Stock"),
-             mode == "PLDV",
-             year == 2050) %>%
-      pivot_wider(names_from = var,
-                  values_from = value) %>%
+      filter(
+        !var %in% c("TotStock"),
+        stringr::str_detect(var, "Stock"),
+        mode == "PLDV",
+        year == 2050
+      ) %>%
+      pivot_wider(
+        names_from = var,
+        values_from = value
+      ) %>%
       janitor::adorn_percentages()
 
 
 
-    if(.hev_pct_stock == 0){.hev_pct_stock <- stock_percentages_original$HEVStock %>% round(digits = 2)}
+    if (.hev_pct_stock == 0) {
+      .hev_pct_stock <- stock_percentages_original$HEVStock %>% round(digits = 2)
+    }
 
     # if(sum(.bev_pct_stock, .hev_pct_stock) >= 1){
     #   .hev_pct_stock <- 0.03
     # }
 
-    all_stock_pcts <- as.numeric(1 - (.bev_pct_stock  + .hev_pct_stock))
+    all_stock_pcts <- as.numeric(1 - (.bev_pct_stock + .hev_pct_stock))
 
-    if(all_stock_pcts < 0 ){
+    if (all_stock_pcts < 0) {
       cli::cli_warn("Maximum BEV percentage reached")
       .bev_pct_stock <- 0.98
       .hev_pct_stock <- 0.01
 
-      all_stock_pcts <- as.numeric(1 - (.bev_pct_stock  + .hev_pct_stock))
+      all_stock_pcts <- as.numeric(1 - (.bev_pct_stock + .hev_pct_stock))
 
       # leaving 0.02 for SI/CI
     }
@@ -263,24 +269,26 @@ adj_fleet_shares_stock <- function(.pass_tb,
       left_join(stock_elast, by = c("year")) %>%
       rowwise() %>%
       mutate(
-        ptb_si   = si_ci_elast * (SIStock / (SIStock + CIStock)),
-        ptb_ci   = si_ci_elast * (CIStock / (CIStock + SIStock)),
-        ptb_hev  = hev_elast,
-        ptb_bev  = bev_elast,
+        ptb_si = si_ci_elast * (SIStock / (SIStock + CIStock)),
+        ptb_ci = si_ci_elast * (CIStock / (CIStock + SIStock)),
+        ptb_hev = hev_elast,
+        ptb_bev = bev_elast,
         ptb_tot_stock =
           ptb_si + ptb_ci + ptb_hev + ptb_bev,
-        new_si_portion   = ptb_si / ptb_tot_stock,
-        new_ci_portion   = ptb_ci / ptb_tot_stock,
-        new_hev_portion  = ptb_hev / ptb_tot_stock,
-        new_bev_portion  = ptb_bev / ptb_tot_stock,
+        new_si_portion = ptb_si / ptb_tot_stock,
+        new_ci_portion = ptb_ci / ptb_tot_stock,
+        new_hev_portion = ptb_hev / ptb_tot_stock,
+        new_bev_portion = ptb_bev / ptb_tot_stock,
         sum_check = new_si_portion + new_ci_portion +
           new_bev_portion + new_hev_portion
       ) %>%
-      mutate(HEVStock = TotStock * new_hev_portion,
-             BEVStock = TotStock * new_bev_portion,
-             SIStock = TotStock * new_si_portion,
-             CIStock = TotStock * new_ci_portion,
-             TotStock_check = sum(HEVStock, BEVStock, SIStock, CIStock))
+      mutate(
+        HEVStock = TotStock * new_hev_portion,
+        BEVStock = TotStock * new_bev_portion,
+        SIStock = TotStock * new_si_portion,
+        CIStock = TotStock * new_ci_portion,
+        TotStock_check = sum(HEVStock, BEVStock, SIStock, CIStock)
+      )
 
     # browser()
     # pass_tb_stock_new %>%
@@ -288,8 +296,10 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
 
     ptb_stock_new <- pass_tb_stock_new %>%
-      select(any_of(c(names(pass_tb),
-                      "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"))) %>%
+      select(any_of(c(
+        names(pass_tb),
+        "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"
+      ))) %>%
       pivot_longer(
         cols = c(
           "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"
@@ -300,7 +310,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
 
 
-    if(ptb_stock_new %>% filter(value <= 0) %>% nrow() > 0){
+    if (ptb_stock_new %>% filter(value <= 0) %>% nrow() > 0) {
       browser()
     }
 
