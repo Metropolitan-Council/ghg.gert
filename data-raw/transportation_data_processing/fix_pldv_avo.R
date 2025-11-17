@@ -48,8 +48,10 @@ hh <- bind_rows(
 )
 
 cprg_tbi_hh_counties <- c(
-  "Anoka MN", "Carver MN",
-  "Dakota MN", "Hennepin MN",
+  "Anoka MN",
+  "Carver MN",
+  "Dakota MN",
+  "Hennepin MN",
   "Ramsey MN",
   "Scott MN",
   "Washington MN"
@@ -77,7 +79,7 @@ hh_cd_levels <- hh_region %>%
 
 avo_imagine <- trip %>%
   filter(
-    hh_id %in% hh$hh_id,
+    hh_id %in% hh_region$hh_id,
     mode_type %in% c(
       "Household Vehicle",
       "Other Vehicle",
@@ -112,7 +114,7 @@ avo_imagine <- trip %>%
 # region level AVO, no CD grouping
 avo_region <- trip %>%
   filter(
-    hh_id %in% hh$hh_id,
+    hh_id %in% hh_region$hh_id,
     mode_type %in% c(
       "Household Vehicle",
       "Other Vehicle",
