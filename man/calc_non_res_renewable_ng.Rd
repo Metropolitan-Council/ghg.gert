@@ -12,12 +12,18 @@ calc_non_res_renewable_ng(
 )
 }
 \arguments{
-\item{non_res_tb}{table with non-residential data.
-Default is \code{building_data$non_residential}}
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
+\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
+\code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.renewable_ng_nonres}{logical, documentation needed}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}
@@ -54,18 +60,21 @@ calc_non_res_renewable_ng(
 }
 \seealso{
 Other commercial-industrial: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{calc_existing_comm_building_efficiency}()}
 
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
+\code{\link{calc_business_leed}()},
+\code{\link{calc_business_retrofit}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
@@ -86,10 +95,10 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 
 Other deprecated: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -98,7 +107,6 @@ Other deprecated:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_residential_energy_forecast}()},
 \code{\link{calc_residential_energy_forecast}()},

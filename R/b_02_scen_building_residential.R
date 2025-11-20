@@ -1,7 +1,7 @@
 #' @title Calculate residential building strategies
 #' @family buildings, residential
 #'
-#' @description This function estimates the emissions of non-residential buildings under a user defined
+#' @description This function estimates the emissions of residential buildings under a user defined
 #'    decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 #'    electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 #'
