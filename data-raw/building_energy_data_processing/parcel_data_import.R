@@ -250,7 +250,10 @@ ctu_parcel <- mn_parcel_map %>%
   sf::st_drop_geometry() %>%
   rename(county_name = CO_NAME) %>%
   select(-c(CTU_NAME, CTU_ID_TXT, statefp, state_abb)) %>%
-  mutate(inventory_year = 2021)
+  mutate(inventory_year = 2021,
+         geog_name = if_else(ctu_class == "TOWNSHIP",
+                             paste(geog_name, "Twp."),
+                             geog_name))
 
 
 ### go back and use simple lm to fill in 0 sq ft cities (Hennepin)
