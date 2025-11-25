@@ -81,8 +81,15 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
+  # make imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients available for use in ghg.ccap.app
+  utils::data(
+    "imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients",
+    package = "ghg.ccap",
+    envir   = environment()
+  )
+
   # Pull relevant community designation's energy profile for .selected_ctu
-  ctu_energy_profile <- ghg.ccap::imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients %>%
+  ctu_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients %>%
     filter(imagine_designation == pluck_commDesgn) %>%
     mutate(cat_match = case_when(
       scenario == "baseline" ~ "existing_nonretrofit_jobs",
