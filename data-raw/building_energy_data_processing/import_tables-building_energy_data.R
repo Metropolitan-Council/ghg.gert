@@ -1,6 +1,7 @@
 # non-residential baseline
 library(tidyr)
 library(dplyr)
+library(readr)
 library(magrittr)
 library(purrr)
 library(ghg.ccap)
@@ -92,7 +93,10 @@ building_energy_data$electricity_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mwh.rds"
   ) %>%
-  mutate(sector = "Residential") %>%
+  mutate(sector = "Residential",
+         ctu_name = if_else(ctu_class == "TOWNSHIP",
+                             paste(ctu_name, "Twp."),
+                            ctu_name)) %>%
   rename(
     mwh = residential_mwh,
     geog_name = ctu_name,
@@ -103,7 +107,10 @@ building_energy_data$electricity_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mwh.rds"
   ) %>%
-  mutate(sector = "Business") %>%
+  mutate(sector = "Business",
+         ctu_name = if_else(ctu_class == "TOWNSHIP",
+                            paste(ctu_name, "Twp."),
+                            ctu_name)) %>%
   rename(
     mwh = business_mwh,
     geog_name = ctu_name,
@@ -120,7 +127,10 @@ building_energy_data$natural_gas_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mcf.rds"
   ) %>%
-  mutate(sector = "Residential") %>%
+  mutate(sector = "Residential",
+         ctu_name = if_else(ctu_class == "TOWNSHIP",
+                            paste(ctu_name, "Twp."),
+                            ctu_name)) %>%
   rename(
     mcf = residential_mcf,
     geog_name = ctu_name,
@@ -131,7 +141,10 @@ building_energy_data$natural_gas_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mcf.rds"
   ) %>%
-  mutate(sector = "Business") %>%
+  mutate(sector = "Business",
+         ctu_name = if_else(ctu_class == "TOWNSHIP",
+                            paste(ctu_name, "Twp."),
+                            ctu_name)) %>%
   rename(
     mcf = business_mcf,
     geog_name = ctu_name,
@@ -145,7 +158,7 @@ building_energy_data$natural_gas_business_ctu <-
 
 county_elec_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_county_emissions.RDS") %>%
-  filter(sector_alt == "Electricity") %>%
+  filter(category == "Electricity") %>%
   left_join(
     grid_emissions %>%
       select(
@@ -186,16 +199,12 @@ building_energy_data$electricity_inventory <-
     inventory_year,
     mwh
   ) %>%
-  # Get rid of Twp. in names
-  mutate(
-    geog_name = gsub("\\s*Twp\\.", "", geog_name)
-  ) %>%
   bind_rows(county_elec_data)
 
 
 county_gas_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_county_emissions.RDS") %>%
-  filter(sector_alt == "Building fuel") %>%
+  filter(category == "Building Fuel") %>%
   mutate(
     mcf = value_emissions / enviro_factors$MT_CO2E_PER_MCF_NATGAS,
     geog_level = "COUNTY",
@@ -227,10 +236,6 @@ building_energy_data$natgas_inventory <-
     sector,
     inventory_year,
     mcf
-  ) %>%
-  # Get rid of Twp. in names
-  mutate(
-    geog_name = gsub("\\s*Twp\\.", "", geog_name)
   ) %>%
   bind_rows(county_gas_data)
 
