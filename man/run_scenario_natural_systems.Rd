@@ -5,34 +5,30 @@
 \title{Run natural systems scenario}
 \usage{
 run_scenario_natural_systems(
-  tb_inv = natural_systems_data$ctu_lc_inventory,
-  tb_future = natural_systems_data$ctu_lc_null,
+  tb_inv = natural_systems_data$inventory,
+  tb_future = natural_systems_data$projections,
   tb_seq = natural_systems_data$land_cover_carbon,
   .selected_ctu = "all",
-  .urban_tree_start = 2025,
-  .urban_tree_time = 10,
-  .urban_tree_area_perc = 0,
-  .l2l_start = 2025,
-  .l2l_time = 10,
-  .l2l_area_perc = 0,
-  .restoration_start = 2025,
-  .restoration_time = 10,
-  .restoration_area_perc = 0,
+  .wetland_restore_start = 2025,
+  .wetland_restore_end = 2050,
+  .wetland_restore_fromGrass_perc = 0,
+  .wetland_restore_fromBare_perc = 0,
+  .wetland_restore_fromCrop_perc = 0,
+  .wetland_restore_fromTree_perc = 0,
+  .forest_restore_start = 2025,
+  .forest_restore_end = 2050,
+  .forest_restore_fromGrass_perc = 0,
+  .forest_restore_fromBare_perc = 0,
+  .forest_restore_fromCrop_perc = 0,
+  .community_tree_start = 2025,
+  .community_tree_end = 2050,
+  .community_tree_perc = 0,
+  .pocket_prairie_start = 2025,
+  .pocket_prairie_end = 2050,
+  .pocket_prairie_perc = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
 )
-}
-\arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
-
-\item{detail}{logical,
-If \code{detail == TRUE} the function
-returns a tibble with more detailed fields. Recommended
-for debugging.
-Default is \code{FALSE}.}
 }
 \description{
 This function simulates the impact of various land use scenarios on carbon
