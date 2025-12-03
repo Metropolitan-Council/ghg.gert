@@ -30,9 +30,9 @@ if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehavior
 
 # warning that these are hefty, around 4gb
 trip <- bind_rows(
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Trip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021Trip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Trip.csv")
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019LinkedTrip.csv"),
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021LinkedTrip.csv"),
+  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023LinkedTrip.csv")
 )
 
 hh <- bind_rows(
@@ -89,10 +89,10 @@ tbi_parking_cost <- trip %>%
     distance_miles > 0
   ) %>%
   filter(
-    trip_weight > 0,
+    linked_trip_weight > 0,
     !is.na(vehicle_park_cost)
   ) %>%
-  srvyr::as_survey_design(id = trip_id, weights = trip_weight) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
   group_by(trip_d_city) %>%
   summarize(
     vehicle_park_cost = srvyr::survey_mean(vehicle_park_cost, na.rm = T),

@@ -161,6 +161,8 @@ calc_energy_residential <- function(res_tb,
       )
   )
 
+  # browser()
+
   ### calculate heat pump effects here
   energy_calc <- function(tb,
                           .heatpump_start_year = .heatpump_start_year,
@@ -202,7 +204,7 @@ calc_energy_residential <- function(res_tb,
         )
       )
 
-    # browser()
+     #browser()
     energy_tb <- tb %>%
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%

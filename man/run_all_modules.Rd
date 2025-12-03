@@ -84,9 +84,9 @@ run_all_modules(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
@@ -101,11 +101,10 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
-is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with non residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and
+the default value. \code{non_res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
 \item{pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
@@ -173,8 +172,6 @@ Default is \code{0.0}.}
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.0}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
 
 \item{.existing_high_efficiency_buildings_pct}{numeric,
 a value between \code{0} and 1.

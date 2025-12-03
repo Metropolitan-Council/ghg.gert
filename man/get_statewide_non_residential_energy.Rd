@@ -29,6 +29,7 @@ number of employees by sector, and energy intensity per worker.
 }
 \seealso{
 Other deprecated: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -37,7 +38,6 @@ Other deprecated:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_non_residential_energy_forecast}()},

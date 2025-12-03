@@ -2,133 +2,88 @@
 % Please edit documentation in R/b_02_scen_building_non_residential.R
 \name{scen_building_non_residential}
 \alias{scen_building_non_residential}
-\title{Calculate scenario building non-residential}
+\title{Calculate non-residential building strategies}
 \usage{
 scen_building_non_residential(
-  non_res_tb,
-  non_res_tb_bau,
+  non_res_tb = non_res_tb,
+  non_res_tb_bau = non_res_tb_bau,
+  .scenario = "",
   .selected_ctu,
-  .electrified_buildings_pct,
-  .smart_grid_energy_reduction_pct,
-  .grid_decarbonization_pct,
-  .existing_high_efficiency_buildings_pct,
-  .renewable_ng_nonres,
-  .enviro_factors = enviro_factors
+  .baseline_year,
+  .jobs_heatpump_pct,
+  .heatpump_start_year,
+  .heatpump_end_year,
+  .existing_jobs_retrofit_pct,
+  .retrofit_start_year,
+  .retrofit_end_year,
+  .new_jobs_leed_gold_pct,
+  .leed_start_year,
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
-is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with non residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and
+the default value. \code{non_res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
+
+\item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
 
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0.6}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
-
-\item{.renewable_ng_nonres}{logical, documentation needed}
+\item{.grid_emissions}{table,
+Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{value}, \code{scen}, and \code{year}.
-The output of the non-residential portion of the Building Energy Module of the.
+\code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
+\code{geog_name}, \code{var}, \code{value}, \code{scen}, and \code{year}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field geog_name character, Name of the city/township.
- @field year, numeric, Year.
- @field var character, one of `commercial_mwh`, `industrial_mwh`,
-     `commercial_therms`, `industrial_therms`,
-     `commercial_electricity_emissions_kg_co`,
-     `industrial_electricity_emissions_kg_co`,
-     `commercial_natural_gas_emissions_kg_co`,
-     `industrial_natural_gas_emissions_kg_co`,
-     or `total_industrial_commercial_emissions`.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @field `geog_name` character,  Name of the city/township.
+ @field `year` numeric, Year.
+ @field `var` character,. Can be `non_residential_mwh`, `non_residential_therms`,
+      `residential_electricity_emissions_kg_co`,
+      or `residential_natural_gas_emissions_kg_co`.
  @field value, numeric. The numeric value of `var`.
  @field scen, character. One of  `bau` or `scenario`
 }\if{html}{\out{</div>}}
 }
 \description{
-This function estimates the emissions of non-residential buildings under a given
+This function estimates the emissions of non-residential buildings under a user defined
 decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 }
 \note{
-To run the Building Energy Module, refer to function run_scenario_building().
-For more details, see \code{vignette("building_energy_module_inputs_non_residential")}.
+To run the Building Energy Module, refer to function \code{run_scenario_building()}
+For more details, see \code{vignette("building_energy_module_inputs_residential")}
 }
 \examples{
 \dontrun{
 library(ghg.ccap)
 
 scen_building_non_residential(
-  non_res_tb = building_data$non_residential,
-  non_res_tb_bau = building_data$non_residential,
-  .selected_ctu = "all",
-  .electrified_buildings_pct = 0.40,
-  .smart_grid_energy_reduction_pct = 1.00,
-  .grid_decarbonization_pct = 0.80,
-  .existing_high_efficiency_buildings_pct = 0.80,
-  .renewable_ng_nonres = FALSE,
-  .enviro_factors = enviro_factors
-)
-}
-}
-\seealso{
-Other commercial-industrial: 
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_non_res_renewable_ng}()}
+   non_res_tb = non_res_tb,
+   non_res_tb_bau = non_res_tb_bau,
+   .selected_ctu = "all"
+   .existing_high_efficiency_buildings_pct = 0.25
+   .electrified_buildings_pct = 0.5
+   .enviro_factors = .enviro_factors,
+   .grid_emissions = .grid_emissions
+  )
 
-Other buildings: 
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_demographic_forecast}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_mfh_retrofit}()},
-\code{\link{calc_non_res_renewable_ng}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{calc_sfh_leed}()},
-\code{\link{calc_sfh_retrofit}()},
-\code{\link{get_by_county_non_residential_energy_baseline}()},
-\code{\link{get_demographic_baseline}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()}
 }
-\concept{buildings}
-\concept{commercial-industrial}
+}
+\concept{buildings, non-residential}
