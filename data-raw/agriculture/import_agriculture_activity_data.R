@@ -74,6 +74,7 @@ fertilizer <- dplyr::bind_rows(
 )
 
 
+
 agriculture_activity_data <- list(
   livestock = livestock,
   crops = crops,

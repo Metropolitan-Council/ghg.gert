@@ -55,23 +55,24 @@
 run_module_agriculture <- function(livestock_tb = agriculture_activity_data$livestock,
                                   fertilizer_tb = agriculture_activity_data$fertilizer,
                                   crops_tb = agriculture_activity_data$crops,
+                                  adjust_baseline = TRUE,
                                   run_manure = TRUE,
                                   run_fertilizer = TRUE,
                                   run_crops = TRUE,
-                                  .baseline_year = 2021,
+                                  .baseline_year = 2022,
                                   .ag_land_perserved = 1,
                                   .selected_ctu = "all",
                                   .scenario = "alt",
                                   # manure
-                                  .manure_start_year = 2025,
+                                  .manure_start_year = 2028,
                                   .manure_handling = 0.0,
                                   # fertilizer
-                                  .smart_fertilizer_start_year = 2025,
+                                  .smart_fertilizer_start_year = 2028,
                                   .smart_fertilizer = 0.0,
                                   # crops
-                                  .cover_crops_start_year = 2025,
+                                  .cover_crops_start_year = 2028,
                                   .cover_crops = 0.0,
-                                  .no_till_start_year = 2025,
+                                  .no_till_start_year = 2028,
                                   .no_till = 0.0
 ) {
   # browser()
