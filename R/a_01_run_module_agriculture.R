@@ -55,7 +55,8 @@
 run_module_agriculture <- function(livestock_tb = agriculture_activity_data$livestock,
                                   fertilizer_tb = agriculture_activity_data$fertilizer,
                                   crops_tb = agriculture_activity_data$crops,
-                                  adjust_baseline = TRUE,
+                                  # adjust_livestock_baseline = FALSE,
+                                  adjust_cropland_baseline = FALSE,
                                   run_manure = TRUE,
                                   run_fertilizer = TRUE,
                                   run_crops = TRUE,
@@ -75,12 +76,11 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                   .no_till_start_year = 2028,
                                   .no_till = 0.0
 ) {
-  # browser()
+
   livestock_tb <- filter_ctu(livestock_tb, .selected_ctu = .selected_ctu)
-  fertilizer_tb <-
-    filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
-  crops_tb <-
-    filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
+
+  fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
+  crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
 
   l_names <- c(
     # manure
