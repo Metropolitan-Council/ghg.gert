@@ -21,6 +21,41 @@ mcf <- readr::read_rds(paste0(inpath, "methane_conversion_factor_livestock.rds")
   ungroup() %>%
   select(-state)
 
+# Function to extend dataset to 2050
+extend_to_2050 <- function(df, value_col, group_cols = "livestock_type") {
+  # Find max year for each group
+  max_years <- df %>%
+    group_by(across(all_of(group_cols))) %>%
+    summarize(max_year = max(year), .groups = 'drop')
+
+  # Get the values at max year for each group
+  max_values <- df %>%
+    inner_join(max_years, by = group_cols) %>%
+    filter(year == max_year) %>%
+    select(all_of(group_cols), max_year, all_of(value_col))
+
+  # Create extended rows from max_year + 1 to 2050
+  extended <- max_values %>%
+    rowwise() %>%
+    reframe(
+      across(all_of(group_cols)),
+      year = (max_year + 1):2050,
+      !!value_col := .data[[value_col]]
+    )
+
+  # Combine original data with extended data
+  result <- bind_rows(df, extended) %>%
+    arrange(across(all_of(c(group_cols, "year"))))
+
+  return(result)
+}
+
+# Extend each dataset
+vs_extended <- extend_to_2050(vs, "mt_vs_head_yr", "livestock_type")
+nex_extended <- extend_to_2050(nex, "kg_nex_head_yr", "livestock_type")
+mcf_extended <- extend_to_2050(mcf, "mcf_percent", "livestock_type")
+
+
 # formatted files
 ag_constants <- readr::read_rds(paste0(inpath,"ag_constants.rds"))
 
@@ -70,8 +105,10 @@ animal_manure_complete <- ag_manure_mgmt_complete %>%
   group_by(year, livestock_type) %>%
   # normalize
   mutate(percentage = percentage / sum(percentage)) %>%
-  ungroup()
+  ungroup() %>%
+  filter(!is.na(percentage))
 
+animal_manure_extended <- extend_to_2050(animal_manure_complete, value_col = "percentage", c("livestock_type", "storage_state"))
 
 ### pull out and format Bo (max potential emissions (ch4/ kg vs))
 
@@ -94,10 +131,10 @@ Bo <- ag_constants %>%
   summarize(Bo = mean(as.numeric(value)))
 
 agriculture_variables <- list(
-  mcf = mcf,
-  vs = vs,
-  manure_state = animal_manure_complete,
-  nex = nex,
+  mcf = mcf_extended,
+  vs = vs_extended,
+  manure_state = animal_manure_extended,
+  nex = nex_extended,
   Bo = Bo
 )
 
