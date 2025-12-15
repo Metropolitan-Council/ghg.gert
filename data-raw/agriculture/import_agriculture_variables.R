@@ -47,7 +47,8 @@ extend_to_2050 <- function(df, value_col, group_cols = "livestock_type") {
 
   # Combine original data with extended data
   result <- bind_rows(df, extended) %>%
-    arrange(across(all_of(c(group_cols, "year"))))
+    arrange(across(all_of(c(group_cols, "year")))) %>%
+    rename(inventory_year = year)
 
   return(result)
 }
