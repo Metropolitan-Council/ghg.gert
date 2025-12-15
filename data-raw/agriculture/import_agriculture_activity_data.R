@@ -46,8 +46,11 @@ livestock <- dplyr::bind_rows(
     select(inventory_year, geog_name, county_name, livestock_type,
            head_count, data_type),
   livestock_ctu %>%
-    rename(geog_name = ctu_name,
-           geog_class = ctu_class) %>%
+    mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+                               paste(ctu_name, "Twp."),
+                               stringr::str_to_sentence(ctu_name))
+           )%>%
+    rename(geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
     select(inventory_year, geog_name, county_name, livestock_type,
            head_count = township_head_count, data_type)
@@ -58,7 +61,8 @@ livestock_extended <- extend_to_2050(livestock,
                                       value_col = "head_count",
                                       group_cols = c("geog_name",
                                                      "county_name",
-                                                     "livestock_type"))
+                                                     "livestock_type")) %>%
+  ungroup()
 
 ### crop data
 
@@ -77,8 +81,11 @@ crops <- dplyr::bind_rows(
     select(geoid, inventory_year, geog_name, county_name, crop_type,
            metric_tons),
   crops_ctu %>%
-    rename(geog_name = ctu_name,
-           geog_class = ctu_class) %>%
+    mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+                               paste(ctu_name, "Twp."),
+                               stringr::str_to_sentence(ctu_name))
+    )%>%
+    rename(geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
     select(geoid = ctu_id, inventory_year, geog_name, county_name, crop_type,
            metric_tons = ctu_metric_tons)
@@ -90,7 +97,8 @@ crops_extended <- extend_to_2050(crops,
                                      group_cols = c("geoid",
                                                     "geog_name",
                                                     "county_name",
-                                                    "crop_type"))
+                                                    "crop_type"))%>%
+  ungroup()
 
 ### fertilizer data
 
@@ -109,8 +117,11 @@ fertilizer <- dplyr::bind_rows(
     select(geoid, inventory_year, geog_name, county_name, fertilizer_type,
            metric_tons_applied),
   fertilizer_ctu %>%
-    rename(geog_name = ctu_name,
-           geog_class = ctu_class) %>%
+    mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+                               paste(ctu_name, "Twp."),
+                               stringr::str_to_sentence(ctu_name))
+    )%>%
+    rename(geog_class = ctu_class) %>%
     filter(inventory_year >= 2005) %>%
     select(geoid = ctu_id, inventory_year, geog_name, county_name, fertilizer_type,
           metric_tons_applied)
@@ -122,7 +133,8 @@ fertilizer_extended <- extend_to_2050(fertilizer,
                                  group_cols = c("geoid",
                                                 "geog_name",
                                                 "county_name",
-                                                "fertilizer_type"))
+                                                "fertilizer_type"))%>%
+  ungroup()
 
 
 agriculture_activity_data <- list(
