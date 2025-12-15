@@ -8,21 +8,25 @@
 #' @return Data frame with emissions by county, year, storage_state, and gas type
 #'
 #'
-calculate_manure_emissions <- function(livestock = agriculture_activity_data$livestock,
-                                       agriculture_variables,
-                                       ag_constants_vec,
-                                       gwp_list,
-                                       ag_manure_mgmt_complete) {
+calculate_manure_emissions <- function(agriculture_variables = ghg.ccap::agriculture_variables,
+                                       run_manure = .run_manure,
+                                       gwp_list = ghg.ccap::gwp_list,
+                                       .selected_ctu = .selected_ctu) {
 
-  livestock_df <- filter_ctu(livestock, .selected_ctu = .selected_ctu)
+### calculate CTU BAU
+
+
+  livestock_df <- filter_ctu(ghg.ccap::agriculture_activity_data$livestock, .selected_ctu = .selected_ctu)
+browser()
 
   # Validate inputs
-  required_livestock_cols <- c("county_name", "year", "livestock_type", "head_count")
+  required_livestock_cols <- c("county_name", "inventory_year", "livestock_type", "head_count")
   if (!all(required_livestock_cols %in% names(livestock_df))) {
     stop("livestock_df must contain: ", paste(required_livestock_cols, collapse = ", "))
   }
 
   # Extract variables from list
+  ag_constants_vec <- agriculture_variables$ag_constants
   vs_data <- agriculture_variables$vs
   nex_data <- agriculture_variables$nex
   mcf_data <- agriculture_variables$mcf
@@ -32,28 +36,38 @@ calculate_manure_emissions <- function(livestock = agriculture_activity_data$liv
   # ===== CH4 EMISSIONS =====
   ch4_emissions <- livestock_df %>%
     left_join(vs_data,
-              by = c("year", "livestock_type")) %>%
+              by = c("inventory_year", "livestock_type")) %>%
     left_join(Bo_data, by = "livestock_type") %>%
     left_join(mcf_data,
-              by = c("year", "livestock_type")) %>%
+              by = c("inventory_year", "livestock_type")) %>%
     mutate(
       mt_ch4 = head_count * mt_vs_head_yr * Bo * mcf_percent * ag_constants_vec["kg_m3"],
       mt_co2e = mt_ch4 * gwp_list$ch4
     ) %>%
-    group_by(year, county_name, livestock_type) %>%
+    group_by(inventory_year, county_name, livestock_type) %>%
     summarize(
       mt_ch4 = sum(mt_ch4, na.rm = TRUE),
       mt_co2e = sum(mt_co2e, na.rm = TRUE),
       .groups = "drop"
     ) %>%
     left_join(manure_split,
-              by = c("year", "livestock_type")) %>%
+              by = c("inventory_year", "livestock_type")) %>%
     mutate(
       mt_ch4_by_storage = mt_ch4 * percentage,
       mt_co2e_by_storage = mt_co2e * percentage
     ) %>%
-    select(year, county_name, livestock_type, storage_state,
+    select(inventory_year, county_name, livestock_type, storage_state,
            mt_ch4_by_storage, mt_co2e_by_storage)
+
+  ### MPCA CAF pathway
+
+  ch4_emissions_caf <- ch4_emissions_caf %>%
+    mutate(mt_co2e_caf = case_when(
+      inventory_year <= 2027 ~ mt_co2e_by_storage,
+      inventory_year <= 2027 &
+        livestock_type %in% c("") &
+        storage_state == "Liquid"
+    ))
 
   # ===== N2O EMISSIONS (LIQUIDS AND SOLIDS) =====
 

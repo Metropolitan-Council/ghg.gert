@@ -64,9 +64,9 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                   .ag_land_perserved = 1,
                                   .selected_ctu = "all",
                                   .scenario = "alt",
-                                  # manure
-                                  .manure_start_year = 2028,
-                                  .manure_handling = 0.0,
+                                  # # manure
+                                  # .manure_start_year = 2028,
+                                  # .manure_handling = 0.0,
                                   # fertilizer
                                   .smart_fertilizer_start_year = 2028,
                                   .smart_fertilizer = 0.0,
