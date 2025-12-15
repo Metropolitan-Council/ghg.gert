@@ -1,3 +1,5 @@
+library(dplyr)
+
 inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_agriculture/data/"
 
 ### load in livestock count data
@@ -131,6 +133,7 @@ Bo <- ag_constants %>%
   summarize(Bo = mean(as.numeric(value)))
 
 agriculture_variables <- list(
+  ag_constants = ag_constants_vec,
   mcf = mcf_extended,
   vs = vs_extended,
   manure_state = animal_manure_extended,
