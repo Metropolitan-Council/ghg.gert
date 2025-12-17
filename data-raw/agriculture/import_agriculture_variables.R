@@ -5,8 +5,6 @@ inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_agricultur
 ### load in livestock count data
 livestock <- agriculture_activity_data$livestock
 
-township_livestock <- read_rds("_agriculture/data/township_usda_census_data.rds")
-
 ### load in formatted activity data connecting livestock to manure emissions
 vs <- readr::read_rds(paste0(inpath, "volatile_solids.rds")) %>%
   filter(state == "Minnesota") %>%
