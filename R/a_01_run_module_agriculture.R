@@ -55,8 +55,9 @@
 run_module_agriculture <- function(livestock_tb = agriculture_activity_data$livestock,
                                   fertilizer_tb = agriculture_activity_data$fertilizer,
                                   crops_tb = agriculture_activity_data$crops,
+                                  area_tb = agriculture_area,
                                   # adjust_livestock_baseline = FALSE,
-                                  adjust_cropland_baseline = FALSE,
+                                  cropland_decrease_2050 = 0,
                                   run_manure = TRUE,
                                   run_fertilizer = TRUE,
                                   run_crops = TRUE,
@@ -81,9 +82,15 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
 ) {
 
   livestock_tb <- filter_ctu(livestock_tb, .selected_ctu = .selected_ctu)
-
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
+  area_tb <- filter(area_tb, .selected_ctu = .selected_ctu)
+
+  # check area reduction doesn't exceed area
+  if(cropland_decrease_2050 >
+    area_tb %>% filter(inventory_year == 2050) %>%
+    pull(area)) cli::cli_abort("Cropland area decrease exceeds current cropland area")
+
 
   # l_names <- c(
   #   # manure
@@ -115,7 +122,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   #
   # purrr::map2(l_names, l_vals, check_inputs)
 
-  if (run_manure = =TRUE) {
+  if (run_manure == TRUE) {
     manure <-
       calculate_manure_emissions(
         agriculture_variables = ghg.ccap::agriculture_variables,
@@ -128,10 +135,10 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   if (run_fertilizer == TRUE) {
     fertilizer <-
       run_module_croplands(
-        agriculture_variables = ghg.ccap::agriculture_variables,
-        run_manure = .run_manure,
-        gwp_list = ghg.ccap::gwp_list,
-        .selected_ctu = .selected_ctu
+        .fertilizer_tb = fertilizer_tb,
+        .smart_fertilizer_start_year = 2028,
+        .smart_fertilizer_current = 0.0,
+        .smart_fertilizer_goal = 0.0,
       )
   }
 
