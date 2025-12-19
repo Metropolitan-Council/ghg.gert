@@ -200,8 +200,8 @@ testthat::test_that("Generic tests on residential data", {
   testthat::expect_equal(
     building_data$residential$sp_categories %>% unique(),
     c(
-      "multifamily_units", "single_family_attached", "single_family_large_lot",
-      "single_family_small_lot"
+      "multifamily_units", "single_family_attached", "single_family_detached",
+      "manufactured_homes"
     )
   )
 })

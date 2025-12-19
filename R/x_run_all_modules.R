@@ -118,19 +118,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             .elast_5d = elast_5d) {
   output <- c()
 
-  if (run_land_use == TRUE) {
-    output$land_use <- run_scenario_land_use(
-      tb = tb,
-      .selected_ctu = .selected_ctu,
-      .conservation_tillage_intervention = .conservation_tillage_intervention,
-      .tree_planting_intervention = .tree_planting_intervention,
-      .tree_planting_per_capita = .tree_planting_per_capita,
-      .tree_planting_per_hectare = .tree_planting_per_hectare,
-      .parking_lot_reduction_percentage = .parking_lot_reduction_percentage,
-      detail = detail,
-      .enviro_factors = .enviro_factors
-    )
-  }
   if (run_buildings == TRUE) {
     output$buildings <- run_scenario_building(
       res_tb = res_tb,
@@ -141,6 +128,12 @@ run_all_modules <- function(.selected_ctu = "all",
       run_non_residential = run_non_residential,
       .selected_ctu = .selected_ctu,
       .scenario = .scenario,
+      .density_output = run_scenario_land_use(
+        tb = planned_land_use$ctu_planned_land_use_parcel,
+        tb_strategy = NULL,
+        .selected_ctu = .selected_ctu,
+        .scenario = .scenario
+      ),
       .electrified_buildings_pct = .electrified_buildings_pct,
       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
       # .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,

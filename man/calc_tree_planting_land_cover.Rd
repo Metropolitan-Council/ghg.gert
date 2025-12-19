@@ -75,6 +75,6 @@ Other land use:
 \code{\link{calc_land_cover_by_land_use}()},
 \code{\link{calc_parking_lot_land_cover}()},
 \code{\link{calc_scen_land_use}()},
-\code{\link{run_scenario_land_use}()}
+\code{\link{run_scenario_land_use_deprecated}()}
 }
 \concept{land use}

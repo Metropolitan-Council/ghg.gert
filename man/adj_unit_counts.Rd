@@ -4,7 +4,7 @@
 \alias{adj_unit_counts}
 \title{Adjust residential Building Unit Counts}
 \usage{
-adj_unit_counts(res_tb, .selected_ctu, .new_homes_to_multifamily_pct)
+adj_unit_counts(res_tb, density_output, .selected_ctu)
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
@@ -21,8 +21,9 @@ relative to residential inputs table.
 }
 \description{
 This function adjusts the forecasted single-family and multi-family unit counts
-for cities/townships based on the residential inputs table. The purpose is to allow for a specified
-percentage of new single-family homes to be built as multi-family homes instead.
+for cities/townships based on the land use inputs table. Land use will provide an expected change
+in residential density and the ratio to that change and 2040 plans will reduce single family
+detached home to increase single family attached and multifamily homes.
 }
 \examples{
 \dontrun{
@@ -38,6 +39,7 @@ adj_unit_counts(
 \seealso{
 Other residential: 
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_energy_residential}()},
 \code{\link{calc_floor_area_growth}()},
@@ -49,10 +51,15 @@ Other residential:
 \code{\link{get_residential_mwh_baseline}()}
 
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
+\code{\link{calc_business_leed}()},
+\code{\link{calc_business_retrofit}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
@@ -74,8 +81,7 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 }
 \concept{buildings}
 \concept{residential}

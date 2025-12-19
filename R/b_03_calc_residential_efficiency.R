@@ -53,91 +53,99 @@ calc_housing_leed <- function(res_tb,
   check_inputs(name = "new_mf_homes_leed_gold_pct", .new_mf_homes_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 
-  if (.new_sf_homes_leed_gold_pct == 0) {
-    cli::cli_warn("No change in new single family home energy efficiency")
-    new_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      mutate(new_leed = 0,
-             new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-             effective_unit_change_leed = 0)
-  } else if (.new_sf_homes_leed_gold_pct != 0) {
-    new_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      dplyr::mutate(
-        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = if_else(inventory_year < .leed_start_year,
-                           0,
-          new_units * .new_sf_homes_leed_gold_pct),
-        effective_unit_change_leed =
-          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
-      )
-  }
 
-  if (.new_mf_homes_leed_gold_pct == 0) {
-    cli::cli_warn("No change in new multifamily home energy efficiency")
-    new_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories)) %>%
-      mutate(new_leed = 0,
-             new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-             effective_unit_change_leed = 0)
-  } else if (.new_mf_homes_leed_gold_pct != 0) {
-    new_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories)) %>%
-      dplyr::mutate(
-        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-        new_leed = if_else(inventory_year < .leed_start_year,
-                           0,
-                           new_units * .new_mf_homes_leed_gold_pct),
-        effective_unit_change_leed =
-          -1 * (new_leed * .enviro_factors$LEED_GOLD_REDUCTION_PCT)
-      )
-  }
+  # if (.new_sf_homes_leed_gold_pct == 0) {
+  #   #cli::cli_warn("No change in new single family home energy efficiency")
+  #   new_sf <- res_tb %>%
+  #     dplyr::filter(grepl("single", sp_categories)) %>%
+  #     mutate(
+  #       new_leed = 0,
+  #       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+  #       effective_unit_change_leed = 0
+  #     )
+  # } else if (.new_sf_homes_leed_gold_pct != 0) {
+
+  new_sf <- res_tb %>%
+    dplyr::filter(grepl("single", sp_categories)) %>%
+    dplyr::mutate(
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_sf_homes_leed_gold_pct)
+      ),
+      new_non_leed = new_units - new_leed
+    ) %>%
+    pivot_longer(
+      cols = c(new_leed, new_non_leed),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+
+  # }
+
+  # if (.new_mf_homes_leed_gold_pct == 0) {
+  #   cli::cli_warn("No change in new multifamily home energy efficiency")
+  #   new_mf <- res_tb %>%
+  #     dplyr::filter(grepl("multi", sp_categories)) %>%
+  #     mutate(
+  #       new_leed = 0,
+  #       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+  #       effective_unit_change_leed = 0
+  #     )
+  # } else if (.new_mf_homes_leed_gold_pct != 0) {
+  new_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    dplyr::mutate(
+      new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
+      new_leed = if_else(inventory_year < .leed_start_year,
+        0,
+        round(new_units * .new_mf_homes_leed_gold_pct)
+      ),
+      new_non_leed = new_units - new_leed
+    ) %>%
+    pivot_longer(
+      cols = c(new_leed, new_non_leed),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+  # }
 
   leed_buildings <- bind_rows(
     new_sf %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
         new_units,
-        new_leed,
-        effective_unit_change_leed
+        efficiency_description,
+        efficiency_unit_value
       ),
     new_mf %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
         new_units,
-        new_leed,
-        effective_unit_change_leed
+        efficiency_description,
+        efficiency_unit_value
       )
   )
 
   return(leed_buildings)
 }
 
-# LEED buildings will use less energy
-# Here, we are effectively reducing the housing count to account
-# for the energy savings from LEED buildings
-
 
 #' @title Calculate housing retrofit
 #' @family buildings
 #'
-#' @description adjusts single and multifamily housing unit
-#' forecast under the assumption of energy use reduction due to home
-#' retrofits.
+#' @description Calculates number of homes targeted for retrofits based on user inputs
+#' and CTU housing projections. This function must inherit an object from calc_housing_leed()
 #'
 #' @param .existing_home_retrofit_pct numeric,  a value between `0` and `1`.
 #'      Percentage of existing homes retrofitted to reduce energy usage by *33%*.
@@ -180,6 +188,7 @@ calc_residential_retrofit <- function(res_tb,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
                                       .retrofit_start_year,
+                                      .retrofit_end_year,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
@@ -189,77 +198,135 @@ calc_residential_retrofit <- function(res_tb,
   check_inputs(name = "existing_mf_retrofit_pct", .existing_mf_retrofit_pct)
   check_inputs(name = "retrofit_start_year", .retrofit_start_year)
 
-  if (.existing_sf_retrofit_pct == 0) {
-    cli::cli_warn("No change in existing single family home energy efficiency")
-    existing_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      mutate(retrofit_units = 0,
-             effective_unit_change_retro = 0)
-  } else if (.existing_sf_retrofit_pct != 0) {
-    existing_sf <- res_tb %>%
-      dplyr::filter(grepl("single", sp_categories)) %>%
-      dplyr::mutate(
-        existing_units = value - new_units,
-        retrofit_units = if_else(inventory_year < .retrofit_start_year,
-                                 0,
-                                 existing_units * .existing_sf_retrofit_pct),
-        effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
-      )
-  }
+  ### ramp up retrofits evenly from start year to end year
 
-  if (.existing_mf_retrofit_pct == 0) {
-    cli::cli_warn("No change in existing mutifamily home energy efficiency")
-    existing_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories))%>%
-      mutate(retrofit_units = 0,
-             effective_unit_change_retro = 0)
-  } else if (.existing_mf_retrofit_pct != 0) {
-    existing_mf <- res_tb %>%
-      dplyr::filter(grepl("multi", sp_categories)) %>%
-      dplyr::mutate(
-        new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base), # some cities lose sf,
-        existing_units = value - new_units,
-        retrofit_units = if_else(inventory_year < .retrofit_start_year,
-                                 0,
-                                 existing_units * .existing_mf_retrofit_pct),
-        effective_unit_change_retro = -1 * retrofit_units * .enviro_factors$EXISTING_HOME_RETROFIT_REDUCTION_PCT
+  ramp_years <- .retrofit_start_year:.retrofit_end_year
+  n_ramp <- length(ramp_years)
+
+  pct_ramp <- tibble::tibble(
+    inventory_year = ramp_years,
+    sf_pct = seq(
+      from = .existing_sf_retrofit_pct / n_ramp,
+      to = .existing_sf_retrofit_pct,
+      length.out = n_ramp
+    ),
+    mf_pct = seq(
+      from = .existing_mf_retrofit_pct / n_ramp,
+      to = .existing_mf_retrofit_pct,
+      length.out = n_ramp
+    )
+  )
+
+  # Join pct values by condition
+  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+    left_join(pct_ramp, by = "inventory_year") %>%
+    dplyr::mutate(
+      sf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_sf_retrofit_pct,
+        TRUE ~ sf_pct
+      ),
+      mf_pct = dplyr::case_when(
+        inventory_year < .retrofit_start_year ~ 0,
+        inventory_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
+        TRUE ~ mf_pct
       )
-  }
+    )
+
+
+  # if (.existing_sf_retrofit_pct == 0) {
+  #   cli::cli_warn("No change in existing single family home energy efficiency")
+  #   existing_sf <- res_tb %>%
+  #     dplyr::filter(grepl("single", sp_categories)) %>%
+  #     mutate(
+  #       retrofit_units = 0,
+  #       effective_unit_change_retro = 0
+  #     )
+  # } else if (.existing_sf_retrofit_pct != 0) {
+  existing_sf <- res_tb %>%
+    dplyr::filter(grepl("single", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, sf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * sf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-sf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+
+
+  # }
+
+
+  # if (.existing_mf_retrofit_pct == 0) {
+  #   cli::cli_warn("No change in existing multifamily home energy efficiency")
+  #   existing_mf <- res_tb %>%
+  #     dplyr::filter(grepl("multi", sp_categories)) %>%
+  #     mutate(
+  #       retrofit_units = 0,
+  #       effective_unit_change_retro = 0
+  #     )
+  # } else if (.existing_mf_retrofit_pct != 0) {
+  existing_mf <- res_tb %>%
+    dplyr::filter(grepl("multi", sp_categories)) %>%
+    left_join(pct_by_year %>% select(inventory_year, mf_pct),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
+      existing_units = value - new_units,
+      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+        0,
+        round(existing_units * mf_pct)
+      ),
+      existing_nonretrofit = existing_units - retrofit_units
+    ) %>%
+    select(-mf_pct) %>%
+    pivot_longer(
+      cols = c(retrofit_units, existing_nonretrofit),
+      names_to = "efficiency_description",
+      values_to = "efficiency_unit_value"
+    )
+  # }
 
   retrofit_results <- bind_rows(
     existing_sf %>%
+      ungroup() %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
-        new_leed,
-        effective_unit_change_leed,
-        retrofit_units,
-        effective_unit_change_retro
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
       ),
     existing_mf %>%
+      ungroup() %>%
       select(
         geog_name,
         geog_id,
-        # geog_id_type,
         sp_categories,
-        # geog_level,
         inventory_year,
         value,
         value_change_from_base,
-        new_leed,
-        effective_unit_change_leed,
-        retrofit_units,
-        effective_unit_change_retro
+        new_units,
+        efficiency_description,
+        efficiency_unit_value
       )
-  ) %>%
-    mutate(effective_unit_change = effective_unit_change_leed + effective_unit_change_retro) %>%
-    select(-c(effective_unit_change_leed, effective_unit_change_retro))
+  )
 
   return(retrofit_results)
 }

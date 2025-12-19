@@ -23,7 +23,7 @@ us_format <- function(year_folder) {
   # read all files in the folder and bind them
   urbansim_data <- read.csv(files_in_folder) %>%
     filter(!is.na(coctu_id)) %>%
-    pivot_longer(
+    tidyr::pivot_longer(
       cols = 2:112,
       names_to = "variable"
     ) %>%
@@ -81,11 +81,13 @@ us_formatted <- lapply(us_list, us_format) %>%
       "js_type_14"
     ) ~ "commercial_job_space",
     variable %in% c(
+      "manufactured_homes"
+    ) ~ "manufactured_homes",
+    variable %in% c(
       "single_fam_det_sl_own",
       "single_fam_det_rent",
-      "manufactured_homes"
-    ) ~ "single_family_small_lot",
-    variable == "single_fam_det_ll_own" ~ "single_family_large_lot",
+      "single_fam_det_ll_own"
+    ) ~ "single_family_detached",
     variable %in% c(
       "single_fam_attached_own",
       "single_fam_attached_rent"
@@ -143,10 +145,11 @@ demographic_data <- bind_rows(
   ungroup()
 
 # calculate urbansim deltas from base year to each other year
+# BASELINE YEAR SHOULD BE UPDATEABLE IN BUILDING ENERGY FLOW
 demographic_data <- demographic_data %>%
   left_join(
     demographic_data %>%
-      dplyr::filter(inventory_year == 2021) %>%
+      dplyr::filter(inventory_year == 2022) %>%
       dplyr::rename(base_value = value) %>%
       select(-inventory_year)
   ) %>%

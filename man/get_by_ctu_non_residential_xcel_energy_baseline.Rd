@@ -11,8 +11,9 @@ get_by_ctu_non_residential_xcel_energy_baseline(
 )
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
@@ -21,6 +22,7 @@ DEPRECATED Get Non Residential Xcel Energy by City/Township
 }
 \seealso{
 Other deprecated: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_demographic_forecast}()},
 \code{\link{calc_electrify_residential_heating}()},
@@ -29,7 +31,6 @@ Other deprecated:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_non_residential_energy_forecast}()},

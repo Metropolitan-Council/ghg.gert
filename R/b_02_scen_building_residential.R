@@ -1,7 +1,7 @@
 #' @title Calculate residential building strategies
 #' @family buildings, residential
 #'
-#' @description This function estimates the emissions of non-residential buildings under a user defined
+#' @description This function estimates the emissions of residential buildings under a user defined
 #'    decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 #'    electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 #'
@@ -70,6 +70,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .scenario = "",
                                       .selected_ctu,
                                       .baseline_year,
+                                      .density_output,
                                       # .new_homes_to_multifamily_pct,
                                       # .single_family_floor_area_growth_pct,
                                       # .new_homes_affected_pct,
@@ -80,12 +81,14 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .new_sf_homes_leed_gold_pct,
                                       .new_mf_homes_leed_gold_pct,
                                       .retrofit_start_year,
+                                      .retrofit_end_year,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
                                       # .home_behavior_change_pct,
                                       # .grid_decarbonization_pct,
                                       # .additional_electrified_residential_buildings_pct,
                                       .heatpump_start_year,
+                                      .heatpump_end_year,
                                       .sf_heat_pump_pct,
                                       .mf_heat_pump_pct,
                                       # .renewable_ng_res,
@@ -95,25 +98,16 @@ scen_building_residential <- function(res_tb = res_tb,
 
 
   # browser()
-  # B.R1 (MF to SF)
-  # tb01 <- ghg.ccap::adj_unit_counts(
-  #   res_tb = res_tb,
-  #   .selected_ctu = .selected_ctu,
-  #   .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct
-  # )
-
-  # # B.R2 (Floor Area change)
-  # # removed this function from active use as it was causing differences between BAU and scenario (with no strategies selected)
-  # tb02 <- calc_floor_area_growth(
-  #   res_tb = tb01,
-  #   .selected_ctu = .selected_ctu,
-  #   .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-  #   .new_homes_affected_pct = .new_homes_affected_pct
-  # )
+  # B.R1 (SF to MF)
+  tb01 <- ghg.ccap::adj_unit_counts(
+    res_tb = res_tb,
+    density_output = .density_output,
+    .selected_ctu = .selected_ctu
+  )
 
   # B.R3 (New Homes LEED Gold)
-  tb03 <- calc_housing_leed(
-    res_tb = res_tb,
+  tb02 <- calc_housing_leed(
+    res_tb = tb01,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
     .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
@@ -122,56 +116,54 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   # B.R4 + BR5 (Retrofit Homes)
-  tb04 <- calc_residential_retrofit(
-    res_tb = tb03,
+  tb03 <- calc_residential_retrofit(
+    res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .retrofit_start_year = .retrofit_start_year,
+    .retrofit_end_year = .retrofit_end_year,
     .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
     .enviro_factors = .enviro_factors
   )
 
-  # B.R6 (Behavior Change)
-  # tb05 <- calc_floor_area_behavior_change(
-  #   res_tb = tb04,
-  #   .selected_ctu = .selected_ctu,
-  #   .home_behavior_change_pct = .home_behavior_change_pct,
-  #   .enviro_factors = .enviro_factors
-  # )
-  #
-  # tb06 <- calc_ghg_residential(
-  #   res_tb = tb05,
-  #   res_tb_bau = res_tb_bau,
-  #   .selected_ctu = .selected_ctu,
-  #   .grid_decarbonization_pct = .grid_decarbonization_pct,
-  #   .enviro_factors = .enviro_factors
-  # )
-  #
-  # # B.R (Electrify residential Buildings)
-  # tb07 <- calc_electrify_residential_heating(
-  #   res_tb = tb04,
-  #   .selected_ctu = .selected_ctu,
-  #   .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-  #   .enviro_factors = .enviro_factors
-  # )
-  #
-  # # (Renewable Natural Gas)
-  # tb08 <- calc_residential_renewable_ng(
-  #   res_tb = tb07,
-  #   .selected_ctu = .selected_ctu,
-  #   .renewable_ng_res = .renewable_ng_res,
-  #   .enviro_factors = .enviro_factors
-  # )
+  tb04 <- bind_rows(
+    tb02,
+    tb03
+  )
 
+  # repeat with no changes for BAU scenario
+
+  tb05 <- calc_housing_leed(
+    res_tb = res_tb,
+    .selected_ctu = .selected_ctu,
+    .leed_start_year = .leed_start_year,
+    .new_sf_homes_leed_gold_pct = 0,
+    .new_mf_homes_leed_gold_pct = 0,
+    .enviro_factors = .enviro_factors
+  )
+
+  tb06 <- calc_residential_retrofit(
+    res_tb = res_tb,
+    .selected_ctu = .selected_ctu,
+    .retrofit_start_year = .retrofit_start_year,
+    .retrofit_end_year = .retrofit_end_year,
+    .existing_sf_retrofit_pct = 0,
+    .existing_mf_retrofit_pct = 0,
+    .enviro_factors = .enviro_factors
+  )
+
+  tb07 <- bind_rows(
+    tb05,
+    tb06
+  )
 
   tb09 <- calc_energy_residential(
     res_tb = tb04,
-    res_tb_bau = res_tb_bau,
+    res_tb_bau = tb07,
     .scenario = .scenario,
-    .mwh_coefficients = ghg.ccap::mwh_coefficients,
-    .mcf_coefficients = ghg.ccap::mcf_coefficients,
     .baseline_year = .baseline_year,
     .heatpump_start_year = .heatpump_start_year,
+    .heatpump_end_year = .heatpump_end_year,
     .sf_heat_pump_pct = .sf_heat_pump_pct,
     .mf_heat_pump_pct = .mf_heat_pump_pct,
     .selected_ctu = .selected_ctu,

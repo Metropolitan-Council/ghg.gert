@@ -41,7 +41,7 @@ check_inputs <- function(name, value) {
     }
   } else if (name %in% c("parking_price")) {
     if (value > 200 | value < 0) {
-      cli::cli_abort("Enter a valid parking price between 0 and 200 dollars per hour")
+      cli::cli_abort("Enter a valid parking price between 0 and 200 dollars per hour, not ", value)
     }
   } else if (name %in% c(
     "bev_pct_sales",
@@ -56,8 +56,8 @@ check_inputs <- function(name, value) {
     "comb_5d_impact_pct_change",
     "telework_pct"
   )) {
-    if (value > 1 | value < -1) {
-      cli::cli_abort(paste("Enter a valid", name, "value between -1 and 1"))
+    if ((!is.numeric(value)) | value > 1 | value < -1) {
+      cli::cli_abort(paste("Enter a valid", name, "value between -1 and 1, not ", value))
     }
 #~ BUILDING ENERGY ####
   } else if (name %in% c(
@@ -124,7 +124,9 @@ check_inputs <- function(name, value) {
     }
   } else  if (name == "mode") {
     if (!value %in% c(
-      "BU", "BRT", "RU", "RI",
+      "BU",
+      # "BRT",
+      "RU", "RI",
       "SUT", "CUT", "BIKE", "WALK",
       "BS", "FR", "PLDV",
       "MM", "AIR", "WAT"
@@ -132,7 +134,9 @@ check_inputs <- function(name, value) {
       cli::cli_abort(c(
         "Enter a valid mode",
         paste(
-          "BU", "BRT", "RU", "RI",
+          "BU",
+          # "BRT",
+          "RU", "RI",
           "SUT", "CUT", "BIKE", "WALK",
           "BS", "FR", "PLDV",
           "MM", "AIR", "WAT"

@@ -10,13 +10,16 @@ scen_building_residential(
   .scenario = "",
   .selected_ctu,
   .baseline_year,
+  .density_output,
   .leed_start_year,
   .new_sf_homes_leed_gold_pct,
   .new_mf_homes_leed_gold_pct,
   .retrofit_start_year,
+  .retrofit_end_year,
   .existing_sf_retrofit_pct,
   .existing_mf_retrofit_pct,
   .heatpump_start_year,
+  .heatpump_end_year,
   .sf_heat_pump_pct,
   .mf_heat_pump_pct,
   .grid_emissions = ghg.ccap::grid_emissions,
@@ -71,7 +74,7 @@ Default is \code{ghg.ccap::grid_emissions}}
 }\if{html}{\out{</div>}}
 }
 \description{
-This function estimates the emissions of non-residential buildings under a user defined
+This function estimates the emissions of residential buildings under a user defined
 decarbonization scenario. It takes into account strategies such as energy efficiency improvements,
 electrification of heating systems, grid decarbonization, and renewable natural gas adoption.
 }

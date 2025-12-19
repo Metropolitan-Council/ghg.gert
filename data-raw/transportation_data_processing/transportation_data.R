@@ -78,7 +78,7 @@ ctu_year_unique <- pass_transpo_long %>%
 passenger_transpo_all <- pass_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
-  right_join(ctu_year_unique) %>%
+  right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(pass_transpo_long))
 
 
@@ -110,7 +110,7 @@ freight_transpo_all <- freight_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
   unique() %>%
-  right_join(ctu_year_unique) %>%
+  right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(freight_transpo_long))
 
 

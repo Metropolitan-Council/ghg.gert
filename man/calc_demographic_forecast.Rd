@@ -7,8 +7,9 @@
 calc_demographic_forecast(tb = building_energy_data, .selected_ctu = "all")
 }
 \arguments{
-\item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-The input dataset to be used.}
+\item{tb}{input table for appropriate mode type. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
+and one for each year. Package provided datasets \code{transportation_data$passenger} or
+\code{transportation_data$freight} are suitable.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
@@ -26,10 +27,15 @@ calc_demographic_forecast(tb = building_energy_data)$ctu
 }
 \seealso{
 Other buildings: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
+\code{\link{calc_building_energy}()},
+\code{\link{calc_business_leed}()},
+\code{\link{calc_business_retrofit}()},
 \code{\link{calc_electrify_commercial_heating}()},
 \code{\link{calc_electrify_residential_heating}()},
+\code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
 \code{\link{calc_floor_area_behavior_change}()},
@@ -51,10 +57,10 @@ Other buildings:
 \code{\link{get_residential_energy_baseline}()},
 \code{\link{get_residential_mcf_baseline}()},
 \code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()},
-\code{\link{scen_building_non_residential}()}
+\code{\link{run_scenario_building}()}
 
 Other deprecated: 
+\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_existing_comm_building_efficiency}()},
@@ -62,7 +68,6 @@ Other deprecated:
 \code{\link{calc_floor_area_growth}()},
 \code{\link{calc_floor_area_leed}()},
 \code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_mfh_retrofit}()},
 \code{\link{calc_non_res_renewable_ng}()},
 \code{\link{calc_non_residential_energy_forecast}()},

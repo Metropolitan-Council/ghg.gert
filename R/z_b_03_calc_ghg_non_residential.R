@@ -22,7 +22,6 @@
 #' @inheritParams filter_ctu
 #' @inheritParams scen_building_non_residential
 #'
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -38,7 +37,7 @@
 #'   .existing_high_efficiency_buildings_pct = 0.8
 #' )
 #' }
-calc_ghg_non_residential <- function(non_res_tb,
+DEPRECATED_calc_ghg_non_residential <- function(non_res_tb,
                                      non_res_tb_bau,
                                      .selected_ctu,
                                      .smart_grid_energy_reduction_pct,

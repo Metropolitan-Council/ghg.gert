@@ -3,7 +3,7 @@
 \docType{data}
 \name{lc_county}
 \alias{lc_county}
-\title{Land cover type by county and year (2001 to 20221)}
+\title{Land cover type by county and year (2001 to 2021)}
 \format{
 Single dataframe
 \describe{
@@ -24,7 +24,7 @@ extrapolated values}
 lc_county
 }
 \description{
-Land cover type by county and year (2001 to 20221)
+Land cover type by county and year (2001 to 2021)
 }
 \examples{
 library(ghg.ccap)
@@ -43,7 +43,8 @@ Other datasets:
 \code{\link{geog_index}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
-\code{\link{transportation_index}}
+\code{\link{transportation_index}},
+\code{\link{waste_data}}
 }
 \concept{datasets}
 \keyword{datasets}

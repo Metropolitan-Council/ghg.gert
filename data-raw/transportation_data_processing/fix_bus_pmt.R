@@ -1,5 +1,5 @@
 # fix bus PMT forecasts----
-# Re-assign BRT PMT to BS PMT
+# Re-assign BRT PMT to BU PMT
 
 # double check that all transit PMT == sum of transit PMTS
 all_transit <- transportation_data$passenger %>%
@@ -22,11 +22,12 @@ waldo::compare(all_transit, man_all_transit,
   tolerance = 0.1
 )
 
-# re-assign BRT PMT to BS ----
+# re-assign BRT PMT to BU ----
+# NOT "BS" (school buses!!!!)
 total_bus_pmt <- transportation_data$passenger %>%
   filter(
     var == "PMT",
-    mode %in% c("BRT", "BS")
+    mode %in% c("BRT", "BU")
   ) %>%
   group_by(year, ctu) %>%
   summarize(total_pmt = sum(value), .groups = "keep")
@@ -34,11 +35,11 @@ total_bus_pmt <- transportation_data$passenger %>%
 bus_all_pmt <- transportation_data$passenger %>%
   filter(
     var == "PMT",
-    mode %in% c("BRT", "BS")
+    mode %in% c("BRT", "BU")
   ) %>%
   group_by(year, ctu, var, aeo_mode, type) %>%
   summarize(value = sum(value), .groups = "keep") %>%
-  mutate(mode = "BS") %>%
+  mutate(mode = "BU") %>%
   select(names(transportation_data$passenger))
 
 
@@ -50,7 +51,7 @@ waldo::compare(
 )
 
 transportation_data$passenger <- transportation_data$passenger %>%
-  anti_join(bus_all_pmt, by = c("mode", "var", "ctu", "year", "aeo_mode", "type")) %>%
+  filter(!(mode %in% c("BRT", "BU") & var == "PMT")) %>%
   bind_rows(bus_all_pmt)
 
 usethis::use_data(transportation_data, overwrite = TRUE)
