@@ -69,12 +69,15 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                   # .manure_handling = 0.0,
                                   # fertilizer
                                   .smart_fertilizer_start_year = 2028,
-                                  .smart_fertilizer = 0.0,
+                                  .smart_fertilizer_current = 0.0,
+                                  .smart_fertilizer_goal = 0.0,
                                   # crops
                                   .cover_crops_start_year = 2028,
-                                  .cover_crops = 0.0,
+                                  .cover_crops_current = 0.0,
+                                  .cover_crops_goal = 0.0,
                                   .no_till_start_year = 2028,
-                                  .no_till = 0.0
+                                  .no_till_current = 0.0,
+                                  .no_till_goal = 0.0
 ) {
 
   livestock_tb <- filter_ctu(livestock_tb, .selected_ctu = .selected_ctu)
@@ -82,94 +85,56 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
 
-  l_names <- c(
-    # manure
-    "manure_management_start_year",
-    "manure_management",
-    # fertilizer
-    "smart_fertilizer_start_year",
-    "smart_fertilizer_application",
-    # crops
-    "cover_crops_start_year",
-    "cover_crops",
-    "no_till_start_year",
-    "no_till_agriculture"
-  )
+  # l_names <- c(
+  #   # manure
+  #   "manure_management_start_year",
+  #   "manure_management",
+  #   # fertilizer
+  #   "smart_fertilizer_start_year",
+  #   "smart_fertilizer_application",
+  #   # crops
+  #   "cover_crops_start_year",
+  #   "cover_crops",
+  #   "no_till_start_year",
+  #   "no_till_agriculture"
+  # )
+  #
+  # l_vals <- list(
+  #   # manure
+  #   .manure_start_year,
+  #   .manure_handling,
+  #   # fertilizer
+  #   .smart_fertilizer_start_year ,
+  #   .smart_fertilizer,
+  #   # crops
+  #   .cover_crops_start_year,
+  #   .cover_crops,
+  #   .no_till_start_year,
+  #   .no_till
+  # )
+  #
+  # purrr::map2(l_names, l_vals, check_inputs)
 
-  l_vals <- list(
-    # manure
-    .manure_start_year,
-    .manure_handling,
-    # fertilizer
-    .smart_fertilizer_start_year ,
-    .smart_fertilizer,
-    # crops
-    .cover_crops_start_year,
-    .cover_crops,
-    .no_till_start_year,
-    .no_till
-  )
-
-  purrr::map2(l_names, l_vals, check_inputs)
-
-  if (run_residential == TRUE) {
-    res <-
-      scen_building_residential(
-        res_tb = res_tb,
-        res_tb_bau = res_tb_bau,
-        .selected_ctu = .selected_ctu,
-        .scenario = .scenario,
-        .baseline_year = .baseline_year,
-        .leed_start_year = .leed_start_year,
-        .retrofit_start_year = .retrofit_start_year,
-        .heatpump_start_year = .heatpump_start_year,
-        .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
-        .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
-        .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
-        .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
-        .sf_heat_pump_pct = .sf_heat_pump_pct,
-        .mf_heat_pump_pct = .mf_heat_pump_pct,
-        .enviro_factors = .enviro_factors,
-        .grid_emissions = .grid_emissions
+  if (run_manure = =TRUE) {
+    manure <-
+      calculate_manure_emissions(
+        agriculture_variables = ghg.ccap::agriculture_variables,
+        run_manure = .run_manure,
+        gwp_list = ghg.ccap::gwp_list,
+        .selected_ctu = .selected_ctu
       )
   }
 
-  # if (run_non_residential == TRUE) {
-  #   non_res <-
-  #     scen_building_non_residential(
-  #       non_res_tb = non_res_tb,
-  #       non_res_tb_bau = non_res_tb_bau,
-  #       .selected_ctu = .selected_ctu,
-  #       .existing_high_efficiency_buildings_pct = .existing_high_efficiency_buildings_pct,
-  #       .electrified_buildings_pct = .electrified_buildings_pct,
-  #       .grid_decarbonization_pct = .grid_decarbonization_pct,
-  #       .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-  #       .renewable_ng_nonres = .renewable_ng_nonres,
-  #       .enviro_factors = .enviro_factors
-  #     ) %>%
-  #     dplyr::mutate(year = as.character(year)) %>%
-  #     dplyr::filter(!(var %in% c(
-  #       "commercial_electricity_emissions_kg_co",
-  #       "industrial_electricity_emissions_kg_co",
-  #       "commercial_natural_gas_emissions_kg_co",
-  #       "industrial_natural_gas_emissions_kg_co",
-  #       "total_industrial_commercial_emissions"
-  #     )))
-  # }
+  if (run_fertilizer == TRUE) {
+    fertilizer <-
+      run_module_croplands(
+        agriculture_variables = ghg.ccap::agriculture_variables,
+        run_manure = .run_manure,
+        gwp_list = ghg.ccap::gwp_list,
+        .selected_ctu = .selected_ctu
+      )
+  }
 
-  # building_module_ouput <-
-  #   if (run_residential == TRUE & run_non_residential == TRUE) {
-  #     dplyr::bind_rows(
-  #       (res %>%
-  #         dplyr::mutate(year = as.character(year))),
-  #       (non_res %>%
-  #         dplyr::mutate(year = as.character(year)))
-  #     )
-  #   } else if (run_residential == FALSE) {
-  #     non_res
-  #   } else {
-  #     res
-  #   }
 
   building_module_ouput <- res
 
