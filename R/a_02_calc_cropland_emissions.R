@@ -21,11 +21,11 @@
 #'
 #'
 
-calculate_cropland_emissions <- function(fertilizer_tb = fertilizer_tb,
-                                   crops_tb = crops_tb,
+calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
+                                   crops_tb = .crops_tb,
                                    # adjust_livestock_baseline = FALSE,
                                    .baseline_year = .baseline_year,
-                                   .ag_land_perserved = 1,
+                                   .cropland_decrease_2050 = .cropland_decrease_2050,
                                    .selected_ctu = .selected_ctu,
                                    .scenario = "alt",
                                    .smart_fertilizer_start_year = .smart_fertilizer_start_year,
@@ -43,8 +43,15 @@ calculate_cropland_emissions <- function(fertilizer_tb = fertilizer_tb,
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
 
+  fertilizer_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
+    filter(grepl("fertilizer", source, ignore.case = TRUE))
+
+  crop_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
+    filter(source == "Soil residue emissions")
+
   browser()
 
+  ### adjust baseline emissions based on
 
   building_module_ouput <- res
 

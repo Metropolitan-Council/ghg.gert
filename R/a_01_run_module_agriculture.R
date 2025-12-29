@@ -84,7 +84,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   livestock_tb <- filter_ctu(livestock_tb, .selected_ctu = .selected_ctu)
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
-  area_tb <- filter(area_tb, .selected_ctu = .selected_ctu)
+  area_tb <- filter_ctu(area_tb, .selected_ctu = .selected_ctu)
 
   # check area reduction doesn't exceed area
   if(cropland_decrease_2050 >
@@ -122,25 +122,36 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   #
   # purrr::map2(l_names, l_vals, check_inputs)
 
-  if (run_manure == TRUE) {
-    manure <-
-      calculate_manure_emissions(
-        agriculture_variables = ghg.ccap::agriculture_variables,
-        run_manure = .run_manure,
-        gwp_list = ghg.ccap::gwp_list,
-        .selected_ctu = .selected_ctu
-      )
-  }
 
-  if (run_fertilizer == TRUE) {
-    fertilizer <-
-      run_module_croplands(
-        .fertilizer_tb = fertilizer_tb,
-        .smart_fertilizer_start_year = 2028,
-        .smart_fertilizer_current = 0.0,
-        .smart_fertilizer_goal = 0.0,
+    # manure <-
+    #   calculate_manure_emissions(
+    #     agriculture_variables = ghg.ccap::agriculture_variables,
+    #     run_manure = .run_manure,
+    #     gwp_list = ghg.ccap::gwp_list,
+    #     .selected_ctu = .selected_ctu
+    #   )
+
+    cropland <-
+      calculate_cropland_emissions(
+        fertilizer_tb = fertilizer_tb,
+        crops_tb = crops_tb,
+        .baseline_year = .baseline_year,
+        .cropland_decrease_2050 = .cropland_decrease_2050,
+        .selected_ctu = .selected_ctu,
+        .scenario = "alt",
+        .smart_fertilizer_start_year = .smart_fertilizer_start_year,
+        .smart_fertilizer_current = .smart_fertilizer_current,
+        .smart_fertilizer_goal = .smart_fertilizer_goal,
+        # crops
+        .cover_crops_start_year = .cover_crops_start_year,
+        .cover_crops_current = .cover_crops_current,
+        .cover_crops_goal = .cover_crops_goal,
+        .no_till_start_year = .no_till_start_year,
+        .no_till_current = .no_till_current,
+        .no_till_goal = .no_till_goal
       )
-  }
+
+
 
 
   building_module_ouput <- res

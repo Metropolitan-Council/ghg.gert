@@ -17,7 +17,7 @@ calculate_manure_emissions <- function(agriculture_variables = ghg.ccap::agricul
 
 
   livestock_df <- filter_ctu(ghg.ccap::agriculture_activity_data$livestock, .selected_ctu = .selected_ctu)
-browser()
+
 
   # Validate inputs
   required_livestock_cols <- c("county_name", "inventory_year", "livestock_type", "head_count")
@@ -110,6 +110,7 @@ browser()
   solids_perc <- manure_split %>%
     filter(storage_state == "Solid") %>%
     select(inventory_year, livestock_type, solid_perc = percentage)
+browser()
 
   n2o_emissions <- livestock_df %>%
     left_join(nex_data,
@@ -117,20 +118,20 @@ browser()
     left_join(liquids_perc, by = c("inventory_year", "livestock_type")) %>%
     left_join(solids_perc, by = c("inventory_year", "livestock_type")) %>%
     mutate(
-      liquids_perc = replace_na(liquids_perc, 0),
-      solids_perc = replace_na(solids_perc, 0)
+      liquid_perc = replace_na(liquid_perc, 0),
+      solid_perc = replace_na(solid_perc, 0)
     ) %>%
     mutate(
       mt_n2o_liquids = head_count *
         kg_nex_head_yr *
         (1 - ag_constants_vec["VolPercent"]) *
-        liquids_perc *
+        liquid_perc *
         ag_constants_vec["LiquidEF"] *
         ag_constants_vec["N2O_N2"] / 1000,
       mt_n2o_solids = head_count *
         kg_nex_head_yr *
         (1 - ag_constants_vec["VolPercent"]) *
-        solids_perc *
+        solid_perc *
         ag_constants_vec["SolidEF"] *
         ag_constants_vec["N2O_N2"] / 1000,
       mt_co2e_liquids = mt_n2o_liquids * gwp_list$n2o,
@@ -224,7 +225,7 @@ browser()
   # ===== N2O EMISSIONS FROM DIRECT SOIL APPLICATION =====
 
   # Calculate management type percentages
-  manure_mgmt_perc <- ag_manure_mgmt_complete %>%
+  manure_mgmt_perc <- ghg.ccap::ag_manure_mgmt_complete %>%
     mutate(management_type = case_when(
       managed == "Yes" ~ "Managed",
       mgmt_system %in% c("Pasture", "PRP", "Dry Lot", "Range",
