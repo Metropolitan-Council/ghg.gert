@@ -41,19 +41,23 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
 ) {
 
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
-  crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
+  crops_tb <- filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
 
-  fertilizer_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
-    filter(grepl("fertilizer", source, ignore.case = TRUE))
+  cropland_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
+    filter(category == "Cropland")
 
-  crop_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
-    filter(source == "Soil residue emissions")
+  cropland_bau <- if(.cropland_decrease_2050 == 0) cropland_emissions %>%
+    mutate(scenario == "bau") else {
+      adj_cropland_area(
+        emissions = cropland_emissions,
+        .cropland_decrease_2050 = .cropland_decrease_2050
+      )
+    }
+
 
   browser()
 
-  ### adjust baseline emissions based on
+  ### adjust fertilizer emissions
 
-  building_module_ouput <- res
-
-  return(building_module_ouput)
+  return(cropland_ouput)
 }
