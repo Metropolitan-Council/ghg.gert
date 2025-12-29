@@ -86,8 +86,12 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
   area_tb <- filter_ctu(area_tb, .selected_ctu = .selected_ctu)
 
+  #convert input cropland area (acres to sq km)
+
+  cropland_decrease_2050_km <- cropland_decrease_2050 * 0.00404686
+
   # check area reduction doesn't exceed area
-  if(cropland_decrease_2050 >
+  if(cropland_decrease_2050_km >
     area_tb %>% filter(inventory_year == 2050) %>%
     pull(area)) cli::cli_abort("Cropland area decrease exceeds current cropland area")
 
@@ -135,8 +139,9 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
       calculate_cropland_emissions(
         fertilizer_tb = fertilizer_tb,
         crops_tb = crops_tb,
+        area_tb = area_tb,
         .baseline_year = .baseline_year,
-        .cropland_decrease_2050 = .cropland_decrease_2050,
+        .cropland_decrease_2050 = cropland_decrease_2050_km,
         .selected_ctu = .selected_ctu,
         .scenario = "alt",
         .smart_fertilizer_start_year = .smart_fertilizer_start_year,

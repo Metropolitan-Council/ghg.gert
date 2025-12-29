@@ -25,6 +25,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                                    crops_tb = .crops_tb,
                                    # adjust_livestock_baseline = FALSE,
                                    .baseline_year = .baseline_year,
+                                   area_tb = area_tb,
                                    .cropland_decrease_2050 = .cropland_decrease_2050,
                                    .selected_ctu = .selected_ctu,
                                    .scenario = "alt",
@@ -50,12 +51,14 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
     mutate(scenario == "bau") else {
       adj_cropland_area(
         emissions = cropland_emissions,
+        ag_area = area_tb,
+        .baseline_year = .baseline_year,
         .cropland_decrease_2050 = .cropland_decrease_2050
       )
     }
 
 
-  browser()
+  #browser()
 
   ### adjust fertilizer emissions
 
