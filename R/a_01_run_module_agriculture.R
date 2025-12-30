@@ -159,7 +159,5 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
 
 
 
-  building_module_ouput <- res
-
-  return(building_module_ouput)
+  #return(agriculture_module_output)
 }

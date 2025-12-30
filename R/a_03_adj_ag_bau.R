@@ -26,7 +26,7 @@ adj_cropland_area <- function(emissions,
                               .baseline_year = .baseline_year,
                               .cropland_decrease_2050) {
 
-  browser()
+  # browser()
 
   # reduction factor - 2022 ag area - reduction / 2022 ag area
   baseline_area <- ag_area %>%
@@ -38,11 +38,11 @@ adj_cropland_area <- function(emissions,
   emissions_predict <- emissions %>%
     filter(inventory_year == .baseline_year) %>%
   crossing(emissions_year = .baseline_year:2050) %>%
-    # Calculate adjusted emissions based on red_fac, reducing linearly from 2028 to 2050
+    # calculate adjusted emissions based on red_fac, reducing linearly from 2028 to 2050
     mutate(
       value_emissions = case_when(
-        emissions_year <= 2028 ~ value_emissions,  # Lock to baseline until 2028
-        emissions_year > 2028 ~ value_emissions * (1 - (1 - red_fac) * (emissions_year - 2028) / (2050 - 2028))  # Linear reduction
+        emissions_year <= 2028 ~ value_emissions,  # no changes from baseline to 2028
+        emissions_year > 2028 ~ value_emissions * (1 - (1 - red_fac) * (emissions_year - 2028) / (2050 - 2028))  # linear reduction of ag loss from 2028 to 2050
       ),
       inventory_year = emissions_year
     ) %>%

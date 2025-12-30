@@ -47,6 +47,8 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
   cropland_emissions <- filter_ctu(agricultural_emissions, .selected_ctu = .selected_ctu) %>%
     filter(category == "Cropland")
 
+  #adjust BAU downwards if cropland is being abandoned
+
   cropland_bau <- if(.cropland_decrease_2050 == 0) cropland_emissions %>%
     mutate(scenario == "bau") else {
       adj_cropland_area(
@@ -57,10 +59,46 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
       )
     }
 
-
   #browser()
+
+  # bring in agricultural area (acres) of municiplaity for emissions factor calcs
+  ag_area_acreage <- area_tb %>%
+    filter(inventory_year == .baseline_year) %>%
+    pull(area) * 247.105
 
   ### adjust fertilizer emissions
 
-  return(cropland_ouput)
+  fertilizer_alt <- if(.smart_fertilizer_goal > .smart_fertilizer_current) {
+    calc_smart_fertilizer(emissions = cropland_bau,
+                          .ag_area = ag_area_acreage,
+                          .baseline_year = .baseline_year,
+                          .scenario = .scenario,
+                          .smart_fertilizer_start_year = .smart_fertilizer_start_year,
+                          .smart_fertilizer_current = .smart_fertilizer_current,
+                          .smart_fertilizer_goal = .smart_fertilizer_goal)
+  } else{cropland_bau %>%
+      filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
+      mutate(scenario = .scenario)
+  }
+  browser()
+
+  # regenerative ag products
+
+  crops_alt <- if(.cover_crops_goal + .no_till_goal > .cover_crops_current + .no_till_current) {
+    calc_crops(emissions = cropland_bau,
+                          .ag_area = ag_area_acreage,
+                          .baseline_year = .baseline_year,
+                          .scenario = .scenario,
+               .cover_crops_start_year = .cover_crops_start_year,
+               .cover_crops_current = .cover_crops_current,
+               .cover_crops_goal = .cover_crops_goal,
+               .no_till_start_year = .no_till_start_year,
+               .no_till_current = .no_till_current,
+               .no_till_goal = .no_till_goal)
+  } else{cropland_bau %>%
+      filter(source == "") %>%
+      mutate(scenario = .scenario)
+  }
+
+  #return(cropland_output)
 }
