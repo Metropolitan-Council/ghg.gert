@@ -156,7 +156,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
         .no_till_goal = .no_till_goal
       )
 
-
+  browser()
 
 
   #return(agriculture_module_output)

@@ -49,19 +49,29 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
 
   #adjust BAU downwards if cropland is being abandoned
 
-  cropland_bau <- if(.cropland_decrease_2050 == 0) cropland_emissions %>%
-    mutate(scenario == "bau") else {
-      adj_cropland_area(
+  # cropland_bau <- if(.cropland_decrease_2050 == 0) cropland_emissions %>%
+  #   mutate(scenario = "bau") else {
+  #     adj_cropland_area(
+  #       emissions = cropland_emissions,
+  #       ag_area = area_tb,
+  #       .baseline_year = .baseline_year,
+  #       .cropland_decrease_2050 = .cropland_decrease_2050
+  #     )
+  #   }
+
+  cropland_adj <- adj_cropland_area(
         emissions = cropland_emissions,
         ag_area = area_tb,
         .baseline_year = .baseline_year,
         .cropland_decrease_2050 = .cropland_decrease_2050
       )
-    }
+
+  cropland_bau <- cropland_adj$emissions_bau
+  ag_area_adj <- cropland_adj$ag_area_adj
 
   #browser()
 
-  # bring in agricultural area (acres) of municiplaity for emissions factor calcs
+  # bring in agricultural area (acres) of municipality for emissions factor calcs
   ag_area_acreage <- area_tb %>%
     filter(inventory_year == .baseline_year) %>%
     pull(area) * 247.105
@@ -87,7 +97,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
 
   crops_alt <- if(.cover_crops_goal + .no_till_goal > .cover_crops_current + .no_till_current) {
     calc_crops(emissions = cropland_bau,
-                          .ag_area = ag_area_acreage,
+                          ag_area_adj = ag_area_adj,
                           .baseline_year = .baseline_year,
                           .scenario = .scenario,
                .cover_crops_start_year = .cover_crops_start_year,
@@ -101,5 +111,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
       mutate(scenario = .scenario)
   }
 
-  #return(cropland_output)
+  cropland_output <- bind_rows(fertilizer_alt,crops_alt)
+
+  return(cropland_output)
 }

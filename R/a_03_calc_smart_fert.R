@@ -32,7 +32,6 @@
 calc_smart_fertilizer <- function(emissions,
                                   .scenario,
                                   .baseline_year,
-                                  .ag_area,
                                   .smart_fertilizer_current,
                                   .smart_fertilizer_goal,
                                   .smart_fertilizer_start_year) {
@@ -50,7 +49,7 @@ calc_smart_fertilizer <- function(emissions,
   # which provides nitrogen inhibitor and slow-release (PCF) reduction estimates
   # of 38% and 35%, respectively.
 
-  red_fac <- (0.38 + 0.35) / 2
+  red_fac <- ((0.38 + 0.35) / 2) * .smart_fertilizer_goal
 
   #browser()
 
