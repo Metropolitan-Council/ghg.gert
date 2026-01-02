@@ -80,7 +80,8 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
       filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
       mutate(scenario = .scenario)
   }
-  browser()
+
+  #browser()
 
   # regenerative ag products
 
