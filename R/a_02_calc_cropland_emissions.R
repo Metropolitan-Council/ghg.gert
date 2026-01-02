@@ -80,7 +80,6 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
 
   fertilizer_alt <- if(.smart_fertilizer_goal > .smart_fertilizer_current) {
     calc_smart_fertilizer(emissions = cropland_bau,
-                          .ag_area = ag_area_acreage,
                           .baseline_year = .baseline_year,
                           .scenario = .scenario,
                           .smart_fertilizer_start_year = .smart_fertilizer_start_year,
@@ -88,7 +87,10 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                           .smart_fertilizer_goal = .smart_fertilizer_goal)
   } else{cropland_bau %>%
       filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
-      mutate(scenario = .scenario)
+      group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
+      summarize(value_emissions = sum(value_emissions)) %>%
+      ungroup() %>%
+      mutate(source = "Fertilizer emissions")
   }
 
   #browser()
@@ -107,7 +109,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                .no_till_current = .no_till_current,
                .no_till_goal = .no_till_goal)
   } else{cropland_bau %>%
-      filter(source == "") %>%
+      filter(source == "Soil residue emissions") %>%
       mutate(scenario = .scenario)
   }
 

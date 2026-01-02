@@ -37,7 +37,7 @@ calc_smart_fertilizer <- function(emissions,
                                   .smart_fertilizer_start_year) {
 
 
-  fertilizer_emissions <- emissions %>%
+  fertilizer_emissions_bau <- emissions %>%
     filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
     group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
     summarize(value_emissions = sum(value_emissions)) %>%
@@ -53,7 +53,7 @@ calc_smart_fertilizer <- function(emissions,
 
   #browser()
 
-  fertilizer_emissions_alt <- fertilizer_emissions %>%
+  fertilizer_emissions_alt <- fertilizer_emissions_bau %>%
   mutate(
     value_emissions = case_when(
       inventory_year < .smart_fertilizer_start_year ~ value_emissions,  # no changes from baseline to 2028
@@ -64,7 +64,7 @@ calc_smart_fertilizer <- function(emissions,
     scenario = .scenario
   )
 
-  fertilizer_emissions <- bind_rows(fertilizer_emissions, fertilizer_emissions_alt)
+  fertilizer_emissions <- bind_rows(fertilizer_emissions_bau, fertilizer_emissions_alt)
 
   return(fertilizer_emissions)
 }
