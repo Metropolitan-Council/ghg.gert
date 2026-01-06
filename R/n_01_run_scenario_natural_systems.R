@@ -61,10 +61,6 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$inventory
 
 
 
-  # browser()
-
-
-
 
   ## module 1 - restore wetlands -----
   #+ here's the rub: restoring wetlands based on potential_wetland_area incurs

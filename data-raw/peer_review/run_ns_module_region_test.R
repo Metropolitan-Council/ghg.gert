@@ -70,6 +70,65 @@ mod_bau %>%
 
 
 
+ghg.ccap::run_scenario_natural_systems(
+  .selected_ctu = "Saint Bonifacius",
+  tb_inv = natural_systems_data$inventory,
+  tb_future = natural_systems_data$projections,
+  tb_seq = natural_systems_data$land_cover_carbon,
+  .enviro_factors = ghg.ccap::enviro_factors,
+
+  # # # user inputs here!
+  # .wetland_restore_start = 2025,
+  # .wetland_restore_end = 2030,
+  # .wetland_restore_fromGrass_perc = 100, # percent of grassland to convert to wetland
+  # .wetland_restore_fromBare_perc = 100,  # percent of bare land to convert to wetland
+  # .wetland_restore_fromCrop_perc = 100,  # percent of cropland to convert to wetland
+  # .wetland_restore_fromTree_perc = 5,  # percent of forest to convert to wetland
+  #
+  # .forest_restore_start = 2030,
+  # .forest_restore_end = 2045,
+  # .forest_restore_fromGrass_perc = 100, # percent of grassland to convert to forest
+  # .forest_restore_fromBare_perc = 100,  # percent of bare land to convert to forest
+  # .forest_restore_fromCrop_perc = 100,  # percent of cropland to convert to forest
+
+  # .community_tree_start = 2035,
+  # .community_tree_end = 2040,
+  # .community_tree_perc = 65, # percent of developed area to convert to community tree cover
+
+  .pocket_prairie_start = 2040,
+  .pocket_prairie_end = 2050,
+  .pocket_prairie_perc = 52, # percent of urban grassland area to convert to grassland
+
+) %>%
+  # filter(!is.na(value_emissions)) %>%
+  ggplot(
+    aes(x = inventory_year, y = area, fill = land_cover_type)
+  ) +
+  # stacked area chart
+  geom_area(alpha = 0.6, color = NA, position = "stack") +
+  geom_line(alpha = 0.9, linewidth=0.5,
+            aes(color = land_cover_type), position = "stack", show.legend = F) +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal"
+  )
+
+
+mod_bau
+
+mod_bau %>%
+  # filter(!is.na(value_emissions)) %>%
+  ggplot(
+    aes(x = inventory_year, y = area, fill = land_cover_type)
+  ) +
+  # stacked area chart
+  geom_area(alpha = 0.6, color = NA, position = "stack") +
+  geom_line(alpha = 0.9, linewidth=0.5,
+            aes(color = land_cover_type), position = "stack", show.legend = F) +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal"
+  )
 
 
 
