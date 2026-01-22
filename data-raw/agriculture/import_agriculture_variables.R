@@ -111,6 +111,8 @@ animal_manure_complete <- ag_manure_mgmt_complete %>%
 
 animal_manure_extended <- extend_to_2050(animal_manure_complete, value_col = "percentage", c("livestock_type", "storage_state"))
 
+ag_manure_mgmt_extended <- extend_to_2050(ag_manure_mgmt_complete, value_col = "percentage", c("mgmt_system", "managed", "livestock_type"))
+
 ### pull out and format Bo (max potential emissions (ch4/ kg vs))
 
 Bo <- ag_constants %>%
@@ -136,6 +138,7 @@ agriculture_variables <- list(
   mcf = mcf_extended,
   vs = vs_extended,
   manure_state = animal_manure_extended,
+  manure_mgmt = ag_manure_mgmt_extended,
   nex = nex_extended,
   Bo = Bo
 )
