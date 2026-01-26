@@ -58,7 +58,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                   area_tb = agriculture_area,
                                   # adjust_livestock_baseline = FALSE,
                                   cropland_decrease_2050 = 0,
-                                  run_manure = TRUE,
+                                  #run_manure = TRUE, # currently no flag needed as it's preloaded df
                                   run_fertilizer = TRUE,
                                   run_crops = TRUE,
                                   .baseline_year = 2022,
@@ -85,7 +85,6 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
   area_tb <- filter_ctu(area_tb, .selected_ctu = .selected_ctu)
-  manure_caf
 
   #convert input cropland area (acres to sq km)
 
@@ -128,13 +127,11 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   # purrr::map2(l_names, l_vals, check_inputs)
 
 
-    # manure <-
-    #   calculate_manure_emissions(
-    #     agriculture_variables = ghg.ccap::agriculture_variables,
-    #     run_manure = .run_manure,
-    #     gwp_list = ghg.ccap::gwp_list,
-    #     .selected_ctu = .selected_ctu
-    #   )
+    manure <-
+      calculate_manure_emissions(
+        manure_caf = ghg.ccap::agriculture_manure_caf,
+        .selected_ctu = .selected_ctu
+      )
 
     cropland <-
       calculate_cropland_emissions(
