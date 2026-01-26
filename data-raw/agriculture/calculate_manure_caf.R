@@ -306,6 +306,12 @@ gwp_list = ghg.ccap::gwp_list
       mutate(gas_type = "n2o", source = "direct_manure_soil")
   ) %>%
     select(inventory_year, county_name, livestock_type, storage_state,
-           gas_type, source, mt_gas, mt_co2e_bau, mt_co2e_alt)
+           gas_type, source, mt_gas, mt_co2e_bau, mt_co2e_alt) %>%
+    pivot_longer(
+      cols = starts_with("mt_co2e_"),
+      names_to = "scenario",
+      names_prefix = "mt_co2e_",
+      values_to = "value_emissions"
+    )
 
   usethis::use_data(agriculture_manure_caf, overwrite=T)

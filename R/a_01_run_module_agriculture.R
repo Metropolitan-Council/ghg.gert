@@ -85,6 +85,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
   crops_tb <-filter_ctu(crops_tb, .selected_ctu = .selected_ctu)
   area_tb <- filter_ctu(area_tb, .selected_ctu = .selected_ctu)
+  manure_caf
 
   #convert input cropland area (acres to sq km)
 
