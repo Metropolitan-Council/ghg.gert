@@ -154,8 +154,12 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
         .no_till_goal = .no_till_goal
       )
 
-  browser()
+  #browser()
+
+  agriculture_module_output <- bind_rows(manure %>%
+                                           mutate(geog_id = unique(cropland$geog_id)),
+                                         cropland)
 
 
-  #return(agriculture_module_output)
+  return(agriculture_module_output)
 }
