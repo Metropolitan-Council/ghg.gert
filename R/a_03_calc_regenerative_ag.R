@@ -28,11 +28,6 @@
 #'
 #' @return [tibble::tibble()].
 #' @export
-#'
-#' library(ghg.ccap)
-#'
-#'
-#'
 calc_crops <- function(emissions,
                                   .scenario,
                                   .baseline_year,

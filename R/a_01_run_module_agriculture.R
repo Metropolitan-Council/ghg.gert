@@ -24,33 +24,6 @@
 #'
 #' @export
 #' @importFrom cli cli_progress_message
-#' @examples
-#' \dontrun{
-#'
-#' library(ghg.ccap)
-#' run_scenario_building(
-#'   res_tb = building_data$residential,
-#'   non_res_tb = building_data$non_residential,
-#'   res_tb_bau = building_data$residential,
-#'   non_res_tb_bau = building_data$non_residential,
-#'   run_residential = TRUE,
-#'   run_non_residential = TRUE,
-#'   .selected_ctu = "all",
-#'   .enviro_factors = enviro_factors,
-#'   .electrified_buildings_pct = 0.40,
-#'   .smart_grid_energy_reduction_pct = 1.00,
-#'   .new_homes_to_multifamily_pct = 0.50,
-#'   .existing_high_efficiency_buildings_pct = 0.80,
-#'   .home_behavior_change_pct = 1.00,
-#'   .single_family_floor_area_growth_pct = 0.05,
-#'   .new_homes_affected_pct = 0.30,
-#'   .new_homes_leed_gold_pct = 0.50,
-#'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .grid_decarbonization_pct = 1
-#' )
-#' }
 #'
 run_module_agriculture <- function(livestock_tb = agriculture_activity_data$livestock,
                                   fertilizer_tb = agriculture_activity_data$fertilizer,
