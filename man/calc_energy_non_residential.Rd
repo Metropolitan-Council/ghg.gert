@@ -25,10 +25,6 @@ Package provided dataset \code{building_energy$non_residential} is suitable and
 the default value. \code{non_res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.scenario}{character, scenario name. Useful for labeling.}
-
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 }
@@ -68,6 +64,7 @@ calc_ghg_non_residential(
 \seealso{
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

@@ -17,7 +17,6 @@
 #'
 #' @export
 #'
-#' @examples
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn

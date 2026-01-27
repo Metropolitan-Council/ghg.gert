@@ -29,8 +29,6 @@
 #' @return [tibble::tibble()].
 #' @export
 #'
-#' @examples
-#' \dontrun{
 #' library(ghg.ccap)
 #'
 #'

@@ -66,6 +66,7 @@ Other commercial-industrial:
 \code{\link{calc_non_res_renewable_ng}()}
 
 Other buildings: 
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

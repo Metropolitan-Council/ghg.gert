@@ -17,7 +17,6 @@
 #'
 #' @export
 #' @importFrom cli cli_progress_message
-#' @examples
 #'
 #'
 
