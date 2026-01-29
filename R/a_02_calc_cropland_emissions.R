@@ -69,7 +69,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
   cropland_bau <- cropland_adj$emissions_bau
   ag_area_adj <- cropland_adj$ag_area_adj
 
-  #browser()
+ # browser()
 
   # bring in agricultural area (acres) of municipality for emissions factor calcs
   ag_area_acreage <- area_tb %>%
@@ -90,7 +90,10 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
       group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
       summarize(value_emissions = sum(value_emissions)) %>%
       ungroup() %>%
-      mutate(source = "Fertilizer emissions")
+      mutate(source = "Fertilizer emissions")%>%
+      # Return both scenarios with identical values
+      select(-any_of("scenario")) %>%
+      crossing(scenario = c("bau", "alt"))
   }
 
   #browser()
@@ -110,7 +113,9 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                .no_till_goal = .no_till_goal)
   } else{cropland_bau %>%
       filter(source == "Soil residue emissions") %>%
-      mutate(scenario = .scenario)
+      # Return both scenarios with identical values
+      select(-any_of("scenario")) %>%
+      crossing(scenario = c("bau", "alt"))
   }
 
   cropland_output <- bind_rows(fertilizer_alt,crops_alt)
