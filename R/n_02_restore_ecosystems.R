@@ -1,12 +1,14 @@
 #' @title Unified Ecosystem Restoration
 #'
 #' @description Simplified interface for restoring wetlands, forests, and prairies.
-#'   Handles source allocation and priority automatically. Area conservation is
-#'   maintained by drawing from a conversion pool (Bare, Cropland, and optionally
-#'   Grassland/Tree) with a fixed priority order that minimizes ecological impact.
+#'   Handles source allocation automatically with fair distribution when multiple
+#'   ecosystem types are selected. Area conservation is maintained by drawing from
+#'   a conversion pool (Bare, Cropland, and optionally Grassland/Tree).
 #'
-#'   Priority order: Wetlands → Forests → Prairies
-#'   Source priority: Bare → Cropland → Grassland → Tree (wetland only)
+#'   When multiple targets are selected, the system allocates sources fairly:
+#'   - Exclusive sources are used first (e.g., Grassland can become Forest but not Prairie)
+#'   - Shared sources (Bare, Cropland) are split proportionally among targets
+#'   - Wetlands are always processed first due to spatial constraints
 #'
 #' @param df_null Input dataframe of land cover area estimates (projections from 2023-2050)
 #' @param restore_wetland Logical, whether to restore wetlands (default TRUE)
@@ -118,17 +120,15 @@ restore_ecosystems <- function(df_null,
 
   # ===========================================================================
   # PRIORITY 1: Wetlands (constrained by potential_wetland_area layer)
+  # Wetlands are always processed first because they have spatial constraints
   # ===========================================================================
   if (restore_wetland) {
-    # Check if potential_wetland_area column exists
     has_potential_col <- "potential_wetland_area" %in% colnames(df_current)
 
     if (has_potential_col) {
-      # Calculate max wetland potential from constraint layer
       wetland_potential_by_source <- df_current %>%
         filter(land_cover_type %in% c("Tree", "Grassland", "Bare", "Cropland")) %>%
         mutate(
-          # Can't convert more than exists, and can't exceed potential
           actual_potential = pmin(area, potential_wetland_area, na.rm = TRUE),
           actual_potential = ifelse(is.na(actual_potential), 0, actual_potential)
         ) %>%
@@ -137,8 +137,6 @@ restore_ecosystems <- function(df_null,
       total_wetland_potential <- sum(wetland_potential_by_source$actual_potential, na.rm = TRUE)
       wetland_target <- total_wetland_potential * (ambition_pct / 100)
 
-      # For wetlands, allocate proportionally based on potential in each source
-      # This respects the spatial constraint layer
       if (wetland_target > 0 && total_wetland_potential > 0) {
         for (src in c("Bare", "Cropland", "Grassland", "Tree")) {
           src_potential <- wetland_potential_by_source %>%
@@ -146,54 +144,109 @@ restore_ecosystems <- function(df_null,
             pull(actual_potential) %>%
             sum(na.rm = TRUE)
 
-          # Proportion of wetland target from this source
           src_allocation <- (src_potential / total_wetland_potential) * wetland_target
-
-          # Cap by remaining available
-          if (src == "Tree") {
-            src_allocation <- min(src_allocation, remaining$Tree)
-            remaining$Tree <- remaining$Tree - src_allocation
-          } else if (src == "Grassland") {
-            src_allocation <- min(src_allocation, remaining$Grassland)
-            remaining$Grassland <- remaining$Grassland - src_allocation
-          } else {
-            src_allocation <- min(src_allocation, remaining[[src]])
-            remaining[[src]] <- remaining[[src]] - src_allocation
-          }
-
+          src_allocation <- min(src_allocation, remaining[[src]])
+          remaining[[src]] <- remaining[[src]] - src_allocation
           allocations$wetland[[src]] <- src_allocation
         }
       }
     } else {
-      # No constraint layer - skip wetland restoration with warning
       warning("No 'potential_wetland_area' column found. Wetland restoration requires this constraint layer.")
     }
   }
 
   # ===========================================================================
-  # PRIORITY 2: Forests
+  # FOREST AND PRAIRIE ALLOCATION
+  # When both are selected, use FAIR ALLOCATION strategy:
+  # 1. Forest uses Grassland first (exclusive source - prairie can't use it)
+  # 2. Remaining Bare/Cropland is split proportionally between Forest and Prairie
   # ===========================================================================
-  if (restore_forest) {
-    # Forest potential is whatever remains in the pool (excluding Tree as source)
+
+  if (restore_forest && restore_prairie) {
+    # --- Fair allocation when both selected ---
+
+    # Step 1: Calculate each target's independent potential (what they COULD use)
+    forest_max_potential <- remaining$Bare + remaining$Cropland + remaining$Grassland
+    prairie_max_potential <- remaining$Bare + remaining$Cropland  # Prairie can't use Grassland
+
+    # Step 2: Calculate what each wants based on ambition
+    forest_demand <- forest_max_potential * (ambition_pct / 100)
+    prairie_demand <- prairie_max_potential * (ambition_pct / 100)
+
+    # Step 3: Forest gets Grassland first (exclusive source)
+    grassland_to_forest <- min(remaining$Grassland, forest_demand)
+    allocations$forest$Grassland <- grassland_to_forest
+    remaining$Grassland <- remaining$Grassland - grassland_to_forest
+    forest_still_needs <- forest_demand - grassland_to_forest
+
+    # Step 4: Split remaining Bare/Cropland proportionally between forest and prairie
+    shared_pool <- remaining$Bare + remaining$Cropland
+    total_shared_demand <- forest_still_needs + prairie_demand
+
+    if (total_shared_demand > 0 && shared_pool > 0) {
+      # Calculate fair shares
+      forest_share_pct <- forest_still_needs / total_shared_demand
+      prairie_share_pct <- prairie_demand / total_shared_demand
+
+      # Cap to available pool
+      forest_from_shared <- min(forest_still_needs, shared_pool * forest_share_pct)
+      prairie_from_shared <- min(prairie_demand, shared_pool * prairie_share_pct)
+
+      # If one doesn't need its full share, give remainder to the other
+      total_allocated <- forest_from_shared + prairie_from_shared
+      if (total_allocated < shared_pool) {
+        leftover <- shared_pool - total_allocated
+        # Give leftover to whichever still has unmet demand
+        if (forest_from_shared < forest_still_needs) {
+          extra_forest <- min(leftover, forest_still_needs - forest_from_shared)
+          forest_from_shared <- forest_from_shared + extra_forest
+          leftover <- leftover - extra_forest
+        }
+        if (leftover > 0 && prairie_from_shared < prairie_demand) {
+          prairie_from_shared <- prairie_from_shared + min(leftover, prairie_demand - prairie_from_shared)
+        }
+      }
+
+      # Allocate from Bare first, then Cropland
+      # Forest allocation from shared
+      forest_from_bare <- min(forest_from_shared, remaining$Bare)
+      forest_from_crop <- forest_from_shared - forest_from_bare
+      allocations$forest$Bare <- forest_from_bare
+      allocations$forest$Cropland <- forest_from_crop
+
+      # Update remaining after forest
+      remaining$Bare <- remaining$Bare - forest_from_bare
+      remaining$Cropland <- remaining$Cropland - forest_from_crop
+
+      # Prairie allocation from shared (from what's left)
+      prairie_from_bare <- min(prairie_from_shared, remaining$Bare)
+      prairie_from_crop <- prairie_from_shared - prairie_from_bare
+      allocations$prairie$Bare <- prairie_from_bare
+      allocations$prairie$Cropland <- prairie_from_crop
+
+      remaining$Bare <- remaining$Bare - prairie_from_bare
+      remaining$Cropland <- remaining$Cropland - prairie_from_crop
+    }
+
+  } else if (restore_forest) {
+    # --- Only forest selected ---
+    # Forest uses Grassland first (preferred since it's exclusive), then Bare/Cropland
     forest_pool <- remaining$Bare + remaining$Cropland + remaining$Grassland
     forest_target <- forest_pool * (ambition_pct / 100)
 
     if (forest_target > 0) {
+      # Allocate: Grassland first, then Bare, then Cropland
       result <- allocate_from_sources(
         forest_target,
-        c("Bare", "Cropland", "Grassland"),
+        c("Grassland", "Bare", "Cropland"),
         remaining
       )
       allocations$forest <- result$allocated
       remaining <- result$remaining
     }
-  }
 
-  # ===========================================================================
-  # PRIORITY 3: Prairie/Grassland
-  # ===========================================================================
-  if (restore_prairie) {
-    # Prairie can only come from Bare and Cropland (not from existing grassland)
+  } else if (restore_prairie) {
+    # --- Only prairie selected ---
     prairie_pool <- remaining$Bare + remaining$Cropland
     prairie_target <- prairie_pool * (ambition_pct / 100)
 

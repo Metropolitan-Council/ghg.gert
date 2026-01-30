@@ -41,12 +41,16 @@ Dataframe with projected land cover areas. Includes attributes:
 }
 \description{
 Simplified interface for restoring wetlands, forests, and prairies.
-Handles source allocation and priority automatically. Area conservation is
-maintained by drawing from a conversion pool (Bare, Cropland, and optionally
-Grassland/Tree) with a fixed priority order that minimizes ecological impact.
+Handles source allocation automatically with fair distribution when multiple
+ecosystem types are selected. Area conservation is maintained by drawing from
+a conversion pool (Bare, Cropland, and optionally Grassland/Tree).
 
-Priority order: Wetlands → Forests → Prairies
-Source priority: Bare → Cropland → Grassland → Tree (wetland only)
+When multiple targets are selected, the system allocates sources fairly:
+\itemize{
+\item Exclusive sources are used first (e.g., Grassland can become Forest but not Prairie)
+\item Shared sources (Bare, Cropland) are split proportionally among targets
+\item Wetlands are always processed first due to spatial constraints
+}
 }
 \examples{
 \dontrun{
