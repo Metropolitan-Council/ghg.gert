@@ -103,6 +103,9 @@ run_scenario_natural_systems_simple <- function(
   # ===========================================================================
   # Module 1: Unified Ecosystem Restoration (wetlands, forests, prairies)
   # ===========================================================================
+  restoration_allocations <- NULL
+  restoration_summary <- NULL
+
   if (.restore_wetland | .restore_forest | .restore_prairie) {
     tb01 <- ghg.ccap::restore_ecosystems(
       df_null = df_null,
@@ -115,10 +118,10 @@ run_scenario_natural_systems_simple <- function(
     )
 
     # Store restoration metadata for potential use
+    restoration_allocations <- attr(tb01, "restoration_allocations")
     restoration_summary <- attr(tb01, "restoration_summary")
   } else {
     tb01 <- df_null
-    restoration_summary <- NULL
   }
 
   # ===========================================================================
@@ -160,7 +163,10 @@ run_scenario_natural_systems_simple <- function(
       value_stock_potential = area * stock_mtco2e_sqkm
     )
 
-  # Optionally attach restoration summary as attribute
+  # Optionally attach restoration metadata as attributes
+  if (!is.null(restoration_allocations)) {
+    attr(carbon_sequestration_out, "restoration_allocations") <- restoration_allocations
+  }
   if (!is.null(restoration_summary)) {
     attr(carbon_sequestration_out, "restoration_summary") <- restoration_summary
   }
