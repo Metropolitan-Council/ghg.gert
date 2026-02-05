@@ -104,6 +104,9 @@ restore_ecosystems <- function(df_null,
   # ===========================================================================
   # Validation limits
   # ===========================================================================
+  # Conversion pool: bare + cropland + grassland (actual source lands for forest/prairie)
+  conversion_pool_sqkm <- bare_area + cropland_area + grassland_area
+
   # Soft limit: total area minus developed and water (realistic restoration ceiling)
   soft_limit_sqkm <- total_area - developed_area - water_area
 
@@ -187,12 +190,13 @@ restore_ecosystems <- function(df_null,
       forest_area_sqkm <- forest_area_sqkm * scale_factor
       prairie_area_sqkm <- prairie_area_sqkm * scale_factor
     }
-  } else if (total_proposed > soft_limit_sqkm) {
+  } else if (forest_area_sqkm + prairie_area_sqkm > conversion_pool_sqkm) {
+    # Forest + prairie exceed what's available in bare + cropland + grassland
     validation_warnings <- c(
       validation_warnings,
       sprintf(
-        "WARNING: Proposed restoration (%.2f sq km) exceeds realistic limit (%.2f sq km = total area minus developed and water). Consider reducing targets.",
-        total_proposed, soft_limit_sqkm
+        "WARNING: Forest + prairie targets (%.2f sq km) exceed available conversion pool (%.2f sq km = bare + cropland + grassland). Actual restoration will be constrained by available land.",
+        forest_area_sqkm + prairie_area_sqkm, conversion_pool_sqkm
       )
     )
   }
