@@ -1,72 +1,75 @@
 #' @title Unified Ecosystem Restoration
 #'
-#' @description Simplified interface for restoring wetlands, forests, and prairies.
-#'   Handles source allocation automatically with fair distribution when multiple
-#'   ecosystem types are selected. Area conservation is maintained by drawing from
-#'   a conversion pool (Bare, Cropland, and optionally Grassland/Tree).
+#' @description Interface for restoring wetlands, forests, and prairies.
+#'   Wetlands use GIS-constrained potential with ambition percentage.
+#'   Forests and prairies allow direct acreage specification for flexibility,
+#'   as city planners often know their committed acreage.
 #'
-#'   When multiple targets are selected, the system allocates sources fairly:
-#'   - Exclusive sources are used first (e.g., Grassland can become Forest but not Prairie)
-#'   - Shared sources (Bare, Cropland) are split proportionally among targets
-#'   - Wetlands are always processed first due to spatial constraints
+#'   Area conservation is maintained by drawing from a conversion pool
+#'   (Bare, Cropland, and optionally Grassland/Tree). Validation warnings
+#'   are returned as attributes if proposed restoration exceeds available land.
 #'
 #' @param df_null Input dataframe of land cover area estimates (projections from 2023-2050)
-#' @param restore_wetland Logical, whether to restore wetlands (default TRUE)
-#' @param restore_forest Logical, whether to restore forests (default TRUE)
-#' @param restore_prairie Logical, whether to restore native prairies/grassland (default FALSE)
-#' @param ambition_pct Numeric 0-100, how much of available potential to realize (default 50)
+#' @param restore_wetland Logical, whether to restore wetlands (default FALSE)
+#' @param wetland_ambition_pct Numeric 0-100, percent of wetland potential to realize (default 50)
+#' @param forest_area_sqkm Numeric, committed forest restoration area in sq km (default 0)
+#' @param prairie_area_sqkm Numeric, committed prairie/grassland restoration area in sq km (default 0)
 #' @param start_yr Start year for restoration (default 2025)
 #' @param end_yr End year for restoration (default 2050)
-#' @param grassland_available_pct Percent of existing grassland available for conversion (default 50)
 #'
 #' @return Dataframe with projected land cover areas. Includes attributes:
 #'   - "restoration_allocations": detailed breakdown of area by source and target
 #'   - "restoration_summary": total area added to each target type
+#'   - "validation_warnings": any warnings about exceeding available land
+#'   - "validation_info": breakdown of limits and proposed totals
 #'
 #' @export
 #' @import dplyr
 #'
 #' @examples
-#' \dontrun{
-#' # Simple usage - restore wetlands and forests at 40% ambition
+#' \dontrun
+#' # Restore wetlands at 40% ambition, plus 5 sq km forest and 3 sq km prairie
 #' result <- restore_ecosystems(
 #'   df_null = my_projections,
 #'   restore_wetland = TRUE,
-#'   restore_forest = TRUE,
-#'   restore_prairie = FALSE,
-#'   ambition_pct = 40
+#'   wetland_ambition_pct = 40,
+#'   forest_area_sqkm = 5,
+#'   prairie_area_sqkm = 3
 #' )
 #'
-#' # View what was allocated
-#' attr(result, "restoration_summary")
+#' # View validation info
+#' attr(result, "validation_info")
+#' attr(result, "validation_warnings")
 #' }
 restore_ecosystems <- function(df_null,
-                               restore_wetland = TRUE,
-                               restore_forest = TRUE,
-                               restore_prairie = FALSE,
-                               ambition_pct = 50,
+                               restore_wetland = FALSE,
+                               wetland_ambition_pct = 50,
+                               forest_area_sqkm = 0,
+                               prairie_area_sqkm = 0,
                                start_yr = 2025,
-                               end_yr = 2050,
-                               grassland_available_pct = 50) {
+                               end_yr = 2050) {
 
-  # Validate inputs
+  # ===========================================================================
+  # Input validation
+  # ===========================================================================
   stopifnot(
     is.data.frame(df_null),
     is.logical(restore_wetland),
-    is.logical(restore_forest),
-    is.logical(restore_prairie),
-    is.numeric(ambition_pct) && ambition_pct >= 0 && ambition_pct <= 100,
+    is.numeric(wetland_ambition_pct) && wetland_ambition_pct >= 0 && wetland_ambition_pct <= 100,
+    is.numeric(forest_area_sqkm) && forest_area_sqkm >= 0,
+    is.numeric(prairie_area_sqkm) && prairie_area_sqkm >= 0,
     is.numeric(start_yr),
-    is.numeric(end_yr) && end_yr >= start_yr,
-    is.numeric(grassland_available_pct) && grassland_available_pct >= 0 && grassland_available_pct <= 100
+    is.numeric(end_yr) && end_yr >= start_yr
   )
 
   # If nothing selected, return unchanged
-  if (!restore_wetland && !restore_forest && !restore_prairie) {
+  if (!restore_wetland && forest_area_sqkm == 0 && prairie_area_sqkm == 0) {
     return(df_null)
   }
 
-  # Get current state (last year of data)
+  # ===========================================================================
+  # Get current state and calculate available land for validation
+  # ===========================================================================
   df_current <- df_null %>%
     filter(inventory_year == max(inventory_year))
 
@@ -78,50 +81,59 @@ restore_ecosystems <- function(df_null,
       sum(na.rm = TRUE)
   }
 
-  # Get available areas by source type
+  # Get areas by land cover type
   bare_area <- get_area("Bare")
   cropland_area <- get_area("Cropland")
   grassland_area <- get_area("Grassland")
   tree_area <- get_area("Tree")
+  water_area <- get_area("Water")
 
-  # Grassland available for conversion (user-specified fraction)
-  grassland_available <- grassland_area * (grassland_available_pct / 100)
 
-  # Initialize tracking of remaining available area by source
+  # Calculate developed area (sum of all developed types)
+  developed_area <- df_current %>%
+    filter(grepl("^Developed", land_cover_type)) %>%
+    pull(area) %>%
+    sum(na.rm = TRUE)
+
+  # Total jurisdictional area
+
+  total_area <- df_current %>%
+    pull(area) %>%
+    sum(na.rm = TRUE)
+
+  # ===========================================================================
+  # Validation limits
+  # ===========================================================================
+  # Soft limit: total area minus developed and water (realistic restoration ceiling)
+  soft_limit_sqkm <- total_area - developed_area - water_area
+
+  # Hard limit: total jurisdictional area (physical impossibility)
+  hard_limit_sqkm <- total_area
+
+  # ===========================================================================
+  # Initialize tracking
+  # ===========================================================================
   remaining <- list(
     Bare = bare_area,
     Cropland = cropland_area,
-    Grassland = grassland_available,
-    Tree = tree_area  # Trees only used for wetland conversion
+    Grassland = grassland_area,
+    Tree = tree_area
   )
 
-  # Initialize allocation tracking
   allocations <- list(
     wetland = list(Bare = 0, Cropland = 0, Grassland = 0, Tree = 0),
     forest = list(Bare = 0, Cropland = 0, Grassland = 0),
     prairie = list(Bare = 0, Cropland = 0)
   )
 
-  # Helper function to allocate area from sources in priority order
-  allocate_from_sources <- function(target_area, valid_sources, remaining) {
-    allocated <- setNames(rep(0, length(valid_sources)), valid_sources)
-    still_needed <- target_area
-
-    for (src in valid_sources) {
-      if (still_needed <= 0) break
-      take <- min(still_needed, remaining[[src]])
-      allocated[[src]] <- take
-      remaining[[src]] <- remaining[[src]] - take
-      still_needed <- still_needed - take
-    }
-
-    list(allocated = as.list(allocated), remaining = remaining)
-  }
+  validation_warnings <- character(0)
 
   # ===========================================================================
   # PRIORITY 1: Wetlands (constrained by potential_wetland_area layer)
   # Wetlands are always processed first because they have spatial constraints
   # ===========================================================================
+  wetland_target <- 0
+
   if (restore_wetland) {
     has_potential_col <- "potential_wetland_area" %in% colnames(df_current)
 
@@ -135,7 +147,7 @@ restore_ecosystems <- function(df_null,
         select(land_cover_type, actual_potential)
 
       total_wetland_potential <- sum(wetland_potential_by_source$actual_potential, na.rm = TRUE)
-      wetland_target <- total_wetland_potential * (ambition_pct / 100)
+      wetland_target <- total_wetland_potential * (wetland_ambition_pct / 100)
 
       if (wetland_target > 0 && total_wetland_potential > 0) {
         for (src in c("Bare", "Cropland", "Grassland", "Tree")) {
@@ -156,108 +168,112 @@ restore_ecosystems <- function(df_null,
   }
 
   # ===========================================================================
-  # FOREST AND PRAIRIE ALLOCATION
-  # When both are selected, use FAIR ALLOCATION strategy:
-  # 1. Forest uses Grassland first (exclusive source - prairie can't use it)
-  # 2. Remaining Bare/Cropland is split proportionally between Forest and Prairie
+  # VALIDATION: Check if proposed forest + prairie + wetland exceeds limits
   # ===========================================================================
+  total_proposed <- wetland_target + forest_area_sqkm + prairie_area_sqkm
 
-  if (restore_forest && restore_prairie) {
-    # --- Fair allocation when both selected ---
+  if (total_proposed > hard_limit_sqkm) {
+    validation_warnings <- c(
+      validation_warnings,
+      sprintf(
+        "HARD LIMIT EXCEEDED: Proposed restoration (%.2f sq km) exceeds total jurisdictional area (%.2f sq km). Values will be capped.",
+        total_proposed, hard_limit_sqkm
+      )
+    )
+    # Cap forest and prairie proportionally if they exceed hard limit
+    available_after_wetland <- hard_limit_sqkm - wetland_target
+    if (forest_area_sqkm + prairie_area_sqkm > available_after_wetland) {
+      scale_factor <- available_after_wetland / (forest_area_sqkm + prairie_area_sqkm)
+      forest_area_sqkm <- forest_area_sqkm * scale_factor
+      prairie_area_sqkm <- prairie_area_sqkm * scale_factor
+    }
+  } else if (total_proposed > soft_limit_sqkm) {
+    validation_warnings <- c(
+      validation_warnings,
+      sprintf(
+        "WARNING: Proposed restoration (%.2f sq km) exceeds realistic limit (%.2f sq km = total area minus developed and water). Consider reducing targets.",
+        total_proposed, soft_limit_sqkm
+      )
+    )
+  }
 
-    # Step 1: Calculate each target's independent potential (what they COULD use)
-    forest_max_potential <- remaining$Bare + remaining$Cropland + remaining$Grassland
-    prairie_max_potential <- remaining$Bare + remaining$Cropland  # Prairie can't use Grassland
+  # ===========================================================================
+  # FOREST ALLOCATION (direct acreage)
+  # Priority: Bare -> Cropland -> Grassland
+  # ===========================================================================
+  forest_allocated <- 0
 
-    # Step 2: Calculate what each wants based on ambition
-    forest_demand <- forest_max_potential * (ambition_pct / 100)
-    prairie_demand <- prairie_max_potential * (ambition_pct / 100)
+  if (forest_area_sqkm > 0) {
+    forest_still_needed <- forest_area_sqkm
 
-    # Step 3: Forest gets Grassland first (exclusive source)
-    grassland_to_forest <- min(remaining$Grassland, forest_demand)
-    allocations$forest$Grassland <- grassland_to_forest
-    remaining$Grassland <- remaining$Grassland - grassland_to_forest
-    forest_still_needs <- forest_demand - grassland_to_forest
+    # Allocate from Bare first
+    take_bare <- min(forest_still_needed, remaining$Bare)
+    allocations$forest$Bare <- take_bare
+    remaining$Bare <- remaining$Bare - take_bare
+    forest_still_needed <- forest_still_needed - take_bare
 
-    # Step 4: Split remaining Bare/Cropland proportionally between forest and prairie
-    shared_pool <- remaining$Bare + remaining$Cropland
-    total_shared_demand <- forest_still_needs + prairie_demand
-
-    if (total_shared_demand > 0 && shared_pool > 0) {
-      # Calculate fair shares
-      forest_share_pct <- forest_still_needs / total_shared_demand
-      prairie_share_pct <- prairie_demand / total_shared_demand
-
-      # Cap to available pool
-      forest_from_shared <- min(forest_still_needs, shared_pool * forest_share_pct)
-      prairie_from_shared <- min(prairie_demand, shared_pool * prairie_share_pct)
-
-      # If one doesn't need its full share, give remainder to the other
-      total_allocated <- forest_from_shared + prairie_from_shared
-      if (total_allocated < shared_pool) {
-        leftover <- shared_pool - total_allocated
-        # Give leftover to whichever still has unmet demand
-        if (forest_from_shared < forest_still_needs) {
-          extra_forest <- min(leftover, forest_still_needs - forest_from_shared)
-          forest_from_shared <- forest_from_shared + extra_forest
-          leftover <- leftover - extra_forest
-        }
-        if (leftover > 0 && prairie_from_shared < prairie_demand) {
-          prairie_from_shared <- prairie_from_shared + min(leftover, prairie_demand - prairie_from_shared)
-        }
-      }
-
-      # Allocate from Bare first, then Cropland
-      # Forest allocation from shared
-      forest_from_bare <- min(forest_from_shared, remaining$Bare)
-      forest_from_crop <- forest_from_shared - forest_from_bare
-      allocations$forest$Bare <- forest_from_bare
-      allocations$forest$Cropland <- forest_from_crop
-
-      # Update remaining after forest
-      remaining$Bare <- remaining$Bare - forest_from_bare
-      remaining$Cropland <- remaining$Cropland - forest_from_crop
-
-      # Prairie allocation from shared (from what's left)
-      prairie_from_bare <- min(prairie_from_shared, remaining$Bare)
-      prairie_from_crop <- prairie_from_shared - prairie_from_bare
-      allocations$prairie$Bare <- prairie_from_bare
-      allocations$prairie$Cropland <- prairie_from_crop
-
-      remaining$Bare <- remaining$Bare - prairie_from_bare
-      remaining$Cropland <- remaining$Cropland - prairie_from_crop
+    # Then Cropland
+    if (forest_still_needed > 0) {
+      take_crop <- min(forest_still_needed, remaining$Cropland)
+      allocations$forest$Cropland <- take_crop
+      remaining$Cropland <- remaining$Cropland - take_crop
+      forest_still_needed <- forest_still_needed - take_crop
     }
 
-  } else if (restore_forest) {
-    # --- Only forest selected ---
-    # Forest uses Grassland first (preferred since it's exclusive), then Bare/Cropland
-    forest_pool <- remaining$Bare + remaining$Cropland + remaining$Grassland
-    forest_target <- forest_pool * (ambition_pct / 100)
-
-    if (forest_target > 0) {
-      # Allocate: Grassland first, then Bare, then Cropland
-      result <- allocate_from_sources(
-        forest_target,
-        c("Grassland", "Bare", "Cropland"),
-        remaining
-      )
-      allocations$forest <- result$allocated
-      remaining <- result$remaining
+    # Then Grassland
+    if (forest_still_needed > 0) {
+      take_grass <- min(forest_still_needed, remaining$Grassland)
+      allocations$forest$Grassland <- take_grass
+      remaining$Grassland <- remaining$Grassland - take_grass
+      forest_still_needed <- forest_still_needed - take_grass
     }
 
-  } else if (restore_prairie) {
-    # --- Only prairie selected ---
-    prairie_pool <- remaining$Bare + remaining$Cropland
-    prairie_target <- prairie_pool * (ambition_pct / 100)
+    forest_allocated <- forest_area_sqkm - forest_still_needed
 
-    if (prairie_target > 0) {
-      result <- allocate_from_sources(
-        prairie_target,
-        c("Bare", "Cropland"),
-        remaining
+    if (forest_still_needed > 0) {
+      validation_warnings <- c(
+        validation_warnings,
+        sprintf(
+          "FOREST: Only %.2f of %.2f sq km could be allocated (insufficient source land).",
+          forest_allocated, forest_area_sqkm
+        )
       )
-      allocations$prairie <- result$allocated
-      remaining <- result$remaining
+    }
+  }
+
+  # ===========================================================================
+  # PRAIRIE ALLOCATION (direct acreage)
+  # Priority: Bare -> Cropland (cannot use Grassland - that would be converting grassland to grassland)
+  # ===========================================================================
+  prairie_allocated <- 0
+
+  if (prairie_area_sqkm > 0) {
+    prairie_still_needed <- prairie_area_sqkm
+
+    # Allocate from Bare first
+    take_bare <- min(prairie_still_needed, remaining$Bare)
+    allocations$prairie$Bare <- take_bare
+    remaining$Bare <- remaining$Bare - take_bare
+    prairie_still_needed <- prairie_still_needed - take_bare
+
+    # Then Cropland
+    if (prairie_still_needed > 0) {
+      take_crop <- min(prairie_still_needed, remaining$Cropland)
+      allocations$prairie$Cropland <- take_crop
+      remaining$Cropland <- remaining$Cropland - take_crop
+      prairie_still_needed <- prairie_still_needed - take_crop
+    }
+
+    prairie_allocated <- prairie_area_sqkm - prairie_still_needed
+
+    if (prairie_still_needed > 0) {
+      validation_warnings <- c(
+        validation_warnings,
+        sprintf(
+          "PRAIRIE: Only %.2f of %.2f sq km could be allocated (insufficient source land).",
+          prairie_allocated, prairie_area_sqkm
+        )
+      )
     }
   }
 
@@ -300,7 +316,6 @@ restore_ecosystems <- function(df_null,
         area = 0
       )
 
-    # Set potential_wetland_area to 0 if column exists
     if ("potential_wetland_area" %in% colnames(wetland_rows)) {
       wetland_rows <- wetland_rows %>% mutate(potential_wetland_area = 0)
     }
@@ -358,7 +373,6 @@ restore_ecosystems <- function(df_null,
   # Build area_change for each land cover type
   # ===========================================================================
 
-  # Re-fetch current state after adding any new types
   df_current_updated <- df_null %>%
     filter(inventory_year == max(inventory_year))
 
@@ -393,14 +407,31 @@ restore_ecosystems <- function(df_null,
     dplyr::select(all_of(colnames(df_null)))
 
   # ===========================================================================
-  # Attach metadata for optional inspection
+  # Attach metadata for inspection and UI feedback
   # ===========================================================================
   attr(df_export, "restoration_allocations") <- allocations
+
   attr(df_export, "restoration_summary") <- list(
     wetland_added_sqkm = target_gains$Wetland,
     forest_added_sqkm = target_gains$Tree,
     prairie_added_sqkm = target_gains$Grassland,
     total_restored_sqkm = sum(unlist(target_gains))
+  )
+
+  attr(df_export, "validation_warnings") <- validation_warnings
+
+  attr(df_export, "validation_info") <- list(
+    total_area_sqkm = total_area,
+    developed_area_sqkm = developed_area,
+    water_area_sqkm = water_area,
+    soft_limit_sqkm = soft_limit_sqkm,
+    hard_limit_sqkm = hard_limit_sqkm,
+    total_proposed_sqkm = total_proposed,
+    wetland_proposed_sqkm = wetland_target,
+    forest_proposed_sqkm = forest_area_sqkm,
+    prairie_proposed_sqkm = prairie_area_sqkm,
+    forest_allocated_sqkm = forest_allocated,
+    prairie_allocated_sqkm = prairie_allocated
   )
 
   return(df_export)

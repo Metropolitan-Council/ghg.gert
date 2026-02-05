@@ -1,12 +1,14 @@
 #' @title Run Simplified Natural Systems Scenario
 #'
 #' @description Simplified interface for natural systems carbon sequestration modeling.
-#'   Uses a unified restoration approach with automatic source allocation, reducing
-#'   the number of user inputs while maintaining scientific defensibility.
+#'   Wetlands use GIS-constrained restoration with ambition percentage.
+#'   Forests and prairies allow direct acreage specification for planner flexibility.
 #'
-#'   This function wraps the complexity of land cover conversion into three simple
-#'   toggles (wetland/forest/prairie) and a single ambition slider. Source allocation
-#'   happens automatically with a priority order that minimizes ecological impact.
+#'   This function wraps the complexity of land cover conversion into intuitive inputs:
+#'   - Wetlands: toggle + ambition slider (GIS-validated)
+#'   - Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
+#'   - Community trees: percent of developed area (urban canopy)
+#'   - Pocket prairies: percent of urban grassland (urban habitat)
 #'
 #' @param tb_inv Inventory data (list with $ctu, $county, $region)
 #' @param tb_future Future projections data (list with $ctu, $county, $region)
@@ -14,9 +16,9 @@
 #' @param .selected_ctu City/township selection ("all", "Regional", county name, or CTU name)
 #'
 #' @param .restore_wetland Logical, whether to restore wetlands (default FALSE)
-#' @param .restore_forest Logical, whether to restore forests (default FALSE)
-#' @param .restore_prairie Logical, whether to restore native prairies (default FALSE)
-#' @param .restoration_ambition Numeric 0-100, how ambitious the restoration effort (default 50)
+#' @param .wetland_ambition Numeric 0-100, percent of wetland potential to realize (default 50)
+#' @param .forest_area_sqkm Numeric, committed forest restoration area in sq km (default 0)
+#' @param .prairie_area_sqkm Numeric, committed prairie/grassland restoration area in sq km (default 0)
 #' @param .restoration_start Start year for restoration (default 2025)
 #' @param .restoration_end End year for restoration (default 2050)
 #'
@@ -31,27 +33,31 @@
 #' @param .enviro_factors Environmental factors data
 #' @param detail Logical, return detailed output (default FALSE)
 #'
-#' @return Dataframe with carbon sequestration projections by land cover type and year
+#' @return Dataframe with carbon sequestration projections by land cover type and year.
+#'   Includes attributes for restoration metadata and validation warnings.
 #'
 #' @export
 #' @import dplyr
 #' @import tidyr
 #'
 #' @examples
-#' \dontrun{
-#' # Simple restoration scenario
+#' \dontrun
+#' # Wetland restoration at 40% ambition + 5 sq km forest
 #' result <- run_scenario_natural_systems_simple(
 #'   .selected_ctu = "Lakeville",
 #'   .restore_wetland = TRUE,
-#'   .restore_forest = TRUE,
-#'   .restoration_ambition = 40
+#'   .wetland_ambition = 40,
+#'   .forest_area_sqkm = 5
 #' )
 #'
-#' # Combined with urban tree planting
+#' # Check for validation warnings
+#' attr(result, "validation_warnings")
+#'
+#' # Direct forest and prairie specification
 #' result <- run_scenario_natural_systems_simple(
 #'   .selected_ctu = "Minneapolis",
-#'   .restore_wetland = TRUE,
-#'   .restoration_ambition = 30,
+#'   .forest_area_sqkm = 10,
+#'   .prairie_area_sqkm = 5,
 #'   .community_tree_pct = 25
 #' )
 #' }
@@ -61,11 +67,15 @@ run_scenario_natural_systems_simple <- function(
     tb_seq = natural_systems_data$land_cover_carbon,
     .selected_ctu = "all",
 
-    # Unified restoration module
+    # Wetland restoration (GIS-constrained)
     .restore_wetland = FALSE,
-    .restore_forest = FALSE,
-    .restore_prairie = FALSE,
-    .restoration_ambition = 50,
+    .wetland_ambition = 50,
+
+    # Forest and prairie restoration (direct acreage)
+    .forest_area_sqkm = 0,
+    .prairie_area_sqkm = 0,
+
+    # Restoration timing
     .restoration_start = 2025,
     .restoration_end = 2050,
 
@@ -101,25 +111,31 @@ run_scenario_natural_systems_simple <- function(
   }
 
   # ===========================================================================
-  # Module 1: Unified Ecosystem Restoration (wetlands, forests, prairies)
+  # Module 1: Ecosystem Restoration (wetlands, forests, prairies)
   # ===========================================================================
   restoration_allocations <- NULL
   restoration_summary <- NULL
+  validation_warnings <- NULL
+  validation_info <- NULL
 
-  if (.restore_wetland | .restore_forest | .restore_prairie) {
+  has_restoration <- .restore_wetland | .forest_area_sqkm > 0 | .prairie_area_sqkm > 0
+
+  if (has_restoration) {
     tb01 <- ghg.ccap::restore_ecosystems(
       df_null = df_null,
       restore_wetland = .restore_wetland,
-      restore_forest = .restore_forest,
-      restore_prairie = .restore_prairie,
-      ambition_pct = .restoration_ambition,
+      wetland_ambition_pct = .wetland_ambition,
+      forest_area_sqkm = .forest_area_sqkm,
+      prairie_area_sqkm = .prairie_area_sqkm,
       start_yr = .restoration_start,
       end_yr = .restoration_end
     )
 
-    # Store restoration metadata for potential use
+    # Store restoration metadata
     restoration_allocations <- attr(tb01, "restoration_allocations")
     restoration_summary <- attr(tb01, "restoration_summary")
+    validation_warnings <- attr(tb01, "validation_warnings")
+    validation_info <- attr(tb01, "validation_info")
   } else {
     tb01 <- df_null
   }
@@ -163,12 +179,20 @@ run_scenario_natural_systems_simple <- function(
       value_stock_potential = area * stock_mtco2e_sqkm
     )
 
-  # Optionally attach restoration metadata as attributes
+  # ===========================================================================
+  # Attach metadata as attributes for UI consumption
+  # ===========================================================================
   if (!is.null(restoration_allocations)) {
     attr(carbon_sequestration_out, "restoration_allocations") <- restoration_allocations
   }
   if (!is.null(restoration_summary)) {
     attr(carbon_sequestration_out, "restoration_summary") <- restoration_summary
+  }
+  if (!is.null(validation_warnings)) {
+    attr(carbon_sequestration_out, "validation_warnings") <- validation_warnings
+  }
+  if (!is.null(validation_info)) {
+    attr(carbon_sequestration_out, "validation_info") <- validation_info
   }
 
   return(carbon_sequestration_out)
@@ -177,14 +201,14 @@ run_scenario_natural_systems_simple <- function(
 
 #' @title Get Natural Systems Restoration Potential for UI
 #'
-#' @description Convenience function to get restoration potential for a
-#'   selected jurisdiction. Useful for populating UI elements that show
-#'   users what's achievable.
+#' @description Convenience function to get restoration potential and validation
+#'   limits for a selected jurisdiction. Useful for populating UI elements that
+#'   show users what's achievable and setting input constraints.
 #'
 #' @param tb_future Future projections data
 #' @param .selected_ctu City/township selection
 #'
-#' @return List with restoration potential values
+#' @return List with restoration potential values and validation limits
 #'
 #' @export
 get_ctu_restoration_potential <- function(
