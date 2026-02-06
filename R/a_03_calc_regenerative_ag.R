@@ -100,7 +100,7 @@ calc_crops <- function(emissions,
       mutate(value_emissions_net = pmax(value_emissions_net, 0))
   }
 
-  browser()
+  #browser()
 
   cropland_emissions <- bind_rows(crop_emissions, cropland_alt %>%
                                     select(-value_emissions, -cc_sequestration) %>%
