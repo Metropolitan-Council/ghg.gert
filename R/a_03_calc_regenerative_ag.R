@@ -59,7 +59,7 @@ calc_crops <- function(emissions,
   # this number exceeds estimated emissions of one township by 3 fold...
 
   # TEMPORARY NUMBER TO GET SCRIPT WORKING
-  cc_c_seq <- 0.02 * 3.67 # covert MT C acre-1 yr-1 to MT CO2 acre-1 yr-1
+  cc_c_seq <- 0.02 * 3.67 * .cover_crops_goal # covert MT C acre-1 yr-1 to MT CO2 acre-1 yr-1
 
   # might need to calculate soil C sequestration based on area...
   # browser()
@@ -69,7 +69,7 @@ calc_crops <- function(emissions,
       value_emissions = case_when(
         inventory_year < .no_till_start_year ~ value_emissions,  # no changes from baseline to 2028
         inventory_year >= .no_till_start_year ~
-          value_emissions * (1- (no_till_red) * (inventory_year - .no_till_start_year) /
+          value_emissions * (1 - (no_till_red) * (inventory_year - .no_till_start_year) /
                                (2050 - .no_till_start_year))  # linear increase of no till from start year to 2050
       ),
       scenario = .scenario
@@ -99,6 +99,8 @@ calc_crops <- function(emissions,
     cropland_alt <- cropland_alt %>%
       mutate(value_emissions_net = pmax(value_emissions_net, 0))
   }
+
+  browser()
 
   cropland_emissions <- bind_rows(crop_emissions, cropland_alt %>%
                                     select(-value_emissions, -cc_sequestration) %>%
