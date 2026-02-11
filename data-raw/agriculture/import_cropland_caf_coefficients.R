@@ -51,8 +51,8 @@ cc_till <- cometfarm_coefs %>%
   mutate(strategy = "Cover crop and no till")
 
 # Comet farm C sequestration estimates are unreasonably high. Capping them at literature values (which are probably STILL too high)
-# No-till 0.3 Mg C ha–1 yr –1 = 0.4453846
-# Cover crop 0.32 Mg C ha-1 yr-1 = 0.4750769 (This is similar to our grassland seq value, but for adding winter crops?)
+# No-till 0.3 Mg C ha–1 yr –1 = 0.4453846: https://www.nature.com/articles/nclimate2292
+# Cover crop 0.32 Mg C ha-1 yr-1 = 0.4750769 (This is similar to our grassland seq value, but for adding winter crops?): https://doi.org/10.1016/j.agee.2014.10.024
 # Cover crops in V3.1 are more reasonable than v4, so cover crop cap is not needed currently
 no_till_cap <- 0.445
 #cover_crop_cap <- 0.475
@@ -75,7 +75,7 @@ cc_till <- cc_till %>%
 
 ### compare all to baseline
 
-regen_ag_strategies <- bind_rows(cover_crop %>%
+agriculture_regen_ag_caf <- bind_rows(cover_crop %>%
                                    select(county, mean_co2, mean_n2o, strategy),
                                  no_till %>%
                                    select(county, mean_co2, mean_n2o, strategy),
@@ -86,3 +86,5 @@ regen_ag_strategies <- bind_rows(cover_crop %>%
   ### taking ratios to nitrogen emissions now since that's what is available in our inventory
   mutate(c_seq_ratio = mean_co2 / baseline_n2o_per_acre,
          n2o_emis_ratio = (-1 * mean_n2o) / baseline_n2o_per_acre) #cometfarm inverts emission/sequestration, so changing n2o to match inventory
+
+usethis::use_data(agriculture_regen_ag_caf, overwrite=T)
