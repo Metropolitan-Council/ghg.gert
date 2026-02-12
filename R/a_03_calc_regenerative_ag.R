@@ -29,6 +29,7 @@
 #' @return [tibble::tibble()].
 #' @export
 calc_crops <- function(emissions,
+                       .selected_ctu,
                        caf_strategies = agriculture_regen_ag_caf,
                                   .scenario,
                                   .baseline_year,
