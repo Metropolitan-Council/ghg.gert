@@ -5,7 +5,7 @@
 
 library(readr)
 
-#load in statewide baseline values (county by county available if desired)
+#load in statewide baseline values based on county and gas type
 cometfarm_baseline <- read_csv("./data-raw/agriculture/cf_baseline_values_gas.csv") %>%
   janitor::clean_names() %>%
   filter(irrigated == "N", tillage_starting_point == "intensive") %>%
