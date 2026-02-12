@@ -57,7 +57,7 @@ calc_crops <- function(emissions,
 
   combo_strat <- min(.cover_crops_goal, .no_till_goal)
   cc_only <- if_else(.cover_crops_goal > .no_till_goal, .cover_crops_goal - .no_till_goal, 0)
-  no_till_only <- if_else(.no_till_goal > .cover_crops_goal, .cover_crops_goal - .no_till_goal, 0)
+  no_till_only <- if_else(.no_till_goal > .cover_crops_goal, .no_till_goal - .cover_crops_goal, 0)
 
   #calculate end amount of c seq and n2o reduction in 2050
   no_till_red <- strategy_use %>% filter(strategy == "No till") %>% pull(n2o_emis_ratio) * no_till_only

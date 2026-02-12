@@ -48,7 +48,7 @@ calc_smart_fertilizer <- function(emissions,
 
   red_fac <- ((0.38 + 0.35) / 2) * .smart_fertilizer_goal
 
-  browser()
+  #browser()
 
   fertilizer_emissions_alt <- fertilizer_emissions_bau %>%
   mutate(
