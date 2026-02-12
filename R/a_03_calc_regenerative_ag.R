@@ -18,6 +18,8 @@
 #'      The percentage of acreage to have no till in 2050
 #' @param .no_till_start_year numeric,  a value between `2028` and `2045`.
 #'      The year new no till program targets
+#' @param .regen_ag_start_year numeric,  a value between `2028` and `2045`.
+#'      Joint start year for no_till and regen_ag
 #'
 #' @inheritParams run_module_agriculture
 #' @inheritParams calculate_cropland_emissions
