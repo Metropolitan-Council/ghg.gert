@@ -51,7 +51,9 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                   .cover_crops_goal = 0.0,
                                   .no_till_start_year = 2028,
                                   .no_till_current = 0.0,
-                                  .no_till_goal = 0.0
+                                  .no_till_goal = 0.0,
+                                  # general start year for cover crops and no till
+                                  .regen_ag_start_year = 2028
 ) {
 
   livestock_tb <- filter_ctu(livestock_tb, .selected_ctu = .selected_ctu)
@@ -124,7 +126,8 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
         .cover_crops_goal = .cover_crops_goal,
         .no_till_start_year = .no_till_start_year,
         .no_till_current = .no_till_current,
-        .no_till_goal = .no_till_goal
+        .no_till_goal = .no_till_goal,
+        .regen_ag_start_year = .regen_ag_start_year
       )
 
   #browser()

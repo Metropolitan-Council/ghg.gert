@@ -38,7 +38,8 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                                    .cover_crops_goal = .cover_crops_goal,
                                    .no_till_start_year = .no_till_start_year,
                                    .no_till_current = .no_till_current,
-                                   .no_till_goal = .no_till_goal
+                                   .no_till_goal = .no_till_goal,
+                                   .regen_ag_start_year = .regen_ag_start_year
 ) {
 
   fertilizer_tb <- filter_ctu(fertilizer_tb, .selected_ctu = .selected_ctu)
@@ -110,7 +111,8 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
                .cover_crops_goal = .cover_crops_goal,
                .no_till_start_year = .no_till_start_year,
                .no_till_current = .no_till_current,
-               .no_till_goal = .no_till_goal)
+               .no_till_goal = .no_till_goal,
+               .regen_ag_start_year = .regen_ag_start_year)
   } else{cropland_bau %>%
       filter(source == "Soil residue emissions") %>%
       # Return both scenarios with identical values
