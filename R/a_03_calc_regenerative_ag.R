@@ -78,40 +78,40 @@ calc_crops <- function(emissions,
   regen_ag_emissions_alt <- crop_emissions %>%
     mutate(no_till_reduction = case_when(
       # NO TILL REDUCTIONS
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
-        value_emissions * (-1 * (no_till_red) * (inventory_year - .no_till_start_year) /
-                             (2050 - .no_till_start_year))
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
+        value_emissions * (-1 * (no_till_red) * (inventory_year - .regen_ag_start_year) /
+                             (2050 - .regen_ag_start_year))
     ),
     no_till_sequestration = case_when(
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
-        value_emissions * ((no_till_seq) * (inventory_year - .no_till_start_year) /
-                             (2050 - .no_till_start_year))
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
+        value_emissions * ((no_till_seq) * (inventory_year - .regen_ag_start_year) /
+                             (2050 - .regen_ag_start_year))
     ),
     # COVER CROP REDUCTIONS
     cc_reduction = case_when(
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
         value_emissions * (-1 * (cc_red) * (inventory_year - .regen_ag_start_year) /
                              (2050 - .regen_ag_start_year))
     ),
     cc_sequestration = case_when(
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
         value_emissions * ((cc_seq) * (inventory_year - .regen_ag_start_year) /
                              (2050 - .regen_ag_start_year))
     ),
     # COMBINATION STRATEGIES
     combo_reduction = case_when(
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
         value_emissions * (-1 * (combo_red) * (inventory_year - .regen_ag_start_year) /
                              (2050 - .regen_ag_start_year))
     ),
     combo_sequestration = case_when(
-      inventory_year < .no_till_start_year ~ 0,
-      inventory_year >= .no_till_start_year ~
+      inventory_year < .regen_ag_start_year ~ 0,
+      inventory_year >= .regen_ag_start_year ~
         value_emissions * ((combo_seq) * (inventory_year - .regen_ag_start_year) /
                              (2050 - .regen_ag_start_year))
     ),
