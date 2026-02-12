@@ -30,7 +30,7 @@
 #' @export
 calc_crops <- function(emissions,
                        .selected_ctu,
-                       caf_strategies = agriculture_regen_ag_caf,
+                       caf_strategies = ghg.ccap::agriculture_regen_ag_caf,
                                   .scenario,
                                   .baseline_year,
                                   ag_area_adj,
