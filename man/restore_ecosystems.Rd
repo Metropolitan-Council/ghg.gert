@@ -6,64 +6,60 @@
 \usage{
 restore_ecosystems(
   df_null,
-  restore_wetland = TRUE,
-  restore_forest = TRUE,
-  restore_prairie = FALSE,
-  ambition_pct = 50,
+  restore_wetland = FALSE,
+  wetland_ambition_pct = 50,
+  forest_area_sqkm = 0,
+  prairie_area_sqkm = 0,
   start_yr = 2025,
-  end_yr = 2050,
-  grassland_available_pct = 50
+  end_yr = 2050
 )
 }
 \arguments{
 \item{df_null}{Input dataframe of land cover area estimates (projections from 2023-2050)}
 
-\item{restore_wetland}{Logical, whether to restore wetlands (default TRUE)}
+\item{restore_wetland}{Logical, whether to restore wetlands (default FALSE)}
 
-\item{restore_forest}{Logical, whether to restore forests (default TRUE)}
+\item{wetland_ambition_pct}{Numeric 0-100, percent of wetland potential to realize (default 50)}
 
-\item{restore_prairie}{Logical, whether to restore native prairies/grassland (default FALSE)}
+\item{forest_area_sqkm}{Numeric, committed forest restoration area in sq km (default 0)}
 
-\item{ambition_pct}{Numeric 0-100, how much of available potential to realize (default 50)}
+\item{prairie_area_sqkm}{Numeric, committed prairie/grassland restoration area in sq km (default 0)}
 
 \item{start_yr}{Start year for restoration (default 2025)}
 
 \item{end_yr}{End year for restoration (default 2050)}
-
-\item{grassland_available_pct}{Percent of existing grassland available for conversion (default 50)}
 }
 \value{
 Dataframe with projected land cover areas. Includes attributes:
 \itemize{
 \item "restoration_allocations": detailed breakdown of area by source and target
 \item "restoration_summary": total area added to each target type
+\item "validation_warnings": any warnings about exceeding available land
+\item "validation_info": breakdown of limits and proposed totals
 }
 }
 \description{
-Simplified interface for restoring wetlands, forests, and prairies.
-Handles source allocation automatically with fair distribution when multiple
-ecosystem types are selected. Area conservation is maintained by drawing from
-a conversion pool (Bare, Cropland, and optionally Grassland/Tree).
+Interface for restoring wetlands, forests, and prairies.
+Wetlands use GIS-constrained potential with ambition percentage.
+Forests and prairies allow direct acreage specification for flexibility,
+as city planners often know their committed acreage.
 
-When multiple targets are selected, the system allocates sources fairly:
-\itemize{
-\item Exclusive sources are used first (e.g., Grassland can become Forest but not Prairie)
-\item Shared sources (Bare, Cropland) are split proportionally among targets
-\item Wetlands are always processed first due to spatial constraints
-}
+Area conservation is maintained by drawing from a conversion pool
+(Bare, Cropland, and optionally Grassland/Tree). Validation warnings
+are returned as attributes if proposed restoration exceeds available land.
 }
 \examples{
-\dontrun{
-# Simple usage - restore wetlands and forests at 40\% ambition
+\dontrun
+# Restore wetlands at 40\% ambition, plus 5 sq km forest and 3 sq km prairie
 result <- restore_ecosystems(
   df_null = my_projections,
   restore_wetland = TRUE,
-  restore_forest = TRUE,
-  restore_prairie = FALSE,
-  ambition_pct = 40
+  wetland_ambition_pct = 40,
+  forest_area_sqkm = 5,
+  prairie_area_sqkm = 3
 )
 
-# View what was allocated
-attr(result, "restoration_summary")
-}
+# View validation info
+attr(result, "validation_info")
+attr(result, "validation_warnings")
 }

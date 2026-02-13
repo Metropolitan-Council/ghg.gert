@@ -40,7 +40,6 @@
 #' # View validation info
 #' attr(result, "validation_info")
 #' attr(result, "validation_warnings")
-#' }
 restore_ecosystems <- function(df_null,
                                restore_wetland = FALSE,
                                wetland_ambition_pct = 50,

@@ -6,10 +6,10 @@
 \usage{
 format_restoration_summary(
   df_null,
-  restore_wetland = TRUE,
-  restore_forest = TRUE,
-  restore_prairie = FALSE,
-  ambition_pct = 50
+  restore_wetland = FALSE,
+  wetland_ambition_pct = 50,
+  forest_area_sqkm = 0,
+  prairie_area_sqkm = 0
 )
 }
 \arguments{
@@ -17,11 +17,11 @@ format_restoration_summary(
 
 \item{restore_wetland}{Logical}
 
-\item{restore_forest}{Logical}
+\item{wetland_ambition_pct}{Numeric 0-100}
 
-\item{restore_prairie}{Logical}
+\item{forest_area_sqkm}{Numeric}
 
-\item{ambition_pct}{Numeric 0-100}
+\item{prairie_area_sqkm}{Numeric}
 }
 \value{
 Character string describing the restoration plan

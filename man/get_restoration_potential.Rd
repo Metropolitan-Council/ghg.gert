@@ -4,31 +4,36 @@
 \alias{get_restoration_potential}
 \title{Get Restoration Potential for a Jurisdiction}
 \usage{
-get_restoration_potential(df_null, grassland_available_pct = 50)
+get_restoration_potential(df_null)
 }
 \arguments{
 \item{df_null}{Input dataframe of land cover area projections}
-
-\item{grassland_available_pct}{Percent of grassland that can be converted (default 50)}
 }
 \value{
 A list containing:
 \itemize{
-\item wetland: max wetland restoration potential (sq km)
-\item forest: max forest restoration potential (sq km)
-\item prairie: max prairie restoration potential (sq km)
-\item total_pool: total convertible area (sq km)
+\item wetland_potential_sqkm: max wetland restoration potential (GIS-constrained)
+\item soft_limit_sqkm: total area minus developed and water (realistic ceiling)
+\item hard_limit_sqkm: total jurisdictional area (physical limit)
 \item by_source: breakdown of available area by source type
+\item by_land_cover: current area for each land cover type
 }
 }
 \description{
 Calculates the maximum restorable area for wetlands, forests,
-and prairies based on available land and constraint layers. Useful for
-informing UI elements about what's achievable.
+and prairies based on available land. Returns validation limits for UI
+input constraints and warning thresholds.
+
+Wetlands are constrained by the GIS potential_wetland_area layer.
+Forests and prairies have flexible limits based on available non-developed,
+non-water land area.
 }
 \examples{
-\dontrun{
+\dontrun
 potential <- get_restoration_potential(my_projections)
-# Returns list with $wetland, $forest, $prairie, $total_pool, $by_source
+
+# Use for UI validation
+if (user_forest + user_prairie > potential$soft_limit_sqkm) {
+  show_warning("Exceeds realistic restoration potential")
 }
 }

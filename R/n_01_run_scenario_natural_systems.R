@@ -43,7 +43,7 @@
 #' @examples
 #' \dontrun
 #' # Wetland restoration at 40% ambition + 5 sq km forest
-#' result <- run_scenario_natural_systems_simple(
+#' result <- run_scenario_natural_systems(
 #'   .selected_ctu = "Lakeville",
 #'   .restore_wetland = TRUE,
 #'   .wetland_ambition = 40,
@@ -54,13 +54,12 @@
 #' attr(result, "validation_warnings")
 #'
 #' # Direct forest and prairie specification
-#' result <- run_scenario_natural_systems_simple(
+#' result <- run_scenario_natural_systems(
 #'   .selected_ctu = "Minneapolis",
 #'   .forest_area_sqkm = 10,
 #'   .prairie_area_sqkm = 5,
 #'   .community_tree_pct = 25
 #' )
-#' }
 run_scenario_natural_systems <- function(
     tb_inv = natural_systems_data$inventory,
     tb_future = natural_systems_data$projections,

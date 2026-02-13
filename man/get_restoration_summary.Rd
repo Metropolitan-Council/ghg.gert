@@ -6,11 +6,10 @@
 \usage{
 get_restoration_summary(
   df_null,
-  restore_wetland = TRUE,
-  restore_forest = TRUE,
-  restore_prairie = FALSE,
-  ambition_pct = 50,
-  grassland_available_pct = 50
+  restore_wetland = FALSE,
+  wetland_ambition_pct = 50,
+  forest_area_sqkm = 0,
+  prairie_area_sqkm = 0
 )
 }
 \arguments{
@@ -18,18 +17,27 @@ get_restoration_summary(
 
 \item{restore_wetland}{Logical, include wetland restoration}
 
-\item{restore_forest}{Logical, include forest restoration}
+\item{wetland_ambition_pct}{Numeric 0-100, ambition level for wetlands}
 
-\item{restore_prairie}{Logical, include prairie restoration}
+\item{forest_area_sqkm}{Numeric, committed forest area in sq km}
 
-\item{ambition_pct}{Numeric 0-100, ambition level}
-
-\item{grassland_available_pct}{Percent of grassland available for conversion}
+\item{prairie_area_sqkm}{Numeric, committed prairie area in sq km}
 }
 \value{
 A tibble with columns: source, target, area_sqkm
 }
 \description{
 Returns a tidy summary of restoration allocations for display
-in the UI. Shows what land conversions would occur at a given ambition level.
+in the UI. Shows what land conversions would occur with given inputs.
+}
+\examples{
+\dontrun
+summary <- get_restoration_summary(
+  df_null = my_projections,
+  restore_wetland = TRUE,
+  wetland_ambition_pct = 40,
+  forest_area_sqkm = 5,
+  prairie_area_sqkm = 3
+)
+# Returns tibble showing source → target conversions
 }

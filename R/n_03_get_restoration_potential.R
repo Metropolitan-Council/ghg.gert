@@ -28,7 +28,6 @@
 #' if (user_forest + user_prairie > potential$soft_limit_sqkm) {
 #'   show_warning("Exceeds realistic restoration potential")
 #' }
-#' }
 get_restoration_potential <- function(df_null) {
 
   # Get the most recent year's data
@@ -152,7 +151,6 @@ get_restoration_potential <- function(df_null) {
 #'   prairie_area_sqkm = 3
 #' )
 #' # Returns tibble showing source → target conversions
-#' }
 get_restoration_summary <- function(df_null,
                                     restore_wetland = FALSE,
                                     wetland_ambition_pct = 50,
