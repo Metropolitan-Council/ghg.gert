@@ -1,50 +1,101 @@
-#' @title Run natural systems scenario
-#' @family natural systems
+#' @title Run Simplified Natural Systems Scenario
 #'
-#' @description This function simulates the impact of various land use scenarios on carbon
-#'    sequestration and carbon stock in cities or townships. It considers urban tree planting and
-#'    restoration of abandoned agriculture.
+#' @description Simplified interface for natural systems carbon sequestration modeling.
+#'   Wetlands use GIS-constrained restoration with ambition percentage.
+#'   Forests and prairies allow direct acreage specification for planner flexibility.
 #'
+#'   This function wraps the complexity of land cover conversion into intuitive inputs:
+#'   - Wetlands: toggle + ambition slider (GIS-validated)
+#'   - Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
+#'   - Community trees: percent of developed area (urban canopy)
+#'   - Pocket prairies: percent of urban grassland (urban habitat)
+#'
+#' @param tb_inv Inventory data (list with $ctu, $county, $region)
+#' @param tb_future Future projections data (list with $ctu, $county, $region)
+#' @param tb_seq Sequestration rates by land cover type
+#' @param .selected_ctu City/township selection ("all", "Regional", county name, or CTU name)
+#'
+#' @param .restore_wetland Logical, whether to restore wetlands (default FALSE)
+#' @param .wetland_ambition Numeric 0-100, percent of wetland potential to realize (default 50)
+#' @param .forest_area_sqkm Numeric, committed forest restoration area in sq km (default 0)
+#' @param .prairie_area_sqkm Numeric, committed prairie/grassland restoration area in sq km (default 0)
+#' @param .restoration_start Start year for restoration (default 2025)
+#' @param .restoration_end End year for restoration (default 2050)
+#'
+#' @param .community_tree_pct Percent of developed area for community trees (0-100, default 0)
+#' @param .community_tree_start Start year for community tree planting (default 2025)
+#' @param .community_tree_end End year for community tree planting (default 2050)
+#'
+#' @param .pocket_prairie_pct Percent of urban grassland for pocket prairies (0-100, default 0)
+#' @param .pocket_prairie_start Start year for pocket prairies (default 2025)
+#' @param .pocket_prairie_end End year for pocket prairies (default 2050)
+#'
+#' @param .enviro_factors Environmental factors data
+#' @param detail Logical, return detailed output (default FALSE)
+#'
+#' @return Dataframe with carbon sequestration projections by land cover type and year.
+#'   Includes attributes for restoration metadata and validation warnings.
 #'
 #' @export
 #' @import dplyr
 #' @import tidyr
 #'
-run_scenario_natural_systems <- function(tb_inv = natural_systems_data$inventory,
-                                         tb_future = natural_systems_data$projections,
-                                         tb_seq = natural_systems_data$land_cover_carbon,
-                                         .selected_ctu = "all",
+#' @examples
+#' \dontrun
+#' # Wetland restoration at 40% ambition + 5 sq km forest
+#' result <- run_scenario_natural_systems_simple(
+#'   .selected_ctu = "Lakeville",
+#'   .restore_wetland = TRUE,
+#'   .wetland_ambition = 40,
+#'   .forest_area_sqkm = 5
+#' )
+#'
+#' # Check for validation warnings
+#' attr(result, "validation_warnings")
+#'
+#' # Direct forest and prairie specification
+#' result <- run_scenario_natural_systems_simple(
+#'   .selected_ctu = "Minneapolis",
+#'   .forest_area_sqkm = 10,
+#'   .prairie_area_sqkm = 5,
+#'   .community_tree_pct = 25
+#' )
+#' }
+run_scenario_natural_systems <- function(
+    tb_inv = natural_systems_data$inventory,
+    tb_future = natural_systems_data$projections,
+    tb_seq = natural_systems_data$land_cover_carbon,
+    .selected_ctu = "all",
 
-                                         # module 1 - restore wetlands
-                                         .wetland_restore_start = 2025,
-                                         .wetland_restore_end = 2050,
-                                         .wetland_restore_fromGrass_perc = 0, # percent of grassland to convert to wetland
-                                         .wetland_restore_fromBare_perc = 0,  # percent of bare land to convert to wetland
-                                         .wetland_restore_fromCrop_perc = 0,  # percent of cropland to convert to wetland
-                                         .wetland_restore_fromTree_perc = 0,  # percent of forest to convert to wetland
+    # Wetland restoration (GIS-constrained)
+    .restore_wetland = FALSE,
+    .wetland_ambition = 50,
 
-                                         # module 2 - restore forests
-                                         .forest_restore_start = 2025,
-                                         .forest_restore_end = 2050,
-                                         .forest_restore_fromGrass_perc = 0, # percent of grassland to convert to forest
-                                         .forest_restore_fromBare_perc = 0,  # percent of bare land to convert to forest
-                                         .forest_restore_fromCrop_perc = 0,  # percent of cropland to convert to forest
+    # Forest and prairie restoration (direct acreage)
+    .forest_area_sqkm = 0,
+    .prairie_area_sqkm = 0,
 
-                                         # module 3 - plant community trees
-                                         .community_tree_start = 2025,
-                                         .community_tree_end = 2050,
-                                         .community_tree_perc = 0, # percent of urban area to plant community trees
+    # Restoration timing
+    .restoration_start = 2025,
+    .restoration_end = 2050,
 
-                                         # module 4 - plant pocket prairies
-                                         .pocket_prairie_start = 2025,
-                                         .pocket_prairie_end = 2050,
-                                         .pocket_prairie_perc = 0, # percent of lawn area to plant pocket prairies
+    # Community tree planting (urban - separate from restoration)
+    .community_tree_pct = 0,
+    .community_tree_start = 2025,
+    .community_tree_end = 2050,
 
-                                         .enviro_factors = ghg.ccap::enviro_factors,
-                                         detail = FALSE) {
-  # -------------------------------------------------------------------------
+    # Pocket prairies - urban grassland upgrade (separate from restoration)
+    .pocket_prairie_pct = 0,
+    .pocket_prairie_start = 2025,
+    .pocket_prairie_end = 2050,
 
-  # if .selected_ctu has the word "County" in it, we filter by county
+    .enviro_factors = ghg.ccap::enviro_factors,
+    detail = FALSE
+) {
+
+  # ===========================================================================
+  # Select appropriate data based on geography
+  # ===========================================================================
   if (grepl("County", .selected_ctu)) {
     df_hist <- tb_inv$county %>% filter(geog_name == .selected_ctu)
     df_null <- tb_future$county %>% filter(geog_name == .selected_ctu)
@@ -59,112 +110,68 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$inventory
     df_null <- tb_future$ctu %>% filter(geog_name == .selected_ctu)
   }
 
+  # ===========================================================================
+  # Module 1: Ecosystem Restoration (wetlands, forests, prairies)
+  # ===========================================================================
+  restoration_allocations <- NULL
+  restoration_summary <- NULL
+  validation_warnings <- NULL
+  validation_info <- NULL
 
+  has_restoration <- .restore_wetland | .forest_area_sqkm > 0 | .prairie_area_sqkm > 0
 
-
-  ## module 1 - restore wetlands -----
-  #+ here's the rub: restoring wetlands based on potential_wetland_area incurs
-  #+ a cost of removing other natural land cover to make up for it. So we should
-  #+ start with this module first before urban tree planting and forest restoration.
-
-  #+ Let's work out the details. df_hist is the inventory of land cover area over time
-  #+ from 2000 to 2022. df_null is the projection of land cover area from 2023 to 2050
-  #+ assuming no changes. The wetland restoration module needs to look at the last year
-  #+ of df_hist to see how much wetland area exists currently, and then look at the
-  #+ potential_wetland_area column to see how much more wetland area can be restored.
-
-  if (.wetland_restore_fromGrass_perc != 0 | .wetland_restore_fromBare_perc != 0 |
-      .wetland_restore_fromCrop_perc != 0 | .wetland_restore_fromTree_perc != 0) {
-    tb01 <- ghg.ccap::restore_wetlands(
+  if (has_restoration) {
+    tb01 <- ghg.ccap::restore_ecosystems(
       df_null = df_null,
-      start_yr = .wetland_restore_start,
-      end_yr = .wetland_restore_end,
-      tree_pct = .wetland_restore_fromTree_perc,
-      grass_pct = .wetland_restore_fromGrass_perc,
-      bare_pct = .wetland_restore_fromBare_perc,
-      crop_pct = .wetland_restore_fromCrop_perc
+      restore_wetland = .restore_wetland,
+      wetland_ambition_pct = .wetland_ambition,
+      forest_area_sqkm = .forest_area_sqkm,
+      prairie_area_sqkm = .prairie_area_sqkm,
+      start_yr = .restoration_start,
+      end_yr = .restoration_end
     )
+
+    # Store restoration metadata
+    restoration_allocations <- attr(tb01, "restoration_allocations")
+    restoration_summary <- attr(tb01, "restoration_summary")
+    validation_warnings <- attr(tb01, "validation_warnings")
+    validation_info <- attr(tb01, "validation_info")
   } else {
     tb01 <- df_null
   }
 
-
-  ## module 2 - restore forests -----
-  # this one is a little challenging since it acts on the same land cover types that
-  # the previous module acted on. So we gotta think carefully about how the logic will work here.
-  if (.forest_restore_fromGrass_perc != 0 | .forest_restore_fromBare_perc != 0 |
-      .forest_restore_fromCrop_perc != 0) {
-    tb02 <- ghg.ccap::restore_forests(
+  # ===========================================================================
+  # Module 2: Community Tree Planting (urban)
+  # ===========================================================================
+  if (.community_tree_pct > 0) {
+    tb02 <- ghg.ccap::plant_community_trees(
       df_null = tb01,
-      start_yr = .forest_restore_start,
-      end_yr = .forest_restore_end,
-      grass_pct = .forest_restore_fromGrass_perc,
-      bare_pct = .forest_restore_fromBare_perc,
-      crop_pct = .forest_restore_fromCrop_perc
+      start_yr = .community_tree_start,
+      end_yr = .community_tree_end,
+      area_pct = .community_tree_pct
     )
   } else {
     tb02 <- tb01
   }
 
-
-  ## module 3 - plant community trees -----
-  if (.community_tree_perc != 0) {
-    tb03 <- ghg.ccap::plant_community_trees(
+  # ===========================================================================
+  # Module 3: Pocket Prairies (urban grassland → grassland upgrade)
+  # ===========================================================================
+  if (.pocket_prairie_pct > 0) {
+    tb03 <- ghg.ccap::plant_pocket_prairies(
       df_null = tb02,
-      start_yr = .community_tree_start,
-      end_yr = .community_tree_end,
-      area_pct = .community_tree_perc
+      start_yr = .pocket_prairie_start,
+      end_yr = .pocket_prairie_end,
+      area_pct = .pocket_prairie_pct
     )
   } else {
     tb03 <- tb02
   }
 
-
-  ## module 4 - plant pocket prairies -----
-  if (.pocket_prairie_perc != 0) {
-    tb04 <- ghg.ccap::plant_pocket_prairies(
-      df_null = tb03,
-      start_yr = .pocket_prairie_start,
-      end_yr = .pocket_prairie_end,
-      area_pct = .pocket_prairie_perc
-    )
-  } else {
-    tb04 <- tb03
-  }
-
-
-  # tb04 %>%
-  # ggplot() +
-  #   geom_line(alpha = 0.9, linewidth=0.5,
-  #             aes(x = inventory_year, y = area,
-  #                 color = land_cover_type),show.legend = F) +
-  #   theme(
-  #     legend.position = "bottom",
-  #     legend.direction = "horizontal"
-  #   ) +
-  #   facet_wrap(~land_cover_type, scales="free_y")
-  #
-  #
-  # tb04 %>%
-  #   # df_null %>%
-  #   # filter(land_cover_type %in% c("Wetland", "Grassland", "Bare", "Cropland")) %>%
-  #   # filter(land_cover_type %in% c("Urban_Tree", "Developed_Low", "Developed_Med", "Developed_High")) %>%
-  #   # filter(land_cover_type %in% c("Grassland")) %>%
-  #
-  # ggplot(
-  #   aes(x = inventory_year, y = area, fill = land_cover_type)
-  # ) +
-  #   # stacked area chart
-  #   geom_area(alpha = 0.6, color = NA, position = "stack") +
-  #   geom_line(alpha = 0.9, linewidth=0.5,
-  #             aes(color = land_cover_type), position = "stack", show.legend = F) +
-  #   theme(
-  #     legend.position = "bottom",
-  #     legend.direction = "horizontal"
-  #   )
-
-  ## calculate carbon sequestration and stock potential -----
-  carbon_sequestration_out <- rbind(df_hist, tb04) %>%
+  # ===========================================================================
+  # Calculate carbon sequestration and stock potential
+  # ===========================================================================
+  carbon_sequestration_out <- rbind(df_hist, tb03) %>%
     dplyr::arrange(inventory_year, land_cover_type) %>%
     dplyr::left_join(tb_seq, by = c("land_cover_type")) %>%
     dplyr::mutate(
@@ -172,23 +179,53 @@ run_scenario_natural_systems <- function(tb_inv = natural_systems_data$inventory
       value_stock_potential = area * stock_mtco2e_sqkm
     )
 
+  # ===========================================================================
+  # Attach metadata as attributes for UI consumption
+  # ===========================================================================
+  if (!is.null(restoration_allocations)) {
+    attr(carbon_sequestration_out, "restoration_allocations") <- restoration_allocations
+  }
+  if (!is.null(restoration_summary)) {
+    attr(carbon_sequestration_out, "restoration_summary") <- restoration_summary
+  }
+  if (!is.null(validation_warnings)) {
+    attr(carbon_sequestration_out, "validation_warnings") <- validation_warnings
+  }
+  if (!is.null(validation_info)) {
+    attr(carbon_sequestration_out, "validation_info") <- validation_info
+  }
 
-  # carbon_sequestration_out %>%
-  #   filter(!is.na(value_emissions)) %>%
-  #   ggplot(
-  #     aes(x = inventory_year, y = value_emissions, fill = land_cover_type)
-  #   ) +
-  #   # stacked area chart
-  #   geom_area(alpha = 0.6, color = NA, position = "stack") +
-  #   geom_line(alpha = 0.9, linewidth=0.5,
-  #             aes(color = land_cover_type), position = "stack", show.legend = F) +
-  #   theme(
-  #     legend.position = "bottom",
-  #     legend.direction = "horizontal"
-  #   )
-
-
-
-  # -------------------------------------------------------------------------
   return(carbon_sequestration_out)
+}
+
+
+#' @title Get Natural Systems Restoration Potential for UI
+#'
+#' @description Convenience function to get restoration potential and validation
+#'   limits for a selected jurisdiction. Useful for populating UI elements that
+#'   show users what's achievable and setting input constraints.
+#'
+#' @param tb_future Future projections data
+#' @param .selected_ctu City/township selection
+#'
+#' @return List with restoration potential values and validation limits
+#'
+#' @export
+get_ctu_restoration_potential <- function(
+    tb_future = natural_systems_data$projections,
+    .selected_ctu = "all"
+) {
+
+  # Select appropriate data based on geography
+  if (grepl("County", .selected_ctu)) {
+    df_null <- tb_future$county %>% filter(geog_name == .selected_ctu)
+  } else if (.selected_ctu == "Regional") {
+    df_null <- tb_future$region
+  } else if (.selected_ctu == "all") {
+    df_null <- tb_future$ctu
+  } else {
+    df_null <- tb_future$ctu %>% filter(geog_name == .selected_ctu)
+  }
+
+  get_restoration_potential(df_null)
 }
