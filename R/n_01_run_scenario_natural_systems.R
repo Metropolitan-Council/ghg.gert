@@ -201,20 +201,11 @@ run_scenario_natural_systems <- function(
 #'
 #' @export
 get_ctu_restoration_potential <- function(
-    tb_future = natural_systems_data$projections,
-    .selected_ctu = "all"
+    tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+    .selected_ctu = "Regional"
 ) {
 
-  # Select appropriate data based on geography
-  if (grepl("County", .selected_ctu)) {
-    df_null <- tb_future$county %>% filter(geog_name == .selected_ctu)
-  } else if (.selected_ctu == "Regional") {
-    df_null <- tb_future$region
-  } else if (.selected_ctu == "all") {
-    df_null <- tb_future$ctu
-  } else {
-    df_null <- tb_future$ctu %>% filter(geog_name == .selected_ctu)
-  }
+  df_null <- ghg.ccap::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
   get_restoration_potential(df_null)
 }
