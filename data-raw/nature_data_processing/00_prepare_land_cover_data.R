@@ -1,5 +1,5 @@
 # inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
-inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/236-incorporate-restorable-wetlands-into-natural-systems-projections/_nature/data/"
+inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
 
 natural_systems_data <- c()
 
