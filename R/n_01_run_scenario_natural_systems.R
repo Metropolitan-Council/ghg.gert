@@ -37,7 +37,7 @@
 #'   Includes attributes for restoration metadata and validation warnings.
 #'
 #' @export
-#' @import dplyr
+#' @importFrom dplyr filter select case_when across bind_rows cur_column
 #' @import tidyr
 #'
 #' @examples
@@ -61,10 +61,10 @@
 #'   .community_tree_pct = 25
 #' )
 run_scenario_natural_systems <- function(
-    tb_inv = natural_systems_data$inventory,
-    tb_future = natural_systems_data$projections,
-    tb_seq = natural_systems_data$land_cover_carbon,
-    .selected_ctu = "all",
+    tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
+    tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+    tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
+    .selected_ctu = "Regional",
 
     # Wetland restoration (GIS-constrained)
     .restore_wetland = FALSE,
@@ -95,19 +95,9 @@ run_scenario_natural_systems <- function(
   # ===========================================================================
   # Select appropriate data based on geography
   # ===========================================================================
-  if (grepl("County", .selected_ctu)) {
-    df_hist <- tb_inv$county %>% filter(geog_name == .selected_ctu)
-    df_null <- tb_future$county %>% filter(geog_name == .selected_ctu)
-  } else if (.selected_ctu == "Regional") {
-    df_hist <- tb_inv$region
-    df_null <- tb_future$region
-  } else if (.selected_ctu == "all") {
-    df_hist <- tb_inv$ctu
-    df_null <- tb_future$ctu
-  } else {
-    df_hist <- tb_inv$ctu %>% filter(geog_name == .selected_ctu)
-    df_null <- tb_future$ctu %>% filter(geog_name == .selected_ctu)
-  }
+
+  df_hist <- ghg.ccap::filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
+  df_null <- ghg.ccap::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
   # ===========================================================================
   # Module 1: Ecosystem Restoration (wetlands, forests, prairies)
