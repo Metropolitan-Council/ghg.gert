@@ -2,37 +2,101 @@
 % Please edit documentation in R/n_01_run_scenario_natural_systems.R
 \name{run_scenario_natural_systems}
 \alias{run_scenario_natural_systems}
-\title{Run natural systems scenario}
+\title{Run Simplified Natural Systems Scenario}
 \usage{
 run_scenario_natural_systems(
   tb_inv = natural_systems_data$inventory,
   tb_future = natural_systems_data$projections,
   tb_seq = natural_systems_data$land_cover_carbon,
   .selected_ctu = "all",
-  .wetland_restore_start = 2025,
-  .wetland_restore_end = 2050,
-  .wetland_restore_fromGrass_perc = 0,
-  .wetland_restore_fromBare_perc = 0,
-  .wetland_restore_fromCrop_perc = 0,
-  .wetland_restore_fromTree_perc = 0,
-  .forest_restore_start = 2025,
-  .forest_restore_end = 2050,
-  .forest_restore_fromGrass_perc = 0,
-  .forest_restore_fromBare_perc = 0,
-  .forest_restore_fromCrop_perc = 0,
+  .restore_wetland = FALSE,
+  .wetland_ambition = 50,
+  .forest_area_sqkm = 0,
+  .prairie_area_sqkm = 0,
+  .restoration_start = 2025,
+  .restoration_end = 2050,
+  .community_tree_pct = 0,
   .community_tree_start = 2025,
   .community_tree_end = 2050,
-  .community_tree_perc = 0,
+  .pocket_prairie_pct = 0,
   .pocket_prairie_start = 2025,
   .pocket_prairie_end = 2050,
-  .pocket_prairie_perc = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
 )
 }
-\description{
-This function simulates the impact of various land use scenarios on carbon
-sequestration and carbon stock in cities or townships. It considers urban tree planting and
-restoration of abandoned agriculture.
+\arguments{
+\item{tb_inv}{Inventory data (list with $ctu, $county, $region)}
+
+\item{tb_future}{Future projections data (list with $ctu, $county, $region)}
+
+\item{tb_seq}{Sequestration rates by land cover type}
+
+\item{.selected_ctu}{City/township selection ("all", "Regional", county name, or CTU name)}
+
+\item{.restore_wetland}{Logical, whether to restore wetlands (default FALSE)}
+
+\item{.wetland_ambition}{Numeric 0-100, percent of wetland potential to realize (default 50)}
+
+\item{.forest_area_sqkm}{Numeric, committed forest restoration area in sq km (default 0)}
+
+\item{.prairie_area_sqkm}{Numeric, committed prairie/grassland restoration area in sq km (default 0)}
+
+\item{.restoration_start}{Start year for restoration (default 2025)}
+
+\item{.restoration_end}{End year for restoration (default 2050)}
+
+\item{.community_tree_pct}{Percent of developed area for community trees (0-100, default 0)}
+
+\item{.community_tree_start}{Start year for community tree planting (default 2025)}
+
+\item{.community_tree_end}{End year for community tree planting (default 2050)}
+
+\item{.pocket_prairie_pct}{Percent of urban grassland for pocket prairies (0-100, default 0)}
+
+\item{.pocket_prairie_start}{Start year for pocket prairies (default 2025)}
+
+\item{.pocket_prairie_end}{End year for pocket prairies (default 2050)}
+
+\item{.enviro_factors}{Environmental factors data}
+
+\item{detail}{Logical, return detailed output (default FALSE)}
 }
-\concept{natural systems}
+\value{
+Dataframe with carbon sequestration projections by land cover type and year.
+Includes attributes for restoration metadata and validation warnings.
+}
+\description{
+Simplified interface for natural systems carbon sequestration modeling.
+Wetlands use GIS-constrained restoration with ambition percentage.
+Forests and prairies allow direct acreage specification for planner flexibility.
+
+This function wraps the complexity of land cover conversion into intuitive inputs:
+\itemize{
+\item Wetlands: toggle + ambition slider (GIS-validated)
+\item Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
+\item Community trees: percent of developed area (urban canopy)
+\item Pocket prairies: percent of urban grassland (urban habitat)
+}
+}
+\examples{
+\dontrun
+# Wetland restoration at 40\% ambition + 5 sq km forest
+result <- run_scenario_natural_systems(
+  .selected_ctu = "Lakeville",
+  .restore_wetland = TRUE,
+  .wetland_ambition = 40,
+  .forest_area_sqkm = 5
+)
+
+# Check for validation warnings
+attr(result, "validation_warnings")
+
+# Direct forest and prairie specification
+result <- run_scenario_natural_systems(
+  .selected_ctu = "Minneapolis",
+  .forest_area_sqkm = 10,
+  .prairie_area_sqkm = 5,
+  .community_tree_pct = 25
+)
+}

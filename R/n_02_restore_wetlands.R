@@ -51,7 +51,60 @@ restore_wetlands <- function(df_null,
     )
 
 
-  # browser()
+  has_wetland <- "Wetland" %in% df_max$land_cover_type
+
+  if (!has_wetland) {
+    # Calculate total area being converted to wetland
+    total_converted <- df_max %>%
+      filter(land_cover_type %in% c("Tree", "Grassland", "Bare", "Cropland")) %>%
+      mutate(
+        converted = case_when(
+          land_cover_type == "Tree" ~ actual_wetland_area * (tree_pct / 100),
+          land_cover_type == "Grassland" ~ actual_wetland_area * (grass_pct / 100),
+          land_cover_type == "Bare" ~ actual_wetland_area * (bare_pct / 100),
+          land_cover_type == "Cropland" ~ actual_wetland_area * (crop_pct / 100),
+          TRUE ~ 0
+        )
+      ) %>%
+      summarise(total = sum(converted)) %>%
+      pull(total)
+
+    # Create Wetland row template (use first available source land cover as template)
+    source_types <- c("Tree", "Grassland", "Bare", "Cropland")
+    template_source <- df_max %>%
+      filter(land_cover_type %in% source_types) %>%
+      slice(1)
+
+    wetland_template <- template_source %>%
+      mutate(
+        land_cover_type = "Wetland",
+        area = 0,
+        area_change = total_converted,
+        potential_wetland_area = 0,
+        actual_wetland_area = 0
+      )
+
+    df_max <- bind_rows(df_max, wetland_template)
+
+    # Also add Wetland to df_null for all years
+    wetland_rows <- df_null %>%
+      filter(land_cover_type == source_types[1]) %>%
+      group_by(inventory_year) %>%
+      slice(1) %>%
+      ungroup() %>%
+      mutate(
+        land_cover_type = "Wetland",
+        area = 0,
+        potential_wetland_area = 0,
+        actual_wetland_area = 0
+      )
+
+    df_null <- bind_rows(df_null, wetland_rows)
+  }
+
+
+
+
 
   df_export <- simulate_land_conversion(
     df = df_null %>%

@@ -40,7 +40,53 @@ restore_forests <- function(df_null,
     )
 
 
-  # browser()
+  has_tree <- "Tree" %in% df_max$land_cover_type
+
+  if (!has_tree) {
+    # Calculate total area being converted to forest
+    total_converted <- df_max %>%
+      filter(land_cover_type %in% c("Grassland", "Bare", "Cropland")) %>%
+      mutate(
+        converted = case_when(
+          land_cover_type == "Grassland" ~ area * (grass_pct / 100),
+          land_cover_type == "Bare" ~ area * (bare_pct / 100),
+          land_cover_type == "Cropland" ~ area * (crop_pct / 100),
+          TRUE ~ 0
+        )
+      ) %>%
+      summarise(total = sum(converted)) %>%
+      pull(total)
+
+    # Create Tree row template
+    source_types <- c("Grassland", "Bare", "Cropland")
+    template_source <- df_max %>%
+      filter(land_cover_type %in% source_types) %>%
+      slice(1)
+
+    tree_template <- template_source %>%
+      mutate(
+        land_cover_type = "Tree",
+        area = 0,
+        area_change = total_converted,
+        potential_wetland_area = 0
+      )
+
+    df_max <- bind_rows(df_max, tree_template)
+
+    # Also add Tree to df_null for all years
+    tree_rows <- df_null %>%
+      filter(land_cover_type == source_types[1]) %>%
+      group_by(inventory_year) %>%
+      slice(1) %>%
+      ungroup() %>%
+      mutate(
+        land_cover_type = "Tree",
+        area = 0,
+        potential_wetland_area = 0
+      )
+
+    df_null <- bind_rows(df_null, tree_rows)
+  }
 
   df_export <- simulate_land_conversion(
     df = df_null %>%
