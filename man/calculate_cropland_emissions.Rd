@@ -9,6 +9,7 @@ calculate_cropland_emissions(
   crops_tb = .crops_tb,
   .baseline_year = .baseline_year,
   area_tb = area_tb,
+  agricultural_emissions = ghg.ccap::agricultural_emissions,
   .cropland_decrease_2050 = .cropland_decrease_2050,
   .selected_ctu = .selected_ctu,
   .scenario = "alt",
@@ -20,7 +21,8 @@ calculate_cropland_emissions(
   .cover_crops_goal = .cover_crops_goal,
   .no_till_start_year = .no_till_start_year,
   .no_till_current = .no_till_current,
-  .no_till_goal = .no_till_goal
+  .no_till_goal = .no_till_goal,
+  .regen_ag_start_year = .regen_ag_start_year
 )
 }
 \arguments{
@@ -42,6 +44,7 @@ cover crops, no-till. These are inter-related so run together here.
 }
 \seealso{
 Other agriculture: 
+\code{\link{county_assign}()},
 \code{\link{run_module_agriculture}()}
 }
 \concept{agriculture}

@@ -24,7 +24,8 @@ run_module_agriculture(
   .cover_crops_goal = 0,
   .no_till_start_year = 2028,
   .no_till_current = 0,
-  .no_till_goal = 0
+  .no_till_goal = 0,
+  .regen_ag_start_year = 2028
 )
 }
 \arguments{
@@ -46,6 +47,7 @@ livestock, manure, and crop soils.
 }
 \seealso{
 Other agriculture: 
-\code{\link{calculate_cropland_emissions}()}
+\code{\link{calculate_cropland_emissions}()},
+\code{\link{county_assign}()}
 }
 \concept{agriculture}

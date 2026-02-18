@@ -39,6 +39,6 @@ Uses the coefficients found in MN CAF technical documenation
 }
 \seealso{
 Other cropland: 
-\code{\link{calc_crops}()}
+\code{\link{calc_regen_ag}()}
 }
 \concept{cropland}

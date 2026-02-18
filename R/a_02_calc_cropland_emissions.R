@@ -102,7 +102,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
   # regenerative ag products
 
   crops_alt <- if(.cover_crops_goal + .no_till_goal > .cover_crops_current + .no_till_current) {
-    calc_crops(emissions = cropland_bau,
+    calc_regen_ag(emissions = cropland_bau,
                .selected_ctu = .selected_ctu,
                           ag_area_adj = ag_area_adj,
                           .baseline_year = .baseline_year,

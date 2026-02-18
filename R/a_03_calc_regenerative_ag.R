@@ -30,7 +30,7 @@
 #'
 #' @return [tibble::tibble()].
 #' @export
-calc_crops <- function(emissions,
+calc_regen_ag <- function(emissions,
                        .selected_ctu,
                        caf_strategies = ghg.ccap::agriculture_regen_ag_caf,
                                   .scenario,
@@ -125,7 +125,8 @@ calc_crops <- function(emissions,
     select(geog_name, geog_id, geog_level, sector, category, source, inventory_year,
            value_emissions, scenario, sequestration, n2o_reduction, value_emissions_net)
 
-  regen_ag_emissions_alt %>% filter(inventory_year %in% c(2022, 2030, 2050))
+  # # Line below looks like an orphan, commenting out for now but may be useful for debugging
+  # regen_ag_emissions_alt %>% filter(inventory_year %in% c(2022, 2030, 2050))
 
 
   # Check if any year has negative net emissions and adjust
