@@ -71,10 +71,6 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.0}.}
 
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.0}.}
-
 \item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
 
 \item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
@@ -150,6 +146,7 @@ run_scenario_building(
 \seealso{
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
