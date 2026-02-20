@@ -73,6 +73,7 @@ calc_ghg_residential(
 \seealso{
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
@@ -105,6 +106,7 @@ Other buildings:
 \code{\link{run_scenario_building}()}
 
 Other residential: 
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

@@ -12,11 +12,6 @@ calc_ghg_non_residential(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -48,6 +43,7 @@ non-residential strategies refer to \code{\link[=scen_non_residential_building]{
 \seealso{
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},

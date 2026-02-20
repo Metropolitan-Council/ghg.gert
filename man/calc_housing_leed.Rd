@@ -34,7 +34,7 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.new_business_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
+\item{.new_jobs_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 }
@@ -92,6 +92,7 @@ calc_floor_area_leed(
 \seealso{
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
@@ -125,6 +126,7 @@ Other buildings:
 
 Other buildings: 
 \code{\link{DEPRECATED_calc_ghg_non_residential}()},
+\code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
 \code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
