@@ -36,18 +36,24 @@
 calc_building_energy <- function(
     .selected_ctu,
     parcel_data = ghg.ccap::parcel_ctu,
-    strategy_tb = ghg.ccap::resstock_summaries) {
+    resstock_tb = ghg.ccap::resstock_summaries,
+    ceestock_tb = ghg.ccap::ceestock_summaries
+    ) {
   # bin based on resstock categories
   bin_sqft <- function(sqft) {
     cut(sqft,
-      breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
+      breaks = c(0, 499, 749, 999, 1499, 1999, 2499, 2999, 3999, Inf),
       labels = c(
-        "Less than 1,000", "1,000 to 1,499", "1,500 to 1,999",
-        "2,000 to 2,499", "2,500 to 2,999", "3,000 or more"
+        "0 to 499", "500 to 749", "750 to 999",
+        "1000 to 1499", "1500 to 1999",
+        "2000 to 2499", "2500 to 2999", "3000 to 3999",
+        "4000+"
       ),
       right = TRUE
     )
   }
+
+  browser()
 
   bin_year <- function(year) {
     cut(year,
@@ -73,28 +79,17 @@ calc_building_energy <- function(
 
   ### calculate ctu single family baseline based on size and year
   ctu_sf_baseline <- left_join(ctu_binned,
-    bind_rows(
-      strategy_tb$sf_attached_sqft_baseline,
-      strategy_tb$sf_detached_sqft_baseline
-    ),
+      ceestock_tb$cee_baseline_sf,
     by = c(
       "mc_classification",
-      "sqft_bin"
+      "sqft_bin",
+      "year_bin" = "build_year"
     )
   ) %>%
-    left_join(
-      bind_rows(
-        strategy_tb$sf_attached_year_baseline,
-        strategy_tb$sf_detached_year_baseline
-      ),
-      by = c("mc_classification",
-        "year_bin" = "build_year"
-      )
-    ) %>%
     # take the mean mwh and mcf of the two characteristics
     mutate(
-      scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-      scenario_mcf = (median_mcf.x + median_mcf.y) / 2
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
     ) %>%
     select(
       mc_classification,
@@ -104,7 +99,7 @@ calc_building_energy <- function(
 
   ctu_baseline <- bind_rows(
     ctu_sf_baseline,
-    strategy_tb$mf_baseline %>%
+    resstock_tb$mf_baseline %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -114,7 +109,7 @@ calc_building_energy <- function(
         scenario_mwh,
         scenario_mcf
       ),
-    strategy_tb$manufactured_baseline %>%
+    resstock_tb$manufactured_baseline %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -128,28 +123,16 @@ calc_building_energy <- function(
     mutate(scenario = "baseline")
 
   ctu_sf_retrofit <- left_join(ctu_binned,
-    bind_rows(
-      strategy_tb$sf_attached_sqft_envelope,
-      strategy_tb$sf_detached_sqft_envelope
-    ),
-    by = c(
-      "mc_classification",
-      "sqft_bin"
-    )
-  ) %>%
-    left_join(
-      bind_rows(
-        strategy_tb$sf_attached_year_envelope,
-        strategy_tb$sf_detached_year_envelope
-      ),
-      by = c("mc_classification",
+      ceestock_tb$cee_retrofit_sf,
+      by = c(
+        "mc_classification",
+        "sqft_bin",
         "year_bin" = "build_year"
       )
-    ) %>%
-    # take the mean mwh and mcf of the two characteristics
+  ) %>%
     mutate(
-      scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-      scenario_mcf = (median_mcf.x + median_mcf.y) / 2
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
     ) %>%
     select(
       mc_classification,
@@ -159,7 +142,7 @@ calc_building_energy <- function(
 
   ctu_retrofit <- bind_rows(
     ctu_sf_retrofit,
-    strategy_tb$mf_envelope %>%
+    resstock_tb$mf_envelope %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -169,7 +152,7 @@ calc_building_energy <- function(
         scenario_mwh,
         scenario_mcf
       ),
-    strategy_tb$manufactured_envelope %>%
+    resstock_tb$manufactured_envelope %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -183,28 +166,16 @@ calc_building_energy <- function(
     mutate(scenario = "retrofit")
 
   ctu_sf_heatpump <- left_join(ctu_binned,
-    bind_rows(
-      strategy_tb$sf_attached_sqft_heatpump,
-      strategy_tb$sf_detached_sqft_heatpump
-    ),
-    by = c(
-      "mc_classification",
-      "sqft_bin"
-    )
+                               ceestock_tb$cee_heatpump_sf,
+                               by = c(
+                                 "mc_classification",
+                                 "sqft_bin",
+                                 "year_bin" = "build_year"
+                               )
   ) %>%
-    left_join(
-      bind_rows(
-        strategy_tb$sf_attached_year_heatpump,
-        strategy_tb$sf_detached_year_heatpump
-      ),
-      by = c("mc_classification",
-        "year_bin" = "build_year"
-      )
-    ) %>%
-    # take the mean mwh and mcf of the two characteristics
     mutate(
-      scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-      scenario_mcf = (median_mcf.x + median_mcf.y) / 2
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
     ) %>%
     select(
       mc_classification,
@@ -214,7 +185,7 @@ calc_building_energy <- function(
 
   ctu_heatpump <- bind_rows(
     ctu_sf_heatpump,
-    strategy_tb$mf_heatpump %>%
+    resstock_tb$mf_heatpump %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -224,7 +195,7 @@ calc_building_energy <- function(
         scenario_mwh,
         scenario_mcf
       ),
-    strategy_tb$manufactured_heatpump %>%
+    resstock_tb$manufactured_heatpump %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -237,28 +208,37 @@ calc_building_energy <- function(
   ) %>%
     mutate(scenario = "heatpump")
 
+  ctu_sf_combo <- left_join(ctu_binned,
+                              ceestock_tb$cee_combined_sf,
+                               by = c(
+                                 "mc_classification",
+                                 "sqft_bin",
+                                 "year_bin" = "build_year"
+                               )
+  ) %>%
+    mutate(
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
+    ) %>%
+    select(
+      mc_classification,
+      scenario_mwh,
+      scenario_mcf
+    )
+
+  ## combo scenario does not exist for
+
   ctu_sf_new <- left_join(ctu_binned,
-    bind_rows(
-      strategy_tb$sf_attached_sqft_baseline,
-      strategy_tb$sf_detached_sqft_baseline
-    ),
+    ceestock_tb$cee_retrofit_sf %>%
+      filter(build_year == "2010s"),
     by = c(
       "mc_classification",
       "sqft_bin"
     )
   ) %>%
-    left_join(
-      bind_rows(
-        strategy_tb$sf_attached_year_baseline,
-        strategy_tb$sf_detached_year_baseline
-      ) %>%
-        filter(build_year == "2010s"),
-      by = c("mc_classification")
-    ) %>%
-    # take the mean mwh and mcf of the two characteristics
     mutate(
-      scenario_mwh = (median_kwh.x + median_kwh.y) / 2 * 10e-4,
-      scenario_mcf = (median_mcf.x + median_mcf.y) / 2
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
     ) %>%
     select(
       mc_classification,
@@ -268,7 +248,7 @@ calc_building_energy <- function(
 
   ctu_new <- bind_rows(
     ctu_sf_new,
-    strategy_tb$mf_baseline %>%
+    resstock_tb$mf_baseline %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -278,7 +258,7 @@ calc_building_energy <- function(
         scenario_mwh,
         scenario_mcf
       ),
-    strategy_tb$manufactured_envelope %>%
+    resstock_tb$manufactured_envelope %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
