@@ -2,17 +2,6 @@
 
 # library(dplyr, tidyr, readr)
 
-## function to match eia sqft bins
-bin_sqft <- function(sqft) {
-  cut(sqft,
-      breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
-      labels = c(
-        "Less than 1,000", "1,000 to 1,499", "1,500 to 1,999",
-        "2,000 to 2,499", "2,500 to 2,999", "3,000 or more"
-      ),
-      right = TRUE
-  )
-}
 
 ceestock <- readr::read_csv("./data-raw/building_energy_data_processing/ceestock/ceestcok_savings_v1.csv") %>%
   janitor::clean_names() %>%
@@ -33,8 +22,7 @@ ceestock <- readr::read_csv("./data-raw/building_energy_data_processing/ceestock
       .cols = matches("gas") & !matches("pct"),
       .fns  = ~ .x * 0.963, # nat gas mmbtu to mcf
       .names = "{.col}"
-    ),
-    gas_other_mcf = gas_mcf - gas_heat_mcf # pull out gas appliance (other)
+    )
   ) %>% # and rename them properly
   rename_with(
     ~ stringr::str_replace(.x, "mm_btu", "mwh"),
@@ -46,21 +34,22 @@ ceestock <- readr::read_csv("./data-raw/building_energy_data_processing/ceestock
   ) %>%
   rename_with(
     ~ stringr::str_replace(.x, "savings", "change")
-  )
+  ) %>%
+  mutate(gas_other_mcf = gas_mcf - gas_heat_mcf) # pull out gas appliance (other))
 
 #### baseline read in ####
 
 cee_baseline_sf <- ceestock %>%
   filter(model_heating_fuel == "Natural Gas", # discounting dwellings already using electricity for now
          scenario == "Baseline") %>%
-  select(scenario,
-         build_year = model_vintage_acs,
-         sqft_bin,
-         mc_classification,
-         elec_mwh,
-         gas_mcf,
-         gas_heat_mcf,
-         gas_other_mcf)
+  group_by(scenario, model_vintage_acs, sqft_bin, mc_classification) %>%
+  summarize(elec_mwh = mean(elec_mwh),
+            gas_heat_mcf= mean(gas_heat_mcf ),
+            gas_mcf = mean(gas_mcf),
+            gas_other_mcf = mean(gas_other_mcf)
+  ) %>%
+  ungroup() %>%
+  rename(build_year = model_vintage_acs)
 
 ### retrofits
 
