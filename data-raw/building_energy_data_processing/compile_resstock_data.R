@@ -65,6 +65,10 @@ envelope <- load_resstock(
   "./data-raw/building_energy_data_processing/resstock data/MN_upgrade2.04_metadata_and_annual_results_intermediate_envelope.csv"
 )
 
+combo <- load_resstock(
+  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade07_metadata_and_annual_results.csv"
+)
+
 
 # summary list
 
@@ -92,7 +96,15 @@ resstock_summaries <- list(
   sf_attached_sqft_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year"))
+  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year")),
+
+  # Combination summaries
+  mf_combo = summarize_resstock(combo, "Multi", "mc_classification"),
+  manufactured_combo = summarize_resstock(combo, "Mobile", "mc_classification"),
+  sf_attached_sqft_combo = summarize_resstock(combo, "Attached", c("mc_classification", "sqft_bin")),
+  sf_attached_year_combo = summarize_resstock(combo, "Attached", c("mc_classification", "build_year")),
+  sf_detached_sqft_combo = summarize_resstock(combo, "Detached", c("mc_classification", "sqft_bin")),
+  sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year"))
 )
 
 

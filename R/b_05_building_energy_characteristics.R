@@ -53,7 +53,6 @@ calc_building_energy <- function(
     )
   }
 
-  browser()
 
   bin_year <- function(year) {
     cut(year,
@@ -226,6 +225,31 @@ calc_building_energy <- function(
       scenario_mcf
     )
 
+  ctu_combo <- bind_rows(
+    ctu_sf_combo,
+    resstock_tb$mf_combo %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      ),
+    resstock_tb$manufactured_combo %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      )
+  ) %>%
+    mutate(scenario = "combination")
+
   ## combo scenario does not exist for
 
   ctu_sf_new <- left_join(ctu_binned,
@@ -275,7 +299,8 @@ calc_building_energy <- function(
     ctu_baseline,
     ctu_new,
     ctu_retrofit,
-    ctu_heatpump
+    ctu_heatpump,
+    ctu_combo
   )
 
   return(ctu_energy_profile)
