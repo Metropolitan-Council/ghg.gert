@@ -417,7 +417,9 @@ mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows)
 ### input multifamily year built in similar manner
 
 mfd_out <- mfd_parcel %>%
-  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year)
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year) %>%
+  filter(!is.na(median_year),
+         median_year != 0)
 
 missing_cities_mfd <- anti_join(sfd_out, mfd_out, by = "ctu_id")
 
@@ -432,7 +434,7 @@ median_mfd <- mfd_out %>%
 missing_mfd_rows <- missing_cities_mfd %>%
   select(county_name, ctu_id, geog_name, inventory_year) %>%
   cross_join(median_mfd) %>%
-  mutate(mc_classification = "multifamily") %>%
+  mutate(mc_classification = "manufactured_home") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
