@@ -184,7 +184,7 @@ scen_building_residential <- function(res_tb = res_tb,
   )
 
   tb_out <- calc_ghg_residential(
-    res_energy = tb09,
+    res_energy = tb10,
     .selected_ctu = .selected_ctu,
     .grid_emissions = .grid_emissions,
     .enviro_factors = .enviro_factors
