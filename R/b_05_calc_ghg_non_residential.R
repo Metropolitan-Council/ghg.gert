@@ -9,7 +9,7 @@
 #'
 #' @note `calc_ghg_non_residential()` estimates the building energy demand and emissions
 #'      based on job forecasts and selected strategies. For a function that compiles all
-#'      non-residential strategies refer to [`scen_non_residential_building()`].
+#'      non-residential strategies refer to [`scen_building_non_residential()`].
 #'
 #' @param res_energy [tibble::tibble()].
 #'      Table, table with residential energy,

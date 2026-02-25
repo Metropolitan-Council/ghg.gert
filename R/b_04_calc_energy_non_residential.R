@@ -9,7 +9,7 @@
 #'
 #' @note `calc_energy_non_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
-#'      nonresidential strategies refer to [`scen_non_residential_building()`].
+#'      nonresidential strategies refer to [`scen_building_non_residential()`].
 #'
 #' @param non_res_tb [tibble::tibble()].
 #'      Table, table with residential building data.

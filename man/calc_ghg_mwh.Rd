@@ -50,7 +50,7 @@ based on electrical grid emission factors.
 \note{
 \code{calc_ghg_residential()} estimates the building energy demand and emissions
 based on the floor area assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_residential_building]{scen_residential_building()}}.
+residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
 \examples{
 \dontrun{

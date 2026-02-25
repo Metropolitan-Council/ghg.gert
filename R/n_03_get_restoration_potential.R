@@ -21,12 +21,13 @@
 #' @import dplyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' potential <- get_restoration_potential(my_projections)
 #'
 #' # Use for UI validation
 #' if (user_forest + user_prairie > potential$soft_limit_sqkm) {
 #'   show_warning("Exceeds realistic restoration potential")
+#' }
 #' }
 get_restoration_potential <- function(df_null) {
 
@@ -142,7 +143,7 @@ get_restoration_potential <- function(df_null) {
 #' @import tibble
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' summary <- get_restoration_summary(
 #'   df_null = my_projections,
 #'   restore_wetland = TRUE,
@@ -151,6 +152,8 @@ get_restoration_potential <- function(df_null) {
 #'   prairie_area_sqkm = 3
 #' )
 #' # Returns tibble showing source → target conversions
+#' }
+#'
 get_restoration_summary <- function(df_null,
                                     restore_wetland = FALSE,
                                     wetland_ambition_pct = 50,

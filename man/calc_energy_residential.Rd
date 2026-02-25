@@ -55,7 +55,7 @@ for the user-specified scenario, and the business-as-usual scenario.
 \note{
 \code{calc_energy_residential()} estimates the building energy demand
 based on the housing efficiency assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_residential_building]{scen_residential_building()}}.
+residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
 \examples{
 \dontrun{

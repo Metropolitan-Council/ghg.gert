@@ -29,11 +29,12 @@ Forests and prairies have flexible limits based on available non-developed,
 non-water land area.
 }
 \examples{
-\dontrun
+\dontrun{
 potential <- get_restoration_potential(my_projections)
 
 # Use for UI validation
 if (user_forest + user_prairie > potential$soft_limit_sqkm) {
   show_warning("Exceeds realistic restoration potential")
+}
 }
 }

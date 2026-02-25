@@ -5,10 +5,10 @@
 \title{Run Simplified Natural Systems Scenario}
 \usage{
 run_scenario_natural_systems(
-  tb_inv = natural_systems_data$inventory,
-  tb_future = natural_systems_data$projections,
-  tb_seq = natural_systems_data$land_cover_carbon,
-  .selected_ctu = "all",
+  tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
+  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+  tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
+  .selected_ctu = "Regional",
   .restore_wetland = FALSE,
   .wetland_ambition = 50,
   .forest_area_sqkm = 0,
@@ -80,7 +80,7 @@ This function wraps the complexity of land cover conversion into intuitive input
 }
 }
 \examples{
-\dontrun
+\dontrun{
 # Wetland restoration at 40\% ambition + 5 sq km forest
 result <- run_scenario_natural_systems(
   .selected_ctu = "Lakeville",
@@ -99,4 +99,5 @@ result <- run_scenario_natural_systems(
   .prairie_area_sqkm = 5,
   .community_tree_pct = 25
 )
+}
 }

@@ -5,8 +5,8 @@
 \title{Get Natural Systems Restoration Potential for UI}
 \usage{
 get_ctu_restoration_potential(
-  tb_future = natural_systems_data$projections,
-  .selected_ctu = "all"
+  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+  .selected_ctu = "Regional"
 )
 }
 \arguments{

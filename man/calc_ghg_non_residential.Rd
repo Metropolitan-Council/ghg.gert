@@ -38,7 +38,7 @@ for the user-specified scenario, and the business-as-usual scenario.
 \note{
 \code{calc_ghg_non_residential()} estimates the building energy demand and emissions
 based on job forecasts and selected strategies. For a function that compiles all
-non-residential strategies refer to \code{\link[=scen_non_residential_building]{scen_non_residential_building()}}.
+non-residential strategies refer to \code{\link[=scen_building_non_residential]{scen_building_non_residential()}}.
 }
 \seealso{
 Other buildings: 

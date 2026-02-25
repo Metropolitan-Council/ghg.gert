@@ -41,7 +41,7 @@
 #' @import tidyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' # Wetland restoration at 40% ambition + 5 sq km forest
 #' result <- run_scenario_natural_systems(
 #'   .selected_ctu = "Lakeville",
@@ -60,6 +60,7 @@
 #'   .prairie_area_sqkm = 5,
 #'   .community_tree_pct = 25
 #' )
+#' }
 run_scenario_natural_systems <- function(
     tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
     tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),

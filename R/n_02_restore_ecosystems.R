@@ -27,7 +27,7 @@
 #' @import dplyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' # Restore wetlands at 40% ambition, plus 5 sq km forest and 3 sq km prairie
 #' result <- restore_ecosystems(
 #'   df_null = my_projections,
@@ -40,6 +40,7 @@
 #' # View validation info
 #' attr(result, "validation_info")
 #' attr(result, "validation_warnings")
+#' }
 restore_ecosystems <- function(df_null,
                                restore_wetland = FALSE,
                                wetland_ambition_pct = 50,
