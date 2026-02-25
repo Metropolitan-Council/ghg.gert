@@ -89,8 +89,8 @@ scen_building_residential <- function(res_tb = res_tb,
                                       # .additional_electrified_residential_buildings_pct,
                                       .heatpump_start_year,
                                       .heatpump_end_year,
-                                      .sf_heat_pump_pct,
-                                      .mf_heat_pump_pct,
+                                      .sf_heatpump_pct,
+                                      .mf_heatpump_pct,
                                       # .renewable_ng_res,
                                       .grid_emissions = ghg.ccap::grid_emissions,
                                       .enviro_factors = ghg.ccap::enviro_factors) {
@@ -131,6 +131,15 @@ scen_building_residential <- function(res_tb = res_tb,
     tb03
   )
 
+  tb05 <- calc_residential_electrification(
+    res_tb = tb04,
+    .selected_ctu = .selected_ctu,
+    .heatpump_start_year = .heatpump_start_year,
+    .heatpump_end_year = .heatpump_end_year,
+    .sf_heatpump_pct = .sf_heatpump_pct,
+    .mf_heatpump_pct = .mf_heatpump_pct
+  )
+
   # repeat with no changes for BAU scenario
 
   tb05 <- calc_housing_leed(
@@ -164,8 +173,8 @@ scen_building_residential <- function(res_tb = res_tb,
     .baseline_year = .baseline_year,
     .heatpump_start_year = .heatpump_start_year,
     .heatpump_end_year = .heatpump_end_year,
-    .sf_heat_pump_pct = .sf_heat_pump_pct,
-    .mf_heat_pump_pct = .mf_heat_pump_pct,
+    .sf_heatpump_pct = .sf_heatpump_pct,
+    .mf_heatpump_pct = .mf_heatpump_pct,
     .selected_ctu = .selected_ctu,
     .enviro_factors = .enviro_factors
   )

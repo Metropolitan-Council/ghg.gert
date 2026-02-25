@@ -65,7 +65,6 @@ calc_building_energy <- function(
     )
   }
 
-  browser()
 
   # Filter and bin parcels
   ctu_binned <- parcel_data %>%

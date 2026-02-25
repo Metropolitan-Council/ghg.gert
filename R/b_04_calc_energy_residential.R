@@ -13,8 +13,8 @@
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
-#' @param .sf_heat_pump_pct numeric, percent of single family homes converting to heat pumps
-#' @param .mf_heat_pump_pct numeric, percent of multifamily homes converting to heat pumps
+#' @param .sf_heatpump_pct numeric, percent of single family homes converting to heat pumps
+#' @param .mf_heatpump_pct numeric, percent of multifamily homes converting to heat pumps
 #'
 #' @inheritParams run_module_transportation
 #' @inheritParams scen_building_residential
@@ -43,8 +43,8 @@
 #' @export
 calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
-                                    .sf_heat_pump_pct,
-                                    .mf_heat_pump_pct,
+                                    .sf_heatpump_pct,
+                                    .mf_heatpump_pct,
                                     .baseline_year,
                                     .scenario = "alt",
                                     .selected_ctu,
@@ -53,8 +53,8 @@ calc_energy_residential <- function(res_tb,
                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
-  check_inputs(name = "single_family_heat_pump_pct", .sf_heat_pump_pct)
-  check_inputs(name = "multifamily_heat_pump_pct", .mf_heat_pump_pct)
+  check_inputs(name = "single_family_heatpump_pct", .sf_heatpump_pct)
+  check_inputs(name = "multifamily_heatpump_pct", .mf_heatpump_pct)
   check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
   # browser()
@@ -167,8 +167,8 @@ calc_energy_residential <- function(res_tb,
   energy_calc <- function(tb,
                           .heatpump_start_year = .heatpump_start_year,
                           .heatpump_end_year = .heatpump_end_year,
-                          .sf_heat_pump_pct = .sf_heat_pump_pct,
-                          .mf_heat_pump_pct = .mf_heat_pump_pct) {
+                          .sf_heatpump_pct = .sf_heatpump_pct,
+                          .mf_heatpump_pct = .mf_heatpump_pct) {
     ### ramp up heat pump installation evenly from start year to end year
 
     ramp_years <- .heatpump_start_year:.heatpump_end_year
@@ -177,13 +177,13 @@ calc_energy_residential <- function(res_tb,
     pct_ramp <- tibble::tibble(
       inventory_year = ramp_years,
       hp_sf_pct = seq(
-        from = .sf_heat_pump_pct / n_ramp,
-        to = .sf_heat_pump_pct,
+        from = .sf_heatpump_pct / n_ramp,
+        to = .sf_heatpump_pct,
         length.out = n_ramp
       ),
       hp_mf_pct = seq(
-        from = .mf_heat_pump_pct / n_ramp,
-        to = .mf_heat_pump_pct,
+        from = .mf_heatpump_pct / n_ramp,
+        to = .mf_heatpump_pct,
         length.out = n_ramp
       )
     )
@@ -194,12 +194,12 @@ calc_energy_residential <- function(res_tb,
       dplyr::mutate(
         hp_sf_pct = dplyr::case_when(
           inventory_year < .heatpump_start_year ~ 0,
-          inventory_year > .heatpump_end_year ~ .sf_heat_pump_pct,
+          inventory_year > .heatpump_end_year ~ .sf_heatpump_pct,
           TRUE ~ hp_sf_pct
         ),
         hp_mf_pct = dplyr::case_when(
           inventory_year < .heatpump_start_year ~ 0,
-          inventory_year > .heatpump_end_year ~ .mf_heat_pump_pct,
+          inventory_year > .heatpump_end_year ~ .mf_heatpump_pct,
           TRUE ~ hp_mf_pct
         )
       )
@@ -272,8 +272,8 @@ calc_energy_residential <- function(res_tb,
       tb = res_tb_bau,
       .heatpump_start_year = .heatpump_start_year,
       .heatpump_end_year = .heatpump_end_year,
-      .sf_heat_pump_pct = 0,
-      .mf_heat_pump_pct = 0
+      .sf_heatpump_pct = 0,
+      .mf_heatpump_pct = 0
     )
   )
 
@@ -290,8 +290,8 @@ calc_energy_residential <- function(res_tb,
       tb = res_tb,
       .heatpump_start_year = .heatpump_start_year,
       .heatpump_end_year = .heatpump_end_year,
-      .sf_heat_pump_pct = .sf_heat_pump_pct,
-      .mf_heat_pump_pct = .mf_heat_pump_pct
+      .sf_heatpump_pct = .sf_heatpump_pct,
+      .mf_heatpump_pct = .mf_heatpump_pct
     )
   )
 
