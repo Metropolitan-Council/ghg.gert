@@ -30,10 +30,10 @@ load_resstock <- function(path) {
     mutate(
       building_mcf = building_nat_gas_kwh * 0.00329026,
       mc_classification = case_when(
-        grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily_units",
+        grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily",
         grepl("Detached", building_type, ignore.case = TRUE) ~ "single_family_detached",
         grepl("Attached", building_type, ignore.case = TRUE) ~ "single_family_attached",
-        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_homes",
+        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_home",
         TRUE ~ "other"
       ),
       sqft_bin = bin_sqft(sqft)

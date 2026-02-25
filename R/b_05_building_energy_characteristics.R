@@ -65,19 +65,30 @@ calc_building_energy <- function(
     )
   }
 
+  browser()
+
   # Filter and bin parcels
   ctu_binned <- parcel_data %>%
     filter(
       geog_name == .selected_ctu,
-      mc_classification %in% c("single_family_detached", "single_family_attached")
+      mc_classification %in% c("single_family_detached",
+                               "single_family_attached",
+                               "multifamily",
+                               "manufactured_home")
     ) %>%
     mutate(
       sqft_bin = bin_sqft(sq_ft_use),
       year_bin = as.character(bin_year(median_year))
     )
 
+  ### baseline ####
+
   ### calculate ctu single family baseline based on size and year
-  ctu_sf_baseline <- left_join(ctu_binned,
+  ctu_sf_baseline <- left_join(ctu_binned %>%
+                                 filter(mc_classification %in% c(
+                                   "single_family_detached",
+                                   "single_family_attached"
+                                 )),
       ceestock_tb$cee_baseline_sf,
     by = c(
       "mc_classification",
@@ -98,36 +109,43 @@ calc_building_energy <- function(
 
   ctu_baseline <- bind_rows(
     ctu_sf_baseline,
-    resstock_tb$mf_baseline %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
-      ),
-    resstock_tb$manufactured_baseline %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(resstock_tb$mf_baseline,
+                resstock_tb$manufactured_baseline
       )
-  ) %>%
+                ,
+      by = c("mc_classification",
+             "year_bin" = "build_year"
+      )) %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      )) %>%
     mutate(scenario = "baseline")
 
-  ctu_sf_retrofit <- left_join(ctu_binned,
-      ceestock_tb$cee_retrofit_sf,
-      by = c(
-        "mc_classification",
-        "sqft_bin",
-        "year_bin" = "build_year"
-      )
+  #### Retrofit ####
+  ctu_sf_retrofit <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_retrofit_sf,
+    by = c(
+      "mc_classification",
+      "sqft_bin",
+      "year_bin" = "build_year"
+    )
   ) %>%
     mutate(
       scenario_mwh = elec_mwh,
@@ -141,17 +159,21 @@ calc_building_energy <- function(
 
   ctu_retrofit <- bind_rows(
     ctu_sf_retrofit,
-    resstock_tb$mf_envelope %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_envelope,
+        resstock_tb$manufactured_envelope
       ),
-    resstock_tb$manufactured_envelope %>%
+      by = c(
+        "mc_classification",
+        "year_bin" = "build_year"
+      )
+    ) %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -164,13 +186,19 @@ calc_building_energy <- function(
   ) %>%
     mutate(scenario = "retrofit")
 
-  ctu_sf_heatpump <- left_join(ctu_binned,
-                               ceestock_tb$cee_heatpump_sf,
-                               by = c(
-                                 "mc_classification",
-                                 "sqft_bin",
-                                 "year_bin" = "build_year"
-                               )
+  #### Heatpump ####
+  ctu_sf_heatpump <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_heatpump_sf,
+    by = c(
+      "mc_classification",
+      "sqft_bin",
+      "year_bin" = "build_year"
+    )
   ) %>%
     mutate(
       scenario_mwh = elec_mwh,
@@ -184,17 +212,21 @@ calc_building_energy <- function(
 
   ctu_heatpump <- bind_rows(
     ctu_sf_heatpump,
-    resstock_tb$mf_heatpump %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_heatpump,
+        resstock_tb$manufactured_heatpump
       ),
-    resstock_tb$manufactured_heatpump %>%
+      by = c(
+        "mc_classification",
+        "year_bin" = "build_year"
+      )
+    ) %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -207,13 +239,19 @@ calc_building_energy <- function(
   ) %>%
     mutate(scenario = "heatpump")
 
-  ctu_sf_combo <- left_join(ctu_binned,
-                              ceestock_tb$cee_combined_sf,
-                               by = c(
-                                 "mc_classification",
-                                 "sqft_bin",
-                                 "year_bin" = "build_year"
-                               )
+  #### Heatpump + Retrofit ####
+  ctu_sf_combo <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_combined_sf,
+    by = c(
+      "mc_classification",
+      "sqft_bin",
+      "year_bin" = "build_year"
+    )
   ) %>%
     mutate(
       scenario_mwh = elec_mwh,
@@ -227,17 +265,21 @@ calc_building_energy <- function(
 
   ctu_combo <- bind_rows(
     ctu_sf_combo,
-    resstock_tb$mf_combo %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_combo,
+        resstock_tb$manufactured_combo
       ),
-    resstock_tb$manufactured_combo %>%
+      by = c(
+        "mc_classification",
+        "year_bin" = "build_year"
+      )
+    ) %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -250,10 +292,14 @@ calc_building_energy <- function(
   ) %>%
     mutate(scenario = "combination")
 
-  ## combo scenario does not exist for
-
-  ctu_sf_new <- left_join(ctu_binned,
-    ceestock_tb$cee_retrofit_sf %>%
+  #### New Build ####
+  ctu_sf_new <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_baseline_sf %>%
       filter(build_year == "2010s"),
     by = c(
       "mc_classification",
@@ -272,17 +318,21 @@ calc_building_energy <- function(
 
   ctu_new <- bind_rows(
     ctu_sf_new,
-    resstock_tb$mf_baseline %>%
-      mutate(
-        scenario_mwh = median_kwh / 1000,
-        scenario_mcf = median_mcf
-      ) %>%
-      select(
-        mc_classification,
-        scenario_mwh,
-        scenario_mcf
-      ),
-    resstock_tb$manufactured_envelope %>%
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_baseline,
+        resstock_tb$manufactured_baseline
+      )  %>%
+        filter(build_year == "2010s"),
+      by = c(
+        "mc_classification"
+      )
+    ) %>%
       mutate(
         scenario_mwh = median_kwh / 1000,
         scenario_mcf = median_mcf
@@ -295,12 +345,175 @@ calc_building_energy <- function(
   ) %>%
     mutate(scenario = "new_build")
 
+  #### Efficient New Build ####
+  ctu_sf_new_leed <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_retrofit_sf %>%
+      filter(build_year == "2010s"),
+    by = c(
+      "mc_classification",
+      "sqft_bin"
+    )
+  ) %>%
+    mutate(
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
+    ) %>%
+    select(
+      mc_classification,
+      scenario_mwh,
+      scenario_mcf
+    )
+
+  ctu_new_leed <- bind_rows(
+    ctu_sf_new_leed,
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_envelope,
+        resstock_tb$manufactured_envelope
+      )  %>%
+        filter(build_year == "2010s"),
+      by = c(
+        "mc_classification"
+      )
+    ) %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      )
+  ) %>%
+    mutate(scenario = "new_build_leed")
+
+
+  #### New Build - Heat pump ####
+  ctu_sf_new_heatpump <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_heatpump_sf %>%
+      filter(build_year == "2010s"),
+    by = c(
+      "mc_classification",
+      "sqft_bin"
+    )
+  ) %>%
+    mutate(
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
+    ) %>%
+    select(
+      mc_classification,
+      scenario_mwh,
+      scenario_mcf
+    )
+
+  ctu_new_heatpump <- bind_rows(
+    ctu_sf_new_heatpump,
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_heatpump,
+        resstock_tb$manufactured_heatpump
+      )  %>%
+        filter(build_year == "2010s"),
+      by = c(
+        "mc_classification"
+      )
+    ) %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      )
+  ) %>%
+    mutate(scenario = "new_build_heatpump")
+
+  #### Efficient New Build - Heat Pump ####
+  ctu_sf_new_leed_heatpump <- left_join(
+    ctu_binned %>%
+      filter(mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached"
+      )),
+    ceestock_tb$cee_combined_sf %>%
+      filter(build_year == "2010s"),
+    by = c(
+      "mc_classification",
+      "sqft_bin"
+    )
+  ) %>%
+    mutate(
+      scenario_mwh = elec_mwh,
+      scenario_mcf = gas_mcf
+    ) %>%
+    select(
+      mc_classification,
+      scenario_mwh,
+      scenario_mcf
+    )
+
+  ctu_new_leed_heatpump <- bind_rows(
+    ctu_sf_new_leed_heatpump,
+    left_join(
+      ctu_binned %>%
+        filter(mc_classification %in% c(
+          "multifamily",
+          "manufactured_home"
+        )),
+      bind_rows(
+        resstock_tb$mf_combo,
+        resstock_tb$manufactured_combo
+      )  %>%
+        filter(build_year == "2010s"),
+      by = c(
+        "mc_classification"
+      )
+    ) %>%
+      mutate(
+        scenario_mwh = median_kwh / 1000,
+        scenario_mcf = median_mcf
+      ) %>%
+      select(
+        mc_classification,
+        scenario_mwh,
+        scenario_mcf
+      )
+  ) %>%
+    mutate(scenario = "new_build_leed_heatpump")
+
   ctu_energy_profile <- bind_rows(
     ctu_baseline,
     ctu_new,
     ctu_retrofit,
     ctu_heatpump,
-    ctu_combo
+    ctu_combo,
+    ctu_new_leed,
+    ctu_new_heatpump,
+    ctu_new_leed_heatpump
   )
 
   return(ctu_energy_profile)
