@@ -43,21 +43,12 @@
 #' @export
 calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
-                                    .sf_heatpump_pct,
-                                    .mf_heatpump_pct,
                                     .baseline_year,
                                     .scenario = "alt",
-                                    .selected_ctu,
-                                    .heatpump_start_year,
-                                    .heatpump_end_year,
-                                    .enviro_factors = ghg.ccap::enviro_factors) {
-  # cli::cli_progress_message("*** calculating residential ghg emissions \n")
+                                    .selected_ctu) {
 
-  check_inputs(name = "single_family_heatpump_pct", .sf_heatpump_pct)
-  check_inputs(name = "multifamily_heatpump_pct", .mf_heatpump_pct)
-  check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
-  # browser()
+  browser()
 
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -80,13 +71,28 @@ calc_energy_residential <- function(res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu) %>%
-    mutate(cat_match = case_when(
-      scenario == "baseline" ~ "existing_nonretrofit",
-      scenario == "retrofit" ~ "retrofit_units",
-      scenario == "new_build" ~ "new_non_leed",
-      TRUE ~ scenario
-    ))
+  # ctu specific energy profiles
+  ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu)
+
+  # --- calibration: align model to last 5 observed years ---------------
+  bau_baseline_units <- res_tb_bau %>%
+    dplyr::filter(
+      inventory_year >= (.baseline_year - 4),
+      inventory_year <= .baseline_year
+    ) %>%
+    dplyr::distinct(geog_name, sp_categories, inventory_year, allocated_units) %>%
+    left_join(
+      dplyr::filter(ctu_energy_profile, scenario == "baseline"),
+      by = c("sp_categories" = "mc_classification")
+    )
+
+  observed_recent <- dplyr::filter(baseline_energy, inventory_year >= (.baseline_year - 4))
+
+  mwh_adjustment <- sum(observed_recent$mwh) /
+    sum(bau_baseline_units$allocated_units * bau_baseline_units$scenario_mwh)
+
+  mcf_adjustment <- sum(observed_recent$mcf) /
+    sum(bau_baseline_units$allocated_units * bau_baseline_units$scenario_mcf)
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-

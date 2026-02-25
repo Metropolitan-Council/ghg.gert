@@ -142,7 +142,7 @@ scen_building_residential <- function(res_tb = res_tb,
 
   # repeat with no changes for BAU scenario
 
-  tb05 <- calc_housing_leed(
+  tb06 <- calc_housing_leed(
     res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
@@ -151,7 +151,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .enviro_factors = .enviro_factors
   )
 
-  tb06 <- calc_residential_retrofit(
+  tb07 <- calc_residential_retrofit(
     res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .retrofit_start_year = .retrofit_start_year,
@@ -161,22 +161,26 @@ scen_building_residential <- function(res_tb = res_tb,
     .enviro_factors = .enviro_factors
   )
 
-  tb07 <- bind_rows(
-    tb05,
-    tb06
+  tb08 <- bind_rows(
+    tb06,
+    tb07
   )
 
-  tb09 <- calc_energy_residential(
-    res_tb = tb04,
-    res_tb_bau = tb07,
-    .scenario = .scenario,
-    .baseline_year = .baseline_year,
+  tb09 <- calc_residential_electrification(
+    res_tb = tb08,
+    .selected_ctu = .selected_ctu,
     .heatpump_start_year = .heatpump_start_year,
     .heatpump_end_year = .heatpump_end_year,
-    .sf_heatpump_pct = .sf_heatpump_pct,
-    .mf_heatpump_pct = .mf_heatpump_pct,
-    .selected_ctu = .selected_ctu,
-    .enviro_factors = .enviro_factors
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0
+  )
+
+  tb10 <- calc_energy_residential(
+    res_tb = tb05,
+    res_tb_bau = tb09,
+    .scenario = .scenario,
+    .baseline_year = .baseline_year,
+    .selected_ctu = .selected_ctu
   )
 
   tb_out <- calc_ghg_residential(
