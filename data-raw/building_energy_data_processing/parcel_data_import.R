@@ -410,7 +410,8 @@ missing_mfh_rows <- missing_cities_mf %>%
   mutate(mc_classification = "multifamily") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
-mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows)
+mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows)%>%
+  mutate(mc_classification = "multifamily_units")
 
 ### lastly repeat for manufactured homes
 
