@@ -10,9 +10,8 @@ filter_ctu <- function(df, .selected_ctu = "all") {
   check_inputs(name = "selected_ctu", value = .selected_ctu)
   if (.selected_ctu == "all") {
     return(df)
-  } else {
-    return(df %>% dplyr::filter(geog_name == .selected_ctu))
   }
+  dplyr::filter(df, geog_name == .selected_ctu)
 }
 
 

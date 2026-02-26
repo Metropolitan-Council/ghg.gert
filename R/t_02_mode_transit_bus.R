@@ -574,7 +574,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .enviro_factors = .enviro_factors
   #   )
   #
-  #   TODO add fuel use totals
 
   # Finish up -----
 

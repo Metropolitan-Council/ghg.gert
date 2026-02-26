@@ -32,10 +32,8 @@ calc_smart_fertilizer <- function(emissions,
                                   .smart_fertilizer_current,
                                   .smart_fertilizer_goal,
                                   .smart_fertilizer_start_year) {
-
-
   fertilizer_emissions_bau <- emissions %>%
-    filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
+    filter(grepl("fertilizer", source, ignore.case = TRUE)) %>%
     group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
     summarize(value_emissions = sum(value_emissions)) %>%
     dplyr::ungroup() %>%
@@ -48,23 +46,25 @@ calc_smart_fertilizer <- function(emissions,
 
   red_fac <- ((0.38 + 0.35) / 2) * .smart_fertilizer_goal
 
-  #browser()
+  # browser()
 
   fertilizer_emissions_alt <- fertilizer_emissions_bau %>%
-  mutate(
-    n2o_reduction = case_when(
-      inventory_year < .smart_fertilizer_start_year ~ 0,  # no changes from baseline to 2028
-      inventory_year >= .smart_fertilizer_start_year ~
-        value_emissions * ((red_fac) * (inventory_year - .smart_fertilizer_start_year) /
-                             (2050 - .smart_fertilizer_start_year))  # linear increase of smart fertilizer from start year to 2050
-    ),
-    scenario = .scenario,
-    value_emissions = value_emissions - n2o_reduction
-  )
+    mutate(
+      n2o_reduction = case_when(
+        inventory_year < .smart_fertilizer_start_year ~ 0, # no changes from baseline to 2028
+        inventory_year >= .smart_fertilizer_start_year ~
+          value_emissions * ((red_fac) * (inventory_year - .smart_fertilizer_start_year) /
+            (2050 - .smart_fertilizer_start_year)) # linear increase of smart fertilizer from start year to 2050
+      ),
+      scenario = .scenario,
+      value_emissions = value_emissions - n2o_reduction
+    )
 
-  fertilizer_emissions <- bind_rows(fertilizer_emissions_bau %>%
-                                      mutate(n2o_reduction = 0),
-                                    fertilizer_emissions_alt)
+  fertilizer_emissions <- bind_rows(
+    fertilizer_emissions_bau %>%
+      mutate(n2o_reduction = 0),
+    fertilizer_emissions_alt
+  )
 
   return(fertilizer_emissions)
 }

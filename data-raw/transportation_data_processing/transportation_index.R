@@ -53,4 +53,3 @@ usethis::use_data(transportation_index, overwrite = TRUE)
 #   unique() %>%
 #   select(mode, var, var_description, source_short) %>%
 #   filter(str_detect(var, '(PHEV|SI|CI|HEV)', negate = TRUE)) %>% View
-

@@ -8,12 +8,12 @@ library(purrr)
 # helper to bin year in data -- for commercial buildings, we're just looking for 2010s, but labeling all for now in case we want to do deeper analysis later
 bin_year <- function(year) {
   cut(year,
-      breaks = c(0, 1939, 1959, 1979, 1999, 2009, 2025.1),
-      labels = c(
-        "<1940", "1940-59", "1960-79", "1980-99",
-        "2000-09", "2010s"
-      ),
-      right = TRUE
+    breaks = c(0, 1939, 1959, 1979, 1999, 2009, 2025.1),
+    labels = c(
+      "<1940", "1940-59", "1960-79", "1980-99",
+      "2000-09", "2010s"
+    ),
+    right = TRUE
   )
 }
 
@@ -61,15 +61,18 @@ summarize_comstock <- function(df) {
 
 # "0": "Baseline"
 baseline <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade0_agg.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade0_agg.csv"
+)
 
 # "50": "Package 1, Wall + Roof Insulation + New Windows",
 retrofit_efficiency <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade50_agg.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade50_agg.csv"
+)
 
 # "10": "Cold Climate Challenge HP RTU, Electric Backup",
 electrification <- load_comstock(
-  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade10_agg.csv")
+  "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade10_agg.csv"
+)
 
 # Limit to 2010s
 load_comstock_new <- function(path) {
@@ -94,8 +97,8 @@ comstock_summaries <- list(
 baseline_tbl <- ghg.ccap::imagine_commDesgn_mwh_mcf_perJob_coefficients
 
 # Pull medians for the two reference baselines (full + newBuild)
-baseline_mcf     <- comstock_summaries$baseline$median_mcf
-baseline_kwh     <- comstock_summaries$baseline$median_kwh
+baseline_mcf <- comstock_summaries$baseline$median_mcf
+baseline_kwh <- comstock_summaries$baseline$median_kwh
 baseline_new_mcf <- comstock_summaries$baseline_newBuild$median_mcf
 baseline_new_kwh <- comstock_summaries$baseline_newBuild$median_kwh
 

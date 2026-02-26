@@ -32,9 +32,9 @@
 #' @export
 #'
 calc_ghg_non_residential <- function(non_res_energy,
-                                 .selected_ctu,
-                                 .grid_emissions = ghg.ccap::grid_emissions,
-                                 .enviro_factors = ghg.ccap::enviro_factors) {
+                                     .selected_ctu,
+                                     .grid_emissions = ghg.ccap::grid_emissions,
+                                     .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   # browser()

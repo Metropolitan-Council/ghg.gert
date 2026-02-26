@@ -95,7 +95,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
     own_elast <- .elast$vehicle_ownership_elast
 
     adj_si_ci_final <- (1 + ((.vmt_fee + .payd_fee) / auto_cost) * own_elast) *
-      (1 + (.gas_tax  / auto_cost)  * own_elast)
+      (1 + (.gas_tax / auto_cost) * own_elast)
 
     adj_si_ci_stock <- tibble::tibble(
       year      = .elast$year,
@@ -108,11 +108,11 @@ adj_fleet_shares_stock <- function(.pass_tb,
     )
 
     pass_tb <- pass_tb %>%
-      dplyr::left_join(adj_alt_stock,   by = "year") %>%
+      dplyr::left_join(adj_alt_stock, by = "year") %>%
       dplyr::left_join(adj_si_ci_stock, by = "year") %>%
       dplyr::mutate(value = dplyr::case_when(
         mode == "PLDV" & var %in% c("BEVExist", "HEVExist") ~ value * adj_alt,
-        mode == "PLDV" & var %in% c("SIExist",  "CIExist")  ~ value * adj_si_ci,
+        mode == "PLDV" & var %in% c("SIExist", "CIExist") ~ value * adj_si_ci,
         TRUE ~ value
       )) %>%
       dplyr::select(names(.pass_tb))
@@ -164,7 +164,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
 
     # create elasticities - hoist shared length calc
     n_yrs <- length(unique(pass_tb$year))
-    yrs   <- unique(pass_tb$year)
+    yrs <- unique(pass_tb$year)
 
     calc_stock_elast <- function(pct) {
       c(calc_elasticity(
@@ -202,8 +202,8 @@ adj_fleet_shares_stock <- function(.pass_tb,
         ptb_tot   = ptb_si + ptb_ci + ptb_hev + ptb_bev,
         HEVStock  = TotStock * ptb_hev / ptb_tot,
         BEVStock  = TotStock * ptb_bev / ptb_tot,
-        SIStock   = TotStock * ptb_si  / ptb_tot,
-        CIStock   = TotStock * ptb_ci  / ptb_tot
+        SIStock   = TotStock * ptb_si / ptb_tot,
+        CIStock   = TotStock * ptb_ci / ptb_tot
       ) %>%
       dplyr::select(dplyr::any_of(c(names(pass_tb), "SIStock", "CIStock", "HEVStock", "BEVStock", "TotStock"))) %>%
       tidyr::pivot_longer(
@@ -233,7 +233,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
     test_passenger <- purrr::map_lgl(check_vars, function(x) {
       isTRUE(all.equal(
         dplyr::filter(pass_tb, mode == "PLDV", var == x),
-        dplyr::filter(ptb_new,  mode == "PLDV", var == x),
+        dplyr::filter(ptb_new, mode == "PLDV", var == x),
         tolerance = 0.01
       ))
     })

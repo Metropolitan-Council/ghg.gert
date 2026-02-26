@@ -85,22 +85,22 @@ calc_vmt_forecast <- function(.scenario,
   # Shared land_use args (only .type varies)
   make_land_use <- function(.type, ...) {
     vmt_land_use_change(
-      .type                          = .type,
-      .comb_5d_impact_pct_change     = .comb_5d_impact_pct_change,
-      .pop_dens_pct_change           = .pop_dens_pct_change,
-      .emp_dens_pct_change           = .emp_dens_pct_change,
+      .type = .type,
+      .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .pop_dens_pct_change = .pop_dens_pct_change,
+      .emp_dens_pct_change = .emp_dens_pct_change,
       .land_use_diversity_pct_change = .land_use_diversity_pct_change,
-      .intersection_design_pct_change= .intersection_design_pct_change,
-      .job_access_pct_change         = .job_access_pct_change,
-      .transit_dist_pct_change       = .transit_dist_pct_change,
-      .elast_5d                      = .elast_5d,
-      .enviro_factors                = .enviro_factors
+      .intersection_design_pct_change = .intersection_design_pct_change,
+      .job_access_pct_change = .job_access_pct_change,
+      .transit_dist_pct_change = .transit_dist_pct_change,
+      .elast_5d = .elast_5d,
+      .enviro_factors = .enviro_factors
     )
   }
 
   # Used by all modes except WALK and BIKE
   if (!.mode %in% c("WALK", "BIKE")) {
-    mode_stock         <- vmt_stock_proportion(.tb = tb, .mode = .mode, .stock = .stock)
+    mode_stock <- vmt_stock_proportion(.tb = tb, .mode = .mode, .stock = .stock)
     ann_energy_outlook <- vmt_annual_energy_outlook(
       tb = tb, .aeo_scenario = .aeo_scenario, .mode = .mode,
       .enviro_factors = .enviro_factors, .factor_values = .factor_values
@@ -133,167 +133,169 @@ calc_vmt_forecast <- function(.scenario,
   }
 
   # Final select cols are identical in every branch
-  final_cols <- c("type", "stock", "scenario", "geog_name", "geog_id",
-                  "year", "mode", "aeo_mode", "vmt")
+  final_cols <- c(
+    "type", "stock", "scenario", "geog_name", "geog_id",
+    "year", "mode", "aeo_mode", "vmt"
+  )
 
   tb_fin <- switch(.mode,
-                   PLDV = {
-                     at_adjustment <- tb %>%
-                       dplyr::filter(mode == "AT", var == .variable) %>%
-                       dplyr::select(geog_name, geog_id, year, active_transportation_adj = value)
+    PLDV = {
+      at_adjustment <- tb %>%
+        dplyr::filter(mode == "AT", var == .variable) %>%
+        dplyr::select(geog_name, geog_id, year, active_transportation_adj = value)
 
-                     trans_service <- vmt_transit_service(
-                       tb = tb, .mode = .mode, .transit_service_pct = .transit_service_pct,
-                       .elast = .elast, .enviro_factors = .enviro_factors
-                     )
-                     telework_adjust <- vmt_telework(
-                       .pass_tb = tb, .mode = .mode, .telework_pct = .telework_pct,
-                       .enviro_factors = .enviro_factors
-                     )
-                     vmt_total_adj <- vmt_total_reduction(
-                       .pass_tb = tb, .mode = .mode, .vmt_reduction_pct = .vmt_reduction_pct,
-                       .enviro_factors = .enviro_factors
-                     )
+      trans_service <- vmt_transit_service(
+        tb = tb, .mode = .mode, .transit_service_pct = .transit_service_pct,
+        .elast = .elast, .enviro_factors = .enviro_factors
+      )
+      telework_adjust <- vmt_telework(
+        .pass_tb = tb, .mode = .mode, .telework_pct = .telework_pct,
+        .enviro_factors = .enviro_factors
+      )
+      vmt_total_adj <- vmt_total_reduction(
+        .pass_tb = tb, .mode = .mode, .vmt_reduction_pct = .vmt_reduction_pct,
+        .enviro_factors = .enviro_factors
+      )
 
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(trans_service,    by = c("geog_name", "geog_id", "year")) %>%
-                       dplyr::left_join(fc_adjustments,   by = c("geog_name", "geog_id", "year")) %>%
-                       dplyr::left_join(make_land_use("DRIVE"), by = "year") %>%
-                       dplyr::left_join(parking,          by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(telework_adjust,  by = "year") %>%
-                       dplyr::left_join(vmt_total_adj,    by = "year") %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::left_join(at_adjustment,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         pass_ld_vmt = (((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
-                                          aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
-                                          telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
-                         stock = .stock,
-                         vmt   = pass_ld_vmt
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols)) %>%
-                       dplyr::distinct()
-                   },
-                   BU  = ,
-                   BRT = ,
-                   RU  = ,
-                   RI  = {
-                     trans_service <- vmt_transit_service(
-                       tb = tb, .mode = .mode, .transit_service_pct = .transit_service_pct,
-                       .elast = .elast, .enviro_factors = .enviro_factors
-                     )
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(trans_service, by = c("geog_name", "geog_id", "year")) %>%
+        dplyr::left_join(fc_adjustments, by = c("geog_name", "geog_id", "year")) %>%
+        dplyr::left_join(make_land_use("DRIVE"), by = "year") %>%
+        dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(telework_adjust, by = "year") %>%
+        dplyr::left_join(vmt_total_adj, by = "year") %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::left_join(at_adjustment, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          pass_ld_vmt = (((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
+            aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
+            telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
+          stock = .stock,
+          vmt = pass_ld_vmt
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::distinct()
+    },
+    BU = ,
+    BRT = ,
+    RU = ,
+    RI = {
+      trans_service <- vmt_transit_service(
+        tb = tb, .mode = .mode, .transit_service_pct = .transit_service_pct,
+        .elast = .elast, .enviro_factors = .enviro_factors
+      )
 
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(trans_service,   by = c("geog_name", "geog_id", "year")) %>%
-                       dplyr::left_join(fc_adjustments,  by = c("geog_name", "geog_id", "year")) %>%
-                       dplyr::left_join(make_land_use("TRANSIT"), by = "year") %>%
-                       dplyr::left_join(parking,         by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(veh_occupancy,   by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(mode_stock,      by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         transit_vmt = ((miles_traveled * aeo_adj * transit_adj *
-                                           (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-                                           land_use_adj * park_price_adj * gas_adj) / occupancy_adj) * mode_stock_adj,
-                         transit_vmt = dplyr::case_when(
-                           is.infinite(transit_vmt) | is.na(transit_vmt) | transit_vmt < 0 ~ 0,
-                           TRUE ~ transit_vmt
-                         ),
-                         stock = .stock,
-                         vmt   = transit_vmt
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   SUT = {
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(parking,          by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(fc_adjustments,   by = "year") %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         stock = .stock,
-                         vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   CUT = {
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(fc_adjustments,   by = "year") %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         stock = .stock,
-                         vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj) / occupancy_adj) * mode_stock_adj
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   WALK = {
-                     tb_vmt %>%
-                       dplyr::left_join(make_land_use("WALK"), by = "year") %>%
-                       dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj * park_price_adj) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   BIKE = {
-                     tb_vmt %>%
-                       dplyr::left_join(make_land_use("WALK"), by = "year") %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   BS = {
-                     tb_vmt %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         stock = .stock,
-                         vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   FR = {
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         stock = .stock,
-                         vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols))
-                   },
-                   MM  = ,
-                   AIR = ,
-                   WAT = {
-                     tb_vmt %>%
-                       dplyr::left_join(ann_energy_outlook, by = "year") %>%
-                       dplyr::left_join(veh_occupancy,    by = c("year", "geog_name", "geog_id")) %>%
-                       dplyr::left_join(mode_stock,       by = c("geog_name", "geog_id", "year", "mode")) %>%
-                       dplyr::distinct() %>%
-                       dplyr::mutate(
-                         scenario = .scenario,
-                         stock    = .stock,
-                         vmt      = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj,
-                         vmt      = dplyr::case_when(
-                           is.infinite(vmt) | is.na(vmt) | vmt < 0 ~ 0,
-                           TRUE ~ vmt
-                         )
-                       ) %>%
-                       dplyr::select(dplyr::all_of(final_cols)) %>%
-                       dplyr::distinct()
-                   }
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(trans_service, by = c("geog_name", "geog_id", "year")) %>%
+        dplyr::left_join(fc_adjustments, by = c("geog_name", "geog_id", "year")) %>%
+        dplyr::left_join(make_land_use("TRANSIT"), by = "year") %>%
+        dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          transit_vmt = ((miles_traveled * aeo_adj * transit_adj *
+            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
+            land_use_adj * park_price_adj * gas_adj) / occupancy_adj) * mode_stock_adj,
+          transit_vmt = dplyr::case_when(
+            is.infinite(transit_vmt) | is.na(transit_vmt) | transit_vmt < 0 ~ 0,
+            TRUE ~ transit_vmt
+          ),
+          stock = .stock,
+          vmt = transit_vmt
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    SUT = {
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(fc_adjustments, by = "year") %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          stock = .stock,
+          vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    CUT = {
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(fc_adjustments, by = "year") %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          stock = .stock,
+          vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj) / occupancy_adj) * mode_stock_adj
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    WALK = {
+      tb_vmt %>%
+        dplyr::left_join(make_land_use("WALK"), by = "year") %>%
+        dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj * park_price_adj) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    BIKE = {
+      tb_vmt %>%
+        dplyr::left_join(make_land_use("WALK"), by = "year") %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    BS = {
+      tb_vmt %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          stock = .stock,
+          vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    FR = {
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          stock = .stock,
+          vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols))
+    },
+    MM = ,
+    AIR = ,
+    WAT = {
+      tb_vmt %>%
+        dplyr::left_join(ann_energy_outlook, by = "year") %>%
+        dplyr::left_join(veh_occupancy, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
+        dplyr::distinct() %>%
+        dplyr::mutate(
+          scenario = .scenario,
+          stock = .stock,
+          vmt = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj,
+          vmt = dplyr::case_when(
+            is.infinite(vmt) | is.na(vmt) | vmt < 0 ~ 0,
+            TRUE ~ vmt
+          )
+        ) %>%
+        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::distinct()
+    }
   )
 
   # final return -----

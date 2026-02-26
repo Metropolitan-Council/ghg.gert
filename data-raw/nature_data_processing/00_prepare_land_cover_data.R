@@ -14,9 +14,11 @@ lc_ctu <- readr::read_rds(paste0(inpath, "nlcd_ctu_landcover_allyrs.rds")) %>%
   ) %>%
   ungroup() %>%
   group_by(geog_name, ctu_class, geog_id, inventory_year, land_cover_type) %>%
-  dplyr::summarize(area = sum(area),
-                   potential_wetland_area = sum(potential_wetland_area),
-                   .groups = "keep") %>%
+  dplyr::summarize(
+    area = sum(area),
+    potential_wetland_area = sum(potential_wetland_area),
+    .groups = "keep"
+  ) %>%
   ungroup()
 
 lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds")) %>%
@@ -27,9 +29,11 @@ lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds"))
   ) %>%
   ungroup() %>%
   group_by(geog_name, ctu_class, geog_id, inventory_year, land_cover_type) %>%
-  dplyr::summarize(area = sum(area),
-                   potential_wetland_area = sum(potential_wetland_area),
-                   .groups = "keep") %>%
+  dplyr::summarize(
+    area = sum(area),
+    potential_wetland_area = sum(potential_wetland_area),
+    .groups = "keep"
+  ) %>%
   ungroup()
 
 
@@ -41,9 +45,11 @@ lc_region <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds"))
   ) %>%
   ungroup() %>%
   group_by(geog_name, ctu_class, geog_id, inventory_year, land_cover_type) %>%
-  dplyr::summarize(area = sum(area),
-                   potential_wetland_area = sum(potential_wetland_area),
-                   .groups = "keep") %>%
+  dplyr::summarize(
+    area = sum(area),
+    potential_wetland_area = sum(potential_wetland_area),
+    .groups = "keep"
+  ) %>%
   ungroup()
 
 
@@ -53,7 +59,7 @@ lc <- bind_rows(
   lc_region
 )
 
-natural_systems_data$inventory$ctu <- lc %>% filter(!(ctu_class %in% c("COUNTY","REGION")))
+natural_systems_data$inventory$ctu <- lc %>% filter(!(ctu_class %in% c("COUNTY", "REGION")))
 natural_systems_data$inventory$county <- lc %>% filter(ctu_class %in% c("COUNTY"))
 natural_systems_data$inventory$region <- lc %>% filter(ctu_class %in% c("REGION"))
 
@@ -70,7 +76,7 @@ natural_systems_data$projections$ctu <-
   select(-c(inventory_year)) %>%
   tidyr::crossing(inventory_year = future_years) %>%
   relocate(inventory_year, .after = geog_id) %>%
-  arrange(geog_name, inventory_year,land_cover_type)
+  arrange(geog_name, inventory_year, land_cover_type)
 
 
 natural_systems_data$projections$county <-
@@ -79,7 +85,7 @@ natural_systems_data$projections$county <-
   select(-c(inventory_year)) %>%
   tidyr::crossing(inventory_year = future_years) %>%
   relocate(inventory_year, .after = geog_id) %>%
-  arrange(geog_name, inventory_year,land_cover_type)
+  arrange(geog_name, inventory_year, land_cover_type)
 
 
 natural_systems_data$projections$region <-
@@ -88,12 +94,8 @@ natural_systems_data$projections$region <-
   select(-c(inventory_year)) %>%
   tidyr::crossing(inventory_year = future_years) %>%
   relocate(inventory_year, .after = geog_id) %>%
-  arrange(geog_name, inventory_year,land_cover_type)
+  arrange(geog_name, inventory_year, land_cover_type)
 
 
 
 usethis::use_data(natural_systems_data, overwrite = TRUE)
-
-
-
-

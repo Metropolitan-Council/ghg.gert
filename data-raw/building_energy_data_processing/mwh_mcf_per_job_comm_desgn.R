@@ -23,16 +23,22 @@ electricity_mwh_per_job_ctu_2022 <- building_energy_data$electricity_business_ct
   filter(inventory_year == 2022 && !is.na(geog_name)) %>%
   ungroup() %>%
   left_join(cprg_ctu,
-            by = join_by(geog_name == ctu_name,
-                         geog_level == ctu_class)
+    by = join_by(
+      geog_name == ctu_name,
+      geog_level == ctu_class
+    )
   ) %>%
   left_join(jobs,
-            by = join_by(geog_name,
-                         geog_level,
-                         inventory_year)
+    by = join_by(
+      geog_name,
+      geog_level,
+      inventory_year
+    )
   ) %>%
-  select(-value_change_from_base,
-         -value_change_from_2022) %>%
+  select(
+    -value_change_from_base,
+    -value_change_from_2022
+  ) %>%
   mutate(
     mwh_per_job_2022 = mwh / value
   )
@@ -65,16 +71,22 @@ natural_gas_mcf_per_job_ctu_2022 <- building_energy_data$natural_gas_business_ct
   filter(inventory_year == 2022 && !is.na(geog_name)) %>%
   ungroup() %>%
   left_join(cprg_ctu,
-            by = join_by(geog_name == ctu_name,
-                         geog_level == ctu_class)
+    by = join_by(
+      geog_name == ctu_name,
+      geog_level == ctu_class
+    )
   ) %>%
   left_join(jobs,
-            by = join_by(geog_name,
-                         geog_level,
-                         inventory_year)
+    by = join_by(
+      geog_name,
+      geog_level,
+      inventory_year
+    )
   ) %>%
-  select(-value_change_from_base,
-         -value_change_from_2022) %>%
+  select(
+    -value_change_from_base,
+    -value_change_from_2022
+  ) %>%
   mutate(
     mcf_per_job_2022 = mcf / value
   )
@@ -102,7 +114,7 @@ regional_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
 
 imagine_commDesgn_mwh_mcf_perJob_coefficients <- imagineCommDesgn_mcf_per_job_2022 %>%
   left_join(imagineCommDesgn_mwh_per_job_2022,
-            by = join_by(imagine_designation)
+    by = join_by(imagine_designation)
   )
 
 

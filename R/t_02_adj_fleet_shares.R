@@ -104,7 +104,7 @@ adj_fleet_shares <- function(.pass_tb,
     own_elast <- .elast$vehicle_ownership_elast
 
     adj_si_ci_final <- (1 + ((.vmt_fee + .payd_fee) / auto_cost) * own_elast) *
-      (1 + (.gas_tax  / auto_cost)  * own_elast)
+      (1 + (.gas_tax / auto_cost) * own_elast)
 
     adj_si_ci_sales <- tibble::tibble(
       year      = .elast$year,
@@ -118,11 +118,11 @@ adj_fleet_shares <- function(.pass_tb,
 
     # adjust existing PLDV stock values
     pass_tb <- pass_tb %>%
-      dplyr::left_join(adj_alt_sales,   by = "year") %>%
+      dplyr::left_join(adj_alt_sales, by = "year") %>%
       dplyr::left_join(adj_si_ci_sales, by = "year") %>%
       dplyr::mutate(value = dplyr::case_when(
         mode == "PLDV" & var %in% c("BEVExist", "HEVExist") ~ value * adj_alt,
-        mode == "PLDV" & var %in% c("SIExist",  "CIExist")  ~ value * adj_si_ci,
+        mode == "PLDV" & var %in% c("SIExist", "CIExist") ~ value * adj_si_ci,
         TRUE ~ value
       )) %>%
       dplyr::select(names(.pass_tb))
@@ -258,9 +258,9 @@ adj_fleet_shares <- function(.pass_tb,
         # total sales of each type
         ptb_tot_sales =
           ptb_si +
-          ptb_ci +
-          ptb_hev +
-          ptb_bev
+            ptb_ci +
+            ptb_hev +
+            ptb_bev
       ) %>%
       dplyr::mutate(
         # new portion of total sales for each type
@@ -272,9 +272,9 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::mutate(
         sum_check =
           new_si_portion +
-          new_ci_portion +
-          new_bev_portion +
-          new_hev_portion
+            new_ci_portion +
+            new_bev_portion +
+            new_hev_portion
       ) %>%
       dplyr::distinct()
 
@@ -294,9 +294,9 @@ adj_fleet_shares <- function(.pass_tb,
         # total sales of each type
         ptb_tot_sales =
           ptb_si +
-          ptb_ci +
-          ptb_hev +
-          ptb_bev
+            ptb_ci +
+            ptb_hev +
+            ptb_bev
       ) %>%
       dplyr::mutate(
         # new portion of total sales for each type
@@ -308,9 +308,9 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::mutate(
         sum_check =
           new_si_portion +
-          new_ci_portion +
-          new_bev_portion +
-          new_hev_portion
+            new_ci_portion +
+            new_bev_portion +
+            new_hev_portion
       ) %>%
       dplyr::distinct()
 
@@ -344,9 +344,9 @@ adj_fleet_shares <- function(.pass_tb,
         TRUE ~ value
       )) %>%
       dplyr::select(mode, var,
-                    geog_name, geog_id, year,
-                    value = new_val,
-                    aeo_mode, type
+        geog_name, geog_id, year,
+        value = new_val,
+        aeo_mode, type
       )
 
 
@@ -369,8 +369,8 @@ adj_fleet_shares <- function(.pass_tb,
         # lag by one year increment
         # if base year, keep that value (rather than NA)
         value = dplyr::lag(value,
-                           n = 1,
-                           default = value[1]
+          n = 1,
+          default = value[1]
         )
       ) %>%
       dplyr::ungroup() %>%
@@ -436,15 +436,15 @@ adj_fleet_shares <- function(.pass_tb,
 
     ptb_stock_new <- ptb_exist_new %>%
       dplyr::bind_rows(ptb_sales_new %>%
-                         dplyr::filter(stringr::str_detect(var, "Exist", negate = T))) %>%
+        dplyr::filter(stringr::str_detect(var, "Exist", negate = T))) %>%
       dplyr::bind_rows(pass_tb %>%
-                         dplyr::filter(
-                           # year %in% c("2025", "2030", "2035", "2040", "2045",
-                           # "2050"),
-                           mode == "PLDV",
-                           stringr::str_detect(var, "Stock"),
-                           var != "TotStock"
-                         )) %>%
+        dplyr::filter(
+          # year %in% c("2025", "2030", "2035", "2040", "2045",
+          # "2050"),
+          mode == "PLDV",
+          stringr::str_detect(var, "Stock"),
+          var != "TotStock"
+        )) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(
         names_from = var,
@@ -488,7 +488,7 @@ adj_fleet_shares <- function(.pass_tb,
             TRUE ~ value
           ),
         all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                           sep = "-"
+          sep = "-"
         )
       ) %>%
       unique()
@@ -496,7 +496,7 @@ adj_fleet_shares <- function(.pass_tb,
     ptb_new <- pass_tb %>%
       dplyr::distinct() %>%
       dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                                       sep = "-"
+        sep = "-"
       )) %>%
       dplyr::filter(!all_combos %in% ptb_new$all_combos) %>%
       dplyr::bind_rows(ptb_new) %>%
@@ -574,7 +574,7 @@ adj_fleet_shares <- function(.pass_tb,
       ) %>%
       dplyr::mutate(value = dplyr::case_when(
         ((mode == "SUT" | mode == "CUT") &
-           stringr::str_detect(var, "Stock") & value == 0) ~ 1,
+          stringr::str_detect(var, "Stock") & value == 0) ~ 1,
         TRUE ~ value
       )) %>%
       dplyr::distinct() %>%
@@ -699,13 +699,13 @@ adj_fleet_shares <- function(.pass_tb,
       dplyr::distinct() %>%
       dplyr::select(names(freight_tb)) %>%
       dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                                       sep = "-"
+        sep = "-"
       ))
 
 
     ftb_new <- freight_tb %>%
       dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
-                                       sep = "-"
+        sep = "-"
       )) %>%
       dplyr::filter(!all_combos %in% ftb_new_stocks$all_combos) %>%
       dplyr::bind_rows(ftb_new_stocks) %>%

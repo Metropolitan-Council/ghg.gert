@@ -75,7 +75,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .retrofit_end_year = 2050,
                                   .heatpump_start_year = 2028,
                                   .heatpump_end_year = 2050,
-
                                   # residential
                                   .new_homes_to_multifamily_pct = 0.0,
                                   .electrified_buildings_pct = 0.0,
@@ -90,18 +89,13 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
                                   .existing_mf_retrofit_pct = 0.0,
-
                                   # non-residential
                                   .new_jobs_leed_gold_pct = 0.0,
                                   .existing_jobs_retrofit_pct = 0.0,
                                   .jobs_heatpump_pct = 0.0,
-
                                   # emissions factors and elasticities
                                   .grid_emissions = ghg.ccap::grid_emissions,
-                                  .enviro_factors = ghg.ccap::enviro_factors
-
-) {
-
+                                  .enviro_factors = ghg.ccap::enviro_factors) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)

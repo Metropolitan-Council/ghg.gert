@@ -18,7 +18,6 @@ calc_fuel_use <- function(tb_vmt,
                           .fuel_economy = fuel_economy,
                           .enviro_factors = enviro_factors,
                           .factor_values = factor_values) {
-
   tb_l <- .fuel_economy %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
     dplyr::select(mode, year, aeo_mode, per_gallon_val = value) %>%
@@ -42,7 +41,9 @@ calc_fuel_use <- function(tb_vmt,
     dplyr::select(year, fuel_factor, aeo_mode) %>%
     dplyr::left_join(tb_vmt, ., by = c("year", "aeo_mode")) %>%
     dplyr::mutate(fuel_use_gallons_kwh = vmt / fuel_factor) %>%
-    dplyr::select(type, scenario, mode, geog_name, geog_id, class,
-                  year, aeo_mode, fuel_use_gallons_kwh) %>%
+    dplyr::select(
+      type, scenario, mode, geog_name, geog_id, class,
+      year, aeo_mode, fuel_use_gallons_kwh
+    ) %>%
     return()
 }

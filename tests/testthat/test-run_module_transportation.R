@@ -217,7 +217,10 @@ test_that("Density changes have anticipated effect, Brooklyn Park", {
 test_that("VMT does not change when adjusting stock proportions only", {
   region_parking <- parking_cost %>%
     group_by(mode, var, type, aeo_mode) %>%
-    summarize(value = min(value)) %>%
+    summarize(
+      value = min(value),
+      .groups = "keep"
+    ) %>%
     mutate(
       geog_id = "00000000",
       geog_name = "Twin Cities Region"
@@ -226,10 +229,14 @@ test_that("VMT does not change when adjusting stock proportions only", {
 
   region_avo <- vehicle_occupancy %>%
     group_by(mode, var, type, aeo_mode) %>%
-    summarise(value = mean(value)) %>%
+    summarise(
+      value = mean(value),
+      .groups = "keep"
+    ) %>%
     mutate(
       geog_id = "00000000",
-      geog_name = "Twin Cities Region"
+      geog_name = "Twin Cities Region",
+      .groups = "keep"
     ) %>%
     ungroup()
 
@@ -325,7 +332,6 @@ test_that("VMT does not change when adjusting stock proportions only", {
     bev_percentages %>%
     purrr::map(summarize_emiss)
 
-  # TODO fix tolerance in future
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
     baseline = baseline
   ) %>%

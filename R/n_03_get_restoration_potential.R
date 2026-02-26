@@ -30,7 +30,6 @@
 #' }
 #' }
 get_restoration_potential <- function(df_null) {
-
   # Get the most recent year's data
   df_current <- df_null %>%
     filter(inventory_year == max(inventory_year))
@@ -159,7 +158,6 @@ get_restoration_summary <- function(df_null,
                                     wetland_ambition_pct = 50,
                                     forest_area_sqkm = 0,
                                     prairie_area_sqkm = 0) {
-
   # Run the restoration to get allocations (with dummy years)
   result <- restore_ecosystems(
     df_null = df_null,
@@ -255,7 +253,6 @@ format_restoration_summary <- function(df_null,
                                        wetland_ambition_pct = 50,
                                        forest_area_sqkm = 0,
                                        prairie_area_sqkm = 0) {
-
   summary_df <- get_restoration_summary(
     df_null = df_null,
     restore_wetland = restore_wetland,
@@ -321,7 +318,6 @@ validate_restoration_inputs <- function(df_null,
                                         wetland_ambition_pct = 50,
                                         forest_area_sqkm = 0,
                                         prairie_area_sqkm = 0) {
-
   potential <- get_restoration_potential(df_null)
 
   # Calculate wetland target based on ambition

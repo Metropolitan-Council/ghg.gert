@@ -177,7 +177,6 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   # if calculate fuel use -----
   if (.calc_transp_fuel_use) {
-
     fuel_params <- list(
       tb_vmt            = list(si_vmt, ci_vmt, hev_vmt, bev_vmt),
       .miles_per_gallon = c("SIMPG", "CIMPG", "HEVMPG", "BEVElec")
@@ -198,7 +197,6 @@ mode_passenger_light_duty <- function(.pass_tb,
 
   # if calculate cost ----
   if (.calc_transp_cost) {
-
     cost_params <- list(
       tb_vmt = list(si_vmt, ci_vmt, hev_vmt, bev_vmt),
       .price = c("SIPrice", "CIPrice", "HEVPrice", "BEVPrice")
@@ -219,11 +217,10 @@ mode_passenger_light_duty <- function(.pass_tb,
   # if calculate embodied -----
 
   if (.calc_transp_ghg_embodied) {
-
     emb_ghg_params <- list(
-      .class      = c("SI",     "CI",     "HEV",      "BEV"),
-      .sales_mode = c("SISales","CISales","HEVSales",  "BEVSales"),
-      .fuel_type  = c("SI-EMB", "CI-EMB", "HEV-EMB",  "BEV-EMB")
+      .class      = c("SI", "CI", "HEV", "BEV"),
+      .sales_mode = c("SISales", "CISales", "HEVSales", "BEVSales"),
+      .fuel_type  = c("SI-EMB", "CI-EMB", "HEV-EMB", "BEV-EMB")
     )
 
     pldv_scenario$emb_ghg <- purrr::pmap(emb_ghg_params, function(.class, .sales_mode, .fuel_type) {
@@ -261,7 +258,6 @@ run_vehicle_calculations <- function(
     fcm_common,
     vmt_common,
     dir_ghg_common) {
-
   cli::cli_alert_info("Passenger vehicles, {fuel_label}")
 
   fcm <- do.call(

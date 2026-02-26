@@ -10,17 +10,16 @@
 #'
 calculate_manure_emissions <- function(manure_caf = ghg.ccap::agriculture_manure_caf,
                                        .selected_ctu = .selected_ctu) {
-
-  #browser()
+  # browser()
   emissions_output <- filter_ctu(manure_caf, .selected_ctu = .selected_ctu) %>%
     group_by(inventory_year, geog_name, county_name, scenario) %>%
     summarize(value_emissions = sum(value_emissions)) %>%
     dplyr::ungroup() %>%
-    mutate(category = "Livestock",
-           sector = "Agriculture",
-           source = "Manure")
+    mutate(
+      category = "Livestock",
+      sector = "Agriculture",
+      source = "Manure"
+    )
 
   return(emissions_output)
 }
-
-
