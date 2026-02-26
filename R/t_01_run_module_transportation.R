@@ -214,7 +214,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   pass_funs <- c(
     mode_passenger_light_duty,
     mode_transit_bus,
-    mode_transit_rail,
+    # mode_transit_rail,
     mode_walk_bike,
     mode_school_bus
   )
@@ -262,7 +262,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   names(passenger_tables) <- c(
     "passenger_light_duty",
     "bus_transit",
-    "rail_transit",
+    # "rail_transit",
     "walk_bike",
     "school_bus"
   )
@@ -273,9 +273,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   # (measured in ton-miles NOT miles)
 
   freight_funs <- c(
-    mode_freight_truck,
-    mode_freight_rail,
-    mode_air_water_multi
+    mode_freight_truck
+    # mode_freight_rail,
+    # mode_air_water_multi
   )
 
   freight_args <- list(
@@ -316,9 +316,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     purrr::map(freight_funs, rlang::exec, !!!freight_args)
 
   names(freight_tables) <- c(
-    "freight_truck",
-    "freight_rail",
-    "freight_multi_air_wat"
+    "freight_truck"
+    # "freight_rail",
+    # "freight_multi_air_wat"
   )
 
   list2env(freight_tables, envir = environment())
@@ -328,7 +328,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   passenger <- list(
     PLDV = passenger_light_duty,
-    RAIL = rail_transit,
+    # RAIL = rail_transit,
     BU_BRT = bus_transit,
     WALK_BIKE = walk_bike,
     BS = school_bus
@@ -337,7 +337,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   pass_vmt <- dplyr::bind_rows(
     passenger_light_duty$vmt,
-    rail_transit$vmt,
+    # rail_transit$vmt,
     bus_transit$vmt,
     walk_bike$vmt,
     school_bus$vmt
@@ -345,7 +345,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   pass_dir_ghg <- dplyr::bind_rows(
     passenger_light_duty$dir_ghg,
-    rail_transit$dir_ghg,
+    # rail_transit$dir_ghg,
     bus_transit$dir_ghg,
     walk_bike$dir_ghg,
     school_bus$dir_ghg
@@ -371,7 +371,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   if (.calc_transp_ghg_embodied == TRUE) {
     pass_emb_ghg <- dplyr::bind_rows(
       passenger_light_duty$emb_ghg,
-      rail_transit$emb_ghg,
+      # rail_transit$emb_ghg,
       bus_transit$emb_ghg,
       # walk_bike$emb_ghg,
       school_bus$emb_ghg
@@ -395,7 +395,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     pass_fuel <- dplyr::bind_rows(
       passenger_light_duty$fuel_use_gallons_kwh,
       bus_transit$fuel_use_gallons_kwh,
-      rail_transit$fuel_use_gallons_kwh,
+      # rail_transit$fuel_use_gallons_kwh,
       # walk_bike$fuel_use_gallons_kwh,
       school_bus$fuel_use_gallons_kwh
     )
@@ -417,7 +417,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     pass_cost <- dplyr::bind_rows(
       passenger_light_duty$cost,
       bus_transit$cost,
-      rail_transit$cost,
+      # rail_transit$cost,
       school_bus$cost,
       # walk_bike$cost
     )
@@ -459,15 +459,15 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
   ## freight -----
   freight_vmt <- dplyr::bind_rows(
-    freight_multi_air_wat$vmt,
-    freight_rail$vmt,
+    # freight_multi_air_wat$vmt,
+    # freight_rail$vmt,
     freight_truck$vmt
   )
 
   freight_ghg <- dplyr::bind_rows(
-    freight_multi_air_wat$dir_ghg,
-    freight_truck$dir_ghg,
-    freight_rail$dir_ghg
+    # freight_multi_air_wat$dir_ghg,
+    freight_truck$dir_ghg
+    # freight_rail$dir_ghg
   )
 
   freight_all <- dplyr::left_join(freight_vmt, freight_ghg,
@@ -480,8 +480,8 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
 
   freight <- list(
-    AIR_WAT_MM = freight_multi_air_wat,
-    FRAIL = freight_rail,
+    # AIR_WAT_MM = freight_multi_air_wat,
+    # FRAIL = freight_rail,
     SUT_CUT = freight_truck
   )
 
