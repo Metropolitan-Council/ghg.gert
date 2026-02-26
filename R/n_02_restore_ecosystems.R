@@ -314,7 +314,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Wetland",
         area = 0
@@ -337,7 +337,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Tree",
         area = 0
@@ -360,7 +360,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Grassland",
         area = 0

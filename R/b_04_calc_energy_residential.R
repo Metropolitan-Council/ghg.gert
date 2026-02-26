@@ -96,7 +96,7 @@ calc_energy_residential <- function(res_tb,
       sum()) /
       (res_tb_bau %>%
         filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        distinct(geog_name, sp_categories, inventory_year, value) %>%
+         dplyr::distinct(geog_name, sp_categories, inventory_year, value) %>%
         left_join(
           ctu_energy_profile %>%
             filter(scenario == "baseline"),
@@ -113,7 +113,7 @@ calc_energy_residential <- function(res_tb,
       sum()) /
       (res_tb_bau %>%
         filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        distinct(geog_name, sp_categories, inventory_year, value) %>%
+         dplyr::distinct(geog_name, sp_categories, inventory_year, value) %>%
         left_join(
           ctu_energy_profile %>%
             filter(scenario == "baseline"),
@@ -128,7 +128,7 @@ calc_energy_residential <- function(res_tb,
   # ctu average energy load will be split based on heat pump percentage
 
   ctu_energy_profile_adjustments <- ctu_energy_profile %>%
-    unique() %>%
+    dplyr::distinct() %>%
     tidyr::pivot_wider(
       id_cols = mc_classification,
       names_from = scenario,

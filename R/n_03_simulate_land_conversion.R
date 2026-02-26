@@ -57,7 +57,7 @@ simulate_land_conversion <- function(df, start_yr, end_yr) {
         }
       )
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   df_export <- df_change %>%
     mutate(area = area + delta_area)

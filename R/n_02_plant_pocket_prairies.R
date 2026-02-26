@@ -64,7 +64,7 @@ plant_pocket_prairies <- function(df_null,
       filter(land_cover_type == "Urban_Grassland") %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Grassland",
         area = 0,

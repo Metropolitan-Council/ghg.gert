@@ -108,7 +108,7 @@ calc_energy_non_residential <- function(non_res_tb,
        sum()) /
     (non_res_tb_bau %>%
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, imagine_designation, inventory_year, value) %>%
+       dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
          ctu_energy_profile %>%
            filter(scenario == "baseline"),
@@ -125,7 +125,7 @@ calc_energy_non_residential <- function(non_res_tb,
        sum()) /
     (non_res_tb_bau %>%
        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, imagine_designation, inventory_year, value) %>%
+       dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
        left_join(
          ctu_energy_profile %>%
            filter(scenario == "baseline"),

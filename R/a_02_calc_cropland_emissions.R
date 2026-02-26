@@ -90,7 +90,7 @@ calculate_cropland_emissions <- function(fertilizer_tb = .fertilizer_tb,
       filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
       group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
       summarize(value_emissions = sum(value_emissions)) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(source = "Fertilizer emissions")%>%
       # Return both scenarios with identical values
       select(-any_of("scenario")) %>%

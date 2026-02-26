@@ -38,7 +38,7 @@ calc_smart_fertilizer <- function(emissions,
     filter(grepl("fertilizer",source,ignore.case = TRUE)) %>%
     group_by(geog_name, geog_id, sector, category, inventory_year, scenario) %>%
     summarize(value_emissions = sum(value_emissions)) %>%
-    ungroup() %>%
+    dplyr::ungroup() %>%
     mutate(source = "Fertilizer emissions")
 
   # waiting to see if MPCA emission reduction factors are applicable, for now using

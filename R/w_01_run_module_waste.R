@@ -117,7 +117,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   ) %>%
     group_by(inventory_year) %>%
     summarize(value_activity = sum(value_activity, na.rm = T)) %>%
-    ungroup()
+    dplyr::ungroup()
 
 
   ## Do the same for our business as usual scenario
@@ -171,7 +171,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
         value_emissions = ch4_co2e + n2o_co2e + co2_co2e,
         units_emissions = "Metric tons CO2e"
       ) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       dplyr::select(
         -c(
           `Metric tons CH4`,
@@ -187,7 +187,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       summarize(
         value_emissions = sum(value_emissions)
       ) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         units_emissions = "Metric tons CO2e",
         sector = "Waste",
@@ -212,7 +212,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     compile_waste_emis() %>%
     group_by(inventory_year) %>%
     summarize(value_emissions = sum(value_emissions)) %>%
-    ungroup()
+    dplyr::ungroup()
 
 
   tb_bau <- bau_activity %>%
@@ -335,7 +335,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       mutate(
         total_activity = sum(value_activity)
       ) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         share_of_total = value_activity / total_activity,
         target_share = case_when(

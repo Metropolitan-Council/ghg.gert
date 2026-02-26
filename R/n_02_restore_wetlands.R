@@ -91,7 +91,7 @@ restore_wetlands <- function(df_null,
       filter(land_cover_type == source_types[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Wetland",
         area = 0,

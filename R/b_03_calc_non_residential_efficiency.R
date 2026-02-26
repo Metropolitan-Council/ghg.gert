@@ -296,7 +296,7 @@ calc_residential_retrofit <- function(res_tb,
 
   retrofit_results <- bind_rows(
     existing_sf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,
@@ -309,7 +309,7 @@ calc_residential_retrofit <- function(res_tb,
         efficiency_unit_value
       ),
     existing_mf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,

@@ -72,7 +72,7 @@ plant_community_trees <- function(df_null,
       filter(land_cover_type == "Developed_Low") %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Urban_Tree",
         area = 0,
