@@ -99,3 +99,23 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
 # compile RDS
 saveRDS(ccap_county, "data-raw/meta/ccap_county.RDS")
 saveRDS(ccap_ctu, "data-raw/meta/ccap_ctu.RDS")
+
+
+### create city_county sheet
+
+ctu_county_area <- ccap_ctu %>%
+  st_transform(5070) %>%
+  mutate(piece_area = as.numeric(st_area(geometry))) %>%
+  group_by(ctu_id_gnis)%>%
+  mutate(
+    total_ctu_area = sum(piece_area),
+    pct_of_ctu = piece_area / total_ctu_area
+  ) %>%
+  ungroup() %>%
+  st_drop_geometry() %>%
+  mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+                             paste(geog_name, "Twp."),
+                             geog_name)) %>%
+  select(geog_name, county_name, geog_id = ctu_id_gnis, pct_of_ctu_area = pct_of_ctu)
+
+usethis::use_data(ctu_county_area, overwrite=T)
