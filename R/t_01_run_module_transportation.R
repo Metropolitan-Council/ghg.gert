@@ -438,7 +438,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
 
 
   pass_all <- pass_all %>%
-    unique()
+    dplyr::distinct()
   # %>%
   #   dplyr::select(
   #     type,

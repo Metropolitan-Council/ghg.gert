@@ -176,153 +176,68 @@ mode_passenger_light_duty <- function(.pass_tb,
 
 
   # if calculate fuel use -----
-  if (.calc_transp_fuel_use == TRUE) {
-    si_fuel <- calc_fuel_use(
-      tb_vmt = si_vmt,
-      tb = .pass_tb,
-      .mode = mode,
-      .aeo_scenario = .aeo_scenario,
-      .miles_per_gallon = "SIMPG"
+  if (.calc_transp_fuel_use) {
+
+    fuel_params <- list(
+      tb_vmt            = list(si_vmt, ci_vmt, hev_vmt, bev_vmt),
+      .miles_per_gallon = c("SIMPG", "CIMPG", "HEVMPG", "BEVElec")
     )
 
-    ci_fuel <-
+    pldv_scenario$fuel_use_gallons_kwh <- purrr::pmap(fuel_params, function(tb_vmt, .miles_per_gallon) {
       calc_fuel_use(
-        tb_vmt = ci_vmt,
-        tb = .pass_tb,
-        .mode = mode,
-        .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = "CIMPG"
+        tb_vmt            = tb_vmt,
+        tb                = .pass_tb,
+        .mode             = mode,
+        .aeo_scenario     = .aeo_scenario,
+        .miles_per_gallon = .miles_per_gallon
       )
-
-    hev_fuel <-
-      calc_fuel_use(
-        tb_vmt = hev_vmt,
-        tb = .pass_tb,
-        .mode = mode,
-        .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = "HEVMPG"
-      )
-
-    bev_fuel <-
-      calc_fuel_use(
-        tb_vmt = bev_vmt,
-        tb = .pass_tb,
-        .mode = mode,
-        .aeo_scenario = .aeo_scenario,
-        .miles_per_gallon = "BEVElec"
-      )
-
-    pldv_scenario$fuel_use_gallons_kwh <- dplyr::bind_rows(
-      ci_fuel,
-      si_fuel,
-      hev_fuel,
-      bev_fuel
-    )
+    }) %>%
+      dplyr::bind_rows()
   }
+
 
   # if calculate cost ----
-  if (.calc_transp_cost == TRUE) {
-    si_cost <-
-      calc_cost(
-        .selected_ctu = .selected_ctu,
-        tb_vmt = si_vmt,
-        .mode = mode,
-        .price = "SIPrice",
-        .enviro_factors = .enviro_factors,
-        .factor_values = .factor_values
-      )
+  if (.calc_transp_cost) {
 
-    ci_cost <-
-      calc_cost(
-        tb_vmt = ci_vmt,
-        .selected_ctu = .selected_ctu,
-        .mode = mode,
-        .price = "CIPrice",
-        .enviro_factors = .enviro_factors,
-        .factor_values = .factor_values
-      )
-
-    hev_cost <-
-      calc_cost(
-        tb_vmt = hev_vmt,
-        .mode = mode,
-        .selected_ctu = .selected_ctu,
-        .price = "HEVPrice",
-        .enviro_factors = .enviro_factors,
-        .factor_values = .factor_values
-      )
-
-    bev_cost <-
-      calc_cost(
-        tb_vmt = bev_vmt,
-        .selected_ctu = .selected_ctu,
-        .mode = mode,
-        .price = "BEVPrice",
-        .enviro_factors = .enviro_factors,
-        .factor_values = .factor_values
-      )
-
-    pldv_scenario$cost <- dplyr::bind_rows(
-      si_cost,
-      ci_cost,
-      hev_cost,
-      bev_cost
+    cost_params <- list(
+      tb_vmt = list(si_vmt, ci_vmt, hev_vmt, bev_vmt),
+      .price = c("SIPrice", "CIPrice", "HEVPrice", "BEVPrice")
     )
-  }
 
+    pldv_scenario$cost <- purrr::pmap(cost_params, function(tb_vmt, .price) {
+      calc_cost(
+        tb_vmt          = tb_vmt,
+        .price          = .price,
+        .mode           = mode,
+        .selected_ctu   = .selected_ctu,
+        .enviro_factors = .enviro_factors,
+        .factor_values  = .factor_values
+      )
+    }) %>%
+      dplyr::bind_rows()
+  }
   # if calculate embodied -----
 
-  if (.calc_transp_ghg_embodied == TRUE) {
-    si_emb_ghg <-
-      calc_ghg_embodied(
-        tb = .pass_tb,
-        .mode = mode,
-        .class = "SI",
-        .sales_mode = "SISales",
-        .fuel_type = "SI-EMB",
-        .enviro_factors = .enviro_factors,
-        .transit_avo_pct = .transit_avo_pct
-      )
+  if (.calc_transp_ghg_embodied) {
 
-    ci_emb_ghg <-
-      calc_ghg_embodied(
-        tb = .pass_tb,
-        .mode = mode,
-        .sales_mode = "CISales",
-        .fuel_type = "CI-EMB",
-        .class = "CI",
-        .enviro_factors = .enviro_factors,
-        .transit_avo_pct = .transit_avo_pct
-      )
-
-    hev_emb_ghg <-
-      calc_ghg_embodied(
-        tb = .pass_tb,
-        .class = "HEV",
-        .mode = mode,
-        .sales_mode = "HEVSales",
-        .fuel_type = "HEV-EMB",
-        .enviro_factors = .enviro_factors,
-        .transit_avo_pct = .transit_avo_pct
-      )
-
-    bev_emb_ghg <-
-      calc_ghg_embodied(
-        .pass_tb,
-        .mode = mode,
-        .class = "BEV",
-        .sales_mode = "BEVSales",
-        .fuel_type = "BEV-EMB",
-        .enviro_factors = .enviro_factors,
-        .transit_avo_pct = .transit_avo_pct
-      )
-
-    pldv_scenario$emb_ghg <- dplyr::bind_rows(
-      ci_emb_ghg,
-      si_emb_ghg,
-      hev_emb_ghg,
-      bev_emb_ghg
+    emb_ghg_params <- list(
+      .class      = c("SI",     "CI",     "HEV",      "BEV"),
+      .sales_mode = c("SISales","CISales","HEVSales",  "BEVSales"),
+      .fuel_type  = c("SI-EMB", "CI-EMB", "HEV-EMB",  "BEV-EMB")
     )
+
+    pldv_scenario$emb_ghg <- purrr::pmap(emb_ghg_params, function(.class, .sales_mode, .fuel_type) {
+      calc_ghg_embodied(
+        tb               = .pass_tb,
+        .mode            = mode,
+        .class           = .class,
+        .sales_mode      = .sales_mode,
+        .fuel_type       = .fuel_type,
+        .enviro_factors  = .enviro_factors,
+        .transit_avo_pct = .transit_avo_pct
+      )
+    }) %>%
+      dplyr::bind_rows()
   }
 
   cli::cli_alert_success(
@@ -338,56 +253,36 @@ mode_passenger_light_duty <- function(.pass_tb,
 #' @keywords internal
 #' @importFrom stringr str_to_lower
 run_vehicle_calculations <- function(
-    fuel_label, # e.g. "SI", "DI", "EV"
-    mpg_name, # e.g. "SIMPG", "DIMPG", "EVMPG"
-    stock_name, # e.g. "SIStock", "DIStock", etc.
+    fuel_label,
+    mpg_name,
+    stock_name,
     fuel_label2,
-    fuel_cost_var, # e.g. .enviro_factors$SI_FUEL_COST_GAL
+    fuel_cost_var,
     fcm_common,
     vmt_common,
     dir_ghg_common) {
-  message(paste("Passenger vehicles,", fuel_label))
 
-  # 1. Fuel cost per mile
+  cli::cli_alert_info("Passenger vehicles, {fuel_label}")
+
   fcm <- do.call(
     calc_fuel_cost_mile,
-    c(
-      .miles_per_gallon = mpg_name,
-      .fuel_cost_gallon = fuel_cost_var,
-      fcm_common
-    )
+    c(.miles_per_gallon = mpg_name, .fuel_cost_gallon = fuel_cost_var, fcm_common)
   )
 
-  # 2. VMT forecast
   vmt <- do.call(
     calc_vmt_forecast,
-    c(
-      .stock = stock_name,
-      append(vmt_common, list(.tb_fuel_cost_mile = fcm))
-    )
+    c(.stock = stock_name, append(vmt_common, list(.tb_fuel_cost_mile = fcm)))
   ) %>%
     dplyr::mutate(class = fuel_label)
 
-  # 3. Direct GHG emissions
   dir_ghg <- do.call(
     calc_ghg_direct,
-    c(
-      .fuel_type = fuel_label2,
-      .miles_per_gallon = mpg_name,
-      append(dir_ghg_common, list(tb_vmt = vmt))
-    )
+    c(.fuel_type = fuel_label2, .miles_per_gallon = mpg_name, append(dir_ghg_common, list(tb_vmt = vmt)))
   )
 
-  fuel_label_lower <- stringr::str_to_lower(fuel_label)
+  fuel_label_lower <- tolower(fuel_label)
 
-  return(
-    list(fcm, vmt, dir_ghg) %>%
-      setNames(
-        nm = c(
-          paste0(fuel_label_lower, "_fcm"),
-          paste0(fuel_label_lower, "_vmt"),
-          paste0(fuel_label_lower, "_dir_ghg")
-        )
-      )
-  )
+  list(fcm, vmt, dir_ghg) %>%
+    setNames(paste0(fuel_label_lower, c("_fcm", "_vmt", "_dir_ghg"))) %>%
+    return()
 }
