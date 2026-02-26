@@ -63,8 +63,8 @@ adj_fleet_shares <- function(.pass_tb,
                              .gas_tax = 0,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% unique()
-  .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% unique()
+  .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% dplyr::distinct()
+  .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% dplyr::distinct()
 
   pass_tb <- .pass_tb
   freight_tb <- .freight_tb
@@ -244,7 +244,7 @@ adj_fleet_shares <- function(.pass_tb,
         value == 0 ~ 1,
         TRUE ~ value
       )) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       tidyr::pivot_wider(names_from = "var", values_from = "value")
 
 
@@ -325,7 +325,7 @@ adj_fleet_shares <- function(.pass_tb,
             new_bev_portion +
             new_hev_portion
       ) %>%
-      unique()
+      dplyr::distinct()
 
     # change as pct -----
     # this calculates the change as a straight percent of each fuel type
@@ -361,7 +361,7 @@ adj_fleet_shares <- function(.pass_tb,
             new_bev_portion +
             new_hev_portion
       ) %>%
-      unique()
+      dplyr::distinct()
 
     ### apply portions to get actual number of vehicles sold -----
     ptb_sales_new <- pass_tb %>%
@@ -380,7 +380,7 @@ adj_fleet_shares <- function(.pass_tb,
             new_bev_portion,
             new_hev_portion
           ) %>%
-          unique(),
+          dplyr::distinct(),
         by = c("mode", "geog_name", "geog_id", "year", "aeo_mode", "type")
       ) %>%
       # rowwise() %>%
@@ -410,7 +410,7 @@ adj_fleet_shares <- function(.pass_tb,
         mode == "PLDV",
         stringr::str_detect(var, "Sales") | stringr::str_detect(var, "Exist")
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       dplyr::arrange(year) %>%
       dplyr::group_by(var, geog_name, geog_id, mode, aeo_mode, type) %>%
       dplyr::mutate(
@@ -433,7 +433,7 @@ adj_fleet_shares <- function(.pass_tb,
         mode == "PLDV",
         stringr::str_detect(var, "Sales") | stringr::str_detect(var, "Exist")
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       tidyr::pivot_wider(
         values_from = value,
         names_from = var
@@ -494,7 +494,7 @@ adj_fleet_shares <- function(.pass_tb,
           stringr::str_detect(var, "Stock"),
           var != "TotStock"
         )) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       tidyr::pivot_wider(
         names_from = var,
         values_from = value
@@ -529,7 +529,7 @@ adj_fleet_shares <- function(.pass_tb,
         names_to = "var",
         values_to = "value"
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       dplyr::mutate(
         value =
           dplyr::case_when(
@@ -543,7 +543,7 @@ adj_fleet_shares <- function(.pass_tb,
       unique()
 
     ptb_new <- pass_tb %>%
-      unique() %>%
+      dplyr::distinct() %>%
       dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
         sep = "-"
       )) %>%
@@ -626,7 +626,7 @@ adj_fleet_shares <- function(.pass_tb,
           stringr::str_detect(var, "Stock") & value == 0) ~ 1,
         TRUE ~ value
       )) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       dplyr::select(-aeo_mode) %>%
       tidyr::pivot_wider(
         names_from = c(var, mode),
@@ -657,7 +657,7 @@ adj_fleet_shares <- function(.pass_tb,
         ci_cut_fin,
         bev_cut_fin
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       filter(!is.na(ci_cut_fin))
 
 
@@ -704,7 +704,7 @@ adj_fleet_shares <- function(.pass_tb,
           "CUT"
         )
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       tidyr::pivot_wider(
         names_from = var,
         values_from = value
@@ -719,7 +719,7 @@ adj_fleet_shares <- function(.pass_tb,
         "CUT"
       )) %>%
       dplyr::left_join(freight_stock_new, by = c("geog_name", "geog_id", "year")) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       tidyr::pivot_wider(
         names_from = var,
         values_from = value
@@ -745,7 +745,7 @@ adj_fleet_shares <- function(.pass_tb,
         values_to = "value",
         values_drop_na = TRUE
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       dplyr::select(names(freight_tb)) %>%
       dplyr::mutate(all_combos = paste(mode, geog_name, geog_id, year, var, aeo_mode,
         sep = "-"

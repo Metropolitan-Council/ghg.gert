@@ -351,12 +351,9 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = ghg_all
   )
 
-  cli::cli_alert_success(paste(
-    "Freight air, water, multimodal",
-    "✈️",
-    "🚢",
-    "🐸"
-  ))
+  cli::cli_alert_success(
+    "Freight air, water, multimodal ✈️ 🚢 🐸"
+  )
 
   return(av_return)
 }

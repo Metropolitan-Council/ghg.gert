@@ -368,12 +368,12 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
         type, ghg_embodied_source, ghg_embodied,
         mode, class, geog_name, year, aeo_mode
       ) %>%
-      unique()
+      dplyr::distinct()
 
     passenger_rail$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success(paste("Urban and interurban rail", "🚆"))
+  cli::cli_alert_success("Urban and interurban rail 🚆")
 
   return(passenger_rail)
 }

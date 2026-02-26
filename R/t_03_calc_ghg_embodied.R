@@ -137,7 +137,7 @@ calc_ghg_embodied <- function(tb,
         mode == .mode,
         var == .sales_mode
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       mutate(class = .class) %>%
       dplyr::select(
         type,
@@ -166,7 +166,7 @@ calc_ghg_embodied <- function(tb,
         aeo_mode,
         ghg_embodied
       ) %>%
-      unique()
+      dplyr::distinct()
   }
 
   return(ghg)

@@ -260,7 +260,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
         mode == "PLDV",
         str_detect(var, "Stock")
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       pivot_wider(names_from = "var", values_from = "value")
 
 

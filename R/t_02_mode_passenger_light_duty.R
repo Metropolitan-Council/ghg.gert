@@ -325,10 +325,9 @@ mode_passenger_light_duty <- function(.pass_tb,
     )
   }
 
-  cli::cli_alert_success(paste(
-    "Passenger light-duty vehicles",
-    "🚗"
-  ))
+  cli::cli_alert_success(
+    "Passenger light-duty vehicles 🚗"
+  )
 
   # return ------
   return(pldv_scenario)

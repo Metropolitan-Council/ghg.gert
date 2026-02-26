@@ -266,7 +266,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
     school_bus$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success(paste("School bus", "🏫"))
+  cli::cli_alert_success("School bus 🏫")
 
   return(school_bus)
 }

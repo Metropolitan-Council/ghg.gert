@@ -83,7 +83,8 @@ calc_ghg_direct <- function(tb_vmt,
       # vmt,
       dir_ghg
     ) %>%
-    unique()
+    dplyr::distinct() %>%
+    dplyr::ungroup()
 
 
   return(ghg)

@@ -162,14 +162,14 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       type, class, scenario, mode, geog_name, geog_id, year, aeo_mode,
       dir_ghg
     ) %>%
-    unique()
+    dplyr::distinct()
 
   wb_fin <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Walk and bike", "🚶", "🚴"))
+  cli::cli_alert_success("Walk and bike 🚶 🚴")
 
   return(wb_fin)
 }

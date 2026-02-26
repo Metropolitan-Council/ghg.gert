@@ -132,7 +132,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 #
 #   # washington
@@ -149,7 +149,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 #
 #   # ramsey
@@ -166,7 +166,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 # })
 

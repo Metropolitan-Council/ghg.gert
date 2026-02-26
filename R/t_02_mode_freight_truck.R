@@ -148,7 +148,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Freight trucks", "🚚"))
+  cli::cli_alert_success("Freight trucks 🚚")
 
   return(freight_truck)
 }
