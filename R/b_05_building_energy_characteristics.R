@@ -40,19 +40,34 @@ calc_building_energy <- function(
     ceestock_tb = ghg.ccap::ceestock_summaries
     ) {
   # bin based on resstock categories
-  bin_sqft <- function(sqft) {
+  bin_sqft_attached <- function(sqft) {
     cut(sqft,
-      breaks = c(0, 499, 749, 999, 1499, 1999, 2499, 2999, 3999, Inf),
+      breaks = c(0, 999, 1999, 2999, Inf),
       labels = c(
-        "0 to 499", "500 to 749", "750 to 999",
-        "1000 to 1499", "1500 to 1999",
-        "2000 to 2499", "2500 to 2999", "3000 to 3999",
-        "4000+"
+        "<1000",
+        "1000 to 1999",
+        "2000 to 2999",
+        "3000+"
       ),
       right = TRUE
     )
   }
 
+  bin_sqft_detached <- function(sqft) {
+    cut(sqft,
+        breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
+        labels = c(
+          "<1000",
+          "1000 to 1499",
+          "1500 to 1999",
+          "2000 to 2499",
+          "2500 to 2999",
+          "3000 to 3999",
+          "4000+"
+        ),
+        right = TRUE
+    )
+  }
 
   bin_year <- function(year) {
     cut(year,
@@ -65,7 +80,6 @@ calc_building_energy <- function(
     )
   }
 
-
   # Filter and bin parcels
   ctu_binned <- parcel_data %>%
     filter(
@@ -76,7 +90,10 @@ calc_building_energy <- function(
                                "manufactured_home")
     ) %>%
     mutate(
-      sqft_bin = bin_sqft(sq_ft_use),
+      sqft_bin = case_when(
+        mc_classification == "single_family_detached" ~ bin_sqft_detached(sq_ft_use),
+        mc_classification == "single_family_attached" ~ bin_sqft_attached(sq_ft_use),
+       TRUE ~ NA), # multifamily and manufactured homes don't use square footage due to data limitations
       year_bin = as.character(bin_year(median_year))
     )
 
