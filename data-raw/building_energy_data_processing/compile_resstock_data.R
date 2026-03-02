@@ -33,7 +33,7 @@ load_resstock <- function(path) {
         grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily_units",
         grepl("Detached", building_type, ignore.case = TRUE) ~ "single_family_detached",
         grepl("Attached", building_type, ignore.case = TRUE) ~ "single_family_attached",
-        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_homes",
+        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_home",
         TRUE ~ "other"
       ),
       sqft_bin = bin_sqft(sqft)
@@ -65,34 +65,46 @@ envelope <- load_resstock(
   "./data-raw/building_energy_data_processing/resstock data/MN_upgrade2.04_metadata_and_annual_results_intermediate_envelope.csv"
 )
 
+combo <- load_resstock(
+  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade07_metadata_and_annual_results.csv"
+)
+
 
 # summary list
 
 resstock_summaries <- list(
 
   # baseline summaries
-  mf_baseline = summarize_resstock(baseline, "Multi", "mc_classification"),
-  manufactured_baseline = summarize_resstock(baseline, "Mobile", "mc_classification"),
+  mf_baseline = summarize_resstock(baseline, "Multi", c("mc_classification", "build_year")),
+  manufactured_baseline = summarize_resstock(baseline, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "sqft_bin")),
   sf_detached_year_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "build_year")),
 
   # Heat pump summaries
-  mf_heatpump = summarize_resstock(heatpump, "Multi", "mc_classification"),
-  manufactured_heatpump = summarize_resstock(heatpump, "Mobile", "mc_classification"),
+  mf_heatpump = summarize_resstock(heatpump, "Multi", c("mc_classification", "build_year")),
+  manufactured_heatpump = summarize_resstock(heatpump, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "sqft_bin")),
   sf_detached_year_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "build_year")),
 
   # Retrofit summaries
-  mf_envelope = summarize_resstock(envelope, "Multi", "mc_classification"),
-  manufactured_envelope = summarize_resstock(envelope, "Mobile", "mc_classification"),
+  mf_envelope = summarize_resstock(envelope, "Multi", c("mc_classification", "build_year")),
+  manufactured_envelope = summarize_resstock(envelope, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year"))
+  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year")),
+
+  # Combination summaries
+  mf_combo = summarize_resstock(combo, "Multi", c("mc_classification", "build_year")),
+  manufactured_combo = summarize_resstock(combo, "Mobile", c("mc_classification", "build_year")),
+  sf_attached_sqft_combo = summarize_resstock(combo, "Attached", c("mc_classification", "sqft_bin")),
+  sf_attached_year_combo = summarize_resstock(combo, "Attached", c("mc_classification", "build_year")),
+  sf_detached_sqft_combo = summarize_resstock(combo, "Detached", c("mc_classification", "sqft_bin")),
+  sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year"))
 )
 
 

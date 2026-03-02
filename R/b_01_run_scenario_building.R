@@ -79,8 +79,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   # residential
                                   .new_homes_to_multifamily_pct = 0.0,
                                   .electrified_buildings_pct = 0.0,
-                                  .sf_heat_pump_pct = 0.0,
-                                  .mf_heat_pump_pct = 0.0,
+                                  .sf_heatpump_pct = 0.0,
+                                  .mf_heatpump_pct = 0.0,
                                   .app_elec_start_year = 2028,
                                   .app_elec_end_year = 2050,
                                   .sf_app_elec_pct = 0.0,
@@ -121,8 +121,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
     "smart_grid_energy_reduction_pct",
 
     # Residential – electrification via heatpump
-    "sf_heat_pump_pct",
-    "mf_heat_pump_pct",
+    "sf_heatpump_pct",
+    "mf_heatpump_pct",
     "electrified_buildings_pct",
 
     # Non-residential – LEED / retrofits / electrification via heatpump
@@ -141,8 +141,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .smart_grid_energy_reduction_pct,
 
     # Residential – electrification via heatpump
-    .sf_heat_pump_pct,
-    .mf_heat_pump_pct,
+    .sf_heatpump_pct,
+    .mf_heatpump_pct,
     .electrified_buildings_pct,
 
     # Non-residential – LEED / retrofits / electrification via heatpump
@@ -171,8 +171,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
         .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
         .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
-        .sf_heat_pump_pct = .sf_heat_pump_pct,
-        .mf_heat_pump_pct = .mf_heat_pump_pct,
+        .sf_heatpump_pct = .sf_heatpump_pct,
+        .mf_heatpump_pct = .mf_heatpump_pct,
         .enviro_factors = .enviro_factors,
         .grid_emissions = .grid_emissions
       )

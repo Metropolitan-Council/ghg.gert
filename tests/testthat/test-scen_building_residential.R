@@ -21,8 +21,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "none")
@@ -50,8 +50,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
@@ -80,8 +80,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.60,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "retrofit")
@@ -109,8 +109,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.00,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.10,
-    .mf_heat_pump_pct = 0.20,
+    .sf_heatpump_pct = 0.10,
+    .mf_heatpump_pct = 0.20,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "heatpump")
@@ -180,8 +180,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "none")
@@ -209,8 +209,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
@@ -239,8 +239,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.60,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "retrofit")
@@ -268,8 +268,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.00,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.10,
-    .mf_heat_pump_pct = 0.20,
+    .sf_heatpump_pct = 0.10,
+    .mf_heatpump_pct = 0.20,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "heatpump")
@@ -340,8 +340,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "none")
@@ -369,8 +369,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
@@ -399,8 +399,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.60,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "retrofit")
@@ -428,8 +428,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.00,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.10,
-    .mf_heat_pump_pct = 0.20,
+    .sf_heatpump_pct = 0.10,
+    .mf_heatpump_pct = 0.20,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "heatpump")
@@ -499,8 +499,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "none")
@@ -528,8 +528,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
@@ -558,8 +558,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.60,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "retrofit")
@@ -587,8 +587,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.00,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.10,
-    .mf_heat_pump_pct = 0.20,
+    .sf_heatpump_pct = 0.10,
+    .mf_heatpump_pct = 0.20,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "heatpump")
@@ -656,8 +656,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "none")
@@ -685,8 +685,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
@@ -715,8 +715,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.60,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0,
-    .mf_heat_pump_pct = 0,
+    .sf_heatpump_pct = 0,
+    .mf_heatpump_pct = 0,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "retrofit")
@@ -744,8 +744,8 @@ test_that("Residential building energy runs", {
     .existing_mf_retrofit_pct = 0.00,
     .heatpump_start_year = 2028,
     .heatpump_end_year = 2050,
-    .sf_heat_pump_pct = 0.10,
-    .mf_heat_pump_pct = 0.20,
+    .sf_heatpump_pct = 0.10,
+    .mf_heatpump_pct = 0.20,
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "heatpump")

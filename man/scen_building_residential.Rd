@@ -20,8 +20,8 @@ scen_building_residential(
   .existing_mf_retrofit_pct,
   .heatpump_start_year,
   .heatpump_end_year,
-  .sf_heat_pump_pct,
-  .mf_heat_pump_pct,
+  .sf_heatpump_pct,
+  .mf_heatpump_pct,
   .grid_emissions = ghg.ccap::grid_emissions,
   .enviro_factors = ghg.ccap::enviro_factors
 )
@@ -50,9 +50,9 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}
@@ -102,5 +102,9 @@ scen_building_residential(
   .enviro_factors = enviro_factors
 )
 }
+}
+\seealso{
+Other buildings, residential: 
+\code{\link{calc_residential_electrification}()}
 }
 \concept{buildings, residential}
