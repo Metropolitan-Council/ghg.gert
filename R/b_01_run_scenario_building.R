@@ -46,7 +46,6 @@
 #'   .electrified_buildings_pct = 0.40,
 #'   .smart_grid_energy_reduction_pct = 1.00,
 #'   .new_homes_to_multifamily_pct = 0.50,
-#'   .existing_high_efficiency_buildings_pct = 0.80,
 #'   .home_behavior_change_pct = 1.00,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.30,

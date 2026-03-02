@@ -32,7 +32,6 @@ run_all_modules(
   .parking_lot_reduction_percentage = 0,
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
@@ -177,11 +176,6 @@ Default is \code{0.0}.}
 \item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
 The fraction of additional commercial buildings that will be electrified.
 Default is \code{0.0}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
 
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
