@@ -27,7 +27,7 @@ calc_fuel_use <- function(tb_vmt,
     dplyr::filter(
       metric == "MPG",
       aeo_scen == .aeo_scenario,
-      mode == tb_l$aeo_mode[[1]]
+      mode == unique(tb_l$aeo_mode)
     ) %>%
     dplyr::select(year, aeo_factor = value)
 

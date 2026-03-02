@@ -77,7 +77,7 @@ pldv_stocks_new_tot <- pldv_stocks_new %>%
   mutate(
     TotSales = SISales + CISales + HEVSales + BEVSales,
     TotStock = SIStock + CIStock + HEVStock + BEVStock,
-    TotExist = SIExist + CIExist + HEVExist + BEVExist,
+    TotExist = SIExist + CIExist + HEVExist + BEVExist
   ) %>%
   pivot_longer(starts_with("Tot"),
     names_to = "var",
