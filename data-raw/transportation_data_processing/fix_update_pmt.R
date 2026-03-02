@@ -1,7 +1,7 @@
 pkgload::load_all()
 
 # load from CPRG repository
-coctu_vmt_forecast <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/mndot_vmt_ctu_gap_filled.RDS"))
+coctu_vmt_forecast <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/243-integrate-white-bear-township-changes/_transportation/data/mndot_vmt_ctu_gap_filled.RDS"))
 
 ctu_vmt_forecast <- coctu_vmt_forecast %>%
   group_by(gnis, inventory_year) %>%
