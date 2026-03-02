@@ -9,7 +9,7 @@ transportation_data$passenger <-
       filter(geog_name != "Twin Cities Region") %>%
       group_by(mode, var, year, type, aeo_mode) %>%
       unique() %>%
-      summarize(value = sum(value, na.rm = T)) %>%
+      summarize(value = sum(value, na.rm = T) %>% round(digits = 3)) %>%
       mutate(
         geog_id = "00000000",
         geog_name = "Twin Cities Region"
@@ -25,7 +25,7 @@ transportation_data$freight <-
     transportation_data$freight %>%
       filter(geog_name != "Twin Cities Region") %>%
       group_by(mode, var, year, type, aeo_mode) %>%
-      summarize(value = sum(value, na.rm = T)) %>%
+      summarize(value = sum(value, na.rm = T) %>% round(digits = 3)) %>%
       mutate(
         geog_id = "00000000",
         geog_name = "Twin Cities Region"
