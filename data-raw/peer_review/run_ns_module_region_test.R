@@ -5,15 +5,12 @@ library(tidyverse)
 .ctu <- "Regional"
 
 
-
 # inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
 # inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/236-incorporate-restorable-wetlands-into-natural-systems-projections/_nature/data/"
 #
 # natural_systems_data <- c()
 #
 # natural_systems_data$land_cover_carbon <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
-
-
 
 
 # read natural_systems_data.rda file in ghg.ccap/data
@@ -67,8 +64,6 @@ mod_bau %>%
     legend.position = "bottom",
     legend.direction = "horizontal"
   )
-
-
 
 
 ghg.ccap::run_scenario_natural_systems(
@@ -135,11 +130,6 @@ mod_bau %>%
   )
 
 
-
-
-
-
-
 # Old code below ----------------------------------------------------------
 
 lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds")) %>%
@@ -157,12 +147,6 @@ lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds"))
 inventory_start_year <- 2005
 inventory_end_year <- 2022
 future_years <- 2023:2050
-
-
-
-
-
-
 
 
 natural_systems_data$county$inventory <- lc_county %>%
@@ -202,14 +186,6 @@ county_projections_null <- county_projections_2022 %>%
   mutate(across(everything(), ~ tidyr::replace_na(., 0)))
 
 
-
-
-
-
-
-
-
-
 # Regional inventory by summing county inventories
 natural_systems_data$regional$inventory <- natural_systems_data$county$inventory %>%
   group_by(inventory_year) %>%
@@ -245,7 +221,6 @@ regional_projections_2022 <- natural_systems_data$regional$inventory %>%
   pivot_longer(cols = -c(geog_name, geog_id, ctu_class), names_to = "land_cover_type", values_to = "area")
 
 
-
 natural_systems_data$regional$null_projections <- regional_projections_2022 %>%
   tidyr::crossing(inventory_year = future_years) %>%
   pivot_wider(names_from = "land_cover_type", values_from = "area") %>%
@@ -259,8 +234,6 @@ natural_systems_data$regional$null_projections <- regional_projections_2022 %>%
   ungroup() %>%
   # replace NAs with 0
   mutate(across(everything(), ~ tidyr::replace_na(., 0)))
-
-
 
 
 mod_bau <- ghg.ccap::run_scenario_natural_systems(
@@ -299,8 +272,6 @@ target_grassland_2050 <- 10
 target_wetland_2050 <- 33
 
 
-
-
 mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$regional$inventory,
@@ -322,9 +293,6 @@ mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .restoration_start = 2025,
   .restoration_time = 25,
 )
-
-
-
 
 
 #
@@ -432,14 +400,6 @@ mod_ns <- ghg.ccap::run_scenario_natural_systems(
 # print(plot_wedge_total)
 
 
-
-
-
-
-
-
-
-
 plot_emissions <- function(bau, scen1, target) {
   # Aggregate helper
   agg <- function(df) {
@@ -538,10 +498,6 @@ plot_emissions <- function(bau, scen1, target) {
 }
 
 
-
-
-
-
 p1 <- plot_emissions(
   bau = mod_bau,
   scen1 = ghg.ccap::run_scenario_natural_systems(
@@ -621,13 +577,7 @@ p3 <- plot_emissions(
 )
 
 
-
-
 p1 + p2 + p3
-
-
-
-
 
 
 target_seq_for_netZero <- ghg.ccap::run_scenario_natural_systems(
@@ -678,10 +628,6 @@ seq_gg <- plot_emissions(
 )
 
 
-
-
-
-
 ggplot2::ggsave(
   plot = seq_gg,
   filename = paste0(here::here(), "/imgs/ns_decarbonization_pathways.png"), # add your file path here
@@ -691,17 +637,6 @@ ggplot2::ggsave(
   dpi = 300,
   bg = "white"
 )
-
-
-
-
-
-
-
-
-
-
-
 
 
 geography_name <- mod_ns$geog_name %>%
@@ -733,7 +668,6 @@ plot_colors <- c(
   "Bare" = "#A9A9A9",
   "Water" = "#1E90FF"
 )
-
 
 
 plot_activity <-
@@ -900,27 +834,6 @@ plot_activity
 plot_emissions
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Make a base tibble
 test_regional_inv <- expand_grid(
   inventory_year = 2005:2022,
@@ -954,7 +867,6 @@ test_regional_inv <- expand_grid(
       TRUE ~ "dummy placeholder data"
     )
   )
-
 
 
 test_regional_proj <- expand_grid(
@@ -1026,7 +938,6 @@ test_solid_waste_baseline <-
   )
 
 
-
 test <- run_module_waste(
   .selected_ctu = "Regional",
   tb_inv = test_regional_inv,
@@ -1062,12 +973,6 @@ rbind(
   geom_ribbon(aes(x = emissions_year, ymin = 0, ymax = value_emissions),
     fill = "gray80", alpha = 0.7
   )
-
-
-
-
-
-
 
 
 ## Next we need to build out the actual data for the 11-county region

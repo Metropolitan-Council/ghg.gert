@@ -15,7 +15,6 @@ filter_ctu <- function(df, .selected_ctu = "all") {
 }
 
 
-
 #' @title Filter Building Energy Data
 #'
 #' @inheritParams filter_ctu

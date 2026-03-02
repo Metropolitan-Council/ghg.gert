@@ -335,7 +335,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   # Bus Rapid Transit----
 
 
-
   # ### CI BRT -----
   # mode <- "BRT"
   # stock <- "BCIStock"

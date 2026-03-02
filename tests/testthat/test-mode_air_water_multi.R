@@ -76,7 +76,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
   )))
 
 
-
   purrr::map(
     list(
       fr_transit,
@@ -94,7 +93,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
     }
   )
 })
-
 
 
 testthat::test_that("Minneapolis emissions reduce with interventions", {
@@ -174,7 +172,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(
@@ -271,7 +268,6 @@ testthat::test_that("Champlin emissions reduce with interventions", {
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(

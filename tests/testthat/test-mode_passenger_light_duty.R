@@ -62,7 +62,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
   ))
 
 
-
   purrr::map(
     list(
       pass_transit,
@@ -162,7 +161,6 @@ testthat::test_that("Lake Elmo emissions reduce with interventions", {
   ))
 
 
-
   purrr::map(
     list(
       pass_transit,
@@ -260,7 +258,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .vmt_fee = 0.01,
     .telework_pct = 0.5
   ))
-
 
 
   purrr::map(

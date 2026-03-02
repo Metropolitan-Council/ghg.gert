@@ -173,8 +173,6 @@ mode_passenger_light_duty <- function(.pass_tb,
   )
 
 
-
-
   # if calculate fuel use -----
   if (.calc_transp_fuel_use) {
     fuel_params <- list(
@@ -246,18 +244,18 @@ mode_passenger_light_duty <- function(.pass_tb,
 }
 
 
-
 #' @keywords internal
 #' @importFrom stringr str_to_lower
 run_vehicle_calculations <- function(
-    fuel_label,
-    mpg_name,
-    stock_name,
-    fuel_label2,
-    fuel_cost_var,
-    fcm_common,
-    vmt_common,
-    dir_ghg_common) {
+  fuel_label,
+  mpg_name,
+  stock_name,
+  fuel_label2,
+  fuel_cost_var,
+  fcm_common,
+  vmt_common,
+  dir_ghg_common
+) {
   cli::cli_alert_info("Passenger vehicles, {fuel_label}")
 
   fcm <- do.call(

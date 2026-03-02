@@ -77,7 +77,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
   )))
 
 
-
   purrr::map(
     list(
       fr_transit,
@@ -175,7 +174,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   )))
 
 
-
   purrr::map(
     list(
       fr_transit,
@@ -220,7 +218,6 @@ testthat::test_that("Victoria emissions reduce with interventions", {
     dplyr::filter(year == "2040") %>%
     dplyr::group_by(geog_name, geog_id, year) %>%
     dplyr::summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
 
 
   fr_adjusted <- adj_fleet_shares(
@@ -272,7 +269,6 @@ testthat::test_that("Victoria emissions reduce with interventions", {
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(

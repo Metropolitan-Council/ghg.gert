@@ -74,7 +74,6 @@ test_that("Parking policy effects correct", {
   )
 
 
-
   sut_park <- vmt_parking_policy(
     tb = st_paul_freight,
     .parking_cost = parking_cost,
@@ -98,7 +97,6 @@ test_that("Parking policy effects correct", {
       "2050", "Saint Paul", 0.86
     )
   )
-
 
 
   testthat::expect_error(vmt_parking_policy(
@@ -138,7 +136,6 @@ test_that("Parking policy effects correct", {
       "2050", "Saint Paul", 1
     )
   )
-
 
 
   parking_adj5 <- vmt_parking_policy(

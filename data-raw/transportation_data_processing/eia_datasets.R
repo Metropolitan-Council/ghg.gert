@@ -77,7 +77,6 @@ aeo_mpg <- eia_data(
   left_join(eia_scenario_codes, by = join_by(scenario == eia_code))
 
 
-
 aeo_fuel_economy <- aeo_mpg %>%
   dplyr::arrange(seriesId, period) %>%
   mutate(
@@ -122,7 +121,6 @@ aeo_fuel_economy <- aeo_mpg %>%
 #   # are all the individual city values the same? Yes
 #   select(mode, var, year, value) %>%
 #   unique()
-
 
 
 mpg_ref <- aeo_fuel_economy %>%
@@ -185,12 +183,10 @@ aeo_vmt <- eia_data(paste0("aeo/", aeo_year),
   )
 
 
-
 aeo_vmt_ref <- aeo_vmt %>%
   filter(aeo_scen == "REF") %>%
   select(period, aeo_scen, scenario, value.ref = value, var, aeo_mode, unit, seriesName) %>%
   filter(period %in% unique(factor_values$aeo$year))
-
 
 
 vmt_change <- aeo_vmt %>%

@@ -85,8 +85,6 @@ testthat::test_that("BAU walk VMT correct", {
     dplyr::mutate(vmt = vmt / 10^5)
 
 
-
-
   testthat::expect_equal(
     walk_vmt$vmt / 1000,
     # BAU values from original run
@@ -227,8 +225,6 @@ testthat::test_that("BAU, Bus diesel correct", {
     )
   )
 })
-
-
 
 
 # dynamic ride share error ------

@@ -274,7 +274,6 @@ testthat::test_that("All transit is the sum of each transit mode", {
 })
 
 
-
 testthat::test_that("All transit is the sum of each transit mode", {
   brt_total <- transportation_data$passenger %>%
     filter(

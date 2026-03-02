@@ -99,9 +99,6 @@ restore_wetlands <- function(df_null,
   }
 
 
-
-
-
   df_export <- simulate_land_conversion(
     df = df_null %>%
       left_join(

@@ -379,7 +379,6 @@ testthat::test_that("calc_energy_residential", {
   })
 
 
-
   testthat::test_that("Energy residential should reduce with interventions - New Germany", {
     ### New Germany ----
 

@@ -58,7 +58,6 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     )
 
 
-
   ## ----- estimate avg growth in multifamily floor area ----
   multifamily_types <- tb$ztrax_sqft_summary_county %>%
     dplyr::select(property_land_use, designation) %>%
@@ -97,8 +96,6 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     )
 
 
-
-
   county_average_floor_area_multifamily <-
     tb$ztrax_sqft_summary_county %>%
     dplyr::select(co_name, property_land_use, designation, mean_sqft) %>%
@@ -131,7 +128,6 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     dplyr::select(co_name, year, var, value)
 
 
-
   county_average_floor_area_multifamily_forecast <-
     county_average_floor_area_multifamily %>%
     dplyr::left_join(county_average_annual_growth_multifamily_sqft, by = "co_name") %>%
@@ -143,8 +139,6 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
         ),
       year = 2040
     )
-
-
 
 
   ## ----- get commercial/industrial workers forecast from 'Emissions' ----
@@ -167,15 +161,12 @@ calc_demographic_forecast <- function(tb = building_energy_data, .selected_ctu =
     dplyr::summarise(value = sum(emp, na.rm = T), .groups = "keep")
 
 
-
-
   ## ----- compile county forecast of demographic characteristics ----
   county_characteristics_forecast <-
     dplyr::bind_rows(
       county_average_floor_area_multifamily_forecast,
       county_emp_forecast
     )
-
 
 
   # CTU DEMOGRAPHIC FORECAST -----

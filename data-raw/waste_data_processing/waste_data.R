@@ -108,8 +108,6 @@ solid_waste_baseline <- solid_waste_baseline %>%
   )
 
 
-
-
 # 5. Calculate waste per capita for reference year ------------------------
 
 #### generate per cap activity data for reference year, e.g. 2022 (by county)
@@ -145,8 +143,6 @@ solid_waste_baseline_county <- solid_waste_baseline %>%
   mutate(data_type = "county-wide MPCA estimates")
 
 
-
-
 # 7. County level projections (2022 to 2050) ------------------------------
 
 #### generate per-county activity projections past reference year (e.g. 2022)
@@ -167,8 +163,6 @@ solid_waste_proj_county <- county_population_data %>%
     units_activity
   ) %>%
   mutate(data_type = paste0("forecast using ", ref_year, " per capita estimates"))
-
-
 
 
 # 8. CTU level baseline (2005 to 2022) ------------------------------
@@ -294,8 +288,6 @@ solid_waste_baseline_ctu <- rbind(solid_waste_baseline_ctu_nonDupe, solid_waste_
   arrange(geog_name, inventory_year, source)
 
 
-
-
 # 9. CTU level projections (2022 to 2050) ------------------------------
 ## CTU-level estimates
 ## IMPORTANT: Let's focus on CTUs that do NOT span county borders first
@@ -335,7 +327,6 @@ solid_waste_proj_ctu_nonDupe <-
     units_activity
   ) %>%
   mutate(data_type = paste0("forecast using ", ref_year, " per capita estimates"))
-
 
 
 solid_waste_proj_ctu_Dupe <-
@@ -412,7 +403,6 @@ solid_waste_proj_ctu <- rbind(solid_waste_proj_ctu_nonDupe, solid_waste_proj_ctu
   arrange(geog_name, inventory_year, source)
 
 
-
 # 10. Compile waste activity data ---------------------------------------------------
 ## Store data in a list
 waste_data <- list()
@@ -436,7 +426,6 @@ waste_data$inventory <- rbind(
     solid_waste_baseline_county
   ), .) %>%
   arrange(geog_id, inventory_year, source)
-
 
 
 # create baseline for reference year (e.g. 2022)

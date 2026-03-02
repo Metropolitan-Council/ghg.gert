@@ -74,7 +74,6 @@ testthat::test_that("Expected changes, Saint Paul", {
   testthat::expect_equal(nrow(test_total_table), 0)
 
 
-
   testthat::expect_warning(
     suppressMessages(
       adj_fleet_shares(
@@ -172,7 +171,6 @@ testthat::test_that("Expected changes, Centerville", {
     filter(diff != 0)
 
   testthat::expect_equal(nrow(test_total_table), 0)
-
 
 
   testthat::expect_warning(

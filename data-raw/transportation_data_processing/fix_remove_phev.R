@@ -5,7 +5,6 @@ pldv_stocks_new <- transportation_data$passenger %>%
     mode == "PLDV",
     stringr::str_detect(var, "(Sales|Stock|Exist)"),
     stringr::str_detect(var, "Tot", negate = TRUE)
-
   ) %>%
   rowwise() %>%
   mutate(var = case_when(
@@ -16,7 +15,6 @@ pldv_stocks_new <- transportation_data$passenger %>%
   )) %>%
   group_by(mode, var, geog_name, geog_id, year, aeo_mode, type) %>%
   summarize(value = sum(value))
-
 
 
 pldv_stocks_exist <- transportation_data$passenger %>%
@@ -67,9 +65,9 @@ testthat::expect_equal(pldv_stocks_exist, pldv_stock_test)
 # create new totals
 pldv_stocks_new_tot <- pldv_stocks_new %>%
   filter(
-  mode == "PLDV",
-  stringr::str_detect(var, "(Sales|Stock|Exist)"),
-  stringr::str_detect(var, "Tot", negate = TRUE)
+    mode == "PLDV",
+    stringr::str_detect(var, "(Sales|Stock|Exist)"),
+    stringr::str_detect(var, "Tot", negate = TRUE)
   ) %>%
   pivot_wider(
     names_from = var,
@@ -89,8 +87,10 @@ pldv_stocks_new_tot <- pldv_stocks_new %>%
   select(names(pldv_stocks_new))
 
 
-pldv_stocks_total_new <- bind_rows(pldv_stocks_new,
-                                   pldv_stocks_new_tot) %>%
+pldv_stocks_total_new <- bind_rows(
+  pldv_stocks_new,
+  pldv_stocks_new_tot
+) %>%
   mutate(value = round(value, digits = 2))
 
 

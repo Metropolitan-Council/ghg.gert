@@ -507,7 +507,6 @@ adj_fleet_shares <- function(.pass_tb,
     }
 
 
-
     test_passenger <- purrr::map(
       c(
         "TotSales",
@@ -588,7 +587,6 @@ adj_fleet_shares <- function(.pass_tb,
         sum(x, na.rm = TRUE)
       })) %>%
       unique()
-
 
 
     freight_stock_fin_year <- freight_stock %>%
@@ -714,7 +712,6 @@ adj_fleet_shares <- function(.pass_tb,
     if (nrow(.freight_tb) != nrow(ftb_new)) {
       cli::cli_abort("Freight data did not pass adjustment")
     }
-
 
 
     test_freight <- purrr::map(

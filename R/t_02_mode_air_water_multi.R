@@ -118,7 +118,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
     )
 
 
-
   ## battery electric-----
   # stock <- "BEVStock"
   # mpe <- "BEVElec"
@@ -326,7 +325,6 @@ mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values
     )
-
 
 
   # Finish up -----

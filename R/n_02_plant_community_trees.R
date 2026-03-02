@@ -25,7 +25,6 @@ plant_community_trees <- function(df_null,
   )
 
 
-
   df_max <- df_null %>%
     # filter for the last year in the dataset
     filter(inventory_year == max(inventory_year)) %>%

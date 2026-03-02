@@ -41,7 +41,6 @@ new_sales_ex_long <- new_sales_ex %>%
   )
 
 
-
 full_join(old_sales_ex_long,
   new_sales_ex_long,
   by = c("mode", "var", "ctu", "year"),

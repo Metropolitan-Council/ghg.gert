@@ -100,7 +100,6 @@ region_geo <- summarize(ctu_geo,
 future::plan(future::multisession)
 
 
-
 tictoc::tic("County complete")
 res_county <- res_points %>%
   rowwise() %>%

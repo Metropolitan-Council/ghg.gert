@@ -79,7 +79,6 @@ scen_land_use <-
 # NaN in exurban development for Rockford, Lake St. Croix Beach, Maple Plain
 
 
-
 scen_land_use %>%
   filter(is.nan(scenario_hectares))
 

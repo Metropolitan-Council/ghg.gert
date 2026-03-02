@@ -42,8 +42,6 @@ aeo_factors_new <- vmt_change %>%
   )
 
 
-
-
 aeo_long <- aeo %>%
   group_by(AEOScen, Mode, Metric) %>%
   pivot_longer(cols = c(

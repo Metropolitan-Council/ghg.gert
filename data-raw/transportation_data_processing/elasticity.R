@@ -72,7 +72,6 @@ ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_OWN_PRICE <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
 
-
 elast <- tibble(
   year = YRS,
   vmt_elast = ELAST_VMT,
@@ -166,8 +165,6 @@ ELAST_CDENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.620, length(INIT_YRS), leng
 MAX_5D_DR <- -0.25
 MAX_5D_ACT <- 0.37
 MAX_5D_TRANS <- 0.71
-
-
 
 
 # combined tables -----

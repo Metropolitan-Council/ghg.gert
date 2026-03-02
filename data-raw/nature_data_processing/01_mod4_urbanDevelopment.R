@@ -49,7 +49,6 @@ mod3_cropRestoration <- function(df_hist,
   }
 
 
-
   Cropland <- sapply(future_years, function(year) {
     if (year < start_yr) {
       area_available
@@ -76,9 +75,6 @@ mod3_cropRestoration <- function(df_hist,
     delta_total = delta_Cropland + delta_Tree + delta_Grassland + delta_Wetland
   )
 }
-
-
-
 
 
 # mod3_cropRestoration <- function(df_hist,

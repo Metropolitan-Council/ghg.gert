@@ -49,7 +49,6 @@ calculate_incin_emissions <- function(waste_inv,
   }
 
 
-
   incineration_emissions <- list()
 
   incineration_emissions$inv <- waste_inv %>% calc_incin()

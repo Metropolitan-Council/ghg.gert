@@ -18,7 +18,6 @@ test <- run_module_waste(
 )
 
 
-
 ## Need to get regional scale emissions from solid waste, add each city
 all_ctus <- waste_data$inventory %>%
   filter(geog_level != "COUNTY") %>%
@@ -64,7 +63,6 @@ for (i in seq_along(all_ctus)) {
 }
 
 
-
 # combine all data frames in the list
 solid_waste_emissions <- bind_rows(sw_list) %>%
   dplyr::select(c(
@@ -83,8 +81,6 @@ solid_waste_emissions_regional <- solid_waste_emissions %>%
   ungroup()
 
 
-
-
 # solid_waste_emissions_regional %>%
 #   ggplot() +
 #   geom_line(aes(x = inventory_year, y = value_emissions)) +
@@ -93,7 +89,6 @@ solid_waste_emissions_regional <- solid_waste_emissions %>%
 #     y = "Emissions (metric tons CO2e)",
 #     x = NULL
 #   )
-
 
 
 # wastewater emissions all cities -----------------------------------------
@@ -115,7 +110,6 @@ wastewater_emissions <- rbind(
   )
 
 
-
 wastewater_emissions_regional <- wastewater_emissions %>%
   group_by(inventory_year) %>%
   summarize(
@@ -127,7 +121,6 @@ wastewater_emissions_regional <- wastewater_emissions %>%
   ungroup()
 
 
-
 # wastewater_emissions_regional %>%
 #   ggplot() +
 #   geom_line(aes(x = inventory_year, y = value_emissions)) +
@@ -136,7 +129,6 @@ wastewater_emissions_regional <- wastewater_emissions %>%
 #     y = "Emissions (metric tons CO2e)",
 #     x = NULL
 #   )
-
 
 
 # Add natural systems (oh god ooh god) ------------------------------------
@@ -178,7 +170,6 @@ for (i in seq_along(all_ctus)) {
 }
 
 
-
 natural_systems_sequestration <- bind_rows(ns_list) %>%
   dplyr::select(c(
     inventory_year, geog_id, geog_name, geog_level,
@@ -197,7 +188,6 @@ natural_systems_sequestration_regional <- natural_systems_sequestration %>%
   ungroup()
 
 
-
 bau_region <- rbind(
   natural_systems_sequestration_regional,
   wastewater_emissions_regional,
@@ -205,13 +195,11 @@ bau_region <- rbind(
 )
 
 
-
 bau_ctu <- rbind(
   natural_systems_sequestration,
   wastewater_emissions,
   solid_waste_emissions
 )
-
 
 
 # write.csv(bau_region,
@@ -290,7 +278,6 @@ p2 <- bau_region %>%
   )
 
 
-
 p_final <- p1 +
   theme(
     legend.position = "none"
@@ -312,8 +299,6 @@ p_final
 #        dpi = 300)
 
 
-
-
 bau_region %>%
   filter(category != "Natural systems") %>%
   filter(inventory_year %in% c(2005, 2022, 2050)) %>%
@@ -325,15 +310,6 @@ bau_region %>%
     change_from_2005 = value_emissions - value_emissions[inventory_year == 2005],
     pct_change = change_from_2005 / value_emissions[inventory_year == 2005] * 100
   )
-
-
-
-
-
-
-
-
-
 
 
 waste_data$inventory %>%

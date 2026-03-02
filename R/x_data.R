@@ -112,7 +112,6 @@
 "transportation_data"
 
 
-
 #' @title Reference index for abbreviations, data sources, identifiers
 #'
 #' @format A list of tibbles with identifiers, abbreviations, and descriptions
@@ -185,8 +184,6 @@
 "fuel_economy"
 
 
-
-
 #' @title Geographic index of cities, names, types
 #' @format tibble
 #' - **ctu_name** CTU name, concurrent with original data tables
@@ -228,7 +225,6 @@
 "lc_county"
 
 
-
 #' @title Future city and county demographic information from UrbanSim
 #' @format tibble
 #' - **inventory_year** year
@@ -244,7 +240,6 @@
 #' demographic_data
 # demographic_data -----
 "demographic_data"
-
 
 
 #' @title A list of solid waste activity data tables

@@ -43,7 +43,6 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu)
 
 
-
   mode <- "FR"
   # (measured in ton-miles NOT miles)
   type <- "F"
@@ -154,19 +153,19 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
 }
 
 
-
 #' @keywords internal
 #' @importFrom stringr str_to_lower
 run_freight_calculations <- function(
-    mode, # "CUT" or "SUT"
-    fuel_label, # "CI" or "BEV"
-    mpg_name, # "CIMPG" or "BEVElec"
-    stock_name, # "CIStock" or "BEVStock"
-    fuel_cost_var, # .enviro_factors$CI_FUEL_COST_GAL or $ELEC_FUEL_COST_KWH
-    fuel_type, # "CUTCI", "SUTCI", or .electric_scenario
-    fcm_common_freight,
-    vmt_common_freight,
-    dir_ghg_common_freight) {
+  mode, # "CUT" or "SUT"
+  fuel_label, # "CI" or "BEV"
+  mpg_name, # "CIMPG" or "BEVElec"
+  stock_name, # "CIStock" or "BEVStock"
+  fuel_cost_var, # .enviro_factors$CI_FUEL_COST_GAL or $ELEC_FUEL_COST_KWH
+  fuel_type, # "CUTCI", "SUTCI", or .electric_scenario
+  fcm_common_freight,
+  vmt_common_freight,
+  dir_ghg_common_freight
+) {
   message(paste("Freight:", mode, "-", fuel_label))
 
   # browser()
@@ -203,7 +202,6 @@ run_freight_calculations <- function(
       append(dir_ghg_common_freight, list(tb_vmt = vmt))
     )
   )
-
 
 
   fuel_label_lower <- stringr::str_to_lower(paste0(mode, "_", fuel_label))

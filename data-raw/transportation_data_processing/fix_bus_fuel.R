@@ -43,8 +43,6 @@ fuel_eco_predict <- tibble(year = seq(max(bus_fuel_economy$year), 2050)) %>%
   arrange(year)
 
 
-
-
 new_bus_mpg <- fuel_eco_predict %>%
   mutate(
     fleet_mpg =

@@ -71,9 +71,6 @@ passenger_fuel_economy <-
   bind_rows(pldv_fuel_economy)
 
 
-
-
-
 # freight -----
 # no changes to freight fuel economies
 freight_fuel_economy <-

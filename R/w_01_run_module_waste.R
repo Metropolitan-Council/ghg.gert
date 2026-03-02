@@ -109,7 +109,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   purrr::map2(l_names, l_vals, check_inputs)
 
 
-
   # 1. Calculate BAU scenario -----------------------------------------------
   # bind your activity inventory and projections together to create a business as usual scenario
   bau_activity <- rbind(
@@ -242,7 +241,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   }
 
 
-
   # 3. Run source diversion module ------------------------------------------
   # Here we need to inherit the results from the waste reduction module
   # Next the user gets to select how much (%) waste is diverted from landfills to
@@ -279,8 +277,6 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
     recycle  = if (is.null(.diverted_to_recycle_pct)) NA_real_ else .diverted_to_recycle_pct,
     wte      = if (is.null(.diverted_to_wte_pct)) NA_real_ else .diverted_to_wte_pct
   )
-
-
 
 
   # If the user sets only one (or a few) variable, we should absolutely retain that value,

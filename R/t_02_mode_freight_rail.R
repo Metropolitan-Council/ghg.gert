@@ -67,7 +67,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
   )
 
 
-
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -134,7 +133,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
     .factor_values = .factor_values,
     .fuel_economy = .fuel_economy
   )
-
 
 
   ev_vmt <-

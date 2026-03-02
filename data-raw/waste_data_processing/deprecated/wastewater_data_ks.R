@@ -87,9 +87,6 @@ epa_wastewater_constants <- readr::read_rds("https://github.com/Metropolitan-Cou
 epa_protein_consumption <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_waste/data-raw/wastewater/epa/epa_protein_consumption.rds")
 
 
-
-
-
 # Vectorized municipal wastewater methane emissions
 calculate_mww_ch4_emissions <- function(population, years) {
   # Pre-calculate days per year for all years
@@ -304,7 +301,6 @@ calculate_mww_n2o_effluent_emissions <- function(population, years) {
 }
 
 
-
 # ## Example usage:
 # population <- 1000000
 # years <- 2022
@@ -367,8 +363,6 @@ wastewater_proj_county <- wastewater_proj_county %>%
   relocate(source, .before = "value_emissions")
 
 
-
-
 # 6. County level baseline (2005 to 2022) ------------------------------
 wastewater_baseline_county <- county_population_data %>%
   dplyr::filter(inventory_year >= 2005 & inventory_year <= ref_year) %>%
@@ -378,7 +372,6 @@ wastewater_baseline_county <- county_population_data %>%
     MWW_N20_direct = calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
     MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
   )
-
 
 
 wastewater_baseline_county <- wastewater_baseline_county %>%
@@ -413,8 +406,6 @@ wastewater_baseline_county <- wastewater_baseline_county %>%
     data_type = "estimated using historical population data"
   ) %>%
   relocate(source, .before = "value_emissions")
-
-
 
 
 # rbind(
@@ -471,8 +462,6 @@ wastewater_proj_ctu <- wastewater_proj_ctu %>%
   arrange(geog_name, inventory_year)
 
 
-
-
 # 8. CTU level baseline (2005 to 2022) ------------------------------
 wastewater_baseline_ctu <- ctu_population_data %>%
   dplyr::filter(inventory_year >= 2005 & inventory_year <= ref_year) %>%
@@ -482,7 +471,6 @@ wastewater_baseline_ctu <- ctu_population_data %>%
     MWW_N20_direct = calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
     MWW_N20_effluent = calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
   )
-
 
 
 wastewater_baseline_ctu <- wastewater_baseline_ctu %>%
@@ -517,13 +505,6 @@ wastewater_baseline_ctu <- wastewater_baseline_ctu %>%
     data_type = "estimated using historical population data"
   ) %>%
   relocate(source, .before = "value_emissions")
-
-
-
-
-
-
-
 
 
 # ?. Compile wastewater data ---------------------------------------------------

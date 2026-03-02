@@ -20,7 +20,6 @@ calc_treatment <- function(treat_list,
 }
 
 
-
 #'  Interpolate elasticities across years
 #'
 #' @param elas_list list, elasticities in each year included in scenario

@@ -1,4 +1,4 @@
-test_density <- function(x){
+test_density <- function(x) {
   test_that(paste0("Density changes have anticipated effect, ", x), {
     popdens_decrease <- run_module_transportation(
       .selected_ctu = x,
@@ -109,20 +109,21 @@ test_density <- function(x){
 
 
 purrr::map(
-  c("Arden Hills",
+  c(
+    "Arden Hills",
     "Bloomington",
     "Crystal",
     "Bethel",
     "Brooklyn Park",
     "Minneapolis",
-    "Andover"),
+    "Andover"
+  ),
   test_density
 )
 
 
-test_vmt_stock_proportion <- function(x){
+test_vmt_stock_proportion <- function(x) {
   test_that(paste0("VMT does not change when adjusting stock proportions only, ", x), {
-
     run_transport <- function(bev) {
       run_module_transportation(
         .scenario = paste0("bev_", bev),
@@ -211,7 +212,7 @@ test_vmt_stock_proportion <- function(x){
       purrr::map(summarize_emiss)
 
     purrr::map_dfr(bev_percentages_summary, baseline_diff,
-                   baseline = baseline
+      baseline = baseline
     ) %>%
       # we expect that VMT difference will be very low
       filter(vmt_pct_diff != 0) %>%
@@ -220,23 +221,23 @@ test_vmt_stock_proportion <- function(x){
 
 
     purrr::map_dfr(bev_percentages_summary, baseline_diff,
-                   baseline = baseline
+      baseline = baseline
     ) %>%
       # we expect GHG to change
       filter(dir_ghg_diff != 0) %>%
       nrow() %>%
       testthat::expect_equal(length(bev_percentages_summary))
-
   })
-
 }
 
 
 purrr::map(
-  c("Arden Hills",
+  c(
+    "Arden Hills",
     "Bloomington",
     "Crystal",
-    "Bethel"),
+    "Bethel"
+  ),
   test_vmt_stock_proportion
 )
 
@@ -266,7 +267,6 @@ test_that("Region VMT stock proportion", {
       .groups = "keep"
     ) %>%
     ungroup()
-
 
 
   run_transport <- function(bev) {
@@ -361,7 +361,7 @@ test_that("Region VMT stock proportion", {
     purrr::map(summarize_emiss)
 
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
-                 baseline = baseline
+    baseline = baseline
   ) %>%
     filter(vmt_pct_diff != 0) %>%
     nrow() %>%
@@ -369,10 +369,9 @@ test_that("Region VMT stock proportion", {
 
 
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
-                 baseline = baseline
+    baseline = baseline
   ) %>%
     filter(dir_ghg_diff != 0) %>%
     nrow() %>%
     testthat::expect_equal(length(bev_percentages_summary))
-
 })

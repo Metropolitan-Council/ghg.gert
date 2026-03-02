@@ -55,7 +55,6 @@ summarize_emiss <- function(x) {
     )
 
 
-
   bau_year <- x$passenger_all %>%
     dplyr::bind_rows(x$freight_all) %>%
     # filter(mode %in% c("PLDV", "SUT", "CUT")) %>%
@@ -171,9 +170,7 @@ baseline$pass_tb %>%
 # 56% BEV adoption will reduce PLDV emissions by 53.4%
 
 
-
 # assign
-
 
 
 run_transport_vmt <- function(vmt_reduction) {
@@ -188,7 +185,6 @@ run_transport_vmt <- function(vmt_reduction) {
   ) %>%
     suppressMessages()
 }
-
 
 
 ppp <- run_module_transportation(
@@ -214,7 +210,6 @@ ppp %>%
 sppp %>%
   summarize_emiss() %>%
   baseline_diff_total()
-
 
 
 net_zero <- run_module_transportation(

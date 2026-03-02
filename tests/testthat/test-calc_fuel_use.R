@@ -89,7 +89,6 @@ testthat::test_that("Hybrid fuel correct", {
   )
 
 
-
   hev_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -115,7 +114,6 @@ testthat::test_that("Hybrid fuel correct", {
   )
 
 
-
   purrr::map2(
     hev_fuel_use$fuel_use_gallons_kwh,
     c(
@@ -130,7 +128,6 @@ testthat::test_that("Hybrid fuel correct", {
 })
 
 
-
 testthat::test_that("BEV fuel correct", {
   fcm_test_bev <- calc_fuel_cost_mile(
     st_paul_passenger,
@@ -139,7 +136,6 @@ testthat::test_that("BEV fuel correct", {
     .miles_per_gallon = "BEVElec",
     .fuel_cost_gallon = enviro_factors$ELEC_FUEL_COST_KWH
   )
-
 
 
   bev_vmt <- calc_vmt_forecast(

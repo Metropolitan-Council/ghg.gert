@@ -71,7 +71,6 @@ c(
 )
 
 
-
 bau <- ghg.ccap::run_all_modules(
   .selected_ctu = .selected_ctu,
 

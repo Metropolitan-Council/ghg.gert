@@ -47,7 +47,6 @@ calculate_wastewater_emissions <- function(waste_inv,
     arrange(inventory_year, units_emissions)
 
 
-
   waste_future <- waste_future %>%
     dplyr::filter(source == "Wastewater") %>%
     mutate(

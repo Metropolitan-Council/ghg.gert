@@ -69,7 +69,6 @@ inventory_end_year <- tail(sort(unique(natural_systems_data$inventory$region$inv
 future_years <- (inventory_end_year + 1):2050
 
 
-
 natural_systems_data$projections$ctu <-
   natural_systems_data$inventory$ctu %>%
   filter(inventory_year == inventory_end_year) %>%
@@ -95,7 +94,6 @@ natural_systems_data$projections$region <-
   tidyr::crossing(inventory_year = future_years) %>%
   relocate(inventory_year, .after = geog_id) %>%
   arrange(geog_name, inventory_year, land_cover_type)
-
 
 
 usethis::use_data(natural_systems_data, overwrite = TRUE)

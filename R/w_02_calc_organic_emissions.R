@@ -13,14 +13,15 @@
 #' units_activity, value_emissions, and units_emissions
 #' @export
 calculate_organic_emissions <- function(
-    waste_inv,
-    waste_future,
-    .anaerobic_digestion_pct = 0,
-    .anaerobic_digestion_start = 2025,
-    .anaerobic_digestion_end = 2050,
-    .methane_recovery_pct = 0,
-    .methane_recovery_start = 2025,
-    .methane_recovery_end = 2050) {
+  waste_inv,
+  waste_future,
+  .anaerobic_digestion_pct = 0,
+  .anaerobic_digestion_start = 2025,
+  .anaerobic_digestion_end = 2050,
+  .methane_recovery_pct = 0,
+  .methane_recovery_start = 2025,
+  .methane_recovery_end = 2050
+) {
   inventory_year <- unique(waste_future$inventory_year)
   methane_recovery_table <- tibble::tibble(
     inventory_year,
@@ -61,7 +62,6 @@ calculate_organic_emissions <- function(
   }
 
 
-
   ch4_factor_compost <- 10 / 1000 # aggregate emissions factor for aerobic composting, 10 metric tons CH4/thousand metric tons waste, IPCC default
   ch4_factor_ad <- 2 / 1000 # aggregate emissions factor for anaerobic digestion, 2 metric tons CH4/thousand metric tons waste, IPCC default
   # if we were incorporating methane recovered, that would be added as a column to the dataframe
@@ -93,7 +93,6 @@ calculate_organic_emissions <- function(
     dplyr::select(
       -c(percent_recovered, percent_ad)
     )
-
 
 
   organics_emissions$future <- waste_future %>%

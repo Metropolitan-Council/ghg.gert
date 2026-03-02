@@ -63,7 +63,6 @@ transit_avo_checks <- furrr::future_map_dfr(
 )
 
 
-
 ggplot(
   transit_avo_checks,
   aes(

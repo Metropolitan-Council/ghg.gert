@@ -37,7 +37,6 @@ testthat::test_that("Minneapolis population forecast matches January 2023 releas
 })
 
 
-
 testthat::test_that("Maple Plain population forecast matches January 2023 released", {
   testthat::expect_equal(
     demographic_data %>%

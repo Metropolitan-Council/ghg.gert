@@ -34,9 +34,10 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn
 calc_building_energy <- function(
-    .selected_ctu,
-    parcel_data = ghg.ccap::parcel_ctu,
-    strategy_tb = ghg.ccap::resstock_summaries) {
+  .selected_ctu,
+  parcel_data = ghg.ccap::parcel_ctu,
+  strategy_tb = ghg.ccap::resstock_summaries
+) {
   # bin based on resstock categories
   bin_sqft <- function(sqft) {
     cut(sqft,

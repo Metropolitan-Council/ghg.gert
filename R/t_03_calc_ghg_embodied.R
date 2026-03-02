@@ -77,7 +77,6 @@ calc_ghg_embodied <- function(tb,
       )
 
 
-
     # adjust stock for changes made in VMT between BAU and MIT scenarios
     # If .transit_avo_pct given then use it, else assume all additional PMT
     # handled by vehicle purchases
@@ -88,7 +87,6 @@ calc_ghg_embodied <- function(tb,
           (mode == .mode & class == .class & .x == 0) ~ 1,
           TRUE ~ .x / 10^5
         )))
-
 
 
       .bau_tb <- .bau_tb %>%
@@ -107,7 +105,6 @@ calc_ghg_embodied <- function(tb,
 
       mit_vals <- .mitigation_tb %>%
         dplyr::select(tidyselect::all_of(YRS)) / bau_vals
-
 
 
       ghg <- ghg * (mit_vals) *

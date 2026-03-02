@@ -242,7 +242,6 @@ mn_parcel_map <- mn_parcel_predict %>%
   sf::st_as_sf()
 
 
-
 ### ctu_parcel output
 
 ctu_parcel <- mn_parcel_map %>%

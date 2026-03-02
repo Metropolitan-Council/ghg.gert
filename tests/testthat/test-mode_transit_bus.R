@@ -79,7 +79,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
   ))
 
 
-
   # emissions should decrease only in specific instances
   purrr::map(
     list(
@@ -200,7 +199,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
   ))
 
 
-
   # emissions should decrease only in specific instances
   purrr::map(
     list(
@@ -319,7 +317,6 @@ testthat::test_that("Fridley emissions reduce with interventions", {
       .parking_price = 20
     )
   ))
-
 
 
   # emissions should decrease only in specific instances

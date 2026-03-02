@@ -16,7 +16,6 @@ lookup_ctu_county <- rbind(
 ) %>% arrange(geog_name)
 
 
-
 # Return CTU population percentages by county (for dealing with CTUs that cross county boundaries)
 ctu_pop_by_county <-
   ctu_county %>% # Load ctu_county - includes information about CTUs that span multiple counties
@@ -54,7 +53,6 @@ ctu_pop_by_county <-
 duplicate_ctus <- ctu_pop_by_county %>% filter(n_counties > 1)
 
 
-
 # 3. Load demographic data for 2005 to 2050 -------------------------------
 
 # Next we need to bring in population data
@@ -75,10 +73,6 @@ ctu_population_data <- demographic_data %>%
     geog_id %in% duplicate_ctus$ctu_id ~ "duplicate",
     .default = NA
   ))
-
-
-
-
 
 
 # 4. Load MPCA score data (2005 to 2022) ----------------------------------
@@ -118,8 +112,6 @@ waste_baseline <- waste_baseline %>%
   )
 
 
-
-
 # 5. Calculate waste per capita for reference year ------------------------
 
 #### generate per cap activity data for reference year, e.g. 2022 (by county)
@@ -134,9 +126,6 @@ waste_per_cap <- waste_baseline %>%
     value_per_cap
   ) %>%
   arrange(geog_id)
-
-
-
 
 
 # 6. County level projections (2022 to 2050) ------------------------------
@@ -180,8 +169,6 @@ waste_baseline_county <- waste_baseline %>%
   mutate(data_type = "county-wide MPCA estimates")
 
 
-
-
 # rbind(
 #   waste_baseline_county,
 #   waste_proj_county
@@ -189,7 +176,6 @@ waste_baseline_county <- waste_baseline %>%
 #   ggplot() +
 #   geom_line(aes(x=inventory_year, y=value_activity, color=source)) +
 #   facet_wrap(~geog_name)
-
 
 
 # 8. CTU level projections (2022 to 2050) ------------------------------
@@ -231,7 +217,6 @@ waste_proj_ctu_nonDupe <-
     units_activity
   ) %>%
   mutate(data_type = paste0("forecast using ", ref_year, " per capita estimates"))
-
 
 
 waste_proj_ctu_Dupe <-
@@ -429,7 +414,6 @@ waste_baseline_ctu <- rbind(waste_baseline_ctu_nonDupe, waste_baseline_ctu_Dupe)
   arrange(geog_name, inventory_year, source)
 
 
-
 # 9. Compile waste data ---------------------------------------------------
 ## Store data in a list
 waste_data <- list()
@@ -476,7 +460,6 @@ waste_data$projections <- rbind(
 )
 
 
-
 waste_data$mpca$waste_reduction <- tibble(
   year = c(2025, 2030, 2036, 2042),
   target_reduction_pct = c(0.029, 0.064, 0.107, 0.15),
@@ -499,25 +482,12 @@ waste_data$mpca$source_diversions <- tibble(
   arrange(year, source)
 
 
-
 # waste characterization
 waste_char <- readr::read_rds(paste0(inpath_mpca_scores, "mpca_waste_composition.RDS"))
 waste_data$characterization <- waste_char
 
 
 usethis::use_data(waste_data, overwrite = TRUE)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #

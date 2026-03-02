@@ -62,7 +62,6 @@ testthat::test_that("Various road policies align", {
   ) %>% left_join(geog_index %>% select(geog_id, geog_name), by = "geog_name")
 
 
-
   testthat::expect_equal(
     si_road_policy$fuel_time_cost_mile,
     test_si_road$fuel_time_cost_mile,
@@ -94,8 +93,6 @@ testthat::test_that("Various road policies align", {
   )
 
 
-
-
   fce <- calc_fuel_cost_mile(
     st_paul_passenger,
     .mode = "PLDV",
@@ -103,7 +100,6 @@ testthat::test_that("Various road policies align", {
     "BEVElec",
     enviro_factors$ELEC_FUEL_COST_KWH
   )
-
 
 
   bev_road_policy <- vmt_road_policy(

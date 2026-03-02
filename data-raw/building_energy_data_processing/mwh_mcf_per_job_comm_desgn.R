@@ -65,7 +65,6 @@ regional_mwh_per_job_2022 <- electricity_mwh_per_job_ctu_2022 %>%
   )
 
 
-
 ## Natural Gas
 natural_gas_mcf_per_job_ctu_2022 <- building_energy_data$natural_gas_business_ctu %>%
   filter(inventory_year == 2022 && !is.na(geog_name)) %>%

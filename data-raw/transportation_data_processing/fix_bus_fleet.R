@@ -171,8 +171,6 @@ blank_alt_exist <- purrr::map_dfr(c("HEVExist", "BEVExist"), function(x) {
 })
 
 
-
-
 # new stock, new_sales  join back to passenger -----
 new_bus_fleet <- new_stock %>%
   # stock
@@ -190,7 +188,6 @@ new_bus_fleet <- new_stock %>%
     mutate(var = "TotExist")) %>%
   bind_rows(blank_alt_exist) %>%
   mutate(value = round(value))
-
 
 
 new_pass <- transportation_data$passenger %>%

@@ -205,7 +205,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
   school_bus <- list("vmt" = vmt_all, "dir_ghg" = dir_ghg_all)
 
 
-
   if (.calc_transp_fuel_use == TRUE) {
     ci_fuel <-
       calc_fuel_use(

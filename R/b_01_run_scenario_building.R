@@ -106,7 +106,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
 
 
   l_names <- c(
-
     # Residential – efficiency / LEED / retrofits / demand flex
     "new_sf_homes_leed_gold_pct",
     "new_mf_homes_leed_gold_pct",
@@ -126,7 +125,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
   )
 
   l_vals <- list(
-
     # Residential – efficiency / LEED / retrofits / demand flex
     .new_sf_homes_leed_gold_pct,
     .new_mf_homes_leed_gold_pct,

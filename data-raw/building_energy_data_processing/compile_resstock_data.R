@@ -69,7 +69,6 @@ envelope <- load_resstock(
 # summary list
 
 resstock_summaries <- list(
-
   # baseline summaries
   mf_baseline = summarize_resstock(baseline, "Multi", "mc_classification"),
   manufactured_baseline = summarize_resstock(baseline, "Mobile", "mc_classification"),

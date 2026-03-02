@@ -31,9 +31,6 @@ server <- function(input, output, session) {
   })
 
 
-
-
-
   observeEvent(input$reset_urbanTreePlanting_area_pct, {
     updateSliderInput(session, "urbanTreePlanting_area_pct", value = 0)
   })
@@ -111,8 +108,6 @@ server <- function(input, output, session) {
   })
 
 
-
-
   future_years <- 2023:2050
 
 
@@ -129,8 +124,6 @@ server <- function(input, output, session) {
       null_data(filter(null_data_ctu, ctu_name == input$selected_ctu))
     }
   })
-
-
 
 
   # # Reactive data for selected county
@@ -231,8 +224,6 @@ server <- function(input, output, session) {
   })
 
 
-
-
   theme_settings <- function() {
     theme(
       plot.title = element_text(size = 17, face = "bold"),
@@ -282,7 +273,6 @@ server <- function(input, output, session) {
       filter(land_cover_type != "TOTAL")
 
 
-
     lc_brks <- c(
       "Tree", "Grassland", "Wetland", "Urban_Tree", "Urban_Grassland",
       "Bare", "Developed_Low", "Developed_Med", "Developed_High", "Cropland", "Water"
@@ -311,7 +301,6 @@ server <- function(input, output, session) {
         labels = scales::label_number(scale = 1e-3, suffix = "k", accuracy = 0.1)
       ) +
       theme_settings()
-
 
 
     p2 <- rbind(
@@ -426,7 +415,6 @@ server <- function(input, output, session) {
         labels = scales::label_number(scale = 1e-3, suffix = "k", accuracy = 1)
       ) +
       theme_settings()
-
 
 
     p2 <- rbind(
@@ -583,7 +571,6 @@ server <- function(input, output, session) {
 
     seq_change_pct <- round(((final_sequestration - baseline_sequestration) / baseline_sequestration) * 100, 1)
     seq_change_actual <- round(abs(final_sequestration - baseline_sequestration) / 1000, 0)
-
 
 
     geog_name <- if (input$selected_tab == "County") {

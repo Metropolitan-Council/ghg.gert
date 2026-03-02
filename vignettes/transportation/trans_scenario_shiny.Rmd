@@ -190,7 +190,6 @@ calc_scen_vals <- reactive({
   )
 
 
-
   return(list(
     all_scen_passenger_av,
     all_scen_passenger_vmt

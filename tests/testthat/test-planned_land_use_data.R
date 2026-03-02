@@ -23,7 +23,6 @@ testthat::test_that("Parcel land use cutout is less than generalized planned lan
 })
 
 
-
 testthat::test_that("Minneapolis expected density is greater than Lake Elmo", {
   testthat::expect_gt(
     planned_land_use$ctu_planned_land_use_council %>%

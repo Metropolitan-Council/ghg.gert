@@ -472,6 +472,7 @@ vmt_stock_proportion <- function(.tb,
     {
       stock_vals <- dplyr::filter(.tb, mode == .mode, var == .stock) %>%
         dplyr::select(geog_name, geog_id, year, mode, stock = value)
+
       tot_vals <- dplyr::filter(.tb, mode == .mode, var == "TotStock") %>%
         dplyr::select(geog_name, geog_id, year, tot = value)
 
@@ -496,7 +497,6 @@ vmt_stock_proportion <- function(.tb,
     }
   )
 }
-
 
 
 #' Calculate transit service adjustment for each forecast year
@@ -660,8 +660,7 @@ vmt_vehicle_occupancy <- function(tb,
   }
 
   switch(.mode,
-    PLDV = ,
-    AV = {
+    PLDV = {
       pldv_occupancy <- .vehicle_occupancy %>%
         filter_ctu(unique(.tb_vmt$geog_name)) %>%
         dplyr::filter(mode == .mode, var == "AVO") %>%
@@ -705,8 +704,6 @@ vmt_vehicle_occupancy <- function(tb,
     }
   )
 }
-
-
 
 
 #' Calculate VMT reduction multiplier

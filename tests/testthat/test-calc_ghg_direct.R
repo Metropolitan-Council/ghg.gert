@@ -56,7 +56,6 @@ testthat::test_that("Diesel direct emissions correct", {
     left_join(geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
 
-
   ci_dir_ghg <- calc_ghg_direct(
     tb_vmt = ci_vmt_test,
     tb = st_paul_passenger,

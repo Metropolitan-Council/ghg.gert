@@ -95,8 +95,6 @@ all_bau <- purrr::map(
 )
 
 
-
-
 run_transport_bev <- function(bev) {
   purrr::map(
     geog_index$geog_name,
@@ -154,7 +152,6 @@ summarize_emiss <- function(x) {
     "pldv_bev" = pldv_bev
   ))
 }
-
 
 
 bev_percentages <- purrr::map(

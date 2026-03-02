@@ -36,7 +36,6 @@ ccap_county <- tigris::counties(state = "MN") %>%
   )
 
 
-
 # ccap_county_meta <- tribble(
 #   ~Column, ~Class, ~Description,
 #   "county_id", class(cprg_county$geoid), "Five digit county GEOID",
@@ -93,7 +92,6 @@ ccap_ctu <- councilR::import_from_gpkg("https://resources.gisdata.mn.gov/pub/gdr
     com_des
   )) %>%
   select(-com_des)
-
 
 
 # compile RDS

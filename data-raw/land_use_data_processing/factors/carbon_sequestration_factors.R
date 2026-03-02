@@ -20,5 +20,4 @@ carbon_sequestration_factors <- list(
 )
 
 
-
 usethis::use_data(carbon_sequestration_factors, overwrite = TRUE)
