@@ -186,10 +186,6 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
 

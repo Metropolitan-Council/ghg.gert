@@ -7,14 +7,9 @@
 calc_energy_residential(
   res_tb,
   res_tb_bau,
-  .sf_heat_pump_pct,
-  .mf_heat_pump_pct,
   .baseline_year,
   .scenario = "alt",
-  .selected_ctu,
-  .heatpump_start_year,
-  .heatpump_end_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .selected_ctu
 )
 }
 \arguments{
@@ -26,16 +21,13 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
