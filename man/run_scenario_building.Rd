@@ -22,8 +22,8 @@ run_scenario_building(
   .heatpump_end_year = 2050,
   .new_homes_to_multifamily_pct = 0,
   .electrified_buildings_pct = 0,
-  .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0,
+  .sf_heatpump_pct = 0,
+  .mf_heatpump_pct = 0,
   .app_elec_start_year = 2028,
   .app_elec_end_year = 2050,
   .sf_app_elec_pct = 0,
@@ -71,9 +71,9 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 Percentage of new single-family homes to instead be built as multifamily homes.
 Default is \code{0.0}.}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
+\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.

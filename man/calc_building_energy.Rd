@@ -7,7 +7,8 @@
 calc_building_energy(
   .selected_ctu,
   parcel_data = ghg.ccap::parcel_ctu,
-  strategy_tb = ghg.ccap::resstock_summaries
+  resstock_tb = ghg.ccap::resstock_summaries,
+  ceestock_tb = ghg.ccap::ceestock_summaries
 )
 }
 \arguments{
