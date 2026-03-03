@@ -36,8 +36,6 @@ run_all_modules(
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
-  .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0,
   .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
