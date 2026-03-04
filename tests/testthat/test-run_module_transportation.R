@@ -116,7 +116,9 @@ purrr::map(
     "Bethel",
     "Brooklyn Park",
     "Minneapolis",
-    "Andover"
+    "Andover",
+    "Rosemount"
+
   ),
   test_density
 )
@@ -236,7 +238,8 @@ purrr::map(
     "Arden Hills",
     "Bloomington",
     "Crystal",
-    "Bethel"
+    "Bethel",
+    "Rosemount"
   ),
   test_vmt_stock_proportion
 )
