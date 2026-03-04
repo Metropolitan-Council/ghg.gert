@@ -1,6 +1,4 @@
-
-test_passenger <- function(x){
-
+test_passenger <- function(x) {
   testthat::test_that(paste0(x, " emissions reduce with interventions"), {
     pass <- suppressMessages(
       mode_passenger_light_duty(
@@ -12,11 +10,11 @@ test_passenger <- function(x){
     testthat::expect_length(pass, 2)
 
     testthat::expect_named(pass,
-                           expected = c(
-                             "vmt",
-                             "dir_ghg"
-                           ),
-                           ignore.order = TRUE
+      expected = c(
+        "vmt",
+        "dir_ghg"
+      ),
+      ignore.order = TRUE
     )
 
 

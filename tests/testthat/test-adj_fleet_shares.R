@@ -1,5 +1,4 @@
-
-test_fleet_shares <- function(x){
+test_fleet_shares <- function(x) {
   testthat::test_that(paste0("Expected changes, ", x), {
     # Stock adjustments only adjust the proportion of the total vehicles
     # The total number of vehicles should NOT change
@@ -133,9 +132,8 @@ purrr::map(
 )
 
 
-
-test_fleet_shares_pricing <- function(x){
-  test_that(paste0("fleet shares adjust to pricing inputs, ",x), {
+test_fleet_shares_pricing <- function(x) {
+  test_that(paste0("fleet shares adjust to pricing inputs, ", x), {
     ref_fleet <- transportation_data$passenger %>%
       filter_ctu(x)
 
@@ -284,7 +282,7 @@ purrr::map(
   test_fleet_shares_pricing
 )
 
-test_fleet_shares_pricing_bev <- function(x){
+test_fleet_shares_pricing_bev <- function(x) {
   test_that(paste0("Fleet shares adjust to pricing and BEV inputs, ", x), {
     ref_fleet <- transportation_data$passenger %>%
       filter_ctu(x)
@@ -304,7 +302,6 @@ test_fleet_shares_pricing_bev <- function(x){
       .selected_ctu = x,
       .vmt_fee = 0.05,
       .bev_pct_sales = 0.01,
-
       .enviro_factors = enviro_factors
     )
 
@@ -326,7 +323,6 @@ test_fleet_shares_pricing_bev <- function(x){
       .bev_pct_sales = 0.2,
       .enviro_factors = enviro_factors
     )
-
 
 
     compare_fleet <- function(comp_fleet) {
@@ -447,4 +443,3 @@ purrr::map(
   ),
   test_fleet_shares_pricing_bev
 )
-

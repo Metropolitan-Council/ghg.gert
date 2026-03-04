@@ -118,7 +118,6 @@ purrr::map(
     "Minneapolis",
     "Andover",
     "Rosemount"
-
   ),
   test_density
 )
