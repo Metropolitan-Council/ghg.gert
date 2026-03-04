@@ -7,7 +7,6 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
-#' @inheritParams calc_residential_renewable_ng
 #' @inheritParams calc_ghg_non_residential
 #' @inheritParams calc_energy_residential
 #' @inheritParams calc_residential_retrofit

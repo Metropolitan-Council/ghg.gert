@@ -19,7 +19,6 @@
 #'     the default value. `non_res_tb_bau` is only used for the "business as usual"
 #'     scenario, in contrast `non_res_tb` is used as the input for the decarbonization scenario.
 #'
-#' @inheritParams calc_electrify_residential_heating
 #' @inheritParams calc_ghg_non_residential
 #' @inheritParams calc_energy_non_residential
 #' @inheritParams scen_building_non_residential

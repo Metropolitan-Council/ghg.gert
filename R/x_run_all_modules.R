@@ -20,23 +20,14 @@
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
 #' @inheritParams adj_unit_counts
-#' @inheritParams calc_floor_area_leed
-#' @inheritParams calc_floor_area_growth
-#' @inheritParams calc_floor_area_retrofit
-#' @inheritParams calc_electrify_residential_heating
-#' @inheritParams calc_floor_area_behavior_change
 #' @inheritParams calc_ghg_residential
 #' @inheritParams calc_ghg_non_residential
-#' @inheritParams calc_residential_renewable_ng
-#' @inheritParams calc_existing_comm_building_efficiency
-#' @inheritParams calc_carbon_sequestration_per_ctu
 #' @inheritParams calc_carbon_stock_per_ctu
 #' @inheritParams calc_parking_lot_land_cover
 #' @inheritParams calc_land_cover_by_land_use
 #' @inheritParams calc_tree_planting_land_cover
 #' @inheritParams calc_scen_land_use
 #' @inheritParams calc_land_by_development_type
-#' @inheritParams calc_electrify_commercial_heating
 #'
 #' @return list, list with the outputs of the three modules.
 #' @export

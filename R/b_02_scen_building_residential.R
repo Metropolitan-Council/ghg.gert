@@ -20,10 +20,8 @@
 #'     scenario, in contrast `res_tb` is used as the input for the decarbonization scenario.
 #'
 #' @inheritParams adj_unit_counts
-#' @inheritParams calc_electrify_residential_heating
 #' @inheritParams calc_ghg_residential
 #' @inheritParams calc_energy_residential
-#' @inheritParams calc_residential_renewable_ng
 #' @inheritParams scen_building_non_residential
 #' @inheritParams run_scenario_building
 #' @inheritParams calc_vmt_forecast

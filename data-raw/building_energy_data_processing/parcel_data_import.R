@@ -196,33 +196,45 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   group_by(mc_classification, CTU_ID_TXT) %>%
   mutate(
     mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                            mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
     mean_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                           mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
     mean_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                            mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
     median_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                              median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
     median_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                             median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
     median_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                              median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
   group_by(mc_classification, CO_NAME) %>%
   mutate(
     mean_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                           mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
     mean_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                          mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
     mean_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                           mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
     median_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                             median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
     median_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                            median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
     median_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                             median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
   # In-fill zeros AND NAs using medians
@@ -412,7 +424,7 @@ missing_mfh_rows <- missing_cities_mf %>%
   mutate(mc_classification = "multifamily") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
-mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows)%>%
+mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows) %>%
   mutate(mc_classification = "multifamily_units")
 
 ### lastly repeat for manufactured homes
@@ -421,8 +433,10 @@ mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows)%>%
 
 mfd_out <- mfd_parcel %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year) %>%
-  filter(!is.na(median_year),
-         median_year != 0)
+  filter(
+    !is.na(median_year),
+    median_year != 0
+  )
 
 missing_cities_mfd <- anti_join(sfd_out, mfd_out, by = "ctu_id")
 

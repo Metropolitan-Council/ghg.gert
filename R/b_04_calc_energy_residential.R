@@ -46,8 +46,6 @@ calc_energy_residential <- function(res_tb,
                                     .baseline_year,
                                     .scenario = "alt",
                                     .selected_ctu) {
-
-
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
@@ -117,7 +115,8 @@ calc_energy_residential <- function(res_tb,
 
   baseline_rows <- baseline_energy %>%
     dplyr::select(geog_name, geog_id, inventory_year,
-                  residential_mwh = mwh, residential_mcf = mcf)
+      residential_mwh = mwh, residential_mcf = mcf
+    )
 
   energy_final <- dplyr::bind_rows(
     dplyr::bind_rows(baseline_rows, compute_energy(res_tb_bau)) %>%

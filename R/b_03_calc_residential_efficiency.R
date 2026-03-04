@@ -32,7 +32,7 @@
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' calc_floor_area_leed(
+#' calc_housing_leed(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .new_homes_leed_gold_pct = 0.5,
@@ -174,7 +174,7 @@ calc_housing_leed <- function(res_tb,
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' calc_floor_area_retrofit(
+#' calc_residential_retrofit(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
@@ -349,20 +349,20 @@ calc_residential_retrofit <- function(res_tb,
 #'   `sp_categories`, `inventory_year`, `scenario`, `allocated_units`.
 #' @export
 calc_residential_electrification <- function(
-    res_tb,
-    .selected_ctu,
-    .heatpump_start_year,
-    .heatpump_end_year,
-    .sf_heatpump_pct,
-    .mf_heatpump_pct
+  res_tb,
+  .selected_ctu,
+  .heatpump_start_year,
+  .heatpump_end_year,
+  .sf_heatpump_pct,
+  .mf_heatpump_pct
 ) {
   check_inputs("single_family_heatpump_pct", .sf_heatpump_pct)
-  check_inputs("multifamily_heatpump_pct",   .mf_heatpump_pct)
-  check_inputs("heatpump_start_year",          .heatpump_start_year)
+  check_inputs("multifamily_heatpump_pct", .mf_heatpump_pct)
+  check_inputs("heatpump_start_year", .heatpump_start_year)
 
   # --- year-by-year ramp -----------------------------------------------
   ramp_years <- .heatpump_start_year:.heatpump_end_year
-  n_ramp     <- length(ramp_years)
+  n_ramp <- length(ramp_years)
 
 
   pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
@@ -377,23 +377,23 @@ calc_residential_electrification <- function(
     dplyr::mutate(
       hp_sf_pct = dplyr::case_when(
         inventory_year < .heatpump_start_year ~ 0,
-        inventory_year > .heatpump_end_year   ~ .sf_heatpump_pct,
+        inventory_year > .heatpump_end_year ~ .sf_heatpump_pct,
         TRUE ~ hp_sf_pct
       ),
       hp_mf_pct = dplyr::case_when(
         inventory_year < .heatpump_start_year ~ 0,
-        inventory_year > .heatpump_end_year   ~ .mf_heatpump_pct,
+        inventory_year > .heatpump_end_year ~ .mf_heatpump_pct,
         TRUE ~ hp_mf_pct
       )
     )
 
   # --- efficiency_description → scenario pair lookup -------------------
   hp_split_map <- tibble::tribble(
-    ~efficiency_description, ~no_hp_scenario,          ~hp_scenario,
-    "existing_nonretrofit",  "baseline",                "heatpump",
-    "retrofit_units",        "retrofit",                "combination",
-    "new_non_leed",          "new_build",               "new_build_heatpump",
-    "new_leed",              "new_build_leed",          "new_build_leed_heatpump"
+    ~efficiency_description, ~no_hp_scenario, ~hp_scenario,
+    "existing_nonretrofit", "baseline", "heatpump",
+    "retrofit_units", "retrofit", "combination",
+    "new_non_leed", "new_build", "new_build_heatpump",
+    "new_leed", "new_build_leed", "new_build_leed_heatpump"
   )
 
   # --- split units into hp / no-hp rows --------------------------------

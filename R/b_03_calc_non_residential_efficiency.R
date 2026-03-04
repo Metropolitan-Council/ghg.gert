@@ -29,7 +29,7 @@
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' calc_floor_area_leed(
+#' calc_housing_leed(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .new_homes_leed_gold_pct = 0.5,
@@ -169,7 +169,7 @@ calc_housing_leed <- function(res_tb,
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' calc_floor_area_retrofit(
+#' calc_residential_retrofit(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,

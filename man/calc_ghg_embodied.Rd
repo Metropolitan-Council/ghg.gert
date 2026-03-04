@@ -59,7 +59,6 @@ b) similarly affected by changes in local grid mix
 }
 \seealso{
 Other emissions: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},
@@ -67,10 +66,7 @@ Other emissions:
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+\code{\link{calc_ghg_residential}()}
 
 Other transportation: 
 \code{\link{adj_fleet_shares}()},

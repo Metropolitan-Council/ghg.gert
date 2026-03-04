@@ -34,11 +34,11 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn
 calc_building_energy <- function(
-    .selected_ctu,
-    parcel_data = ghg.ccap::parcel_ctu,
-    resstock_tb = ghg.ccap::resstock_summaries,
-    ceestock_tb = ghg.ccap::ceestock_summaries
-    ) {
+  .selected_ctu,
+  parcel_data = ghg.ccap::parcel_ctu,
+  resstock_tb = ghg.ccap::resstock_summaries,
+  ceestock_tb = ghg.ccap::ceestock_summaries
+) {
   # bin based on resstock categories
   bin_sqft_attached <- function(sqft) {
     cut(sqft,
@@ -55,17 +55,17 @@ calc_building_energy <- function(
 
   bin_sqft_detached <- function(sqft) {
     cut(sqft,
-        breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
-        labels = c(
-          "<1000",
-          "1000 to 1499",
-          "1500 to 1999",
-          "2000 to 2499",
-          "2500 to 2999",
-          "3000 to 3999",
-          "4000+"
-        ),
-        right = TRUE
+      breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
+      labels = c(
+        "<1000",
+        "1000 to 1499",
+        "1500 to 1999",
+        "2000 to 2499",
+        "2500 to 2999",
+        "3000 to 3999",
+        "4000+"
+      ),
+      right = TRUE
     )
   }
 
@@ -84,30 +84,33 @@ calc_building_energy <- function(
   ctu_binned <- parcel_data %>%
     filter(
       geog_name == .selected_ctu,
-      mc_classification %in% c("single_family_detached",
-                               "single_family_attached",
-                               "multifamily_units",
-                               "manufactured_home")
+      mc_classification %in% c(
+        "single_family_detached",
+        "single_family_attached",
+        "multifamily_units",
+        "manufactured_home"
+      )
     ) %>%
     mutate(
       sqft_bin = case_when(
         mc_classification == "single_family_detached" ~ bin_sqft_detached(sq_ft_use),
         mc_classification == "single_family_attached" ~ bin_sqft_attached(sq_ft_use),
-       TRUE ~ NA), # multifamily and manufactured homes don't use square footage due to data limitations
+        TRUE ~ NA
+      ), # multifamily and manufactured homes don't use square footage due to data limitations
       year_bin = as.character(bin_year(median_year))
     )
 
-  ctu_sf    <- filter(ctu_binned, mc_classification %in% c("single_family_detached", "single_family_attached"))
+  ctu_sf <- filter(ctu_binned, mc_classification %in% c("single_family_detached", "single_family_attached"))
   ctu_other <- filter(ctu_binned, mc_classification %in% c("multifamily_units", "manufactured_home"))
 
   build_scenario <- function(scenario_name, cee_sf, res_other, new_build = FALSE) {
     if (new_build) {
-      cee_sf    <- filter(cee_sf,    build_year == "2010s")
+      cee_sf <- filter(cee_sf, build_year == "2010s")
       res_other <- filter(res_other, build_year == "2010s")
-      sf_by    <- c("mc_classification", "sqft_bin")
+      sf_by <- c("mc_classification", "sqft_bin")
       other_by <- "mc_classification"
     } else {
-      sf_by    <- c("mc_classification", "sqft_bin", "year_bin" = "build_year")
+      sf_by <- c("mc_classification", "sqft_bin", "year_bin" = "build_year")
       other_by <- c("mc_classification", "year_bin" = "build_year")
     }
     sf_part <- left_join(ctu_sf, cee_sf, by = sf_by) %>%
@@ -123,20 +126,20 @@ calc_building_energy <- function(
   }
 
   # bind resstock pairs
-  res_baseline <- bind_rows(resstock_tb$mf_baseline,  resstock_tb$manufactured_baseline)
-  res_envelope <- bind_rows(resstock_tb$mf_envelope,  resstock_tb$manufactured_envelope)
-  res_heatpump <- bind_rows(resstock_tb$mf_heatpump,  resstock_tb$manufactured_heatpump)
-  res_combo    <- bind_rows(resstock_tb$mf_combo,     resstock_tb$manufactured_combo)
+  res_baseline <- bind_rows(resstock_tb$mf_baseline, resstock_tb$manufactured_baseline)
+  res_envelope <- bind_rows(resstock_tb$mf_envelope, resstock_tb$manufactured_envelope)
+  res_heatpump <- bind_rows(resstock_tb$mf_heatpump, resstock_tb$manufactured_heatpump)
+  res_combo <- bind_rows(resstock_tb$mf_combo, resstock_tb$manufactured_combo)
 
   scenario_config <- list(
-    list("baseline",                ceestock_tb$cee_baseline_sf, res_baseline, FALSE),
-    list("new_build",               ceestock_tb$cee_baseline_sf, res_baseline, TRUE),
-    list("retrofit",                ceestock_tb$cee_retrofit_sf, res_envelope, FALSE),
-    list("heatpump",                ceestock_tb$cee_heatpump_sf, res_heatpump, FALSE),
-    list("combination",             ceestock_tb$cee_combined_sf, res_combo,    FALSE),
-    list("new_build_leed",          ceestock_tb$cee_retrofit_sf, res_envelope, TRUE),
-    list("new_build_heatpump",      ceestock_tb$cee_heatpump_sf, res_heatpump, TRUE),
-    list("new_build_leed_heatpump", ceestock_tb$cee_combined_sf, res_combo,    TRUE)
+    list("baseline", ceestock_tb$cee_baseline_sf, res_baseline, FALSE),
+    list("new_build", ceestock_tb$cee_baseline_sf, res_baseline, TRUE),
+    list("retrofit", ceestock_tb$cee_retrofit_sf, res_envelope, FALSE),
+    list("heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, FALSE),
+    list("combination", ceestock_tb$cee_combined_sf, res_combo, FALSE),
+    list("new_build_leed", ceestock_tb$cee_retrofit_sf, res_envelope, TRUE),
+    list("new_build_heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, TRUE),
+    list("new_build_leed_heatpump", ceestock_tb$cee_combined_sf, res_combo, TRUE)
   )
 
   # extract scenario energy profiles

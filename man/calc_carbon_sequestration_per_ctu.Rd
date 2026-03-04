@@ -80,7 +80,6 @@ Other land use:
 \code{\link{run_scenario_land_use_deprecated}()}
 
 Other emissions: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
@@ -88,10 +87,7 @@ Other emissions:
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+\code{\link{calc_ghg_residential}()}
 }
 \concept{emissions}
 \concept{land use}
