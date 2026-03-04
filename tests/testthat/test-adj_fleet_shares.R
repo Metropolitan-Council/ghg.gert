@@ -325,6 +325,28 @@ test_fleet_shares_pricing_bev <- function(x) {
     )
 
 
+    testthat::expect_error(
+      adj_fleet_shares(
+        .pass_tb = transportation_data$passenger,
+        .freight_tb = transportation_data$freight,
+        .selected_ctu = x,
+        .vmt_fee = 2,
+        .bev_pct_sales = 0.6,
+        .enviro_factors = enviro_factors
+      )
+    )
+
+
+    t_fleet5 <- adj_fleet_shares(
+      .pass_tb = transportation_data$passenger,
+      .freight_tb = transportation_data$freight,
+      .selected_ctu = x,
+      .vmt_fee = 1,
+      .bev_pct_sales = 0.6,
+      .enviro_factors = enviro_factors
+    )
+
+
     compare_fleet <- function(comp_fleet) {
       expect_equal(
         ref_fleet %>%
@@ -421,7 +443,8 @@ test_fleet_shares_pricing_bev <- function(x) {
         t_fleet,
         t_fleet2,
         t_fleet3,
-        t_fleet4
+        t_fleet4,
+        t_fleet5
       ),
       compare_fleet
     )
