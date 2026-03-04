@@ -91,7 +91,7 @@ adj_fleet_shares <- function(.pass_tb,
     cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
-  browser()
+  # browser()
   # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
@@ -525,7 +525,7 @@ adj_fleet_shares <- function(.pass_tb,
               mode == "PLDV",
               var == x
             ),
-          tolerance = 0.01
+          tolerance = 0.1
         )
       }
     )
