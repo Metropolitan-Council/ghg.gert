@@ -91,7 +91,7 @@ adj_fleet_shares <- function(.pass_tb,
     cli::cli_warn("Proportion of alternate fuel vehicle sales will exceed 90% of all vehicle sales.")
   }
 
-  browser()
+
   # vmt, payd, gas -----
   # Adjust sales based on ownership response to price elasticity
 
@@ -153,19 +153,19 @@ adj_fleet_shares <- function(.pass_tb,
     sales_elast <- tibble::tibble(
       year = unique(pass_tb$year),
       bev_elast =
-        calc_elasticity(
+        c(calc_elasticity(
           elas_list = c(rep(0, length(unique(pass_tb$year)))),
           elas = .bev_pct_sales,
           num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        ),
+          num_yrs = length(unique(pass_tb$year)) - 5
+        )[1:7], .bev_pct_sales, .bev_pct_sales),
       hev_elast =
-        calc_elasticity(
+        c(calc_elasticity(
           elas_list = c(rep(0, length(unique(pass_tb$year)))),
           elas = .hev_pct_sales,
           num_inits = 3,
-          num_yrs = length(unique(pass_tb$year)) - 3
-        )
+          num_yrs = length(unique(pass_tb$year)) - 5
+        )[1:7], .hev_pct_sales, .hev_pct_sales)
     ) %>%
       # create si/ci elasticity by subtracting the combined alternate fuel
       # vehicle percentages from 1
