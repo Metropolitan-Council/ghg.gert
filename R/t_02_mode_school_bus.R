@@ -14,6 +14,8 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
+                            .parking_cost = parking_cost,
+                            .vehicle_occupancy = vehicle_occupancy,
                             .transit_avo_pct = 0,
                             .pldv_avo_pct = 0,
                             .transit_service_pct = 0,
@@ -22,6 +24,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .gas_tax = 0,
                             .parking_price = 0,
                             .freight_parking_price = 0,
+                            .vmt_reduction_pct = 0,
                             .cong_price = 0,
                             .freight_vmt_fee = 0,
                             .pop_dens_pct_change = 0,
@@ -32,7 +35,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
                             .transit_dist_pct_change = 0,
                             .comb_5d_impact_pct_change = 0,
                             .telework_pct = 0,
-                            .grid_decarbonization_pct = 0.6,
                             .enviro_factors = enviro_factors,
                             .elast = elast,
                             .elast_5d = elast_5d,
@@ -80,6 +82,8 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       tb = .pass_tb,
       .mode = mode,
       .stock = "CIStock",
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .variable = var,
       .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
@@ -104,7 +108,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
-      .factor_values = .factor_values,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = "CI")
 
@@ -131,6 +135,8 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       tb = .pass_tb,
       .mode = mode,
       .stock = "BEVStock",
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .variable = var,
       .tb_fuel_cost_mile = fcm_ev,
       .aeo_scenario = .aeo_scenario,
@@ -168,7 +174,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "CI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -182,7 +187,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BEVElec",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -199,7 +203,6 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
   )
 
   school_bus <- list("vmt" = vmt_all, "dir_ghg" = dir_ghg_all)
-
 
 
   if (.calc_transp_fuel_use == TRUE) {
@@ -262,7 +265,7 @@ mode_school_bus <- function(.pass_tb = transportation_data$passenger,
     school_bus$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success(paste("School bus", "🏫"))
+  cli::cli_alert_success("School bus 🏫")
 
   return(school_bus)
 }

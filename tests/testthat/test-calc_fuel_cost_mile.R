@@ -73,7 +73,6 @@ testthat::test_that("Gasoline cost mile correct, different AEO scenarios", {
   )
 
 
-
   fcm_ref <- calc_fuel_cost_mile(
     transportation_data$passenger,
     .mode = "PLDV",

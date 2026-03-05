@@ -57,7 +57,6 @@ test_that("Residential building energy runs", {
     mutate(scen_run = "leed")
 
 
-
   retrofit <- scen_building_residential(
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
@@ -135,7 +134,6 @@ test_that("Residential building energy runs", {
   )
 
 
-
   purrr::map(
     list(
       leed,
@@ -216,7 +214,6 @@ test_that("Residential building energy runs", {
     mutate(scen_run = "leed")
 
 
-
   retrofit <- scen_building_residential(
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
@@ -294,7 +291,6 @@ test_that("Residential building energy runs", {
   )
 
 
-
   purrr::map(
     list(
       leed,
@@ -314,7 +310,6 @@ test_that("Residential building energy runs", {
     }
   )
 })
-
 
 
 test_that("Residential building energy runs", {
@@ -376,7 +371,6 @@ test_that("Residential building energy runs", {
     mutate(scen_run = "leed")
 
 
-
   retrofit <- scen_building_residential(
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
@@ -452,7 +446,6 @@ test_that("Residential building energy runs", {
         testthat::expect_equal(bau_none)
     }
   )
-
 
 
   purrr::map(
@@ -533,7 +526,6 @@ test_that("Residential building energy runs", {
     .baseline_year = 2025
   ) %>%
     mutate(scen_run = "leed")
-
 
 
   retrofit <- scen_building_residential(
@@ -692,7 +684,6 @@ test_that("Residential building energy runs", {
     mutate(scen_run = "leed")
 
 
-
   retrofit <- scen_building_residential(
     res_tb = ghg.ccap::building_data$residential,
     res_tb_bau = ghg.ccap::building_data$residential,
@@ -788,4 +779,3 @@ test_that("Residential building energy runs", {
     }
   )
 })
-

@@ -8,6 +8,8 @@ calc_vmt_forecast(
   .scenario,
   tb,
   .selected_ctu = "all",
+  .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .mode,
   .stock,
   .variable,
@@ -21,6 +23,7 @@ calc_vmt_forecast(
   .gas_tax = 0,
   .cong_price = 0,
   .parking_price = 0,
+  .vmt_reduction_pct = 0,
   .freight_parking_price = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
@@ -31,7 +34,6 @@ calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .phev_electric = FALSE,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
@@ -46,6 +48,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \code{transportation_data$freight} are suitable.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.mode}{character, current mode}
 
@@ -105,8 +111,6 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -126,6 +130,7 @@ Calculate vehicle miles traveled by mode and power train
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

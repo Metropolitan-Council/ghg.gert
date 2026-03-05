@@ -18,6 +18,7 @@ run_all_modules(
   non_res_tb_bau = building_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+  .parking_cost = parking_cost,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
@@ -31,13 +32,12 @@ run_all_modules(
   .parking_lot_reduction_percentage = 0,
   .electrified_buildings_pct = 0,
   .smart_grid_energy_reduction_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
-  .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0,
+  .sf_heatpump_pct = 0,
+  .mf_heatpump_pct = 0,
   .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
@@ -61,14 +61,16 @@ run_all_modules(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
+  .bev_pct_stock = 0,
+  .hev_pct_stock = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
   .elast = ghg.ccap::elast,
   .fuel_economy = ghg.ccap::fuel_economy,
   .grid_emissions = ghg.ccap::grid_emissions,
-  .elast_5d = elast_5d
+  .elast_5d = elast_5d,
+  .vehicle_occupancy = vehicle_occupancy
 )
 }
 \arguments{
@@ -112,6 +114,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
@@ -129,8 +133,6 @@ If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
-
-\item{.renewable_ng_res}{logical, documentation needed}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
@@ -169,15 +171,6 @@ The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.0}.}
 
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.0}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
-
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
@@ -185,6 +178,10 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
+
+\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
+
+\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
 Default value is \code{0.6}.}
@@ -248,11 +245,6 @@ Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
-
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
@@ -271,6 +263,8 @@ Default is \code{0}.}
 Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 }
 \value{
 list, list with the outputs of the three modules.

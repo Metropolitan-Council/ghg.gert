@@ -19,7 +19,6 @@
 #'     the default value. `non_res_tb_bau` is only used for the "business as usual"
 #'     scenario, in contrast `non_res_tb` is used as the input for the decarbonization scenario.
 #'
-#' @inheritParams calc_electrify_residential_heating
 #' @inheritParams calc_ghg_non_residential
 #' @inheritParams calc_energy_non_residential
 #' @inheritParams scen_building_non_residential
@@ -48,31 +47,30 @@
 #' library(ghg.ccap)
 #'
 #' scen_building_non_residential(
-#'    non_res_tb = non_res_tb,
-#'    non_res_tb_bau = non_res_tb_bau,
-#'    .selected_ctu = "all"
-#'    .existing_high_efficiency_buildings_pct = 0.25
-#'    .electrified_buildings_pct = 0.5
-#'    .enviro_factors = .enviro_factors,
-#'    .grid_emissions = .grid_emissions
-#'   )
-#'
+#'   non_res_tb = non_res_tb,
+#'   non_res_tb_bau = non_res_tb_bau,
+#'   .selected_ctu = "all",
+#'   .existing_high_efficiency_buildings_pct = 0.25,
+#'   .electrified_buildings_pct = 0.5,
+#'   .enviro_factors = .enviro_factors,
+#'   .grid_emissions = .grid_emissions
+#' )
 #' }
 scen_building_non_residential <- function(non_res_tb = non_res_tb,
-                                      non_res_tb_bau = non_res_tb_bau,
-                                      .scenario = "",
-                                      .selected_ctu,
-                                      .baseline_year,
-                                      .jobs_heatpump_pct,
-                                      .heatpump_start_year,
-                                      .heatpump_end_year,
-                                      .existing_jobs_retrofit_pct,
-                                      .retrofit_start_year,
-                                      .retrofit_end_year,
-                                      .new_jobs_leed_gold_pct,
-                                      .leed_start_year,
-                                      .grid_emissions = ghg.ccap::grid_emissions,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                          non_res_tb_bau = non_res_tb_bau,
+                                          .scenario = "",
+                                          .selected_ctu,
+                                          .baseline_year,
+                                          .jobs_heatpump_pct,
+                                          .heatpump_start_year,
+                                          .heatpump_end_year,
+                                          .existing_jobs_retrofit_pct,
+                                          .retrofit_start_year,
+                                          .retrofit_end_year,
+                                          .new_jobs_leed_gold_pct,
+                                          .leed_start_year,
+                                          .grid_emissions = ghg.ccap::grid_emissions,
+                                          .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
 
@@ -80,7 +78,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   tb02 <- calc_business_leed(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .leed_start_year =  .leed_start_year,
+    .leed_start_year = .leed_start_year,
     .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
     .enviro_factors = .enviro_factors
   )
@@ -106,7 +104,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
   tb05 <- calc_business_leed(
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
-    .leed_start_year =  .leed_start_year,
+    .leed_start_year = .leed_start_year,
     .new_jobs_leed_gold_pct = 0.0,
     .enviro_factors = .enviro_factors
   )

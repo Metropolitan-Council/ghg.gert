@@ -11,19 +11,18 @@
 plant_pocket_prairies <- function(df_null,
                                   start_yr,
                                   end_yr,
-                                  area_pct
-) {
+                                  area_pct) {
   df_max <- df_null %>%
     # filter for the last year in the dataset
     filter(inventory_year == max(inventory_year)) %>%
     mutate(
       area_removed = case_when(
-        land_cover_type == "Urban_Grassland" ~ -1*area * (area_pct / 100),
+        land_cover_type == "Urban_Grassland" ~ -1 * area * (area_pct / 100),
         TRUE ~ 0
       ),
       area_change = case_when(
         land_cover_type == "Urban_Grassland" ~ sum(area_removed),
-        land_cover_type == "Grassland" ~ -1*sum(area_removed),
+        land_cover_type == "Grassland" ~ -1 * sum(area_removed),
         TRUE ~ 0
       )
     )
@@ -44,7 +43,7 @@ plant_pocket_prairies <- function(df_null,
       slice(1) %>%
       mutate(
         land_cover_type = "Grassland",
-        area = 0,  # Will be set by area_change
+        area = 0, # Will be set by area_change
         area_change = converted_area,
         area_removed = 0,
         potential_wetland_area = 0
@@ -64,7 +63,7 @@ plant_pocket_prairies <- function(df_null,
       filter(land_cover_type == "Urban_Grassland") %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Grassland",
         area = 0,
@@ -82,7 +81,7 @@ plant_pocket_prairies <- function(df_null,
         by = join_by(land_cover_type)
       ),
     start_yr = start_yr,
-    end_yr   = end_yr
+    end_yr = end_yr
   ) %>%
     dplyr::select(colnames(df_null))
 

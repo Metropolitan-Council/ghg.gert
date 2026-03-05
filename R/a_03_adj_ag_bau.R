@@ -24,8 +24,7 @@ adj_cropland_area <- function(emissions,
                               ag_area,
                               .baseline_year = .baseline_year,
                               .cropland_decrease_2050) {
-
-  #browser()
+  # browser()
 
   # reduction factor - 2022 ag area - reduction / 2022 ag area
   baseline_area <- ag_area %>%
@@ -36,36 +35,36 @@ adj_cropland_area <- function(emissions,
 
   emissions_predict <- emissions %>%
     filter(inventory_year == .baseline_year) %>%
-  crossing(emissions_year = .baseline_year:2050) %>%
+    crossing(emissions_year = .baseline_year:2050) %>%
     # calculate adjusted emissions based on red_fac, reducing linearly from 2028 to 2050
     mutate(
       value_emissions = case_when(
-        emissions_year <= 2028 ~ value_emissions,  # no changes from baseline to 2028
-        emissions_year > 2028 ~ value_emissions * (1 - (1 - red_fac) * (emissions_year - 2028) / (2050 - 2028))  # linear reduction of ag loss from 2028 to 2050
+        emissions_year <= 2028 ~ value_emissions, # no changes from baseline to 2028
+        emissions_year > 2028 ~ value_emissions * (1 - (1 - red_fac) * (emissions_year - 2028) / (2050 - 2028)) # linear reduction of ag loss from 2028 to 2050
       ),
       inventory_year = emissions_year
     ) %>%
     select(-emissions_year)
 
 
-  emissions_bau <- bind_rows(emissions %>%
-                               filter(inventory_year < .baseline_year),
-                             emissions_predict) %>%
+  emissions_bau <- bind_rows(
+    emissions %>%
+      filter(inventory_year < .baseline_year),
+    emissions_predict
+  ) %>%
     mutate(scenario = "bau")
 
-  #adjust ag area for later use
+  # adjust ag area for later use
 
   ag_area_adj <- ag_area %>%
     mutate(
       ag_area_adj = case_when(
-        inventory_year  <= 2028 ~ area,  # no changes from baseline to 2028
-        inventory_year  > 2028 ~ area * (1 - (1 - red_fac) * (inventory_year - 2028) / (2050 - 2028))  # linear reduction of ag loss from 2028 to 2050
+        inventory_year <= 2028 ~ area, # no changes from baseline to 2028
+        inventory_year > 2028 ~ area * (1 - (1 - red_fac) * (inventory_year - 2028) / (2050 - 2028)) # linear reduction of ag loss from 2028 to 2050
       )
     )
 
   cropland_adj <- list(emissions_bau = emissions_bau, ag_area_adj = ag_area_adj)
 
   return(cropland_adj)
-
 }
-

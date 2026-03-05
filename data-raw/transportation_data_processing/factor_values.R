@@ -42,8 +42,6 @@ aeo_factors_new <- vmt_change %>%
   )
 
 
-
-
 aeo_long <- aeo %>%
   group_by(AEOScen, Mode, Metric) %>%
   pivot_longer(cols = c(
@@ -118,6 +116,21 @@ ghg_long <- ghg %>%
   unique() %>%
   ungroup()
 
+
+grid_emissions_kwh <- ghg.ccap::grid_emissions %>%
+  filter(inventory_year %in% ghg_long$year) %>%
+  mutate(mt_co2e_per_kwh = mt_co2e_per_mwh / 1000) %>%
+  mutate(
+    source = "ER",
+    year = as.character(inventory_year),
+    value = mt_co2e_per_kwh
+  ) %>%
+  select(names(ghg_long))
+
+
+ghg_long <- ghg_long %>%
+  filter(source != "ER") %>%
+  bind_rows(grid_emissions_kwh)
 
 # finish up -----
 factor_values <- list(

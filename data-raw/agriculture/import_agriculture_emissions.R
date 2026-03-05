@@ -17,9 +17,10 @@ county_ag_data <-
 ctu_ag_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/ctu_emissions.RDS") %>%
   filter(sector == "Agriculture") %>%
-  mutate(geog_name  = if_else(ctu_class == "TOWNSHIP",
-                            paste(geog_name , "Twp."),
-                            geog_name)) %>%
+  mutate(geog_name = if_else(ctu_class == "TOWNSHIP",
+    paste(geog_name, "Twp."),
+    geog_name
+  )) %>%
   select(
     geog_name,
     geog_id = ctu_id_gnis,
@@ -36,4 +37,4 @@ agricultural_emissions <- bind_rows(
   ctu_ag_data
 )
 
-usethis::use_data(agricultural_emissions, overwrite=T)
+usethis::use_data(agricultural_emissions, overwrite = T)

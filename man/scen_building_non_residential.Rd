@@ -75,15 +75,14 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 library(ghg.ccap)
 
 scen_building_non_residential(
-   non_res_tb = non_res_tb,
-   non_res_tb_bau = non_res_tb_bau,
-   .selected_ctu = "all"
-   .existing_high_efficiency_buildings_pct = 0.25
-   .electrified_buildings_pct = 0.5
-   .enviro_factors = .enviro_factors,
-   .grid_emissions = .grid_emissions
-  )
-
+  non_res_tb = non_res_tb,
+  non_res_tb_bau = non_res_tb_bau,
+  .selected_ctu = "all",
+  .existing_high_efficiency_buildings_pct = 0.25,
+  .electrified_buildings_pct = 0.5,
+  .enviro_factors = .enviro_factors,
+  .grid_emissions = .grid_emissions
+)
 }
 }
 \concept{buildings, non-residential}

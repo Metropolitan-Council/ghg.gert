@@ -13,9 +13,6 @@
 calculate_mww_n2o_effluent_emissions <- function(population, years,
                                                  lookup = NULL,
                                                  epa_protein_consumption = NULL) {
-
-
-
   if (is.null(lookup)) {
     lookup <- ghg.ccap::waste_data$epa$wastewater_constants
   }
@@ -66,7 +63,6 @@ calculate_mww_n2o_effluent_emissions <- function(population, years,
       biosolids_pct_vec[i] <- epa_protein_consumption %>%
         filter(year == !!year) %>%
         pull(pct_of_biosolids_as_fertilizer)
-
     } else if (year > max_year) {
       # Use the most recent year's data for extrapolation
       protein_consumption_vec[i] <- epa_protein_consumption %>%
@@ -76,7 +72,6 @@ calculate_mww_n2o_effluent_emissions <- function(population, years,
       biosolids_pct_vec[i] <- epa_protein_consumption %>%
         filter(year == max_year) %>%
         pull(pct_of_biosolids_as_fertilizer)
-
     } else {
       # Use the earliest year's data for extrapolation
       protein_consumption_vec[i] <- epa_protein_consumption %>%

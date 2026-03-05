@@ -49,7 +49,7 @@ Area conservation is maintained by drawing from a conversion pool
 are returned as attributes if proposed restoration exceeds available land.
 }
 \examples{
-\dontrun
+\dontrun{
 # Restore wetlands at 40\% ambition, plus 5 sq km forest and 3 sq km prairie
 result <- restore_ecosystems(
   df_null = my_projections,
@@ -62,4 +62,5 @@ result <- restore_ecosystems(
 # View validation info
 attr(result, "validation_info")
 attr(result, "validation_warnings")
+}
 }

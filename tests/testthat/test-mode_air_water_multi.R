@@ -46,8 +46,7 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
     .selected_ctu = "Saint Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -70,13 +69,11 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
     .selected_ctu = "Saint Paul",
     .scenario = "telework",
     .emp_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8,
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(
@@ -96,7 +93,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
     }
   )
 })
-
 
 
 testthat::test_that("Minneapolis emissions reduce with interventions", {
@@ -148,8 +144,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .selected_ctu = "Minneapolis",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -172,13 +167,11 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .selected_ctu = "Minneapolis",
     .scenario = "telework",
     .emp_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8,
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(
@@ -247,8 +240,7 @@ testthat::test_that("Champlin emissions reduce with interventions", {
     .selected_ctu = "Champlin",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -271,13 +263,11 @@ testthat::test_that("Champlin emissions reduce with interventions", {
     .selected_ctu = "Champlin",
     .scenario = "telework",
     .emp_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8,
     .vmt_fee = 0.01,
     .freight_parking_price = 20,
     .telework_pct = 0.5,
     .parking_price = 20
   )))
-
 
 
   purrr::map(

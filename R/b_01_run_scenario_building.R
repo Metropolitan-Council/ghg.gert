@@ -9,7 +9,6 @@
 #'
 #' @inheritParams scen_building_residential
 #' @inheritParams scen_building_non_residential
-#' @inheritParams calc_residential_renewable_ng
 #' @inheritParams calc_ghg_non_residential
 #' @inheritParams calc_energy_residential
 #' @inheritParams calc_residential_retrofit
@@ -46,7 +45,6 @@
 #'   .electrified_buildings_pct = 0.40,
 #'   .smart_grid_energy_reduction_pct = 1.00,
 #'   .new_homes_to_multifamily_pct = 0.50,
-#'   .existing_high_efficiency_buildings_pct = 0.80,
 #'   .home_behavior_change_pct = 1.00,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.30,
@@ -75,7 +73,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .retrofit_end_year = 2050,
                                   .heatpump_start_year = 2028,
                                   .heatpump_end_year = 2050,
-
                                   # residential
                                   .new_homes_to_multifamily_pct = 0.0,
                                   .electrified_buildings_pct = 0.0,
@@ -90,18 +87,13 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
                                   .existing_mf_retrofit_pct = 0.0,
-
                                   # non-residential
                                   .new_jobs_leed_gold_pct = 0.0,
                                   .existing_jobs_retrofit_pct = 0.0,
                                   .jobs_heatpump_pct = 0.0,
-
                                   # emissions factors and elasticities
                                   .grid_emissions = ghg.ccap::grid_emissions,
-                                  .enviro_factors = ghg.ccap::enviro_factors
-
-) {
-
+                                  .enviro_factors = ghg.ccap::enviro_factors) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -112,7 +104,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
 
 
   l_names <- c(
-
     # Residential – efficiency / LEED / retrofits / demand flex
     "new_sf_homes_leed_gold_pct",
     "new_mf_homes_leed_gold_pct",
@@ -132,7 +123,6 @@ run_scenario_building <- function(res_tb = building_data$residential,
   )
 
   l_vals <- list(
-
     # Residential – efficiency / LEED / retrofits / demand flex
     .new_sf_homes_leed_gold_pct,
     .new_mf_homes_leed_gold_pct,

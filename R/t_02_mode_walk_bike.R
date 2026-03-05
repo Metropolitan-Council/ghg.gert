@@ -16,6 +16,8 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .scenario = "BAU",
                            .electric_scenario = "ER",
                            .aeo_scenario = "REF",
+                           .parking_cost = parking_cost,
+                           .vehicle_occupancy = vehicle_occupancy,
                            .transit_avo_pct = 0,
                            .pldv_avo_pct = 0,
                            .transit_service_pct = 0,
@@ -24,6 +26,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .gas_tax = 0,
                            .parking_price = 0,
                            .freight_parking_price = 0,
+                           .vmt_reduction_pct = 0,
                            .cong_price = 0,
                            .freight_vmt_fee = 0,
                            .pop_dens_pct_change = 0,
@@ -34,12 +37,14 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
                            .transit_dist_pct_change = 0,
                            .comb_5d_impact_pct_change = 0,
                            .telework_pct = 0,
-                           .grid_decarbonization_pct = 0.6,
                            .enviro_factors = enviro_factors,
                            .elast = elast,
                            .fuel_economy = fuel_economy,
                            .factor_values = factor_values,
-                           .elast_5d = elast_5d) {
+                           .elast_5d = elast_5d,
+                           .calc_transp_cost = FALSE,
+                           .calc_transp_fuel_use = FALSE,
+                           .calc_transp_ghg_embodied = FALSE) {
   # cli::cli_progress_message("** calculating scenario walk and bike \n")
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu)
 
@@ -72,6 +77,8 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -111,6 +118,8 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       .stock = "",
       .variable = var,
       .tb_fuel_cost_mile = fcm,
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
       .pldv_avo_pct = .pldv_avo_pct,
@@ -153,14 +162,14 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
       type, class, scenario, mode, geog_name, geog_id, year, aeo_mode,
       dir_ghg
     ) %>%
-    unique()
+    dplyr::distinct()
 
   wb_fin <- list(
     "vmt" = vmt_all,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Walk and bike", "🚶", "🚴"))
+  cli::cli_alert_success("Walk and bike 🚶 🚴")
 
   return(wb_fin)
 }

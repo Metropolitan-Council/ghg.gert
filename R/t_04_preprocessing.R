@@ -20,7 +20,6 @@ calc_treatment <- function(treat_list,
 }
 
 
-
 #'  Interpolate elasticities across years
 #'
 #' @param elas_list list, elasticities in each year included in scenario
@@ -39,8 +38,7 @@ calc_elasticity <- function(elas_list,
                             num_yrs) {
   # cli::cli_progress_message("* calculating elasticities \n")
 
-  for (i in 1:num_yrs) {
-    elas_list[i + num_inits] <- (elas / num_yrs) * i
-  }
+  elas_list[(1:num_yrs) + num_inits] <- (elas / num_yrs) * (1:num_yrs)
+
   return(elas_list)
 }

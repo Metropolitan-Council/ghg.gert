@@ -9,7 +9,7 @@
 #'
 #' @note `calc_energy_non_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
-#'      nonresidential strategies refer to [`scen_non_residential_building()`].
+#'      nonresidential strategies refer to [`scen_building_non_residential()`].
 #'
 #' @param non_res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
@@ -40,14 +40,14 @@
 #' }
 #' @export
 calc_energy_non_residential <- function(non_res_tb,
-                                    non_res_tb_bau,
-                                    .heatpump_start_year,
-                                    .heatpump_end_year,
-                                    .baseline_year,
-                                    .scenario = "alt",
-                                    .selected_ctu,
-                                    .jobs_heatpump_pct,
-                                    .enviro_factors = ghg.ccap::enviro_factors) {
+                                        non_res_tb_bau,
+                                        .heatpump_start_year,
+                                        .heatpump_end_year,
+                                        .baseline_year,
+                                        .scenario = "alt",
+                                        .selected_ctu,
+                                        .jobs_heatpump_pct,
+                                        .enviro_factors = ghg.ccap::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
@@ -65,14 +65,14 @@ calc_energy_non_residential <- function(non_res_tb,
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-               .selected_ctu = .selected_ctu
+      .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
         sector == "Business"
       ),
     filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-               .selected_ctu = .selected_ctu
+      .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
@@ -97,48 +97,48 @@ calc_energy_non_residential <- function(non_res_tb,
       scenario == "new_non_leed_jobs" ~ "new_non_leed_jobs",
       scenario == "electrification" ~ "heatpump_jobs",
       scenario == "new_leed_jobs" ~ "new_leed_jobs"
-      )
-    )
+    ))
 
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
-       filter(inventory_year >= (.baseline_year - 4)) %>%
-       pull(mwh) %>%
-       sum()) /
-    (non_res_tb_bau %>%
-       filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, imagine_designation, inventory_year, value) %>%
-       left_join(
-         ctu_energy_profile %>%
-           filter(scenario == "baseline"),
-         by = "imagine_designation"
-       ) %>%
-       mutate(mwh_pred = value * mwh_per_job) %>%
-       pull(mwh_pred) %>%
-       sum())
+      filter(inventory_year >= (.baseline_year - 4)) %>%
+      pull(mwh) %>%
+      sum()) /
+      (non_res_tb_bau %>%
+        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+        dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
+        left_join(
+          ctu_energy_profile %>%
+            filter(scenario == "baseline"),
+          by = "imagine_designation"
+        ) %>%
+        mutate(mwh_pred = value * mwh_per_job) %>%
+        pull(mwh_pred) %>%
+        sum())
 
   mcf_adjustment <-
     (baseline_energy %>%
-       filter(inventory_year >= (.baseline_year - 4)) %>%
-       pull(mcf) %>%
-       sum()) /
-    (non_res_tb_bau %>%
-       filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-       distinct(geog_name, imagine_designation, inventory_year, value) %>%
-       left_join(
-         ctu_energy_profile %>%
-           filter(scenario == "baseline"),
-         by = "imagine_designation"
-       ) %>%
-       mutate(mcf_pred = value * mcf_per_job) %>%
-       pull(mcf_pred) %>%
-       sum())
+      filter(inventory_year >= (.baseline_year - 4)) %>%
+      pull(mcf) %>%
+      sum()) /
+      (non_res_tb_bau %>%
+        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
+        dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
+        left_join(
+          ctu_energy_profile %>%
+            filter(scenario == "baseline"),
+          by = "imagine_designation"
+        ) %>%
+        mutate(mcf_pred = value * mcf_per_job) %>%
+        pull(mcf_pred) %>%
+        sum())
 
 
   # heat pump expected energy will be lowered for retrofit buildings
   # ctu average energy load will be split based on heat pump percentage
-  ctu_energy_profile_adjustments <- ctu_energy_profile %>% select(-cat_match) %>%
+  ctu_energy_profile_adjustments <- ctu_energy_profile %>%
+    select(-cat_match) %>%
     tidyr::pivot_wider(
       names_from = scenario,
       values_from = c(mwh_per_job, mcf_per_job),
@@ -162,9 +162,7 @@ calc_energy_non_residential <- function(non_res_tb,
   energy_calc <- function(tb,
                           .heatpump_start_year = .heatpump_start_year,
                           .heatpump_end_year = .heatpump_end_year,
-                          .jobs_heatpump_pct = .jobs_heatpump_pct
-                          ) {
-
+                          .jobs_heatpump_pct = .jobs_heatpump_pct) {
     ### ramp up heat pump installation evenly from start year to end year
     ramp_years <- .heatpump_start_year:.heatpump_end_year
     n_ramp <- length(ramp_years)
@@ -194,15 +192,17 @@ calc_energy_non_residential <- function(non_res_tb,
       filter(inventory_year > .baseline_year) %>%
       left_join(pct_by_year, by = "inventory_year") %>%
       left_join(ctu_energy_profile,
-                by = join_by(efficiency_description == cat_match,
-                             imagine_designation == imagine_designation)
-                ) %>%
+        by = join_by(
+          efficiency_description == cat_match,
+          imagine_designation == imagine_designation
+        )
+      ) %>%
       left_join(ctu_energy_profile_adjustments,
-                by = join_by("imagine_designation")
+        by = join_by("imagine_designation")
       ) %>%
       mutate(
         non_residential_mwh = case_when( # will take the weighted average of heatpump/non-heatpump homes
-          efficiency_description  %in% c("existing_nonretrofit_jobs", "new_non_leed_jobs") ~
+          efficiency_description %in% c("existing_nonretrofit_jobs", "new_non_leed_jobs") ~
             ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "retrofit_jobs" ~
             ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh * retrofit_heating_pct)) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
@@ -238,10 +238,10 @@ calc_energy_non_residential <- function(non_res_tb,
   energy_bau <- bind_rows(
     baseline_energy %>%
       select(geog_name,
-             geog_id,
-             inventory_year,
-             non_residential_mwh = mwh,
-             non_residential_mcf = mcf
+        geog_id,
+        inventory_year,
+        non_residential_mwh = mwh,
+        non_residential_mcf = mcf
       ),
     energy_calc(
       tb = non_res_tb_bau,
@@ -255,10 +255,10 @@ calc_energy_non_residential <- function(non_res_tb,
   energy_strategy <- bind_rows(
     baseline_energy %>%
       select(geog_name,
-             geog_id,
-             inventory_year,
-             non_residential_mwh = mwh,
-             non_residential_mcf = mcf
+        geog_id,
+        inventory_year,
+        non_residential_mwh = mwh,
+        non_residential_mcf = mcf
       ),
     energy_calc(
       tb = non_res_tb,

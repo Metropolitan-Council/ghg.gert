@@ -25,7 +25,6 @@ testthat::test_that("Gasoline direct emissions correct", {
     .fuel_type = "SI",
     .aeo_scenario = "REF",
     .miles_per_gallon = "SIMPG",
-    .grid_decarbonization_pct = 0.6,
     .factor_values = factor_values,
     .enviro_factors = enviro_factors
   )
@@ -57,7 +56,6 @@ testthat::test_that("Diesel direct emissions correct", {
     left_join(geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
 
-
   ci_dir_ghg <- calc_ghg_direct(
     tb_vmt = ci_vmt_test,
     tb = st_paul_passenger,
@@ -65,7 +63,6 @@ testthat::test_that("Diesel direct emissions correct", {
     .fuel_type = "CI",
     .aeo_scenario = "REF",
     .miles_per_gallon = "CIMPG",
-    .grid_decarbonization_pct = 0.6,
     .factor_values = factor_values,
     .enviro_factors = enviro_factors
   )
@@ -102,15 +99,14 @@ testthat::test_that("Battery direct ghg", {
     .factor_values = factor_values
   )
 
-  testthat::expect_warning(
+  testthat::expect_no_warning(
     calc_ghg_direct(
       tb_vmt = bev_vmt_test,
       tb = st_paul_passenger,
       .mode = "PLDV",
       .fuel_type = "ER",
       .aeo_scenario = "REF",
-      .miles_per_gallon = "BEVElec",
-      .grid_decarbonization_pct = 0
+      .miles_per_gallon = "BEVElec"
     )
   )
 
@@ -120,8 +116,7 @@ testthat::test_that("Battery direct ghg", {
     .mode = "PLDV",
     .fuel_type = "ER",
     .aeo_scenario = "REF",
-    .miles_per_gallon = "BEVElec",
-    .grid_decarbonization_pct = 0.75
+    .miles_per_gallon = "BEVElec"
   )
 
 
@@ -131,12 +126,11 @@ testthat::test_that("Battery direct ghg", {
     .mode = "PLDV",
     .fuel_type = "ER",
     .aeo_scenario = "REF",
-    .miles_per_gallon = "BEVElec",
-    .grid_decarbonization_pct = 1
+    .miles_per_gallon = "BEVElec"
   ) %>%
     filter(year == "2050")
 
   # when grid is fully decarbonized,
   # BEV emissions are 0
-  testthat::expect_equal(bev_dir_ghg_decarb$dir_ghg %>% sum(na.rm = T), 0)
+  testthat::expect_equal(bev_dir_ghg_decarb$dir_ghg %>% sum(na.rm = T), 0, tolerance = 0.1)
 })

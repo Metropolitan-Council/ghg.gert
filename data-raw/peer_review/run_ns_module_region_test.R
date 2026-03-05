@@ -1,9 +1,8 @@
-rm(list=ls())
+rm(list = ls())
 library(ghg.ccap)
 library(tidyverse)
 
 .ctu <- "Regional"
-
 
 
 # inpath <- "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_nature/data/"
@@ -12,8 +11,6 @@ library(tidyverse)
 # natural_systems_data <- c()
 #
 # natural_systems_data$land_cover_carbon <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
-
-
 
 
 # read natural_systems_data.rda file in ghg.ccap/data
@@ -30,15 +27,15 @@ mod_bau <- ghg.ccap::run_scenario_natural_systems(
   .wetland_restore_start = 2025,
   .wetland_restore_end = 2030,
   .wetland_restore_fromGrass_perc = 100, # percent of grassland to convert to wetland
-  .wetland_restore_fromBare_perc = 100,  # percent of bare land to convert to wetland
-  .wetland_restore_fromCrop_perc = 100,  # percent of cropland to convert to wetland
-  .wetland_restore_fromTree_perc = 5,  # percent of forest to convert to wetland
+  .wetland_restore_fromBare_perc = 100, # percent of bare land to convert to wetland
+  .wetland_restore_fromCrop_perc = 100, # percent of cropland to convert to wetland
+  .wetland_restore_fromTree_perc = 5, # percent of forest to convert to wetland
 
   .forest_restore_start = 2030,
   .forest_restore_end = 2045,
   .forest_restore_fromGrass_perc = 100, # percent of grassland to convert to forest
-  .forest_restore_fromBare_perc = 100,  # percent of bare land to convert to forest
-  .forest_restore_fromCrop_perc = 100,  # percent of cropland to convert to forest
+  .forest_restore_fromBare_perc = 100, # percent of bare land to convert to forest
+  .forest_restore_fromCrop_perc = 100, # percent of cropland to convert to forest
 
   .community_tree_start = 2035,
   .community_tree_end = 2040,
@@ -47,7 +44,6 @@ mod_bau <- ghg.ccap::run_scenario_natural_systems(
   .pocket_prairie_start = 2040,
   .pocket_prairie_end = 2050,
   .pocket_prairie_perc = 100, # percent of urban grassland area to convert to grassland
-
 )
 
 
@@ -60,14 +56,14 @@ mod_bau %>%
   ) +
   # stacked area chart
   geom_area(alpha = 0.6, color = NA, position = "stack") +
-  geom_line(alpha = 0.9, linewidth=0.5,
-            aes(color = land_cover_type), position = "stack", show.legend = F) +
+  geom_line(
+    alpha = 0.9, linewidth = 0.5,
+    aes(color = land_cover_type), position = "stack", show.legend = F
+  ) +
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal"
   )
-
-
 
 
 ghg.ccap::run_scenario_natural_systems(
@@ -98,7 +94,6 @@ ghg.ccap::run_scenario_natural_systems(
   .pocket_prairie_start = 2040,
   .pocket_prairie_end = 2050,
   .pocket_prairie_perc = 52, # percent of urban grassland area to convert to grassland
-
 ) %>%
   # filter(!is.na(value_emissions)) %>%
   ggplot(
@@ -106,8 +101,10 @@ ghg.ccap::run_scenario_natural_systems(
   ) +
   # stacked area chart
   geom_area(alpha = 0.6, color = NA, position = "stack") +
-  geom_line(alpha = 0.9, linewidth=0.5,
-            aes(color = land_cover_type), position = "stack", show.legend = F) +
+  geom_line(
+    alpha = 0.9, linewidth = 0.5,
+    aes(color = land_cover_type), position = "stack", show.legend = F
+  ) +
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal"
@@ -123,17 +120,14 @@ mod_bau %>%
   ) +
   # stacked area chart
   geom_area(alpha = 0.6, color = NA, position = "stack") +
-  geom_line(alpha = 0.9, linewidth=0.5,
-            aes(color = land_cover_type), position = "stack", show.legend = F) +
+  geom_line(
+    alpha = 0.9, linewidth = 0.5,
+    aes(color = land_cover_type), position = "stack", show.legend = F
+  ) +
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal"
   )
-
-
-
-
-
 
 
 # Old code below ----------------------------------------------------------
@@ -153,12 +147,6 @@ lc_county <- readr::read_rds(paste0(inpath, "nlcd_county_landcover_allyrs.rds"))
 inventory_start_year <- 2005
 inventory_end_year <- 2022
 future_years <- 2023:2050
-
-
-
-
-
-
 
 
 natural_systems_data$county$inventory <- lc_county %>%
@@ -198,42 +186,39 @@ county_projections_null <- county_projections_2022 %>%
   mutate(across(everything(), ~ tidyr::replace_na(., 0)))
 
 
-
-
-
-
-
-
-
-
 # Regional inventory by summing county inventories
 natural_systems_data$regional$inventory <- natural_systems_data$county$inventory %>%
   group_by(inventory_year) %>%
-  summarize(Bare = sum(Bare),
-            Developed_Low = sum(Developed_Low),
-            Developed_Med = sum(Developed_Med),
-            Developed_High = sum(Developed_High),
-            Urban_Grassland = sum(Urban_Grassland),
-            Urban_Tree = sum(Urban_Tree),
-            Cropland = sum(Cropland),
-            Grassland = sum(Grassland),
-            Tree = sum(Tree),
-            Water = sum(Water),
-            Wetland = sum(Wetland),
-            TOTAL = sum(TOTAL)) %>%
-  mutate(geog_name = "Regional",
-         ctu_class = "REGION",
-         geog_id = "00000000") %>%
-  dplyr::select(geog_name, ctu_class, geog_id, inventory_year,
-                Bare, Cropland, Developed_High, Developed_Low, Developed_Med,
-                Grassland, Tree, Urban_Grassland, Urban_Tree, Water, Wetland, TOTAL)
+  summarize(
+    Bare = sum(Bare),
+    Developed_Low = sum(Developed_Low),
+    Developed_Med = sum(Developed_Med),
+    Developed_High = sum(Developed_High),
+    Urban_Grassland = sum(Urban_Grassland),
+    Urban_Tree = sum(Urban_Tree),
+    Cropland = sum(Cropland),
+    Grassland = sum(Grassland),
+    Tree = sum(Tree),
+    Water = sum(Water),
+    Wetland = sum(Wetland),
+    TOTAL = sum(TOTAL)
+  ) %>%
+  mutate(
+    geog_name = "Regional",
+    ctu_class = "REGION",
+    geog_id = "00000000"
+  ) %>%
+  dplyr::select(
+    geog_name, ctu_class, geog_id, inventory_year,
+    Bare, Cropland, Developed_High, Developed_Low, Developed_Med,
+    Grassland, Tree, Urban_Grassland, Urban_Tree, Water, Wetland, TOTAL
+  )
 
 
 regional_projections_2022 <- natural_systems_data$regional$inventory %>%
   filter(inventory_year == inventory_end_year) %>%
   select(-c(inventory_year, TOTAL)) %>%
   pivot_longer(cols = -c(geog_name, geog_id, ctu_class), names_to = "land_cover_type", values_to = "area")
-
 
 
 natural_systems_data$regional$null_projections <- regional_projections_2022 %>%
@@ -249,8 +234,6 @@ natural_systems_data$regional$null_projections <- regional_projections_2022 %>%
   ungroup() %>%
   # replace NAs with 0
   mutate(across(everything(), ~ tidyr::replace_na(., 0)))
-
-
 
 
 mod_bau <- ghg.ccap::run_scenario_natural_systems(
@@ -289,8 +272,6 @@ target_grassland_2050 <- 10
 target_wetland_2050 <- 33
 
 
-
-
 mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$regional$inventory,
@@ -308,15 +289,10 @@ mod_ns <- ghg.ccap::run_scenario_natural_systems(
   .grassland_area_perc = target_grassland_2050,
   .cropland_area_perc = target_cropland_2050,
   .bare_area_perc = target_bare_2050,
-
   .wetland_area_perc = target_wetland_2050,
-
   .restoration_start = 2025,
   .restoration_time = 25,
 )
-
-
-
 
 
 #
@@ -424,16 +400,7 @@ mod_ns <- ghg.ccap::run_scenario_natural_systems(
 # print(plot_wedge_total)
 
 
-
-
-
-
-
-
-
-
 plot_emissions <- function(bau, scen1, target) {
-
   # Aggregate helper
   agg <- function(df) {
     df %>%
@@ -443,7 +410,7 @@ plot_emissions <- function(bau, scen1, target) {
   }
 
   scen1_agg <- agg(scen1)
-  bau_agg   <- agg(bau)
+  bau_agg <- agg(bau)
 
   ggplot() +
     # Base fill (2005–2025, gray)
@@ -503,7 +470,6 @@ plot_emissions <- function(bau, scen1, target) {
       ),
       breaks = c("Business as usual", "Potential policy pathways", "Net zero")
     ) +
-
     guides(
       color = guide_legend(
         title = "Scenarios",
@@ -513,7 +479,6 @@ plot_emissions <- function(bau, scen1, target) {
         )
       )
     ) +
-
     labs(
       x = "Year",
       y = "",
@@ -525,7 +490,7 @@ plot_emissions <- function(bau, scen1, target) {
       panel.grid.minor = element_blank(),
       legend.position = "bottom",
       plot.title = element_text(size = 18),
-      axis.text  = element_text(size = 14),
+      axis.text = element_text(size = 14),
       legend.text = element_text(size = 18),
       legend.key.width = unit(1.2, "cm")
     ) +
@@ -533,13 +498,9 @@ plot_emissions <- function(bau, scen1, target) {
 }
 
 
-
-
-
-
 p1 <- plot_emissions(
   bau = mod_bau,
-  scen1 =  ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.ccap::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
@@ -556,7 +517,6 @@ p1 <- plot_emissions(
     .grassland_area_perc = target_grassland_2050,
     .cropland_area_perc = target_cropland_2050,
     .bare_area_perc = target_bare_2050,
-
     .restoration_start = 2025,
     .restoration_time = 25,
   ),
@@ -564,9 +524,9 @@ p1 <- plot_emissions(
 )
 
 
-p2 <-  plot_emissions(
+p2 <- plot_emissions(
   bau = mod_bau,
-  scen1 =  ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.ccap::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
@@ -593,7 +553,7 @@ p2 <-  plot_emissions(
 
 p3 <- plot_emissions(
   bau = mod_bau,
-  scen1 =  ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.ccap::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
@@ -610,7 +570,6 @@ p3 <- plot_emissions(
     .grassland_area_perc = target_grassland_2050,
     .cropland_area_perc = target_cropland_2050,
     .bare_area_perc = target_bare_2050,
-
     .restoration_start = 2025,
     .restoration_time = 25,
   ),
@@ -618,13 +577,7 @@ p3 <- plot_emissions(
 )
 
 
-
-
 p1 + p2 + p3
-
-
-
-
 
 
 target_seq_for_netZero <- ghg.ccap::run_scenario_natural_systems(
@@ -641,21 +594,20 @@ target_seq_for_netZero <- ghg.ccap::run_scenario_natural_systems(
   # .l2l_start = input$lawnsToLegumes_start_yr,
   # .l2l_time = input$lawnsToLegumes_comp_time,
   # .l2l_area_perc = input$lawnsToLegumes_area_pct,
-  .grassland_area_perc = min(100,c(2*target_grassland_2050)),
-  .cropland_area_perc = min(100,c(2*target_cropland_2050)),
-  .bare_area_perc = min(100,c(2*target_bare_2050)),
-
+  .grassland_area_perc = min(100, c(2 * target_grassland_2050)),
+  .cropland_area_perc = min(100, c(2 * target_cropland_2050)),
+  .bare_area_perc = min(100, c(2 * target_bare_2050)),
   .restoration_start = 2025,
   .restoration_time = 25,
 ) %>%
   filter(inventory_year == 2050) %>%
-  summarize(total_emissions = sum(value_emissions, na.rm=T)) %>%
+  summarize(total_emissions = sum(value_emissions, na.rm = T)) %>%
   pull(total_emissions)
 
 
 seq_gg <- plot_emissions(
   bau = mod_bau,
-  scen1 =  ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.ccap::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
@@ -666,11 +618,9 @@ seq_gg <- plot_emissions(
     .urban_tree_start = 2025,
     .urban_tree_time = 25,
     .urban_tree_area_perc = target_urbanTree_2050,
-
     .grassland_area_perc = target_grassland_2050,
     .cropland_area_perc = target_cropland_2050,
     .bare_area_perc = target_bare_2050,
-
     .restoration_start = 2025,
     .restoration_time = 25,
   ),
@@ -678,28 +628,15 @@ seq_gg <- plot_emissions(
 )
 
 
-
-
-
-
-ggplot2::ggsave(plot = seq_gg,
-                filename = paste0(here::here(),"/imgs/ns_decarbonization_pathways.png"),  # add your file path here
-                width = 12,
-                height = 6,
-                units = "in",
-                dpi = 300,
-                bg = "white")
-
-
-
-
-
-
-
-
-
-
-
+ggplot2::ggsave(
+  plot = seq_gg,
+  filename = paste0(here::here(), "/imgs/ns_decarbonization_pathways.png"), # add your file path here
+  width = 12,
+  height = 6,
+  units = "in",
+  dpi = 300,
+  bg = "white"
+)
 
 
 geography_name <- mod_ns$geog_name %>%
@@ -731,7 +668,6 @@ plot_colors <- c(
   "Bare" = "#A9A9A9",
   "Water" = "#1E90FF"
 )
-
 
 
 plot_activity <-
@@ -882,7 +818,7 @@ plot_emissions <- mod_ns %>%
         x1 = 2050, # X-coordinate where the vertical line ends
         y0 = mod_ns %>%
           filter(inventory_year == 2022) %>%
-          summarize(value_emissions=sum(value_emissions,na.rm=T)) %>%
+          summarize(value_emissions = sum(value_emissions, na.rm = T)) %>%
           pull(value_emissions), # Y-coordinate where the vertical line starts
         y1 = 0, # Y-coordinate where the vertical line ends (relative to the plot area)
         xref = "paper", # Reference to the x-axis
@@ -898,39 +834,20 @@ plot_activity
 plot_emissions
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Make a base tibble
 test_regional_inv <- expand_grid(
   inventory_year = 2005:2022,
-  source = c("Landfill", "MSW_Compost", "Onsite", "Organics",
-             "Recycling", "Waste to energy", "Wastewater")
+  source = c(
+    "Landfill", "MSW_Compost", "Onsite", "Organics",
+    "Recycling", "Waste to energy", "Wastewater"
+  )
 ) %>%
   mutate(
     geog_id = "00000000",
     geog_name = "Regional",
     geog_level = "REGION",
     # fake population: starts at 100,000 in 2005, grows by ~1% per year
-    geog_pop = round(100000 * (1.01 ^ (inventory_year - 2005))),
+    geog_pop = round(100000 * (1.01^(inventory_year - 2005))),
     # assign some dummy values (different rules depending on source)
     value_activity = case_when(
       source == "Landfill" ~ round(runif(n(), 5000, 7000)),
@@ -952,18 +869,19 @@ test_regional_inv <- expand_grid(
   )
 
 
-
 test_regional_proj <- expand_grid(
   inventory_year = 2023:2050,
-  source = c("Landfill", "MSW_Compost", "Onsite", "Organics",
-             "Recycling", "Waste to energy", "Wastewater")
+  source = c(
+    "Landfill", "MSW_Compost", "Onsite", "Organics",
+    "Recycling", "Waste to energy", "Wastewater"
+  )
 ) %>%
   mutate(
     geog_id = "00000000",
     geog_name = "Regional",
     geog_level = "REGION",
     # fake population: starts at 100,000 in 2005, grows by ~1% per year
-    geog_pop = round(max(test_regional_inv$geog_pop) * (1.01 ^ (inventory_year - 2023))),
+    geog_pop = round(max(test_regional_inv$geog_pop) * (1.01^(inventory_year - 2023))),
     # assign some dummy values (different rules depending on source)
     value_activity = case_when(
       source == "Landfill" ~ round(runif(n(), 5000, 7000)),
@@ -987,15 +905,19 @@ test_regional_proj <- expand_grid(
 
 test_solid_waste_baseline <-
   ghg.ccap::waste_data$inventory %>%
-  filter(inventory_year == 2022 & source !="Wastewater") %>%
+  filter(inventory_year == 2022 & source != "Wastewater") %>%
   filter(geog_name == "Anoka") %>%
-  mutate(geog_name = "Regional",
-         geog_id = "00000000",
-         geog_level = "REGION") %>%
+  mutate(
+    geog_name = "Regional",
+    geog_id = "00000000",
+    geog_level = "REGION"
+  ) %>%
   dplyr::select(-data_type, -inventory_year) %>%
   group_by(geog_id) %>%
-  mutate(total_activity = sum(value_activity),
-         pct_of_total = value_activity / total_activity) %>%
+  mutate(
+    total_activity = sum(value_activity),
+    pct_of_total = value_activity / total_activity
+  ) %>%
   ungroup() %>%
   left_join(
     tibble(
@@ -1009,12 +931,11 @@ test_solid_waste_baseline <-
   mutate(
     changeFromTarget = pct_of_total - target2030,
     action = case_when(
-      changeFromTarget < 0 ~ paste0("Increase ",source),
-      changeFromTarget > 0 ~ paste0("Decrease ",source),
-      TRUE ~ paste0("Keep ",source)
+      changeFromTarget < 0 ~ paste0("Increase ", source),
+      changeFromTarget > 0 ~ paste0("Decrease ", source),
+      TRUE ~ paste0("Keep ", source)
     )
   )
-
 
 
 test <- run_module_waste(
@@ -1034,37 +955,24 @@ test <- run_module_waste(
   .diverted_to_organics_pct = 0.3,
   .diverted_to_wte_pct = 0.2,
   .diverted_to_onsite_pct = 0
-  )
+)
 
 
 test
 
 
-rbind(test$emissions$inv,
-      test$emissions$future) %>%
+rbind(
+  test$emissions$inv,
+  test$emissions$future
+) %>%
   rename(emissions_year = inventory_year) %>%
   group_by(emissions_year) %>%
   summarize(value_emissions = sum(value_emissions)) %>%
   ggplot() +
   # Base fill (2005-2022, gray)
   geom_ribbon(aes(x = emissions_year, ymin = 0, ymax = value_emissions),
-              fill = "gray80", alpha = 0.7)
-
-
-
-
-
-
+    fill = "gray80", alpha = 0.7
+  )
 
 
 ## Next we need to build out the actual data for the 11-county region
-
-
-
-
-
-
-
-
-
-

@@ -9,11 +9,12 @@ run_module_transportation(
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   .selected_ctu = "all",
+  .parking_cost = ghg.ccap::parking_cost,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -35,9 +36,11 @@ run_module_transportation(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
+  .vmt_reduction_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
+  .bev_pct_stock = 0,
+  .hev_pct_stock = 0,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast = ghg.ccap::elast,
   .elast_5d = ghg.ccap::elast_5d,
@@ -54,6 +57,10 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
+
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
@@ -65,9 +72,6 @@ Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
 \item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -128,11 +132,6 @@ Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
 Default is \code{0}.}
 
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
-
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
@@ -160,6 +159,7 @@ direct GHG, indirect GHG, and costs
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

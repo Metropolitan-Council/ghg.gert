@@ -31,7 +31,7 @@ Returns a tidy summary of restoration allocations for display
 in the UI. Shows what land conversions would occur with given inputs.
 }
 \examples{
-\dontrun
+\dontrun{
 summary <- get_restoration_summary(
   df_null = my_projections,
   restore_wetland = TRUE,
@@ -40,4 +40,6 @@ summary <- get_restoration_summary(
   prairie_area_sqkm = 3
 )
 # Returns tibble showing source → target conversions
+}
+
 }

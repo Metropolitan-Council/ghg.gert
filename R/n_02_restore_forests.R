@@ -11,22 +11,19 @@
 #' @export
 # Forest Restoration -------------------------------------------
 restore_forests <- function(df_null,
-                             start_yr,
-                             end_yr,
-                             grass_pct,
-                             bare_pct,
-                             crop_pct
-                             ) {
-
-
+                            start_yr,
+                            end_yr,
+                            grass_pct,
+                            bare_pct,
+                            crop_pct) {
   df_max <- df_null %>%
     # filter for the last year in the dataset
     filter(inventory_year == max(inventory_year)) %>%
     mutate(
       area_change = case_when(
-        land_cover_type == "Grassland" ~ -1*area * (grass_pct / 100),
-        land_cover_type == "Bare" ~ -1*area * (bare_pct / 100),
-        land_cover_type == "Cropland" ~ -1*area * (crop_pct / 100),
+        land_cover_type == "Grassland" ~ -1 * area * (grass_pct / 100),
+        land_cover_type == "Bare" ~ -1 * area * (bare_pct / 100),
+        land_cover_type == "Cropland" ~ -1 * area * (crop_pct / 100),
         land_cover_type == "Tree" ~ sum(
           case_when(
             land_cover_type == "Grassland" ~ area * (grass_pct / 100),
@@ -78,7 +75,7 @@ restore_forests <- function(df_null,
       filter(land_cover_type == source_types[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Tree",
         area = 0,
@@ -91,11 +88,11 @@ restore_forests <- function(df_null,
   df_export <- simulate_land_conversion(
     df = df_null %>%
       left_join(
-        df_max %>% dplyr::select(c(land_cover_type,area_change)),
+        df_max %>% dplyr::select(c(land_cover_type, area_change)),
         by = join_by(land_cover_type)
       ),
     start_yr = start_yr,
-    end_yr   = end_yr
+    end_yr = end_yr
   ) %>%
     dplyr::select(colnames(df_null))
 

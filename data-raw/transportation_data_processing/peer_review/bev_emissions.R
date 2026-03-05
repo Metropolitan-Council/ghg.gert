@@ -24,7 +24,6 @@ bev_grid_combo <- furrr::future_map(
           .selected_ctu = "St. Paul",
           .calc_transp_ghg_embodied = TRUE,
           .bev_pct_sales = bev_pct,
-          .grid_decarbonization_pct = grid_pct,
           .scenario = paste0("bev", bev_pct, "_grid", grid_pct)
         )
       }

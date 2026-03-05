@@ -33,6 +33,7 @@ Calculate cost estimates in dollars
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},
 \code{\link{calc_ghg_direct}()},

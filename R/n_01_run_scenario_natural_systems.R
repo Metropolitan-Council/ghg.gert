@@ -41,7 +41,7 @@
 #' @import tidyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' # Wetland restoration at 40% ambition + 5 sq km forest
 #' result <- run_scenario_natural_systems(
 #'   .selected_ctu = "Lakeville",
@@ -60,38 +60,32 @@
 #'   .prairie_area_sqkm = 5,
 #'   .community_tree_pct = 25
 #' )
+#' }
 run_scenario_natural_systems <- function(
-    tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
-    tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
-    tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
-    .selected_ctu = "Regional",
-
-    # Wetland restoration (GIS-constrained)
-    .restore_wetland = FALSE,
-    .wetland_ambition = 50,
-
-    # Forest and prairie restoration (direct acreage)
-    .forest_area_sqkm = 0,
-    .prairie_area_sqkm = 0,
-
-    # Restoration timing
-    .restoration_start = 2025,
-    .restoration_end = 2050,
-
-    # Community tree planting (urban - separate from restoration)
-    .community_tree_pct = 0,
-    .community_tree_start = 2025,
-    .community_tree_end = 2050,
-
-    # Pocket prairies - urban grassland upgrade (separate from restoration)
-    .pocket_prairie_pct = 0,
-    .pocket_prairie_start = 2025,
-    .pocket_prairie_end = 2050,
-
-    .enviro_factors = ghg.ccap::enviro_factors,
-    detail = FALSE
+  tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
+  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+  tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
+  .selected_ctu = "Regional",
+  # Wetland restoration (GIS-constrained)
+  .restore_wetland = FALSE,
+  .wetland_ambition = 50,
+  # Forest and prairie restoration (direct acreage)
+  .forest_area_sqkm = 0,
+  .prairie_area_sqkm = 0,
+  # Restoration timing
+  .restoration_start = 2025,
+  .restoration_end = 2050,
+  # Community tree planting (urban - separate from restoration)
+  .community_tree_pct = 0,
+  .community_tree_start = 2025,
+  .community_tree_end = 2050,
+  # Pocket prairies - urban grassland upgrade (separate from restoration)
+  .pocket_prairie_pct = 0,
+  .pocket_prairie_start = 2025,
+  .pocket_prairie_end = 2050,
+  .enviro_factors = ghg.ccap::enviro_factors,
+  detail = FALSE
 ) {
-
   # ===========================================================================
   # Select appropriate data based on geography
   # ===========================================================================
@@ -201,10 +195,9 @@ run_scenario_natural_systems <- function(
 #'
 #' @export
 get_ctu_restoration_potential <- function(
-    tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
-    .selected_ctu = "Regional"
+  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+  .selected_ctu = "Regional"
 ) {
-
   df_null <- ghg.ccap::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
   get_restoration_potential(df_null)

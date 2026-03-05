@@ -37,7 +37,6 @@ testthat::test_that("Minneapolis population forecast matches January 2023 releas
 })
 
 
-
 testthat::test_that("Maple Plain population forecast matches January 2023 released", {
   testthat::expect_equal(
     demographic_data %>%
@@ -132,7 +131,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 #
 #   # washington
@@ -149,7 +148,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 #
 #   # ramsey
@@ -166,7 +165,7 @@ testthat::test_that("Rogers total number of jobs available", {
 #       )
 #     ) %>%
 #     magrittr::extract2("value") %>%
-#     unique() %>%
+#     dplyr::distinct() %>%
 #     length(), 1)
 # })
 

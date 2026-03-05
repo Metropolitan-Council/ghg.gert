@@ -15,12 +15,12 @@ ceestock_raw <- readr::read_csv(
   mutate(
     # unit conversions
     across(.cols = matches("elec") & !matches("pct"), .fns = ~ .x * 0.2933),
-    across(.cols = matches("gas")  & !matches("pct"), .fns = ~ .x * 0.963),
+    across(.cols = matches("gas") & !matches("pct"), .fns = ~ .x * 0.963),
     # derived column
     gas_other_mm_btu = gas_mm_btu - gas_heat_mm_btu
   ) %>%
-  rename_with(~ str_replace(.x, "mm_btu", "mwh"),  matches("elec") & !matches("pct")) %>%
-  rename_with(~ str_replace(.x, "mm_btu", "mcf"),  matches("gas")  & !matches("pct")) %>%
+  rename_with(~ str_replace(.x, "mm_btu", "mwh"), matches("elec") & !matches("pct")) %>%
+  rename_with(~ str_replace(.x, "mm_btu", "mcf"), matches("gas") & !matches("pct")) %>%
   rename_with(~ str_replace(.x, "savings", "change")) %>%
   mutate(
     mc_classification = if_else(
@@ -44,8 +44,8 @@ bin_to_att <- function(x) {
   case_when(
     x %in% c("1000 to 1499", "1500 to 1999") ~ "1000 to 1999",
     x %in% c("2000 to 2499", "2500 to 2999") ~ "2000 to 2999",
-    x %in% c("3000 to 3999", "4000+")        ~ "3000+",
-    TRUE ~ x  # <1000 passes through
+    x %in% c("3000 to 3999", "4000+") ~ "3000+",
+    TRUE ~ x # <1000 passes through
   )
 }
 
@@ -55,39 +55,34 @@ BINS_ATT <- c("<1000", "1000 to 1999", "2000 to 2999", "3000+")
 
 apply_strategy_mutate <- function(data, strategy) {
   switch(strategy,
-
-         "Baseline" = data,  # no additional mutation needed
-
-         "Retrofit" = data,  # savings columns already correct for Only Wx
-
-         "Heatpump" = data %>% mutate(
-           gas_other_mcf        = gas_mcf - gas_heat_mcf,
-           gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
-           # remove appliance effects from baseline totals
-           gas_mcf              = gas_mcf  - gas_other_change_mcf,
-           elec_mwh             = elec_mwh - elec_other_change_mwh,
-           # isolate heating change only
-           gas_change_mcf       = gas_heat_change_mcf,
-           elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
-         ),
-
-         "Electric appliances" = data %>% mutate(
-           gas_other_mcf    = gas_mcf  - gas_heat_mcf,
-           # remove heating change from totals
-           gas_change_mcf   = gas_change_mcf - gas_heat_change_mcf,
-           gas_mcf          = gas_mcf  - gas_heat_change_mcf,
-           elec_mwh         = elec_mwh - (elec_heat_change_mwh + elec_cool_change_mwh),
-           elec_change_mwh  = elec_other_change_mwh
-         ),
-
-         "Retrofit and heatpump" = data %>% mutate(
-           gas_other_mcf        = gas_mcf - gas_heat_mcf,
-           gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
-           gas_mcf              = gas_mcf  - gas_other_change_mcf,
-           elec_mwh             = elec_mwh - elec_other_change_mwh,
-           gas_change_mcf       = gas_heat_change_mcf,
-           elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
-         )
+    "Baseline" = data, # no additional mutation needed
+    "Retrofit" = data, # savings columns already correct for Only Wx
+    "Heatpump" = data %>% mutate(
+      gas_other_mcf        = gas_mcf - gas_heat_mcf,
+      gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
+      # remove appliance effects from baseline totals
+      gas_mcf              = gas_mcf - gas_other_change_mcf,
+      elec_mwh             = elec_mwh - elec_other_change_mwh,
+      # isolate heating change only
+      gas_change_mcf       = gas_heat_change_mcf,
+      elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
+    ),
+    "Electric appliances" = data %>% mutate(
+      gas_other_mcf    = gas_mcf - gas_heat_mcf,
+      # remove heating change from totals
+      gas_change_mcf   = gas_change_mcf - gas_heat_change_mcf,
+      gas_mcf          = gas_mcf - gas_heat_change_mcf,
+      elec_mwh         = elec_mwh - (elec_heat_change_mwh + elec_cool_change_mwh),
+      elec_change_mwh  = elec_other_change_mwh
+    ),
+    "Retrofit and heatpump" = data %>% mutate(
+      gas_other_mcf        = gas_mcf - gas_heat_mcf,
+      gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
+      gas_mcf              = gas_mcf - gas_other_change_mcf,
+      elec_mwh             = elec_mwh - elec_other_change_mwh,
+      gas_change_mcf       = gas_heat_change_mcf,
+      elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
+    )
   )
 }
 
@@ -95,11 +90,11 @@ apply_strategy_mutate <- function(data, strategy) {
 
 # output values per strategy (currently only using elec_mwh)
 strategy_vcols <- list(
-  "Baseline"             = c("elec_mwh", "gas_heat_mcf", "gas_mcf", "gas_other_mcf"),
-  "Retrofit"             = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Heatpump"             = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Electric appliances"  = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Retrofit and heatpump"= c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf")
+  "Baseline" = c("elec_mwh", "gas_heat_mcf", "gas_mcf", "gas_other_mcf"),
+  "Retrofit" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Heatpump" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Electric appliances" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Retrofit and heatpump" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf")
 )
 
 # CEEStock scenario labels
@@ -112,15 +107,16 @@ strategy_scenario_filter <- list(
   "Retrofit and heatpump" = "Dual Fuel 80%"
 )
 
-#strategy builder func
+# strategy builder func
 
 build_strategy_sf <- function(raw, strategy_label, vcols) {
-
   raw_scenario <- strategy_scenario_filter[[strategy_label]]
 
   prepped <- raw %>%
-    filter(model_heating_fuel == "Natural Gas",
-           scenario == raw_scenario) %>%
+    filter(
+      model_heating_fuel == "Natural Gas",
+      scenario == raw_scenario
+    ) %>%
     mutate(
       scenario  = strategy_label,
       sqft_fine = bin_all(model_geometry_floor_area),
@@ -164,9 +160,9 @@ build_strategy_sf <- function(raw, strategy_label, vcols) {
     build_year = all_vintages,
     sqft_bin   = BINS_ATT
   ) %>%
-    left_join(att_obs,      by = c("build_year", "sqft_bin")) %>%
+    left_join(att_obs, by = c("build_year", "sqft_bin")) %>%
     left_join(det_collapsed, by = c("build_year", "sqft_bin")) %>%
-    left_join(bin_ratios,   by = "sqft_bin") %>%
+    left_join(bin_ratios, by = "sqft_bin") %>%
     mutate(
       observed = !is.na(elec_mwh),
       # fill missing with det × ratio
@@ -174,7 +170,7 @@ build_strategy_sf <- function(raw, strategy_label, vcols) {
         all_of(vcols),
         ~ coalesce(.x, get(paste0(cur_column(), "_det")) * get(paste0("ratio_", cur_column())))
       ),
-      scenario          = strategy_label,
+      scenario = strategy_label,
       mc_classification = "single_family_attached"
     ) %>%
     select(scenario, build_year, sqft_bin, mc_classification, all_of(vcols), observed)
@@ -217,7 +213,7 @@ purrr::iwalk(
     "%-10s  det=%d  att observed=%d  att imputed=%d",
     .y,
     sum(.x$mc_classification == "single_family_detached"),
-    sum(.x$mc_classification == "single_family_attached" &  .x$observed),
+    sum(.x$mc_classification == "single_family_attached" & .x$observed),
     sum(.x$mc_classification == "single_family_attached" & !.x$observed)
   ))
 )

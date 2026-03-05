@@ -17,10 +17,7 @@ restore_wetlands <- function(df_null,
                              tree_pct,
                              grass_pct,
                              bare_pct,
-                             crop_pct
-                             ) {
-
-
+                             crop_pct) {
   # construct a dataframe that calculates total land cover area change by the end
   # of the dataset using the provided percentages and potential wetland area
   df_max <- df_null %>%
@@ -32,10 +29,10 @@ restore_wetlands <- function(df_null,
         TRUE ~ potential_wetland_area
       ),
       area_change = case_when(
-        land_cover_type == "Tree" ~ -1*actual_wetland_area * (tree_pct / 100),
-        land_cover_type == "Grassland" ~ -1*actual_wetland_area * (grass_pct / 100),
-        land_cover_type == "Bare" ~ -1*actual_wetland_area * (bare_pct / 100),
-        land_cover_type == "Cropland" ~ -1*actual_wetland_area * (crop_pct / 100),
+        land_cover_type == "Tree" ~ -1 * actual_wetland_area * (tree_pct / 100),
+        land_cover_type == "Grassland" ~ -1 * actual_wetland_area * (grass_pct / 100),
+        land_cover_type == "Bare" ~ -1 * actual_wetland_area * (bare_pct / 100),
+        land_cover_type == "Cropland" ~ -1 * actual_wetland_area * (crop_pct / 100),
         land_cover_type == "Wetland" ~ sum(
           case_when(
             land_cover_type == "Tree" ~ actual_wetland_area * (tree_pct / 100),
@@ -47,7 +44,6 @@ restore_wetlands <- function(df_null,
         ),
         TRUE ~ 0
       )
-
     )
 
 
@@ -91,7 +87,7 @@ restore_wetlands <- function(df_null,
       filter(land_cover_type == source_types[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Wetland",
         area = 0,
@@ -103,17 +99,14 @@ restore_wetlands <- function(df_null,
   }
 
 
-
-
-
   df_export <- simulate_land_conversion(
     df = df_null %>%
       left_join(
-        df_max %>% dplyr::select(c(land_cover_type,area_change)),
+        df_max %>% dplyr::select(c(land_cover_type, area_change)),
         by = join_by(land_cover_type)
       ),
     start_yr = start_yr,
-    end_yr   = end_yr
+    end_yr = end_yr
   ) %>%
     dplyr::select(colnames(df_null))
 

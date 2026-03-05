@@ -3,6 +3,7 @@ testthat::test_that("Gasoline fuel correct", {
     .scenario = "BAU",
     .selected_ctu = "Saint Paul",
     tb = st_paul_passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "PLDV",
     .stock = "SIStock",
     .variable = "PMT",
@@ -44,6 +45,7 @@ testthat::test_that("Diesel fuel correct", {
     .scenario = "BAU",
     .selected_ctu = "all",
     tb = st_paul_passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "PLDV",
     .stock = "CIStock",
     .variable = "PMT",
@@ -87,11 +89,11 @@ testthat::test_that("Hybrid fuel correct", {
   )
 
 
-
   hev_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
     tb = st_paul_passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "PLDV",
     .stock = "HEVStock",
     .variable = "PMT",
@@ -112,7 +114,6 @@ testthat::test_that("Hybrid fuel correct", {
   )
 
 
-
   purrr::map2(
     hev_fuel_use$fuel_use_gallons_kwh,
     c(
@@ -127,7 +128,6 @@ testthat::test_that("Hybrid fuel correct", {
 })
 
 
-
 testthat::test_that("BEV fuel correct", {
   fcm_test_bev <- calc_fuel_cost_mile(
     st_paul_passenger,
@@ -138,7 +138,6 @@ testthat::test_that("BEV fuel correct", {
   )
 
 
-
   bev_vmt <- calc_vmt_forecast(
     .scenario = "BAU",
     .selected_ctu = "all",
@@ -146,6 +145,7 @@ testthat::test_that("BEV fuel correct", {
     .mode = "PLDV",
     .stock = "BEVStock",
     .variable = "PMT",
+    .vehicle_occupancy = vehicle_occupancy,
     .tb_fuel_cost_mile = fcm_test_bev,
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
@@ -164,8 +164,7 @@ testthat::test_that("BEV fuel correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     mutate(class = "BEV")
@@ -200,6 +199,7 @@ testthat::test_that("Gasoline fuel correct with strategy", {
     .scenario = "BAU",
     .selected_ctu = "Saint Paul",
     tb = transportation_data$passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "PLDV",
     .stock = "SIStock",
     .variable = "PMT",
@@ -245,6 +245,7 @@ testthat::test_that("Gasoline fuel correct with strategy, Eagan", {
     .scenario = "BAU",
     .selected_ctu = "Eagan",
     tb = transportation_data$passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "PLDV",
     .stock = "SIStock",
     .variable = "PMT",

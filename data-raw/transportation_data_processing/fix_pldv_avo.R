@@ -48,8 +48,10 @@ hh <- bind_rows(
 )
 
 cprg_tbi_hh_counties <- c(
-  "Anoka MN", "Carver MN",
-  "Dakota MN", "Hennepin MN",
+  "Anoka MN",
+  "Carver MN",
+  "Dakota MN",
+  "Hennepin MN",
   "Ramsey MN",
   "Scott MN",
   "Washington MN"
@@ -77,7 +79,7 @@ hh_cd_levels <- hh_region %>%
 
 avo_imagine <- trip %>%
   filter(
-    hh_id %in% hh$hh_id,
+    hh_id %in% hh_region$hh_id,
     mode_type %in% c(
       "Household Vehicle",
       "Other Vehicle",
@@ -109,6 +111,40 @@ avo_imagine <- trip %>%
   ) %>%
   ungroup()
 
+# region level AVO, no CD grouping
+avo_region <- trip %>%
+  filter(
+    hh_id %in% hh_region$hh_id,
+    mode_type %in% c(
+      "Household Vehicle",
+      "Other Vehicle",
+      "For-Hire Vehicle"
+    ),
+    # origin and destination in MPO area
+    trip_o_in_mpo == TRUE,
+    trip_d_in_mpo == TRUE,
+    # ensure observed trip duration,
+    # reasonable distance
+    # origin or destination in our counties
+    duration_minutes > 0,
+    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+    distance_miles < 720,
+    distance_miles > 0
+  ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
+  filter(
+    linked_trip_weight > 0,
+    !is.na(cd_2050)
+  ) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+  # group_by(cd_2050_broad) %>%
+  summarize(
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
+    n_trips = srvyr::survey_total(),
+    n_trips_sample = n()
+  ) %>%
+  ungroup()
 
 
 # compare new with previous ------
@@ -132,7 +168,6 @@ avo_exist <- transportation_data$passenger %>%
     mode == "PLDV",
     var == "AVO"
   ) %>%
-  # select(mode, var, year, geog_id, geog_name, value) %>%
   unique()
 
 # average AVO has increased

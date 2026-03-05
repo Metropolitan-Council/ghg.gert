@@ -38,7 +38,6 @@ c(
   # .res_natural_gas_for_space_heating_pct = 0.71, # env factor
   # .res_natural_gas_for_water_heating_pct = 0.24, # env factor
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -65,13 +64,11 @@ c(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d
 )
-
 
 
 bau <- ghg.ccap::run_all_modules(
@@ -90,8 +87,6 @@ bau <- ghg.ccap::run_all_modules(
 
   ## building energy module parameters
 
-  # 38% in 2018
-  .grid_decarbonization_pct = 0.6, # user can modify
   ## non residential energy parameters
   .renewable_ng_nonres = FALSE,
   # switch to electric heating
@@ -137,6 +132,5 @@ bau <- ghg.ccap::run_all_modules(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0
 )

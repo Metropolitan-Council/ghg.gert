@@ -157,7 +157,6 @@ testthat::test_that("calc_housing_leed", {
   })
 
 
-
   test_that("Willernie LEED works", {
     leed0 <- calc_housing_leed(
       res_tb = building_data$residential,

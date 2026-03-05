@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 library(ghg.ccap)
 library(tidyverse)
 
@@ -18,7 +18,6 @@ test <- run_module_waste(
 )
 
 
-
 ## Need to get regional scale emissions from solid waste, add each city
 all_ctus <- waste_data$inventory %>%
   filter(geog_level != "COUNTY") %>%
@@ -33,18 +32,19 @@ sw_list <- list()
 
 i <- 1
 for (i in seq_along(all_ctus)) {
-
   .ctu_id <- all_ctus[i]
   .ctu <- names(.ctu_id)
 
-  print(paste0("now running ",.ctu, " (", i, " of ", length(all_ctus),")"))
+  print(paste0("now running ", .ctu, " (", i, " of ", length(all_ctus), ")"))
 
   test <- run_module_waste(
     .selected_ctu = .ctu
   )
 
-  df <- rbind(test$emissions$inv,
-              test$emissions$future) %>%
+  df <- rbind(
+    test$emissions$inv,
+    test$emissions$future
+  ) %>%
     group_by(inventory_year, geog_id, geog_name, geog_level) %>%
     summarize(
       value_emissions = sum(value_emissions),
@@ -54,21 +54,21 @@ for (i in seq_along(all_ctus)) {
       data_source = first(data_source),
       factor_source = first(factor_source),
       .groups = "keep"
-    ) %>% ungroup()
+    ) %>%
+    ungroup()
 
 
   # add to list
   sw_list[[i]] <- df
-
-
 }
-
 
 
 # combine all data frames in the list
 solid_waste_emissions <- bind_rows(sw_list) %>%
-  dplyr::select(c(inventory_year, geog_id, geog_name, geog_level,
-                  value_emissions, units_emissions, sector, category))
+  dplyr::select(c(
+    inventory_year, geog_id, geog_name, geog_level,
+    value_emissions, units_emissions, sector, category
+  ))
 
 solid_waste_emissions_regional <- solid_waste_emissions %>%
   group_by(inventory_year) %>%
@@ -81,8 +81,6 @@ solid_waste_emissions_regional <- solid_waste_emissions %>%
   ungroup()
 
 
-
-
 # solid_waste_emissions_regional %>%
 #   ggplot() +
 #   geom_line(aes(x = inventory_year, y = value_emissions)) +
@@ -93,20 +91,23 @@ solid_waste_emissions_regional <- solid_waste_emissions %>%
 #   )
 
 
-
 # wastewater emissions all cities -----------------------------------------
 
-wastewater_emissions <- rbind(wastewater_data$inventory,
-      wastewater_data$projections) %>%
+wastewater_emissions <- rbind(
+  wastewater_data$inventory,
+  wastewater_data$projections
+) %>%
   filter(geog_level != "COUNTY") %>%
   arrange(geog_name, inventory_year) %>%
   rename(category = source) %>%
   mutate(sector = "Waste") %>%
-  dplyr::select(c(inventory_year, geog_id, geog_name, geog_level,
-                  value_emissions, units_emissions, sector, category)) %>%
+  dplyr::select(c(
+    inventory_year, geog_id, geog_name, geog_level,
+    value_emissions, units_emissions, sector, category
+  )) %>%
   mutate(
-    units_emissions = "Metric tons CO2e")
-
+    units_emissions = "Metric tons CO2e"
+  )
 
 
 wastewater_emissions_regional <- wastewater_emissions %>%
@@ -120,7 +121,6 @@ wastewater_emissions_regional <- wastewater_emissions %>%
   ungroup()
 
 
-
 # wastewater_emissions_regional %>%
 #   ggplot() +
 #   geom_line(aes(x = inventory_year, y = value_emissions)) +
@@ -131,7 +131,6 @@ wastewater_emissions_regional <- wastewater_emissions %>%
 #   )
 
 
-
 # Add natural systems (oh god ooh god) ------------------------------------
 
 
@@ -139,17 +138,17 @@ ns_list <- list()
 # i <- names(all_ctus) %in% "Roseville" %>% which()
 i <- 1
 for (i in seq_along(all_ctus)) {
-
   .ctu_id <- all_ctus[i]
   .ctu <- names(.ctu_id)
 
-  print(paste0("now running ",.ctu, " (", i, " of ", length(all_ctus),")"))
+  print(paste0("now running ", .ctu, " (", i, " of ", length(all_ctus), ")"))
 
   test <- run_scenario_natural_systems(
     .selected_ctu = .ctu
   ) %>% rename(geog_level = ctu_class)
 
-  test %>% filter(!is.na(seq_mtco2e_sqkm)) %>%
+  test %>%
+    filter(!is.na(seq_mtco2e_sqkm)) %>%
     group_by(inventory_year) %>%
     summarize(value_emssions = sum(value_emissions))
 
@@ -158,7 +157,6 @@ for (i in seq_along(all_ctus)) {
     filter(inventory_year >= 2005) %>%
     filter(!is.na(seq_mtco2e_sqkm)) %>%
     group_by(inventory_year, geog_id, geog_name, geog_level) %>%
-
     summarize(
       value_emissions = sum(value_emissions),
       units_emissions = "Metric tons CO2e",
@@ -169,15 +167,14 @@ for (i in seq_along(all_ctus)) {
 
   # add to list
   ns_list[[i]] <- df
-
-
 }
 
 
-
 natural_systems_sequestration <- bind_rows(ns_list) %>%
-  dplyr::select(c(inventory_year, geog_id, geog_name, geog_level,
-                  value_emissions, units_emissions, sector, category))
+  dplyr::select(c(
+    inventory_year, geog_id, geog_name, geog_level,
+    value_emissions, units_emissions, sector, category
+  ))
 
 
 natural_systems_sequestration_regional <- natural_systems_sequestration %>%
@@ -191,17 +188,18 @@ natural_systems_sequestration_regional <- natural_systems_sequestration %>%
   ungroup()
 
 
+bau_region <- rbind(
+  natural_systems_sequestration_regional,
+  wastewater_emissions_regional,
+  solid_waste_emissions_regional
+)
 
-bau_region <- rbind(natural_systems_sequestration_regional,
-      wastewater_emissions_regional,
-      solid_waste_emissions_regional)
 
-
-
-bau_ctu <- rbind(natural_systems_sequestration,
-      wastewater_emissions,
-      solid_waste_emissions)
-
+bau_ctu <- rbind(
+  natural_systems_sequestration,
+  wastewater_emissions,
+  solid_waste_emissions
+)
 
 
 # write.csv(bau_region,
@@ -210,29 +208,41 @@ bau_ctu <- rbind(natural_systems_sequestration,
 # write.csv(bau_ctu,
 #           file = "data-raw/peer_review/tmp/bau_ctu_ww_sw_ns.csv",
 #           row.names = FALSE)
-bau_region %>% pull(category) %>% unique()
+bau_region %>%
+  pull(category) %>%
+  unique()
 
 p1 <- bau_region %>%
   ggplot() +
   theme_minimal() +
-  geom_ribbon(data = . %>% filter(category == "Solid waste"),
-              aes(x = inventory_year, ymin=0, ymax = value_emissions, fill = "#ae017e"),
-              alpha = 0.5) +
-  geom_ribbon(data = . %>% filter(category %in% c("Wastewater", "Solid waste")) %>%
-                pivot_wider(names_from = category, values_from = value_emissions) %>%
-                mutate(total = `Wastewater` + `Solid waste`,
-                       min = `Solid waste`),
-              aes(x = inventory_year, ymin=min, ymax = total, fill="#f768a1"),
-              alpha = 0.5) +
-  geom_ribbon(data = bau_region %>% filter(category == "Natural systems"),
-               aes(x = inventory_year, ymin=value_emissions, ymax = 0, fill = "#7fbc41"),
-               alpha = 0.5) +
-  geom_hline(yintercept = 0, color = "gray30", linetype="dashed") +
-  geom_vline(xintercept = 2023, color = "gray30", linetype="dashed") +
-  scale_fill_identity(name = "Category",
-                    breaks = c("#f768a1", "#ae017e", "#7fbc41"),
-                    labels = c("Wastewater", "Solid waste", "Natural systems"),
-                    guide = "legend") +
+  geom_ribbon(
+    data = . %>% filter(category == "Solid waste"),
+    aes(x = inventory_year, ymin = 0, ymax = value_emissions, fill = "#ae017e"),
+    alpha = 0.5
+  ) +
+  geom_ribbon(
+    data = . %>% filter(category %in% c("Wastewater", "Solid waste")) %>%
+      pivot_wider(names_from = category, values_from = value_emissions) %>%
+      mutate(
+        total = `Wastewater` + `Solid waste`,
+        min = `Solid waste`
+      ),
+    aes(x = inventory_year, ymin = min, ymax = total, fill = "#f768a1"),
+    alpha = 0.5
+  ) +
+  geom_ribbon(
+    data = bau_region %>% filter(category == "Natural systems"),
+    aes(x = inventory_year, ymin = value_emissions, ymax = 0, fill = "#7fbc41"),
+    alpha = 0.5
+  ) +
+  geom_hline(yintercept = 0, color = "gray30", linetype = "dashed") +
+  geom_vline(xintercept = 2023, color = "gray30", linetype = "dashed") +
+  scale_fill_identity(
+    name = "Category",
+    breaks = c("#f768a1", "#ae017e", "#7fbc41"),
+    labels = c("Wastewater", "Solid waste", "Natural systems"),
+    guide = "legend"
+  ) +
   labs(
     title = "Regional BAU emissions",
     y = "Emissions (metric tons CO2e)",
@@ -248,20 +258,24 @@ p2 <- bau_region %>%
   ggplot() +
   theme_minimal() +
   geom_bar(aes(x = as.factor(inventory_year), y = value_emissions, fill = category),
-           stat = "identity",
-           position = "stack",
-           alpha = 0.5) +
-  geom_hline(yintercept = 0, color = "gray30", linetype="dashed") +
-  scale_fill_manual(name = "Category",
-                    values = c("Wastewater" = "#f768a1",
-                               "Solid waste" = "#ae017e",
-                               "Natural systems" = "#7fbc41")) +
+    stat = "identity",
+    position = "stack",
+    alpha = 0.5
+  ) +
+  geom_hline(yintercept = 0, color = "gray30", linetype = "dashed") +
+  scale_fill_manual(
+    name = "Category",
+    values = c(
+      "Wastewater" = "#f768a1",
+      "Solid waste" = "#ae017e",
+      "Natural systems" = "#7fbc41"
+    )
+  ) +
   labs(
     title = NULL,
     y = NULL,
     x = NULL
   )
-
 
 
 p_final <- p1 +
@@ -285,8 +299,6 @@ p_final
 #        dpi = 300)
 
 
-
-
 bau_region %>%
   filter(category != "Natural systems") %>%
   filter(inventory_year %in% c(2005, 2022, 2050)) %>%
@@ -294,23 +306,13 @@ bau_region %>%
   group_by(inventory_year) %>%
   summarize(value_emissions = sum(value_emissions)) %>%
   # compared to baseline, how much did emissions change in 2022
-  mutate(change_from_2005 = value_emissions - value_emissions[inventory_year == 2005],
-         pct_change = change_from_2005 / value_emissions[inventory_year == 2005] * 100)
-
-
-
-
-
-
-
-
-
+  mutate(
+    change_from_2005 = value_emissions - value_emissions[inventory_year == 2005],
+    pct_change = change_from_2005 / value_emissions[inventory_year == 2005] * 100
+  )
 
 
 waste_data$inventory %>%
   filter(geog_level == "COUNTY" &
-           inventory_year == 2022) %>%
+    inventory_year == 2022) %>%
   filter(geog_name == "Hennepin County")
-
-
-

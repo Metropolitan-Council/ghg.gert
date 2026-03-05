@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 # 1. Load CTU and county boundaries ---------------------------------------
 
 # Set your reference year
@@ -10,31 +10,29 @@ ref_year <- 2022
 lookup_ctu_county <- rbind(
   geog_index %>%
     dplyr::select(geog_name, geog_level, geog_id, geog_id_type),
-
   demographic_data %>% filter(geog_level == "COUNTY") %>%
     filter(inventory_year == ref_year & sp_categories == "population") %>%
     dplyr::select(geog_name, geog_level, geog_id, geog_id_type)
 ) %>% arrange(geog_name)
 
 
-
 # Return CTU population percentages by county (for dealing with CTUs that cross county boundaries)
 ctu_pop_by_county <-
   ctu_county %>% # Load ctu_county - includes information about CTUs that span multiple counties
   dplyr::select(-pct_land_area) %>%
-  mutate(ctu_id = stringr::str_pad(ctu_id, width = 8, pad = "0"),
-         co_code = paste0("27",stringr::str_pad(co_code, width = 3, pad = "0"))) %>%
-
+  mutate(
+    ctu_id = stringr::str_pad(ctu_id, width = 8, pad = "0"),
+    co_code = paste0("27", stringr::str_pad(co_code, width = 3, pad = "0"))
+  ) %>%
   # NOTE: Empire (ctu_id = "02831011") was not in the ctu_county dataframe,
   # so it needs to be added here. Not sure why it was missing...
   bind_rows(tibble(ctu_id = "02831011", co_code = "27037", n_counties = 1, pct_population = 1)) %>%
-
   # add county metadata
   left_join(lookup_ctu_county %>%
-              dplyr::select(geog_id, "co_name"=geog_name), by=join_by(co_code == geog_id)) %>%
+    dplyr::select(geog_id, "co_name" = geog_name), by = join_by(co_code == geog_id)) %>%
   # add ctu metadata
   left_join(lookup_ctu_county %>%
-              dplyr::select(geog_id, "ctu_name"=geog_name), by=join_by(ctu_id == geog_id)) %>%
+    dplyr::select(geog_id, "ctu_name" = geog_name), by = join_by(ctu_id == geog_id)) %>%
   dplyr::select(ctu_id, co_code, ctu_name, co_name, everything()) %>%
   filter(pct_population != 0) %>% # remove rows where the population is zero
   # after removing the rows with zero population, re-classify the CTUs that span
@@ -42,7 +40,7 @@ ctu_pop_by_county <-
   # single county's boundary.
   mutate(n_counties = case_when(
     pct_population == 1 & n_counties > 1 ~ 1,
-    .default=n_counties
+    .default = n_counties
   ))
 
 
@@ -53,7 +51,6 @@ ctu_pop_by_county <-
 # Return a dataframe of only the CTUs that both (1) span two counties and (2)
 # contain population in both counties.
 duplicate_ctus <- ctu_pop_by_county %>% filter(n_counties > 1)
-
 
 
 # 3. Load demographic data for 2005 to 2050 -------------------------------
@@ -73,13 +70,9 @@ ctu_population_data <- demographic_data %>%
   # than one county. This will affect which per capita estimates we use for solid
   # waste source.
   mutate(flag = case_when(
-    geog_id %in% duplicate_ctus$ctu_id~"duplicate",
+    geog_id %in% duplicate_ctus$ctu_id ~ "duplicate",
     .default = NA
   ))
-
-
-
-
 
 
 # 4. Load MPCA score data (2005 to 2022) ----------------------------------
@@ -106,17 +99,17 @@ waste_baseline <- readr::read_rds(paste0(inpath_mpca_scores, "mpca_score_allyrs.
 # Next, we will downscale this to the CTU level
 waste_baseline <- waste_baseline %>%
   # add geographic metadata
-  left_join(lookup_ctu_county, by=join_by(geoid==geog_id)) %>%
+  left_join(lookup_ctu_county, by = join_by(geoid == geog_id)) %>%
   # remove geographies that have NA values in their name
   # (these are Chisago and Sherburne County)
   filter(!is.na(geog_name)) %>%
   rename(geog_id = geoid) %>%
   # add county level population data from 2005 to 2022
-  left_join(county_population_data %>%
-              dplyr::select(geog_id, inventory_year, geog_pop),
-            by = join_by(geog_id, inventory_year))
-
-
+  left_join(
+    county_population_data %>%
+      dplyr::select(geog_id, inventory_year, geog_pop),
+    by = join_by(geog_id, inventory_year)
+  )
 
 
 # 5. Calculate waste per capita for reference year ------------------------
@@ -125,16 +118,14 @@ waste_baseline <- waste_baseline %>%
 waste_per_cap <- waste_baseline %>%
   dplyr::filter(inventory_year == ref_year) %>%
   dplyr::mutate(
-    value_per_cap = value_activity/geog_pop
+    value_per_cap = value_activity / geog_pop
   ) %>%
   dplyr::select(
     geog_id,
     source,
     value_per_cap
-  ) %>% arrange(geog_id)
-
-
-
+  ) %>%
+  arrange(geog_id)
 
 
 # 6. County level projections (2022 to 2050) ------------------------------
@@ -178,8 +169,6 @@ waste_baseline_county <- waste_baseline %>%
   mutate(data_type = "county-wide MPCA estimates")
 
 
-
-
 # rbind(
 #   waste_baseline_county,
 #   waste_proj_county
@@ -187,7 +176,6 @@ waste_baseline_county <- waste_baseline %>%
 #   ggplot() +
 #   geom_line(aes(x=inventory_year, y=value_activity, color=source)) +
 #   facet_wrap(~geog_name)
-
 
 
 # 8. CTU level projections (2022 to 2050) ------------------------------
@@ -198,22 +186,24 @@ waste_proj_ctu_nonDupe <-
   ctu_population_data %>%
   # Filter for years after our reference year
   dplyr::filter(inventory_year > ref_year) %>%
-
   # IMPORTANT: Remove CTUs whose boundary exists in more than one county
   dplyr::filter(is.na(flag)) %>%
   dplyr::select(-c(geog_id_type, sp_categories, value_change_from_base, flag)) %>%
-
   # Join county metadata
-  dplyr::left_join(ctu_pop_by_county %>%
-                     # filter for cases where CTUs do not span county borders
-                      dplyr::filter(n_counties==1) %>%
-                      rename(geog_id = ctu_id,
-                             geog_name = ctu_name) %>%
-                      dplyr::select(geog_name, geog_id, co_code, co_name),
-                    by = join_by(geog_name, geog_id)) %>%
+  dplyr::left_join(
+    ctu_pop_by_county %>%
+      # filter for cases where CTUs do not span county borders
+      dplyr::filter(n_counties == 1) %>%
+      rename(
+        geog_id = ctu_id,
+        geog_name = ctu_name
+      ) %>%
+      dplyr::select(geog_name, geog_id, co_code, co_name),
+    by = join_by(geog_name, geog_id)
+  ) %>%
   # Join waste per capita data
   dplyr::left_join(waste_per_cap %>%
-                     rename(co_code = geog_id), relationship = "many-to-many", by = join_by(co_code)) %>%
+    rename(co_code = geog_id), relationship = "many-to-many", by = join_by(co_code)) %>%
   dplyr::mutate(
     value_activity = geog_pop * value_per_cap,
     units_activity = "metric tons MSW"
@@ -229,22 +219,23 @@ waste_proj_ctu_nonDupe <-
   mutate(data_type = paste0("forecast using ", ref_year, " per capita estimates"))
 
 
-
 waste_proj_ctu_Dupe <-
   # Take CTU population data
   ctu_population_data %>%
   # Filter for years after our reference year
   dplyr::filter(inventory_year > ref_year) %>%
-
   # IMPORTANT: Select CTUs whose boundary exists in more than one county
   dplyr::filter(!is.na(flag)) %>%
   dplyr::select(-c(geog_id_type, sp_categories, value_change_from_base, flag)) %>%
-
-  dplyr::full_join(duplicate_ctus %>%
-                     dplyr::rename(geog_name = ctu_name,
-                                   geog_id = ctu_id),
-                   by = join_by(geog_name, geog_id),
-                   relationship = "many-to-many") %>%
+  dplyr::full_join(
+    duplicate_ctus %>%
+      dplyr::rename(
+        geog_name = ctu_name,
+        geog_id = ctu_id
+      ),
+    by = join_by(geog_name, geog_id),
+    relationship = "many-to-many"
+  ) %>%
   # Since these CTUs have population that span different county boundaries AND
   # since different counties have different solid waste estimates, we first need
   # to determine how much of a CTUs population exists in either county, and then
@@ -258,7 +249,7 @@ waste_proj_ctu_Dupe <-
     residual = pop_est - pop_floor,
     # Step 2: Calculate how many people are left to allocate
     total_floor = sum(pop_floor),
-    remainder = round(geog_pop - total_floor),  # This is how many people we need to "round up"
+    remainder = round(geog_pop - total_floor), # This is how many people we need to "round up"
     # Step 3: Rank counties by largest residuals
     rank = rank(-residual, ties.method = "first"),
     # Step 4: Assign 1 extra person to top N counties by residual
@@ -267,22 +258,25 @@ waste_proj_ctu_Dupe <-
   ) %>%
   select(-pop_est, -pop_floor, -residual, -total_floor, -remainder, -rank, -extra) %>%
   ungroup() %>%
-
-
-  dplyr::left_join(waste_per_cap %>%
-                     rename(co_code = geog_id), relationship = "many-to-many",
-                   by = join_by(co_code)) %>%
-
+  dplyr::left_join(
+    waste_per_cap %>%
+      rename(co_code = geog_id),
+    relationship = "many-to-many",
+    by = join_by(co_code)
+  ) %>%
   dplyr::mutate(
     value_activity = ctu_pop_actual * value_per_cap,
     units_activity = "metric tons MSW"
   ) %>%
-  group_by(geog_name, geog_id, geog_level,
-           inventory_year, source) %>%
-  summarize(geog_pop = head(geog_pop,1),
-            value_activity = sum(value_activity),
-            units_activity = head(units_activity,1), .groups="keep") %>%
-
+  group_by(
+    geog_name, geog_id, geog_level,
+    inventory_year, source
+  ) %>%
+  summarize(
+    geog_pop = head(geog_pop, 1),
+    value_activity = sum(value_activity),
+    units_activity = head(units_activity, 1), .groups = "keep"
+  ) %>%
   ungroup() %>%
   dplyr::select(
     inventory_year,
@@ -306,21 +300,28 @@ waste_baseline_ctu_nonDupe <-
   # IMPORTANT: Remove CTUs whose boundary exists in more than one county
   dplyr::filter(is.na(flag)) %>%
   dplyr::select(-c(geog_id_type, sp_categories, value_change_from_base, flag)) %>%
-
   # Join county metadata
-  dplyr::left_join(ctu_pop_by_county %>%
-                     # filter for cases where CTUs do not span county borders
-                     dplyr::filter(n_counties==1) %>%
-                     rename(geog_id = ctu_id,
-                            geog_name = ctu_name) %>%
-                     dplyr::select(geog_name, geog_id, co_code, co_name),
-                   by = join_by(geog_name, geog_id)) %>%
-  dplyr::left_join(waste_baseline %>%
-                     mutate(value_per_cap =  value_activity/geog_pop) %>%
-                     dplyr::select(co_code = geog_id, source,
-                                   inventory_year, value_per_cap),
-                   relationship = "many-to-many",
-                   by = join_by(co_code, inventory_year)) %>%
+  dplyr::left_join(
+    ctu_pop_by_county %>%
+      # filter for cases where CTUs do not span county borders
+      dplyr::filter(n_counties == 1) %>%
+      rename(
+        geog_id = ctu_id,
+        geog_name = ctu_name
+      ) %>%
+      dplyr::select(geog_name, geog_id, co_code, co_name),
+    by = join_by(geog_name, geog_id)
+  ) %>%
+  dplyr::left_join(
+    waste_baseline %>%
+      mutate(value_per_cap = value_activity / geog_pop) %>%
+      dplyr::select(
+        co_code = geog_id, source,
+        inventory_year, value_per_cap
+      ),
+    relationship = "many-to-many",
+    by = join_by(co_code, inventory_year)
+  ) %>%
   dplyr::mutate(
     value_activity = geog_pop * value_per_cap,
     units_activity = "metric tons MSW"
@@ -341,16 +342,18 @@ waste_baseline_ctu_Dupe <-
   ctu_population_data %>%
   # Filter for years before our reference year
   filter(inventory_year <= ref_year) %>%
-
   # IMPORTANT: Select CTUs whose boundary exists in more than one county
   dplyr::filter(!is.na(flag)) %>%
   dplyr::select(-c(geog_id_type, sp_categories, value_change_from_base, flag)) %>%
-
-  dplyr::full_join(duplicate_ctus %>%
-                     dplyr::rename(geog_name = ctu_name,
-                                   geog_id = ctu_id),
-                   by = join_by(geog_name, geog_id),
-                   relationship = "many-to-many") %>%
+  dplyr::full_join(
+    duplicate_ctus %>%
+      dplyr::rename(
+        geog_name = ctu_name,
+        geog_id = ctu_id
+      ),
+    by = join_by(geog_name, geog_id),
+    relationship = "many-to-many"
+  ) %>%
   # Since these CTUs have population that span different county boundaries AND
   # since different counties have different solid waste estimates, we first need
   # to determine how much of a CTUs population exists in either county, and then
@@ -364,7 +367,7 @@ waste_baseline_ctu_Dupe <-
     residual = pop_est - pop_floor,
     # Step 2: Calculate how many people are left to allocate
     total_floor = sum(pop_floor),
-    remainder = round(geog_pop - total_floor),  # This is how many people we need to "round up"
+    remainder = round(geog_pop - total_floor), # This is how many people we need to "round up"
     # Step 3: Rank counties by largest residuals
     rank = rank(-residual, ties.method = "first"),
     # Step 4: Assign 1 extra person to top N counties by residual
@@ -373,25 +376,29 @@ waste_baseline_ctu_Dupe <-
   ) %>%
   select(-pop_est, -pop_floor, -residual, -total_floor, -remainder, -rank, -extra) %>%
   ungroup() %>%
-
-
-  dplyr::left_join(waste_baseline %>%
-                     mutate(value_per_cap =  value_activity/geog_pop) %>%
-                     dplyr::select(co_code = geog_id, source,
-                                   inventory_year, value_per_cap),
-                   relationship = "many-to-many",
-                   by = join_by(co_code, inventory_year)) %>%
-
+  dplyr::left_join(
+    waste_baseline %>%
+      mutate(value_per_cap = value_activity / geog_pop) %>%
+      dplyr::select(
+        co_code = geog_id, source,
+        inventory_year, value_per_cap
+      ),
+    relationship = "many-to-many",
+    by = join_by(co_code, inventory_year)
+  ) %>%
   dplyr::mutate(
     value_activity = ctu_pop_actual * value_per_cap,
     units_activity = "metric tons MSW"
   ) %>%
-  group_by(geog_name, geog_id, geog_level,
-           inventory_year, source) %>%
-  summarize(geog_pop = head(geog_pop,1),
-            value_activity = sum(value_activity),
-            units_activity = head(units_activity,1), .groups="keep") %>%
-
+  group_by(
+    geog_name, geog_id, geog_level,
+    inventory_year, source
+  ) %>%
+  summarize(
+    geog_pop = head(geog_pop, 1),
+    value_activity = sum(value_activity),
+    units_activity = head(units_activity, 1), .groups = "keep"
+  ) %>%
   ungroup() %>%
   dplyr::select(
     inventory_year,
@@ -407,14 +414,15 @@ waste_baseline_ctu <- rbind(waste_baseline_ctu_nonDupe, waste_baseline_ctu_Dupe)
   arrange(geog_name, inventory_year, source)
 
 
-
 # 9. Compile waste data ---------------------------------------------------
 ## Store data in a list
-waste_data <-list()
+waste_data <- list()
 
 # add inventory data
-waste_data$inventory <- rbind(waste_baseline_ctu,
-                              waste_baseline_county)
+waste_data$inventory <- rbind(
+  waste_baseline_ctu,
+  waste_baseline_county
+)
 
 
 # add baseline for reference year (e.g. 2022)
@@ -422,8 +430,10 @@ waste_data$baseline <- waste_data$inventory %>%
   filter(inventory_year == ref_year) %>%
   dplyr::select(-data_type, -inventory_year) %>%
   group_by(geog_id) %>%
-  mutate(total_activity = sum(value_activity),
-         pct_of_total = value_activity / total_activity) %>%
+  mutate(
+    total_activity = sum(value_activity),
+    pct_of_total = value_activity / total_activity
+  ) %>%
   ungroup() %>%
   left_join(
     tibble(
@@ -437,16 +447,17 @@ waste_data$baseline <- waste_data$inventory %>%
   mutate(
     changeFromTarget = pct_of_total - target2030,
     action = case_when(
-      changeFromTarget < 0 ~ paste0("Increase ",source),
-      changeFromTarget > 0 ~ paste0("Decrease ",source),
-      TRUE ~ paste0("Keep ",source)
+      changeFromTarget < 0 ~ paste0("Increase ", source),
+      changeFromTarget > 0 ~ paste0("Decrease ", source),
+      TRUE ~ paste0("Keep ", source)
     )
   )
 
 # add projections
-waste_data$projections <- rbind(waste_proj_ctu,
-                                waste_proj_county)
-
+waste_data$projections <- rbind(
+  waste_proj_ctu,
+  waste_proj_county
+)
 
 
 waste_data$mpca$waste_reduction <- tibble(
@@ -463,11 +474,12 @@ waste_data$mpca$source_diversions <- tibble(
   `2042` = c(0.474, 0.276, 0.2, 0.05, 0, 0),
   note = "MPCA solid waste management policy plan"
 ) %>%
-  pivot_longer(cols = c(`2025`, `2030`, `2036`, `2042`),
-               names_to = "year",
-               values_to = "pct_of_total") %>%
+  pivot_longer(
+    cols = c(`2025`, `2030`, `2036`, `2042`),
+    names_to = "year",
+    values_to = "pct_of_total"
+  ) %>%
   arrange(year, source)
-
 
 
 # waste characterization
@@ -476,18 +488,6 @@ waste_data$characterization <- waste_char
 
 
 usethis::use_data(waste_data, overwrite = TRUE)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #
@@ -582,4 +582,3 @@ usethis::use_data(waste_data, overwrite = TRUE)
 # waste_data$characterization <- waste_char
 #
 # # usethis::use_data(waste_data, overwrite = TRUE)
-

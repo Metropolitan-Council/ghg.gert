@@ -15,7 +15,6 @@ vmt_road_policy(
   .gas_tax = 0,
   .payd_fee = 0,
   .stock,
-  .phev_electric = FALSE,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast = ghg.ccap::elast
 )
@@ -44,8 +43,6 @@ Default is \code{0}}
 
 \item{.stock}{character, stock for current mode}
 
-\item{.phev_electric}{logical, is the current PHEV distinction electric. Default is \code{FALSE}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -72,6 +69,7 @@ Other VMT effects:
 \code{\link{vmt_parking_policy}()},
 \code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
+\code{\link{vmt_total_reduction}()},
 \code{\link{vmt_transit_service}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }

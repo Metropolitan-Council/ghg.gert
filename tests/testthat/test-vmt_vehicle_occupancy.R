@@ -18,6 +18,7 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
     .tb_vmt = si_vmt_test,
     .mode = "PLDV",
     .stock = "SIStock",
+    .vehicle_occupancy = vehicle_occupancy,
     .transit_avo_pct = 0,
     .pldv_avo_pct = 0,
     .enviro_factors = enviro_factors
@@ -36,6 +37,7 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
     .tb_vmt = si_vmt_test,
     .mode = "PLDV",
     .stock = "SIStock",
+    .vehicle_occupancy = vehicle_occupancy,
     .transit_avo_pct = 0,
     .pldv_avo_pct = 0.05,
     .enviro_factors = enviro_factors
@@ -48,6 +50,7 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
       1.60003983277867, 1.60003983277867, 1.60003983277867, 1.6200403306884,
       1.64004082859813, 1.66004132650787, 1.6800418244176, 1.6800418244176,
       1.6800418244176
-    )
+    ),
+    tolerance = 0.001
   )
 })

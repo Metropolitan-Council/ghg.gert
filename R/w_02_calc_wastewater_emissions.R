@@ -3,18 +3,11 @@
 #' @param waste_inv table, waste inventory data
 #' @param waste_future table, projected waste data
 #'
-#' @inheritParams calculate_mww_ch4_emissions
-#' @inheritParams calculate_mww_n2o_direct_emissions
-#' @inheritParams calculate_mww_n2o_effluent_emissions
-#'
 #' @return a list containing two data tables with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
 #' @export
 calculate_wastewater_emissions <- function(waste_inv,
-                                         waste_future) {
-
-
-
+                                           waste_future) {
   wastewater_emissions <- list()
 
   waste_inv <- waste_inv %>%
@@ -22,7 +15,7 @@ calculate_wastewater_emissions <- function(waste_inv,
     mutate(
       MWW_CH4 = ghg.ccap::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
       MWW_N20_direct = ghg.ccap::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years= inventory_year)$value_emissions
+      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
     ) %>%
     pivot_longer(
       cols = c(MWW_CH4, MWW_N20_direct, MWW_N20_effluent),
@@ -37,7 +30,7 @@ calculate_wastewater_emissions <- function(waste_inv,
       )
     )
 
-  wastewater_emissions$inv <-  waste_inv %>%
+  wastewater_emissions$inv <- waste_inv %>%
     filter(units_emissions != "Metric tons CH4") %>%
     pivot_wider(names_from = units_emissions, values_from = value_emissions) %>%
     mutate(
@@ -50,9 +43,8 @@ calculate_wastewater_emissions <- function(waste_inv,
       values_to = "value_emissions"
     ) %>%
     bind_rows(waste_inv %>%
-                filter(units_emissions == "Metric tons CH4")) %>%
+      filter(units_emissions == "Metric tons CH4")) %>%
     arrange(inventory_year, units_emissions)
-
 
 
   waste_future <- waste_future %>%
@@ -60,7 +52,7 @@ calculate_wastewater_emissions <- function(waste_inv,
     mutate(
       MWW_CH4 = ghg.ccap::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
       MWW_N20_direct = ghg.ccap::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years= inventory_year)$value_emissions
+      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
     ) %>%
     pivot_longer(
       cols = c(MWW_CH4, MWW_N20_direct, MWW_N20_effluent),
@@ -75,7 +67,7 @@ calculate_wastewater_emissions <- function(waste_inv,
       )
     )
 
-  wastewater_emissions$future <-  waste_future %>%
+  wastewater_emissions$future <- waste_future %>%
     filter(units_emissions != "Metric tons CH4") %>%
     pivot_wider(names_from = units_emissions, values_from = value_emissions) %>%
     mutate(
@@ -88,7 +80,7 @@ calculate_wastewater_emissions <- function(waste_inv,
       values_to = "value_emissions"
     ) %>%
     bind_rows(waste_future %>%
-                filter(units_emissions == "Metric tons CH4")) %>%
+      filter(units_emissions == "Metric tons CH4")) %>%
     arrange(inventory_year, units_emissions)
 
 

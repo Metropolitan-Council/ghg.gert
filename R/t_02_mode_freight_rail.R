@@ -15,6 +15,8 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .scenario = "BAU",
                               .electric_scenario = "ER",
                               .aeo_scenario = "REF",
+                              .parking_cost = parking_cost,
+                              .vehicle_occupancy = vehicle_occupancy,
                               .transit_avo_pct = 0,
                               .pldv_avo_pct = 0,
                               .transit_service_pct = 0,
@@ -33,7 +35,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
                               .transit_dist_pct_change = 0,
                               .comb_5d_impact_pct_change = 0,
                               .telework_pct = 0,
-                              .grid_decarbonization_pct = 0.6,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
@@ -66,7 +67,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
   )
 
 
-
   ci_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -74,6 +74,8 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       tb = .freight_tb,
       .mode = mode,
       .stock = "CIStock",
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .variable = var,
       .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
@@ -95,7 +97,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-      .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
@@ -110,7 +111,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .fuel_type = "RCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "CIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -135,7 +135,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
   )
 
 
-
   ev_vmt <-
     calc_vmt_forecast(
       .scenario = .scenario,
@@ -143,6 +142,8 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       tb = .freight_tb,
       .mode = mode,
       .stock = "EVStock",
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .variable = var,
       .tb_fuel_cost_mile = fcm_ev,
       .aeo_scenario = .aeo_scenario,
@@ -164,7 +165,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
       .telework_pct = .telework_pct,
-      .phev_electric = .phev_electric,
       .enviro_factors = .enviro_factors,
       .elast = .elast,
       .elast_5d = .elast_5d,
@@ -180,7 +180,6 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
       .fuel_type = .electric_scenario,
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "EVElec",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -206,7 +205,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success(paste("Freight rail", "🚆"))
+  cli::cli_alert_success("Freight rail 🚆")
 
   return(freight_rail)
 }

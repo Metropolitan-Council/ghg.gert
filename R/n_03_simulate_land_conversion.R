@@ -8,9 +8,6 @@
 #' @export
 # Logistic growth function with normalization and constraints
 simulate_land_conversion <- function(df, start_yr, end_yr) {
-
-
-
   df_change <- df %>%
     rowwise() %>%
     mutate(
@@ -21,10 +18,10 @@ simulate_land_conversion <- function(df, start_yr, end_yr) {
         # During transition period
         inventory_year <= end_yr ~ {
           years_elapsed <- inventory_year - (start_yr - 1)
-          total_years   <- end_yr - (start_yr - 1)
+          total_years <- end_yr - (start_yr - 1)
 
-          K  <- area_change
-          r  <- 10 / total_years
+          K <- area_change
+          r <- 10 / total_years
           t0 <- (start_yr - 1) + total_years / 2
 
           logisticGrowth(
@@ -40,10 +37,10 @@ simulate_land_conversion <- function(df, start_yr, end_yr) {
         # After end_yr → hold final value
         inventory_year > end_yr ~ {
           years_elapsed <- end_yr - (start_yr - 1)
-          total_years   <- end_yr - (start_yr - 1)
+          total_years <- end_yr - (start_yr - 1)
 
-          K  <- area_change
-          r  <- 10 / total_years
+          K <- area_change
+          r <- 10 / total_years
           t0 <- (start_yr - 1) + total_years / 2
 
           logisticGrowth(
@@ -57,7 +54,7 @@ simulate_land_conversion <- function(df, start_yr, end_yr) {
         }
       )
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   df_export <- df_change %>%
     mutate(area = area + delta_area)

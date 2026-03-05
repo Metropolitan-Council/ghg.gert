@@ -12,6 +12,7 @@ testthat::test_that("BAU, Passenger gasoline correct", {
     .stock = "SIStock",
     .variable = "PMT",
     .tb_fuel_cost_mile = si_fcm_test,
+    .vehicle_occupancy = vehicle_occupancy,
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
     .transit_service_pct = 0,
@@ -29,8 +30,7 @@ testthat::test_that("BAU, Passenger gasoline correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(
@@ -62,6 +62,7 @@ testthat::test_that("BAU walk VMT correct", {
     .stock = "",
     .variable = "PMT",
     .tb_fuel_cost_mile = si_fcm_test,
+    .vehicle_occupancy = vehicle_occupancy,
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
     .transit_service_pct = 0,
@@ -79,12 +80,9 @@ testthat::test_that("BAU walk VMT correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::mutate(vmt = vmt / 10^5)
-
-
 
 
   testthat::expect_equal(
@@ -110,6 +108,7 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
     .stock = "CIStock",
     .variable = "PMT",
     .tb_fuel_cost_mile = si_fcm_test,
+    .vehicle_occupancy = vehicle_occupancy,
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
     .transit_service_pct = 0,
@@ -127,8 +126,7 @@ testthat::test_that("Passenger, CI, BAU VMT correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(vmt = vmt / 10^5)
@@ -156,6 +154,7 @@ testthat::test_that("Urban rail passenger vmt correct", {
     .stock = "EVStock",
     .variable = "PMT",
     .tb_fuel_cost_mile = si_fcm_test,
+    .vehicle_occupancy = vehicle_occupancy,
     .aeo_scenario = "REF",
     .transit_avo_pct = 0,
     .transit_service_pct = 0,
@@ -173,8 +172,7 @@ testthat::test_that("Urban rail passenger vmt correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(vmt = vmt / 10^5))
@@ -192,6 +190,7 @@ testthat::test_that("BAU, Bus diesel correct", {
     .variable = "PMT",
     .tb_fuel_cost_mile = ci_fcm_test,
     .aeo_scenario = "REF",
+    .vehicle_occupancy = vehicle_occupancy,
     .transit_avo_pct = 0,
     .transit_service_pct = 0,
     .vmt_fee = 0,
@@ -208,8 +207,7 @@ testthat::test_that("BAU, Bus diesel correct", {
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
+    .telework_pct = 0
   ) %>%
     dplyr::arrange(year) %>%
     dplyr::mutate(
@@ -220,103 +218,22 @@ testthat::test_that("BAU, Bus diesel correct", {
 
   testthat::expect_equal(
     bus_ci_vmt$vmt,
-
-    c(65.1646237394068, 70.1672808474576, 73.5023855720339, 77.4584206673729,
-      81.4144557521187, 85.566063845339, 89.7176719279661, 93.8692800105932,
-      98.0208881038136)  )
-})
-
-
-# plug in hybrid ------
-
-
-testthat::test_that("PHEV passenger vmt correct", {
-  phev_vmt_elec <- calc_vmt_forecast(
-    .scenario = "BAU",
-    .selected_ctu = "all",
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .stock = "PHEVStock",
-    .variable = "PMT",
-    .tb_fuel_cost_mile = si_fcm_test,
-    .aeo_scenario = "REF",
-    .transit_avo_pct = 0,
-    .transit_service_pct = 0,
-    .vmt_fee = 0,
-    .payd_fee = 0,
-    .gas_tax = 0,
-    .cong_price = 0,
-    .parking_price = 0,
-    .freight_parking_price = 0,
-    .freight_vmt_fee = 0,
-    .pop_dens_pct_change = 0,
-    .emp_dens_pct_change = 0,
-    .land_use_diversity_pct_change = 0,
-    .intersection_design_pct_change = 0,
-    .job_access_pct_change = 0,
-    .transit_dist_pct_change = 0,
-    .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = TRUE
-  ) %>%
-    dplyr::arrange(year) %>%
-    dplyr::mutate(
-      vmt = vmt / 10^5
-    )
-
-  phev_vmt_gas <- calc_vmt_forecast(
-    .scenario = "BAU",
-    .selected_ctu = "all",
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .stock = "PHEVStock",
-    .variable = "PMT",
-    .tb_fuel_cost_mile = si_fcm_test,
-    .aeo_scenario = "REF",
-    .transit_avo_pct = 0,
-    .transit_service_pct = 0,
-    .vmt_fee = 0,
-    .payd_fee = 0,
-    .gas_tax = 0,
-    .cong_price = 0,
-    .parking_price = 0,
-    .freight_parking_price = 0,
-    .freight_vmt_fee = 0,
-    .pop_dens_pct_change = 0,
-    .emp_dens_pct_change = 0,
-    .land_use_diversity_pct_change = 0,
-    .intersection_design_pct_change = 0,
-    .job_access_pct_change = 0,
-    .transit_dist_pct_change = 0,
-    .comb_5d_impact_pct_change = 0,
-    .telework_pct = 0,
-    .phev_electric = FALSE
-  ) %>%
-    dplyr::arrange(year) %>%
-    dplyr::mutate(
-      vmt = vmt / 10^5
-    )
-
-
-  purrr::map2(
-    phev_vmt_gas$vmt / 1000 +
-      phev_vmt_elec$vmt / 1000,
     c(
-      0.00253435457893076, 0.0287664368249618, 0.0451312892030342,
-      0.488533544848253, 0.699758476732484, 0.776709798716421, 1.08225928912365,
-      1.27017703337147, 1.45027628483017
-    ),
-    function(x, y) {
-      testthat::expect_lt(x, y)
-    }
+      65.1646237394068, 70.1672808474576, 73.5023855720339, 77.4584206673729,
+      81.4144557521187, 85.566063845339, 89.7176719279661, 93.8692800105932,
+      98.0208881038136
+    )
   )
 })
+
+
 # dynamic ride share error ------
 testthat::test_that("Dynamic ride share error", {
   testthat::expect_error(calc_vmt_forecast(
     .scenario = "MIT",
     .selected_ctu = "all",
     tb = st_paul_passenger,
+    .vehicle_occupancy = vehicle_occupancy,
     .mode = "DRS",
     .stock = "BEVStock",
     .variable = "PMT",

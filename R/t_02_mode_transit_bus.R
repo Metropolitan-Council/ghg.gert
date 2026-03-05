@@ -17,6 +17,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
                              .transit_avo_pct = 0,
+                             .parking_cost = parking_cost,
+                             .vehicle_occupancy = vehicle_occupancy,
                              .pldv_avo_pct = 0,
                              .transit_service_pct = 0,
                              .vmt_fee = 0,
@@ -24,6 +26,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .gas_tax = 0,
                              .parking_price = 0,
                              .freight_parking_price = 0,
+                             .vmt_reduction_pct = 0,
                              .cong_price = 0,
                              .freight_vmt_fee = 0,
                              .pop_dens_pct_change = 0,
@@ -33,7 +36,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
                              .job_access_pct_change = 0,
                              .transit_dist_pct_change = 0,
                              .comb_5d_impact_pct_change = 0,
-                             .grid_decarbonization_pct = 0.6,
                              .telework_pct = 0,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
@@ -66,8 +68,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   fcm_ci <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = "BU",
-    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "BCIMPG",
+    .aeo_scenario = .aeo_scenario,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -81,6 +83,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .mode = "BU",
       .stock = "BCIStock",
       .variable = var,
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
@@ -104,7 +108,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
-      .factor_values = .factor_values,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = "BCI")
 
@@ -116,7 +120,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BCIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -330,7 +333,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
 
   # Bus Rapid Transit----
-
 
 
   # ### CI BRT -----
@@ -571,11 +573,10 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .enviro_factors = .enviro_factors
   #   )
   #
-  #   TODO add fuel use totals
 
   # Finish up -----
 
-  cli::cli_alert_success(paste("Transit buses and bus rapid transit", "🚌"))
+  cli::cli_alert_success("Transit buses and bus rapid transit 🚌")
 
   return(bus_scenario)
 }

@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 library(ghg.ccap)
 library(tidyverse)
 
@@ -18,5 +18,3 @@ test <- run_module_waste(
 )
 
 test
-
-

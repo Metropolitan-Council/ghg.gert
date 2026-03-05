@@ -80,7 +80,7 @@ This function wraps the complexity of land cover conversion into intuitive input
 }
 }
 \examples{
-\dontrun
+\dontrun{
 # Wetland restoration at 40\% ambition + 5 sq km forest
 result <- run_scenario_natural_systems(
   .selected_ctu = "Lakeville",
@@ -99,4 +99,5 @@ result <- run_scenario_natural_systems(
   .prairie_area_sqkm = 5,
   .community_tree_pct = 25
 )
+}
 }

@@ -18,9 +18,6 @@ including columns \code{residential_mwh}, \code{residential_mcf}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 }
@@ -43,59 +40,31 @@ for the user-specified scenario, and the business-as-usual scenario.
 \note{
 \code{calc_ghg_residential()} estimates the building energy demand and emissions
 based on the floor area assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_residential_building]{scen_residential_building()}}.
+residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
 \seealso{
 Other buildings: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
 \code{\link{calc_business_leed}()},
 \code{\link{calc_business_retrofit}()},
-\code{\link{calc_demographic_forecast}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_energy_non_residential}()},
 \code{\link{calc_energy_residential}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
 \code{\link{calc_ghg_mwh}()},
 \code{\link{calc_ghg_non_residential}()},
 \code{\link{calc_housing_leed}()},
-\code{\link{calc_mfh_retrofit}()},
-\code{\link{calc_non_res_renewable_ng}()},
-\code{\link{calc_residential_renewable_ng}()},
 \code{\link{calc_residential_retrofit}()},
-\code{\link{calc_sfh_leed}()},
-\code{\link{calc_sfh_retrofit}()},
-\code{\link{get_by_county_non_residential_energy_baseline}()},
-\code{\link{get_demographic_baseline}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
 \code{\link{run_scenario_building}()}
 
 Other residential: 
 \code{\link{adj_cropland_area}()},
 \code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
 \code{\link{calc_building_energy}()},
-\code{\link{calc_electrify_residential_heating}()},
 \code{\link{calc_energy_residential}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+\code{\link{calc_ghg_mwh}()}
 
 Other emissions: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
 \code{\link{calc_carbon_sequestration_per_ctu}()},
 \code{\link{calc_carbon_stock_per_ctu}()},
 \code{\link{calc_energy_non_residential}()},
@@ -103,10 +72,7 @@ Other emissions:
 \code{\link{calc_ghg_direct}()},
 \code{\link{calc_ghg_embodied}()},
 \code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+\code{\link{calc_ghg_non_residential}()}
 }
 \concept{buildings}
 \concept{emissions}

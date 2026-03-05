@@ -73,7 +73,6 @@ combo <- load_resstock(
 # summary list
 
 resstock_summaries <- list(
-
   # baseline summaries
   mf_baseline = summarize_resstock(baseline, "Multi", c("mc_classification", "build_year")),
   manufactured_baseline = summarize_resstock(baseline, "Mobile", c("mc_classification", "build_year")),

@@ -171,8 +171,6 @@ blank_alt_exist <- purrr::map_dfr(c("HEVExist", "BEVExist"), function(x) {
 })
 
 
-
-
 # new stock, new_sales  join back to passenger -----
 new_bus_fleet <- new_stock %>%
   # stock
@@ -192,12 +190,13 @@ new_bus_fleet <- new_stock %>%
   mutate(value = round(value))
 
 
-
 new_pass <- transportation_data$passenger %>%
-  filter(!(mode == "BRT" & var %in% c(new_bus_fleet$var,
-                                     "HEVExist", "BEVExist",
-                                     "HEVSales", "BEVSales",
-                                     "HEVStock", "BEVStock"))) %>%
+  filter(!(mode == "BRT" & var %in% c(
+    new_bus_fleet$var,
+    "HEVExist", "BEVExist",
+    "HEVSales", "BEVSales",
+    "HEVStock", "BEVStock"
+  ))) %>%
   anti_join(new_bus_fleet,
     by = c("mode", "var", "ctu", "year", "aeo_mode", "type")
   ) %>%

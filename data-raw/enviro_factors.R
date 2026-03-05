@@ -16,7 +16,7 @@ enviro_factors <- list(
   # see transportation_data_processing/eia_datasets.R
   SI_FUEL_COST_GAL = 3.163,
   CI_FUEL_COST_GAL = 3.696,
-  ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
+  ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh xcelenergyMNResidentialRates2024 https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
 
   AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile

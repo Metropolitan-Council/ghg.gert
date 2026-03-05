@@ -10,6 +10,8 @@ mode_freight_rail(
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
+  .parking_cost = parking_cost,
+  .vehicle_occupancy = vehicle_occupancy,
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
@@ -28,7 +30,6 @@ mode_freight_rail(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
-  .grid_decarbonization_pct = 0.6,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
@@ -48,6 +49,10 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
 
@@ -96,9 +101,6 @@ as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Defaul
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
 Numeric between 0 and 1. Default is \code{0}}
 
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 
@@ -119,6 +121,7 @@ Calculate scenario for freight rail
 \seealso{
 Other transportation: 
 \code{\link{adj_fleet_shares}()},
+\code{\link{adj_fleet_shares_stock}()},
 \code{\link{calc_cost}()},
 \code{\link{calc_fuel_cost_mile}()},
 \code{\link{calc_fuel_use}()},

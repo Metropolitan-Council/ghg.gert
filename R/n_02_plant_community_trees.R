@@ -11,11 +11,7 @@
 plant_community_trees <- function(df_null,
                                   start_yr,
                                   end_yr,
-                                  area_pct
-) {
-
-
-
+                                  area_pct) {
   # Total Developed area in 2022
   # Want to determine how much developed area is available for tree planting based on
   # the degree of imperviousness (low, medium and high) where low is 20-49% impervious,
@@ -29,15 +25,14 @@ plant_community_trees <- function(df_null,
   )
 
 
-
   df_max <- df_null %>%
     # filter for the last year in the dataset
     filter(inventory_year == max(inventory_year)) %>%
     mutate(
       area_change = case_when(
-        land_cover_type == "Developed_Low" ~ -1*area * plantable_fraction["Developed_Low"] * (area_pct / 100),
-        land_cover_type == "Developed_Med" ~ -1*area * plantable_fraction["Developed_Med"] * (area_pct / 100),
-        land_cover_type == "Developed_High" ~ -1*area * plantable_fraction["Developed_High"] * (area_pct / 100),
+        land_cover_type == "Developed_Low" ~ -1 * area * plantable_fraction["Developed_Low"] * (area_pct / 100),
+        land_cover_type == "Developed_Med" ~ -1 * area * plantable_fraction["Developed_Med"] * (area_pct / 100),
+        land_cover_type == "Developed_High" ~ -1 * area * plantable_fraction["Developed_High"] * (area_pct / 100),
         land_cover_type == "Urban_Tree" ~ sum(
           case_when(
             land_cover_type == "Developed_Low" ~ area * plantable_fraction["Developed_Low"] * (area_pct / 100),
@@ -61,7 +56,7 @@ plant_community_trees <- function(df_null,
         land_cover_type = "Urban_Tree",
         area = 0,
         area_change = sum(df_max$area_change[df_max$land_cover_type %in%
-                                               c("Developed_Low", "Developed_Med", "Developed_High")]),
+          c("Developed_Low", "Developed_Med", "Developed_High")]),
         potential_wetland_area = 0
       )
 
@@ -72,7 +67,7 @@ plant_community_trees <- function(df_null,
       filter(land_cover_type == "Developed_Low") %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Urban_Tree",
         area = 0,
@@ -86,11 +81,11 @@ plant_community_trees <- function(df_null,
   df_export <- simulate_land_conversion(
     df = df_null %>%
       left_join(
-        df_max %>% dplyr::select(c(land_cover_type,area_change)),
+        df_max %>% dplyr::select(c(land_cover_type, area_change)),
         by = join_by(land_cover_type)
       ),
     start_yr = start_yr,
-    end_yr   = end_yr
+    end_yr = end_yr
   ) %>%
     dplyr::select(colnames(df_null))
 

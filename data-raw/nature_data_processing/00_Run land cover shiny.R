@@ -43,7 +43,6 @@ source(paste0(funs_path, "01_mod3_cropRestoration.R"))
 source(paste0(funs_path, "01_combine_module_deltas.R"))
 
 
-
 # Set up data ---------------------------------------------------------
 # Transform data for counties
 hist_data_county <- lc_county %>%
@@ -82,9 +81,6 @@ null_data_county <- hist_data_county %>%
   ungroup() %>%
   # replace NAs with 0
   mutate(across(everything(), ~ replace_na(., 0)))
-
-
-
 
 
 hist_data_ctu <- lc_ctu %>%

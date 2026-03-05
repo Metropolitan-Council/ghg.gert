@@ -10,7 +10,7 @@
 #'
 #' @note `calc_ghg_residential()` estimates the building energy demand and emissions
 #'      based on the floor area assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_residential_building()`].
+#'      residential strategies refer to [`scen_building_residential()`].
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.

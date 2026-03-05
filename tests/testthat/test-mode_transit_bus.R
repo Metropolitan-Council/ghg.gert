@@ -49,8 +49,7 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
     .selected_ctu = "Saint Paul",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -78,7 +77,6 @@ testthat::test_that("Saint Paul emissions reduce with interventions", {
       .parking_price = 20
     )
   ))
-
 
 
   # emissions should decrease only in specific instances
@@ -171,8 +169,7 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
     .selected_ctu = "Minneapolis",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -200,7 +197,6 @@ testthat::test_that("Minneapolis emissions reduce with interventions", {
       .parking_price = 20
     )
   ))
-
 
 
   # emissions should decrease only in specific instances
@@ -293,8 +289,7 @@ testthat::test_that("Fridley emissions reduce with interventions", {
     .selected_ctu = "Fridley",
     .scenario = "land_use",
     .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10,
-    .grid_decarbonization_pct = 0.8
+    .pop_dens_pct_change = 0.10
   )))
 
 
@@ -322,7 +317,6 @@ testthat::test_that("Fridley emissions reduce with interventions", {
       .parking_price = 20
     )
   ))
-
 
 
   # emissions should decrease only in specific instances

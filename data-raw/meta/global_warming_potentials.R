@@ -14,4 +14,4 @@ gwp_list <-
     "nf3" = 17400
   )
 
-usethis::use_data(gwp_list, overwrite=T)
+usethis::use_data(gwp_list, overwrite = T)

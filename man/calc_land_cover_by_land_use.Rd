@@ -12,9 +12,6 @@ calc_land_cover_by_land_use(
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

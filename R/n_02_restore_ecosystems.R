@@ -27,7 +27,7 @@
 #' @import dplyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' # Restore wetlands at 40% ambition, plus 5 sq km forest and 3 sq km prairie
 #' result <- restore_ecosystems(
 #'   df_null = my_projections,
@@ -40,6 +40,7 @@
 #' # View validation info
 #' attr(result, "validation_info")
 #' attr(result, "validation_warnings")
+#' }
 restore_ecosystems <- function(df_null,
                                restore_wetland = FALSE,
                                wetland_ambition_pct = 50,
@@ -47,7 +48,6 @@ restore_ecosystems <- function(df_null,
                                prairie_area_sqkm = 0,
                                start_yr = 2025,
                                end_yr = 2050) {
-
   # ===========================================================================
   # Input validation
   # ===========================================================================
@@ -313,7 +313,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Wetland",
         area = 0
@@ -336,7 +336,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Tree",
         area = 0
@@ -359,7 +359,7 @@ restore_ecosystems <- function(df_null,
       filter(land_cover_type == template_source$land_cover_type[1]) %>%
       group_by(inventory_year) %>%
       slice(1) %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       mutate(
         land_cover_type = "Grassland",
         area = 0

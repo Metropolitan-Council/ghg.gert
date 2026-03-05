@@ -9,7 +9,7 @@
 #'
 #' @note `calc_energy_residential()` estimates the building energy demand
 #'      based on the housing efficiency assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_residential_building()`].
+#'      residential strategies refer to [`scen_building_residential()`].
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
@@ -46,21 +46,19 @@ calc_energy_residential <- function(res_tb,
                                     .baseline_year,
                                     .scenario = "alt",
                                     .selected_ctu) {
-
-
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-               .selected_ctu = .selected_ctu
+      .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
         sector == "Residential"
       ),
     filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-               .selected_ctu = .selected_ctu
+      .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
@@ -117,7 +115,8 @@ calc_energy_residential <- function(res_tb,
 
   baseline_rows <- baseline_energy %>%
     dplyr::select(geog_name, geog_id, inventory_year,
-                  residential_mwh = mwh, residential_mcf = mcf)
+      residential_mwh = mwh, residential_mcf = mcf
+    )
 
   energy_final <- dplyr::bind_rows(
     dplyr::bind_rows(baseline_rows, compute_energy(res_tb_bau)) %>%

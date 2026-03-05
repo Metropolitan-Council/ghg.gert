@@ -21,15 +21,15 @@
 #' @import dplyr
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' potential <- get_restoration_potential(my_projections)
 #'
 #' # Use for UI validation
 #' if (user_forest + user_prairie > potential$soft_limit_sqkm) {
 #'   show_warning("Exceeds realistic restoration potential")
 #' }
+#' }
 get_restoration_potential <- function(df_null) {
-
   # Get the most recent year's data
   df_current <- df_null %>%
     filter(inventory_year == max(inventory_year))
@@ -142,7 +142,7 @@ get_restoration_potential <- function(df_null) {
 #' @import tibble
 #'
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' summary <- get_restoration_summary(
 #'   df_null = my_projections,
 #'   restore_wetland = TRUE,
@@ -151,12 +151,13 @@ get_restoration_potential <- function(df_null) {
 #'   prairie_area_sqkm = 3
 #' )
 #' # Returns tibble showing source → target conversions
+#' }
+#'
 get_restoration_summary <- function(df_null,
                                     restore_wetland = FALSE,
                                     wetland_ambition_pct = 50,
                                     forest_area_sqkm = 0,
                                     prairie_area_sqkm = 0) {
-
   # Run the restoration to get allocations (with dummy years)
   result <- restore_ecosystems(
     df_null = df_null,
@@ -252,7 +253,6 @@ format_restoration_summary <- function(df_null,
                                        wetland_ambition_pct = 50,
                                        forest_area_sqkm = 0,
                                        prairie_area_sqkm = 0) {
-
   summary_df <- get_restoration_summary(
     df_null = df_null,
     restore_wetland = restore_wetland,
@@ -318,7 +318,6 @@ validate_restoration_inputs <- function(df_null,
                                         wetland_ambition_pct = 50,
                                         forest_area_sqkm = 0,
                                         prairie_area_sqkm = 0) {
-
   potential <- get_restoration_potential(df_null)
 
   # Calculate wetland target based on ambition
