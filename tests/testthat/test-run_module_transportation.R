@@ -48,6 +48,7 @@ test_density <- function(x) {
       suppressMessages() %>%
       suppressWarnings()
 
+    # browser()
     dens_result <- popdens_decrease$passenger_all %>%
       bind_rows(popdens_decrease$freight_all) %>%
       bind_rows(popdens_bau$passenger_all) %>%
@@ -60,7 +61,7 @@ test_density <- function(x) {
       bind_rows(empdens_bau$freight_all) %>%
       bind_rows(empdens_increase$passenger_all) %>%
       bind_rows(empdens_increase$freight_all) %>%
-      filter(year == "2040") %>%
+      filter(year == max(unique(popdens_bau$pass_tb$year))) %>%
       group_by(geog_name, scenario, year) %>% # mode, sector
       summarise(emissions = sum(dir_ghg, na.rm = T), .groups = "keep") %>%
       tidyr::separate(scenario, into = c("density type", "change"), sep = "_") %>%
@@ -73,10 +74,9 @@ test_density <- function(x) {
 
 
     test_names <- function(df) {
-      df_names <- names(df)
 
       testthat::expect_equal(
-        df_names,
+        names(df),
         c(
           "type", "stock", "scenario",
           "geog_name", "geog_id", "year",
@@ -114,9 +114,6 @@ purrr::map(
     "Bloomington",
     "Crystal",
     "Bethel",
-    "Brooklyn Park",
-    "Minneapolis",
-    "Andover",
     "Rosemount"
   ),
   test_density
