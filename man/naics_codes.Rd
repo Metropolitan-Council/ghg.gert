@@ -36,6 +36,7 @@ Other datasets:
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{transportation_data}},
+\code{\link{transportation_defaults}},
 \code{\link{transportation_index}},
 \code{\link{waste_data}}
 }

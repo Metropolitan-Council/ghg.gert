@@ -20,11 +20,11 @@
 #' @param .bev_pct_stock numeric,  a value between `0` and `1.`
 #'     Percent of all vehicle stock that are battery electric vehicles (BEV)
 #'     in the final forecast year.
-#'     Default is `0`.
+#'      Default is `r ghg.ccap::transportation_defaults$bev_pct_stock`
 #' @param .hev_pct_stock  numeric,   a value between `0` and `1.`
 #'    Percent of all vehicle stock that are hybrid electric vehicles (HEV)
 #'    in the final forecast year.
-#'    Default is `0`.
+#'     Default is `r ghg.ccap::transportation_defaults$hev_pct_stock`.
 #' @param .pass_tb [tibble::tibble()]. Passenger input table.
 #'   Default is `transportation_data$passenger`.
 #' @param .freight_tb [tibble::tibble()] Freight input table.
@@ -47,11 +47,11 @@
 adj_fleet_shares_stock <- function(.pass_tb,
                                    .freight_tb,
                                    .selected_ctu = "all",
-                                   .bev_pct_stock = 0,
-                                   .hev_pct_stock = 0,
-                                   .vmt_fee = 0,
-                                   .payd_fee = 0,
-                                   .gas_tax = 0,
+                                   .bev_pct_stock = transportation_defaults$bev_pct_stock,
+                                   .hev_pct_stock = transportation_defaults$hev_pct_stock,
+                                   .vmt_fee = transportation_defaults$vmt_fee,
+                                   .payd_fee = transportation_defaults$payd_fee,
+                                   .gas_tax = transportation_defaults$gas_tax,
                                    .elast = elast,
                                    .enviro_factors = enviro_factors) {
   # browser()

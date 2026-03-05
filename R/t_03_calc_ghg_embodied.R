@@ -10,7 +10,7 @@
 #'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`,  or `"BEV"`.
 #' @param .transit_avo_pct numeric,
 #'     Percent change in transit AVO.
-#'     Default is `0`.
+#'      Default is `r ghg.ccap::transportation_defaults$hev_pct_sales`.
 #' @param .mitigation_tb [tibble::tibble()].
 #'     Mitigation output table for results.
 #'     Default is `0`.
@@ -32,7 +32,7 @@ calc_ghg_embodied <- function(tb,
                               .sales_mode,
                               .fuel_type,
                               .class,
-                              .transit_avo_pct = 0,
+                              .transit_avo_pct = transportation_defaults$transit_avo_pct,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors,

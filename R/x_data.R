@@ -274,3 +274,13 @@
 #' waste_data$characterization
 # waste_data -----
 "waste_data"
+
+
+#' @title Default values for transportation inputs
+#' @format named list
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' transportation_defaults
+# transportation_defaults -----
+"transportation_defaults"

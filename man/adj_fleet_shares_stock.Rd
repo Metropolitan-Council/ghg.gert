@@ -8,11 +8,11 @@ adj_fleet_shares_stock(
   .pass_tb,
   .freight_tb,
   .selected_ctu = "all",
-  .bev_pct_stock = 0,
-  .hev_pct_stock = 0,
-  .vmt_fee = 0,
-  .payd_fee = 0,
-  .gas_tax = 0,
+  .bev_pct_stock = transportation_defauts$bev_pct_stock,
+  .hev_pct_stock = transportation_defauts$hev_pct_stock,
+  .vmt_fee = transportation_defauts$vmt_fee,
+  .payd_fee = transportation_defauts$payd_fee,
+  .gas_tax = transportation_defauts$gas_tax,
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -29,19 +29,21 @@ Default is \code{transportation_data$freight}.}
 \item{.bev_pct_stock}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle stock that are battery electric vehicles (BEV)
 in the final forecast year.
-Default is \code{0}.}
+Default is 0}
 
 \item{.hev_pct_stock}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle stock that are hybrid electric vehicles (HEV)
 in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 

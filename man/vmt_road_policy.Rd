@@ -9,11 +9,11 @@ vmt_road_policy(
   .tb_vmt,
   .mode,
   .tb_fuel_cost_mile,
-  .vmt_fee = 0,
-  .freight_vmt_fee = 0,
-  .cong_price = 0,
-  .gas_tax = 0,
-  .payd_fee = 0,
+  .vmt_fee = transportation_defauts$vmt_fee,
+  .freight_vmt_fee = transportation_defauts$freight_vmt_fee,
+  .cong_price = transportation_defauts$cong_price,
+  .gas_tax = transportation_defauts$gas_tax,
+  .payd_fee = transportation_defauts$payd_fee,
   .stock,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast = ghg.ccap::elast
@@ -29,17 +29,21 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 
 \item{.tb_fuel_cost_mile}{table, table with fuel cost per mile}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
-\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
+\item{.freight_vmt_fee}{freight VMT fee per mile.
+Default is 0.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
+congested miles in MSP).
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
 \item{.stock}{character, stock for current mode}
 
