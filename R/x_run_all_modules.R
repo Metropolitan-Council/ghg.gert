@@ -107,8 +107,8 @@ run_all_modules <- function(.selected_ctu = "all",
                             .elast = ghg.ccap::elast,
                             .fuel_economy = ghg.ccap::fuel_economy,
                             .grid_emissions = ghg.ccap::grid_emissions,
-                            .elast_5d = elast_5d,
-                            .vehicle_occupancy = vehicle_occupancy) {
+                            .elast_5d = ghg.ccap::elast_5d,
+                            .vehicle_occupancy = ghg.ccap::vehicle_occupancy) {
   output <- c()
 
   if (run_buildings == TRUE) {
