@@ -70,7 +70,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
     .mode = "RU",
     .aeo_scenario,
     .miles_per_gallon = "EVElec",
-    .enviro_factors$ELEC_FUEL_COST_KWH,
+    .fuel_cost_gallon = .enviro_factors$ELEC_FUEL_COST_KWH,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
   )
