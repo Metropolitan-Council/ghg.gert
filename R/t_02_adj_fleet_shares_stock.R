@@ -83,7 +83,6 @@ adj_fleet_shares_stock <- function(.pass_tb,
     cli::cli_warn("Proportion of alternate fuel vehicle stock will exceed 90% of all vehicles.")
   }
 
-
   # vmt, payd, gas -----
   # Adjust stock based on ownership response to price elasticity
 
@@ -170,7 +169,7 @@ adj_fleet_shares_stock <- function(.pass_tb,
       c(calc_elasticity(
         elas_list = rep(0, n_yrs), elas = pct,
         num_inits = 3, num_yrs = n_yrs - 3
-      )[1:7], pct, pct)
+      )[1:9])
     }
 
     stock_elast <- tibble::tibble(
