@@ -22,6 +22,9 @@
 #' - **MAX_5D_ACT**: Maximum 5D impact on active mode (walk and bike).
 #' - **MAX_5D_TRANS**: Maximum 5D impact on transit.
 #' - **MARG_TELEWORK**: Telework marginal effect percent change in PMT (per household). From Kim et al. (2015).
+#' - **CBTP_PARTICIPATION_PCT**: Community Based Travel Planning: proportion of targeted residences that participate. CAPCOA Handbook
+#' - **CBTP_TRIP_REDUCTION_PCT**:  Community Based Travel Planning: vehicle trip reduction by participating residences. CAPCOA Handbook
+#' - **MAX_TRIP_REDUCTION_PCT**: Trip reduction program: maximum VMT reduction cap (2.3%). Citation: CAPCOA Handbook
 #' - **KG_CO2E_PER_THERM_BASELINE**: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2018.
 #' - **KG_CO2E_PER_THERM_FORECAST**: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2040.
 #' - **KG_CO2E_PER_MHW_BASELINE**: Kilograms of CO₂ equivalent emitted per megawatt hour of electricity in 2018.
