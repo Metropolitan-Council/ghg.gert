@@ -747,3 +747,98 @@ vmt_total_reduction <- function(.pass_tb,
          cli::cli_abort("VMT reduction adjustment is only applicable for passenger light-duty vehicles")
   )
 }
+
+
+#' @title Trip reduction program VMT VMT adjustment
+#'
+#' @description
+#'
+#' Community Based Travel Planning (CBTP) is a transportation demand management strategy
+#' that provides personalized travel behavior change assistance to households in a target
+#' community. This function calculates the expected reduction in vehicle miles traveled (VMT)
+#' based on two key elasticities: the proportion of targeted households that participate and
+#' the vehicle trip reduction achieved by participating households.
+#'
+#' The reduction is calculated as: `percent_reduction = -(prop_targeted × participation_rate × trip_reduction_rate)`,
+#' with a maximum VMT reduction cap of 2.3%.
+#'
+#' @param .pass_tb tibble, baseline passenger transportation table with columns `year`
+#' @param .cbtp_prop_targeted numeric, proportion of households targeted with CBTP (0 to 1). Default is `0`
+#' @param .cbtp_start_year character or numeric, the year the CBTP strategy begins. For years prior to this,
+#'     no reduction is applied. For years at or after this year, the full reduction is applied.
+#' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.ccap::enviro_factors`.
+#'     Expected to contain:
+#'     - `CBTP_PARTICIPATION_PCT`: proportion of targeted residences that participate (default 0.19)
+#'     - `CBTP_TRIP_REDUCTION_PCT`: vehicle trip reduction by participating residences (default 0.12)
+#'     - `MAX_TRIP_REDUCTION_PCT`: maximum trip VMT reduction cap (default 0.023, i.e., 2.3%)
+#'
+#' @return tibble with columns `year` and `cbtp_adj`, where `cbtp_adj` is the adjustment factor
+#'     (1 = no effect, < 1 = reduction). For years before `.cbtp_start_year`, `cbtp_adj = 1`.
+#'     For years at or after `.cbtp_start_year`, `cbtp_adj = 1 + reduction_pct` where
+#'     `reduction_pct` is capped at `-0.023` (maximum 2.3% reduction).
+#'
+#' @details
+#' \loadmathjax
+#' \mjdeqn{cbtp\_reduction = -prop\_targeted \times participation \times trip\_reduction}{cbtp_reduction = -prop_targeted × participation × trip_reduction}
+#'
+#' where \eqn{cbtp\_reduction} is capped at \eqn{-0.023} (maximum 2.3% VMT reduction).
+#'
+#' **Example calculations:**
+#' - `prop_targeted = 0.5`, participation = 0.19, trip_reduction = 0.12:
+#'   reduction = -(0.5 × 0.19 × 0.12) = -0.0114 (−1.14% uncapped)
+#' - `prop_targeted = 1.0`, participation = 0.19, trip_reduction = 0.12:
+#'   reduction = -(1.0 × 0.19 × 0.12) = -0.0228, capped to -0.023 (−2.3%)
+#'
+#' @export
+#' @family transportation
+#' @family VMT effects
+#'
+#' @references
+#' CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
+#'
+#' @importFrom dplyr tibble mutate select case_when
+#' @importFrom tibble tibble
+vmt_trip_reduction <- function(.pass_tb,
+                               .cbtp_prop_targeted = 0,
+                               .cbtp_start_year = "2030",
+                               .enviro_factors = ghg.ccap::enviro_factors) {
+
+  if(.cbtp_prop_targeted == 0){
+    # browser()
+    return(.pass_tb %>%
+             select(geog_id, geog_name, year) %>%
+             distinct() %>%
+             mutate(households_cbtp = 0,
+                    cbtp_adj = 1))
+  }
+
+  # Extract elasticity values from enviro_factors
+  # browser()
+  participation_pct <- .enviro_factors$CBTP_PARTICIPATION_PCT
+  trip_reduction_pct <- .enviro_factors$CBTP_TRIP_REDUCTION_PCT
+  max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
+
+
+  households_community <- demographic_data %>%
+    filter_ctu(unique(.pass_tb$geog_name)) %>%
+    dplyr::filter(sp_categories == "total_households",
+                  inventory_year %in% .pass_tb$year) %>%
+    dplyr::select(geog_name, geog_id, year = inventory_year, households = value) %>%
+    mutate(
+      households_cbtp = (households * .cbtp_prop_targeted) * participation_pct,
+      uncapped_reduction = .cbtp_prop_targeted * participation_pct * -trip_reduction_pct,
+      capped_reduction = dplyr::case_when(
+        uncapped_reduction < - max_reduction_pct ~ - max_reduction_pct,
+        TRUE ~ uncapped_reduction
+      ),
+      cbtp_adj = dplyr::case_when(
+        as.numeric(year) < as.numeric(.cbtp_start_year) ~ 1,
+        TRUE ~ 1 + capped_reduction
+      ),
+      year = as.character(year)
+    ) %>%
+    select(geog_id, geog_name, year, households_cbtp, cbtp_adj)
+
+  return(households_community)
+
+}
