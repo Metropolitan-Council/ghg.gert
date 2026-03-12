@@ -37,6 +37,8 @@ mode_passenger_light_duty <- function(.pass_tb,
                                       .transit_dist_pct_change = 0,
                                       .comb_5d_impact_pct_change = 0,
                                       .telework_pct = 0,
+                                      .cbtp_prop_targeted = 0,
+                                      .cbtp_start_year = "2030",
                                       .enviro_factors = ghg.ccap::enviro_factors,
                                       .elast = ghg.ccap::elast,
                                       .elast_5d = ghg.ccap::elast_5d,
@@ -101,6 +103,8 @@ mode_passenger_light_duty <- function(.pass_tb,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
+    .cbtp_prop_targeted = .cbtp_prop_targeted,
+    .cbtp_start_year = .cbtp_start_year,
     .elast = .elast,
     .enviro_factors = .enviro_factors,
     .elast_5d = .elast_5d,
@@ -247,14 +251,14 @@ mode_passenger_light_duty <- function(.pass_tb,
 #' @keywords internal
 #' @importFrom stringr str_to_lower
 run_vehicle_calculations <- function(
-  fuel_label,
-  mpg_name,
-  stock_name,
-  fuel_label2,
-  fuel_cost_var,
-  fcm_common,
-  vmt_common,
-  dir_ghg_common
+    fuel_label,
+    mpg_name,
+    stock_name,
+    fuel_label2,
+    fuel_cost_var,
+    fcm_common,
+    vmt_common,
+    dir_ghg_common
 ) {
   cli::cli_alert_info("Passenger vehicles, {fuel_label}")
 

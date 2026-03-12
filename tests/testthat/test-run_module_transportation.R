@@ -213,7 +213,7 @@ test_vmt_stock_proportion <- function(x) {
       purrr::map(summarize_emiss)
 
     purrr::map_dfr(bev_percentages_summary, baseline_diff,
-      baseline = baseline
+                   baseline = baseline
     ) %>%
       # we expect that VMT difference will be very low
       filter(vmt_pct_diff != 0) %>%
@@ -222,7 +222,7 @@ test_vmt_stock_proportion <- function(x) {
 
 
     purrr::map_dfr(bev_percentages_summary, baseline_diff,
-      baseline = baseline
+                   baseline = baseline
     ) %>%
       # we expect GHG to change
       filter(dir_ghg_diff != 0) %>%
@@ -363,7 +363,7 @@ test_that("Region VMT stock proportion", {
     purrr::map(summarize_emiss)
 
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
-    baseline = baseline
+                 baseline = baseline
   ) %>%
     filter(vmt_pct_diff != 0) %>%
     nrow() %>%
@@ -371,7 +371,7 @@ test_that("Region VMT stock proportion", {
 
 
   purrr::map_dfr(bev_percentages_summary, baseline_diff,
-    baseline = baseline
+                 baseline = baseline
   ) %>%
     filter(dir_ghg_diff != 0) %>%
     nrow() %>%
