@@ -53,7 +53,7 @@ calc_energy_non_residential <- function(non_res_tb,
   check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
   check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
-  # browser()
+  browser()
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
@@ -81,22 +81,22 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  # make imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients available for use in ghg.ccap.app
+  # make scenario_comm_des available for use in ghg.ccap.app
   utils::data(
-    "imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients",
+    "scenario_comm_des",
     package = "ghg.ccap",
     envir   = environment()
   )
 
   # Pull relevant community designation's energy profile for .selected_ctu
-  ctu_energy_profile <- imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients %>%
+  ctu_energy_profile <- scenario_comm_des %>%
     filter(imagine_designation == pluck_commDesgn) %>%
     mutate(cat_match = case_when(
       scenario == "baseline" ~ "existing_nonretrofit_jobs",
       scenario == "retrofit_efficiency" ~ "retrofit_jobs",
-      scenario == "new_non_leed_jobs" ~ "new_non_leed_jobs",
+      scenario == "new_build" ~ "new_non_leed_jobs",
       scenario == "electrification" ~ "heatpump_jobs",
-      scenario == "new_leed_jobs" ~ "new_leed_jobs"
+      scenario == "new_build_efficient" ~ "new_leed_jobs"
     ))
 
   ### adjust the model prediction to the sum of the last 5 observed years
