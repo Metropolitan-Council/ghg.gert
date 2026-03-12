@@ -37,6 +37,8 @@ run_module_transportation(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .vmt_reduction_pct = 0,
+  .cbtp_prop_targeted = 0,
+  .cbtp_start_year = "2030",
   .bev_pct_sales = 0,
   .hev_pct_sales = 0,
   .bev_pct_stock = 0,
@@ -175,6 +177,7 @@ Other transportation:
 \code{\link{mode_transit_bus}()},
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
-\code{\link{vmt_annual_energy_outlook}()}
+\code{\link{vmt_annual_energy_outlook}()},
+\code{\link{vmt_trip_reduction}()}
 }
 \concept{transportation}

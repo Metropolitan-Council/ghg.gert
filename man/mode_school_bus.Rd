@@ -21,6 +21,8 @@ mode_school_bus(
   .parking_price = 0,
   .freight_parking_price = 0,
   .vmt_reduction_pct = 0,
+  .cbtp_prop_targeted = 0,
+  .cbtp_start_year = "2030",
   .cong_price = 0,
   .freight_vmt_fee = 0,
   .pop_dens_pct_change = 0,
@@ -156,7 +158,8 @@ Other transportation:
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
 \code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+\code{\link{vmt_annual_energy_outlook}()},
+\code{\link{vmt_trip_reduction}()}
 }
 \concept{passenger}
 \concept{transportation}

@@ -34,6 +34,8 @@ calc_vmt_forecast(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
+  .cbtp_prop_targeted = 0,
+  .cbtp_start_year = "2030",
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
@@ -146,6 +148,7 @@ Other transportation:
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
 \code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+\code{\link{vmt_annual_energy_outlook}()},
+\code{\link{vmt_trip_reduction}()}
 }
 \concept{transportation}
