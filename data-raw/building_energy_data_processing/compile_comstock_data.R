@@ -43,7 +43,7 @@ load_comstock <- function(path) {
 }
 
 ## summarize function
-summarize_comstock <- function(df) {
+summarize_comstock <- function(df, new_build = FALSE) {
   base_df <- df %>%
     filter(heating_fuel == "NaturalGas") %>%
     mutate(kwh_per_sqft = building_kwh / sq_ft,
@@ -63,10 +63,13 @@ summarize_comstock <- function(df) {
       )
   }
 
-  bind_rows(
-    base_df %>% group_by(year_bin) %>% summarize_groups(),
+  if(new_build == TRUE) {
+    base_df %>% group_by(year_bin) %>% summarize_groups() %>%
+    filter(year_bin == "2000+") } else {
     base_df  %>% summarize_groups() %>% mutate(year_bin = "Total")
-  )
+    }
+
+
 }
 
 
@@ -92,7 +95,7 @@ electrification <- load_comstock(
 
 # 64: Package 11: Wall + Roof Insulation + New Windows + LED Lighting + Hydronic GHP or Packaged GHP or Console GHP
 
-high_efficiency <- load_comstock(
+high_efficient <- load_comstock(
   "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade64_agg.csv"
 )
 
@@ -103,31 +106,32 @@ high_efficiency <- load_comstock(
 
 # Summaries (reuse summarize_comstock)
 comstock_summaries <- list(
-  baseline                         = summarize_comstock(baseline),
-  retrofit_efficiency              = summarize_comstock(retrofit_efficiency),
-  electrification                  = summarize_comstock(electrification),
-  high_efficiency                = summarize_comstock(high_efficiency)
+  baseline                         = summarize_comstock(baseline, new_build = FALSE),
+  new_build                         = summarize_comstock(baseline, new_build = TRUE),
+  retrofit_efficiency              = summarize_comstock(retrofit_efficiency, new_build = FALSE),
+  electrification                  = summarize_comstock(electrification, new_build = FALSE),
+  new_build_efficient                = summarize_comstock(high_efficiency, new_build = TRUE)
 )
 
 baseline_tbl <- ghg.ccap::imagine_commDesgn_mwh_mcf_perJob_coefficients
 
 # Pull medians for the two reference baselines (full + newBuild)
-baseline_mcf <- comstock_summaries$baseline %>% filter(comstock_building_type_group == "Total") %>% pull(mean_mcf_sqft)
-baseline_kwh <- comstock_summaries$baseline %>% filter(comstock_building_type_group == "Total") %>% pull(mean_kwh_sqft)
-baseline_new_mcf <- comstock_summaries$high_efficiency %>% filter(comstock_building_type_group == "Total") %>% pull(mean_mcf_sqft)
-baseline_new_kwh <- comstock_summaries$high_efficiency %>% filter(comstock_building_type_group == "Total") %>% pull(mean_kwh_sqft)
+baseline_mcf <- comstock_summaries$baseline %>% pull(mean_mcf_sqft)
+baseline_kwh <- comstock_summaries$baseline %>% pull(mean_kwh_sqft)
+baseline_new_mcf <- comstock_summaries$new_build %>% pull(mean_mcf_sqft)
+baseline_new_kwh <- comstock_summaries$new_build %>% pull(mean_kwh_sqft)
 
 # Look up the scenario’s medians, picks the correct reference, computes ratios, and scales baseline_tbl
 scale_scenario <- function(scenario_key) {
   mv <- comstock_summaries[[scenario_key]]
 
-  # Use the 2010s baseline when the scenario is *_newBuild, else full baseline
-  use_newbuild_ref <- grepl("_newBuild$", scenario_key)
+  # Use the 2010s baseline when the scenario is *_new_build, else full baseline
+  use_newbuild_ref <- grepl("_new_build$", scenario_key)
   ref_mcf <- if (use_newbuild_ref) baseline_new_mcf else baseline_mcf
   ref_kwh <- if (use_newbuild_ref) baseline_new_kwh else baseline_kwh
 
-  mcf_ratio <- mv$median_mcf / ref_mcf
-  mwh_ratio <- mv$median_kwh / ref_kwh
+  mcf_ratio <- mv$mean_mcf_sqft / ref_mcf
+  mwh_ratio <- mv$mean_kwh_sqft / ref_kwh
 
   baseline_tbl %>%
     mutate(
@@ -141,28 +145,17 @@ scale_scenario <- function(scenario_key) {
 scenarios <- c(
   "baseline",
   "retrofit_efficiency",
-  "electrification"
-  # "baseline_newBuild",
-  # "retrofit_efficiency_newBuild",
+  "electrification",
+  "new_build",
+  "new_build_efficient"
   # "electrification_newBuild"
 )
 
 # Build the final table -- first, take baseline, retrofit, and heatpump
-combined_scenarios <-
+scenario_comm_des <-
   map_dfr(scenarios, scale_scenario) %>%
   select(scenario, imagine_designation, mcf_per_job, mwh_per_job)
 
-# Add a placeholder for new builds... use the baseline data as an analog. New build analysis was inconclusive
-imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients <- combined_scenarios %>%
-  # two new_build rows, same values as baseline,
-  bind_rows(
-    combined_scenarios %>%
-      filter(scenario == "baseline") %>%
-      mutate(scenario = "new_leed_jobs"),
-    combined_scenarios %>%
-      filter(scenario == "baseline") %>%
-      mutate(scenario = "new_non_leed_jobs"),
-  )
 
 usethis::use_data(comstock_summaries, overwrite = TRUE)
-usethis::use_data(imagine_commDesgn_mwh_mcf_perJob_perScenario_coefficients, overwrite = TRUE)
+usethis::use_data(scenario_comm_des, overwrite = TRUE)
