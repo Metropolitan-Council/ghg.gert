@@ -39,20 +39,21 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @param .type character, one of `"DRIVE"`, `"WALK"`, `"TRANSIT"`.
 #' @param .pop_dens_pct_change percent change in population density in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `0`
+#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$pop_dens_pct_change`.
 #' @param .emp_dens_pct_change percent change in employment density in the final forecast year relative to BAU.
-#'      Numeric between -1 and 1. Default is `0`
+#'      Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$emp_dens_pct_change`
 #' @param .land_use_diversity_pct_change percent change in land use diversity/mix in the final forecast year relative to BAU.
-#'      Numeric between -1 and 1. Default is `0`
+#'      Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$land_use_diversity_pct_change`
 #' @param .intersection_design_pct_change percent change in intersection design
 #'     (% 4-way stops) in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1.  Default is `0`
+#'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_design_pct_change`
 #' @param .job_access_pct_change percent change in job accessibility in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `0`
+#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$job_access_pct_change`
 #' @param .transit_dist_pct_change percent change in transit distance in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `0`
+#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$transit_dist_pct_change`
 #' @param .comb_5d_impact_pct_change percent change in population density in the final forecast year relative to BAU
-#'      as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is `0`
+#'      as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+#'      Default is `r ghg.ccap::transportation_defaults$comb_5d_impact_pct_change`
 #'
 #' @note An input value of 1 indicates a 100% increase, where a value of 0.75 indicates a 75% increase.
 #'     A value of -0.75 indicates a 75% decrease.
@@ -73,13 +74,13 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @family VMT effects
 vmt_land_use_change <- function(.type,
-                                .comb_5d_impact_pct_change = 0,
-                                .pop_dens_pct_change = 0,
-                                .emp_dens_pct_change = 0,
-                                .land_use_diversity_pct_change = 0,
-                                .intersection_design_pct_change = 0,
-                                .job_access_pct_change = 0,
-                                .transit_dist_pct_change = 0,
+                                .comb_5d_impact_pct_change = transportation_defaults$comb_5d_impact_pct_change,
+                                .pop_dens_pct_change = transportation_defaults$pop_dens_pct_change,
+                                .emp_dens_pct_change = transportation_defaults$emp_dens_pct_change,
+                                .land_use_diversity_pct_change = transportation_defaults$land_use_diversity_pct_change,
+                                .intersection_design_pct_change = transportation_defaults$intersection_design_pct_change,
+                                .job_access_pct_change = transportation_defaults$job_access_pct_change,
+                                .transit_dist_pct_change = transportation_defaults$transit_dist_pct_change,
                                 .enviro_factors = ghg.ccap::enviro_factors,
                                 .elast_5d = ghg.ccap::elast_5d) {
   max_value <- switch(.type,
@@ -114,8 +115,10 @@ vmt_land_use_change <- function(.type,
 
 #' @title Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
-#' @param .parking_price numeric, measured in dollars per hour. Default is `0`.
-#' @param .freight_parking_price numeric, measured in dollars per hour. Default is `0`.
+#' @param .parking_price numeric, measured in dollars per hour.
+#'   Default is `r ghg.ccap::transportation_defaults$parking_price`.
+#' @param .freight_parking_price numeric, measured in dollars per hour.
+#'   Default is `r ghg.ccap::transportation_defaults$freight_parking_price`.
 #' @param .parking_cost table, existing parking cost assumptions. Default is `ghg.ccap::parking_cost`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
@@ -154,8 +157,8 @@ vmt_parking_policy <- function(tb,
                                .mode,
                                .parking_cost = parking_cost,
                                .elast = elast,
-                               .parking_price = 0,
-                               .freight_parking_price = 0,
+                               .parking_price = transportation_defaults$parking_price,
+                               .freight_parking_price = transportation_defaults$freight_parking_price,
                                .enviro_factors = ghg.ccap::enviro_factors) {
   if (!.mode %in% unique(tb$mode)) {
     cli::cli_abort("Make sure you are using the correct input table")
@@ -228,13 +231,17 @@ vmt_parking_policy <- function(tb,
 #' @inheritParams filter_ctu
 #'
 #' @param .tb_vmt [tibble::tibble()], VMT table
-#' @param .vmt_fee VMT fee in dollars per mile. Default is `0`
+#' @param .vmt_fee VMT fee in dollars per mile.
+#'   Default is `r ghg.ccap::transportation_defaults$vmt_fee`.
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-#'      Default is `0`
-#' @param .gas_tax Gas tax in dollars per mile. Default is `0`
+#'  Default is `r ghg.ccap::transportation_defaults$payd_fee`.
+#' @param .gas_tax Gas tax in dollars per mile.
+#'   Default is `r ghg.ccap::transportation_defaults$gas_tax`.
 #' @param .cong_price Congestion price in dollars per mile (only applies to an approximation of
-#'     congested miles in MSP). Default is `0`
-#' @param .freight_vmt_fee freight VMT fee per mile. Default is `0`
+#'     congested miles in MSP).
+#'     Default is `r ghg.ccap::transportation_defaults$cong_price`.
+#' @param .freight_vmt_fee freight VMT fee per mile.
+#'   Default is `r ghg.ccap::transportation_defaults$freight_vmt_fee`.
 #'
 #' @return a table with columns   `year`, `geog_name`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adj`, `cong_adjust`, `cross_vmt`, `gas_adj`
@@ -245,11 +252,11 @@ vmt_road_policy <- function(.pass_tb,
                             .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
-                            .vmt_fee = 0,
-                            .freight_vmt_fee = 0,
-                            .cong_price = 0,
-                            .gas_tax = 0,
-                            .payd_fee = 0,
+                            .vmt_fee = transportation_defaults$vmt_fee,
+                            .freight_vmt_fee = transportation_defaults$freight_vmt_fee,
+                            .cong_price = transportation_defaults$cong_price,
+                            .gas_tax = transportation_defaults$gas_tax,
+                            .payd_fee = transportation_defaults$payd_fee,
                             .stock,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .elast = ghg.ccap::elast) {
@@ -381,7 +388,9 @@ vmt_road_policy <- function(.pass_tb,
 
 #' Calculate telework multiplier
 #' @param .telework_pct additional percent of people teleworking in the final forecast year.
-#'     Numeric between 0 and 1. Default is `0`
+#'     Numeric between 0 and 1.
+#'     Default is `r ghg.ccap::transportation_defaults$telework_pct`
+#'      Default is `0`
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -402,7 +411,7 @@ vmt_road_policy <- function(.pass_tb,
 #'
 vmt_telework <- function(.pass_tb,
                          .mode,
-                         .telework_pct = 0,
+                         .telework_pct = transportation_defaults$telework_pct,
                          .enviro_factors = ghg.ccap::enviro_factors) {
   switch(.mode,
          PLDV = {
@@ -500,7 +509,8 @@ vmt_stock_proportion <- function(.tb,
 
 
 #' Calculate transit service adjustment for each forecast year
-#' @param .transit_service_pct numeric, change in transit service % adjustment. Default is `0`.
+#' @param .transit_service_pct numeric, change in transit service % adjustment.
+#'    Default is `r ghg.ccap::transportation_defaults$transit_service_pct`.
 #'
 #' @description
 #'     Transit service increase assumes that the base level of
@@ -529,7 +539,7 @@ vmt_stock_proportion <- function(.tb,
 #' @family VMT effects
 vmt_transit_service <- function(tb,
                                 .mode,
-                                .transit_service_pct = 0,
+                                .transit_service_pct = transportation_defaults$transit_service_pct,
                                 .elast = elast,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   years <- unique(tb$year)
@@ -584,9 +594,12 @@ vmt_transit_service <- function(tb,
 
 #' Calculate vehicle occupancy multiplier
 #'
-#' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment. Default is `0`
-#' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment. Default is `0`
-#' @param .vehicle_occupancy table, vehicle occupancy averages by mode. Default is `ghg.ccap::vehicle_occupancy`.
+#' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment.
+#'   Default is `r ghg.ccap::transportation_defaults$transit_avo_pct`.
+#' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment.
+#'   Default is `r ghg.ccap::transportation_defaults$pldv_avo_pct`.
+#' @param .vehicle_occupancy table, vehicle occupancy averages by mode.
+#'   Default is `ghg.ccap::vehicle_occupancy`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -630,8 +643,8 @@ vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
                                   .stock,
-                                  .transit_avo_pct = 0,
-                                  .pldv_avo_pct = 0,
+                                  .transit_avo_pct = transportation_defaults$transit_avo_pct,
+                                  .pldv_avo_pct = transportation_defaults$pldv_avo_pct,
                                   .vehicle_occupancy = vehicle_occupancy,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
   calc_avo_elast <- function(pct) {
@@ -708,7 +721,8 @@ vmt_vehicle_occupancy <- function(tb,
 
 #' Calculate VMT reduction multiplier
 #' @param .vmt_reduction_pct total percent reduction in PLDV VMT by final forecast year.
-#'     Numeric between 0 and 1. Default is `0`
+#'     Numeric between 0 and 1.
+#'     Default is `r ghg.ccap::transportation_defaults$vmt_reduction_pct`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -721,7 +735,7 @@ vmt_vehicle_occupancy <- function(tb,
 #'
 vmt_total_reduction <- function(.pass_tb,
                                 .mode,
-                                .vmt_reduction_pct = 0,
+                                .vmt_reduction_pct = transportation_defaults$vmt_reduction_pct,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   switch(.mode,
          PLDV = {

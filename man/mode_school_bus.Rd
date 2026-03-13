@@ -12,6 +12,7 @@ mode_school_bus(
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
   .vehicle_occupancy = vehicle_occupancy,
+<<<<<<< HEAD
   .transit_avo_pct = 0,
   .pldv_avo_pct = 0,
   .transit_service_pct = 0,
@@ -33,6 +34,27 @@ mode_school_bus(
   .transit_dist_pct_change = 0,
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
+=======
+  .transit_avo_pct = transportation_defauts$transit_avo_pct,
+  .pldv_avo_pct = transportation_defauts$pldv_avo_pct,
+  .transit_service_pct = transportation_defauts$transit_service_pct,
+  .vmt_fee = transportation_defauts$vmt_fee,
+  .payd_fee = transportation_defauts$payd_fee,
+  .gas_tax = transportation_defauts$gas_tax,
+  .parking_price = transportation_defauts$parking_price,
+  .freight_parking_price = transportation_defauts$freight_parking_price,
+  .vmt_reduction_pct = transportation_defauts$vmt_reduction_pct,
+  .cong_price = transportation_defauts$cong_price,
+  .freight_vmt_fee = transportation_defauts$freight_vmt_fee,
+  .pop_dens_pct_change = transportation_defauts$pop_dens_pct_change,
+  .emp_dens_pct_change = transportation_defauts$emp_dens_pct_change,
+  .land_use_diversity_pct_change = transportation_defauts$land_use_diversity_pct_change,
+  .intersection_design_pct_change = transportation_defauts$intersection_design_pct_change,
+  .job_access_pct_change = transportation_defauts$job_access_pct_change,
+  .transit_dist_pct_change = transportation_defauts$transit_dist_pct_change,
+  .comb_5d_impact_pct_change = transportation_defauts$comb_5d_impact_pct_change,
+  .telework_pct = transportation_defauts$telework_pct,
+>>>>>>> transport-defaults
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d,
@@ -58,54 +80,67 @@ Default is \code{"REF"}}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
 
-\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode. Default is \code{ghg.ccap::vehicle_occupancy}.}
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
+Default is \code{ghg.ccap::vehicle_occupancy}.}
 
-\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
+Default is 0.}
 
-\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment.
+Default is 0.}
 
-\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment.
+Default is 0.}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
+congested miles in MSP).
+Default is 0.}
 
-\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
+\item{.freight_vmt_fee}{freight VMT fee per mile.
+Default is 0.}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0.}
 
 \item{.emp_dens_pct_change}{percent change in employment density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
-Numeric between -1 and 1.  Default is \code{0}}
+Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+Default is 0}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0
+Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

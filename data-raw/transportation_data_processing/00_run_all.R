@@ -35,6 +35,7 @@ source("data-raw/transportation_data_processing/fix_avo_all.R")
 source("data-raw/transportation_data_processing/fix_remove_phev.R")
 
 source("data-raw/transportation_data_processing/fix_region_aggregate.R")
+source("data-raw/transportation_data_processing/transportation_defaults.R")
 
 write_csv(transportation_data$passenger, "data-raw/transportation_data_processing/csv_copies/transportation_data_passenger.csv")
 

@@ -7,7 +7,7 @@
 vmt_total_reduction(
   .pass_tb,
   .mode,
-  .vmt_reduction_pct = 0,
+  .vmt_reduction_pct = transportation_defauts$vmt_reduction_pct,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -18,7 +18,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{.mode}{character, current mode}
 
 \item{.vmt_reduction_pct}{total percent reduction in PLDV VMT by final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

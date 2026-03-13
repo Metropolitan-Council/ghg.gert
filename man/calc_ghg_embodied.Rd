@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = 0,
+  .transit_avo_pct = transportation_defauts$transit_avo_pct,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors,
@@ -35,7 +35,7 @@ Vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"},  or \code{"BEV"}.}
 
 \item{.transit_avo_pct}{numeric,
 Percent change in transit AVO.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.mitigation_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Mitigation output table for results.

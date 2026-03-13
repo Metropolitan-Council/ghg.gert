@@ -9,8 +9,8 @@ vmt_parking_policy(
   .mode,
   .parking_cost = parking_cost,
   .elast = elast,
-  .parking_price = 0,
-  .freight_parking_price = 0,
+  .parking_price = transportation_defauts$parking_price,
+  .freight_parking_price = transportation_defauts$freight_parking_price,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -25,9 +25,11 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

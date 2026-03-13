@@ -6,13 +6,13 @@
 \usage{
 vmt_land_use_change(
   .type,
-  .comb_5d_impact_pct_change = 0,
-  .pop_dens_pct_change = 0,
-  .emp_dens_pct_change = 0,
-  .land_use_diversity_pct_change = 0,
-  .intersection_design_pct_change = 0,
-  .job_access_pct_change = 0,
-  .transit_dist_pct_change = 0,
+  .comb_5d_impact_pct_change = transportation_defauts$comb_5d_impact_pct_change,
+  .pop_dens_pct_change = transportation_defauts$pop_dens_pct_change,
+  .emp_dens_pct_change = transportation_defauts$emp_dens_pct_change,
+  .land_use_diversity_pct_change = transportation_defauts$land_use_diversity_pct_change,
+  .intersection_design_pct_change = transportation_defauts$intersection_design_pct_change,
+  .job_access_pct_change = transportation_defauts$job_access_pct_change,
+  .transit_dist_pct_change = transportation_defauts$transit_dist_pct_change,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast_5d = ghg.ccap::elast_5d
 )
@@ -21,26 +21,27 @@ vmt_land_use_change(
 \item{.type}{character, one of \code{"DRIVE"}, \code{"WALK"}, \code{"TRANSIT"}.}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+Default is 0}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0.}
 
 \item{.emp_dens_pct_change}{percent change in employment density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
-Numeric between -1 and 1.  Default is \code{0}}
+Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
