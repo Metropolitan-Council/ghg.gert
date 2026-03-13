@@ -777,9 +777,11 @@ vmt_total_reduction <- function(.pass_tb,
 #' with a maximum VMT reduction cap of 2.3%.
 #'
 #' @param .pass_tb tibble, baseline passenger transportation table with columns `year`
-#' @param .cbtp_prop_targeted numeric, proportion of households targeted with CBTP (0 to 1). Default is `0`
+#' @param .cbtp_prop_targeted numeric, proportion of households targeted with CBTP (0 to 1). 
+#'     Default is `r ghg.ccap::transportation_defaults$cbtp_prop_targeted`
 #' @param .cbtp_start_year character or numeric, the year the CBTP strategy begins. For years prior to this,
-#'     no reduction is applied. For years at or after this year, the full reduction is applied.
+#'     no reduction is applied. For years at or after this year, the full reduction is applied. 
+#'     Default is `r ghg.ccap::transportation_defaults$cbtp_start_year`
 #' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.ccap::enviro_factors`.
 #'     Expected to contain:
 #'     - `CBTP_PARTICIPATION_PCT`: proportion of targeted residences that participate (default 0.19)
@@ -813,8 +815,8 @@ vmt_total_reduction <- function(.pass_tb,
 #' @importFrom dplyr tibble mutate select case_when
 #' @importFrom tibble tibble
 vmt_trip_reduction <- function(.pass_tb,
-                               .cbtp_prop_targeted = 0,
-                               .cbtp_start_year = "2030",
+                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
                                .enviro_factors = ghg.ccap::enviro_factors) {
 
   if(.cbtp_prop_targeted == 0){

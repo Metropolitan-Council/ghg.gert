@@ -9,8 +9,8 @@ vmt_parking_policy(
   .mode,
   .parking_cost = parking_cost,
   .elast = elast,
-  .parking_price = transportation_defauts$parking_price,
-  .freight_parking_price = transportation_defauts$freight_parking_price,
+  .parking_price = transportation_defaults$parking_price,
+  .freight_parking_price = transportation_defaults$freight_parking_price,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }

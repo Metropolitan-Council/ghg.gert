@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = transportation_defauts$transit_avo_pct,
+  .transit_avo_pct = transportation_defaults$transit_avo_pct,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors,

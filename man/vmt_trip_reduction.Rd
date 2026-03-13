@@ -6,24 +6,26 @@
 \usage{
 vmt_trip_reduction(
   .pass_tb,
-  .cbtp_prop_targeted = 0,
-  .cbtp_start_year = "2030",
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
 \arguments{
 \item{.pass_tb}{tibble, baseline passenger transportation table with columns \code{year}}
 
-\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1). Default is \code{0}}
+\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1).
+Default is 0}
 
 \item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
-no reduction is applied. For years at or after this year, the full reduction is applied.}
+no reduction is applied. For years at or after this year, the full reduction is applied.
+Default is 2030}
 
 \item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.ccap::enviro_factors}.
 Expected to contain:
 - \code{CBTP_PARTICIPATION_PCT}: proportion of targeted residences that participate (default 0.19)
 - \code{CBTP_TRIP_REDUCTION_PCT}: vehicle trip reduction by participating residences (default 0.12)
-- \code{MAX_TRIP_REDUCTION_PCT}: maximum VMT reduction cap (default 0.023, i.e., 2.3\%)}
+- \code{MAX_TRIP_REDUCTION_PCT}: maximum trip VMT reduction cap (default 0.023, i.e., 2.3\%)}
 }
 \value{
 tibble with columns \code{year} and \code{cbtp_adj}, where \code{cbtp_adj} is the adjustment factor

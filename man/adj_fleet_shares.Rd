@@ -8,11 +8,11 @@ adj_fleet_shares(
   .pass_tb,
   .freight_tb,
   .selected_ctu = "all",
-  .bev_pct_sales = transportation_defauts$bev_pct_sales,
-  .hev_pct_sales = transportation_defauts$hev_pct_sales,
-  .vmt_fee = transportation_defauts$vmt_fee,
-  .payd_fee = transportation_defauts$payd_fee,
-  .gas_tax = transportation_defauts$gas_tax,
+  .bev_pct_sales = transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = transportation_defaults$hev_pct_sales,
+  .vmt_fee = transportation_defaults$vmt_fee,
+  .payd_fee = transportation_defaults$payd_fee,
+  .gas_tax = transportation_defaults$gas_tax,
   .elast = elast,
   .enviro_factors = enviro_factors
 )

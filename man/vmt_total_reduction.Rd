@@ -7,7 +7,7 @@
 vmt_total_reduction(
   .pass_tb,
   .mode,
-  .vmt_reduction_pct = transportation_defauts$vmt_reduction_pct,
+  .vmt_reduction_pct = transportation_defaults$vmt_reduction_pct,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
