@@ -192,6 +192,3 @@ calc_business_retrofit <- function(non_res_tb,
 
   return(retrofit_results)
 }
-
-# Here, we are effectively reducing the effective existing housing count to account
-# for the energy savings from retrofitted building
