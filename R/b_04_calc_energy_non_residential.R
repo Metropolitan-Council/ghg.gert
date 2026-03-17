@@ -53,6 +53,7 @@ calc_energy_non_residential <- function(non_res_tb,
   check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
   check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
+
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu) %>%
     mutate(imagine_designation = if_else(is.na(imagine_designation),
                                          "Regional",
