@@ -14,24 +14,36 @@ jobs <- demographic_data %>%
   select(-baseline_adjustment)
 
 # get community designations
-cprg_ctu <- readRDS("C:/Users/LimeriSA/Documents/Projects/ghg-cprg/_meta/data/cprg_ctu.RDS") %>%
-  select(-geometry)
+cprg_ctu <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_meta/data/cprg_ctu.RDS") %>%
+  sf::st_drop_geometry() %>%
+  filter(county_name %in% c(
+    "Anoka",
+    "Carver",
+    "Dakota",
+    "Hennepin",
+    "Ramsey",
+    "Scott",
+    "Washington"
+  )) %>%
+  select(-statefp, -state_abb, -geoid_wis, -cprg_area) %>%
+  mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
+                            paste(ctu_name, "Twp."),
+                            ctu_name))
 
 
 ## Electricity
 electricity_mwh_per_job_ctu_2022 <- building_energy_data$electricity_business_ctu %>%
-  filter(inventory_year == 2022 && !is.na(geog_name)) %>%
+  filter(inventory_year == 2022 & !is.na(geog_name)) %>%
   ungroup() %>%
+  select(-imagine_designation) %>%
   left_join(cprg_ctu,
     by = join_by(
-      geog_name == ctu_name,
-      geog_level == ctu_class
+      geog_name == ctu_name
     )
   ) %>%
   left_join(jobs,
     by = join_by(
-      geog_name,
-      geog_level,
+      gnis == geog_id,
       inventory_year
     )
   ) %>%
@@ -61,26 +73,30 @@ regional_mwh_per_job_2022 <- electricity_mwh_per_job_ctu_2022 %>%
     total_jobs = sum(value, na.rm = TRUE)
   ) %>%
   mutate(
-    mwh_per_job = total_mwh / total_jobs
+    mwh_per_job = total_mwh / total_jobs,
+    imagine_designation = "Regional"
   )
 
+imagine_mwh_per_job_2022 <- bind_rows(imagineCommDesgn_mwh_per_job_2022,
+                                      regional_mwh_per_job_2022 %>%
+                                        select(imagine_designation,
+                                               mwh_per_job))
 
 ## Natural Gas
 natural_gas_mcf_per_job_ctu_2022 <- building_energy_data$natural_gas_business_ctu %>%
-  filter(inventory_year == 2022 && !is.na(geog_name)) %>%
+  filter(inventory_year == 2022 & !is.na(geog_name)) %>%
   ungroup() %>%
+  select(-imagine_designation) %>%
   left_join(cprg_ctu,
-    by = join_by(
-      geog_name == ctu_name,
-      geog_level == ctu_class
-    )
+            by = join_by(
+              geog_name == ctu_name
+            )
   ) %>%
   left_join(jobs,
-    by = join_by(
-      geog_name,
-      geog_level,
-      inventory_year
-    )
+            by = join_by(
+              gnis == geog_id,
+              inventory_year
+            )
   ) %>%
   select(
     -value_change_from_base,
@@ -108,13 +124,19 @@ regional_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
     total_jobs = sum(value, na.rm = TRUE)
   ) %>%
   mutate(
-    mcf_per_job = total_mcf / total_jobs
+    mcf_per_job = total_mcf / total_jobs,
+    imagine_designation = "Regional"
   )
 
-imagine_commDesgn_mwh_mcf_perJob_coefficients <- imagineCommDesgn_mcf_per_job_2022 %>%
-  left_join(imagineCommDesgn_mwh_per_job_2022,
+imagine_mcf_per_job_2022 <- bind_rows(imagineCommDesgn_mcf_per_job_2022,
+                                      regional_mcf_per_job_2022 %>%
+                                        select(imagine_designation,
+                                               mcf_per_job))
+
+imagine_mwh_mcf_per_job <- imagine_mcf_per_job_2022 %>%
+  left_join(imagine_mwh_per_job_2022,
     by = join_by(imagine_designation)
   )
 
 
-usethis::use_data(imagine_commDesgn_mwh_mcf_perJob_coefficients, overwrite = TRUE)
+usethis::use_data(imagine_mwh_mcf_per_job, overwrite = TRUE)

@@ -110,10 +110,10 @@ comstock_summaries <- list(
   new_build                         = summarize_comstock(baseline, new_build = TRUE),
   retrofit_efficiency              = summarize_comstock(retrofit_efficiency, new_build = FALSE),
   electrification                  = summarize_comstock(electrification, new_build = FALSE),
-  new_build_efficient                = summarize_comstock(high_efficiency, new_build = TRUE)
+  new_build_efficient                = summarize_comstock(high_efficient, new_build = TRUE)
 )
 
-baseline_tbl <- ghg.ccap::imagine_commDesgn_mwh_mcf_perJob_coefficients
+baseline_tbl <- ghg.ccap::imagine_mwh_mcf_per_job
 
 # Pull medians for the two reference baselines (full + newBuild)
 baseline_mcf <- comstock_summaries$baseline %>% pull(mean_mcf_sqft)
