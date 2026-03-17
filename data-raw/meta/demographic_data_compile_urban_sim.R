@@ -153,6 +153,7 @@ demographic_data <- demographic_data %>%
       dplyr::rename(base_value = value) %>%
       select(-inventory_year)
   ) %>%
+  mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
 
 anti_join(

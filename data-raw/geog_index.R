@@ -71,7 +71,7 @@ cprg_county <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg
     "Washington"
   ))%>%
   select(geog_name = county_name_full, geog_short_name = county_name, geog_id = geoid) %>%
-  mutate(geog_id_type = "county_gnis",
+  mutate(geog_id_type = "county_fips",
          geog_level = "COUNTY")
 
 geog_index <- bind_rows(as_tibble(cprg_county),
