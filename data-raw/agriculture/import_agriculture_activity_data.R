@@ -40,13 +40,17 @@ livestock_ctu <- readr::read_rds(paste0(inpath, "township_usda_census_data.rds")
 livestock <- dplyr::bind_rows(
   livestock_county %>%
     rename(inventory_year = year) %>%
-    filter(inventory_year >= 2005) %>%
+    filter(inventory_year >= 2005,
+           !county_name %in% c("St. Croix",
+                               "Sherburne",
+                               "Pierce",
+                               "Chisago")) %>%
     mutate(
       geog_class = "County",
-      geog_name = county_name
+      geog_name = paste(county_name, "County")
     ) %>%
     select(
-      inventory_year, geog_name, county_name, livestock_type,
+      inventory_year, geog_class, geog_name, county_name, livestock_type,
       head_count, data_type
     ),
   livestock_ctu %>%
@@ -82,10 +86,14 @@ crops_ctu <- readr::read_rds(paste0(inpath, "ctu_usda_crop_data.rds"))
 crops <- dplyr::bind_rows(
   crops_county %>%
     as_tibble() %>%
-    filter(inventory_year >= 2005) %>%
+    filter(inventory_year >= 2005,
+           !county_name %in% c("St. Croix",
+                               "Sherburne",
+                               "Pierce",
+                               "Chisago")) %>%
     mutate(
       geog_class = "County",
-      geog_name = county_name,
+      geog_name = paste(county_name, "County"),
       geoid = as.numeric(geoid)
     ) %>%
     select(
@@ -127,10 +135,14 @@ fertilizer_ctu <- readr::read_rds(paste0(inpath, "ctu_fertilizer_activity.rds"))
 fertilizer <- dplyr::bind_rows(
   fertilizer_county %>%
     as_tibble() %>%
-    filter(inventory_year >= 2005) %>%
+    filter(inventory_year >= 2005,
+           !county_name %in% c("St. Croix",
+                               "Sherburne",
+                               "Pierce",
+                               "Chisago")) %>%
     mutate(
       geog_class = "County",
-      geog_name = county_name,
+      geog_name = paste(county_name, "County"),
       geoid = as.numeric(geoid)
     ) %>%
     select(
