@@ -95,7 +95,7 @@ electrification <- load_comstock(
 
 # 64: Package 11: Wall + Roof Insulation + New Windows + LED Lighting + Hydronic GHP or Packaged GHP or Console GHP
 
-high_efficient <- load_comstock(
+high_efficiency <- load_comstock(
   "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade64_agg.csv"
 )
 
