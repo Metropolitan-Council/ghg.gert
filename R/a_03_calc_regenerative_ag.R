@@ -46,7 +46,7 @@ calc_regen_ag <- function(emissions,
   # browser()
 
   county_use <- ifelse(grepl("County",.selected_ctu),
-    str_replace_all(.selected_ctu," County",""),
+    stringr::str_replace_all(.selected_ctu," County",""),
     county_assign(.selected_ctu = .selected_ctu)
   )
 
