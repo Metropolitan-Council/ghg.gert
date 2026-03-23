@@ -62,9 +62,7 @@ geog_index_ctu <- dplyr::left_join(
   transportation_geog
 ) %>%
   select(geog_name = ctu_name_full, geog_short_name = ctu_name, geog_level = ctu_class, geog_id = gnis) %>%
-  mutate(geog_id_type = "ctu_gnis",
-         ctu = geog_short_name, # temporary need to keep for transportation functions
-         ctu_name = geog_name) %>%
+  mutate(geog_id_type = "ctu_gnis") %>%
   unique()
 
 ### add county data
@@ -81,11 +79,19 @@ cprg_county <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg
     "Washington"
   )) %>%
   select(geog_name = county_name_full, geog_short_name = county_name, geog_id = geoid) %>%
-  mutate(geog_id_type = "county_fips",
-         geog_level = "COUNTY")
+  mutate(
+    geog_id_type = "county_fips",
+    geog_level = "COUNTY"
+  )
 
-geog_index <- bind_rows(as_tibble(cprg_county),
-                        geog_index_ctu) %>%
+geog_index <- bind_rows(
+  as_tibble(cprg_county),
+  geog_index_ctu
+) %>%
   filter(geog_name != "Fort Snelling")
 
 usethis::use_data(geog_index, overwrite = TRUE)
+
+
+# ghg.ccap::geog_index %>%
+#   waldo::compare(geog_index)
