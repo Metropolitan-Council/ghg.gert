@@ -21,8 +21,12 @@ import_from_gpkg_all_layers <- function(link, save_file = FALSE, save_path = get
   rlang:::check_string(save_path)
   rlang:::check_number_whole(.crs)
 
+  old_timeout <- getOption("timeout")
+  options(timeout = max(600, old_timeout))
+  on.exit(options(timeout = old_timeout))
+
   temp <- tempfile()
-  download.file(link, temp, quiet = .quiet)
+  download.file(link, temp, quiet = .quiet, mode = "wb")
   file_names <- strsplit(link, split = "/")
   file_name <- tail(file_names[[1]], 1) %>%
     gsub(pattern = "gpkg_", replacement = "") %>%
@@ -65,7 +69,7 @@ mn_parcel <- import_from_gpkg_all_layers(
 ### after testing, this column appears to offer the largest percentage of
 ### first pass classification
 mn_parcel %>%
-  distinct(DWELL_TYPE) %>%
+  dplyr::distinct(DWELL_TYPE) %>%
   dplyr::arrange() %>%
   print(n = 200)
 
@@ -281,6 +285,21 @@ mn_parcel_map <- mn_parcel_predict %>%
   sf::st_as_sf()
 
 
+mn_parcel_county <- mn_parcel_predict %>%
+  group_by(CO_NAME, mc_classification) %>%
+  summarize(
+    median_sq_ft = median(FIN_SQ_FT),
+    total_sq_ft = sum(FIN_SQ_FT),
+    median_emv = median(EMV_BLDG),
+    total_emv = sum(EMV_BLDG),
+    median_year = median(YEAR_BUILT)
+  ) %>%
+  filter(mc_classification %in% c("manufactured_home",
+                                  "multifamily",
+                                  "single_family_attached",
+                                  "single_family_detached"))
+
+
 ### ctu_parcel output
 
 ctu_parcel <- mn_parcel_map %>%
@@ -456,12 +475,49 @@ missing_mfd_rows <- missing_cities_mfd %>%
 
 mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
 
-parcel_ctu <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed)
+parcel_ctu <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed) %>%
+  rename(geog_id = ctu_id)
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
 rm(mn_parcel_predict)
 gc()
 
+### add county level data by taking weighted average approach
+
+housing_data <- ghg.ccap::demographic_data %>%
+  filter(sp_categories %in% c("multifamily_units",
+                              "manufactured_homes",
+                              "single_family_attached",
+                              "single_family_detached"),
+         inventory_year == 2021
+  ) %>%
+  mutate(sp_categories = recode(sp_categories,
+                                    "manufactured_homes" = "manufactured_home"
+  ))
+
+housing_join <- parcel_ctu %>%
+  left_join(
+    housing_data %>% select(geog_id, sp_categories, units = value),
+    by = c("geog_id", "mc_classification" = "sp_categories")
+  )
+
+county_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  group_by(county_name, mc_classification, inventory_year) %>%
+  summarise(
+    wa_sq_ft   = weighted.mean(sq_ft_use,   w = units, na.rm = TRUE),
+    wa_med_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(geog_name = paste(county_name, "County")) %>%
+  rename(sq_ft_use = wa_sq_ft,
+         median_year = wa_med_year) %>%
+  left_join(ghg.ccap::geog_index %>%
+              select(geog_name,
+                     geog_id))
+
+parcel_ctu <- bind_rows(county_weighted,
+                        parcel_ctu)
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)

@@ -73,15 +73,15 @@ run_scenario_natural_systems <- function(
   .forest_area_sqkm = 0,
   .prairie_area_sqkm = 0,
   # Restoration timing
-  .restoration_start = 2025,
+  .restoration_start = 2028,
   .restoration_end = 2050,
   # Community tree planting (urban - separate from restoration)
   .community_tree_pct = 0,
-  .community_tree_start = 2025,
+  .community_tree_start = 2028,
   .community_tree_end = 2050,
   # Pocket prairies - urban grassland upgrade (separate from restoration)
   .pocket_prairie_pct = 0,
-  .pocket_prairie_start = 2025,
+  .pocket_prairie_start = 2028,
   .pocket_prairie_end = 2050,
   .enviro_factors = ghg.ccap::enviro_factors,
   detail = FALSE
