@@ -54,8 +54,14 @@ calc_energy_non_residential <- function(non_res_tb,
   check_inputs(name = "heatpump_start_year", .heatpump_start_year)
 
 
-  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu) %>%
+    mutate(imagine_designation = if_else(is.na(imagine_designation),
+                                         "Regional",
+                                         imagine_designation))
+  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu) %>%
+    mutate(imagine_designation = if_else(is.na(imagine_designation),
+                                         "Regional",
+                                         imagine_designation))
 
   # snag the .selected community designation -- breaks when .selected_city = "all" and just uses Afton/first city
   pluck_commDesgn <- non_res_tb_bau %>%
