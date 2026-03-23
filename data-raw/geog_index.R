@@ -27,6 +27,14 @@ transportation_geog <- transportation_data$passenger %>%
         "Credit River Twp.",
         "Empire Twp."
       ) ~ "CITY",
+      geog_name %in% c(
+        # Fort Snelling was getting labeled as CITY,
+        # and would show an NA for geog_name after joining
+        "Fort Snelling"
+      ) ~ "UNORGANIZED TERRITORY",
+      geog_name %in% c(
+        "Twin Cities Region"
+      ) ~ "REGION",
       stringr::str_detect(geog_name, "Twp.") ~ "TOWNSHIP",
       stringr::str_detect(geog_name, "unorg.") ~ "UNORGANIZED TERRITORY",
       TRUE ~ "CITY"
@@ -71,12 +79,13 @@ cprg_county <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg
     "Ramsey",
     "Scott",
     "Washington"
-  ))%>%
+  )) %>%
   select(geog_name = county_name_full, geog_short_name = county_name, geog_id = geoid) %>%
   mutate(geog_id_type = "county_fips",
          geog_level = "COUNTY")
 
 geog_index <- bind_rows(as_tibble(cprg_county),
-                        geog_index_ctu)
+                        geog_index_ctu) %>%
+  filter(geog_name != "Fort Snelling")
 
 usethis::use_data(geog_index, overwrite = TRUE)

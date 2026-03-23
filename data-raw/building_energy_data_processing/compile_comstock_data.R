@@ -94,7 +94,6 @@ electrification <- load_comstock(
 )
 
 # 64: Package 11: Wall + Roof Insulation + New Windows + LED Lighting + Hydronic GHP or Packaged GHP or Console GHP
-
 high_efficiency <- load_comstock(
   "./data-raw/building_energy_data_processing/comstock_data/MN_upgrade64_agg.csv"
 )
@@ -110,7 +109,7 @@ comstock_summaries <- list(
   new_build                         = summarize_comstock(baseline, new_build = TRUE),
   retrofit_efficiency              = summarize_comstock(retrofit_efficiency, new_build = FALSE),
   electrification                  = summarize_comstock(electrification, new_build = FALSE),
-  new_build_efficient                = summarize_comstock(high_efficient, new_build = TRUE)
+  new_build_efficient                = summarize_comstock(high_efficiency, new_build = TRUE)
 )
 
 baseline_tbl <- ghg.ccap::imagine_mwh_mcf_per_job

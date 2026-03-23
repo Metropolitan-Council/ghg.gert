@@ -69,7 +69,7 @@ mn_parcel <- import_from_gpkg_all_layers(
 ### after testing, this column appears to offer the largest percentage of
 ### first pass classification
 mn_parcel %>%
-  distinct(DWELL_TYPE) %>%
+  dplyr::distinct(DWELL_TYPE) %>%
   dplyr::arrange() %>%
   print(n = 200)
 
@@ -499,7 +499,7 @@ housing_data <- ghg.ccap::demographic_data %>%
 housing_join <- parcel_ctu %>%
   left_join(
     housing_data %>% select(geog_id, sp_categories, units = value),
-    by = c("ctu_id" = "geog_id", "mc_classification" = "sp_categories")
+    by = c("geog_id", "mc_classification" = "sp_categories")
   )
 
 county_weighted <- housing_join %>%
