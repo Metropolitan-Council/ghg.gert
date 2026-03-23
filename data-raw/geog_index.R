@@ -54,7 +54,9 @@ geog_index_ctu <- dplyr::left_join(
   transportation_geog
 ) %>%
   select(geog_name = ctu_name_full, geog_short_name = ctu_name, geog_level = ctu_class, geog_id = gnis) %>%
-  mutate(geog_id_type = "ctu_gnis") %>%
+  mutate(geog_id_type = "ctu_gnis",
+         ctu = geog_short_name, # temporary need to keep for transportation functions
+         ctu_name = geog_name) %>%
   unique()
 
 ### add county data
