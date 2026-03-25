@@ -211,7 +211,9 @@ purrr::map(
     "Hanover",
     "Birchwood Village",
     "New Trier",
-    "Twin Cities Region"
+    "Twin Cities Region",
+    "Hennepin County",
+    "Washington County"
   ),
   test_stock_changes
 )

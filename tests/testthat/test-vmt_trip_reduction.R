@@ -153,3 +153,39 @@ testthat::test_that("CBTP with zero prop_targeted returns no effect", {
     rep(1, nrow(cbtp_adjust))
   )
 })
+
+
+testthat::test_that("CBTP works with county-level geographies", {
+  # Test with Hennepin County using full dataset
+  hennepin_data <- transportation_data$passenger %>%
+    filter(geog_name == "Hennepin County")
+
+  cbtp_county <- vmt_trip_reduction(
+    .pass_tb = hennepin_data,
+    .cbtp_prop_targeted = 0.5,
+    .cbtp_start_year = "2025",
+    .enviro_factors = enviro_factors
+  )
+
+  # Verify tibble structure
+  testthat::expect_s3_class(cbtp_county, "tbl_df")
+
+  # Years before 2025 should have no effect
+  pre_2025 <- cbtp_county %>%
+    dplyr::filter(year %in% c("2015", "2018", "2020"))
+
+  testthat::expect_equal(
+    pre_2025$cbtp_adj,
+    c(1, 1, 1)
+  )
+
+  # Years at or after 2025 should have the reduction
+  post_2025 <- cbtp_county %>%
+    dplyr::filter(year >= "2025")
+
+  testthat::expect_equal(
+    unique(post_2025$cbtp_adj),
+    0.9886,
+    tolerance = 0.00001
+  )
+})

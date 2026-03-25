@@ -4,8 +4,10 @@
 # 2. CTU-level totals should equal Region totals
 # 3. County TotStock/Sales/Exist should equal sum of fuel-specific types
 #
-# Tests cover VMT, PMT, and vehicle counts (Stock, Sales, Exist)
-# for PLDV mode across all years in the dataset.
+# Tests cover:
+# - Passenger: VMT, PMT, and vehicle counts (Stock, Sales, Exist) for PLDV mode
+# - Freight: TMT (ton-miles traveled) and vehicle Stock for CUT and SUT modes
+# All tests are performed across all years in the dataset.
 
 testthat::test_that("County VMT totals equal Region VMT", {
   # Get region total VMT
@@ -47,14 +49,14 @@ testthat::test_that("County VMT totals equal Region VMT", {
 
 
 testthat::test_that("County PMT totals equal Region PMT", {
-  # Get region total PMT
+  # Get region total PMT for all modes with county aggregation
   region_pmt <- transportation_data$passenger %>%
     filter(
       geog_name == "Twin Cities Region",
       var == "PMT",
-      mode == "PLDV"
+      mode %in% c("PLDV", "WALK", "BIKE", "BU", "BRT", "RU", "RI", "BS", "AT")
     ) %>%
-    select(year, value) %>%
+    select(year, mode, value) %>%
     rename(region_value = value)
 
   # Sum county PMT
@@ -66,15 +68,15 @@ testthat::test_that("County PMT totals equal Region PMT", {
     filter(
       geog_level == "COUNTY",
       var == "PMT",
-      mode == "PLDV"
+      mode %in% c("PLDV", "WALK", "BIKE", "BU", "BRT", "RU", "RI", "BS", "AT")
     ) %>%
-    group_by(year) %>%
-    summarize(county_total = sum(value, na.rm = TRUE)) %>%
+    group_by(year, mode) %>%
+    summarize(county_total = sum(value, na.rm = TRUE), .groups = "keep") %>%
     ungroup()
 
   # Join and compare
   comparison <- region_pmt %>%
-    left_join(county_pmt_sum, by = "year")
+    left_join(county_pmt_sum, by = c("year", "mode"))
 
   # Test that county totals equal region totals with small tolerance for rounding
   testthat::expect_equal(
@@ -108,7 +110,7 @@ testthat::test_that("County vehicle Stock totals equal Region Stock", {
       mode == "PLDV"
     ) %>%
     group_by(year, var) %>%
-    summarize(county_total = sum(value, na.rm = TRUE), .groups = "drop")
+    summarize(county_total = sum(value, na.rm = TRUE), .groups = "keep")
 
   # Join and compare
   comparison <- region_stock %>%
@@ -146,7 +148,7 @@ testthat::test_that("County vehicle Sales totals equal Region Sales", {
       mode == "PLDV"
     ) %>%
     group_by(year, var) %>%
-    summarize(county_total = sum(value, na.rm = TRUE), .groups = "drop")
+    summarize(county_total = sum(value, na.rm = TRUE), .groups = "keep")
 
   # Join and compare
   comparison <- region_sales %>%
@@ -419,7 +421,7 @@ testthat::test_that("County TotStock equals sum of fuel-specific Stock types", {
       mode == "PLDV"
     ) %>%
     group_by(geog_id, year) %>%
-    summarize(fuel_stock_sum = sum(value, na.rm = TRUE), .groups = "drop")
+    summarize(fuel_stock_sum = sum(value, na.rm = TRUE), .groups = "keep")
 
   # Join and compare
   comparison <- county_tot_stock %>%
@@ -438,7 +440,7 @@ testthat::test_that("County data exists for all 7 counties", {
   county_geogs <- transportation_data$passenger %>%
     left_join(
       geog_index %>% select(geog_id, geog_level, geog_name),
-      by = "geog_id"
+      by = c("geog_id", "geog_name")
     ) %>%
     filter(geog_level == "COUNTY") %>%
     select(geog_name) %>%
@@ -459,4 +461,354 @@ testthat::test_that("County data exists for all 7 counties", {
     county_geogs$geog_name,
     expected_counties
   )
+})
+
+
+# Freight TMT Tests ----
+
+testthat::test_that("County freight TMT totals equal Region TMT for CUT", {
+  # Get region total TMT for CUT (combination unit truck)
+  region_tmt <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TMT",
+      mode == "CUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum county TMT for CUT
+  county_tmt_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TMT",
+      mode == "CUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(county_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_tmt %>%
+    left_join(county_tmt_sum, by = "year")
+
+  # Test that county totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$county_total,
+    tolerance = 10
+  )
+})
+
+
+testthat::test_that("County freight TMT totals equal Region TMT for SUT", {
+  # Get region total TMT for SUT (single unit truck)
+  region_tmt <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TMT",
+      mode == "SUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum county TMT for SUT
+  county_tmt_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TMT",
+      mode == "SUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(county_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_tmt %>%
+    left_join(county_tmt_sum, by = "year")
+
+  # Test that county totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$county_total,
+    tolerance = 10
+  )
+})
+
+
+testthat::test_that("CTU freight TMT totals equal Region TMT for CUT", {
+  # Get region total TMT for CUT
+  region_tmt <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TMT",
+      mode == "CUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum CTU TMT for CUT
+  ctu_tmt_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level %in% c("CITY", "TOWNSHIP", "UNORGANIZED TERRITORY"),
+      var == "TMT",
+      mode == "CUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(ctu_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_tmt %>%
+    left_join(ctu_tmt_sum, by = "year")
+
+  # Test that CTU totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$ctu_total,
+    tolerance = 10
+  )
+})
+
+
+testthat::test_that("CTU freight TMT totals equal Region TMT for SUT", {
+  # Get region total TMT for SUT
+  region_tmt <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TMT",
+      mode == "SUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum CTU TMT for SUT
+  ctu_tmt_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level %in% c("CITY", "TOWNSHIP", "UNORGANIZED TERRITORY"),
+      var == "TMT",
+      mode == "SUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(ctu_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_tmt %>%
+    left_join(ctu_tmt_sum, by = "year")
+
+  # Test that CTU totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$ctu_total,
+    tolerance = 10
+  )
+})
+
+
+testthat::test_that("County freight TotStock totals equal Region TotStock for CUT", {
+  # Get region total TotStock for CUT
+  region_stock <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TotStock",
+      mode == "CUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum county TotStock for CUT
+  county_stock_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TotStock",
+      mode == "CUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(county_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_stock %>%
+    left_join(county_stock_sum, by = "year")
+
+  # Test that county totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$county_total,
+    tolerance = 1
+  )
+})
+
+
+testthat::test_that("County freight TotStock totals equal Region TotStock for SUT", {
+  # Get region total TotStock for SUT
+  region_stock <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TotStock",
+      mode == "SUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum county TotStock for SUT
+  county_stock_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TotStock",
+      mode == "SUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(county_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_stock %>%
+    left_join(county_stock_sum, by = "year")
+
+  # Test that county totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$county_total,
+    tolerance = 1
+  )
+})
+
+
+testthat::test_that("County freight fuel-specific Stock totals equal Region for CUT", {
+  # Get region fuel-specific Stock for CUT
+  region_stock <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      str_detect(var, "Stock"),
+      var != "TotStock",
+      mode == "CUT"
+    ) %>%
+    select(year, var, value) %>%
+    rename(region_value = value)
+
+  # Sum county fuel-specific Stock for CUT
+  county_stock_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      str_detect(var, "Stock"),
+      var != "TotStock",
+      mode == "CUT"
+    ) %>%
+    group_by(year, var) %>%
+    summarize(county_total = sum(value, na.rm = TRUE), .groups = "drop")
+
+  # Join and compare
+  comparison <- region_stock %>%
+    left_join(county_stock_sum, by = c("year", "var"))
+
+  # Test that county totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$county_total,
+    tolerance = 1
+  )
+})
+
+
+testthat::test_that("CTU freight TotStock totals equal Region TotStock for CUT", {
+  # Get region total TotStock for CUT
+  region_stock <- transportation_data$freight %>%
+    filter(
+      geog_name == "Twin Cities Region",
+      var == "TotStock",
+      mode == "CUT"
+    ) %>%
+    select(year, value) %>%
+    rename(region_value = value)
+
+  # Sum CTU TotStock for CUT
+  ctu_stock_sum <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level %in% c("CITY", "TOWNSHIP", "UNORGANIZED TERRITORY"),
+      var == "TotStock",
+      mode == "CUT"
+    ) %>%
+    group_by(year) %>%
+    summarize(ctu_total = sum(value, na.rm = TRUE)) %>%
+    ungroup()
+
+  # Join and compare
+  comparison <- region_stock %>%
+    left_join(ctu_stock_sum, by = "year")
+
+  # Test that CTU totals equal region totals with tolerance for rounding
+  testthat::expect_equal(
+    comparison$region_value,
+    comparison$ctu_total,
+    tolerance = 1
+  )
+})
+
+
+# Parking Cost Tests ----
+
+testthat::test_that("All counties have parking cost set to minimum observed value", {
+  # Get minimum parking cost from all CTUs
+  min_parking <- parking_cost %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(geog_level != "COUNTY") %>%
+    pull(value) %>%
+    min(na.rm = TRUE)
+
+  # Get county parking data
+  county_parking <- parking_cost %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(geog_level == "COUNTY")
+
+  # Check that all 7 counties exist
+  testthat::expect_equal(nrow(county_parking), 7)
+
+  # Check that all values equal the minimum parking cost
+  testthat::expect_true(all(county_parking$value == min_parking))
+
+  # Check that all are PLDV mode
+  testthat::expect_true(all(county_parking$mode == "PLDV"))
+
+  # Check that all are PARK var
+  testthat::expect_true(all(county_parking$var == "PARK"))
 })

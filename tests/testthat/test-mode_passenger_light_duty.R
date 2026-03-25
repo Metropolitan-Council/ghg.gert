@@ -91,7 +91,9 @@ purrr::map(
     "Crystal",
     "Bethel",
     "Rosemount",
-    "White Bear Twp."
+    "White Bear Twp.",
+    "Hennepin County",
+    "Ramsey County"
   ),
   test_passenger
 )

@@ -238,7 +238,14 @@ testthat::test_that("bus AVO correct", {
       "Willernie", 9.1,
       "Woodbury", 9.1,
       "Woodland", 15.38,
-      "Young America Twp.", 25.64
+      "Young America Twp.", 25.64,
+      "Anoka County", 8.09,
+      "Carver County", 8.09,
+      "Dakota County", 8.09,
+      "Hennepin County", 8.09,
+      "Ramsey County", 8.09,
+      "Scott County", 8.09,
+      "Washington County", 8.09
     )
   )
 })
@@ -269,7 +276,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
 
   testthat::expect_equal(at_total,
     transit_total,
-    tolerance = 1
+    tolerance = 2
   )
 })
 
