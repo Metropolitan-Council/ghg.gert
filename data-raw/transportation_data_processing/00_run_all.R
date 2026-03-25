@@ -38,7 +38,7 @@ source("data-raw/transportation_data_processing/fix_avo_all.R")
 source("data-raw/transportation_data_processing/fix_remove_phev.R")
 
 source("data-raw/transportation_data_processing/fix_region_aggregate.R")
-
+source("data-raw/transportation_data_processing/fix_county_aggregate.R")
 
 source("data-raw/transportation_data_processing/transportation_defaults.R")
 
