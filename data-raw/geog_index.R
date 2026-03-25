@@ -87,8 +87,7 @@ cprg_county <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg
 geog_index <- bind_rows(
   as_tibble(cprg_county),
   geog_index_ctu
-) %>%
-  filter(geog_name != "Fort Snelling")
+)
 
 usethis::use_data(geog_index, overwrite = TRUE)
 

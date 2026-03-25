@@ -27,7 +27,7 @@ if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehavior
 if (exists("trip") & exists("hh")) {
   message("TBI data already loaded")
 } else {
-  message("Loading TBI data, this may take a few minutes...")
+  message("Loading TBI data, this may take a few moments...")
 
   # warning that these are hefty, around 4gb
   trip <- bind_rows(

@@ -91,6 +91,3 @@ transportation_data$freight <- transportation_data$freight %>%
 usethis::use_data(transportation_data, overwrite = TRUE)
 
 usethis::use_data(parking_cost, overwrite = TRUE)
-
-
-rm(trip, hh, parking_cost, tbi_parking_cost)
