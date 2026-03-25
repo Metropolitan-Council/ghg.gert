@@ -83,11 +83,8 @@ vehicle_occupancy <- bind_rows(
   avo_county,
   co_non_pldv,
   co_bu_avo
-)
-
-# save new vehicle occupancy dataset
-# usethis::use_data(vehicle_occupancy, overwrite = TRUE)
-
+) %>%
+  unique()
 
 # County Vehicle counts ----
 # match CTUs with their respective counties
@@ -128,9 +125,11 @@ city_vmt_proportions <- coctu_vmt_forecast %>%
 
 # Get CTU-level vehicle counts from transportation_data
 ctu_vehicle_counts <- transportation_data$passenger %>%
+  left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("geog_id" = "geog_id")) %>%
+  filter(geog_level != "COUNTY") %>%
   filter(
-    str_detect(var, "Stock|Sales|Exist"),
-    mode == "PLDV"
+    str_detect(var, "Tot", negate = TRUE),
+    str_detect(var, "Stock|Sales|Exist")
   ) %>%
   mutate(inventory_year = as.numeric(year))
 
@@ -170,14 +169,13 @@ county_vehicle_totals <- county_vehicle_counts %>%
     )
   ) %>%
   filter(!is.na(vehicle_type)) %>%
-  group_by(geog_id, geog_name, mode, year, vehicle_type, type) %>%
+  group_by(geog_id, geog_name, mode, year, vehicle_type, type, aeo_mode) %>%
   summarize(
     value = sum(value, na.rm = TRUE) %>% round(digits = 2),
     .groups = "drop"
   ) %>%
   mutate(
-    var = paste0("Tot", vehicle_type),
-    aeo_mode = "LDV"
+    var = paste0("Tot", vehicle_type)
   ) %>%
   select(geog_id, geog_name, mode, var, year, value, aeo_mode, type)
 
@@ -190,11 +188,49 @@ county_vehicle_counts_full <- bind_rows(
 
 # County VMT and PMT ----
 # Aggregate CTU-level VMT to county level
-county_vmt <- coctu_vmt_forecast %>%
-  filter(inventory_year %in% transportation_data$passenger$year) %>%
-  group_by(geoid, inventory_year) %>%
+# county_vmt <- coctu_vmt_forecast %>%
+#   filter(inventory_year %in% transportation_data$passenger$year) %>%
+#   group_by(geoid, inventory_year) %>%
+#   summarize(
+#     final_county_vmt = sum(final_city_vmt, na.rm = TRUE) %>% round(digits = 0),
+#     .groups = "drop"
+#   ) %>%
+#   left_join(
+#     geog_index %>% select(geog_id, geog_name),
+#     by = c("geoid" = "geog_id")
+#   ) %>%
+#   rename(
+#     geog_id = geoid,
+#     year = inventory_year
+#   ) %>%
+#   mutate(
+#     mode = "PLDV",
+#     var = "VMT",
+#     aeo_mode = "LDV",
+#     type = "P",
+#     value = final_county_vmt
+#   ) %>%
+#   select(geog_id, geog_name, mode, var, year, value, aeo_mode, type)
+
+
+# Allocate CTU-level PMT to counties using VMT proportions
+ctu_pmt <- transportation_data$passenger %>%
+  filter(
+    var == "PMT",
+    mode %in% c("PLDV", "WALK", "BIKE", "BU", "BRT", "RU", "RI", "BS", "AT")
+  ) %>%
+  mutate(inventory_year = as.numeric(year))
+
+county_pmt <- ctu_pmt %>%
+  left_join(
+    city_vmt_proportions,
+    by = c("geog_id" = "gnis", "inventory_year")
+  ) %>%
+  filter(!is.na(pct_vmt_in_county)) %>%
+  mutate(allocated_value = value * pct_vmt_in_county) %>%
+  group_by(geoid, inventory_year, mode, var, aeo_mode, type) %>%
   summarize(
-    final_county_vmt = sum(final_city_vmt, na.rm = TRUE) %>% round(digits = 0),
+    value = sum(allocated_value, na.rm = TRUE) %>% round(digits = 2),
     .groups = "drop"
   ) %>%
   left_join(
@@ -205,42 +241,56 @@ county_vmt <- coctu_vmt_forecast %>%
     geog_id = geoid,
     year = inventory_year
   ) %>%
-  mutate(
-    mode = "PLDV",
-    var = "VMT",
-    aeo_mode = "LDV",
-    type = "P",
-    value = final_county_vmt
-  ) %>%
-  select(geog_id, geog_name, mode, var, year, value, aeo_mode, type)
-
-
-# Calculate PMT from VMT * AVO for counties
-county_pmt <- county_vmt %>%
-  left_join(
-    avo_county %>% select(geog_id, mode, value),
-    by = c("geog_id", "mode"),
-    suffix = c("_vmt", "_avo")
-  ) %>%
-  mutate(
-    value = round(value_vmt * value_avo, digits = 2),
-    var = "PMT"
-  ) %>%
+  # mutate(year = as.character(year)) %>%
   select(geog_id, geog_name, mode, var, year, value, aeo_mode, type)
 
 
 # Combine all county-level data ----
 county_passenger_data <- bind_rows(
-  county_vmt,
+  # county_vmt,
   county_pmt,
   county_vehicle_counts_full
 ) %>%
   arrange(geog_id, mode, var, year) %>%
   mutate(year = as.character(year))
 
+# Freight data ----
+# Allocate CTU-level freight TMT and Stock to counties using same VMT proportions
+
+# Get CTU-level freight data (TMT and Stock vars)
+ctu_freight_data <- transportation_data$freight %>%
+  filter(var %in% c("TMT") | str_detect(var, "Stock")) %>%
+  mutate(inventory_year = as.numeric(year))
+
+# Allocate CTU freight data to counties using VMT proportions
+county_freight_data <- ctu_freight_data %>%
+  left_join(
+    city_vmt_proportions,
+    by = c("geog_id" = "gnis", "inventory_year")
+  ) %>%
+  filter(!is.na(pct_vmt_in_county)) %>%
+  mutate(allocated_value = value * pct_vmt_in_county) %>%
+  group_by(geoid, inventory_year, mode, var, aeo_mode, type) %>%
+  summarize(
+    value = sum(allocated_value, na.rm = TRUE) %>% round(digits = 2),
+    .groups = "drop"
+  ) %>%
+  left_join(
+    geog_index %>% select(geog_id, geog_name),
+    by = c("geoid" = "geog_id")
+  ) %>%
+  rename(
+    geog_id = geoid,
+    year = inventory_year
+  ) %>%
+  mutate(year = as.character(year)) %>%
+  select(geog_id, geog_name, mode, var, year, value, aeo_mode, type)
+
 
 # Update transportation_data ----
 # Add county data to existing transportation_data
+
+# Passenger data
 transportation_data$passenger <- bind_rows(
   transportation_data$passenger %>%
     filter(!geog_id %in% unique(county_passenger_data$geog_id)),
@@ -248,6 +298,41 @@ transportation_data$passenger <- bind_rows(
 ) %>%
   arrange(geog_id, mode, var, year)
 
+# Freight data
+transportation_data$freight <- bind_rows(
+  transportation_data$freight %>%
+    filter(!geog_id %in% unique(county_freight_data$geog_id)),
+  county_freight_data
+) %>%
+  arrange(geog_id, mode, var, year)
+
+
+# County Parking Costs ----
+# Set parking costs for all counties to minimum observed parking price
+min_parking_cost <- parking_cost %>%
+  filter(var == "PARK") %>%
+  pull(value) %>%
+  min(na.rm = TRUE)
+
+county_parking <- geog_index %>%
+  filter(geog_level == "COUNTY") %>%
+  select(geog_id, geog_name) %>%
+  mutate(
+    mode = "PLDV",
+    var = "PARK",
+    value = min_parking_cost,
+    aeo_mode = "LDV",
+    type = "P"
+  )
+
+# Add county parking to parking_cost dataset
+parking_cost <- bind_rows(
+  parking_cost,
+  county_parking
+) %>%
+  unique()
+
 # Save updated datasets
 usethis::use_data(transportation_data, overwrite = TRUE)
 usethis::use_data(vehicle_occupancy, overwrite = TRUE)
+usethis::use_data(parking_cost, overwrite = TRUE)
