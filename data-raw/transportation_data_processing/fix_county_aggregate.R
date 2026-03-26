@@ -121,11 +121,12 @@ city_vmt_proportions <- coctu_vmt_forecast %>%
     pct_vmt_in_county = round(final_city_vmt / total_coctu_vmt, digits = 2),
     pct_vmt_in_county = if_else(is.na(pct_vmt_in_county), 0, pct_vmt_in_county)
   ) %>%
-  select(gnis, geoid, inventory_year, pct_vmt_in_county)
+  select(gnis, geoid, inventory_year, pct_vmt_in_county) %>%
+  left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("gnis" = "geog_id"))
 
 # Get CTU-level vehicle counts from transportation_data
 ctu_vehicle_counts <- transportation_data$passenger %>%
-  left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("geog_id" = "geog_id")) %>%
+  left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("geog_id" = "geog_id", "geog_name")) %>%
   filter(geog_level != "COUNTY") %>%
   filter(
     str_detect(var, "Tot", negate = TRUE),
@@ -137,10 +138,11 @@ ctu_vehicle_counts <- transportation_data$passenger %>%
 county_vehicle_counts <- ctu_vehicle_counts %>%
   left_join(
     city_vmt_proportions,
-    by = c("geog_id" = "gnis", "inventory_year")
+    by = c("geog_id" = "gnis", "geog_level", "geog_name", "inventory_year")
   ) %>%
   # filter out Twin Cities Region
   filter(!is.na(pct_vmt_in_county)) %>%
+  unique() %>%
   mutate(allocated_value = value * pct_vmt_in_county) %>%
   group_by(geoid, inventory_year, mode, var, aeo_mode, type) %>%
   summarize(
@@ -171,7 +173,7 @@ county_vehicle_totals <- county_vehicle_counts %>%
   filter(!is.na(vehicle_type)) %>%
   group_by(geog_id, geog_name, mode, year, vehicle_type, type, aeo_mode) %>%
   summarize(
-    value = sum(value, na.rm = TRUE) %>% round(digits = 2),
+    value = sum(value, na.rm = TRUE) %>% round(digits = 0),
     .groups = "drop"
   ) %>%
   mutate(
@@ -269,6 +271,7 @@ county_freight_data <- ctu_freight_data %>%
     by = c("geog_id" = "gnis", "inventory_year")
   ) %>%
   filter(!is.na(pct_vmt_in_county)) %>%
+  unique() %>%
   mutate(allocated_value = value * pct_vmt_in_county) %>%
   group_by(geoid, inventory_year, mode, var, aeo_mode, type) %>%
   summarize(
@@ -296,7 +299,8 @@ transportation_data$passenger <- bind_rows(
     filter(!geog_id %in% unique(county_passenger_data$geog_id)),
   county_passenger_data
 ) %>%
-  arrange(geog_id, mode, var, year)
+  arrange(geog_id, mode, var, year) %>%
+  unique()
 
 # Freight data
 transportation_data$freight <- bind_rows(
@@ -304,7 +308,8 @@ transportation_data$freight <- bind_rows(
     filter(!geog_id %in% unique(county_freight_data$geog_id)),
   county_freight_data
 ) %>%
-  arrange(geog_id, mode, var, year)
+  arrange(geog_id, mode, var, year) %>%
+  unique()
 
 
 # County Parking Costs ----
@@ -314,7 +319,8 @@ min_parking_cost <- parking_cost %>%
   pull(value) %>%
   min(na.rm = TRUE)
 
-county_parking <- geog_index %>%
+# Create county parking for PLDV
+county_parking_pldv <- geog_index %>%
   filter(geog_level == "COUNTY") %>%
   select(geog_id, geog_name) %>%
   mutate(
@@ -325,10 +331,36 @@ county_parking <- geog_index %>%
     type = "P"
   )
 
+# Create county parking for SUT
+county_parking_sut <- geog_index %>%
+  filter(geog_level == "COUNTY") %>%
+  select(geog_id, geog_name) %>%
+  mutate(
+    mode = "SUT",
+    var = "PARK",
+    value = min_parking_cost,
+    aeo_mode = "MDT",
+    type = "F"
+  )
+
+# Create county parking for CUT
+county_parking_cut <- geog_index %>%
+  filter(geog_level == "COUNTY") %>%
+  select(geog_id, geog_name) %>%
+  mutate(
+    mode = "CUT",
+    var = "PARK",
+    value = min_parking_cost,
+    aeo_mode = "HDT",
+    type = "F"
+  )
+
 # Add county parking to parking_cost dataset
 parking_cost <- bind_rows(
   parking_cost,
-  county_parking
+  county_parking_pldv,
+  county_parking_sut,
+  county_parking_cut
 ) %>%
   unique()
 
@@ -336,3 +368,11 @@ parking_cost <- bind_rows(
 usethis::use_data(transportation_data, overwrite = TRUE)
 usethis::use_data(vehicle_occupancy, overwrite = TRUE)
 usethis::use_data(parking_cost, overwrite = TRUE)
+
+
+
+transportation_data$freight %>%
+  filter(
+    geog_name == "Hennepin County",
+    mode == "SUT", var == "BEVStock"
+  )
