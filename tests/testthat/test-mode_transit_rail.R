@@ -51,10 +51,8 @@ testthat::test_that("Scandia has no rail PMT", {
 })
 
 
-test_rail <- function(x){
-
+test_rail <- function(x) {
   testthat::test_that(paste0(x, " emissions reduce with interventions"), {
-
     pass <- suppressMessages(
       suppressWarnings(
         mode_transit_rail(
@@ -67,36 +65,41 @@ test_rail <- function(x){
     testthat::expect_length(pass, 2)
 
     testthat::expect_named(pass,
-                           expected = c(
-                             "vmt",
-                             "dir_ghg"
-                           ),
-                           ignore.order = TRUE
+      expected = c(
+        "vmt",
+        "dir_ghg"
+      ),
+      ignore.order = TRUE
     )
 
 
     pass_bau <- pass$dir_ghg %>%
-      filter(year == max(year),
-             mode == "RU") %>%
+      filter(
+        year == max(year),
+        mode == "RU"
+      ) %>%
       group_by(geog_name, year) %>%
       summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
     pass_bau_vmt <- pass$vmt %>%
-      filter(year == max(year),
-             mode == "RU") %>%
+      filter(
+        year == max(year),
+        mode == "RU"
+      ) %>%
       group_by(geog_name, year) %>%
       summarise(vmt = sum(vmt), .groups = "keep")
 
 
     pass_transit <- suppressMessages(suppressWarnings(
       mode_transit_rail(
-      .pass_tb = transportation_data$passenger,
-      .selected_ctu = x,
-      .scenario = "transit",
-      .transit_service_pct = .30,
-      .transit_avo_pct = 0.5
-    )))
+        .pass_tb = transportation_data$passenger,
+        .selected_ctu = x,
+        .scenario = "transit",
+        .transit_service_pct = .30,
+        .transit_avo_pct = 0.5
+      )
+    ))
 
     pass_lu <- suppressMessages(suppressWarnings(mode_transit_rail(
       .pass_tb = transportation_data$passenger,
@@ -105,7 +108,6 @@ test_rail <- function(x){
       .emp_dens_pct_change = 0.10,
       .pop_dens_pct_change = 0.10,
       .transit_service_pct = .30
-
     )))
 
 
@@ -119,7 +121,6 @@ test_rail <- function(x){
       .cong_price = 0.01,
       .parking_price = 20,
       .transit_service_pct = .30
-
     )))
 
 
@@ -132,7 +133,6 @@ test_rail <- function(x){
       .telework_pct = 0.5,
       .parking_price = 20,
       .transit_service_pct = .30
-
     )))
 
     # browser()
@@ -147,27 +147,29 @@ test_rail <- function(x){
       function(x) {
         # browser()
 
-       test_vmt <-  x$vmt %>%
-          filter(year == max(year),
-                 mode == "RU") %>%
+        test_vmt <- x$vmt %>%
+          filter(
+            year == max(year),
+            mode == "RU"
+          ) %>%
           group_by(geog_name, year) %>%
           summarise(vmt = sum(vmt), .groups = "keep")
 
         test_ghg <- x$dir_ghg %>%
-          filter(year == max(year),
-                 mode == "RU") %>%
+          filter(
+            year == max(year),
+            mode == "RU"
+          ) %>%
           group_by(geog_name, year) %>%
           summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
         # if VMT increases, then emissions increase
         # otherwise emissions decrease
-        if(test_vmt$vmt > pass_bau_vmt$vmt){
+        if (test_vmt$vmt > pass_bau_vmt$vmt) {
           testthat::expect_gte(test_ghg$dir_ghg, pass_bau$dir_ghg)
         } else {
           testthat::expect_lte(test_ghg$dir_ghg, pass_bau$dir_ghg)
-
         }
-
       }
     )
   })
@@ -181,4 +183,3 @@ purrr::map(
   ),
   test_rail
 )
-

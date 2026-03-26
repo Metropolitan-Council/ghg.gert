@@ -56,12 +56,14 @@ calc_energy_non_residential <- function(non_res_tb,
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu) %>%
     mutate(imagine_designation = if_else(is.na(imagine_designation),
-                                         "Regional",
-                                         imagine_designation))
+      "Regional",
+      imagine_designation
+    ))
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu) %>%
     mutate(imagine_designation = if_else(is.na(imagine_designation),
-                                         "Regional",
-                                         imagine_designation))
+      "Regional",
+      imagine_designation
+    ))
 
   # snag the .selected community designation -- breaks when .selected_city = "all" and just uses Afton/first city
   pluck_commDesgn <- non_res_tb_bau %>%
@@ -210,21 +212,22 @@ calc_energy_non_residential <- function(non_res_tb,
             ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "retrofit_jobs" ~
             ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh * retrofit_heating_pct)) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
-        # new efficient builds are electrified AND retrofit so can be calculated directly with the adjustment
+          # new efficient builds are electrified AND retrofit so can be calculated directly with the adjustment
           efficiency_description == "new_non_leed_jobs" ~
             mwh_per_job * efficiency_unit_value * mwh_adjustment,
-        efficiency_description == "new_leed_jobs" ~
-          mwh_per_job * efficiency_unit_value * mwh_adjustment
+          efficiency_description == "new_leed_jobs" ~
+            mwh_per_job * efficiency_unit_value * mwh_adjustment
         ),
         non_residential_mcf = case_when(
-          efficiency_description  == "existing_nonretrofit_jobs" ~
+          efficiency_description == "existing_nonretrofit_jobs" ~
             ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "retrofit_jobs" ~
             ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_non_leed_jobs" ~
             mcf_per_job * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_leed_jobs" ~
-            mcf_per_job * efficiency_unit_value * mcf_adjustment)
+            mcf_per_job * efficiency_unit_value * mcf_adjustment
+        )
       ) %>%
       dplyr::group_by(geog_name, geog_id, inventory_year) %>%
       dplyr::summarize(
@@ -285,5 +288,3 @@ calc_energy_non_residential <- function(non_res_tb,
 
   return(energy_final)
 }
-
-

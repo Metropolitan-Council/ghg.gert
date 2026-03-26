@@ -63,7 +63,6 @@ adj_fleet_shares <- function(.pass_tb,
                              .gas_tax = transportation_defaults$gas_tax,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
-
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% dplyr::distinct()
   .freight_tb <- filter_ctu(.freight_tb, .selected_ctu = .selected_ctu) %>% dplyr::distinct()
 

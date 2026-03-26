@@ -1,4 +1,4 @@
-test_school_bus <- function(x){
+test_school_bus <- function(x) {
   testthat::test_that(paste0(x, " emissions reduce with interventions"), {
     pass <- suppressMessages(
       suppressWarnings(
@@ -12,16 +12,16 @@ test_school_bus <- function(x){
     testthat::expect_length(pass, 2)
 
     testthat::expect_named(pass,
-                           expected = c(
-                             "vmt",
-                             "dir_ghg"
-                           ),
-                           ignore.order = TRUE
+      expected = c(
+        "vmt",
+        "dir_ghg"
+      ),
+      ignore.order = TRUE
     )
 
 
     pass_bau <- pass$dir_ghg %>%
-     filter(year == max(year)) %>%
+      filter(year == max(year)) %>%
       group_by(geog_name, year) %>%
       summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
@@ -87,7 +87,7 @@ test_school_bus <- function(x){
       ),
       function(x) {
         test_ghg <- x$dir_ghg %>%
-         filter(year == max(year)) %>%
+          filter(year == max(year)) %>%
           group_by(geog_name, year) %>%
           summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
@@ -114,5 +114,3 @@ purrr::map(
   ),
   test_school_bus
 )
-
-

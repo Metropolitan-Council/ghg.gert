@@ -140,8 +140,7 @@ calc_vmt_forecast <- function(.scenario,
     "year", "mode", "aeo_mode", "vmt"
   )
 
-  tb_fin <- switch(
-    .mode,
+  tb_fin <- switch(.mode,
     PLDV = {
       # browser()
       at_adjustment <- tb %>%
@@ -183,8 +182,8 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::distinct() %>%
         dplyr::mutate(
           pass_ld_vmt = (((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
-                           cbtp_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
-                           telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
+            cbtp_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
+            telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
           stock = .stock,
           vmt = pass_ld_vmt
         ) %>%
@@ -211,8 +210,8 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::distinct() %>%
         dplyr::mutate(
           transit_vmt = ((miles_traveled * aeo_adj * transit_adj *
-                            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
-                            land_use_adj * park_price_adj * gas_adj) / occupancy_adj) * mode_stock_adj,
+            (1 + ((vmt_fee_adj + payd_ins_adj + cong_adjust) * cross_vmt)) *
+            land_use_adj * park_price_adj * gas_adj) / occupancy_adj) * mode_stock_adj,
           transit_vmt = dplyr::case_when(
             is.infinite(transit_vmt) | is.na(transit_vmt) | transit_vmt < 0 ~ 0,
             TRUE ~ transit_vmt

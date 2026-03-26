@@ -27,8 +27,9 @@ cprg_ctu <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/ra
   )) %>%
   select(-statefp, -state_abb, -geoid_wis, -cprg_area) %>%
   mutate(ctu_name = if_else(ctu_class == "TOWNSHIP",
-                            paste(ctu_name, "Twp."),
-                            ctu_name))
+    paste(ctu_name, "Twp."),
+    ctu_name
+  ))
 
 
 ## Electricity
@@ -77,10 +78,14 @@ regional_mwh_per_job_2022 <- electricity_mwh_per_job_ctu_2022 %>%
     imagine_designation = "Regional"
   )
 
-imagine_mwh_per_job_2022 <- bind_rows(imagineCommDesgn_mwh_per_job_2022,
-                                      regional_mwh_per_job_2022 %>%
-                                        select(imagine_designation,
-                                               mwh_per_job))
+imagine_mwh_per_job_2022 <- bind_rows(
+  imagineCommDesgn_mwh_per_job_2022,
+  regional_mwh_per_job_2022 %>%
+    select(
+      imagine_designation,
+      mwh_per_job
+    )
+)
 
 ## Natural Gas
 natural_gas_mcf_per_job_ctu_2022 <- building_energy_data$natural_gas_business_ctu %>%
@@ -88,15 +93,15 @@ natural_gas_mcf_per_job_ctu_2022 <- building_energy_data$natural_gas_business_ct
   ungroup() %>%
   select(-imagine_designation) %>%
   left_join(cprg_ctu,
-            by = join_by(
-              geog_name == ctu_name
-            )
+    by = join_by(
+      geog_name == ctu_name
+    )
   ) %>%
   left_join(jobs,
-            by = join_by(
-              gnis == geog_id,
-              inventory_year
-            )
+    by = join_by(
+      gnis == geog_id,
+      inventory_year
+    )
   ) %>%
   select(
     -value_change_from_base,
@@ -128,10 +133,14 @@ regional_mcf_per_job_2022 <- natural_gas_mcf_per_job_ctu_2022 %>%
     imagine_designation = "Regional"
   )
 
-imagine_mcf_per_job_2022 <- bind_rows(imagineCommDesgn_mcf_per_job_2022,
-                                      regional_mcf_per_job_2022 %>%
-                                        select(imagine_designation,
-                                               mcf_per_job))
+imagine_mcf_per_job_2022 <- bind_rows(
+  imagineCommDesgn_mcf_per_job_2022,
+  regional_mcf_per_job_2022 %>%
+    select(
+      imagine_designation,
+      mcf_per_job
+    )
+)
 
 imagine_mwh_mcf_per_job <- imagine_mcf_per_job_2022 %>%
   left_join(imagine_mwh_per_job_2022,

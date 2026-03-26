@@ -370,8 +370,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   ) %>%
     dplyr::left_join(
       ghg.ccap::geog_index %>%
-      dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))), 
-      by = c("geog_name", "geog_id"))
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+      by = c("geog_name", "geog_id")
+    )
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -483,8 +484,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   ) %>%
     dplyr::left_join(
       ghg.ccap::geog_index %>%
-      dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))), 
-      by = c("geog_name", "geog_id"))
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+      by = c("geog_name", "geog_id")
+    )
 
   freight <- list(
     # AIR_WAT_MM = freight_multi_air_wat,

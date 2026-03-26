@@ -2,11 +2,15 @@ library(dplyr)
 
 county_ag_data <-
   readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_meta/data/cprg_county_emissions.RDS") %>%
-  filter(sector == "Agriculture",
-         !county_name %in% c("St. Croix",
-                             "Sherburne",
-                             "Pierce",
-                             "Chisago")) %>%
+  filter(
+    sector == "Agriculture",
+    !county_name %in% c(
+      "St. Croix",
+      "Sherburne",
+      "Pierce",
+      "Chisago"
+    )
+  ) %>%
   mutate(geog_name = paste(county_name, "County")) %>%
   select(
     geog_name,
