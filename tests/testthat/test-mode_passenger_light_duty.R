@@ -93,7 +93,12 @@ purrr::map(
     "Rosemount",
     "White Bear Twp.",
     "Hennepin County",
-    "Ramsey County"
+    "Ramsey County",
+    "Washington County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Scott County"
   ),
   test_passenger
 )

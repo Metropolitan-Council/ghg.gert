@@ -376,3 +376,155 @@ testthat::test_that("no negative TMT values in freight data", {
     "Laketown Twp."
   )
 })
+
+
+testthat::test_that("county totals > major city totals for PMT, TMT, and Stock", {
+  # Test PMT: Hennepin County > Minneapolis, Ramsey County > Saint Paul
+  county_pmt <- transportation_data$passenger %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "PMT",
+      mode == "PLDV",
+      geog_name %in% c("Hennepin County", "Ramsey County")
+    ) %>%
+    select(geog_name, year, value)
+
+  city_pmt <- transportation_data$passenger %>%
+    filter(
+      var == "PMT",
+      mode == "PLDV",
+      geog_name %in% c("Minneapolis", "Saint Paul")
+    ) %>%
+    select(geog_name, year, value)
+
+  minneapolis_pmt <- city_pmt %>% filter(geog_name == "Minneapolis")
+  hennepin_pmt <- county_pmt %>% filter(geog_name == "Hennepin County")
+
+  comparison_mpls_hennepin <- minneapolis_pmt %>%
+    inner_join(hennepin_pmt, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_mpls_hennepin$value_county > comparison_mpls_hennepin$value_city),
+    label = "Hennepin County PMT > Minneapolis PMT"
+  )
+
+  stpaul_pmt <- city_pmt %>% filter(geog_name == "Saint Paul")
+  ramsey_pmt <- county_pmt %>% filter(geog_name == "Ramsey County")
+
+  comparison_stpaul_ramsey <- stpaul_pmt %>%
+    inner_join(ramsey_pmt, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_stpaul_ramsey$value_county > comparison_stpaul_ramsey$value_city),
+    label = "Ramsey County PMT > Saint Paul PMT"
+  )
+
+  # Test TMT: Hennepin County > Minneapolis, Ramsey County > Saint Paul
+  county_tmt <- transportation_data$freight %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TMT",
+      mode == "CUT",
+      geog_name %in% c("Hennepin County", "Ramsey County")
+    ) %>%
+    select(geog_name, year, value)
+
+  city_tmt <- transportation_data$freight %>%
+    filter(
+      var == "TMT",
+      mode == "CUT",
+      geog_name %in% c("Minneapolis", "Saint Paul")
+    ) %>%
+    select(geog_name, year, value)
+
+  minneapolis_tmt <- city_tmt %>% filter(geog_name == "Minneapolis")
+  hennepin_tmt <- county_tmt %>% filter(geog_name == "Hennepin County")
+
+  comparison_mpls_hennepin_tmt <- minneapolis_tmt %>%
+    inner_join(hennepin_tmt, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_mpls_hennepin_tmt$value_county > comparison_mpls_hennepin_tmt$value_city),
+    label = "Hennepin County TMT > Minneapolis TMT"
+  )
+
+  stpaul_tmt <- city_tmt %>% filter(geog_name == "Saint Paul")
+  ramsey_tmt <- county_tmt %>% filter(geog_name == "Ramsey County")
+
+  comparison_stpaul_ramsey_tmt <- stpaul_tmt %>%
+    inner_join(ramsey_tmt, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_stpaul_ramsey_tmt$value_county > comparison_stpaul_ramsey_tmt$value_city),
+    label = "Ramsey County TMT > Saint Paul TMT"
+  )
+
+  # Test TotStock: Hennepin County > Minneapolis, Ramsey County > Saint Paul
+  county_stock <- transportation_data$passenger %>%
+    left_join(
+      geog_index %>% select(geog_id, geog_level),
+      by = "geog_id"
+    ) %>%
+    filter(
+      geog_level == "COUNTY",
+      var == "TotStock",
+      mode == "PLDV",
+      geog_name %in% c("Hennepin County", "Ramsey County")
+    ) %>%
+    select(geog_name, year, value)
+
+  city_stock <- transportation_data$passenger %>%
+    filter(
+      var == "TotStock",
+      mode == "PLDV",
+      geog_name %in% c("Minneapolis", "Saint Paul")
+    ) %>%
+    select(geog_name, year, value)
+
+  minneapolis_stock <- city_stock %>% filter(geog_name == "Minneapolis")
+  hennepin_stock <- county_stock %>% filter(geog_name == "Hennepin County")
+
+  comparison_mpls_hennepin_stock <- minneapolis_stock %>%
+    inner_join(hennepin_stock, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_mpls_hennepin_stock$value_county > comparison_mpls_hennepin_stock$value_city),
+    label = "Hennepin County TotStock > Minneapolis TotStock"
+  )
+
+  stpaul_stock <- city_stock %>% filter(geog_name == "Saint Paul")
+  ramsey_stock <- county_stock %>% filter(geog_name == "Ramsey County")
+
+  comparison_stpaul_ramsey_stock <- stpaul_stock %>%
+    inner_join(ramsey_stock, by = "year", suffix = c("_city", "_county"))
+
+  testthat::expect_true(
+    all(comparison_stpaul_ramsey_stock$value_county > comparison_stpaul_ramsey_stock$value_city),
+    label = "Ramsey County TotStock > Saint Paul TotStock"
+  )
+})
+
+testthat::test_that("Counties have truck fleets with all fuel types", {
+  # BEV can be 0 in starting years
+  transportation_data$freight %>%
+    filter(
+      stringr::str_detect(var, "Stock"),
+      mode %in% c("CUT", "SUT"),
+      geog_name %in% c("Hennepin County", "Ramsey County", "Dakota County", "Washington County", "Scott County", "Anoka County", "Carver County")
+    ) %>%
+    filter(value == 0) %>%
+    select(year) %>%
+    unique() %>%
+    testthat::expect_equal(
+      tibble::tibble(year = c("2015", "2018", "2020")),
+      ignore_attr = TRUE
+    )
+})
