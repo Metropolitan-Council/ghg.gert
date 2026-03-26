@@ -78,12 +78,20 @@ test_school_bus <- function(x) {
     ))
 
 
+    pass_vmt_reduction <- suppressMessages(suppressWarnings(mode_school_bus(
+      .pass_tb = pass_adj$pass,
+      .selected_ctu = x,
+      .vmt_reduction_pct = 0.10
+    )))
+
+
     purrr::map(
       list(
         pass_transit,
         pass_lu,
         pass_road,
-        pass_tele
+        pass_tele,
+        pass_vmt_reduction
       ),
       function(x) {
         test_ghg <- x$dir_ghg %>%
@@ -110,7 +118,14 @@ purrr::map(
     "Crystal",
     # "Bethel",
     "Rosemount",
-    "White Bear Twp."
+    "White Bear Twp.",
+    "Hennepin County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Ramsey County",
+    "Washington County",
+    "Scott County"
   ),
   test_school_bus
 )

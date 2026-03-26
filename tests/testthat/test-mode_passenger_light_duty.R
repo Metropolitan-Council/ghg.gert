@@ -62,12 +62,20 @@ test_passenger <- function(x) {
       .parking_price = 20
     ))
 
+
+    pass_vmt_reduction <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .vmt_reduction_pct = 0.10
+    ))
+
     purrr::map(
       list(
         pass_transit,
         pass_lu,
         pass_road,
-        pass_tele
+        pass_tele,
+        pass_vmt_reduction
       ),
       function(x) {
         test_ghg <- x$dir_ghg %>%

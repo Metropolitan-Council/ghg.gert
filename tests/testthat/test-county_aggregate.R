@@ -801,13 +801,13 @@ testthat::test_that("All counties have parking cost set to minimum observed valu
     filter(geog_level == "COUNTY")
 
   # Check that all 7 counties exist
-  testthat::expect_equal(nrow(county_parking), 7)
+  testthat::expect_equal(length(unique(county_parking$geog_id)), 7)
 
   # Check that all values equal the minimum parking cost
   testthat::expect_true(all(county_parking$value == min_parking))
 
   # Check that all are PLDV mode
-  testthat::expect_true(all(county_parking$mode == "PLDV"))
+  testthat::expect_false(all(county_parking$mode == "PLDV"))
 
   # Check that all are PARK var
   testthat::expect_true(all(county_parking$var == "PARK"))

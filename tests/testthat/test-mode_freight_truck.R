@@ -23,7 +23,7 @@ test_freight_truck <- function(x) {
     fr_bau <- fr$dir_ghg %>%
       dplyr::filter(year == max(year)) %>%
       dplyr::group_by(geog_name, geog_id, year) %>%
-      dplyr::summarise(dir_ghg = sum(dir_ghg, na.rm = TRUE), .groups = "keep")
+      dplyr::summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
 
     fr_adjusted <- adj_fleet_shares(
@@ -89,7 +89,7 @@ test_freight_truck <- function(x) {
         test_ghg <- x$dir_ghg %>%
           filter(year == max(year)) %>%
           group_by(geog_name, year) %>%
-          summarise(dir_ghg = sum(dir_ghg, na.rm = TRUE), .groups = "keep")
+          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
         testthat::expect_lte(test_ghg$dir_ghg, fr_bau$dir_ghg)
       }
@@ -114,7 +114,12 @@ purrr::map(
     "Rosemount",
     "White Bear Twp.",
     "Hennepin County",
-    "Dakota County"
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Ramsey County",
+    "Washington County",
+    "Scott County"
   ),
   test_freight_truck
 )

@@ -1,70 +1,63 @@
-test_telework <- function(x) {
-  testthat::test_that(paste0(x, " telework reduces VMT"), {
+test_vmt_total <- function(x) {
+  testthat::test_that(paste0(x, " VMT reduces with interventions"), {
     pass_tb_filtered <- transportation_data$passenger %>%
-      filter(geog_name == x | geog_name == "All")
+      filter(geog_name == x)
 
-    telework_bau <- vmt_telework(
+    vmt_bau <- vmt_total_reduction(
       .pass_tb = pass_tb_filtered,
       .mode = "PLDV",
-      .telework_pct = 0,
+      .vmt_reduction_pct = 0,
       .enviro_factors = enviro_factors
     )
 
-    testthat::expect_equal(nrow(telework_bau), length(unique(pass_tb_filtered$year)))
+    testthat::expect_equal(nrow(vmt_bau), length(unique(pass_tb_filtered$year)))
 
-    testthat::expect_named(telework_bau,
+    testthat::expect_named(vmt_bau,
       expected = c(
         "year",
-        "telework_adj"
+        "vmt_reduction_adj"
       ),
       ignore.order = TRUE
     )
 
-    telework_bau_final <- telework_bau %>%
+    vmt_bau_final <- vmt_bau %>%
       filter(year == max(year)) %>%
-      pull(telework_adj)
+      pull(vmt_reduction_adj)
 
 
-    telework_10pct <- vmt_telework(
+    vmt_5pct <- vmt_total_reduction(
       .pass_tb = pass_tb_filtered,
       .mode = "PLDV",
-      .telework_pct = 0.10,
+      .vmt_reduction_pct = 0.05,
       .enviro_factors = enviro_factors
     )
 
-    telework_25pct <- vmt_telework(
+    vmt_10pct <- vmt_total_reduction(
       .pass_tb = pass_tb_filtered,
       .mode = "PLDV",
-      .telework_pct = 0.25,
+      .vmt_reduction_pct = 0.10,
       .enviro_factors = enviro_factors
     )
 
-    telework_50pct <- vmt_telework(
+    vmt_15pct <- vmt_total_reduction(
       .pass_tb = pass_tb_filtered,
       .mode = "PLDV",
-      .telework_pct = 0.50,
+      .vmt_reduction_pct = 0.15,
       .enviro_factors = enviro_factors
     )
-
-    testthat::expect_error(vmt_telework(
-      .pass_tb = pass_tb_filtered,
-      .mode = "BU",
-      .telework_pct = 10,
-      .enviro_factors = enviro_factors
-    ))
 
     purrr::map(
       list(
-        telework_10pct,
-        telework_25pct,
-        telework_50pct
+        vmt_5pct,
+        vmt_10pct,
+        vmt_15pct
       ),
       function(x) {
-        test_adj <- x %>%
+        test_vmt <- x %>%
           filter(year == max(year)) %>%
-          pull(telework_adj)
+          pull(vmt_reduction_adj)
 
-        testthat::expect_lt(test_adj, telework_bau_final)
+        testthat::expect_lt(test_vmt, vmt_bau_final)
       }
     )
   })
@@ -89,5 +82,5 @@ purrr::map(
     "Carver County",
     "Scott County"
   ),
-  test_telework
+  test_vmt_total
 )

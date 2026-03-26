@@ -136,7 +136,14 @@ purrr::map(
     "Crystal",
     "Bethel",
     "Rosemount",
-    "White Bear Twp."
+    "White Bear Twp.",
+    "Hennepin County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Ramsey County",
+    "Washington County",
+    "Scott County"
   ),
   test_walk_bike
 )

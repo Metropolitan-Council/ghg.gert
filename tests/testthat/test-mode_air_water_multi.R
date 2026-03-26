@@ -114,7 +114,14 @@ purrr::map(
     "Bethel",
     "Rosemount",
     "Champlin",
-    "White Bear Twp."
+    "White Bear Twp.",
+    "Hennepin County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Ramsey County",
+    "Washington County",
+    "Scott County"
   ),
   test_air_water_multi
 )

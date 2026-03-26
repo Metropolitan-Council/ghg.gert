@@ -32,6 +32,21 @@ test_transit_bus <- function(x) {
         by = c("geog_name", "geog_id", "year")
       )
 
+    bus_bau <- pass$dir_ghg %>%
+      filter(
+        year == max(year),
+        mode == "BU"
+      ) %>%
+      group_by(geog_name, geog_id, year) %>%
+      summarise(dir_ghg = sum(dir_ghg), .groups = "keep") %>%
+      left_join(
+        pass$vmt %>%
+          filter(year == max(year), mode == "BU") %>%
+          group_by(geog_name, geog_id, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep"),
+        by = c("geog_name", "geog_id", "year")
+      )
+
 
     pass_transit <- suppressMessages(
       suppressWarnings(
@@ -79,6 +94,40 @@ test_transit_bus <- function(x) {
       )
     ))
 
+    pass_vmt_reduction <- suppressMessages(suppressWarnings(mode_transit_bus(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .vmt_reduction_pct = 0.10
+    )))
+
+    # no change in emissions or vmt
+    purrr::map(
+      list(
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_ghg <- x$vmt %>%
+          filter(
+            year == max(year),
+            mode == "BU"
+          ) %>%
+          group_by(geog_name, geog_id, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep")
+
+        testthat::expect_equal(test_ghg$vmt, bus_bau$vmt)
+
+
+        test_ghg <- x$dir_ghg %>%
+          filter(
+            year == max(year),
+            mode == "BU"
+          ) %>%
+          group_by(geog_name, geog_id, year) %>%
+          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+        testthat::expect_equal(test_ghg$dir_ghg, bus_bau$dir_ghg)
+      }
+    )
 
     # emissions should decrease only in specific instances
     purrr::map(
@@ -131,7 +180,14 @@ purrr::map(
     "Crystal",
     "Bethel",
     "Rosemount",
-    "White Bear Twp."
+    "White Bear Twp.",
+    "Hennepin County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Ramsey County",
+    "Washington County",
+    "Scott County"
   ),
   test_transit_bus
 )

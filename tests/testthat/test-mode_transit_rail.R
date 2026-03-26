@@ -135,6 +135,42 @@ test_rail <- function(x) {
       .transit_service_pct = .30
     )))
 
+
+    pass_vmt_reduction <- suppressMessages(suppressWarnings(mode_transit_rail(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .vmt_reduction_pct = 0.10
+    )))
+
+    # no change in emissions or vmt for rail mode
+    purrr::map(
+      list(
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_vmt <- x$vmt %>%
+          filter(
+            year == max(year),
+            mode == "RU"
+          ) %>%
+          group_by(geog_name, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep")
+
+        testthat::expect_equal(test_vmt$vmt, pass_bau_vmt$vmt)
+
+
+        test_ghg <- x$dir_ghg %>%
+          filter(
+            year == max(year),
+            mode == "RU"
+          ) %>%
+          group_by(geog_name, year) %>%
+          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+        testthat::expect_equal(test_ghg$dir_ghg, pass_bau$dir_ghg)
+      }
+    )
+
     # browser()
 
     purrr::map(
@@ -142,7 +178,8 @@ test_rail <- function(x) {
         pass_transit,
         pass_lu,
         pass_road,
-        pass_tele
+        pass_tele,
+        pass_vmt_reduction
       ),
       function(x) {
         # browser()
@@ -179,7 +216,9 @@ purrr::map(
   c(
     "Bloomington",
     "Saint Paul",
-    "Minneapolis"
+    "Minneapolis",
+    "Hennepin County",
+    "Dakota County"
   ),
   test_rail
 )
