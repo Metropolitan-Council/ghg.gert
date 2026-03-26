@@ -731,6 +731,12 @@ vmt_vehicle_occupancy <- function(tb,
 #' @family VMT effects
 #' @details
 #' Only applicable for passenger light-duty vehicles (PLDV).
+#' This should not be used in conjunction with any other adjustments that would affect VMT.
+#' Unlike the other VMT effects, this does not use any elasticity calculations. Instead, it
+#' applies a straight percentage reduction to VMT in the final forecast year, with a gradual
+#' increase in the reduction over the intermediate years. The percentage reduction is applied directly
+#' to VMT (i.e., a 10% reduction would be an adjustment factor of 0.10). There are also no limits
+#' on the amount of reduction and no change in other modes (mode shift).
 #'
 #'
 vmt_total_reduction <- function(.pass_tb,
