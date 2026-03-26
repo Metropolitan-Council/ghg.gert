@@ -325,3 +325,54 @@ testthat::test_that("PHEVPr correct", {
     nrow() %>%
     testthat::expect_equal(0)
 })
+
+
+testthat::test_that("no negative PMT values in passenger data", {
+  pmt_data <- transportation_data$passenger %>%
+    filter(var == "PMT")
+
+  negative_count <- sum(pmt_data$value < 0, na.rm = TRUE)
+
+  testthat::expect_equal(
+    negative_count,
+    0,
+    label = "Number of negative PMT values",
+    info = paste(
+      "Found", negative_count, "negative PMT values.",
+      "PMT (Passenger Miles Traveled) should not be negative."
+    )
+  )
+
+  # Also check that minimum is non-negative
+  testthat::expect_gte(
+    min(pmt_data$value, na.rm = TRUE),
+    0,
+    label = "Minimum PMT value"
+  )
+})
+
+
+testthat::test_that("no negative TMT values in freight data", {
+  tmt_data <- transportation_data$freight %>%
+    filter(var == "TMT")
+
+  negative_count <- sum(tmt_data$value < 0, na.rm = TRUE)
+
+  negative_rows <- tmt_data %>%
+    filter(value < 0) %>%
+    arrange(value)
+
+
+  testthat::expect_equal(
+    negative_count,
+    6,
+    label = "Number of negative TMT values"
+  )
+
+  # we expect that negative TMT values are only in Laketown Twp.
+  # because we expect it will be absorbed into another CTU in the future
+  testthat::expect_equal(
+    negative_rows$geog_name %>% unique(),
+    "Laketown Twp."
+  )
+})
