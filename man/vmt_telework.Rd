@@ -7,7 +7,7 @@
 vmt_telework(
   .pass_tb,
   .mode,
-  .telework_pct = transportation_defaults$telework_pct,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }

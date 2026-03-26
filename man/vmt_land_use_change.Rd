@@ -6,14 +6,16 @@
 \usage{
 vmt_land_use_change(
   .type,
-  .comb_5d_impact_pct_change = transportation_defaults$comb_5d_impact_pct_change,
-  .pop_dens_pct_change = transportation_defaults$pop_dens_pct_change,
-  .emp_dens_pct_change = transportation_defaults$emp_dens_pct_change,
-  .land_use_diversity_pct_change = transportation_defaults$land_use_diversity_pct_change,
+  .comb_5d_impact_pct_change =
+    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+  .land_use_diversity_pct_change =
+    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
-    transportation_defaults$intersection_design_pct_change,
-  .job_access_pct_change = transportation_defaults$job_access_pct_change,
-  .transit_dist_pct_change = transportation_defaults$transit_dist_pct_change,
+    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast_5d = ghg.ccap::elast_5d
 )

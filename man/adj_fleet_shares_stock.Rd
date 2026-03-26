@@ -8,11 +8,11 @@ adj_fleet_shares_stock(
   .pass_tb,
   .freight_tb,
   .selected_ctu = "all",
-  .bev_pct_stock = transportation_defaults$bev_pct_stock,
-  .hev_pct_stock = transportation_defaults$hev_pct_stock,
-  .vmt_fee = transportation_defaults$vmt_fee,
-  .payd_fee = transportation_defaults$payd_fee,
-  .gas_tax = transportation_defaults$gas_tax,
+  .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
+  .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
+  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
   .elast = elast,
   .enviro_factors = enviro_factors
 )

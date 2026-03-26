@@ -74,13 +74,13 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @family VMT effects
 vmt_land_use_change <- function(.type,
-                                .comb_5d_impact_pct_change = transportation_defaults$comb_5d_impact_pct_change,
-                                .pop_dens_pct_change = transportation_defaults$pop_dens_pct_change,
-                                .emp_dens_pct_change = transportation_defaults$emp_dens_pct_change,
-                                .land_use_diversity_pct_change = transportation_defaults$land_use_diversity_pct_change,
-                                .intersection_design_pct_change = transportation_defaults$intersection_design_pct_change,
-                                .job_access_pct_change = transportation_defaults$job_access_pct_change,
-                                .transit_dist_pct_change = transportation_defaults$transit_dist_pct_change,
+                                .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+                                .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+                                .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+                                .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+                                .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                                .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+                                .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
                                 .enviro_factors = ghg.ccap::enviro_factors,
                                 .elast_5d = ghg.ccap::elast_5d) {
   max_value <- switch(.type,
@@ -157,8 +157,8 @@ vmt_parking_policy <- function(tb,
                                .mode,
                                .parking_cost = parking_cost,
                                .elast = elast,
-                               .parking_price = transportation_defaults$parking_price,
-                               .freight_parking_price = transportation_defaults$freight_parking_price,
+                               .parking_price = ghg.ccap::transportation_defaults$parking_price,
+                               .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
                                .enviro_factors = ghg.ccap::enviro_factors) {
   if (!.mode %in% unique(tb$mode)) {
     cli::cli_abort("Make sure you are using the correct input table")
@@ -252,11 +252,11 @@ vmt_road_policy <- function(.pass_tb,
                             .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
-                            .vmt_fee = transportation_defaults$vmt_fee,
-                            .freight_vmt_fee = transportation_defaults$freight_vmt_fee,
-                            .cong_price = transportation_defaults$cong_price,
-                            .gas_tax = transportation_defaults$gas_tax,
-                            .payd_fee = transportation_defaults$payd_fee,
+                            .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+                            .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+                            .cong_price = ghg.ccap::transportation_defaults$cong_price,
+                            .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+                            .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
                             .stock,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .elast = ghg.ccap::elast) {
@@ -411,7 +411,7 @@ vmt_road_policy <- function(.pass_tb,
 #'
 vmt_telework <- function(.pass_tb,
                          .mode,
-                         .telework_pct = transportation_defaults$telework_pct,
+                         .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
                          .enviro_factors = ghg.ccap::enviro_factors) {
   switch(.mode,
     PLDV = {
@@ -539,7 +539,7 @@ vmt_stock_proportion <- function(.tb,
 #' @family VMT effects
 vmt_transit_service <- function(tb,
                                 .mode,
-                                .transit_service_pct = transportation_defaults$transit_service_pct,
+                                .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
                                 .elast = elast,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   years <- unique(tb$year)
@@ -643,8 +643,8 @@ vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
                                   .stock,
-                                  .transit_avo_pct = transportation_defaults$transit_avo_pct,
-                                  .pldv_avo_pct = transportation_defaults$pldv_avo_pct,
+                                  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+                                  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
                                   .vehicle_occupancy = vehicle_occupancy,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
   calc_avo_elast <- function(pct) {
@@ -741,7 +741,7 @@ vmt_vehicle_occupancy <- function(tb,
 #'
 vmt_total_reduction <- function(.pass_tb,
                                 .mode,
-                                .vmt_reduction_pct = transportation_defaults$vmt_reduction_pct,
+                                .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   switch(.mode,
     PLDV = {

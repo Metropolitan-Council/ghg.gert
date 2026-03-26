@@ -56,11 +56,11 @@
 adj_fleet_shares <- function(.pass_tb,
                              .freight_tb,
                              .selected_ctu = "all",
-                             .bev_pct_sales = transportation_defaults$bev_pct_sales,
-                             .hev_pct_sales = transportation_defaults$hev_pct_sales,
-                             .vmt_fee = transportation_defaults$vmt_fee,
-                             .payd_fee = transportation_defaults$payd_fee,
-                             .gas_tax = transportation_defaults$gas_tax,
+                             .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
+                             .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
+                             .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+                             .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+                             .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
                              .elast = elast,
                              .enviro_factors = enviro_factors) {
   .pass_tb <- filter_ctu(.pass_tb, .selected_ctu = .selected_ctu) %>% dplyr::distinct()

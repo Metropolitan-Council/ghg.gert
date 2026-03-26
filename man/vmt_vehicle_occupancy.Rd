@@ -9,8 +9,8 @@ vmt_vehicle_occupancy(
   .tb_vmt,
   .mode,
   .stock,
-  .transit_avo_pct = transportation_defaults$transit_avo_pct,
-  .pldv_avo_pct = transportation_defaults$pldv_avo_pct,
+  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
   .vehicle_occupancy = vehicle_occupancy,
   .enviro_factors = ghg.ccap::enviro_factors
 )
