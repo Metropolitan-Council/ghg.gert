@@ -1,74 +1,13 @@
 # update passenger light-duty vehicle AVO to most recent TBI
 # create average using Imagine 2050 Community Designation
 pkgload::load_all()
+source("data-raw/transportation_data_processing/_tbi_load.R")
 
 # pull modeling dataset, which has imagine designations for each CTU
 vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
 
 ctu_imagine <- vmt_model_data %>%
   select(ctu_name, gnis, imagine_designation) %>%
-  unique()
-
-# load TBI data if it doesn't already exist
-if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Trip.csv")) {
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2019/csv_society_tbi_home_interview2019.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2019.zip"
-  )
-
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2021/csv_society_tbi_home_interview2021.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2021.zip"
-  )
-
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2023/csv_society_tbi_home_interview2023.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2023.zip"
-  )
-
-  list.files("data-raw/transportation_data_processing/tbi/", full.names = TRUE) %>%
-    purrr::map(
-      function(x) {
-        zip::unzip(x, exdir = "data-raw/transportation_data_processing/tbi/")
-      }
-    )
-}
-
-# warning that these are hefty, around 4gb
-trip <- bind_rows(
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019LinkedTrip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021LinkedTrip.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023LinkedTrip.csv")
-)
-
-hh <- bind_rows(
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Household.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021Household.csv"),
-  read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Household.csv")
-)
-
-cprg_tbi_hh_counties <- c(
-  "Anoka MN",
-  "Carver MN",
-  "Dakota MN",
-  "Hennepin MN",
-  "Ramsey MN",
-  "Scott MN",
-  "Washington MN"
-)
-
-# filter to only HH in our region
-# get community designation info
-hh_region <- hh %>%
-  filter(
-    hh_county %in% cprg_tbi_hh_counties,
-    hh_in_mpo == TRUE
-  ) %>%
-  select(
-    hh_id, hh_county, survey_year,
-    starts_with("cd_20"),
-    hh_city
-  ) %>%
   unique()
 
 # get index of CD levels
@@ -196,5 +135,3 @@ transportation_data$passenger <- transportation_data$passenger %>%
 
 
 usethis::use_data(transportation_data, overwrite = TRUE)
-
-rm(trip, hh)

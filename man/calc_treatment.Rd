@@ -40,6 +40,7 @@ Other transportation:
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
 \code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+\code{\link{vmt_annual_energy_outlook}()},
+\code{\link{vmt_trip_reduction}()}
 }
 \concept{transportation}

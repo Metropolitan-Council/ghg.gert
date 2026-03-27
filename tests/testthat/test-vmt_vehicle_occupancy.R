@@ -1,3 +1,123 @@
+test_vehicle_occupancy <- function(x) {
+  testthat::test_that(paste0(x, " vehicle occupancy increases with interventions"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x | geog_name == "All")
+
+    si_vmt_test <- tibble::tibble(
+      type = "P",
+      stock = "SIStock",
+      scenario = "BAU",
+      geog_name = x,
+      year = unique(pass_tb_filtered$year),
+      mode = "PLDV",
+      aeo_mode = "LDV",
+      vmt = 20,
+      class = "SI"
+    )
+
+    occupancy_bau <- vmt_vehicle_occupancy(
+      tb = pass_tb_filtered,
+      .tb_vmt = si_vmt_test,
+      .mode = "PLDV",
+      .stock = "SIStock",
+      .vehicle_occupancy = vehicle_occupancy,
+      .transit_avo_pct = 0,
+      .pldv_avo_pct = 0,
+      .enviro_factors = enviro_factors
+    )
+
+    testthat::expect_equal(nrow(occupancy_bau), length(unique(pass_tb_filtered$year)))
+
+    testthat::expect_named(occupancy_bau,
+      expected = c(
+        "avo_elast",
+        "geog_id",
+        "geog_name",
+        "occupancy_adj",
+        "year"
+      ),
+      ignore.order = TRUE
+    )
+
+    occupancy_bau_final <- occupancy_bau %>%
+      filter(year == max(year)) %>%
+      pull(occupancy_adj)
+
+
+    occupancy_5pct <- vmt_vehicle_occupancy(
+      tb = pass_tb_filtered,
+      .tb_vmt = si_vmt_test,
+      .mode = "PLDV",
+      .stock = "SIStock",
+      .vehicle_occupancy = vehicle_occupancy,
+      .transit_avo_pct = 0,
+      .pldv_avo_pct = 0.05,
+      .enviro_factors = enviro_factors
+    )
+
+    occupancy_10pct <- vmt_vehicle_occupancy(
+      tb = pass_tb_filtered,
+      .tb_vmt = si_vmt_test,
+      .mode = "PLDV",
+      .stock = "SIStock",
+      .vehicle_occupancy = vehicle_occupancy,
+      .transit_avo_pct = 0,
+      .pldv_avo_pct = 0.10,
+      .enviro_factors = enviro_factors
+    )
+
+    occupancy_25pct <- vmt_vehicle_occupancy(
+      tb = pass_tb_filtered,
+      .tb_vmt = si_vmt_test,
+      .mode = "PLDV",
+      .stock = "SIStock",
+      .vehicle_occupancy = vehicle_occupancy,
+      .transit_avo_pct = 0,
+      .pldv_avo_pct = 0.25,
+      .enviro_factors = enviro_factors
+    )
+
+    purrr::map(
+      list(
+        occupancy_5pct,
+        occupancy_10pct,
+        occupancy_25pct
+      ),
+      function(x) {
+        test_adj <- x %>%
+          filter(year == max(year)) %>%
+          pull(occupancy_adj)
+
+        # Higher occupancy increases the adjustment factor
+        testthat::expect_gt(test_adj, occupancy_bau_final)
+      }
+    )
+  })
+}
+
+purrr::map(
+  c(
+    "Arden Hills",
+    "Bloomington",
+    "Saint Paul",
+    "Lake Elmo",
+    "Minneapolis",
+    "Crystal",
+    "Bethel",
+    "Rosemount",
+    "White Bear Twp.",
+    "Hennepin County",
+    "Ramsey County",
+    "Washington County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Scott County"
+  ),
+  test_vehicle_occupancy
+)
+
+
 testthat::test_that("Vehicle occupancy adjustment correct", {
   si_vmt_test <- tibble::tribble(
     ~type, ~stock, ~scenario, ~geog_name, ~year, ~mode, ~aeo_mode, ~vmt, ~class,

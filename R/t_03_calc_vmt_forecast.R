@@ -42,25 +42,27 @@ calc_vmt_forecast <- function(.scenario,
                               .variable,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
-                              .transit_avo_pct = 0,
-                              .transit_service_pct = 0,
-                              .pldv_avo_pct = 0,
-                              .vmt_fee = 0,
-                              .payd_fee = 0,
-                              .gas_tax = 0,
-                              .cong_price = 0,
-                              .parking_price = 0,
-                              .vmt_reduction_pct = 0,
-                              .freight_parking_price = 0,
-                              .freight_vmt_fee = 0,
-                              .pop_dens_pct_change = 0,
-                              .emp_dens_pct_change = 0,
-                              .land_use_diversity_pct_change = 0,
-                              .intersection_design_pct_change = 0,
-                              .job_access_pct_change = 0,
-                              .transit_dist_pct_change = 0,
-                              .comb_5d_impact_pct_change = 0,
-                              .telework_pct = 0,
+                              .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+                              .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+                              .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+                              .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+                              .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+                              .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+                              .cong_price = ghg.ccap::transportation_defaults$cong_price,
+                              .parking_price = ghg.ccap::transportation_defaults$parking_price,
+                              .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
+                              .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+                              .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+                              .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+                              .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+                              .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+                              .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                              .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+                              .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+                              .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+                              .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+                              .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+                              .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
                               .enviro_factors = enviro_factors,
                               .factor_values = factor_values,
                               .elast = elast,
@@ -140,6 +142,7 @@ calc_vmt_forecast <- function(.scenario,
 
   tb_fin <- switch(.mode,
     PLDV = {
+      # browser()
       at_adjustment <- tb %>%
         dplyr::filter(mode == "AT", var == .variable) %>%
         dplyr::select(geog_name, geog_id, year, active_transportation_adj = value)
@@ -156,6 +159,13 @@ calc_vmt_forecast <- function(.scenario,
         .pass_tb = tb, .mode = .mode, .vmt_reduction_pct = .vmt_reduction_pct,
         .enviro_factors = .enviro_factors
       )
+      cbtp_adjust <-
+        vmt_trip_reduction(
+          .pass_tb = tb,
+          .cbtp_prop_targeted = .cbtp_prop_targeted,
+          .cbtp_start_year = .cbtp_start_year,
+          .enviro_factors = .enviro_factors
+        )
 
       tb_vmt %>%
         dplyr::left_join(ann_energy_outlook, by = "year") %>%
@@ -168,10 +178,11 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::left_join(vmt_total_adj, by = "year") %>%
         dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
         dplyr::left_join(at_adjustment, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(cbtp_adjust, by = c("year", "geog_name", "geog_id")) %>%
         dplyr::distinct() %>%
         dplyr::mutate(
           pass_ld_vmt = (((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
-            aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
+            cbtp_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
             telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
           stock = .stock,
           vmt = pass_ld_vmt

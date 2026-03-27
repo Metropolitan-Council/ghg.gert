@@ -7,7 +7,7 @@
 vmt_transit_service(
   tb,
   .mode,
-  .transit_service_pct = 0,
+  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
   .elast = elast,
   .enviro_factors = ghg.ccap::enviro_factors
 )
@@ -19,7 +19,8 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment.
+Default is 0.}
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
@@ -57,6 +58,7 @@ Other VMT effects:
 \code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
 \code{\link{vmt_total_reduction}()},
+\code{\link{vmt_trip_reduction}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }
 \concept{VMT effects}

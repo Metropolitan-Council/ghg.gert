@@ -45,15 +45,15 @@ calc_regen_ag <- function(emissions,
                           .regen_ag_start_year) {
   # browser()
 
-  county_use <- ifelse(grepl("County",.selected_ctu),
-    stringr::str_replace_all(.selected_ctu," County",""),
+  county_use <- ifelse(grepl("County", .selected_ctu),
+    stringr::str_replace_all(.selected_ctu, " County", ""),
     county_assign(.selected_ctu = .selected_ctu)
   )
 
   crop_emissions <- emissions %>%
     filter(source == "Soil residue emissions")
 
-    strategy_use <- caf_strategies %>%
+  strategy_use <- caf_strategies %>%
     filter(geog_name == county_use)
 
   # CAF strategies are anchored to n2o emissions as proportions

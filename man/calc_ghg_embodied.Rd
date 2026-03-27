@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = 0,
+  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors,
@@ -35,7 +35,7 @@ Vehicle class. One of \code{"SI"}, \code{"CI"}, \code{"HEV"},  or \code{"BEV"}.}
 
 \item{.transit_avo_pct}{numeric,
 Percent change in transit AVO.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.mitigation_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Mitigation output table for results.
@@ -86,7 +86,8 @@ Other transportation:
 \code{\link{mode_transit_rail}()},
 \code{\link{mode_walk_bike}()},
 \code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+\code{\link{vmt_annual_energy_outlook}()},
+\code{\link{vmt_trip_reduction}()}
 }
 \concept{emissions}
 \concept{transportation}

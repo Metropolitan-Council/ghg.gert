@@ -46,10 +46,12 @@ load_comstock <- function(path) {
 summarize_comstock <- function(df, new_build = FALSE) {
   base_df <- df %>%
     filter(heating_fuel == "NaturalGas") %>%
-    mutate(kwh_per_sqft = building_kwh / sq_ft,
-           mcf_per_sqft = building_mcf / sq_ft,
-           kwh_savings_sqft = building_kwh_savings / sq_ft,
-           mcf_savings_sqft = building_mcf_savings / sq_ft)
+    mutate(
+      kwh_per_sqft = building_kwh / sq_ft,
+      mcf_per_sqft = building_mcf / sq_ft,
+      kwh_savings_sqft = building_kwh_savings / sq_ft,
+      mcf_savings_sqft = building_mcf_savings / sq_ft
+    )
 
   summarize_groups <- function(data) {
     data %>%
@@ -63,13 +65,16 @@ summarize_comstock <- function(df, new_build = FALSE) {
       )
   }
 
-  if(new_build == TRUE) {
-    base_df %>% group_by(year_bin) %>% summarize_groups() %>%
-    filter(year_bin == "2000+") } else {
-    base_df  %>% summarize_groups() %>% mutate(year_bin = "Total")
-    }
-
-
+  if (new_build == TRUE) {
+    base_df %>%
+      group_by(year_bin) %>%
+      summarize_groups() %>%
+      filter(year_bin == "2000+")
+  } else {
+    base_df %>%
+      summarize_groups() %>%
+      mutate(year_bin = "Total")
+  }
 }
 
 
@@ -105,11 +110,11 @@ high_efficiency <- load_comstock(
 
 # Summaries (reuse summarize_comstock)
 comstock_summaries <- list(
-  baseline                         = summarize_comstock(baseline, new_build = FALSE),
-  new_build                         = summarize_comstock(baseline, new_build = TRUE),
-  retrofit_efficiency              = summarize_comstock(retrofit_efficiency, new_build = FALSE),
-  electrification                  = summarize_comstock(electrification, new_build = FALSE),
-  new_build_efficient                = summarize_comstock(high_efficiency, new_build = TRUE)
+  baseline = summarize_comstock(baseline, new_build = FALSE),
+  new_build = summarize_comstock(baseline, new_build = TRUE),
+  retrofit_efficiency = summarize_comstock(retrofit_efficiency, new_build = FALSE),
+  electrification = summarize_comstock(electrification, new_build = FALSE),
+  new_build_efficient = summarize_comstock(high_efficiency, new_build = TRUE)
 )
 
 baseline_tbl <- ghg.ccap::imagine_mwh_mcf_per_job

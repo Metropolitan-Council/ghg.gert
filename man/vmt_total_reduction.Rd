@@ -7,7 +7,7 @@
 vmt_total_reduction(
   .pass_tb,
   .mode,
-  .vmt_reduction_pct = 0,
+  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -18,7 +18,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{.mode}{character, current mode}
 
 \item{.vmt_reduction_pct}{total percent reduction in PLDV VMT by final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -28,6 +29,12 @@ Calculate VMT reduction multiplier
 }
 \details{
 Only applicable for passenger light-duty vehicles (PLDV).
+This should not be used in conjunction with any other adjustments that would affect VMT.
+Unlike the other VMT effects, this does not use any elasticity calculations. Instead, it
+applies a straight percentage reduction to VMT in the final forecast year, with a gradual
+increase in the reduction over the intermediate years. The percentage reduction is applied directly
+to VMT (i.e., a 10\% reduction would be an adjustment factor of 0.10). There are also no limits
+on the amount of reduction and no change in other modes (mode shift).
 }
 \seealso{
 Other VMT effects: 
@@ -37,6 +44,7 @@ Other VMT effects:
 \code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_telework}()},
 \code{\link{vmt_transit_service}()},
+\code{\link{vmt_trip_reduction}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }
 \concept{VMT effects}

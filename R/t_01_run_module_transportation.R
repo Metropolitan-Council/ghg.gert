@@ -59,29 +59,31 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",
-                                      .transit_avo_pct = 0,
-                                      .pldv_avo_pct = 0,
-                                      .transit_service_pct = 0,
-                                      .vmt_fee = 0,
-                                      .payd_fee = 0,
-                                      .gas_tax = 0,
-                                      .parking_price = 0,
-                                      .freight_parking_price = 0,
-                                      .cong_price = 0,
-                                      .freight_vmt_fee = 0,
-                                      .pop_dens_pct_change = 0,
-                                      .emp_dens_pct_change = 0,
-                                      .land_use_diversity_pct_change = 0,
-                                      .intersection_design_pct_change = 0,
-                                      .job_access_pct_change = 0,
-                                      .transit_dist_pct_change = 0,
-                                      .comb_5d_impact_pct_change = 0,
-                                      .telework_pct = 0,
-                                      .vmt_reduction_pct = 0,
-                                      .bev_pct_sales = 0,
-                                      .hev_pct_sales = 0,
-                                      .bev_pct_stock = 0,
-                                      .hev_pct_stock = 0,
+                                      .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+                                      .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                                      .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+                                      .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+                                      .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+                                      .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+                                      .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+                                      .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+                                      .parking_price = ghg.ccap::transportation_defaults$parking_price,
+                                      .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+                                      .cong_price = ghg.ccap::transportation_defaults$cong_price,
+                                      .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+                                      .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+                                      .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+                                      .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+                                      .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                                      .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+                                      .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+                                      .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+                                      .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+                                      .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
+                                      .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
+                                      .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
+                                      .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
+                                      .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
                                       .enviro_factors = ghg.ccap::enviro_factors,
                                       .elast = ghg.ccap::elast,
                                       .elast_5d = ghg.ccap::elast_5d,
@@ -246,6 +248,8 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .transit_dist_pct_change = .transit_dist_pct_change,
     .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
     .telework_pct = .telework_pct,
+    .cbtp_prop_targeted = .cbtp_prop_targeted,
+    .cbtp_start_year = .cbtp_start_year,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
@@ -364,8 +368,11 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       "class"
     )
   ) %>%
-    dplyr::left_join(ghg.ccap::geog_index %>%
-      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+    dplyr::left_join(
+      ghg.ccap::geog_index %>%
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+      by = c("geog_name", "geog_id")
+    )
 
 
   if (.calc_transp_ghg_embodied == TRUE) {
@@ -475,8 +482,11 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
       "year", "mode", "aeo_mode", "class"
     )
   ) %>%
-    dplyr::left_join(ghg.ccap::geog_index %>%
-      dplyr::select(-ctu, -ctu_name), by = c("geog_name", "geog_id"))
+    dplyr::left_join(
+      ghg.ccap::geog_index %>%
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+      by = c("geog_name", "geog_id")
+    )
 
   freight <- list(
     # AIR_WAT_MM = freight_multi_air_wat,

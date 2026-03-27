@@ -7,7 +7,7 @@
 vmt_telework(
   .pass_tb,
   .mode,
-  .telework_pct = 0,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -18,7 +18,9 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{.mode}{character, current mode}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0
+Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -46,6 +48,7 @@ Other VMT effects:
 \code{\link{vmt_stock_proportion}()},
 \code{\link{vmt_total_reduction}()},
 \code{\link{vmt_transit_service}()},
+\code{\link{vmt_trip_reduction}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }
 \concept{VMT effects}

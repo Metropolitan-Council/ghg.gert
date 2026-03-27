@@ -9,8 +9,8 @@ vmt_parking_policy(
   .mode,
   .parking_cost = parking_cost,
   .elast = elast,
-  .parking_price = 0,
-  .freight_parking_price = 0,
+  .parking_price = ghg.ccap::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -25,9 +25,11 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -71,6 +73,7 @@ Other VMT effects:
 \code{\link{vmt_telework}()},
 \code{\link{vmt_total_reduction}()},
 \code{\link{vmt_transit_service}()},
+\code{\link{vmt_trip_reduction}()},
 \code{\link{vmt_vehicle_occupancy}()}
 }
 \concept{VMT effects}

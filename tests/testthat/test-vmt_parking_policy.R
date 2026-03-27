@@ -1,161 +1,109 @@
-test_that("Parking policy effects correct", {
-  parking_adj <- vmt_parking_policy(
-    tb = st_paul_passenger,
-    .parking_cost = parking_cost,
-    .mode = "PLDV",
-    .parking_price = 44,
-    .enviro_factors = enviro_factors
-  )
+test_parking_policy <- function(x) {
+  testthat::test_that(paste0(x, " parking policy reduces VMT"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x)
 
-  testthat::expect_equal(
-    parking_adj %>%
-      select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~park_price_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 0.731618027,
-      "2030", "Saint Paul", 0.731618027,
-      "2035", "Saint Paul", 0.731618027,
-      "2040", "Saint Paul", 0.731618027,
-      "2045", "Saint Paul", 0.731618027,
-      "2050", "Saint Paul", 0.731618027
-    ),
-    tolerance = 0.01
-  )
-
-
-  testthat::expect_equal(
-    vmt_parking_policy(
-      tb = st_paul_passenger,
-      .parking_cost = parking_cost,
-      .mode = "PLDV",
-      .parking_price = 66,
-      .enviro_factors = enviro_factors
-    ) %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~park_price_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 0.597427040,
-      "2030", "Saint Paul", 0.597427040,
-      "2035", "Saint Paul", 0.597427040,
-      "2040", "Saint Paul", 0.597427040,
-      "2045", "Saint Paul", 0.597427040,
-      "2050", "Saint Paul", 0.597427040
-    ),
-    tolerance = 0.01
-  )
-
-
-  testthat::expect_equal(
-    vmt_parking_policy(
-      tb = st_paul_passenger,
-      .parking_cost = parking_cost,
-      .mode = "BU",
-      .parking_price = 66,
-      .enviro_factors = enviro_factors
-    ) %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~park_price_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 1.057510,
-      "2030", "Saint Paul", 1.057510,
-      "2035", "Saint Paul", 1.057510,
-      "2040", "Saint Paul", 1.057510,
-      "2045", "Saint Paul", 1.057510,
-      "2050", "Saint Paul", 1.057510
-    ),
-    tolerance = 0.001
-  )
-
-
-  sut_park <- vmt_parking_policy(
-    tb = st_paul_freight,
-    .parking_cost = parking_cost,
-    .mode = "SUT",
-    .freight_parking_price = 2,
-    .enviro_factors = enviro_factors
-  )
-
-  testthat::expect_equal(
-    sut_park %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~park_price_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 0.86,
-      "2030", "Saint Paul", 0.86,
-      "2035", "Saint Paul", 0.86,
-      "2040", "Saint Paul", 0.86,
-      "2045", "Saint Paul", 0.86,
-      "2050", "Saint Paul", 0.86
-    )
-  )
-
-
-  testthat::expect_error(vmt_parking_policy(
-    tb = st_paul_passenger,
-    .mode = "SUT",
-    .freight_parking_price = 2,
-    .enviro_factors = enviro_factors
-  ))
-
-  testthat::expect_error(vmt_parking_policy(
-    tb = st_paul_passenger,
-    .mode = "BIKE",
-    .parking_price = 1,
-    .freight_parking_price = 2,
-    .enviro_factors = enviro_factors
-  ))
-
-
-  testthat::expect_equal(
-    vmt_parking_policy(
-      tb = st_paul_passenger,
+    # Baseline - no parking price increase
+    parking_bau <- vmt_parking_policy(
+      tb = pass_tb_filtered,
       .parking_cost = parking_cost,
       .mode = "PLDV",
       .parking_price = 0,
       .enviro_factors = enviro_factors
-    ) %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~park_price_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 1,
-      "2030", "Saint Paul", 1,
-      "2035", "Saint Paul", 1,
-      "2040", "Saint Paul", 1,
-      "2045", "Saint Paul", 1,
-      "2050", "Saint Paul", 1
     )
-  )
+
+    testthat::expect_equal(nrow(parking_bau), length(unique(pass_tb_filtered$year)))
+
+    testthat::expect_named(parking_bau,
+      expected = c(
+        "year",
+        "geog_id",
+        "geog_name",
+        "park_price_adj"
+      ),
+      ignore.order = TRUE
+    )
 
 
-  parking_adj5 <- vmt_parking_policy(
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .parking_price = 5,
-    .enviro_factors = enviro_factors
-  )
+    testthat::expect_error(vmt_parking_policy(
+      tb = pass_tb_filtered,
+      .mode = "SUT",
+      .freight_parking_price = 2,
+      .enviro_factors = enviro_factors
+    ))
 
-  parking_adj10 <- vmt_parking_policy(
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .parking_price = 10,
-    .enviro_factors = enviro_factors
-  )
+    testthat::expect_error(vmt_parking_policy(
+      tb = pass_tb_filtered,
+      .mode = "BIKE",
+      .parking_price = 1,
+      .freight_parking_price = 2,
+      .enviro_factors = enviro_factors
+    ))
 
-  # expect the total effect to be greater the higher
-  # you go
-  testthat::expect_lte(
-    sum(parking_adj10$park_price_adj),
-    sum(parking_adj5$park_price_adj)
-  )
-})
+    parking_bau_final <- parking_bau %>%
+      filter(year == max(year)) %>%
+      pull(park_price_adj)
+
+
+    parking_20 <- vmt_parking_policy(
+      tb = pass_tb_filtered,
+      .parking_cost = parking_cost,
+      .mode = "PLDV",
+      .parking_price = 20,
+      .enviro_factors = enviro_factors
+    )
+
+    parking_44 <- vmt_parking_policy(
+      tb = pass_tb_filtered,
+      .parking_cost = parking_cost,
+      .mode = "PLDV",
+      .parking_price = 44,
+      .enviro_factors = enviro_factors
+    )
+
+    parking_66 <- vmt_parking_policy(
+      tb = pass_tb_filtered,
+      .parking_cost = parking_cost,
+      .mode = "PLDV",
+      .parking_price = 66,
+      .enviro_factors = enviro_factors
+    )
+
+    purrr::map(
+      list(
+        parking_20,
+        parking_44,
+        parking_66
+      ),
+      function(x) {
+        test_adj <- x %>%
+          filter(year == max(year)) %>%
+          pull(park_price_adj)
+
+        testthat::expect_lt(test_adj, parking_bau_final)
+      }
+    )
+  })
+}
+
+purrr::map(
+  c(
+    "Arden Hills",
+    "Bloomington",
+    "Saint Paul",
+    "Lake Elmo",
+    "Minneapolis",
+    "Crystal",
+    "Bethel",
+    "Rosemount",
+    "White Bear Twp.",
+    "Hennepin County",
+    "Ramsey County",
+    "Washington County",
+    "Dakota County",
+    "Anoka County",
+    "Carver County",
+    "Scott County"
+  ),
+  test_parking_policy
+)

@@ -165,10 +165,12 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .mf_heatpump_pct = .mf_heatpump_pct,
         .enviro_factors = .enviro_factors,
         .grid_emissions = .grid_emissions
-      )%>%
+      ) %>%
       mutate(sector = "Residential") %>%
-      rename(elec_mwh = residential_mwh,
-             natgas_mcf = residential_mcf)
+      rename(
+        elec_mwh = residential_mwh,
+        natgas_mcf = residential_mcf
+      )
   }
 
   if (run_non_residential == TRUE) {
@@ -190,8 +192,10 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .grid_emissions = ghg.ccap::grid_emissions,
       ) %>%
       mutate(sector = "Non-residential") %>%
-      rename(elec_mwh = non_residential_mwh,
-             natgas_mcf = non_residential_mcf)
+      rename(
+        elec_mwh = non_residential_mwh,
+        natgas_mcf = non_residential_mcf
+      )
   }
 
   building_module_output <-
