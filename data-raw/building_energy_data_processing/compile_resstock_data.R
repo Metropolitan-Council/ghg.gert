@@ -103,7 +103,35 @@ resstock_summaries <- list(
   sf_attached_sqft_combo = summarize_resstock(combo, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_combo = summarize_resstock(combo, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_combo = summarize_resstock(combo, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year"))
+  sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year")),
+
+
+  ### year x sq ft
+  sf_attached_vintagesqft_baseline = summarize_resstock(
+    baseline, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_baseline = summarize_resstock(
+    baseline, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_heatpump = summarize_resstock(
+    heatpump, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_heatpump = summarize_resstock(
+    heatpump, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_envelope = summarize_resstock(
+    envelope, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_envelope = summarize_resstock(
+    envelope, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_combo = summarize_resstock(
+    combo, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_combo = summarize_resstock(
+    combo, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  )
+
 )
 
 
