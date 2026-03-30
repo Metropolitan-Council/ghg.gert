@@ -138,7 +138,8 @@ calc_building_energy <- function(
     list("new_build", ceestock_tb$cee_baseline_sf, res_baseline, TRUE),
     list("retrofit", ceestock_tb$cee_retrofit_sf, res_envelope, FALSE),
     list("heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, FALSE),
-    list("combination", ceestock_tb$cee_combined_sf, res_combo, FALSE)
+    list("combination", ceestock_tb$cee_combined_sf, res_combo, FALSE),
+    list("new_build_heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, TRUE)
   )
 
   # extract scenario energy profiles
