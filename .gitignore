@@ -395,3 +395,11 @@ data-raw/transportation_data_processing/ton-miles-traveled/NTAD_National_Network
 
 
 .vscode/
+data-raw/building_energy_data_processing/resstock data/MN_upgrade4.csv.gz
+data-raw/building_energy_data_processing/resstock data/MN_upgrade18.csv.gz
+data-raw/building_energy_data_processing/resstock data/MN_upgrade0.csv.gz
+data-raw/building_energy_data_processing/resstock data/MN_upgrade0.csv
+data-raw/building_energy_data_processing/resstock data/MN_upgrade16.csv
+data-raw/building_energy_data_processing/resstock data/MN_upgrade18.csv
+data-raw/building_energy_data_processing/resstock data/MN_upgrade4.csv
+data-raw/building_energy_data_processing/resstock data/MN_upgrade15_metadata_and_annual_results.csv
