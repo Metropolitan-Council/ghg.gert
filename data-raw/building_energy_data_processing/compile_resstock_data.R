@@ -113,12 +113,12 @@ resstock_summaries <- list(
   sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year")),
 
   # Sustainable new build summaries
-  mf_combo = summarize_resstock(sust_new_build, "Multi", c("mc_classification", "build_year")),
-  manufactured_combo = summarize_resstock(sust_new_build, "Mobile", c("mc_classification", "build_year")),
-  sf_attached_sqft_combo = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "sqft_bin")),
-  sf_attached_year_combo = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "build_year")),
-  sf_detached_sqft_combo = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_combo = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "build_year")),
+  mf_sust_new_build = summarize_resstock(sust_new_build, "Multi", c("mc_classification", "build_year")),
+  manufactured_sust_new_build = summarize_resstock(sust_new_build, "Mobile", c("mc_classification", "build_year")),
+  sf_attached_sqft_sust_new_build = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "sqft_bin")),
+  sf_attached_year_sust_new_build = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "build_year")),
+  sf_detached_sqft_sust_new_build = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "sqft_bin")),
+  sf_detached_year_sust_new_build = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "build_year")),
 
   ### year x sq ft
   sf_attached_vintagesqft_baseline = summarize_resstock(
