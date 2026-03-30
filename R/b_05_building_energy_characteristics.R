@@ -39,7 +39,7 @@ calc_building_energy <- function(
   resstock_tb = ghg.ccap::resstock_summaries,
   ceestock_tb = ghg.ccap::ceestock_summaries
 ) {
-  # bin based on resstock categories
+  # bin based on ceestock categories
   bin_sqft_attached <- function(sqft) {
     cut(sqft,
       breaks = c(0, 999, 1999, 2999, Inf),
@@ -52,7 +52,7 @@ calc_building_energy <- function(
       right = TRUE
     )
   }
-
+#browser()
   bin_sqft_detached <- function(sqft) {
     cut(sqft,
       breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
@@ -71,10 +71,10 @@ calc_building_energy <- function(
 
   bin_year <- function(year) {
     cut(year,
-      breaks = c(0, 1939, 1959, 1979, 1999, 2009, 2025.1),
+      breaks = c(0, 1939, 1959, 1979, 1999, 2025.1),
       labels = c(
         "<1940", "1940-59", "1960-79", "1980-99",
-        "2000-09", "2010s"
+        "2000+"
       ),
       right = TRUE
     )
@@ -104,9 +104,10 @@ calc_building_energy <- function(
   ctu_other <- filter(ctu_binned, mc_classification %in% c("multifamily_units", "manufactured_home"))
 
   build_scenario <- function(scenario_name, cee_sf, res_other, new_build = FALSE) {
-    if (new_build) {
-      cee_sf <- filter(cee_sf, build_year == "2010s")
-      res_other <- filter(res_other, build_year == "2010s")
+
+     if (new_build) {
+      cee_sf <- filter(cee_sf, build_year == "2000+")
+      res_other <- filter(res_other, build_year == "2000+")
       sf_by <- c("mc_classification", "sqft_bin")
       other_by <- "mc_classification"
     } else {
@@ -131,20 +132,57 @@ calc_building_energy <- function(
   res_heatpump <- bind_rows(resstock_tb$mf_heatpump, resstock_tb$manufactured_heatpump)
   res_combo <- bind_rows(resstock_tb$mf_combo, resstock_tb$manufactured_combo)
 
+
   scenario_config <- list(
     list("baseline", ceestock_tb$cee_baseline_sf, res_baseline, FALSE),
     list("new_build", ceestock_tb$cee_baseline_sf, res_baseline, TRUE),
     list("retrofit", ceestock_tb$cee_retrofit_sf, res_envelope, FALSE),
     list("heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, FALSE),
-    list("combination", ceestock_tb$cee_combined_sf, res_combo, FALSE),
-    list("new_build_leed", ceestock_tb$cee_retrofit_sf, res_envelope, TRUE),
-    list("new_build_heatpump", ceestock_tb$cee_heatpump_sf, res_heatpump, TRUE),
-    list("new_build_leed_heatpump", ceestock_tb$cee_combined_sf, res_combo, TRUE)
+    list("combination", ceestock_tb$cee_combined_sf, res_combo, FALSE)
   )
 
   # extract scenario energy profiles
   ctu_energy_profile <- purrr::map(scenario_config, \(cfg) build_scenario(cfg[[1]], cfg[[2]], cfg[[3]], cfg[[4]])) %>%
     bind_rows()
 
-  return(ctu_energy_profile)
+  ### sustainable new building needs to be worked in manually currently
+
+  res_new_build_sust_sf <- bind_rows(resstock_tb$sf_attached_vintagesqft_sust_new_build,
+                                  resstock_tb$sf_detached_vintagesqft_sust_new_build)
+
+  resstock_sqft_bin <- function(sqft) {
+      cut(sqft,
+          breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
+          labels = c(
+            "Less than 1,000", "1,000 to 1,499", "1,500 to 1,999",
+            "2,000 to 2,499", "2,500 to 2,999", "3,000 or more"
+          ),
+          right = TRUE
+      )
+    }
+
+
+
+  ctu_sf_res <- ctu_sf %>%
+    mutate(res_sq_ft = resstock_sqft_bin(sq_ft_use))
+
+  res_new_build_sust_out <-  bind_rows(
+    resstock_tb$mf_sust_new_build,
+    resstock_tb$manufactured_sust_new_build,
+    left_join(ctu_sf_res,
+              res_new_build_sust_sf,
+              join_by(mc_classification,
+                      res_sq_ft == sqft_bin)
+    )
+  ) %>%
+    mutate(scenario_mwh = median_kwh / 1000,
+           scenario = "new_build_leed") %>%
+    select(mc_classification, scenario_mwh, scenario_mcf = median_mcf, scenario)
+
+  ctu_energy_profile_out <- bind_rows(
+    ctu_energy_profile,
+    res_new_build_sust_out
+  )
+
+  return(ctu_energy_profile_out)
 }
