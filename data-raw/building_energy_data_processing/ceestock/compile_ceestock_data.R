@@ -174,7 +174,7 @@ build_strategy_sf <- function(raw, strategy_label, vcols,
 
   raw_scenario <- strategy_scenario_filter[[strategy_label]]
 
-  prepped <- raw %>%
+    prepped <- raw %>%
     filter(
       model_heating_fuel == "Natural Gas",
       scenario           == raw_scenario
@@ -304,7 +304,7 @@ plot_cee_baseline <- function(data, strategy_label = "Baseline") {
     "4000+"
   )
 
-  vintage_levels <- c("<1940", "1940-59", "1960-79", "1980-99", "2000-09", "2010s")
+  vintage_levels <- c("<1940", "1940-59", "1960-79", "1980-99", "2000+")
 
   plot_data <- data %>%
     filter(scenario == strategy_label) %>%
