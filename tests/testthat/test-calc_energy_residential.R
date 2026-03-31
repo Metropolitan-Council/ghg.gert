@@ -162,12 +162,12 @@ testthat::test_that("calc_energy_residential", {
     )
 
     purrr::map(
-      list(leed_table, retro_table),
+      list( retro_table),
       test_energy_efficiency
     )
 
     purrr::map(
-      list(heatpump_table, combo_table),
+      list(heatpump_table, combo_table,leed_table),
       test_energy_electrification
     )
   })
@@ -489,12 +489,12 @@ testthat::test_that("calc_energy_residential", {
     )
 
     purrr::map(
-      list(leed_table, retro_table),
+      list(retro_table),
       test_energy_efficiency
     )
 
     purrr::map(
-      list(heatpump_table, combo_table),
+      list(leed_table,heatpump_table, combo_table),
       test_energy_electrification
     )
   })
