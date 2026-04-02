@@ -45,11 +45,11 @@
 #' @description Values are specific to forecast year
 #' @format A tibble with 9 columns and 10 observations.
 #' - **year**: Forecast year.
-#' - **vmt_elast**: Elasticity for VMT pricing effect on VMT. INFRAS (2000) and Luk (1999) for range; Hymel and Small (2015) for mean.
-#' - **gas_elast**: Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2003) for range; Small (2007) for mean.
-#' - **cong_elast**: Elasticity for congestion pricing effect on VMT. TRACE (1999) and Litman (2019).
+#' - **vmt_elast**: Elasticity for VMT pricing effect on VMT. Harvey and Deakin (1998); INFRAS (2000) and Luk (1999) for range; Hymel and Small (2015) for mean; Small and Van Dender (2007).
+#' - **gas_elast**: Elasticity for gas tax effect on VMT. Goodwin, Dargay, and Hanly (2004) for range; Small (2007) for mean.
+#' - **cong_elast**: Elasticity for congestion pricing effect on VMT. Arentze, Hofman and Timmermans (2004); PSRC (2015).
 #' - **park_elast**: Elasticity for parking pricing effect on VMT. TRACE (1999) and Litman (2019).
-#' - **freight_vmt_elast**: Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1999), quoted in Litman (2011).
+#' - **freight_vmt_elast**: Elasticity for freight vehicle pricing effect on freight VMT. Small and Winston (1998), quoted in Litman (2011).
 #' - **vehicle_ownership_elast**: Elasticity for vehicle ownership in response to price changes.
 #' - **vmt_cross**: Cross elasticity for transit/walk/bike with respect to PLDV VMT price. Affects VMT. Litman (2019). [Source](https://www.vtpi.org/elasticities.pdf)
 #' - **park_active**: Elasticity for parking price effect on active transportation VMT. TRACE (1999).
@@ -65,17 +65,18 @@
 
 #' @title 5D elasticities
 #'
-#' @description Values are specific to forecast year
+#' @description Values are specific to forecast year. All elasticities from Ewing and Cervero (2010).
+#'   Employment density range also informed by Stevens (2017).
 #' @format A tibble with 27 columns and 9 observations.
 #' - **year**: Forecast year.
 #' - **type**: Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT"`.
-#' - **population_density**: Elasticity for population density effect on VMT.
-#' - **employment_density**: Elasticity for employment population density effect on VMT.
-#' - **diversity**: Elasticity for land use diversity effect on VMT.
-#' - **design**: Elasticity for intersection design effect on VMT.
-#' - **job_access**: Elasticity for job accessibility via transit effect on VMT.
-#' - **distance**: Elasticity for minimum distance to transit stops effect on VMT.
-#' - **combined_density**: Combined effect of all land use elasticities.
+#' - **population_density**: Elasticity for population density effect on VMT. Ewing and Cervero (2010).
+#' - **employment_density**: Elasticity for employment density effect on VMT. Ewing and Cervero (2010); Stevens (2017).
+#' - **diversity**: Elasticity for land use diversity effect on VMT. Ewing and Cervero (2010).
+#' - **design**: Elasticity for intersection design effect on VMT. Ewing and Cervero (2010).
+#' - **job_access**: Elasticity for job accessibility via transit effect on VMT. Ewing and Cervero (2010).
+#' - **distance**: Elasticity for minimum distance to transit stops effect on VMT. Ewing and Cervero (2010).
+#' - **combined_density**: Combined effect of all land use elasticities. Ewing and Cervero (2010).
 #'
 #' @family datasets
 #' @examples

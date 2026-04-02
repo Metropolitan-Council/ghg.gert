@@ -19,10 +19,10 @@ enviro_factors <- list(
   ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh xcelenergyMNResidentialRates2024 https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
 
-  AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile
+  AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile aaaYourDrivingCosts2019
   # time cost per mile
-  TIME_COST_MI = 0.128, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf
-  F_TIME_COST_MI = 1.190, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf, Table 3
+  TIME_COST_MI = 0.128, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf vtpiCostBenefit2016
+  F_TIME_COST_MI = 1.190, # dollars per mile according to https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf, Table 3, ellisValueDelayTime2017
   # Average annual minimum coverage insurance ($621 via NerdWallet, 2025) divided by annual VMT per person (daily VMT per person (metro, MnDOT 2023) multiplied by annualization factor of 340)
   INS_COST_MI = (621) / (22.9 * 340), # https://www.nerdwallet.com/insurance/auto/cheap-car-insurance-minnesota and https://metropolitan-council.github.io/tspe-quarto/05-02_reduce_emissions.html#sec-regional-vmt
   CONG_VMT = 0.1087, # Congested VMT as a proportion of total VMT
@@ -35,9 +35,9 @@ enviro_factors <- list(
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
   MARG_TELEWORK = -2.749 / 100, # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
-  CBTP_PARTICIPATION_PCT = 0.19, # Community Based Travel Planning: proportion of targeted residences that participate
-  CBTP_TRIP_REDUCTION_PCT = 0.12, # Community Based Travel Planning: vehicle trip reduction by participating residences
-  MAX_TRIP_REDUCTION_PCT = 0.023, # Trip reduction program: maximum VMT reduction cap (2.3%). Citation: CAPCOA Handbook
+  CBTP_PARTICIPATION_PCT = 0.19, # Community Based Travel Planning: proportion of targeted residences that participate, CAPCOA handbook, capcoaGHGHandbook2024
+  CBTP_TRIP_REDUCTION_PCT = 0.12, # Community Based Travel Planning: vehicle trip reduction by participating residences, CAPCOA handbook, capcoaGHGHandbook2024
+  MAX_TRIP_REDUCTION_PCT = 0.023, # Trip reduction program: maximum VMT reduction cap (2.3%). Citation: CAPCOA Handbook, capcoaGHGHandbook2024
   # TODO document these values in R/data.R
   KG_CO2E_PER_THERM_BASELINE = 5.31,
   KG_CO2E_PER_THERM_FORECAST = 5.31,

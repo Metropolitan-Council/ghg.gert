@@ -30,19 +30,19 @@ empty_list <- c(rep(0, length(YRS)))
 ELAST_VMT <- c(0, 0, 0, rep(-0.34, length(FOR_YRS)))
 # ELAST_VMT <- calc_elasticity(empty_list, -0.2, length(INIT_YRS), length(FOR_YRS))
 
-# Goodwin, Dargay, and Hanly (2003) for range and Small (2007) for mean
+# Goodwin, Dargay, and Hanly (2004) for range and Small (2007) for mean
 # Small (2007)
 # ELAST_GAS <- readline(prompt="Pick an elasticity for gas tax (-0.05 to -0.17. Mean: -0.1066): ")
 
 # ELAST_GAS <- calc_elasticity(empty_list, -0.1066, length(INIT_YRS), length(FOR_YRS))
 ELAST_GAS <- c(0, 0, 0, rep(-0.1066, length(FOR_YRS)))
-# Arentze, Hofman and Timmermans (2004) and PSRC 2005
+# Arentze, Hofman and Timmermans (2004) and PSRC 2015
 # ELAST_CONG <- readline(prompt="Pick an elasticity for congestion (-0.04 to -0.16. Mean: -0.10): ")
 
 ELAST_CONG <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_CONG <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
-# TRACE (1999) and Litman (2019)
+# TRACE (1999)  traceElasticityHandbookElasticities1999 and Litman (2019)
 # ELAST_PARK <- readline(prompt="Pick an elasticity for parking cost (-0.03 to -0.17. Mean: -0.07): ")
 ELAST_PARK <- c(0, 0, 0, rep(-0.07, length(FOR_YRS)))
 # ELAST_PARK <- calc_elasticity(empty_list, -0.03, length(INIT_YRS), length(FOR_YRS))
@@ -51,11 +51,11 @@ ELAST_PARK <- c(0, 0, 0, rep(-0.07, length(FOR_YRS)))
 # CROSS_VMT <- calc_elasticity(empty_list, 0.13, length(INIT_YRS), length(FOR_YRS))
 CROSS_VMT <- c(0, 0, 0, rep(0.13, length(FOR_YRS))) # for transit/walk/bike wrt PLDV price (VMT) (Litman 2019. https://www.vtpi.org/elasticities.pdf)
 
-# TRACE (1999)
+# TRACE (1999) traceElasticityHandbookElasticities1999
 CROSS_PARK_TRANSIT <- c(0, 0, 0, rep(0.01, length(FOR_YRS)))
 # CROSS_PARK_TRANSIT <- calc_elasticity(empty_list, 0.01, length(INIT_YRS), length(FOR_YRS))
 
-# TRACE (1999)
+# TRACE (1999) traceElasticityHandbookElasticities1999
 CROSS_PARK_ACTIVE <- c(0, 0, 0, rep(0.03, length(FOR_YRS)))
 # CROSS_PARK_ACTIVE <- calc_elasticity(empty_list, 0.03, length(INIT_YRS), length(FOR_YRS))
 
@@ -64,10 +64,10 @@ CROSS_PARK_ACTIVE <- c(0, 0, 0, rep(0.03, length(FOR_YRS)))
 # ELAST_TRANSIT_AVO = -0.055
 
 # ELAST_FVMT <- calc_elasticity(empty_list, -0.25, length(INIT_YRS), length(FOR_YRS))
-ELAST_FVMT <- c(0, 0, 0, rep(-0.25, length(FOR_YRS))) # Small and Winston (1999) quoted in (Litman 2011)
+ELAST_FVMT <- c(0, 0, 0, rep(-0.25, length(FOR_YRS))) # Small and Winston (1998) quoted in (Litman 2011)
 
 
-# Elasticities for changes in vehicle ownership in response to price changes
+# Elasticities for changes in vehicle ownership in response to price changes litmanUnderstandingTransportDemands2021
 ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_OWN_PRICE <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
@@ -111,7 +111,7 @@ ELAST_DEF_5D <- c(rep(0, length(YRS)))
 ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), length(FOR_YRS))
 
 # Density employment (RANGE)
-# -0.01 to -0.07 range, taken from Stevens, 2016
+# -0.01 to -0.07 range, taken from Stevens, 2017
 # -0.07 is more than the population density decrease, to ensure that
 # population density has a lesser effect than job density
 # based on peer review session with Metro Transit SI folks
