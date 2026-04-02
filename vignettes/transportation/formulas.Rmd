@@ -3,6 +3,7 @@ title: "Formulas"
 output: 
   html_document: default
   html_vignette: default
+bibliography: transportation_elasticities.bib
 vignette: >
   %\VignetteIndexEntry{Formulas}
   %\VignetteEncoding{UTF-8}
@@ -13,7 +14,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = TRUE,
+  echo = FALSE,
   eval = FALSE
 )
 ```
@@ -23,154 +24,222 @@ library(ghg.ccap)
 ```
 
 
-## Transportation  
+# Transportation  
 
-### Vehicle miles traveled   
+## Vehicle miles traveled   
 
-#### Passenger vehicles  
+### Passenger vehicles  
 
-$$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} }{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
-$y$ is the given year   
-$n$ is the number of vehicles with fuel type $f$ and travel mode $m$.  
+$$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} \times adj_{vmt\_reduction} \times adj_{cbtp}}{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
 
-```{r}
-pass_ld_vmt <- (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj * telework_adj * land_use_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
-```
+where $y$ is the given year and $n$ is the number of vehicles with fuel type $f$ and travel mode $m$.
 
+### Transit modes (Bus and Rail)
 
+$$ VMT_y = \left (\frac{VMT_y \times adj_{aeo} \times adj_{transit} \times (1 + ((adj_{vmt} + adj_{payd} + adj_{cong}) \times elast_{cross})) \times adj_{land} \times adj_{parking} \times adj_{gas}}{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
 
+where:  
+- $y$ is the given year  
+- $n$ is the number of vehicles with fuel type $f$ and travel mode $m$  
+- $elast_{cross}$ is the cross elasticity for transit with respect to PLDV VMT price (`r ghg.ccap::elast$vmt_cross[9]`)
 
-##### Adjustments {.tabset}
+Transit modes include bus urban (BU), bus rapid transit (BRT), rail urban (RU), and rail intercity (RI). Only bus urban is currently in use. 
 
-###### Transit  
+### Freight trucks
 
-For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST`
+#### Single Unit Trucks (SUT)
+
+$$ VMT_y = \left (\frac{VMT_y \times adj_{aeo} \times adj_{vmt} \times adj_{parking}}{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
+
+where $y$ is the given year and $n$ is the number of vehicles with fuel type $f$ and mode $m$.
+
+#### Combination Unit Trucks (CUT)
+
+$$ VMT_y = \left (\frac{VMT_y \times adj_{aeo} \times adj_{vmt}}{adj_{occupancy}} \right ) \times \frac{n_{f,m}}{n_{m}}$$
+
+where $y$ is the given year and $n$ is the number of vehicles with fuel type $f$ and mode $m$. Combination unit trucks are not affected by parking adjustments.
+
+### Adjustments {.tabset}
+
+Adjustments to VMT are calculated as follows, with the specific adjustments applied depending on the travel mode. 
+
+#### Transit  
 
 $$ adj_{transit} = VMT_{transit} \times \Delta service \times 0.47  $$
 
-###### Autonomous vehicles  
+where for passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio (`r ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST`).
 
-$adj_{av}$ is the 1 - the proportion of all passenger trips that are autonomous multiplied by the adjustment factor for introducing vehicle automation on VMT, 0.73.  
+#### Energy outlook  
 
-AVShare = adjustment factor for the effect of introducing vehicle automation on VMT by mode  
+$adj_{aeo}$ is the Annual Energy Outlook VMT adjustment factor for the given mode. The value varies depending on the user input `aeo_scenario`. The default input is "REF", which results in no adjustment (adj = 1). 
 
-$$ adj_{av} =  1 - (\frac{trips_{av}}{trips_{passenger}}) \times 0.73 $$
-$trips$ is the number of trips that are autonomous, $av$ and all passenger trips $passenger$
+#### Road pricing
 
-###### Energy outlook  
-
-$adj_{aeo}$ is the Annual Energy Outlook VMT adjustment factor for the given mode.  
-
-###### Road pricing
+Road pricing adjustments include VMT fees, congestion fees, and gas taxes. The adjustment for all is calculated as follows:
 
 $$adj_{vmt} = 1 + \left( \frac{vmt \space fee}{fuel_{f} + time + payd} \right) \times elast_{vmt} $$
-$vmt \space fee$ is the vehicle miles traveled fee in dollars per mile  
-$fuel$ is the cost of fuel in dollars per mile fuel type $f$   
-$time$ is estimated cost of time in dollars per mile, `r ghg.ccap::enviro_factors$TIME_COST_MI`   
-$payd$ is pay-as-you-drive insurance cost in dollars per mile   
-$elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total vehicle miles traveled, `r ghg.ccap::elast$vmt_elast[9]`  
 
+where:  
+- $vmt \space fee$ is the vehicle miles traveled fee in dollars per mile  
+- $fuel_{f}$ is the cost of fuel in dollars per mile for fuel type $f$   
+- $time$ is estimated cost of time in dollars per mile (`r ghg.ccap::enviro_factors$TIME_COST_MI`)   
+- $payd$ is pay-as-you-drive insurance cost in dollars per mile   
+- $elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total vehicle miles traveled (`r ghg.ccap::elast$vmt_elast[9]`)  
 
-Users can include EITHER VMT fees or PAYD fees, not both. 
+Users can include EITHER VMT fees or PAYD fees, not both.
 
-```{r}
-1 + (.vmt_fee / (fuel_time_cost_mile + payd_ins_adj)) * vmt_elast
-```
+##### Congestion fees    
 
+Congestion fees assume that VMT per mile is priced during congested time periods. 
 
-###### Congestion fees    
+$$ adj_{cong} = 1 + \left(\frac{cong\space price}{fuel_{f} + time} \times CONG\_VMT \right) \times elast_{cong} $$
 
-Congestion price in dollars per mile divided by the cost of fuel in dollars per mile plus the cost of time in dollars per mile, multiplied by the proportion of all VMT that occur during congested time periods, `r ghg.ccap::enviro_factors$CONG_VMT`,  all times the elasticity or effect size of per mile pricing during congested time periods, `r ghg.ccap::elast$cong_elast[9]`.    
+where:  
+- $cong \space price$ is the price of traveling during congested time periods in dollars per mile  
+- $fuel_{f}$ is the cost of fuel in dollars per mile for fuel type $f$   
+- $time$ is estimated cost of time in dollars per mile (`r ghg.ccap::enviro_factors$TIME_COST_MI`)  
+- $CONG\_VMT$ is the proportion of all VMT that occur during congested time periods (`r ghg.ccap::enviro_factors$CONG_VMT`)  
+- $elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods (`r ghg.ccap::elast$cong_elast[9]`)
 
-$$ adj_{cong} = 1 + \left(\frac{cong\space price}{fuel_{f} + time} \times 0.10 \right) \times elast_{cong} $$
-$cong \space price$ is the price of traveling during congested time periods in dollars per mile  
-$fuel$ is the cost of fuel in dollars per mile fuel type $f$   
-$time$ is estimated cost of time in dollars per mile, `r ghg.ccap::enviro_factors$TIME_COST_MI`   
-$elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods, `r ghg.ccap::elast$cong_elast[9]`.     
-
-```{r}
-1 + ((.cong_price / fuel_time_cost_mile) *
-  .enviro_factors$CONG_VMT) * cong_elast
-```
-
-###### Gas taxes    
+##### Gas taxes    
 
 $$adj_{gas} = 1 + \left( \frac{gas \space price}{fuel_{f} + time} \right) \times EV_{f} \times elast_{gas}$$
-$gas \space price$ is the additional tax on fuel in dollars per mile.   
-$EV$ is either 0 or 1, dependent on the fuel type $f$  
-$elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r ghg.ccap::elast$gas_elast[9]` on vehicle miles traveled.     
 
+where:  
+- $gas \space price$ is the additional tax on fuel in dollars per mile   
+- $fuel_{f}$ is the cost of fuel in dollars per mile for fuel type $f$  
+- $time$ is estimated cost of time in dollars per mile  
+- $EV_{f}$ is either 0 or 1, dependent on the fuel type $f$ (battery electric indicator)  
+- $elast_{gas}$ is the elasticity or effect size of gas tax on vehicle miles traveled (`r ghg.ccap::elast$gas_elast[9]`)
 
-```{r}
-1 + (.gas_tax / fuel_time_cost_mile) * ev_multiplier * gas_elast
-```
+#### Telework    
 
+Telework marginal effect is based on @kimHomebasedTelecommutingIntrahousehold2015.
 
-###### Telework    
+$$adj_{telework} = 1 + (\%telework \times MARG\_TELEWORK) $$
 
-Telework is 1  plus the additional percentage of people teleworking by the final forecast year times the marginal effect of telework, `r ghg.ccap::enviro_factors$MARG_TELEWORK`
-$$adj_{telework} = 1 + (\%telework \times -0.0275) $$
-$\%telework$ is additional percent of people teleworking in the final forecast year.  
+where $\%telework$ is the additional percent of people teleworking in the final forecast year and $MARG\_TELEWORK$ is the marginal effect of telework on VMT (`r ghg.ccap::enviro_factors$MARG_TELEWORK`).
 
-###### Land use   
-$$ adj_{land} = \prod_{i=1}^{7} 1 + \Delta_{i} \times elast_{i,m} $$
+#### Land use   
 
-where $\Delta_{i}$  is the percent change in land use element $i$. 
-$elast_{i,m}$ is the elasticity or effect size land use element $i$ and travel mode $m$.     
+Land use elasticities are based on meta-analysis by @ewingTravelBuiltEnvironment2010.
 
-7 elements are considered: employment density, population density, land use diversity, intersection design, job accessibility via transit, average minimum distance to transit stops, and combined density.   
+$$ adj_{land} = \prod_{i=1}^{7} (1 + \Delta_{i} \times elast_{i,m}) $$
 
+where:  
+- $\Delta_{i}$ is the percent change in land use element $i$  
+- $elast_{i,m}$ is the elasticity or effect size for land use element $i$ and travel mode $m$  
 
-$adj_{land}$ must fall within limits dependent on travel mode $m$. Passenger VMT can be no less than `r 1 + ghg.ccap::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_TR`, and walk/bike VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_ACT`.    
+Seven elements are considered: employment density, population density, land use diversity, intersection design, job accessibility via transit, average minimum distance to transit stops, and combined density. The adjustment must fall within limits dependent on travel mode $m$: Passenger VMT can be no less than `r 1 + ghg.ccap::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_TRANS`, and walk/bike VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_ACT`.
 
-###### Parking    
+#### Parking    
 
-$$adj_{park} = 1 + \frac{price_{y}}{price_{y = 2018}} \times elast_{park_{m}}$$
-$price_y$ is the price of parking on dollars per hour in year $y$  
-$price_{y = 2018}$ is the price of parking in dollars per hour in 2018   
-$elast_{park}$ is the elasticity or effect size of parking price increase on travel mode $m$.  
+The long-run elasticity of VMT to parking cost is estimated to be in the range of -0.18 to -0.45 based on a meta-analysis [@lehnerPriceElasticityParking2019].
 
-###### Occupancy  
+$$adj_{park} = 1 + \frac{price_{y}}{price_{2018}} \times elast_{park_{m}}$$
 
-$adj_{occupancy}$ is the average number of passengers per passenger light duty vehicle, or average vehicle occupancy (AVO).   
+where:  
+- $price_{y}$ is the price of parking in dollars per hour in year $y$  
+- $price_{2018}$ is the price of parking in dollars per hour in 2018   
+- $elast_{park_{m}}$ is the elasticity or effect size of parking price increase on travel mode $m$
 
+#### Occupancy  
 
-###### Autonomous vehicles   
+Occupancy is the average number of passengers per passenger light duty vehicle. The occupancy adjustment is applied to convert from passenger miles traveled to vehicle miles traveled, and is calculated as follows:
 
-$$ VMT_y = \left (\frac{(VMT_y - adj_{transit}) \times adj_{av} \times adj_{aeo} \times adj_{vmt} \times adj_{cong} \times adj_{gas} \times adj_{telework} \times adj_{land} \times adj_{parking} \times 1.2 }{adj_{occupancy}} \right ) \times AV$$
- 
-## Elasticity tables
+$$adj_{occupancy} = AVO$$
+
+where $AVO$ is the average number of passengers per passenger light duty vehicle (average vehicle occupancy).
+
+#### VMT Total Reduction  
+
+This adjustment applies a simple percentage reduction to passenger light-duty vehicle VMT based on user input for the total percent reduction in PLDV VMT by the final forecast year. The adjustment is calculated as follows:
+
+$$adj_{vmt\_reduction} = 1 - \%reduction$$  
+
+where $\%reduction$ is the total percent reduction in PLDV VMT by the final forecast year (between 0 and 1).  
+
+This adjustment applies a simple percentage reduction without elasticity calculations, is spread evenly over intermediate years, applies only to passenger light-duty vehicles, and should not be used in conjunction with other VMT-affecting adjustments.
+
+#### Trip Reduction Program (CBTP)  
+
+Community Based Travel Planning (CBTP) provides personalized travel behavior change assistance to households [@capcoaGHGHandbook2024].
+
+$$adj_{cbtp} = 1 + (prop_{targeted} \times part_{rate} \times trip_{reduction})$$  
+
+where:  
+- $prop_{targeted}$ is the proportion of households targeted with CBTP (0 to 1)  
+- $part_{rate}$ is the proportion of targeted households that participate (`r ghg.ccap::enviro_factors$CBTP_PARTICIPATION_PCT`)  
+- $trip_{reduction}$ is the vehicle trip reduction by participating households (`r ghg.ccap::enviro_factors$CBTP_TRIP_REDUCTION_PCT`)  
+
+The total reduction is capped at `r ghg.ccap::enviro_factors$MAX_TRIP_REDUCTION_PCT` (2.3% maximum VMT reduction). For example, if 50% of households are targeted: reduction = -(0.5 × 0.19 × 0.12) = -0.0114 (−1.14%). If 100% are targeted: reduction = -(1.0 × 0.19 × 0.12) = -0.0228, capped to -0.023 (−2.3%).
+
+## Elasticity values
+
+### General elasticities
 
 ```{r}
 elast %>%
-  filter(year == "2025") %>%
-  pivot_longer(2:10) %>%
+  filter(year == "2050") %>%
   select(-year) %>%
-  left_join(
-    elast_descriptions <- readLines("../../man/elast.Rd")[11:19] %>%
-      stringr::str_remove(stringr::str_escape("\\item{")) %>%
-      stringr:::str_split(stringr::str_escape("}{")) %>%
-      purrr::list_flatten() %>%
-      purrr::map(rbind) %>%
-      purrr::map(as.data.frame,
-        cols = values,
-        col.names = c("name", "source")
-      ) %>%
-      bind_rows() %>%
-      select(
-        name = V1,
-        source = V2
-      ),
-    by = c("name")
-  )
+  pivot_longer(everything(), names_to = "elasticity", values_to = "value")
 ```
+
+- **vmt_elast**: Elasticity for VMT pricing effect on VMT = `r ghg.ccap::elast$vmt_elast[9]`. Source: @INFRAS_2000 and @lukElectronicRoadPricing1999 for range; @hymelReboundEffectAutomobile2015 for mean.  
+- **gas_elast**: Elasticity for gas tax effect on VMT = `r ghg.ccap::elast$gas_elast[9]`. Source: @goodwinElasticitiesRoadTraffic2004 for range; @smallFuelEfficiencyMotor2007 for mean.  
+- **cong_elast**: Elasticity for congestion pricing effect on VMT = `r ghg.ccap::elast$cong_elast[9]`. Source: @traceElasticityHandbookElasticities1999 and @litmanElasticities2024.  
+- **park_elast**: Elasticity for parking pricing effect on VMT = `r ghg.ccap::elast$park_elast[9]`. Source: @traceElasticityHandbookElasticities1999 and @lehnerPriceElasticityParking2019.  
+- **freight_vmt_elast**: Elasticity for freight vehicle pricing effect on freight VMT = `r ghg.ccap::elast$freight_vmt_elast[9]`. Source: @smallDemandTransportationModels1998, quoted in @litmanElasticities2024.  
+- **vmt_cross**: Cross elasticity for transit/walk/bike with respect to PLDV VMT price = `r ghg.ccap::elast$vmt_cross[9]`. Source: @litmanElasticities2024  
+- **park_active**: Elasticity for parking price effect on active transportation VMT = `r ghg.ccap::elast$park_active[9]`. Source: @traceElasticityHandbookElasticities1999.  
+- **park_transit**: Elasticity for parking price effect on transit VMT = `r ghg.ccap::elast$park_transit[9]`. Source: @traceElasticityHandbookElasticities1999.
+
+### Environmental factors  
+
+Key transportation environmental factors from `ghg.ccap::enviro_factors`:  
+
+- **TRANSIT_SERVICE_ELAST**: `r ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST` - Effect of transit service increase on ridership  
+- **TIME_COST_MI**: `r ghg.ccap::enviro_factors$TIME_COST_MI` - Time cost per mile (dollars)  
+- **INS_COST_MI**: `r ghg.ccap::enviro_factors$INS_COST_MI` - Insurance cost per mile (dollars)  
+- **CONG_VMT**: `r ghg.ccap::enviro_factors$CONG_VMT` - Proportion of VMT during congested periods  
+- **MARG_TELEWORK**: `r ghg.ccap::enviro_factors$MARG_TELEWORK` - Marginal effect of telework on VMT  
+- **CBTP_PARTICIPATION_PCT**: `r ghg.ccap::enviro_factors$CBTP_PARTICIPATION_PCT` - CBTP participation rate  
+- **CBTP_TRIP_REDUCTION_PCT**: `r ghg.ccap::enviro_factors$CBTP_TRIP_REDUCTION_PCT` - CBTP trip reduction rate  
+- **MAX_TRIP_REDUCTION_PCT**: `r ghg.ccap::enviro_factors$MAX_TRIP_REDUCTION_PCT` - Maximum CBTP reduction cap  
+- **MAX_5D_DR**: `r ghg.ccap::enviro_factors$MAX_5D_DR` - Minimum land use adjustment for driving  
+- **MAX_5D_TRANS**: `r ghg.ccap::enviro_factors$MAX_5D_TRANS` - Maximum land use adjustment for transit  
+- **MAX_5D_ACT**: `r ghg.ccap::enviro_factors$MAX_5D_ACT` - Maximum land use adjustment for active transport  
+
+### 5D Land use elasticities
 
 ```{r}
 elast_5d %>%
-  select(year, type, combined_density)
+  filter(year == "2050") %>%
+  select(type, population_density, employment_density, diversity, design, job_access, distance, combined_density)
 ```
 
-```{r}
-enviro_factors
+The 5D land use elasticities vary by travel mode type (DRIVE, TRANSIT, WALK) and include:  
+
+- **population_density**: Effect of population density changes on mode choice  
+- **employment_density**: Effect of employment density changes on mode choice  
+- **diversity**: Effect of land use diversity/mix on mode choice  
+- **design**: Effect of intersection design (% 4-way stops) on mode choice  
+- **job_access**: Effect of job accessibility via transit on mode choice  
+- **distance**: Effect of average minimum distance to transit stops on mode choice  
+- **combined_density**: Combined effect of density measures on mode choice  
+
+### All environmental factors
+
+```{r, include=TRUE, eval=TRUE}
+ghg.ccap::enviro_factors
 ```
+
+## References
+
+Key sources for transportation elasticities include:
+
+- 5D land use elasticities: @ewingTravelBuiltEnvironment2010
+- Telework marginal effect: @kimHomebasedTelecommutingIntrahousehold2015  
+- Parking price elasticities: @lehnerPriceElasticityParking2019
+- General transportation demand elasticities: @litmanElasticities2024
 

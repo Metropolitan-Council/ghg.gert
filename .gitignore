@@ -403,3 +403,5 @@ data-raw/building_energy_data_processing/resstock data/MN_upgrade16.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade18.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade4.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade15_metadata_and_annual_results.csv
+
+vignettes/transportation/transportation_elasticities_table_files/
