@@ -1,4 +1,5 @@
 library(tidyverse)
+source("data-raw/transportation_data_processing/eia_datasets.R")
 
 # values to be modified by user -----
 
@@ -14,8 +15,8 @@ enviro_factors <- list(
   # .transit_avo_pct must be at minimum 0.5 * 0.2 = 0.1
   TRANSIT_SERVICE_AVO_MIN = 0.5,
   # see transportation_data_processing/eia_datasets.R
-  SI_FUEL_COST_GAL = 3.163,
-  CI_FUEL_COST_GAL = 3.696,
+  SI_FUEL_COST_GAL = as.numeric(si_fuel_cost),
+  CI_FUEL_COST_GAL = as.numeric(ci_fuel_cost),
   ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh xcelenergyMNResidentialRates2024 https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
 
