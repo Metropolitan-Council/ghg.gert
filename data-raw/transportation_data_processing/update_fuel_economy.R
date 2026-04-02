@@ -14,7 +14,7 @@ mode_mapping <- fuel_economy %>%
 # Prepare EIA updates -----
 # Get latest AEO fuel economy projections (REF scenario)
 eia_updates <- aeo_fuel_economy %>%
-    filter(aeo_scen == "REF") %>%
+    filter(aeo_scen == "REF" | aeo_scen == "ref2025") %>%
     mutate(
         metadata = paste0(
             "EIA Annual Energy Outlook, ",
