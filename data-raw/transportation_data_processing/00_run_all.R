@@ -8,7 +8,7 @@ options(readr.show_col_types = FALSE)
 # # source("data-raw/transportation_data_processing/fix_bus_fuel.R")
 # source("data-raw/transportation_data_processing/fix_pmt_tmt.R")
 # source("data-raw/transportation_data_processing/fix_fuel_economy.R")
-# source("data-raw/transportation_data_processing/transportation_index.R")
+source("data-raw/transportation_data_processing/transportation_index.R")
 
 # # building energy
 # # source("data-raw/building_energy_data_processing/naics_codes.R")
@@ -40,6 +40,9 @@ source("data-raw/transportation_data_processing/fix_county_aggregate.R")
 source("data-raw/transportation_data_processing/fix_region_aggregate.R")
 
 source("data-raw/transportation_data_processing/transportation_defaults.R")
+
+# Update fuel_economy table with latest EIA and BTS data
+source("data-raw/transportation_data_processing/update_fuel_economy.R")
 
 readr::write_csv(transportation_data$passenger, "data-raw/transportation_data_processing/csv_copies/transportation_data_passenger.csv")
 
