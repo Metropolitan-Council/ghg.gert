@@ -1,0 +1,285 @@
+---
+title: "Transportation Reference Table"
+author: "Metropolitan Council"
+date: today
+bibliography: transportation_elasticities.bib
+
+format:
+  html:
+    toc: false
+    page-layout: full
+    toc-location: left
+    theme: cosmo
+    code-fold: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(dplyr)
+library(knitr)
+library(ghg.ccap)
+library(tidyr)
+```
+
+
+All sources have been verified and located in `/ghg-cprg/metcouncil-cprg-ghg.bib`.
+
+## Price and Policy Elasticities (`elast` dataset)
+
+```{r price-elasticities-table}
+# Get elasticity values (using 2050 as reference year)
+elast_ref <- ghg.ccap::elast %>% 
+  filter(year == "2050")
+
+# Create table with descriptions and citations
+price_elast_table <- tibble::tribble(
+  ~Elasticity, ~Value, ~Description, ~Citation, ~Notes,
+  "`vmt_elast`", elast_ref$vmt_elast, "VMT pricing effect on VMT", "@harveyTechnicalMethodsAnalyzing1998, @INFRAS_2000, @lukElectronicRoadPricing1999, @hymelReboundEffectAutomobile2015, @smallFuelEfficiencyMotor2007", "Range: -0.1 to -0.8",
+  "`gas_elast`", elast_ref$gas_elast, "Gas tax effect on VMT", "@goodwinElasticitiesRoadTraffic2004, @smallFuelEfficiencyMotor2007", "Range: -0.05 to -0.17",
+  "`cong_elast`", elast_ref$cong_elast, "Congestion pricing effect on VMT", "@arentzePredictingMultifacetedActivitytravel2004, @pugetsoundregionalcouncilTransitSupportiveDensitiesLand2015", "Range: -0.04 to -0.16",
+  "`park_elast`", elast_ref$park_elast, "Parking cost effect on VMT", "@litmanUnderstandingTransportDemands2021, referencing @traceElasticityHandbookElasticities1999", "Range: -0.03 to -0.17",
+  "`freight_vmt_elast`", elast_ref$freight_vmt_elast, "Freight vehicle pricing effect on freight VMT", "@smallDemandTransportationModels1998", "",
+  "`vehicle_ownership_elast`", elast_ref$vehicle_ownership_elast, "Vehicle ownership response to price changes", "", "",
+  "`vmt_cross`", elast_ref$vmt_cross, "Cross elasticity: transit/walk/bike wrt PLDV VMT price", "@litmanUnderstandingTransportDemands2021", "URL: https://www.vtpi.org/elasticities.pdf",
+  "`park_active`", elast_ref$park_active, "Parking price effect on active transportation VMT", "@traceElasticityHandbookElasticities1999", "",
+  "`park_transit`", elast_ref$park_transit, "Parking price effect on transit VMT", "@traceElasticityHandbookElasticities1999", ""
+)
+
+knitr::kable(price_elast_table, 
+             col.names = c("Elasticity", "Value", "Description", "Citation", "Notes"),
+             digits = 3)
+```
+
+## 5D Land Use (`elast_5d` dataset)
+
+Elasticity values differ by mode (driving, walking/active transportation, transit) and by land use factor (population density, employment density, diversity, design, job accessibility, distance to transit). The combined effect of all 5D factors is also included, along with maximum caps for each mode.
+
+Currently, only population density and employment density elasticities have been applied in the transportation module, but all values are documented here for reference and potential future use.
+
+Generally, all elasticity values are positive for transit and active transportation modes (indicating that higher density, diversity, better design, etc. increase VMT for these modes) and negative for driving mode (indicating that higher density, diversity, better design, etc. decrease driving VMT). 
+
+```{r prepare-5d-data}
+# Load the elast_5d dataset and filter for a specific year (2050 used as reference)
+drive_elast <- ghg.ccap::elast_5d %>% 
+  filter(type == "DRIVE", year == "2050") %>% 
+  select(-year, -type)
+
+walk_elast <- ghg.ccap::elast_5d %>% 
+  filter(type == "WALK", year == "2050") %>% 
+  select(-year, -type)
+
+transit_elast <- ghg.ccap::elast_5d %>% 
+  filter(type == "TRANSIT", year == "2050") %>% 
+  select(-year, -type)
+```
+
+### Driving Mode
+
+```{r drive-5d-table}
+# Create driving elasticity table
+drive_table <- tibble::tribble(
+  ~Elasticity, ~Value, ~Description, ~Citation,
+  "`population_density`", drive_elast$population_density, "Population density effect on driving VMT", "@ewingTravelBuiltEnvironment2010",
+  "`employment_density`", drive_elast$employment_density, "Employment density effect on driving VMT", "@ewingTravelBuiltEnvironment2010, @stevensDoesCompactDevelopment2017",
+  "`diversity`", drive_elast$diversity, "Land use diversity effect on driving VMT", "@ewingTravelBuiltEnvironment2010",
+  "`design`", drive_elast$design, "Intersection design effect on driving VMT", "@ewingTravelBuiltEnvironment2010",
+  "`job_access`", drive_elast$job_access, "Job accessibility via transit effect on driving VMT", "@ewingTravelBuiltEnvironment2010",
+  "`distance`", drive_elast$distance, "Minimum distance to transit stops effect on driving VMT", "@ewingTravelBuiltEnvironment2010",
+  "`combined_density`", drive_elast$combined_density, "Combined effect of all land use factors on driving", "@ewingTravelBuiltEnvironment2010",
+  "`MAX_5D_DR`", ghg.ccap::enviro_factors$MAX_5D_DR, "Maximum 5D combined effect cap for driving", "@ewingTravelBuiltEnvironment2010"
+)
+
+knitr::kable(drive_table,
+             col.names = c("Elasticity", "Value", "Description", "Citation"),
+             digits = 3)
+```
+
+### Walking/Active Transportation Mode
+
+```{r walk-5d-table}
+# Create walking elasticity table
+walk_table <- tibble::tribble(
+  ~Elasticity, ~Value, ~Description, ~Citation,
+  "`population_density`", walk_elast$population_density, "Population density effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`employment_density`", walk_elast$employment_density, "Employment density effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`diversity`", walk_elast$diversity, "Land use diversity effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`design`", walk_elast$design, "Intersection design effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`job_access`", walk_elast$job_access, "Job accessibility via transit effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`distance`", walk_elast$distance, "Minimum distance to transit stops effect on walking VMT", "@ewingTravelBuiltEnvironment2010",
+  "`combined_density`", walk_elast$combined_density, "Combined effect of all land use factors on walking", "@ewingTravelBuiltEnvironment2010",
+  "`MAX_5D_ACT`", ghg.ccap::enviro_factors$MAX_5D_ACT, "Maximum 5D combined effect cap for active transport", "@ewingTravelBuiltEnvironment2010"
+)
+
+knitr::kable(walk_table,
+             col.names = c("Elasticity", "Value", "Description", "Citation"),
+             digits = 3)
+```
+
+### Transit Mode
+
+```{r transit-5d-table}
+# Create transit elasticity table
+transit_table <- tibble::tribble(
+  ~Elasticity, ~Value, ~Description, ~Citation,
+  "`population_density`", transit_elast$population_density, "Population density effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`employment_density`", transit_elast$employment_density, "Employment density effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`diversity`", transit_elast$diversity, "Land use diversity effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`design`", transit_elast$design, "Intersection design effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`job_access`", transit_elast$job_access, "Job accessibility via transit effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`distance`", transit_elast$distance, "Minimum distance to transit stops effect on transit VMT", "@ewingTravelBuiltEnvironment2010",
+  "`combined_density`", transit_elast$combined_density, "Combined effect of all land use factors on transit", "@ewingTravelBuiltEnvironment2010",
+  "`MAX_5D_TRANS`", ghg.ccap::enviro_factors$MAX_5D_TRANS, "Maximum 5D combined effect cap for transit", "@ewingTravelBuiltEnvironment2010"
+)
+
+knitr::kable(transit_table,
+             col.names = c("Elasticity", "Value", "Description", "Citation"),
+             digits = 3)
+```
+
+## Other Transportation Elasticities and Factors (`enviro_factors`)
+
+```{r other-factors-table}
+# Create table for other transportation factors
+other_factors_table <- tibble::tribble(
+  ~Variable, ~Value, ~Description, ~Citation, ~Notes,
+  "`TRANSIT_SERVICE_ELAST`", ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST, "Effect of transit service increase on ridership and PLDV decrease", "Communication with Metro Transit staff", "",
+  "`TRANSIT_SERVICE_AVO_MIN`", ghg.ccap::enviro_factors$TRANSIT_SERVICE_AVO_MIN, "Minimum transit AVO increase ratio to service increase", "Communication with Metro Transit staff", "If transit service increases 20%, AVO must increase at least 10%",
+  "`MARG_TELEWORK`", ghg.ccap::enviro_factors$MARG_TELEWORK, "Telework marginal effect: percent change in PMT per household", "@kimHomebasedTelecommutingIntrahousehold2015", "-2.749/100",
+  # "`MAX_5D_DR`", ghg.ccap::enviro_factors$MAX_5D_DR, "Maximum 5D combined effect cap for driving", "@ewingTravelBuiltEnvironment2010", "",
+  # "`MAX_5D_ACT`", ghg.ccap::enviro_factors$MAX_5D_ACT, "Maximum 5D combined effect cap for active transport", "@ewingTravelBuiltEnvironment2010", "",
+  # "`MAX_5D_TRANS`", ghg.ccap::enviro_factors$MAX_5D_TRANS, "Maximum 5D combined effect cap for transit", "@ewingTravelBuiltEnvironment2010", "",
+  "`CBTP_PARTICIPATION_PCT`", ghg.ccap::enviro_factors$CBTP_PARTICIPATION_PCT, "Community Based Travel Planning (CBTP) participation rate", "@capcoaGHGHandbook2024", "Proportion of targeted residences that participate",
+  "`CBTP_TRIP_REDUCTION_PCT`", ghg.ccap::enviro_factors$CBTP_TRIP_REDUCTION_PCT, "Community Based Travel Planning (CBTP) vehicle trip reduction by participants", "@capcoaGHGHandbook2024", "Trip reduction for participating residences",
+  "`MAX_TRIP_REDUCTION_PCT`", ghg.ccap::enviro_factors$MAX_TRIP_REDUCTION_PCT, "Maximum VMT reduction cap for trip reduction programs", "@capcoaGHGHandbook2024", "2.3% cap"
+)
+
+knitr::kable(other_factors_table,
+             col.names = c("Variable", "Value", "Description", "Citation", "Notes"),
+             digits = 3)
+```
+
+### Additional Cost and Economic Factors in `enviro_factors`
+
+These are not elasticities but important cost factors used in transportation calculations:
+
+```{r cost-factors-table}
+# Create table for cost and economic factors
+cost_factors_table <- tibble::tribble(
+  ~Variable, ~Value, ~Description, ~Citation, ~Notes,
+  "`AUTO_COST_MI`", ghg.ccap::enviro_factors$AUTO_COST_MI, "Average auto cost in dollars per mile", "@aaaYourDrivingCosts2019", "https://exchange.aaa.com/automotive/aaas-your-driving-costs/",
+  "`TIME_COST_MI`", ghg.ccap::enviro_factors$TIME_COST_MI, "Time cost in dollars per mile", "@vtpiCostBenefit2016", "https://www.vtpi.org/tca/tca0502.pdf",
+  "`F_TIME_COST_MI`", ghg.ccap::enviro_factors$F_TIME_COST_MI, "Freight time cost in dollars per mile", "@ellisValueDelayTime2017", "https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf",
+  "`INS_COST_MI`", ghg.ccap::enviro_factors$INS_COST_MI, "Insurance cost in dollars per mile", "", "$621 annual / (22.9 daily VMT × 340 days); NerdWallet Calculator 2025 (https://www.nerdwallet.com/insurance/auto/cheap-car-insurance-minnesota)",
+  "`SI_FUEL_COST_GAL`", ghg.ccap::enviro_factors$SI_FUEL_COST_GAL, "Spark ignition fuel cost in dollars per gallon", "", "From EIA petroleum price data API",
+  "`CI_FUEL_COST_GAL`", ghg.ccap::enviro_factors$CI_FUEL_COST_GAL, "Compression ignition fuel cost in dollars per gallon", "", "From EIA petroleum price data API",
+  "`ELEC_FUEL_COST_KWH`", ghg.ccap::enviro_factors$ELEC_FUEL_COST_KWH, "Electricity cost in dollars per kWh", "@xcelenergyMNResidentialRates2024", "MN residential rates",
+  "`CONG_VMT`", ghg.ccap::enviro_factors$CONG_VMT, "Congested VMT as proportion of total VMT", "", "",
+  "`F_FRACT`", ghg.ccap::enviro_factors$F_FRACT, "Fraction of truck VMT inside MSP", "", "Under jurisdiction for VMT fee"
+)
+
+knitr::kable(cost_factors_table,
+             col.names = c("Variable", "Value", "Description", "Citation", "Notes"),
+             digits = 3)
+```
+
+## Fuel Economy by Mode and Powertrain (`fuel_economy` dataset)
+
+Fuel economy values vary by transportation mode, powertrain type, and year. Values shown are for year 2050. Units are miles per gallon (MPG) for combustion engines and kWh per mile for electric vehicles.
+
+```{r fuel-economy-definitions}
+# Get mode definitions
+mode_defs <- ghg.ccap::transportation_index$modes %>%
+  filter(mode_abbrev %in% c("PLDV", "BUS", "BU", "CUT", "SUT")) %>%
+  select(mode_abbrev, mode_description_1)
+
+# Get variable definitions  
+var_defs <- ghg.ccap::transportation_index$variables %>%
+  filter(var_name %in% c("SIMPG", "CIMPG", "BCIMPG", "HEVMPG", "BEVElec")) %>%
+  select(var_name, var_description, unit)
+```
+
+```{r fuel-economy-table}
+fuel_econ_2050 <- ghg.ccap::fuel_economy %>% 
+  filter(year == "2050") %>% 
+  filter(mode %in% c("PLDV", "BU", "CUT", "SUT")) %>%
+  filter(!var %in% c("PHEVMPG", "PHEVElec")) %>%
+  select(mode, var, value, metadata) %>%
+  # Join mode definitions
+  left_join(mode_defs, by = c("mode" = "mode_abbrev")) %>%
+  # Join variable definitions
+  left_join(var_defs, by = c("var" = "var_name")) %>%
+  # Reorder and select columns for display
+  select(mode, mode_description_1, var, var_description, unit, value, metadata) %>%
+  mutate(unit = stringr::str_to_sentence(unit)) %>%
+  arrange(mode, var)
+
+knitr::kable(fuel_econ_2050, 
+             caption = "Fuel Economy by Mode and Powertrain (Year 2050)",
+             col.names = c("Mode", "Mode Description", "Variable", "Variable Description", "Unit", "Value", "Metadata"),
+             digits = 2)
+```
+
+## References Status
+
+### Complete List of Elasticity References:
+
+1. @harveyTechnicalMethodsAnalyzing1998
+1. @INFRAS_2000
+1. @lukElectronicRoadPricing1999
+1. @hymelReboundEffectAutomobile2015
+1. @smallFuelEfficiencyMotor2007
+1. @goodwinElasticitiesRoadTraffic2004
+1. @arentzePredictingMultifacetedActivitytravel2004
+1. @pugetsoundregionalcouncilTransitSupportiveDensitiesLand2015
+1. @smallDemandTransportationModels1998
+1. @kimHomebasedTelecommutingIntrahousehold2015
+1. @traceElasticityHandbookElasticities1999
+1. @litmanUnderstandingTransportDemands2021
+1. @litmanElasticities2024
+1. @ewingTravelBuiltEnvironment2010
+1. @stevensDoesCompactDevelopment2017
+1. @lehnerPriceElasticityParking2019
+
+### Additional Cost and Policy References:
+
+1. @aaaYourDrivingCosts2019
+1. @vtpiCostBenefit2016
+1. @ellisValueDelayTime2017
+1. @xcelenergyMNResidentialRates2024
+1. @capcoaGHGHandbook2024
+
+## Data Sources
+
+- **Price elasticities**: Found in `/data-raw/transportation_data_processing/elasticity.R`
+- **5D elasticities**: Found in `/data-raw/transportation_data_processing/elasticity.R`
+- **Other elasticities and factors**: Found in `/data-raw/enviro_factors.R`
+  - Transportation elasticities (TRANSIT_SERVICE_ELAST, MARG_TELEWORK)
+  - 5D maximum caps (MAX_5D_DR, MAX_5D_ACT, MAX_5D_TRANS)
+  - AV impact factors (BUS_AV, RAIL_AV, VMT_AV, MPG_AV)
+  - Trip reduction factors (CBTP, MAX_TRIP_REDUCTION) - with Citations from code comments
+  - Cost factors (AUTO_COST_MI, TIME_COST_MI, fuel costs, etc.) - with Citations from code comments
+- **Data objects**: `ghg.ccap::elast`, `ghg.ccap::elast_5d`, `ghg.ccap::enviro_factors`
+- **Documentation**: `R/x_data.R`, `man/elast.Rd`, `man/elast_5d.Rd`
+
+**Note**: The `factor_values` dataset was checked but does not contain elasticities. It contains Annual Energy Outlook (AEO) factors for VMT and MPG changes, cost factors, and GHG emission factors - all different from elasticity values.
+
+## Usage in Functions
+
+These elasticities are used in the following transportation functions:
+
+- `calc_elasticity()` - General elasticity calculation function (`R/t_04_preprocessing.R`)
+- `calc_5d_effects()` - Applies 5D built environment elasticities (`R/t_04_vmt_effects.R`)
+- Various VMT and mode choice functions in `R/t_04_vmt_effects.R`
+
+## Notes
+
+### Elasticity Application
+- All elasticity values apply in forecast years only (2025, 2030, 2035, 2040, 2045, 2050)
+- Initial years (2015, 2018, 2020) have elasticity values of 0
+- Elasticities are applied using the `calc_elasticity()` function which distributes the effect linearly over forecast years
+
+### Sources and Citations
+- All 16 elasticity sources have been located in the CPRG bibliography with verified Citations
+- 5 additional sources for cost and policy factors have been located with Citations
+- Most sources are peer-reviewed publications or meta-analyses
+- Cost factors cite AAA, VTPI, TTI, Xcel Energy, and CAPCOA Handbook
