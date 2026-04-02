@@ -9,20 +9,21 @@ A tibble with 27 columns and 9 observations.
 \itemize{
 \item \strong{year}: Forecast year.
 \item \strong{type}: Transportation mode. One of \code{"DRIVE"}, \code{"WALK"}, or \code{"TRANSIT"}.
-\item \strong{population_density}: Elasticity for population density effect on VMT.
-\item \strong{employment_density}: Elasticity for employment population density effect on VMT.
-\item \strong{diversity}: Elasticity for land use diversity effect on VMT.
-\item \strong{design}: Elasticity for intersection design effect on VMT.
-\item \strong{job_access}: Elasticity for job accessibility via transit effect on VMT.
-\item \strong{distance}: Elasticity for minimum distance to transit stops effect on VMT.
-\item \strong{combined_density}: Combined effect of all land use elasticities.
+\item \strong{population_density}: Elasticity for population density effect on VMT. Ewing and Cervero (2010).
+\item \strong{employment_density}: Elasticity for employment density effect on VMT. Ewing and Cervero (2010); Stevens (2017).
+\item \strong{diversity}: Elasticity for land use diversity effect on VMT. Ewing and Cervero (2010).
+\item \strong{design}: Elasticity for intersection design effect on VMT. Ewing and Cervero (2010).
+\item \strong{job_access}: Elasticity for job accessibility via transit effect on VMT. Ewing and Cervero (2010).
+\item \strong{distance}: Elasticity for minimum distance to transit stops effect on VMT. Ewing and Cervero (2010).
+\item \strong{combined_density}: Combined effect of all land use elasticities. Ewing and Cervero (2010).
 }
 }
 \usage{
 elast_5d
 }
 \description{
-Values are specific to forecast year
+Values are specific to forecast year. All elasticities from Ewing and Cervero (2010).
+Employment density range also informed by Stevens (2017).
 }
 \examples{
 library(ghg.ccap)
