@@ -19,6 +19,14 @@ library(dplyr)
 library(knitr)
 library(ghg.ccap)
 library(tidyr)
+
+# pull modeling dataset, which has imagine designations for each CTU
+vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
+
+ctu_imagine <- vmt_model_data %>%
+  select(ctu_name, gnis, imagine_designation) %>%
+  unique()
+
 ```
 
 
@@ -219,49 +227,56 @@ knitr::kable(fuel_econ_2050,
              digits = 2)
 ```
 
-## References Status
+## Average Vehicle Occupancy (`vehicle_occupancy` dataset)
 
-### Complete List of Elasticity References:
+Average Vehicle Occupancy (AVO) represents the average number of people per vehicle for passenger modes. These values are used to convert person-miles traveled (PMT) to vehicle-miles traveled (VMT) for passenger modes.
 
-1. @harveyTechnicalMethodsAnalyzing1998
-1. @INFRAS_2000
-1. @lukElectronicRoadPricing1999
-1. @hymelReboundEffectAutomobile2015
-1. @smallFuelEfficiencyMotor2007
-1. @goodwinElasticitiesRoadTraffic2004
-1. @arentzePredictingMultifacetedActivitytravel2004
-1. @pugetsoundregionalcouncilTransitSupportiveDensitiesLand2015
-1. @smallDemandTransportationModels1998
-1. @kimHomebasedTelecommutingIntrahousehold2015
-1. @traceElasticityHandbookElasticities1999
-1. @litmanUnderstandingTransportDemands2021
-1. @litmanElasticities2024
-1. @ewingTravelBuiltEnvironment2010
-1. @stevensDoesCompactDevelopment2017
-1. @lehnerPriceElasticityParking2019
+PLDV AVO is calculated from the Metropolitan Council Travel Behavior Inventory (TBI), years 2019-2023 at the community designation level (Imagine 2050), and attributed to municipalities. County level AVO values are also calculated from the TBI. 
 
-### Additional Cost and Policy References:
+Bus AVO is calculated at the transit market area (TMA) level using Metro Transit data, and is then attributed to municipalities based on the TMA in which the municipality is located. County level BUS AVO is the mininimum value for all municipalities within the county.
 
-1. @aaaYourDrivingCosts2019
-1. @vtpiCostBenefit2016
-1. @ellisValueDelayTime2017
-1. @xcelenergyMNResidentialRates2024
-1. @capcoaGHGHandbook2024
+```{r vehicle-occupancy-table}
+# Calculate average occupancy by mode
+avg_occupancy <- ghg.ccap::vehicle_occupancy %>%
+filter(mode == "PLDV") %>%
+  left_join(ctu_imagine, by = c("geog_id" = "gnis")) %>%
+  # Join mode definitions
+  left_join(
+    ghg.ccap::transportation_index$modes %>%
+      select(mode_abbrev, mode_description_1),
+      select(mode_abbrev, mode_description_1),
+    by = c("mode" = "mode_abbrev")
+  ) %>%
+  filter(!is.na(imagine_designation)) %>%
+  # Reorder columns for display
+  select( mode_description_1, imagine_designation, value) %>%
+  unique()
 
-## Data Sources
+knitr::kable(avg_occupancy,
+             caption = "Average Vehicle Occupancy by Transportation Mode",
+             col.names = c("Mode", "Imagine Designation", "Average Occupancy"),
+             digits = 2)
+```
 
-- **Price elasticities**: Found in `/data-raw/transportation_data_processing/elasticity.R`
-- **5D elasticities**: Found in `/data-raw/transportation_data_processing/elasticity.R`
-- **Other elasticities and factors**: Found in `/data-raw/enviro_factors.R`
-  - Transportation elasticities (TRANSIT_SERVICE_ELAST, MARG_TELEWORK)
-  - 5D maximum caps (MAX_5D_DR, MAX_5D_ACT, MAX_5D_TRANS)
-  - AV impact factors (BUS_AV, RAIL_AV, VMT_AV, MPG_AV)
-  - Trip reduction factors (CBTP, MAX_TRIP_REDUCTION) - with Citations from code comments
-  - Cost factors (AUTO_COST_MI, TIME_COST_MI, fuel costs, etc.) - with Citations from code comments
-- **Data objects**: `ghg.ccap::elast`, `ghg.ccap::elast_5d`, `ghg.ccap::enviro_factors`
-- **Documentation**: `R/x_data.R`, `man/elast.Rd`, `man/elast_5d.Rd`
 
-**Note**: The `factor_values` dataset was checked but does not contain elasticities. It contains Annual Energy Outlook (AEO) factors for VMT and MPG changes, cost factors, and GHG emission factors - all different from elasticity values.
+```{r county-vehicle-occupancy-table}
+co_avg_occupancy <- ghg.ccap::vehicle_occupancy %>%
+  filter(mode == "PLDV",
+  stringr::str_detect(geog_name, "County")) %>%
+  left_join(
+    ghg.ccap::transportation_index$modes %>%
+      select(mode_abbrev, mode_description_1),
+      by = c("mode" = "mode_abbrev")
+  ) %>%
+  unique() %>%
+  select(mode_description_1, geog_name, value)
+
+knitr::kable(co_avg_occupancy,
+             caption = "Average Vehicle Occupancy by Transportation Mode (County Level)",
+             col.names = c("Mode", "County", "Average Occupancy"),
+             digits = 2)
+```
+
 
 ## Usage in Functions
 
