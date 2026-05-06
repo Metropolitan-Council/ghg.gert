@@ -40,9 +40,6 @@ inventory items of the CCAP.
 
 ## Installation
 
-Ensure your git credentials set up for accessing internal-only Council
-repositories.
-
 You can install the development version of `{ghg.ccap}` from
 [GitHub](https://github.com/Metropolitan-Council/ghg.ccap) with:
 
@@ -55,17 +52,17 @@ remotes::install_github("Metropolitan-Council/ghg.ccap")
 them separately
 
 ``` r
-remotes::install_github("hadley/emo")
 remotes::install_github("Metropolitan-Council/councilR")
 ```
 
 ## Related repositories
 
 - [ghg.cprg](https://github.com/Metropolitan-Council/ghg-cprg)
-- [ghg.sp](https://github.com/Metropolitan-Council/ghg.sp)
-- [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
-- [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
-- [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
+- [ghg-ccap.app](https://github.com/Metropolitan-Council/ghg-ccap-app)
+  <!-- - [ghg.sp](https://github.com/Metropolitan-Council/ghg.sp) -->
+  <!-- - [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app) -->
+  <!-- - [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui) -->
+  <!-- - [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual) -->
 
 ## Contributors
 
