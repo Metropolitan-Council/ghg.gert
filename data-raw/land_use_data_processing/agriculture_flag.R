@@ -1,9 +1,7 @@
 #### Compare agricultural communities by satellite and land use
-library(readxl)
-
 
 ## read in standard council planned land use data
-landuse <- readxl::read_xls("./data-raw/land_use_data_processing/Thrive_2040/PlannedLandUseData.xls") %>%
+landuse <- read_csv("./data-raw/land_use_data_processing/gen_land_use") %>%
   janitor::clean_names()
 
 ag_area <- agriculture_area %>%
@@ -23,6 +21,6 @@ ag_no_landuse <- anti_join(ag_area,
                            by= "geog_id") %>%
   arrange(desc(area))
 
-landuse %>% filter(grepl("Woodbury",ctu_name)) %>% distinct(pluse_desc)
+landuse %>% filter(grepl("Sand Creek Twp.",ctu_name)) %>% distinct(pluse_desc)
 
 ### NEED EXISTING LAND USE ###
