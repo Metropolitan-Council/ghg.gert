@@ -67,8 +67,8 @@ eagan_test <- filter_ctu(planned_land_use$ctu_planned_land_use_parcel,
   .selected_ctu = "Eagan"
 ) %>%
   mutate(
-    dupe_index = ave(seq_along(ctu_landuse_desc), ctu, ctu_landuse_desc, FUN = seq_along),
-    dupe_count = ave(ctu_landuse_desc, ctu, ctu_landuse_desc, FUN = length),
+    dupe_index = ave(seq_along(ctu_landuse_desc), geog_name, ctu_landuse_desc, FUN = seq_along),
+    dupe_count = ave(ctu_landuse_desc, geog_name, ctu_landuse_desc, FUN = length),
     ctu_landuse_desc = if_else(dupe_count > 1,
       paste0(ctu_landuse_desc, " - ", dupe_index),
       ctu_landuse_desc
