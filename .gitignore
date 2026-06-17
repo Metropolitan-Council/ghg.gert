@@ -409,3 +409,9 @@ vignettes/transportation/transportation_elasticities_table_files/
 vignettes/transportation/transportation_sources_table_files/
 
 README.html
+
+data-raw/land_use_data_processing/DataDownload-land_use/
+
+data-raw/land_use_data_processing/DataDownload-land_use.zip
+
+data-raw/land_use_data_processing/gen_land_use.csv

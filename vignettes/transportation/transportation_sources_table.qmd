@@ -153,9 +153,6 @@ other_factors_table <- tibble::tribble(
   "`TRANSIT_SERVICE_ELAST`", ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST, "Effect of transit service increase on ridership and PLDV decrease", "Communication with Metro Transit staff", "",
   "`TRANSIT_SERVICE_AVO_MIN`", ghg.ccap::enviro_factors$TRANSIT_SERVICE_AVO_MIN, "Minimum transit AVO increase ratio to service increase", "Communication with Metro Transit staff", "If transit service increases 20%, AVO must increase at least 10%",
   "`MARG_TELEWORK`", ghg.ccap::enviro_factors$MARG_TELEWORK, "Telework marginal effect: percent change in PMT per household", "@kimHomebasedTelecommutingIntrahousehold2015", "-2.749/100",
-  # "`MAX_5D_DR`", ghg.ccap::enviro_factors$MAX_5D_DR, "Maximum 5D combined effect cap for driving", "@ewingTravelBuiltEnvironment2010", "",
-  # "`MAX_5D_ACT`", ghg.ccap::enviro_factors$MAX_5D_ACT, "Maximum 5D combined effect cap for active transport", "@ewingTravelBuiltEnvironment2010", "",
-  # "`MAX_5D_TRANS`", ghg.ccap::enviro_factors$MAX_5D_TRANS, "Maximum 5D combined effect cap for transit", "@ewingTravelBuiltEnvironment2010", "",
   "`CBTP_PARTICIPATION_PCT`", ghg.ccap::enviro_factors$CBTP_PARTICIPATION_PCT, "Community Based Travel Planning (CBTP) participation rate", "@capcoaGHGHandbook2024", "Proportion of targeted residences that participate",
   "`CBTP_TRIP_REDUCTION_PCT`", ghg.ccap::enviro_factors$CBTP_TRIP_REDUCTION_PCT, "Community Based Travel Planning (CBTP) vehicle trip reduction by participants", "@capcoaGHGHandbook2024", "Trip reduction for participating residences",
   "`MAX_TRIP_REDUCTION_PCT`", ghg.ccap::enviro_factors$MAX_TRIP_REDUCTION_PCT, "Maximum VMT reduction cap for trip reduction programs", "@capcoaGHGHandbook2024", "2.3% cap"
@@ -219,7 +216,9 @@ fuel_econ_2050 <- ghg.ccap::fuel_economy %>%
   # Reorder and select columns for display
   select(mode, mode_description_1, var, var_description, unit, value, metadata) %>%
   mutate(unit = stringr::str_to_sentence(unit)) %>%
-  arrange(mode, var)
+  arrange(mode, var) %>%
+  filter(!is.na(unit))
+  # filter(!is.na(metadata))
 
 knitr::kable(fuel_econ_2050, 
              caption = "Fuel Economy by Mode and Powertrain (Year 2050)",
