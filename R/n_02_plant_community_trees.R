@@ -1,106 +1,142 @@
-#' @title Apply Natural Systems Module 3: Plant Community Trees
+#' @title Apply Natural Systems Module: Plant Community Trees
 #'
-#' @param df_null Input dataframe of land cover area estimates left unchanged from 2023 to 2050
-#' @param start_yr Numeric start year for land conversion
-#' @param end_yr Numeric end year for land conversion
-#' @param area_pct Numeric percentage of developed area to convert to community tree cover (0 to 100)
+#' @description Converts a tree count input into a land cover area reallocation,
+#'   moving area from Developed_Low/Med/High to Urban_Tree over a specified
+#'   time window using a linear ramp.
 #'
+#'   Tree count is converted to area using a per-community density factor
+#'   (sqm canopy per tree) from the DNR-calibrated community_tree_baseline
+#'   lookup table. The area is distributed proportionally across developed
+#'   classes based on their plantable fractions (30%/15%/5%).
+#'
+#' @param df_null Input dataframe of land cover area estimates (projections)
+#' @param start_yr Numeric start year for tree planting
+#' @param end_yr Numeric end year for tree planting
+#' @param tree_count Numeric number of trees to plant
+#' @param geog_id Character geography ID for density lookup. If NULL,
+#'   extracted from df_null.
+#'
+#' @return Dataframe with same structure as df_null, with area reallocated
+#'   from developed classes to Urban_Tree over the planting window.
+#'   Attribute "tree_planting_info" attached with conversion metadata.
 #'
 #' @export
-# Plant Community Trees -------------------------------------------
+#' @importFrom dplyr filter mutate case_when left_join select bind_rows
 plant_community_trees <- function(df_null,
                                   start_yr,
                                   end_yr,
-                                  area_pct) {
-  # Total Developed area in 2022
-  # Want to determine how much developed area is available for tree planting based on
-  # the degree of imperviousness (low, medium and high) where low is 20-49% impervious,
-  # medium is 50-79% impervious and high is 80-100% impervious.
+                                  tree_count,
+                                  geog_id = NULL) {
 
-  # Plantable fractions per developed type
+  # Density lookup
+
+  if (is.null(geog_id)) {
+    geog_id <- unique(df_null$geog_id)[1]
+  }
+
+  baseline <- ghg.ccap::community_tree_baseline %>%
+    dplyr::filter(.data$geog_id == .env$geog_id)
+
+  if (nrow(baseline) == 1) {
+    sqm_per_tree <- baseline$sqm_per_tree
+    max_trees    <- baseline$max_plantable_trees
+  } else {
+    # Fallback: regional median density, no cap
+    sqm_per_tree <- median(ghg.ccap::community_tree_baseline$sqm_per_tree, na.rm = TRUE)
+    max_trees    <- Inf
+  }
+
+  # Cap tree count at maximum plantable
+
+  tree_count <- min(tree_count, max_trees)
+
+  # Convert to area (sq km)
+  area_to_convert <- tree_count * sqm_per_tree / 1e6
+
+
+  # Compute area change per land cover type
+
   plantable_fraction <- c(
-    Developed_Low = 0.30, # 30% plantable area, 70% impervious
-    Developed_Med = 0.15, # 15% plantable area, 85% impervious
-    Developed_High = 0.05 #  5% plantable area, 95% impervious
+    Developed_Low  = 0.30,
+    Developed_Med  = 0.15,
+    Developed_High = 0.05
   )
 
+  df_max_yr <- df_null %>%
+    dplyr::filter(inventory_year == max(inventory_year))
 
-  df_max <- df_null %>%
-    # filter for the last year in the dataset
-    filter(inventory_year == max(inventory_year)) %>%
-    mutate(
-      area_change = case_when(
-        land_cover_type == "Developed_Low" ~ -1 * area * plantable_fraction["Developed_Low"] * (area_pct / 100),
-        land_cover_type == "Developed_Med" ~ -1 * area * plantable_fraction["Developed_Med"] * (area_pct / 100),
-        land_cover_type == "Developed_High" ~ -1 * area * plantable_fraction["Developed_High"] * (area_pct / 100),
-        land_cover_type == "Urban_Tree" ~ sum(
-          case_when(
-            land_cover_type == "Developed_Low" ~ area * plantable_fraction["Developed_Low"] * (area_pct / 100),
-            land_cover_type == "Developed_Med" ~ area * plantable_fraction["Developed_Med"] * (area_pct / 100),
-            land_cover_type == "Developed_High" ~ area * plantable_fraction["Developed_High"] * (area_pct / 100),
-            TRUE ~ 0
-          )
-        ),
+  # Total plantable area for this geography
+  total_plantable <- df_max_yr %>%
+    dplyr::filter(land_cover_type %in% names(plantable_fraction)) %>%
+    dplyr::mutate(plantable = area * plantable_fraction[land_cover_type]) %>%
+    dplyr::pull(plantable) %>%
+    sum()
+
+  # Safety: don't exceed what's actually available
+  area_to_convert <- min(area_to_convert, total_plantable)
+
+  # Each developed class gives up its proportional share
+  area_change_lookup <- df_max_yr %>%
+    dplyr::mutate(
+      area_change = dplyr::case_when(
+        land_cover_type %in% names(plantable_fraction) ~
+          -1 * area * plantable_fraction[land_cover_type] * (area_to_convert / total_plantable),
+        land_cover_type == "Urban_Tree" ~ area_to_convert,
         TRUE ~ 0
       )
-    )
+    ) %>%
+    dplyr::select(land_cover_type, area_change)
 
 
-  has_urban_tree <- "Urban_Tree" %in% df_max$land_cover_type
+  # Handle missing Urban_Tree
+
+  has_urban_tree <- "Urban_Tree" %in% df_max_yr$land_cover_type
 
   if (!has_urban_tree) {
-    urban_tree_template <- df_max %>%
-      filter(land_cover_type == "Developed_Low") %>%
-      slice(1) %>%
-      mutate(
-        land_cover_type = "Urban_Tree",
-        area = 0,
-        area_change = sum(df_max$area_change[df_max$land_cover_type %in%
-          c("Developed_Low", "Developed_Med", "Developed_High")]),
-        potential_wetland_area = 0
-      )
+    # Add Urban_Tree row to the change lookup
+    urban_tree_change <- data.frame(
+      land_cover_type = "Urban_Tree",
+      area_change = area_to_convert
+    )
+    area_change_lookup <- dplyr::bind_rows(area_change_lookup, urban_tree_change)
 
-    df_max <- bind_rows(df_max, urban_tree_template)
-
-    # Also add to df_null for all years
+    # Add Urban_Tree rows (area = 0) to df_null for all years
     urban_tree_rows <- df_null %>%
-      filter(land_cover_type == "Developed_Low") %>%
-      group_by(inventory_year) %>%
-      slice(1) %>%
+      dplyr::filter(land_cover_type == "Developed_Low") %>%
+      dplyr::group_by(inventory_year) %>%
+      dplyr::slice(1) %>%
       dplyr::ungroup() %>%
-      mutate(
+      dplyr::mutate(
         land_cover_type = "Urban_Tree",
         area = 0,
         potential_wetland_area = 0
       )
 
-    df_null <- bind_rows(df_null, urban_tree_rows)
+    df_null <- dplyr::bind_rows(df_null, urban_tree_rows)
   }
 
 
-  df_export <- simulate_land_conversion(
-    df = df_null %>%
-      left_join(
-        df_max %>% dplyr::select(c(land_cover_type, area_change)),
-        by = join_by(land_cover_type)
-      ),
-    start_yr = start_yr,
-    end_yr = end_yr
-  ) %>%
-    dplyr::select(colnames(df_null))
+  # Apply linear ramp
+
+  df_export <- df_null %>%
+    dplyr::left_join(area_change_lookup, by = "land_cover_type") %>%
+    dplyr::mutate(
+      area_change = tidyr::replace_na(area_change, 0),
+      fraction = pmax(0, pmin(1, (inventory_year - start_yr) / (end_yr - start_yr))),
+      area = area + area_change * fraction
+    ) %>%
+    dplyr::select(dplyr::all_of(colnames(df_null)))
 
 
-  # df_export %>%
-  #   ggplot() +
-  #     geom_line(alpha = 0.9, linewidth=0.5,
-  #               aes(x = inventory_year, y = area,
-  #                   color = land_cover_type),show.legend = F) +
-  #     theme(
-  #       legend.position = "bottom",
-  #       legend.direction = "horizontal"
-  #     ) +
-  #     facet_wrap(~land_cover_type, scales="free_y")
+  # Attach metadata
 
+  attr(df_export, "tree_planting_info") <- list(
+    tree_count = tree_count,
+    sqm_per_tree = sqm_per_tree,
+    area_converted_sqkm = area_to_convert,
+    max_plantable_trees = max_trees,
+    geog_id = geog_id
+  )
 
   return(df_export)
 }
