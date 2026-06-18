@@ -9,7 +9,6 @@ testthat::test_that("plant_community_trees", {
     ghg.ccap::filter_ctu(tb_future, ctu_name)
   }
 
-  # Helper: get Urban_Tree area at a given year
   get_urban_tree_area <- function(result, yr) {
     result %>%
       dplyr::filter(inventory_year == yr, land_cover_type == "Urban_Tree") %>%
@@ -17,26 +16,6 @@ testthat::test_that("plant_community_trees", {
       sum()
   }
 
-  # Helper: get total area at a given year (should be conserved)
-  get_total_area <- function(result, yr) {
-    result %>%
-      dplyr::filter(inventory_year == yr) %>%
-      dplyr::pull(area) %>%
-      sum()
-  }
-
-  # Helper: sum of developed class areas at a given year
-  get_developed_area <- function(result, yr) {
-    result %>%
-      dplyr::filter(
-        inventory_year == yr,
-        land_cover_type %in% c("Developed_Low", "Developed_Med", "Developed_High")
-      ) %>%
-      dplyr::pull(area) %>%
-      sum()
-  }
-
-  # Helper: compute sequestration at a given year
   get_sequestration <- function(result, yr) {
     carbon <- ghg.ccap::natural_systems_data$land_cover_carbon
     result %>%
@@ -53,14 +32,10 @@ testthat::test_that("plant_community_trees", {
   test_that("Minneapolis community trees", {
     df_null <- get_df_null("Minneapolis")
     max_yr <- max(df_null$inventory_year)
-    baseline_total <- get_total_area(df_null, max_yr)
 
     # Zero trees = no change
     result_0 <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 0
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 0
     )
 
     testthat::expect_equal(
@@ -71,10 +46,7 @@ testthat::test_that("plant_community_trees", {
 
     # Planting trees increases Urban_Tree area
     result_5k <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 5000
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 5000
     )
 
     testthat::expect_gt(
@@ -82,25 +54,9 @@ testthat::test_that("plant_community_trees", {
       get_urban_tree_area(df_null, max_yr)
     )
 
-    # Developed area decreases correspondingly
-    testthat::expect_lt(
-      get_developed_area(result_5k, max_yr),
-      get_developed_area(df_null, max_yr)
-    )
-
-    # Total area is conserved
-    testthat::expect_equal(
-      get_total_area(result_5k, max_yr),
-      baseline_total,
-      tolerance = 1e-6
-    )
-
     # More trees = more sequestration (more negative)
     result_10k <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 10000
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 10000
     )
 
     testthat::expect_lt(
@@ -108,7 +64,7 @@ testthat::test_that("plant_community_trees", {
       get_sequestration(result_5k, max_yr)
     )
 
-    # Monotonic: 10k trees > 5k trees in Urban_Tree area
+    # Monotonic: 10k > 5k in Urban_Tree area
     testthat::expect_gt(
       get_urban_tree_area(result_10k, max_yr),
       get_urban_tree_area(result_5k, max_yr)
@@ -121,35 +77,31 @@ testthat::test_that("plant_community_trees", {
       tolerance = 1e-6
     )
 
-    # Exceeding max is capped: result matches max exactly
+    # Exceeding max throws an error
     baseline_info <- ghg.ccap::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
-    result_over <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = baseline_info$max_plantable_trees + 100000
+    testthat::expect_error(
+      plant_community_trees(
+        df_null = df_null, start_yr = 2028, end_yr = 2050,
+        tree_count = baseline_info$max_plantable_trees + 1
+      ),
+      "exceeds max_plantable_trees"
     )
 
-    result_at_max <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = baseline_info$max_plantable_trees
-    )
-
-    testthat::expect_equal(
-      get_urban_tree_area(result_over, max_yr),
-      get_urban_tree_area(result_at_max, max_yr),
-      tolerance = 1e-6
+    # At max works fine
+    testthat::expect_no_error(
+      plant_community_trees(
+        df_null = df_null, start_yr = 2028, end_yr = 2050,
+        tree_count = baseline_info$max_plantable_trees
+      )
     )
 
     # Metadata attribute is attached
     info <- attr(result_5k, "tree_planting_info")
     testthat::expect_true(!is.null(info))
     testthat::expect_equal(info$tree_count, 5000)
-    testthat::expect_gt(info$area_converted_sqkm, 0)
+    testthat::expect_gt(info$area_added_sqkm, 0)
   })
 
 
@@ -158,13 +110,10 @@ testthat::test_that("plant_community_trees", {
   test_that("Newport community trees", {
     df_null <- get_df_null("Newport")
     max_yr <- max(df_null$inventory_year)
-    baseline_total <- get_total_area(df_null, max_yr)
 
+    # Zero = no change
     result_0 <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 0
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 0
     )
 
     testthat::expect_equal(
@@ -173,24 +122,14 @@ testthat::test_that("plant_community_trees", {
       tolerance = 1e-6
     )
 
+    # Planting increases Urban_Tree
     result_1k <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 1000
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 1000
     )
 
-    # Trees increase
     testthat::expect_gt(
       get_urban_tree_area(result_1k, max_yr),
       get_urban_tree_area(df_null, max_yr)
-    )
-
-    # Area conserved
-    testthat::expect_equal(
-      get_total_area(result_1k, max_yr),
-      baseline_total,
-      tolerance = 1e-6
     )
 
     # Sequestration improves
@@ -199,28 +138,16 @@ testthat::test_that("plant_community_trees", {
       get_sequestration(result_0, max_yr)
     )
 
-    # Cap works
+    # Exceeding max throws an error
     baseline_info <- ghg.ccap::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
-    result_over <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = baseline_info$max_plantable_trees + 50000
-    )
-
-    result_at_max <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = baseline_info$max_plantable_trees
-    )
-
-    testthat::expect_equal(
-      get_urban_tree_area(result_over, max_yr),
-      get_urban_tree_area(result_at_max, max_yr),
-      tolerance = 1e-6
+    testthat::expect_error(
+      plant_community_trees(
+        df_null = df_null, start_yr = 2028, end_yr = 2050,
+        tree_count = baseline_info$max_plantable_trees + 1
+      ),
+      "exceeds max_plantable_trees"
     )
   })
 
@@ -230,16 +157,10 @@ testthat::test_that("plant_community_trees", {
   test_that("Benton Twp. community trees", {
     df_null <- get_df_null("Benton Twp.")
     max_yr <- max(df_null$inventory_year)
-    baseline_total <- get_total_area(df_null, max_yr)
 
-    # Benton Twp. may have very little developed area — test that
-    # the function handles small/rural communities gracefully
-
+    # Zero = no change
     result_0 <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 0
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 0
     )
 
     testthat::expect_equal(
@@ -248,56 +169,33 @@ testthat::test_that("plant_community_trees", {
       tolerance = 1e-6
     )
 
+    # Small planting increases Urban_Tree
     result_100 <- plant_community_trees(
-      df_null = df_null,
-      start_yr = 2028,
-      end_yr = 2050,
-      tree_count = 100
+      df_null = df_null, start_yr = 2028, end_yr = 2050, tree_count = 100
     )
 
-    # Even a small number of trees should increase Urban_Tree area
-    # (or at least not decrease it if area is tiny)
     testthat::expect_gte(
       get_urban_tree_area(result_100, max_yr),
       get_urban_tree_area(df_null, max_yr)
     )
 
-    # Area conserved
-    testthat::expect_equal(
-      get_total_area(result_100, max_yr),
-      baseline_total,
-      tolerance = 1e-6
-    )
-
-    # Sequestration improves (or stays same if area is negligible)
+    # Sequestration improves (or stays same if area negligible)
     testthat::expect_lte(
       get_sequestration(result_100, max_yr),
       get_sequestration(result_0, max_yr)
     )
 
-    # Cap works — rural township with small plantable area
+    # Exceeding max throws an error
     baseline_info <- ghg.ccap::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
     if (nrow(baseline_info) == 1) {
-      result_over <- plant_community_trees(
-        df_null = df_null,
-        start_yr = 2028,
-        end_yr = 2050,
-        tree_count = baseline_info$max_plantable_trees + 10000
-      )
-
-      result_at_max <- plant_community_trees(
-        df_null = df_null,
-        start_yr = 2028,
-        end_yr = 2050,
-        tree_count = baseline_info$max_plantable_trees
-      )
-
-      testthat::expect_equal(
-        get_urban_tree_area(result_over, max_yr),
-        get_urban_tree_area(result_at_max, max_yr),
-        tolerance = 1e-6
+      testthat::expect_error(
+        plant_community_trees(
+          df_null = df_null, start_yr = 2028, end_yr = 2050,
+          tree_count = baseline_info$max_plantable_trees + 1
+        ),
+        "exceeds max_plantable_trees"
       )
     }
   })
