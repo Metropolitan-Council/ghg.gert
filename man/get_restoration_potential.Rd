@@ -13,28 +13,12 @@ get_restoration_potential(df_null)
 A list containing:
 \itemize{
 \item wetland_potential_sqkm: max wetland restoration potential (GIS-constrained)
-\item soft_limit_sqkm: total area minus developed and water (realistic ceiling)
-\item hard_limit_sqkm: total jurisdictional area (physical limit)
-\item by_source: breakdown of available area by source type
-\item by_land_cover: current area for each land cover type
+\item soft_limit_sqkm: jurisdiction area minus developed and water
 }
 }
 \description{
-Calculates the maximum restorable area for wetlands, forests,
-and prairies based on available land. Returns validation limits for UI
-input constraints and warning thresholds.
-
-Wetlands are constrained by the GIS potential_wetland_area layer.
-Forests and prairies have flexible limits based on available non-developed,
-non-water land area.
-}
-\examples{
-\dontrun{
-potential <- get_restoration_potential(my_projections)
-
-# Use for UI validation
-if (user_forest + user_prairie > potential$soft_limit_sqkm) {
-  show_warning("Exceeds realistic restoration potential")
-}
-}
+Calculates restoration limits for a jurisdiction to populate
+UI input constraints. The soft limit (total area minus developed and water)
+caps total restoration across all types. Wetlands are additionally
+constrained by the GIS \code{potential_wetland_area} layer (DNR).
 }

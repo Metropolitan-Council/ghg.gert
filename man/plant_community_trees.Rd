@@ -2,19 +2,32 @@
 % Please edit documentation in R/n_02_plant_community_trees.R
 \name{plant_community_trees}
 \alias{plant_community_trees}
-\title{Apply Natural Systems Module 3: Plant Community Trees}
+\title{Apply Natural Systems Module: Plant Community Trees}
 \usage{
-plant_community_trees(df_null, start_yr, end_yr, area_pct)
+plant_community_trees(df_null, start_yr, end_yr, tree_count, geog_id = NULL)
 }
 \arguments{
-\item{df_null}{Input dataframe of land cover area estimates left unchanged from 2023 to 2050}
+\item{df_null}{Input dataframe of land cover area estimates (projections)}
 
-\item{start_yr}{Numeric start year for land conversion}
+\item{start_yr}{Numeric start year for tree planting}
 
-\item{end_yr}{Numeric end year for land conversion}
+\item{end_yr}{Numeric end year for tree planting}
 
-\item{area_pct}{Numeric percentage of developed area to convert to community tree cover (0 to 100)}
+\item{tree_count}{Numeric number of trees to plant}
+
+\item{geog_id}{Character geography ID for density lookup. If NULL,
+extracted from df_null.}
+}
+\value{
+Dataframe with same structure as df_null, with Urban_Tree area
+increased over the planting window.
+Attribute "tree_planting_info" attached with conversion metadata.
 }
 \description{
-Apply Natural Systems Module 3: Plant Community Trees
+Converts a tree count input into a land cover area reallocation,
+area over a specified time window using a linear ramp.
+
+Tree count is converted to area using a per-community density factor
+(sqm canopy per tree) from the DNR-calibrated community_tree_baseline
+lookup table. Capped at max_plantable_trees.
 }
