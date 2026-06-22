@@ -1,63 +1,34 @@
 #' @title Land conversion utility
 #'
-#' @param df base dataframe as input
-#' @param start_yr The year when growth modeling begins, used for normalization
-#' @param end_yr The year when growth modeling ends, used for normalization
+#' @description Applies area changes to land cover types using linear
+#'   interpolation over the specified time window. Before `start_yr`, no change
+#'   is applied. Between `start_yr` and `end_yr`, the change ramps linearly.
+#'   After `end_yr`, the full `area_change` is held constant.
 #'
-#' @return vector equal to the length of 't'
+#' @param df Dataframe with columns `inventory_year`, `area`, and `area_change`.
+#'   `area_change` is the total delta to apply by `end_yr` (positive = gain,
+#'   negative = loss).
+#' @param start_yr The year when the transition begins
+#' @param end_yr The year when the transition is complete
+#'
+#' @return Dataframe with `area` updated to reflect the linear transition
 #' @export
-# Logistic growth function with normalization and constraints
 simulate_land_conversion <- function(df, start_yr, end_yr) {
-  df_change <- df %>%
-    rowwise() %>%
-    mutate(
-      delta_area = case_when(
+  total_years <- end_yr - start_yr
+
+  df_export <- df %>%
+    dplyr::mutate(
+      delta_area = dplyr::case_when(
         inventory_year < start_yr ~ 0,
         area_change == 0 ~ 0,
-
-        # During transition period
-        inventory_year <= end_yr ~ {
-          years_elapsed <- inventory_year - (start_yr - 1)
-          total_years <- end_yr - (start_yr - 1)
-
-          K <- area_change
-          r <- 10 / total_years
-          t0 <- (start_yr - 1) + total_years / 2
-
-          logisticGrowth(
-            t = inventory_year,
-            K = K,
-            r = r,
-            t0 = t0,
-            start_year = start_yr - 1,
-            end_year = end_yr
-          )
-        },
-
-        # After end_yr → hold final value
-        inventory_year > end_yr ~ {
-          years_elapsed <- end_yr - (start_yr - 1)
-          total_years <- end_yr - (start_yr - 1)
-
-          K <- area_change
-          r <- 10 / total_years
-          t0 <- (start_yr - 1) + total_years / 2
-
-          logisticGrowth(
-            t = end_yr,
-            K = K,
-            r = r,
-            t0 = t0,
-            start_year = start_yr - 1,
-            end_year = end_yr
-          )
-        }
-      )
-    ) %>%
-    dplyr::ungroup()
-
-  df_export <- df_change %>%
-    mutate(area = area + delta_area)
+        # Linear ramp during transition
+        inventory_year <= end_yr ~
+          area_change * (inventory_year - start_yr) / total_years,
+        # Hold final value after end_yr
+        inventory_year > end_yr ~ area_change
+      ),
+      area = area + delta_area
+    )
 
   return(df_export)
 }
