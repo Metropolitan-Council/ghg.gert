@@ -1,40 +1,22 @@
 #' @title Get Restoration Potential for a Jurisdiction
 #'
-#' @description Calculates the maximum restorable area for wetlands, forests,
-#'   and prairies based on available land. Returns validation limits for UI
-#'   input constraints and warning thresholds.
-#'
-#'   Wetlands are constrained by the GIS potential_wetland_area layer.
-#'   Forests and prairies have flexible limits based on available non-developed,
-#'   non-water land area.
+#' @description Calculates restoration limits for a jurisdiction to populate
+#'   UI input constraints. The soft limit (total area minus developed and water)
+#'   caps total restoration across all types. Wetlands are additionally
+#'   constrained by the GIS `potential_wetland_area` layer (DNR).
 #'
 #' @param df_null Input dataframe of land cover area projections
 #'
 #' @return A list containing:
 #'   - wetland_potential_sqkm: max wetland restoration potential (GIS-constrained)
-#'   - soft_limit_sqkm: total area minus developed and water (realistic ceiling)
-#'   - hard_limit_sqkm: total jurisdictional area (physical limit)
-#'   - by_source: breakdown of available area by source type
-#'   - by_land_cover: current area for each land cover type
+#'   - soft_limit_sqkm: jurisdiction area minus developed and water
 #'
 #' @export
 #' @import dplyr
-#'
-#' @examples
-#' \dontrun{
-#' potential <- get_restoration_potential(my_projections)
-#'
-#' # Use for UI validation
-#' if (user_forest + user_prairie > potential$soft_limit_sqkm) {
-#'   show_warning("Exceeds realistic restoration potential")
-#' }
-#' }
 get_restoration_potential <- function(df_null) {
-  # Get the most recent year's data
   df_current <- df_null %>%
     filter(inventory_year == max(inventory_year))
 
-  # Helper to get area for a land cover type
   get_area <- function(type) {
     df_current %>%
       filter(land_cover_type == type) %>%
@@ -42,36 +24,17 @@ get_restoration_potential <- function(df_null) {
       sum(na.rm = TRUE)
   }
 
-  # Calculate areas by land cover type
-  cropland_area <- get_area("Cropland")
-  bare_area <- get_area("Bare")
-  grassland_area <- get_area("Grassland")
-  tree_area <- get_area("Tree")
-  water_area <- get_area("Water")
-  wetland_area <- get_area("Wetland")
+  total_area <- sum(df_current$area, na.rm = TRUE)
 
-  # Calculate developed area (sum of all developed types)
   developed_area <- df_current %>%
     filter(grepl("^Developed", land_cover_type)) %>%
     pull(area) %>%
     sum(na.rm = TRUE)
 
-  # Total jurisdictional area
-  total_area <- df_current %>%
-    pull(area) %>%
-    sum(na.rm = TRUE)
+  water_area <- get_area("Water")
 
   # ---------------------------------------------------------------------------
-  # Validation limits for forest/prairie (flexible inputs)
-  # ---------------------------------------------------------------------------
-  # Soft limit: total area minus developed and water
-  soft_limit_sqkm <- total_area - developed_area - water_area
-
-  # Hard limit: total jurisdictional area
-  hard_limit_sqkm <- total_area
-
-  # ---------------------------------------------------------------------------
-  # Wetland potential is constrained by the potential_wetland_area layer
+  # Wetland potential (constrained by DNR potential_wetland_area layer)
   # ---------------------------------------------------------------------------
   if ("potential_wetland_area" %in% colnames(df_current)) {
     wetland_potential <- df_current %>%
@@ -88,41 +51,15 @@ get_restoration_potential <- function(df_null) {
   }
 
   # ---------------------------------------------------------------------------
-  # Conversion pool (what's available for forest/prairie conversion)
+  # Soft limit: jurisdiction area minus developed and water
   # ---------------------------------------------------------------------------
-  conversion_pool <- bare_area + cropland_area + grassland_area
+  soft_limit <- total_area - developed_area - water_area
 
   list(
-    # GIS-constrained wetland potential
     wetland_potential_sqkm = wetland_potential,
-
-    # Flexible limits for forest/prairie
-    soft_limit_sqkm = soft_limit_sqkm,
-    hard_limit_sqkm = hard_limit_sqkm,
-
-    # Conversion pool breakdown
-    conversion_pool_sqkm = conversion_pool,
-    by_source = list(
-      bare_sqkm = bare_area,
-      cropland_sqkm = cropland_area,
-      grassland_sqkm = grassland_area,
-      tree_sqkm = tree_area
-    ),
-
-    # Full land cover breakdown for reference
-    by_land_cover = list(
-      bare_sqkm = bare_area,
-      cropland_sqkm = cropland_area,
-      grassland_sqkm = grassland_area,
-      tree_sqkm = tree_area,
-      wetland_sqkm = wetland_area,
-      water_sqkm = water_area,
-      developed_sqkm = developed_area,
-      total_sqkm = total_area
-    )
+    soft_limit_sqkm = soft_limit
   )
 }
-
 
 #' @title Get Restoration Summary for UI Display
 #'
