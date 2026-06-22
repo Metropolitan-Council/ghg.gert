@@ -403,3 +403,14 @@ data-raw/building_energy_data_processing/resstock data/MN_upgrade16.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade18.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade4.csv
 data-raw/building_energy_data_processing/resstock data/MN_upgrade15_metadata_and_annual_results.csv
+data-raw/land_use_data_processing/gen_land_use.csv
+
+vignettes/transportation/transportation_elasticities_table_files/
+
+vignettes/transportation/transportation_sources_table_files/
+
+README.html
+
+data-raw/land_use_data_processing/DataDownload-land_use/
+
+data-raw/land_use_data_processing/DataDownload-land_use.zip
