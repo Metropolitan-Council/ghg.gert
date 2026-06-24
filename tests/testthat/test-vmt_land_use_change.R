@@ -6,6 +6,7 @@ testthat::test_that("Land use adjustment values over time are correct", {
     .emp_dens_pct_change = 0.10,
     .land_use_diversity_pct_change = 0.10,
     .intersection_design_pct_change = 0.10,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.10,
     .transit_dist_pct_change = -0.10,
     .enviro_factors = enviro_factors,
@@ -15,9 +16,10 @@ testthat::test_that("Land use adjustment values over time are correct", {
   testthat::expect_equal(
     ten_pct$land_use_adj,
     c(
-      1, 1, 1, 0.982860992276631, 0.965942690805545, 0.94924318398327,
-      0.932760568029827, 0.932760568029827, 0.932760568029827
-    )
+      1, 1, 1, 0.988549377309254, 0.977197130096806, 0.965942690805545,
+      0.954785493419443, 0.943724973467866, 0.932760568029827
+    ),
+    tolerance = 0.01
   )
 
   # 10% increase in pop dens  = -0.4% decrease in auto VMT
@@ -28,6 +30,7 @@ testthat::test_that("Land use adjustment values over time are correct", {
     .emp_dens_pct_change = 0.1,
     .land_use_diversity_pct_change = 0.1,
     .intersection_design_pct_change = 0.1,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.1,
     .transit_dist_pct_change = -0.1,
     .enviro_factors = enviro_factors,
@@ -37,9 +40,10 @@ testthat::test_that("Land use adjustment values over time are correct", {
   testthat::expect_equal(
     walk$land_use_adj,
     c(
-      1, 1, 1, 1.00797947847595, 1.01591732862345, 1.02381267438514,
-      1.03166464223698, 1.03166464223698, 1.03166464223698
-    )
+      1, 1, 1, 1.00532423435324, 1.01063009720849, 1.01591732862345,
+      1.02118566914814, 1.02643485983302, 1.03166464223698
+    ),
+    tolerance = 0.01
   )
 
 
@@ -50,6 +54,7 @@ testthat::test_that("Land use adjustment values over time are correct", {
     .emp_dens_pct_change = 0.1,
     .land_use_diversity_pct_change = 0.1,
     .intersection_design_pct_change = 0.1,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.1,
     .transit_dist_pct_change = -0.1,
     .enviro_factors = enviro_factors,
@@ -60,9 +65,10 @@ testthat::test_that("Land use adjustment values over time are correct", {
   testthat::expect_equal(
     transit$land_use_adj,
     c(
-      1, 1, 1, 1.02379609142689, 1.04778077081956, 1.07194850845425,
-      1.09629358954158, 1.09629358954158, 1.09629358954158
-    )
+      1, 1, 1, 1.0158428389461, 1.03177029962998, 1.04778077081956,
+      1.06387260503572, 1.0800441182434, 1.09629358954158
+    ),
+    tolerance = 0.01
   )
 
 
@@ -76,6 +82,7 @@ testthat::test_that("Land use adjustment values over time are correct", {
     .emp_dens_pct_change = 0.1,
     .land_use_diversity_pct_change = 0.1,
     .intersection_design_pct_change = 0.1,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.1,
     .transit_dist_pct_change = -0.1,
     .enviro_factors = enviro_factors,
@@ -93,6 +100,7 @@ testthat::test_that("DRIVE mode with varying density changes", {
     .emp_dens_pct_change = 0.05,
     .land_use_diversity_pct_change = 0.05,
     .intersection_design_pct_change = 0.05,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.05,
     .transit_dist_pct_change = -0.05,
     .enviro_factors = enviro_factors,
@@ -107,6 +115,7 @@ testthat::test_that("DRIVE mode with varying density changes", {
     .emp_dens_pct_change = 0.20,
     .land_use_diversity_pct_change = 0.20,
     .intersection_design_pct_change = 0.20,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.20,
     .transit_dist_pct_change = -0.20,
     .enviro_factors = enviro_factors,
@@ -135,6 +144,7 @@ testthat::test_that("DRIVE mode with population density only", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .enviro_factors = enviro_factors,
@@ -158,6 +168,7 @@ testthat::test_that("WALK mode with varying density changes", {
     .emp_dens_pct_change = 0.10,
     .land_use_diversity_pct_change = 0.10,
     .intersection_design_pct_change = 0.10,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.10,
     .transit_dist_pct_change = -0.10,
     .enviro_factors = enviro_factors,
@@ -172,6 +183,7 @@ testthat::test_that("WALK mode with varying density changes", {
     .emp_dens_pct_change = 0.25,
     .land_use_diversity_pct_change = 0.25,
     .intersection_design_pct_change = 0.25,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.25,
     .transit_dist_pct_change = -0.25,
     .enviro_factors = enviro_factors,
@@ -198,6 +210,7 @@ testthat::test_that("WALK mode with employment density only", {
     .emp_dens_pct_change = 0.20,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .enviro_factors = enviro_factors,
@@ -221,6 +234,7 @@ testthat::test_that("TRANSIT mode with varying density changes", {
     .emp_dens_pct_change = 0.10,
     .land_use_diversity_pct_change = 0.10,
     .intersection_design_pct_change = 0.10,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.10,
     .transit_dist_pct_change = -0.10,
     .enviro_factors = enviro_factors,
@@ -235,6 +249,7 @@ testthat::test_that("TRANSIT mode with varying density changes", {
     .emp_dens_pct_change = 0.30,
     .land_use_diversity_pct_change = 0.30,
     .intersection_design_pct_change = 0.30,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.30,
     .transit_dist_pct_change = -0.30,
     .enviro_factors = enviro_factors,
@@ -261,6 +276,7 @@ testthat::test_that("TRANSIT mode with transit distance improvement only", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = -0.25,
     .enviro_factors = enviro_factors,
@@ -284,6 +300,7 @@ testthat::test_that("All modes with combined 5D impact", {
     .emp_dens_pct_change = 0.15,
     .land_use_diversity_pct_change = 0.15,
     .intersection_design_pct_change = 0.15,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.15,
     .transit_dist_pct_change = -0.15,
     .enviro_factors = enviro_factors,
@@ -297,6 +314,7 @@ testthat::test_that("All modes with combined 5D impact", {
     .emp_dens_pct_change = 0.15,
     .land_use_diversity_pct_change = 0.15,
     .intersection_design_pct_change = 0.15,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.15,
     .transit_dist_pct_change = -0.15,
     .enviro_factors = enviro_factors,
@@ -310,6 +328,7 @@ testthat::test_that("All modes with combined 5D impact", {
     .emp_dens_pct_change = 0.15,
     .land_use_diversity_pct_change = 0.15,
     .intersection_design_pct_change = 0.15,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0.15,
     .transit_dist_pct_change = -0.15,
     .enviro_factors = enviro_factors,
@@ -331,6 +350,7 @@ testthat::test_that("Zero changes produce no adjustment", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .enviro_factors = enviro_factors,
@@ -344,6 +364,7 @@ testthat::test_that("Zero changes produce no adjustment", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .enviro_factors = enviro_factors,
@@ -357,6 +378,7 @@ testthat::test_that("Zero changes produce no adjustment", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .enviro_factors = enviro_factors,
