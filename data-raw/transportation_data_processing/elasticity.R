@@ -87,18 +87,6 @@ elast <- tibble(
 
 
 # Driving VMT elasticity to 5Ds -----
-#
-YRS <- c("2015", "2018", "2020", "2025", "2030", "2035", "2040", "2045", "2050")
-# Last forecast year
-FIN_YR <- "2050"
-# Year that dynamic ridesharing is introduced to the market (if included in scenario)
-DRS_YR <- "2025"
-# Forecast years
-FOR_YRS <- c("2025", "2030", "2035", "2040", "2045", "2050")
-# Years to adjust sales totals
-INIT_YRS <- setdiff(YRS, FOR_YRS)
-DAYS <- 340
-# alls function that interpolates changes through forecast years for elasticity.
 #  Assumes change is linear to final forecast year.
 
 # Define a default starting list for elasticities for 5Ds
