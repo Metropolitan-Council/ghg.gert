@@ -419,3 +419,9 @@ data-raw/land_use_data_processing/DataDownload-land_use.zip
 # EPA SLD cached data (regenerated from source)
 data-raw/transportation_data_processing/processed_data/mn_sld_blockgroups.RDS
 data-raw/transportation_data_processing/processed_data/epa_sld_metadata.json
+
+*.bak
+
+data-raw/transportation_data_processing/processed_data/ctu_intersection_density_all_metrics.RDS
+
+data-raw/transportation_data_processing/csv_copies/ctu_intersection_density_long.csv

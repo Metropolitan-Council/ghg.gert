@@ -1,7 +1,5 @@
 ## EPA Smart Location Database (SLD) Data Download
 ## Queries EPA ArcGIS REST service for Minnesota block group intersection density data
-## Author: Automated via Copilot CLI
-## Date: 2026-06-23
 
 library(arcgislayers)
 library(sf)
@@ -14,7 +12,6 @@ MN_STATEFP <- "27"
 OUTPUT_DIR <- "data-raw/transportation_data_processing/processed_data"
 CACHE_FILE <- file.path(OUTPUT_DIR, "mn_sld_blockgroups.RDS")
 METADATA_FILE <- file.path(OUTPUT_DIR, "epa_sld_metadata.json")
-CACHE_DAYS <- 30 # Re-query if cache older than this
 
 # Minnesota projection (UTM Zone 15N)
 MN_CRS <- 26915
@@ -57,8 +54,10 @@ query_epa_sld <- function(force_refresh = FALSE) {
   tryCatch(
     {
       sld_layer <- arc_open(EPA_SLD_URL)
-      layer_info <- sld_layer$metadata
-      query_fields <- c("GEOID10", "GEOID20", "STATEFP", "COUNTYFP", D3_FIELDS)
+      query_fields <- c(
+        "GEOID10", "GEOID20", "STATEFP", "COUNTYFP", "CSA", "CSA_Name",
+        "CBSA", "CBSA_Name", "AC_LAND", "AC_TOTAL", D3_FIELDS
+      )
 
       # Query Minnesota block groups
       mn_sld <- arc_select(
@@ -70,15 +69,18 @@ query_epa_sld <- function(force_refresh = FALSE) {
       # Transform to Minnesota CRS
       mn_sld <- st_transform(mn_sld, crs = MN_CRS)
 
+      field_descriptions <- sld_layer$fields[sld_layer$fields$name %in% query_fields, c("name", "alias")]
+
+
       # Save metadata
       metadata <- list(
         service_url = EPA_SLD_URL,
-        layer_name = layer_info$name,
+        layer_name = sld_layer$name,
         query_date = as.character(Sys.time()),
         statefp = MN_STATEFP,
         n_records = nrow(mn_sld),
         crs = MN_CRS,
-        fields_retrieved = query_fields,
+        fields = field_descriptions,
         cache_file = CACHE_FILE
       )
 
@@ -104,7 +106,4 @@ query_epa_sld <- function(force_refresh = FALSE) {
 }
 
 # Main execution ----
-if (!interactive()) {
-  # When sourced as a script, run the query
-  mn_sld_data <- query_epa_sld()
-}
+mn_sld_data <- query_epa_sld(force_refresh = TRUE)
