@@ -47,6 +47,9 @@ vmt_annual_energy_outlook <- function(tb,
 #' @param .intersection_design_pct_change percent change in intersection design
 #'     (% 4-way stops) in the final forecast year relative to BAU.
 #'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_design_pct_change`
+#' @param .intersection_density_pct_change percent change in intersection density
+#'     (intersections per square mile) in the final forecast year relative to BAU.
+#'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_density_pct_change`
 #' @param .job_access_pct_change percent change in job accessibility in the final forecast year relative to BAU.
 #'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$job_access_pct_change`
 #' @param .transit_dist_pct_change percent change in transit distance in the final forecast year relative to BAU.
@@ -79,6 +82,7 @@ vmt_land_use_change <- function(.type,
                                 .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
                                 .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
                                 .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                                .intersection_density_pct_change = ghg.ccap::transportation_defaults$intersection_density_pct_change,
                                 .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
                                 .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
                                 .enviro_factors = ghg.ccap::enviro_factors,
@@ -97,11 +101,12 @@ vmt_land_use_change <- function(.type,
       n_employment_density = 1 + .emp_dens_pct_change * employment_density,
       n_diversity = 1 + .land_use_diversity_pct_change * diversity,
       n_design = 1 + .intersection_design_pct_change * design,
+      n_intersection_density = 1 + .intersection_density_pct_change * intersection_density,
       n_job_access = 1 + .job_access_pct_change * job_access,
       n_distance = 1 + .transit_dist_pct_change * distance,
       n_combined_density = 1 + .pop_dens_pct_change * combined_density,
       product_all = n_population_density * n_employment_density * n_diversity *
-        n_design * n_job_access * n_distance * n_combined_density,
+        n_design * n_intersection_density * n_job_access * n_distance * n_combined_density,
       land_use_adj = dplyr::case_when(
         .type == "DRIVE" & product_all < max_value ~ max_value,
         .type != "DRIVE" & product_all > max_value ~ max_value,

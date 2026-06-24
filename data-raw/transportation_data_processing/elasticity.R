@@ -121,6 +121,8 @@ ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), leng
 ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_DES_DR <- calc_elasticity(ELAST_DEF_5D, -0.12, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_DR <- calc_elasticity(ELAST_DEF_5D, -0.12, length(INIT_YRS), length(FOR_YRS))
 # Jobs Access (RANGE)
 ELAST_JOBS_DR <- calc_elasticity(ELAST_DEF_5D, -0.200, length(INIT_YRS), length(FOR_YRS))
 # Distance (RANGE)
@@ -137,6 +139,8 @@ ELAST_DENS_ACT_EMP <- calc_elasticity(ELAST_DEF_5D, 0.040, length(INIT_YRS), len
 ELAST_DIVER_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_DES_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.39, length(INIT_YRS), length(FOR_YRS))
 # Job Access (RANGE)
 ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
 # Distance (RANGE)
@@ -153,6 +157,8 @@ ELAST_DENS_TRANS_EMP <- calc_elasticity(ELAST_DEF_5D, 0.01, length(INIT_YRS), le
 ELAST_DIVER_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.12, length(INIT_YRS), length(FOR_YRS))
 # Job Access (RANGE)
 ELAST_DES_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.290, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.230, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_JOBS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.128, length(INIT_YRS), length(FOR_YRS))
 # Distance (RANGE)
@@ -178,6 +184,7 @@ transit_5d <- tibble(
   employment_density = ELAST_DENS_TRANS_EMP,
   diversity = ELAST_DIVER_TRANS,
   design = ELAST_DES_TRANS,
+  intersection_density = ELAST_INT_DENS_TRANS,
   job_access = ELAST_JOBS_TRANS,
   distance = ELAST_DIST_TRANS,
   combined_density = ELAST_CDENS_TRANS
@@ -190,6 +197,7 @@ walk_5d <- tibble(
   employment_density = ELAST_DENS_ACT_EMP,
   diversity = ELAST_DIVER_ACT,
   design = ELAST_DES_ACT,
+  intersection_density = ELAST_INT_DENS_ACT,
   job_access = ELAST_JOBS_ACT,
   distance = ELAST_DIST_ACT,
   combined_density = ELAST_CDENS_ACT
@@ -202,6 +210,7 @@ drive_5d <- tibble(
   employment_density = ELAST_DENS_DR_EMP,
   diversity = ELAST_DIVER_DR,
   design = ELAST_DES_DR,
+  intersection_density = ELAST_INT_DENS_DR,
   job_access = ELAST_JOBS_DR,
   distance = ELAST_DIST_DR,
   combined_density = ELAST_CDENS_DR

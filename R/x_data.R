@@ -66,13 +66,14 @@
 #' @title 5D elasticities
 #'
 #' @description Values are specific to forecast year
-#' @format A tibble with 27 columns and 9 observations.
+#' @format A tibble with 27 columns and 10 observations.
 #' - **year**: Forecast year.
 #' - **type**: Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT"`.
 #' - **population_density**: Elasticity for population density effect on VMT.
 #' - **employment_density**: Elasticity for employment population density effect on VMT.
 #' - **diversity**: Elasticity for land use diversity effect on VMT.
-#' - **design**: Elasticity for intersection design effect on VMT.
+#' - **design**: Elasticity for intersection design (% 4-way stops) effect on VMT.
+#' - **intersection_density**: Elasticity for intersection density (intersections per square mile) effect on VMT.
 #' - **job_access**: Elasticity for job accessibility via transit effect on VMT.
 #' - **distance**: Elasticity for minimum distance to transit stops effect on VMT.
 #' - **combined_density**: Combined effect of all land use elasticities.

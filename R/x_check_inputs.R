@@ -16,7 +16,8 @@ check_inputs <- function(name, value) {
     "bev_pct_sales", "hev_pct_sales", "bev_pct_stock", "hev_pct_stock",
     "transit_service_pct", "emp_dens_pct_change", "pop_dens_pct_change",
     "job_access_pct_change", "land_use_pct_change", "transit_dist_pct_change",
-    "comb_5d_impact_pct_change", "telework_pct"
+    "comb_5d_impact_pct_change", "telework_pct", "intersection_design_pct_change", "intersection_density_pct_change",
+    "land_use_diversity_pct_change"
   )
 
   pct_0_to_1 <- c(
