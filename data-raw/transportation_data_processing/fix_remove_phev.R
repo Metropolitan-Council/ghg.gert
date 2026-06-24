@@ -14,7 +14,7 @@ pldv_stocks_new <- transportation_data$passenger %>%
     TRUE ~ var
   )) %>%
   group_by(mode, var, geog_name, geog_id, year, aeo_mode, type) %>%
-  summarize(value = sum(value))
+  summarize(value = sum(value), .groups = "keep")
 
 
 pldv_stocks_exist <- transportation_data$passenger %>%

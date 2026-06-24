@@ -7,13 +7,14 @@ ctu_vmt_forecast <- coctu_vmt_forecast %>%
   group_by(gnis, inventory_year) %>%
   summarize(
     final_city_vmt = sum(final_city_vmt),
-    final_vmt_source = first(final_vmt_source)
+    final_vmt_source = first(final_vmt_source),
+    .groups = "keep"
   )
 
 
 ctu_vmt_source <- ctu_vmt_forecast %>%
   group_by(gnis, final_vmt_source) %>%
-  summarize(vmt_years = paste0(min(as.numeric(inventory_year)), "-", max(as.numeric(inventory_year)), collapse = ", ")) %>%
+  summarize(vmt_years = paste0(min(as.numeric(inventory_year)), "-", max(as.numeric(inventory_year)), collapse = ", "), .groups = "keep") %>%
   ungroup() %>%
   arrange(gnis, final_vmt_source)
 

@@ -37,7 +37,8 @@ tbi_parking_cost <- trip %>%
   summarize(
     vehicle_park_cost = srvyr::survey_mean(vehicle_park_cost, na.rm = T),
     n_trips = srvyr::survey_total(),
-    n_trips_sample = n()
+    n_trips_sample = n(),
+    .groups = "keep"
   ) %>%
   ungroup() %>%
   filter(n_trips_sample >= 10) %>%

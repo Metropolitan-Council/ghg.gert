@@ -22,7 +22,10 @@ bus_stock_old <- transportation_data$passenger %>%
     var != "TotStock"
   ) %>%
   group_by(year, var) %>%
-  summarize(n_bus = sum(value))
+  summarize(
+    n_bus = sum(value),
+    .groups = "keep"
+  )
 
 
 n_bus_per_year <- 2 # avg two new buses each year
