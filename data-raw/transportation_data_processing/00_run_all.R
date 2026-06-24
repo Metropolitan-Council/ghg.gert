@@ -4,9 +4,8 @@ options(readr.show_col_types = FALSE)
 
 # EPA Smart Location Database (intersection density) ----
 # Added 2026-06-23: Automated EPA SLD data retrieval and CTU aggregation
-source("data-raw/transportation_data_processing/epa_sld_download.R")
-source("data-raw/transportation_data_processing/epa_sld_to_ctu.R")
-source("data-raw/transportation_data_processing/intersection_density.R")
+source("data-raw/transportation_data_processing/epa_sld.R")
+source("data-raw/transportation_data_processing/epa_sld_intersection_density.R")
 
 
 # source("data-raw/transportation_data_processing/fix_bus_fleet.R")
@@ -22,6 +21,7 @@ source("data-raw/transportation_data_processing/intersection_density.R")
 
 source("data-raw/enviro_factors.R")
 source("data-raw/transportation_data_processing/factor_values.R")
+source("data-raw/transportation_data_processing/elasticity.R")
 # # source("data-raw/fix_names.R")
 
 # transportation_data$passenger <- transportation_data$passenger %>%
