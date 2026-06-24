@@ -88,15 +88,14 @@ elast <- tibble(
 
 # Driving VMT elasticity to 5Ds -----
 #
-YRS <- c("2015", "2018", "2020", "2025", "2030", "2035", "2040")
+YRS <- c("2015", "2018", "2020", "2025", "2030", "2035", "2040", "2045", "2050")
 # Last forecast year
-FIN_YR <- "2040"
+FIN_YR <- "2050"
 # Year that dynamic ridesharing is introduced to the market (if included in scenario)
 DRS_YR <- "2025"
 # Forecast years
-FOR_YRS <- c("2025", "2030", "2035", "2040")
+FOR_YRS <- c("2025", "2030", "2035", "2040", "2045", "2050")
 # Years to adjust sales totals
-ADJ_YRS <- c("2020", "2025", "2030", "2035")
 INIT_YRS <- setdiff(YRS, FOR_YRS)
 DAYS <- 340
 # alls function that interpolates changes through forecast years for elasticity.
@@ -116,6 +115,7 @@ ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), leng
 # population density has a lesser effect than job density
 # based on peer review session with Metro Transit SI folks
 # https://github.com/Metropolitan-Council/ghg.sp/issues/19
+
 ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
 ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
@@ -211,18 +211,7 @@ elast_5d <- bind_rows(
   drive_5d,
   walk_5d,
   transit_5d
-) %>%
-  bind_rows(
-    tibble::tribble(
-      ~year, ~type, ~population_density, ~employment_density, ~diversity, ~design, ~job_access, ~distance, ~combined_density,
-      "2045", "DRIVE", -0.04, -0.07, -0.09, -0.12, -0.2, -0.05, -0.22,
-      "2045", "WALK", 0.07, 0.04, 0.15, -0.06, -0.06, 0.15, 0.33,
-      "2045", "TRANSIT", 0.07, 0.01, 0.12, 0.29, 0.128, 0.29, 0.62,
-      "2050", "DRIVE", -0.04, -0.07, -0.09, -0.12, -0.2, -0.05, -0.22,
-      "2050", "WALK", 0.07, 0.04, 0.15, -0.06, -0.06, 0.15, 0.33,
-      "2050", "TRANSIT", 0.07, 0.01, 0.12, 0.29, 0.128, 0.29, 0.62
-    )
-  )
+)
 
 
 # save all -----
