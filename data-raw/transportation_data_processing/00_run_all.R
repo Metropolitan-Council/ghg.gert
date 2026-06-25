@@ -22,6 +22,7 @@ source("data-raw/transportation_data_processing/epa_sld_intersection_density.R")
 source("data-raw/enviro_factors.R")
 source("data-raw/transportation_data_processing/factor_values.R")
 source("data-raw/transportation_data_processing/elasticity.R")
+source("data-raw/enviro_factors.R")
 # # source("data-raw/fix_names.R")
 
 # transportation_data$passenger <- transportation_data$passenger %>%
