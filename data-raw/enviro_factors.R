@@ -31,7 +31,7 @@ enviro_factors <- list(
   VMT_AV = 1.20,
   EVCS_VMT = 0.045, # Need to account for additional VMT due to charging for PHEV and BEV DRS
   MPG_AV = 0.85, # 15% reduction in consumption of fuel with AV based on Forecasting the Impact of Connected and Automated Vehicles on Energy
-  MAX_5D_DR = -0.25,
+  MAX_5D_DR = -0.30, # maximum for drive comes from CAPCOA handbook capcoaGHGHandbook2024
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
   MARG_TELEWORK = -2.749 / 100, # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)

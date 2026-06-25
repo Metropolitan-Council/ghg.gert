@@ -156,7 +156,8 @@ ELAST_CDENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.620, length(INIT_YRS), leng
 
 
 # Max 5D by mode
-MAX_5D_DR <- -0.25
+# maximum for drive comes from CAPCOA handbook capcoaGHGHandbook2024
+MAX_5D_DR <- -0.30
 MAX_5D_ACT <- 0.37
 MAX_5D_TRANS <- 0.71
 
