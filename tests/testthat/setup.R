@@ -43,6 +43,7 @@ geography_test_list_core <- c(
   "Shakopee",
   # Smaller CTUs
   "Lake Elmo",
+  "Andover",
   "Landfall",
   "Saint Bonifacius",
   "Bethel",
@@ -55,6 +56,7 @@ geography_test_list_core <- c(
 geography_test_list_full <- c(
   # CTUs (alphabetical)
   "Arden Hills",
+  "Andover",
   "Anoka",
   "Apple Valley",
   "Bethel",
