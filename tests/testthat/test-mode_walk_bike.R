@@ -124,26 +124,6 @@ test_walk_bike <- function(x) {
 }
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Saint Paul",
-    "Lake Elmo",
-    "Fridley",
-    "Minnetonka",
-    "South Saint Paul",
-    "Minneapolis",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "White Bear Twp.",
-    "Hennepin County",
-    "Dakota County",
-    "Anoka County",
-    "Carver County",
-    "Ramsey County",
-    "Washington County",
-    "Scott County"
-  ),
+  geography_test_list,
   test_walk_bike
 )

@@ -131,23 +131,6 @@ test_road_policy <- function(x) {
 }
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Saint Paul",
-    "Lake Elmo",
-    "Minneapolis",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "White Bear Twp.",
-    "Hennepin County",
-    "Ramsey County",
-    "Washington County",
-    "Dakota County",
-    "Anoka County",
-    "Carver County",
-    "Scott County"
-  ),
+  geography_test_list,
   test_road_policy
 )

@@ -116,18 +116,7 @@ test_fleet_shares <- function(x) {
 
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "Orono",
-    "Hanover",
-    "Birchwood Village",
-    "New Trier",
-    "Centerville"
-  ),
+  geography_test_list,
   test_fleet_shares
 )
 
@@ -267,18 +256,7 @@ test_fleet_shares_pricing <- function(x) {
 
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "Orono",
-    "Hanover",
-    "Birchwood Village",
-    "New Trier",
-    "Centerville"
-  ),
+  geography_test_list,
   test_fleet_shares_pricing
 )
 
@@ -452,17 +430,6 @@ test_fleet_shares_pricing_bev <- function(x) {
 }
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "Orono",
-    "Hanover",
-    "Birchwood Village",
-    "New Trier",
-    "Centerville"
-  ),
+  geography_test_list,
   test_fleet_shares_pricing_bev
 )

@@ -103,20 +103,6 @@ test_stock_proportion <- function(ctu) {
 }
 
 purrr::map(
-  list(
-    "Saint Paul",
-    "Minneapolis",
-    "Bloomington",
-    "Lake Elmo",
-    "Burnsville",
-    "Apple Valley",
-    "Edina",
-    # Smaller CTUs don't have good rail estimates
-    # "Centerville",
-    # "Hanover",
-    # "Birchwood Village",
-    # "New Trier",
-    "Twin Cities Region"
-  ),
+  geography_test_list,
   test_stock_proportion
 )

@@ -213,12 +213,6 @@ test_rail <- function(x) {
 }
 
 purrr::map(
-  c(
-    "Bloomington",
-    "Saint Paul",
-    "Minneapolis",
-    "Hennepin County",
-    "Dakota County"
-  ),
+  geography_test_list,
   test_rail
 )
