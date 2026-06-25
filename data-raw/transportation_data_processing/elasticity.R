@@ -128,10 +128,10 @@ ELAST_DIVER_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length
 # Design (RANGE)
 ELAST_DES_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
 # Intersection Density (RANGE)
-ELAST_INT_DENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.39, length(INIT_YRS), length(FOR_YRS))
+ELAST_INT_DENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.390, length(INIT_YRS), length(FOR_YRS))
 # Job Access (RANGE)
-ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
-# Distance (RANGE)
+ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
+# Distance to transit (RANGE)
 ELAST_DIST_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.330, length(INIT_YRS), length(FOR_YRS))
