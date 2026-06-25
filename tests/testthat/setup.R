@@ -40,10 +40,12 @@ geography_test_list_core <- c(
   # Large suburbs
   "Bloomington",
   "Burnsville",
-  # Small CTUs
+  "Shakopee",
+  # Smaller CTUs
   "Lake Elmo",
   "Landfall",
   "Saint Bonifacius",
+  "Bethel",
   # Counties
   "Hennepin County",
   "Ramsey County"
