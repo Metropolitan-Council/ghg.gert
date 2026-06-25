@@ -635,15 +635,16 @@ test_vmt_land_use_passenger <- function(x) {
       summarise(dir_ghg = sum(dir_ghg)) %>%
       pull(dir_ghg)
 
-    # Calculate actual percentage reduction
-    vmt_pct_reduction_10 <- (pass_bau_vmt - pass_lu_10pct_vmt) / pass_bau_vmt
-    ghg_pct_reduction_10 <- (pass_bau_ghg - pass_lu_10pct_ghg) / pass_bau_ghg
+    # Calculate actual percentage reduction (negative = reduction)
+    vmt_pct_reduction_10 <- (pass_lu_10pct_vmt - pass_bau_vmt) / pass_bau_vmt
+    ghg_pct_reduction_10 <- (pass_lu_10pct_ghg - pass_bau_ghg) / pass_bau_ghg
 
-    # With 10% increases, expect 2-5% VMT/emissions reduction
-    testthat::expect_gt(vmt_pct_reduction_10, 0.01)
-    testthat::expect_lt(vmt_pct_reduction_10, 0.06)
-    testthat::expect_gt(ghg_pct_reduction_10, 0.01)
-    testthat::expect_lt(ghg_pct_reduction_10, 0.06)
+    # With 10% increases, expect -2% to -5% VMT/emissions reduction (negative values)
+    testthat::expect_lt(vmt_pct_reduction_10, -0.01)
+    testthat::expect_gt(vmt_pct_reduction_10, -0.06)
+
+    testthat::expect_lt(ghg_pct_reduction_10, -0.01)
+    testthat::expect_gt(ghg_pct_reduction_10, -0.06)
 
     # 15% density increases
     pass_lu_15pct <- suppressMessages(
@@ -662,16 +663,16 @@ test_vmt_land_use_passenger <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    vmt_pct_reduction_15 <- (pass_bau_vmt - pass_lu_15pct_vmt) / pass_bau_vmt
+    vmt_pct_reduction_15 <- (pass_lu_15pct_vmt - pass_bau_vmt) / pass_bau_vmt
 
-    # Higher inputs should produce greater reductions
-    testthat::expect_gt(vmt_pct_reduction_15, vmt_pct_reduction_10)
-    testthat::expect_gt(vmt_pct_reduction_15, 0.03)
-    testthat::expect_lt(vmt_pct_reduction_15, 0.08)
+    # Higher inputs should produce greater reductions (more negative)
+    testthat::expect_lt(vmt_pct_reduction_15, vmt_pct_reduction_10)
+    testthat::expect_lt(vmt_pct_reduction_15, -0.03)
+    testthat::expect_gt(vmt_pct_reduction_15, -0.08)
 
-    # Check that VMT reduction doesn't exceed MAX_5D_DR
-    testthat::expect_lte(vmt_pct_reduction_10, abs(enviro_factors$MAX_5D_DR))
-    testthat::expect_lte(vmt_pct_reduction_15, abs(enviro_factors$MAX_5D_DR))
+    # Check that VMT reduction doesn't exceed MAX_5D_DR (don't go below 0.3 reduction)
+    testthat::expect_gte(vmt_pct_reduction_10, enviro_factors$MAX_5D_DR)
+    testthat::expect_gte(vmt_pct_reduction_15, enviro_factors$MAX_5D_DR)
   })
 }
 
@@ -819,7 +820,7 @@ test_vmt_individual_parameters <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    pop_vmt_reduction <- (pass_bau_vmt - pass_pop_vmt) / pass_bau_vmt
+    pop_vmt_reduction <- (pass_pop_vmt - pass_bau_vmt) / pass_bau_vmt
 
     # Employment density only
     pass_emp <- suppressMessages(
@@ -836,7 +837,7 @@ test_vmt_individual_parameters <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    emp_vmt_reduction <- (pass_bau_vmt - pass_emp_vmt) / pass_bau_vmt
+    emp_vmt_reduction <- (pass_emp_vmt - pass_bau_vmt) / pass_bau_vmt
 
     # Intersection density only
     pass_int <- suppressMessages(
@@ -853,27 +854,30 @@ test_vmt_individual_parameters <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    int_vmt_reduction <- (pass_bau_vmt - pass_int_vmt) / pass_bau_vmt
+    int_vmt_reduction <- (pass_int_vmt - pass_bau_vmt) / pass_bau_vmt
 
-    # Each parameter should have measurable impact
-    testthat::expect_gt(pop_vmt_reduction, 0)
-    testthat::expect_gt(emp_vmt_reduction, 0)
-    testthat::expect_gt(int_vmt_reduction, 0)
+    # Each parameter should have measurable impact (negative = VMT reduction)
+    testthat::expect_lt(pop_vmt_reduction, 0)
+    testthat::expect_lt(emp_vmt_reduction, 0)
+    testthat::expect_lt(int_vmt_reduction, 0)
 
-    # With 20% individual changes, expect 0.5-5% reduction each
-    testthat::expect_lt(pop_vmt_reduction, 0.06)
-    testthat::expect_lt(emp_vmt_reduction, 0.06)
-    testthat::expect_lt(int_vmt_reduction, 0.03)
-    # Check that reductions don't exceed MAX_5D_DR
-    testthat::expect_lte(pop_vmt_reduction, abs(enviro_factors$MAX_5D_DR))
-    testthat::expect_lte(emp_vmt_reduction, abs(enviro_factors$MAX_5D_DR))
-    testthat::expect_lte(int_vmt_reduction, abs(enviro_factors$MAX_5D_DR))
+    # With 20% individual changes, expect -0.5% to -5% reduction each (negative values)
+    testthat::expect_gt(pop_vmt_reduction, -0.06)
+    testthat::expect_lt(pop_vmt_reduction, 0)
+    testthat::expect_gt(emp_vmt_reduction, -0.06)
+    testthat::expect_lt(emp_vmt_reduction, 0)
+    testthat::expect_gt(int_vmt_reduction, -0.03)
+    testthat::expect_lt(int_vmt_reduction, 0)
+    # Check that reductions don't exceed MAX_5D_DR (as negative values)
+    testthat::expect_gte(pop_vmt_reduction, enviro_factors$MAX_5D_DR)
+    testthat::expect_gte(emp_vmt_reduction, enviro_factors$MAX_5D_DR)
+    testthat::expect_gte(int_vmt_reduction, enviro_factors$MAX_5D_DR)
   })
 }
 
 
 test_vmt_combined_parameters <- function(x) {
-  testthat::test_that(paste0(x, " combined land use parameters produce greater impacts"), {
+  testthat::test_that(paste0(x, " combined land use parameters produce stronger impacts"), {
     # Baseline
     pass_bau <- suppressMessages(
       mode_passenger_light_duty(
@@ -902,7 +906,7 @@ test_vmt_combined_parameters <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    single_reduction <- (pass_bau_vmt - pass_single_vmt) / pass_bau_vmt
+    single_reduction <- (pass_single_vmt - pass_bau_vmt) / pass_bau_vmt
 
     # Multiple parameters (50% each for pop and emp, 10% for intersection)
     pass_multi <- suppressMessages(
@@ -921,15 +925,15 @@ test_vmt_combined_parameters <- function(x) {
       summarise(vmt = sum(vmt)) %>%
       pull(vmt)
 
-    multi_reduction <- (pass_bau_vmt - pass_multi_vmt) / pass_bau_vmt
+    multi_reduction <- (pass_multi_vmt - pass_bau_vmt) / pass_bau_vmt
 
-    # Combined parameters should produce greater reduction than single
-    testthat::expect_gt(multi_reduction, single_reduction)
-    testthat::expect_gt(multi_reduction, 0.02)
+    # Combined parameters should produce greater reduction than single (more negative)
+    testthat::expect_lt(multi_reduction, single_reduction)
+    testthat::expect_lt(multi_reduction, -0.02)
 
-    # Check that combined reduction doesn't exceed MAX_5D_DR
-    testthat::expect_lte(single_reduction, abs(enviro_factors$MAX_5D_DR))
-    testthat::expect_lte(multi_reduction, abs(enviro_factors$MAX_5D_DR))
+    # Check that combined reduction doesn't exceed MAX_5D_DR (don't go below -0.25)
+    testthat::expect_gte(single_reduction, enviro_factors$MAX_5D_DR)
+    testthat::expect_gte(multi_reduction, enviro_factors$MAX_5D_DR)
   })
 }
 
