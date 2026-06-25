@@ -97,6 +97,7 @@ vmt_land_use_change <- function(.type,
   .elast_5d %>%
     dplyr::filter(type == .type) %>%
     dplyr::mutate(
+      # multiply parameter input by elasticity value
       n_population_density = 1 + .pop_dens_pct_change * population_density,
       n_employment_density = 1 + .emp_dens_pct_change * employment_density,
       n_diversity = 1 + .land_use_diversity_pct_change * diversity,
@@ -105,13 +106,16 @@ vmt_land_use_change <- function(.type,
       n_job_access = 1 + .job_access_pct_change * job_access,
       n_distance = 1 + .transit_dist_pct_change * distance,
       n_combined_density = 1 + .pop_dens_pct_change * combined_density,
+      # multiply all 5D effects together to get a single land use adjustment factor
       product_all = n_population_density * n_employment_density * n_diversity *
         n_design * n_intersection_density * n_job_access * n_distance * n_combined_density,
+      # check that the product of all 5D effects does not exceed the maximum value for each mode
       land_use_adj = dplyr::case_when(
         .type == "DRIVE" & product_all < max_value ~ max_value,
         .type != "DRIVE" & product_all > max_value ~ max_value,
         TRUE ~ product_all
       ),
+      # if the land use adjustment factor is 0, set it to 1 to avoid multiplying by 0
       land_use_adj = dplyr::if_else(land_use_adj == 0, 1, land_use_adj)
     ) %>%
     dplyr::select(year, land_use_adj) %>%
@@ -160,8 +164,8 @@ vmt_land_use_change <- function(.type,
 #' @importFrom dplyr cross_join
 vmt_parking_policy <- function(tb,
                                .mode,
-                               .parking_cost = parking_cost,
-                               .elast = elast,
+                               .parking_cost = ghg.ccap::parking_cost,
+                               .elast = ghg.ccap::elast,
                                .parking_price = ghg.ccap::transportation_defaults$parking_price,
                                .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
                                .enviro_factors = ghg.ccap::enviro_factors) {
@@ -257,12 +261,12 @@ vmt_road_policy <- function(.pass_tb,
                             .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
+                            .stock,
                             .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
                             .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
                             .cong_price = ghg.ccap::transportation_defaults$cong_price,
                             .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
                             .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-                            .stock,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .elast = ghg.ccap::elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
@@ -545,7 +549,7 @@ vmt_stock_proportion <- function(.tb,
 vmt_transit_service <- function(tb,
                                 .mode,
                                 .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-                                .elast = elast,
+                                .elast = ghg.ccap::elast,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   years <- unique(tb$year)
   n_years <- length(years)
@@ -650,7 +654,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .stock,
                                   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
                                   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-                                  .vehicle_occupancy = vehicle_occupancy,
+                                  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
   calc_avo_elast <- function(pct) {
     tibble::tibble(

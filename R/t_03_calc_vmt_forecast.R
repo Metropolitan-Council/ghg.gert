@@ -21,7 +21,7 @@
 #' @inheritParams vmt_telework
 #' @inheritParams filter_ctu
 #'
-### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
+#' ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `geog_name`, `year`, `aeo_mode`, `type`, `vmt`,
 #'     with `vmt` in _thousands_ of miles.
@@ -35,13 +35,13 @@
 calc_vmt_forecast <- function(.scenario,
                               tb,
                               .selected_ctu = "all",
-                              .parking_cost = parking_cost,
-                              .vehicle_occupancy = vehicle_occupancy,
                               .mode,
                               .stock,
                               .variable,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
+                              .parking_cost = ghg.ccap::parking_cost,
+                              .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                               .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
                               .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
                               .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
