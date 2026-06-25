@@ -8,13 +8,13 @@ calc_vmt_forecast(
   .scenario,
   tb,
   .selected_ctu = "all",
-  .parking_cost = parking_cost,
-  .vehicle_occupancy = vehicle_occupancy,
   .mode,
   .stock,
   .variable,
   .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
+  .parking_cost = ghg.ccap::parking_cost,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
   .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
@@ -54,13 +54,6 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
-
-\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
-Default is \code{ghg.ccap::vehicle_occupancy}.}
-
 \item{.mode}{character, current mode}
 
 \item{.stock}{character, stock for current mode}
@@ -71,6 +64,11 @@ Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
+Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
 Default is 0.}

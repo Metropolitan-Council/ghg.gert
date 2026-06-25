@@ -18,7 +18,7 @@ epa_sld_intersection_density
 }
 \description{
 Compiled from the EPA Smart Location Database (SLD) 2021 edition, this dataset provides intersection density metrics aggregated from
-2018 block groups to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.
+2019 block groups (GEOID20) to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.
 EPA cites 2018 HERE Maps and NAVSTREETS as data sources and uses acres of land as the denominator for intersection density calculations.
 Zotero key chapmanSmartLocationDatabase2021
 }

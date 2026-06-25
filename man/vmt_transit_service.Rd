@@ -8,7 +8,7 @@ vmt_transit_service(
   tb,
   .mode,
   .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-  .elast = elast,
+  .elast = ghg.ccap::elast,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
