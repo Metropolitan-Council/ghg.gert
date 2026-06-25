@@ -72,7 +72,6 @@ test_rail <- function(x) {
       ignore.order = TRUE
     )
 
-
     pass_bau <- pass$dir_ghg %>%
       filter(
         year == max(year),
@@ -142,7 +141,7 @@ test_rail <- function(x) {
       .vmt_reduction_pct = 0.10
     )))
 
-    # no change in emissions or vmt for rail mode
+    # check that rail-specific VMT and emissions don't change with vmt_reduction
     purrr::map(
       list(
         pass_vmt_reduction
@@ -171,19 +170,16 @@ test_rail <- function(x) {
       }
     )
 
-    # browser()
-
+    # check that rail VMT and emissions change consistently with interventions
+    # (if VMT increases, emissions increase; if VMT decreases, emissions decrease)
     purrr::map(
       list(
         pass_transit,
         pass_lu,
         pass_road,
-        pass_tele,
-        pass_vmt_reduction
+        pass_tele
       ),
       function(x) {
-        # browser()
-
         test_vmt <- x$vmt %>%
           filter(
             year == max(year),
@@ -201,7 +197,7 @@ test_rail <- function(x) {
           summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
         # if VMT increases, then emissions increase
-        # otherwise emissions decrease
+        # otherwise emissions decrease or stay constant
         if (test_vmt$vmt > pass_bau_vmt$vmt) {
           testthat::expect_gte(test_ghg$dir_ghg, pass_bau$dir_ghg)
         } else {

@@ -19,18 +19,15 @@ test_transit_bus <- function(x) {
       ignore.order = TRUE
     )
 
-
     pass_bau <- pass$dir_ghg %>%
       filter(year == max(year)) %>%
       group_by(geog_name, geog_id, year) %>%
-      summarise(dir_ghg = sum(dir_ghg), .groups = "keep") %>%
-      left_join(
-        pass$vmt %>%
-          filter(year == max(year)) %>%
-          group_by(geog_name, geog_id, year) %>%
-          summarise(vmt = sum(vmt), .groups = "keep"),
-        by = c("geog_name", "geog_id", "year")
-      )
+      summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+    pass_bau_vmt <- pass$vmt %>%
+      filter(year == max(year)) %>%
+      group_by(geog_name, geog_id, year) %>%
+      summarise(vmt = sum(vmt), .groups = "keep")
 
     bus_bau <- pass$dir_ghg %>%
       filter(
@@ -38,14 +35,12 @@ test_transit_bus <- function(x) {
         mode == "BU"
       ) %>%
       group_by(geog_name, geog_id, year) %>%
-      summarise(dir_ghg = sum(dir_ghg), .groups = "keep") %>%
-      left_join(
-        pass$vmt %>%
-          filter(year == max(year), mode == "BU") %>%
-          group_by(geog_name, geog_id, year) %>%
-          summarise(vmt = sum(vmt), .groups = "keep"),
-        by = c("geog_name", "geog_id", "year")
-      )
+      summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+    bus_bau_vmt <- pass$vmt %>%
+      filter(year == max(year), mode == "BU") %>%
+      group_by(geog_name, geog_id, year) %>%
+      summarise(vmt = sum(vmt), .groups = "keep")
 
 
     pass_transit <- suppressMessages(
@@ -100,42 +95,10 @@ test_transit_bus <- function(x) {
       .vmt_reduction_pct = 0.10
     )))
 
-    # no change in emissions or vmt
-    purrr::map(
-      list(
-        pass_vmt_reduction
-      ),
-      function(x) {
-        test_ghg <- x$vmt %>%
-          filter(
-            year == max(year),
-            mode == "BU"
-          ) %>%
-          group_by(geog_name, geog_id, year) %>%
-          summarise(vmt = sum(vmt), .groups = "keep")
-
-        testthat::expect_equal(test_ghg$vmt, bus_bau$vmt)
-
-
-        test_ghg <- x$dir_ghg %>%
-          filter(
-            year == max(year),
-            mode == "BU"
-          ) %>%
-          group_by(geog_name, geog_id, year) %>%
-          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-        testthat::expect_equal(test_ghg$dir_ghg, bus_bau$dir_ghg)
-      }
-    )
-
-    # emissions should decrease only in specific instances
+    # check that overall emissions decrease with transit scenario
     purrr::map(
       list(
         pass_transit
-        # pass_lu,
-        # pass_road,
-        # pass_tele
       ),
       function(x) {
         test_ghg <- x$dir_ghg %>%
@@ -147,22 +110,49 @@ test_transit_bus <- function(x) {
       }
     )
 
-
-    # vmt should increase
+    # check that overall VMT increases with land_use, road, and tele scenarios
     purrr::map(
       list(
-        # pass_transit,
         pass_lu,
         pass_road,
         pass_tele
       ),
       function(x) {
-        test_ghg <- x$vmt %>%
+        test_vmt <- x$vmt %>%
           filter(year == max(year)) %>%
           group_by(geog_name, geog_id, year) %>%
           summarise(vmt = sum(vmt), .groups = "keep")
 
-        testthat::expect_gt(test_ghg$vmt, pass_bau$vmt)
+        testthat::expect_gt(test_vmt$vmt, pass_bau_vmt$vmt)
+      }
+    )
+
+    # check that bus-specific VMT and emissions don't change with vmt_reduction
+    purrr::map(
+      list(
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_vmt <- x$vmt %>%
+          filter(
+            year == max(year),
+            mode == "BU"
+          ) %>%
+          group_by(geog_name, geog_id, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep")
+
+        testthat::expect_equal(test_vmt$vmt, bus_bau_vmt$vmt)
+
+
+        test_ghg <- x$dir_ghg %>%
+          filter(
+            year == max(year),
+            mode == "BU"
+          ) %>%
+          group_by(geog_name, geog_id, year) %>%
+          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+        testthat::expect_equal(test_ghg$dir_ghg, bus_bau$dir_ghg)
       }
     )
   })
