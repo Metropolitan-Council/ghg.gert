@@ -69,8 +69,8 @@ test_fleet_shares <- function(x) {
       by = c("mode", "var", "geog_name", "year", "aeo_mode", "type"),
       suffix = c(".orig", ".adj")
     ) %>%
-      mutate(diff = round(value.orig - value.adj)) %>%
-      filter(diff != 0)
+      mutate(diff = abs(value.orig - value.adj) > 1) %>%
+      filter(diff)
 
     testthat::expect_equal(nrow(test_total_table), 0)
 

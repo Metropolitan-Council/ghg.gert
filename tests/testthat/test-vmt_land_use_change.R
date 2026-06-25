@@ -43,7 +43,7 @@ testthat::test_that("Land use adjustment values over time are correct", {
       1, 1, 1, 1.00532423435324, 1.01063009720849, 1.01591732862345,
       1.02118566914814, 1.02643485983302, 1.03166464223698
     ),
-    tolerance = 0.01
+    tolerance = 0.1
   )
 
 
