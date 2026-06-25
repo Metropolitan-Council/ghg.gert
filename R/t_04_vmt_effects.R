@@ -95,6 +95,7 @@ vmt_land_use_change <- function(.type,
   )
 
   .elast_5d %>%
+    dplyr::ungroup() %>%
     dplyr::filter(type == .type) %>%
     dplyr::mutate(
       # multiply parameter input by elasticity value
