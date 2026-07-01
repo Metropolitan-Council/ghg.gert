@@ -427,3 +427,7 @@ data-raw/transportation_data_processing/processed_data/ctu_intersection_density_
 data-raw/transportation_data_processing/csv_copies/ctu_intersection_density_long.csv
 
 data-raw/transportation_data_processing/processed_data/
+agent/
+.agents/
+
+data/skills/
