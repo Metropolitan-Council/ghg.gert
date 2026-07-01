@@ -864,7 +864,7 @@ vmt_trip_reduction <- function(.pass_tb,
   max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
 
 
-  households_community <- demographic_data %>%
+  households_community <- ghg.ccap::demographic_data %>%
     filter_ctu(unique(.pass_tb$geog_name)) %>%
     dplyr::filter(
       sp_categories == "total_households",
