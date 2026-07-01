@@ -7,6 +7,7 @@
 #' - **CI_FUEL_COST_GAL**: Diesel fuel cost in dollars per gallon. EIA 2024 Annual estimate.
 #' - **ELEC_FUEL_COST_KWH**: Electric fuel cost in dollars per kWh. Regular residential rate, June through September. [Xcel Energy, 2024](https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf).
 #' - **F_FRACT**: Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee).
+#' - **MAX_PARKING_REDUCTION_PCT**: Maximum parking pricing policy impact: -30% reduction in VMT. Citation: CAPCOA Handbook.
 #' - **AUTO_COST_MI**: 2024 [AAA driving costs](https://exchange.aaa.com/automotive/aaas-your-driving-costs/) (assume mid-distance of 15,000 miles).
 #' - **TIME_COST_MI**: Cents per mile. Time cost per mile informed by [Transportation Cost and Benefit Analysis - Travel Time Costs](https://www.vtpi.org/tca/tca0502.pdf).
 #' - **F_TIME_COST_MI**: Cents per mile according to [TTI](https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf).

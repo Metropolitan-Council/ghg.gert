@@ -138,7 +138,7 @@ vmt_land_use_change <- function(.type,
 #' @export
 #' @details
 #'
-#' Increase parking prices will decrease PLDV by up to 45% and increase all transit
+#' Increase parking prices will decrease PLDV by up to 30% and increase all transit
 #' modes and walk.
 #'
 #' The long-run elasticity of VMT to parking cost is estimated to be in the range
@@ -187,10 +187,12 @@ vmt_parking_policy <- function(tb,
       park_price_current %>%
         dplyr::cross_join(.elast) %>%
         dplyr::mutate(
-          park_price_adj = dplyr::case_when(
-            1 + (.parking_price / PARK) * park_elast < 0.45 ~ 0.45,
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .parking_price == 0 ~ 1.0,
+            PARK == 0 & .parking_price > 0 ~ 1 + 1.0 * park_elast,
             TRUE ~ 1 + (.parking_price / PARK) * park_elast
-          )
+          ),
+          park_price_adj = pmax(1 + .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
         ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()
@@ -206,7 +208,15 @@ vmt_parking_policy <- function(tb,
         dplyr::distinct() %>%
         dplyr::select(geog_name, geog_id, PARK = value) %>%
         dplyr::cross_join(.elast) %>%
-        dplyr::mutate(park_price_adj = 1 + (.parking_price / PARK) * park_transit) %>%
+        dplyr::mutate(
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .parking_price == 0 ~ 1.0,
+            PARK == 0 & .parking_price > 0 ~ 1 + 1.0 * park_transit,
+            TRUE ~ 1 + (.parking_price / PARK) * park_transit
+          ),
+          # Apply ceiling for transit: cannot increase more than inverse of vehicle reduction
+          park_price_adj = pmin(1 - .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
+        ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()
     },
@@ -214,10 +224,12 @@ vmt_parking_policy <- function(tb,
       park_price_current %>%
         dplyr::cross_join(.elast) %>%
         dplyr::mutate(
-          park_price_adj = dplyr::case_when(
-            1 + (.freight_parking_price / PARK) * park_elast < 0.45 ~ 0.45,
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .freight_parking_price == 0 ~ 1.0,
+            PARK == 0 & .freight_parking_price > 0 ~ 1 + 1.0 * park_elast,
             TRUE ~ 1 + (.freight_parking_price / PARK) * park_elast
-          )
+          ),
+          park_price_adj = pmax(1 + .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
         ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()

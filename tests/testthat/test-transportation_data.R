@@ -315,7 +315,7 @@ testthat::test_that("minimum parking value correct", {
     filter(value == min(value)) %>%
     magrittr::extract2("value") %>%
     unique() %>%
-    testthat::expect_equal(0.01)
+    testthat::expect_equal(0.00)
 })
 
 

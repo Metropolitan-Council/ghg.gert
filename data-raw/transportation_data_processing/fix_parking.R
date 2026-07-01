@@ -64,8 +64,8 @@ parking_cost <-
   mutate(value = case_when(
     # use TBI if possible
     !is.na(vehicle_park_cost) ~ vehicle_park_cost,
-    # otherwise use $0.01
-    TRUE ~ 0.01
+    # otherwise use $0.00 (free parking)
+    TRUE ~ 0.00
   )) %>%
   select(names(transportation_data$passenger)) %>%
   bind_rows(
@@ -73,9 +73,9 @@ parking_cost <-
       filter(var == "PARK") %>%
       mutate(value = case_when(
         # use existing data and
-        # change 0.10 to 0.01
+        # change 0.10 to 0.00 (free parking)
         value == 1 ~ value,
-        value == 0.1 ~ 0.01,
+        value == 0.1 ~ 0.00,
         TRUE ~ value
       ))
   ) %>%
