@@ -41,7 +41,7 @@ a table with
 Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 }
 \details{
-Increase parking prices will decrease PLDV by up to 45\% and increase all transit
+Increase parking prices will decrease PLDV by up to 30\% and increase all transit
 modes and walk.
 
 The long-run elasticity of VMT to parking cost is estimated to be in the range

@@ -41,10 +41,10 @@ calc_vmt_forecast(
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .enviro_factors = enviro_factors,
-  .factor_values = factor_values,
-  .elast = elast,
-  .elast_5d = elast_5d
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values,
+  .elast = ghg.ccap::elast,
+  .elast_5d = ghg.ccap::elast_5d
 )
 }
 \arguments{
