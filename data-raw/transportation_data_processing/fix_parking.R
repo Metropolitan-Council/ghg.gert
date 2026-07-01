@@ -1,53 +1,53 @@
 # replace parking values with up to date TBI
 pkgload::load_all()
 library(stringr)
-source("data-raw/transportation_data_processing/_tbi_load.R")
+# source("data-raw/transportation_data_processing/_tbi_load.R")
 
-tbi_parking_cost <- trip %>%
-  filter(
-    hh_id %in% hh$hh_id,
-    mode_type %in% c(
-      "Household Vehicle",
-      "Other Vehicle",
-      "For-Hire Vehicle"
-    ),
-    # origin and destination in MPO area
-    trip_o_in_mpo == TRUE,
-    trip_d_in_mpo == TRUE,
-    # ensure observed trip duration,
-    # reasonable distance
-    # origin or destination in our counties
-    duration_minutes > 0,
-    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
-    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
-    park_type %in% c(
-      "Paid via cash, credit card, or ticket(s)",
-      "Parking reservation service (e.g., SpotHero, ParkMobile)",
-      "Used a parking pass (any type)"
-    ),
-    distance_miles < 720,
-    distance_miles > 0
-  ) %>%
-  filter(
-    linked_trip_weight > 0,
-    !is.na(vehicle_park_cost)
-  ) %>%
-  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
-  group_by(trip_d_city) %>%
-  summarize(
-    vehicle_park_cost = srvyr::survey_mean(vehicle_park_cost, na.rm = T),
-    n_trips = srvyr::survey_total(),
-    n_trips_sample = n(),
-    .groups = "keep"
-  ) %>%
-  ungroup() %>%
-  filter(n_trips_sample >= 10) %>%
-  arrange(-n_trips_sample) %>%
-  mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
-    str_replace("St. ", "Saint ") %>%
-    str_remove("(unorg.)") %>%
-    str_remove_all("[:punct:]") %>%
-    str_trim())
+# tbi_parking_cost <- trip %>%
+#   filter(
+#     hh_id %in% hh$hh_id,
+#     mode_type %in% c(
+#       "Household Vehicle",
+#       "Other Vehicle",
+#       "For-Hire Vehicle"
+#     ),
+#     # origin and destination in MPO area
+#     trip_o_in_mpo == TRUE,
+#     trip_d_in_mpo == TRUE,
+#     # ensure observed trip duration,
+#     # reasonable distance
+#     # origin or destination in our counties
+#     duration_minutes > 0,
+#     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+#     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+#     park_type %in% c(
+#       "Paid via cash, credit card, or ticket(s)",
+#       "Parking reservation service (e.g., SpotHero, ParkMobile)",
+#       "Used a parking pass (any type)"
+#     ),
+#     distance_miles < 720,
+#     distance_miles > 0
+#   ) %>%
+#   filter(
+#     linked_trip_weight > 0,
+#     !is.na(vehicle_park_cost)
+#   ) %>%
+#   srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+#   group_by(trip_d_city) %>%
+#   summarize(
+#     vehicle_park_cost = srvyr::survey_mean(vehicle_park_cost, na.rm = T),
+#     n_trips = srvyr::survey_total(),
+#     n_trips_sample = n(),
+#     .groups = "keep"
+#   ) %>%
+#   ungroup() %>%
+#   filter(n_trips_sample >= 10) %>%
+#   arrange(-n_trips_sample) %>%
+#   mutate(geog_name = stringr::str_remove(trip_d_city, "Twp.") %>%
+#     str_replace("St. ", "Saint ") %>%
+#     str_remove("(unorg.)") %>%
+#     str_remove_all("[:punct:]") %>%
+#     str_trim())
 
 
 parking_cost <-
@@ -56,14 +56,16 @@ parking_cost <-
     var == "PARK",
     mode == "PLDV"
   ) %>%
-  left_join(
-    tbi_parking_cost %>%
-      select(geog_name, vehicle_park_cost),
-    by = join_by(geog_name)
-  ) %>%
+  # left_join(
+  #   tbi_parking_cost %>%
+  #     select(geog_name, vehicle_park_cost),
+  #   by = join_by(geog_name)
+  # ) %>%
   mutate(value = case_when(
     # use TBI if possible
-    !is.na(vehicle_park_cost) ~ vehicle_park_cost,
+    geog_name == "Minneapolis" ~ 1, # https://www.minneapolismn.gov/getting-around/parking-driving/street-parking-meters/parking-meters/parking-meter-map/
+    geog_name == "Saint Paul" ~ 1, # https://www.stpaul.gov/parking-saint-paul/hourly-event-parking-meter-rates
+    # !is.na(vehicle_park_cost) ~ vehicle_park_cost,
     # otherwise use $0.00 (free parking)
     TRUE ~ 0.00
   )) %>%
