@@ -30,7 +30,7 @@
 #'
 #'
 #' @importFrom dplyr filter select case_when
-#' @importFrom tidyselect all_of
+#' @importFrom tidyselect any_of
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
@@ -139,7 +139,7 @@ calc_vmt_forecast <- function(.scenario,
   # Final select cols are identical in every branch
   final_cols <- c(
     "type", "stock", "scenario", "geog_name", "geog_id",
-    "year", "mode", "aeo_mode", "vmt"
+    "year", "mode", "aeo_mode", "vmt", "households_cbtp"
   )
 
   tb_fin <- switch(.mode,
@@ -189,7 +189,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt = pass_ld_vmt
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::select(dplyr::any_of(final_cols)) %>%
         dplyr::distinct()
     },
     BU = ,
@@ -221,7 +221,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt = transit_vmt
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     SUT = {
       tb_vmt %>%
@@ -235,7 +235,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     CUT = {
       tb_vmt %>%
@@ -248,7 +248,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj) / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     WALK = {
       tb_vmt %>%
@@ -256,14 +256,14 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
         dplyr::distinct() %>%
         dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj * park_price_adj) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     BIKE = {
       tb_vmt %>%
         dplyr::left_join(make_land_use("WALK"), by = "year") %>%
         dplyr::distinct() %>%
         dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     BS = {
       tb_vmt %>%
@@ -275,7 +275,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     FR = {
       tb_vmt %>%
@@ -287,7 +287,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     MM = ,
     AIR = ,
@@ -306,7 +306,7 @@ calc_vmt_forecast <- function(.scenario,
             TRUE ~ vmt
           )
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::select(dplyr::any_of(final_cols)) %>%
         dplyr::distinct()
     }
   )
