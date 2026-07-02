@@ -7,7 +7,7 @@
 #'   This function wraps the complexity of land cover conversion into intuitive inputs:
 #'   - Wetlands: toggle + ambition slider (GIS-validated)
 #'   - Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
-#'   - Community trees: percent of developed area (urban canopy)
+#'   - Community trees: number of trees to plant (DNR-calibrated density conversion)
 #'   - Pocket prairies: percent of urban grassland (urban habitat)
 #'
 #' @param tb_inv Inventory data (list with $ctu, $county, $region)
@@ -22,7 +22,8 @@
 #' @param .restoration_start Start year for restoration (default 2025)
 #' @param .restoration_end End year for restoration (default 2050)
 #'
-#' @param .community_tree_pct Percent of developed area for community trees (0-100, default 0)
+#' @param .community_tree_count Number of trees to plant (default 0). Capped at
+#'   max_plantable_trees from community_tree_baseline lookup.
 #' @param .community_tree_start Start year for community tree planting (default 2025)
 #' @param .community_tree_end End year for community tree planting (default 2050)
 #'
@@ -76,7 +77,7 @@ run_scenario_natural_systems <- function(
   .restoration_start = 2028,
   .restoration_end = 2050,
   # Community tree planting (urban - separate from restoration)
-  .community_tree_pct = 0,
+  .community_tree_count = 0,
   .community_tree_start = 2028,
   .community_tree_end = 2050,
   # Pocket prairies - urban grassland upgrade (separate from restoration)
@@ -126,12 +127,12 @@ run_scenario_natural_systems <- function(
   # ===========================================================================
   # Module 2: Community Tree Planting (urban)
   # ===========================================================================
-  if (.community_tree_pct > 0) {
+  if (.community_tree_count > 0) {
     tb02 <- ghg.ccap::plant_community_trees(
       df_null = tb01,
       start_yr = .community_tree_start,
       end_yr = .community_tree_end,
-      area_pct = .community_tree_pct
+      tree_count = .community_tree_count
     )
   } else {
     tb02 <- tb01

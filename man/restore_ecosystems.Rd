@@ -15,7 +15,7 @@ restore_ecosystems(
 )
 }
 \arguments{
-\item{df_null}{Input dataframe of land cover area estimates (projections from 2023-2050)}
+\item{df_null}{Input dataframe of land cover area estimates (projections)}
 
 \item{restore_wetland}{Logical, whether to restore wetlands (default FALSE)}
 
@@ -23,7 +23,7 @@ restore_ecosystems(
 
 \item{forest_area_sqkm}{Numeric, committed forest restoration area in sq km (default 0)}
 
-\item{prairie_area_sqkm}{Numeric, committed prairie/grassland restoration area in sq km (default 0)}
+\item{prairie_area_sqkm}{Numeric, committed grassland restoration area in sq km (default 0)}
 
 \item{start_yr}{Start year for restoration (default 2025)}
 
@@ -32,35 +32,18 @@ restore_ecosystems(
 \value{
 Dataframe with projected land cover areas. Includes attributes:
 \itemize{
-\item "restoration_allocations": detailed breakdown of area by source and target
-\item "restoration_summary": total area added to each target type
-\item "validation_warnings": any warnings about exceeding available land
-\item "validation_info": breakdown of limits and proposed totals
+\item "restoration_allocations": area added per target type (for frontend display)
+\item "restoration_summary": totals
+\item "validation_warnings": any warnings about exceeding limits
 }
 }
 \description{
-Interface for restoring wetlands, forests, and prairies.
-Wetlands use GIS-constrained potential with ambition percentage.
-Forests and prairies allow direct acreage specification for flexibility,
-as city planners often know their committed acreage.
+Interface for restoring wetlands, forests, and grassland/prairie.
+Wetlands use GIS-constrained potential (DNR) with an ambition percentage.
+Forests and grassland allow direct acreage specification.
 
-Area conservation is maintained by drawing from a conversion pool
-(Bare, Cropland, and optionally Grassland/Tree). Validation warnings
-are returned as attributes if proposed restoration exceeds available land.
-}
-\examples{
-\dontrun{
-# Restore wetlands at 40\% ambition, plus 5 sq km forest and 3 sq km prairie
-result <- restore_ecosystems(
-  df_null = my_projections,
-  restore_wetland = TRUE,
-  wetland_ambition_pct = 40,
-  forest_area_sqkm = 5,
-  prairie_area_sqkm = 3
-)
-
-# View validation info
-attr(result, "validation_info")
-attr(result, "validation_warnings")
-}
+Total restoration is capped at a soft limit (jurisdiction area minus
+developed and water). Within that, cities determine their own planning
+priorities. No source-land tracking is performed — only the target
+natural system types (Wetland, Tree, Grassland) gain area.
 }

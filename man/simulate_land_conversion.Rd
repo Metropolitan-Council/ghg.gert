@@ -7,15 +7,20 @@
 simulate_land_conversion(df, start_yr, end_yr)
 }
 \arguments{
-\item{df}{base dataframe as input}
+\item{df}{Dataframe with columns \code{inventory_year}, \code{area}, and \code{area_change}.
+\code{area_change} is the total delta to apply by \code{end_yr} (positive = gain,
+negative = loss).}
 
-\item{start_yr}{The year when growth modeling begins, used for normalization}
+\item{start_yr}{The year when the transition begins}
 
-\item{end_yr}{The year when growth modeling ends, used for normalization}
+\item{end_yr}{The year when the transition is complete}
 }
 \value{
-vector equal to the length of 't'
+Dataframe with \code{area} updated to reflect the linear transition
 }
 \description{
-Land conversion utility
+Applies area changes to land cover types using linear
+interpolation over the specified time window. Before \code{start_yr}, no change
+is applied. Between \code{start_yr} and \code{end_yr}, the change ramps linearly.
+After \code{end_yr}, the full \code{area_change} is held constant.
 }
