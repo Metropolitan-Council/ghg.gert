@@ -15,7 +15,7 @@ run_scenario_natural_systems(
   .prairie_area_sqkm = 0,
   .restoration_start = 2028,
   .restoration_end = 2050,
-  .community_tree_pct = 0,
+  .community_tree_count = 0,
   .community_tree_start = 2028,
   .community_tree_end = 2050,
   .pocket_prairie_pct = 0,
@@ -46,7 +46,8 @@ run_scenario_natural_systems(
 
 \item{.restoration_end}{End year for restoration (default 2050)}
 
-\item{.community_tree_pct}{Percent of developed area for community trees (0-100, default 0)}
+\item{.community_tree_count}{Number of trees to plant (default 0). Capped at
+max_plantable_trees from community_tree_baseline lookup.}
 
 \item{.community_tree_start}{Start year for community tree planting (default 2025)}
 
@@ -75,7 +76,7 @@ This function wraps the complexity of land cover conversion into intuitive input
 \itemize{
 \item Wetlands: toggle + ambition slider (GIS-validated)
 \item Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
-\item Community trees: percent of developed area (urban canopy)
+\item Community trees: number of trees to plant (DNR-calibrated density conversion)
 \item Pocket prairies: percent of urban grassland (urban habitat)
 }
 }
