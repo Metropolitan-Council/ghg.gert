@@ -6,13 +6,15 @@ Version: 1.0.1
 Date: 2024-03-15
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
-    person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
+    person("Liz", "Roten", email = "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-5346-3549")),
-    person("Mauricio", "León", , "mauricio.leon@metc.state.mn.us", role = "ctb"),
-    person("Ellen", "Esch", , "ellen.esch@metc.state.mn.us", role = "ctb",
+    person("Peter", "Wilfahrt", email = "peter.wilfahrt@metc.state.mn.us", role = "ctb"),
+    person("Kenneth", "Smith", email = "kenneth.smith@metc.state.mn.us", role = "ctb"),
+    person("Ellen", "Esch", email = "ellen.esch@metc.state.mn.us", role = "ctb",
            comment = c(ORCID = "0000-0002-4253-0910")),
-    person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb"),
-    person("Zoey", "Yandell", , "zoey.yandell@metc.state.mn.us", role = "ctb")
+    person("Mauricio", "León", email = "mauricio.leon@metc.state.mn.us", role = "ctb"),
+    person("Laine", "McNamara", email = "laine.mcnamara@metc.state.mn.us", role = "ctb"),
+    person("Zoey", "Yandell", email = "zoey.yandell@metc.state.mn.us", role = "ctb")
   )
 Description: Tools Metropolitan Council GHG strategy planning.
 License: MIT + file LICENSE
@@ -53,7 +55,7 @@ Remotes:
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-LazyDataCompression: bzip2
+LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Website: https://github.com/Metropolitan-Council/ghg.ccap
