@@ -52,7 +52,7 @@ calc_building_energy <- function(
       right = TRUE
     )
   }
-#browser()
+  # browser()
   bin_sqft_detached <- function(sqft) {
     cut(sqft,
       breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
@@ -104,8 +104,7 @@ calc_building_energy <- function(
   ctu_other <- filter(ctu_binned, mc_classification %in% c("multifamily_units", "manufactured_home"))
 
   build_scenario <- function(scenario_name, cee_sf, res_other, new_build = FALSE) {
-
-     if (new_build) {
+    if (new_build) {
       cee_sf <- filter(cee_sf, build_year == "2000+")
       res_other <- filter(res_other, build_year == "2000+")
       sf_by <- c("mc_classification", "sqft_bin")
@@ -148,36 +147,42 @@ calc_building_energy <- function(
 
   ### sustainable new building needs to be worked in manually currently
 
-  res_new_build_sust_sf <- bind_rows(resstock_tb$sf_attached_vintagesqft_sust_new_build,
-                                  resstock_tb$sf_detached_vintagesqft_sust_new_build)
+  res_new_build_sust_sf <- bind_rows(
+    resstock_tb$sf_attached_vintagesqft_sust_new_build,
+    resstock_tb$sf_detached_vintagesqft_sust_new_build
+  )
 
   resstock_sqft_bin <- function(sqft) {
-      cut(sqft,
-          breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
-          labels = c(
-            "Less than 1,000", "1,000 to 1,499", "1,500 to 1,999",
-            "2,000 to 2,499", "2,500 to 2,999", "3,000 or more"
-          ),
-          right = TRUE
-      )
-    }
-
+    cut(sqft,
+      breaks = c(0, 999, 1499, 1999, 2499, 2999, Inf),
+      labels = c(
+        "Less than 1,000", "1,000 to 1,499", "1,500 to 1,999",
+        "2,000 to 2,499", "2,500 to 2,999", "3,000 or more"
+      ),
+      right = TRUE
+    )
+  }
 
 
   ctu_sf_res <- ctu_sf %>%
     mutate(res_sq_ft = resstock_sqft_bin(sq_ft_use))
 
-  res_new_build_sust_out <-  bind_rows(
+  res_new_build_sust_out <- bind_rows(
     resstock_tb$mf_sust_new_build,
     resstock_tb$manufactured_sust_new_build,
-    left_join(ctu_sf_res,
-              res_new_build_sust_sf,
-              join_by(mc_classification,
-                      res_sq_ft == sqft_bin)
+    left_join(
+      ctu_sf_res,
+      res_new_build_sust_sf,
+      join_by(
+        mc_classification,
+        res_sq_ft == sqft_bin
+      )
     )
   ) %>%
-    mutate(scenario_mwh = median_kwh / 1000,
-           scenario = "new_build_leed") %>%
+    mutate(
+      scenario_mwh = median_kwh / 1000,
+      scenario = "new_build_leed"
+    ) %>%
     select(mc_classification, scenario_mwh, scenario_mcf = median_mcf, scenario)
 
   ctu_energy_profile_out <- bind_rows(

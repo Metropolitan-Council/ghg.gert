@@ -25,7 +25,6 @@ plant_community_trees <- function(df_null,
                                   end_yr,
                                   tree_count,
                                   geog_id = NULL) {
-
   # Density lookup
 
   if (is.null(geog_id)) {
@@ -37,11 +36,11 @@ plant_community_trees <- function(df_null,
 
   if (nrow(baseline) == 1) {
     sqm_per_tree <- baseline$sqm_per_tree
-    max_trees    <- baseline$max_plantable_trees
+    max_trees <- baseline$max_plantable_trees
   } else {
     # Fallback: regional median density, no cap
     sqm_per_tree <- median(ghg.ccap::community_tree_baseline$sqm_per_tree, na.rm = TRUE)
-    max_trees    <- Inf
+    max_trees <- Inf
   }
 
   # Validate tree count against max

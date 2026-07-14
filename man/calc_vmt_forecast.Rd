@@ -54,6 +54,8 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+
 \item{.mode}{character, current mode}
 
 \item{.stock}{character, stock for current mode}
@@ -148,6 +150,11 @@ with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train
+}
+\details{
+This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
+\subsection{Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO}{
+}
 }
 \seealso{
 Other transportation: 

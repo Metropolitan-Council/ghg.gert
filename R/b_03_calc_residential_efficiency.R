@@ -364,7 +364,7 @@ calc_residential_electrification <- function(
   ramp_years <- .heatpump_start_year:.heatpump_end_year
   n_ramp <- length(ramp_years)
 
-#browser()
+  # browser()
   pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
     left_join(
       tibble::tibble(
@@ -393,7 +393,7 @@ calc_residential_electrification <- function(
     "existing_nonretrofit", "baseline", "heatpump",
     "retrofit_units", "retrofit", "combination",
     "new_non_leed", "new_build", "new_build_heatpump",
-    "new_leed", "new_build_leed", "new_build_leed"  # new build_leed (sustainable new build) already has heatpumps inherent in build
+    "new_leed", "new_build_leed", "new_build_leed" # new build_leed (sustainable new build) already has heatpumps inherent in build
   )
 
   # --- split units into hp / no-hp rows --------------------------------

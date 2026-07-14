@@ -20,8 +20,10 @@ dnr_metro <- read_excel("./data-raw/nature_data_processing/CommunityChangeTable.
     across(c(trees_2013, trees_2023, tree_change), ~ as.numeric(.x)),
     community = str_trim(community)
   ) %>%
-  filter(county %in% c("Anoka", "Carver", "Dakota", "Hennepin",
-                       "Ramsey", "Scott", "Washington"))
+  filter(county %in% c(
+    "Anoka", "Carver", "Dakota", "Hennepin",
+    "Ramsey", "Scott", "Washington"
+  ))
 
 
 # Build NLCD summary per CTU (2022 only)
@@ -46,8 +48,8 @@ nlcd_ctu_long <- bind_rows(ghg.ccap::natural_systems_data$inventory) %>%
     values_fill = 0
   ) %>%
   mutate(
-    total_plantable_sqkm = Developed_Low  * plantable_fraction["Developed_Low"] +
-      Developed_Med  * plantable_fraction["Developed_Med"] +
+    total_plantable_sqkm = Developed_Low * plantable_fraction["Developed_Low"] +
+      Developed_Med * plantable_fraction["Developed_Med"] +
       Developed_High * plantable_fraction["Developed_High"],
     urban_tree_sqkm = if ("Urban_Tree" %in% names(.)) Urban_Tree else 0
   )
@@ -56,13 +58,12 @@ nlcd_ctu_long <- bind_rows(ghg.ccap::natural_systems_data$inventory) %>%
 nlcd_ctu <- nlcd_ctu_long %>% filter(inventory_year == 2022)
 
 
-
 # Join datasets
 
 joined <- dnr_metro %>%
   left_join(nlcd_ctu, by = c("community" = "geog_name"))
 
-matched   <- joined %>% filter(!is.na(geog_id), !is.na(trees_2023), urban_tree_sqkm > 0)
+matched <- joined %>% filter(!is.na(geog_id), !is.na(trees_2023), urban_tree_sqkm > 0)
 unmatched <- joined %>% filter(is.na(geog_id))
 
 cat("Matched:", nrow(matched), "\n")
@@ -85,8 +86,10 @@ if (nrow(unmatched) > 0) {
 
 matched %>%
   mutate(sqm_canopy_per_tree = (urban_tree_sqkm * 1e6) / trees_2023) %>%
-  select(community, county, trees_2023, urban_tree_sqkm, total_plantable_sqkm,
-         sqm_canopy_per_tree) %>%
+  select(
+    community, county, trees_2023, urban_tree_sqkm, total_plantable_sqkm,
+    sqm_canopy_per_tree
+  ) %>%
   arrange(desc(trees_2023)) %>%
   print(n = 30)
 
@@ -96,7 +99,8 @@ plot_df <- matched %>%
     .resid = residuals(lm(trees_2023 ~ urban_tree_sqkm, data = .)),
     .abs_resid = abs(.resid),
     .label = if_else(.abs_resid >= sort(.abs_resid, decreasing = TRUE)[10],
-                     community, NA_character_)
+      community, NA_character_
+    )
   )
 
 plot_df %>%
@@ -104,7 +108,8 @@ plot_df %>%
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = TRUE, color = "steelblue") +
   geom_text(
-    aes(label = .label), hjust = -0.1, size = 2.5, check_overlap = TRUE, na.rm = TRUE
+    aes(label = .label),
+    hjust = -0.1, size = 2.5, check_overlap = TRUE, na.rm = TRUE
   ) +
   scale_y_continuous(labels = scales::comma) +
   labs(
@@ -118,7 +123,7 @@ plot_df %>%
 
 
 matched %>%
-ggplot(aes(x = urban_tree_sqkm, y = trees_2023, color = county)) +
+  ggplot(aes(x = urban_tree_sqkm, y = trees_2023, color = county)) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +
   scale_y_continuous(labels = scales::comma) +
@@ -153,11 +158,11 @@ matched_meta %>%
   ) +
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap(.~thrive_designation)
+  facet_wrap(. ~ thrive_designation)
 
 # linear model
 
-mod_base   <- lm(trees_2023 ~ urban_tree_sqkm, data = matched_meta)
+mod_base <- lm(trees_2023 ~ urban_tree_sqkm, data = matched_meta)
 mod_thrive <- lm(trees_2023 ~ urban_tree_sqkm * thrive_designation, data = matched_meta)
 
 cat("\n── Base model (no designation) ──\n")
@@ -177,7 +182,8 @@ plot_df <- matched %>%
     .resid = residuals(lm(trees_2023 ~ urban_tree_sqkm, data = .)),
     .abs_resid = abs(.resid),
     .label = if_else(.abs_resid >= sort(.abs_resid, decreasing = TRUE)[10],
-                     community, NA_character_)
+      community, NA_character_
+    )
   )
 
 plot_df %>%
@@ -185,7 +191,8 @@ plot_df %>%
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = TRUE, color = "steelblue") +
   geom_text(
-    aes(label = .label), hjust = -0.1, size = 2.5, check_overlap = TRUE, na.rm = TRUE
+    aes(label = .label),
+    hjust = -0.1, size = 2.5, check_overlap = TRUE, na.rm = TRUE
   ) +
   scale_y_continuous(labels = scales::comma) +
   labs(
@@ -213,10 +220,14 @@ change <- matched %>%
   )
 
 cat("\n── Change comparison (n =", nrow(change), "communities with both DNR years) ──\n")
-cat("\nCorrelation (% change): r =",
-    round(cor(change$nlcd_change_pct, change$dnr_change_pct, use = "complete.obs"), 3), "\n")
-cat("Correlation (absolute change): r =",
-    round(cor(change$nlcd_change, change$dnr_change, use = "complete.obs"), 3), "\n")
+cat(
+  "\nCorrelation (% change): r =",
+  round(cor(change$nlcd_change_pct, change$dnr_change_pct, use = "complete.obs"), 3), "\n"
+)
+cat(
+  "Correlation (absolute change): r =",
+  round(cor(change$nlcd_change, change$dnr_change, use = "complete.obs"), 3), "\n"
+)
 
 cat("\nDNR net tree change: ", scales::comma(sum(change$dnr_change)), "trees\n")
 cat("NLCD net area change:", round(sum(change$nlcd_change), 2), "sq km\n")
@@ -243,4 +254,3 @@ change %>%
     y = "DNR street tree count change (%)"
   ) +
   theme_minimal()
-

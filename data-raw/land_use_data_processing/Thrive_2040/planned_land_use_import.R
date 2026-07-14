@@ -174,7 +174,7 @@ planned_land_use_regionalized <- filter(landuse, !is.na(hsgden_rng)) %>%
   ungroup() %>%
   select(
     geog_name = ctu_name, housing_density, acres, minimum_density_per_acre,
-    maximum_density_per_acre,expected_density
+    maximum_density_per_acre, expected_density
   ) %>%
   left_join(geog_index) %>%
   # remove cats with no acreage

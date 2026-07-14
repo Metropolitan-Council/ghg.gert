@@ -66,7 +66,7 @@ calc_energy_residential <- function(res_tb,
       ),
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
-#browser()
+  # browser()
   # ctu specific energy profiles
   ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu)
 
@@ -95,7 +95,6 @@ calc_energy_residential <- function(res_tb,
   # ctu average energy load will be split based on heat pump percentage
 
   compute_energy <- function(tb) {
-
     tb %>%
       dplyr::filter(inventory_year > .baseline_year) %>%
       left_join(
