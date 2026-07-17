@@ -47,6 +47,9 @@ geography_test_list_core <- c(
   "Landfall",
   "Saint Bonifacius",
   "Bethel",
+  #Townships
+  "Benton Twp.",
+  "Denmark Twp.",
   # Counties
   "Hennepin County",
   "Ramsey County"
