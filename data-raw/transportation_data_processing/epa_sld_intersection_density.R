@@ -96,7 +96,6 @@ epa_sld_ctu <- intersected %>%
   )
 
 
-# Convert area to square miles for reference
 # Create long format (tidy)
 epa_sld_ctu_long <- epa_sld_ctu %>%
   select(
@@ -109,7 +108,7 @@ epa_sld_ctu_long <- epa_sld_ctu %>%
     names_to = "metric",
     values_to = "value"
   ) %>%
-  unique()
+  unique() # removes duplicate values for cities in multiple counties
 
 # Add metric descriptions
 # note that the denominator for sq mile is based on ALAND, not total area
