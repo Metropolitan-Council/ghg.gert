@@ -13,6 +13,8 @@ OUTPUT_DIR <- "data-raw/transportation_data_processing/processed_data"
 CACHE_FILE <- file.path(OUTPUT_DIR, "mn_sld_blockgroups.RDS")
 METADATA_FILE <- file.path(OUTPUT_DIR, "epa_sld_metadata.json")
 
+dir.create("data-raw/transportation_data_processing/processed_data", recursive = TRUE)
+
 # Minnesota projection (UTM Zone 15N)
 MN_CRS <- 26915
 
