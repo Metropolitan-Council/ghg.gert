@@ -7,6 +7,7 @@
 #' - **CI_FUEL_COST_GAL**: Diesel fuel cost in dollars per gallon. EIA 2024 Annual estimate.
 #' - **ELEC_FUEL_COST_KWH**: Electric fuel cost in dollars per kWh. Regular residential rate, June through September. [Xcel Energy, 2024](https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf).
 #' - **F_FRACT**: Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee).
+#' - **MAX_PARKING_REDUCTION_PCT**: Maximum parking pricing policy impact: -30% reduction in VMT. Citation: CAPCOA Handbook.
 #' - **AUTO_COST_MI**: 2024 [AAA driving costs](https://exchange.aaa.com/automotive/aaas-your-driving-costs/) (assume mid-distance of 15,000 miles).
 #' - **TIME_COST_MI**: Cents per mile. Time cost per mile informed by [Transportation Cost and Benefit Analysis - Travel Time Costs](https://www.vtpi.org/tca/tca0502.pdf).
 #' - **F_TIME_COST_MI**: Cents per mile according to [TTI](https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf).
@@ -66,13 +67,14 @@
 #' @title 5D elasticities
 #'
 #' @description Values are specific to forecast year
-#' @format A tibble with 27 columns and 9 observations.
+#' @format A tibble with 27 columns and 10 observations.
 #' - **year**: Forecast year.
 #' - **type**: Transportation mode. One of `"DRIVE"`, `"WALK"`, or `"TRANSIT"`.
 #' - **population_density**: Elasticity for population density effect on VMT.
 #' - **employment_density**: Elasticity for employment population density effect on VMT.
 #' - **diversity**: Elasticity for land use diversity effect on VMT.
-#' - **design**: Elasticity for intersection design effect on VMT.
+#' - **design**: Elasticity for intersection design (% 4-way stops) effect on VMT.
+#' - **intersection_density**: Elasticity for intersection density (intersections per square mile) effect on VMT.
 #' - **job_access**: Elasticity for job accessibility via transit effect on VMT.
 #' - **distance**: Elasticity for minimum distance to transit stops effect on VMT.
 #' - **combined_density**: Combined effect of all land use elasticities.
@@ -287,3 +289,17 @@
 #' transportation_defaults
 # transportation_defaults -----
 "transportation_defaults"
+
+#' @title EPA Smart Location Database (2021) edition intersection density data aggregated to CTU level.
+#' @description Compiled from the EPA Smart Location Database (SLD) 2021 edition, this dataset provides intersection density metrics aggregated from
+#'   2019 block groups (GEOID20) to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.
+#'   EPA cites 2018 HERE Maps and NAVSTREETS as data sources and uses acres of land as the denominator for intersection density calculations.
+#'   Zotero key chapmanSmartLocationDatabase2021
+#' @format A tibble with 5 columns and 186 observations.
+#' - **geog_id**: CTU GNIS ID
+#' - **geog_name**: CTU name
+#' - **geog_id_type**: CTU ID type
+#' - **intersection_density**: Total road network density measured in intersections per square mile
+#' @family datasets
+# epa_sld_intersection_density -----
+"epa_sld_intersection_density"

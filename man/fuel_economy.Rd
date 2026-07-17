@@ -31,6 +31,7 @@ Other datasets:
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
+\code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},

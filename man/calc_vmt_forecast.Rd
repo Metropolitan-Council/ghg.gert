@@ -8,13 +8,13 @@ calc_vmt_forecast(
   .scenario,
   tb,
   .selected_ctu = "all",
-  .parking_cost = parking_cost,
-  .vehicle_occupancy = vehicle_occupancy,
   .mode,
   .stock,
   .variable,
   .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
+  .parking_cost = ghg.ccap::parking_cost,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
   .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
@@ -32,6 +32,8 @@ calc_vmt_forecast(
     ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
     ghg.ccap::transportation_defaults$intersection_design_pct_change,
+  .intersection_density_pct_change =
+    ghg.ccap::transportation_defaults$intersection_density_pct_change,
   .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
@@ -39,10 +41,10 @@ calc_vmt_forecast(
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .enviro_factors = enviro_factors,
-  .factor_values = factor_values,
-  .elast = elast,
-  .elast_5d = elast_5d
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values,
+  .elast = ghg.ccap::elast,
+  .elast_5d = ghg.ccap::elast_5d
 )
 }
 \arguments{
@@ -54,11 +56,6 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
-\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
-
-\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
-Default is \code{ghg.ccap::vehicle_occupancy}.}
-
 \item{.mode}{character, current mode}
 
 \item{.stock}{character, stock for current mode}
@@ -69,6 +66,11 @@ Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
+Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
 Default is 0.}
@@ -114,6 +116,10 @@ Numeric between -1 and 1. Default is 0}
 (\% 4-way stops) in the final forecast year relative to BAU.
 Numeric between -1 and 1.  Default is 0}
 
+\item{.intersection_density_pct_change}{percent change in intersection density
+(intersections per square mile) in the final forecast year relative to BAU.
+Numeric between -1 and 1.  Default is 0}
+
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
 Numeric between -1 and 1. Default is 0}
 
@@ -144,6 +150,11 @@ with \code{vmt} in \emph{thousands} of miles.
 }
 \description{
 Calculate vehicle miles traveled by mode and power train
+}
+\details{
+This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
+\subsection{Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO}{
+}
 }
 \seealso{
 Other transportation: 

@@ -21,7 +21,8 @@
 #' @inheritParams vmt_telework
 #' @inheritParams filter_ctu
 #'
-### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
+#' @details This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
+#' ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
 #'
 #' @return a tibble with columns `scenario`, `geog_name`, `year`, `aeo_mode`, `type`, `vmt`,
 #'     with `vmt` in _thousands_ of miles.
@@ -30,18 +31,18 @@
 #'
 #'
 #' @importFrom dplyr filter select case_when
-#' @importFrom tidyselect all_of
+#' @importFrom tidyselect any_of
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
                               .selected_ctu = "all",
-                              .parking_cost = parking_cost,
-                              .vehicle_occupancy = vehicle_occupancy,
                               .mode,
                               .stock,
                               .variable,
                               .tb_fuel_cost_mile,
                               .aeo_scenario = "REF",
+                              .parking_cost = ghg.ccap::parking_cost,
+                              .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                               .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
                               .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
                               .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
@@ -57,16 +58,17 @@ calc_vmt_forecast <- function(.scenario,
                               .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
                               .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
                               .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                              .intersection_density_pct_change = ghg.ccap::transportation_defaults$intersection_density_pct_change,
                               .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
                               .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
                               .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
                               .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-                              .enviro_factors = enviro_factors,
-                              .factor_values = factor_values,
-                              .elast = elast,
-                              .elast_5d = elast_5d) {
+                              .enviro_factors = ghg.ccap::enviro_factors,
+                              .factor_values = ghg.ccap::factor_values,
+                              .elast = ghg.ccap::elast,
+                              .elast_5d = ghg.ccap::elast_5d) {
   tb <- filter_ctu(tb, .selected_ctu)
 
   check_inputs("mode", .mode)
@@ -93,6 +95,7 @@ calc_vmt_forecast <- function(.scenario,
       .emp_dens_pct_change = .emp_dens_pct_change,
       .land_use_diversity_pct_change = .land_use_diversity_pct_change,
       .intersection_design_pct_change = .intersection_design_pct_change,
+      .intersection_density_pct_change = .intersection_density_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .elast_5d = .elast_5d,
@@ -137,7 +140,7 @@ calc_vmt_forecast <- function(.scenario,
   # Final select cols are identical in every branch
   final_cols <- c(
     "type", "stock", "scenario", "geog_name", "geog_id",
-    "year", "mode", "aeo_mode", "vmt"
+    "year", "mode", "aeo_mode", "vmt", "households_cbtp"
   )
 
   tb_fin <- switch(.mode,
@@ -187,7 +190,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt = pass_ld_vmt
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::select(dplyr::any_of(final_cols)) %>%
         dplyr::distinct()
     },
     BU = ,
@@ -219,7 +222,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt = transit_vmt
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     SUT = {
       tb_vmt %>%
@@ -233,7 +236,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj * park_price_adj) / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     CUT = {
       tb_vmt %>%
@@ -246,7 +249,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = ((miles_traveled * aeo_adj * vmt_fee_adj) / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     WALK = {
       tb_vmt %>%
@@ -254,14 +257,14 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::left_join(parking, by = c("year", "geog_name", "geog_id")) %>%
         dplyr::distinct() %>%
         dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj * park_price_adj) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     BIKE = {
       tb_vmt %>%
         dplyr::left_join(make_land_use("WALK"), by = "year") %>%
         dplyr::distinct() %>%
         dplyr::mutate(stock = .stock, vmt = miles_traveled * land_use_adj) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     BS = {
       tb_vmt %>%
@@ -273,7 +276,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     FR = {
       tb_vmt %>%
@@ -285,7 +288,7 @@ calc_vmt_forecast <- function(.scenario,
           stock = .stock,
           vmt   = (miles_traveled * aeo_adj / occupancy_adj) * mode_stock_adj
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols))
+        dplyr::select(dplyr::any_of(final_cols))
     },
     MM = ,
     AIR = ,
@@ -304,7 +307,7 @@ calc_vmt_forecast <- function(.scenario,
             TRUE ~ vmt
           )
         ) %>%
-        dplyr::select(dplyr::all_of(final_cols)) %>%
+        dplyr::select(dplyr::any_of(final_cols)) %>%
         dplyr::distinct()
     }
   )

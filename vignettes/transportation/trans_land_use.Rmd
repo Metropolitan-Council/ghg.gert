@@ -137,7 +137,7 @@ tibble::tribble(
   "St. Paul", "42.9%", "55.6%", "1.5%"
 ) %>%
   gt::gt(
-    caption = "Intersection density",
+    caption = "Intersection design (% 4-way stops)",
     rowname_col = "CTU"
   ) %>%
   gt::opt_row_striping()
@@ -151,6 +151,18 @@ SHCN did provide us with a complete dataset for all CTUs, but did NOT provide re
 
 
 Ashley Asmus provided her code from another project [here](./data-raw/trans_intersection_design.R)
+
+## Intersection density
+
+Intersection density data provide a complementary measure of street network connectivity. These metrics capture intersections per square mile, accounting for different intersection types (auto-oriented, multi-modal, pedestrian-oriented).
+
+<!-- The EPA SLD D3 metrics distinguish between:
+- **D3A**: Total road network density
+- **D3B**: Street intersection density (weighted, auto-oriented eliminated)
+- **D3BMM3/D3BMM4**: Multi-modal 3-way and 4+ way intersections per square mile
+- **D3BPO3/D3BPO4**: Pedestrian-oriented 3-way and 4+ way intersections per square mile -->
+
+These metrics are calculated at the Census block group level and aggregated to CTU level using area-weighted averaging. See `data-raw/transportation_data_processing/epa_sld_to_ctu.R` for implementation details.
 
 ## Average minimum distance to transit stops   
 

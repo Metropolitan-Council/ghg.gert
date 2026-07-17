@@ -19,18 +19,15 @@ test_walk_bike <- function(x) {
       ignore.order = TRUE
     )
 
-
     pass_bau <- pass$dir_ghg %>%
       filter(year == max(year)) %>%
       group_by(geog_name, geog_id, year) %>%
-      summarise(dir_ghg = sum(dir_ghg), .groups = "keep") %>%
-      left_join(
-        pass$vmt %>%
-          filter(year == max(year)) %>%
-          group_by(geog_name, geog_id, year) %>%
-          summarise(vmt = sum(vmt), .groups = "keep"),
-        by = c("geog_name", "geog_id", "year")
-      )
+      summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+    pass_bau_vmt <- pass$vmt %>%
+      filter(year == max(year)) %>%
+      group_by(geog_name, geog_id, year) %>%
+      summarise(vmt = sum(vmt), .groups = "keep")
 
 
     pass_transit <- suppressMessages(suppressWarnings(mode_walk_bike(
@@ -82,7 +79,7 @@ test_walk_bike <- function(x) {
       .parking_price = 20
     )))
 
-
+    # check that emissions stay constant at 0
     purrr::map(
       list(
         pass_transit,
@@ -102,48 +99,29 @@ test_walk_bike <- function(x) {
       }
     )
 
-
+    # check that VMT increases or stays constant
     purrr::map(
       list(
         pass_transit,
         pass_lu,
         pass_road,
-        pass_tele
+        pass_tele,
+        pass_multi
       ),
       function(x) {
-        test_ghg <- x$vmt %>%
+        test_vmt <- x$vmt %>%
           filter(year == max(year)) %>%
           group_by(geog_name, geog_id, year) %>%
           summarise(vmt = sum(vmt), .groups = "keep")
 
-        # expect walk vmt to increase or stay constant
-        testthat::expect_gte(test_ghg$vmt, pass_bau$vmt)
+        # expect walk/bike vmt to increase or stay constant
+        testthat::expect_gte(test_vmt$vmt, pass_bau_vmt$vmt)
       }
     )
   })
 }
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Saint Paul",
-    "Lake Elmo",
-    "Fridley",
-    "Minnetonka",
-    "South Saint Paul",
-    "Minneapolis",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "White Bear Twp.",
-    "Hennepin County",
-    "Dakota County",
-    "Anoka County",
-    "Carver County",
-    "Ramsey County",
-    "Washington County",
-    "Scott County"
-  ),
+  geography_test_list,
   test_walk_bike
 )

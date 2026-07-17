@@ -24,8 +24,10 @@ dnr_metro <- read_excel("./data-raw/nature_data_processing/CommunityChangeTable.
     community = str_trim(community)
   ) %>%
   filter(
-    county %in% c("Anoka", "Carver", "Dakota", "Hennepin",
-                  "Ramsey", "Scott", "Washington"),
+    county %in% c(
+      "Anoka", "Carver", "Dakota", "Hennepin",
+      "Ramsey", "Scott", "Washington"
+    ),
     !is.na(trees_2023)
   ) %>%
   select(community, county, trees_2023)
@@ -54,8 +56,8 @@ nlcd_2022 <- bind_rows(ghg.ccap::natural_systems_data$inventory) %>%
   ) %>%
   mutate(
     urban_tree_sqkm = if ("Urban_Tree" %in% names(.)) Urban_Tree else 0,
-    total_plantable_sqkm = Developed_Low  * plantable_fraction["Developed_Low"] +
-      Developed_Med  * plantable_fraction["Developed_Med"] +
+    total_plantable_sqkm = Developed_Low * plantable_fraction["Developed_Low"] +
+      Developed_Med * plantable_fraction["Developed_Med"] +
       Developed_High * plantable_fraction["Developed_High"]
   ) %>%
   select(geog_name, ctu_class, geog_id, urban_tree_sqkm, total_plantable_sqkm) %>%
@@ -117,16 +119,18 @@ community_tree_baseline <- nlcd_2022 %>%
     # Round to nearest 1000; fall back to nearest 10 if that rounds to 0
     trees_modeled_raw = urban_tree_sqkm * 1e6 / sqm_per_tree,
     trees_modeled = if_else(round(trees_modeled_raw, -3) == 0 & trees_modeled_raw > 0,
-                            round(trees_modeled_raw, -1),
-                            round(trees_modeled_raw, -3)),
+      round(trees_modeled_raw, -1),
+      round(trees_modeled_raw, -3)
+    ),
     # Final baseline: DNR where available, modeled otherwise
     tree_count = coalesce(trees_dnr, trees_modeled),
     source = if_else(!is.na(trees_dnr), "DNR", "modeled"),
     # Max plantable trees using same density
     max_plantable_raw = total_plantable_sqkm * 1e6 / sqm_per_tree,
     max_plantable_trees = if_else(round(max_plantable_raw, -3) == 0 & max_plantable_raw > 0,
-                                  round(max_plantable_raw, -1),
-                                  round(max_plantable_raw, -3))
+      round(max_plantable_raw, -1),
+      round(max_plantable_raw, -3)
+    )
   ) %>%
   select(
     geog_name, ctu_class, geog_id, thrive_designation,
@@ -143,19 +147,22 @@ cat("  Total:     ", nrow(community_tree_baseline), "communities\n")
 # Spot check
 cat("\n── Sample (DNR vs modeled side by side) ──\n")
 community_tree_baseline %>%
-  filter(geog_name %in% c("Minneapolis", "Saint Paul", "Bloomington",
-                          "Edina", "Lakeville", "Shakopee",
-                          "Gem Lake", "Sunfish Lake", "Mendota",
-                          "Benton Twp.", "Medicine Lake",
-                          "Corcoran","Afton",
-                          "New Trier", "Landfall")) %>%
+  filter(geog_name %in% c(
+    "Minneapolis", "Saint Paul", "Bloomington",
+    "Edina", "Lakeville", "Shakopee",
+    "Gem Lake", "Sunfish Lake", "Mendota",
+    "Benton Twp.", "Medicine Lake",
+    "Corcoran", "Afton",
+    "New Trier", "Landfall"
+  )) %>%
   arrange(desc(tree_count))
 
 # roll up to county, combine, and output
 
 county_tree_baseline <- community_tree_baseline %>%
   left_join(ctu_county_area %>% select(geog_id, county_name, pct_of_ctu_area),
-            by = "geog_id") %>%
+    by = "geog_id"
+  ) %>%
   mutate(
     tree_count           = tree_count * pct_of_ctu_area,
     max_plantable_trees  = max_plantable_trees * pct_of_ctu_area,
@@ -164,9 +171,9 @@ county_tree_baseline <- community_tree_baseline %>%
   ) %>%
   group_by(county_name) %>%
   summarise(
-    tree_count           = round(sum(tree_count), -3),
-    max_plantable_trees  = round(sum(max_plantable_trees), -3),
-    urban_tree_sqkm      = sum(urban_tree_sqkm),
+    tree_count = round(sum(tree_count), -3),
+    max_plantable_trees = round(sum(max_plantable_trees), -3),
+    urban_tree_sqkm = sum(urban_tree_sqkm),
     total_plantable_sqkm = sum(total_plantable_sqkm),
     .groups = "drop"
   ) %>%

@@ -14,6 +14,8 @@ vmt_land_use_change(
     ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
     ghg.ccap::transportation_defaults$intersection_design_pct_change,
+  .intersection_density_pct_change =
+    ghg.ccap::transportation_defaults$intersection_density_pct_change,
   .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
   .enviro_factors = ghg.ccap::enviro_factors,
@@ -38,6 +40,10 @@ Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
+Numeric between -1 and 1.  Default is 0}
+
+\item{.intersection_density_pct_change}{percent change in intersection density
+(intersections per square mile) in the final forecast year relative to BAU.
 Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.

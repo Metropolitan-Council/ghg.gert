@@ -39,7 +39,8 @@ avo_county <- trip %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
-    n_trips_sample = n()
+    n_trips_sample = n(),
+    .groups = "keep"
   ) %>%
   ungroup() %>%
   mutate(geog_name = stringr::str_replace(hh_county, " MN", " County")) %>%
@@ -138,7 +139,8 @@ ctu_vehicle_counts <- transportation_data$passenger %>%
 county_vehicle_counts <- ctu_vehicle_counts %>%
   left_join(
     city_vmt_proportions,
-    by = c("geog_id" = "gnis", "geog_level", "geog_name", "inventory_year")
+    by = c("geog_id" = "gnis", "geog_level", "geog_name", "inventory_year"),
+    relationship = "many-to-many"
   ) %>%
   # filter out Twin Cities Region
   filter(!is.na(pct_vmt_in_county)) %>%
@@ -226,7 +228,8 @@ ctu_pmt <- transportation_data$passenger %>%
 county_pmt <- ctu_pmt %>%
   left_join(
     city_vmt_proportions,
-    by = c("geog_id" = "gnis", "inventory_year")
+    by = c("geog_id" = "gnis", "inventory_year"),
+    relationship = "many-to-many"
   ) %>%
   filter(!is.na(pct_vmt_in_county)) %>%
   mutate(allocated_value = value * pct_vmt_in_county) %>%
@@ -237,7 +240,8 @@ county_pmt <- ctu_pmt %>%
   ) %>%
   left_join(
     geog_index %>% select(geog_id, geog_name),
-    by = c("geoid" = "geog_id")
+    by = c("geoid" = "geog_id"),
+    relationship = "many-to-many"
   ) %>%
   rename(
     geog_id = geoid,
@@ -268,7 +272,8 @@ ctu_freight_data <- transportation_data$freight %>%
 county_freight_data <- ctu_freight_data %>%
   left_join(
     city_vmt_proportions,
-    by = c("geog_id" = "gnis", "inventory_year")
+    by = c("geog_id" = "gnis", "inventory_year"),
+    relationship = "many-to-many"
   ) %>%
   filter(!is.na(pct_vmt_in_county)) %>%
   unique() %>%
@@ -280,7 +285,8 @@ county_freight_data <- ctu_freight_data %>%
   ) %>%
   left_join(
     geog_index %>% select(geog_id, geog_name),
-    by = c("geoid" = "geog_id")
+    by = c("geoid" = "geog_id"),
+    relationship = "many-to-many"
   ) %>%
   rename(
     geog_id = geoid,

@@ -96,7 +96,9 @@ restore_ecosystems <- function(df_null,
   # Ensure target land cover types exist in the data
   # ===========================================================================
   ensure_land_cover_rows <- function(df, type_name) {
-    if (type_name %in% df_current$land_cover_type) return(df)
+    if (type_name %in% df_current$land_cover_type) {
+      return(df)
+    }
 
     template <- df_current %>%
       filter(land_cover_type %in% c("Bare", "Cropland", "Grassland", "Tree")) %>%
@@ -116,8 +118,8 @@ restore_ecosystems <- function(df_null,
     bind_rows(df, new_rows)
   }
 
-  if (wetland_target > 0)    df_null <- ensure_land_cover_rows(df_null, "Wetland")
-  if (forest_area_sqkm > 0)  df_null <- ensure_land_cover_rows(df_null, "Tree")
+  if (wetland_target > 0) df_null <- ensure_land_cover_rows(df_null, "Wetland")
+  if (forest_area_sqkm > 0) df_null <- ensure_land_cover_rows(df_null, "Tree")
   if (prairie_area_sqkm > 0) df_null <- ensure_land_cover_rows(df_null, "Grassland")
 
   # ===========================================================================
@@ -129,8 +131,8 @@ restore_ecosystems <- function(df_null,
   df_max <- df_current_updated %>%
     mutate(
       area_change = case_when(
-        land_cover_type == "Wetland"   ~ wetland_target,
-        land_cover_type == "Tree"      ~ forest_area_sqkm,
+        land_cover_type == "Wetland" ~ wetland_target,
+        land_cover_type == "Tree" ~ forest_area_sqkm,
         land_cover_type == "Grassland" ~ prairie_area_sqkm,
         TRUE ~ 0
       )

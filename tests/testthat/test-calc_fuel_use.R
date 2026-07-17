@@ -161,6 +161,7 @@ testthat::test_that("BEV fuel correct", {
     .emp_dens_pct_change = 0,
     .land_use_diversity_pct_change = 0,
     .intersection_design_pct_change = 0,
+    .intersection_density_pct_change = 0,
     .job_access_pct_change = 0,
     .transit_dist_pct_change = 0,
     .comb_5d_impact_pct_change = 0,

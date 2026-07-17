@@ -74,8 +74,10 @@ combo <- load_resstock(
 sust_new_build <- load_resstock(
   "./data-raw/building_energy_data_processing/resstock data/MN_upgrade15_metadata_and_annual_results.csv"
 ) %>%
-  filter(build_year == "2000+",
-         building_nat_gas_kwh == 0) # strategy isn't penetrating many multifamily units, need to investigate why but for now taking effective cases
+  filter(
+    build_year == "2000+",
+    building_nat_gas_kwh == 0
+  ) # strategy isn't penetrating many multifamily units, need to investigate why but for now taking effective cases
 
 # summary list
 

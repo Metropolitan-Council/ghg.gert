@@ -17,11 +17,15 @@ test_passenger <- function(x) {
       ignore.order = TRUE
     )
 
-
     pass_bau <- pass$dir_ghg %>%
       filter(year == max(year)) %>%
       group_by(geog_name, year) %>%
       summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+
+    pass_bau_vmt <- pass$vmt %>%
+      filter(year == max(year)) %>%
+      group_by(geog_name, year) %>%
+      summarise(vmt = sum(vmt), .groups = "keep")
 
 
     pass_transit <- suppressMessages(mode_passenger_light_duty(
@@ -31,12 +35,21 @@ test_passenger <- function(x) {
       .transit_service_pct = .30
     ))
 
+
     pass_lu <- suppressMessages(mode_passenger_light_duty(
       .pass_tb = transportation_data$passenger,
       .selected_ctu = x,
       .scenario = "land_use",
       .emp_dens_pct_change = 0.10,
-      .pop_dens_pct_change = 0.10
+      .pop_dens_pct_change = 0.10,
+      .intersection_density_pct_change = 0.10
+    ))
+
+    pass_lu_int <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "land_use",
+      .intersection_density_pct_change = 0.15
     ))
 
 
@@ -69,10 +82,12 @@ test_passenger <- function(x) {
       .vmt_reduction_pct = 0.10
     ))
 
+    # check that emissions decrease
     purrr::map(
       list(
         pass_transit,
         pass_lu,
+        pass_lu_int,
         pass_road,
         pass_tele,
         pass_vmt_reduction
@@ -86,27 +101,30 @@ test_passenger <- function(x) {
         testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
       }
     )
+
+    # check that VMT decreases
+    purrr::map(
+      list(
+        pass_transit,
+        pass_lu,
+        pass_lu_int,
+        pass_road,
+        pass_tele,
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_ghg <- x$vmt %>%
+          filter(year == max(year)) %>%
+          group_by(geog_name, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep")
+
+        testthat::expect_lte(test_ghg$vmt, pass_bau_vmt$vmt)
+      }
+    )
   })
 }
 
 purrr::map(
-  c(
-    "Arden Hills",
-    "Bloomington",
-    "Saint Paul",
-    "Lake Elmo",
-    "Minneapolis",
-    "Crystal",
-    "Bethel",
-    "Rosemount",
-    "White Bear Twp.",
-    "Hennepin County",
-    "Ramsey County",
-    "Washington County",
-    "Dakota County",
-    "Anoka County",
-    "Carver County",
-    "Scott County"
-  ),
+  geography_test_list,
   test_passenger
 )

@@ -47,6 +47,9 @@ vmt_annual_energy_outlook <- function(tb,
 #' @param .intersection_design_pct_change percent change in intersection design
 #'     (% 4-way stops) in the final forecast year relative to BAU.
 #'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_design_pct_change`
+#' @param .intersection_density_pct_change percent change in intersection density
+#'     (intersections per square mile) in the final forecast year relative to BAU.
+#'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_density_pct_change`
 #' @param .job_access_pct_change percent change in job accessibility in the final forecast year relative to BAU.
 #'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$job_access_pct_change`
 #' @param .transit_dist_pct_change percent change in transit distance in the final forecast year relative to BAU.
@@ -79,6 +82,7 @@ vmt_land_use_change <- function(.type,
                                 .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
                                 .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
                                 .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                                .intersection_density_pct_change = ghg.ccap::transportation_defaults$intersection_density_pct_change,
                                 .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
                                 .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
                                 .enviro_factors = ghg.ccap::enviro_factors,
@@ -91,22 +95,28 @@ vmt_land_use_change <- function(.type,
   )
 
   .elast_5d %>%
+    dplyr::ungroup() %>%
     dplyr::filter(type == .type) %>%
     dplyr::mutate(
+      # multiply parameter input by elasticity value
       n_population_density = 1 + .pop_dens_pct_change * population_density,
       n_employment_density = 1 + .emp_dens_pct_change * employment_density,
       n_diversity = 1 + .land_use_diversity_pct_change * diversity,
       n_design = 1 + .intersection_design_pct_change * design,
+      n_intersection_density = 1 + .intersection_density_pct_change * intersection_density,
       n_job_access = 1 + .job_access_pct_change * job_access,
       n_distance = 1 + .transit_dist_pct_change * distance,
       n_combined_density = 1 + .pop_dens_pct_change * combined_density,
+      # multiply all 5D effects together to get a single land use adjustment factor
       product_all = n_population_density * n_employment_density * n_diversity *
-        n_design * n_job_access * n_distance * n_combined_density,
+        n_design * n_intersection_density * n_job_access * n_distance * n_combined_density,
+      # check that the product of all 5D effects does not exceed the maximum value for each mode
       land_use_adj = dplyr::case_when(
         .type == "DRIVE" & product_all < max_value ~ max_value,
         .type != "DRIVE" & product_all > max_value ~ max_value,
         TRUE ~ product_all
       ),
+      # if the land use adjustment factor is 0, set it to 1 to avoid multiplying by 0
       land_use_adj = dplyr::if_else(land_use_adj == 0, 1, land_use_adj)
     ) %>%
     dplyr::select(year, land_use_adj) %>%
@@ -128,7 +138,7 @@ vmt_land_use_change <- function(.type,
 #' @export
 #' @details
 #'
-#' Increase parking prices will decrease PLDV by up to 45% and increase all transit
+#' Increase parking prices will decrease PLDV by up to 30% and increase all transit
 #' modes and walk.
 #'
 #' The long-run elasticity of VMT to parking cost is estimated to be in the range
@@ -155,8 +165,8 @@ vmt_land_use_change <- function(.type,
 #' @importFrom dplyr cross_join
 vmt_parking_policy <- function(tb,
                                .mode,
-                               .parking_cost = parking_cost,
-                               .elast = elast,
+                               .parking_cost = ghg.ccap::parking_cost,
+                               .elast = ghg.ccap::elast,
                                .parking_price = ghg.ccap::transportation_defaults$parking_price,
                                .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
                                .enviro_factors = ghg.ccap::enviro_factors) {
@@ -177,10 +187,12 @@ vmt_parking_policy <- function(tb,
       park_price_current %>%
         dplyr::cross_join(.elast) %>%
         dplyr::mutate(
-          park_price_adj = dplyr::case_when(
-            1 + (.parking_price / PARK) * park_elast < 0.45 ~ 0.45,
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .parking_price == 0 ~ 1.0,
+            PARK == 0 & .parking_price > 0 ~ 1 + 1.0 * park_elast,
             TRUE ~ 1 + (.parking_price / PARK) * park_elast
-          )
+          ),
+          park_price_adj = pmax(1 + .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
         ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()
@@ -196,7 +208,15 @@ vmt_parking_policy <- function(tb,
         dplyr::distinct() %>%
         dplyr::select(geog_name, geog_id, PARK = value) %>%
         dplyr::cross_join(.elast) %>%
-        dplyr::mutate(park_price_adj = 1 + (.parking_price / PARK) * park_transit) %>%
+        dplyr::mutate(
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .parking_price == 0 ~ 1.0,
+            PARK == 0 & .parking_price > 0 ~ 1 + 1.0 * park_transit,
+            TRUE ~ 1 + (.parking_price / PARK) * park_transit
+          ),
+          # Apply ceiling for transit: cannot increase more than inverse of vehicle reduction
+          park_price_adj = pmin(1 - .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
+        ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()
     },
@@ -204,10 +224,12 @@ vmt_parking_policy <- function(tb,
       park_price_current %>%
         dplyr::cross_join(.elast) %>%
         dplyr::mutate(
-          park_price_adj = dplyr::case_when(
-            1 + (.freight_parking_price / PARK) * park_elast < 0.45 ~ 0.45,
+          park_price_base = dplyr::case_when(
+            PARK == 0 & .freight_parking_price == 0 ~ 1.0,
+            PARK == 0 & .freight_parking_price > 0 ~ 1 + 1.0 * park_elast,
             TRUE ~ 1 + (.freight_parking_price / PARK) * park_elast
-          )
+          ),
+          park_price_adj = pmax(1 + .enviro_factors$MAX_PARKING_REDUCTION_PCT, park_price_base)
         ) %>%
         dplyr::select(year, geog_name, geog_id, park_price_adj) %>%
         return()
@@ -252,12 +274,12 @@ vmt_road_policy <- function(.pass_tb,
                             .tb_vmt,
                             .mode,
                             .tb_fuel_cost_mile,
+                            .stock,
                             .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
                             .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
                             .cong_price = ghg.ccap::transportation_defaults$cong_price,
                             .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
                             .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-                            .stock,
                             .enviro_factors = ghg.ccap::enviro_factors,
                             .elast = ghg.ccap::elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
@@ -540,7 +562,7 @@ vmt_stock_proportion <- function(.tb,
 vmt_transit_service <- function(tb,
                                 .mode,
                                 .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-                                .elast = elast,
+                                .elast = ghg.ccap::elast,
                                 .enviro_factors = ghg.ccap::enviro_factors) {
   years <- unique(tb$year)
   n_years <- length(years)
@@ -645,7 +667,7 @@ vmt_vehicle_occupancy <- function(tb,
                                   .stock,
                                   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
                                   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-                                  .vehicle_occupancy = vehicle_occupancy,
+                                  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                                   .enviro_factors = ghg.ccap::enviro_factors) {
   calc_avo_elast <- function(pct) {
     tibble::tibble(
@@ -841,8 +863,7 @@ vmt_trip_reduction <- function(.pass_tb,
   trip_reduction_pct <- .enviro_factors$CBTP_TRIP_REDUCTION_PCT
   max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
 
-
-  households_community <- demographic_data %>%
+  households_community <- ghg.ccap::demographic_data %>%
     filter_ctu(unique(.pass_tb$geog_name)) %>%
     dplyr::filter(
       sp_categories == "total_households",
@@ -851,14 +872,14 @@ vmt_trip_reduction <- function(.pass_tb,
     dplyr::select(geog_name, geog_id, year = inventory_year, households = value) %>%
     mutate(
       households_cbtp = (households * .cbtp_prop_targeted) * participation_pct,
-      uncapped_reduction = .cbtp_prop_targeted * participation_pct * -trip_reduction_pct,
+      uncapped_reduction = 1 + (.cbtp_prop_targeted * participation_pct * trip_reduction_pct),
       capped_reduction = dplyr::case_when(
-        uncapped_reduction < -max_reduction_pct ~ -max_reduction_pct,
+        uncapped_reduction < (1 + max_reduction_pct) ~ 1 + max_reduction_pct,
         TRUE ~ uncapped_reduction
       ),
       cbtp_adj = dplyr::case_when(
         as.numeric(year) < as.numeric(.cbtp_start_year) ~ 1,
-        TRUE ~ 1 + capped_reduction
+        TRUE ~ capped_reduction
       ),
       year = as.character(year)
     ) %>%

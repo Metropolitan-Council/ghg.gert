@@ -58,10 +58,10 @@ BINS_ATT <- c("<1000", "1000 to 1999", "2000 to 2999", "3000+")
 #' Map ResStock sqft factor labels → coarse attached bins
 bin_to_att_resstock <- function(x) {
   case_when(
-    x == "Less than 1,000"                        ~ "<1000",
+    x == "Less than 1,000" ~ "<1000",
     x %in% c("1,000 to 1,499", "1,500 to 1,999") ~ "1000 to 1999",
     x %in% c("2,000 to 2,499", "2,500 to 2,999") ~ "2000 to 2999",
-    x == "3,000 or more"                          ~ "3000+",
+    x == "3,000 or more" ~ "3000+",
     TRUE ~ NA_character_
   )
 }
@@ -169,20 +169,19 @@ strategy_scenario_filter <- list(
 # strategy builder func
 
 build_strategy_sf <- function(raw, strategy_label, vcols,
-                              rs_key           = strategy_resstock_keys[[strategy_label]],
+                              rs_key = strategy_resstock_keys[[strategy_label]],
                               plausibility_cap = 0.97) {
-
   raw_scenario <- strategy_scenario_filter[[strategy_label]]
 
-    prepped <- raw %>%
+  prepped <- raw %>%
     filter(
       model_heating_fuel == "Natural Gas",
-      scenario           == raw_scenario
+      scenario == raw_scenario
     ) %>%
     mutate(
-      scenario  = strategy_label,
+      scenario = strategy_label,
       sqft_fine = bin_all(model_geometry_floor_area),
-      sqft_att  = bin_to_att(sqft_fine),
+      sqft_att = bin_to_att(sqft_fine),
       model_vintage_acs = if_else(model_vintage_acs %in% c("2000-09", "2010s"), "2000+", model_vintage_acs) # coarser new build bin
     ) %>%
     apply_strategy_mutate(strategy_label) %>%
@@ -208,7 +207,7 @@ build_strategy_sf <- function(raw, strategy_label, vcols,
 
   # ResStock-derived att/det ratios at vintage x sqft_bin level,
   # with a bin-level median fallback for any missing vintage x bin combos
-  rs_vintaged     <- resstock_att_det_ratios(rs_key, cap = plausibility_cap)
+  rs_vintaged <- resstock_att_det_ratios(rs_key, cap = plausibility_cap)
   rs_bin_fallback <- rs_vintaged %>%
     group_by(sqft_bin) %>%
     summarise(
@@ -230,9 +229,9 @@ build_strategy_sf <- function(raw, strategy_label, vcols,
     build_year = all_vintages,
     sqft_bin   = BINS_ATT
   ) %>%
-    left_join(att_obs,        by = c("build_year", "sqft_bin")) %>%
-    left_join(det_collapsed,  by = c("build_year", "sqft_bin")) %>%
-    left_join(rs_vintaged,    by = c("build_year", "sqft_bin")) %>%
+    left_join(att_obs, by = c("build_year", "sqft_bin")) %>%
+    left_join(det_collapsed, by = c("build_year", "sqft_bin")) %>%
+    left_join(rs_vintaged, by = c("build_year", "sqft_bin")) %>%
     left_join(
       rs_bin_fallback %>% rename(ratio_kwh_bin = ratio_kwh, ratio_mcf_bin = ratio_mcf),
       by = "sqft_bin"
@@ -245,21 +244,19 @@ build_strategy_sf <- function(raw, strategy_label, vcols,
       # A CEEStock observed cell is kept only if it passes the physical plausibility
       # check: attached elec use must be below det * cap. Cells that fail (spikes
       # from low n) are replaced with det * ResStock ratio.
-      has_obs   = !is.na(elec_mwh),
+      has_obs = !is.na(elec_mwh),
       plausible = has_obs & (elec_mwh <= coalesce(elec_mwh_det, Inf) * plausibility_cap),
-
       across(
         all_of(vcols),
         ~ {
-          det_v    <- get(paste0(cur_column(), "_det"))
-          ratio_v  <- get(vcol_ratio_key[[cur_column()]])
+          det_v <- get(paste0(cur_column(), "_det"))
+          ratio_v <- get(vcol_ratio_key[[cur_column()]])
           smoothed <- det_v * ratio_v
           if_else(plausible, .x, smoothed)
         }
       ),
-
-      observed          = plausible,
-      scenario          = strategy_label,
+      observed = plausible,
+      scenario = strategy_label,
       mc_classification = "single_family_attached"
     ) %>%
     select(scenario, build_year, sqft_bin, mc_classification, all_of(vcols), observed)
@@ -292,7 +289,6 @@ cee_combined_sf <- build_strategy_sf(
 
 
 plot_cee_baseline <- function(data, strategy_label = "Baseline") {
-
   # sqft bin order differs between sfa (coarse) and sfd (fine)
   sqft_levels <- c(
     "<1000",
@@ -309,9 +305,9 @@ plot_cee_baseline <- function(data, strategy_label = "Baseline") {
   plot_data <- data %>%
     filter(scenario == strategy_label) %>%
     mutate(
-      sqft_bin   = factor(sqft_bin, levels = sqft_levels),
+      sqft_bin = factor(sqft_bin, levels = sqft_levels),
       build_year = factor(build_year, levels = vintage_levels),
-      housing    = if_else(
+      housing = if_else(
         mc_classification == "single_family_attached",
         "SF Attached", "SF Detached"
       )
@@ -323,9 +319,10 @@ plot_cee_baseline <- function(data, strategy_label = "Baseline") {
       values_to = "value"
     ) %>%
     mutate(
-      fuel = case_match(fuel,
-                        "elec_mwh" ~ "Electricity (MWh)",
-                        "gas_mcf"  ~ "Natural Gas (MCF)"
+      fuel = case_match(
+        fuel,
+        "elec_mwh" ~ "Electricity (MWh)",
+        "gas_mcf" ~ "Natural Gas (MCF)"
       )
     )
 
@@ -347,9 +344,9 @@ plot_cee_baseline <- function(data, strategy_label = "Baseline") {
     ) +
     theme_minimal(base_size = 11) +
     theme(
-      axis.text.x     = element_text(angle = 40, hjust = 1, size = 8),
-      strip.text.x    = element_text(face = "bold"),
-      strip.text.y    = element_text(face = "bold", angle = 0),
+      axis.text.x = element_text(angle = 40, hjust = 1, size = 8),
+      strip.text.x = element_text(face = "bold"),
+      strip.text.y = element_text(face = "bold", angle = 0),
       legend.position = "bottom",
       panel.grid.minor = element_blank()
     )

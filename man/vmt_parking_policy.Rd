@@ -7,8 +7,8 @@
 vmt_parking_policy(
   tb,
   .mode,
-  .parking_cost = parking_cost,
-  .elast = elast,
+  .parking_cost = ghg.ccap::parking_cost,
+  .elast = ghg.ccap::elast,
   .parking_price = ghg.ccap::transportation_defaults$parking_price,
   .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
   .enviro_factors = ghg.ccap::enviro_factors
@@ -41,7 +41,7 @@ a table with
 Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 }
 \details{
-Increase parking prices will decrease PLDV by up to 45\% and increase all transit
+Increase parking prices will decrease PLDV by up to 30\% and increase all transit
 modes and walk.
 
 The long-run elasticity of VMT to parking cost is estimated to be in the range

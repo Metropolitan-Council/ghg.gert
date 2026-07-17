@@ -46,7 +46,7 @@ avo_imagine <- trip %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
-    n_trips_sample = n()
+    n_trips_sample = n(), .groups = "keep"
   ) %>%
   ungroup()
 
@@ -81,7 +81,7 @@ avo_region <- trip %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
-    n_trips_sample = n()
+    n_trips_sample = n(), .groups = "keep"
   ) %>%
   ungroup()
 
