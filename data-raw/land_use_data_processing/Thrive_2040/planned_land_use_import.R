@@ -1,143 +1,102 @@
 #### Import planned land use from Thrive 2040 and convert to usable residential categories
-library(readxl)
+devtools::load_all(".")
 
+# helper: normalize CTU names to match geog_index conventions
+normalize_ctu_name <- function(x) {
+  stringr::str_replace(x, "St\\. ", "Saint ")
+}
 
 ## read in standard council planned land use data
 landuse <- readxl::read_xls("./data-raw/land_use_data_processing/Thrive_2040/PlannedLandUseData.xls") %>%
   janitor::clean_names()
 
-colnames(landuse)
-
-length(unique(landuse$hsgden_rng)) # 11
-length(unique(landuse$pluse_desc)) # 784
-length(unique(landuse$hsg_den)) # 404
-length(unique(landuse$metc_desc)) # 2271
-
-# are there categories without housing density that we want?
-no_dens <- filter(landuse, is.na(hsg_den)) %>% distinct(pluse_desc)
-### flags: 	Low Density Residential, ...Mixed Use..., Residential - Business,
-# Urban Expansion, Urban Planning Areas
-
-
 landuse_density <- filter(landuse, !is.na(hsg_den)) %>%
-  # extract available housing density numbers from descriptions
   mutate(
     hsg_den = stringr::str_to_lower(hsg_den),
     units_string = stringr::str_extract(hsg_den, "[^unit]+"),
     unit_minimum = case_when(
       stringr::str_detect(units_string, "-") ~
-        stringr::str_extract(units_string, "^[^-]+"), # range provided
-      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?") # no range, unit is min and max
+        stringr::str_extract(units_string, "^[^-]+"),
+      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?")
     ) %>% as.numeric(),
     unit_maximum = case_when(
       stringr::str_detect(units_string, "-") ~
-        stringr::str_extract(units_string, "[^-]+$"), # range provided
-      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?") # no range, unit is min and max
+        stringr::str_extract(units_string, "[^-]+$"),
+      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?")
     ) %>% as.numeric(),
     unit_mean = (unit_minimum + unit_maximum) / 2,
     area_string = stringr::str_trim(sub(".*\\bper\\s*", "", hsg_den)),
-    # convert to single area number
-    area_numbers = stringr::str_extract_all(area_string, "\\d+(\\.\\d+)?"), # stores multiple numbers (ranges) as vector
-    # compute numeric value:
+    area_numbers = stringr::str_extract_all(area_string, "\\d+(\\.\\d+)?"),
     acreage = purrr::map_dbl(area_numbers, ~ {
       nums <- as.numeric(.x)
       if (length(nums) == 2) {
         mean(nums)
-      } # range → mean
-      else if (length(nums) == 1) {
+      } else if (length(nums) == 1) {
         nums[1]
-      } # single number
-      else {
+      } else {
         1
-      } # "acre" → assume 1
+      }
     }),
     units_per_acre = unit_mean / acreage
   )
-# #extract housing information where available
-# mutate(housing_type = case_when(
-#        grepl("SFD",metc_desc) ~ "single_family_detached",
-#        grepl("SFA",metc_desc) ~ "single_family_attached",
-#        grepl("MF",metc_desc) ~ "multifamily_home",
-#        TRUE  ~ "Unassigned"
-# )
-# )
 
 ctu_planned_land_use_council <- landuse_density %>%
-  # remove cats with no acreage
   filter(acres > 0) %>%
   group_by(
-    geog_name = ctu_name, ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
+    geog_name = normalize_ctu_name(ctu_name),
+    ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
     unit_maximum, per_acres = acreage, unit_mean
   ) %>%
   summarize(acres = sum(acres)) %>%
   ungroup() %>%
   left_join(geog_index)
 
-
 ### read in met council planned land use parcel clipout
-### expectation is this will better match city submissions
-
 landuse_parcel <- readxl::read_xlsx("./data-raw/land_use_data_processing/Thrive_2040/ctu_plu_parcel_clip.xlsx") %>%
   janitor::clean_names()
 
 landuse_density_parcel <- filter(landuse_parcel, !is.na(hsg_den)) %>%
-  # extract available housing density numbers from descriptions
   mutate(
     hsg_den = stringr::str_to_lower(hsg_den),
     units_string = stringr::str_extract(hsg_den, "[^unit]+"),
     unit_minimum = case_when(
       stringr::str_detect(units_string, "-") ~
-        stringr::str_extract(units_string, "^[^-]+"), # range provided
-      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?") # no range, unit is min and max
+        stringr::str_extract(units_string, "^[^-]+"),
+      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?")
     ) %>% as.numeric(),
     unit_maximum = case_when(
       stringr::str_detect(units_string, "-") ~
-        stringr::str_extract(units_string, "[^-]+$"), # range provided
-      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?") # no range, unit is min and max
+        stringr::str_extract(units_string, "[^-]+$"),
+      TRUE ~ stringr::str_extract(units_string, "\\d+(\\.\\d+)?")
     ) %>% as.numeric(),
     unit_mean = (unit_minimum + unit_maximum) / 2,
     area_string = stringr::str_trim(sub(".*\\bper\\s*", "", hsg_den)),
-    # convert to single area number
-    area_numbers = stringr::str_extract_all(area_string, "\\d+(\\.\\d+)?"), # stores multiple numbers (ranges) as vector
-    # compute numeric value:
+    area_numbers = stringr::str_extract_all(area_string, "\\d+(\\.\\d+)?"),
     acreage = purrr::map_dbl(area_numbers, ~ {
       nums <- as.numeric(.x)
       if (length(nums) == 2) {
         mean(nums)
-      } # range → mean
-      else if (length(nums) == 1) {
+      } else if (length(nums) == 1) {
         nums[1]
-      } # single number
-      else {
+      } else {
         1
-      } # "acre" → assume 1
+      }
     }),
     units_per_acre = unit_mean / acreage
   )
 
 ctu_planned_land_use_parcel <- landuse_density_parcel %>%
-  # remove cats with no acreage
   filter(sum_acres > 0) %>%
   group_by(
-    geog_name = ctu_name, ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
+    geog_name = normalize_ctu_name(ctu_name),
+    ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
     unit_maximum, per_acres = acreage, unit_mean
   ) %>%
   summarize(acres = sum(sum_acres)) %>%
   ungroup() %>%
   left_join(geog_index)
 
-# usethis::use_data(ctu_planned_land_use_residential, overwrite = TRUE)
-
-# diagnostic
-# landuse %>%
-#   filter(ctu_name == "Plymouth") %>%
-#   group_by(pluse_desc) %>%
-#   summarize(acres = sum(acres)) %>%
-#   filter(acres != 0)
-
-
 ### alternative - use met council regionalization numbers
-
 planned_land_use_regionalized <- filter(landuse, !is.na(hsgden_rng)) %>%
   mutate(
     minimum_density_per_acre = case_when(
@@ -176,8 +135,8 @@ planned_land_use_regionalized <- filter(landuse, !is.na(hsgden_rng)) %>%
     geog_name = ctu_name, housing_density, acres, minimum_density_per_acre,
     maximum_density_per_acre, expected_density
   ) %>%
+  mutate(geog_name = normalize_ctu_name(geog_name)) %>%
   left_join(geog_index) %>%
-  # remove cats with no acreage
   filter(acres > 0)
 
 planned_land_use <- list(
