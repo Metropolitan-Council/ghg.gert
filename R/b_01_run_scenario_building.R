@@ -41,7 +41,6 @@
 #'   run_residential = TRUE,
 #'   run_non_residential = TRUE,
 #'   .selected_ctu = "all",
-#'   .enviro_factors = enviro_factors,
 #'   .electrified_buildings_pct = 0.40,
 #'   .smart_grid_energy_reduction_pct = 1.00,
 #'   .new_homes_to_multifamily_pct = 0.50,
@@ -92,8 +91,7 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
                                   .existing_jobs_retrofit_pct = 0.0,
                                   .jobs_heatpump_pct = 0.0,
                                   # emissions factors and elasticities
-                                  .grid_emissions = ghg.ccap::grid_emissions,
-                                  .enviro_factors = ghg.ccap::enviro_factors) {
+                                  .grid_emissions = ghg.ccap::grid_emissions) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -163,7 +161,6 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
         .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
         .sf_heatpump_pct = .sf_heatpump_pct,
         .mf_heatpump_pct = .mf_heatpump_pct,
-        .enviro_factors = .enviro_factors,
         .grid_emissions = .grid_emissions
       ) %>%
       mutate(sector = "Residential") %>%

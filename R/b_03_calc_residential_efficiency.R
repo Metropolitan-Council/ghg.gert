@@ -35,8 +35,7 @@
 #' calc_housing_leed(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
-#'   .new_homes_leed_gold_pct = 0.5,
-#'   .enviro_factors = enviro_factors
+#'   .new_homes_leed_gold_pct = 0.5
 #' )
 #' }
 #'
@@ -44,8 +43,7 @@ calc_housing_leed <- function(res_tb,
                               .selected_ctu,
                               .new_sf_homes_leed_gold_pct,
                               .new_mf_homes_leed_gold_pct,
-                              .leed_start_year,
-                              .enviro_factors = ghg.ccap::enviro_factors) {
+                              .leed_start_year) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -178,8 +176,7 @@ calc_housing_leed <- function(res_tb,
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .enviro_factors = ghg.ccap::enviro_factors
+#'   .existing_home_ultra_retrofit_pct = 0.20
 #' )
 #' }
 #'
@@ -188,8 +185,7 @@ calc_residential_retrofit <- function(res_tb,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
                                       .retrofit_start_year,
-                                      .retrofit_end_year,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                      .retrofit_end_year) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 

@@ -34,8 +34,7 @@
 #'   res_tb = building_data$residential,
 #'   res_tb_bau = building_data$residential,
 #'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1,
-#'   .enviro_factors = enviro_factors
+#'   .grid_decarbonization_pct = 1
 #' )
 #' }
 #' @export
@@ -46,8 +45,7 @@ calc_energy_non_residential <- function(non_res_tb,
                                         .baseline_year,
                                         .scenario = "alt",
                                         .selected_ctu,
-                                        .jobs_heatpump_pct,
-                                        .enviro_factors = ghg.ccap::enviro_factors) {
+                                        .jobs_heatpump_pct) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
