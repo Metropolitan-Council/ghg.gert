@@ -5,19 +5,12 @@
 #   - building_energy_data  (list: inventories, forecasts, demographic slices)
 
 devtools::load_all(".")
+library(tidyverse)
 
 # helper: base URL for ghg-cprg repo ----
 ghg_cprg_url <- function(path) {
   paste0(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/",
-    path
-  )
-}
-
-# temp URL for ongoing ghg-cprg work
-ghg_cprg_tmp <- function(path) {
-  paste0(
-    "https://github.com/Metropolitan-Council/ghg-cprg/raw/251-update-electricity-ctu-workflow/",
     path
   )
 }
@@ -33,15 +26,15 @@ cprg_ctu_desgn <- read_rds(ghg_cprg_url("_meta/data/cprg_ctu.RDS")) %>%
 # electricity inventory ----
 # CTU-level
 ctu_elec_inventory <- read_rds(
-  ghg_cprg_tmp("_energy/data/_ctu_electricity_emissions.RDS")
+  ghg_cprg_url("_energy/data/_ctu_electricity_emissions.RDS")
 ) %>%
   rename(geog_level = ctu_class) %>%
-  left_join(ghg.ccap::geog_index, by = join_by(ctu_name == geog_name, geog_level)) %>%
-  select(geog_name = ctu_name, geog_id, geog_level, sector, emissions_year, mwh)
+  left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
+  select(geog_name, geog_id, geog_level, sector, emissions_year, mwh)
 
 #County-level electricity inventory
 county_elec_inventory <- read_rds(
-  ghg_cprg_tmp("_energy/data/county_elec_activity_by_sector.RDS")
+  ghg_cprg_url("_energy/data/county_elec_activity_by_sector.RDS")
 ) %>%
   mutate(
     geog_level = "COUNTY",
@@ -62,8 +55,8 @@ ctu_gas_inventory <- read_rds(
   ghg_cprg_url("_energy/data/_ctu_natgas_emissions.RDS")
 ) %>%
   rename(geog_level = ctu_class) %>%
-  left_join(ghg.ccap::geog_index, by = join_by(ctu_name == geog_name, geog_level)) %>%
-  select(geog_name = ctu_name, geog_id, geog_level, sector, emissions_year, mcf)
+  left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
+  select(geog_name, geog_id, geog_level, sector, emissions_year, mcf)
 
 # County-level natural gas inventory
 county_gas_inventory <- read_rds(
@@ -84,20 +77,19 @@ county_gas_inventory <- read_rds(
   )
 
 # propane / fuel oil inventory ----
+metro_counties <- c("Anoka", "Carver", "Dakota", "Hennepin",
+                    "Ramsey", "Scott", "Washington")
+
 # CTU-level (residential only, from ACS-derived estimates)
 ctu_propane_inventory <- read_rds(
   ghg_cprg_url("_energy/data-raw/ctu_propane_fueloil_use.RDS")
 ) %>%
+  filter(county_name %in% metro_counties) %>%
   rename(geog_level = ctu_class, emissions_year = acs_year) %>%
-  mutate(
-    sector = "Residential",
-    ctu_name = if_else(geog_level == "TOWNSHIP",
-                       paste(ctu_name, "Twp."), ctu_name
-    )
-  ) %>%
-  left_join(geog_index, by = join_by(ctu_name == geog_name, geog_level)) %>%
+  left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
+  mutate(sector = "Residential") %>%
   select(
-    geog_name = ctu_name, geog_id, geog_level, sector, emissions_year,
+    geog_name, geog_id, geog_level, sector, emissions_year,
     propane_mmbtu = propane_mmBtu, fueloil_other_mmbtu = fueloil_other_mmBtu
   )
 
@@ -105,6 +97,7 @@ ctu_propane_inventory <- read_rds(
 county_propane_inventory <- read_rds(
   ghg_cprg_url("_energy/data/county_propane_fueloil_activity.RDS")
 ) %>%
+  filter(county_name %in% metro_counties) %>%
   mutate(
     geog_level = "COUNTY",
     county_name = paste(county_name, "County")
@@ -120,8 +113,7 @@ county_propane_inventory <- read_rds(
     values_fill = 0
   ) %>%
   janitor::clean_names() %>%
-  rename(fueloil_other_mmbtu = fuel_oil_other,
-         propane_mmbtu = propane)
+  rename(fueloil_other_mmbtu = fuel_oil_other)
 
 # assemble building_energy_data ----
 building_energy_data <- list(

@@ -96,53 +96,10 @@ ctu_planned_land_use_parcel <- landuse_density_parcel %>%
   ungroup() %>%
   left_join(geog_index)
 
-### alternative - use met council regionalization numbers
-planned_land_use_regionalized <- filter(landuse, !is.na(hsgden_rng)) %>%
-  mutate(
-    minimum_density_per_acre = case_when(
-      hsgden_rng == "RURAL" ~ 1 / 39.9,
-      hsgden_rng == "EXURBAN" ~ 1 / 2.5,
-      hsgden_rng == "LOW" ~ 1,
-      hsgden_rng == "MEDIUM" ~ 4,
-      hsgden_rng == "HIGH" ~ 8,
-      hsgden_rng == "VERYHIGH" ~ 12,
-      hsgden_rng == "URBAN" ~ 20,
-      TRUE ~ NA
-    ),
-    maximum_density_per_acre = case_when(
-      hsgden_rng == "RURAL" ~ 1 / 2.51,
-      hsgden_rng == "EXURBAN" ~ 1 / 1.1,
-      hsgden_rng == "LOW" ~ 4,
-      hsgden_rng == "MEDIUM" ~ 8,
-      hsgden_rng == "HIGH" ~ 12,
-      hsgden_rng == "VERYHIGH" ~ 20,
-      hsgden_rng == "URBAN" ~ 100,
-      TRUE ~ NA
-    ),
-    expected_density = (maximum_density_per_acre + minimum_density_per_acre) / 2
-  ) %>%
-  filter(!is.na(expected_density)) %>%
-  group_by(ctu_name, hsgden_rng) %>%
-  summarize(
-    acres = sum(acres),
-    minimum_density_per_acre = mean(minimum_density_per_acre),
-    maximum_density_per_acre = mean(maximum_density_per_acre),
-    expected_density = mean(expected_density)
-  ) %>%
-  mutate(housing_density = stringr::str_to_sentence(hsgden_rng)) %>%
-  ungroup() %>%
-  select(
-    geog_name = ctu_name, housing_density, acres, minimum_density_per_acre,
-    maximum_density_per_acre, expected_density
-  ) %>%
-  mutate(geog_name = normalize_ctu_name(geog_name)) %>%
-  left_join(geog_index) %>%
-  filter(acres > 0)
 
 planned_land_use <- list(
   ctu_planned_land_use_council = ctu_planned_land_use_council,
-  ctu_planned_land_use_parcel = ctu_planned_land_use_parcel,
-  planned_land_use_regionalized = planned_land_use_regionalized
+  ctu_planned_land_use_parcel = ctu_planned_land_use_parcel
 )
 
 usethis::use_data(planned_land_use, overwrite = TRUE)

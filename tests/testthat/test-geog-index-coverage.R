@@ -26,12 +26,9 @@ test_that("geog_index covers all transportation geog_names", {
 })
 
 test_that("geog_index covers all agriculture geog_names (7-county metro)", {
-  metro_counties <- c("Anoka", "Carver", "Dakota", "Hennepin",
-                      "Ramsey", "Scott", "Washington")
 
   # livestock (CTU-level, filter to metro counties)
   livestock_names <- agriculture_activity_data$livestock %>%
-    filter(county_name %in% metro_counties) %>%
     pull(geog_name) %>% unique()
   missing <- setdiff(livestock_names, geog_index$geog_name)
   expect_equal(missing, character(0),
@@ -40,7 +37,6 @@ test_that("geog_index covers all agriculture geog_names (7-county metro)", {
 
   # crops (county-level)
   crop_names <- agriculture_activity_data$crops %>%
-    filter(county_name %in% metro_counties) %>%
     pull(geog_name) %>% unique()
   missing <- setdiff(crop_names, geog_index$geog_name)
   expect_equal(missing, character(0),
@@ -49,7 +45,6 @@ test_that("geog_index covers all agriculture geog_names (7-county metro)", {
 
   # fertilizer (county-level)
   fert_names <- agriculture_activity_data$fertilizer %>%
-    filter(county_name %in% metro_counties) %>%
     pull(geog_name) %>% unique()
   missing <- setdiff(fert_names, geog_index$geog_name)
   expect_equal(missing, character(0),
