@@ -2,6 +2,7 @@
 # Grid emission factors + stationary combustion (propane, kerosene/fuel oil)
 # from EPA GHG Emission Factor Hub
 devtools::load_all(".")
+library(imputeTS)
 
 # GWP values (AR6)
 gwp <- list(co2 = 1, ch4 = 27.9, n2o = 273)
