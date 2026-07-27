@@ -1,45 +1,31 @@
-#' @title Calculate residential building mwh
+#' @title Calculate residential building energy
 #' @family buildings
 #' @family residential
 #' @family emissions
 #'
-#' @description Estimates total energy demand
-#'      from the residential building sector by city/township
-#'      for the user-specified scenario, and the business-as-usual scenario.
+#' @description Estimates total energy demand (electricity, natural gas,
+#'   propane, and kerosene) from the residential building sector by
+#'   city/township for the user-specified scenario and BAU.
 #'
-#' @note `calc_energy_residential()` estimates the building energy demand
-#'      based on the housing efficiency assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_building_residential()`].
+#'   Baseline years use observed inventory data directly. Forecast years
+#'   apply per-unit energy profiles from [calc_building_energy()] calibrated
+#'   to the most recent 5 observed years. Propane and kerosene track the
+#'   natural gas forecast proportionally using per-CTU ratios derived from
+#'   the baseline period.
 #'
 #' @param res_tb [tibble::tibble()].
-#'      Table, table with residential building data.
-#' @param .sf_heatpump_pct numeric, percent of single family homes converting to heat pumps
-#' @param .mf_heatpump_pct numeric, percent of multifamily homes converting to heat pumps
+#'      Scenario-adjusted residential units from [calc_residential_electrification()].
+#' @param res_tb_bau [tibble::tibble()].
+#'      BAU residential units (zero-strategy pass).
 #'
 #' @inheritParams run_module_transportation
 #' @inheritParams scen_building_residential
 #'
-#' @return [tibble::tibble()].
-#'    A table with columns
-#'    `geog_name`,
-#'    `inventory_year`,
-#'    `geog_id`,
-#'    `residential_mwh`,
-#'    `residential_mcf`,
-#'    `scenario`
+#' @return [tibble::tibble()] with columns
+#'   `geog_name`, `geog_id`, `inventory_year`, `scenario`,
+#'   `residential_mwh`, `residential_mcf`,
+#'   `residential_propane_mmbtu`, `residential_kerosene_mmbtu`.
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_ghg_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1,
-#'   .enviro_factors = enviro_factors
-#' )
-#' }
 #' @export
 calc_energy_residential <- function(res_tb,
                                     res_tb_bau,
@@ -49,35 +35,54 @@ calc_energy_residential <- function(res_tb,
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
-  baseline_energy <- left_join(
-    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
-      .selected_ctu = .selected_ctu
+  # baseline observed energy ----
+
+  baseline_elec <- filter_ctu(
+    ghg.ccap::building_energy_data$electricity_inventory,
+    .selected_ctu = .selected_ctu
+  ) %>%
+    dplyr::filter(inventory_year <= .baseline_year, sector == "Residential")
+
+  baseline_natgas <- filter_ctu(
+    ghg.ccap::building_energy_data$natgas_inventory,
+    .selected_ctu = .selected_ctu
+  ) %>%
+    dplyr::filter(inventory_year <= .baseline_year, sector == "Residential")
+
+  # propane_inventory is residential-only, no sector column
+  # expected columns: geog_name, geog_id, inventory_year,
+  #                   propane_mmbtu, kerosene_mmbtu
+  baseline_propane <- filter_ctu(
+    ghg.ccap::building_energy_data$propane_inventory,
+    .selected_ctu = .selected_ctu
+  ) %>%
+    dplyr::filter(inventory_year <= .baseline_year)
+
+  baseline_energy <- dplyr::left_join(
+    baseline_elec,
+    baseline_natgas,
+    by = dplyr::join_by(geog_name, geog_id, geog_level, sector, inventory_year)
+  ) %>%
+    dplyr::left_join(
+      baseline_propane,
+      by = dplyr::join_by(geog_name, geog_id, inventory_year)
     ) %>%
-      dplyr::filter(
-        inventory_year <= .baseline_year,
-        sector == "Residential"
-      ),
-    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
-      .selected_ctu = .selected_ctu
-    ) %>%
-      dplyr::filter(
-        inventory_year <= .baseline_year,
-        sector == "Residential"
-      ),
-    by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
-  )
-  # browser()
-  # ctu specific energy profiles
+    dplyr::mutate(
+      propane_mmbtu  = tidyr::replace_na(propane_mmbtu, 0),
+      kerosene_mmbtu = tidyr::replace_na(kerosene_mmbtu, 0)
+    )
+
+  # energy profiles + calibration ----
+
   ctu_energy_profile <- calc_building_energy(.selected_ctu = .selected_ctu)
 
-  # --- calibration: align model to last 5 observed years ---------------
   bau_baseline_units <- res_tb_bau %>%
     dplyr::filter(
       inventory_year >= (.baseline_year - 4),
       inventory_year <= .baseline_year
     ) %>%
     dplyr::distinct(geog_name, sp_categories, inventory_year, allocated_units) %>%
-    left_join(
+    dplyr::left_join(
       dplyr::filter(ctu_energy_profile, scenario == "baseline"),
       by = c("sp_categories" = "mc_classification")
     )
@@ -90,14 +95,30 @@ calc_energy_residential <- function(res_tb,
   mcf_adjustment <- sum(observed_recent$mcf) /
     sum(bau_baseline_units$allocated_units * bau_baseline_units$scenario_mcf)
 
-  # calculate expected energy load for cities here
-  # heat pump expected energy will be lowered for retrofit homes
-  # ctu average energy load will be split based on heat pump percentage
+  # propane/kerosene ratios ----
+  # per-CTU ratio of liquid fuel to natgas, from the recent baseline window.
+  # forecast propane/kerosene will track natgas proportionally so the same
+
+  # strategy reductions apply evenly across fuel types.
+
+  fuel_ratios <- observed_recent %>%
+    dplyr::group_by(geog_name) %>%
+    dplyr::summarize(
+      propane_per_mcf  = sum(propane_mmbtu)  / sum(mcf),
+      kerosene_per_mcf = sum(kerosene_mmbtu) / sum(mcf),
+      .groups = "drop"
+    ) %>%
+    dplyr::mutate(
+      propane_per_mcf  = dplyr::if_else(is.finite(propane_per_mcf),  propane_per_mcf,  0),
+      kerosene_per_mcf = dplyr::if_else(is.finite(kerosene_per_mcf), kerosene_per_mcf, 0)
+    )
+
+  # forecast energy ----
 
   compute_energy <- function(tb) {
     tb %>%
       dplyr::filter(inventory_year > .baseline_year) %>%
-      left_join(
+      dplyr::left_join(
         ctu_energy_profile,
         by = c("sp_categories" = "mc_classification", "scenario")
       ) %>%
@@ -110,12 +131,24 @@ calc_energy_residential <- function(res_tb,
         residential_mwh = sum(residential_mwh, na.rm = TRUE),
         residential_mcf = sum(residential_mcf, na.rm = TRUE),
         .groups = "drop"
-      )
+      ) %>%
+      dplyr::left_join(fuel_ratios, by = "geog_name") %>%
+      dplyr::mutate(
+        residential_propane_mmbtu  = residential_mcf * propane_per_mcf,
+        residential_kerosene_mmbtu = residential_mcf * kerosene_per_mcf
+      ) %>%
+      dplyr::select(-propane_per_mcf, -kerosene_per_mcf)
   }
 
+  # combine baseline + forecast ----
+
   baseline_rows <- baseline_energy %>%
-    dplyr::select(geog_name, geog_id, inventory_year,
-      residential_mwh = mwh, residential_mcf = mcf
+    dplyr::select(
+      geog_name, geog_id, inventory_year,
+      residential_mwh          = mwh,
+      residential_mcf          = mcf,
+      residential_propane_mmbtu  = propane_mmbtu,
+      residential_kerosene_mmbtu = kerosene_mmbtu
     )
 
   energy_final <- dplyr::bind_rows(
