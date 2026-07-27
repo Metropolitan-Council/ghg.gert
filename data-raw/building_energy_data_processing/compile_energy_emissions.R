@@ -85,6 +85,7 @@ combustion_ef <- bind_rows(
         emission == "g N2O"  ~ value * 1000 / 1e6 * gwp$n2o
       )
     ) %>%
+    filter(!is.na(mt_co2e)) %>%
     summarize(
       fuel_type = "Natural Gas",
       mt_co2e_per_unit = sum(mt_co2e),

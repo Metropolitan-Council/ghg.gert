@@ -7,8 +7,7 @@
 calc_ghg_residential(
   res_energy,
   .selected_ctu,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .grid_emissions = ghg.ccap::grid_emissions
 )
 }
 \arguments{
@@ -17,9 +16,6 @@ Table, table with residential energy,
 including columns \code{residential_mwh}, \code{residential_mcf}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
