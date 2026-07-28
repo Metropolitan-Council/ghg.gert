@@ -16,7 +16,7 @@ testthat::test_that("calc_housing_leed", {
 
   test_that("Minneapolis LEED works", {
     leed0 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
@@ -32,7 +32,7 @@ testthat::test_that("calc_housing_leed", {
 
     # expect error
     testthat::expect_error(calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
@@ -40,7 +40,7 @@ testthat::test_that("calc_housing_leed", {
     ))
 
     leed6 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -48,7 +48,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed4 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -56,7 +56,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed9 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
@@ -65,7 +65,7 @@ testthat::test_that("calc_housing_leed", {
 
 
     leed1 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Minneapolis",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
@@ -81,7 +81,7 @@ testthat::test_that("calc_housing_leed", {
 
   test_that("Blaine LEED works", {
     leed0 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
@@ -97,7 +97,7 @@ testthat::test_that("calc_housing_leed", {
 
     # expect error
     testthat::expect_error(calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
@@ -105,7 +105,7 @@ testthat::test_that("calc_housing_leed", {
     ))
 
     leed6 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -113,7 +113,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed4 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -121,7 +121,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed9 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
@@ -130,7 +130,7 @@ testthat::test_that("calc_housing_leed", {
 
 
     leed1 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Blaine",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
@@ -147,7 +147,7 @@ testthat::test_that("calc_housing_leed", {
 
   test_that("Willernie LEED works", {
     leed0 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
@@ -163,7 +163,7 @@ testthat::test_that("calc_housing_leed", {
 
     # expect error
     testthat::expect_error(calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
@@ -171,7 +171,7 @@ testthat::test_that("calc_housing_leed", {
     ))
 
     leed6 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -179,7 +179,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed4 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
@@ -187,7 +187,7 @@ testthat::test_that("calc_housing_leed", {
     )
 
     leed9 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
@@ -196,7 +196,7 @@ testthat::test_that("calc_housing_leed", {
 
 
     leed1 <- calc_housing_leed(
-      res_tb = building_data$residential,
+      res_tb = building_energy_data$residential,
       .selected_ctu = "Willernie",
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
