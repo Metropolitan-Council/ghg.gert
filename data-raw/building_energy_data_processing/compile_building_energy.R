@@ -73,7 +73,7 @@ county_gas_inventory <- read_rds(
   summarize(mcf = sum(value_activity), .groups = "drop") %>%
   select(
     geog_name = county_name, geog_id,
-    geog_level, sector, inventory_year = emissions_year, mcf
+    geog_level, sector, emissions_year, mcf
   )
 
 # propane / fuel oil inventory ----
@@ -127,9 +127,11 @@ building_energy_data <- list(
     filter(sp_categories %in% c(
       "multifamily_units", "single_family_attached",
       "single_family_detached", "manufactured_homes"
-    )),
+    )) %>%
+    rename(emissions_year = inventory_year),
   non_residential = demographic_data %>%
-    filter(sp_categories %in% c("commercial_jobs", "industrial_jobs")),
+    filter(sp_categories %in% c("commercial_jobs", "industrial_jobs")) %>%
+    rename(emissions_year = inventory_year),
 
   # total jobs with Imagine designation (default arg in b_01)
   jobs = demographic_data %>%
@@ -139,7 +141,8 @@ building_energy_data <- list(
       cprg_ctu_desgn %>% distinct(ctu_name, ctu_class, imagine_designation),
       by = join_by(geog_name_tmp == ctu_name, geog_level == ctu_class)
     ) %>%
-    select(-geog_name_tmp)
+    select(-geog_name_tmp)%>%
+    rename(emissions_year = inventory_year)
 )
 
 # save ----

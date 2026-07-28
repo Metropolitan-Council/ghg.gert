@@ -15,7 +15,7 @@ epa_hub <- readr::read_rds(
 # grid emissions (eGRID + MISO projections) ----
 egrid <- epa_hub$egridTimeSeries %>%
   mutate(
-    inventory_year = as.numeric(Year),
+    emissions_year = as.numeric(Year),
     factor_source = Source,
     mt_per_mwh = as.numeric(value *
                               units::as_units("pound") %>%
@@ -26,7 +26,7 @@ egrid <- epa_hub$egridTimeSeries %>%
       grepl("CO2", emission) ~ mt_per_mwh * gwp$co2
     )
   ) %>%
-  group_by(inventory_year, factor_source) %>%
+  group_by(emissions_year, factor_source) %>%
   summarize(mt_co2e_per_mwh = sum(co2e), .groups = "drop")
 
 miso <- readr::read_csv(
@@ -35,19 +35,19 @@ miso <- readr::read_csv(
 
 miso_ef <- miso %>%
   mutate(
-    inventory_year = as.numeric(substr(start_date_utc, 1, 4)),
+    emissions_year = as.numeric(substr(start_date_utc, 1, 4)),
     mt_co2e_per_mwh = as.numeric(total_co2_intensity_lbs_per_mwh *
                                    units::as_units("pound") %>%
                                    units::set_units("metric_ton")),
     factor_source = "MISO regional projections"
   ) %>%
-  select(inventory_year, mt_co2e_per_mwh, factor_source) %>%
-  filter(inventory_year != 2024) # 2024 appears anomalously low
+  select(emissions_year, mt_co2e_per_mwh, factor_source) %>%
+  filter(emissions_year != 2024) # 2024 appears anomalously low
 
 grid_emissions <- bind_rows(egrid, miso_ef) %>%
   right_join(
-    data.frame(inventory_year = seq(2005, 2050)),
-    by = "inventory_year"
+    data.frame(emissions_year = seq(2005, 2050)),
+    by = "emissions_year"
   ) %>%
   mutate(
     factor_source = if_else(
@@ -57,7 +57,7 @@ grid_emissions <- bind_rows(egrid, miso_ef) %>%
     ),
     log_co2e = log(mt_co2e_per_mwh)
   ) %>%
-  arrange(inventory_year) %>%
+  arrange(emissions_year) %>%
   mutate(
     log_co2e = imputeTS::na_kalman(log_co2e),
     mt_co2e_per_mwh = exp(log_co2e)
@@ -65,8 +65,8 @@ grid_emissions <- bind_rows(egrid, miso_ef) %>%
   select(-log_co2e) %>%
   # MN 100% Clean Energy Standard: zero-emission grid by 2040
   mutate(
-    mt_co2e_per_mwh = if_else(inventory_year >= 2040, 0, mt_co2e_per_mwh),
-    factor_source = if_else(inventory_year >= 2040, "MN 100% Clean Energy Standard", factor_source)
+    mt_co2e_per_mwh = if_else(emissions_year >= 2040, 0, mt_co2e_per_mwh),
+    factor_source = if_else(emissions_year >= 2040, "MN 100% Clean Energy Standard", factor_source)
   )
 
 # stationary combustion emission factors ----

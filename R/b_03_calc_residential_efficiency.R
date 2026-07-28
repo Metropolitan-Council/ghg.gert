@@ -67,7 +67,7 @@ calc_housing_leed <- function(res_tb,
     dplyr::filter(grepl("single", sp_categories)) %>%
     dplyr::mutate(
       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_leed = if_else(inventory_year < .leed_start_year,
+      new_leed = if_else(emissions_year < .leed_start_year,
         0,
         round(new_units * .new_sf_homes_leed_gold_pct)
       ),
@@ -95,7 +95,7 @@ calc_housing_leed <- function(res_tb,
     dplyr::filter(grepl("multi", sp_categories)) %>%
     dplyr::mutate(
       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_leed = if_else(inventory_year < .leed_start_year,
+      new_leed = if_else(emissions_year < .leed_start_year,
         0,
         round(new_units * .new_mf_homes_leed_gold_pct)
       ),
@@ -114,7 +114,7 @@ calc_housing_leed <- function(res_tb,
         geog_name,
         geog_id,
         sp_categories,
-        inventory_year,
+        emissions_year,
         value,
         value_change_from_base,
         new_units,
@@ -126,7 +126,7 @@ calc_housing_leed <- function(res_tb,
         geog_name,
         geog_id,
         sp_categories,
-        inventory_year,
+        emissions_year,
         value,
         value_change_from_base,
         new_units,
@@ -200,7 +200,7 @@ calc_residential_retrofit <- function(res_tb,
   n_ramp <- length(ramp_years)
 
   pct_ramp <- tibble::tibble(
-    inventory_year = ramp_years,
+    emissions_year = ramp_years,
     sf_pct = seq(
       from = .existing_sf_retrofit_pct / n_ramp,
       to = .existing_sf_retrofit_pct,
@@ -214,17 +214,17 @@ calc_residential_retrofit <- function(res_tb,
   )
 
   # Join pct values by condition
-  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
-    left_join(pct_ramp, by = "inventory_year") %>%
+  pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
+    left_join(pct_ramp, by = "emissions_year") %>%
     dplyr::mutate(
       sf_pct = dplyr::case_when(
-        inventory_year < .retrofit_start_year ~ 0,
-        inventory_year > .retrofit_end_year ~ .existing_sf_retrofit_pct,
+        emissions_year < .retrofit_start_year ~ 0,
+        emissions_year > .retrofit_end_year ~ .existing_sf_retrofit_pct,
         TRUE ~ sf_pct
       ),
       mf_pct = dplyr::case_when(
-        inventory_year < .retrofit_start_year ~ 0,
-        inventory_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
+        emissions_year < .retrofit_start_year ~ 0,
+        emissions_year > .retrofit_end_year ~ .existing_mf_retrofit_pct,
         TRUE ~ mf_pct
       )
     )
@@ -241,13 +241,13 @@ calc_residential_retrofit <- function(res_tb,
   # } else if (.existing_sf_retrofit_pct != 0) {
   existing_sf <- res_tb %>%
     dplyr::filter(grepl("single", sp_categories)) %>%
-    left_join(pct_by_year %>% select(inventory_year, sf_pct),
-      by = "inventory_year"
+    left_join(pct_by_year %>% select(emissions_year, sf_pct),
+      by = "emissions_year"
     ) %>%
     dplyr::mutate(
       new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
       existing_units = value - new_units,
-      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+      retrofit_units = if_else(emissions_year < .retrofit_start_year,
         0,
         round(existing_units * sf_pct)
       ),
@@ -275,13 +275,13 @@ calc_residential_retrofit <- function(res_tb,
   # } else if (.existing_mf_retrofit_pct != 0) {
   existing_mf <- res_tb %>%
     dplyr::filter(grepl("multi", sp_categories)) %>%
-    left_join(pct_by_year %>% select(inventory_year, mf_pct),
-      by = "inventory_year"
+    left_join(pct_by_year %>% select(emissions_year, mf_pct),
+      by = "emissions_year"
     ) %>%
     dplyr::mutate(
       new_units = if_else(value_change_from_base > 0, value_change_from_base, 0),
       existing_units = value - new_units,
-      retrofit_units = if_else(inventory_year < .retrofit_start_year,
+      retrofit_units = if_else(emissions_year < .retrofit_start_year,
         0,
         round(existing_units * mf_pct)
       ),
@@ -302,7 +302,7 @@ calc_residential_retrofit <- function(res_tb,
         geog_name,
         geog_id,
         sp_categories,
-        inventory_year,
+        emissions_year,
         value,
         value_change_from_base,
         new_units,
@@ -315,7 +315,7 @@ calc_residential_retrofit <- function(res_tb,
         geog_name,
         geog_id,
         sp_categories,
-        inventory_year,
+        emissions_year,
         value,
         value_change_from_base,
         new_units,
@@ -342,7 +342,7 @@ calc_residential_retrofit <- function(res_tb,
 #' @inheritParams filter_ctu
 #'
 #' @return [tibble::tibble()] with columns `geog_name`, `geog_id`,
-#'   `sp_categories`, `inventory_year`, `scenario`, `allocated_units`.
+#'   `sp_categories`, `emissions_year`, `scenario`, `allocated_units`.
 #' @export
 calc_residential_electrification <- function(
   res_tb,
@@ -361,24 +361,24 @@ calc_residential_electrification <- function(
   n_ramp <- length(ramp_years)
 
   # browser()
-  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+  pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
     left_join(
       tibble::tibble(
-        inventory_year = ramp_years,
+        emissions_year = ramp_years,
         hp_sf_pct = seq(.sf_heatpump_pct / n_ramp, .sf_heatpump_pct, length.out = n_ramp),
         hp_mf_pct = seq(.mf_heatpump_pct / n_ramp, .mf_heatpump_pct, length.out = n_ramp)
       ),
-      by = "inventory_year"
+      by = "emissions_year"
     ) %>%
     dplyr::mutate(
       hp_sf_pct = dplyr::case_when(
-        inventory_year < .heatpump_start_year ~ 0,
-        inventory_year > .heatpump_end_year ~ .sf_heatpump_pct,
+        emissions_year < .heatpump_start_year ~ 0,
+        emissions_year > .heatpump_end_year ~ .sf_heatpump_pct,
         TRUE ~ hp_sf_pct
       ),
       hp_mf_pct = dplyr::case_when(
-        inventory_year < .heatpump_start_year ~ 0,
-        inventory_year > .heatpump_end_year ~ .mf_heatpump_pct,
+        emissions_year < .heatpump_start_year ~ 0,
+        emissions_year > .heatpump_end_year ~ .mf_heatpump_pct,
         TRUE ~ hp_mf_pct
       )
     )
@@ -394,7 +394,7 @@ calc_residential_electrification <- function(
 
   # --- split units into hp / no-hp rows --------------------------------
   hp_split_out <- res_tb %>%
-    left_join(pct_by_year, by = "inventory_year") %>%
+    left_join(pct_by_year, by = "emissions_year") %>%
     dplyr::mutate(
       hp_pct = dplyr::if_else(grepl("multi", sp_categories), hp_mf_pct, hp_sf_pct)
     ) %>%
@@ -413,7 +413,7 @@ calc_residential_electrification <- function(
     ) %>%
     dplyr::select(
       geog_name, geog_id, sp_categories,
-      inventory_year, scenario, allocated_units
+      emissions_year, scenario, allocated_units
     )
 
   return(hp_split_out)

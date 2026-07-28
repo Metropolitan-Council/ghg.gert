@@ -38,7 +38,7 @@ calc_ghg_residential <- function(res_energy,
   ef_kerosene <- .combustion_ef$mt_co2e_per_unit[.combustion_ef$fuel_type == "Kerosene"]
 
   res_emissions <- res_energy %>%
-    dplyr::left_join(.grid_emissions, by = "inventory_year") %>%
+    dplyr::left_join(.grid_emissions, by = "emissions_year") %>%
     dplyr::mutate(
       electricity_emissions  = residential_mwh * mt_co2e_per_mwh,
       natural_gas_emissions  = residential_mcf * ef_natgas,

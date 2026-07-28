@@ -16,7 +16,7 @@
 #' @inheritParams run_all_modules
 #'
 #' @return [tibble::tibble()] with columns `geog_name`, `geog_id`,
-#'   `inventory_year`, `scenario`, `sector`,
+#'   `emissions_year`, `scenario`, `sector`,
 #'   `elec_mwh`, `natgas_mcf`, `propane_mmbtu`, `kerosene_mmbtu`,
 #'   `electricity_emissions`, `natural_gas_emissions`, `liquid_fuel_emissions`.
 #'   Non-residential rows have `0` for propane/kerosene/liquid fuel columns.

@@ -50,7 +50,7 @@ calc_business_leed <- function(non_res_tb,
   leed_jobs <- non_res_tb %>%
     dplyr::mutate(
       new_jobs = ifelse(value_change_from_base < 0, 0, value_change_from_base),
-      new_leed_jobs = if_else(inventory_year < .leed_start_year,
+      new_leed_jobs = if_else(emissions_year < .leed_start_year,
         0,
         round(new_jobs * .new_jobs_leed_gold_pct)
       ),
@@ -66,7 +66,7 @@ calc_business_leed <- function(non_res_tb,
       geog_id,
       imagine_designation,
       sp_categories,
-      inventory_year,
+      emissions_year,
       value,
       value_change_from_base,
       new_jobs,
@@ -133,7 +133,7 @@ calc_business_retrofit <- function(non_res_tb,
   n_ramp <- length(ramp_years)
 
   pct_ramp <- tibble::tibble(
-    inventory_year = ramp_years,
+    emissions_year = ramp_years,
     job_pct = seq(
       from = .existing_jobs_retrofit_pct / n_ramp,
       to = .existing_jobs_retrofit_pct,
@@ -142,24 +142,24 @@ calc_business_retrofit <- function(non_res_tb,
   )
 
   # Join pct values by condition
-  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
-    left_join(pct_ramp, by = "inventory_year") %>%
+  pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
+    left_join(pct_ramp, by = "emissions_year") %>%
     dplyr::mutate(
       ret_pct = dplyr::case_when(
-        inventory_year < .retrofit_start_year ~ 0,
-        inventory_year > .retrofit_end_year ~ .existing_jobs_retrofit_pct,
+        emissions_year < .retrofit_start_year ~ 0,
+        emissions_year > .retrofit_end_year ~ .existing_jobs_retrofit_pct,
         TRUE ~ job_pct
       )
     )
 
   retrofit_results <- non_res_tb %>%
-    left_join(pct_by_year %>% select(inventory_year, ret_pct),
-      by = "inventory_year"
+    left_join(pct_by_year %>% select(emissions_year, ret_pct),
+      by = "emissions_year"
     ) %>%
     dplyr::mutate(
       new_jobs = if_else(value_change_from_base > 0, value_change_from_base, 0),
       existing_jobs = value - new_jobs,
-      retrofit_jobs = if_else(inventory_year < .retrofit_start_year,
+      retrofit_jobs = if_else(emissions_year < .retrofit_start_year,
         0,
         round(existing_jobs * ret_pct)
       ),
@@ -177,7 +177,7 @@ calc_business_retrofit <- function(non_res_tb,
       geog_id,
       imagine_designation,
       sp_categories,
-      inventory_year,
+      emissions_year,
       value,
       value_change_from_base,
       new_jobs,

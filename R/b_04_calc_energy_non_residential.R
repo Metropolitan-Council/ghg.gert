@@ -20,7 +20,7 @@
 #' @return [tibble::tibble()].
 #'    A table with columns
 #'    `geog_name`,
-#'    `inventory_year`,
+#'    `emissions_year`,
 #'    `geog_id`,
 #'    `nonresidential_mwh`,
 #'    `nonresidential_mcf`,
@@ -73,17 +73,17 @@ calc_energy_non_residential <- function(non_res_tb,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
-        inventory_year <= .baseline_year,
+        emissions_year <= .baseline_year,
         sector == "Business"
       ),
     filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
-        inventory_year <= .baseline_year,
+        emissions_year <= .baseline_year,
         sector == "Business"
       ),
-    by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
+    by = join_by(geog_name, geog_id, geog_level, sector, emissions_year)
   )
 
   # make scenario_comm_des available for use in ghg.ccap.app
@@ -107,12 +107,12 @@ calc_energy_non_residential <- function(non_res_tb,
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
-      filter(inventory_year >= (.baseline_year - 4)) %>%
+      filter(emissions_year >= (.baseline_year - 4)) %>%
       pull(mwh) %>%
       sum()) /
       (non_res_tb_bau %>%
-        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
+        filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
+        dplyr::distinct(geog_name, imagine_designation, emissions_year, value) %>%
         left_join(
           ctu_energy_profile %>%
             filter(scenario == "baseline"),
@@ -124,12 +124,12 @@ calc_energy_non_residential <- function(non_res_tb,
 
   mcf_adjustment <-
     (baseline_energy %>%
-      filter(inventory_year >= (.baseline_year - 4)) %>%
+      filter(emissions_year >= (.baseline_year - 4)) %>%
       pull(mcf) %>%
       sum()) /
       (non_res_tb_bau %>%
-        filter(inventory_year >= (.baseline_year - 4) & inventory_year <= .baseline_year) %>%
-        dplyr::distinct(geog_name, imagine_designation, inventory_year, value) %>%
+        filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
+        dplyr::distinct(geog_name, imagine_designation, emissions_year, value) %>%
         left_join(
           ctu_energy_profile %>%
             filter(scenario == "baseline"),
@@ -173,7 +173,7 @@ calc_energy_non_residential <- function(non_res_tb,
     n_ramp <- length(ramp_years)
 
     pct_ramp <- tibble::tibble(
-      inventory_year = ramp_years,
+      emissions_year = ramp_years,
       hp_pct = seq(
         from = .jobs_heatpump_pct / n_ramp,
         to = .jobs_heatpump_pct,
@@ -182,19 +182,19 @@ calc_energy_non_residential <- function(non_res_tb,
     )
 
     # Join pct values by condition
-    pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
-      left_join(pct_ramp, by = "inventory_year") %>%
+    pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
+      left_join(pct_ramp, by = "emissions_year") %>%
       dplyr::mutate(
         hp_pct = dplyr::case_when(
-          inventory_year < .heatpump_start_year ~ 0,
-          inventory_year > .heatpump_end_year ~ .jobs_heatpump_pct,
+          emissions_year < .heatpump_start_year ~ 0,
+          emissions_year > .heatpump_end_year ~ .jobs_heatpump_pct,
           TRUE ~ hp_pct
         )
       )
 
     energy_tb <- tb %>%
-      filter(inventory_year > .baseline_year) %>%
-      left_join(pct_by_year, by = "inventory_year") %>%
+      filter(emissions_year > .baseline_year) %>%
+      left_join(pct_by_year, by = "emissions_year") %>%
       left_join(ctu_energy_profile,
         by = join_by(
           efficiency_description == cat_match,
@@ -227,14 +227,14 @@ calc_energy_non_residential <- function(non_res_tb,
             mcf_per_job * efficiency_unit_value * mcf_adjustment
         )
       ) %>%
-      dplyr::group_by(geog_name, geog_id, inventory_year) %>%
+      dplyr::group_by(geog_name, geog_id, emissions_year) %>%
       dplyr::summarize(
         non_residential_mwh = sum(non_residential_mwh),
         non_residential_mcf = sum(non_residential_mcf)
       ) %>%
       dplyr::select(
         geog_name,
-        inventory_year,
+        emissions_year,
         geog_id,
         non_residential_mwh,
         non_residential_mcf
@@ -248,7 +248,7 @@ calc_energy_non_residential <- function(non_res_tb,
     baseline_energy %>%
       select(geog_name,
         geog_id,
-        inventory_year,
+        emissions_year,
         non_residential_mwh = mwh,
         non_residential_mcf = mcf
       ),
@@ -265,7 +265,7 @@ calc_energy_non_residential <- function(non_res_tb,
     baseline_energy %>%
       select(geog_name,
         geog_id,
-        inventory_year,
+        emissions_year,
         non_residential_mwh = mwh,
         non_residential_mcf = mcf
       ),
