@@ -36,7 +36,7 @@ calc_energy_residential <- function(res_tb,
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
   # baseline observed energy ----
-  browser()
+
   baseline_elec <- filter_ctu(
     ghg.ccap::building_energy_data$electricity_inventory,
     .selected_ctu = .selected_ctu
@@ -49,14 +49,18 @@ calc_energy_residential <- function(res_tb,
   ) %>%
     dplyr::filter(emissions_year <= .baseline_year, sector == "Residential")
 
-  # propane_inventory is residential-only, no sector column
-  # expected columns: geog_name, geog_id, emissions_year,
-  #                   propane_mmbtu, kerosene_mmbtu
+  # propane_inventory columns: propane_mmbtu, fueloil_other_mmbtu, propane (hh count)
+  # select and rename to the canonical names used downstream
   baseline_propane <- filter_ctu(
     ghg.ccap::building_energy_data$propane_inventory,
     .selected_ctu = .selected_ctu
   ) %>%
-    dplyr::filter(emissions_year <= .baseline_year)
+    dplyr::filter(emissions_year <= .baseline_year) %>%
+    dplyr::select(
+      geog_name, geog_id, geog_level, sector, emissions_year,
+      propane_mmbtu,
+      kerosene_mmbtu = fueloil_other_mmbtu
+    )
 
   baseline_energy <- dplyr::left_join(
     baseline_elec,
@@ -65,7 +69,7 @@ calc_energy_residential <- function(res_tb,
   ) %>%
     dplyr::left_join(
       baseline_propane,
-      by = dplyr::join_by(geog_name, geog_id, emissions_year)
+      by = dplyr::join_by(geog_name, geog_id, geog_level, sector, emissions_year)
     ) %>%
     dplyr::mutate(
       propane_mmbtu  = tidyr::replace_na(propane_mmbtu, 0),
