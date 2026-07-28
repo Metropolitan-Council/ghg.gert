@@ -120,6 +120,7 @@ calc_energy_residential <- function(res_tb,
   # forecast energy ----
 
   compute_energy <- function(tb) {
+    browser()
     tb %>%
       dplyr::filter(emissions_year > .baseline_year) %>%
       dplyr::left_join(
