@@ -31,7 +31,7 @@ run_res <- function(ctu, sf_leed = 0, mf_leed = 0,
 test_energy_efficiency <- function(en_table) {
   at_2050 <- en_table %>%
     dplyr::filter(emissions_year == 2050)
-browser()
+
   at_2050 %>%
     dplyr::select(geog_name, scenario, residential_mwh) %>%
     tidyr::pivot_wider(names_from = scenario, values_from = residential_mwh) %>%

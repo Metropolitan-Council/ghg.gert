@@ -87,7 +87,7 @@ scen_building_residential <- function(res_tb = res_tb,
     density_output = .density_output,
     .selected_ctu = .selected_ctu
   )
-
+browser()
   # B.R3 (New Homes LEED Gold)
   tb02 <- calc_housing_leed(
     res_tb = tb01,
@@ -96,7 +96,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
     .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct
   )
-
+browser()
   # B.R4 + BR5 (Retrofit Homes)
   tb03 <- calc_residential_retrofit(
     res_tb = res_tb,
@@ -106,7 +106,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct = .existing_mf_retrofit_pct
   )
-
+browser()
   tb04 <- bind_rows(
     tb02,
     tb03

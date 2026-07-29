@@ -51,7 +51,6 @@ calc_housing_leed <- function(res_tb,
   check_inputs(name = "new_mf_homes_leed_gold_pct", .new_mf_homes_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 
-
   # if (.new_sf_homes_leed_gold_pct == 0) {
   #   #cli::cli_warn("No change in new single family home energy efficiency")
   #   new_sf <- res_tb %>%
@@ -64,7 +63,7 @@ calc_housing_leed <- function(res_tb,
   # } else if (.new_sf_homes_leed_gold_pct != 0) {
 
   new_sf <- res_tb %>%
-    dplyr::filter(grepl("single", sp_categories)) %>%
+    dplyr::filter(grepl("single", sp_categories) | grepl("manufacture", sp_categories)) %>%
     dplyr::mutate(
       new_units = ifelse(value_change_from_base < 0, 0, value_change_from_base),
       new_leed = if_else(emissions_year < .leed_start_year,
@@ -240,7 +239,7 @@ calc_residential_retrofit <- function(res_tb,
   #     )
   # } else if (.existing_sf_retrofit_pct != 0) {
   existing_sf <- res_tb %>%
-    dplyr::filter(grepl("single", sp_categories)) %>%
+    dplyr::filter(grepl("single", sp_categories) | grepl("manufacture", sp_categories)) %>%
     left_join(pct_by_year %>% select(emissions_year, sf_pct),
       by = "emissions_year"
     ) %>%

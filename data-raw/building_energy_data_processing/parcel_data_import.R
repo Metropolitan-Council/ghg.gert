@@ -87,10 +87,10 @@ mn_parcel <- mn_parcel %>%
 
 
       # Mobile Homes
-      grepl("mobile|manufactured", DWELL_TYPE, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", USECLASS1, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", HOME_STYLE, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_home",
+      grepl("mobile|manufactured", DWELL_TYPE, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", USECLASS1, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", HOME_STYLE, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_homes",
 
       # Single family attached
       grepl("townh|duplex|triplex|two-family|two family|three family|two residences|twin|multi res", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_attached",
@@ -295,7 +295,7 @@ mn_parcel_county <- mn_parcel_predict %>%
     median_year = median(YEAR_BUILT)
   ) %>%
   filter(mc_classification %in% c(
-    "manufactured_home",
+    "manufactured_homes",
     "multifamily",
     "single_family_attached",
     "single_family_detached"
@@ -323,7 +323,7 @@ ctu_parcel <- mn_parcel_map %>%
 sfa_parcel <- filter(ctu_parcel, mc_classification == "single_family_attached")
 sfd_parcel <- filter(ctu_parcel, mc_classification == "single_family_detached")
 mfh_parcel <- filter(ctu_parcel, mc_classification == "multifamily")
-mfd_parcel <- filter(ctu_parcel, mc_classification == "manufactured_home")
+mfd_parcel <- filter(ctu_parcel, mc_classification == "manufactured_homes")
 
 
 # which cities are missing sfa?
@@ -472,7 +472,7 @@ median_mfd <- mfd_out %>%
 missing_mfd_rows <- missing_cities_mfd %>%
   select(county_name, ctu_id, geog_name, inventory_year) %>%
   cross_join(median_mfd) %>%
-  mutate(mc_classification = "manufactured_home") %>%
+  mutate(mc_classification = "manufactured_homes") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
@@ -496,10 +496,7 @@ housing_data <- ghg.ccap::demographic_data %>%
       "single_family_detached"
     ),
     inventory_year == 2021
-  ) %>%
-  mutate(sp_categories = recode(sp_categories,
-    "manufactured_homes" = "manufactured_home"
-  ))
+  )
 
 housing_join <- parcel_ctu %>%
   left_join(

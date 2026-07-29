@@ -88,7 +88,7 @@ calc_building_energy <- function(
         "single_family_detached",
         "single_family_attached",
         "multifamily_units",
-        "manufactured_home"
+        "manufactured_homes"
       )
     ) %>%
     mutate(
@@ -101,7 +101,7 @@ calc_building_energy <- function(
     )
 
   ctu_sf <- filter(ctu_binned, mc_classification %in% c("single_family_detached", "single_family_attached"))
-  ctu_other <- filter(ctu_binned, mc_classification %in% c("multifamily_units", "manufactured_home"))
+  ctu_other <- filter(ctu_binned, mc_classification %in% c("multifamily_units", "manufactured_homes"))
 
   build_scenario <- function(scenario_name, cee_sf, res_other, new_build = FALSE) {
     if (new_build) {

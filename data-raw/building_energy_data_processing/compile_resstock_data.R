@@ -35,7 +35,7 @@ load_resstock <- function(path) {
         grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily_units",
         grepl("Detached", building_type, ignore.case = TRUE) ~ "single_family_detached",
         grepl("Attached", building_type, ignore.case = TRUE) ~ "single_family_attached",
-        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_home",
+        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_homes",
         TRUE ~ "other"
       ),
       sqft_bin = bin_sqft(sqft)
