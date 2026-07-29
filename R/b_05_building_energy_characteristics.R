@@ -52,7 +52,7 @@ calc_building_energy <- function(
       right = TRUE
     )
   }
-  # browser()
+
   bin_sqft_detached <- function(sqft) {
     cut(sqft,
       breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
