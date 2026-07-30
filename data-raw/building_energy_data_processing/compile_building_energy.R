@@ -49,6 +49,16 @@ county_elec_inventory <- read_rds(
     geog_level, sector, emissions_year, mwh
   )
 
+regional_elec_inventory <- county_elec_inventory %>%
+  group_by(sector, emissions_year) %>%
+  summarize(mwh = sum(mwh), .groups = "drop") %>%
+  mutate(geog_name = "Twin Cities Region") %>%
+  left_join(geog_index, by = "geog_name") %>%
+  select(
+    geog_name, geog_id,
+    geog_level, sector, emissions_year, mwh
+  )
+
 # natural gas inventory ----
 # CTU-level
 ctu_gas_inventory <- read_rds(
@@ -73,6 +83,16 @@ county_gas_inventory <- read_rds(
   summarize(mcf = sum(value_activity), .groups = "drop") %>%
   select(
     geog_name = county_name, geog_id,
+    geog_level, sector, emissions_year, mcf
+  )
+
+regional_gas_inventory <- county_gas_inventory %>%
+  group_by(sector, emissions_year) %>%
+  summarize(mcf = sum(mcf), .groups = "drop") %>%
+  mutate(geog_name = "Twin Cities Region") %>%
+  left_join(geog_index, by = "geog_name") %>%
+  select(
+    geog_name, geog_id,
     geog_level, sector, emissions_year, mcf
   )
 
@@ -115,12 +135,25 @@ county_propane_inventory <- read_rds(
   janitor::clean_names() %>%
   rename(fueloil_other_mmbtu = fuel_oil_other)
 
+regional_propane_inventory <- county_propane_inventory %>%
+  group_by(sector, emissions_year) %>%
+  summarize(propane = sum(propane),
+            fueloil_other_mmbtu = sum(fueloil_other_mmbtu),
+            .groups = "drop") %>%
+  mutate(geog_name = "Twin Cities Region") %>%
+  left_join(geog_index, by = "geog_name") %>%
+  select(
+    geog_name, geog_id,
+    geog_level, sector, emissions_year, propane,
+    fueloil_other_mmbtu
+  )
+
 # assemble building_energy_data ----
 building_energy_data <- list(
   # observed inventories (used by b_04 energy calc scripts)
-  electricity_inventory = bind_rows(ctu_elec_inventory, county_elec_inventory),
-  natgas_inventory      = bind_rows(ctu_gas_inventory, county_gas_inventory),
-  propane_inventory     = bind_rows(ctu_propane_inventory, county_propane_inventory),
+  electricity_inventory = bind_rows(ctu_elec_inventory, county_elec_inventory, regional_elec_inventory),
+  natgas_inventory      = bind_rows(ctu_gas_inventory, county_gas_inventory, regional_gas_inventory),
+  propane_inventory     = bind_rows(ctu_propane_inventory, county_propane_inventory, regional_propane_inventory),
 
   # demographic forecasts
   residential = demographic_data %>%

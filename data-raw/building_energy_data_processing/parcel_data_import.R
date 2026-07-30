@@ -506,8 +506,21 @@ missing_mfd_rows <- missing_cities_mfd %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
 
-parcel_ctu <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed) %>%
+parcel_complete <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed) %>%
   rename(geog_id = ctu_id)
+
+### Hennepin MF and manufactured homes have 0 sqft (not reported).
+### SFD/SFA were handled by the lm prediction above; for MF and manufactured
+### homes there's no EMV relationship to predict from, so fill with regional median.
+regional_sqft <- parcel_complete %>%
+  filter(sq_ft_use > 0) %>%
+  group_by(mc_classification) %>%
+  summarize(regional_sq_ft = median(sq_ft_use, na.rm = TRUE), .groups = "drop")
+
+parcel_complete <- parcel_complete %>%
+  left_join(regional_sqft, by = "mc_classification") %>%
+  mutate(sq_ft_use = if_else(sq_ft_use == 0 | is.na(sq_ft_use), regional_sq_ft, sq_ft_use)) %>%
+  select(-regional_sq_ft)
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
@@ -527,7 +540,7 @@ housing_data <- ghg.ccap::demographic_data %>%
     inventory_year == 2021
   )
 
-housing_join <- parcel_ctu %>%
+housing_join <- parcel_complete %>%
   left_join(
     housing_data %>% select(geog_id, sp_categories, units = value),
     by = c("geog_id", "mc_classification" = "sp_categories")
@@ -552,9 +565,27 @@ county_weighted <- housing_join %>%
                 geog_id
               ))
 
+### add region-level weighted average (Twin Cities)
+
+region_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  group_by(mc_classification, inventory_year) %>%
+  summarise(
+    sq_ft_use = weighted.mean(sq_ft_use, w = units, na.rm = TRUE),
+    median_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    county_name = NA_character_,
+    geog_name = "Twin Cities Region"
+  ) %>%
+  left_join(ghg.ccap::geog_index %>% select(geog_name, geog_id), by = "geog_name")
+
 parcel_ctu <- bind_rows(
   county_weighted,
-  parcel_ctu
+  parcel_complete,
+  region_weighted
 )
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)
+

@@ -20,7 +20,8 @@ cprg_ctu <- readr::read_rds(
     geog_name,
     geog_short_name = ctu_name,
     geog_level = ctu_class,
-    geog_id = gnis
+    geog_id = gnis,
+    imagine_designation
   ) %>%
   mutate(geog_id_type = "ctu_gnis") %>%
   distinct()
@@ -41,7 +42,8 @@ cprg_county <- readr::read_rds(
   ) %>%
   mutate(
     geog_id_type = "county_fips",
-    geog_level = "COUNTY"
+    geog_level = "COUNTY",
+    imagine_designation = "County"
   )
 
 # Regional geography ----
@@ -50,7 +52,8 @@ cprg_region <- tibble(
   geog_short_name = "Twin Cities Region",
   geog_id = "00000000",
   geog_id_type = "region",
-  geog_level = "REGION"
+  geog_level = "REGION",
+  imagine_designation = "Region"
 )
 
 geog_index <- bind_rows(as_tibble(cprg_county), cprg_ctu, cprg_region)

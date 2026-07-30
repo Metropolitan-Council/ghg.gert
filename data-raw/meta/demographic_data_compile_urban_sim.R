@@ -107,7 +107,7 @@ demographic_data_ctu <- us_formatted %>%
     ctu_id_gnis,
     sp_categories
   ) %>%
-  dplyr::summarize(value = sum(value), .groups = "keep") %>%
+  dplyr::summarize(value = sum(value), .groups = "drop") %>%
   left_join(geog_index, by = c("ctu_id_gnis" = "geog_id")) %>%
   ungroup() %>%
   select(inventory_year, geog_name, geog_id = ctu_id_gnis, geog_id_type, geog_level, sp_categories, value)
@@ -119,24 +119,28 @@ demographic_data_county <- us_formatted %>%
     county_id_fips,
     sp_categories
   ) %>%
-  dplyr::summarize(value = sum(value), .groups = "keep") %>%
-  left_join(
-    ccap_county %>% sf::st_drop_geometry() %>%
-      dplyr::distinct(geog_name, geog_level, county_id) %>%
-      mutate(
-        geog_name = paste(geog_name, "County"),
-        county_id_fips = substr(county_id, 3, 5),
-        geog_level = toupper(geog_level)
-      ),
-    by = join_by(county_id_fips)
-  ) %>%
-  mutate(geog_id_type = "county_fips") %>%
+  dplyr::summarize(value = sum(value), .groups = "drop") %>%
+  mutate(geog_id = paste0("27",county_id_fips)) %>%
+  left_join(geog_index, by = "geog_id") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id = county_id, geog_id_type, geog_level, sp_categories, value)
+  select(inventory_year, geog_name, geog_id , geog_id_type, geog_level, sp_categories, value)
+
+demographic_data_region <- us_formatted %>%
+  group_by(
+    inventory_year,
+    sp_categories
+  ) %>%
+  dplyr::summarize(value = sum(value), .groups = "drop") %>%
+  mutate(geog_name = "Twin Cities Region") %>%
+  left_join(geog_index, by = "geog_name") %>%
+  ungroup() %>%
+  select(inventory_year, geog_name, geog_id , geog_id_type, geog_level, sp_categories, value)
+
 
 demographic_data <- bind_rows(
   demographic_data_ctu,
-  demographic_data_county
+  demographic_data_county,
+  demographic_data_region
 ) %>%
   group_by(geog_name, geog_id, geog_id_type, sp_categories, geog_level) %>%
   tidyr::complete(inventory_year = tidyr::full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
