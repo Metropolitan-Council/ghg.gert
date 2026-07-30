@@ -30,7 +30,7 @@ library(ghg.ccap)
 elast
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast_5d}},

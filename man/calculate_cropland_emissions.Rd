@@ -43,8 +43,8 @@ for decreasing cropland emissions from three strategies: smart fertilizer,
 cover crops, no-till. These are inter-related so run together here.
 }
 \seealso{
-Other agriculture: 
-\code{\link{county_assign}()},
-\code{\link{run_module_agriculture}()}
+Other agriculture:
+\code{\link[=county_assign]{county_assign()}},
+\code{\link[=run_module_agriculture]{run_module_agriculture()}}
 }
 \concept{agriculture}

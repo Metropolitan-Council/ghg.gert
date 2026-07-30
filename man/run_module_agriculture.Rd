@@ -46,8 +46,8 @@ for the given scenario at the county/city/township level. It splits action into
 livestock, manure, and crop soils.
 }
 \seealso{
-Other agriculture: 
-\code{\link{calculate_cropland_emissions}()},
-\code{\link{county_assign}()}
+Other agriculture:
+\code{\link[=calculate_cropland_emissions]{calculate_cropland_emissions()}},
+\code{\link[=county_assign]{county_assign()}}
 }
 \concept{agriculture}

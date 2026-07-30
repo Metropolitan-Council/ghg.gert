@@ -32,7 +32,7 @@ library(ghg.ccap)
 
 }
 \seealso{
-Other land_use: 
-\code{\link{run_scenario_land_use}()}
+Other land_use:
+\code{\link[=run_scenario_land_use]{run_scenario_land_use()}}
 }
 \concept{land_use}

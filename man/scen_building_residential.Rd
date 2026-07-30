@@ -104,7 +104,7 @@ scen_building_residential(
 }
 }
 \seealso{
-Other buildings, residential: 
-\code{\link{calc_residential_electrification}()}
+Other buildings, residential:
+\code{\link[=calc_residential_electrification]{calc_residential_electrification()}}
 }
 \concept{buildings, residential}

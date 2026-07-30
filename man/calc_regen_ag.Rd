@@ -59,7 +59,7 @@ no till agriculture and cover cropping.
 Uses the coefficients found in MN CAF technical documenation
 }
 \seealso{
-Other cropland: 
-\code{\link{calc_smart_fertilizer}()}
+Other cropland:
+\code{\link[=calc_smart_fertilizer]{calc_smart_fertilizer()}}
 }
 \concept{cropland}

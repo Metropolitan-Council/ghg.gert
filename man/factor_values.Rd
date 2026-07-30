@@ -20,7 +20,7 @@ Annual energy outlook, cost, and greenhouse gas factors
 by scenario, mode, year, and source
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
