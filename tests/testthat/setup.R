@@ -47,7 +47,7 @@ geography_test_list_core <- c(
   "Landfall",
   "Saint Bonifacius",
   "Bethel",
-  #Townships
+  # Townships
   "Benton Twp.",
   "Denmark Twp.",
   # Counties
