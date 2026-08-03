@@ -42,8 +42,6 @@ calc_business_leed <- function(non_res_tb,
                                .leed_start_year) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
 
-  non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-
   check_inputs(name = "new_jobs_leed_gold_pct", .new_jobs_leed_gold_pct)
   check_inputs(name = "leed_start_year", .leed_start_year)
 

@@ -153,9 +153,21 @@ regional_propane_inventory <- county_propane_inventory %>%
 # assemble building_energy_data ----
 building_energy_data <- list(
   # observed inventories (used by b_04 energy calc scripts)
-  electricity_inventory = bind_rows(ctu_elec_inventory, county_elec_inventory, regional_elec_inventory),
-  natgas_inventory      = bind_rows(ctu_gas_inventory, county_gas_inventory, regional_gas_inventory),
-  propane_inventory     = bind_rows(ctu_propane_inventory, county_propane_inventory, regional_propane_inventory),
+  electricity_inventory = bind_rows(ctu_elec_inventory, county_elec_inventory, regional_elec_inventory) %>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+                       by = "geog_id"),
+  natgas_inventory      = bind_rows(ctu_gas_inventory, county_gas_inventory, regional_gas_inventory)%>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+              by = "geog_id"),
+  propane_inventory     = bind_rows(ctu_propane_inventory, county_propane_inventory, regional_propane_inventory)%>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+              by = "geog_id"),
 
   # demographic forecasts
   residential = demographic_data %>%
@@ -163,20 +175,27 @@ building_energy_data <- list(
       "multifamily_units", "single_family_attached",
       "single_family_detached", "manufactured_homes"
     )) %>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+              by = "geog_id") %>%
     rename(emissions_year = inventory_year),
+
   non_residential = demographic_data %>%
     filter(sp_categories %in% c("commercial_jobs", "industrial_jobs")) %>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+              by = "geog_id") %>%
     rename(emissions_year = inventory_year),
 
   # total jobs with Imagine designation (default arg in b_01)
   jobs = demographic_data %>%
     filter(sp_categories == "jobs") %>%
-    mutate(geog_name_tmp = gsub("\\s*Twp\\.", "", geog_name)) %>%
-    left_join(
-      cprg_ctu_desgn %>% distinct(ctu_name, ctu_class, imagine_designation),
-      by = join_by(geog_name_tmp == ctu_name, geog_level == ctu_class)
-    ) %>%
-    select(-geog_name_tmp)%>%
+    left_join(geog_index %>%
+                select(geog_id,
+                       imagine_designation),
+              by = "geog_id") %>%
     rename(emissions_year = inventory_year)
 )
 

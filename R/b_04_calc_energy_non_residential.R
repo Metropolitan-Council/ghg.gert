@@ -53,12 +53,12 @@ calc_energy_non_residential <- function(non_res_tb,
 
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu) %>%
-    mutate(imagine_designation = if_else(is.na(imagine_designation),
+    mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
       "Regional",
       imagine_designation
     ))
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu) %>%
-    mutate(imagine_designation = if_else(is.na(imagine_designation),
+    mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
       "Regional",
       imagine_designation
     ))

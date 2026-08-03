@@ -131,8 +131,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
 
   tb_out <- calc_ghg_non_residential(
     non_res_energy = tb09,
-    .selected_ctu = .selected_ctu,
-    .grid_emissions = .grid_emissions
+    .selected_ctu = .selected_ctu
   )
 
 
