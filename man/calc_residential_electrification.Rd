@@ -19,14 +19,10 @@ calc_residential_electrification(
 and \code{efficiency_unit_value}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},
-\code{sp_categories}, \code{inventory_year}, \code{scenario}, \code{allocated_units}.
+\code{sp_categories}, \code{emissions_year}, \code{scenario}, \code{allocated_units}.
 }
 \description{
 Takes the combined output of \code{\link[=calc_housing_leed]{calc_housing_leed()}} and
@@ -35,7 +31,7 @@ heat-pump and non-heat-pump portions, producing a long table of
 allocated units keyed to the eight scenarios in \code{\link[=calc_building_energy]{calc_building_energy()}}.
 }
 \seealso{
-Other buildings, residential: 
-\code{\link{scen_building_residential}()}
+Other buildings, residential:
+\code{\link[=scen_building_residential]{scen_building_residential()}}
 }
 \concept{buildings, residential}

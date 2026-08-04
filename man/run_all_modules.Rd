@@ -12,10 +12,10 @@ run_all_modules(
   run_non_residential = TRUE,
   run_transportation = TRUE,
   tb = land_use_data,
-  non_res_tb = building_data$non_residential,
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  non_res_tb = building_energy_data$non_residential,
+  res_tb = building_energy_data$residential,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   .parking_cost = parking_cost,
@@ -184,13 +184,6 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
@@ -279,9 +272,6 @@ Default is 0.}
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 

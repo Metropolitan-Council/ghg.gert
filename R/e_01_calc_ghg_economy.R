@@ -29,19 +29,6 @@
 #'    `transportation_mwh`, and
 #'    `transportation_electricity_emissions_mt_co2e`
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_ghg_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1,
-#'   .enviro_factors = enviro_factors
-#' )
-#' }
-#' @export
 #'
 calc_ghg_mwh <- function(res_mwh,
                          res_mwh_bau = building_energy_data$electricity_residential_ctu,

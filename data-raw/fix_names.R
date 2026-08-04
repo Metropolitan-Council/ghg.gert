@@ -87,5 +87,4 @@ land_use_data <- purrr:::map(
 # save all -----
 usethis::use_data(transportation_data, overwrite = TRUE)
 usethis::use_data(land_use_data, overwrite = TRUE)
-usethis::use_data(building_data, overwrite = TRUE)
 usethis::use_data(building_energy_data, overwrite = TRUE)

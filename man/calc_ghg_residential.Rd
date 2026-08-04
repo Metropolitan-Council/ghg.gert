@@ -7,26 +7,23 @@
 calc_ghg_residential(
   res_energy,
   .selected_ctu,
-  .grid_emissions = ghg.ccap::grid_emissions
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .combustion_ef = ghg.ccap::combustion_ef
 )
 }
 \arguments{
 \item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Table, table with residential energy,
-including columns \code{residential_mwh}, \code{residential_mcf}.}
+Table with residential energy, including columns
+\code{residential_mwh}, \code{residential_mcf},
+\code{residential_propane_mmbtu}, and \code{residential_kerosene_mmbtu}.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns
-\code{geog_name},
-\code{year},
-\code{population},
-\code{residential_mwh},
-\code{residential_electricity_emissions_kg_co},
-\code{residential_therms}, and
-\code{residential_natural_gas_emissions_kg_co}
+A table with the input energy columns plus
+\code{electricity_emissions}, \code{natural_gas_emissions},
+and \code{liquid_fuel_emissions} (propane + kerosene combined, mt CO2e).
 }
 \description{
 Estimates total energy demand
@@ -39,36 +36,37 @@ based on the floor area assumptions. For a function that compiles all
 residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
 \seealso{
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 
-Other residential: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()}
+Other residential:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}}
 
-Other emissions: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()}
+Other emissions:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}}
 }
 \concept{buildings}
 \concept{emissions}

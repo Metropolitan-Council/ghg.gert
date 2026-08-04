@@ -26,17 +26,6 @@
 #'    `nonresidential_mcf`,
 #'    `scenario`
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_ghg_non_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1
-#' )
-#' }
 #' @export
 calc_energy_non_residential <- function(non_res_tb,
                                         non_res_tb_bau,

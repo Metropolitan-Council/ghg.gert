@@ -1,4 +1,4 @@
-# test-building_data_completeness.R
+# test-building_energy_data_completeness.R
 #
 # Validates that every geography in geog_index has the required
 # background data to run the building energy module end-to-end.

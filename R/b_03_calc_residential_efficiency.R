@@ -28,16 +28,6 @@
 #' @return [tibble::tibble()].
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_housing_leed(
-#'   res_tb = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .new_homes_leed_gold_pct = 0.5
-#' )
-#' }
 #'
 calc_housing_leed <- function(res_tb,
                               .selected_ctu,
@@ -167,17 +157,6 @@ calc_housing_leed <- function(res_tb,
 #'       when `year == 2040` relative to the residential inputs table.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.ccap)
-#'
-#' calc_residential_retrofit(
-#'   res_tb = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20
-#' )
-#' }
 #'
 calc_residential_retrofit <- function(res_tb,
                                       .selected_ctu,
