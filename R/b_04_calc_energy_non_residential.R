@@ -158,48 +158,30 @@ calc_energy_non_residential <- function(non_res_tb,
                           .heatpump_end_year = .heatpump_end_year,
                           .jobs_heatpump_pct = .jobs_heatpump_pct) {
     ### ramp up heat pump installation evenly from start year to end year
-    ramp_years <- .heatpump_start_year:.heatpump_end_year
-    n_ramp <- length(ramp_years)
-
-    pct_ramp <- tibble::tibble(
-      emissions_year = ramp_years,
-      hp_pct = seq(
-        from = .jobs_heatpump_pct / n_ramp,
-        to = .jobs_heatpump_pct,
-        length.out = n_ramp
-      )
+    pct_by_year <- build_ramp_schedule(
+      start_year = .heatpump_start_year,
+      end_year   = .heatpump_end_year,
+      target_pct = .jobs_heatpump_pct
     )
-
-    # Join pct values by condition
-    pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
-      left_join(pct_ramp, by = "emissions_year") %>%
-      dplyr::mutate(
-        hp_pct = dplyr::case_when(
-          emissions_year < .heatpump_start_year ~ 0,
-          emissions_year > .heatpump_end_year ~ .jobs_heatpump_pct,
-          TRUE ~ hp_pct
-        )
-      )
 
     energy_tb <- tb %>%
       filter(emissions_year > .baseline_year) %>%
       left_join(pct_by_year, by = "emissions_year") %>%
       left_join(ctu_energy_profile,
-        by = join_by(
-          efficiency_description == cat_match,
-          imagine_designation == imagine_designation
-        )
+                by = join_by(
+                  efficiency_description == cat_match,
+                  imagine_designation == imagine_designation
+                )
       ) %>%
       left_join(ctu_energy_profile_adjustments,
-        by = join_by("imagine_designation")
+                by = join_by("imagine_designation")
       ) %>%
       mutate(
-        non_residential_mwh = case_when( # electrification will be split amongst retrofit and non-retrofit units
+        non_residential_mwh = case_when(
           efficiency_description == "existing_nonretrofit_jobs" ~
-            ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + heatpump_mwh) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
+            ((mwh_per_job * (1 - ramp_pct)) + ((mwh_per_job + heatpump_mwh) * ramp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "retrofit_jobs" ~
-            ((mwh_per_job * (1 - hp_pct)) + ((mwh_per_job + (heatpump_mwh * retrofit_heating_pct)) * hp_pct)) * efficiency_unit_value * mwh_adjustment,
-          # new efficient builds are electrified AND retrofit so can be calculated directly with the adjustment
+            ((mwh_per_job * (1 - ramp_pct)) + ((mwh_per_job + (heatpump_mwh * retrofit_heating_pct)) * ramp_pct)) * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "new_non_leed_jobs" ~
             mwh_per_job * efficiency_unit_value * mwh_adjustment,
           efficiency_description == "new_leed_jobs" ~
@@ -207,9 +189,9 @@ calc_energy_non_residential <- function(non_res_tb,
         ),
         non_residential_mcf = case_when(
           efficiency_description == "existing_nonretrofit_jobs" ~
-            ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
+            ((mcf_per_job * (1 - ramp_pct)) + (appliance_mcf * ramp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "retrofit_jobs" ~
-            ((mcf_per_job * (1 - hp_pct)) + (appliance_mcf * hp_pct)) * efficiency_unit_value * mcf_adjustment,
+            ((mcf_per_job * (1 - ramp_pct)) + (appliance_mcf * ramp_pct)) * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_non_leed_jobs" ~
             mcf_per_job * efficiency_unit_value * mcf_adjustment,
           efficiency_description == "new_leed_jobs" ~

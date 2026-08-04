@@ -21,7 +21,7 @@ build_ramp_schedule <- function(start_year,
   n_ramp <- length(ramp_years)
 
   ramp <- tibble::tibble(
-    inventory_year = ramp_years,
+    emissions_year = ramp_years,
     ramp_val = seq(
       from = target_pct / n_ramp,
       to = target_pct,
@@ -29,12 +29,12 @@ build_ramp_schedule <- function(start_year,
     )
   )
 
-  out <- tibble::tibble(inventory_year = 2005:2050) %>%
-    dplyr::left_join(ramp, by = "inventory_year") %>%
+  out <- tibble::tibble(emissions_year = 2005:2050) %>%
+    dplyr::left_join(ramp, by = "emissions_year") %>%
     dplyr::mutate(
       ramp_val = dplyr::case_when(
-        inventory_year < start_year ~ 0,
-        inventory_year > end_year ~ target_pct,
+        emissions_year < start_year ~ 0,
+        emissions_year > end_year ~ target_pct,
         TRUE ~ ramp_val
       )
     )

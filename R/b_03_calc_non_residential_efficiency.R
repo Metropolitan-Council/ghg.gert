@@ -98,51 +98,31 @@ calc_business_retrofit <- function(non_res_tb,
                                    .existing_jobs_retrofit_pct,
                                    .retrofit_start_year,
                                    .retrofit_end_year) {
-  # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-
   check_inputs(name = "existing_jobs_retrofit_pct", .existing_jobs_retrofit_pct)
   check_inputs(name = "retrofit_start_year", .retrofit_start_year)
 
   ### ramp up retrofits evenly from start year to end year
-
-  ramp_years <- .retrofit_start_year:.retrofit_end_year
-  n_ramp <- length(ramp_years)
-
-  pct_ramp <- tibble::tibble(
-    emissions_year = ramp_years,
-    job_pct = seq(
-      from = .existing_jobs_retrofit_pct / n_ramp,
-      to = .existing_jobs_retrofit_pct,
-      length.out = n_ramp
-    )
+  pct_by_year <- build_ramp_schedule(
+    start_year = .retrofit_start_year,
+    end_year   = .retrofit_end_year,
+    target_pct = .existing_jobs_retrofit_pct
   )
 
-  # Join pct values by condition
-  pct_by_year <- tibble::tibble(emissions_year = 2005:2050) %>%
-    left_join(pct_ramp, by = "emissions_year") %>%
-    dplyr::mutate(
-      ret_pct = dplyr::case_when(
-        emissions_year < .retrofit_start_year ~ 0,
-        emissions_year > .retrofit_end_year ~ .existing_jobs_retrofit_pct,
-        TRUE ~ job_pct
-      )
-    )
-
   retrofit_results <- non_res_tb %>%
-    left_join(pct_by_year %>% select(emissions_year, ret_pct),
-      by = "emissions_year"
+    left_join(pct_by_year %>% select(emissions_year, ramp_pct),
+              by = "emissions_year"
     ) %>%
     dplyr::mutate(
       new_jobs = if_else(value_change_from_base > 0, value_change_from_base, 0),
       existing_jobs = value - new_jobs,
       retrofit_jobs = if_else(emissions_year < .retrofit_start_year,
-        0,
-        round(existing_jobs * ret_pct)
+                              0,
+                              round(existing_jobs * ramp_pct)
       ),
       existing_nonretrofit_jobs = existing_jobs - retrofit_jobs
     ) %>%
-    select(-ret_pct) %>%
+    select(-ramp_pct) %>%
     pivot_longer(
       cols = c(retrofit_jobs, existing_nonretrofit_jobs),
       names_to = "efficiency_description",
@@ -161,7 +141,6 @@ calc_business_retrofit <- function(non_res_tb,
       efficiency_description,
       efficiency_unit_value
     )
-
 
   return(retrofit_results)
 }
