@@ -1,6 +1,17 @@
 ### import CEEStock data for electrification and retrofit elasticities
 ### single_family_attached is sparsely populated and will use coarser sq_ft bins
 ### and imputations anchored to single_family_detached to fill in
+###
+### This script also computes fuel-agnostic electrification transfer ratios
+### from CEEStock SFD data. These ratios are used to construct full
+### electrification profiles for housing types without direct CEEStock coverage
+### (multifamily, manufactured) and to supplement patchy SFA data.
+###
+### "Full electrification" = heat pump (dual-fuel w/ gas backup) + full appliance
+### electrification, as modeled by CEEStock's "Dual Fuel 80% No Wx" scenario.
+### CEEStock's 80% refers to heat pump sizing at 80% of design heating load;
+### across the heating season the HP covers ~95% of annual heating energy,
+### with gas backup handling the remaining ~5% during extreme cold.
 
 # library(dplyr, tidyr, readr)
 library(dplyr)
@@ -55,7 +66,7 @@ BINS_ATT <- c("<1000", "1000 to 1999", "2000 to 2999", "3000+")
 ### low n in ceestock is causing spikes in certain sqft/age combos of sfa
 ### going to use resstock to smooth these
 
-#' Map ResStock sqft factor labels → coarse attached bins
+#' Map ResStock sqft factor labels -> coarse attached bins
 bin_to_att_resstock <- function(x) {
   case_when(
     x == "Less than 1,000" ~ "<1000",
@@ -68,7 +79,7 @@ bin_to_att_resstock <- function(x) {
 
 
 #' Compute smoothed att/det energy ratios from a ResStock dataset.
-#' Returns build_year × sqft_bin with ratio_kwh and ratio_mcf,
+#' Returns build_year x sqft_bin with ratio_kwh and ratio_mcf,
 #' capped at `cap` to enforce the building-science constraint.
 resstock_att_det_ratios <- function(strategy_key, cap = 0.97) {
   att_key <- paste0("sf_attached_vintagesqft_", strategy_key)
@@ -102,71 +113,85 @@ resstock_att_det_ratios <- function(strategy_key, cap = 0.97) {
     )
 }
 
-# ── Strategy → ResStock dataset mapping ────────────────────────────────────────
+# ── Strategy -> ResStock dataset mapping ────────────────────────────────────────
 strategy_resstock_keys <- list(
   "Baseline"              = "baseline",
   "Retrofit"              = "envelope",
   "Heatpump"              = "heatpump",
   "Electric appliances"   = "heatpump",
-  "Retrofit and heatpump" = "combo"
+  "Retrofit and heatpump" = "combo",
+  "Full electrification"  = "heatpump",
+  "Retrofit and full electrification" = "combo"
 )
-# function to extract strategies as needed, e.g. split gas to heating and other/appliances
+
+# ── Strategy-specific column mutations ──────────────────────────────────────────
+#
+# Each strategy isolates a particular energy change from the raw CEEStock
+# scenario. "Full electrification" and "Retrofit and full electrification" are no-ops: they use the
+# raw scenario totals without decomposing heating vs appliance effects.
 
 apply_strategy_mutate <- function(data, strategy) {
   switch(strategy,
-    "Baseline" = data, # no additional mutation needed
-    "Retrofit" = data, # savings columns already correct for Only Wx
-    "Heatpump" = data %>% mutate(
-      gas_other_mcf        = gas_mcf - gas_heat_mcf,
-      gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
-      # remove appliance effects from baseline totals
-      gas_mcf              = gas_mcf - gas_other_change_mcf,
-      elec_mwh             = elec_mwh - elec_other_change_mwh,
-      # isolate heating change only
-      gas_change_mcf       = gas_heat_change_mcf,
-      elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
-    ),
-    "Electric appliances" = data %>% mutate(
-      gas_other_mcf    = gas_mcf - gas_heat_mcf,
-      # remove heating change from totals
-      gas_change_mcf   = gas_change_mcf - gas_heat_change_mcf,
-      gas_mcf          = gas_mcf - gas_heat_change_mcf,
-      elec_mwh         = elec_mwh - (elec_heat_change_mwh + elec_cool_change_mwh),
-      elec_change_mwh  = elec_other_change_mwh
-    ),
-    "Retrofit and heatpump" = data %>% mutate(
-      gas_other_mcf        = gas_mcf - gas_heat_mcf,
-      gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
-      gas_mcf              = gas_mcf - gas_other_change_mcf,
-      elec_mwh             = elec_mwh - elec_other_change_mwh,
-      gas_change_mcf       = gas_heat_change_mcf,
-      elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
-    )
+         "Baseline" = data, # no additional mutation needed
+         "Retrofit" = data, # savings columns already correct for Only Wx
+         "Heatpump" = data %>% mutate(
+           gas_other_mcf        = gas_mcf - gas_heat_mcf,
+           gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
+           # remove appliance effects from baseline totals
+           gas_mcf              = gas_mcf - gas_other_change_mcf,
+           elec_mwh             = elec_mwh - elec_other_change_mwh,
+           # isolate heating change only
+           gas_change_mcf       = gas_heat_change_mcf,
+           elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
+         ),
+         "Electric appliances" = data %>% mutate(
+           gas_other_mcf    = gas_mcf - gas_heat_mcf,
+           # remove heating change from totals
+           gas_change_mcf   = gas_change_mcf - gas_heat_change_mcf,
+           gas_mcf          = gas_mcf - gas_heat_change_mcf,
+           elec_mwh         = elec_mwh - (elec_heat_change_mwh + elec_cool_change_mwh),
+           elec_change_mwh  = elec_other_change_mwh
+         ),
+         "Retrofit and heatpump" = data %>% mutate(
+           gas_other_mcf        = gas_mcf - gas_heat_mcf,
+           gas_other_change_mcf = gas_change_mcf - gas_heat_change_mcf,
+           gas_mcf              = gas_mcf - gas_other_change_mcf,
+           elec_mwh             = elec_mwh - elec_other_change_mwh,
+           gas_change_mcf       = gas_heat_change_mcf,
+           elec_change_mwh      = elec_heat_change_mwh + elec_cool_change_mwh
+         ),
+         # Full electrification strategies: no decomposition. Raw scenario totals already
+         # represent heat pump + full appliance electrification combined.
+         "Full electrification" = data,
+         "Retrofit and full electrification" = data
   )
 }
 
 # helper lists ####
 
-# output values per strategy (currently only using elec_mwh)
+# output values per strategy
 strategy_vcols <- list(
-  "Baseline" = c("elec_mwh", "gas_heat_mcf", "gas_mcf", "gas_other_mcf"),
-  "Retrofit" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Heatpump" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Electric appliances" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
-  "Retrofit and heatpump" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf")
+  "Baseline"               = c("elec_mwh", "gas_heat_mcf", "gas_mcf", "gas_other_mcf"),
+  "Retrofit"               = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Heatpump"               = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Electric appliances"    = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Retrofit and heatpump"  = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Full electrification"              = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf"),
+  "Retrofit and full electrification" = c("elec_mwh", "elec_change_mwh", "gas_mcf", "gas_change_mcf")
 )
 
 # CEEStock scenario labels
-
 strategy_scenario_filter <- list(
-  "Baseline"              = "Baseline",
-  "Retrofit"              = "Only Wx",
-  "Heatpump"              = "Dual Fuel 80% No Wx",
-  "Electric appliances"   = "Dual Fuel 80% No Wx",
-  "Retrofit and heatpump" = "Dual Fuel 80%"
+  "Baseline"               = "Baseline",
+  "Retrofit"               = "Only Wx",
+  "Heatpump"               = "Dual Fuel 80% No Wx",
+  "Electric appliances"    = "Dual Fuel 80% No Wx",
+  "Retrofit and heatpump"  = "Dual Fuel 80%",
+  "Full electrification"   = "Dual Fuel 80% No Wx",
+  "Retrofit and full electrification" = "Dual Fuel 80%"
 )
 
-# strategy builder func
+# strategy builder function
 
 build_strategy_sf <- function(raw, strategy_label, vcols,
                               rs_key = strategy_resstock_keys[[strategy_label]],
@@ -287,6 +312,146 @@ cee_combined_sf <- build_strategy_sf(
   ceestock_raw, "Retrofit and heatpump", strategy_vcols[["Retrofit and heatpump"]]
 )
 
+cee_full_elec_sf <- build_strategy_sf(
+  ceestock_raw, "Full electrification", strategy_vcols[["Full electrification"]]
+)
+
+cee_retrofit_full_elec_sf <- build_strategy_sf(
+  ceestock_raw, "Retrofit and full electrification", strategy_vcols[["Retrofit and full electrification"]]
+)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Electrification transfer ratios
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# CEEStock models full electrification for single-family detached homes in MN:
+# a dual-fuel heat pump sized at 80% of design heating load, plus electric
+# water heater, dryer, and range replacing gas appliances. The heat pump
+# handles ~95% of annual heating energy; the high-efficiency gas furnace
+# fires only during extreme cold.
+#
+# We extract three scalars from the SFD results. These capture the physics
+# of cold-climate electrification and are stable enough across vintage and
+# size bins that a single n-weighted mean is the most defensible summary.
+# Vintage variation is printed as a QC check but not exported.
+#
+# The ratios are fuel-agnostic (MWh per mmBtu), so they apply to both
+# natural gas and propane houses. For natural gas, convert MCF to mmBtu
+# by multiplying by 1.037. Propane quantities in our pipeline are already
+# in mmBtu.
+#
+# Where these ratios get used downstream:
+#   - SFD profiles use CEEStock directly (no ratios needed)
+#   - SFA profiles use CEEStock where observed, ResStock-smoothed where
+#     imputed (same build_strategy_sf machinery, no ratios needed)
+#   - MF and manufactured profiles have no CEEStock data, so we apply
+#     these ratios to their ResStock baseline heating/appliance split
+#     (from the _enduse summary entries in resstock_summaries)
+#
+# Propane note: ResStock shows propane appliance gas is negligible (1–4%
+# of total propane). Propane houses already use electric appliances for
+# the most part. The appliance ratio still applies to whatever small
+# amount exists, but the impact is dominated by heating conversion.
+# ══════════════════════════════════════════════════════════════════════════════
+
+compute_electrification_ratios <- function(raw) {
+
+  # Filter to SFD natural gas homes with adequate sample size.
+  # Pair each "Dual Fuel 80% No Wx" bin with its Baseline counterpart
+  # to compute pre/post differences.
+  sfd_natgas <- raw %>%
+    filter(
+      model_heating_fuel == "Natural Gas",
+      mc_classification == "single_family_detached",
+      scenario %in% c("Baseline", "Dual Fuel 80% No Wx"),
+      n >= 5
+    ) %>%
+    mutate(
+      build_year = if_else(
+        model_vintage_acs %in% c("2000-09", "2010s"), "2000+", model_vintage_acs
+      ),
+      sqft_fine = bin_all(model_geometry_floor_area)
+    )
+
+  # Baseline: pre-intervention energy by vintage x sqft
+  bl <- sfd_natgas %>%
+    filter(scenario == "Baseline") %>%
+    group_by(build_year, sqft_fine) %>%
+    summarise(
+      bl_gas_heat_mcf  = mean(gas_heat_mcf),
+      bl_gas_total_mcf = mean(gas_mcf),
+      bl_n             = sum(n),
+      .groups = "drop"
+    ) %>%
+    mutate(bl_gas_app_mcf = bl_gas_total_mcf - bl_gas_heat_mcf)
+
+  # Scenario: post-intervention energy by vintage x sqft
+  sc <- sfd_natgas %>%
+    filter(scenario == "Dual Fuel 80% No Wx") %>%
+    group_by(build_year, sqft_fine) %>%
+    summarise(
+      sc_gas_heat_mcf       = mean(gas_heat_mcf),
+      sc_gas_total_mcf      = mean(gas_mcf),
+      sc_elec_heat_chg_mwh  = mean(elec_heat_change_mwh),
+      sc_elec_cool_chg_mwh  = mean(elec_cool_change_mwh),
+      sc_elec_other_chg_mwh = mean(elec_other_change_mwh),
+      sc_n                  = sum(n),
+      .groups = "drop"
+    ) %>%
+    mutate(sc_gas_app_mcf = sc_gas_total_mcf - sc_gas_heat_mcf)
+
+  paired <- inner_join(bl, sc, by = c("build_year", "sqft_fine")) %>%
+    mutate(
+      pair_n = pmin(bl_n, sc_n),
+
+      # Ratio 1: what fraction of heating gas stays on backup fuel
+      heating_retention_frac = sc_gas_heat_mcf / bl_gas_heat_mcf,
+
+      # Ratio 2: MWh of electricity gained per mmBtu of appliance fuel eliminated
+      # (1 MCF = 1.037 mmBtu; implied appliance COP ~5 from HPWH + efficient cooking)
+      gas_app_elim_mmbtu      = (bl_gas_app_mcf - sc_gas_app_mcf) * 1.037,
+      appliance_mwh_per_mmbtu = sc_elec_other_chg_mwh / gas_app_elim_mmbtu,
+
+      # Ratio 3: MWh of electricity gained per mmBtu of heating fuel eliminated
+      # (only the ~95% that the heat pump handles; implied seasonal COP ~2.5)
+      gas_heat_elim_mmbtu    = (bl_gas_heat_mcf - sc_gas_heat_mcf) * 1.037,
+      heating_mwh_per_mmbtu  = (sc_elec_heat_chg_mwh + sc_elec_cool_chg_mwh) / gas_heat_elim_mmbtu
+    )
+
+  # ── QC: vintage breakdown ────────────────────────────────────────────────
+  # Printed for review but not exported. Confirms the ratios are stable
+  # enough across vintages to justify a single overall scalar.
+
+  vintage_qc <- paired %>%
+    group_by(build_year) %>%
+    summarise(
+      heating_retention  = weighted.mean(heating_retention_frac, pair_n),
+      app_mwh_per_mmbtu  = weighted.mean(appliance_mwh_per_mmbtu, pair_n),
+      heat_mwh_per_mmbtu = weighted.mean(heating_mwh_per_mmbtu, pair_n),
+      n = sum(pair_n),
+      .groups = "drop"
+    )
+
+  message("\n── Electrification ratios by vintage (QC only, not exported) ──")
+  print(vintage_qc, n = Inf)
+
+  # ── Overall ratios (exported) ────────────────────────────────────────────
+  tibble(
+    heating_retention_frac  = weighted.mean(paired$heating_retention_frac, paired$pair_n),
+    appliance_mwh_per_mmbtu = weighted.mean(paired$appliance_mwh_per_mmbtu, paired$pair_n),
+    heating_mwh_per_mmbtu   = weighted.mean(paired$heating_mwh_per_mmbtu, paired$pair_n),
+    total_n                 = sum(paired$pair_n)
+  )
+}
+
+electrification_ratios <- compute_electrification_ratios(ceestock_raw)
+
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# QC plots
+# ══════════════════════════════════════════════════════════════════════════════
 
 plot_cee_baseline <- function(data, strategy_label = "Baseline") {
   # sqft bin order differs between sfa (coarse) and sfd (fine)
@@ -357,14 +522,16 @@ plot_cee_baseline(cee_baseline_sf)
 
 # or any other strategy
 plot_cee_baseline(cee_heatpump_sf, "Heatpump")
+plot_cee_baseline(cee_full_elec_sf, "Full electrification")
 
 #  Coverage summary
 
 purrr::iwalk(
   list(
-    baseline = cee_baseline_sf,  retrofit = cee_retrofit_sf,
-    heatpump = cee_heatpump_sf,  appliance = cee_appliance_sf,
-    combined = cee_combined_sf
+    baseline  = cee_baseline_sf,  retrofit    = cee_retrofit_sf,
+    heatpump  = cee_heatpump_sf,  appliance   = cee_appliance_sf,
+    combined  = cee_combined_sf,
+    full_elec = cee_full_elec_sf, ret_wh      = cee_retrofit_full_elec_sf
   ),
   ~ message(sprintf(
     "%-10s  det=%d  att observed=%d  att imputed=%d",
@@ -379,12 +546,15 @@ purrr::iwalk(
 # package and save
 
 ceestock_summaries <- list(
-  cee_baseline_sf  = cee_baseline_sf,
-  cee_heatpump_sf  = cee_heatpump_sf,
-  cee_retrofit_sf  = cee_retrofit_sf,
-  cee_appliance_sf = cee_appliance_sf,
-  cee_combined_sf  = cee_combined_sf
+  cee_baseline_sf           = cee_baseline_sf,
+  cee_heatpump_sf           = cee_heatpump_sf,
+  cee_retrofit_sf           = cee_retrofit_sf,
+  cee_appliance_sf          = cee_appliance_sf,
+  cee_combined_sf           = cee_combined_sf,
+  cee_full_elec_sf          = cee_full_elec_sf,
+  cee_retrofit_full_elec_sf = cee_retrofit_full_elec_sf
 )
 
 
 usethis::use_data(ceestock_summaries, overwrite = TRUE)
+usethis::use_data(electrification_ratios, overwrite = TRUE)
