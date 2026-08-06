@@ -555,6 +555,36 @@ ceestock_summaries <- list(
   cee_retrofit_full_elec_sf = cee_retrofit_full_elec_sf
 )
 
+# CEEStock SFA observed baseline means at coarse bins
+att_obs <- ceestock_raw %>%
+  filter(
+    model_heating_fuel == "Natural Gas",
+    mc_classification == "single_family_attached",
+    scenario == "Baseline",
+    n >= 5
+  ) %>%
+  mutate(
+    build_year = if_else(model_vintage_acs %in% c("2000-09", "2010s"), "2000+", model_vintage_acs),
+    sqft_bin = bin_to_att(bin_all(model_geometry_floor_area))
+  ) %>%
+  group_by(build_year, sqft_bin) %>%
+  summarise(cee_mwh = mean(elec_mwh), cee_mcf = mean(gas_mcf), cee_n = sum(n), .groups = "drop")
+
+# ResStock SFA at same bins
+rs_att <- resstock_summaries$sf_attached_vintagesqft_baseline %>%
+  mutate(sqft_bin = bin_to_att_resstock(as.character(sqft_bin))) %>%
+  filter(!is.na(sqft_bin)) %>%
+  group_by(build_year, sqft_bin) %>%
+  summarise(rs_mwh = median(median_kwh) / 1000, rs_mcf = median(median_mcf), .groups = "drop")
+
+# Compare
+inner_join(att_obs, rs_att, by = c("build_year", "sqft_bin")) %>%
+  mutate(
+    scalar_mwh = cee_mwh / rs_mwh,
+    scalar_mcf = cee_mcf / rs_mcf
+  ) %>%
+  print(n = Inf)
+
 
 usethis::use_data(ceestock_summaries, overwrite = TRUE)
 usethis::use_data(electrification_ratios, overwrite = TRUE)
