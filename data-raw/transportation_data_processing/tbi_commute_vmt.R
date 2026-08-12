@@ -12,8 +12,8 @@
 # we could use the origin trip CD or the destination CD, and assign a workplace
 # CD based on the O or D trip purpose.
 #
-# Howver, we still have to calculate the total VMT that occurred in each CD
-# this is regardless of origin or destination (right?)
+# However, we still have to calculate the total VMT that occurred in each CD
+# this is regardless of origin or destination
 # so then how do we join that with a specific CD?
 #
 # We could stick with the HH CD, which would mean that we are calculating
@@ -59,10 +59,14 @@ valid_trips <- trip %>%
     weighted_vmt = vmt * linked_trip_weight
   ) %>%
   filter(!is.na(trip_purpose_weight)) %>%
-  select(survey_year, linked_trip_id, linked_trip_weight, cd_2050_broad, purpose_category,
-         d_purpose, o_purpose, trip_d_cd_2050_broad, trip_o_cd_2050_broad,
-         vmt, weighted_vmt)
+  select(
+    survey_year, linked_trip_id, linked_trip_weight, cd_2050_broad, purpose_category,
+    d_purpose, o_purpose, trip_d_cd_2050_broad, trip_o_cd_2050_broad,
+    hh_county,
+    vmt, weighted_vmt
+  )
 
+# first at the communty designation level -----
 trip_commute_vmt <- valid_trips %>%
   # filter(o_purpose== "Went home" & d_purpose== "Primary workplace" |
   #          o_purpose == "Primary workplace" & d_purpose == "Went home") %>%
@@ -103,5 +107,73 @@ tbi_commute_vmt_prop <- left_join(trip_commute_vmt, trip_vmt, join_by(cd_2050_br
     commute_count_prop
   )
 
-# about 12% of trips, 20% of VMT
-tbi_commute_vmt_prop
+
+# compute at COUNTY level -----
+
+trip_county_commute_vmt <- valid_trips %>%
+  filter(purpose_category == "Work") %>%
+  group_by(hh_county) %>%
+  as_survey_design(weights = linked_trip_weight) %>%
+  summarise(
+    commute_vmt = survey_total(vmt, vartype = "se"),
+    commute_count = n(),
+    .groups = "keep"
+  )
+
+trip_county_vmt <- valid_trips %>%
+  group_by(hh_county) %>%
+  as_survey_design(weights = linked_trip_weight) %>%
+  summarise(
+    total_vmt = survey_total(vmt, vartype = "se"),
+    total_count = n(),
+    .groups = "keep"
+  )
+
+tbi_county_commute_vmt_prop <- left_join(trip_county_commute_vmt, trip_county_vmt, join_by(hh_county)) %>%
+  mutate(
+    commute_vmt_prop = commute_vmt / total_vmt,
+    commute_count_prop = commute_count / total_count,
+    geog_name = stringr::str_replace(hh_county, "MN", "County") %>%
+      stringr::str_trim()
+  ) %>%
+  select(
+    geog_name,
+    hh_county,
+    commute_vmt,
+    total_vmt,
+    commute_vmt_prop,
+    commute_count,
+    total_count,
+    commute_count_prop
+  ) %>%
+  left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id) %>% unique(), join_by(geog_name))
+
+
+# join with comm designation
+vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
+
+ctu_imagine <- vmt_model_data %>%
+  select(ctu_name, geog_id = gnis, imagine_designation) %>%
+  unique() %>%
+  left_join(geog_index %>% select(geog_name, geog_id) %>% unique(), join_by(geog_id))
+
+# compile final ----
+commute_vmt_proportion <- tbi_commute_vmt_prop %>%
+  ungroup() %>%
+  left_join(ctu_imagine, join_by(cd_2050_broad == imagine_designation)) %>%
+  bind_rows(tbi_county_commute_vmt_prop) %>%
+  mutate(
+    mode = "PLDV",
+    var = "COMMUTE_VMT_PROP",
+    type = "P"
+  ) %>%
+  select(
+    mode, var, geog_name,
+    geog_id,
+    value = commute_vmt_prop,
+    type
+  ) %>%
+  arrange(geog_name)
+
+
+usethis::use_data(commute_vmt_proportion, overwrite = TRUE)
