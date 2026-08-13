@@ -887,3 +887,69 @@ vmt_trip_reduction <- function(.pass_tb,
 
   return(households_community)
 }
+
+#' @title Commute trip reduction (CTR) program VMT adjustment
+#'
+#' @description
+#' This function calculates the expected reduction in vehicle miles traveled (VMT) based on a commute trip reduction program.
+#' The reduction is calculated using the proportion of employees in a given geographic unit targeted for the program,
+#' whether the program is voluntary or mandatory, and the year the program begins.
+#' The reduction is capped at a maximum percentage defined in `enviro_factors`.
+#'
+#' This function does not account for associated increases in transit or active transportation VMT that may result
+#' from the commute trip reduction program.
+#'
+#' @param .ctr_employees_targeted numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_employees_targeted`.
+#' @param .ctr_voluntary logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_voluntary`.
+#' @param .ctr_start_year character or numeric, the year the trip reduction program begins. For years prior to this,
+#'     no reduction is applied. For years at or after this year, the full reduction is applied.
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_start_year`.
+#' @param .commute_vmt_proportion table, proportion of passenger light-duty vehicle VMT that is commute-related. Default is `ghg.ccap::commute_vmt_proportion`.
+#'
+vmt_commute_trip_reduction <- function(.pass_tb,
+                                       .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+                                       .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+                                       .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                                       .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+                                       .enviro_factors = ghg.ccap::enviro_factors) {
+  if (.ctr_employees_targeted == 0) {
+    return(.pass_tb %>%
+      select(geog_id, geog_name, year) %>%
+      distinct() %>%
+      mutate(
+        commute_trip_reduction_adj = 1
+      ))
+  }
+
+  max_reduction_pct <- .enviro_factors$MAX_COMMUTE_TRIP_REDUCTION_PCT
+  vmt_proportion <- .commute_vmt_proportion %>%
+    filter_ctu(unique(.pass_tb$geog_name)) %>%
+    dplyr::select(geog_id, geog_name, vmt_proportion = value) %>%
+    pull("vmt_proportion")
+
+  trip_reduction_percent <- if (.ctr_voluntary) {
+    .enviro_factors$COMMUTE_TRIP_REDUCTION_VOLUNTARY_PCT
+  } else {
+    .enviro_factors$COMMUTE_TRIP_REDUCTION_MANDATORY_PCT
+  }
+
+  commute_trip_reduction <- .pass_tb %>%
+    select(geog_id, geog_name, year) %>%
+    distinct() %>%
+    mutate(
+      uncapped_reduction = 1 + (.ctr_employees_targeted * trip_reduction_percent),
+      capped_reduction = dplyr::case_when(
+        uncapped_reduction < (1 + max_reduction_pct) ~ 1 + max_reduction_pct,
+        TRUE ~ uncapped_reduction
+      ),
+      # Scale commute-only reduction to total VMT: only the commute share is affected
+      commute_trip_reduction_adj = dplyr::case_when(
+        as.numeric(year) < as.numeric(.ctr_start_year) ~ 1,
+        TRUE ~ 1 + (capped_reduction - 1) * vmt_proportion
+      )
+    )
+
+  return(commute_trip_reduction)
+}
