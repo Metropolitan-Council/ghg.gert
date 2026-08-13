@@ -5,6 +5,14 @@
 ###
 ###   mc_classification | build_year | sqft_bin | scenario_mwh | scenario_mcf
 ###
+### Six scenarios:
+###   baseline              — no interventions
+###   retrofit              — envelope upgrade only
+###   full_electrification  — heat pump + appliance electrification, no envelope
+###   combination           — envelope + full electrification
+###   new_build             — baseline filtered to 2000+ vintage
+###   new_build_sustainable — high-performance new construction
+###
 ### Approach:
 ###   SFD  — CEEStock directly (MN ground truth)
 ###   ALL OTHER TYPES — ResStock x vintage-level SFD correction scalar
@@ -18,9 +26,14 @@
 ### ResStock already maintains that ordering internally, and multiplying
 ### all types by the same constant preserves it.
 ###
-### Sqft-level variation in the scalar is modest (0.88–1.05 within most
-### vintages) and dominated by noise in thin cells. The vintage signal
-### is what matters: pre-1940 scalar_mcf ~0.75, post-war ~0.95–1.10.
+### For scenarios that include an envelope retrofit, non-SFD types receive
+### a per-vintage "retrofit boost" that calibrates ResStock's envelope
+### effect to the magnitude observed in CEEStock SFD. This preserves the
+### relative ordering across housing types while ensuring the overall
+### retrofit intensity is anchored to MN ground truth. Separate boost
+### factors are computed for each envelope context (baseline vs fully
+### electrified) because the same physical envelope improvement yields
+### different relative savings depending on the HVAC system.
 ###
 ### Dependency chain:
 ###   compile_resstock_data.R  ->  resstock_summaries
@@ -254,22 +267,7 @@ build_full_elec_propane <- function(enduse, ratios) {
     )
 }
 
-
-# ==============================================================================
-# Compute scalar
-# ==============================================================================
-
-vintage_scalars <- compute_vintage_scalar(
-  ceestock_summaries$cee_baseline_sfd,
-  resstock_summaries$sf_detached_vintagesqft_baseline
-)
-
-
-# ==============================================================================
-# Assemble profiles
-# ==============================================================================
-
-# -- Helper: SFD + SFA + MF + manufactured for a standard scenario -------------
+#' Build SFD + SFA + MF + manufactured for a non-envelope scenario.
 build_unified <- function(cee_sfd_key, rs_sfa_key, rs_mf, rs_manuf) {
   bind_rows(
     standardize_sfd(ceestock_summaries[[cee_sfd_key]]),
@@ -282,34 +280,148 @@ build_unified <- function(cee_sfd_key, rs_sfa_key, rs_mf, rs_manuf) {
   )
 }
 
-# -- Standard scenarios --------------------------------------------------------
+
+# ==============================================================================
+# Compute vintage scalar
+# ==============================================================================
+
+vintage_scalars <- compute_vintage_scalar(
+  ceestock_summaries$cee_baseline_sfd,
+  resstock_summaries$sf_detached_vintagesqft_baseline
+)
+
+
+# ==============================================================================
+# Retrofit boost: calibrate ResStock envelope effect to CEEStock
+# ==============================================================================
+#
+# Per vintage, compute how much stronger CEEStock's envelope effect is
+# relative to ResStock's for SFD, then use that ratio to boost the
+# ResStock-derived envelope effect for non-SFD types.
+#
+# Two boost factor sets: one for the envelope effect in a baseline
+# (gas furnace) context, one for the envelope effect in a fully
+# electrified context.
+
+compute_retrofit_boost <- function(cee_baseline, cee_retrofit,
+                                   rs_baseline_vintagesqft, rs_retrofit_vintagesqft,
+                                   scalars) {
+  # CEEStock SFD: average retention fraction per vintage
+  cee_bl <- standardize_sfd(cee_baseline) %>%
+    group_by(build_year) %>%
+    summarise(cee_bl_mwh = mean(scenario_mwh), cee_bl_mcf = mean(scenario_mcf),
+              .groups = "drop")
+  cee_ret <- standardize_sfd(cee_retrofit) %>%
+    group_by(build_year) %>%
+    summarise(cee_ret_mwh = mean(scenario_mwh), cee_ret_mcf = mean(scenario_mcf),
+              .groups = "drop")
+
+  # ResStock SFD (scalar-corrected): average retention fraction per vintage
+  rs_bl <- apply_scalar_vintagesqft(rs_baseline_vintagesqft, scalars) %>%
+    group_by(build_year) %>%
+    summarise(rs_bl_mwh = mean(scenario_mwh), rs_bl_mcf = mean(scenario_mcf),
+              .groups = "drop")
+  rs_ret <- apply_scalar_vintagesqft(rs_retrofit_vintagesqft, scalars) %>%
+    group_by(build_year) %>%
+    summarise(rs_ret_mwh = mean(scenario_mwh), rs_ret_mcf = mean(scenario_mcf),
+              .groups = "drop")
+
+  boost <- cee_bl %>%
+    inner_join(cee_ret, by = "build_year") %>%
+    inner_join(rs_bl, by = "build_year") %>%
+    inner_join(rs_ret, by = "build_year") %>%
+    mutate(
+      # Reduction fractions (1 - retention)
+      cee_red_mwh = 1 - cee_ret_mwh / cee_bl_mwh,
+      cee_red_mcf = 1 - cee_ret_mcf / cee_bl_mcf,
+      rs_red_mwh  = 1 - rs_ret_mwh / rs_bl_mwh,
+      rs_red_mcf  = 1 - rs_ret_mcf / rs_bl_mcf,
+      # Boost = how many times stronger CEEStock's effect is
+      boost_mwh = cee_red_mwh / rs_red_mwh,
+      boost_mcf = cee_red_mcf / rs_red_mcf
+    )
+
+  message("\n-- Retrofit boost factors by vintage --")
+  print(boost %>% select(build_year, cee_red_mwh, rs_red_mwh, boost_mwh,
+                         cee_red_mcf, rs_red_mcf, boost_mcf), n = Inf)
+
+  boost %>%
+    select(build_year, boost_mwh, boost_mcf)
+}
+
+#' Apply retrofit boost to a non-SFD profile.
+#' Amplifies the ResStock envelope reduction to match CEEStock's SFD effect.
+#' The baseline profile provides the anchor; the retrofit profile provides
+#' the raw ResStock reduction; the boost scales that reduction up.
+apply_retrofit_boost <- function(corrected_baseline, corrected_retrofit, boost) {
+  corrected_baseline %>%
+    inner_join(corrected_retrofit,
+               by = c("mc_classification", "build_year", "sqft_bin"),
+               suffix = c("_bl", "_ret")) %>%
+    inner_join(boost, by = "build_year") %>%
+    mutate(
+      # Original RS retention fraction
+      ret_frac_mwh = scenario_mwh_ret / scenario_mwh_bl,
+      ret_frac_mcf = scenario_mcf_ret / scenario_mcf_bl,
+      # Boosted reduction: clamp to prevent overshooting zero
+      scenario_mwh = scenario_mwh_bl * pmax(0, 1 - (1 - ret_frac_mwh) * boost_mwh),
+      scenario_mcf = scenario_mcf_bl * pmax(0, 1 - (1 - ret_frac_mcf) * boost_mcf)
+    ) %>%
+    select(mc_classification, build_year, sqft_bin, scenario_mwh, scenario_mcf)
+}
+
+# -- Boost factor sets ---------------------------------------------------------
+
+# Envelope effect in baseline (gas furnace) context
+retrofit_boost <- compute_retrofit_boost(
+  ceestock_summaries$cee_baseline_sfd, ceestock_summaries$cee_retrofit_sfd,
+  resstock_summaries$sf_detached_vintagesqft_baseline,
+  resstock_summaries$sf_detached_vintagesqft_envelope,
+  vintage_scalars
+)
+
+# Envelope effect in fully electrified context
+retrofit_elec_boost <- compute_retrofit_boost(
+  ceestock_summaries$cee_full_elec_sfd, ceestock_summaries$cee_retrofit_full_elec_sfd,
+  resstock_summaries$sf_detached_vintagesqft_baseline,
+  resstock_summaries$sf_detached_vintagesqft_envelope,
+  vintage_scalars
+)
+
+
+# ==============================================================================
+# Assemble profiles
+# ==============================================================================
+
+# -- Baseline (no interventions) -----------------------------------------------
 
 baseline <- build_unified(
   "cee_baseline_sfd", "baseline",
   resstock_summaries$mf_baseline, resstock_summaries$manufactured_baseline
 )
 
-retrofit <- build_unified(
-  "cee_retrofit_sfd", "envelope",
-  resstock_summaries$mf_envelope, resstock_summaries$manufactured_envelope
+# -- Retrofit (envelope only, boosted non-SFD) ---------------------------------
+
+retrofit <- bind_rows(
+  standardize_sfd(ceestock_summaries$cee_retrofit_sfd),
+  apply_retrofit_boost(
+    apply_scalar_vintagesqft(resstock_summaries$sf_attached_vintagesqft_baseline, vintage_scalars),
+    apply_scalar_vintagesqft(resstock_summaries$sf_attached_vintagesqft_envelope, vintage_scalars),
+    retrofit_boost
+  ),
+  apply_retrofit_boost(
+    apply_scalar_vintage(resstock_summaries$mf_baseline, vintage_scalars),
+    apply_scalar_vintage(resstock_summaries$mf_envelope, vintage_scalars),
+    retrofit_boost
+  ),
+  apply_retrofit_boost(
+    apply_scalar_vintage(resstock_summaries$manufactured_baseline, vintage_scalars),
+    apply_scalar_vintage(resstock_summaries$manufactured_envelope, vintage_scalars),
+    retrofit_boost
+  )
 )
 
-heatpump <- build_unified(
-  "cee_heatpump_sfd", "heatpump",
-  resstock_summaries$mf_heatpump, resstock_summaries$manufactured_heatpump
-)
-
-electric_appliances <- build_unified(
-  "cee_appliance_sfd", "baseline",
-  resstock_summaries$mf_baseline, resstock_summaries$manufactured_baseline
-)
-
-combination <- build_unified(
-  "cee_combined_sfd", "combo",
-  resstock_summaries$mf_combo, resstock_summaries$manufactured_combo
-)
-
-# -- Full electrification ------------------------------------------------------
+# -- Full electrification (no envelope) ----------------------------------------
 
 full_electrification <- bind_rows(
   standardize_sfd(ceestock_summaries$cee_full_elec_sfd),
@@ -330,35 +442,60 @@ full_electrification <- bind_rows(
   )
 )
 
-retrofit_full_electrification <- bind_rows(
-  standardize_sfd(ceestock_summaries$cee_retrofit_full_elec_sfd),
-  build_full_elec(
-    resstock_summaries$sf_attached_vintagesqft_baseline,
-    resstock_summaries$sf_attached_baseline_enduse,
-    vintage_scalars, electrification_ratios, has_sqft = TRUE,
-    retrofit_baseline = resstock_summaries$sf_attached_vintagesqft_envelope
-  ),
-  build_full_elec(
-    resstock_summaries$mf_baseline_enduse,
-    resstock_summaries$mf_baseline_enduse,
-    vintage_scalars, electrification_ratios, has_sqft = FALSE,
-    retrofit_baseline = resstock_summaries$mf_envelope
-  ),
-  build_full_elec(
-    resstock_summaries$manufactured_baseline_enduse,
-    resstock_summaries$manufactured_baseline_enduse,
-    vintage_scalars, electrification_ratios, has_sqft = FALSE,
-    retrofit_baseline = resstock_summaries$manufactured_envelope
-  )
+# -- Combination (envelope + full electrification, boosted non-SFD) ------------
+# Build unboosted full_elec and retrofit_full_elec for non-SFD, then apply
+# the retrofit_elec_boost to calibrate the envelope effect.
+
+fe_sfa <- build_full_elec(
+  resstock_summaries$sf_attached_vintagesqft_baseline,
+  resstock_summaries$sf_attached_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = TRUE
 )
+rfe_sfa <- build_full_elec(
+  resstock_summaries$sf_attached_vintagesqft_baseline,
+  resstock_summaries$sf_attached_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = TRUE,
+  retrofit_baseline = resstock_summaries$sf_attached_vintagesqft_envelope
+)
+
+fe_mf <- build_full_elec(
+  resstock_summaries$mf_baseline_enduse,
+  resstock_summaries$mf_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = FALSE
+)
+rfe_mf <- build_full_elec(
+  resstock_summaries$mf_baseline_enduse,
+  resstock_summaries$mf_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = FALSE,
+  retrofit_baseline = resstock_summaries$mf_envelope
+)
+
+fe_manuf <- build_full_elec(
+  resstock_summaries$manufactured_baseline_enduse,
+  resstock_summaries$manufactured_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = FALSE
+)
+rfe_manuf <- build_full_elec(
+  resstock_summaries$manufactured_baseline_enduse,
+  resstock_summaries$manufactured_baseline_enduse,
+  vintage_scalars, electrification_ratios, has_sqft = FALSE,
+  retrofit_baseline = resstock_summaries$manufactured_envelope
+)
+
+combination <- bind_rows(
+  standardize_sfd(ceestock_summaries$cee_retrofit_full_elec_sfd),
+  apply_retrofit_boost(fe_sfa, rfe_sfa, retrofit_elec_boost),
+  apply_retrofit_boost(fe_mf, rfe_mf, retrofit_elec_boost),
+  apply_retrofit_boost(fe_manuf, rfe_manuf, retrofit_elec_boost)
+)
+
+rm(fe_sfa, rfe_sfa, fe_mf, rfe_mf, fe_manuf, rfe_manuf)
 
 # -- New-build variants --------------------------------------------------------
 
 new_build <- baseline %>% filter(build_year == "2000+")
-new_build_heatpump <- heatpump %>% filter(build_year == "2000+")
-new_build_full_electrification <- full_electrification %>% filter(build_year == "2000+")
 
-new_build_leed <- bind_rows(
+new_build_sustainable <- bind_rows(
   resstock_summaries$sf_detached_vintagesqft_sust_new_build %>%
     transmute(mc_classification, build_year,
               sqft_bin = relabel_resstock_sqft(sqft_bin),
@@ -385,17 +522,12 @@ new_build_leed <- bind_rows(
 finalize <- function(profile) cap_sfa_at_sfd(enforce_monotonic(profile))
 
 building_summaries <- list(
-  baseline                       = finalize(baseline),
-  retrofit                       = finalize(retrofit),
-  heatpump                       = finalize(heatpump),
-  electric_appliances            = finalize(electric_appliances),
-  combination                    = finalize(combination),
-  full_electrification           = finalize(full_electrification),
-  retrofit_full_electrification  = finalize(retrofit_full_electrification),
-  new_build                      = finalize(new_build),
-  new_build_heatpump             = finalize(new_build_heatpump),
-  new_build_full_electrification = finalize(new_build_full_electrification),
-  new_build_leed                 = finalize(new_build_leed),
+  baseline             = finalize(baseline),
+  retrofit             = finalize(retrofit),
+  full_electrification = finalize(full_electrification),
+  combination          = finalize(combination),
+  new_build            = finalize(new_build),
+  new_build_sustainable = finalize(new_build_sustainable),
 
   # Propane full electrification (separate schema)
   propane_sfd_full_elec = build_full_elec_propane(
@@ -407,7 +539,9 @@ building_summaries <- list(
 
   # Metadata
   electrification_ratios = electrification_ratios,
-  vintage_scalars        = vintage_scalars
+  vintage_scalars        = vintage_scalars,
+  retrofit_boost         = retrofit_boost,
+  retrofit_elec_boost    = retrofit_elec_boost
 )
 
 
@@ -416,21 +550,23 @@ building_summaries <- list(
 message("\n-- Profile schema check --")
 standard_cols <- c("mc_classification", "build_year", "sqft_bin",
                    "scenario_mwh", "scenario_mcf")
-for (key in c("baseline", "retrofit", "heatpump", "full_electrification",
-              "combination", "new_build", "new_build_leed")) {
+scenario_keys <- c("baseline", "retrofit", "full_electrification",
+                   "combination", "new_build", "new_build_sustainable")
+for (key in scenario_keys) {
   tbl <- building_summaries[[key]]
   has_cols <- all(standard_cols %in% names(tbl))
   n_mc <- n_distinct(tbl$mc_classification)
-  message(sprintf("  %-35s  cols_ok=%s  n_mc=%d  rows=%d",
+  message(sprintf("  %-25s  cols_ok=%s  n_mc=%d  rows=%d",
                   key, has_cols, n_mc, nrow(tbl)))
 }
 
 message("\n-- SFA < SFD check (post scalar correction) --")
-for (key in c("baseline", "heatpump", "full_electrification")) {
+for (key in scenario_keys) {
   profile <- building_summaries[[key]]
   sfd <- profile %>% filter(mc_classification == "single_family_detached", sqft_bin != "all")
   sfa <- profile %>% filter(mc_classification == "single_family_attached", sqft_bin != "all")
   comp <- inner_join(sfa, sfd, by = c("build_year", "sqft_bin"), suffix = c("_sfa", "_sfd"))
+  if (nrow(comp) == 0) next
   violations <- comp %>%
     filter(scenario_mwh_sfa > scenario_mwh_sfd + 1e-6 |
              scenario_mcf_sfa > scenario_mcf_sfd + 1e-6)
@@ -453,6 +589,48 @@ for (mc in c("single_family_attached", "multifamily_units", "manufactured_homes"
   message(sprintf("\n  %s:", mc))
   print(select(comp, build_year, sqft_bin, scenario_mcf_bl, scenario_mcf_fe,
                mcf_red, scenario_mwh_bl, scenario_mwh_fe, mwh_inc), n = Inf)
+}
+
+message("\n-- Retrofit energy reduction: CEEStock SFD --")
+for (scenario_pair in list(
+  list(label = "retrofit vs baseline", ret = "retrofit", bl = "baseline"),
+  list(label = "combination vs full_elec", ret = "combination", bl = "full_electrification")
+)) {
+  bl_sfd <- building_summaries[[scenario_pair$bl]] %>%
+    filter(mc_classification == "single_family_detached")
+  ret_sfd <- building_summaries[[scenario_pair$ret]] %>%
+    filter(mc_classification == "single_family_detached")
+  comp <- inner_join(bl_sfd, ret_sfd,
+                     by = c("mc_classification", "build_year", "sqft_bin"),
+                     suffix = c("_bl", "_ret"))
+  message(sprintf("\n  %s (SFD, CEEStock):", scenario_pair$label))
+  message(sprintf("    MWh change: %+.1f%%",
+                  mean((comp$scenario_mwh_ret / comp$scenario_mwh_bl - 1) * 100)))
+  message(sprintf("    MCF change: %+.1f%%",
+                  mean((comp$scenario_mcf_ret / comp$scenario_mcf_bl - 1) * 100)))
+}
+
+message("\n-- Retrofit energy reduction: ResStock-derived types (boosted) --")
+for (scenario_pair in list(
+  list(label = "retrofit vs baseline", ret = "retrofit", bl = "baseline"),
+  list(label = "combination vs full_elec", ret = "combination", bl = "full_electrification")
+)) {
+  for (mc in c("single_family_attached", "multifamily_units", "manufactured_homes")) {
+    bl <- building_summaries[[scenario_pair$bl]] %>% filter(mc_classification == mc)
+    ret <- building_summaries[[scenario_pair$ret]] %>% filter(mc_classification == mc)
+    comp <- inner_join(bl, ret,
+                       by = c("mc_classification", "build_year", "sqft_bin"),
+                       suffix = c("_bl", "_ret"))
+    if (nrow(comp) == 0) {
+      message(sprintf("  %s — %s: NO ROWS (check resstock_summaries)", scenario_pair$label, mc))
+      next
+    }
+    message(sprintf("  %s — %s (n=%d):", scenario_pair$label, mc, nrow(comp)))
+    message(sprintf("    MWh change: %+.1f%%",
+                    mean((comp$scenario_mwh_ret / comp$scenario_mwh_bl - 1) * 100)))
+    message(sprintf("    MCF change: %+.1f%%",
+                    mean((comp$scenario_mcf_ret / comp$scenario_mcf_bl - 1) * 100)))
+  }
 }
 
 

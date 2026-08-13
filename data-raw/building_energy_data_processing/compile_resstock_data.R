@@ -39,8 +39,24 @@ bin_sqft <- function(sqft) {
 
 load_resstock <- function(path, heating_fuel_filter = "Natural Gas") {
 
-  raw <- readr::read_csv(path, show_col_types = FALSE) %>%
+
+    raw <- readr::read_csv(path, show_col_types = FALSE) %>%
     janitor::clean_names()
+
+    # Accommodate files that use "in_county" instead of "in_county_name"
+    if (!"in_county_name" %in% names(raw) && "in_county" %in% names(raw)) {
+      county_lookup <- geog_index %>%
+        filter(geog_level == "COUNTY") %>%
+        select(geog_id, county_name = geog_name)
+      raw <- raw %>%
+        mutate(
+          in_county_fips = paste0(substr(in_county, 2, 3), substr(in_county, 5, 7))
+        ) %>%
+        left_join(county_lookup, by = c("in_county_fips" = "geog_id")) %>%
+        mutate(in_county_name = county_name) %>%
+        select(-county_name, -in_county_fips)
+    }
+
 
   base_cols <- c(
     sqft              = "in_sqft",
@@ -162,7 +178,7 @@ resstock_path <- "./data-raw/building_energy_data_processing/resstock data/"
 
 baseline <- load_resstock(file.path(resstock_path, "MN_baseline_metadata_and_annual_results.csv"))
 heatpump <- load_resstock(file.path(resstock_path, "MN_upgrade02_metadata_and_annual_results_heat_pump.csv"))
-envelope <- load_resstock(file.path(resstock_path, "MN_upgrade2.04_metadata_and_annual_results_intermediate_envelope.csv"))
+envelope <- load_resstock(file.path(resstock_path, "MN_upgrade16_metadata_and_annual_results.csv"))
 combo    <- load_resstock(file.path(resstock_path, "MN_upgrade07_metadata_and_annual_results.csv"))
 
 sust_new_build <- load_resstock(
