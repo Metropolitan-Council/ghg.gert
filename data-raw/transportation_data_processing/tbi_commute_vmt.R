@@ -204,7 +204,6 @@ commute_vmt_proportion <- tbi_commute_vmt_prop %>%
     mode, var, geog_name,
     geog_id,
     value = commute_vmt_prop,
-    cd_2050,
     type
   ) %>%
   arrange(geog_name)
