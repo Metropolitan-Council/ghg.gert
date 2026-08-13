@@ -25,7 +25,10 @@ transportation_defaults <-
     "bev_pct_stock" = 0,
     "hev_pct_stock" = 0,
     "cbtp_prop_targeted" = 0,
-    "cbtp_start_year" = "2030"
+    "cbtp_start_year" = "2030",
+    "commute_trip_reduction_voluntary" = TRUE,
+    "commute_trip_reduction_employees_targeted" = 0,
+    "commute_trip_reduction_start_year" = "2030"
   )
 
 usethis::use_data(transportation_defaults, overwrite = TRUE)
