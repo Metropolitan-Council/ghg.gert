@@ -1,22 +1,19 @@
-#' @title Adjust residential building energy needs
+#' @title Calculate residential building energy profiles
 #' @family residential
 #' @family buildings
 #'
-#' @description This function adjusts city level single-family energy demand per building
+#' @description This function assigns city-level single-family energy demand per building
 #' according to parcel data building characteristics: median year of construction,
-#' median square footage
+#' median square footage. SFA parcel sqft is capped at the CTU's median SFD sqft
+#' to ensure that density increases (which shift SFD units to SFA) do not
+#' inadvertently increase energy use.
 #'
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
-#' @inheritParams calc_ghg_residential
-#' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
-#'      Percentage of new single-family homes to instead be built as multifamily homes.
-#'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
-#'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
-#'       Table contains adjusted `single_family_units` and `multifamily_units` record for column `var`
-#'       relative to residential inputs table.
+#'       A table with columns `mc_classification`, `sqft_bin`, `year_bin`,
+#'       `scenario_mwh`, `scenario_mcf`, and `scenario`.
 #'
 #' @export
 #'
@@ -24,15 +21,10 @@
 #' \dontrun{
 #' library(ghg.ccap)
 #'
-#' adj_unit_counts(
-#'   res_tb = compile_bau_building_energy()$residential,
-#'   .selected_ctu = "all",
-#'   .new_homes_to_multifamily_pct = 0.50
-#' )
+#' calc_building_energy(.selected_ctu = "Fridley")
 #' }
-#' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows
-#' @importFrom tidyr pivot_wider
-#' @importFrom cli cli_warn
+#' @importFrom dplyr filter mutate select left_join case_when if_else pull bind_rows
+#' @importFrom purrr map_dfr map
 calc_building_energy <- function(
     .selected_ctu,
     parcel_data = ghg.ccap::parcel_ctu,
@@ -132,9 +124,23 @@ calc_building_energy <- function(
   keep_classes <- c("single_family_detached", "single_family_attached",
                     "multifamily_units", "manufactured_homes")
 
+  # Cap SFA sqft at the CTU's median SFD sqft before binning.
+  # Density increases shift SFD units to SFA; new SFA construction shouldn't
+  # assume larger homes than the SFD stock it replaces.
+  sfd_median_sqft <- parcel_data %>%
+    filter(geog_name == .selected_ctu,
+           mc_classification == "single_family_detached") %>%
+    pull(sq_ft_use) %>%
+    median(na.rm = TRUE)
+
   ctu_binned <- parcel_data %>%
     filter(geog_name == .selected_ctu, mc_classification %in% keep_classes) %>%
     mutate(
+      sq_ft_use = if_else(
+        mc_classification == "single_family_attached" & sq_ft_use > sfd_median_sqft,
+        sfd_median_sqft,
+        sq_ft_use
+      ),
       sqft_bin = bin_sqft(sq_ft_use, mc_classification),
       year_bin = bin_year(median_year)
     )
@@ -146,15 +152,11 @@ calc_building_energy <- function(
 
   scenario_keys <- c(
     "baseline",
-    "new_build",
     "retrofit",
-    "heatpump",
-    "combination",
     "full_electrification",
-    "retrofit_full_electrification",
-    "new_build_heatpump",
-    "new_build_full_electrification",
-    "new_build_leed"
+    "combination",
+    "new_build",
+    "new_build_sustainable"
   )
 
   ctu_energy_profile <- purrr::map(scenario_keys, function(key) {
