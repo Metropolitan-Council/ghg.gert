@@ -117,7 +117,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     "calc_transp_cost",
     "calc_transp_fuel_use",
     "calc_transp_ghg_embodied",
-    "freight_vmt_fee"
+    "freight_vmt_fee",
+    "cbtp_prop_targeted",
+    "ctr_employees_targeted"
   )
 
   l_vals <- list(
@@ -144,7 +146,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost,
     .calc_transp_fuel_use,
     .calc_transp_ghg_embodied,
-    .freight_vmt_fee
+    .freight_vmt_fee,
+    .cbtp_prop_targeted,
+    .ctr_employees_targeted
   )
 
   # check inputs -----
