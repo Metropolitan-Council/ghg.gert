@@ -3,7 +3,7 @@ options(readr.show_col_types = FALSE)
 # source("data-raw/transportation_data_processing/transportation_data.R")
 
 # EPA Smart Location Database (intersection density) ----
-# Added 2026-06-23: Automated EPA SLD data retrieval and CTU aggregation
+# Added 2026-06-23: Automated EPA SLD data retrieval and geography aggregation
 source("data-raw/transportation_data_processing/epa_sld.R")
 source("data-raw/transportation_data_processing/epa_sld_intersection_density.R")
 

@@ -47,17 +47,21 @@ if (!file.exists(BLOCKGROUP_FILE)) {
 mn_sld <- readRDS(BLOCKGROUP_FILE) %>%
   st_transform(st_crs(ccap_ctu)) %>%
   st_make_valid() %>%
-  mutate(bg_area = as.numeric(AC_LAND) %>%
-    units::as_units("acre") %>%
-    units::set_units("m^2") %>%
-    as.numeric())
+  mutate(
+    bg_area = as.numeric(AC_LAND) %>%
+      units::as_units("acre") %>%
+      units::set_units("m^2") %>%
+      as.numeric(),
+    county_fips = substr(GEOID20, 1, 5)
+  ) %>%
+  filter(county_fips %in% geog_index$geog_id[geog_index$geog_level == "COUNTY"])
 # Ensure same CRS and fix invalid geometries
 
 message("Aggregating EPA SLD to ", nrow(ccap_ctu), " CTUs...")
 
 # Intersect block groups with CTUs
 intersected <- st_intersection(
-  mn_sld %>% select(GEOID20, bg_area, all_of(D3_METRICS)),
+  mn_sld %>% select(GEOID20, bg_area, county_fips, all_of(D3_METRICS)),
   ccap_ctu %>% select(ctu_id_gnis) %>% unique()
 ) %>%
   # Calculate intersection piece areas and area-weighted averages
@@ -89,19 +93,84 @@ epa_sld_ctu <- intersected %>%
     n_blockgroups = n_distinct(GEOID20),
     .groups = "drop"
   ) %>%
+  rename(geog_id = ctu_id_gnis) %>%
   # Add geog_index columns
-  left_join(
-    ccap_ctu %>% sf::st_drop_geometry(),
-    by = c("ctu_id_gnis")
-  )
+  left_join(geog_index %>% filter(!geog_level %in% c("COUNTY", "REGION")) %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
 
+
+epa_sld_region <- intersected %>%
+  st_drop_geometry() %>%
+  # For each CTU and metric, calculate weighted average
+  # group_by(ctu_id_gnis) %>%
+  summarise(
+    across(
+      all_of(D3_METRICS),
+      ~ {
+        # Handle NA values
+        valid_idx <- !is.na(.x) & !is.na(piece_area)
+        if (sum(valid_idx) == 0) {
+          return(NA_real_)
+        }
+        weighted_mean <- weighted.mean(.x[valid_idx], w = piece_area[valid_idx], na.rm = TRUE) %>%
+          round(digits = 2)
+        total_area <- sum(piece_area[valid_idx], na.rm = TRUE)
+        if (total_area == 0) NA_real_ else weighted_mean
+      },
+      .names = "{.col}"
+    ),
+    total_area_meters = sum(piece_area, na.rm = TRUE),
+    n_blockgroups = n_distinct(GEOID20),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    geog_id = "00000000",
+  ) %>%
+  left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
+
+
+# Add geog_index columns
+
+
+epa_sld_county <- intersected %>%
+  st_drop_geometry() %>%
+  # For each CTU and metric, calculate weighted average
+  group_by(county_fips) %>%
+  summarise(
+    across(
+      all_of(D3_METRICS),
+      ~ {
+        # Handle NA values
+        valid_idx <- !is.na(.x) & !is.na(piece_area)
+        if (sum(valid_idx) == 0) {
+          return(NA_real_)
+        }
+        weighted_mean <- weighted.mean(.x[valid_idx], w = piece_area[valid_idx], na.rm = TRUE) %>%
+          round(digits = 2)
+        total_area <- sum(piece_area[valid_idx], na.rm = TRUE)
+        if (total_area == 0) NA_real_ else weighted_mean
+      },
+      .names = "{.col}"
+    ),
+    total_area_meters = sum(piece_area, na.rm = TRUE),
+    n_blockgroups = n_distinct(GEOID20),
+    .groups = "drop"
+  ) %>%
+  rename(geog_id = county_fips) %>%
+  left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
+
+
+epa_sld <- bind_rows(epa_sld_ctu, epa_sld_county, epa_sld_region) %>%
+  select(geog_name, geog_id, geog_id_type, geog_level, all_of(D3_METRICS), total_area_meters, n_blockgroups) %>%
+  unique() # removes duplicate values for cities in multiple counties
 
 # Create long format (tidy)
 epa_sld_ctu_long <- epa_sld_ctu %>%
+  bind_rows(epa_sld_county) %>%
+  bind_rows(epa_sld_region) %>%
   select(
-    ctu_id_gnis,
     geog_name,
-    geog_id = ctu_id_gnis, geog_id_type, geog_level, all_of(D3_METRICS)
+    geog_id,
+    geog_id_type, geog_level, all_of(D3_METRICS)
   ) %>%
   pivot_longer(
     cols = all_of(D3_METRICS),
@@ -129,19 +198,19 @@ saveRDS(epa_sld_ctu_long, OUTPUT_LONG_RDS)
 write.csv(epa_sld_ctu_long, OUTPUT_LONG_CSV, row.names = FALSE)
 
 # Check for missing data
-n_complete <- sum(complete.cases(epa_sld_ctu %>% select(all_of(D3_METRICS))))
-message("Aggregated ", nrow(epa_sld_ctu), " CTUs")
+n_complete <- sum(complete.cases(epa_sld %>% select(all_of(D3_METRICS))))
+message("Aggregated ", nrow(epa_sld), " geographies")
 
-missing_by_metric <- epa_sld_ctu %>%
+missing_by_metric <- epa_sld %>%
   st_drop_geometry() %>%
   summarise(across(all_of(D3_METRICS), ~ sum(is.na(.x))))
 
-if (nrow(geog_index) != nrow(epa_sld_ctu)) {
-  warning("Number of CTUs in geog_index (", nrow(geog_index), ") does not match number of CTUs in aggregated data (", nrow(epa_sld_ctu), ").")
+if (nrow(geog_index) != nrow(epa_sld)) {
+  warning("Number of geographies in geog_index (", nrow(geog_index), ") does not match number of geographies in aggregated data (", nrow(epa_sld), ").")
 }
 
 if (any(missing_by_metric > 0)) {
-  warning("Some CTUs have missing values")
+  warning("Some geographies have missing values")
 }
 
 epa_sld_intersection_density <- epa_sld_ctu_long %>%
