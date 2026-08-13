@@ -149,6 +149,42 @@ tbi_county_commute_vmt_prop <- left_join(trip_county_commute_vmt, trip_county_vm
   left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id) %>% unique(), join_by(geog_name))
 
 
+# compute at the region level -----
+trip_region_commute_vmt <- valid_trips %>%
+  filter(purpose_category == "Work") %>%
+  as_survey_design(weights = linked_trip_weight) %>%
+  summarise(
+    commute_vmt = survey_total(vmt, vartype = "se"),
+    commute_count = n(),
+    .groups = "keep"
+  )
+
+trip_region_vmt <- valid_trips %>%
+  as_survey_design(weights = linked_trip_weight) %>%
+  summarise(
+    total_vmt = survey_total(vmt, vartype = "se"),
+    total_count = n(),
+    .groups = "keep"
+  )
+
+tbi_region_commute_vmt_prop <- cbind(trip_region_commute_vmt, trip_region_vmt, join_by()) %>%
+  mutate(
+    commute_vmt_prop = commute_vmt / total_vmt,
+    commute_count_prop = commute_count / total_count,
+    geog_name = "Twin Cities Region",
+    geog_id = "00000000"
+  ) %>%
+  select(
+    geog_name,
+    geog_id,
+    commute_vmt,
+    total_vmt,
+    commute_vmt_prop,
+    commute_count,
+    total_count,
+    commute_count_prop
+  )
+
 # join with comm designation
 vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
 
@@ -162,6 +198,7 @@ commute_vmt_proportion <- tbi_commute_vmt_prop %>%
   ungroup() %>%
   left_join(ctu_imagine, join_by(cd_2050_broad == imagine_designation)) %>%
   bind_rows(tbi_county_commute_vmt_prop) %>%
+  # bind_rows(tbi_region_commute_vmt_prop) %>%
   mutate(
     mode = "PLDV",
     var = "COMMUTE_VMT_PROP",
