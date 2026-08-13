@@ -191,7 +191,7 @@ epa_sld_ctu_long <- epa_sld_ctu_long %>%
 
 # Save outputs
 if (!dir.exists(CSV_DIR)) {
-  dir.create(CSV_DIR, recursive = TRUE)
+  dir.create(CSV_DIR, recursive = TRUE, showWarnings = FALSE)
 }
 
 saveRDS(epa_sld_ctu_long, OUTPUT_LONG_RDS)
