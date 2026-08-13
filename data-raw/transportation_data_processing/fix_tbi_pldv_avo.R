@@ -42,7 +42,7 @@ avo_imagine <- trip %>%
     !is.na(cd_2050)
   ) %>%
   srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
-  group_by(cd_2050_broad) %>%
+  group_by(cd_2050) %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
@@ -77,7 +77,6 @@ avo_region <- trip %>%
     !is.na(cd_2050)
   ) %>%
   srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
-  # group_by(cd_2050_broad) %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
@@ -88,8 +87,8 @@ avo_region <- trip %>%
 
 # compare new with previous ------
 avo_new <- avo_imagine %>%
-  left_join(hh_cd_levels, join_by(cd_2050_broad)) %>%
-  left_join(ctu_imagine,
+  left_join(hh_cd_levels, join_by(cd_2050)) %>%
+  left_join(geog_index,
     by = c("cd_2050" = "imagine_designation")
   ) %>%
   mutate(
@@ -99,7 +98,7 @@ avo_new <- avo_imagine %>%
     type = "P",
     value = num_travelers_numeric
   ) %>%
-  select(geog_id = gnis, var, mode, value, aeo_mode, type) %>%
+  select(geog_id, var, mode, value, aeo_mode, type) %>%
   unique()
 
 avo_exist <- transportation_data$passenger %>%
