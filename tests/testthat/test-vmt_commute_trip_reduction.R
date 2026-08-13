@@ -1,8 +1,6 @@
 test_commute_trip_reduction <- function(x) {
-    has_commute_data <- x %in% unique(commute_vmt_proportion$geog_name)
 
     testthat::test_that(paste0(x, " Commute trip reduction returns 1 before start_year"), {
-      testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -26,7 +24,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction applies after start_year"), {
-        testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
 
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
@@ -49,7 +46,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction voluntary vs mandatory"), {
-        testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -84,7 +80,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction scales with employees targeted"), {
-        testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
 
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
@@ -118,7 +113,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction capped at max reduction"), {
-        testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
 
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
@@ -170,7 +164,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction returns correct structure"), {
-      testthat::skip_if(!has_commute_data, "No commute VMT proportion data for this geography")
 
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
