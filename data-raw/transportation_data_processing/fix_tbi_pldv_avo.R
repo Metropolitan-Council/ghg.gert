@@ -3,13 +3,6 @@
 pkgload::load_all()
 source("data-raw/transportation_data_processing/_tbi_load.R")
 
-# pull modeling dataset, which has imagine designations for each CTU
-vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
-
-ctu_imagine <- vmt_model_data %>%
-  select(ctu_name, gnis, imagine_designation) %>%
-  unique()
-
 # get index of CD levels
 hh_cd_levels <- hh_region %>%
   select(cd_2050, cd_2050_broad, cd_2050_rsd) %>%
