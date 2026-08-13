@@ -43,6 +43,10 @@ mode_passenger_light_duty(
   .elast_5d = ghg.ccap::elast_5d,
   .factor_values = ghg.ccap::factor_values,
   .fuel_economy = ghg.ccap::fuel_economy,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
