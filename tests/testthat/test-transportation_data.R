@@ -528,3 +528,34 @@ testthat::test_that("Counties have truck fleets with all fuel types", {
       ignore_attr = TRUE
     )
 })
+
+
+
+test_that("commute_vmt_proportion covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  cvp_geogs <- unique(commute_vmt_proportion$geog_id)
+  missing <- setdiff(trans_geogs, cvp_geogs)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      length(missing), " geographies in transportation_data missing from commute_vmt_proportion"
+      # paste(sort(missing), collapse = ", ")
+    )
+  )
+})
+
+test_that("epa_sld_intersection_density covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  epa_geogs <- unique(epa_sld_intersection_density$geog_id)
+  missing <- setdiff(trans_geogs, epa_geogs)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      length(missing), " geographies in transportation_data missing from epa_sld_intersection_density"
+      # paste(sort(missing), collapse = ", ")
+    )
+  )
+})
+
