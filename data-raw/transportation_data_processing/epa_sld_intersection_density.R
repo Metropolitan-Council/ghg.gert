@@ -125,7 +125,7 @@ epa_sld_region <- intersected %>%
   mutate(
     geog_id = "00000000",
   ) %>%
-  left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
+  left_join(geog_index %>% filter(geog_level == "REGION") %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
 
 
 # Add geog_index columns
