@@ -29,7 +29,7 @@ us_format <- function(year_folder) {
     ) %>%
     left_join(us_meta, by = "variable") %>%
     mutate(
-      ctu_id_gnis = substr(
+      geog_id = substr(
         as.character(coctu_id),
         nchar(as.character(coctu_id)) - 7,
         nchar(as.character(coctu_id))
@@ -42,16 +42,20 @@ us_format <- function(year_folder) {
         ),
         width = 3, pad = "0", side = "left"
       ),
-      inventory_year = as.numeric(year_folder)
+      coctu_id = stringr::str_pad(
+        as.character(coctu_id),
+        width = 11, pad = "0", side = "left"
+      ),
+      emissions_year = as.numeric(year_folder)
     )
 }
 
-# Read and combine all files, assigning inventory year
+# Read and combine all files, assigning emissions year
 us_formatted <- lapply(us_list, us_format) %>%
   bind_rows() %>%
   filter(
     !is.na(status),
-    ctu_id_gnis != "00649741"
+    geog_id != "00649741"
   ) %>%
   # only retain variables marked as ready for public display
   filter(status != "needs clarification") %>%
@@ -100,41 +104,98 @@ us_formatted <- lapply(us_list, us_format) %>%
   filter(!is.na(sp_categories))
 
 
+##### Check whether UrbanSim subcategories sum to their aggregate rows
+# total_households should equal SFD + SFA + MF + manufactured;
+# jobs (total_job_spaces) should equal commercial_jobs + industrial_jobs.
+# If these don't match, scaling must use subcategory sums as the denominator.
+us_hh_check <- us_formatted %>%
+  mutate(role = case_when(
+    sp_categories == "total_households" ~ "total",
+    sp_categories %in% c(
+      "single_family_detached", "single_family_attached",
+      "multifamily_units", "manufactured_homes"
+    ) ~ "subtype"
+  )) %>%
+  filter(!is.na(role)) %>%
+  group_by(coctu_id, emissions_year, role) %>%
+  summarize(value = sum(value), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = role, values_from = value) %>%
+  mutate(diff = total - subtype)
+
+us_job_check <- us_formatted %>%
+  mutate(role = case_when(
+    sp_categories == "jobs" ~ "total",
+    sp_categories %in% c("commercial_jobs", "industrial_jobs") ~ "subtype"
+  )) %>%
+  filter(!is.na(role)) %>%
+  group_by(coctu_id, emissions_year, role) %>%
+  summarize(value = sum(value), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = role, values_from = value) %>%
+  mutate(diff = total - subtype)
+
+hh_mismatch <- sum(abs(us_hh_check$diff) > 0.01, na.rm = TRUE)
+job_mismatch <- sum(abs(us_job_check$diff) > 0.01, na.rm = TRUE)
+
+message(
+  "UrbanSim internal consistency check:\n",
+  "  Households: ", hh_mismatch, "/", nrow(us_hh_check),
+  " COCTU-years where total_households ≠ sum(subtypes)",
+  if (hh_mismatch > 0) paste0(
+    " (max diff: ", round(max(abs(us_hh_check$diff), na.rm = TRUE), 1), ")"
+  ),
+  "\n  Jobs: ", job_mismatch, "/", nrow(us_job_check),
+  " COCTU-years where jobs ≠ sum(subtypes)",
+  if (job_mismatch > 0) paste0(
+    " (max diff: ", round(max(abs(us_job_check$diff), na.rm = TRUE), 1), ")"
+  )
+)
+
+
+##### Save unscaled UrbanSim output before Imagine 2050 adjustment
+# This preserves the raw UrbanSim modeling results at the COCTU × year level
+# for comparison against the post-model-adjusted Imagine 2050 forecasts.
+saveRDS(
+  us_formatted %>%
+    select(coctu_id, geog_id, county_id_fips, emissions_year, sp_categories, value),
+  file.path(here::here(), "data-raw/urbansim_demographic_data_raw.RDS")
+)
+
+
+##### Aggregate to CTU, county, and region levels (unscaled)
+
 demographic_data_ctu <- us_formatted %>%
   group_by(
-    inventory_year,
-    # coctu_id,
-    ctu_id_gnis,
+    emissions_year,
+    geog_id,
     sp_categories
   ) %>%
   dplyr::summarize(value = sum(value), .groups = "drop") %>%
-  left_join(geog_index, by = c("ctu_id_gnis" = "geog_id")) %>%
+  left_join(geog_index, by = "geog_id") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id = ctu_id_gnis, geog_id_type, geog_level, sp_categories, value)
+  select(emissions_year, geog_name, geog_id, geog_id_type, geog_level, sp_categories, value)
 
 demographic_data_county <- us_formatted %>%
   group_by(
-    inventory_year,
-    # coctu_id,
+    emissions_year,
     county_id_fips,
     sp_categories
   ) %>%
   dplyr::summarize(value = sum(value), .groups = "drop") %>%
-  mutate(geog_id = paste0("27",county_id_fips)) %>%
+  mutate(geog_id = paste0("27", county_id_fips)) %>%
   left_join(geog_index, by = "geog_id") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id , geog_id_type, geog_level, sp_categories, value)
+  select(emissions_year, geog_name, geog_id, geog_id_type, geog_level, sp_categories, value)
 
 demographic_data_region <- us_formatted %>%
   group_by(
-    inventory_year,
+    emissions_year,
     sp_categories
   ) %>%
   dplyr::summarize(value = sum(value), .groups = "drop") %>%
   mutate(geog_name = "Twin Cities Region") %>%
   left_join(geog_index, by = "geog_name") %>%
   ungroup() %>%
-  select(inventory_year, geog_name, geog_id , geog_id_type, geog_level, sp_categories, value)
+  select(emissions_year, geog_name, geog_id, geog_id_type, geog_level, sp_categories, value)
 
 
 demographic_data <- bind_rows(
@@ -143,19 +204,158 @@ demographic_data <- bind_rows(
   demographic_data_region
 ) %>%
   group_by(geog_name, geog_id, geog_id_type, sp_categories, geog_level) %>%
-  tidyr::complete(inventory_year = tidyr::full_seq(c(2005, 2050), 1)) %>% # add interstitial years and expand to 2025
-  dplyr::arrange(geog_name, geog_id, geog_id_type, sp_categories, inventory_year) %>%
-  mutate(value = zoo::na.approx(value, x = inventory_year, rule = 2)) %>% # allow extrapolation
+  tidyr::complete(emissions_year = tidyr::full_seq(c(2005, 2050), 1)) %>%
+  dplyr::arrange(geog_name, geog_id, geog_id_type, sp_categories, emissions_year) %>%
+  mutate(value = zoo::na.approx(value, x = emissions_year, rule = 2)) %>%
   ungroup()
+
+
+##### Scale to Imagine 2050 post-model-adjusted targets
+#
+# Both demographic_data and imagine_targets are now interpolated to annual,
+# so every year gets its own scalar rather than only the sparse forecast years.
+
+# Define which sp_categories roll up under each scaling group
+household_categories <- c(
+  "total_households", "single_family_detached",
+  "single_family_attached", "multifamily_units", "manufactured_homes"
+)
+job_categories <- c(
+  "jobs", "commercial_jobs", "industrial_jobs",
+  "commercial_job_space", "industrial_job_space"
+)
+
+# Load Imagine 2050 targets (output of compile_imagine_2050_forecasts.R)
+imagine_targets <- readRDS(
+  file.path(here::here(), "data-raw/meta/imagine_2050_forecasts.RDS")
+)
+
+# Interpolate Imagine targets to annual.
+# Imagine has sparse years (2020, [2022 for employment], 2030, 2040, 2050).
+# Interpolate within 2020–2050; years outside that range get no scalar (→ 1).
+imagine_annual <- imagine_targets %>%
+  group_by(geog_id, geog_name, imagine_variable, sp_categories_match) %>%
+  tidyr::complete(emissions_year = tidyr::full_seq(c(2020, 2050), 1)) %>%
+  dplyr::arrange(emissions_year) %>%
+  mutate(imagine_value = zoo::na.approx(imagine_value, x = emissions_year, rule = 2)) %>%
+  ungroup()
+
+# Compute scalars from the sum of subcategories, NOT from the aggregate rows.
+# UrbanSim's total_households ≠ sum(SFD + SFA + MF + manufactured) and
+# jobs ≠ sum(commercial_jobs + industrial_jobs) — they are independently
+# reported. Deriving the scalar from the subcategory sum guarantees that
+# the scaled subcategories reaggregate to the Imagine target.
+household_subtypes <- c(
+  "single_family_detached", "single_family_attached",
+  "multifamily_units", "manufactured_homes"
+)
+job_subtypes <- c("commercial_jobs", "industrial_jobs")
+
+us_hh_sum <- demographic_data %>%
+  filter(sp_categories %in% household_subtypes) %>%
+  group_by(geog_id, emissions_year) %>%
+  summarize(us_sum = sum(value), .groups = "drop")
+
+us_job_sum <- demographic_data %>%
+  filter(sp_categories %in% job_subtypes) %>%
+  group_by(geog_id, emissions_year) %>%
+  summarize(us_sum = sum(value), .groups = "drop")
+
+us_pop <- demographic_data %>%
+  filter(sp_categories == "population") %>%
+  select(geog_id, emissions_year, us_sum = value)
+
+imagine_hh <- imagine_annual %>%
+  filter(sp_categories_match == "total_households") %>%
+  select(geog_id, emissions_year, imagine_value)
+
+imagine_jobs <- imagine_annual %>%
+  filter(sp_categories_match == "jobs") %>%
+  select(geog_id, emissions_year, imagine_value)
+
+imagine_pop <- imagine_annual %>%
+  filter(sp_categories_match == "population") %>%
+  select(geog_id, emissions_year, imagine_value)
+
+scalar_hh <- us_hh_sum %>%
+  inner_join(imagine_hh, by = c("geog_id", "emissions_year")) %>%
+  mutate(scalar_hh = if_else(us_sum == 0, 1, imagine_value / us_sum)) %>%
+  select(geog_id, emissions_year, scalar_hh)
+
+scalar_jobs <- us_job_sum %>%
+  inner_join(imagine_jobs, by = c("geog_id", "emissions_year")) %>%
+  mutate(scalar_jobs = if_else(us_sum == 0, 1, imagine_value / us_sum)) %>%
+  select(geog_id, emissions_year, scalar_jobs)
+
+scalar_pop <- us_pop %>%
+  inner_join(imagine_pop, by = c("geog_id", "emissions_year")) %>%
+  mutate(scalar_pop = if_else(us_sum == 0, 1, imagine_value / us_sum)) %>%
+  select(geog_id, emissions_year, scalar_pop)
+
+# Apply scalars to subcategories and job space rows.
+# total_households and jobs rows are replaced directly with Imagine values
+# so they exactly match the target the subcategories now sum to.
+# Years before 2020 (outside Imagine coverage) get scalar = 1 via the
+# left_join producing NA, caught by the TRUE ~ 1 fallback.
+demographic_data <- demographic_data %>%
+  left_join(scalar_hh, by = c("geog_id", "emissions_year")) %>%
+  left_join(scalar_jobs, by = c("geog_id", "emissions_year")) %>%
+  left_join(scalar_pop, by = c("geog_id", "emissions_year")) %>%
+  left_join(
+    imagine_hh %>% rename(imagine_hh = imagine_value),
+    by = c("geog_id", "emissions_year")
+  ) %>%
+  left_join(
+    imagine_jobs %>% rename(imagine_jobs = imagine_value),
+    by = c("geog_id", "emissions_year")
+  ) %>%
+  mutate(
+    scalar = case_when(
+      sp_categories %in% household_subtypes & !is.na(scalar_hh) ~ scalar_hh,
+      sp_categories %in% c("commercial_job_space", "industrial_job_space") &
+        !is.na(scalar_jobs) ~ scalar_jobs,
+      sp_categories %in% job_subtypes & !is.na(scalar_jobs) ~ scalar_jobs,
+      sp_categories == "population" & !is.na(scalar_pop) ~ scalar_pop,
+      TRUE ~ 1
+    ),
+    value = case_when(
+      # replace aggregate rows directly with Imagine values
+      sp_categories == "total_households" & !is.na(imagine_hh) ~ imagine_hh,
+      sp_categories == "jobs" & !is.na(imagine_jobs) ~ imagine_jobs,
+      # scale everything else proportionally
+      TRUE ~ value * scalar
+    )
+  ) %>%
+  select(-scalar_hh, -scalar_jobs, -scalar_pop, -scalar, -imagine_hh, -imagine_jobs)
+
+# Report scaling diagnostics
+n_matched <- scalars %>% filter(scalar != 1) %>% nrow()
+message(
+  "Imagine 2050 scaling applied: ",
+  n_matched, " geog × year × category combinations adjusted"
+)
+
+# Spot-check: compare scaled totals against Imagine targets
+if (interactive()) {
+  check <- demographic_data %>%
+    filter(sp_categories == "total_households") %>%
+    inner_join(
+      imagine_annual %>% filter(sp_categories_match == "total_households"),
+      by = c("geog_id", "emissions_year")
+    ) %>%
+    mutate(diff = abs(value - imagine_value))
+  message("Max household scaling residual: ", max(check$diff, na.rm = TRUE))
+}
+
 
 # calculate urbansim deltas from base year to each other year
 # BASELINE YEAR SHOULD BE UPDATEABLE IN BUILDING ENERGY FLOW
 demographic_data <- demographic_data %>%
   left_join(
     demographic_data %>%
-      dplyr::filter(inventory_year == 2022) %>%
+      dplyr::filter(emissions_year == 2022) %>%
       dplyr::rename(base_value = value) %>%
-      select(-inventory_year)
+      select(-emissions_year)
   ) %>%
   mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
@@ -165,13 +365,5 @@ anti_join(
   geog_index
 ) %>%
   distinct(geog_name, geog_level)
-
-# urbansim_meta <- tibble::tribble(
-#   ~"Column", ~"Class", ~"Description",
-#   "inventory_year", class(urbansim$inventory_year), "Inventory year",
-#   "coctu_id", class(urbansim$coctu_id), "Unique county-city identifier",
-#   "ctu_id", class(urbansim$ctu_id), "City-township-unorganized identifier",
-#   "sp_categories", class(urbansim$variable), "Short variable name",
-#   "value", class(urbansim$value), "County-city value of variable")
 
 usethis::use_data(demographic_data, overwrite = TRUE)
