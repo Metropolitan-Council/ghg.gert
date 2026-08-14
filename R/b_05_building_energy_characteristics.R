@@ -38,17 +38,11 @@ calc_building_energy <- function(
 
   bin_sqft <- function(sqft, classification) {
     case_when(
-      classification == "single_family_detached" ~
+      classification %in% c("single_family_detached", "single_family_attached") ~
         as.character(cut(sqft,
                          breaks = c(0, 999, 1499, 1999, 2499, 2999, 3999, Inf),
                          labels = c("<1000", "1000 to 1499", "1500 to 1999", "2000 to 2499",
                                     "2500 to 2999", "3000 to 3999", "4000+"),
-                         right = TRUE
-        )),
-      classification == "single_family_attached" ~
-        as.character(cut(sqft,
-                         breaks = c(0, 999, 1999, 2999, Inf),
-                         labels = c("<1000", "1000 to 1999", "2000 to 2999", "3000+"),
                          right = TRUE
         )),
       # MF and manufactured: no sqft dimension
