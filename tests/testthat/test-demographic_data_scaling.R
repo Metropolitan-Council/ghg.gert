@@ -1,77 +1,100 @@
-test_that("reaggregated housing and job subcategories match Imagine 2050 totals at decadal years", {
+test_that("scaled demographic_data matches Imagine 2050 forecasts at decadal years", {
   imagine_targets <- readRDS(
     file.path(here::here(), "data-raw/meta/imagine_2050_forecasts.RDS")
   )
 
   decadal_years <- c(2020, 2030, 2040, 2050)
 
-  housing_subtypes <- c(
+  imagine_decadal <- imagine_targets %>%
+    filter(emissions_year %in% decadal_years)
+
+  household_subtypes <- c(
     "single_family_detached", "single_family_attached",
     "multifamily_units", "manufactured_homes"
   )
   job_subtypes <- c("commercial_jobs", "industrial_jobs")
 
-  # Reaggregate housing subtypes to a total
+  # --- Reaggregated housing subtypes match Imagine households ---
   reagg_hh <- demographic_data %>%
     filter(
-      sp_categories %in% housing_subtypes,
+      sp_categories %in% household_subtypes,
       emissions_year %in% decadal_years
     ) %>%
     group_by(geog_id, emissions_year) %>%
-    summarize(reagg_value = sum(value), .groups = "drop")
+    summarize(reagg_value = sum(value), .groups = "drop") %>%
+    inner_join(
+      imagine_decadal %>% filter(sp_categories_match == "total_households"),
+      by = c("geog_id", "emissions_year")
+    ) %>%
+    mutate(abs_diff = abs(reagg_value - imagine_value))
 
-  # Reaggregate job subtypes to a total
+  expect_gt(nrow(reagg_hh), 0)
+  expect_true(
+    all(reagg_hh$abs_diff < 0.01),
+    label = paste0(
+      "Household subtypes max residual: ",
+      round(max(reagg_hh$abs_diff), 4),
+      " at ", reagg_hh$geog_name[which.max(reagg_hh$abs_diff)],
+      " ", reagg_hh$emissions_year[which.max(reagg_hh$abs_diff)]
+    )
+  )
+
+  # --- Reaggregated job subtypes match Imagine employment ---
   reagg_jobs <- demographic_data %>%
     filter(
       sp_categories %in% job_subtypes,
       emissions_year %in% decadal_years
     ) %>%
     group_by(geog_id, emissions_year) %>%
-    summarize(reagg_value = sum(value), .groups = "drop")
-
-  # Compare reaggregated housing against Imagine household targets
-  imagine_hh <- imagine_targets %>%
-    filter(
-      sp_categories_match == "total_households",
-      emissions_year %in% decadal_years
-    )
-
-  check_hh <- reagg_hh %>%
-    inner_join(imagine_hh, by = c("geog_id", "emissions_year")) %>%
+    summarize(reagg_value = sum(value), .groups = "drop") %>%
+    inner_join(
+      imagine_decadal %>% filter(sp_categories_match == "jobs"),
+      by = c("geog_id", "emissions_year")
+    ) %>%
     mutate(abs_diff = abs(reagg_value - imagine_value))
 
-  expect_gt(nrow(check_hh), 0)
+  expect_gt(nrow(reagg_jobs), 0)
   expect_true(
-    all(check_hh$abs_diff < 0.5),
+    all(reagg_jobs$abs_diff < 0.01),
     label = paste0(
-      "Household reagg max residual: ", round(max(check_hh$abs_diff), 4),
-      " at geog_id=", check_hh$geog_id[which.max(check_hh$abs_diff)],
-      " year=", check_hh$emissions_year[which.max(check_hh$abs_diff)]
+      "Job subtypes max residual: ",
+      round(max(reagg_jobs$abs_diff), 4),
+      " at ", reagg_jobs$geog_name[which.max(reagg_jobs$abs_diff)],
+      " ", reagg_jobs$emissions_year[which.max(reagg_jobs$abs_diff)]
     )
   )
 
-  # Compare reaggregated jobs against Imagine employment targets
-  imagine_jobs <- imagine_targets %>%
+  # --- Aggregate rows (total_households, jobs, population) match directly ---
+  direct_check <- demographic_data %>%
     filter(
-      sp_categories_match == "jobs",
+      sp_categories %in% c("total_households", "jobs", "population"),
       emissions_year %in% decadal_years
-    )
+    ) %>%
+    inner_join(
+      imagine_decadal,
+      by = c(
+        "geog_name",
+        "geog_id",
+        "emissions_year",
+        "sp_categories" = "sp_categories_match"
+      )
+    ) %>%
+    mutate(abs_diff = abs(value - imagine_value))
 
-  check_jobs <- reagg_jobs %>%
-    inner_join(imagine_jobs, by = c("geog_id", "emissions_year")) %>%
-    mutate(abs_diff = abs(reagg_value - imagine_value))
-
-  expect_gt(nrow(check_jobs), 0)
+  expect_gt(nrow(direct_check), 0)
   expect_true(
-    all(check_jobs$abs_diff < 0.5),
+    all(direct_check$abs_diff < 0.01),
     label = paste0(
-      "Jobs reagg max residual: ", round(max(check_jobs$abs_diff), 4),
-      " at geog_id=", check_jobs$geog_id[which.max(check_jobs$abs_diff)],
-      " year=", check_jobs$emissions_year[which.max(check_jobs$abs_diff)]
+      "Direct totals max residual: ",
+      round(max(direct_check$abs_diff), 4),
+      " at ", direct_check$geog_name[which.max(direct_check$abs_diff)],
+      " ", direct_check$emissions_year[which.max(direct_check$abs_diff)],
+      " ", direct_check$sp_categories[which.max(direct_check$abs_diff)]
     )
   )
 
-  # Verify all four decadal years are covered in both checks
-  expect_equal(sort(unique(check_hh$emissions_year)), decadal_years)
-  expect_equal(sort(unique(check_jobs$emissions_year)), decadal_years)
+  # --- All four decadal years and all three variable types represented ---
+  expect_equal(sort(unique(reagg_hh$emissions_year)), decadal_years)
+  expect_equal(sort(unique(reagg_jobs$emissions_year)), decadal_years)
+  expect_setequal(unique(direct_check$sp_categories), c("total_households", "jobs", "population"))
 })
