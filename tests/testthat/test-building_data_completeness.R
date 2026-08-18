@@ -16,7 +16,7 @@ residential_categories <- c(
   "manufactured_homes"
 )
 
-inventory_years <- 2005:2022
+emissions_years <- 2005:2022
 projection_years <- 2005:2050
 
 
@@ -84,10 +84,10 @@ test_that("Every CTU has residential housing data across all projection years", 
     ) %>%
     group_by(geog_name) %>%
     summarize(
-      year_range = list(sort(unique(inventory_year))),
-      min_year = min(inventory_year),
-      max_year = max(inventory_year),
-      n_years = n_distinct(inventory_year),
+      year_range = list(sort(unique(emissions_year))),
+      min_year = min(emissions_year),
+      max_year = max(emissions_year),
+      n_years = n_distinct(emissions_year),
       .groups = "drop"
     )
 
@@ -163,7 +163,7 @@ test_that("Every geography has complete electricity inventory 2005-2022", {
   )
 
   incomplete <- elec %>%
-    filter(min_year > 2005 | max_year < 2022 | n_years < length(inventory_years))
+    filter(min_year > 2005 | max_year < 2022 | n_years < length(emissions_years))
   expect_equal(nrow(incomplete), 0,
                label = paste("Geographies with incomplete electricity years:",
                              paste(incomplete$geog_name, collapse = ", "))
@@ -191,7 +191,7 @@ test_that("Every geography has complete natgas inventory 2005-2022", {
   )
 
   incomplete <- natgas %>%
-    filter(min_year > 2005 | max_year < 2022 | n_years < length(inventory_years))
+    filter(min_year > 2005 | max_year < 2022 | n_years < length(emissions_years))
   expect_equal(nrow(incomplete), 0,
                label = paste("Geographies with incomplete natgas years:",
                              paste(incomplete$geog_name, collapse = ", "))

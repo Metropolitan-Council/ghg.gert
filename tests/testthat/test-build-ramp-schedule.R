@@ -6,22 +6,22 @@ test_that("build_ramp_schedule returns correct structure", {
   expect_s3_class(ramp, "tbl_df")
   expect_equal(nrow(ramp), 46) # 2005:2050
   expect_true("test_pct" %in% names(ramp))
-  expect_true("inventory_year" %in% names(ramp))
+  expect_true("emissions_year" %in% names(ramp))
 })
 
 test_that("ramp is zero before start, target after end, linear between", {
   ramp <- build_ramp_schedule(2030, 2040, 0.5, "pct")
 
   # zero before start
-  pre <- ramp$pct[ramp$inventory_year < 2030]
+  pre <- ramp$pct[ramp$emissions_year < 2030]
   expect_true(all(pre == 0))
 
   # target after end
-  post <- ramp$pct[ramp$inventory_year > 2040]
+  post <- ramp$pct[ramp$emissions_year > 2040]
   expect_true(all(post == 0.5))
 
   # monotonically increasing during ramp
-  during <- ramp$pct[ramp$inventory_year >= 2030 & ramp$inventory_year <= 2040]
+  during <- ramp$pct[ramp$emissions_year >= 2030 & ramp$emissions_year <= 2040]
   expect_equal(length(during), 11)
   expect_true(all(diff(during) >= 0))
 
@@ -33,9 +33,9 @@ test_that("ramp is zero before start, target after end, linear between", {
 test_that("ramp works at boundary: single-year ramp", {
   ramp <- build_ramp_schedule(2035, 2035, 0.8, "pct")
 
-  expect_equal(ramp$pct[ramp$inventory_year == 2035], 0.8)
-  expect_equal(ramp$pct[ramp$inventory_year == 2034], 0)
-  expect_equal(ramp$pct[ramp$inventory_year == 2036], 0.8)
+  expect_equal(ramp$pct[ramp$emissions_year == 2035], 0.8)
+  expect_equal(ramp$pct[ramp$emissions_year == 2034], 0)
+  expect_equal(ramp$pct[ramp$emissions_year == 2036], 0.8)
 })
 
 test_that("ramp with zero target is all zeros", {

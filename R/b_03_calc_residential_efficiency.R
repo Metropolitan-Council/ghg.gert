@@ -326,11 +326,11 @@ calc_residential_electrification <- function(
 
   # --- efficiency_description → scenario pair lookup -------------------
   hp_split_map <- tibble::tribble(
-    ~efficiency_description, ~no_hp_scenario, ~hp_scenario,
-    "existing_nonretrofit", "baseline", "heatpump",
-    "retrofit_units", "retrofit", "combination",
-    "new_non_leed", "new_build", "new_build_heatpump",
-    "new_leed", "new_build_leed", "new_build_leed"
+    ~efficiency_description, ~no_hp_scenario,      ~hp_scenario,
+    "existing_nonretrofit",  "baseline",           "full_electrification",
+    "retrofit_units",        "retrofit",           "combination",
+    "new_non_leed",          "new_build",          "new_build_sustainable",
+    "new_leed",              "new_build_sustainable", "new_build_sustainable"
   )
 
   # --- split units into hp / no-hp rows --------------------------------
