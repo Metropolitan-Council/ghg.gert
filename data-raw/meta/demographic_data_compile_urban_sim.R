@@ -104,54 +104,6 @@ us_formatted <- lapply(us_list, us_format) %>%
   filter(!is.na(sp_categories))
 
 
-##### Check whether UrbanSim subcategories sum to their aggregate rows
-# total_households should equal SFD + SFA + MF + manufactured;
-# jobs (total_job_spaces) should equal commercial_jobs + industrial_jobs.
-# If these don't match, scaling must use subcategory sums as the denominator.
-us_hh_check <- us_formatted %>%
-  mutate(role = case_when(
-    sp_categories == "total_households" ~ "total",
-    sp_categories %in% c(
-      "single_family_detached", "single_family_attached",
-      "multifamily_units", "manufactured_homes"
-    ) ~ "subtype"
-  )) %>%
-  filter(!is.na(role)) %>%
-  group_by(coctu_id, emissions_year, role) %>%
-  summarize(value = sum(value), .groups = "drop") %>%
-  tidyr::pivot_wider(names_from = role, values_from = value) %>%
-  mutate(diff = total - subtype)
-
-us_job_check <- us_formatted %>%
-  mutate(role = case_when(
-    sp_categories == "jobs" ~ "total",
-    sp_categories %in% c("commercial_jobs", "industrial_jobs") ~ "subtype"
-  )) %>%
-  filter(!is.na(role)) %>%
-  group_by(coctu_id, emissions_year, role) %>%
-  summarize(value = sum(value), .groups = "drop") %>%
-  tidyr::pivot_wider(names_from = role, values_from = value) %>%
-  mutate(diff = total - subtype)
-
-hh_mismatch <- sum(abs(us_hh_check$diff) > 0.01, na.rm = TRUE)
-job_mismatch <- sum(abs(us_job_check$diff) > 0.01, na.rm = TRUE)
-
-message(
-  "UrbanSim internal consistency check:\n",
-  "  Households: ", hh_mismatch, "/", nrow(us_hh_check),
-  " COCTU-years where total_households ≠ sum(subtypes)",
-  if (hh_mismatch > 0) paste0(
-    " (max diff: ", round(max(abs(us_hh_check$diff), na.rm = TRUE), 1), ")"
-  ),
-  "\n  Jobs: ", job_mismatch, "/", nrow(us_job_check),
-  " COCTU-years where jobs ≠ sum(subtypes)",
-  if (job_mismatch > 0) paste0(
-    " (max diff: ", round(max(abs(us_job_check$diff), na.rm = TRUE), 1), ")"
-  )
-)
-
-
-
 ##### Save unscaled UrbanSim output before Imagine 2050 adjustment
 # This preserves the raw UrbanSim modeling results at the COCTU × year level
 # for comparison against the post-model-adjusted Imagine 2050 forecasts.
@@ -328,13 +280,6 @@ demographic_data <- demographic_data %>%
     )
   ) %>%
   select(-scalar_hh, -scalar_jobs, -scalar_pop, -scalar, -imagine_hh, -imagine_jobs)
-
-# Report scaling diagnostics
-n_matched <- scalars %>% filter(scalar != 1) %>% nrow()
-message(
-  "Imagine 2050 scaling applied: ",
-  n_matched, " geog × year × category combinations adjusted"
-)
 
 # Spot-check: compare scaled totals against Imagine targets
 if (interactive()) {
