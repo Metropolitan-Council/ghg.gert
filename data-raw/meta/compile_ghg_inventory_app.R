@@ -36,7 +36,7 @@ devtools::load_all(".")
 
 # ghg-cprg main-branch raw URL
 ghg_cprg_url <- function(path) {
-  paste0("https://github.com/Metropolitan-Council/ghg-cprg/raw/main/", path)
+  paste0("https://github.com/Metropolitan-Council/ghg-cprg/raw/minor-elec/", path)
 }
 
 # Recode the rebuilt ghg-cprg building-energy labels onto the app's existing
