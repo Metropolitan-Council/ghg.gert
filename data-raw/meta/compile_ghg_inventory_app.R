@@ -4,22 +4,8 @@
 # Build the `ghg_inventory` package data object (regional / municipal / full
 # CTU) from the ghg-cprg CTU and county emissions outputs.
 #
-# Migrated from ghg-ccap-app into ghg.ccap (backend), so the inventory lives
-# next to the building-energy pipeline it now depends on.
-#
-# Changes made during migration:
-#   * brings in the rebuilt ghg-cprg building-energy data (CTU-level
-#     residential + non-residential electricity and building fuel)
-#   * incorporates residential building fuel, now including liquid fuels
-#     (propane / fuel oil) alongside natural gas
-#   * updates the ghg-cprg category labels that changed
-#       - county:  "Building Fuel" -> "Building fuel"
-#       - CTU:     "* building energy" (electricity) -> "* electricity"
-#   * generates the BAU CTU transportation inline from the transportation
-#     module, since the `transp_bau_ctu` package object and its generator were
-#     dropped from the transportation branch (see TRANSPORTATION section)
-#   * existing app categorizations (sector/category output names, factor
-#     ordering, industrial handling) are preserved unchanged
+# Makes app specific recategorizations of sectors and subsectors, tailored
+# to climate mitigation minimum requirements
 #
 # BANDAID (flag for transportation DS review): CTU transportation splices
 # module BAU over years >= 2015 and keeps raw ghg-cprg for 2005-2014, with no
