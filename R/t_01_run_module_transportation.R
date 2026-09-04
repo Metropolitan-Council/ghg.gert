@@ -376,7 +376,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   ) %>%
     dplyr::left_join(
       ghg.ccap::geog_index %>%
-        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name", "imagine_designation"))),
       by = c("geog_name", "geog_id")
     )
 
