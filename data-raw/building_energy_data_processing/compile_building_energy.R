@@ -10,8 +10,7 @@ library(tidyverse)
 # helper: base URL for ghg-cprg repo ----
 ghg_cprg_url <- function(path) {
   paste0(
-    "https://github.com/Metropolitan-Council/ghg-cprg/raw/minor-elec/", #temporary while PR is reviewed
-    #"https://github.com/Metropolitan-Council/ghg-cprg/raw/main/",
+    "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/",
     path
   )
 }
