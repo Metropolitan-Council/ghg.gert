@@ -907,7 +907,7 @@ vmt_trip_reduction <- function(.pass_tb,
 #'     no reduction is applied. For years at or after this year, the full reduction is applied.
 #'     Default is `r ghg.ccap::transportation_defaults$ctr_start_year`.
 #' @param .commute_vmt_proportion table, proportion of passenger light-duty vehicle VMT that is commute-related. Default is `ghg.ccap::commute_vmt_proportion`.
-#'
+#' @export
 vmt_commute_trip_reduction <- function(.pass_tb,
                                        .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
                                        .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
