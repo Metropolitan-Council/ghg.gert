@@ -54,11 +54,11 @@ valid_trips <- trip %>%
   ) %>%
   # left_join(days, join_by(survey_year, hh_id, person_id, day_id, day_num)) %>%
   left_join(trip_purpose, by = join_by(linked_trip_id, hh_id, person_id, day_id, day_num, survey_year)) %>%
+  # filter(!is.na(trip_purpose_weight)) %>%
   mutate(
     vmt = distance_miles / num_travelers_int,
     weighted_vmt = vmt * linked_trip_weight
   ) %>%
-  filter(!is.na(trip_purpose_weight)) %>%
   select(
     survey_year, linked_trip_id, linked_trip_weight, cd_2050_broad, cd_2050, purpose_category,
     d_purpose, o_purpose, trip_d_cd_2050_broad, trip_o_cd_2050_broad,
