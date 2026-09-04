@@ -6,7 +6,7 @@
 \usage{
 mode_passenger_light_duty(
   .pass_tb,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

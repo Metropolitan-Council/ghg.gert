@@ -4,7 +4,7 @@
 \alias{compile_bau_building_energy}
 \title{Compile Building Energy Data}
 \usage{
-compile_bau_building_energy(tb = building_energy_data, .selected_ctu = "all")
+compile_bau_building_energy(tb = building_energy_data, .selected_ctu)
 }
 \arguments{
 \item{tb}{Tibble.}

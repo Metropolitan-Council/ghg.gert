@@ -63,7 +63,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   run_residential = TRUE,
                                   run_non_residential = FALSE,
                                   .baseline_year = 2022,
-                                  .selected_ctu = "all",
+                                  .selected_ctu,
                                   .scenario = "alt",
                                   # shared -- may need to break out parameters for res and non-res retrofitting
                                   # land use module data

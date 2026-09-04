@@ -10,7 +10,7 @@
 #' @export
 #' @importFrom cli cli_alert_success
 mode_school_bus <- function(.pass_tb = transportation_data$passenger,
-                            .selected_ctu = "all",
+                            .selected_ctu,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",

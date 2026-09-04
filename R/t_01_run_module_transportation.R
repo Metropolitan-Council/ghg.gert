@@ -49,7 +49,7 @@
 #' @family transportation
 run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       freight_tb = transportation_data$freight,
-                                      .selected_ctu = "all",
+                                      .selected_ctu,
                                       .parking_cost = ghg.ccap::parking_cost,
                                       .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                                       .calc_transp_cost = FALSE,

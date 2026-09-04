@@ -35,7 +35,7 @@
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
-                              .selected_ctu = "all",
+                              .selected_ctu,
                               .mode,
                               .stock,
                               .variable,

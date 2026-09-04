@@ -7,7 +7,7 @@
 adj_fleet_shares_stock(
   .pass_tb,
   .freight_tb,
-  .selected_ctu = "all",
+  .selected_ctu,
   .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
   .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
   .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,

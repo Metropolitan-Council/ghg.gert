@@ -6,7 +6,7 @@
 \usage{
 mode_transit_rail(
   .pass_tb = transportation_data$passenger,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",

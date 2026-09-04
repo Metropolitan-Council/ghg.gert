@@ -11,7 +11,7 @@
 #' @importFrom cli cli_alert_success
 #' @importFrom stringr str_to_lower
 mode_freight_truck <- function(.freight_tb = transportation_data$freight,
-                               .selected_ctu = "all",
+                               .selected_ctu,
                                .scenario = "BAU",
                                .electric_scenario = "ER",
                                .aeo_scenario = "REF",

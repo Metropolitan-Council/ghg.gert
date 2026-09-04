@@ -5,7 +5,7 @@
 \title{run all modules}
 \usage{
 run_all_modules(
-  .selected_ctu = "all",
+  .selected_ctu,
   run_land_use = TRUE,
   run_buildings = TRUE,
   run_residential = TRUE,

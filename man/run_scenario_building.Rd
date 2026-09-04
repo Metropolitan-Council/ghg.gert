@@ -12,7 +12,7 @@ run_scenario_building(
   run_residential = TRUE,
   run_non_residential = FALSE,
   .baseline_year = 2022,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "alt",
   .density_output,
   .leed_start_year = 2028,

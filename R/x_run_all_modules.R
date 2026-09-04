@@ -32,7 +32,7 @@
 #' @return list, list with the outputs of the three modules.
 #' @export
 #'
-run_all_modules <- function(.selected_ctu = "all",
+run_all_modules <- function(.selected_ctu,
                             run_land_use = TRUE,
                             run_buildings = TRUE,
                             run_residential = TRUE,

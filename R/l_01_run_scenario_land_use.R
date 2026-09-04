@@ -17,7 +17,7 @@
 #' @importFrom cli cli_progress_message
 run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_parcel,
                                   tb_strategy = NULL,
-                                  .selected_ctu = "all",
+                                  .selected_ctu,
                                   .scenario = "alt") {
   # browser()
   tb_bau <- filter_ctu(tb, .selected_ctu = .selected_ctu) %>%

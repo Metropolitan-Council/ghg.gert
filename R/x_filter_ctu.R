@@ -1,12 +1,12 @@
 #' @title Filter CTU
 #'
 #' @param df table
-#' @param .selected_ctu character, selected city or county. Default is `"all"`.
+#' @param .selected_ctu character, selected city or county.
 #'
 #' @return tibble. Input df with only selected CTU
 #' @export
 #' @importFrom dplyr filter
-filter_ctu <- function(df, .selected_ctu = "all") {
+filter_ctu <- function(df, .selected_ctu) {
   check_inputs(name = "selected_ctu", value = .selected_ctu)
   if (.selected_ctu == "all") {
     return(df)
@@ -22,7 +22,7 @@ filter_ctu <- function(df, .selected_ctu = "all") {
 #' @export
 #'
 filter_building_energy_data <-
-  function(data_list = building_energy_data, .selected_ctu = "all") {
+  function(data_list = building_energy_data, .selected_ctu) {
     if (.selected_ctu == "all") {
       return(data_list)
     }

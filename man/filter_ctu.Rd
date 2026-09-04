@@ -4,7 +4,7 @@
 \alias{filter_ctu}
 \title{Filter CTU}
 \usage{
-filter_ctu(df, .selected_ctu = "all")
+filter_ctu(df, .selected_ctu)
 }
 \arguments{
 \item{df}{table}

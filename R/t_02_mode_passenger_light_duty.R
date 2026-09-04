@@ -12,7 +12,7 @@
 #' @importFrom purrr pmap
 #' @importFrom stringr str_to_lower
 mode_passenger_light_duty <- function(.pass_tb,
-                                      .selected_ctu = "all",
+                                      .selected_ctu,
                                       .scenario = "BAU",
                                       .electric_scenario = "ER",
                                       .aeo_scenario = "REF",

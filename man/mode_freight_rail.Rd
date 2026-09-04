@@ -6,7 +6,7 @@
 \usage{
 mode_freight_rail(
   .freight_tb = transportation_data$freight,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
