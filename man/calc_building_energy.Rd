@@ -2,42 +2,34 @@
 % Please edit documentation in R/b_05_building_energy_characteristics.R
 \name{calc_building_energy}
 \alias{calc_building_energy}
-\title{Adjust residential building energy needs}
+\title{Calculate residential building energy profiles}
 \usage{
 calc_building_energy(
   .selected_ctu,
   parcel_data = ghg.ccap::parcel_ctu,
-  resstock_tb = ghg.ccap::resstock_summaries,
-  ceestock_tb = ghg.ccap::ceestock_summaries
+  building_tb = ghg.ccap::building_summaries
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{var}, and \code{value}.
-Table contains adjusted \code{single_family_units} and \code{multifamily_units} record for column \code{var}
-relative to residential inputs table.
+A table with columns \code{mc_classification}, \code{sqft_bin}, \code{year_bin},
+\code{scenario_mwh}, \code{scenario_mcf}, and \code{scenario}.
 }
 \description{
-This function adjusts city level single-family energy demand per building
+This function assigns city-level single-family energy demand per building
 according to parcel data building characteristics: median year of construction,
-median square footage
+median square footage. SFA parcel sqft is capped at the CTU's median SFD sqft
+to ensure that density increases (which shift SFD units to SFA) do not
+inadvertently increase energy use.
 }
 \examples{
 \dontrun{
 library(ghg.ccap)
 
-adj_unit_counts(
-  res_tb = compile_bau_building_energy()$residential,
-  .selected_ctu = "all",
-  .new_homes_to_multifamily_pct = 0.50
-)
+calc_building_energy(.selected_ctu = "Fridley")
 }
 }
 \seealso{
