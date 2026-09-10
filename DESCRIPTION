@@ -6,10 +6,10 @@ Version: 1.0.1
 Date: 2024-03-15
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
-    person("Liz", "Roten", email = "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
+    person("Peter", "Wilfahrt", email = "peter.wilfahrt@metc.state.mn.us", role = c("cre", "aut")),
+    person("Liz", "Roten", email = "liz.roten@metc.state.mn.us", role = "aut",
            comment = c(ORCID = "0000-0002-5346-3549")),
-    person("Peter", "Wilfahrt", email = "peter.wilfahrt@metc.state.mn.us", role = "ctb"),
-    person("Kenneth", "Smith", email = "kenneth.smith@metc.state.mn.us", role = "ctb"),
+    person("Kenneth", "Smith", email = "kenneth.smith@metc.state.mn.us", role = "aut"),
     person("Ellen", "Esch", email = "ellen.esch@metc.state.mn.us", role = "ctb",
            comment = c(ORCID = "0000-0002-4253-0910")),
     person("Mauricio", "León", email = "mauricio.leon@metc.state.mn.us", role = "ctb"),
