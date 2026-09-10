@@ -10,7 +10,7 @@ A tibble with 6 columns and 194 observations.
 \item \strong{mode}: Transportation mode, \code{"PLDV"}.
 \item \strong{var}: Variable name, \code{"COMMUTE_VMT_PROP"}.
 \item \strong{geog_name}: Geographic name.
-\item \strong{geog_id}: Geographic identifier.
+\item \strong{geog_id} ID value
 \item \strong{value}: Proportion of passenger light-duty VMT attributable to commute trips.
 \item \strong{type}: Data type, \code{"P"}.
 }

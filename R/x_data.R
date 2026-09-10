@@ -301,7 +301,7 @@
 #' - **mode**: Transportation mode, `"PLDV"`.
 #' - **var**: Variable name, `"COMMUTE_VMT_PROP"`.
 #' - **geog_name**: Geographic name.
-#' - **geog_id**: Geographic identifier.
+#' - **geog_id** ID value
 #' - **value**: Proportion of passenger light-duty VMT attributable to commute trips.
 #' - **type**: Data type, `"P"`.
 #' @family datasets
