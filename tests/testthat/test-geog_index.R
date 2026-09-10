@@ -36,7 +36,7 @@ testthat::test_that("Geog index joins smoothly", {
   )
 })
 
-testthat::test_that("Credit River and Empire are correct", {
+testthat::test_that("Credit River, Empire, Fort Snelling are correct", {
   check_townships <- function(x) {
     if ("geog_name" %in% names(x)) {
       test_val <- x %>%
