@@ -7,7 +7,7 @@
 adj_unit_counts(res_tb, density_output, .selected_ctu)
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of new single-family homes to instead be built as multifamily homes.

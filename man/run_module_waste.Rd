@@ -31,7 +31,7 @@ run_module_waste(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.waste_reduction_pct}{single value, percent reduction in waste activity}
 

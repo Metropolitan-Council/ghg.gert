@@ -58,7 +58,7 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.mode}{character, current mode}
 

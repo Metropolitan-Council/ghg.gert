@@ -13,7 +13,7 @@ calc_business_leed(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.new_business_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new jobs based in buildings built according to \emph{LEED Gold} standards.

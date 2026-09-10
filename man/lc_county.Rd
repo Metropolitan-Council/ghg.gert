@@ -33,6 +33,7 @@ unique(lc_county$county_name)
 }
 \seealso{
 Other datasets:
+\code{\link{commute_vmt_proportion}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

@@ -63,7 +63,7 @@ Package provided dataset \code{building_energy$non_residential} is suitable and
 the default value. \code{non_res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

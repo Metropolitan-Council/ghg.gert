@@ -22,7 +22,7 @@ calc_ghg_mwh(
 \item{grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

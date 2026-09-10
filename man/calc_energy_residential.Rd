@@ -23,7 +23,7 @@ scenario, in contrast \code{res_tb} is used as the input for the decarbonization
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 

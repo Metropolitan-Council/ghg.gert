@@ -83,7 +83,7 @@ run_all_modules(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{run_land_use}{logical. Default is \code{TRUE}}
 

@@ -16,7 +16,7 @@ calc_cost(
 \arguments{
 \item{tb_vmt}{VMT input table}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.mode}{character, given transportation mode.}
 

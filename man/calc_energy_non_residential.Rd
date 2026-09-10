@@ -27,7 +27,7 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

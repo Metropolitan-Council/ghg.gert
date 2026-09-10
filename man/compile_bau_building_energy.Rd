@@ -9,7 +9,7 @@ compile_bau_building_energy(tb = building_energy_data, .selected_ctu)
 \arguments{
 \item{tb}{Tibble.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 }
 \description{
 Compile Building Energy Data

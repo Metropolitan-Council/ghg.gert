@@ -12,7 +12,7 @@ calc_ghg_non_residential(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}

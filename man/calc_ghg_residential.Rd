@@ -16,7 +16,7 @@ calc_ghg_residential(
 Table, table with residential energy,
 including columns \code{residential_mwh}, \code{residential_mcf}.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

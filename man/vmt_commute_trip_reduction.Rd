@@ -24,7 +24,8 @@ Default is TRUE.}
 no reduction is applied. For years at or after this year, the full reduction is applied.
 Default is 2030.}
 
-\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related. Default is \code{ghg.ccap::commute_vmt_proportion}.}
+\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
+Default is \code{ghg.ccap::commute_vmt_proportion}.}
 }
 \description{
 This function calculates the expected reduction in vehicle miles traveled (VMT) based on a commute trip reduction program.
