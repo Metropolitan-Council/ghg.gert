@@ -11,6 +11,10 @@ inst/doc
 report/_book/**
 report/_bookdown_files/**
 
+# Secret scanner reports (do not commit — may contain findings)
+gitleaks-report.json
+trufflehog-report.json
+
 vignettes/trans_scenario_shiny_cache/
 
 
