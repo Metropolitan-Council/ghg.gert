@@ -45,7 +45,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' scen_building_residential(
 #'   res_tb = building_data$residential,
@@ -90,14 +90,14 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .sf_heatpump_pct,
                                       .mf_heatpump_pct,
                                       # .renewable_ng_res,
-                                      .grid_emissions = ghg.ccap::grid_emissions,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                      .grid_emissions = ghg.gert::grid_emissions,
+                                      .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("** compiling residential strategies \n")
 
 
   # browser()
   # B.R1 (SF to MF)
-  tb01 <- ghg.ccap::adj_unit_counts(
+  tb01 <- ghg.gert::adj_unit_counts(
     res_tb = res_tb,
     density_output = .density_output,
     .selected_ctu = .selected_ctu

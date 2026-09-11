@@ -35,7 +35,7 @@ plantable_fraction <- c(
 )
 
 
-nlcd_ctu_long <- bind_rows(ghg.ccap::natural_systems_data$inventory) %>%
+nlcd_ctu_long <- bind_rows(ghg.gert::natural_systems_data$inventory) %>%
   filter(
     ctu_class == "CITY" | ctu_class == "TOWNSHIP",
     inventory_year %in% c(2013, 2022)

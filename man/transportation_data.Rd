@@ -20,12 +20,12 @@ transportation_data
 A list of transportation and freight data input tables
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 transportation_data$passenger
 transportation_data$freight
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

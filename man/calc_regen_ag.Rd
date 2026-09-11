@@ -7,7 +7,7 @@
 calc_regen_ag(
   emissions,
   .selected_ctu,
-  caf_strategies = ghg.ccap::agriculture_regen_ag_caf,
+  caf_strategies = ghg.gert::agriculture_regen_ag_caf,
   .scenario,
   .baseline_year,
   ag_area_adj,
@@ -59,7 +59,7 @@ no till agriculture and cover cropping.
 Uses the coefficients found in MN CAF technical documenation
 }
 \seealso{
-Other cropland: 
-\code{\link{calc_smart_fertilizer}()}
+Other cropland:
+\code{\link[=calc_smart_fertilizer]{calc_smart_fertilizer()}}
 }
 \concept{cropland}

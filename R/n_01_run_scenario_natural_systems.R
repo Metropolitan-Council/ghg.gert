@@ -63,9 +63,9 @@
 #' )
 #' }
 run_scenario_natural_systems <- function(
-  tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
-  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
-  tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
+  tb_inv = bind_rows(ghg.gert::natural_systems_data$inventory),
+  tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
+  tb_seq = ghg.gert::natural_systems_data$land_cover_carbon,
   .selected_ctu = "Regional",
   # Wetland restoration (GIS-constrained)
   .restore_wetland = FALSE,
@@ -84,15 +84,15 @@ run_scenario_natural_systems <- function(
   .pocket_prairie_pct = 0,
   .pocket_prairie_start = 2028,
   .pocket_prairie_end = 2050,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
   detail = FALSE
 ) {
   # ===========================================================================
   # Select appropriate data based on geography
   # ===========================================================================
 
-  df_hist <- ghg.ccap::filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
-  df_null <- ghg.ccap::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
+  df_hist <- ghg.gert::filter_ctu(tb_inv, .selected_ctu = .selected_ctu)
+  df_null <- ghg.gert::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
   # ===========================================================================
   # Module 1: Ecosystem Restoration (wetlands, forests, prairies)
@@ -105,7 +105,7 @@ run_scenario_natural_systems <- function(
   has_restoration <- .restore_wetland | .forest_area_sqkm > 0 | .prairie_area_sqkm > 0
 
   if (has_restoration) {
-    tb01 <- ghg.ccap::restore_ecosystems(
+    tb01 <- ghg.gert::restore_ecosystems(
       df_null = df_null,
       restore_wetland = .restore_wetland,
       wetland_ambition_pct = .wetland_ambition,
@@ -128,7 +128,7 @@ run_scenario_natural_systems <- function(
   # Module 2: Community Tree Planting (urban)
   # ===========================================================================
   if (.community_tree_count > 0) {
-    tb02 <- ghg.ccap::plant_community_trees(
+    tb02 <- ghg.gert::plant_community_trees(
       df_null = tb01,
       start_yr = .community_tree_start,
       end_yr = .community_tree_end,
@@ -142,7 +142,7 @@ run_scenario_natural_systems <- function(
   # Module 3: Pocket Prairies (urban grassland → grassland upgrade)
   # ===========================================================================
   if (.pocket_prairie_pct > 0) {
-    tb03 <- ghg.ccap::plant_pocket_prairies(
+    tb03 <- ghg.gert::plant_pocket_prairies(
       df_null = tb02,
       start_yr = .pocket_prairie_start,
       end_yr = .pocket_prairie_end,
@@ -196,10 +196,10 @@ run_scenario_natural_systems <- function(
 #'
 #' @export
 get_ctu_restoration_potential <- function(
-  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
+  tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
   .selected_ctu = "Regional"
 ) {
-  df_null <- ghg.ccap::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
+  df_null <- ghg.gert::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 
   get_restoration_potential(df_null)
 }

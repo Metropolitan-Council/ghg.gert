@@ -10,13 +10,13 @@ vmt_road_policy(
   .mode,
   .tb_fuel_cost_mile,
   .stock,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-  .cong_price = ghg.ccap::transportation_defaults$cong_price,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .elast = ghg.ccap::elast
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
+  .cong_price = ghg.gert::transportation_defaults$cong_price,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .elast = ghg.gert::elast
 )
 }
 \arguments{
@@ -48,9 +48,9 @@ Default is 0.}
 Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 }
 \value{
 a table with columns   \code{year}, \code{geog_name}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},
@@ -68,14 +68,14 @@ is paid to an insurance provider in place of a flat insurance rate. The main dif
 whether the driver would prefer to pay the cost to a government agency or insurance provider.
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_total_reduction}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_trip_reduction}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

@@ -14,11 +14,11 @@ calculate_mww_n2o_effluent_emissions <- function(population, years,
                                                  lookup = NULL,
                                                  epa_protein_consumption = NULL) {
   if (is.null(lookup)) {
-    lookup <- ghg.ccap::waste_data$epa$wastewater_constants
+    lookup <- ghg.gert::waste_data$epa$wastewater_constants
   }
 
   if (is.null(epa_protein_consumption)) {
-    epa_protein_consumption <- ghg.ccap::waste_data$epa$protein_consumption
+    epa_protein_consumption <- ghg.gert::waste_data$epa$protein_consumption
   }
 
 

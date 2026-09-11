@@ -487,7 +487,7 @@ gc()
 
 ### add county level data by taking weighted average approach
 
-housing_data <- ghg.ccap::demographic_data %>%
+housing_data <- ghg.gert::demographic_data %>%
   filter(
     sp_categories %in% c(
       "multifamily_units",
@@ -520,7 +520,7 @@ county_weighted <- housing_join %>%
     sq_ft_use = wa_sq_ft,
     median_year = wa_med_year
   ) %>%
-  left_join(ghg.ccap::geog_index %>%
+  left_join(ghg.gert::geog_index %>%
     select(
       geog_name,
       geog_id

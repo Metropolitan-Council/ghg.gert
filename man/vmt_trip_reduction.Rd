@@ -6,9 +6,9 @@
 \usage{
 vmt_trip_reduction(
   .pass_tb,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -21,11 +21,13 @@ Default is 0}
 no reduction is applied. For years at or after this year, the full reduction is applied.
 Default is 2030}
 
-\item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.ccap::enviro_factors}.
+\item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.gert::enviro_factors}.
 Expected to contain:
-- \code{CBTP_PARTICIPATION_PCT}: proportion of targeted residences that participate (default 0.19)
-- \code{CBTP_TRIP_REDUCTION_PCT}: vehicle trip reduction by participating residences (default 0.12)
-- \code{MAX_TRIP_REDUCTION_PCT}: maximum trip VMT reduction cap (default 0.023, i.e., 2.3\%)}
+\itemize{
+\item \code{CBTP_PARTICIPATION_PCT}: proportion of targeted residences that participate (default 0.19)
+\item \code{CBTP_TRIP_REDUCTION_PCT}: vehicle trip reduction by participating residences (default 0.12)
+\item \code{MAX_TRIP_REDUCTION_PCT}: maximum trip VMT reduction cap (default 0.023, i.e., 2.3\%)
+}}
 }
 \value{
 tibble with columns \code{year} and \code{cbtp_adj}, where \code{cbtp_adj} is the adjustment factor
@@ -61,36 +63,36 @@ reduction = -(1.0 × 0.19 × 0.12) = -0.0228, capped to -0.023 (−2.3\%)
 CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
 }
 \seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{adj_fleet_shares_stock}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}}
 
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_total_reduction}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}
 \concept{transportation}

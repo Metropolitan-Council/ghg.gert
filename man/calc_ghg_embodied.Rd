@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors,
@@ -45,9 +45,9 @@ Default is \code{0}.}
 Default is \code{0}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions
@@ -58,36 +58,36 @@ a) generated in a different jurisdiction and/or
 b) similarly affected by changes in local grid mix
 }
 \seealso{
-Other emissions: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()}
+Other emissions:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{adj_fleet_shares_stock}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()},
-\code{\link{vmt_trip_reduction}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{emissions}
 \concept{transportation}

@@ -8,8 +8,8 @@ vmt_annual_energy_outlook(
   tb,
   .mode,
   .aeo_scenario,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values
 )
 }
 \arguments{
@@ -23,9 +23,9 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 Default is \code{"REF"}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \value{
 a table with columns \code{aeo_scen}, \code{metric}, \code{mode}, \code{year}, and \code{aeo_adj}.
@@ -35,26 +35,26 @@ Calculates annual energy outlook (AEO)
 multipliers for each forecast year.
 }
 \seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{adj_fleet_shares_stock}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_trip_reduction}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{VMT Effects}
 \concept{transportation}

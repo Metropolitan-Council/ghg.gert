@@ -5,7 +5,7 @@
 \title{Calculate Manure Management Emissions}
 \usage{
 calculate_manure_emissions(
-  manure_caf = ghg.ccap::agriculture_manure_caf,
+  manure_caf = ghg.gert::agriculture_manure_caf,
   .selected_ctu = .selected_ctu
 )
 }

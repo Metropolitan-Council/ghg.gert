@@ -9,7 +9,7 @@ calculate_cropland_emissions(
   crops_tb = .crops_tb,
   .baseline_year = .baseline_year,
   area_tb = area_tb,
-  agricultural_emissions = ghg.ccap::agricultural_emissions,
+  agricultural_emissions = ghg.gert::agricultural_emissions,
   .cropland_decrease_2050 = .cropland_decrease_2050,
   .selected_ctu = .selected_ctu,
   .scenario = "alt",
@@ -43,8 +43,8 @@ for decreasing cropland emissions from three strategies: smart fertilizer,
 cover crops, no-till. These are inter-related so run together here.
 }
 \seealso{
-Other agriculture: 
-\code{\link{county_assign}()},
-\code{\link{run_module_agriculture}()}
+Other agriculture:
+\code{\link[=county_assign]{county_assign()}},
+\code{\link[=run_module_agriculture]{run_module_agriculture()}}
 }
 \concept{agriculture}

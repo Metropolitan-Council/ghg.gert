@@ -7,8 +7,8 @@
 vmt_total_reduction(
   .pass_tb,
   .mode,
-  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .vmt_reduction_pct = ghg.gert::transportation_defaults$vmt_reduction_pct,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ Numeric between 0 and 1.
 Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \description{
 Calculate VMT reduction multiplier
@@ -37,14 +37,14 @@ to VMT (i.e., a 10\% reduction would be an adjustment factor of 0.10). There are
 on the amount of reduction and no change in other modes (mode shift).
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_trip_reduction}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

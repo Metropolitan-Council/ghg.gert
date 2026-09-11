@@ -71,7 +71,7 @@ c(
 )
 
 
-bau <- ghg.ccap::run_all_modules(
+bau <- ghg.gert::run_all_modules(
   .selected_ctu = .selected_ctu,
 
   ## land use module parameters

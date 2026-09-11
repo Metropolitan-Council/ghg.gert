@@ -12,8 +12,8 @@
 vmt_annual_energy_outlook <- function(tb,
                                       .mode,
                                       .aeo_scenario,
-                                      .enviro_factors = ghg.ccap::enviro_factors,
-                                      .factor_values = ghg.ccap::factor_values) {
+                                      .enviro_factors = ghg.gert::enviro_factors,
+                                      .factor_values = ghg.gert::factor_values) {
   check_inputs(name = "aeo_scenario", value = .aeo_scenario)
 
   aeo_mode <- tb %>%
@@ -39,24 +39,24 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @param .type character, one of `"DRIVE"`, `"WALK"`, `"TRANSIT"`.
 #' @param .pop_dens_pct_change percent change in population density in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$pop_dens_pct_change`.
+#'     Numeric between -1 and 1. Default is `r ghg.gert::transportation_defaults$pop_dens_pct_change`.
 #' @param .emp_dens_pct_change percent change in employment density in the final forecast year relative to BAU.
-#'      Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$emp_dens_pct_change`
+#'      Numeric between -1 and 1. Default is `r ghg.gert::transportation_defaults$emp_dens_pct_change`
 #' @param .land_use_diversity_pct_change percent change in land use diversity/mix in the final forecast year relative to BAU.
-#'      Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$land_use_diversity_pct_change`
+#'      Numeric between -1 and 1. Default is `r ghg.gert::transportation_defaults$land_use_diversity_pct_change`
 #' @param .intersection_design_pct_change percent change in intersection design
 #'     (% 4-way stops) in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_design_pct_change`
+#'     Numeric between -1 and 1.  Default is `r ghg.gert::transportation_defaults$intersection_design_pct_change`
 #' @param .intersection_density_pct_change percent change in intersection density
 #'     (intersections per square mile) in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1.  Default is `r ghg.ccap::transportation_defaults$intersection_density_pct_change`
+#'     Numeric between -1 and 1.  Default is `r ghg.gert::transportation_defaults$intersection_density_pct_change`
 #' @param .job_access_pct_change percent change in job accessibility in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$job_access_pct_change`
+#'     Numeric between -1 and 1. Default is `r ghg.gert::transportation_defaults$job_access_pct_change`
 #' @param .transit_dist_pct_change percent change in transit distance in the final forecast year relative to BAU.
-#'     Numeric between -1 and 1. Default is `r ghg.ccap::transportation_defaults$transit_dist_pct_change`
+#'     Numeric between -1 and 1. Default is `r ghg.gert::transportation_defaults$transit_dist_pct_change`
 #' @param .comb_5d_impact_pct_change percent change in population density in the final forecast year relative to BAU
 #'      as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
-#'      Default is `r ghg.ccap::transportation_defaults$comb_5d_impact_pct_change`
+#'      Default is `r ghg.gert::transportation_defaults$comb_5d_impact_pct_change`
 #'
 #' @note An input value of 1 indicates a 100% increase, where a value of 0.75 indicates a 75% increase.
 #'     A value of -0.75 indicates a 75% decrease.
@@ -77,16 +77,16 @@ vmt_annual_energy_outlook <- function(tb,
 #'
 #' @family VMT effects
 vmt_land_use_change <- function(.type,
-                                .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-                                .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
-                                .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
-                                .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
-                                .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
-                                .intersection_density_pct_change = ghg.ccap::transportation_defaults$intersection_density_pct_change,
-                                .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
-                                .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
-                                .enviro_factors = ghg.ccap::enviro_factors,
-                                .elast_5d = ghg.ccap::elast_5d) {
+                                .comb_5d_impact_pct_change = ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
+                                .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
+                                .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
+                                .land_use_diversity_pct_change = ghg.gert::transportation_defaults$land_use_diversity_pct_change,
+                                .intersection_design_pct_change = ghg.gert::transportation_defaults$intersection_design_pct_change,
+                                .intersection_density_pct_change = ghg.gert::transportation_defaults$intersection_density_pct_change,
+                                .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
+                                .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
+                                .enviro_factors = ghg.gert::enviro_factors,
+                                .elast_5d = ghg.gert::elast_5d) {
   max_value <- switch(.type,
     DRIVE   = 1 + .enviro_factors$MAX_5D_DR,
     TRANSIT = 1 + .enviro_factors$MAX_5D_TRANS,
@@ -126,10 +126,10 @@ vmt_land_use_change <- function(.type,
 #' @title Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 #'
 #' @param .parking_price numeric, measured in dollars per hour.
-#'   Default is `r ghg.ccap::transportation_defaults$parking_price`.
+#'   Default is `r ghg.gert::transportation_defaults$parking_price`.
 #' @param .freight_parking_price numeric, measured in dollars per hour.
-#'   Default is `r ghg.ccap::transportation_defaults$freight_parking_price`.
-#' @param .parking_cost table, existing parking cost assumptions. Default is `ghg.ccap::parking_cost`.
+#'   Default is `r ghg.gert::transportation_defaults$freight_parking_price`.
+#' @param .parking_cost table, existing parking cost assumptions. Default is `ghg.gert::parking_cost`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -165,11 +165,11 @@ vmt_land_use_change <- function(.type,
 #' @importFrom dplyr cross_join
 vmt_parking_policy <- function(tb,
                                .mode,
-                               .parking_cost = ghg.ccap::parking_cost,
-                               .elast = ghg.ccap::elast,
-                               .parking_price = ghg.ccap::transportation_defaults$parking_price,
-                               .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
-                               .enviro_factors = ghg.ccap::enviro_factors) {
+                               .parking_cost = ghg.gert::parking_cost,
+                               .elast = ghg.gert::elast,
+                               .parking_price = ghg.gert::transportation_defaults$parking_price,
+                               .freight_parking_price = ghg.gert::transportation_defaults$freight_parking_price,
+                               .enviro_factors = ghg.gert::enviro_factors) {
   if (!.mode %in% unique(tb$mode)) {
     cli::cli_abort("Make sure you are using the correct input table")
   }
@@ -254,16 +254,16 @@ vmt_parking_policy <- function(tb,
 #'
 #' @param .tb_vmt [tibble::tibble()], VMT table
 #' @param .vmt_fee VMT fee in dollars per mile.
-#'   Default is `r ghg.ccap::transportation_defaults$vmt_fee`.
+#'   Default is `r ghg.gert::transportation_defaults$vmt_fee`.
 #' @param .payd_fee  Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-#'  Default is `r ghg.ccap::transportation_defaults$payd_fee`.
+#'  Default is `r ghg.gert::transportation_defaults$payd_fee`.
 #' @param .gas_tax Gas tax in dollars per mile.
-#'   Default is `r ghg.ccap::transportation_defaults$gas_tax`.
+#'   Default is `r ghg.gert::transportation_defaults$gas_tax`.
 #' @param .cong_price Congestion price in dollars per mile (only applies to an approximation of
 #'     congested miles in MSP).
-#'     Default is `r ghg.ccap::transportation_defaults$cong_price`.
+#'     Default is `r ghg.gert::transportation_defaults$cong_price`.
 #' @param .freight_vmt_fee freight VMT fee per mile.
-#'   Default is `r ghg.ccap::transportation_defaults$freight_vmt_fee`.
+#'   Default is `r ghg.gert::transportation_defaults$freight_vmt_fee`.
 #'
 #' @return a table with columns   `year`, `geog_name`, `fuel_time_cost_mile`, `payd_ins_adj`,
 #'    `vmt_fee_adj`, `cong_adjust`, `cross_vmt`, `gas_adj`
@@ -275,13 +275,13 @@ vmt_road_policy <- function(.pass_tb,
                             .mode,
                             .tb_fuel_cost_mile,
                             .stock,
-                            .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-                            .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-                            .cong_price = ghg.ccap::transportation_defaults$cong_price,
-                            .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-                            .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-                            .enviro_factors = ghg.ccap::enviro_factors,
-                            .elast = ghg.ccap::elast) {
+                            .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+                            .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
+                            .cong_price = ghg.gert::transportation_defaults$cong_price,
+                            .gas_tax = ghg.gert::transportation_defaults$gas_tax,
+                            .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+                            .enviro_factors = ghg.gert::enviro_factors,
+                            .elast = ghg.gert::elast) {
   if (.vmt_fee > 0 & .payd_fee > 0) {
     cli::cli_abort("Implement a VMT fee OR a pay-as-you drive insurance fee, not both.")
   }
@@ -411,7 +411,7 @@ vmt_road_policy <- function(.pass_tb,
 #' Calculate telework multiplier
 #' @param .telework_pct additional percent of people teleworking in the final forecast year.
 #'     Numeric between 0 and 1.
-#'     Default is `r ghg.ccap::transportation_defaults$telework_pct`
+#'     Default is `r ghg.gert::transportation_defaults$telework_pct`
 #'      Default is `0`
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
@@ -433,8 +433,8 @@ vmt_road_policy <- function(.pass_tb,
 #'
 vmt_telework <- function(.pass_tb,
                          .mode,
-                         .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-                         .enviro_factors = ghg.ccap::enviro_factors) {
+                         .telework_pct = ghg.gert::transportation_defaults$telework_pct,
+                         .enviro_factors = ghg.gert::enviro_factors) {
   switch(.mode,
     PLDV = {
       tibble::tibble(
@@ -532,7 +532,7 @@ vmt_stock_proportion <- function(.tb,
 
 #' Calculate transit service adjustment for each forecast year
 #' @param .transit_service_pct numeric, change in transit service % adjustment.
-#'    Default is `r ghg.ccap::transportation_defaults$transit_service_pct`.
+#'    Default is `r ghg.gert::transportation_defaults$transit_service_pct`.
 #'
 #' @description
 #'     Transit service increase assumes that the base level of
@@ -561,9 +561,9 @@ vmt_stock_proportion <- function(.tb,
 #' @family VMT effects
 vmt_transit_service <- function(tb,
                                 .mode,
-                                .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-                                .elast = ghg.ccap::elast,
-                                .enviro_factors = ghg.ccap::enviro_factors) {
+                                .transit_service_pct = ghg.gert::transportation_defaults$transit_service_pct,
+                                .elast = ghg.gert::elast,
+                                .enviro_factors = ghg.gert::enviro_factors) {
   years <- unique(tb$year)
   n_years <- length(years)
 
@@ -617,11 +617,11 @@ vmt_transit_service <- function(tb,
 #' Calculate vehicle occupancy multiplier
 #'
 #' @param .transit_avo_pct numeric, transit average vehicle occupancy (AVO) % adjustment.
-#'   Default is `r ghg.ccap::transportation_defaults$transit_avo_pct`.
+#'   Default is `r ghg.gert::transportation_defaults$transit_avo_pct`.
 #' @param .pldv_avo_pct numeric, passenger light duty vehicle occupancy adjustment.
-#'   Default is `r ghg.ccap::transportation_defaults$pldv_avo_pct`.
+#'   Default is `r ghg.gert::transportation_defaults$pldv_avo_pct`.
 #' @param .vehicle_occupancy table, vehicle occupancy averages by mode.
-#'   Default is `ghg.ccap::vehicle_occupancy`.
+#'   Default is `ghg.gert::vehicle_occupancy`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -665,10 +665,10 @@ vmt_vehicle_occupancy <- function(tb,
                                   .tb_vmt,
                                   .mode,
                                   .stock,
-                                  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
-                                  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-                                  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
-                                  .enviro_factors = ghg.ccap::enviro_factors) {
+                                  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
+                                  .pldv_avo_pct = ghg.gert::transportation_defaults$pldv_avo_pct,
+                                  .vehicle_occupancy = ghg.gert::vehicle_occupancy,
+                                  .enviro_factors = ghg.gert::enviro_factors) {
   calc_avo_elast <- function(pct) {
     tibble::tibble(
       year = unique(tb$year),
@@ -744,7 +744,7 @@ vmt_vehicle_occupancy <- function(tb,
 #' Calculate VMT reduction multiplier
 #' @param .vmt_reduction_pct total percent reduction in PLDV VMT by final forecast year.
 #'     Numeric between 0 and 1.
-#'     Default is `r ghg.ccap::transportation_defaults$vmt_reduction_pct`.
+#'     Default is `r ghg.gert::transportation_defaults$vmt_reduction_pct`.
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
 #' @inheritParams filter_ctu
@@ -763,8 +763,8 @@ vmt_vehicle_occupancy <- function(tb,
 #'
 vmt_total_reduction <- function(.pass_tb,
                                 .mode,
-                                .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
-                                .enviro_factors = ghg.ccap::enviro_factors) {
+                                .vmt_reduction_pct = ghg.gert::transportation_defaults$vmt_reduction_pct,
+                                .enviro_factors = ghg.gert::enviro_factors) {
   switch(.mode,
     PLDV = {
       tibble::tibble(
@@ -806,11 +806,11 @@ vmt_total_reduction <- function(.pass_tb,
 #'
 #' @param .pass_tb tibble, baseline passenger transportation table with columns `year`
 #' @param .cbtp_prop_targeted numeric, proportion of households targeted with CBTP (0 to 1).
-#'     Default is `r ghg.ccap::transportation_defaults$cbtp_prop_targeted`
+#'     Default is `r ghg.gert::transportation_defaults$cbtp_prop_targeted`
 #' @param .cbtp_start_year character or numeric, the year the CBTP strategy begins. For years prior to this,
 #'     no reduction is applied. For years at or after this year, the full reduction is applied.
-#'     Default is `r ghg.ccap::transportation_defaults$cbtp_start_year`
-#' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.ccap::enviro_factors`.
+#'     Default is `r ghg.gert::transportation_defaults$cbtp_start_year`
+#' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.gert::enviro_factors`.
 #'     Expected to contain:
 #'     - `CBTP_PARTICIPATION_PCT`: proportion of targeted residences that participate (default 0.19)
 #'     - `CBTP_TRIP_REDUCTION_PCT`: vehicle trip reduction by participating residences (default 0.12)
@@ -843,9 +843,9 @@ vmt_total_reduction <- function(.pass_tb,
 #' @importFrom dplyr tibble mutate select case_when
 #' @importFrom tibble tibble
 vmt_trip_reduction <- function(.pass_tb,
-                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-                               .enviro_factors = ghg.ccap::enviro_factors) {
+                               .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
+                               .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+                               .enviro_factors = ghg.gert::enviro_factors) {
   if (.cbtp_prop_targeted == 0) {
     # browser()
     return(.pass_tb %>%
@@ -863,7 +863,7 @@ vmt_trip_reduction <- function(.pass_tb,
   trip_reduction_pct <- .enviro_factors$CBTP_TRIP_REDUCTION_PCT
   max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
 
-  households_community <- ghg.ccap::demographic_data %>%
+  households_community <- ghg.gert::demographic_data %>%
     filter_ctu(unique(.pass_tb$geog_name)) %>%
     dplyr::filter(
       sp_categories == "total_households",

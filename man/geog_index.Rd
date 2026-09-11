@@ -21,11 +21,11 @@ geog_index
 Geographic index of cities, names, types
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 geog_index
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

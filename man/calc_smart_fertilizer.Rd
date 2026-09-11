@@ -38,7 +38,7 @@ smart-fertilizer application. Follows MN CAF technical documentation.
 Uses the coefficients found in MN CAF technical documenation
 }
 \seealso{
-Other cropland: 
-\code{\link{calc_regen_ag}()}
+Other cropland:
+\code{\link[=calc_regen_ag]{calc_regen_ag()}}
 }
 \concept{cropland}

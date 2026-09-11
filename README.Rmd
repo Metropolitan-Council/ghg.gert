@@ -13,32 +13,32 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ghg.ccap
+# ghg.gert
 
 <!-- badges: start -->
-<!-- [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.ccap/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.ccap/actions) -->
+<!-- [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.gert/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.gert/actions) -->
 <!-- badges: end -->
 
-The `{ghg.ccap}` repository contains data, code, and documentation supporting climate mitigation planning across the seven-county Twin Cities metropolitan region. It provides a greenhouse gas (GHG) inventory, emissions projections, and analysis of emission reduction strategies for the region.
+The `{ghg.gert}` repository contains data, code, and documentation supporting climate mitigation planning across the seven-county Twin Cities metropolitan region. It provides a greenhouse gas (GHG) inventory, emissions projections, and analysis of emission reduction strategies for the region.
 
 ## Purpose
 
 This work is directed by Minnesota state legislation ([Minn. Stat. § 473.859](https://www.revisor.mn.gov/statutes/cite/473.859)), which requires local comprehensive plans in the metropolitan area to include a climate mitigation element. The tools and data in this repository help the Metropolitan Council and its local government partners meet that requirement with consistent, regionally coherent methods.
 
-The repository also supports [Imagine 2050](https://imagine2050.metrocouncil.org/read-the-plans/land-use/), the regional development guide, which envisions the Twin Cities region leading on climate change action. The GHG inventory and scenario analysis in `{ghg.ccap}` provide analytical grounding for tracking progress toward Imagine 2050's climate goals and for informing land use, transportation, and infrastructure decisions across the region.
+The repository also supports [Imagine 2050](https://imagine2050.metrocouncil.org/read-the-plans/land-use/), the regional development guide, which envisions the Twin Cities region leading on climate change action. The GHG inventory and scenario analysis in `{ghg.gert}` provide analytical grounding for tracking progress toward Imagine 2050's climate goals and for informing land use, transportation, and infrastructure decisions across the region.
 
 This repository was originally forked from `ghg.sp` and provides a foundation for updating regional strategy planning tools based on the expanded inventory.
 
 ## Installation
 
-You can install the development version of `{ghg.ccap}` from [GitHub](https://github.com/Metropolitan-Council/ghg.ccap) with:
+You can install the development version of `{ghg.gert}` from [GitHub](https://github.com/Metropolitan-Council/ghg.gert) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("Metropolitan-Council/ghg.ccap")
+remotes::install_github("Metropolitan-Council/ghg.gert")
 ```
 
-`{ghg.ccap}` requires a few packages only available on GitHub. Install them separately:
+`{ghg.gert}` requires a few packages only available on GitHub. Install them separately:
 
 ``` r
 remotes::install_github("hadley/emo")
@@ -50,7 +50,7 @@ remotes::install_github("Metropolitan-Council/councilR")
 The package is organized around six sector modules that can be run individually or together via `run_all_modules()`. Every module accepts a `.selected_ctu` argument (a city/township name, a county, or `"Regional"`) and a `.scenario` argument, and returns a tidy tibble (or list of tibbles) with columns for `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
 
 ``` r
-library(ghg.ccap)
+library(ghg.gert)
 
 # Run every module for the full seven-county region under a business-as-usual scenario
 results <- run_all_modules(
@@ -69,7 +69,7 @@ The `run_all_modules()` wrapper accepts every module's parameters and returns a 
 
 ## Modules
 
-`{ghg.ccap}` is organized into six sector modules. Each module has a top-level entry function (`run_module_*()` or `run_scenario_*()`), a set of preloaded input datasets, and a collection of user-facing parameters (prefixed with `.`) that represent policy levers or scenario assumptions.
+`{ghg.gert}` is organized into six sector modules. Each module has a top-level entry function (`run_module_*()` or `run_scenario_*()`), a set of preloaded input datasets, and a collection of user-facing parameters (prefixed with `.`) that represent policy levers or scenario assumptions.
 
 ### Transportation — `run_module_transportation()`
 
@@ -159,7 +159,7 @@ Every module honors a few shared conventions:
 
 - `.selected_ctu` — geography selector: a city/township name, a county name, `"Regional"` (seven-county total), or `"all"` (every CTU).
 - `.scenario` — scenario label attached to outputs. Use `"BAU"` for business-as-usual runs; any other string names an alternative policy scenario.
-- Baseline data are shipped with the package (see `data(package = "ghg.ccap")`); users normally only override the `.`-prefixed policy levers.
+- Baseline data are shipped with the package (see `data(package = "ghg.gert")`); users normally only override the `.`-prefixed policy levers.
 
 For deeper methodological documentation, see the vignettes in `vignettes/` and the technical guides in `inst/documentation/`.
 

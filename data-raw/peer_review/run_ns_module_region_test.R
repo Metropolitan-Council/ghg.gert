@@ -1,5 +1,5 @@
 rm(list = ls())
-library(ghg.ccap)
+library(ghg.gert)
 library(tidyverse)
 
 .ctu <- "Regional"
@@ -13,15 +13,15 @@ library(tidyverse)
 # natural_systems_data$land_cover_carbon <- readr::read_rds(paste0(inpath, "land_cover_carbon.rds"))
 
 
-# read natural_systems_data.rda file in ghg.ccap/data
-natural_systems_data <- ghg.ccap::natural_systems_data
+# read natural_systems_data.rda file in ghg.gert/data
+natural_systems_data <- ghg.gert::natural_systems_data
 
-mod_bau <- ghg.ccap::run_scenario_natural_systems(
+mod_bau <- ghg.gert::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$inventory,
   tb_future = natural_systems_data$projections,
   tb_seq = natural_systems_data$land_cover_carbon,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
 
   # # user inputs here!
   .wetland_restore_start = 2025,
@@ -66,12 +66,12 @@ mod_bau %>%
   )
 
 
-ghg.ccap::run_scenario_natural_systems(
+ghg.gert::run_scenario_natural_systems(
   .selected_ctu = "Saint Bonifacius",
   tb_inv = natural_systems_data$inventory,
   tb_future = natural_systems_data$projections,
   tb_seq = natural_systems_data$land_cover_carbon,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
 
   # # # user inputs here!
   # .wetland_restore_start = 2025,
@@ -236,12 +236,12 @@ natural_systems_data$regional$null_projections <- regional_projections_2022 %>%
   mutate(across(everything(), ~ tidyr::replace_na(., 0)))
 
 
-mod_bau <- ghg.ccap::run_scenario_natural_systems(
+mod_bau <- ghg.gert::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$regional$inventory,
   tb_future = natural_systems_data$regional$null_projections,
   tb_seq = natural_systems_data$land_cover_carbon,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
 
   # user inputs here!
   # .urban_tree_start = 2025,
@@ -272,12 +272,12 @@ target_grassland_2050 <- 10
 target_wetland_2050 <- 33
 
 
-mod_ns <- ghg.ccap::run_scenario_natural_systems(
+mod_ns <- ghg.gert::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$regional$inventory,
   tb_future = natural_systems_data$regional$null_projections,
   tb_seq = natural_systems_data$land_cover_carbon,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
 
   # user inputs here!
   .urban_tree_start = 2025,
@@ -500,12 +500,12 @@ plot_emissions <- function(bau, scen1, target) {
 
 p1 <- plot_emissions(
   bau = mod_bau,
-  scen1 = ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.gert::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
     tb_seq = natural_systems_data$land_cover_carbon,
-    .enviro_factors = ghg.ccap::enviro_factors,
+    .enviro_factors = ghg.gert::enviro_factors,
 
     # # user inputs here!
     # .urban_tree_start = 2025,
@@ -526,12 +526,12 @@ p1 <- plot_emissions(
 
 p2 <- plot_emissions(
   bau = mod_bau,
-  scen1 = ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.gert::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
     tb_seq = natural_systems_data$land_cover_carbon,
-    .enviro_factors = ghg.ccap::enviro_factors,
+    .enviro_factors = ghg.gert::enviro_factors,
 
     # user inputs here!
     .urban_tree_start = 2025,
@@ -553,12 +553,12 @@ p2 <- plot_emissions(
 
 p3 <- plot_emissions(
   bau = mod_bau,
-  scen1 = ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.gert::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
     tb_seq = natural_systems_data$land_cover_carbon,
-    .enviro_factors = ghg.ccap::enviro_factors,
+    .enviro_factors = ghg.gert::enviro_factors,
 
     # user inputs here!
     .urban_tree_start = 2025,
@@ -580,12 +580,12 @@ p3 <- plot_emissions(
 p1 + p2 + p3
 
 
-target_seq_for_netZero <- ghg.ccap::run_scenario_natural_systems(
+target_seq_for_netZero <- ghg.gert::run_scenario_natural_systems(
   .selected_ctu = "Regional",
   tb_inv = natural_systems_data$regional$inventory,
   tb_future = natural_systems_data$regional$null_projections,
   tb_seq = natural_systems_data$land_cover_carbon,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
 
   # user inputs here!
   .urban_tree_start = 2025,
@@ -607,12 +607,12 @@ target_seq_for_netZero <- ghg.ccap::run_scenario_natural_systems(
 
 seq_gg <- plot_emissions(
   bau = mod_bau,
-  scen1 = ghg.ccap::run_scenario_natural_systems(
+  scen1 = ghg.gert::run_scenario_natural_systems(
     .selected_ctu = "Regional",
     tb_inv = natural_systems_data$regional$inventory,
     tb_future = natural_systems_data$regional$null_projections,
     tb_seq = natural_systems_data$land_cover_carbon,
-    .enviro_factors = ghg.ccap::enviro_factors,
+    .enviro_factors = ghg.gert::enviro_factors,
 
     # user inputs here!
     .urban_tree_start = 2025,
@@ -904,7 +904,7 @@ test_regional_proj <- expand_grid(
 
 
 test_solid_waste_baseline <-
-  ghg.ccap::waste_data$inventory %>%
+  ghg.gert::waste_data$inventory %>%
   filter(inventory_year == 2022 & source != "Wastewater") %>%
   filter(geog_name == "Anoka") %>%
   mutate(
@@ -943,8 +943,8 @@ test <- run_module_waste(
   tb_inv = test_regional_inv,
   tb_future = test_regional_proj,
   tb_base = test_solid_waste_baseline,
-  tb_char = ghg.ccap::waste_data$characterization,
-  tb_target = ghg.ccap::waste_data$mpca,
+  tb_char = ghg.gert::waste_data$characterization,
+  tb_target = ghg.gert::waste_data$mpca,
   .waste_reduction_pct = 0.1,
   .waste_reduction_start = 2025,
   .waste_reduction_end = 2030,

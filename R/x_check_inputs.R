@@ -103,18 +103,18 @@ check_inputs <- function(name, value) {
       }
     },
     selected_ctu = {
-      if (value != "all" && !value %in% c(unique(ghg.ccap::geog_index$geog_name), "Twin Cities Region", "CCAP Region")) {
+      if (value != "all" && !value %in% c(unique(ghg.gert::geog_index$geog_name), "Twin Cities Region", "CCAP Region")) {
         cli::cli_abort("Enter a valid geog_name name")
       }
     },
     fuel_type = {
-      if (!value %in% unique(ghg.ccap::factor_values$ghg$source)) {
-        cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.ccap::factor_values$ghg$source), collapse = ", "))
+      if (!value %in% unique(ghg.gert::factor_values$ghg$source)) {
+        cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.gert::factor_values$ghg$source), collapse = ", "))
       }
     },
     miles_per_gallon = {
-      if (!value %in% unique(ghg.ccap::fuel_economy$var)) {
-        cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.ccap::fuel_economy$var), collapse = ", "))
+      if (!value %in% unique(ghg.gert::fuel_economy$var)) {
+        cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.gert::fuel_economy$var), collapse = ", "))
       }
     }
     # default: do nothing (equivalent to your final `else return()`)

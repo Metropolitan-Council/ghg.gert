@@ -41,8 +41,8 @@ run_non_residential <- FALSE
 .app_elec_end_year <- 2050
 .sf_app_elec_pct <- 0.25
 .mf_app_elec_pct <- 0.1
-.grid_emissions <- ghg.ccap::grid_emissions
-.enviro_factors <- ghg.ccap::enviro_factors
+.grid_emissions <- ghg.gert::grid_emissions
+.enviro_factors <- ghg.gert::enviro_factors
 # .sf_elec_appliance_pct = 0.0
 # # .mf_elec_appliance_pct = 0.0
 # .additional_electrified_residential_buildings_pct = 0.0

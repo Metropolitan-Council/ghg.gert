@@ -6,9 +6,9 @@
 \usage{
 calc_building_energy(
   .selected_ctu,
-  parcel_data = ghg.ccap::parcel_ctu,
-  resstock_tb = ghg.ccap::resstock_summaries,
-  ceestock_tb = ghg.ccap::ceestock_summaries
+  parcel_data = ghg.gert::parcel_ctu,
+  resstock_tb = ghg.gert::resstock_summaries,
+  ceestock_tb = ghg.gert::ceestock_summaries
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ median square footage
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 adj_unit_counts(
   res_tb = compile_bau_building_energy()$residential,
@@ -41,26 +41,26 @@ adj_unit_counts(
 }
 }
 \seealso{
-Other residential: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_residential}()}
+Other residential:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 }
 \concept{buildings}
 \concept{residential}

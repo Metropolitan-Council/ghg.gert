@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_ghg_residential(
 #'   res_tb = building_data$residential,
@@ -53,7 +53,7 @@ calc_ghg_mwh <- function(res_mwh,
                          grid_scenario = "MISO",
                          .selected_ctu,
                          .grid_decarbonization_estimator,
-                         .enviro_factors = ghg.ccap::enviro_factors) {
+                         .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating grid ghg emissions \n")
 
   res_mwh <- filter_ctu(res_mwh, .selected_ctu = .selected_ctu)

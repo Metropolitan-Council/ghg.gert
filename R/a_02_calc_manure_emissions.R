@@ -8,7 +8,7 @@
 #' @return Data frame with emissions by county, year, storage_state, and gas type
 #'
 #'
-calculate_manure_emissions <- function(manure_caf = ghg.ccap::agriculture_manure_caf,
+calculate_manure_emissions <- function(manure_caf = ghg.gert::agriculture_manure_caf,
                                        .selected_ctu = .selected_ctu) {
   # browser()
   emissions_output <- filter_ctu(manure_caf, .selected_ctu = .selected_ctu) %>%

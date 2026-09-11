@@ -27,12 +27,12 @@ lc_county
 Land cover type by county and year (2001 to 2021)
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 unique(lc_county$land_cover_type)
 unique(lc_county$county_name)
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

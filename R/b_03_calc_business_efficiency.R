@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_business_leed(
 #'   res_tb = building_data$residential,
@@ -41,7 +41,7 @@ calc_business_leed <- function(non_res_tb,
                                .selected_ctu,
                                .new_jobs_leed_gold_pct,
                                .leed_start_year,
-                               .enviro_factors = ghg.ccap::enviro_factors) {
+                               .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
@@ -108,14 +108,14 @@ calc_business_leed <- function(non_res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_business_retrofit(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .enviro_factors = ghg.ccap::enviro_factors
+#'   .enviro_factors = ghg.gert::enviro_factors
 #' )
 #' }
 #'
@@ -124,7 +124,7 @@ calc_business_retrofit <- function(non_res_tb,
                                    .existing_jobs_retrofit_pct,
                                    .retrofit_start_year,
                                    .retrofit_end_year,
-                                   .enviro_factors = ghg.ccap::enviro_factors) {
+                                   .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 

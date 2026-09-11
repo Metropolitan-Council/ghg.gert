@@ -13,9 +13,9 @@ calculate_wastewater_emissions <- function(waste_inv,
   waste_inv <- waste_inv %>%
     dplyr::filter(source == "Wastewater") %>%
     mutate(
-      MWW_CH4 = ghg.ccap::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_direct = ghg.ccap::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
+      MWW_CH4 = ghg.gert::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
+      MWW_N20_direct = ghg.gert::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
+      MWW_N20_effluent = ghg.gert::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
     ) %>%
     pivot_longer(
       cols = c(MWW_CH4, MWW_N20_direct, MWW_N20_effluent),
@@ -50,9 +50,9 @@ calculate_wastewater_emissions <- function(waste_inv,
   waste_future <- waste_future %>%
     dplyr::filter(source == "Wastewater") %>%
     mutate(
-      MWW_CH4 = ghg.ccap::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_direct = ghg.ccap::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
-      MWW_N20_effluent = ghg.ccap::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
+      MWW_CH4 = ghg.gert::calculate_mww_ch4_emissions(population = geog_pop, years = inventory_year)$value_emissions,
+      MWW_N20_direct = ghg.gert::calculate_mww_n2o_direct_emissions(population = geog_pop, years = inventory_year)$value_emissions,
+      MWW_N20_effluent = ghg.gert::calculate_mww_n2o_effluent_emissions(population = geog_pop, years = inventory_year)$value_emissions
     ) %>%
     pivot_longer(
       cols = c(MWW_CH4, MWW_N20_direct, MWW_N20_effluent),

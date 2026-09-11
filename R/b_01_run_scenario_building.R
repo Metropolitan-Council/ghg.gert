@@ -19,7 +19,7 @@
 #' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
 #'   Default value is `0.6`.
 #' @param .grid_emissions table,
-#'   Default is `ghg.ccap::grid_emissions`
+#'   Default is `ghg.gert::grid_emissions`
 #'
 #' @return [tibble::tibble()].
 #'       Returns a table with columns `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
@@ -32,7 +32,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' run_scenario_building(
 #'   res_tb = building_data$residential,
 #'   non_res_tb = building_data$non_residential,
@@ -92,8 +92,8 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .existing_jobs_retrofit_pct = 0.0,
                                   .jobs_heatpump_pct = 0.0,
                                   # emissions factors and elasticities
-                                  .grid_emissions = ghg.ccap::grid_emissions,
-                                  .enviro_factors = ghg.ccap::enviro_factors) {
+                                  .grid_emissions = ghg.gert::grid_emissions,
+                                  .enviro_factors = ghg.gert::enviro_factors) {
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
   res_tb_bau <-
     filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
@@ -189,7 +189,7 @@ run_scenario_building <- function(res_tb = building_data$residential,
         .retrofit_end_year = .retrofit_end_year,
         .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
         .leed_start_year = .leed_start_year,
-        .grid_emissions = ghg.ccap::grid_emissions,
+        .grid_emissions = ghg.gert::grid_emissions,
       ) %>%
       mutate(sector = "Non-residential") %>%
       rename(

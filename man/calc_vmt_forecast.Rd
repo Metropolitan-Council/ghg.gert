@@ -13,38 +13,38 @@ calc_vmt_forecast(
   .variable,
   .tb_fuel_cost_mile,
   .aeo_scenario = "REF",
-  .parking_cost = ghg.ccap::parking_cost,
-  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
-  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-  .cong_price = ghg.ccap::transportation_defaults$cong_price,
-  .parking_price = ghg.ccap::transportation_defaults$parking_price,
-  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
-  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
-  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
-  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+  .parking_cost = ghg.gert::parking_cost,
+  .vehicle_occupancy = ghg.gert::vehicle_occupancy,
+  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
+  .transit_service_pct = ghg.gert::transportation_defaults$transit_service_pct,
+  .pldv_avo_pct = ghg.gert::transportation_defaults$pldv_avo_pct,
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
+  .cong_price = ghg.gert::transportation_defaults$cong_price,
+  .parking_price = ghg.gert::transportation_defaults$parking_price,
+  .vmt_reduction_pct = ghg.gert::transportation_defaults$vmt_reduction_pct,
+  .freight_parking_price = ghg.gert::transportation_defaults$freight_parking_price,
+  .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
+  .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
   .land_use_diversity_pct_change =
-    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+    ghg.gert::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
-    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+    ghg.gert::transportation_defaults$intersection_design_pct_change,
   .intersection_density_pct_change =
-    ghg.ccap::transportation_defaults$intersection_density_pct_change,
-  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
-  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+    ghg.gert::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values,
-  .elast = ghg.ccap::elast,
-  .elast_5d = ghg.ccap::elast_5d
+    ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.gert::transportation_defaults$telework_pct,
+  .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values,
+  .elast = ghg.gert::elast,
+  .elast_5d = ghg.gert::elast_5d
 )
 }
 \arguments{
@@ -67,10 +67,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.gert::parking_cost}.}
 
 \item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
-Default is \code{ghg.ccap::vehicle_occupancy}.}
+Default is \code{ghg.gert::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
 Default is 0.}
@@ -136,13 +136,13 @@ Default is 0
 Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
 }
 \value{
 a tibble with columns \code{scenario}, \code{geog_name}, \code{year}, \code{aeo_mode}, \code{type}, \code{vmt},
@@ -157,25 +157,25 @@ This function calculates vehicle miles traveled (VMT) by mode and power train. I
 }
 }
 \seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{adj_fleet_shares_stock}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()},
-\code{\link{vmt_trip_reduction}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

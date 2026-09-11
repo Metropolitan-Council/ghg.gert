@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' adj_unit_counts(
 #'   res_tb = compile_bau_building_energy()$residential,
@@ -35,9 +35,9 @@
 #' @importFrom cli cli_warn
 calc_building_energy <- function(
   .selected_ctu,
-  parcel_data = ghg.ccap::parcel_ctu,
-  resstock_tb = ghg.ccap::resstock_summaries,
-  ceestock_tb = ghg.ccap::ceestock_summaries
+  parcel_data = ghg.gert::parcel_ctu,
+  resstock_tb = ghg.gert::resstock_summaries,
+  ceestock_tb = ghg.gert::ceestock_summaries
 ) {
   # bin based on ceestock categories
   bin_sqft_attached <- function(sqft) {

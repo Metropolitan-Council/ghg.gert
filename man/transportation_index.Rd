@@ -22,14 +22,14 @@ transportation_index
 Reference index for abbreviations, data sources, identifiers
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 transportation_index$emission_sources
 transportation_index$variables
 transportation_index$modes
 transportation_index$data_sources
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

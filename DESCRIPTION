@@ -1,6 +1,6 @@
 Type: Package
-Package: ghg.ccap
-Title: Greenhouse Gas Strategy Planning for Twin Cities Metropolitan
+Package: ghg.gert
+Title: Greenhouse Gas Emission Reduction Tool for Twin Cities Metropolitan
     Region
 Version: 1.0.1
 Date: 2024-03-15
@@ -18,7 +18,7 @@ Authors@R: c(
   )
 Description: Tools Metropolitan Council GHG strategy planning.
 License: MIT + file LICENSE
-BugReports: https://github.com/Metropolitan-Council/ghg.ccap/issues
+BugReports: https://github.com/Metropolitan-Council/ghg.gert/issues
 Depends: 
     R (>= 4.1)
 Imports: 
@@ -57,5 +57,5 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
-Website: https://github.com/Metropolitan-Council/ghg.ccap
+Website: https://github.com/Metropolitan-Council/ghg.gert
+Config/roxygen2/version: 8.0.0

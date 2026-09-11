@@ -23,11 +23,11 @@ demographic_data
 Future city and county demographic information from UrbanSim
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 demographic_data
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{elast}},
 \code{\link{elast_5d}},

@@ -77,8 +77,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -104,8 +104,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     # install heat pumps
@@ -130,8 +130,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.3,
       .mf_heatpump_pct = 0.3,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     # combination
@@ -157,8 +157,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.5,
       .mf_heatpump_pct = 0.5,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     purrr::map(
@@ -197,8 +197,8 @@ testthat::test_that("calc_energy_residential", {
       .density_output = run_scenario_land_use(
         .selected_ctu = "Maple Grove"
       ),
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed_table <- scen_building_residential(
@@ -221,8 +221,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     ### Retrofit existing buildings
@@ -247,8 +247,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     retro_table <- scen_building_residential(
@@ -271,8 +271,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     heatpump_table <- scen_building_residential(
@@ -295,8 +295,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.3,
       .mf_heatpump_pct = 0.3,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     heatpump_table <- scen_building_residential(
@@ -319,8 +319,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.3,
       .mf_heatpump_pct = 0.3,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -344,8 +344,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.5,
       .mf_heatpump_pct = 0.5,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     combo_table <- scen_building_residential(
@@ -368,8 +368,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.5,
       .mf_heatpump_pct = 0.5,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     purrr::map(
@@ -404,8 +404,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -431,8 +431,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0,
       .mf_heatpump_pct = 0,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     # install heat pumps
@@ -457,8 +457,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.3,
       .mf_heatpump_pct = 0.3,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     # combination
@@ -484,8 +484,8 @@ testthat::test_that("calc_energy_residential", {
       .heatpump_end_year = 2050,
       .sf_heatpump_pct = 0.5,
       .mf_heatpump_pct = 0.5,
-      .grid_emissions = ghg.ccap::grid_emissions,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .grid_emissions = ghg.gert::grid_emissions,
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     purrr::map(

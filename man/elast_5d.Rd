@@ -26,11 +26,11 @@ elast_5d
 Values are specific to forecast year
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 elast_5d
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

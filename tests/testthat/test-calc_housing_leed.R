@@ -21,7 +21,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ) %>%
       suppressWarnings()
 
@@ -38,7 +38,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ))
 
     leed6 <- calc_housing_leed(
@@ -47,7 +47,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed4 <- calc_housing_leed(
@@ -56,7 +56,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed9 <- calc_housing_leed(
@@ -65,7 +65,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -75,7 +75,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     purrr::map(
@@ -92,7 +92,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ) %>%
       suppressWarnings()
 
@@ -109,7 +109,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ))
 
     leed6 <- calc_housing_leed(
@@ -118,7 +118,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed4 <- calc_housing_leed(
@@ -127,7 +127,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed9 <- calc_housing_leed(
@@ -136,7 +136,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -146,7 +146,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -164,7 +164,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0,
       .new_mf_homes_leed_gold_pct = 0,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ) %>%
       suppressWarnings()
 
@@ -181,7 +181,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1.1,
       .new_mf_homes_leed_gold_pct = 1.1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     ))
 
     leed6 <- calc_housing_leed(
@@ -190,7 +190,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.6,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed4 <- calc_housing_leed(
@@ -199,7 +199,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.6,
       .new_mf_homes_leed_gold_pct = 0.4,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
     leed9 <- calc_housing_leed(
@@ -208,7 +208,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 0.8,
       .new_mf_homes_leed_gold_pct = 0.9,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 
@@ -218,7 +218,7 @@ testthat::test_that("calc_housing_leed", {
       .leed_start_year = 2025,
       .new_sf_homes_leed_gold_pct = 1,
       .new_mf_homes_leed_gold_pct = 1,
-      .enviro_factors = ghg.ccap::enviro_factors
+      .enviro_factors = ghg.gert::enviro_factors
     )
 
 

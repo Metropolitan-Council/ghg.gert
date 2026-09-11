@@ -20,12 +20,12 @@ naics_codes
 North American Industry Classification System (NAICS) and Local Employment Dynamics (LED) codes
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 naics_codes$commercial
 naics_codes$industrial
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

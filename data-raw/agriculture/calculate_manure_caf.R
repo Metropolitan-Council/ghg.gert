@@ -1,13 +1,13 @@
 # Calculate Manure Management Emissions - baseline and CAF
 
-agriculture_variables <- ghg.ccap::agriculture_variables
-gwp_list <- ghg.ccap::gwp_list
+agriculture_variables <- ghg.gert::agriculture_variables
+gwp_list <- ghg.gert::gwp_list
 
 
 ### calculate BAU for all CTUs
 
 
-livestock_df <- ghg.ccap::agriculture_activity_data$livestock
+livestock_df <- ghg.gert::agriculture_activity_data$livestock
 
 # extract required variables from list
 ag_constants_vec <- agriculture_variables$ag_constants
@@ -232,7 +232,7 @@ nex_runoff_emissions <- KN_excretion %>%
 # ===== N2O EMISSIONS FROM DIRECT SOIL APPLICATION =====
 
 # Calculate management type percentages
-manure_mgmt_perc <- ghg.ccap::agriculture_variables$manure_mgmt %>%
+manure_mgmt_perc <- ghg.gert::agriculture_variables$manure_mgmt %>%
   mutate(management_type = case_when(
     managed == "Yes" ~ "Managed",
     mgmt_system %in% c(

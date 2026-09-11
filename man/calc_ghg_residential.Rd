@@ -7,8 +7,8 @@
 calc_ghg_residential(
   res_energy,
   .selected_ctu,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .grid_emissions = ghg.gert::grid_emissions,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ including columns \code{residential_mwh}, \code{residential_mcf}.}
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -43,36 +43,36 @@ based on the floor area assumptions. For a function that compiles all
 residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
 \seealso{
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 
-Other residential: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()}
+Other residential:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}}
 
-Other emissions: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()}
+Other emissions:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}}
 }
 \concept{buildings}
 \concept{emissions}

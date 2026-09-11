@@ -92,5 +92,5 @@ geog_index <- bind_rows(
 usethis::use_data(geog_index, overwrite = TRUE)
 
 
-# ghg.ccap::geog_index %>%
+# ghg.gert::geog_index %>%
 #   waldo::compare(geog_index)

@@ -30,7 +30,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_ghg_residential(
 #'   res_tb = building_data$residential,
@@ -50,14 +50,14 @@ calc_energy_residential <- function(res_tb,
   res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
 
   baseline_energy <- left_join(
-    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
+    filter_ctu(ghg.gert::building_energy_data$electricity_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
         sector == "Residential"
       ),
-    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
+    filter_ctu(ghg.gert::building_energy_data$natgas_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(

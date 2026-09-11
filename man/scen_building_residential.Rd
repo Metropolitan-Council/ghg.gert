@@ -22,8 +22,8 @@ scen_building_residential(
   .heatpump_end_year,
   .sf_heatpump_pct,
   .mf_heatpump_pct,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .grid_emissions = ghg.gert::grid_emissions,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -55,10 +55,10 @@ Default is \code{0.0}}
 \item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
 
 \item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
+Default is \code{ghg.gert::grid_emissions}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
@@ -84,7 +84,7 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 scen_building_residential(
   res_tb = building_data$residential,
@@ -104,7 +104,7 @@ scen_building_residential(
 }
 }
 \seealso{
-Other buildings, residential: 
-\code{\link{calc_residential_electrification}()}
+Other buildings, residential:
+\code{\link[=calc_residential_electrification]{calc_residential_electrification()}}
 }
 \concept{buildings, residential}

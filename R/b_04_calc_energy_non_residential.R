@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_ghg_non_residential(
 #'   res_tb = building_data$residential,
@@ -47,7 +47,7 @@ calc_energy_non_residential <- function(non_res_tb,
                                         .scenario = "alt",
                                         .selected_ctu,
                                         .jobs_heatpump_pct,
-                                        .enviro_factors = ghg.ccap::enviro_factors) {
+                                        .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
   check_inputs(name = "jobs_heatpump_pct", .jobs_heatpump_pct)
@@ -71,14 +71,14 @@ calc_energy_non_residential <- function(non_res_tb,
     pull(val)
 
   baseline_energy <- left_join(
-    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
+    filter_ctu(ghg.gert::building_energy_data$electricity_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         inventory_year <= .baseline_year,
         sector == "Business"
       ),
-    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
+    filter_ctu(ghg.gert::building_energy_data$natgas_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
@@ -88,10 +88,10 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, inventory_year)
   )
 
-  # make scenario_comm_des available for use in ghg.ccap.app
+  # make scenario_comm_des available for use in ghg.gert.app
   utils::data(
     "scenario_comm_des",
-    package = "ghg.ccap",
+    package = "ghg.gert",
     envir   = environment()
   )
 

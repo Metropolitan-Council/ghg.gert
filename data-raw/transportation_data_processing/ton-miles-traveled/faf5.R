@@ -134,7 +134,7 @@ ctu_tmt_summary <- faf_ton_miles %>%
   )
 
 
-ghg.ccap::transportation_data$freight %>%
+ghg.gert::transportation_data$freight %>%
   filter(mode == "CUT", var == "TMT") %>%
   View()
 

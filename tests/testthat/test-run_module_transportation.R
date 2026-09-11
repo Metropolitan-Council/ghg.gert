@@ -350,7 +350,7 @@ test_vmt_stock_proportion <- function(x) {
           "WAT", "AIR"
         )) %>%
         dplyr::left_join(
-          ghg.ccap::transportation_index$modes %>%
+          ghg.gert::transportation_index$modes %>%
             dplyr::select(mode_abbrev, mode_description_1, sector, category),
           by = c("mode" = "mode_abbrev")
         ) %>%
@@ -492,7 +492,7 @@ test_that("Region VMT stock proportion", {
         "WAT", "AIR"
       )) %>%
       dplyr::left_join(
-        ghg.ccap::transportation_index$modes %>%
+        ghg.gert::transportation_index$modes %>%
           dplyr::select(mode_abbrev, mode_description_1, sector, category),
         by = c("mode" = "mode_abbrev")
       ) %>%

@@ -22,10 +22,10 @@ fuel_economy
 Fuel economy
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

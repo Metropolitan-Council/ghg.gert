@@ -4,7 +4,7 @@ library(dplyr)
 library(readr)
 library(magrittr)
 library(purrr)
-library(ghg.ccap)
+library(ghg.gert)
 library(councilR)
 
 # get Imagine community designations

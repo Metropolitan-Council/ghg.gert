@@ -10,9 +10,9 @@ calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .fuel_cost_gallon,
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values
+  .fuel_economy = ghg.gert::fuel_economy,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values
 )
 }
 \arguments{
@@ -31,12 +31,12 @@ Miles per gallon for current mode}
 \item{.fuel_cost_gallon}{numeric,
 Fuel cost per gallon for current mode}
 
-\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \value{
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.
@@ -45,25 +45,25 @@ a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_c
 Calculate fuel cost per mile
 }
 \seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{adj_fleet_shares_stock}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()},
-\code{\link{vmt_trip_reduction}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

@@ -7,7 +7,7 @@ rm(list = ls())
 # This is the last year of inventory data, and the year before projections
 ref_year <- 2022
 
-# Load geographic index data and demographic_data, both part of ghg.ccap
+# Load geographic index data and demographic_data, both part of ghg.gert
 # (only contains 7 counties)
 lookup_ctu_county <- rbind(
   geog_index %>%

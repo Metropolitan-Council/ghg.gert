@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' adj_unit_counts(
 #'   res_tb = compile_bau_building_energy()$residential,

@@ -35,7 +35,7 @@ heat-pump and non-heat-pump portions, producing a long table of
 allocated units keyed to the eight scenarios in \code{\link[=calc_building_energy]{calc_building_energy()}}.
 }
 \seealso{
-Other buildings, residential: 
-\code{\link{scen_building_residential}()}
+Other buildings, residential:
+\code{\link[=scen_building_residential]{scen_building_residential()}}
 }
 \concept{buildings, residential}

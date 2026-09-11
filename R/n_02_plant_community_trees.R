@@ -31,7 +31,7 @@ plant_community_trees <- function(df_null,
     geog_id <- unique(df_null$geog_id)[1]
   }
 
-  baseline <- ghg.ccap::community_tree_baseline %>%
+  baseline <- ghg.gert::community_tree_baseline %>%
     dplyr::filter(.data$geog_id == .env$geog_id)
 
   if (nrow(baseline) == 1) {
@@ -39,7 +39,7 @@ plant_community_trees <- function(df_null,
     max_trees <- baseline$max_plantable_trees
   } else {
     # Fallback: regional median density, no cap
-    sqm_per_tree <- median(ghg.ccap::community_tree_baseline$sqm_per_tree, na.rm = TRUE)
+    sqm_per_tree <- median(ghg.gert::community_tree_baseline$sqm_per_tree, na.rm = TRUE)
     max_trees <- Inf
   }
 

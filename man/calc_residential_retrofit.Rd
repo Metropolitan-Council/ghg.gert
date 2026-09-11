@@ -12,7 +12,7 @@ calc_residential_retrofit(
   .existing_mf_retrofit_pct,
   .retrofit_start_year,
   .retrofit_end_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 
 calc_residential_retrofit(
@@ -22,7 +22,7 @@ calc_residential_retrofit(
   .existing_mf_retrofit_pct,
   .retrofit_start_year,
   .retrofit_end_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ default value.
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
@@ -74,57 +74,43 @@ Uses the average single family floor area in 2018
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_residential_retrofit(
   res_tb = building_data$residential,
   .selected_ctu = "all",
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_residential_retrofit(
   res_tb = building_data$residential,
   .selected_ctu = "all",
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 
 }
 \seealso{
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{run_scenario_building}()}
-
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 }
 \concept{buildings}
