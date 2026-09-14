@@ -2,8 +2,8 @@ Type: Package
 Package: ghg.gert
 Title: Greenhouse Gas Emission Reduction Tool for Twin Cities Metropolitan
     Region
-Version: 1.0.1
-Date: 2024-03-15
+Version: 1.1.0
+Date: 2026-09-15
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Peter", "Wilfahrt", email = "peter.wilfahrt@metc.state.mn.us", role = c("cre", "aut")),
@@ -16,7 +16,9 @@ Authors@R: c(
     person("Laine", "McNamara", email = "laine.mcnamara@metc.state.mn.us", role = "ctb"),
     person("Zoey", "Yandell", email = "zoey.yandell@metc.state.mn.us", role = "ctb")
   )
-Description: Tools Metropolitan Council GHG strategy planning.
+Description: Interactive tool for greenhouse gas inventories, emissions projections,
+    and mitigation scenario analyses for municipalities in the seven-county Twin Cities
+    metropolitan region.
 License: MIT + file LICENSE
 BugReports: https://github.com/Metropolitan-Council/ghg.gert/issues
 Depends: 
