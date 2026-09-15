@@ -90,14 +90,12 @@ scen_building_residential(
   res_tb = building_data$residential,
   res_tb_bau = building_data$residential,
   .selected_ctu = "all",
-  .new_homes_to_multifamily_pct = 0.50,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.50,
   .new_homes_leed_gold_pct = 0.50,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .home_behavior_change_pct = 1.00,
-  .grid_decarbonization_pct = 1,
   .additional_electrified_residential_buildings_pct = 0.45,
   .enviro_factors = enviro_factors
 )

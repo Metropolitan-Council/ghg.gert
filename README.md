@@ -130,18 +130,17 @@ Returns a named list: `passenger`, `passenger_all`, `freight`,
 
 Projects residential and non-residential building energy use and
 associated GHG emissions at the city/township level, incorporating new
-construction, retrofits, electrification, and grid decarbonization.
+construction, retrofits, and building electrification via heat pumps.
 
 Key parameters:
 
-- **Grid and electrification:** `.grid_decarbonization_pct` (share of
-  grid emissions eliminated by 2050),
-  `.smart_grid_energy_reduction_pct`, `.electrified_buildings_pct`.
 - **Residential retrofits and heat pumps:** `.sf_heatpump_pct`,
   `.mf_heatpump_pct`, `.existing_sf_retrofit_pct`,
   `.existing_mf_retrofit_pct`.
 - **New construction quality:** `.new_sf_homes_leed_gold_pct`,
-  `.new_mf_homes_leed_gold_pct`, `.new_homes_to_multifamily_pct`.
+  `.new_mf_homes_leed_gold_pct`.
+- **Non-residential:** `.jobs_heatpump_pct`,
+  `.existing_jobs_retrofit_pct`, `.new_jobs_leed_gold_pct`.
 - **Timing:** `.baseline_year`, `.leed_start_year`,
   `.retrofit_start_year`, `.retrofit_end_year`, `.heatpump_start_year`,
   `.heatpump_end_year`.
@@ -178,7 +177,7 @@ agriculture practices.
 
 Key parameters:
 
-- **Land base:** `.ag_land_perserved`, `cropland_decrease_2050`.
+- **Land base:** `cropland_decrease_2050`.
 - **Smart fertilizer:** `.smart_fertilizer_current`,
   `.smart_fertilizer_goal`, `.smart_fertilizer_start_year`.
 - **Cover crops:** `.cover_crops_current`, `.cover_crops_goal`,

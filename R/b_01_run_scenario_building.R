@@ -16,8 +16,6 @@
 #' @inheritParams adj_unit_counts
 #' @inheritParams run_all_modules
 #'
-#' @param .grid_decarbonization_pct numeric, a value between `0` and `1`.
-#'   Default value is `0.6`.
 #' @param .grid_emissions table,
 #'   Default is `ghg.gert::grid_emissions`
 #'
@@ -42,17 +40,13 @@
 #'   run_non_residential = TRUE,
 #'   .selected_ctu = "all",
 #'   .enviro_factors = enviro_factors,
-#'   .electrified_buildings_pct = 0.40,
-#'   .smart_grid_energy_reduction_pct = 1.00,
-#'   .new_homes_to_multifamily_pct = 0.50,
 #'   .home_behavior_change_pct = 1.00,
 #'   .single_family_floor_area_growth_pct = 0.05,
 #'   .new_homes_affected_pct = 0.30,
 #'   .new_homes_leed_gold_pct = 0.50,
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .grid_decarbonization_pct = 1
+#'   .additional_electrified_residential_buildings_pct = 0.45
 #' )
 #' }
 #'
@@ -74,15 +68,12 @@ run_scenario_building <- function(res_tb = building_data$residential,
                                   .heatpump_start_year = 2028,
                                   .heatpump_end_year = 2050,
                                   # residential
-                                  .new_homes_to_multifamily_pct = 0.0,
-                                  .electrified_buildings_pct = 0.0,
                                   .sf_heatpump_pct = 0.0,
                                   .mf_heatpump_pct = 0.0,
                                   .app_elec_start_year = 2028,
                                   .app_elec_end_year = 2050,
                                   .sf_app_elec_pct = 0.0,
                                   .mf_app_elec_pct = 0.0,
-                                  .smart_grid_energy_reduction_pct = 0.0,
                                   .new_sf_homes_leed_gold_pct = 0.0,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
@@ -109,12 +100,10 @@ run_scenario_building <- function(res_tb = building_data$residential,
     "new_mf_homes_leed_gold_pct",
     "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct",
-    "smart_grid_energy_reduction_pct",
 
     # Residential – electrification via heatpump
     "sf_heatpump_pct",
     "mf_heatpump_pct",
-    "electrified_buildings_pct",
 
     # Non-residential – LEED / retrofits / electrification via heatpump
     "new_jobs_leed_gold_pct",
@@ -128,12 +117,10 @@ run_scenario_building <- function(res_tb = building_data$residential,
     .new_mf_homes_leed_gold_pct,
     .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct,
-    .smart_grid_energy_reduction_pct,
 
     # Residential – electrification via heatpump
     .sf_heatpump_pct,
     .mf_heatpump_pct,
-    .electrified_buildings_pct,
 
     # Non-residential – LEED / retrofits / electrification via heatpump
     .new_jobs_leed_gold_pct,

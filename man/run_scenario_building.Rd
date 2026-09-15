@@ -20,15 +20,12 @@ run_scenario_building(
   .retrofit_end_year = 2050,
   .heatpump_start_year = 2028,
   .heatpump_end_year = 2050,
-  .new_homes_to_multifamily_pct = 0,
-  .electrified_buildings_pct = 0,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
   .app_elec_start_year = 2028,
   .app_elec_end_year = 2050,
   .sf_app_elec_pct = 0,
   .mf_app_elec_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
@@ -67,10 +64,6 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
 \item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
@@ -96,9 +89,6 @@ Default is \code{ghg.gert::grid_emissions}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -127,17 +117,13 @@ run_scenario_building(
   run_non_residential = TRUE,
   .selected_ctu = "all",
   .enviro_factors = enviro_factors,
-  .electrified_buildings_pct = 0.40,
-  .smart_grid_energy_reduction_pct = 1.00,
-  .new_homes_to_multifamily_pct = 0.50,
   .home_behavior_change_pct = 1.00,
   .single_family_floor_area_growth_pct = 0.05,
   .new_homes_affected_pct = 0.30,
   .new_homes_leed_gold_pct = 0.50,
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .grid_decarbonization_pct = 1
+  .additional_electrified_residential_buildings_pct = 0.45
 )
 }
 

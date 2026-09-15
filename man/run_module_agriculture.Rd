@@ -13,7 +13,6 @@ run_module_agriculture(
   run_fertilizer = TRUE,
   run_crops = TRUE,
   .baseline_year = 2022,
-  .ag_land_perserved = 1,
   .selected_ctu = "all",
   .scenario = "alt",
   .smart_fertilizer_start_year = 2028,

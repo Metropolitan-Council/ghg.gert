@@ -30,15 +30,12 @@ run_all_modules(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -187,9 +184,6 @@ Default is \code{0.0}}
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
 \item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

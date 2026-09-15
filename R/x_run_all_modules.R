@@ -57,15 +57,10 @@ run_all_modules <- function(.selected_ctu = "all",
                             .tree_planting_per_capita = 0.26,
                             .tree_planting_per_hectare = 247,
                             .parking_lot_reduction_percentage = 0.0,
-                            # electrification
-                            .electrified_buildings_pct = 0.0,
-                            # smartgrid
-                            .smart_grid_energy_reduction_pct = 0.0,
                             # residential
                             # .renewable_ng_res = FALSE,
                             # .renewable_ng_nonres = FALSE,
                             # housing
-                            # .new_homes_to_multifamily_pct = 0.0,
                             # .home_behavior_change_pct = 0.0,
                             # .single_family_floor_area_growth_pct = 0.05,
                             # .new_homes_affected_pct = 0.0,
@@ -76,7 +71,6 @@ run_all_modules <- function(.selected_ctu = "all",
                             # electrification
                             .sf_heatpump_pct = 0.0,
                             .mf_heatpump_pct = 0.0,
-                            .grid_decarbonization_pct = 0.6,
                             .scenario = "BAU",
                             .electric_scenario = "ER",
                             .aeo_scenario = "REF",
@@ -128,12 +122,6 @@ run_all_modules <- function(.selected_ctu = "all",
         .selected_ctu = .selected_ctu,
         .scenario = .scenario
       ),
-      .electrified_buildings_pct = .electrified_buildings_pct,
-      .smart_grid_energy_reduction_pct = .smart_grid_energy_reduction_pct,
-      # .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
-      # .home_behavior_change_pct = .home_behavior_change_pct,
-      # .single_family_floor_area_growth_pct = .single_family_floor_area_growth_pct,
-      # .new_homes_to_multifamily_pct = .new_homes_to_multifamily_pct,
       .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
       .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
       .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
@@ -142,7 +130,6 @@ run_all_modules <- function(.selected_ctu = "all",
       .mf_heatpump_pct = .mf_heatpump_pct,
 
       # .additional_electrified_residential_buildings_pct = .additional_electrified_residential_buildings_pct,
-      # .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .grid_emissions = .grid_emissions
     )

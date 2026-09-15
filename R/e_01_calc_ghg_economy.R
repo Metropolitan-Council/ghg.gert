@@ -37,7 +37,6 @@
 #'   res_tb = building_data$residential,
 #'   res_tb_bau = building_data$residential,
 #'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1,
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
