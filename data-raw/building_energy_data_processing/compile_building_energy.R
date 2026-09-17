@@ -33,7 +33,7 @@ ctu_elec_inventory <- read_rds(
   left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
   select(geog_name, geog_id, geog_level, sector, emissions_year, mwh)
 
-#County-level electricity inventory
+# County-level electricity inventory
 county_elec_inventory <- read_rds(
   ghg_cprg_url("_energy/data/county_elec_activity_by_sector.RDS")
 ) %>%
@@ -98,8 +98,10 @@ regional_gas_inventory <- county_gas_inventory %>%
   )
 
 # propane / fuel oil inventory ----
-metro_counties <- c("Anoka", "Carver", "Dakota", "Hennepin",
-                    "Ramsey", "Scott", "Washington")
+metro_counties <- c(
+  "Anoka", "Carver", "Dakota", "Hennepin",
+  "Ramsey", "Scott", "Washington"
+)
 
 # CTU-level (residential only, from ACS-derived estimates)
 ctu_propane_inventory <- read_rds(
@@ -138,9 +140,11 @@ county_propane_inventory <- read_rds(
 
 regional_propane_inventory <- county_propane_inventory %>%
   group_by(sector, emissions_year) %>%
-  summarize(propane = sum(propane),
-            fueloil_other_mmbtu = sum(fueloil_other_mmbtu),
-            .groups = "drop") %>%
+  summarize(
+    propane = sum(propane),
+    fueloil_other_mmbtu = sum(fueloil_other_mmbtu),
+    .groups = "drop"
+  ) %>%
   mutate(geog_name = "Twin Cities Region") %>%
   left_join(geog_index, by = "geog_name") %>%
   select(
@@ -153,20 +157,32 @@ regional_propane_inventory <- county_propane_inventory %>%
 building_energy_data <- list(
   # observed inventories (used by b_04 energy calc scripts)
   electricity_inventory = bind_rows(ctu_elec_inventory, county_elec_inventory, regional_elec_inventory) %>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-                       by = "geog_id"),
-  natgas_inventory      = bind_rows(ctu_gas_inventory, county_gas_inventory, regional_gas_inventory)%>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-              by = "geog_id"),
-  propane_inventory     = bind_rows(ctu_propane_inventory, county_propane_inventory, regional_propane_inventory)%>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-              by = "geog_id"),
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    ),
+  natgas_inventory = bind_rows(ctu_gas_inventory, county_gas_inventory, regional_gas_inventory) %>%
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    ),
+  propane_inventory = bind_rows(ctu_propane_inventory, county_propane_inventory, regional_propane_inventory) %>%
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    ),
 
   # demographic forecasts
   residential = demographic_data %>%
@@ -174,28 +190,40 @@ building_energy_data <- list(
       "multifamily_units", "single_family_attached",
       "single_family_detached", "manufactured_homes"
     )) %>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-              by = "geog_id") %>%
-    rename(emissions_year = inventory_year),
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    ),
+  # rename(emissions_year = inventory_year),
 
   non_residential = demographic_data %>%
     filter(sp_categories %in% c("commercial_jobs", "industrial_jobs")) %>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-              by = "geog_id") %>%
-    rename(emissions_year = inventory_year),
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    ),
+  # rename(emissions_year = inventory_year),
 
   # total jobs with Imagine designation (default arg in b_01)
   jobs = demographic_data %>%
     filter(sp_categories == "jobs") %>%
-    left_join(geog_index %>%
-                select(geog_id,
-                       imagine_designation),
-              by = "geog_id") %>%
-    rename(emissions_year = inventory_year)
+    left_join(
+      geog_index %>%
+        select(
+          geog_id,
+          imagine_designation
+        ),
+      by = "geog_id"
+    )
+  # rename(emissions_year = inventory_year)
 )
 
 # save ----
