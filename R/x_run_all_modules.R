@@ -58,9 +58,9 @@ run_all_modules <- function(.selected_ctu = "all",
                             .tree_planting_per_hectare = 247,
                             .parking_lot_reduction_percentage = 0.0,
                             # electrification
-                            .electrified_buildings_pct = 0.0,
+                            # .electrified_buildings_pct = 0.0,
                             # smartgrid
-                            .smart_grid_energy_reduction_pct = 0.0,
+                            # .smart_grid_energy_reduction_pct = 0.0,
                             # residential
                             # .renewable_ng_res = FALSE,
                             # .renewable_ng_nonres = FALSE,

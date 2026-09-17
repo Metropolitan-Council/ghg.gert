@@ -30,12 +30,19 @@ run_all_modules(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
+  .baseline_year = 2022,
+  .leed_start_year = 2028,
+  .retrofit_start_year = 2028,
+  .retrofit_end_year = 2050,
+  .heatpump_start_year = 2028,
+  .heatpump_end_year = 2050,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .jobs_heatpump_pct = 0,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
   .grid_decarbonization_pct = 0.6,
@@ -183,6 +190,10 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
+
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
