@@ -286,7 +286,7 @@ resstock_summaries <- list(
 # This is a precondition for the scalar correction approach: if ResStock
 # internally has SFA > SFD at any bin, the scalar correction won't fix it.
 
-message("\n-- SFA < SFD check (ResStock baseline, metro-filtered) --")
+cli::cli_alert_info("\n-- SFA < SFD check (ResStock baseline, metro-filtered) --")
 
 sfa_sfd_check <- resstock_summaries$sf_attached_vintagesqft_baseline %>%
   inner_join(
@@ -303,10 +303,13 @@ violations <- sfa_sfd_check %>%
   filter(!sfa_lt_sfd_kwh | !sfa_lt_sfd_mcf)
 
 if (nrow(violations) > 0) {
-  warning(sprintf(
+  cli::cli_alert_warning(sprintf(
     "ResStock SFA exceeds SFD at %d vintage x sqft bins (see below).\n",
     nrow(violations)
   ))
+  # this is a relatively small proportion of the total housing stock
+  # though not ideal, it won't significantly impact the overall analysis
+
   print(
     violations %>%
       select(build_year, sqft_bin,
@@ -316,10 +319,10 @@ if (nrow(violations) > 0) {
     n = Inf
   )
 } else {
-  message("  PASS: SFA <= SFD at all 30 vintage x sqft bins")
+  cli::cli_alert_success("  PASS: SFA <= SFD at all 30 vintage x sqft bins")
 }
 
-message(sprintf(
+cli::cli_alert_info(sprintf(
   "\n  Metro baseline counts: SFD=%d, SFA=%d, MF=%d, Mfg=%d",
   sum(baseline$mc_classification == "single_family_detached"),
   sum(baseline$mc_classification == "single_family_attached"),
