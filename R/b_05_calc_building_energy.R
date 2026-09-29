@@ -131,26 +131,11 @@ calc_building_energy <- function(
     "multifamily_units", "manufactured_homes"
   )
 
-  # Cap SFA sqft at the CTU's median SFD sqft before binning.
-  # Density increases shift SFD units to SFA; new SFA construction shouldn't
-  # assume larger homes than the SFD stock it replaces.
-  sfd_median_sqft <- parcel_data %>%
-    filter(
-      geog_name == .selected_ctu,
-      mc_classification == "single_family_detached"
-    ) %>%
-    pull(sq_ft_use) %>%
-    median(na.rm = TRUE)
+
 
   ctu_binned <- parcel_data %>%
     filter(geog_name == .selected_ctu, mc_classification %in% keep_classes) %>%
     mutate(
-      sq_ft_use = if_else(
-        # if SFA is larger than the median SFD, cap it at the median SFD size
-        mc_classification == "single_family_attached" & sq_ft_use > sfd_median_sqft,
-        sfd_median_sqft,
-        sq_ft_use
-      ),
       sqft_bin = bin_sqft(sq_ft_use, mc_classification),
       year_bin = bin_year(median_year)
     )
@@ -169,6 +154,20 @@ calc_building_energy <- function(
     "new_build_sustainable"
   )
 
+  # Cap new SFA sqft at the CTU's median SFD sqft before binning.
+  # Density increases shift SFD units to SFA; new SFA construction shouldn't
+  # assume larger homes than the SFD stock it replaces.
+
+  sfd_median_sqft <- parcel_data %>%
+    filter(
+      geog_name == .selected_ctu,
+      mc_classification == "single_family_detached"
+    ) %>%
+    pull(sq_ft_use) %>%
+    median(na.rm = TRUE)
+
+  new_keys <- c("new_build", "new_build_sustainable")
+
   ctu_energy_profile <- purrr::map(scenario_keys, function(key) {
     profile <- building_tb[[key]]
     if (is.null(profile)) {
@@ -176,8 +175,20 @@ calc_building_energy <- function(
       return(NULL)
     }
 
+    parcels <- ctu_binned
+    if (key %in% new_keys && !is.na(sfd_median_sqft)) {
+      parcels <- parcels %>%
+        mutate(
+          sqft_bin = if_else(
+            mc_classification == "single_family_attached" &
+              !is.na(sq_ft_use) & sq_ft_use > sfd_median_sqft,
+            bin_sqft(sfd_median_sqft, mc_classification),
+            sqft_bin
+          )
+        )
+    }
     # make the join to the profile
-    joined <- ctu_binned %>%
+    joined <- parcels %>%
       left_join(
         profile,
         by = c("mc_classification", "year_bin" = "build_year", "sqft_bin")
