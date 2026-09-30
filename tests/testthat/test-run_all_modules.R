@@ -11,10 +11,10 @@ testthat::test_that("All modules run when together", {
       .elast_5d = ghg.ccap::elast_5d,
       .fuel_economy = ghg.ccap::fuel_economy,
       tb = ghg.ccap::land_use_data,
-      non_res_tb = ghg.ccap::building_data$non_residential,
-      res_tb = ghg.ccap::building_data$residential,
-      res_tb_bau = ghg.ccap::building_data$residential,
-      non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      non_res_tb = ghg.ccap::building_energy_data$non_residential,
+      res_tb = ghg.ccap::building_energy_data$residential,
+      res_tb_bau = ghg.ccap::building_energy_data$residential,
+      non_res_tb_bau = ghg.ccap::building_energy_data$non_residential,
       run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
@@ -33,10 +33,10 @@ testthat::test_that("All modules run when together", {
       .elast_5d = ghg.ccap::elast_5d,
       .fuel_economy = ghg.ccap::fuel_economy,
       tb = ghg.ccap::land_use_data,
-      non_res_tb = ghg.ccap::building_data$non_residential,
-      res_tb = ghg.ccap::building_data$residential,
-      res_tb_bau = ghg.ccap::building_data$residential,
-      non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      non_res_tb = ghg.ccap::building_energy_data$non_residential,
+      res_tb = ghg.ccap::building_energy_data$residential,
+      res_tb_bau = ghg.ccap::building_energy_data$residential,
+      non_res_tb_bau = ghg.ccap::building_energy_data$non_residential,
       run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
@@ -55,10 +55,10 @@ testthat::test_that("All modules run when together", {
       .elast_5d = ghg.ccap::elast_5d,
       .fuel_economy = ghg.ccap::fuel_economy,
       tb = ghg.ccap::land_use_data,
-      non_res_tb = ghg.ccap::building_data$non_residential,
-      res_tb = ghg.ccap::building_data$residential,
-      res_tb_bau = ghg.ccap::building_data$residential,
-      non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      non_res_tb = ghg.ccap::building_energy_data$non_residential,
+      res_tb = ghg.ccap::building_energy_data$residential,
+      res_tb_bau = ghg.ccap::building_energy_data$residential,
+      non_res_tb_bau = ghg.ccap::building_energy_data$non_residential,
       run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%
@@ -77,10 +77,10 @@ testthat::test_that("All modules run when together", {
       .elast_5d = ghg.ccap::elast_5d,
       .fuel_economy = ghg.ccap::fuel_economy,
       tb = ghg.ccap::land_use_data,
-      non_res_tb = ghg.ccap::building_data$non_residential,
-      res_tb = ghg.ccap::building_data$residential,
-      res_tb_bau = ghg.ccap::building_data$residential,
-      non_res_tb_bau = ghg.ccap::building_data$non_residential,
+      non_res_tb = ghg.ccap::building_energy_data$non_residential,
+      res_tb = ghg.ccap::building_energy_data$residential,
+      res_tb_bau = ghg.ccap::building_energy_data$residential,
+      non_res_tb_bau = ghg.ccap::building_energy_data$non_residential,
       run_non_residential = FALSE
     ) %>%
       suppressWarnings() %>%

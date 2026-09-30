@@ -31,7 +31,10 @@ elast
 }
 \seealso{
 Other datasets:
+<<<<<<< HEAD
 \code{\link{commute_vmt_proportion}},
+=======
+>>>>>>> dev
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast_5d}},

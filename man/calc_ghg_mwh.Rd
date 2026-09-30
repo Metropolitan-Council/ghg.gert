@@ -19,10 +19,14 @@ calc_ghg_mwh(
 )
 }
 \arguments{
+<<<<<<< HEAD
 \item{grid_emissions}{table,
 Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.selected_ctu}{character, selected city or county.}
+=======
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+>>>>>>> dev
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -52,23 +56,14 @@ based on electrical grid emission factors.
 based on the floor area assumptions. For a function that compiles all
 residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
-\examples{
-\dontrun{
-library(ghg.ccap)
-
-calc_ghg_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
-)
-}
-}
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> dev
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

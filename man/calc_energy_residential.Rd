@@ -2,7 +2,7 @@
 % Please edit documentation in R/b_04_calc_energy_residential.R
 \name{calc_energy_residential}
 \alias{calc_energy_residential}
-\title{Calculate residential building mwh}
+\title{Calculate residential building energy}
 \usage{
 calc_energy_residential(
   res_tb,
@@ -14,58 +14,48 @@ calc_energy_residential(
 }
 \arguments{
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Table, table with residential building data.}
+Scenario-adjusted residential units from \code{\link[=calc_residential_electrification]{calc_residential_electrification()}}.}
 
-\item{res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with residential building attributes.
-Package provided dataset \code{building_energy$residential} is suitable and
-the default value. \code{res_tb_bau} is only used for the "business as usual"
-scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
+\item{res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
+BAU residential units (zero-strategy pass).}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
+<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county.}
 
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
 \item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+=======
+\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+>>>>>>> dev
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns
-\code{geog_name},
-\code{inventory_year},
-\code{geog_id},
-\code{residential_mwh},
-\code{residential_mcf},
-\code{scenario}
+\code{\link[tibble:tibble]{tibble::tibble()}} with columns
+\code{geog_name}, \code{geog_id}, \code{emissions_year}, \code{scenario},
+\code{residential_mwh}, \code{residential_mcf},
+\code{residential_propane_mmbtu}, \code{residential_kerosene_mmbtu}.
 }
 \description{
-Estimates total energy demand
-from the residential building sector by city/township
-for the user-specified scenario, and the business-as-usual scenario.
-}
-\note{
-\code{calc_energy_residential()} estimates the building energy demand
-based on the housing efficiency assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
-}
-\examples{
-\dontrun{
-library(ghg.ccap)
+Estimates total energy demand (electricity, natural gas,
+propane, and kerosene) from the residential building sector by
+city/township for the user-specified scenario and BAU.
 
-calc_ghg_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
-)
-}
+Baseline years use observed inventory data directly. Forecast years
+apply per-unit energy profiles from \code{\link[=calc_building_energy]{calc_building_energy()}} calibrated
+to the most recent 5 observed years. Propane and kerosene track the
+natural gas forecast proportionally using per-CTU ratios derived from
+the baseline period.
 }
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> dev
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

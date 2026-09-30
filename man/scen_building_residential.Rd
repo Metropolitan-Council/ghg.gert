@@ -21,9 +21,7 @@ scen_building_residential(
   .heatpump_start_year,
   .heatpump_end_year,
   .sf_heatpump_pct,
-  .mf_heatpump_pct,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .mf_heatpump_pct
 )
 }
 \arguments{
@@ -49,16 +47,6 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
-
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
@@ -81,27 +69,6 @@ electrification of heating systems, grid decarbonization, and renewable natural 
 \note{
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
 For more details, see \code{vignette("building_energy_module_inputs_residential")}
-}
-\examples{
-\dontrun{
-library(ghg.ccap)
-
-scen_building_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .new_homes_to_multifamily_pct = 0.50,
-  .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0.50,
-  .new_homes_leed_gold_pct = 0.50,
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
-  .home_behavior_change_pct = 1.00,
-  .grid_decarbonization_pct = 1,
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .enviro_factors = enviro_factors
-)
-}
 }
 \seealso{
 Other buildings, residential:

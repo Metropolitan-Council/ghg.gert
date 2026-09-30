@@ -21,11 +21,6 @@ testthat::test_that("Geog index joins smoothly", {
   )
 
   purrr::map(
-    building_data,
-    check_join
-  )
-
-  purrr::map(
     building_energy_data,
     check_join
   )
@@ -62,10 +57,6 @@ testthat::test_that("Credit River, Empire, Fort Snelling are correct", {
     check_townships
   )
 
-  purrr::map(
-    building_data,
-    check_townships
-  )
 
   purrr::map(
     building_energy_data,

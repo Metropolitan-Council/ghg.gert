@@ -46,6 +46,10 @@ Other residential:
 
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> dev
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

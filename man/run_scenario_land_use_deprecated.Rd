@@ -59,9 +59,6 @@ The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.0}.}
 
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
-
 \item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
