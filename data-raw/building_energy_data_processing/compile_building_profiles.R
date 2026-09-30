@@ -55,14 +55,15 @@ standardize_sfd <- function(sfd_profile) {
 
 #' Relabel ResStock sqft bins to CEEStock convention.
 relabel_resstock_sqft <- function(x) {
-  case_match(as.character(x),
-             "Less than 1,000"  ~ "<1000",
-             "1,000 to 1,499"   ~ "1000 to 1499",
-             "1,500 to 1,999"   ~ "1500 to 1999",
-             "2,000 to 2,499"   ~ "2000 to 2499",
-             "2,500 to 2,999"   ~ "2500 to 2999",
-             "3,000 or more"    ~ "3000 to 3999",
-             .default = as.character(x)
+  recode_values(
+    as.character(x),
+    "Less than 1,000" ~ "<1000",
+    "1,000 to 1,499" ~ "1000 to 1499",
+    "1,500 to 1,999" ~ "1500 to 1999",
+    "2,000 to 2,499" ~ "2000 to 2499",
+    "2,500 to 2,999" ~ "2500 to 2999",
+    "3,000 or more" ~ "3000 to 3999",
+    default = as.character(x)
   )
 }
 
@@ -258,7 +259,7 @@ build_full_elec_propane <- function(enduse, ratios) {
   enduse %>%
     transmute(
       mc_classification,
-      build_year = if ("build_year" %in% names(cur_data())) build_year else "all",
+      build_year = if ("build_year" %in% names(pick(everything()))) build_year else "all",
       median_propane_mmbtu = median_heating_mmbtu * ratios$heating_retention_frac,
       median_kwh = median_kwh +
         (median_heating_mmbtu * (1 - ratios$heating_retention_frac) *
