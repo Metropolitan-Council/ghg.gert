@@ -17,6 +17,7 @@ for (ctu in ctu_test_list) {
   test_that(paste("SFA sqft capped at SFD median for", ctu), {
     parcel_data <- ghg.ccap::parcel_ctu
 
+    # browser()
     # Compute the SFD median for this CTU
     sfd_median <- parcel_data %>%
       dplyr::filter(
@@ -72,6 +73,11 @@ for (ctu in ctu_test_list) {
         all(profile_bin_positions <= sfd_bin_pos, na.rm = TRUE),
         label = paste(ctu, "- all SFA bins at or below SFD median bin")
       )
+    } else {
+      testthat::expect_equal(
+        n_would_exceed, 0,
+        label = paste(ctu, "- no raw SFA parcels exceed SFD median")
+      )
     }
   })
 }
@@ -90,7 +96,7 @@ for (ctu in ctu_test_list) {
     )
 
     no_density <- list(expected_density = c(1.0, 1.0))
-    hi_density <- list(expected_density = c(1.0, 1.5))  # 50% increase
+    hi_density <- list(expected_density = c(1.0, 1.5)) # 50% increase
 
     base <- adj_unit_counts(
       res_tb = res_tb,
@@ -128,7 +134,8 @@ for (ctu in ctu_test_list) {
 
       joined <- units_2050 %>%
         dplyr::inner_join(profiles,
-                          by = c("sp_categories" = "mc_classification"))
+          by = c("sp_categories" = "mc_classification")
+        )
 
       sum(joined$units * (joined$mwh * 3.412 + joined$mcf * 1.037), na.rm = TRUE)
     }
@@ -153,7 +160,7 @@ for (ctu in ctu_test_list) {
 
     # Create a density output with a meaningful increase
     density_output <- list(
-      expected_density = c(1.0, 1.2)  # 20% density increase
+      expected_density = c(1.0, 1.2) # 20% density increase
     )
 
     skip_if(
@@ -194,13 +201,16 @@ for (ctu in ctu_test_list) {
 
     # SFD should decrease or stay the same
     expect_lte(adj_sfd, orig_sfd,
-               label = paste(ctu, "- SFD units should decrease with density"))
+      label = paste(ctu, "- SFD units should decrease with density")
+    )
 
     # SFA and MF should increase or stay the same
     expect_gte(adj_sfa, orig_sfa,
-               label = paste(ctu, "- SFA units should increase with density"))
+      label = paste(ctu, "- SFA units should increase with density")
+    )
     expect_gte(adj_mf, orig_mf,
-               label = paste(ctu, "- MF units should increase with density"))
+      label = paste(ctu, "- MF units should increase with density")
+    )
   })
 }
 
