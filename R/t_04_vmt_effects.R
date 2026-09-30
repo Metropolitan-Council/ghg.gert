@@ -863,13 +863,14 @@ vmt_trip_reduction <- function(.pass_tb,
   trip_reduction_pct <- .enviro_factors$CBTP_TRIP_REDUCTION_PCT
   max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
 
+  # browser()
   households_community <- ghg.ccap::demographic_data %>%
     filter_ctu(unique(.pass_tb$geog_name)) %>%
     dplyr::filter(
       sp_categories == "total_households",
-      inventory_year %in% .pass_tb$year
+      emissions_year %in% .pass_tb$year
     ) %>%
-    dplyr::select(geog_name, geog_id, year = inventory_year, households = value) %>%
+    dplyr::select(geog_name, geog_id, year = emissions_year, households = value) %>%
     mutate(
       households_cbtp = (households * .cbtp_prop_targeted) * participation_pct,
       uncapped_reduction = 1 + (.cbtp_prop_targeted * participation_pct * trip_reduction_pct),

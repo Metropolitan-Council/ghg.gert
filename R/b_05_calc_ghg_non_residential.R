@@ -34,17 +34,17 @@
 calc_ghg_non_residential <- function(non_res_energy,
                                      .selected_ctu,
                                      .grid_emissions = ghg.ccap::grid_emissions,
-                                     .enviro_factors = ghg.ccap::enviro_factors) {
-  # cli::cli_progress_message("*** calculating residential ghg emissions \n")
+                                     .combustion_ef = ghg.ccap::combustion_ef) {
 
-  # browser()
+  ef_natgas  <- .combustion_ef$mt_co2e_per_unit[.combustion_ef$fuel_type == "Natural Gas"]
+
   non_res_energy <- filter_ctu(non_res_energy, .selected_ctu = .selected_ctu)
 
   non_res_emissions <- non_res_energy %>%
-    dplyr::left_join(.grid_emissions, by = c("inventory_year")) %>%
+    dplyr::left_join(.grid_emissions, by = c("emissions_year")) %>%
     dplyr::mutate(
       electricity_emissions = non_residential_mwh * mt_co2e_per_mwh,
-      natural_gas_emissions = non_residential_mcf * .enviro_factors$MT_CO2E_PER_MCF_NATGAS
+      natural_gas_emissions = non_residential_mcf * ef_natgas
     ) %>%
     dplyr::select(-c(factor_source, mt_co2e_per_mwh))
 

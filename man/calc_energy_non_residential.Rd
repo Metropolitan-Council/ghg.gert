@@ -12,8 +12,7 @@ calc_energy_non_residential(
   .baseline_year,
   .scenario = "alt",
   .selected_ctu,
-  .jobs_heatpump_pct,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .jobs_heatpump_pct
 )
 }
 \arguments{
@@ -28,15 +27,12 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
 A table with columns
 \code{geog_name},
-\code{inventory_year},
+\code{emissions_year},
 \code{geog_id},
 \code{nonresidential_mwh},
 \code{nonresidential_mcf},
@@ -52,46 +48,34 @@ for the user-specified scenario, and the business-as-usual scenario.
 based on the housing efficiency assumptions. For a function that compiles all
 nonresidential strategies refer to \code{\link[=scen_building_non_residential]{scen_building_non_residential()}}.
 }
-\examples{
-\dontrun{
-library(ghg.ccap)
-
-calc_ghg_non_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .grid_decarbonization_pct = 1,
-  .enviro_factors = enviro_factors
-)
-}
-}
 \seealso{
-Other buildings: 
-\code{\link{adj_cropland_area}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 
-Other non-residential: 
-\code{\link{calc_ghg_non_residential}()}
+Other non-residential:
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}}
 
-Other emissions: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()}
+Other emissions:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 }
 \concept{buildings}
 \concept{emissions}

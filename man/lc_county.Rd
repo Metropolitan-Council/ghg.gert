@@ -32,7 +32,7 @@ unique(lc_county$land_cover_type)
 unique(lc_county$county_name)
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

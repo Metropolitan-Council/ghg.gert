@@ -25,7 +25,7 @@ naics_codes$commercial
 naics_codes$industrial
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

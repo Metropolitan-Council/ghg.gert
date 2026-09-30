@@ -2,7 +2,7 @@ units_fxn <- function(.pct, .selected_ctu = "all") {
   adj_unit_counts(
     .new_homes_to_multifamily_pct = .pct,
     .selected_ctu = .selected_ctu,
-    res_tb = building_data$residential
+    res_tb = building_energy_data$residential
   ) %>%
     filter(
       # scen == "scen",

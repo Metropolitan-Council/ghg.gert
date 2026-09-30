@@ -12,10 +12,10 @@ run_all_modules(
   run_non_residential = TRUE,
   run_transportation = TRUE,
   tb = land_use_data,
-  non_res_tb = building_data$non_residential,
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  non_res_tb = building_energy_data$non_residential,
+  res_tb = building_energy_data$residential,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   .parking_cost = parking_cost,
@@ -30,12 +30,19 @@ run_all_modules(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
+  .baseline_year = 2022,
+  .leed_start_year = 2028,
+  .retrofit_start_year = 2028,
+  .retrofit_end_year = 2050,
+  .heatpump_start_year = 2028,
+  .heatpump_end_year = 2050,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .jobs_heatpump_pct = 0,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
   .grid_decarbonization_pct = 0.6,
@@ -184,12 +191,9 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -279,9 +283,6 @@ Default is 0.}
 \item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
 

@@ -27,7 +27,7 @@ library(ghg.ccap)
 demographic_data
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{elast}},
 \code{\link{elast_5d}},

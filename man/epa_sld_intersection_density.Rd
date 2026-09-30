@@ -23,7 +23,7 @@ EPA cites 2018 HERE Maps and NAVSTREETS as data sources and uses acres of land a
 Zotero key chapmanSmartLocationDatabase2021
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

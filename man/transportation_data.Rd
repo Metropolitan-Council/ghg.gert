@@ -25,7 +25,7 @@ transportation_data$passenger
 transportation_data$freight
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

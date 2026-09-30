@@ -41,7 +41,7 @@ waste_data$county$projections
 waste_data$characterization
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},

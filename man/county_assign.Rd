@@ -17,8 +17,8 @@ A table with the same columns as emissions input
 This function assigns CTUs an associated county based on where the highest percentage of land lies
 }
 \seealso{
-Other agriculture: 
-\code{\link{calculate_cropland_emissions}()},
-\code{\link{run_module_agriculture}()}
+Other agriculture:
+\code{\link[=calculate_cropland_emissions]{calculate_cropland_emissions()}},
+\code{\link[=run_module_agriculture]{run_module_agriculture()}}
 }
 \concept{agriculture}

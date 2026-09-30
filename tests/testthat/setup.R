@@ -6,10 +6,10 @@ st_paul_passenger <- transportation_data$passenger %>%
 st_paul_freight <- transportation_data$freight %>%
   filter(geog_name == "Saint Paul" | geog_name == "All")
 
-lake_elmo_res <- building_data$residential %>%
+lake_elmo_res <- building_energy_data$residential %>%
   dplyr::filter(geog_name == "Lake Elmo")
 
-lake_elmo_non_res <- building_data$non_residential %>%
+lake_elmo_non_res <- building_energy_data$non_residential %>%
   dplyr::filter(geog_name == "Lake Elmo")
 
 si_fcm_test <- calc_fuel_cost_mile(
@@ -43,16 +43,19 @@ geography_test_list_core <- c(
   "Shakopee",
   # Smaller CTUs
   "Lake Elmo",
-  "Andover",
-  "Landfall",
-  "Saint Bonifacius",
+  "Saint Bonifacius", #test st vs saint
   "Bethel",
+  # Unique CTUs
+  "Hilltop", # all manufactured homes
+  "Landfall", # all manufactured homes
+  "Chaska", # split county
+  "Credit River", # recently incorporated into city from township
   #Townships
   "Benton Twp.",
   "Denmark Twp.",
   # Counties
   "Hennepin County",
-  "Ramsey County"
+  "Scott County"
 )
 
 # Full list - comprehensive testing for CI/PR validation
