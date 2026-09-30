@@ -1,11 +1,11 @@
 # Script to import ancillary housing data from MN geospatial commons
 
-library(ggplot2)
-library(sf)
-library(dplyr)
-library(tidyr)
-library(readr)
-library(arrow)
+library(ggplot2, warn.conflicts = FALSE)
+library(sf, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
+library(arrow, warn.conflicts = FALSE)
 
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
@@ -196,7 +196,8 @@ data_status <- mn_parcel_assigned %>%
     total_buildings = n(),
     zero_sq_ft = sum(EMV_BLDG == 0, na.rm = TRUE),
     non_zero_sq_ft = sum(EMV_BLDG != 0, na.rm = TRUE),
-    pct_zero_sq_ft = (zero_sq_ft / total_buildings) * 100
+    pct_zero_sq_ft = (zero_sq_ft / total_buildings) * 100,
+    .groups = "keep"
   )
 
 
@@ -276,7 +277,8 @@ mn_parcel_map <- mn_parcel_predict %>%
     total_sq_ft = sum(FIN_SQ_FT),
     median_emv = median(EMV_BLDG),
     total_emv = sum(EMV_BLDG),
-    median_year = median(YEAR_BUILT)
+    median_year = median(YEAR_BUILT),
+    .groups = "keep"
   ) %>%
   mutate(ctu_id = case_when(
     CTU_NAME == "Credit River" ~ # incorporated as city in 2021
@@ -299,7 +301,8 @@ mn_parcel_county <- mn_parcel_predict %>%
     total_sq_ft = sum(FIN_SQ_FT),
     median_emv = median(EMV_BLDG),
     total_emv = sum(EMV_BLDG),
-    median_year = median(YEAR_BUILT)
+    median_year = median(YEAR_BUILT),
+    .groups = "keep"
   ) %>%
   filter(mc_classification %in% c(
     "manufactured_homes",
@@ -454,10 +457,12 @@ county_medians_sfd <- sfd_out %>%
     median_year = median(median_year, na.rm = TRUE),
     .groups = "drop"
   )
+
 missing_sfd_rows <- missing_cities_sfd %>%
   left_join(county_medians_sfd, by = "county_name") %>%
   mutate(mc_classification = "single_family_detached") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+
 sfd_out <- bind_rows(sfd_out, missing_sfd_rows)
 
 # SFA gap-fill
