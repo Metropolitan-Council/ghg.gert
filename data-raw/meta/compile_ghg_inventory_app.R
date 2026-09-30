@@ -162,9 +162,11 @@ ghg_ctu <- read_rds(ghg_cprg_url("_meta/data/ctu_emissions.RDS")) %>%
 # diagnostic: any CTU rows still missing emissions (resolve upstream in cprg)
 ghg_ctu %>%
   filter(is.na(value_emissions)) %>%
-  print(n = 100)
+  select(geog_name, ctu_id_gnis, sector, category, sector_alt) %>%
+  unique()
 ### ssp and commercial natural gas
 ### shorewood wastewater
+### expected to be NA
 
 
 ghg_county <- read_rds(ghg_cprg_url("_meta/data/cprg_county_emissions.RDS")) %>%
