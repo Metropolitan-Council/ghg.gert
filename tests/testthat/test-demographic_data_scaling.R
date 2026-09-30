@@ -1,4 +1,6 @@
 test_that("scaled demographic_data matches Imagine 2050 forecasts at decadal years", {
+  skip_if(!file.exists(file.path(here::here(), "data-raw/meta/imagine_2050_forecasts.RDS")))
+
   imagine_targets <- readRDS(
     file.path(here::here(), "data-raw/meta/imagine_2050_forecasts.RDS")
   )
