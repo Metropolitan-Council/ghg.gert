@@ -47,9 +47,9 @@ ctu_planned_land_use_council <- landuse_density %>%
     ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
     unit_maximum, per_acres = acreage, unit_mean
   ) %>%
-  summarize(acres = sum(acres)) %>%
+  summarize(acres = sum(acres), .groups = "keep") %>%
   ungroup() %>%
-  left_join(geog_index)
+  left_join(geog_index, by = "geog_name")
 
 ### read in met council planned land use parcel clipout
 landuse_parcel <- readxl::read_xlsx("./data-raw/land_use_data_processing/Thrive_2040/ctu_plu_parcel_clip.xlsx") %>%
@@ -92,9 +92,9 @@ ctu_planned_land_use_parcel <- landuse_density_parcel %>%
     ctu_landuse_desc = pluse_desc, hsg_den, units_per_acre, unit_minimum,
     unit_maximum, per_acres = acreage, unit_mean
   ) %>%
-  summarize(acres = sum(sum_acres)) %>%
+  summarize(acres = sum(sum_acres), .groups = "keep") %>%
   ungroup() %>%
-  left_join(geog_index)
+  left_join(geog_index, by = "geog_name")
 
 
 planned_land_use <- list(
