@@ -136,12 +136,13 @@ county_propane_inventory <- read_rds(
     values_fill = 0
   ) %>%
   janitor::clean_names() %>%
-  rename(fueloil_other_mmbtu = fuel_oil_other)
+  rename(fueloil_other_mmbtu = fuel_oil_other,
+         propane_mmbtu = propane)
 
 regional_propane_inventory <- county_propane_inventory %>%
   group_by(sector, emissions_year) %>%
   summarize(
-    propane = sum(propane),
+    propane_mmbtu = sum(propane_mmbtu),
     fueloil_other_mmbtu = sum(fueloil_other_mmbtu),
     .groups = "drop"
   ) %>%
@@ -149,7 +150,7 @@ regional_propane_inventory <- county_propane_inventory %>%
   left_join(geog_index, by = "geog_name") %>%
   select(
     geog_name, geog_id,
-    geog_level, sector, emissions_year, propane,
+    geog_level, sector, emissions_year, propane_mmbtu,
     fueloil_other_mmbtu
   )
 
