@@ -184,8 +184,8 @@ mn_parcel <- mn_parcel %>%
 mn_parcel_assigned <- mn_parcel %>%
   # remaining properties are EXEMPT - implying non-profit status, putting in commercial
   mutate(mc_classification = ifelse(is.na(mc_classification) & FIN_SQ_FT > 0,
-                                    "commercial",
-                                    mc_classification
+    "commercial",
+    mc_classification
   )) %>%
   filter(!is.na(mc_classification))
 
@@ -207,44 +207,44 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   group_by(mc_classification, CTU_ID_TXT) %>%
   mutate(
     mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                            mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
     ),
     mean_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                           mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
     ),
     mean_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                            mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
     ),
     median_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                              median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
     ),
     median_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                             median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
     ),
     median_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                              median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
     )
   ) %>%
   ungroup() %>%
   group_by(mc_classification, CO_NAME) %>%
   mutate(
     mean_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                           mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
     ),
     mean_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                          mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
     ),
     mean_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                           mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
     ),
     median_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
-                             median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
     ),
     median_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
-                            median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
     ),
     median_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
-                             median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
     )
   ) %>%
   ungroup() %>%
@@ -319,8 +319,8 @@ ctu_parcel <- mn_parcel_map %>%
   mutate(
     inventory_year = 2021,
     geog_name = if_else(ctu_class == "TOWNSHIP",
-                        paste(geog_name, "Twp."),
-                        geog_name
+      paste(geog_name, "Twp."),
+      geog_name
     )
   )
 
@@ -403,13 +403,13 @@ ggplot(data = sfa_parcel, aes(
 
 sfd_out <- sfd_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
-                             sq_ft_pred, median_sq_ft
+    sq_ft_pred, median_sq_ft
   )) %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 sfa_out <- sfa_parcel %>%
   mutate(sq_ft_use = if_else(median_sq_ft == 0,
-                             sq_ft_pred, median_sq_ft
+    sq_ft_pred, median_sq_ft
   )) %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
@@ -439,8 +439,8 @@ all_ctus <- ccap_ctu %>%
     county_name,
     ctu_id = ctu_id_gnis,
     geog_name = if_else(ctu_class == "TOWNSHIP",
-                        paste(geog_name, "Twp."),
-                        geog_name
+      paste(geog_name, "Twp."),
+      geog_name
     ),
     inventory_year = 2021
   )
@@ -537,7 +537,7 @@ housing_data <- ghg.ccap::demographic_data %>%
       "single_family_attached",
       "single_family_detached"
     ),
-    inventory_year == 2021
+    emissions_year == 2021
   )
 
 housing_join <- parcel_complete %>%
@@ -559,11 +559,14 @@ county_weighted <- housing_join %>%
     sq_ft_use = wa_sq_ft,
     median_year = wa_med_year
   ) %>%
-  left_join(ghg.ccap::geog_index %>%
-              select(
-                geog_name,
-                geog_id
-              ))
+  left_join(
+    ghg.ccap::geog_index %>%
+      select(
+        geog_name,
+        geog_id
+      ),
+    by = "geog_name"
+  )
 
 ### add region-level weighted average (Twin Cities)
 
@@ -588,4 +591,3 @@ parcel_ctu <- bind_rows(
 )
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)
-
