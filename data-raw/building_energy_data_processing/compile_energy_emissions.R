@@ -30,7 +30,8 @@ egrid <- epa_hub$egridTimeSeries %>%
   summarize(mt_co2e_per_mwh = sum(co2e), .groups = "drop")
 
 miso <- readr::read_csv(
-  "data-raw/building_energy_data_processing/grid/generated_emissions_MISO_LRZ_1_2023_2043_co2_for_electricity_1y.csv"
+  "data-raw/grid/generated_emissions_MISO_LRZ_1_2023_2043_co2_for_electricity_1y.csv",
+  show_col_types = FALSE
 )
 
 miso_ef <- miso %>%
