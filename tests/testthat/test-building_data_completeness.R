@@ -35,14 +35,16 @@ test_that("Every CTU has all 4 residential housing types in parcel_ctu", {
   # every CTU should be present
   missing_ctus <- setdiff(ctu_geographies, parcel_coverage$geog_name)
   expect_equal(length(missing_ctus), 0,
-               label = paste("CTUs missing from parcel_ctu:", paste(missing_ctus, collapse = ", "))
+    label = paste("CTUs missing from parcel_ctu:", paste(missing_ctus, collapse = ", "))
   )
 
   # every CTU should have all 4 categories
   incomplete <- parcel_coverage %>% filter(n_categories < 4)
   expect_equal(nrow(incomplete), 0,
-               label = paste("CTUs with incomplete housing types:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "CTUs with incomplete housing types:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -54,13 +56,15 @@ test_that("Every county has all 4 residential housing types in parcel_ctu", {
 
   missing_counties <- setdiff(county_geographies, parcel_county$geog_name)
   expect_equal(length(missing_counties), 0,
-               label = paste("Counties missing from parcel_ctu:", paste(missing_counties, collapse = ", "))
+    label = paste("Counties missing from parcel_ctu:", paste(missing_counties, collapse = ", "))
   )
 
   incomplete <- parcel_county %>% filter(n_categories < 4)
   expect_equal(nrow(incomplete), 0,
-               label = paste("Counties with incomplete housing types:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "Counties with incomplete housing types:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -68,8 +72,10 @@ test_that("parcel_ctu has no NA or zero sq_ft_use", {
   bad_rows <- ghg.ccap::parcel_ctu %>%
     filter(is.na(sq_ft_use) | sq_ft_use <= 0)
   expect_equal(nrow(bad_rows), 0,
-               label = paste("Rows with NA/zero sq_ft_use:",
-                             paste(unique(bad_rows$geog_name), collapse = ", "))
+    label = paste(
+      "Rows with NA/zero sq_ft_use:",
+      paste(unique(bad_rows$geog_name), collapse = ", ")
+    )
   )
 })
 
@@ -93,13 +99,15 @@ test_that("Every CTU has residential housing data across all projection years", 
 
   missing_ctus <- setdiff(ctu_geographies, housing$geog_name)
   expect_equal(length(missing_ctus), 0,
-               label = paste("CTUs missing housing data:", paste(missing_ctus, collapse = ", "))
+    label = paste("CTUs missing housing data:", paste(missing_ctus, collapse = ", "))
   )
 
   incomplete <- housing %>% filter(min_year > 2005 | max_year < 2050)
   expect_equal(nrow(incomplete), 0,
-               label = paste("CTUs with incomplete year range:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "CTUs with incomplete year range:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -113,7 +121,7 @@ test_that("Every CTU has residential building data", {
 
   missing <- setdiff(ctu_geographies, res_ctus)
   expect_equal(length(missing), 0,
-               label = paste("CTUs missing from residential:", paste(missing, collapse = ", "))
+    label = paste("CTUs missing from residential:", paste(missing, collapse = ", "))
   )
 })
 
@@ -132,13 +140,15 @@ test_that("Every CTU has jobs data across all projection years", {
 
   missing <- setdiff(ctu_geographies, jobs$geog_name)
   expect_equal(length(missing), 0,
-               label = paste("CTUs missing jobs data:", paste(missing, collapse = ", "))
+    label = paste("CTUs missing jobs data:", paste(missing, collapse = ", "))
   )
 
   incomplete <- jobs %>% filter(min_year > 2005 | max_year < 2050)
   expect_equal(nrow(incomplete), 0,
-               label = paste("CTUs with incomplete jobs year range:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "CTUs with incomplete jobs year range:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -158,15 +168,19 @@ test_that("Every geography has complete electricity inventory 2005-2022", {
 
   missing <- setdiff(all_geographies, elec$geog_name)
   expect_equal(length(missing), 0,
-               label = paste("Geographies missing electricity inventory:",
-                             paste(missing, collapse = ", "))
+    label = paste(
+      "Geographies missing electricity inventory:",
+      paste(missing, collapse = ", ")
+    )
   )
 
   incomplete <- elec %>%
     filter(min_year > 2005 | max_year < 2022 | n_years < length(emissions_years))
   expect_equal(nrow(incomplete), 0,
-               label = paste("Geographies with incomplete electricity years:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "Geographies with incomplete electricity years:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -186,15 +200,19 @@ test_that("Every geography has complete natgas inventory 2005-2022", {
 
   missing <- setdiff(all_geographies, natgas$geog_name)
   expect_equal(length(missing), 0,
-               label = paste("Geographies missing natgas inventory:",
-                             paste(missing, collapse = ", "))
+    label = paste(
+      "Geographies missing natgas inventory:",
+      paste(missing, collapse = ", ")
+    )
   )
 
   incomplete <- natgas %>%
     filter(min_year > 2005 | max_year < 2022 | n_years < length(emissions_years))
   expect_equal(nrow(incomplete), 0,
-               label = paste("Geographies with incomplete natgas years:",
-                             paste(incomplete$geog_name, collapse = ", "))
+    label = paste(
+      "Geographies with incomplete natgas years:",
+      paste(incomplete$geog_name, collapse = ", ")
+    )
   )
 })
 
@@ -208,7 +226,7 @@ test_that("Every CTU has propane inventory data", {
 
   missing <- setdiff(ctu_geographies, propane_ctus)
   expect_equal(length(missing), 0,
-               label = paste("CTUs missing propane inventory:", paste(missing, collapse = ", "))
+    label = paste("CTUs missing propane inventory:", paste(missing, collapse = ", "))
   )
 })
 
@@ -216,25 +234,29 @@ test_that("Every CTU has propane inventory data", {
 # --- energy profiles: non-empty with required scenarios (CI only, expensive) ---
 
 if (testthat:::on_ci()) {
-  required_scenarios <- c("baseline", "retrofit", "heatpump", "combination",
-                          "new_build", "new_build_heatpump", "new_build_leed")
+  required_scenarios <- c(
+    "baseline", "retrofit", "heatpump", "combination",
+    "new_build", "new_build_heatpump", "new_build_leed"
+  )
 
   test_that("calc_building_energy returns complete profiles for every CTU", {
     purrr::walk(ctu_geographies, function(ctu) {
       profiles <- calc_building_energy(.selected_ctu = ctu)
 
       expect_gt(nrow(profiles), 0,
-                label = paste("non-empty profiles for", ctu))
+        label = paste("non-empty profiles for", ctu)
+      )
 
       missing_scenarios <- setdiff(required_scenarios, unique(profiles$scenario))
       expect_equal(length(missing_scenarios), 0,
-                   label = paste(ctu, "missing scenarios:", paste(missing_scenarios, collapse = ", "))
+        label = paste(ctu, "missing scenarios:", paste(missing_scenarios, collapse = ", "))
       )
 
       # no NA energy values
       na_rows <- profiles %>% filter(is.na(scenario_mwh) | is.na(scenario_mcf))
       expect_equal(nrow(na_rows), 0,
-                   label = paste(ctu, "has NA energy values in profiles"))
+        label = paste(ctu, "has NA energy values in profiles")
+      )
     })
   })
 }
