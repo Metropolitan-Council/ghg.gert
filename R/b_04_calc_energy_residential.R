@@ -102,18 +102,17 @@ calc_energy_residential <- function(res_tb,
   # propane/kerosene ratios ----
   # per-CTU ratio of liquid fuel to natgas, from the recent baseline window.
   # forecast propane/kerosene will track natgas proportionally so the same
-
   # strategy reductions apply evenly across fuel types.
 
   fuel_ratios <- observed_recent %>%
     dplyr::group_by(geog_name) %>%
     dplyr::summarize(
-      propane_per_mcf  = sum(propane_mmbtu)  / sum(mcf),
+      propane_per_mcf = sum(propane_mmbtu) / sum(mcf),
       kerosene_per_mcf = sum(kerosene_mmbtu) / sum(mcf),
       .groups = "drop"
     ) %>%
     dplyr::mutate(
-      propane_per_mcf  = dplyr::if_else(is.finite(propane_per_mcf),  propane_per_mcf,  0),
+      propane_per_mcf  = dplyr::if_else(is.finite(propane_per_mcf), propane_per_mcf, 0),
       kerosene_per_mcf = dplyr::if_else(is.finite(kerosene_per_mcf), kerosene_per_mcf, 0)
     )
 
@@ -149,9 +148,9 @@ calc_energy_residential <- function(res_tb,
   baseline_rows <- baseline_energy %>%
     dplyr::select(
       geog_name, geog_id, emissions_year,
-      residential_mwh          = mwh,
-      residential_mcf          = mcf,
-      residential_propane_mmbtu  = propane_mmbtu,
+      residential_mwh = mwh,
+      residential_mcf = mcf,
+      residential_propane_mmbtu = propane_mmbtu,
       residential_kerosene_mmbtu = kerosene_mmbtu
     )
 
