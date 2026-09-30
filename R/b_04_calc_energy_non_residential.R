@@ -16,6 +16,7 @@
 #'
 #' @inheritParams run_module_transportation
 #' @inheritParams scen_building_non_residential
+#' @importFrom dplyr first select mutate filter summarize pull left_join case_when if_else
 #'
 #' @return [tibble::tibble()].
 #'    A table with columns
@@ -42,20 +43,20 @@ calc_energy_non_residential <- function(non_res_tb,
 
 
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu) %>%
-    mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
+    dplyr::mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
       "Regional",
       imagine_designation
     ))
   non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu) %>%
-    mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
+    dplyr::mutate(imagine_designation = if_else(is.na(imagine_designation) | imagine_designation == "County",
       "Regional",
       imagine_designation
     ))
 
   # snag the .selected community designation -- breaks when .selected_city = "all" and just uses Afton/first city
   pluck_commDesgn <- non_res_tb_bau %>%
-    summarise(val = first(imagine_designation)) %>%
-    pull(val)
+    dplyr::summarise(val = dplyr::first(imagine_designation)) %>%
+    dplyr::pull(val)
 
   baseline_energy <- left_join(
     filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
@@ -84,8 +85,8 @@ calc_energy_non_residential <- function(non_res_tb,
 
   # Pull relevant community designation's energy profile for .selected_ctu
   ctu_energy_profile <- scenario_comm_des %>%
-    filter(imagine_designation == pluck_commDesgn) %>%
-    mutate(cat_match = case_when(
+    dplyr::filter(imagine_designation == pluck_commDesgn) %>%
+    dplyr::mutate(cat_match = case_when(
       scenario == "baseline" ~ "existing_nonretrofit_jobs",
       scenario == "retrofit_efficiency" ~ "retrofit_jobs",
       scenario == "new_build" ~ "new_non_leed_jobs",
@@ -96,55 +97,55 @@ calc_energy_non_residential <- function(non_res_tb,
   ### adjust the model prediction to the sum of the last 5 observed years
   mwh_adjustment <-
     (baseline_energy %>%
-      filter(emissions_year >= (.baseline_year - 4)) %>%
-      pull(mwh) %>%
+      dplyr::filter(emissions_year >= (.baseline_year - 4)) %>%
+      dplyr::pull(mwh) %>%
       sum()) /
       (non_res_tb_bau %>%
-        filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
+        dplyr::filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
         dplyr::distinct(geog_name, imagine_designation, emissions_year, value) %>%
-        left_join(
+        dplyr::left_join(
           ctu_energy_profile %>%
-            filter(scenario == "baseline"),
+            dplyr::filter(scenario == "baseline"),
           by = "imagine_designation"
         ) %>%
-        mutate(mwh_pred = value * mwh_per_job) %>%
-        pull(mwh_pred) %>%
+        dplyr::mutate(mwh_pred = value * mwh_per_job) %>%
+        dplyr::pull(mwh_pred) %>%
         sum())
 
   mcf_adjustment <-
     (baseline_energy %>%
-      filter(emissions_year >= (.baseline_year - 4)) %>%
-      pull(mcf) %>%
+      dplyr::filter(emissions_year >= (.baseline_year - 4)) %>%
+      dplyr::pull(mcf) %>%
       sum()) /
       (non_res_tb_bau %>%
-        filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
+        dplyr::filter(emissions_year >= (.baseline_year - 4) & emissions_year <= .baseline_year) %>%
         dplyr::distinct(geog_name, imagine_designation, emissions_year, value) %>%
-        left_join(
+        dplyr::left_join(
           ctu_energy_profile %>%
-            filter(scenario == "baseline"),
+            dplyr::filter(scenario == "baseline"),
           by = "imagine_designation"
         ) %>%
-        mutate(mcf_pred = value * mcf_per_job) %>%
-        pull(mcf_pred) %>%
+        dplyr::mutate(mcf_pred = value * mcf_per_job) %>%
+        dplyr::pull(mcf_pred) %>%
         sum())
 
 
   # heat pump expected energy will be lowered for retrofit buildings
   # ctu average energy load will be split based on heat pump percentage
   ctu_energy_profile_adjustments <- ctu_energy_profile %>%
-    select(-cat_match) %>%
+    dplyr::select(-cat_match) %>%
     tidyr::pivot_wider(
       names_from = scenario,
       values_from = c(mwh_per_job, mcf_per_job),
       names_glue = "{scenario}_{.value}"
     ) %>%
-    mutate(
+    dplyr::mutate(
       heatpump_mwh = electrification_mwh_per_job - baseline_mwh_per_job, # heat pump scen mwh addition to baseline is assumed to be all heating gain
       retrofit_heating_pct = (retrofit_efficiency_mcf_per_job - electrification_mcf_per_job) / # calculate what amount of nat gas was for heating in retrofit
         (baseline_mcf_per_job - electrification_mcf_per_job),
       appliance_mcf = electrification_mcf_per_job # how much nat gas used when no heating required?
     ) %>%
-    select(
+    dplyr::select(
       imagine_designation,
       heatpump_mwh,
       retrofit_heating_pct,
@@ -165,18 +166,18 @@ calc_energy_non_residential <- function(non_res_tb,
     )
 
     energy_tb <- tb %>%
-      filter(emissions_year > .baseline_year) %>%
-      left_join(pct_by_year, by = "emissions_year") %>%
-      left_join(ctu_energy_profile,
-                by = join_by(
-                  efficiency_description == cat_match,
-                  imagine_designation == imagine_designation
-                )
+      dplyr::filter(emissions_year > .baseline_year) %>%
+      dplyr::left_join(pct_by_year, by = "emissions_year") %>%
+      dplyr::left_join(ctu_energy_profile,
+        by = join_by(
+          efficiency_description == cat_match,
+          imagine_designation == imagine_designation
+        )
       ) %>%
-      left_join(ctu_energy_profile_adjustments,
-                by = join_by("imagine_designation")
+      dplyr::left_join(ctu_energy_profile_adjustments,
+        by = join_by("imagine_designation")
       ) %>%
-      mutate(
+      dplyr::mutate(
         non_residential_mwh = case_when(
           efficiency_description == "existing_nonretrofit_jobs" ~
             ((mwh_per_job * (1 - ramp_pct)) + ((mwh_per_job + heatpump_mwh) * ramp_pct)) * efficiency_unit_value * mwh_adjustment,
@@ -199,7 +200,7 @@ calc_energy_non_residential <- function(non_res_tb,
         )
       ) %>%
       dplyr::group_by(geog_name, geog_id, emissions_year) %>%
-      dplyr::summarize(
+      dplyr::summarise(
         non_residential_mwh = sum(non_residential_mwh),
         non_residential_mcf = sum(non_residential_mcf)
       ) %>%
@@ -217,7 +218,7 @@ calc_energy_non_residential <- function(non_res_tb,
 
   energy_bau <- bind_rows(
     baseline_energy %>%
-      select(geog_name,
+      dplyr::select(geog_name,
         geog_id,
         emissions_year,
         non_residential_mwh = mwh,
@@ -234,7 +235,7 @@ calc_energy_non_residential <- function(non_res_tb,
 
   energy_strategy <- bind_rows(
     baseline_energy %>%
-      select(geog_name,
+      dplyr::select(geog_name,
         geog_id,
         emissions_year,
         non_residential_mwh = mwh,
@@ -250,9 +251,9 @@ calc_energy_non_residential <- function(non_res_tb,
 
   energy_final <- bind_rows(
     energy_bau %>%
-      mutate(scenario = "bau"),
+      dplyr::mutate(scenario = "bau"),
     energy_strategy %>%
-      mutate(scenario = .scenario)
+      dplyr::mutate(scenario = .scenario)
   )
 
   return(energy_final)
