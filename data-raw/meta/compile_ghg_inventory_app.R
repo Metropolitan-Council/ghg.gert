@@ -14,8 +14,8 @@
 # in the inventory. Left as-is pending a permanent fix.
 # ============================================================================
 
-library(dplyr)
-library(readr)
+library(dplyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
 devtools::load_all(".")
 
 # helpers --------------------------------------------------------------------

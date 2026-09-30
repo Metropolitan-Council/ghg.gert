@@ -5,7 +5,8 @@
 #   - building_energy_data  (list: inventories, forecasts, demographic slices)
 
 devtools::load_all(".")
-library(tidyverse)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
 
 # helper: base URL for ghg-cprg repo ----
 ghg_cprg_url <- function(path) {

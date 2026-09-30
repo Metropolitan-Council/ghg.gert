@@ -16,11 +16,11 @@
 ### Dependency chain:
 ###   this script              ->  ceestock_summaries, electrification_ratios
 
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(readr)
-library(ggplot2)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
+library(stringr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
 
 ceestock_raw <- readr::read_csv(
   "./data-raw/building_energy_data_processing/ceestock/ceestcok_savings_v1.csv",
