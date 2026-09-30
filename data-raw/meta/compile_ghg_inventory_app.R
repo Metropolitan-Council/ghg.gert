@@ -144,7 +144,7 @@ tabulate_alternative_vehicles <- function(pass_tb = transportation_data$passenge
 transp_bau_ctu <- purrr::map(
   ctu_list,
   function(x) {
-    cli::cli_alert_info(x)
+    # cli::cli_alert_info(x)
     suppressMessages(
       summarize_transportation(
         run_module_transportation(.selected_ctu = x)
@@ -194,7 +194,7 @@ ctu_transportation_replace <- purrr::map_dfr(
   select(-geog_name) %>%
   full_join(ghg_ctu %>%
     select(geog_level, geog_name, ctu_class, ctu_id_gnis, ctu_id_fips) %>%
-    unique()) %>%
+    unique(), by = "ctu_id_gnis") %>%
   filter()
 
 year_ctu_mode_alt <- ctu_transportation_replace %>%
@@ -208,7 +208,14 @@ year_ctu_mode_alt <- ctu_transportation_replace %>%
 transport_replace <- ctu_transportation_replace %>%
   ungroup() %>%
   mutate(geog_id = ctu_id_gnis) %>%
-  right_join(year_ctu_mode_alt) %>%
+  right_join(
+    year_ctu_mode_alt,
+    by = c(
+      "emissions_year", "type", "geog_id", "category", "sector", "source",
+      "sector_alt", "ctu_id_gnis", "geog_level", "geog_name", "ctu_class",
+      "ctu_id_fips"
+    )
+  ) %>%
   arrange(geog_id, -emissions_year) %>%
   group_by(category, sector, source, sector_alt) %>%
   mutate(value_emissions = zoo::na.approx(value_emissions)) %>%
