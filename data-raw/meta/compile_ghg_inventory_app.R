@@ -14,8 +14,8 @@
 # in the inventory. Left as-is pending a permanent fix.
 # ============================================================================
 
-library(dplyr)
-library(readr)
+library(dplyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
 devtools::load_all(".")
 
 # helpers --------------------------------------------------------------------
@@ -24,7 +24,8 @@ devtools::load_all(".")
 ghg_cprg_url <- function(path) {
   paste0(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/",
-    path)
+    path
+  )
 }
 
 # Recode the rebuilt ghg-cprg building-energy labels onto the app's existing
@@ -34,7 +35,7 @@ ghg_cprg_url <- function(path) {
 recode_building_category <- function(category) {
   dplyr::case_when(
     category == "Residential building energy" ~ "Residential electricity",
-    category == "Business building energy"    ~ "Non-residential electricity",
+    category == "Business building energy" ~ "Non-residential electricity",
     TRUE ~ category
   )
 }
@@ -55,7 +56,7 @@ recode_building_category <- function(category) {
 # Confirm `ctu_list` still ships with ghg.ccap (else derive from geog_index:
 #   dplyr::filter(geog_index, geog_level != "COUNTY")$geog_name).
 
-ctu_list <- filter(geog_index, geog_level %in% c("CITY","TOWNSHIP"))$geog_name
+ctu_list <- filter(geog_index, geog_level %in% c("CITY", "TOWNSHIP"))$geog_name
 
 summarize_transportation <- function(transportation_module_output) {
   # browser()
@@ -153,7 +154,6 @@ transp_bau_ctu <- purrr::map(
 )
 
 
-
 # load ghg-cprg outputs ------------------------------------------------------
 
 ghg_ctu <- read_rds(ghg_cprg_url("_meta/data/ctu_emissions.RDS")) %>%
@@ -193,8 +193,8 @@ ctu_transportation_replace <- purrr::map_dfr(
   ) %>%
   select(-geog_name) %>%
   full_join(ghg_ctu %>%
-              select(geog_level, geog_name, ctu_class, ctu_id_gnis, ctu_id_fips) %>%
-              unique()) %>%
+    select(geog_level, geog_name, ctu_class, ctu_id_gnis, ctu_id_fips) %>%
+    unique()) %>%
   filter()
 
 year_ctu_mode_alt <- ctu_transportation_replace %>%
@@ -239,8 +239,8 @@ ghg_ctu_replace <- ghg_ctu %>%
 ctu_ghg_inventory <- ghg_ctu_replace %>%
   dplyr::mutate(
     geog_name = if_else(ctu_class == "TOWNSHIP",
-                        paste(geog_name, "Twp."),
-                        geog_name
+      paste(geog_name, "Twp."),
+      geog_name
     )
   ) %>%
   dplyr::rename(
@@ -317,33 +317,33 @@ county_ghg_inventory <- ghg_county %>%
   # reorder sectors
   mutate(
     sector = factor(sector,
-                    levels = c(
-                      "Transportation",
-                      "Residential",
-                      "Non-residential",
-                      "Industrial",
-                      "Waste",
-                      "Agriculture",
-                      "Natural Systems"
-                    )
+      levels = c(
+        "Transportation",
+        "Residential",
+        "Non-residential",
+        "Industrial",
+        "Waste",
+        "Agriculture",
+        "Natural Systems"
+      )
     ),
     category = factor(category,
-                      levels = c(
-                        "Passenger vehicles", "Buses", "Trucks", "Active", "Off-road", "Aviation",
-                        "Residential electricity", "Residential building fuel",
-                        "Non-residential electricity", "Non-residential building fuel",
-                        "Industrial processes", "Industrial fuel combustion", "Refinery processes",
-                        "Wastewater", "Solid waste",
-                        "Cropland", "Livestock",
-                        "Sequestration", "Freshwater"
-                      ),
-                      ordered = TRUE
+      levels = c(
+        "Passenger vehicles", "Buses", "Trucks", "Active", "Off-road", "Aviation",
+        "Residential electricity", "Residential building fuel",
+        "Non-residential electricity", "Non-residential building fuel",
+        "Industrial processes", "Industrial fuel combustion", "Refinery processes",
+        "Wastewater", "Solid waste",
+        "Cropland", "Livestock",
+        "Sequestration", "Freshwater"
+      ),
+      ordered = TRUE
     )
   ) %>%
   ### hot fix, needs permanent fix in cprg repo
   mutate(value_emissions = if_else(is.na(value_emissions),
-                                   0,
-                                   value_emissions
+    0,
+    value_emissions
   )) %>%
   group_by(emissions_year, geog_level, geog_name, ctu_class, fips_id, population, sector, category) %>%
   summarize(value_emissions = sum(value_emissions), .groups = "drop")
@@ -367,8 +367,8 @@ full_ctu_ghg_inventory <- ghg_ctu_replace %>%
   dplyr::mutate(
     unit_emissions = "Metric tons CO2e",
     geog_name = if_else(ctu_class == "TOWNSHIP",
-                        paste(geog_name, "Twp."),
-                        geog_name
+      paste(geog_name, "Twp."),
+      geog_name
     )
   ) %>%
   dplyr::rename(
