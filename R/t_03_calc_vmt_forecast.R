@@ -65,9 +65,11 @@ calc_vmt_forecast <- function(.scenario,
                               .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                              .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
                               .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
                               .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
                               .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                              .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
                               .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
                               .enviro_factors = ghg.ccap::enviro_factors,
                               .factor_values = ghg.ccap::factor_values,
@@ -171,6 +173,7 @@ calc_vmt_forecast <- function(.scenario,
           .pass_tb = tb,
           .cbtp_prop_targeted = .cbtp_prop_targeted,
           .cbtp_start_year = .cbtp_start_year,
+          .cbtp_full_effect_year = .cbtp_full_effect_year,
           .enviro_factors = .enviro_factors
         )
       commute_trip_reduction_adjust <-
@@ -179,6 +182,7 @@ calc_vmt_forecast <- function(.scenario,
           .ctr_employees_targeted = .ctr_employees_targeted,
           .ctr_voluntary = .ctr_voluntary,
           .ctr_start_year = .ctr_start_year,
+          .ctr_full_effect_year = .ctr_full_effect_year,
           .commute_vmt_proportion = .commute_vmt_proportion,
           .enviro_factors = .enviro_factors
         )
