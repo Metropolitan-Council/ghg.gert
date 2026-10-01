@@ -1,5 +1,4 @@
 test_commute_trip_reduction <- function(x) {
-
     testthat::test_that(paste0(x, " Commute trip reduction returns 1 before start_year"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
@@ -24,7 +23,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction applies after start_year"), {
-
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -49,12 +47,13 @@ test_commute_trip_reduction <- function(x) {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
-        # Voluntary program
+        # Voluntary program (full_effect_year = start_year gives an instant, unramped effect)
         ctr_voluntary <- vmt_commute_trip_reduction(
             .pass_tb = pass_tb_filtered,
             .ctr_employees_targeted = 0.5,
             .ctr_voluntary = TRUE,
             .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
             .commute_vmt_proportion = commute_vmt_proportion,
             .enviro_factors = enviro_factors
         ) %>%
@@ -68,6 +67,7 @@ test_commute_trip_reduction <- function(x) {
             .ctr_employees_targeted = 0.5,
             .ctr_voluntary = FALSE,
             .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
             .commute_vmt_proportion = commute_vmt_proportion,
             .enviro_factors = enviro_factors
         ) %>%
@@ -80,7 +80,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction scales with employees targeted"), {
-
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -89,6 +88,7 @@ test_commute_trip_reduction <- function(x) {
             .ctr_employees_targeted = 0.25,
             .ctr_voluntary = TRUE,
             .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
             .commute_vmt_proportion = commute_vmt_proportion,
             .enviro_factors = enviro_factors
         ) %>%
@@ -101,6 +101,7 @@ test_commute_trip_reduction <- function(x) {
             .ctr_employees_targeted = 0.75,
             .ctr_voluntary = TRUE,
             .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
             .commute_vmt_proportion = commute_vmt_proportion,
             .enviro_factors = enviro_factors
         ) %>%
@@ -113,7 +114,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction capped at max reduction"), {
-
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -123,6 +123,7 @@ test_commute_trip_reduction <- function(x) {
             .ctr_employees_targeted = 1.0,
             .ctr_voluntary = FALSE,
             .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
             .commute_vmt_proportion = commute_vmt_proportion,
             .enviro_factors = enviro_factors
         )
@@ -138,8 +139,10 @@ test_commute_trip_reduction <- function(x) {
         vmt_prop <- commute_vmt_proportion %>%
             dplyr::filter(geog_name == x) %>%
             dplyr::pull(value)
+
         max_adj <- 1 + (1 + enviro_factors$MAX_COMMUTE_TRIP_REDUCTION_PCT - 1) *
             vmt_prop
+
         testthat::expect_true(all(post_2030 >= max_adj))
     })
 
@@ -164,7 +167,6 @@ test_commute_trip_reduction <- function(x) {
     })
 
     testthat::test_that(paste0(x, " Commute trip reduction returns correct structure"), {
-
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -184,6 +186,108 @@ test_commute_trip_reduction <- function(x) {
             nrow(pass_tb_filtered %>% dplyr::select(year) %>% dplyr::distinct())
         )
         testthat::expect_true("commute_trip_reduction_adj" %in% names(ctr_adjust))
+    })
+
+    testthat::test_that(paste0(x, " Commute trip reduction reaches full effect in full_effect_year"), {
+        pass_tb_filtered <- transportation_data$passenger %>%
+            filter(geog_name == x)
+
+        ctr_adjust <- vmt_commute_trip_reduction(
+            .pass_tb = pass_tb_filtered,
+            .ctr_employees_targeted = 0.5,
+            .ctr_voluntary = TRUE,
+            .ctr_start_year = "2025",
+            .ctr_full_effect_year = "2045",
+            .commute_vmt_proportion = commute_vmt_proportion,
+            .enviro_factors = enviro_factors
+        )
+
+        pre_ramp <- ctr_adjust %>%
+            dplyr::filter(year %in% c("2015", "2018", "2020")) %>%
+            dplyr::pull(commute_trip_reduction_adj)
+        testthat::expect_equal(pre_ramp, rep(1, 3))
+
+        full_reduction <- ctr_adjust %>%
+            dplyr::filter(year == "2045") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+        at_start <- ctr_adjust %>%
+            dplyr::filter(year == "2025") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+
+        testthat::expect_lt(at_start, 1)
+        testthat::expect_lt(full_reduction, min(at_start))
+
+        during_ramp <- ctr_adjust %>%
+            dplyr::filter(year >= "2025", year <= "2045") %>%
+            dplyr::arrange(year) %>%
+            dplyr::pull(commute_trip_reduction_adj)
+        testthat::expect_true(all(diff(during_ramp) < 0))
+
+        post_ramp <- ctr_adjust %>%
+            dplyr::filter(year >= "2045") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+
+        testthat::expect_equal(post_ramp, rep(full_reduction, length(post_ramp)))
+        testthat::expect_lt(full_reduction, at_start)
+    })
+
+    testthat::test_that(paste0(x, " Commute trip reduction single-year ramp equals instant full reduction"), {
+        pass_tb_filtered <- transportation_data$passenger %>%
+            filter(geog_name == x)
+
+        # start_year == full_effect_year should behave like the original instant step
+        ctr_adjust <- vmt_commute_trip_reduction(
+            .pass_tb = pass_tb_filtered,
+            .ctr_employees_targeted = 0.5,
+            .ctr_voluntary = TRUE,
+            .ctr_start_year = "2030",
+            .ctr_full_effect_year = "2030",
+            .commute_vmt_proportion = commute_vmt_proportion,
+            .enviro_factors = enviro_factors
+        )
+
+        post_2030 <- ctr_adjust %>%
+            dplyr::filter(year >= "2030") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+
+        testthat::expect_true(all(post_2030 == post_2030[1]))
+    })
+
+    testthat::test_that(paste0(x, " Commute trip reduction earlier full_effect_year shortens ramp"), {
+        pass_tb_filtered <- transportation_data$passenger %>%
+            filter(geog_name == x)
+
+        longer_ramp_start <- vmt_commute_trip_reduction(
+            .pass_tb = pass_tb_filtered,
+            .ctr_employees_targeted = 0.5,
+            .ctr_voluntary = TRUE,
+            .ctr_start_year = "2025",
+            .ctr_full_effect_year = "2045",
+            .commute_vmt_proportion = commute_vmt_proportion,
+            .enviro_factors = enviro_factors
+        ) %>%
+            dplyr::filter(year == "2025") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+
+        ctr_adjust <- vmt_commute_trip_reduction(
+            .pass_tb = pass_tb_filtered,
+            .ctr_employees_targeted = 0.5,
+            .ctr_voluntary = TRUE,
+            .ctr_start_year = "2025",
+            .ctr_full_effect_year = "2027",
+            .commute_vmt_proportion = commute_vmt_proportion,
+            .enviro_factors = enviro_factors
+        )
+
+        at_start <- ctr_adjust %>%
+            dplyr::filter(year == "2025") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+        post_ramp <- ctr_adjust %>%
+            dplyr::filter(year >= "2030") %>%
+            dplyr::pull(commute_trip_reduction_adj)
+
+        testthat::expect_lt(at_start, longer_ramp_start)
+        testthat::expect_equal(min(post_ramp), post_ramp[1])
     })
 }
 
