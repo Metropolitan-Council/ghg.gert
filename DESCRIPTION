@@ -58,4 +58,4 @@ LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 Website: https://github.com/Metropolitan-Council/ghg.ccap
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

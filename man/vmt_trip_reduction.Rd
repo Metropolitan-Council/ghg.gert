@@ -2,13 +2,13 @@
 % Please edit documentation in R/t_04_vmt_effects.R
 \name{vmt_trip_reduction}
 \alias{vmt_trip_reduction}
-\title{Trip reduction program VMT VMT adjustment}
+\title{Trip reduction program VMT adjustment}
 \usage{
 vmt_trip_reduction(
   .pass_tb,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_end_year = ghg.ccap::transportation_defaults$cbtp_end_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }
@@ -19,8 +19,12 @@ vmt_trip_reduction(
 Default is 0}
 
 \item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
-no reduction is applied. For years at or after this year, the full reduction is applied.
-Default is 2030}
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028}
+
+\item{.cbtp_full_effect_year}{character or numeric, year the CBTP strategy reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
 
 \item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.ccap::enviro_factors}.
 Expected to contain:
@@ -33,11 +37,13 @@ Expected to contain:
 \value{
 tibble with columns \code{year} and \code{cbtp_adj}, where \code{cbtp_adj} is the adjustment factor
 (1 = no effect, < 1 = reduction). For years before \code{.cbtp_start_year}, \code{cbtp_adj = 1}.
-For years at or after \code{.cbtp_start_year}, \code{cbtp_adj = 1 + reduction_pct} where
-\code{reduction_pct} is capped at \code{-0.023} (maximum 2.3\% reduction).
+The reduction increases through \code{.cbtp_full_effect_year}, then stays constant.
+\code{reduction_pct} is capped at \code{-0.023}
+(maximum 2.3\% reduction).
 }
 \description{
-Community Based Travel Planning (CBTP) is a transportation demand management strategy
+Community Based Travel Planning (CBTP), sometimes referred to as transportation options
+or transportation alternatives, is a transportation demand management strategy
 that provides personalized travel behavior change assistance to households in a target
 community. This function calculates the expected reduction in vehicle miles traveled (VMT)
 based on two key elasticities: the proportion of targeted households that participate and
@@ -45,6 +51,15 @@ the vehicle trip reduction achieved by participating households.
 
 The reduction is calculated as: \verb{percent_reduction = -(prop_targeted × participation_rate × trip_reduction_rate)},
 with a maximum VMT reduction cap of 2.3\%.
+
+Limitations
+\itemize{
+\item This function does not account for associated increases in transit or active transportation VMT that may result
+from the program.
+\item This function assumes that the program will start in the given year and continue to exist through the final forecast year.
+\item The function assumes that the relative number of people targeted for the program will be consistent over time,
+even though the composition of the regional population will change.
+}
 }
 \details{
 \loadmathjax
@@ -83,9 +98,11 @@ Other transportation:
 \code{\link[=mode_transit_rail]{mode_transit_rail()}},
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
-\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}}
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}}
 
 Other VMT effects:
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
 \code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
 \code{\link[=vmt_road_policy]{vmt_road_policy()}},
@@ -94,6 +111,10 @@ Other VMT effects:
 \code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
 \code{\link[=vmt_transit_service]{vmt_transit_service()}},
 \code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
+
+Other TDM:
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}}
 }
+\concept{TDM}
 \concept{VMT effects}
 \concept{transportation}

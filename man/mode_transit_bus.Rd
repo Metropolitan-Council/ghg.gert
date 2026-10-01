@@ -38,11 +38,11 @@ mode_transit_bus(
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_end_year = ghg.ccap::transportation_defaults$cbtp_end_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
   .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
   .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
   .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_end_year = ghg.ccap::transportation_defaults$ctr_end_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
   .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .enviro_factors = enviro_factors,
   .elast = elast,
@@ -178,6 +178,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 
 Other passenger:

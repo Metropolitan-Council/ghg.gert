@@ -95,6 +95,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{stock adjustments}

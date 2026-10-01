@@ -79,6 +79,7 @@ A value of -0.75 indicates a 75\% decrease.
 }
 \seealso{
 Other VMT effects:
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
 \code{\link[=vmt_road_policy]{vmt_road_policy()}},
 \code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},

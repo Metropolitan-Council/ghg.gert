@@ -9,7 +9,7 @@ vmt_commute_trip_reduction(
   .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
   .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
   .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_end_year = ghg.ccap::transportation_defaults$ctr_end_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
   .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .enviro_factors = ghg.ccap::enviro_factors
 )
@@ -22,18 +22,72 @@ Default is 0.}
 Default is TRUE.}
 
 \item{.ctr_start_year}{character or numeric, the year the trip reduction program begins. For years prior to this,
-no reduction is applied. For years at or after this year, the full reduction is applied.
-Default is 2030.}
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028.}
+
+\item{.ctr_full_effect_year}{character or numeric, year the trip reduction program reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
 Default is \code{ghg.ccap::commute_vmt_proportion}.}
 }
 \description{
 This function calculates the expected reduction in vehicle miles traveled (VMT) based on a commute trip reduction program.
+These programs fall under the umbrella of travel demand management (TDM) strategies.
 The reduction is calculated using the proportion of employees in a given geographic unit targeted for the program,
 whether the program is voluntary or mandatory, and the year the program begins.
 The reduction is capped at a maximum percentage defined in \code{enviro_factors}.
 
-This function does not account for associated increases in transit or active transportation VMT that may result
+Limitations
+\itemize{
+\item This function does not account for associated increases in transit or active transportation VMT that may result
 from the commute trip reduction program.
+\item This function assumes that the program will start in the given year and continue to exist through the final forecast year.
+\item The function assumes that the relative number of employees targeted for the program will be consistent over time,
+even though the composition of the regional workforce will change.
 }
+}
+\references{
+CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
+}
+\seealso{
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
+
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
+
+Other TDM:
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
+}
+\concept{TDM}
+\concept{VMT effects}
+\concept{transportation}
