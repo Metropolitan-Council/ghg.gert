@@ -72,9 +72,13 @@ run_all_modules(
   .comb_5d_impact_pct_change =
     ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_end_year = ghg.ccap::transportation_defaults$cbtp_end_year,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
   .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
   .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_end_year = ghg.ccap::transportation_defaults$ctr_end_year,
   .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
   .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,

@@ -11,15 +11,7 @@ calc_building_energy(
 )
 }
 \arguments{
-<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-=======
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
->>>>>>> dev
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -51,10 +43,7 @@ Other residential:
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> dev
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
 \code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},

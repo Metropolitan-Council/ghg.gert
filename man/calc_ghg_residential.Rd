@@ -17,14 +17,7 @@ Table with residential energy, including columns
 \code{residential_mwh}, \code{residential_mcf},
 \code{residential_propane_mmbtu}, and \code{residential_kerosene_mmbtu}.}
 
-<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
-=======
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
->>>>>>> dev
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -46,10 +39,7 @@ residential strategies refer to \code{\link[=scen_building_residential]{scen_bui
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> dev
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

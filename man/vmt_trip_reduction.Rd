@@ -8,6 +8,7 @@ vmt_trip_reduction(
   .pass_tb,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_end_year = ghg.ccap::transportation_defaults$cbtp_end_year,
   .enviro_factors = ghg.ccap::enviro_factors
 )
 }

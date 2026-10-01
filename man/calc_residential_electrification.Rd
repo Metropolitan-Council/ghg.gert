@@ -18,15 +18,7 @@ calc_residential_electrification(
 \code{calc_residential_retrofit()}, containing columns \code{efficiency_description}
 and \code{efficiency_unit_value}.}
 
-<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county.}
-
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-=======
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
->>>>>>> dev
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},

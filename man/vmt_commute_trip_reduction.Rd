@@ -9,6 +9,7 @@ vmt_commute_trip_reduction(
   .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
   .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
   .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_end_year = ghg.ccap::transportation_defaults$ctr_end_year,
   .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .enviro_factors = ghg.ccap::enviro_factors
 )

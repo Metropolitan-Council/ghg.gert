@@ -21,15 +21,7 @@ BAU residential units (zero-strategy pass).}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county.}
-
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-=======
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
->>>>>>> dev
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns
@@ -52,10 +44,7 @@ the baseline period.
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> dev
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
