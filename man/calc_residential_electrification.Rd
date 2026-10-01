@@ -18,7 +18,7 @@ calc_residential_electrification(
 \code{calc_residential_retrofit()}, containing columns \code{efficiency_description}
 and \code{efficiency_unit_value}.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},

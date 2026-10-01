@@ -3,13 +3,6 @@
 pkgload::load_all()
 source("data-raw/transportation_data_processing/_tbi_load.R")
 
-# pull modeling dataset, which has imagine designations for each CTU
-vmt_model_data <- readRDS(url("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_transportation/data/vmt_model_data.RDS"))
-
-ctu_imagine <- vmt_model_data %>%
-  select(ctu_name, gnis, imagine_designation) %>%
-  unique()
-
 # get index of CD levels
 hh_cd_levels <- hh_region %>%
   select(cd_2050, cd_2050_broad, cd_2050_rsd) %>%
@@ -30,7 +23,7 @@ avo_imagine <- trip %>%
     # ensure observed trip duration,
     # reasonable distance
     # origin or destination in our counties
-    duration_minutes > 0,
+    duration_seconds > 0,
     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
     distance_miles < 720,
@@ -42,7 +35,7 @@ avo_imagine <- trip %>%
     !is.na(cd_2050)
   ) %>%
   srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
-  group_by(cd_2050_broad) %>%
+  group_by(cd_2050) %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
@@ -65,7 +58,7 @@ avo_region <- trip %>%
     # ensure observed trip duration,
     # reasonable distance
     # origin or destination in our counties
-    duration_minutes > 0,
+    duration_seconds > 0,
     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
     distance_miles < 720,
@@ -77,7 +70,6 @@ avo_region <- trip %>%
     !is.na(cd_2050)
   ) %>%
   srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
-  # group_by(cd_2050_broad) %>%
   summarize(
     num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
     n_trips = srvyr::survey_total(),
@@ -88,8 +80,8 @@ avo_region <- trip %>%
 
 # compare new with previous ------
 avo_new <- avo_imagine %>%
-  left_join(hh_cd_levels, join_by(cd_2050_broad)) %>%
-  left_join(ctu_imagine,
+  left_join(hh_cd_levels, join_by(cd_2050)) %>%
+  left_join(geog_index,
     by = c("cd_2050" = "imagine_designation")
   ) %>%
   mutate(
@@ -99,7 +91,7 @@ avo_new <- avo_imagine %>%
     type = "P",
     value = num_travelers_numeric
   ) %>%
-  select(geog_id = gnis, var, mode, value, aeo_mode, type) %>%
+  select(geog_id, var, mode, value, aeo_mode, type) %>%
   unique()
 
 avo_exist <- transportation_data$passenger %>%

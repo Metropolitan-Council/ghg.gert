@@ -27,7 +27,7 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
 
   testthat::expect_equal(
     unique(si_veh_test_none$occupancy_adj),
-    c(1.6),
+    c(1.58),
     tolerance = 0.01
   )
 
@@ -46,11 +46,7 @@ testthat::test_that("Vehicle occupancy adjustment correct", {
 
   testthat::expect_equal(
     si_veh_test$occupancy_adj,
-    c(
-      1.60003983277867, 1.60003983277867, 1.60003983277867, 1.6200403306884,
-      1.64004082859813, 1.66004132650787, 1.6800418244176, 1.6800418244176,
-      1.6800418244176
-    ),
+    c(1.58, 1.58, 1.58, 1.59975, 1.6195, 1.63925, 1.659, 1.659, 1.659),
     tolerance = 0.001
   )
 })

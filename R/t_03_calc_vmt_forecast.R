@@ -35,7 +35,7 @@
 #'
 calc_vmt_forecast <- function(.scenario,
                               tb,
-                              .selected_ctu = "all",
+                              .selected_ctu,
                               .mode,
                               .stock,
                               .variable,
@@ -65,6 +65,12 @@ calc_vmt_forecast <- function(.scenario,
                               .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                              .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+                              .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+                              .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+                              .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                              .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+                              .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
                               .enviro_factors = ghg.ccap::enviro_factors,
                               .factor_values = ghg.ccap::factor_values,
                               .elast = ghg.ccap::elast,
@@ -167,6 +173,17 @@ calc_vmt_forecast <- function(.scenario,
           .pass_tb = tb,
           .cbtp_prop_targeted = .cbtp_prop_targeted,
           .cbtp_start_year = .cbtp_start_year,
+          .cbtp_full_effect_year = .cbtp_full_effect_year,
+          .enviro_factors = .enviro_factors
+        )
+      commute_trip_reduction_adjust <-
+        vmt_commute_trip_reduction(
+          .pass_tb = tb,
+          .ctr_employees_targeted = .ctr_employees_targeted,
+          .ctr_voluntary = .ctr_voluntary,
+          .ctr_start_year = .ctr_start_year,
+          .ctr_full_effect_year = .ctr_full_effect_year,
+          .commute_vmt_proportion = .commute_vmt_proportion,
           .enviro_factors = .enviro_factors
         )
 
@@ -182,10 +199,11 @@ calc_vmt_forecast <- function(.scenario,
         dplyr::left_join(mode_stock, by = c("geog_name", "geog_id", "year", "mode")) %>%
         dplyr::left_join(at_adjustment, by = c("year", "geog_name", "geog_id")) %>%
         dplyr::left_join(cbtp_adjust, by = c("year", "geog_name", "geog_id")) %>%
+        dplyr::left_join(commute_trip_reduction_adjust, by = c("year", "geog_name", "geog_id")) %>%
         dplyr::distinct() %>%
         dplyr::mutate(
           pass_ld_vmt = (((miles_traveled * vmt_reduction_adj) - (transit_adj * mode_stock_adj)) *
-            cbtp_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
+            cbtp_adj * commute_trip_reduction_adj * aeo_adj * vmt_fee_adj * cong_adjust * gas_adj *
             telework_adj * land_use_adj * park_price_adj) / occupancy_adj * mode_stock_adj,
           stock = .stock,
           vmt = pass_ld_vmt

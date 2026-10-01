@@ -73,6 +73,7 @@ export(scen_building_non_residential)
 export(scen_building_residential)
 export(simulate_land_conversion)
 export(vmt_annual_energy_outlook)
+export(vmt_commute_trip_reduction)
 export(vmt_land_use_change)
 export(vmt_parking_policy)
 export(vmt_road_policy)
@@ -84,49 +85,65 @@ export(vmt_trip_reduction)
 export(vmt_vehicle_occupancy)
 import(dplyr)
 import(tidyr)
-importFrom(cli,cli_abort)
-importFrom(cli,cli_alert_success)
-importFrom(cli,cli_alert_warning)
-importFrom(cli,cli_progress_message)
-importFrom(cli,cli_warn)
-importFrom(dplyr,across)
-importFrom(dplyr,anti_join)
-importFrom(dplyr,arrange)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,case_when)
-importFrom(dplyr,cross_join)
-importFrom(dplyr,cur_column)
-importFrom(dplyr,distinct)
-importFrom(dplyr,everything)
-importFrom(dplyr,filter)
-importFrom(dplyr,first)
-importFrom(dplyr,group_by)
-importFrom(dplyr,if_else)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,mutate_all)
-importFrom(dplyr,pull)
-importFrom(dplyr,right_join)
-importFrom(dplyr,rowwise)
-importFrom(dplyr,select)
-importFrom(dplyr,slice_head)
-importFrom(dplyr,summarise)
-importFrom(dplyr,summarize)
-importFrom(dplyr,tibble)
-importFrom(dplyr,ungroup)
+importFrom(cli,
+  cli_abort,
+  cli_alert_success,
+  cli_alert_warning,
+  cli_progress_message,
+  cli_warn
+)
+importFrom(dplyr,
+  across,
+  anti_join,
+  arrange,
+  bind_rows,
+  case_when,
+  cross_join,
+  cur_column,
+  distinct,
+  everything,
+  filter,
+  first,
+  group_by,
+  if_else,
+  left_join,
+  mutate,
+  mutate_all,
+  pull,
+  right_join,
+  rowwise,
+  select,
+  slice_head,
+  summarise,
+  summarize,
+  tibble,
+  ungroup
+)
 importFrom(lubridate,leap_year)
 importFrom(magrittr,"%>%")
-importFrom(purrr,map)
-importFrom(purrr,map2)
-importFrom(purrr,map_dfr)
-importFrom(purrr,pmap)
-importFrom(rlang,exec)
-importFrom(rlang,sym)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_to_lower)
-importFrom(tibble,deframe)
-importFrom(tibble,tibble)
-importFrom(tidyr,pivot_longer)
-importFrom(tidyr,pivot_wider)
-importFrom(tidyselect,all_of)
-importFrom(tidyselect,any_of)
+importFrom(purrr,
+  map,
+  map2,
+  map_dfr,
+  pmap
+)
+importFrom(rlang,
+  exec,
+  sym
+)
+importFrom(stringr,
+  str_detect,
+  str_to_lower
+)
+importFrom(tibble,
+  deframe,
+  tibble
+)
+importFrom(tidyr,
+  pivot_longer,
+  pivot_wider
+)
+importFrom(tidyselect,
+  all_of,
+  any_of
+)

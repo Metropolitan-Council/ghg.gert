@@ -23,7 +23,7 @@ avo_county <- trip %>%
     # ensure observed trip duration,
     # reasonable distance
     # origin or destination in our counties
-    duration_minutes > 0,
+    duration_seconds > 0,
     as.character(trip_o_county) %in% cprg_tbi_hh_counties,
     as.character(trip_d_county) %in% cprg_tbi_hh_counties,
     distance_miles < 720,

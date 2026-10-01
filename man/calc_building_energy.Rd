@@ -11,7 +11,7 @@ calc_building_energy(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

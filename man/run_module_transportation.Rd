@@ -8,7 +8,7 @@ direct GHG, indirect GHG, and costs}
 run_module_transportation(
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
-  .selected_ctu = "all",
+  .selected_ctu,
   .parking_cost = ghg.ccap::parking_cost,
   .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
   .calc_transp_cost = FALSE,
@@ -20,6 +20,12 @@ run_module_transportation(
   .aeo_scenario = "REF",
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
   .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
@@ -62,7 +68,7 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
 
@@ -200,6 +206,7 @@ Other transportation:
 \code{\link[=mode_transit_rail]{mode_transit_rail()}},
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

@@ -6,13 +6,14 @@
 \usage{
 mode_passenger_light_duty(
   .pass_tb,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
   .vehicle_occupancy = vehicle_occupancy,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
   .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
@@ -43,6 +44,11 @@ mode_passenger_light_duty(
   .elast_5d = ghg.ccap::elast_5d,
   .factor_values = ghg.ccap::factor_values,
   .fuel_economy = ghg.ccap::fuel_economy,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -52,7 +58,7 @@ mode_passenger_light_duty(
 \item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -178,6 +184,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{passenger}

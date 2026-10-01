@@ -34,7 +34,8 @@ check_inputs <- function(name, value) {
     "multifamily_heat_pump_pct", "additional_electrified_residential_buildings_pct",
     "grid_decarbonization_pct", "parking_lot_reduction_percentage",
     "manure_management", "smart_fertilizer_application",
-    "cover_crops", "no_till_agriculture"
+    "cover_crops", "no_till_agriculture", "ctr_employees_targeted",
+    "cbtp_prop_targeted"
   )
 
   year_2025_2045 <- c(

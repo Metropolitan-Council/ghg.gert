@@ -10,7 +10,7 @@
 #'
 #' @importFrom cli cli_alert_success
 mode_air_water_multi <- function(.freight_tb = transportation_data$freight,
-                                 .selected_ctu = "all",
+                                 .selected_ctu,
                                  .scenario = "BAU",
                                  .electric_scenario = "ER",
                                  .aeo_scenario = "REF",

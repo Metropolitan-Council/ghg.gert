@@ -23,6 +23,7 @@ Calculate stock adjustment
 }
 \seealso{
 Other VMT effects:
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
 \code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
 \code{\link[=vmt_road_policy]{vmt_road_policy()}},

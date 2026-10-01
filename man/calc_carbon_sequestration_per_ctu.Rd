@@ -16,7 +16,7 @@ calc_carbon_sequestration_per_ctu(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. Options are:

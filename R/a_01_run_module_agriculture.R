@@ -35,7 +35,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                    run_crops = TRUE,
                                    .baseline_year = 2022,
                                    .ag_land_perserved = 1,
-                                   .selected_ctu = "all",
+                                   .selected_ctu,
                                    .scenario = "alt",
                                    # # manure
                                    # .manure_start_year = 2028,

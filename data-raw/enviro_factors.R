@@ -36,10 +36,17 @@ enviro_factors <- list(
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
   MARG_TELEWORK = -2.749 / 100, # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+
   CBTP_PARTICIPATION_PCT = 0.19, # Community Based Travel Planning: proportion of targeted residences that participate
   CBTP_TRIP_REDUCTION_PCT = -0.12, # Community Based Travel Planning: vehicle trip reduction by participating residences
   MAX_TRIP_REDUCTION_PCT = -0.023, # Trip reduction program: maximum VMT reduction cap (2.3%). Citation: CAPCOA Handbook
+
+  COMMUTE_TRIP_REDUCTION_VOLUNTARY_PCT = -0.04, # Commute Trip Reduction Program (Voluntary)
+  COMMUTE_TRIP_REDUCTION_MANDATORY_PCT = -0.26, # Commute Trip Reduction Program (Mandatory and monitoring)
+  MAX_COMMUTE_TRIP_REDUCTION_PCT = -0.45, # Maximum Commute Trip Reduction Program
   # TODO document these values in R/data.R
+
+
   KG_CO2E_PER_THERM_BASELINE = 5.31,
   KG_CO2E_PER_THERM_FORECAST = 5.31,
   KG_CO2E_PER_MHW_BASELINE = 566.4,

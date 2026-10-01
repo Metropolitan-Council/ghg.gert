@@ -17,7 +17,7 @@ Table with residential energy, including columns
 \code{residential_mwh}, \code{residential_mcf},
 \code{residential_propane_mmbtu}, and \code{residential_kerosene_mmbtu}.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.

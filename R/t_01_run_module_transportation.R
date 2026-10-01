@@ -49,7 +49,7 @@
 #' @family transportation
 run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       freight_tb = transportation_data$freight,
-                                      .selected_ctu = "all",
+                                      .selected_ctu,
                                       .parking_cost = ghg.ccap::parking_cost,
                                       .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
                                       .calc_transp_cost = FALSE,
@@ -61,6 +61,12 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
                                       .aeo_scenario = "REF",
                                       .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
                                       .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                                      .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+                                      .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+                                      .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+                                      .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                                      .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+                                      .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
                                       .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
                                       .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
                                       .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
@@ -117,7 +123,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     "calc_transp_cost",
     "calc_transp_fuel_use",
     "calc_transp_ghg_embodied",
-    "freight_vmt_fee"
+    "freight_vmt_fee",
+    "cbtp_prop_targeted",
+    "ctr_employees_targeted"
   )
 
   l_vals <- list(
@@ -144,7 +152,9 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .calc_transp_cost,
     .calc_transp_fuel_use,
     .calc_transp_ghg_embodied,
-    .freight_vmt_fee
+    .freight_vmt_fee,
+    .cbtp_prop_targeted,
+    .ctr_employees_targeted
   )
 
   # check inputs -----
@@ -256,6 +266,12 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
     .telework_pct = .telework_pct,
     .cbtp_prop_targeted = .cbtp_prop_targeted,
     .cbtp_start_year = .cbtp_start_year,
+    .cbtp_full_effect_year = .cbtp_full_effect_year,
+    .ctr_employees_targeted = .ctr_employees_targeted,
+    .ctr_voluntary = .ctr_voluntary,
+    .ctr_start_year = .ctr_start_year,
+    .ctr_full_effect_year = .ctr_full_effect_year,
+    .commute_vmt_proportion = .commute_vmt_proportion,
     .enviro_factors = .enviro_factors,
     .elast = .elast,
     .elast_5d = .elast_5d,
@@ -490,7 +506,7 @@ run_module_transportation <- function(pass_tb = transportation_data$passenger,
   ) %>%
     dplyr::left_join(
       ghg.ccap::geog_index %>%
-        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name"))),
+        dplyr::select(-tidyr::any_of(c("ctu", "ctu_name", "imagine_designation"))),
       by = c("geog_name", "geog_id")
     )
 

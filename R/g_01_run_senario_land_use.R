@@ -34,7 +34,7 @@
 #' )
 #' }
 run_scenario_land_use_deprecated <- function(tb = land_use_data,
-                                             .selected_ctu = "all",
+                                             .selected_ctu,
                                              .conservation_tillage_intervention = "current_conservation_tillage",
                                              .tree_planting_intervention = "none",
                                              .tree_planting_per_capita = 0.26,

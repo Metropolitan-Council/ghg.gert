@@ -7,7 +7,7 @@
 calc_vmt_forecast(
   .scenario,
   tb,
-  .selected_ctu = "all",
+  .selected_ctu,
   .mode,
   .stock,
   .variable,
@@ -41,6 +41,12 @@ calc_vmt_forecast(
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
   .elast = ghg.ccap::elast,
@@ -54,7 +60,7 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.mode}{character, current mode}
 
@@ -176,6 +182,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

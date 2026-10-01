@@ -27,10 +27,12 @@ test_trip_reduction <- function(x) {
     # Test with prop_targeted = 0.5
     # Expected: -(0.5 × 0.19 × 0.12) = -0.0114
     # cbtp_adj = 1 - 0.0114 = 0.9886
+    # full_effect_year = start_year gives an instant, unramped effect
     cbtp_adjust <- vmt_trip_reduction(
       .pass_tb = pass_tb_filtered,
       .cbtp_prop_targeted = 0.5,
       .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2025",
       .enviro_factors = enviro_factors
     )
 
@@ -56,6 +58,7 @@ test_trip_reduction <- function(x) {
       .pass_tb = pass_tb_filtered,
       .cbtp_prop_targeted = 1.0,
       .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2025",
       .enviro_factors = enviro_factors
     )
 
@@ -79,6 +82,7 @@ test_trip_reduction <- function(x) {
       .pass_tb = pass_tb_filtered,
       .cbtp_prop_targeted = 0.25,
       .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2025",
       .enviro_factors = enviro_factors
     ) %>%
       dplyr::filter(year >= "2025") %>%
@@ -89,6 +93,7 @@ test_trip_reduction <- function(x) {
       .pass_tb = pass_tb_filtered,
       .cbtp_prop_targeted = 0.75,
       .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2025",
       .enviro_factors = enviro_factors
     ) %>%
       dplyr::filter(year >= "2025") %>%
@@ -159,6 +164,102 @@ test_trip_reduction <- function(x) {
       cbtp_adjust$cbtp_adj,
       rep(1, nrow(cbtp_adjust))
     )
+  })
+
+  testthat::test_that(paste0(x, " CBTP reaches full reduction in full_effect_year"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x)
+
+    cbtp_adjust <- vmt_trip_reduction(
+      .pass_tb = pass_tb_filtered,
+      .cbtp_prop_targeted = 0.5,
+      .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2045",
+      .enviro_factors = enviro_factors
+    )
+
+    pre_ramp <- cbtp_adjust %>%
+      dplyr::filter(year %in% c("2015", "2018", "2020")) %>%
+      dplyr::pull(cbtp_adj)
+
+    testthat::expect_equal(pre_ramp, rep(1, 3))
+
+    at_start <- cbtp_adjust %>%
+      dplyr::filter(year == "2025") %>%
+      dplyr::pull(cbtp_adj)
+
+    testthat::expect_lt(at_start, 1)
+
+    during_ramp <- cbtp_adjust %>%
+      dplyr::filter(year >= "2025", year <= "2045") %>%
+      dplyr::arrange(year) %>%
+      dplyr::pull(cbtp_adj)
+
+    testthat::expect_true(all(diff(during_ramp) < 0))
+
+    post_ramp <- cbtp_adjust %>%
+      dplyr::filter(year >= "2045") %>%
+      dplyr::pull(cbtp_adj)
+
+    # expect first post-ramp year is less than at_start
+    testthat::expect_lt(post_ramp[1], at_start)
+    # expect last year is less than 1
+    testthat::expect_lt(post_ramp[-1], 1)
+  })
+
+  testthat::test_that(paste0(x, " CBTP single-year ramp equals instant full reduction"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x)
+
+    # start_year == full_effect_year should be instant step (no ramp)
+    cbtp_adjust <- vmt_trip_reduction(
+      .pass_tb = pass_tb_filtered,
+      .cbtp_prop_targeted = 0.5,
+      .cbtp_start_year = "2030",
+      .cbtp_full_effect_year = "2030",
+      .enviro_factors = enviro_factors
+    )
+
+    post_2030 <- cbtp_adjust %>%
+      dplyr::filter(year >= "2030") %>%
+      dplyr::pull(cbtp_adj)
+
+    testthat::expect_lt(post_2030[1], 1)
+    testthat::expect_equal(min(post_2030), 0.9886, tolerance = 0.00001)
+  })
+
+  testthat::test_that(paste0(x, " CBTP earlier full_effect_year shortens ramp"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x)
+
+    longer_ramp_start <- vmt_trip_reduction(
+      .pass_tb = pass_tb_filtered,
+      .cbtp_prop_targeted = 0.5,
+      .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2045",
+      .enviro_factors = enviro_factors
+    ) %>%
+      dplyr::filter(year == "2025") %>%
+      dplyr::pull(cbtp_adj)
+
+    cbtp_adjust <- vmt_trip_reduction(
+      .pass_tb = pass_tb_filtered,
+      .cbtp_prop_targeted = 0.5,
+      .cbtp_start_year = "2025",
+      .cbtp_full_effect_year = "2027",
+      .enviro_factors = enviro_factors
+    )
+
+    at_start <- cbtp_adjust %>%
+      dplyr::filter(year == "2025") %>%
+      dplyr::pull(cbtp_adj)
+
+    post_ramp <- cbtp_adjust %>%
+      dplyr::filter(year >= "2030") %>%
+      dplyr::pull(cbtp_adj)
+
+    testthat::expect_lt(at_start, longer_ramp_start)
+    testthat::expect_lt(min(post_ramp), 1)
   })
 }
 

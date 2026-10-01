@@ -12,7 +12,7 @@ calc_ghg_non_residential(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential energy,

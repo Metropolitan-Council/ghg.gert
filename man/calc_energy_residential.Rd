@@ -21,7 +21,7 @@ BAU residential units (zero-strategy pass).}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns

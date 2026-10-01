@@ -5,7 +5,7 @@
 \title{run all modules}
 \usage{
 run_all_modules(
-  .selected_ctu = "all",
+  .selected_ctu,
   run_land_use = TRUE,
   run_buildings = TRUE,
   run_residential = TRUE,
@@ -72,6 +72,14 @@ run_all_modules(
   .comb_5d_impact_pct_change =
     ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
   .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
   .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
   .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
@@ -86,7 +94,7 @@ run_all_modules(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{run_land_use}{logical. Default is \code{TRUE}}
 

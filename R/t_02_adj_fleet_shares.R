@@ -55,7 +55,7 @@
 #'
 adj_fleet_shares <- function(.pass_tb,
                              .freight_tb,
-                             .selected_ctu = "all",
+                             .selected_ctu,
                              .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
                              .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
                              .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,

@@ -6,7 +6,7 @@
 \usage{
 run_scenario_land_use_deprecated(
   tb = land_use_data,
-  .selected_ctu = "all",
+  .selected_ctu,
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "none",
   .tree_planting_per_capita = 0.26,
@@ -20,7 +20,7 @@ run_scenario_land_use_deprecated(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.

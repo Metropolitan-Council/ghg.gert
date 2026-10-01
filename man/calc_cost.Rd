@@ -6,7 +6,7 @@
 \usage{
 calc_cost(
   tb_vmt,
-  .selected_ctu = "all",
+  .selected_ctu,
   .mode,
   .price,
   .enviro_factors = enviro_factors,
@@ -16,7 +16,7 @@ calc_cost(
 \arguments{
 \item{tb_vmt}{VMT input table}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.mode}{character, given transportation mode.}
 
@@ -50,6 +50,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

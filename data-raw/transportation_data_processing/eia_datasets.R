@@ -134,7 +134,7 @@ mpg_change <- aeo_fuel_economy %>%
   # filter(var == "SIMPG") %>%
   group_by(scenario, name, aeo_scen, aeo_mode, var) %>%
   arrange(scenario, name, aeo_scen, aeo_mode, var, period) %>%
-  left_join(mpg_ref) %>%
+  left_join(mpg_ref, join_by(period, aeo_mode, var)) %>%
   mutate(
     ref_pct_change = (value - value.ref) / value.ref,
     one_min_ref = 1 + ref_pct_change
@@ -193,8 +193,11 @@ vmt_change <- aeo_vmt %>%
   # group_by(scenario, name, aeo_scen, var) %>%
   arrange(scenario, name, var, aeo_mode, period) %>%
   filter(period %in% unique(factor_values$aeo$year)) %>%
-  left_join(aeo_vmt_ref %>%
-    select(period, var, aeo_mode, value.ref)) %>%
+  left_join(
+    aeo_vmt_ref %>%
+      select(period, var, aeo_mode, value.ref),
+    join_by(period, var, aeo_mode)
+  ) %>%
   mutate(
     ref_pct_change = (value - value.ref) / value.ref,
     one_min_ref = 1 + ref_pct_change

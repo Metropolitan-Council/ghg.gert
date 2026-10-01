@@ -7,7 +7,7 @@
 run_scenario_land_use(
   tb = planned_land_use$ctu_planned_land_use_parcel,
   tb_strategy = NULL,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "alt"
 )
 }
