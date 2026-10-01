@@ -25,10 +25,12 @@ transportation_defaults <-
     "bev_pct_stock" = 0,
     "hev_pct_stock" = 0,
     "cbtp_prop_targeted" = 0,
-    "cbtp_start_year" = "2030",
+    "cbtp_start_year" = "2028",
+    "cbtp_full_effect_year" = "2035",
     "ctr_voluntary" = TRUE,
     "ctr_employees_targeted" = 0,
-    "ctr_start_year" = "2030"
+    "ctr_start_year" = "2028",
+    "ctr_full_effect_year" = "2035"
   )
 
 usethis::use_data(transportation_defaults, overwrite = TRUE)
