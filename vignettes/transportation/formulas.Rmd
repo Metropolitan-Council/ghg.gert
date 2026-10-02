@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, echo = FALSE}
-library(ghg.ccap)
+library(ghg.gert)
 ```
 
 
@@ -44,7 +44,7 @@ pass_ld_vmt <- (((miles_traveled - adj_transit) * av_adj * aeo_adj * vmt_fee_adj
 
 ###### Transit  
 
-For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.ccap::enviro_factors$TRANSIT_SERVICE_ELAST`
+For passenger MT, $adj_{transit}$ is the number of miles traveled shifted **from** PLDV **to** transit, multiplied by the PLDV to transit ratio, `r ghg.gert::enviro_factors$TRANSIT_SERVICE_ELAST`
 
 $$ adj_{transit} = VMT_{transit} \times \Delta service \times 0.47  $$
 
@@ -66,9 +66,9 @@ $adj_{aeo}$ is the Annual Energy Outlook VMT adjustment factor for the given mod
 $$adj_{vmt} = 1 + \left( \frac{vmt \space fee}{fuel_{f} + time + payd} \right) \times elast_{vmt} $$
 $vmt \space fee$ is the vehicle miles traveled fee in dollars per mile  
 $fuel$ is the cost of fuel in dollars per mile fuel type $f$   
-$time$ is estimated cost of time in dollars per mile, `r ghg.ccap::enviro_factors$TIME_COST_MI`   
+$time$ is estimated cost of time in dollars per mile, `r ghg.gert::enviro_factors$TIME_COST_MI`   
 $payd$ is pay-as-you-drive insurance cost in dollars per mile   
-$elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total vehicle miles traveled, `r ghg.ccap::elast$vmt_elast[9]`  
+$elast_{vmt}$ is the elasticity or effect size of per mile pricing fees on total vehicle miles traveled, `r ghg.gert::elast$vmt_elast[9]`  
 
 
 Users can include EITHER VMT fees or PAYD fees, not both. 
@@ -80,13 +80,13 @@ Users can include EITHER VMT fees or PAYD fees, not both.
 
 ###### Congestion fees    
 
-Congestion price in dollars per mile divided by the cost of fuel in dollars per mile plus the cost of time in dollars per mile, multiplied by the proportion of all VMT that occur during congested time periods, `r ghg.ccap::enviro_factors$CONG_VMT`,  all times the elasticity or effect size of per mile pricing during congested time periods, `r ghg.ccap::elast$cong_elast[9]`.    
+Congestion price in dollars per mile divided by the cost of fuel in dollars per mile plus the cost of time in dollars per mile, multiplied by the proportion of all VMT that occur during congested time periods, `r ghg.gert::enviro_factors$CONG_VMT`,  all times the elasticity or effect size of per mile pricing during congested time periods, `r ghg.gert::elast$cong_elast[9]`.    
 
 $$ adj_{cong} = 1 + \left(\frac{cong\space price}{fuel_{f} + time} \times 0.10 \right) \times elast_{cong} $$
 $cong \space price$ is the price of traveling during congested time periods in dollars per mile  
 $fuel$ is the cost of fuel in dollars per mile fuel type $f$   
-$time$ is estimated cost of time in dollars per mile, `r ghg.ccap::enviro_factors$TIME_COST_MI`   
-$elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods, `r ghg.ccap::elast$cong_elast[9]`.     
+$time$ is estimated cost of time in dollars per mile, `r ghg.gert::enviro_factors$TIME_COST_MI`   
+$elast_{cong}$ is the elasticity or effect size of per mile pricing during congested time periods, `r ghg.gert::elast$cong_elast[9]`.     
 
 ```{r}
 1 + ((.cong_price / fuel_time_cost_mile) *
@@ -98,7 +98,7 @@ $elast_{cong}$ is the elasticity or effect size of per mile pricing during conge
 $$adj_{gas} = 1 + \left( \frac{gas \space price}{fuel_{f} + time} \right) \times EV_{f} \times elast_{gas}$$
 $gas \space price$ is the additional tax on fuel in dollars per mile.   
 $EV$ is either 0 or 1, dependent on the fuel type $f$  
-$elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r ghg.ccap::elast$gas_elast[9]` on vehicle miles traveled.     
+$elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r ghg.gert::elast$gas_elast[9]` on vehicle miles traveled.     
 
 
 ```{r}
@@ -108,20 +108,20 @@ $elast_{gas}$ is the elasticity or effect size of per mile pricing on fuel, `r g
 
 ###### Telework    
 
-Telework is 1  plus the additional percentage of people teleworking by the final forecast year times the marginal effect of telework, `r ghg.ccap::enviro_factors$MARG_TELEWORK`
+Telework is 1  plus the additional percentage of people teleworking by the final forecast year times the marginal effect of telework, `r ghg.gert::enviro_factors$MARG_TELEWORK`
 $$adj_{telework} = 1 + (\%telework \times -0.0275) $$
 $\%telework$ is additional percent of people teleworking in the final forecast year.  
 
 ###### Land use   
-$$ adj_{land} = \prod_{i=1}^{7} 1 + \Delta_{i} \times elast_{i,m} $$
+$$ adj_{land} = \prod_{i=1}^{8} 1 + \Delta_{i} \times elast_{i,m} $$
 
 where $\Delta_{i}$  is the percent change in land use element $i$. 
 $elast_{i,m}$ is the elasticity or effect size land use element $i$ and travel mode $m$.     
 
-7 elements are considered: employment density, population density, land use diversity, intersection design, job accessibility via transit, average minimum distance to transit stops, and combined density.   
+8 elements are considered: employment density, population density, land use diversity, intersection design (% 4-way stops), intersection density (intersections per square mile), job accessibility via transit, average minimum distance to transit stops, and combined density.   
 
 
-$adj_{land}$ must fall within limits dependent on travel mode $m$. Passenger VMT can be no less than `r 1 + ghg.ccap::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_TR`, and walk/bike VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_ACT`.    
+$adj_{land}$ must fall within limits dependent on travel mode $m$. Passenger VMT can be no less than `r 1 + ghg.gert::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.gert::enviro_factors$MAX_5D_TR`, and walk/bike VMT can be no greater than `r 1 + ghg.gert::enviro_factors$MAX_5D_ACT`.    
 
 ###### Parking    
 

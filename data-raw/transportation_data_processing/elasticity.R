@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(councilR)
-library(ghg.ccap)
+library(ghg.gert)
 
 
 # Define years in model-----
@@ -72,7 +72,6 @@ ELAST_OWN_PRICE <- c(0, 0, 0, rep(-0.10, length(FOR_YRS)))
 # ELAST_OWN_PRICE <- calc_elasticity(empty_list, -0.10, length(INIT_YRS), length(FOR_YRS))
 
 
-
 elast <- tibble(
   year = YRS,
   vmt_elast = ELAST_VMT,
@@ -88,19 +87,6 @@ elast <- tibble(
 
 
 # Driving VMT elasticity to 5Ds -----
-#
-YRS <- c("2015", "2018", "2020", "2025", "2030", "2035", "2040")
-# Last forecast year
-FIN_YR <- "2040"
-# Year that dynamic ridesharing is introduced to the market (if included in scenario)
-DRS_YR <- "2025"
-# Forecast years
-FOR_YRS <- c("2025", "2030", "2035", "2040")
-# Years to adjust sales totals
-ADJ_YRS <- c("2020", "2025", "2030", "2035")
-INIT_YRS <- setdiff(YRS, FOR_YRS)
-DAYS <- 340
-# alls function that interpolates changes through forecast years for elasticity.
 #  Assumes change is linear to final forecast year.
 
 # Define a default starting list for elasticities for 5Ds
@@ -117,11 +103,14 @@ ELAST_DENS_DR_POP <- calc_elasticity(ELAST_DEF_5D, -0.04, length(INIT_YRS), leng
 # population density has a lesser effect than job density
 # based on peer review session with Metro Transit SI folks
 # https://github.com/Metropolitan-Council/ghg.sp/issues/19
+
 ELAST_DENS_DR_EMP <- calc_elasticity(ELAST_DEF_5D, -0.07, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
 ELAST_DIVER_DR <- calc_elasticity(ELAST_DEF_5D, -0.09, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_DES_DR <- calc_elasticity(ELAST_DEF_5D, -0.12, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_DR <- calc_elasticity(ELAST_DEF_5D, -0.12, length(INIT_YRS), length(FOR_YRS))
 # Jobs Access (RANGE)
 ELAST_JOBS_DR <- calc_elasticity(ELAST_DEF_5D, -0.200, length(INIT_YRS), length(FOR_YRS))
 # Distance (RANGE)
@@ -138,9 +127,11 @@ ELAST_DENS_ACT_EMP <- calc_elasticity(ELAST_DEF_5D, 0.040, length(INIT_YRS), len
 ELAST_DIVER_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
 ELAST_DES_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.390, length(INIT_YRS), length(FOR_YRS))
 # Job Access (RANGE)
-ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, -0.060, length(INIT_YRS), length(FOR_YRS))
-# Distance (RANGE)
+ELAST_JOBS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
+# Distance to transit (RANGE)
 ELAST_DIST_ACT <- calc_elasticity(ELAST_DEF_5D, 0.150, length(INIT_YRS), length(FOR_YRS))
 # Combined density effect
 ELAST_CDENS_ACT <- calc_elasticity(ELAST_DEF_5D, 0.330, length(INIT_YRS), length(FOR_YRS))
@@ -152,9 +143,11 @@ ELAST_DENS_TRANS_POP <- calc_elasticity(ELAST_DEF_5D, 0.07, length(INIT_YRS), le
 ELAST_DENS_TRANS_EMP <- calc_elasticity(ELAST_DEF_5D, 0.01, length(INIT_YRS), length(FOR_YRS))
 # Diversity (RANGE)
 ELAST_DIVER_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.12, length(INIT_YRS), length(FOR_YRS))
-# Job Access (RANGE)
-ELAST_DES_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.290, length(INIT_YRS), length(FOR_YRS))
 # Design (RANGE)
+ELAST_DES_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.290, length(INIT_YRS), length(FOR_YRS))
+# Intersection Density (RANGE)
+ELAST_INT_DENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.230, length(INIT_YRS), length(FOR_YRS))
+# Job Access (RANGE)
 ELAST_JOBS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.128, length(INIT_YRS), length(FOR_YRS))
 # Distance (RANGE)
 ELAST_DIST_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.290, length(INIT_YRS), length(FOR_YRS))
@@ -163,11 +156,10 @@ ELAST_CDENS_TRANS <- calc_elasticity(ELAST_DEF_5D, 0.620, length(INIT_YRS), leng
 
 
 # Max 5D by mode
-MAX_5D_DR <- -0.25
+# maximum for drive comes from CAPCOA handbook capcoaGHGHandbook2024
+MAX_5D_DR <- -0.30
 MAX_5D_ACT <- 0.37
 MAX_5D_TRANS <- 0.71
-
-
 
 
 # combined tables -----
@@ -181,6 +173,7 @@ transit_5d <- tibble(
   employment_density = ELAST_DENS_TRANS_EMP,
   diversity = ELAST_DIVER_TRANS,
   design = ELAST_DES_TRANS,
+  intersection_density = ELAST_INT_DENS_TRANS,
   job_access = ELAST_JOBS_TRANS,
   distance = ELAST_DIST_TRANS,
   combined_density = ELAST_CDENS_TRANS
@@ -193,6 +186,7 @@ walk_5d <- tibble(
   employment_density = ELAST_DENS_ACT_EMP,
   diversity = ELAST_DIVER_ACT,
   design = ELAST_DES_ACT,
+  intersection_density = ELAST_INT_DENS_ACT,
   job_access = ELAST_JOBS_ACT,
   distance = ELAST_DIST_ACT,
   combined_density = ELAST_CDENS_ACT
@@ -205,6 +199,7 @@ drive_5d <- tibble(
   employment_density = ELAST_DENS_DR_EMP,
   diversity = ELAST_DIVER_DR,
   design = ELAST_DES_DR,
+  intersection_density = ELAST_INT_DENS_DR,
   job_access = ELAST_JOBS_DR,
   distance = ELAST_DIST_DR,
   combined_density = ELAST_CDENS_DR
@@ -214,25 +209,14 @@ elast_5d <- bind_rows(
   drive_5d,
   walk_5d,
   transit_5d
-) %>%
-  bind_rows(
-    tibble::tribble(
-      ~year, ~type, ~population_density, ~employment_density, ~diversity, ~design, ~job_access, ~distance, ~combined_density,
-      "2045", "DRIVE", -0.04, -0.07, -0.09, -0.12, -0.2, -0.05, -0.22,
-      "2045", "WALK", 0.07, 0.04, 0.15, -0.06, -0.06, 0.15, 0.33,
-      "2045", "TRANSIT", 0.07, 0.01, 0.12, 0.29, 0.128, 0.29, 0.62,
-      "2050", "DRIVE", -0.04, -0.07, -0.09, -0.12, -0.2, -0.05, -0.22,
-      "2050", "WALK", 0.07, 0.04, 0.15, -0.06, -0.06, 0.15, 0.33,
-      "2050", "TRANSIT", 0.07, 0.01, 0.12, 0.29, 0.128, 0.29, 0.62
-    )
-  )
+)
 
 
 # save all -----
 
-# waldo::compare(elast_5d, ghg.ccap::elast_5d)
+# waldo::compare(elast_5d, ghg.gert::elast_5d)
 usethis::use_data(elast_5d, overwrite = TRUE)
 
 
-# waldo::compare(elast, ghg.ccap::elast)
+# waldo::compare(elast, ghg.gert::elast)
 usethis::use_data(elast, overwrite = TRUE)

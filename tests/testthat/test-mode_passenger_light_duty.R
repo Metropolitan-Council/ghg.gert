@@ -1,282 +1,130 @@
-testthat::test_that("Saint Paul emissions reduce with interventions", {
-  pass <- suppressMessages(
-    mode_passenger_light_duty(
-      .pass_tb = transportation_data$passenger,
-      .selected_ctu = "Saint Paul"
+test_passenger <- function(x) {
+  testthat::test_that(paste0(x, " emissions reduce with interventions"), {
+    pass <- suppressMessages(
+      mode_passenger_light_duty(
+        .pass_tb = transportation_data$passenger,
+        .selected_ctu = x
+      )
     )
-  )
 
-  testthat::expect_length(pass, 2)
+    testthat::expect_length(pass, 2)
 
-  testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg"
-    ),
-    ignore.order = TRUE
-  )
+    testthat::expect_named(pass,
+      expected = c(
+        "vmt",
+        "dir_ghg"
+      ),
+      ignore.order = TRUE
+    )
 
+    pass_bau <- pass$dir_ghg %>%
+      filter(year == max(year)) %>%
+      group_by(geog_name, year) %>%
+      summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
-  pass_bau <- pass$dir_ghg %>%
-    filter(year == "2040") %>%
-    group_by(geog_name, year) %>%
-    summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-
-  pass_transit <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Saint Paul",
-    .scenario = "transit",
-    .transit_service_pct = .30
-  ))
-
-  pass_lu <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Saint Paul",
-    .scenario = "land_use",
-    .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10
-  ))
+    pass_bau_vmt <- pass$vmt %>%
+      filter(year == max(year)) %>%
+      group_by(geog_name, year) %>%
+      summarise(vmt = sum(vmt), .groups = "keep")
 
 
-  pass_road <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Saint Paul",
-    .scenario = "road",
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .pldv_avo_pct = 0.5,
-    .cong_price = 0.01,
-    .parking_price = 20
-  ))
+    pass_transit <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "transit",
+      .transit_service_pct = .30
+    ))
 
 
-  pass_tele <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Saint Paul",
-    .scenario = "telework",
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .telework_pct = 0.5,
-    .parking_price = 20
-  ))
+    pass_lu <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "land_use",
+      .emp_dens_pct_change = 0.10,
+      .pop_dens_pct_change = 0.10,
+      .intersection_density_pct_change = 0.10
+    ))
+
+    pass_lu_int <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "land_use",
+      .intersection_density_pct_change = 0.15
+    ))
 
 
-
-  purrr::map(
-    list(
-      pass_transit,
-      pass_lu,
-      pass_road,
-      pass_tele
-    ),
-    function(x) {
-      test_ghg <- x$dir_ghg %>%
-        filter(year == "2040") %>%
-        group_by(geog_name, year) %>%
-        summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-      testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
-    }
-  )
-})
+    pass_road <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "road",
+      .emp_dens_pct_change = 0.10,
+      .vmt_fee = 0.01,
+      .pldv_avo_pct = 0.5,
+      .cong_price = 0.01,
+      .parking_price = 20
+    ))
 
 
-testthat::test_that("Lake Elmo emissions reduce with interventions", {
-  pass <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Lake Elmo",
-    .calc_transp_cost = TRUE,
-    .calc_transp_fuel_use = TRUE,
-    .calc_transp_ghg_embodied = TRUE
-  ))
-
-  testthat::expect_length(pass, 5)
-
-  testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg",
-      "emb_ghg",
-      "fuel_use_gallons_kwh",
-      "cost"
-    ),
-    ignore.order = TRUE
-  )
+    pass_tele <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "telework",
+      .emp_dens_pct_change = 0.10,
+      .vmt_fee = 0.01,
+      .telework_pct = 0.5,
+      .parking_price = 20
+    ))
 
 
-  pass_bau <- pass$dir_ghg %>%
-    filter(year == "2040") %>%
-    group_by(geog_name, year) %>%
-    summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
+    pass_vmt_reduction <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .vmt_reduction_pct = 0.10
+    ))
 
+    # check that emissions decrease
+    purrr::map(
+      list(
+        pass_transit,
+        pass_lu,
+        pass_lu_int,
+        pass_road,
+        pass_tele,
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_ghg <- x$dir_ghg %>%
+          filter(year == max(year)) %>%
+          group_by(geog_name, year) %>%
+          summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
 
-  pass_transit <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Lake Elmo",
-    .scenario = "transit",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .transit_service_pct = .30
-  ))
+        testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
+      }
+    )
 
-  pass_lu <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Lake Elmo",
-    .scenario = "land_use",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10
-  ))
+    # check that VMT decreases
+    purrr::map(
+      list(
+        pass_transit,
+        pass_lu,
+        pass_lu_int,
+        pass_road,
+        pass_tele,
+        pass_vmt_reduction
+      ),
+      function(x) {
+        test_ghg <- x$vmt %>%
+          filter(year == max(year)) %>%
+          group_by(geog_name, year) %>%
+          summarise(vmt = sum(vmt), .groups = "keep")
 
+        testthat::expect_lte(test_ghg$vmt, pass_bau_vmt$vmt)
+      }
+    )
+  })
+}
 
-  pass_road <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Lake Elmo",
-    .scenario = "road",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .pldv_avo_pct = 0.5,
-    .cong_price = 0.01,
-    .parking_price = 20
-  ))
-
-
-  pass_tele <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Lake Elmo",
-    .scenario = "telework",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .telework_pct = 0.5,
-    .parking_price = 20
-  ))
-
-
-
-  purrr::map(
-    list(
-      pass_transit,
-      pass_lu,
-      pass_road,
-      pass_tele
-    ),
-    function(x) {
-      test_ghg <- x$dir_ghg %>%
-        filter(year == "2040") %>%
-        group_by(geog_name, year) %>%
-        summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-      testthat::expect_lt(test_ghg$dir_ghg, pass_bau$dir_ghg)
-    }
-  )
-})
-
-
-testthat::test_that("Minneapolis emissions reduce with interventions", {
-  pass <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Minneapolis",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE
-  ))
-
-  testthat::expect_length(pass, 2)
-
-  testthat::expect_named(pass,
-    expected = c(
-      "vmt",
-      "dir_ghg"
-      # "emb_ghg",
-      # "fuel_use_gallons_kwh",
-      # "cost"
-    ),
-    ignore.order = TRUE
-  )
-
-
-  pass_bau <- pass$dir_ghg %>%
-    filter(year == "2040") %>%
-    group_by(geog_name, year) %>%
-    summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-
-  pass_transit <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Minneapolis",
-    .scenario = "transit",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .transit_service_pct = .30,
-    .transit_avo_pct = 0.5
-  ))
-
-  pass_lu <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Minneapolis",
-    .scenario = "land_use",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .pop_dens_pct_change = 0.10
-  ))
-
-
-  pass_road <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Minneapolis",
-    .scenario = "road",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .pldv_avo_pct = 0.5,
-    .cong_price = 0.01,
-    .parking_price = 20
-  ))
-
-
-  pass_tele <- suppressMessages(mode_passenger_light_duty(
-    .pass_tb = transportation_data$passenger,
-    .selected_ctu = "Minneapolis",
-    .scenario = "telework",
-    .calc_transp_cost = FALSE,
-    .calc_transp_fuel_use = FALSE,
-    .calc_transp_ghg_embodied = FALSE,
-    .emp_dens_pct_change = 0.10,
-    .vmt_fee = 0.01,
-    .telework_pct = 0.5
-  ))
-
-
-
-  purrr::map(
-    list(
-      pass_transit,
-      pass_lu,
-      pass_road,
-      pass_tele
-    ),
-    function(x) {
-      test_ghg <- x$dir_ghg %>%
-        filter(year == "2040") %>%
-        group_by(geog_name, year) %>%
-        summarise(dir_ghg = sum(dir_ghg), .groups = "keep")
-
-      testthat::expect_lte(test_ghg$dir_ghg, pass_bau$dir_ghg)
-    }
-  )
-})
+purrr::map(
+  geography_test_list,
+  test_passenger
+)

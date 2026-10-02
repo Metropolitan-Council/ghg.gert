@@ -15,12 +15,6 @@
 #'
 #' @export
 #' @importFrom cli cli_progress_message
-#' @examples
-#'   /dontrun{
-#'
-#'   library(ghg.ccap)
-#'   }
-#'
 run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_parcel,
                                   tb_strategy = NULL,
                                   .selected_ctu = "all",
@@ -28,14 +22,14 @@ run_scenario_land_use <- function(tb = planned_land_use$ctu_planned_land_use_par
   # browser()
   tb_bau <- filter_ctu(tb, .selected_ctu = .selected_ctu) %>%
     mutate(
-      dupe_index = ave(seq_along(ctu_landuse_desc), ctu, ctu_landuse_desc, FUN = seq_along),
-      dupe_count = ave(ctu_landuse_desc, ctu, ctu_landuse_desc, FUN = length),
+      dupe_index = ave(seq_along(ctu_landuse_desc), geog_name, ctu_landuse_desc, FUN = seq_along),
+      dupe_count = ave(ctu_landuse_desc, geog_name, ctu_landuse_desc, FUN = length),
       ctu_landuse_desc = if_else(dupe_count > 1,
         paste0(ctu_landuse_desc, " - ", dupe_index),
         ctu_landuse_desc
       )
     ) %>%
-    select(-dupe_index, -dupe_count)
+    dplyr::select(-dupe_index, -dupe_count)
 
 
   if (is.null(tb_strategy)) {

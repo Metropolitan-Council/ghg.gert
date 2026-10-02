@@ -6,46 +6,56 @@
 \usage{
 vmt_land_use_change(
   .type,
-  .comb_5d_impact_pct_change = 0,
-  .pop_dens_pct_change = 0,
-  .emp_dens_pct_change = 0,
-  .land_use_diversity_pct_change = 0,
-  .intersection_design_pct_change = 0,
-  .job_access_pct_change = 0,
-  .transit_dist_pct_change = 0,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .elast_5d = ghg.ccap::elast_5d
+  .comb_5d_impact_pct_change =
+    ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
+  .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
+  .land_use_diversity_pct_change =
+    ghg.gert::transportation_defaults$land_use_diversity_pct_change,
+  .intersection_design_pct_change =
+    ghg.gert::transportation_defaults$intersection_design_pct_change,
+  .intersection_density_pct_change =
+    ghg.gert::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .elast_5d = ghg.gert::elast_5d
 )
 }
 \arguments{
 \item{.type}{character, one of \code{"DRIVE"}, \code{"WALK"}, \code{"TRANSIT"}.}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+Default is 0}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0.}
 
 \item{.emp_dens_pct_change}{percent change in employment density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
-Numeric between -1 and 1.  Default is \code{0}}
+Numeric between -1 and 1.  Default is 0}
+
+\item{.intersection_density_pct_change}{percent change in intersection density
+(intersections per square mile) in the final forecast year relative to BAU.
+Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
 }
 \value{
 a table with columns \code{year}, \code{type}, and \code{land_use_adj}
@@ -68,12 +78,14 @@ An input value of 1 indicates a 100\% increase, where a value of 0.75 indicates 
 A value of -0.75 indicates a 75\% decrease.
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

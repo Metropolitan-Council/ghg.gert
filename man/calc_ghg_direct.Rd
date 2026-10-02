@@ -9,12 +9,11 @@ calc_ghg_direct(
   tb,
   .mode,
   .fuel_type,
-  .aeo_scenario = "REF",
   .miles_per_gallon,
-  .grid_decarbonization_pct = 0.6,
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values
+  .aeo_scenario = "REF",
+  .fuel_economy = ghg.gert::fuel_economy,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values
 )
 }
 \arguments{
@@ -28,20 +27,17 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.fuel_type}{character, fuel type for given mode.}
 
+\item{.miles_per_gallon}{numeric, miles per gallon for mode.}
+
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.miles_per_gallon}{numeric, miles per gallon for mode.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
-\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names
@@ -56,45 +52,39 @@ Default value is \code{0.6}.}
 Calculate the direct greenhouse gas emissions for a given mode and fuel
 type. If the fuel type is non-electric, the returned value represents
 tail-pipe emissions. If fuel type is electric, the returned value
-represents the \emph{equivalent} emissions per kilowatt hour, modulated
-by the percentage of the grid that is de-carbonized
-(\code{.grid_decarbonization_pct}). If the entire grid is de-carbonized
-(\code{.grid_decarbonization_pct = 1}), then there are no emissions for
-electric vehicles.
+represents the \emph{equivalent} emissions per kilowatt hour.
 }
 \seealso{
-Other emissions: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+Other emissions:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{emissions}
 \concept{transportation}

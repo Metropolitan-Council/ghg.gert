@@ -13,46 +13,155 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ghg.ccap
+# ghg.gert
 
 <!-- badges: start -->
-<!-- [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.ccap/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.ccap/actions) -->
+<!-- [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.gert/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.gert/actions) -->
 <!-- badges: end -->
 
-*This project has been funded wholly or in part by the United States Environmental Protection Agency (EPA) under assistance agreement 00E03476 to the Metropolitan Council. The contents of this repository do not necessarily reflect the views and policies of the EPA, nor does the EPA endorse trade names or recommend the use of commercial products mentioned in this repository.*
+The `{ghg.gert}` repository contains data, code, and documentation supporting climate mitigation planning across the seven-county Twin Cities metropolitan region. It provides a greenhouse gas (GHG) inventory, emissions projections, and analysis of emission reduction strategies for the region.
 
-The `{ghg.ccap}` repository contains data, code, and documentation for the Twin Cities Metropolitan Statistical Area's Comprehensive Climate Action Plan (CCAP) of the EPA's Climate Pollution Reduction Grant.
+## Purpose
 
-The CCAP will expand on previous Met Council Greenhouse Gas (GHG) inventories, ghg.cprg, ghg.sp, in several important ways.
+This work is directed by Minnesota state legislation ([Minn. Stat. § 473.859](https://www.revisor.mn.gov/statutes/cite/473.859)), which requires local comprehensive plans in the metropolitan area to include a climate mitigation element. The tools and data in this repository help the Metropolitan Council and its local government partners meet that requirement with consistent, regionally coherent methods.
 
-1) expands to four additional collar counties. 
-2) quantify agricultural sector emissions and natural land carbon sequestration.
-3) develop a baseline year in line with the state of MN's efforts, 2005.
-4) project GHG emission out to 2030 and 2050.
-5) identifies additional emission reduction measures and quantifies there short and long-term emission reduction potential.
-6) quantifies co-benefits to low income and disadvantaged communities as defined by the EPA
+The repository also supports [Imagine 2050](https://imagine2050.metrocouncil.org/read-the-plans/land-use/), the regional development guide, which envisions the Twin Cities region leading on climate change action. The GHG inventory and scenario analysis in `{ghg.gert}` provide analytical grounding for tracking progress toward Imagine 2050's climate goals and for informing land use, transportation, and infrastructure decisions across the region.
 
-This repository was originally forked from ghg.sp and has the potential to ultimately update the strategy planing tool based on the expanded inventory items of the CCAP.
+This repository was originally forked from `ghg.sp` and provides a foundation for updating regional strategy planning tools based on the expanded inventory.
 
 ## Installation
 
-Ensure your git credentials set up for accessing internal-only Council repositories.   
-
-You can install the development version of `{ghg.ccap}` from [GitHub](https://github.com/Metropolitan-Council/ghg.ccap) with:
+You can install the development version of `{ghg.gert}` from [GitHub](https://github.com/Metropolitan-Council/ghg.gert) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("Metropolitan-Council/ghg.ccap")
+remotes::install_github("Metropolitan-Council/ghg.gert")
 ```
 
-`{ghg.ccap}` requires a few packages only available on GitHub. Install them separately
+`{ghg.gert}` requires a few packages only available on GitHub. Install them separately:
 
 ``` r
 remotes::install_github("hadley/emo")
 remotes::install_github("Metropolitan-Council/councilR")
-
 ```
 
+## Getting started
+
+The package is organized around six sector modules that can be run individually or together via `run_all_modules()`. Every module accepts a `.selected_ctu` argument (a city/township name, a county, or `"Regional"`) and a `.scenario` argument, and returns a tidy tibble (or list of tibbles) with columns for `geog_name`, `geog_id`, `var`, `scen`, `year`, and `value`.
+
+``` r
+library(ghg.gert)
+
+# Run every module for the full seven-county region under a business-as-usual scenario
+results <- run_all_modules(
+  .selected_ctu = "all",
+  .scenario     = "BAU"
+)
+
+# Or run a single module — e.g., transportation for Minneapolis
+mpls_transp <- run_module_transportation(
+  .selected_ctu = "Minneapolis",
+  .scenario     = "alt"
+)
+```
+
+The `run_all_modules()` wrapper accepts every module's parameters and returns a named list with one element per module. See the individual module functions below for the levers each one exposes.
+
+## Modules
+
+`{ghg.gert}` is organized into six sector modules. Each module has a top-level entry function (`run_module_*()` or `run_scenario_*()`), a set of preloaded input datasets, and a collection of user-facing parameters (prefixed with `.`) that represent policy levers or scenario assumptions.
+
+### Transportation — `run_module_transportation()`
+
+Estimates passenger and freight vehicle-miles traveled (VMT), direct and embodied GHG emissions, fuel use, and transportation costs across modes (light-duty vehicles, transit bus, transit rail, freight truck, freight rail, air/water/multi-modal, school bus, walk/bike). VMT is projected using elasticities of the built environment ("5D" variables: density, diversity, design, destination accessibility, distance to transit) and policy levers.
+
+Key parameters:
+
+- **Fleet electrification:** `.electric_scenario` (electricity grid pathway) and `.aeo_scenario` (EIA Annual Energy Outlook fuel-economy scenario).
+- **Pricing signals:** `.vmt_fee`, `.payd_fee` (pay-as-you-drive insurance), `.gas_tax`, `.parking_price`, `.freight_parking_price`, `.cong_price` (congestion pricing), `.freight_vmt_fee`.
+- **Built environment (5D changes vs. baseline):** `.pop_dens_pct_change`, `.emp_dens_pct_change`, `.land_use_diversity_pct_change`, `.intersection_design_pct_change`, `.intersection_density_pct_change`, `.job_access_pct_change`, `.transit_dist_pct_change`.
+- **Service and behavior:** `.transit_service_pct`, `.transit_avo_pct` and `.pldv_avo_pct` (vehicle occupancy shifts), `.cbtp_prop_targeted` (commuter-benefit / travel-demand-management reach), `.cbtp_start_year`.
+- **Optional expensive outputs:** set `.calc_transp_cost`, `.calc_transp_fuel_use`, `.calc_transp_fuel_cost_mile`, or `.calc_transp_ghg_embodied` to `TRUE` to compute those tables (they are off by default to keep runs fast).
+
+Returns a named list: `passenger`, `passenger_all`, `freight`, `freight_all`. Emissions are in metric tons CO₂-equivalent.
+
+### Building energy — `run_scenario_building()`
+
+Projects residential and non-residential building energy use and associated GHG emissions at the city/township level, incorporating new construction, retrofits, and building electrification via heat pumps.
+
+Key parameters:
+
+- **Residential retrofits and heat pumps:** `.sf_heatpump_pct`, `.mf_heatpump_pct`, `.existing_sf_retrofit_pct`, `.existing_mf_retrofit_pct`.
+- **New construction quality:** `.new_sf_homes_leed_gold_pct`, `.new_mf_homes_leed_gold_pct`.
+- **Non-residential:** `.jobs_heatpump_pct`, `.existing_jobs_retrofit_pct`, `.new_jobs_leed_gold_pct`.
+- **Timing:** `.baseline_year`, `.leed_start_year`, `.retrofit_start_year`, `.retrofit_end_year`, `.heatpump_start_year`, `.heatpump_end_year`.
+- **Toggles:** `run_residential`, `run_non_residential` to control which sub-sectors run.
+
+Returns a tibble with `geog_name`, `geog_id`, `var`, `scen`, `year`, `value`.
+
+### Land use — `run_scenario_land_use()`
+
+Generates expected residential density from Thrive 2040 / Imagine 2050 planned land use inputs, and lets cities specify 2050 modifications that then propagate to the building energy and transportation modules.
+
+Key parameters:
+
+- `tb` — planned land use table (defaults to the packaged `planned_land_use$ctu_planned_land_use_parcel`).
+- `tb_strategy` — optional alternative land use table; when supplied, `land_use_update()` blends the strategy into the baseline plan for the selected CTU.
+- `.selected_ctu`, `.scenario`.
+
+Returns a small data frame of expected density by scenario for the selected geography, consumed as `.density_output` by the building energy module.
+
+### Agriculture — `run_module_agriculture()`
+
+Projects agricultural GHG emissions from livestock, manure management, fertilizer, and cropland, and quantifies reductions from regenerative agriculture practices.
+
+Key parameters:
+
+- **Land base:** `cropland_decrease_2050`.
+- **Smart fertilizer:** `.smart_fertilizer_current`, `.smart_fertilizer_goal`, `.smart_fertilizer_start_year`.
+- **Cover crops:** `.cover_crops_current`, `.cover_crops_goal`, `.cover_crops_start_year`.
+- **No-till:** `.no_till_current`, `.no_till_goal`, `.no_till_start_year`.
+- **Regenerative-ag ramp-up:** `.regen_ag_start_year`.
+- **Toggles:** `run_fertilizer`, `run_crops`.
+
+Returns a tibble with `geog_name`, `geog_id`, `var`, `scen`, `year`, `value`.
+
+### Natural systems — `run_scenario_natural_systems()`
+
+Models carbon sequestration from ecosystem restoration and urban tree planting. Wetlands use GIS-constrained potential with an ambition slider; forests and prairies accept direct acreage commitments; community trees and pocket prairies are urban interventions.
+
+Key parameters:
+
+- **Wetlands:** `.restore_wetland` (logical toggle), `.wetland_ambition` (0–100, share of GIS-identified potential).
+- **Forests and prairies:** `.forest_area_sqkm`, `.prairie_area_sqkm`.
+- **Urban trees:** `.community_tree_count` (capped at each CTU's `max_plantable_trees` from `community_tree_baseline`).
+- **Pocket prairies:** `.pocket_prairie_pct` (0–100 of urban grassland converted).
+- **Timing:** `.restoration_start`, `.restoration_end`, `.community_tree_start/_end`, `.pocket_prairie_start/_end`.
+
+Returns a data frame of sequestration projections by land-cover type and year. Validation warnings are attached via `attr(result, "validation_warnings")`.
+
+### Waste — `run_module_waste()`
+
+Projects emissions from municipal solid waste (landfill, incineration/waste-to-energy, organics, wastewater) and quantifies reductions from source reduction, diversion, and gas capture.
+
+Key parameters:
+
+- **Source reduction:** `.waste_reduction_pct`, `.waste_reduction_start`, `.waste_reduction_end`.
+- **Diversion mix (shares of remaining waste sent to each pathway):** `.diverted_to_landfill_pct`, `.diverted_to_recycle_pct`, `.diverted_to_organics_pct`, `.diverted_to_wte_pct`, `.diverted_to_onsite_pct`, `.diverted_to_compost_pct`.
+- **Landfill methane recovery:** `.methane_recovery_pct`, `.methane_recovery_start`, `.methane_recovery_end`.
+- **Organics processing:** `.anaerobic_digestion_pct`, `.anaerobic_digestion_start`, `.anaerobic_digestion_end`.
+
+Returns a list of tibbles with inventory and projection columns including `value_activity`, `units_activity`, `value_emissions`, `units_emissions`, `bau_activity`, and `bau_emissions`.
+
+### Cross-cutting arguments
+
+Every module honors a few shared conventions:
+
+- `.selected_ctu` — geography selector: a city/township name, a county name, `"Regional"` (seven-county total), or `"all"` (every CTU).
+- `.scenario` — scenario label attached to outputs. Use `"BAU"` for business-as-usual runs; any other string names an alternative policy scenario.
+- Baseline data are shipped with the package (see `data(package = "ghg.gert")`); users normally only override the `.`-prefixed policy levers.
+
+For deeper methodological documentation, see the vignettes in `vignettes/` and the technical guides in `inst/documentation/`.
 
 ## Related repositories
 
@@ -62,8 +171,14 @@ remotes::install_github("Metropolitan-Council/councilR")
 - [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
 - [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
 
-## Contributors 
+## Authors and contributors
 
-[&#x0040;botanize](https://github.com/botanize), [&#x0040;christinasherpa24](https://github.com/christinasherpa24), [&#x0040;Dabria0208](https://github.com/Dabria0208), [&#x0040;ehesch](https://github.com/ehesch), [&#x0040;eroten](https://github.com/eroten), [&#x0040;hongtonglin](https://github.com/hongtonglin), [&#x0040;leonx075](https://github.com/leonx075), [&#x0040;mcnamx](https://github.com/mcnamx), [&#x0040;naomigiancola](https://github.com/naomigiancola), [@pawilfahrt](https://github.com/pawilfahrt), [@ksmiff33](https://github.com/ksmiff33), [@limericksam](https://github.com/LimerickSam), [@zeyandell](https://github.com/zeyandell).
+**Lead authors:** [&#x0040;pawilfahrt](https://github.com/pawilfahrt), [&#x0040;eroten](https://github.com/eroten), [&#x0040;ksmiff33](https://github.com/ksmiff33).
+
+**Contributors:** [&#x0040;botanize](https://github.com/botanize), [&#x0040;christinasherpa24](https://github.com/christinasherpa24), [&#x0040;Dabria0208](https://github.com/Dabria0208), [&#x0040;ehesch](https://github.com/ehesch), [&#x0040;hongtonglin](https://github.com/hongtonglin), [&#x0040;leonx075](https://github.com/leonx075), [&#x0040;mcnamx](https://github.com/mcnamx), [&#x0040;naomigiancola](https://github.com/naomigiancola), [&#x0040;limericksam](https://github.com/LimerickSam), [&#x0040;zeyandell](https://github.com/zeyandell).
+
+## Funding acknowledgment and disclaimer
+
+*This project has been funded wholly or in part by the United States Environmental Protection Agency (EPA) under assistance agreement 00E03476 to the Metropolitan Council. The contents of this repository do not necessarily reflect the views and policies of the EPA, nor does the EPA endorse trade names or recommend the use of commercial products mentioned in this repository.*
 
 <a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;"><div></div></a>

@@ -8,12 +8,11 @@ adj_fleet_shares(
   .pass_tb,
   .freight_tb,
   .selected_ctu = "all",
-  .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
-  .hev_pct_sales = 0,
-  .vmt_fee = 0,
-  .payd_fee = 0,
-  .gas_tax = 0,
+  .bev_pct_sales = ghg.gert::transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = ghg.gert::transportation_defaults$hev_pct_sales,
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -30,29 +29,26 @@ Default is \code{transportation_data$freight}.}
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
-Default is \code{0}.}
-
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
@@ -70,7 +66,7 @@ vehicles and new sales
 Adjusting the existing passenger vehicle stock takes into account vehicle ownership
 cost elasticity, gas taxes, and VMT and PAYD fees.
 If battery electric, plug-in hybrid, and/or hybrid percent of sales in the final forecast year
-(`.bev_pct_sales`, `.phev_pct_sales`, `.hev_pct_sales`) are specified,
+(`.bev_pct_sales`, `.hev_pct_sales`) are specified,
 Freight data is dependent on passenger data,
 }\if{html}{\out{</div>}}
 }
@@ -86,24 +82,29 @@ whether the driver would prefer to pay the cost to a government agency or insura
 }\if{html}{\out{</div>}}
 }
 \seealso{
-Other transportation: 
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{run_module_transportation}()},
-\code{\link{vmt_annual_energy_outlook}()}
+Other stock adjustments:
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}}
+
+Other transportation:
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=run_module_transportation]{run_module_transportation()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{stock adjustments}
 \concept{transportation}

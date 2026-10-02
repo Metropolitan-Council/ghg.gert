@@ -7,10 +7,11 @@
 vmt_parking_policy(
   tb,
   .mode,
-  .elast = elast,
-  .parking_price = 0,
-  .freight_parking_price = 0,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .parking_cost = ghg.gert::parking_cost,
+  .elast = ghg.gert::elast,
+  .parking_price = ghg.gert::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.gert::transportation_defaults$freight_parking_price,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -20,14 +21,18 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.gert::parking_cost}.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
+
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 a table with
@@ -36,7 +41,7 @@ a table with
 Calculate parking price effect for passenger light-duty vehicles (PLDV) for each forecast year
 }
 \details{
-Increase parking prices will decrease PLDV by up to 45\% and increase all transit
+Increase parking prices will decrease PLDV by up to 30\% and increase all transit
 modes and walk.
 
 The long-run elasticity of VMT to parking cost is estimated to be in the range
@@ -61,12 +66,14 @@ where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
 and \eqn{AV} is an adjustment factor for the effect of introducing vehicle automation on VMT by mode
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

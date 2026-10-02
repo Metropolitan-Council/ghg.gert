@@ -11,9 +11,6 @@ calc_scen_land_use(tb, .selected_ctu, .enviro_factors = enviro_factors)
 The input dataset to be used.}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...
@@ -24,7 +21,7 @@ for all cities/townships for the selected scenario.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_scen_land_use(
   tb = land_use_data,
@@ -33,13 +30,13 @@ calc_scen_land_use(
 }
 }
 \seealso{
-Other land use: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use_deprecated}()}
+Other land use:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_land_by_development_type]{calc_land_by_development_type()}},
+\code{\link[=calc_land_cover_by_land_use]{calc_land_cover_by_land_use()}},
+\code{\link[=calc_parking_lot_land_cover]{calc_parking_lot_land_cover()}},
+\code{\link[=calc_tree_planting_land_cover]{calc_tree_planting_land_cover()}},
+\code{\link[=run_scenario_land_use_deprecated]{run_scenario_land_use_deprecated()}}
 }
 \concept{land use}

@@ -12,7 +12,6 @@
 #' @inheritParams calc_carbon_stock_per_ctu
 #' @inheritParams calc_land_cover_by_land_use
 #' @inheritParams calc_tree_planting_land_cover
-#' @inheritParams calc_electrify_commercial_heating
 #'
 #'
 #' @return [tibble::tibble()] with column names...
@@ -20,7 +19,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,

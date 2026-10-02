@@ -27,12 +27,12 @@ provided as a tibble with columns \code{geog_name}, \code{geog_id}, \code{var}, 
 \dontrun{
 
 
-library(ghg.ccap)
+library(ghg.gert)
 }
 
 }
 \seealso{
-Other land_use: 
-\code{\link{run_scenario_land_use}()}
+Other land_use:
+\code{\link[=run_scenario_land_use]{run_scenario_land_use()}}
 }
 \concept{land_use}

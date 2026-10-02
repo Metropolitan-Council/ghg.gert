@@ -12,7 +12,7 @@ run_scenario_land_use_deprecated(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
   detail = FALSE
 )
 }
@@ -60,7 +60,7 @@ area to be explored under the current scenario.
 Default is \code{0.0}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
 \item{detail}{logical,
 If \code{detail == TRUE} the function
@@ -76,7 +76,7 @@ per capita, tree planting per hectare, and parking lot reduction percentage.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 run_scenario_land_use(
   tb = land_use_data,
@@ -91,13 +91,13 @@ run_scenario_land_use(
 }
 }
 \seealso{
-Other land use: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+Other land use:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_land_by_development_type]{calc_land_by_development_type()}},
+\code{\link[=calc_land_cover_by_land_use]{calc_land_cover_by_land_use()}},
+\code{\link[=calc_parking_lot_land_cover]{calc_parking_lot_land_cover()}},
+\code{\link[=calc_scen_land_use]{calc_scen_land_use()}},
+\code{\link[=calc_tree_planting_land_cover]{calc_tree_planting_land_cover()}}
 }
 \concept{land use}

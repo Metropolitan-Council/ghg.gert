@@ -21,21 +21,23 @@ geog_index
 Geographic index of cities, names, types
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 geog_index
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
+\code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
+\code{\link{transportation_defaults}},
 \code{\link{transportation_index}},
 \code{\link{waste_data}}
 }

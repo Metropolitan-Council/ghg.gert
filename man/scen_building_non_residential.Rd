@@ -18,8 +18,8 @@ scen_building_non_residential(
   .retrofit_end_year,
   .new_jobs_leed_gold_pct,
   .leed_start_year,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .grid_emissions = ghg.gert::grid_emissions,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -43,10 +43,10 @@ Percentage of existing jobs (analog for buildings) retrofitted to reduce energy 
 Default is \code{0.0}.}
 
 \item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
+Default is \code{ghg.gert::grid_emissions}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
@@ -72,18 +72,16 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 scen_building_non_residential(
-   non_res_tb = non_res_tb,
-   non_res_tb_bau = non_res_tb_bau,
-   .selected_ctu = "all"
-   .existing_high_efficiency_buildings_pct = 0.25
-   .electrified_buildings_pct = 0.5
-   .enviro_factors = .enviro_factors,
-   .grid_emissions = .grid_emissions
-  )
-
+  non_res_tb = non_res_tb,
+  non_res_tb_bau = non_res_tb_bau,
+  .selected_ctu = "all",
+  .existing_high_efficiency_buildings_pct = 0.25,
+  .enviro_factors = .enviro_factors,
+  .grid_emissions = .grid_emissions
+)
 }
 }
 \concept{buildings, non-residential}

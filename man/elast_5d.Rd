@@ -5,14 +5,15 @@
 \alias{elast_5d}
 \title{5D elasticities}
 \format{
-A tibble with 27 columns and 9 observations.
+A tibble with 27 columns and 10 observations.
 \itemize{
 \item \strong{year}: Forecast year.
 \item \strong{type}: Transportation mode. One of \code{"DRIVE"}, \code{"WALK"}, or \code{"TRANSIT"}.
 \item \strong{population_density}: Elasticity for population density effect on VMT.
 \item \strong{employment_density}: Elasticity for employment population density effect on VMT.
 \item \strong{diversity}: Elasticity for land use diversity effect on VMT.
-\item \strong{design}: Elasticity for intersection design effect on VMT.
+\item \strong{design}: Elasticity for intersection design (\% 4-way stops) effect on VMT.
+\item \strong{intersection_density}: Elasticity for intersection density (intersections per square mile) effect on VMT.
 \item \strong{job_access}: Elasticity for job accessibility via transit effect on VMT.
 \item \strong{distance}: Elasticity for minimum distance to transit stops effect on VMT.
 \item \strong{combined_density}: Combined effect of all land use elasticities.
@@ -25,21 +26,23 @@ elast_5d
 Values are specific to forecast year
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 elast_5d
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{enviro_factors}},
+\code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
+\code{\link{transportation_defaults}},
 \code{\link{transportation_index}},
 \code{\link{waste_data}}
 }

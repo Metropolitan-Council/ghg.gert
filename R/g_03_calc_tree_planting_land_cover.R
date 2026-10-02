@@ -37,7 +37,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_tree_planting_land_cover(
 #'   tb = land_use_data,
@@ -55,7 +55,7 @@ calc_tree_planting_land_cover <- function(tb,
                                           .tree_planting_intervention = "none",
                                           .tree_planting_per_capita = 0.26,
                                           .tree_planting_per_hectare = 247,
-                                          .enviro_factors = ghg.ccap::enviro_factors) {
+                                          .enviro_factors = ghg.gert::enviro_factors) {
   # -------------------------------------------------------------------------
   land_cover_by_city <- calc_land_cover_by_land_use(
     tb = tb,

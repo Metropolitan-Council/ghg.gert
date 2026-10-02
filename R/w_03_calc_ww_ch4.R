@@ -11,9 +11,8 @@
 #'
 #'
 calculate_mww_ch4_emissions <- function(population, years, lookup = NULL) {
-
   if (is.null(lookup)) {
-    lookup <- ghg.ccap::waste_data$epa$wastewater_constants
+    lookup <- ghg.gert::waste_data$epa$wastewater_constants
   }
 
   # Pre-calculate days per year for all years

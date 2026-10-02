@@ -27,9 +27,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
-#' calc_floor_area_leed(
+#' calc_housing_leed(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .new_homes_leed_gold_pct = 0.5,
@@ -41,7 +41,7 @@ calc_housing_leed <- function(res_tb,
                               .selected_ctu,
                               .new_jobs_leed_gold_pct,
                               .leed_start_year,
-                              .enviro_factors = ghg.ccap::enviro_factors) {
+                              .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   non_res_tb <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
 
@@ -167,14 +167,14 @@ calc_housing_leed <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
-#' calc_floor_area_retrofit(
+#' calc_residential_retrofit(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .enviro_factors = ghg.ccap::enviro_factors
+#'   .enviro_factors = ghg.gert::enviro_factors
 #' )
 #' }
 #'
@@ -184,7 +184,7 @@ calc_residential_retrofit <- function(res_tb,
                                       .existing_mf_retrofit_pct,
                                       .retrofit_start_year,
                                       .retrofit_end_year,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                      .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -296,7 +296,7 @@ calc_residential_retrofit <- function(res_tb,
 
   retrofit_results <- bind_rows(
     existing_sf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,
@@ -309,7 +309,7 @@ calc_residential_retrofit <- function(res_tb,
         efficiency_unit_value
       ),
     existing_mf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,

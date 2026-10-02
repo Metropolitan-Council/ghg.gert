@@ -13,6 +13,7 @@ A named list
 \item \strong{CI_FUEL_COST_GAL}: Diesel fuel cost in dollars per gallon. EIA 2024 Annual estimate.
 \item \strong{ELEC_FUEL_COST_KWH}: Electric fuel cost in dollars per kWh. Regular residential rate, June through September. \href{https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates\%20&\%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf}{Xcel Energy, 2024}.
 \item \strong{F_FRACT}: Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee).
+\item \strong{MAX_PARKING_REDUCTION_PCT}: Maximum parking pricing policy impact: -30\% reduction in VMT. Citation: CAPCOA Handbook.
 \item \strong{AUTO_COST_MI}: 2024 \href{https://exchange.aaa.com/automotive/aaas-your-driving-costs/}{AAA driving costs} (assume mid-distance of 15,000 miles).
 \item \strong{TIME_COST_MI}: Cents per mile. Time cost per mile informed by \href{https://www.vtpi.org/tca/tca0502.pdf}{Transportation Cost and Benefit Analysis - Travel Time Costs}.
 \item \strong{F_TIME_COST_MI}: Cents per mile according to \href{https://static.tti.tamu.edu/tti.tamu.edu/documents/TTI-2017-10.pdf}{TTI}.
@@ -28,6 +29,9 @@ A named list
 \item \strong{MAX_5D_ACT}: Maximum 5D impact on active mode (walk and bike).
 \item \strong{MAX_5D_TRANS}: Maximum 5D impact on transit.
 \item \strong{MARG_TELEWORK}: Telework marginal effect percent change in PMT (per household). From Kim et al. (2015).
+\item \strong{CBTP_PARTICIPATION_PCT}: Community Based Travel Planning: proportion of targeted residences that participate. CAPCOA Handbook
+\item \strong{CBTP_TRIP_REDUCTION_PCT}:  Community Based Travel Planning: vehicle trip reduction by participating residences. CAPCOA Handbook
+\item \strong{MAX_TRIP_REDUCTION_PCT}: Trip reduction program: maximum VMT reduction cap (2.3\%). Citation: CAPCOA Handbook
 \item \strong{KG_CO2E_PER_THERM_BASELINE}: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2018.
 \item \strong{KG_CO2E_PER_THERM_FORECAST}: Kilograms of CO₂ equivalent emitted per therm of natural gas in 2040.
 \item \strong{KG_CO2E_PER_MHW_BASELINE}: Kilograms of CO₂ equivalent emitted per megawatt hour of electricity in 2018.
@@ -46,17 +50,19 @@ enviro_factors
 Environmental factors for users
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
+\code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
+\code{\link{transportation_defaults}},
 \code{\link{transportation_index}},
 \code{\link{waste_data}}
 }

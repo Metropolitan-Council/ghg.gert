@@ -30,9 +30,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
-#' calc_floor_area_leed(
+#' calc_housing_leed(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .new_homes_leed_gold_pct = 0.5,
@@ -45,7 +45,7 @@ calc_housing_leed <- function(res_tb,
                               .new_sf_homes_leed_gold_pct,
                               .new_mf_homes_leed_gold_pct,
                               .leed_start_year,
-                              .enviro_factors = ghg.ccap::enviro_factors) {
+                              .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area LEED Gold certification strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -172,14 +172,14 @@ calc_housing_leed <- function(res_tb,
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
-#' calc_floor_area_retrofit(
+#' calc_residential_retrofit(
 #'   res_tb = building_data$residential,
 #'   .selected_ctu = "all",
 #'   .existing_home_retrofit_pct = 0.80,
 #'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .enviro_factors = ghg.ccap::enviro_factors
+#'   .enviro_factors = ghg.gert::enviro_factors
 #' )
 #' }
 #'
@@ -189,7 +189,7 @@ calc_residential_retrofit <- function(res_tb,
                                       .existing_mf_retrofit_pct,
                                       .retrofit_start_year,
                                       .retrofit_end_year,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                      .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating floor area retrofit strategy \n")
   res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
 
@@ -301,7 +301,7 @@ calc_residential_retrofit <- function(res_tb,
 
   retrofit_results <- bind_rows(
     existing_sf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,
@@ -314,7 +314,7 @@ calc_residential_retrofit <- function(res_tb,
         efficiency_unit_value
       ),
     existing_mf %>%
-      ungroup() %>%
+      dplyr::ungroup() %>%
       select(
         geog_name,
         geog_id,
@@ -331,5 +331,94 @@ calc_residential_retrofit <- function(res_tb,
   return(retrofit_results)
 }
 
-# Here, we are effectively reducing the effective existing housing count to account
-# for the energy savings from retrofitted building
+#' @title Split residential units into electrification scenarios
+#' @family buildings, residential
+#'
+#' @description Takes the combined output of [calc_housing_leed()] and
+#'   [calc_residential_retrofit()] and splits each efficiency category into
+#'   heat-pump and non-heat-pump portions, producing a long table of
+#'   allocated units keyed to the eight scenarios in [calc_building_energy()].
+#'
+#' @param res_tb [tibble::tibble()]. Bound output of `calc_housing_leed()` and
+#'   `calc_residential_retrofit()`, containing columns `efficiency_description`
+#'   and `efficiency_unit_value`.
+#' @inheritParams run_scenario_building
+#' @inheritParams filter_ctu
+#'
+#' @return [tibble::tibble()] with columns `geog_name`, `geog_id`,
+#'   `sp_categories`, `inventory_year`, `scenario`, `allocated_units`.
+#' @export
+calc_residential_electrification <- function(
+  res_tb,
+  .selected_ctu,
+  .heatpump_start_year,
+  .heatpump_end_year,
+  .sf_heatpump_pct,
+  .mf_heatpump_pct
+) {
+  check_inputs("single_family_heatpump_pct", .sf_heatpump_pct)
+  check_inputs("multifamily_heatpump_pct", .mf_heatpump_pct)
+  check_inputs("heatpump_start_year", .heatpump_start_year)
+
+  # --- year-by-year ramp -----------------------------------------------
+  ramp_years <- .heatpump_start_year:.heatpump_end_year
+  n_ramp <- length(ramp_years)
+
+  # browser()
+  pct_by_year <- tibble::tibble(inventory_year = 2005:2050) %>%
+    left_join(
+      tibble::tibble(
+        inventory_year = ramp_years,
+        hp_sf_pct = seq(.sf_heatpump_pct / n_ramp, .sf_heatpump_pct, length.out = n_ramp),
+        hp_mf_pct = seq(.mf_heatpump_pct / n_ramp, .mf_heatpump_pct, length.out = n_ramp)
+      ),
+      by = "inventory_year"
+    ) %>%
+    dplyr::mutate(
+      hp_sf_pct = dplyr::case_when(
+        inventory_year < .heatpump_start_year ~ 0,
+        inventory_year > .heatpump_end_year ~ .sf_heatpump_pct,
+        TRUE ~ hp_sf_pct
+      ),
+      hp_mf_pct = dplyr::case_when(
+        inventory_year < .heatpump_start_year ~ 0,
+        inventory_year > .heatpump_end_year ~ .mf_heatpump_pct,
+        TRUE ~ hp_mf_pct
+      )
+    )
+
+  # --- efficiency_description → scenario pair lookup -------------------
+  hp_split_map <- tibble::tribble(
+    ~efficiency_description, ~no_hp_scenario, ~hp_scenario,
+    "existing_nonretrofit", "baseline", "heatpump",
+    "retrofit_units", "retrofit", "combination",
+    "new_non_leed", "new_build", "new_build_heatpump",
+    "new_leed", "new_build_leed", "new_build_leed" # new build_leed (sustainable new build) already has heatpumps inherent in build
+  )
+
+  # --- split units into hp / no-hp rows --------------------------------
+  hp_split_out <- res_tb %>%
+    left_join(pct_by_year, by = "inventory_year") %>%
+    dplyr::mutate(
+      hp_pct = dplyr::if_else(grepl("multi", sp_categories), hp_mf_pct, hp_sf_pct)
+    ) %>%
+    left_join(hp_split_map, by = "efficiency_description") %>%
+    tidyr::pivot_longer(
+      cols      = c(no_hp_scenario, hp_scenario),
+      names_to  = "hp_type",
+      values_to = "scenario"
+    ) %>%
+    dplyr::mutate(
+      allocated_units = dplyr::if_else(
+        hp_type == "hp_scenario",
+        round(efficiency_unit_value * hp_pct),
+        round(efficiency_unit_value * (1 - hp_pct))
+      )
+    ) %>%
+    dplyr::select(
+      geog_name, geog_id, sp_categories,
+      inventory_year, scenario, allocated_units
+    )
+
+  return(hp_split_out)
+}

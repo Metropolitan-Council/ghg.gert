@@ -206,7 +206,6 @@ busi_unit_coefs <- data.frame(
   ) # rough estimates, look at later
 
 
-
 mcf_coefficients <- bind_rows(
   res_unit_coefs,
   busi_unit_coefs

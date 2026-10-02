@@ -19,19 +19,27 @@ cprg_ctu <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/ra
   select(-statefp, -state_abb, -geoid_wis, -cprg_area)
 
 transportation_geog <- transportation_data$passenger %>%
-  dplyr::select(ctu) %>%
+  dplyr::select(geog_name) %>%
   unique() %>%
   mutate(
     ctu_class = case_when(
-      ctu %in% c(
+      geog_name %in% c(
         "Credit River Twp.",
         "Empire Twp."
       ) ~ "CITY",
-      stringr::str_detect(ctu, "Twp.") ~ "TOWNSHIP",
-      stringr::str_detect(ctu, "unorg.") ~ "UNORGANIZED TERRITORY",
+      geog_name %in% c(
+        # Fort Snelling was getting labeled as CITY,
+        # and would show an NA for geog_name after joining
+        "Fort Snelling"
+      ) ~ "UNORGANIZED TERRITORY",
+      geog_name %in% c(
+        "Twin Cities Region"
+      ) ~ "REGION",
+      stringr::str_detect(geog_name, "Twp.") ~ "TOWNSHIP",
+      stringr::str_detect(geog_name, "unorg.") ~ "UNORGANIZED TERRITORY",
       TRUE ~ "CITY"
     ),
-    ctu_name = stringr::str_remove(ctu, "Twp.") %>%
+    ctu_name = stringr::str_remove(geog_name, "Twp.") %>%
       str_replace("St. ", "Saint ") %>%
       str_remove("(unorg.)") %>%
       str_remove_all("[:punct:]") %>%
@@ -49,13 +57,40 @@ dplyr::anti_join(
 )
 
 
-geog_index <- dplyr::left_join(
+geog_index_ctu <- dplyr::left_join(
   cprg_ctu,
   transportation_geog
 ) %>%
-  select(ctu, geog_name = ctu_name_full, ctu_name, geog_level = ctu_class, geog_id = gnis) %>%
+  select(geog_name = ctu_name_full, geog_short_name = ctu_name, geog_level = ctu_class, geog_id = gnis) %>%
   mutate(geog_id_type = "ctu_gnis") %>%
   unique()
 
+### add county data
+
+cprg_county <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_meta/data/cprg_county.RDS") %>%
+  sf::st_drop_geometry() %>%
+  filter(county_name %in% c(
+    "Anoka",
+    "Carver",
+    "Dakota",
+    "Hennepin",
+    "Ramsey",
+    "Scott",
+    "Washington"
+  )) %>%
+  select(geog_name = county_name_full, geog_short_name = county_name, geog_id = geoid) %>%
+  mutate(
+    geog_id_type = "county_fips",
+    geog_level = "COUNTY"
+  )
+
+geog_index <- bind_rows(
+  as_tibble(cprg_county),
+  geog_index_ctu
+)
 
 usethis::use_data(geog_index, overwrite = TRUE)
+
+
+# ghg.gert::geog_index %>%
+#   waldo::compare(geog_index)

@@ -10,7 +10,7 @@ calc_business_retrofit(
   .existing_jobs_retrofit_pct,
   .retrofit_start_year,
   .retrofit_end_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -37,50 +37,31 @@ Uses the expected growth of new jobs according to UrbanSim estimates
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
-calc_floor_area_retrofit(
+calc_business_retrofit(
   res_tb = building_data$residential,
   .selected_ctu = "all",
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 
 }
 \seealso{
-Other buildings: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_demographic_forecast}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_mfh_retrofit}()},
-\code{\link{calc_non_res_renewable_ng}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{calc_sfh_leed}()},
-\code{\link{calc_sfh_retrofit}()},
-\code{\link{get_by_county_non_residential_energy_baseline}()},
-\code{\link{get_demographic_baseline}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 }
 \concept{buildings}

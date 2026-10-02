@@ -27,13 +27,15 @@ load_resstock <- function(path) {
       building_kwh = out_electricity_net_energy_consumption_kwh,
       building_nat_gas_kwh = out_natural_gas_total_energy_consumption_kwh
     ) %>%
+    filter(heating_fuel == "Natural Gas") %>%
     mutate(
       building_mcf = building_nat_gas_kwh * 0.00329026,
+      build_year = if_else(build_year %in% c("2000-09", "2010s"), "2000+", build_year), ### new building coarser
       mc_classification = case_when(
         grepl("Multi", building_type, ignore.case = TRUE) ~ "multifamily_units",
         grepl("Detached", building_type, ignore.case = TRUE) ~ "single_family_detached",
         grepl("Attached", building_type, ignore.case = TRUE) ~ "single_family_attached",
-        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_homes",
+        grepl("Mobile", building_type, ignore.case = TRUE) ~ "manufactured_home",
         TRUE ~ "other"
       ),
       sqft_bin = bin_sqft(sqft)
@@ -65,34 +67,92 @@ envelope <- load_resstock(
   "./data-raw/building_energy_data_processing/resstock data/MN_upgrade2.04_metadata_and_annual_results_intermediate_envelope.csv"
 )
 
+combo <- load_resstock(
+  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade07_metadata_and_annual_results.csv"
+)
+
+sust_new_build <- load_resstock(
+  "./data-raw/building_energy_data_processing/resstock data/MN_upgrade15_metadata_and_annual_results.csv"
+) %>%
+  filter(
+    build_year == "2000+",
+    building_nat_gas_kwh == 0
+  ) # strategy isn't penetrating many multifamily units, need to investigate why but for now taking effective cases
 
 # summary list
 
 resstock_summaries <- list(
-
   # baseline summaries
-  mf_baseline = summarize_resstock(baseline, "Multi", "mc_classification"),
-  manufactured_baseline = summarize_resstock(baseline, "Mobile", "mc_classification"),
+  mf_baseline = summarize_resstock(baseline, "Multi", c("mc_classification", "build_year")),
+  manufactured_baseline = summarize_resstock(baseline, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_baseline = summarize_resstock(baseline, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "sqft_bin")),
   sf_detached_year_baseline = summarize_resstock(baseline, "Detached", c("mc_classification", "build_year")),
 
   # Heat pump summaries
-  mf_heatpump = summarize_resstock(heatpump, "Multi", "mc_classification"),
-  manufactured_heatpump = summarize_resstock(heatpump, "Mobile", "mc_classification"),
+  mf_heatpump = summarize_resstock(heatpump, "Multi", c("mc_classification", "build_year")),
+  manufactured_heatpump = summarize_resstock(heatpump, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_heatpump = summarize_resstock(heatpump, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "sqft_bin")),
   sf_detached_year_heatpump = summarize_resstock(heatpump, "Detached", c("mc_classification", "build_year")),
 
   # Retrofit summaries
-  mf_envelope = summarize_resstock(envelope, "Multi", "mc_classification"),
-  manufactured_envelope = summarize_resstock(envelope, "Mobile", "mc_classification"),
+  mf_envelope = summarize_resstock(envelope, "Multi", c("mc_classification", "build_year")),
+  manufactured_envelope = summarize_resstock(envelope, "Mobile", c("mc_classification", "build_year")),
   sf_attached_sqft_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "sqft_bin")),
   sf_attached_year_envelope = summarize_resstock(envelope, "Attached", c("mc_classification", "build_year")),
   sf_detached_sqft_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "sqft_bin")),
-  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year"))
+  sf_detached_year_envelope = summarize_resstock(envelope, "Detached", c("mc_classification", "build_year")),
+
+  # Combination summaries
+  mf_combo = summarize_resstock(combo, "Multi", c("mc_classification", "build_year")),
+  manufactured_combo = summarize_resstock(combo, "Mobile", c("mc_classification", "build_year")),
+  sf_attached_sqft_combo = summarize_resstock(combo, "Attached", c("mc_classification", "sqft_bin")),
+  sf_attached_year_combo = summarize_resstock(combo, "Attached", c("mc_classification", "build_year")),
+  sf_detached_sqft_combo = summarize_resstock(combo, "Detached", c("mc_classification", "sqft_bin")),
+  sf_detached_year_combo = summarize_resstock(combo, "Detached", c("mc_classification", "build_year")),
+
+  # Sustainable new build summaries
+  mf_sust_new_build = summarize_resstock(sust_new_build, "Multi", c("mc_classification", "build_year")),
+  manufactured_sust_new_build = summarize_resstock(sust_new_build, "Mobile", c("mc_classification", "build_year")),
+  sf_attached_sqft_sust_new_build = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "sqft_bin")),
+  sf_attached_year_sust_new_build = summarize_resstock(sust_new_build, "Attached", c("mc_classification", "build_year")),
+  sf_detached_sqft_sust_new_build = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "sqft_bin")),
+  sf_detached_year_sust_new_build = summarize_resstock(sust_new_build, "Detached", c("mc_classification", "build_year")),
+
+  ### year x sq ft
+  sf_attached_vintagesqft_baseline = summarize_resstock(
+    baseline, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_baseline = summarize_resstock(
+    baseline, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_heatpump = summarize_resstock(
+    heatpump, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_heatpump = summarize_resstock(
+    heatpump, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_envelope = summarize_resstock(
+    envelope, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_envelope = summarize_resstock(
+    envelope, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_combo = summarize_resstock(
+    combo, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_combo = summarize_resstock(
+    combo, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_attached_vintagesqft_sust_new_build = summarize_resstock(
+    sust_new_build, "Attached", c("mc_classification", "build_year", "sqft_bin")
+  ),
+  sf_detached_vintagesqft_sust_new_build = summarize_resstock(
+    sust_new_build, "Detached", c("mc_classification", "build_year", "sqft_bin")
+  )
 )
 
 

@@ -2,41 +2,103 @@
 % Please edit documentation in R/n_01_run_scenario_natural_systems.R
 \name{run_scenario_natural_systems}
 \alias{run_scenario_natural_systems}
-\title{Run natural systems scenario}
+\title{Run Simplified Natural Systems Scenario}
 \usage{
 run_scenario_natural_systems(
-  tb_inv = natural_systems_data$ctu_lc_inventory,
-  tb_future = natural_systems_data$ctu_lc_null,
-  tb_seq = natural_systems_data$land_cover_carbon,
-  .selected_ctu = "all",
-  .urban_tree_start = 2025,
-  .urban_tree_time = 10,
-  .urban_tree_area_perc = 0,
-  .l2l_start = 2025,
-  .l2l_time = 10,
-  .l2l_area_perc = 0,
-  .restoration_start = 2025,
-  .restoration_time = 10,
-  .restoration_area_perc = 0,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  tb_inv = bind_rows(ghg.gert::natural_systems_data$inventory),
+  tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
+  tb_seq = ghg.gert::natural_systems_data$land_cover_carbon,
+  .selected_ctu = "Regional",
+  .restore_wetland = FALSE,
+  .wetland_ambition = 50,
+  .forest_area_sqkm = 0,
+  .prairie_area_sqkm = 0,
+  .restoration_start = 2028,
+  .restoration_end = 2050,
+  .community_tree_count = 0,
+  .community_tree_start = 2028,
+  .community_tree_end = 2050,
+  .pocket_prairie_pct = 0,
+  .pocket_prairie_start = 2028,
+  .pocket_prairie_end = 2050,
+  .enviro_factors = ghg.gert::enviro_factors,
   detail = FALSE
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{tb_inv}{Inventory data (list with $ctu, $county, $region)}
 
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\item{tb_future}{Future projections data (list with $ctu, $county, $region)}
 
-\item{detail}{logical,
-If \code{detail == TRUE} the function
-returns a tibble with more detailed fields. Recommended
-for debugging.
-Default is \code{FALSE}.}
+\item{tb_seq}{Sequestration rates by land cover type}
+
+\item{.selected_ctu}{City/township selection ("all", "Regional", county name, or CTU name)}
+
+\item{.restore_wetland}{Logical, whether to restore wetlands (default FALSE)}
+
+\item{.wetland_ambition}{Numeric 0-100, percent of wetland potential to realize (default 50)}
+
+\item{.forest_area_sqkm}{Numeric, committed forest restoration area in sq km (default 0)}
+
+\item{.prairie_area_sqkm}{Numeric, committed prairie/grassland restoration area in sq km (default 0)}
+
+\item{.restoration_start}{Start year for restoration (default 2025)}
+
+\item{.restoration_end}{End year for restoration (default 2050)}
+
+\item{.community_tree_count}{Number of trees to plant (default 0). Capped at
+max_plantable_trees from community_tree_baseline lookup.}
+
+\item{.community_tree_start}{Start year for community tree planting (default 2025)}
+
+\item{.community_tree_end}{End year for community tree planting (default 2050)}
+
+\item{.pocket_prairie_pct}{Percent of urban grassland for pocket prairies (0-100, default 0)}
+
+\item{.pocket_prairie_start}{Start year for pocket prairies (default 2025)}
+
+\item{.pocket_prairie_end}{End year for pocket prairies (default 2050)}
+
+\item{.enviro_factors}{Environmental factors data}
+
+\item{detail}{Logical, return detailed output (default FALSE)}
+}
+\value{
+Dataframe with carbon sequestration projections by land cover type and year.
+Includes attributes for restoration metadata and validation warnings.
 }
 \description{
-This function simulates the impact of various land use scenarios on carbon
-sequestration and carbon stock in cities or townships. It considers urban tree planting and
-restoration of abandoned agriculture.
+Simplified interface for natural systems carbon sequestration modeling.
+Wetlands use GIS-constrained restoration with ambition percentage.
+Forests and prairies allow direct acreage specification for planner flexibility.
+
+This function wraps the complexity of land cover conversion into intuitive inputs:
+\itemize{
+\item Wetlands: toggle + ambition slider (GIS-validated)
+\item Forests/Prairies: direct acreage in sq km (flexible, planner-specified)
+\item Community trees: number of trees to plant (DNR-calibrated density conversion)
+\item Pocket prairies: percent of urban grassland (urban habitat)
 }
-\concept{natural systems}
+}
+\examples{
+\dontrun{
+# Wetland restoration at 40\% ambition + 5 sq km forest
+result <- run_scenario_natural_systems(
+  .selected_ctu = "Lakeville",
+  .restore_wetland = TRUE,
+  .wetland_ambition = 40,
+  .forest_area_sqkm = 5
+)
+
+# Check for validation warnings
+attr(result, "validation_warnings")
+
+# Direct forest and prairie specification
+result <- run_scenario_natural_systems(
+  .selected_ctu = "Minneapolis",
+  .forest_area_sqkm = 10,
+  .prairie_area_sqkm = 5,
+  .community_tree_pct = 25
+)
+}
+}

@@ -4,7 +4,7 @@ library(dplyr)
 library(readr)
 library(magrittr)
 library(purrr)
-library(ghg.ccap)
+library(ghg.gert)
 library(councilR)
 
 # get Imagine community designations
@@ -77,13 +77,16 @@ building_energy_data$industrial_jobs <-
   demographic_data %>% filter(sp_categories == "industrial_jobs")
 
 building_energy_data$jobs <-
-  demographic_data %>% filter(sp_categories == "jobs") %>%
+  demographic_data %>%
+  filter(sp_categories == "jobs") %>%
   mutate(
     geog_name_tmp = gsub("\\s*Twp\\.", "", geog_name)
   ) %>%
   left_join(cprg_ctu_desgn %>% distinct(ctu_name, ctu_class, imagine_designation),
-            by = join_by(geog_name_tmp == ctu_name,
-                         geog_level == ctu_class)
+    by = join_by(
+      geog_name_tmp == ctu_name,
+      geog_level == ctu_class
+    )
   ) %>%
   select(-geog_name_tmp)
 
@@ -93,10 +96,13 @@ building_energy_data$electricity_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mwh.rds"
   ) %>%
-  mutate(sector = "Residential",
-         ctu_name = if_else(ctu_class == "TOWNSHIP",
-                             paste(ctu_name, "Twp."),
-                            ctu_name)) %>%
+  mutate(
+    sector = "Residential",
+    ctu_name = if_else(ctu_class == "TOWNSHIP",
+      paste(ctu_name, "Twp."),
+      ctu_name
+    )
+  ) %>%
   rename(
     mwh = residential_mwh,
     geog_name = ctu_name,
@@ -107,19 +113,24 @@ building_energy_data$electricity_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mwh.rds"
   ) %>%
-  mutate(sector = "Business",
-         ctu_name = if_else(ctu_class == "TOWNSHIP",
-                            paste(ctu_name, "Twp."),
-                            ctu_name)) %>%
+  mutate(
+    sector = "Business",
+    ctu_name = if_else(ctu_class == "TOWNSHIP",
+      paste(ctu_name, "Twp."),
+      ctu_name
+    )
+  ) %>%
   rename(
     mwh = business_mwh,
     geog_name = ctu_name,
     geog_level = ctu_class
   ) %>%
   left_join(cprg_ctu_desgn,
-            by = join_by(geog_name == ctu_name,
-                         geog_level == ctu_class),
-            relationship = "many-to-many"
+    by = join_by(
+      geog_name == ctu_name,
+      geog_level == ctu_class
+    ),
+    relationship = "many-to-many"
   )
 
 
@@ -127,10 +138,13 @@ building_energy_data$natural_gas_residential_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_residential_mcf.rds"
   ) %>%
-  mutate(sector = "Residential",
-         ctu_name = if_else(ctu_class == "TOWNSHIP",
-                            paste(ctu_name, "Twp."),
-                            ctu_name)) %>%
+  mutate(
+    sector = "Residential",
+    ctu_name = if_else(ctu_class == "TOWNSHIP",
+      paste(ctu_name, "Twp."),
+      ctu_name
+    )
+  ) %>%
   rename(
     mcf = residential_mcf,
     geog_name = ctu_name,
@@ -141,19 +155,24 @@ building_energy_data$natural_gas_business_ctu <-
   readr::read_rds(
     "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/forecast_ctu_business_mcf.rds"
   ) %>%
-  mutate(sector = "Business",
-         ctu_name = if_else(ctu_class == "TOWNSHIP",
-                            paste(ctu_name, "Twp."),
-                            ctu_name)) %>%
+  mutate(
+    sector = "Business",
+    ctu_name = if_else(ctu_class == "TOWNSHIP",
+      paste(ctu_name, "Twp."),
+      ctu_name
+    )
+  ) %>%
   rename(
     mcf = business_mcf,
     geog_name = ctu_name,
     geog_level = ctu_class
   ) %>%
   left_join(cprg_ctu_desgn,
-            by = join_by(geog_name == ctu_name,
-                         geog_level == ctu_class),
-            relationship = "many-to-many"
+    by = join_by(
+      geog_name == ctu_name,
+      geog_level == ctu_class
+    ),
+    relationship = "many-to-many"
   )
 
 county_elec_data <-

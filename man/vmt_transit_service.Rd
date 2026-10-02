@@ -7,9 +7,9 @@
 vmt_transit_service(
   tb,
   .mode,
-  .transit_service_pct = 0,
-  .elast = elast,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .transit_service_pct = ghg.gert::transportation_defaults$transit_service_pct,
+  .elast = ghg.gert::elast,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -19,12 +19,13 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment.
+Default is 0.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 a table with columns \code{year}, \code{geog_name}, and \code{transit_adj}.
@@ -50,12 +51,14 @@ is the proportion of increase in transit VMT (i.e., 1.2).
 }
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_telework}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_telework]{vmt_telework()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

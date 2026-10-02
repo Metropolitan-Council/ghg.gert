@@ -1,6 +1,10 @@
 # Script to import ancillary housing data from MN geospatial commons
 
 library(ggplot2)
+library(sf)
+library(dplyr)
+library(tidyr)
+library(readr)
 
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
@@ -17,8 +21,12 @@ import_from_gpkg_all_layers <- function(link, save_file = FALSE, save_path = get
   rlang:::check_string(save_path)
   rlang:::check_number_whole(.crs)
 
+  old_timeout <- getOption("timeout")
+  options(timeout = max(600, old_timeout))
+  on.exit(options(timeout = old_timeout))
+
   temp <- tempfile()
-  download.file(link, temp, quiet = .quiet)
+  download.file(link, temp, quiet = .quiet, mode = "wb")
   file_names <- strsplit(link, split = "/")
   file_name <- tail(file_names[[1]], 1) %>%
     gsub(pattern = "gpkg_", replacement = "") %>%
@@ -61,8 +69,8 @@ mn_parcel <- import_from_gpkg_all_layers(
 ### after testing, this column appears to offer the largest percentage of
 ### first pass classification
 mn_parcel %>%
-  distinct(DWELL_TYPE) %>%
-  arrange() %>%
+  dplyr::distinct(DWELL_TYPE) %>%
+  dplyr::arrange() %>%
   print(n = 200)
 
 # large possibility for error in classification. Attempting to structure so overriding of earlier
@@ -191,31 +199,66 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   # Calculate mc_classification averages by CTU_NAME and CO_NAME
   group_by(mc_classification, CTU_ID_TXT) %>%
   mutate(
-    mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    mean_ctu_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    mean_ctu_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
-    median_ctu_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    median_ctu_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    median_ctu_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+    mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    mean_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    mean_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
+    median_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    median_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    median_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
   group_by(mc_classification, CO_NAME) %>%
   mutate(
-    mean_co_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    mean_co_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    mean_co_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
-    median_co_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    median_co_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    median_co_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+    mean_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    mean_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    mean_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
+    median_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    median_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    median_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
-  # In-fill zeros using the calculated medians
+  # In-fill zeros AND NAs using medians
   mutate(
-    FIN_SQ_FT = if_else(FIN_SQ_FT == 0, coalesce(median_ctu_sqft, median_co_sqft, FIN_SQ_FT), FIN_SQ_FT),
-    EMV_BLDG = if_else(EMV_BLDG == 0, coalesce(median_ctu_emv, median_co_emv, EMV_BLDG), EMV_BLDG),
-    YEAR_BUILT = if_else(YEAR_BUILT == 0, coalesce(median_ctu_year, median_co_year, YEAR_BUILT), YEAR_BUILT)
+    FIN_SQ_FT = if_else(
+      is.na(FIN_SQ_FT) | FIN_SQ_FT == 0,
+      coalesce(median_ctu_sqft, median_co_sqft, FIN_SQ_FT),
+      FIN_SQ_FT
+    ),
+    EMV_BLDG = if_else(
+      is.na(EMV_BLDG) | EMV_BLDG == 0,
+      coalesce(median_ctu_emv, median_co_emv, EMV_BLDG),
+      EMV_BLDG
+    ),
+    YEAR_BUILT = if_else(
+      is.na(YEAR_BUILT) | YEAR_BUILT == 0,
+      coalesce(median_ctu_year, median_co_year, YEAR_BUILT),
+      YEAR_BUILT
+    )
   ) %>%
-  # select columns
   select(CO_NAME, CTU_NAME, CTU_ID_TXT, FIN_SQ_FT, EMV_BLDG, YEAR_BUILT, mc_classification)
 
 
@@ -242,6 +285,22 @@ mn_parcel_map <- mn_parcel_predict %>%
   sf::st_as_sf()
 
 
+mn_parcel_county <- mn_parcel_predict %>%
+  group_by(CO_NAME, mc_classification) %>%
+  summarize(
+    median_sq_ft = median(FIN_SQ_FT),
+    total_sq_ft = sum(FIN_SQ_FT),
+    median_emv = median(EMV_BLDG),
+    total_emv = sum(EMV_BLDG),
+    median_year = median(YEAR_BUILT)
+  ) %>%
+  filter(mc_classification %in% c(
+    "manufactured_home",
+    "multifamily",
+    "single_family_attached",
+    "single_family_detached"
+  ))
+
 
 ### ctu_parcel output
 
@@ -250,10 +309,13 @@ ctu_parcel <- mn_parcel_map %>%
   sf::st_drop_geometry() %>%
   rename(county_name = CO_NAME) %>%
   select(-c(CTU_NAME, CTU_ID_TXT, statefp, state_abb)) %>%
-  mutate(inventory_year = 2021,
-         geog_name = if_else(ctu_class == "TOWNSHIP",
-                             paste(geog_name, "Twp."),
-                             geog_name))
+  mutate(
+    inventory_year = 2021,
+    geog_name = if_else(ctu_class == "TOWNSHIP",
+      paste(geog_name, "Twp."),
+      geog_name
+    )
+  )
 
 
 ### go back and use simple lm to fill in 0 sq ft cities (Hennepin)
@@ -261,6 +323,8 @@ ctu_parcel <- mn_parcel_map %>%
 sfa_parcel <- filter(ctu_parcel, mc_classification == "single_family_attached")
 sfd_parcel <- filter(ctu_parcel, mc_classification == "single_family_detached")
 mfh_parcel <- filter(ctu_parcel, mc_classification == "multifamily")
+mfd_parcel <- filter(ctu_parcel, mc_classification == "manufactured_home")
+
 
 # which cities are missing sfa?
 no_detached <- anti_join(sfd_parcel, sfa_parcel, by = "geog_name") %>%
@@ -360,12 +424,111 @@ missing_sfa_rows <- missing_cities %>%
 
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)
 
-parcel_ctu <- rbind(sfd_out, sfa_out_completed)
+### input multifamily year built in similar manner
+
+mfh_out <- mfh_parcel %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year)
+
+missing_cities_mf <- anti_join(sfd_out, mfh_parcel, by = "ctu_id")
+
+county_medians_mfh <- mfh_out %>%
+  group_by(county_name) %>%
+  summarize(
+    sq_ft_use = median(sq_ft_use, na.rm = TRUE),
+    median_year = median(median_year, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+missing_mfh_rows <- missing_cities_mf %>%
+  select(county_name, ctu_id, geog_name, inventory_year) %>%
+  left_join(county_medians_mfh, by = "county_name") %>%
+  mutate(mc_classification = "multifamily") %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+
+mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows) %>%
+  mutate(mc_classification = "multifamily_units")
+
+### lastly repeat for manufactured homes
+
+### input multifamily year built in similar manner
+
+mfd_out <- mfd_parcel %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year) %>%
+  filter(
+    !is.na(median_year),
+    median_year != 0
+  )
+
+missing_cities_mfd <- anti_join(sfd_out, mfd_out, by = "ctu_id")
+
+# no counties
+median_mfd <- mfd_out %>%
+  summarize(
+    sq_ft_use = median(sq_ft_use, na.rm = TRUE),
+    median_year = median(median_year, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+missing_mfd_rows <- missing_cities_mfd %>%
+  select(county_name, ctu_id, geog_name, inventory_year) %>%
+  cross_join(median_mfd) %>%
+  mutate(mc_classification = "manufactured_home") %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+
+mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
+
+parcel_ctu <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed) %>%
+  rename(geog_id = ctu_id)
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
 rm(mn_parcel_predict)
 gc()
 
+### add county level data by taking weighted average approach
+
+housing_data <- ghg.gert::demographic_data %>%
+  filter(
+    sp_categories %in% c(
+      "multifamily_units",
+      "manufactured_homes",
+      "single_family_attached",
+      "single_family_detached"
+    ),
+    inventory_year == 2021
+  ) %>%
+  mutate(sp_categories = recode(sp_categories,
+    "manufactured_homes" = "manufactured_home"
+  ))
+
+housing_join <- parcel_ctu %>%
+  left_join(
+    housing_data %>% select(geog_id, sp_categories, units = value),
+    by = c("geog_id", "mc_classification" = "sp_categories")
+  )
+
+county_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  group_by(county_name, mc_classification, inventory_year) %>%
+  summarise(
+    wa_sq_ft = weighted.mean(sq_ft_use, w = units, na.rm = TRUE),
+    wa_med_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(geog_name = paste(county_name, "County")) %>%
+  rename(
+    sq_ft_use = wa_sq_ft,
+    median_year = wa_med_year
+  ) %>%
+  left_join(ghg.gert::geog_index %>%
+    select(
+      geog_name,
+      geog_id
+    ))
+
+parcel_ctu <- bind_rows(
+  county_weighted,
+  parcel_ctu
+)
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)

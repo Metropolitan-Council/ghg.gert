@@ -105,14 +105,12 @@ freight_transpo_long <- freight_transpo %>%
   ungroup()
 
 
-
 freight_transpo_all <- freight_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
   unique() %>%
   right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(freight_transpo_long))
-
 
 
 transportation_data <- list(
@@ -138,8 +136,6 @@ testthat::expect_equal(nrow(transportation_data$passenger), 154008)
 testthat::expect_equal(nrow(transportation_data$freight), 71982)
 
 
-
-
 ## value comparisons ------
 orig_pass_transpo <- transportation_data$passenger %>%
   filter(
@@ -163,6 +159,6 @@ testthat::expect_equal(
   )
 )
 
-# waldo::compare(ghg.ccap::transportation_data, transportation_data)
+# waldo::compare(ghg.gert::transportation_data, transportation_data)
 
 usethis::use_data(transportation_data, overwrite = TRUE)

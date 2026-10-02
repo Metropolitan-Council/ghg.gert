@@ -4,13 +4,13 @@
 #'
 #' @param .sales_mode character,
 #'     Sales name for calculation of embodied emissions of new vehicles.
-#'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, `"PHEVSales"`, or `"BEVSales"`.
+#'     Options include `"SISales"`, `"CISales"`, `"HEVSales"`, or `"BEVSales"`.
 #' @param .fuel_type fuel source for current mode
 #' @param .class character,
-#'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`, `"PHEV"`,  or `"BEV"`.
+#'     Vehicle class. One of `"SI"`, `"CI"`, `"HEV"`,  or `"BEV"`.
 #' @param .transit_avo_pct numeric,
 #'     Percent change in transit AVO.
-#'     Default is `0`.
+#'      Default is `r ghg.gert::transportation_defaults$hev_pct_sales`.
 #' @param .mitigation_tb [tibble::tibble()].
 #'     Mitigation output table for results.
 #'     Default is `0`.
@@ -32,7 +32,7 @@ calc_ghg_embodied <- function(tb,
                               .sales_mode,
                               .fuel_type,
                               .class,
-                              .transit_avo_pct = 0,
+                              .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
                               .mitigation_tb = 0,
                               .bau_tb = 0,
                               .enviro_factors = enviro_factors,
@@ -77,7 +77,6 @@ calc_ghg_embodied <- function(tb,
       )
 
 
-
     # adjust stock for changes made in VMT between BAU and MIT scenarios
     # If .transit_avo_pct given then use it, else assume all additional PMT
     # handled by vehicle purchases
@@ -88,7 +87,6 @@ calc_ghg_embodied <- function(tb,
           (mode == .mode & class == .class & .x == 0) ~ 1,
           TRUE ~ .x / 10^5
         )))
-
 
 
       .bau_tb <- .bau_tb %>%
@@ -107,7 +105,6 @@ calc_ghg_embodied <- function(tb,
 
       mit_vals <- .mitigation_tb %>%
         dplyr::select(tidyselect::all_of(YRS)) / bau_vals
-
 
 
       ghg <- ghg * (mit_vals) *
@@ -137,7 +134,7 @@ calc_ghg_embodied <- function(tb,
         mode == .mode,
         var == .sales_mode
       ) %>%
-      unique() %>%
+      dplyr::distinct() %>%
       mutate(class = .class) %>%
       dplyr::select(
         type,
@@ -166,7 +163,7 @@ calc_ghg_embodied <- function(tb,
         aeo_mode,
         ghg_embodied
       ) %>%
-      unique()
+      dplyr::distinct()
   }
 
   return(ghg)

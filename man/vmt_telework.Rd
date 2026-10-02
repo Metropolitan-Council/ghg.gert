@@ -7,8 +7,8 @@
 vmt_telework(
   .pass_tb,
   .mode,
-  .telework_pct = 0,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .telework_pct = ghg.gert::transportation_defaults$telework_pct,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -18,10 +18,12 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{.mode}{character, current mode}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0
+Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \description{
 Calculate telework multiplier
@@ -39,12 +41,14 @@ where \eqn{GHG} is the impact in metric tons of CO2 equivalent,
 and \eqn{TW} is an adjustment factor for the effect of telework on baseline PMT.
 }
 \seealso{
-Other VMT effects: 
-\code{\link{vmt_land_use_change}()},
-\code{\link{vmt_parking_policy}()},
-\code{\link{vmt_road_policy}()},
-\code{\link{vmt_stock_proportion}()},
-\code{\link{vmt_transit_service}()},
-\code{\link{vmt_vehicle_occupancy}()}
+Other VMT effects:
+\code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
+\code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
+\code{\link[=vmt_road_policy]{vmt_road_policy()}},
+\code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},
+\code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
+\code{\link[=vmt_transit_service]{vmt_transit_service()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}},
+\code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
 }
 \concept{VMT effects}

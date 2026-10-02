@@ -1,5 +1,5 @@
 ## code to prepare `building_energy_bau_data` dataset goes here
-library(ghg.ccap)
+library(ghg.gert)
 
 # business as usual
 

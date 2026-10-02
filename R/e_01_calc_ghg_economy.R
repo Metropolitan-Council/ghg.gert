@@ -10,7 +10,7 @@
 #'
 #' @note `calc_ghg_residential()` estimates the building energy demand and emissions
 #'      based on the floor area assumptions. For a function that compiles all
-#'      residential strategies refer to [`scen_residential_building()`].
+#'      residential strategies refer to [`scen_building_residential()`].
 #'
 #' @param res_tb [tibble::tibble()].
 #'      Table, table with residential building data.
@@ -31,13 +31,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_ghg_residential(
 #'   res_tb = building_data$residential,
 #'   res_tb_bau = building_data$residential,
 #'   .selected_ctu = "all",
-#'   .grid_decarbonization_pct = 1,
 #'   .enviro_factors = enviro_factors
 #' )
 #' }
@@ -53,7 +52,7 @@ calc_ghg_mwh <- function(res_mwh,
                          grid_scenario = "MISO",
                          .selected_ctu,
                          .grid_decarbonization_estimator,
-                         .enviro_factors = ghg.ccap::enviro_factors) {
+                         .enviro_factors = ghg.gert::enviro_factors) {
   # cli::cli_progress_message("*** calculating grid ghg emissions \n")
 
   res_mwh <- filter_ctu(res_mwh, .selected_ctu = .selected_ctu)

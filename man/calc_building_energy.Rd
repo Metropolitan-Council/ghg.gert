@@ -6,16 +6,13 @@
 \usage{
 calc_building_energy(
   .selected_ctu,
-  parcel_data = ghg.ccap::parcel_ctu,
-  strategy_tb = ghg.ccap::resstock_summaries
+  parcel_data = ghg.gert::parcel_ctu,
+  resstock_tb = ghg.gert::resstock_summaries,
+  ceestock_tb = ghg.gert::ceestock_summaries
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -30,61 +27,35 @@ median square footage
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 adj_unit_counts(
   res_tb = compile_bau_building_energy()$residential,
-  .selected_ctu = "all",
-  .new_homes_to_multifamily_pct = 0.50
+  .selected_ctu = "all"
 )
 }
 }
 \seealso{
-Other residential: 
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+Other residential:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 
-Other buildings: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_business_leed}()},
-\code{\link{calc_business_retrofit}()},
-\code{\link{calc_demographic_forecast}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_mfh_retrofit}()},
-\code{\link{calc_non_res_renewable_ng}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{calc_sfh_leed}()},
-\code{\link{calc_sfh_retrofit}()},
-\code{\link{get_by_county_non_residential_energy_baseline}()},
-\code{\link{get_demographic_baseline}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
-\code{\link{run_scenario_building}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}},
+\code{\link[=run_scenario_building]{run_scenario_building()}}
 }
 \concept{buildings}
 \concept{residential}

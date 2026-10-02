@@ -255,9 +255,9 @@ transportation_data$passenger %>%
   ) %>%
   rowwise() %>%
   mutate(
-    TotStock_new = CIStock + BEVStock + HEVStock + PHEVStock,
-    TotExist_new = CIExist + BEVExist + HEVExist + PHEVExist,
-    TotSales_new = CISales + BEVSales + HEVSales + PHEVSales
+    TotStock_new = CIStock + BEVStock + HEVStock,
+    TotExist_new = CIExist + BEVExist + HEVExist,
+    TotSales_new = CISales + BEVSales + HEVSales
   ) %>%
   mutate(across(2:4, ~ . / TotStock))
 
@@ -285,7 +285,6 @@ transportation_data$passenger %>%
       "CIStock" = "Diesel",
       "BCIStock" = "Diesel",
       "HEVStock" = "Hybrid",
-      "PHEVStock" = "Plug-in hybrid",
       "SIStock" = "Gasoline"
     )
   ) +
