@@ -51,7 +51,7 @@ adj_unit_counts <- function(res_tb,
 
   sfd_reduction <- res_tb %>%
     dplyr::filter(
-      inventory_year >= 2028,
+      emissions_year >= 2028,
       sp_categories == "single_family_attached"
     ) %>%
     ### ctus that already reducing sfd will reduce further
@@ -62,12 +62,12 @@ adj_unit_counts <- function(res_tb,
           -1 * value_change_from_base * density_change # for positive values, decrease with increased density
         )
     ) %>%
-    dplyr::select(geog_name, geog_id, density_sfd_change, inventory_year)
+    dplyr::select(geog_name, geog_id, density_sfd_change, emissions_year)
 
 
   new_res_tb <- res_tb %>%
     left_join(sfd_reduction,
-      by = join_by(geog_name, geog_id, inventory_year)
+      by = join_by(geog_name, geog_id, emissions_year)
     ) %>%
     dplyr::mutate(
       value = case_when(
@@ -75,9 +75,9 @@ adj_unit_counts <- function(res_tb,
           "multifamily_units",
           "single_family_attached"
         ) &
-          inventory_year >= 2028 ~ value - (density_sfd_change / 2), # half to sfa, half to multifamily
+          emissions_year >= 2028 ~ value - (density_sfd_change / 2), # half to sfa, half to multifamily
         sp_categories %in% c("single_family_detached") &
-          inventory_year >= 2028 ~ value + density_sfd_change,
+          emissions_year >= 2028 ~ value + density_sfd_change,
         TRUE ~ value
       ),
       value_change_from_base = case_when(
@@ -85,9 +85,9 @@ adj_unit_counts <- function(res_tb,
           "multifamily_units",
           "single_family_attached"
         ) &
-          inventory_year >= 2028 ~ value_change_from_base - (density_sfd_change / 2), # half to sfa, half to multifamily
+          emissions_year >= 2028 ~ value_change_from_base - (density_sfd_change / 2), # half to sfa, half to multifamily
         sp_categories %in% c("single_family_detached") &
-          inventory_year >= 2028 ~ value_change_from_base + density_sfd_change,
+          emissions_year >= 2028 ~ value_change_from_base + density_sfd_change,
         TRUE ~ value_change_from_base
       )
     ) %>%

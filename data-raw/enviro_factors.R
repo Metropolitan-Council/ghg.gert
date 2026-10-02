@@ -16,9 +16,10 @@ enviro_factors <- list(
   # see transportation_data_processing/eia_datasets.R
   SI_FUEL_COST_GAL = 3.163,
   CI_FUEL_COST_GAL = 3.696,
-  ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
+  ELEC_FUEL_COST_KWH = 0.13069, # in dollars per kWh xcelenergyMNResidentialRates2024 https://www.xcelenergy.com/staticfiles/xe-responsive/Company/Rates%20&%20Regulations/24-01-406-MN-Res-ElecRates-MN-Res-E-2002.pdf
   F_FRACT = 0.27, # Fraction of truck TVMT inside MSP (i.e., under jurisdiction of application for VMT fee)
-
+  # Maximum parking pricing policy impact: -30% reduction in VMT @capcoaGHGHandbook2024
+  MAX_PARKING_REDUCTION_PCT = -0.3,
   AUTO_COST_MI = 0.72, # 2024 AAA driving cost estimate https://exchange.aaa.com/automotive/aaas-your-driving-costs/ in dollars per mile
   # time cost per mile
   TIME_COST_MI = 0.128, # dollars per mile according to https://www.vtpi.org/tca/tca0502.pdf
@@ -31,11 +32,21 @@ enviro_factors <- list(
   VMT_AV = 1.20,
   EVCS_VMT = 0.045, # Need to account for additional VMT due to charging for PHEV and BEV DRS
   MPG_AV = 0.85, # 15% reduction in consumption of fuel with AV based on Forecasting the Impact of Connected and Automated Vehicles on Energy
-  MAX_5D_DR = -0.25,
+  MAX_5D_DR = -0.30, # maximum for drive comes from CAPCOA handbook capcoaGHGHandbook2024
   MAX_5D_ACT = 0.37,
   MAX_5D_TRANS = 0.71,
   MARG_TELEWORK = -2.749 / 100, # Telework marginal effect percent change in PMT (per household). From Kim et al. (2015)
+
+  CBTP_PARTICIPATION_PCT = 0.19, # Community Based Travel Planning: proportion of targeted residences that participate
+  CBTP_TRIP_REDUCTION_PCT = -0.12, # Community Based Travel Planning: vehicle trip reduction by participating residences
+  MAX_TRIP_REDUCTION_PCT = -0.023, # Trip reduction program: maximum VMT reduction cap (2.3%). Citation: CAPCOA Handbook
+
+  COMMUTE_TRIP_REDUCTION_VOLUNTARY_PCT = -0.04, # Commute Trip Reduction Program (Voluntary)
+  COMMUTE_TRIP_REDUCTION_MANDATORY_PCT = -0.26, # Commute Trip Reduction Program (Mandatory and monitoring)
+  MAX_COMMUTE_TRIP_REDUCTION_PCT = -0.45, # Maximum Commute Trip Reduction Program
   # TODO document these values in R/data.R
+
+
   KG_CO2E_PER_THERM_BASELINE = 5.31,
   KG_CO2E_PER_THERM_FORECAST = 5.31,
   KG_CO2E_PER_MHW_BASELINE = 566.4,

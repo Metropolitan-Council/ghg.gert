@@ -6,7 +6,7 @@
 \usage{
 run_scenario_land_use_deprecated(
   tb = land_use_data,
-  .selected_ctu = "all",
+  .selected_ctu,
   .conservation_tillage_intervention = "current_conservation_tillage",
   .tree_planting_intervention = "none",
   .tree_planting_per_capita = 0.26,
@@ -20,7 +20,7 @@ run_scenario_land_use_deprecated(
 \item{tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 The input dataset to be used.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
@@ -59,9 +59,6 @@ The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.0}.}
 
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
-
 \item{detail}{logical,
 If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
@@ -91,13 +88,13 @@ run_scenario_land_use(
 }
 }
 \seealso{
-Other land use: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()}
+Other land use:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_land_by_development_type]{calc_land_by_development_type()}},
+\code{\link[=calc_land_cover_by_land_use]{calc_land_cover_by_land_use()}},
+\code{\link[=calc_parking_lot_land_cover]{calc_parking_lot_land_cover()}},
+\code{\link[=calc_scen_land_use]{calc_scen_land_use()}},
+\code{\link[=calc_tree_planting_land_cover]{calc_tree_planting_land_cover()}}
 }
 \concept{land use}

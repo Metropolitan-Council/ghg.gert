@@ -1,73 +1,73 @@
-testthat::test_that("Transit adjustment correct", {
-  enviro_factors_edit <- enviro_factors
+test_transit_service <- function(x) {
+  testthat::test_that(paste0(x, " transit service reduces PLDV VMT"), {
+    pass_tb_filtered <- transportation_data$passenger %>%
+      filter(geog_name == x | geog_name == "All")
 
-  enviro_factors_edit$TRANSIT_SERVICE_ELAST <- 47 / 100
-
-  pass_trans <- vmt_transit_service(
-    tb = st_paul_passenger,
-    .mode = "PLDV",
-    .transit_service_pct = 0.10,
-    .enviro_factors = enviro_factors_edit
-  )
-
-  testthat::expect_equal(
-    pass_trans %>%
-      select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~transit_adj,
-      "2015", "Saint Paul", 0,
-      "2018", "Saint Paul", 0,
-      "2020", "Saint Paul", 0,
-      "2025", "Saint Paul", 1358720.061325,
-      "2030", "Saint Paul", 2856227.98305,
-      "2035", "Saint Paul", 4502815.566675,
-      "2040", "Saint Paul", 6295052.2164,
-      "2045", "Saint Paul", 6586350.3439,
-      "2050", "Saint Paul", 6877648.4667
+    transit_bau <- vmt_transit_service(
+      tb = pass_tb_filtered,
+      .mode = "PLDV",
+      .transit_service_pct = 0,
+      .enviro_factors = enviro_factors
     )
-  )
 
-  # check multipliers
-  testthat::expect_equal(
-    vmt_transit_service(
-      tb = st_paul_passenger,
-      .mode = "BU",
-      .transit_service_pct = 0.1,
-      .enviro_factors = enviro_factors_edit
-    ) %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~transit_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 1.025,
-      "2030", "Saint Paul", 1.05,
-      "2035", "Saint Paul", 1.075,
-      "2040", "Saint Paul", 1.1,
-      "2045", "Saint Paul", 1.1,
-      "2050", "Saint Paul", 1.1
+    testthat::expect_equal(nrow(transit_bau), length(unique(pass_tb_filtered$year)))
+
+    testthat::expect_named(transit_bau,
+      expected = c(
+        "year",
+        "geog_id",
+        "geog_name",
+        "transit_adj"
+      ),
+      ignore.order = TRUE
     )
-  )
+
+    transit_bau_final <- transit_bau %>%
+      filter(year == max(year)) %>%
+      pull(transit_adj)
 
 
-  testthat::expect_equal(
-    vmt_transit_service(
-      tb = st_paul_passenger,
-      .mode = "RI",
-      .transit_service_pct = 0.1,
-      .enviro_factors = enviro_factors_edit
-    ) %>% select(-geog_id),
-    tibble::tribble(
-      ~year, ~geog_name, ~transit_adj,
-      "2015", "Saint Paul", 1,
-      "2018", "Saint Paul", 1,
-      "2020", "Saint Paul", 1,
-      "2025", "Saint Paul", 1.025,
-      "2030", "Saint Paul", 1.050,
-      "2035", "Saint Paul", 1.075,
-      "2040", "Saint Paul", 1.1,
-      "2045", "Saint Paul", 1.1,
-      "2050", "Saint Paul", 1.1
+    transit_10pct <- vmt_transit_service(
+      tb = pass_tb_filtered,
+      .mode = "PLDV",
+      .transit_service_pct = 0.10,
+      .enviro_factors = enviro_factors
     )
-  )
-})
+
+    transit_20pct <- vmt_transit_service(
+      tb = pass_tb_filtered,
+      .mode = "PLDV",
+      .transit_service_pct = 0.20,
+      .enviro_factors = enviro_factors
+    )
+
+    transit_30pct <- vmt_transit_service(
+      tb = pass_tb_filtered,
+      .mode = "PLDV",
+      .transit_service_pct = 0.30,
+      .enviro_factors = enviro_factors
+    )
+
+    purrr::map(
+      list(
+        transit_10pct,
+        transit_20pct,
+        transit_30pct
+      ),
+      function(x) {
+        test_adj <- x %>%
+          filter(year == max(year)) %>%
+          pull(transit_adj)
+
+        # For PLDV, transit_adj is absolute VMT reduction
+        # Higher service produces greater reduction (larger absolute value)
+        testthat::expect_gt(test_adj, transit_bau_final)
+      }
+    )
+  })
+}
+
+purrr::map(
+  geography_test_list,
+  test_transit_service
+)

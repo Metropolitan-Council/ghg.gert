@@ -14,11 +14,9 @@ library(tidyverse)
 uni_sources <- read.csv("data-raw/transportation_data_processing/indices/unique_sources.csv")
 
 
-
 uni_sources %>%
   group_by(source_short) %>%
   count()
-
 
 
 # "MA3T adapted to MSP by changing state-level populations in MA3T to CTU-level populations. Assume 'central city' in MA3T is one of three core cities in MSP, 'suburban' is other urban CTU, and 'rural' is rural CTU. "

@@ -5,37 +5,30 @@
 \title{Execute building energy scenarios}
 \usage{
 run_scenario_building(
-  res_tb = building_data$residential,
-  non_res_tb = building_data$non_residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  res_tb = building_energy_data$residential,
+  non_res_tb = building_energy_data$jobs,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$jobs,
   run_residential = TRUE,
   run_non_residential = FALSE,
   .baseline_year = 2022,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "alt",
   .density_output,
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
-  .new_homes_to_multifamily_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
   .leed_start_year = 2028,
-  .new_sf_homes_leed_gold_pct = 0,
-  .new_mf_homes_leed_gold_pct = 0,
   .retrofit_start_year = 2028,
   .retrofit_end_year = 2050,
-  .existing_sf_retrofit_pct = 0,
-  .existing_mf_retrofit_pct = 0,
   .heatpump_start_year = 2028,
   .heatpump_end_year = 2050,
-  .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0,
-  .app_elec_start_year = 2028,
-  .app_elec_end_year = 2050,
-  .sf_app_elec_pct = 0,
-  .mf_app_elec_pct = 0,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .sf_heatpump_pct = 0,
+  .mf_heatpump_pct = 0,
+  .new_sf_homes_leed_gold_pct = 0,
+  .new_mf_homes_leed_gold_pct = 0,
+  .existing_sf_retrofit_pct = 0,
+  .existing_mf_retrofit_pct = 0,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .jobs_heatpump_pct = 0
 )
 }
 \arguments{
@@ -45,9 +38,9 @@ default value.
 \code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided.
-Dataset \code{building_data$non_residential} is suitable and the default value.
+\item{non_res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with non-residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and the
+default value.
 \code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
 \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
@@ -56,30 +49,14 @@ Package provided dataset \code{building_energy$residential} is suitable and
 the default value. \code{res_tb_bau} is only used for the "business as usual"
 scenario, in contrast \code{res_tb} is used as the input for the decarbonization scenario.}
 
-\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Data table with non-residential building attributes. Package provided dataset \code{building_data$non_residential}
-is suitable and the default value.
-\code{non_res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{non_res_tb} is used as the input for the decarbonization scenario.}
+\item{non_res_tb_bau}{\code{\link[tibble:tibble]{tibble::tibble()}}. Data table with non residential building attributes (jobs).
+Package provided dataset \code{building_energy$non_residential} is suitable and
+the default value. \code{non_res_tb_bau} is only used for the "business as usual"
+scenario, in contrast \code{non_res_tb} is used as the input for the decarbonization scenario.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
-
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.0}.}
-
-\item{.smart_grid_energy_reduction_pct}{numeric, a value between \code{0} and \code{1}. Default is \code{0}.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
 
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
@@ -89,91 +66,54 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
 }
 \value{
-\code{\link[tibble:tibble]{tibble::tibble()}}.
-Returns a table with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{scen}, \code{year}, and \code{value}.
-The table is the output of the building energy module, any modification to
-the inputs of the building energy module must be specified as an argument
-to the function \code{run_scenario_building()}
+\code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},
+\code{emissions_year}, \code{scenario}, \code{sector},
+\code{elec_mwh}, \code{natgas_mcf}, \code{propane_mmbtu}, \code{kerosene_mmbtu},
+\code{electricity_emissions}, \code{natural_gas_emissions}, \code{liquid_fuel_emissions}.
+Non-residential rows have \code{0} for propane/kerosene/liquid fuel columns.
 }
 \description{
 This function generates the outputs of the building energy module
 for the given scenario at the city/township level. It incorporates various
 parameters to evaluate and analyze different energy consumption and efficiency
-scenarios for both residential and non-residential buildings. Outputs are
-provided as a tibble with columns \code{geog_name}, \code{geog_id}, \code{var}, \code{scen}, \code{year}, and \code{value}.
+scenarios for both residential and non-residential buildings.
 }
 \examples{
 \dontrun{
-
 library(ghg.ccap)
 run_scenario_building(
-  res_tb = building_data$residential,
-  non_res_tb = building_data$non_residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  res_tb = building_energy_data$residential,
+  non_res_tb = building_energy_data$jobs,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$jobs,
   run_residential = TRUE,
   run_non_residential = TRUE,
   .selected_ctu = "all",
-  .enviro_factors = enviro_factors,
-  .electrified_buildings_pct = 0.40,
-  .smart_grid_energy_reduction_pct = 1.00,
-  .new_homes_to_multifamily_pct = 0.50,
-  .existing_high_efficiency_buildings_pct = 0.80,
-  .home_behavior_change_pct = 1.00,
-  .single_family_floor_area_growth_pct = 0.05,
-  .new_homes_affected_pct = 0.30,
-  .new_homes_leed_gold_pct = 0.50,
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
-  .additional_electrified_residential_buildings_pct = 0.45,
-  .grid_decarbonization_pct = 1
+  .sf_heatpump_pct = 0.10,
+  .existing_sf_retrofit_pct = 0.80
 )
 }
 
 }
 \seealso{
-Other buildings: 
-\code{\link{adj_unit_counts}()},
-\code{\link{calc_affordable_floor_area}()},
-\code{\link{calc_building_energy}()},
-\code{\link{calc_demographic_forecast}()},
-\code{\link{calc_electrify_commercial_heating}()},
-\code{\link{calc_electrify_residential_heating}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_existing_comm_building_efficiency}()},
-\code{\link{calc_floor_area_behavior_change}()},
-\code{\link{calc_floor_area_growth}()},
-\code{\link{calc_floor_area_leed}()},
-\code{\link{calc_floor_area_retrofit}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{calc_housing_leed}()},
-\code{\link{calc_mfh_retrofit}()},
-\code{\link{calc_non_res_renewable_ng}()},
-\code{\link{calc_residential_renewable_ng}()},
-\code{\link{calc_residential_retrofit}()},
-\code{\link{calc_sfh_leed}()},
-\code{\link{calc_sfh_retrofit}()},
-\code{\link{get_by_county_non_residential_energy_baseline}()},
-\code{\link{get_demographic_baseline}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()},
-\code{\link{scen_building_non_residential}()}
+Other buildings:
+\code{\link[=adj_cropland_area]{adj_cropland_area()}},
+\code{\link[=adj_unit_counts]{adj_unit_counts()}},
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+\code{\link[=calc_building_energy]{calc_building_energy()}},
+\code{\link[=calc_business_leed]{calc_business_leed()}},
+\code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}},
+\code{\link[=calc_housing_leed]{calc_housing_leed()}},
+\code{\link[=calc_residential_retrofit]{calc_residential_retrofit()}}
 }
 \concept{buildings}

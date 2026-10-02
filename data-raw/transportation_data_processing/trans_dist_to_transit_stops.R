@@ -9,7 +9,6 @@ library(purrr)
 # st_transform(4326)
 
 
-
 building_list <- c(
   "apartments",
   "bungalow",
@@ -24,8 +23,6 @@ building_list <- c(
   "static_caravan",
   "terrace"
 )
-
-
 
 
 # pull all residential building points -----

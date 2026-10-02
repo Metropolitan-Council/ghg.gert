@@ -36,7 +36,7 @@ calc_fuel_cost_mile <- function(tb,
       aeo_mode,
       val_mpg = value
     ) %>%
-    unique()
+    dplyr::distinct()
 
 
   aeo_f_l <- .factor_values$aeo %>%
@@ -50,10 +50,10 @@ calc_fuel_cost_mile <- function(tb,
     )
 
   if (nrow(aeo_f_l) == 0) {
-    cli::cli_warn(
-      paste0("No AEO MPG available for ", .mode, " ", .miles_per_gallon),
-      "Using reference value  = 1 instead"
-    )
+    # cli::cli_warn(
+    #   # paste0("No AEO MPG available for ", .mode, " ", .miles_per_gallon),
+    #   "Using reference AEO value = 1 instead"
+    # )
 
     aeo_f_l <- tibble::tribble(
       ~aeo_scen, ~mode, ~metric, ~year, ~aeo_val,

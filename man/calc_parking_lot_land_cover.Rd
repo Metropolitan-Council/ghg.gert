@@ -16,7 +16,7 @@ calc_parking_lot_land_cover(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.parking_lot_reduction_percentage}{numeric, value between \code{0} and \code{1}.
 The percentage reduction of parking lot
@@ -74,13 +74,13 @@ calc_parking_lot_land_cover(
 }
 }
 \seealso{
-Other land use: 
-\code{\link{calc_carbon_sequestration_per_ctu}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use_deprecated}()}
+Other land use:
+\code{\link[=calc_carbon_sequestration_per_ctu]{calc_carbon_sequestration_per_ctu()}},
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_land_by_development_type]{calc_land_by_development_type()}},
+\code{\link[=calc_land_cover_by_land_use]{calc_land_cover_by_land_use()}},
+\code{\link[=calc_scen_land_use]{calc_scen_land_use()}},
+\code{\link[=calc_tree_planting_land_cover]{calc_tree_planting_land_cover()}},
+\code{\link[=run_scenario_land_use_deprecated]{run_scenario_land_use_deprecated()}}
 }
 \concept{land use}

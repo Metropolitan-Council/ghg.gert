@@ -6,10 +6,10 @@ c(
   run_non_residential = TRUE,
   run_transportation = TRUE,
   tb = land_use_data,
-  non_res_tb = building_data$non_residential,
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  non_res_tb = building_energy_data$non_residential,
+  res_tb = building_energy_data$residential,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   detail = FALSE,
@@ -38,7 +38,6 @@ c(
   # .res_natural_gas_for_space_heating_pct = 0.71, # env factor
   # .res_natural_gas_for_water_heating_pct = 0.24, # env factor
   .additional_electrified_residential_buildings_pct = 0,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -65,13 +64,11 @@ c(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .elast_5d = elast_5d
 )
-
 
 
 bau <- ghg.ccap::run_all_modules(
@@ -90,8 +87,6 @@ bau <- ghg.ccap::run_all_modules(
 
   ## building energy module parameters
 
-  # 38% in 2018
-  .grid_decarbonization_pct = 0.6, # user can modify
   ## non residential energy parameters
   .renewable_ng_nonres = FALSE,
   # switch to electric heating
@@ -137,6 +132,5 @@ bau <- ghg.ccap::run_all_modules(
   .comb_5d_impact_pct_change = 0,
   .telework_pct = 0,
   .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
   .hev_pct_sales = 0
 )

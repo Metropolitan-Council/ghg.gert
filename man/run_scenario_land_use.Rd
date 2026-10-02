@@ -7,7 +7,7 @@
 run_scenario_land_use(
   tb = planned_land_use$ctu_planned_land_use_parcel,
   tb_strategy = NULL,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "alt"
 )
 }
@@ -25,15 +25,8 @@ cities to make 2050 modifications that in turn change expected density
 that can percolate to other sectors. Outputs are
 provided as a tibble with columns \code{geog_name}, \code{scen}, \code{expected_density}.
 }
-\examples{
-  /dontrun{
-
-  library(ghg.ccap)
-  }
-
-}
 \seealso{
-Other land_use: 
-\code{\link{land_use_update}()}
+Other land_use:
+\code{\link[=land_use_update]{land_use_update()}}
 }
 \concept{land_use}

@@ -8,9 +8,8 @@
 #'
 #' @family transportation
 #' @export
-#' @importFrom dplyr filter select case_when rowwise mutate_all
+#' @importFrom dplyr filter select case_when rowwise mutate_all distinct
 #' @importFrom tidyselect all_of
-#' @importFrom tidyr pivot_wider
 calc_fuel_use <- function(tb_vmt,
                           tb,
                           .mode,
@@ -21,66 +20,30 @@ calc_fuel_use <- function(tb_vmt,
                           .factor_values = factor_values) {
   tb_l <- .fuel_economy %>%
     dplyr::filter(mode == .mode, var == .miles_per_gallon) %>%
-    unique() %>%
-    tidyr::pivot_wider(
-      names_from = var,
-      values_from = value
-    ) %>%
-    dplyr::select(mode, year, aeo_mode,
-      per_gallon_val = {{ .miles_per_gallon }}
-    ) %>%
-    unique()
-
+    dplyr::select(mode, year, aeo_mode, per_gallon_val = value) %>%
+    dplyr::distinct()
 
   aeo_f_l <- .factor_values$aeo %>%
     dplyr::filter(
       metric == "MPG",
       aeo_scen == .aeo_scenario,
-      mode == tb_l$aeo_mode
+      mode == unique(tb_l$aeo_mode)
     ) %>%
-    dplyr::select(year,
-      aeo_factor = value
-    )
+    dplyr::select(year, aeo_factor = value)
 
   if (nrow(aeo_f_l) == 0) {
-    aeo_f_l <- tibble::tibble(
-      year = tb_l$year,
-      aeo_factor = 1
-    )
+    aeo_f_l <- tibble::tibble(year = tb_l$year, aeo_factor = 1)
   }
 
-
-  tb_aeo <- dplyr::left_join(tb_l,
-    aeo_f_l,
-    by = c("year")
-  ) %>%
+  tb_l %>%
+    dplyr::left_join(aeo_f_l, by = "year") %>%
     dplyr::mutate(fuel_factor = per_gallon_val * aeo_factor) %>%
+    dplyr::select(year, fuel_factor, aeo_mode) %>%
+    dplyr::left_join(tb_vmt, ., by = c("year", "aeo_mode")) %>%
+    dplyr::mutate(fuel_use_gallons_kwh = vmt / fuel_factor) %>%
     dplyr::select(
-      # mode,
-      year,
-      fuel_factor,
-      aeo_mode
-    )
-
-  fuel_use_gallons_kwh <- dplyr::left_join(
-    tb_vmt,
-    tb_aeo,
-    by = c("year", "aeo_mode")
-  ) %>%
-    dplyr::rowwise() %>%
-    # miles traveled DIVIDED by the miles per gallon to get gallons
-    dplyr::mutate(fuel_use_gallons_kwh = (vmt) / fuel_factor) %>%
-    dplyr::select(
-      type,
-      scenario,
-      mode,
-      geog_name, geog_id,
-      class,
-      year,
-      aeo_mode,
-      fuel_use_gallons_kwh
-    )
-
-
-  return(fuel_use_gallons_kwh)
+      type, scenario, mode, geog_name, geog_id, class,
+      year, aeo_mode, fuel_use_gallons_kwh
+    ) %>%
+    return()
 }

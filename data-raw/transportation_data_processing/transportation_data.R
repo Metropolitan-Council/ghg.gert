@@ -105,14 +105,12 @@ freight_transpo_long <- freight_transpo %>%
   ungroup()
 
 
-
 freight_transpo_all <- freight_transpo_long %>%
   filter(ctu == "All") %>%
   select(-ctu) %>%
   unique() %>%
   right_join(ctu_year_unique, relationship = "many-to-many") %>%
   select(names(freight_transpo_long))
-
 
 
 transportation_data <- list(
@@ -136,8 +134,6 @@ testthat::expect_false("All" %in% transportation_data$freight$ctu)
 
 testthat::expect_equal(nrow(transportation_data$passenger), 154008)
 testthat::expect_equal(nrow(transportation_data$freight), 71982)
-
-
 
 
 ## value comparisons ------

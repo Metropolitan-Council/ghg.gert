@@ -21,14 +21,11 @@ aeo_desc <- read_csv("data-raw/transportation_data_processing/indices/aeo_descri
   as_tibble()
 
 uni_sources <- read.csv("data-raw/transportation_data_processing/indices/unique_sources.csv") %>%
-  as_tibble()
-
-
-
+  as_tibble() %>%
+  mutate(across(where(is.character), stringr::str_trim))
 
 
 # sources_key <-
-
 
 
 transportation_index <- list(
@@ -44,3 +41,11 @@ transportation_index <- list(
 
 
 usethis::use_data(transportation_index, overwrite = TRUE)
+
+
+
+# transportation_index$data_sources %>%
+#   left_join(transportation_index$variables, by = c("var" = "var_name")) %>%
+#   unique() %>%
+#   select(mode, var, var_description, source_short) %>%
+#   filter(str_detect(var, '(PHEV|SI|CI|HEV)', negate = TRUE)) %>% View

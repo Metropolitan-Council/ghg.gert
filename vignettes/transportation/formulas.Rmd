@@ -113,12 +113,12 @@ $$adj_{telework} = 1 + (\%telework \times -0.0275) $$
 $\%telework$ is additional percent of people teleworking in the final forecast year.  
 
 ###### Land use   
-$$ adj_{land} = \prod_{i=1}^{7} 1 + \Delta_{i} \times elast_{i,m} $$
+$$ adj_{land} = \prod_{i=1}^{8} 1 + \Delta_{i} \times elast_{i,m} $$
 
 where $\Delta_{i}$  is the percent change in land use element $i$. 
 $elast_{i,m}$ is the elasticity or effect size land use element $i$ and travel mode $m$.     
 
-7 elements are considered: employment density, population density, land use diversity, intersection design, job accessibility via transit, average minimum distance to transit stops, and combined density.   
+8 elements are considered: employment density, population density, land use diversity, intersection design (% 4-way stops), intersection density (intersections per square mile), job accessibility via transit, average minimum distance to transit stops, and combined density.   
 
 
 $adj_{land}$ must fall within limits dependent on travel mode $m$. Passenger VMT can be no less than `r 1 + ghg.ccap::enviro_factors$MAX_5D_DR`, transit VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_TR`, and walk/bike VMT can be no greater than `r 1 + ghg.ccap::enviro_factors$MAX_5D_ACT`.    

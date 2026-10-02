@@ -5,19 +5,20 @@
 \title{run all modules}
 \usage{
 run_all_modules(
-  .selected_ctu = "all",
+  .selected_ctu,
   run_land_use = TRUE,
   run_buildings = TRUE,
   run_residential = TRUE,
   run_non_residential = TRUE,
   run_transportation = TRUE,
   tb = land_use_data,
-  non_res_tb = building_data$non_residential,
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  non_res_tb = building_energy_data$non_residential,
+  res_tb = building_energy_data$residential,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+  .parking_cost = parking_cost,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
@@ -29,50 +30,71 @@ run_all_modules(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .electrified_buildings_pct = 0,
-  .smart_grid_energy_reduction_pct = 0,
-  .existing_high_efficiency_buildings_pct = 0,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
-  .sf_heat_pump_pct = 0,
-  .mf_heat_pump_pct = 0,
+  .baseline_year = 2022,
+  .leed_start_year = 2028,
+  .retrofit_start_year = 2028,
+  .retrofit_end_year = 2050,
+  .heatpump_start_year = 2028,
+  .heatpump_end_year = 2050,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .jobs_heatpump_pct = 0,
+  .sf_heatpump_pct = 0,
+  .mf_heatpump_pct = 0,
   .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
-  .transit_avo_pct = 0,
-  .pldv_avo_pct = 0,
-  .transit_service_pct = 0,
-  .vmt_fee = 0,
-  .payd_fee = 0,
-  .gas_tax = 0,
-  .parking_price = 0,
-  .freight_parking_price = 0,
-  .cong_price = 0,
-  .freight_vmt_fee = 0,
-  .pop_dens_pct_change = 0,
-  .emp_dens_pct_change = 0,
-  .land_use_diversity_pct_change = 0,
-  .intersection_design_pct_change = 0,
-  .job_access_pct_change = 0,
-  .transit_dist_pct_change = 0,
-  .comb_5d_impact_pct_change = 0,
-  .telework_pct = 0,
-  .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
-  .hev_pct_sales = 0,
+  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+  .parking_price = ghg.ccap::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+  .cong_price = ghg.ccap::transportation_defaults$cong_price,
+  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+  .land_use_diversity_pct_change =
+    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+  .intersection_design_pct_change =
+    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+  .intersection_density_pct_change =
+    ghg.ccap::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+  .comb_5d_impact_pct_change =
+    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
+  .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
+  .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
   .enviro_factors = ghg.ccap::enviro_factors,
   .factor_values = ghg.ccap::factor_values,
   .elast = ghg.ccap::elast,
   .fuel_economy = ghg.ccap::fuel_economy,
   .grid_emissions = ghg.ccap::grid_emissions,
-  .elast_5d = elast_5d
+  .elast_5d = ghg.ccap::elast_5d,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{run_land_use}{logical. Default is \code{TRUE}}
 
@@ -112,6 +134,8 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
@@ -129,8 +153,6 @@ If \code{detail == TRUE} the function
 returns a tibble with more detailed fields. Recommended
 for debugging.
 Default is \code{FALSE}.}
-
-\item{.renewable_ng_res}{logical, documentation needed}
 
 \item{.conservation_tillage_intervention}{character,
 The type of conservation tillage scenario to be explored.
@@ -169,15 +191,6 @@ The percentage reduction of parking lot
 area to be explored under the current scenario.
 Default is \code{0.0}.}
 
-\item{.electrified_buildings_pct}{numeric,  a value between \code{0} and \code{1}.
-The fraction of additional commercial buildings that will be electrified.
-Default is \code{0.0}.}
-
-\item{.existing_high_efficiency_buildings_pct}{numeric,
-a value between \code{0} and 1.
-Percent of existing commercial buildings are LEED Gold.
-Default is \code{0}.}
-
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
@@ -186,12 +199,9 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-\item{.sf_heat_pump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heat_pump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -200,67 +210,78 @@ Default value is \code{0.6}.}
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
+Default is 0.}
 
-\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment.
+Default is 0.}
 
-\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment.
+Default is 0.}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
+congested miles in MSP).
+Default is 0.}
 
-\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
+\item{.freight_vmt_fee}{freight VMT fee per mile.
+Default is 0.}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0.}
 
 \item{.emp_dens_pct_change}{percent change in employment density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
-Numeric between -1 and 1.  Default is \code{0}}
+Numeric between -1 and 1.  Default is 0}
+
+\item{.intersection_density_pct_change}{percent change in intersection density
+(intersections per square mile) in the final forecast year relative to BAU.
+Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+Default is 0}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0
+Default is \code{0}}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
-Default is \code{0}.}
-
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -271,10 +292,10 @@ Default is \code{0}.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
 
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
+Default is \code{ghg.ccap::vehicle_occupancy}.}
 }
 \value{
 list, list with the outputs of the three modules.

@@ -8,36 +8,52 @@ direct GHG, indirect GHG, and costs}
 run_module_transportation(
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
-  .selected_ctu = "all",
+  .selected_ctu,
+  .parking_cost = ghg.ccap::parking_cost,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE,
-  .grid_decarbonization_pct = 0.6,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
-  .transit_avo_pct = 0,
-  .pldv_avo_pct = 0,
-  .transit_service_pct = 0,
-  .vmt_fee = 0,
-  .payd_fee = 0,
-  .gas_tax = 0,
-  .parking_price = 0,
-  .freight_parking_price = 0,
-  .cong_price = 0,
-  .freight_vmt_fee = 0,
-  .pop_dens_pct_change = 0,
-  .emp_dens_pct_change = 0,
-  .land_use_diversity_pct_change = 0,
-  .intersection_design_pct_change = 0,
-  .job_access_pct_change = 0,
-  .transit_dist_pct_change = 0,
-  .comb_5d_impact_pct_change = 0,
-  .telework_pct = 0,
-  .bev_pct_sales = 0,
-  .phev_pct_sales = 0,
-  .hev_pct_sales = 0,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+  .parking_price = ghg.ccap::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+  .cong_price = ghg.ccap::transportation_defaults$cong_price,
+  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+  .land_use_diversity_pct_change =
+    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+  .intersection_design_pct_change =
+    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+  .intersection_density_pct_change =
+    ghg.ccap::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+  .comb_5d_impact_pct_change =
+    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
+  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
+  .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
+  .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
   .enviro_factors = ghg.ccap::enviro_factors,
   .elast = ghg.ccap::elast,
   .elast_5d = ghg.ccap::elast_5d,
@@ -52,7 +68,12 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
+
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+
+\item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
+Default is \code{ghg.ccap::vehicle_occupancy}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
@@ -66,9 +87,6 @@ Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 \item{.calc_transp_ghg_embodied}{logical, whether to calculate embodied emissions.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
-\item{.grid_decarbonization_pct}{numeric, a value between \code{0} and \code{1}.
-Default value is \code{0.6}.}
-
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
 \item{.electric_scenario}{electricity scenario}
@@ -76,67 +94,78 @@ Default value is \code{0.6}.}
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment. Default is \code{0}}
+\item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
+Default is 0.}
 
-\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment. Default is \code{0}}
+\item{.pldv_avo_pct}{numeric, passenger light duty vehicle occupancy adjustment.
+Default is 0.}
 
-\item{.transit_service_pct}{numeric, change in transit service \% adjustment. Default is \code{0}.}
+\item{.transit_service_pct}{numeric, change in transit service \% adjustment.
+Default is 0.}
 
-\item{.vmt_fee}{VMT fee in dollars per mile. Default is \code{0}}
+\item{.vmt_fee}{VMT fee in dollars per mile.
+Default is 0.}
 
 \item{.payd_fee}{Pay-as-you-drive (PAYD) insurance fee in dollars per mile.
-Default is \code{0}}
+Default is 0.}
 
-\item{.gas_tax}{Gas tax in dollars per mile. Default is \code{0}}
+\item{.gas_tax}{Gas tax in dollars per mile.
+Default is 0.}
 
-\item{.parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
-\item{.freight_parking_price}{numeric, measured in dollars per hour. Default is \code{0}.}
+\item{.freight_parking_price}{numeric, measured in dollars per hour.
+Default is 0.}
 
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
-congested miles in MSP). Default is \code{0}}
+congested miles in MSP).
+Default is 0.}
 
-\item{.freight_vmt_fee}{freight VMT fee per mile. Default is \code{0}}
+\item{.freight_vmt_fee}{freight VMT fee per mile.
+Default is 0.}
 
 \item{.pop_dens_pct_change}{percent change in population density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0.}
 
 \item{.emp_dens_pct_change}{percent change in employment density in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.land_use_diversity_pct_change}{percent change in land use diversity/mix in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.intersection_design_pct_change}{percent change in intersection design
 (\% 4-way stops) in the final forecast year relative to BAU.
-Numeric between -1 and 1.  Default is \code{0}}
+Numeric between -1 and 1.  Default is 0}
+
+\item{.intersection_density_pct_change}{percent change in intersection density
+(intersections per square mile) in the final forecast year relative to BAU.
+Numeric between -1 and 1.  Default is 0}
 
 \item{.job_access_pct_change}{percent change in job accessibility in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.transit_dist_pct_change}{percent change in transit distance in the final forecast year relative to BAU.
-Numeric between -1 and 1. Default is \code{0}}
+Numeric between -1 and 1. Default is 0}
 
 \item{.comb_5d_impact_pct_change}{percent change in population density in the final forecast year relative to BAU
-as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1. Default is \code{0}}
+as a measure of composite change in 5Ds on VMT. Numeric between -1 and 1.
+Default is 0}
 
 \item{.telework_pct}{additional percent of people teleworking in the final forecast year.
-Numeric between 0 and 1. Default is \code{0}}
+Numeric between 0 and 1.
+Default is 0
+Default is \code{0}}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
-Default is \code{0}.}
-
-\item{.phev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
-Percent of all vehicle sales that are plug-in hybrid electric (PHEV)
-in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
-Default is \code{0}.}
+Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
@@ -158,23 +187,26 @@ Main function to call other functions for determining VMT,
 direct GHG, indirect GHG, and costs
 }
 \seealso{
-Other transportation: 
-\code{\link{adj_fleet_shares}()},
-\code{\link{calc_cost}()},
-\code{\link{calc_fuel_cost_mile}()},
-\code{\link{calc_fuel_use}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_treatment}()},
-\code{\link{calc_vmt_forecast}()},
-\code{\link{mode_freight_rail}()},
-\code{\link{mode_freight_truck}()},
-\code{\link{mode_passenger_light_duty}()},
-\code{\link{mode_school_bus}()},
-\code{\link{mode_transit_bus}()},
-\code{\link{mode_transit_rail}()},
-\code{\link{mode_walk_bike}()},
-\code{\link{vmt_annual_energy_outlook}()}
+Other transportation:
+\code{\link[=adj_fleet_shares]{adj_fleet_shares()}},
+\code{\link[=adj_fleet_shares_stock]{adj_fleet_shares_stock()}},
+\code{\link[=calc_cost]{calc_cost()}},
+\code{\link[=calc_fuel_cost_mile]{calc_fuel_cost_mile()}},
+\code{\link[=calc_fuel_use]{calc_fuel_use()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_treatment]{calc_treatment()}},
+\code{\link[=calc_vmt_forecast]{calc_vmt_forecast()}},
+\code{\link[=mode_freight_rail]{mode_freight_rail()}},
+\code{\link[=mode_freight_truck]{mode_freight_truck()}},
+\code{\link[=mode_passenger_light_duty]{mode_passenger_light_duty()}},
+\code{\link[=mode_school_bus]{mode_school_bus()}},
+\code{\link[=mode_transit_bus]{mode_transit_bus()}},
+\code{\link[=mode_transit_rail]{mode_transit_rail()}},
+\code{\link[=mode_walk_bike]{mode_walk_bike()}},
+\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
+\code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

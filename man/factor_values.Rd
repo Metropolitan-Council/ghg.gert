@@ -20,17 +20,20 @@ Annual energy outlook, cost, and greenhouse gas factors
 by scenario, mode, year, and source
 }
 \seealso{
-Other datasets: 
+Other datasets:
+\code{\link{commute_vmt_proportion}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
 \code{\link{enviro_factors}},
+\code{\link{epa_sld_intersection_density}},
 \code{\link{fuel_economy}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
+\code{\link{transportation_defaults}},
 \code{\link{transportation_index}},
 \code{\link{waste_data}}
 }
