@@ -297,6 +297,9 @@
 #' derived from the Travel Behavior Inventory and the geography community designation (for cities),
 #' or geography level (for counties and region).
 #'
+#' In cases where there were no commute data for a given community designation,
+#' CTUs were assigned the region-level estimate.
+#'
 #' @format A tibble with 6 columns and 194 observations.
 #' - **mode**: Transportation mode, `"PLDV"`.
 #' - **var**: Variable name, `"COMMUTE_VMT_PROP"`.

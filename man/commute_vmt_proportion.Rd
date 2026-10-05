@@ -23,6 +23,9 @@ Estimated proportion of passenger light-duty vehicle miles
 traveled that is attributable to commute trips, by geography. Estimates are
 derived from the Travel Behavior Inventory and the geography community designation (for cities),
 or geography level (for counties and region).
+
+In cases where there were no commute data for a given community designation,
+CTUs were assigned the region-level estimate.
 }
 \examples{
 library(ghg.ccap)
