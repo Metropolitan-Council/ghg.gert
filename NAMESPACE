@@ -147,3 +147,7 @@ importFrom(tidyselect,
   all_of,
   any_of
 )
+importFrom(units,
+  as_units,
+  set_units
+)

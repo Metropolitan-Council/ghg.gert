@@ -34,6 +34,9 @@
 #' @inheritParams vmt_stock_proportion
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
+#' @inheritParams vmt_commute_trip_reduction
+#' @inheritParams vmt_trip_reduction
+#' @inheritParams vmt_total_reduction
 #'
 #' @return A named list of four objects: `passenger`, `passenger_all`, `freight`, and `freight_all`.
 #'    Emissions returned are in metric tons.

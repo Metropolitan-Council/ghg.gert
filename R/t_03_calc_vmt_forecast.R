@@ -13,13 +13,24 @@
 #' @param .elast_5d table of 5D elasticities. Default is `ghg.ccap::elast_5d` included in this package.
 #'
 #' @inheritParams run_module_transportation
-#' @inheritParams vmt_parking_policy
+#' @inheritParams run_scenario_land_use
+#' @inheritParams run_scenario_building
+#' @inheritParams filter_ctu
+#' @inheritParams adj_fleet_shares
+#' @inheritParams calc_ghg_direct
+#' @inheritParams filter_ctu
+#' @inheritParams vmt_annual_energy_outlook
 #' @inheritParams vmt_land_use_change
+#' @inheritParams vmt_parking_policy
 #' @inheritParams vmt_road_policy
+#' @inheritParams vmt_telework
+#' @inheritParams vmt_stock_proportion
 #' @inheritParams vmt_transit_service
 #' @inheritParams vmt_vehicle_occupancy
-#' @inheritParams vmt_telework
-#' @inheritParams filter_ctu
+#' @inheritParams vmt_commute_trip_reduction
+#' @inheritParams vmt_trip_reduction
+#' @inheritParams vmt_total_reduction
+#'
 #'
 #' @details This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
 #' ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO

@@ -96,6 +96,10 @@ Default is 0.}
 \item{.freight_parking_price}{numeric, measured in dollars per hour.
 Default is 0.}
 
+\item{.vmt_reduction_pct}{total percent reduction in PLDV VMT by final forecast year.
+Numeric between 0 and 1.
+Default is 0.}
+
 \item{.cong_price}{Congestion price in dollars per mile (only applies to an approximation of
 congested miles in MSP).
 Default is 0.}
@@ -134,6 +138,34 @@ Default is 0}
 Numeric between 0 and 1.
 Default is 0
 Default is \code{0}}
+
+\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1).
+Default is 0}
+
+\item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028}
+
+\item{.cbtp_full_effect_year}{character or numeric, year the CBTP strategy reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.ctr_employees_targeted}{numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+Default is 0.}
+
+\item{.ctr_voluntary}{logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+Default is TRUE.}
+
+\item{.ctr_start_year}{character or numeric, the year the trip reduction program begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028.}
+
+\item{.ctr_full_effect_year}{character or numeric, year the trip reduction program reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
+Default is \code{ghg.ccap::commute_vmt_proportion}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}

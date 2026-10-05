@@ -28,6 +28,8 @@
 #' @inheritParams run_all_modules
 #' @inheritParams calc_housing_leed
 #' @inheritParams calc_residential_retrofit
+#' @inheritParams calc_residential_electrification
+#'
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns

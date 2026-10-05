@@ -15,6 +15,7 @@
 #' @inheritParams calculate_landfill_emissions
 #' @inheritParams calculate_incin_emissions
 #' @inheritParams calculate_organic_emissions
+#' @inheritParams calculate_wastewater_emissions
 #'
 #'
 #' @return [list()].

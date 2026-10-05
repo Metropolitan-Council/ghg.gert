@@ -3,6 +3,8 @@
 #' @param waste_inv table, waste inventory data
 #' @param waste_future table, projected waste data
 #'
+#' @importFrom units as_units set_units
+#'
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
 #' @export
