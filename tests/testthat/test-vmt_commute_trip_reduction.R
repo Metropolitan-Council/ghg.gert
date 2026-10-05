@@ -1,5 +1,5 @@
 test_commute_trip_reduction <- function(x) {
-    testthat::test_that(paste0(x, " Commute trip reduction returns 1 before start_year"), {
+    testthat::test_that(paste0(x, " commute trip reduction returns 1 before start_year"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -22,7 +22,7 @@ test_commute_trip_reduction <- function(x) {
         )
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction applies after start_year"), {
+    testthat::test_that(paste0(x, " commute trip reduction applies after start_year"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -43,7 +43,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_true(all(post_2030$commute_trip_reduction_adj > 0))
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction voluntary vs mandatory"), {
+    testthat::test_that(paste0(x, " commute trip reduction voluntary vs mandatory"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -79,7 +79,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_lt(ctr_mandatory, ctr_voluntary)
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction scales with employees targeted"), {
+    testthat::test_that(paste0(x, " commute trip reduction scales with employees targeted"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -113,7 +113,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_lt(ctr_high, ctr_low)
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction capped at max reduction"), {
+    testthat::test_that(paste0(x, " commute trip reduction capped at max reduction"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -146,7 +146,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_true(all(post_2030 >= max_adj))
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction with zero employees returns no effect"), {
+    testthat::test_that(paste0(x, " commute trip reduction with zero employees returns no effect"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -166,7 +166,7 @@ test_commute_trip_reduction <- function(x) {
         )
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction returns correct structure"), {
+    testthat::test_that(paste0(x, " commute trip reduction returns correct structure"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -188,7 +188,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_true("commute_trip_reduction_adj" %in% names(ctr_adjust))
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction reaches full effect in full_effect_year"), {
+    testthat::test_that(paste0(x, " commute trip reduction reaches full effect in full_effect_year"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -231,7 +231,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_lt(full_reduction, at_start)
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction single-year ramp equals instant full reduction"), {
+    testthat::test_that(paste0(x, " commute trip reduction single-year ramp equals instant full reduction"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
@@ -253,7 +253,7 @@ test_commute_trip_reduction <- function(x) {
         testthat::expect_true(all(post_2030 == post_2030[1]))
     })
 
-    testthat::test_that(paste0(x, " Commute trip reduction earlier full_effect_year shortens ramp"), {
+    testthat::test_that(paste0(x, " commute trip reduction earlier full_effect_year shortens ramp"), {
         pass_tb_filtered <- transportation_data$passenger %>%
             filter(geog_name == x)
 
