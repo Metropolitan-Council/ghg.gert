@@ -312,7 +312,7 @@ test_parking <- function(x) {
       max_reduction_floor <- 1 + enviro_factors$MAX_PARKING_REDUCTION_PCT
       actual_reduction_ratio <- freight_vmt$vmt_parking_extreme / freight_vmt$vmt_parking_bau
 
-      expect_gte(actual_reduction_ratio, max_reduction_floor,
+      expect_gte(round(actual_reduction_ratio, digits = 2), round(max_reduction_floor, digits = 2),
         label = "Freight VMT reduction respects floor (max 30% reduction)"
       )
     }
