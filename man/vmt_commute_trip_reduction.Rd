@@ -15,6 +15,9 @@ vmt_commute_trip_reduction(
 )
 }
 \arguments{
+\item{.pass_tb}{input table for passenger modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
+and one for each year. Package provided dataset \code{transportation_data$passenger} is suitable.}
+
 \item{.ctr_employees_targeted}{numeric, proportion of employees targeted for commute trip reduction (0 to 1).
 Default is 0.}
 
@@ -31,6 +34,9 @@ Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
 Default is \code{ghg.ccap::commute_vmt_proportion}.}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.ccap::enviro_factors}.}
 }
 \description{
 This function calculates the expected reduction in vehicle miles traveled (VMT) based on a commute trip reduction program.

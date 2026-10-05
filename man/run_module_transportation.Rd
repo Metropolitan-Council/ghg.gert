@@ -199,6 +199,16 @@ Percent of all vehicle sales that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is 0.}
 
+\item{.bev_pct_stock}{numeric,  a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are battery electric vehicles (BEV)
+in the final forecast year.
+Default is 0}
+
+\item{.hev_pct_stock}{numeric,   a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are hybrid electric vehicles (HEV)
+in the final forecast year.
+Default is 0.}
+
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.ccap::enviro_factors}.}
 

@@ -941,6 +941,11 @@ vmt_trip_reduction <- function(.pass_tb,
 #' @family VMT effects
 #' @family TDM
 #'
+#'
+#' @inheritParams run_module_transportation
+#' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
 #' @references
 #' CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
 #'

@@ -24,6 +24,7 @@
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
 #' @inheritParams adj_fleet_shares
+#' @inheritParams adj_fleet_shares_stock
 #' @inheritParams calc_ghg_direct
 #' @inheritParams filter_ctu
 #' @inheritParams vmt_annual_energy_outlook
