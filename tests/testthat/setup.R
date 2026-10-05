@@ -45,6 +45,7 @@ geography_test_list_core <- c(
   "Lake Elmo",
   "Saint Bonifacius", #test st vs saint
   "Bethel",
+  "Hanover",
   # Unique CTUs
   "Hilltop", # all manufactured homes
   "Landfall", # all manufactured homes
