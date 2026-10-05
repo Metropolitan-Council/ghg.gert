@@ -66,7 +66,7 @@ valid_trips <- trip %>%
     vmt, weighted_vmt
   )
 
-# first at the communty designation level -----
+# first at the community designation level -----
 trip_commute_vmt <- valid_trips %>%
   filter(purpose_category == "Work") %>%
   group_by(cd_2050) %>%
@@ -206,7 +206,13 @@ commute_vmt_proportion <- tbi_commute_vmt_prop %>%
     value = commute_vmt_prop,
     type
   ) %>%
-  arrange(geog_name)
+  arrange(geog_name) %>%
+  mutate(value = case_when(
+    # if value is NA (like for Non-Council communities)
+    # then assign the regional average
+    is.na(value) ~ tbi_region_commute_vmt_prop$commute_vmt_prop,
+    TRUE ~ value
+  ))
 
 
 usethis::use_data(commute_vmt_proportion, overwrite = TRUE)
