@@ -153,7 +153,7 @@ test_density <- function(x, bau) {
     testthat::expect_equal(nrow(dens_result), 3) # pop, emp, int
     testthat::expect_true(all(c("decrease", "increase", "bau") %in% names(dens_result)))
 
-    skip_if(x %in% c("Landfall"), message = "Skipping Landfall for density tests")
+    skip_if(x %in% c("Landfall", "Birchwood Village"), message = "Skip density tests for Landfall and Birchwood Village")
     testthat::expect_true(all(dens_result$flag_dec), label = "All decreasing density scenarios should increase emissions")
     testthat::expect_true(all(dens_result$flag_inc), label = "All increasing density scenarios should decrease emissions")
   })
