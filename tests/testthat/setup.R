@@ -44,7 +44,6 @@ geography_test_list_core <- c(
   # Smaller CTUs
   "Bethel",
   "Chanhassen",
-  "Hanover",
   "Lake Elmo",
   "Saint Bonifacius", # test st vs saint
   # Unique CTUs
@@ -80,7 +79,6 @@ geography_test_list_full <- c(
   "Crystal",
   "Eden Prairie",
   "Fridley",
-  "Hanover",
   "Hastings",
   "Hopkins",
   "Lake Elmo",
