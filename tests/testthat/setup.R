@@ -42,16 +42,17 @@ geography_test_list_core <- c(
   "Burnsville",
   "Shakopee",
   # Smaller CTUs
-  "Lake Elmo",
-  "Saint Bonifacius", #test st vs saint
   "Bethel",
+  "Chanhassen",
   "Hanover",
+  "Lake Elmo",
+  "Saint Bonifacius", # test st vs saint
   # Unique CTUs
-  "Hilltop", # all manufactured homes
-  "Landfall", # all manufactured homes
   "Chaska", # split county
   "Credit River", # recently incorporated into city from township
-  #Townships
+  "Hilltop", # all manufactured homes
+  "Landfall", # all manufactured homes
+  # Townships
   "Benton Twp.",
   "Denmark Twp.",
   # Counties
@@ -62,12 +63,13 @@ geography_test_list_core <- c(
 # Full list - comprehensive testing for CI/PR validation
 geography_test_list_full <- c(
   # CTUs (alphabetical)
-  "Arden Hills",
   "Andover",
   "Anoka",
   "Apple Valley",
+  "Arden Hills",
   "Bethel",
   "Birchwood Village",
+  "Blaine",
   "Bloomington",
   "Burnsville",
   "Centerville",
@@ -79,6 +81,7 @@ geography_test_list_full <- c(
   "Eden Prairie",
   "Fridley",
   "Hanover",
+  "Hastings",
   "Hopkins",
   "Lake Elmo",
   "Lakeville",
@@ -90,7 +93,9 @@ geography_test_list_full <- c(
   "Orono",
   "Plymouth",
   "Richfield",
+  "Robbinsdale",
   "Rosemount",
+  "Saint Anthony",
   "Saint Bonifacius",
   "Saint Paul",
   "Shakopee",
@@ -108,7 +113,6 @@ geography_test_list_full <- c(
   "Washington County"
 )
 
-# Default to core list for fast development testing
 # Default to core list for fast development testing
 # Set environment variable GHGCCAP_FULL_TESTS=1 to run full test suite
 geography_test_list <- if (testthat:::on_ci()) {
