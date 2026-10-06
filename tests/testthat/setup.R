@@ -114,9 +114,21 @@ geography_test_list_full <- c(
 )
 
 # Default to core list for fast development testing
-# Set environment variable GHGCCAP_FULL_TESTS=1 to run full test suite
+# Otherwise test full list on continuous integration (CI)
 geography_test_list <- if (testthat:::on_ci()) {
   geography_test_list_full
 } else {
   geography_test_list_core
 }
+
+# Shared BAU run_module_transportation() results, keyed by geography.
+# Reused across module- and mode-level tests to avoid recomputing the
+# same default scenario multiple times per geography.
+transportation_bau_by_geog <- stats::setNames(
+  purrr::map(geography_test_list, function(geog) {
+    run_module_transportation(.selected_ctu = geog) %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  }),
+  geography_test_list
+)

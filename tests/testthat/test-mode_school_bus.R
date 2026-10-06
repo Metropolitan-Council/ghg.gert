@@ -1,13 +1,7 @@
 test_school_bus <- function(x) {
   testthat::test_that(paste0(x, " emissions reduce with interventions"), {
-    pass <- suppressMessages(
-      suppressWarnings(
-        mode_school_bus(
-          .pass_tb = transportation_data$passenger,
-          .selected_ctu = x
-        )
-      )
-    )
+    # shared BAU from setup.R avoids recomputing the default scenario
+    pass <- transportation_bau_by_geog[[x]]$passenger$BS
 
     testthat::expect_length(pass, 2)
 

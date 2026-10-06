@@ -1,4 +1,4 @@
-test_density <- function(x) {
+test_density <- function(x, bau) {
   test_that(paste0("Density changes have anticipated effect, ", x), {
     popdens_decrease <- run_module_transportation(
       .selected_ctu = x,
@@ -16,13 +16,14 @@ test_density <- function(x) {
       suppressMessages() %>%
       suppressWarnings()
 
-    popdens_bau <- run_module_transportation(
-      .selected_ctu = x,
-      .pop_dens_pct_change = 0,
-      .scenario = "pop_bau"
-    ) %>%
-      suppressMessages() %>%
-      suppressWarnings()
+    density_bau <- function(scenario) {
+      result <- bau
+      result$passenger_all$scenario <- scenario
+      result$freight_all$scenario <- scenario
+      result
+    }
+
+    popdens_bau <- density_bau("pop_bau")
 
     empdens_decrease <- run_module_transportation(
       .selected_ctu = x,
@@ -40,13 +41,7 @@ test_density <- function(x) {
       suppressMessages() %>%
       suppressWarnings()
 
-    empdens_bau <- run_module_transportation(
-      .selected_ctu = x,
-      .emp_dens_pct_change = -0,
-      .scenario = "emp_bau",
-    ) %>%
-      suppressMessages() %>%
-      suppressWarnings()
+    empdens_bau <- density_bau("emp_bau")
 
     intdens_decrease <- run_module_transportation(
       .selected_ctu = x,
@@ -64,44 +59,7 @@ test_density <- function(x) {
       suppressMessages() %>%
       suppressWarnings()
 
-    intdens_bau <- run_module_transportation(
-      .selected_ctu = x,
-      .intersection_density_pct_change = 0,
-      .scenario = "int_bau"
-    ) %>%
-      suppressMessages() %>%
-      suppressWarnings()
-
-    # browser()
-    dens_result <- popdens_decrease$passenger_all %>%
-      bind_rows(popdens_decrease$freight_all) %>%
-      bind_rows(popdens_bau$passenger_all) %>%
-      bind_rows(popdens_bau$freight_all) %>%
-      bind_rows(popdens_increase$passenger_all) %>%
-      bind_rows(popdens_increase$freight_all) %>%
-      bind_rows(empdens_decrease$passenger_all) %>%
-      bind_rows(empdens_decrease$freight_all) %>%
-      bind_rows(empdens_bau$passenger_all) %>%
-      bind_rows(empdens_bau$freight_all) %>%
-      bind_rows(empdens_increase$passenger_all) %>%
-      bind_rows(empdens_increase$freight_all) %>%
-      bind_rows(intdens_decrease$passenger_all) %>%
-      bind_rows(intdens_decrease$freight_all) %>%
-      bind_rows(intdens_bau$passenger_all) %>%
-      bind_rows(intdens_bau$freight_all) %>%
-      bind_rows(intdens_increase$passenger_all) %>%
-      bind_rows(intdens_increase$freight_all) %>%
-      filter(year == max(unique(popdens_bau$pass_tb$year))) %>%
-      group_by(geog_name, scenario, year) %>% # mode, sector
-      summarise(emissions = sum(dir_ghg, na.rm = T), .groups = "keep") %>%
-      tidyr::separate(scenario, into = c("density_type", "change"), sep = "_") %>%
-      pivot_wider(names_from = change, values_from = emissions) %>%
-      mutate(flag = ifelse(decrease < bau, "reducing density reduces emissions", NA_character_)) %>%
-      data.frame()
-
-    # Verify calculations completed for all density types
-    testthat::expect_equal(nrow(dens_result), 3) # pop, emp, int
-    testthat::expect_true(all(c("decrease", "bau") %in% names(dens_result)))
+    intdens_bau <- density_bau("int_bau")
 
 
     test_names <- function(df) {
@@ -158,25 +116,61 @@ test_density <- function(x) {
       ),
       test_names
     )
+
+    # browser()
+    dens_result <- popdens_decrease$passenger_all %>%
+      bind_rows(popdens_decrease$freight_all) %>%
+      bind_rows(popdens_bau$passenger_all) %>%
+      bind_rows(popdens_bau$freight_all) %>%
+      bind_rows(popdens_increase$passenger_all) %>%
+      bind_rows(popdens_increase$freight_all) %>%
+      bind_rows(empdens_decrease$passenger_all) %>%
+      bind_rows(empdens_decrease$freight_all) %>%
+      bind_rows(empdens_bau$passenger_all) %>%
+      bind_rows(empdens_bau$freight_all) %>%
+      bind_rows(empdens_increase$passenger_all) %>%
+      bind_rows(empdens_increase$freight_all) %>%
+      bind_rows(intdens_decrease$passenger_all) %>%
+      bind_rows(intdens_decrease$freight_all) %>%
+      bind_rows(intdens_bau$passenger_all) %>%
+      bind_rows(intdens_bau$freight_all) %>%
+      bind_rows(intdens_increase$passenger_all) %>%
+      bind_rows(intdens_increase$freight_all) %>%
+      filter(year == max(unique(popdens_bau$pass_tb$year))) %>%
+      group_by(geog_name, scenario, year) %>% # mode, sector
+      summarise(emissions = sum(dir_ghg, na.rm = T), .groups = "keep") %>%
+      tidyr::separate(scenario, into = c("density_type", "change"), sep = "_") %>%
+      pivot_wider(names_from = change, values_from = emissions) %>%
+      mutate(
+        # if decreasing density (more spread out) emissions should increase
+        flag_dec = ifelse(decrease > bau, TRUE, FALSE),
+        # if increasing density (more compact) emissions should decrease
+        flag_inc = ifelse(increase < bau, TRUE, FALSE)
+      ) %>%
+      data.frame()
+
+    # Verify calculations completed for all density types
+    testthat::expect_equal(nrow(dens_result), 3) # pop, emp, int
+    testthat::expect_true(all(c("decrease", "increase", "bau") %in% names(dens_result)))
+
+    skip_if(x %in% c("Landfall"), message = "Skipping Landfall for density tests")
+    testthat::expect_true(all(dens_result$flag_dec), label = "All decreasing density scenarios should increase emissions")
+    testthat::expect_true(all(dens_result$flag_inc), label = "All increasing density scenarios should decrease emissions")
   })
 }
 
 
-purrr::map(
-  geography_test_list,
+purrr::map2(
+  names(transportation_bau_by_geog),
+  transportation_bau_by_geog,
   test_density
 )
 
 
-test_parking <- function(x) {
+test_parking <- function(x, bau) {
   test_that(paste0("Parking pricing has anticipated effect, ", x), {
     # BAU scenario with default parking costs
-    parking_bau <- run_module_transportation(
-      .selected_ctu = x,
-      .scenario = "parking_bau"
-    ) %>%
-      suppressMessages() %>%
-      suppressWarnings()
+    parking_bau <- bau
 
     # Moderate parking price increase ($10)
     parking_moderate <- run_module_transportation(
@@ -320,13 +314,14 @@ test_parking <- function(x) {
 }
 
 
-purrr::map(
-  geography_test_list,
+purrr::map2(
+  names(transportation_bau_by_geog),
+  transportation_bau_by_geog,
   test_parking
 )
 
 
-test_vmt_stock_proportion <- function(x) {
+test_vmt_stock_proportion <- function(x, bau) {
   test_that(paste0("VMT does not change when adjusting stock proportions only, ", x), {
     run_transport <- function(bev) {
       run_module_transportation(
@@ -393,14 +388,7 @@ test_vmt_stock_proportion <- function(x) {
         return()
     }
 
-    baseline <- run_module_transportation(
-      .scenario = "BAU",
-      pass_tb = transportation_data$passenger,
-      freight_tb = transportation_data$freight,
-      .selected_ctu = x
-    ) %>%
-      suppressMessages() %>%
-      suppressWarnings()
+    baseline <- bau
 
     baseline_summary <- summarize_emiss(baseline)
 
@@ -435,8 +423,9 @@ test_vmt_stock_proportion <- function(x) {
 }
 
 
-purrr::map(
-  geography_test_list,
+purrr::map2(
+  names(transportation_bau_by_geog),
+  transportation_bau_by_geog,
   test_vmt_stock_proportion
 )
 
