@@ -270,7 +270,18 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   select(CO_NAME, CTU_NAME, CTU_ID_TXT, FIN_SQ_FT, EMV_BLDG, YEAR_BUILT, mc_classification)
 
 
+### CTUs split across counties (e.g., Chanhassen): assign each one to the
+### county holding most of its parcels, so CTU medians span the whole city
+ctu_main_county <- mn_parcel_predict %>%
+  filter(!is.na(CTU_ID_TXT)) %>%
+  count(CTU_ID_TXT, CO_NAME) %>%
+  slice_max(n, n = 1, by = CTU_ID_TXT, with_ties = FALSE) %>%
+  select(CTU_ID_TXT, main_county = CO_NAME)
+
 mn_parcel_map <- mn_parcel_predict %>%
+  left_join(ctu_main_county, by = "CTU_ID_TXT") %>%
+  mutate(CO_NAME = coalesce(main_county, CO_NAME)) %>%
+  select(-main_county) %>%
   group_by(CO_NAME, CTU_NAME, CTU_ID_TXT, mc_classification) %>%
   summarize(
     median_sq_ft = median(FIN_SQ_FT),
@@ -446,7 +457,11 @@ all_ctus <- ccap_ctu %>%
       geog_name
     ),
     inventory_year = 2021
-  )
+  ) %>%
+  # one row per CTU: drop the minor-county pieces of split CTUs
+  left_join(ctu_main_county, by = c("ctu_id" = "CTU_ID_TXT")) %>%
+  filter(is.na(main_county) | county_name == main_county) %>%
+  select(-main_county)
 
 # SFD gap-fill
 missing_cities_sfd <- anti_join(all_ctus, sfd_out, by = "ctu_id")
@@ -594,5 +609,8 @@ parcel_ctu <- bind_rows(
   parcel_complete,
   region_weighted
 )
+
+# make sure each geog_id only has one of each classification
+parcel_ctu %>%  dplyr::count(geog_id, mc_classification)  %>%  dplyr::filter(n > 1)
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)
