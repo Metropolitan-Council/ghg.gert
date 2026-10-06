@@ -56,6 +56,7 @@ cprg_region <- tibble(
   imagine_designation = "Region"
 )
 
-geog_index <- bind_rows(as_tibble(cprg_county), cprg_ctu, cprg_region)
+geog_index <- bind_rows(as_tibble(cprg_county), cprg_ctu, cprg_region) %>%
+  filter(!imagine_designation == "Non-Council Community")
 
 usethis::use_data(geog_index, overwrite = TRUE)
