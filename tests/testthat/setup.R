@@ -112,9 +112,7 @@ geography_test_list_full <- c(
 )
 
 # Default to core list for fast development testing
-# Set environment variable GHGCCAP_FULL_TESTS=1 to run full test suite locally
-geography_test_list <- if (testthat:::on_ci() || Sys.getenv("GHGCCAP_FULL_TESTS") == "1") {
-# Otherwise test full list on continuous integration (CI)
+# Otherwise test full list on continuous integration (CI) via GitHub Actions
 geography_test_list <- if (testthat:::on_ci()) {
   geography_test_list_full
 } else {
