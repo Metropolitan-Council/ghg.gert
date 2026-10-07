@@ -235,8 +235,8 @@ test_that("Every CTU has propane inventory data", {
 
 if (testthat:::on_ci()) {
   required_scenarios <- c(
-    "baseline", "retrofit", "heatpump", "combination",
-    "new_build", "new_build_heatpump", "new_build_leed"
+    "baseline", "retrofit", "full_electrification", "combination",
+    "new_build", "new_build_sustainable"
   )
 
   test_that("calc_building_energy returns complete profiles for every CTU", {
