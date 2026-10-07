@@ -1,13 +1,7 @@
 test_walk_bike <- function(x) {
   testthat::test_that(paste0(x, " emissions constant and walk/bike vmt increase"), {
-    pass <- suppressMessages(
-      suppressWarnings(
-        mode_walk_bike(
-          .pass_tb = transportation_data$passenger,
-          .selected_ctu = x
-        )
-      )
-    )
+    # shared BAU from setup.R avoids recomputing the default scenario
+    pass <- transportation_bau_by_geog[[x]]$passenger$WALK_BIKE
 
     testthat::expect_length(pass, 2)
 

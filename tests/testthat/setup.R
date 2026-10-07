@@ -42,16 +42,16 @@ geography_test_list_core <- c(
   "Burnsville",
   "Shakopee",
   # Smaller CTUs
-  "Lake Elmo",
-  "Saint Bonifacius", #test st vs saint
   "Bethel",
-  "Hanover",
+  "Chanhassen",
+  "Lake Elmo",
+  "Saint Bonifacius", # test st vs saint
   # Unique CTUs
-  "Hilltop", # all manufactured homes
-  "Landfall", # all manufactured homes
   "Chaska", # split county
   "Credit River", # recently incorporated into city from township
-  #Townships
+  "Hilltop", # all manufactured homes
+  "Landfall", # all manufactured homes
+  # Townships
   "Benton Twp.",
   "Denmark Twp.",
   # Counties
@@ -62,12 +62,13 @@ geography_test_list_core <- c(
 # Full list - comprehensive testing for CI/PR validation
 geography_test_list_full <- c(
   # CTUs (alphabetical)
-  "Arden Hills",
   "Andover",
   "Anoka",
   "Apple Valley",
+  "Arden Hills",
   "Bethel",
   "Birchwood Village",
+  "Blaine",
   "Bloomington",
   "Burnsville",
   "Centerville",
@@ -78,6 +79,7 @@ geography_test_list_full <- c(
   "Crystal",
   "Eden Prairie",
   "Fridley",
+  "Hastings",
   "Hopkins",
   "Lake Elmo",
   "Lakeville",
@@ -89,7 +91,9 @@ geography_test_list_full <- c(
   "Orono",
   "Plymouth",
   "Richfield",
+  "Robbinsdale",
   "Rosemount",
+  "Saint Anthony",
   "Saint Bonifacius",
   "Saint Paul",
   "Shakopee",
@@ -110,7 +114,21 @@ geography_test_list_full <- c(
 # Default to core list for fast development testing
 # Set environment variable GHGCCAP_FULL_TESTS=1 to run full test suite locally
 geography_test_list <- if (testthat:::on_ci() || Sys.getenv("GHGCCAP_FULL_TESTS") == "1") {
+# Otherwise test full list on continuous integration (CI)
+geography_test_list <- if (testthat:::on_ci()) {
   geography_test_list_full
 } else {
   geography_test_list_core
 }
+
+# Shared BAU run_module_transportation() results, keyed by geography.
+# Reused across module- and mode-level tests to avoid recomputing the
+# same default scenario multiple times per geography.
+transportation_bau_by_geog <- stats::setNames(
+  purrr::map(geography_test_list, function(geog) {
+    run_module_transportation(.selected_ctu = geog) %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  }),
+  geography_test_list
+)
