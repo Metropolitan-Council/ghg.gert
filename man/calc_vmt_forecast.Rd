@@ -191,8 +191,8 @@ Calculate vehicle miles traveled by mode and power train
 }
 \details{
 This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
-\subsection{Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO}{
-}
+
+\deqn{VMT = \frac{PMT_{(1000\ mi)} \times Pr(stock \mid fuel)}{AVO}}
 }
 \seealso{
 Other transportation:

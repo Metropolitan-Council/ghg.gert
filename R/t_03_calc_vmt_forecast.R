@@ -32,8 +32,9 @@
 #' @inheritParams vmt_total_reduction
 #'
 #'
-#' @details This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
-#' ### Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO
+#' @details
+#'   This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
+#'   \deqn{VMT = \frac{PMT_{(1000\ mi)} \times Pr(stock \mid fuel)}{AVO}}
 #'
 #' @return a tibble with columns `scenario`, `geog_name`, `year`, `aeo_mode`, `type`, `vmt`,
 #'     with `vmt` in _thousands_ of miles.
