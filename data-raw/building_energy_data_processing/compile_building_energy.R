@@ -7,6 +7,7 @@
 devtools::load_all(".")
 library(dplyr, warn.conflicts = FALSE)
 library(tidyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
 
 # helper: base URL for ghg-cprg repo ----
 ghg_cprg_url <- function(path) {
@@ -32,7 +33,10 @@ ctu_elec_inventory <- read_rds(
 ) %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
-  select(geog_name, geog_id, geog_level, sector, emissions_year, mwh)
+  select(geog_name, geog_id, geog_level, sector, emissions_year, mwh) %>%
+  # collapse CTUs split across counties (e.g., Chanhassen) to one row
+  group_by(geog_name, geog_id, geog_level, sector, emissions_year) %>%
+  summarize(mwh = sum(mwh), .groups = "drop")
 
 # County-level electricity inventory
 county_elec_inventory <- read_rds(
@@ -68,7 +72,10 @@ ctu_gas_inventory <- read_rds(
 ) %>%
   rename(geog_level = ctu_class) %>%
   left_join(geog_index, by = join_by(ctu_name == geog_short_name, geog_level)) %>%
-  select(geog_name, geog_id, geog_level, sector, emissions_year, mcf)
+  select(geog_name, geog_id, geog_level, sector, emissions_year, mcf) %>%
+  # collapse CTUs split across counties (e.g., Chanhassen) to one row
+  group_by(geog_name, geog_id, geog_level, sector, emissions_year) %>%
+  summarize(mcf = sum(mcf), .groups = "drop")
 
 # County-level natural gas inventory
 county_gas_inventory <- read_rds(
@@ -115,6 +122,13 @@ ctu_propane_inventory <- read_rds(
   select(
     geog_name, geog_id, geog_level, sector, emissions_year,
     propane_mmbtu = propane_mmBtu, fueloil_other_mmbtu = fueloil_other_mmBtu
+  ) %>%
+  # collapse CTUs split across counties (e.g., Chanhassen) to one row
+  group_by(geog_name, geog_id, geog_level, sector, emissions_year) %>%
+  summarize(
+    propane_mmbtu = sum(propane_mmbtu),
+    fueloil_other_mmbtu = sum(fueloil_other_mmbtu),
+    .groups = "drop"
   )
 
 # County-level
@@ -227,6 +241,11 @@ building_energy_data <- list(
     )
   # rename(emissions_year = inventory_year)
 )
+
+#Check to make sure there aren't double rows, particularly for multiple county cities
+purrr::map(building_energy_data[c("electricity_inventory", "natgas_inventory", "propane_inventory")],
+           ~ dplyr::count(.x, geog_id, sector, emissions_year) |> dplyr::filter(n > 1))
+
 
 # save ----
 usethis::use_data(building_energy_data, overwrite = TRUE)

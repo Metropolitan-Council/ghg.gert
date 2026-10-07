@@ -43,6 +43,10 @@ adj_unit_counts <- function(res_tb,
   density_change <- (density_output$expected_density[2] - density_output$expected_density[1]) /
     density_output$expected_density[1]
 
+  # counties and the region have no planned land use data (density is NaN),
+  # so treat them as no density change
+  if (!is.finite(density_change)) density_change <- 0
+
 
   # We will estimate a number of SF units that will be reduced
   # from 2050 land use changes and assume the same number of single

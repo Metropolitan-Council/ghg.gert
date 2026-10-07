@@ -208,7 +208,6 @@ purrr::map(
   list(
     "Saint Paul",
     "Centerville",
-    "Hanover",
     "Birchwood Village",
     "New Trier",
     "Twin Cities Region",
