@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-<!-- [![R-CMD-check](https://github.com/Metropolitan-Council/ghg.gert/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/ghg.gert/actions) -->
-
+[![R-CMD-check](https://github.com/Metropolitan-Council/ghg.gert/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Metropolitan-Council/ghg.gert/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `{ghg.gert}` repository contains data, code, and documentation
@@ -32,9 +31,13 @@ analysis in `{ghg.gert}` provide analytical grounding for tracking
 progress toward Imagine 2050’s climate goals and for informing land use,
 transportation, and infrastructure decisions across the region.
 
-This repository was originally forked from `ghg.sp` and provides a
-foundation for updating regional strategy planning tools based on the
-expanded inventory.
+Additionally, this work supported the development of the [Comprehensive
+Climate Action Plan
+(CCAP)](https://metrocouncil.org/Planning/Climate/Climate-Pollution-Reduction-Grant.aspx)
+with funding from the U.S. Environmental Protection Agency’s Climate
+Pollution Reduction Grant (CPRG).
+
+<!-- This repository was originally forked from `ghg.sp` and provides a foundation for updating regional strategy planning tools based on the expanded inventory. -->
 
 ## Installation
 
@@ -46,11 +49,10 @@ You can install the development version of `{ghg.gert}` from
 remotes::install_github("Metropolitan-Council/ghg.gert")
 ```
 
-`{ghg.gert}` requires a few packages only available on GitHub. Install
-them separately:
+`{ghg.gert}` requires a package only available on GitHub. Install it
+separately:
 
 ``` r
-remotes::install_github("hadley/emo")
 remotes::install_github("Metropolitan-Council/councilR")
 ```
 
@@ -59,16 +61,16 @@ remotes::install_github("Metropolitan-Council/councilR")
 The package is organized around six sector modules that can be run
 individually or together via `run_all_modules()`. Every module accepts a
 `.selected_ctu` argument (a city/township name, a county, or
-`"Regional"`) and a `.scenario` argument, and returns a tidy tibble (or
-list of tibbles) with columns for `geog_name`, `geog_id`, `var`, `scen`,
-`year`, and `value`.
+`"Twin Cities Region"`) and a `.scenario` argument, and returns a tidy
+tibble (or list of tibbles) with columns for `geog_name`, `geog_id`,
+`var`, `scen`, `year`, and `value`.
 
 ``` r
 library(ghg.gert)
 
 # Run every module for the full seven-county region under a business-as-usual scenario
 results <- run_all_modules(
-  .selected_ctu = "all",
+  .selected_ctu = "Twin Cities Region",
   .scenario     = "BAU"
 )
 
@@ -114,12 +116,11 @@ Key parameters:
   `.land_use_diversity_pct_change`, `.intersection_design_pct_change`,
   `.intersection_density_pct_change`, `.job_access_pct_change`,
   `.transit_dist_pct_change`.
-- **Service and behavior:** `.transit_service_pct`, `.transit_avo_pct`
-  and `.pldv_avo_pct` (vehicle occupancy shifts), `.cbtp_prop_targeted`
-  (commuter-benefit / travel-demand-management reach),
-  `.cbtp_start_year`.
-- **Optional expensive outputs:** set `.calc_transp_cost`,
-  `.calc_transp_fuel_use`, `.calc_transp_fuel_cost_mile`, or
+- **Transit service and behavior:** `.transit_service_pct`,
+  `.transit_avo_pct` and `.pldv_avo_pct` (vehicle occupancy shifts),
+  `.cbtp_prop_targeted` (commuter-benefit / travel-demand-management
+  reach), `.cbtp_start_year`.
+- **Optional outputs:** set `.calc_transp_cost` and
   `.calc_transp_ghg_embodied` to `TRUE` to compute those tables (they
   are off by default to keep runs fast).
 
@@ -255,10 +256,6 @@ For deeper methodological documentation, see the vignettes in
 ## Related repositories
 
 - [ghg.cprg](https://github.com/Metropolitan-Council/ghg-cprg)
-- [ghg.sp](https://github.com/Metropolitan-Council/ghg.sp)
-- [ghg.inv.app](https://github.com/Metropolitan-Council/ghg.inv.app)
-- [ghg.sp.tool.ui](https://github.com/Metropolitan-Council/ghg.sp.tool.ui)
-- [ghg.sp.manual](https://github.com/Metropolitan-Council/ghg.sp.manual)
 
 ## Authors and contributors
 
