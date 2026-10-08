@@ -1,59 +1,85 @@
 # Script to import ancillary housing data from MN geospatial commons
 
-library(ggplot2)
+library(ggplot2, warn.conflicts = FALSE)
+library(sf, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
+library(arrow, warn.conflicts = FALSE)
 
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
 # fetch parcel data from MN Geospatial Commons
 # need to modify import code from councilR to get multiple layers
-import_from_gpkg_all_layers <- function(link, save_file = FALSE, save_path = getwd(), .crs = 4326,
-                                        keep_temp = FALSE, .quiet = TRUE) {
-  requireNamespace("rlang", quietly = TRUE)
-  requireNamespace("sf", quietly = TRUE)
-  requireNamespace("dplyr", quietly = TRUE)
 
-  purrr::map(c(link), rlang:::check_string)
-  purrr::map(c(save_file, keep_temp, .quiet), rlang:::check_bool)
-  rlang:::check_string(save_path)
-  rlang:::check_number_whole(.crs)
+parcel_cache_path <- file.path(here::here(), "data-raw/meta/mn_parcel_raw.parquet")
 
-  temp <- tempfile()
-  download.file(link, temp, quiet = .quiet)
-  file_names <- strsplit(link, split = "/")
-  file_name <- tail(file_names[[1]], 1) %>%
-    gsub(pattern = "gpkg_", replacement = "") %>%
-    gsub(pattern = ".zip", replacement = "")
+if (file.exists(parcel_cache_path)) {
+  cli::cli_alert_info("Loading cached parcel data from {parcel_cache_path}")
+  mn_parcel <- arrow::read_parquet(parcel_cache_path)
+} else {
+  import_from_gpkg_all_layers <- function(link, save_file = FALSE, save_path = getwd(), .crs = 4326,
+                                          keep_temp = FALSE, .quiet = TRUE) {
+    requireNamespace("rlang", quietly = TRUE)
+    requireNamespace("sf", quietly = TRUE)
+    requireNamespace("dplyr", quietly = TRUE)
 
-  # Unzip the GeoPackage file
-  gpkg_path <- unzip(temp, paste0(file_name, ".gpkg"))
+    purrr::map(c(link), rlang:::check_string)
+    purrr::map(c(save_file, keep_temp, .quiet), rlang:::check_bool)
+    rlang:::check_string(save_path)
+    rlang:::check_number_whole(.crs)
 
-  # Get a list of all layer names
-  layers <- sf::st_layers(gpkg_path)$name
+    old_timeout <- getOption("timeout")
+    options(timeout = max(600, old_timeout))
+    on.exit(options(timeout = old_timeout))
 
-  # Read each layer and transform CRS
-  layer_data <- purrr::map(layers, function(layer) {
-    sf::read_sf(gpkg_path, layer = layer, quiet = .quiet) %>%
-      sf::st_transform(crs = .crs)
-  })
+    temp <- tempfile()
+    download.file(link, temp, quiet = .quiet, mode = "wb")
+    file_names <- strsplit(link, split = "/")
+    file_name <- tail(file_names[[1]], 1) %>%
+      gsub(pattern = "gpkg_", replacement = "") %>%
+      gsub(pattern = ".zip", replacement = "")
 
-  # Combine all layers into one data frame
-  out_sf <- dplyr::bind_rows(layer_data, .id = "layer_name")
+    # Unzip the GeoPackage file
+    gpkg_path <- unzip(temp, paste0(file_name, ".gpkg"))
 
-  if (keep_temp == FALSE) {
-    fs::file_delete(gpkg_path)
+    # Get a list of all layer names
+    layers <- sf::st_layers(gpkg_path)$name
+
+    # Read each layer and transform CRS
+    layer_data <- purrr::map(layers, function(layer) {
+      sf::read_sf(gpkg_path, layer = layer, quiet = .quiet) %>%
+        sf::st_transform(crs = .crs)
+    })
+
+    # Combine all layers into one data frame
+    out_sf <- dplyr::bind_rows(layer_data, .id = "layer_name")
+
+    if (keep_temp == FALSE) {
+      fs::file_delete(gpkg_path)
+    }
+
+    if (save_file == TRUE) {
+      saveRDS(out_sf, paste0(save_path, "/", file_name, ".RDS"))
+    }
+
+    return(out_sf)
   }
 
-  if (save_file == TRUE) {
-    saveRDS(out_sf, paste0(save_path, "/", file_name, ".RDS"))
-  }
+  mn_parcel <- import_from_gpkg_all_layers(
+    "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metrogis/plan_regonal_parcels_2021/gpkg_plan_regonal_parcels_2021.zip"
+  ) %>%
+    sf::st_drop_geometry() %>%
+    select(
+      CO_NAME, CTU_NAME, CTU_ID_TXT,
+      DWELL_TYPE, HOME_STYLE,
+      USECLASS1, USECLASS2, XUSECLASS1,
+      FIN_SQ_FT, EMV_BLDG, YEAR_BUILT
+    )
 
-  return(out_sf)
+  arrow::write_parquet(mn_parcel, parcel_cache_path)
+  cli::cli_alert_success("Cached parcel data to {parcel_cache_path}")
 }
-
-mn_parcel <- import_from_gpkg_all_layers(
-  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metrogis/plan_regonal_parcels_2021/gpkg_plan_regonal_parcels_2021.zip"
-) %>%
-  sf::st_drop_geometry()
 
 ### Parcel data is extremely messy and incomplete. The following code attempts
 ### to distill multiple columns with 100s of variable names into sensible classification
@@ -61,8 +87,8 @@ mn_parcel <- import_from_gpkg_all_layers(
 ### after testing, this column appears to offer the largest percentage of
 ### first pass classification
 mn_parcel %>%
-  distinct(DWELL_TYPE) %>%
-  arrange() %>%
+  dplyr::distinct(DWELL_TYPE) %>%
+  dplyr::arrange() %>%
   print(n = 200)
 
 # large possibility for error in classification. Attempting to structure so overriding of earlier
@@ -79,10 +105,10 @@ mn_parcel <- mn_parcel %>%
 
 
       # Mobile Homes
-      grepl("mobile|manufactured", DWELL_TYPE, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", USECLASS1, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", HOME_STYLE, ignore.case = TRUE) ~ "manufactured_home",
-      grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_home",
+      grepl("mobile|manufactured", DWELL_TYPE, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", USECLASS1, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", HOME_STYLE, ignore.case = TRUE) ~ "manufactured_homes",
+      grepl("manufactured|MH", USECLASS2, ignore.case = TRUE) ~ "manufactured_homes",
 
       # Single family attached
       grepl("townh|duplex|triplex|two-family|two family|three family|two residences|twin|multi res", DWELL_TYPE, ignore.case = TRUE) ~ "single_family_attached",
@@ -164,24 +190,14 @@ mn_parcel_assigned <- mn_parcel %>%
   filter(!is.na(mc_classification))
 
 
-# quick check
-tapply(mn_parcel_assigned$FIN_SQ_FT, mn_parcel_assigned$mc_classification, "median")
-### zero is often the median value :/
-
-big_building <- mn_parcel_assigned %>% filter(FIN_SQ_FT > 50000, mc_classification == "single_family_home")
-test <- mn_parcel_assigned %>% filter(grepl("park", XUSECLASS1, ignore.case = TRUE), mc_classification != "no_building")
-
-mn_parcel_assigned %>%
-  filter(FIN_SQ_FT != 0) %>%
-  count(mc_classification)
-
 data_status <- mn_parcel_assigned %>%
   group_by(CO_NAME, mc_classification) %>%
   summarise(
     total_buildings = n(),
     zero_sq_ft = sum(EMV_BLDG == 0, na.rm = TRUE),
     non_zero_sq_ft = sum(EMV_BLDG != 0, na.rm = TRUE),
-    pct_zero_sq_ft = (zero_sq_ft / total_buildings) * 100
+    pct_zero_sq_ft = (zero_sq_ft / total_buildings) * 100,
+    .groups = "keep"
   )
 
 
@@ -191,42 +207,89 @@ mn_parcel_predict <- mn_parcel_assigned %>%
   # Calculate mc_classification averages by CTU_NAME and CO_NAME
   group_by(mc_classification, CTU_ID_TXT) %>%
   mutate(
-    mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    mean_ctu_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    mean_ctu_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
-    median_ctu_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    median_ctu_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    median_ctu_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+    mean_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    mean_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    mean_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
+    median_ctu_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    median_ctu_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    median_ctu_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
   group_by(mc_classification, CO_NAME) %>%
   mutate(
-    mean_co_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    mean_co_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    mean_co_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)),
-    median_co_sqft = if_else(all(FIN_SQ_FT == 0, na.rm = TRUE), NA_real_, median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)),
-    median_co_emv = if_else(all(EMV_BLDG == 0, na.rm = TRUE), NA_real_, median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)),
-    median_co_year = if_else(all(YEAR_BUILT == 0, na.rm = TRUE), NA_real_, median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE))
+    mean_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      mean(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    mean_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      mean(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    mean_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      mean(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    ),
+    median_co_sqft = if_else(all(FIN_SQ_FT == 0 | is.na(FIN_SQ_FT)), NA_real_,
+      median(FIN_SQ_FT[FIN_SQ_FT > 0], na.rm = TRUE)
+    ),
+    median_co_emv = if_else(all(EMV_BLDG == 0 | is.na(EMV_BLDG)), NA_real_,
+      median(EMV_BLDG[EMV_BLDG > 0], na.rm = TRUE)
+    ),
+    median_co_year = if_else(all(YEAR_BUILT == 0 | is.na(YEAR_BUILT)), NA_real_,
+      median(YEAR_BUILT[YEAR_BUILT > 0], na.rm = TRUE)
+    )
   ) %>%
   ungroup() %>%
-  # In-fill zeros using the calculated medians
+  # In-fill zeros AND NAs using medians
   mutate(
-    FIN_SQ_FT = if_else(FIN_SQ_FT == 0, coalesce(median_ctu_sqft, median_co_sqft, FIN_SQ_FT), FIN_SQ_FT),
-    EMV_BLDG = if_else(EMV_BLDG == 0, coalesce(median_ctu_emv, median_co_emv, EMV_BLDG), EMV_BLDG),
-    YEAR_BUILT = if_else(YEAR_BUILT == 0, coalesce(median_ctu_year, median_co_year, YEAR_BUILT), YEAR_BUILT)
+    FIN_SQ_FT = if_else(
+      is.na(FIN_SQ_FT) | FIN_SQ_FT == 0,
+      coalesce(median_ctu_sqft, median_co_sqft, FIN_SQ_FT),
+      FIN_SQ_FT
+    ),
+    EMV_BLDG = if_else(
+      is.na(EMV_BLDG) | EMV_BLDG == 0,
+      coalesce(median_ctu_emv, median_co_emv, EMV_BLDG),
+      EMV_BLDG
+    ),
+    YEAR_BUILT = if_else(
+      is.na(YEAR_BUILT) | YEAR_BUILT == 0,
+      coalesce(median_ctu_year, median_co_year, YEAR_BUILT),
+      YEAR_BUILT
+    )
   ) %>%
-  # select columns
   select(CO_NAME, CTU_NAME, CTU_ID_TXT, FIN_SQ_FT, EMV_BLDG, YEAR_BUILT, mc_classification)
 
 
+### CTUs split across counties (e.g., Chanhassen): assign each one to the
+### county holding most of its parcels, so CTU medians span the whole city
+ctu_main_county <- mn_parcel_predict %>%
+  filter(!is.na(CTU_ID_TXT)) %>%
+  count(CTU_ID_TXT, CO_NAME) %>%
+  slice_max(n, n = 1, by = CTU_ID_TXT, with_ties = FALSE) %>%
+  select(CTU_ID_TXT, main_county = CO_NAME)
+
 mn_parcel_map <- mn_parcel_predict %>%
+  left_join(ctu_main_county, by = "CTU_ID_TXT") %>%
+  mutate(CO_NAME = coalesce(main_county, CO_NAME)) %>%
+  select(-main_county) %>%
   group_by(CO_NAME, CTU_NAME, CTU_ID_TXT, mc_classification) %>%
   summarize(
     median_sq_ft = median(FIN_SQ_FT),
     total_sq_ft = sum(FIN_SQ_FT),
     median_emv = median(EMV_BLDG),
     total_emv = sum(EMV_BLDG),
-    median_year = median(YEAR_BUILT)
+    median_year = median(YEAR_BUILT),
+    .groups = "keep"
   ) %>%
   mutate(ctu_id = case_when(
     CTU_NAME == "Credit River" ~ # incorporated as city in 2021
@@ -242,6 +305,23 @@ mn_parcel_map <- mn_parcel_predict %>%
   sf::st_as_sf()
 
 
+mn_parcel_county <- mn_parcel_predict %>%
+  group_by(CO_NAME, mc_classification) %>%
+  summarize(
+    median_sq_ft = median(FIN_SQ_FT),
+    total_sq_ft = sum(FIN_SQ_FT),
+    median_emv = median(EMV_BLDG),
+    total_emv = sum(EMV_BLDG),
+    median_year = median(YEAR_BUILT),
+    .groups = "keep"
+  ) %>%
+  filter(mc_classification %in% c(
+    "manufactured_homes",
+    "multifamily",
+    "single_family_attached",
+    "single_family_detached"
+  ))
+
 
 ### ctu_parcel output
 
@@ -250,10 +330,13 @@ ctu_parcel <- mn_parcel_map %>%
   sf::st_drop_geometry() %>%
   rename(county_name = CO_NAME) %>%
   select(-c(CTU_NAME, CTU_ID_TXT, statefp, state_abb)) %>%
-  mutate(inventory_year = 2021,
-         geog_name = if_else(ctu_class == "TOWNSHIP",
-                             paste(geog_name, "Twp."),
-                             geog_name))
+  mutate(
+    inventory_year = 2021,
+    geog_name = if_else(ctu_class == "TOWNSHIP",
+      paste(geog_name, "Twp."),
+      geog_name
+    )
+  )
 
 
 ### go back and use simple lm to fill in 0 sq ft cities (Hennepin)
@@ -261,6 +344,8 @@ ctu_parcel <- mn_parcel_map %>%
 sfa_parcel <- filter(ctu_parcel, mc_classification == "single_family_attached")
 sfd_parcel <- filter(ctu_parcel, mc_classification == "single_family_detached")
 mfh_parcel <- filter(ctu_parcel, mc_classification == "multifamily")
+mfd_parcel <- filter(ctu_parcel, mc_classification == "manufactured_homes")
+
 
 # which cities are missing sfa?
 no_detached <- anti_join(sfd_parcel, sfa_parcel, by = "geog_name") %>%
@@ -342,9 +427,45 @@ sfa_out <- sfa_parcel %>%
   )) %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
-missing_cities <- anti_join(sfd_out, sfa_out, by = "ctu_id")
+### input multifamily year built in similar manner
 
-county_medians <- sfa_out %>%
+mfh_out <- mfh_parcel %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year)
+
+### lastly repeat for manufactured homes
+
+mfd_out <- mfd_parcel %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use = median_sq_ft, median_year) %>%
+  filter(
+    !is.na(median_year),
+    median_year != 0
+  )
+
+
+### --- fill in missing CTU-category combos using county averages ---
+### Use ccap_ctu as the canonical CTU list so every CTU gets a row for
+### every residential category, even if it has zero parcels of that type
+### (e.g. Landfall has no residential parcels at all).
+
+all_ctus <- ccap_ctu %>%
+  sf::st_drop_geometry() %>%
+  transmute(
+    county_name,
+    ctu_id = ctu_id_gnis,
+    geog_name = if_else(ctu_class == "TOWNSHIP",
+      paste(geog_name, "Twp."),
+      geog_name
+    ),
+    inventory_year = 2021
+  ) %>%
+  # one row per CTU: drop the minor-county pieces of split CTUs
+  left_join(ctu_main_county, by = c("ctu_id" = "CTU_ID_TXT")) %>%
+  filter(is.na(main_county) | county_name == main_county) %>%
+  select(-main_county)
+
+# SFD gap-fill
+missing_cities_sfd <- anti_join(all_ctus, sfd_out, by = "ctu_id")
+county_medians_sfd <- sfd_out %>%
   group_by(county_name) %>%
   summarize(
     sq_ft_use = median(sq_ft_use, na.rm = TRUE),
@@ -352,20 +473,144 @@ county_medians <- sfa_out %>%
     .groups = "drop"
   )
 
-missing_sfa_rows <- missing_cities %>%
-  select(county_name, ctu_id, geog_name, inventory_year) %>%
-  left_join(county_medians, by = "county_name") %>%
+missing_sfd_rows <- missing_cities_sfd %>%
+  left_join(county_medians_sfd, by = "county_name") %>%
+  mutate(mc_classification = "single_family_detached") %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+
+sfd_out <- bind_rows(sfd_out, missing_sfd_rows)
+
+# SFA gap-fill
+missing_cities_sfa <- anti_join(all_ctus, sfa_out, by = "ctu_id")
+county_medians_sfa <- sfa_out %>%
+  group_by(county_name) %>%
+  summarize(
+    sq_ft_use = median(sq_ft_use, na.rm = TRUE),
+    median_year = median(median_year, na.rm = TRUE),
+    .groups = "drop"
+  )
+missing_sfa_rows <- missing_cities_sfa %>%
+  left_join(county_medians_sfa, by = "county_name") %>%
   mutate(mc_classification = "single_family_attached") %>%
   select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
 
 sfa_out_completed <- bind_rows(sfa_out, missing_sfa_rows)
 
-parcel_ctu <- rbind(sfd_out, sfa_out_completed)
+# MFH gap-fill
+missing_cities_mf <- anti_join(all_ctus, mfh_out, by = "ctu_id")
+county_medians_mfh <- mfh_out %>%
+  group_by(county_name) %>%
+  summarize(
+    sq_ft_use = median(sq_ft_use, na.rm = TRUE),
+    median_year = median(median_year, na.rm = TRUE),
+    .groups = "drop"
+  )
+missing_mfh_rows <- missing_cities_mf %>%
+  left_join(county_medians_mfh, by = "county_name") %>%
+  mutate(mc_classification = "multifamily") %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+mfh_out_completed <- bind_rows(mfh_out, missing_mfh_rows) %>%
+  mutate(mc_classification = "multifamily_units")
+
+# MFD gap-fill
+missing_cities_mfd <- anti_join(all_ctus, mfd_out, by = "ctu_id")
+median_mfd <- mfd_out %>%
+  summarize(
+    sq_ft_use = median(sq_ft_use, na.rm = TRUE),
+    median_year = median(median_year, na.rm = TRUE),
+    .groups = "drop"
+  )
+missing_mfd_rows <- missing_cities_mfd %>%
+  cross_join(median_mfd) %>%
+  mutate(mc_classification = "manufactured_homes") %>%
+  select(county_name, ctu_id, geog_name, mc_classification, inventory_year, sq_ft_use, median_year)
+mfd_out_completed <- bind_rows(mfd_out, missing_mfd_rows)
+
+parcel_complete <- rbind(sfd_out, sfa_out_completed, mfh_out_completed, mfd_out_completed) %>%
+  rename(geog_id = ctu_id)
+
+### Hennepin MF and manufactured homes have 0 sqft (not reported).
+### SFD/SFA were handled by the lm prediction above; for MF and manufactured
+### homes there's no EMV relationship to predict from, so fill with regional median.
+regional_sqft <- parcel_complete %>%
+  filter(sq_ft_use > 0) %>%
+  group_by(mc_classification) %>%
+  summarize(regional_sq_ft = median(sq_ft_use, na.rm = TRUE), .groups = "drop")
+
+parcel_complete <- parcel_complete %>%
+  left_join(regional_sqft, by = "mc_classification") %>%
+  mutate(sq_ft_use = if_else(sq_ft_use == 0 | is.na(sq_ft_use), regional_sq_ft, sq_ft_use)) %>%
+  select(-regional_sq_ft)
 
 rm(mn_parcel)
 rm(mn_parcel_assigned)
 rm(mn_parcel_predict)
 gc()
 
+### add county level data by taking weighted average approach
+
+housing_data <- ghg.ccap::demographic_data %>%
+  filter(
+    sp_categories %in% c(
+      "multifamily_units",
+      "manufactured_homes",
+      "single_family_attached",
+      "single_family_detached"
+    ),
+    emissions_year == 2021
+  )
+
+housing_join <- parcel_complete %>%
+  left_join(
+    housing_data %>% select(geog_id, sp_categories, units = value),
+    by = c("geog_id", "mc_classification" = "sp_categories")
+  )
+
+county_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  group_by(county_name, mc_classification, inventory_year) %>%
+  summarise(
+    wa_sq_ft = weighted.mean(sq_ft_use, w = units, na.rm = TRUE),
+    wa_med_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(geog_name = paste(county_name, "County")) %>%
+  rename(
+    sq_ft_use = wa_sq_ft,
+    median_year = wa_med_year
+  ) %>%
+  left_join(
+    ghg.ccap::geog_index %>%
+      select(
+        geog_name,
+        geog_id
+      ),
+    by = "geog_name"
+  )
+
+### add region-level weighted average (Twin Cities)
+
+region_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  group_by(mc_classification, inventory_year) %>%
+  summarise(
+    sq_ft_use = weighted.mean(sq_ft_use, w = units, na.rm = TRUE),
+    median_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    county_name = NA_character_,
+    geog_name = "Twin Cities Region"
+  ) %>%
+  left_join(ghg.ccap::geog_index %>% select(geog_name, geog_id), by = "geog_name")
+
+parcel_ctu <- bind_rows(
+  county_weighted,
+  parcel_complete,
+  region_weighted
+)
+
+# make sure each geog_id only has one of each classification
+parcel_ctu %>%  dplyr::count(geog_id, mc_classification)  %>%  dplyr::filter(n > 1)
 
 usethis::use_data(parcel_ctu, overwrite = TRUE)

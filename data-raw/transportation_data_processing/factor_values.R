@@ -1,6 +1,5 @@
 ## code to prepare `factors` dataset goes here
 
-library(tidyverse)
 source("data-raw/transportation_data_processing/eia_datasets.R")
 
 aeo <- read_csv("data-raw/transportation_data_processing/factors/aeo_factor_dat.csv") # Average Energy Outlook
@@ -40,8 +39,6 @@ aeo_factors_new <- vmt_change %>%
       )) %>%
       select(aeo_scen, mode = aeo_mode, year = period, metric = var, value = one_min_ref, metadata)
   )
-
-
 
 
 aeo_long <- aeo %>%
@@ -118,6 +115,21 @@ ghg_long <- ghg %>%
   unique() %>%
   ungroup()
 
+
+grid_emissions_kwh <- ghg.ccap::grid_emissions %>%
+  filter(emissions_year %in% ghg_long$year) %>%
+  mutate(mt_co2e_per_kwh = mt_co2e_per_mwh / 1000) %>%
+  mutate(
+    source = "ER",
+    year = as.character(emissions_year),
+    value = mt_co2e_per_kwh
+  ) %>%
+  select(names(ghg_long))
+
+
+ghg_long <- ghg_long %>%
+  filter(source != "ER") %>%
+  bind_rows(grid_emissions_kwh)
 
 # finish up -----
 factor_values <- list(

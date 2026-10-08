@@ -68,7 +68,7 @@ current_pct_sales <- transportation_data$passenger %>%
   ) %>%
   mutate(
     pct_bev = BEVSales / TotSales,
-    pct_alt = (BEVSales + HEVSales + PHEVSales) / TotSales
+    pct_alt = (BEVSales + HEVSales) / TotSales
   ) %>%
   select(year, ctu, pct_bev, pct_alt) %>%
   head()

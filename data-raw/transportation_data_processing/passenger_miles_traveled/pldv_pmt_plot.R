@@ -62,7 +62,6 @@ pmt_pct_change <- pmt_dat %>%
   mutate(pct_change = (value - lag(value)) / lag(value))
 
 
-
 pmt_dat %>%
   filter(ctu == "Minneapolis") %>%
   View()
@@ -117,7 +116,6 @@ pmt_pct_change %>%
     values_from = value
   ) %>%
   knitr::kable(output = "markdown")
-
 
 
 com_des_pmt <- pmt_pct_change %>%
@@ -267,8 +265,6 @@ plot_ly(
 # hovermode = "x unified",
 
 
-
-
 ## plot pmt by mode -----
 transportation_data$passenger %>%
   filter(var == "PMT") %>%
@@ -320,7 +316,6 @@ transportation_data$passenger %>%
     x_title = "Year"
   ) %>%
   layout()
-
 
 
 transportation_data$passenger %>%

@@ -17,9 +17,7 @@ scen_building_non_residential(
   .retrofit_start_year,
   .retrofit_end_year,
   .new_jobs_leed_gold_pct,
-  .leed_start_year,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .leed_start_year
 )
 }
 \arguments{
@@ -36,17 +34,11 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.ccap::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
@@ -75,15 +67,13 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 library(ghg.ccap)
 
 scen_building_non_residential(
-   non_res_tb = non_res_tb,
-   non_res_tb_bau = non_res_tb_bau,
-   .selected_ctu = "all"
-   .existing_high_efficiency_buildings_pct = 0.25
-   .electrified_buildings_pct = 0.5
-   .enviro_factors = .enviro_factors,
-   .grid_emissions = .grid_emissions
-  )
-
+  non_res_tb = non_res_tb,
+  non_res_tb_bau = non_res_tb_bau,
+  .selected_ctu = "all",
+  .existing_high_efficiency_buildings_pct = 0.25,
+  .enviro_factors = .enviro_factors,
+  .grid_emissions = .grid_emissions
+)
 }
 }
 \concept{buildings, non-residential}

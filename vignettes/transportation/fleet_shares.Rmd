@@ -97,8 +97,6 @@ bau_pldv_sales <- transportation_data$passenger %>%
     mutate(scenario = "Sales Adjusted"))
 
 
-
-
 ggplot(
   data = bau_pldv_sales,
   aes(
@@ -150,7 +148,6 @@ bau_pldv_stock <- transportation_data$passenger %>%
     group_by(year, var) %>%
     summarize(value = sum(value)) %>%
     mutate(scenario = "Sales Adjusted"))
-
 
 
 ggplot(

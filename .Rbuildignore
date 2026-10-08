@@ -11,3 +11,7 @@
 ^report$
 ^\.vscode$
 ^app\.R$
+^agents$
+^\.agents$
+^data/skills$
+^vignettes$

@@ -15,14 +15,12 @@ calculate_landfill_emissions <- function(waste_inv,
                                          .methane_recovery_pct = 0,
                                          .methane_recovery_start = 2025,
                                          .methane_recovery_end = 2050) {
-
-
-
   # create empty methane recovery df
-  inventory_year = unique(waste_future$inventory_year)
-  methane_recovery_table = tibble::tibble(
-    inventory_year, percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
-    )
+  inventory_year <- unique(waste_future$inventory_year)
+  methane_recovery_table <- tibble::tibble(
+    inventory_year,
+    percent_recovered = rep(.methane_recovery_pct, length(inventory_year))
+  )
 
   # now let's create a table but where the percentage increases linearly over time
   # between methane_recovery_start and methane_recovery_end. So if methane_recovery_pct == 0.5,
@@ -80,13 +78,13 @@ calculate_landfill_emissions <- function(waste_inv,
       value_emissions = (value_activity * l_0) * (1 - ox),
       units_emissions = "Metric tons CH4"
     )
-# browser()
+  # browser()
 
   landfill_emissions$future <- waste_future %>%
     dplyr::filter(source == "Landfill") %>%
     dplyr::left_join(methane_recovery_table, by = dplyr::join_by(inventory_year)) %>%
     dplyr::mutate(
-      value_emissions = (value_activity * l_0) * (1 - ox) * (1-percent_recovered),
+      value_emissions = (value_activity * l_0) * (1 - ox) * (1 - percent_recovered),
       units_emissions = "Metric tons CH4"
     ) %>%
     dplyr::select(

@@ -3,12 +3,13 @@
 #' @param waste_inv table, waste inventory data
 #' @param waste_future table, projected waste data
 #'
+#' @importFrom units as_units set_units
+#'
 #' @return a data table with geoid, source, inventory_year, value_activity,
 #' units_activity, value_emissions, and units_emissions
 #' @export
 calculate_incin_emissions <- function(waste_inv,
-                                      waste_future
-                                      ){
+                                      waste_future) {
   # assign factors
   # future workflow (ghg-ccap): save all relevant factors in global table (incl landfill, compost)
   # check with liz
@@ -25,30 +26,29 @@ calculate_incin_emissions <- function(waste_inv,
     co2 = co2_factor * c(co2_efficiency_wte, co2_efficiency_onsite),
     n2o = c(n2o_emissions_factor_wte, n2o_emissions_factor_onsite) *
       units::as_units("gram") %>%
-      units::set_units("metric_ton") %>%
-      as.numeric()
+        units::set_units("metric_ton") %>%
+        as.numeric()
   )
 
 
   ## Turn the following into a function:
   calc_incin <- function(df) {
     df %>%
-    dplyr::filter(source %in% c("Waste to energy", "Onsite")) %>%
-    dplyr::left_join(incin_factors, by = dplyr::join_by(source))  %>%
-    dplyr::mutate(
-      "Metric tons CO2" = value_activity * co2,
-      "Metric tons N2O" = value_activity * n2o
-    ) %>%
-    tidyr::pivot_longer(
-      c("Metric tons CO2", "Metric tons N2O"),
-      names_to = "units_emissions",
-      values_to = "value_emissions"
-    ) %>%
-    dplyr::select(
-      -c(co2, n2o)
-    )
+      dplyr::filter(source %in% c("Waste to energy", "Onsite")) %>%
+      dplyr::left_join(incin_factors, by = dplyr::join_by(source)) %>%
+      dplyr::mutate(
+        "Metric tons CO2" = value_activity * co2,
+        "Metric tons N2O" = value_activity * n2o
+      ) %>%
+      tidyr::pivot_longer(
+        c("Metric tons CO2", "Metric tons N2O"),
+        names_to = "units_emissions",
+        values_to = "value_emissions"
+      ) %>%
+      dplyr::select(
+        -c(co2, n2o)
+      )
   }
-
 
 
   incineration_emissions <- list()

@@ -62,7 +62,7 @@ stock %>%
 #   adj_unit_counts(
 #     .new_homes_to_multifamily_pct = .pct,
 #     .selected_ctu = .selected_ctu,
-#     res_tb = building_data$residential
+#     res_tb = building_energy_data$residential
 #   ) %>%
 #     filter(
 #       #scen == "scen",
@@ -109,7 +109,7 @@ stock %>%
 #   paste(collapse= "")
 # #> [1] "c(\"Credit River Twp.\", \"Eureka Twp.\", \"Falcon Heights\", \"Fort Snelling (unorg.)\", \"Hilltop\", \"Landfall\", \"Lilydale\", \"Osseo\", \"Rogers\")"
 
-# res_tb <- building_data$residential
+# res_tb <- building_energy_data$residential
 # res_tb <- res_tb %>%
 #   dplyr::filter(var %in% c(
 #     "multifamily_units",
@@ -132,7 +132,7 @@ stock %>%
 floor_fxn <- function(.pct, .selected_ctu = "all") {
   # B.R1 (MF to SF)
   tb01 <- adj_unit_counts(
-    res_tb = building_data$residential,
+    res_tb = building_energy_data$residential,
     .selected_ctu = .selected_ctu,
     .new_homes_to_multifamily_pct = .pct
   )
@@ -150,4 +150,4 @@ floor_fxn <- function(.pct, .selected_ctu = "all") {
 # [1] "c(\"Cologne\", \"Hamburg\", \"Lake St. Croix Beach\", \"Mayer\", \"New Germany\", \"Newport\", \"Norwood Young America\", \"Oakdale\", \"St. Paul Park\", \"Watertown\")"
 # YUP
 
-# comes from building_data
+# comes from building_energy_data

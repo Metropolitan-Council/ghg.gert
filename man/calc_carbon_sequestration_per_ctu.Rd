@@ -16,7 +16,7 @@ calc_carbon_sequestration_per_ctu(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.tree_planting_intervention}{character, specifies the type of tree planting.
 intervention to be explored under the current scenario. Options are:
@@ -70,28 +70,24 @@ calc_carbon_sequestration_per_ctu(
 
 }
 \seealso{
-Other land use: 
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_land_by_development_type}()},
-\code{\link{calc_land_cover_by_land_use}()},
-\code{\link{calc_parking_lot_land_cover}()},
-\code{\link{calc_scen_land_use}()},
-\code{\link{calc_tree_planting_land_cover}()},
-\code{\link{run_scenario_land_use_deprecated}()}
+Other land use:
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_land_by_development_type]{calc_land_by_development_type()}},
+\code{\link[=calc_land_cover_by_land_use]{calc_land_cover_by_land_use()}},
+\code{\link[=calc_parking_lot_land_cover]{calc_parking_lot_land_cover()}},
+\code{\link[=calc_scen_land_use]{calc_scen_land_use()}},
+\code{\link[=calc_tree_planting_land_cover]{calc_tree_planting_land_cover()}},
+\code{\link[=run_scenario_land_use_deprecated]{run_scenario_land_use_deprecated()}}
 
-Other emissions: 
-\code{\link{DEPRECATED_calc_ghg_non_residential}()},
-\code{\link{calc_carbon_stock_per_ctu}()},
-\code{\link{calc_energy_non_residential}()},
-\code{\link{calc_energy_residential}()},
-\code{\link{calc_ghg_direct}()},
-\code{\link{calc_ghg_embodied}()},
-\code{\link{calc_ghg_mwh}()},
-\code{\link{calc_ghg_non_residential}()},
-\code{\link{calc_ghg_residential}()},
-\code{\link{get_residential_energy_baseline}()},
-\code{\link{get_residential_mcf_baseline}()},
-\code{\link{get_residential_mwh_baseline}()}
+Other emissions:
+\code{\link[=calc_carbon_stock_per_ctu]{calc_carbon_stock_per_ctu()}},
+\code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},
+\code{\link[=calc_energy_residential]{calc_energy_residential()}},
+\code{\link[=calc_ghg_direct]{calc_ghg_direct()}},
+\code{\link[=calc_ghg_embodied]{calc_ghg_embodied()}},
+\code{\link[=calc_ghg_mwh]{calc_ghg_mwh()}},
+\code{\link[=calc_ghg_non_residential]{calc_ghg_non_residential()}},
+\code{\link[=calc_ghg_residential]{calc_ghg_residential()}}
 }
 \concept{emissions}
 \concept{land use}

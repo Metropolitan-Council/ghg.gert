@@ -54,7 +54,6 @@ testthat::test_that("Varous AEO calculations align", {
   # )
 
 
-
   # testthat::expect_error(
   #   vmt_annual_energy_outlook(
   #     tb = st_paul_passenger,
@@ -131,7 +130,6 @@ testthat::test_that("Varous AEO calculations align", {
     ),
     tolerance = 0.1
   )
-
 
 
   testthat::expect_equal(

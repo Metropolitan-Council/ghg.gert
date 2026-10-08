@@ -43,10 +43,6 @@ left_join(
   View()
 
 
-
-
-
-
 bau_comp %>%
   filter(
     mode == "AIR"
@@ -67,7 +63,6 @@ bind_rows(
   bau_summary$freight$FRAIL$vmt,
   bau_summary$freight$SUT_CUT$vmt
 )
-
 
 
 bau_summary$passenger$PLDV$dir_ghg %>%

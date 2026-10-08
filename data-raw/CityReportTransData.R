@@ -27,7 +27,6 @@ telework_ctu <- telework_fxn(telework_trans_100) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
-
 # electrification-----
 bev_trans_100 <- run_module_transportation(.bev_pct_sales = 1, .selected_ctu = "Minneapolis", .scenario = "bev100")
 bev_trans_80 <- run_module_transportation(.bev_pct_sales = .8, .selected_ctu = "Minneapolis", .scenario = "bev80")
@@ -138,7 +137,6 @@ parking_ctu <- parking_fxn(parking_trans_100) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
 
 
-
 #  pop density -----
 density_neg100 <- run_module_transportation(
   .pop_dens_pct_change = -1,
@@ -184,7 +182,6 @@ density_ctu <- density_fxn(density_neg100) %>%
   bind_rows(density_fxn(density_50) %>% mutate(param = .5)) %>%
   bind_rows(density_fxn(density_100) %>% mutate(param = 1)) %>%
   pivot_longer(names_to = "type", values_to = "emissions", -c(ctu, scenario, year, param, mode))
-
 
 
 # employment density  -----
@@ -252,15 +249,12 @@ bau_ctu <- bau$passenger_all %>%
   )
 
 
-
-
 # save data -----
 save(bev_ctu, telework_ctu, transitservice_ctu, roadprice_ctu, parking_ctu, density_ctu, emp_density_ctu, bau_ctu,
   file = "data-raw/transportation_report_data.rda"
 )
 
 beepr::beep()
-
 
 
 # telework_trans_100 <- run_module_transportation(.telework_pct = 1)

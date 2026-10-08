@@ -12,29 +12,40 @@
 #'
 #' @importFrom cli cli_alert_success
 mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
-                             .selected_ctu = "all",
+                             .selected_ctu,
                              .scenario = "BAU",
                              .electric_scenario = "ER",
                              .aeo_scenario = "REF",
-                             .transit_avo_pct = 0,
-                             .pldv_avo_pct = 0,
-                             .transit_service_pct = 0,
-                             .vmt_fee = 0,
-                             .payd_fee = 0,
-                             .gas_tax = 0,
-                             .parking_price = 0,
-                             .freight_parking_price = 0,
-                             .cong_price = 0,
-                             .freight_vmt_fee = 0,
-                             .pop_dens_pct_change = 0,
-                             .emp_dens_pct_change = 0,
-                             .land_use_diversity_pct_change = 0,
-                             .intersection_design_pct_change = 0,
-                             .job_access_pct_change = 0,
-                             .transit_dist_pct_change = 0,
-                             .comb_5d_impact_pct_change = 0,
-                             .grid_decarbonization_pct = 0.6,
-                             .telework_pct = 0,
+                             .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+                             .parking_cost = parking_cost,
+                             .vehicle_occupancy = vehicle_occupancy,
+                             .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+                             .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+                             .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+                             .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+                             .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+                             .parking_price = ghg.ccap::transportation_defaults$parking_price,
+                             .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+                             .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
+                             .cong_price = ghg.ccap::transportation_defaults$cong_price,
+                             .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+                             .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+                             .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+                             .land_use_diversity_pct_change = ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+                             .intersection_design_pct_change = ghg.ccap::transportation_defaults$intersection_design_pct_change,
+                             .intersection_density_pct_change = ghg.ccap::transportation_defaults$intersection_density_pct_change,
+                             .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
+                             .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+                             .comb_5d_impact_pct_change = ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+                             .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+                             .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+                             .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                             .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+                             .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+                             .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+                             .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                             .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+                             .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
                              .enviro_factors = enviro_factors,
                              .elast = elast,
                              .elast_5d = elast_5d,
@@ -66,8 +77,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   fcm_ci <- calc_fuel_cost_mile(
     tb = .pass_tb,
     .mode = "BU",
-    .aeo_scenario = .aeo_scenario,
     .miles_per_gallon = "BCIMPG",
+    .aeo_scenario = .aeo_scenario,
     .fuel_cost_gallon = .enviro_factors$CI_FUEL_COST_GAL,
     .enviro_factors = .enviro_factors,
     .factor_values = .factor_values
@@ -81,6 +92,8 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .mode = "BU",
       .stock = "BCIStock",
       .variable = var,
+      .parking_cost = .parking_cost,
+      .vehicle_occupancy = .vehicle_occupancy,
       .tb_fuel_cost_mile = fcm_ci,
       .aeo_scenario = .aeo_scenario,
       .transit_avo_pct = .transit_avo_pct,
@@ -97,14 +110,22 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .emp_dens_pct_change = .emp_dens_pct_change,
       .land_use_diversity_pct_change = .land_use_diversity_pct_change,
       .intersection_design_pct_change = .intersection_design_pct_change,
+      .intersection_density_pct_change = .intersection_density_pct_change,
       .job_access_pct_change = .job_access_pct_change,
       .transit_dist_pct_change = .transit_dist_pct_change,
       .comb_5d_impact_pct_change = .comb_5d_impact_pct_change,
+      .cbtp_start_year = .cbtp_start_year,
+      .cbtp_full_effect_year = .cbtp_full_effect_year,
+      .cbtp_prop_targeted = .cbtp_prop_targeted,
+      .ctr_employees_targeted = .ctr_employees_targeted,
+      .ctr_voluntary = .ctr_voluntary,
+      .ctr_start_year = .ctr_start_year,
+      .ctr_full_effect_year = .ctr_full_effect_year,
       .telework_pct = .telework_pct,
       .elast = .elast,
       .enviro_factors = .enviro_factors,
       .elast_5d = .elast_5d,
-      .factor_values = .factor_values,
+      .factor_values = .factor_values
     ) %>%
     mutate(class = "BCI")
 
@@ -116,7 +137,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
       .fuel_type = "BCI",
       .aeo_scenario = .aeo_scenario,
       .miles_per_gallon = "BCIMPG",
-      .grid_decarbonization_pct = .grid_decarbonization_pct,
       .enviro_factors = .enviro_factors,
       .factor_values = .factor_values,
       .fuel_economy = .fuel_economy
@@ -330,7 +350,6 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
 
   # Bus Rapid Transit----
-
 
 
   # ### CI BRT -----
@@ -571,11 +590,10 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
   #     .enviro_factors = .enviro_factors
   #   )
   #
-  #   TODO add fuel use totals
 
   # Finish up -----
 
-  cli::cli_alert_success(paste("Transit buses and bus rapid transit", "🚌"))
+  cli::cli_alert_success("Transit buses and bus rapid transit 🚌")
 
   return(bus_scenario)
 }
