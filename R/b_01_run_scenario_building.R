@@ -64,8 +64,8 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
                                   .mf_heatpump_pct = 0.0,
                                   .app_elec_start_year = 2028,
                                   .app_elec_end_year = 2050,
-                                  .sf_app_elec_pct = 0.0,
-                                  .mf_app_elec_pct = 0.0,
+                                  # .sf_app_elec_pct = 0.0,
+                                  # .mf_app_elec_pct = 0.0,
                                   .new_sf_homes_leed_gold_pct = 0.0,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
@@ -170,13 +170,12 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
         .retrofit_start_year = .retrofit_start_year,
         .retrofit_end_year = .retrofit_end_year,
         .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
-        .leed_start_year = .leed_start_year,
-        .grid_emissions = ghg.gert::grid_emissions
+        .leed_start_year = .leed_start_year
       ) %>%
       dplyr::mutate(
         sector = "Non-residential",
-        propane_mmbtu        = 0,
-        kerosene_mmbtu       = 0,
+        propane_mmbtu = 0,
+        kerosene_mmbtu = 0,
         liquid_fuel_emissions = 0
       ) %>%
       dplyr::rename(
