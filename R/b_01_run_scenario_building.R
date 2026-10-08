@@ -40,14 +40,6 @@
 #'   .selected_ctu = "all",
 #'   .sf_heatpump_pct = 0.10,
 #'   .existing_sf_retrofit_pct = 0.80
-#'   .enviro_factors = enviro_factors,
-#'   .home_behavior_change_pct = 1.00,
-#'   .single_family_floor_area_growth_pct = 0.05,
-#'   .new_homes_affected_pct = 0.30,
-#'   .new_homes_leed_gold_pct = 0.50,
-#'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .additional_electrified_residential_buildings_pct = 0.45
 #' )
 #' }
 #'
