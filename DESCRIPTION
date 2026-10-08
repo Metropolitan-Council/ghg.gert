@@ -1,9 +1,8 @@
 Type: Package
 Package: ghg.gert
-Title: Greenhouse Gas Emission Reduction Tool for Twin Cities Metropolitan
-    Region
+Title: Greenhouse Gas Emissions Reduction Tool for the Twin Cities Metropolitan Region
 Version: 1.1.0
-Date: 2026-09-15
+Date: 2026-10-10
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
@@ -16,7 +15,7 @@ Authors@R: c(
     person("Laine", "McNamara", , "laine.mcnamara@metc.state.mn.us", role = "ctb"),
     person("Zoey", "Yandell", , "zoey.yandell@metc.state.mn.us", role = "ctb")
   )
-Description: Interactive tool for greenhouse gas inventories, emissions projections,
+Description: Code and data for greenhouse gas inventories, emissions projections,
     and mitigation scenario analyses for municipalities in the seven-county Twin Cities
     metropolitan region.
 License: MIT + file LICENSE

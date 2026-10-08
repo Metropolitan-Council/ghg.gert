@@ -78,7 +78,7 @@ Estimates passenger and freight vehicle-miles traveled (VMT), direct and embodie
 
 Key parameters:
 
-- **Fleet electrification:** `.electric_scenario` (electricity grid pathway) and `.aeo_scenario` (EIA Annual Energy Outlook fuel-economy scenario).
+- **Fleet electrification:** `.electric_scenario` (electricity grid pathway), `.aeo_scenario` (EIA Annual Energy Outlook fuel-economy scenario), and other arguments passed to `adj_fleet_shares()` or `adj_fleet_shares_stock()`.
 - **Pricing signals:** `.vmt_fee`, `.payd_fee` (pay-as-you-drive insurance), `.gas_tax`, `.parking_price`, `.freight_parking_price`, `.cong_price` (congestion pricing), `.freight_vmt_fee`.
 - **Built environment (5D changes vs. baseline):** `.pop_dens_pct_change`, `.emp_dens_pct_change`, `.land_use_diversity_pct_change`, `.intersection_design_pct_change`, `.intersection_density_pct_change`, `.job_access_pct_change`, `.transit_dist_pct_change`.
 - **Transit service and behavior:** `.transit_service_pct`, `.transit_avo_pct` and `.pldv_avo_pct` (vehicle occupancy shifts), `.cbtp_prop_targeted` (commuter-benefit / travel-demand-management reach), `.cbtp_start_year`.

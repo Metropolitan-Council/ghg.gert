@@ -106,8 +106,9 @@ policy levers.
 Key parameters:
 
 - **Fleet electrification:** `.electric_scenario` (electricity grid
-  pathway) and `.aeo_scenario` (EIA Annual Energy Outlook fuel-economy
-  scenario).
+  pathway), `.aeo_scenario` (EIA Annual Energy Outlook fuel-economy
+  scenario), and other arguments passed to `adj_fleet_shares()` or
+  `adj_fleet_shares_stock()`.
 - **Pricing signals:** `.vmt_fee`, `.payd_fee` (pay-as-you-drive
   insurance), `.gas_tax`, `.parking_price`, `.freight_parking_price`,
   `.cong_price` (congestion pricing), `.freight_vmt_fee`.
