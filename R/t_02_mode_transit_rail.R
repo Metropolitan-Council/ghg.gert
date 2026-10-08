@@ -392,7 +392,7 @@ mode_transit_rail <- function(.pass_tb = transportation_data$passenger,
     passenger_rail$emb_ghg <- emb_ghg_all
   }
 
-  cli::cli_alert_success("Urban and interurban rail 🚆")
+  cli::cli_alert_success("Urban and interurban rail")
 
   return(passenger_rail)
 }

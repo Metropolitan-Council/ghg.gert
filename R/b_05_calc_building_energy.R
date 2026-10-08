@@ -25,6 +25,7 @@
 #' }
 #' @importFrom dplyr filter mutate select left_join case_when if_else pull bind_rows
 #' @importFrom purrr map_dfr map
+#' @importFrom stats median
 calc_building_energy <- function(
   .selected_ctu,
   parcel_data = ghg.gert::parcel_ctu,
@@ -132,7 +133,6 @@ calc_building_energy <- function(
   )
 
 
-
   ctu_binned <- parcel_data %>%
     filter(geog_name == .selected_ctu, mc_classification %in% keep_classes) %>%
     mutate(
@@ -163,8 +163,8 @@ calc_building_energy <- function(
       geog_name == .selected_ctu,
       mc_classification == "single_family_detached"
     ) %>%
-    pull(sq_ft_use) %>%
-    median(na.rm = TRUE)
+    dplyr::pull(sq_ft_use) %>%
+    stats::median(na.rm = TRUE)
 
   new_keys <- c("new_build", "new_build_sustainable")
 

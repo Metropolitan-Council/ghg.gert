@@ -11,6 +11,7 @@
 #' @importFrom cli cli_alert_success
 #' @importFrom purrr pmap
 #' @importFrom stringr str_to_lower
+#' @importFrom stats setNames
 mode_passenger_light_duty <- function(.pass_tb,
                                       .selected_ctu,
                                       .scenario = "BAU",
@@ -254,7 +255,7 @@ mode_passenger_light_duty <- function(.pass_tb,
   }
 
   cli::cli_alert_success(
-    "Passenger light-duty vehicles 🚗"
+    "Passenger light-duty vehicles"
   )
 
   # return ------
@@ -295,6 +296,6 @@ run_vehicle_calculations <- function(
   fuel_label_lower <- tolower(fuel_label)
 
   list(fcm, vmt, dir_ghg) %>%
-    setNames(paste0(fuel_label_lower, c("_fcm", "_vmt", "_dir_ghg"))) %>%
+    stats::setNames(paste0(fuel_label_lower, c("_fcm", "_vmt", "_dir_ghg"))) %>%
     return()
 }

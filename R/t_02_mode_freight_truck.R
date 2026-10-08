@@ -149,7 +149,7 @@ mode_freight_truck <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success("Freight trucks 🚚")
+  cli::cli_alert_success("Freight trucks")
 
   return(freight_truck)
 }
@@ -210,7 +210,7 @@ run_freight_calculations <- function(
 
   return(
     list(fcm, vmt, dir_ghg) %>%
-      setNames(
+      stats::setNames(
         nm = c(
           paste0(fuel_label_lower, "_fcm"),
           paste0(fuel_label_lower, "_vmt"),

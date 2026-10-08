@@ -208,7 +208,7 @@ mode_freight_rail <- function(.freight_tb = transportation_data$freight,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success("Freight rail 🚆")
+  cli::cli_alert_success("Freight rail")
 
   return(freight_rail)
 }

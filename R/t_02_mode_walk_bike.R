@@ -193,7 +193,7 @@ mode_walk_bike <- function(.pass_tb = transportation_data$passenger,
     "dir_ghg" = dir_ghg_all
   )
 
-  cli::cli_alert_success("Walk and bike 🚶 🚴")
+  cli::cli_alert_success("Walk and bike")
 
   return(wb_fin)
 }

@@ -593,7 +593,7 @@ mode_transit_bus <- function(.pass_tb = transportation_data$passenger,
 
   # Finish up -----
 
-  cli::cli_alert_success("Transit buses and bus rapid transit 🚌")
+  cli::cli_alert_success("Transit buses and bus rapid transit")
 
   return(bus_scenario)
 }

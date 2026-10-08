@@ -30,6 +30,7 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #' @importFrom tibble deframe
+#' @importFrom utils head
 #'
 run_module_waste <- function(tb_inv = waste_data$inventory,
                              tb_future = waste_data$projections,
@@ -197,7 +198,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       ) %>%
       cross_join(df %>%
         dplyr::select(geog_id, geog_name, geog_level) %>%
-        head(1)) %>%
+        utils::head(1)) %>%
       relocate(c(geog_id, geog_name, geog_level), .after = inventory_year)
   }
 
