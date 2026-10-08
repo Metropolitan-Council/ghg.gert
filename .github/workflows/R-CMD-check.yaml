@@ -1,5 +1,8 @@
+name: R-CMD-check
+
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+
 on:
   push:
     branches: [main, master]
@@ -7,7 +10,12 @@ on:
     branches: [main, master]
   workflow_dispatch: {}
 
-name: R-CMD-check
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel only if the event is a pull request, not a push to main
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 
 jobs:
   R-CMD-check:
