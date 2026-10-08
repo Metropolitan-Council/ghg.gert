@@ -6,7 +6,7 @@
 \usage{
 mode_freight_rail(
   .freight_tb = transportation_data$freight,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
@@ -46,7 +46,7 @@ mode_freight_rail(
 \item{.freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -160,6 +160,10 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+<<<<<<< HEAD
+=======
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
+>>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{freight}

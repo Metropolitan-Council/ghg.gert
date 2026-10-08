@@ -8,9 +8,15 @@ direct GHG, indirect GHG, and costs}
 run_module_transportation(
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
+<<<<<<< HEAD
   .selected_ctu = "all",
   .parking_cost = ghg.gert::parking_cost,
   .vehicle_occupancy = ghg.gert::vehicle_occupancy,
+=======
+  .selected_ctu,
+  .parking_cost = ghg.ccap::parking_cost,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
+>>>>>>> main
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_cost_mile = FALSE,
   .calc_transp_fuel_use = FALSE,
@@ -18,6 +24,7 @@ run_module_transportation(
   .scenario = "BAU",
   .electric_scenario = "ER",
   .aeo_scenario = "REF",
+<<<<<<< HEAD
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
   .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
@@ -32,6 +39,28 @@ run_module_transportation(
   .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
   .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
   .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
+=======
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
+  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
+  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
+  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+  .parking_price = ghg.ccap::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
+  .cong_price = ghg.ccap::transportation_defaults$cong_price,
+  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
+  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+>>>>>>> main
   .land_use_diversity_pct_change =
     ghg.gert::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
@@ -62,7 +91,7 @@ and one for each year. Package provided dataset \code{transportation_data$passen
 \item{freight_tb}{input table for freight modes. Should have columns \code{mode}, \code{var}, \code{geog_name}, \code{geog_id},
 and one for each year. Package provided dataset \code{transportation_data$freight} is suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.gert::parking_cost}.}
 
@@ -87,6 +116,34 @@ Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
 
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
+
+\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1).
+Default is 0}
+
+\item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028}
+
+\item{.cbtp_full_effect_year}{character or numeric, year the CBTP strategy reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.ctr_employees_targeted}{numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+Default is 0.}
+
+\item{.ctr_voluntary}{logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+Default is TRUE.}
+
+\item{.ctr_start_year}{character or numeric, the year the trip reduction program begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028.}
+
+\item{.ctr_full_effect_year}{character or numeric, year the trip reduction program reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
+Default is \code{ghg.ccap::commute_vmt_proportion}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
 Default is 0.}
@@ -151,6 +208,10 @@ Numeric between 0 and 1.
 Default is 0
 Default is \code{0}}
 
+\item{.vmt_reduction_pct}{total percent reduction in PLDV VMT by final forecast year.
+Numeric between 0 and 1.
+Default is 0.}
+
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
@@ -158,6 +219,16 @@ Default is 0.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+in the final forecast year.
+Default is 0.}
+
+\item{.bev_pct_stock}{numeric,  a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are battery electric vehicles (BEV)
+in the final forecast year.
+Default is 0}
+
+\item{.hev_pct_stock}{numeric,   a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is 0.}
 
@@ -200,6 +271,10 @@ Other transportation:
 \code{\link[=mode_transit_rail]{mode_transit_rail()}},
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+<<<<<<< HEAD
+=======
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
+>>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

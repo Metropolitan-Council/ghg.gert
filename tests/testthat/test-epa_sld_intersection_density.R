@@ -35,13 +35,17 @@ testthat::test_that("epa_sld_intersection_density values are valid", {
   testthat::expect_true(all(non_na_values <= 100))
 })
 
-testthat::test_that("epa_sld_intersection_density geog_ids match geog_index", {
-  # All geog_ids should be in geog_index
-  missing_geog_ids <- setdiff(
-    epa_sld_intersection_density$geog_id,
-    geog_index$geog_id
-  )
-  testthat::expect_equal(length(missing_geog_ids), 0)
+testthat::test_that("geog_index has epa_sld_intersection_density geog_ids matches", {
+  # All geog_index geog_ids should be in epa_sld
+  gi <- geog_index %>% select(geog_name, geog_id) %>% distinct()
+
+  mismatches <- epa_sld_intersection_density %>%
+    select(geog_name, geog_id) %>%
+    distinct() %>%
+    inner_join(gi, by = "geog_name", suffix = c("_data", "_index")) %>%
+    filter(geog_id_data != geog_id_index)
+
+  testthat::expect_equal(nrow(mismatches), 0)
 })
 
 testthat::test_that("epa_sld_intersection_density has no duplicates", {

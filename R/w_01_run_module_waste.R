@@ -15,6 +15,7 @@
 #' @inheritParams calculate_landfill_emissions
 #' @inheritParams calculate_incin_emissions
 #' @inheritParams calculate_organic_emissions
+#' @inheritParams calculate_wastewater_emissions
 #'
 #'
 #' @return [list()].
@@ -35,7 +36,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
                              tb_base = waste_data$solid_waste_baseline,
                              tb_char = waste_data$characterization,
                              tb_target = waste_data$mpca,
-                             .selected_ctu = "all",
+                             .selected_ctu,
                              # user inputs below
                              .waste_reduction_pct = 0,
                              .waste_reduction_start = 2025,

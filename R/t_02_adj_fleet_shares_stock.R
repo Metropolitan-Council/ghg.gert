@@ -46,7 +46,7 @@
 #'
 adj_fleet_shares_stock <- function(.pass_tb,
                                    .freight_tb,
-                                   .selected_ctu = "all",
+                                   .selected_ctu,
                                    .bev_pct_stock = ghg.gert::transportation_defaults$bev_pct_stock,
                                    .hev_pct_stock = ghg.gert::transportation_defaults$hev_pct_stock,
                                    .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,

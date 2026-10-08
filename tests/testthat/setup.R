@@ -6,10 +6,10 @@ st_paul_passenger <- transportation_data$passenger %>%
 st_paul_freight <- transportation_data$freight %>%
   filter(geog_name == "Saint Paul" | geog_name == "All")
 
-lake_elmo_res <- building_data$residential %>%
+lake_elmo_res <- building_energy_data$residential %>%
   dplyr::filter(geog_name == "Lake Elmo")
 
-lake_elmo_non_res <- building_data$non_residential %>%
+lake_elmo_non_res <- building_energy_data$non_residential %>%
   dplyr::filter(geog_name == "Lake Elmo")
 
 si_fcm_test <- calc_fuel_cost_mile(
@@ -42,28 +42,33 @@ geography_test_list_core <- c(
   "Burnsville",
   "Shakopee",
   # Smaller CTUs
-  "Lake Elmo",
-  "Andover",
-  "Landfall",
-  "Saint Bonifacius",
   "Bethel",
-  #Townships
+  "Chanhassen",
+  "Lake Elmo",
+  "Saint Bonifacius", # test st vs saint
+  # Unique CTUs
+  "Chaska", # split county
+  "Credit River", # recently incorporated into city from township
+  "Hilltop", # all manufactured homes
+  "Landfall", # all manufactured homes
+  # Townships
   "Benton Twp.",
   "Denmark Twp.",
   # Counties
   "Hennepin County",
-  "Ramsey County"
+  "Scott County"
 )
 
 # Full list - comprehensive testing for CI/PR validation
 geography_test_list_full <- c(
   # CTUs (alphabetical)
-  "Arden Hills",
   "Andover",
   "Anoka",
   "Apple Valley",
+  "Arden Hills",
   "Bethel",
   "Birchwood Village",
+  "Blaine",
   "Bloomington",
   "Burnsville",
   "Centerville",
@@ -74,7 +79,7 @@ geography_test_list_full <- c(
   "Crystal",
   "Eden Prairie",
   "Fridley",
-  "Hanover",
+  "Hastings",
   "Hopkins",
   "Lake Elmo",
   "Lakeville",
@@ -86,7 +91,9 @@ geography_test_list_full <- c(
   "Orono",
   "Plymouth",
   "Richfield",
+  "Robbinsdale",
   "Rosemount",
+  "Saint Anthony",
   "Saint Bonifacius",
   "Saint Paul",
   "Shakopee",
@@ -105,10 +112,21 @@ geography_test_list_full <- c(
 )
 
 # Default to core list for fast development testing
-# Default to core list for fast development testing
-# Set environment variable GHGCCAP_FULL_TESTS=1 to run full test suite
+# Otherwise test full list on continuous integration (CI) via GitHub Actions
 geography_test_list <- if (testthat:::on_ci()) {
   geography_test_list_full
 } else {
   geography_test_list_core
 }
+
+# Shared BAU run_module_transportation() results, keyed by geography.
+# Reused across module- and mode-level tests to avoid recomputing the
+# same default scenario multiple times per geography.
+transportation_bau_by_geog <- stats::setNames(
+  purrr::map(geography_test_list, function(geog) {
+    run_module_transportation(.selected_ctu = geog) %>%
+      suppressMessages() %>%
+      suppressWarnings()
+  }),
+  geography_test_list
+)

@@ -5,17 +5,17 @@
 \title{run all modules}
 \usage{
 run_all_modules(
-  .selected_ctu = "all",
+  .selected_ctu,
   run_land_use = TRUE,
   run_buildings = TRUE,
   run_residential = TRUE,
   run_non_residential = TRUE,
   run_transportation = TRUE,
   tb = land_use_data,
-  non_res_tb = building_data$non_residential,
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  non_res_tb_bau = building_data$non_residential,
+  non_res_tb = building_energy_data$non_residential,
+  res_tb = building_energy_data$residential,
+  res_tb_bau = building_energy_data$residential,
+  non_res_tb_bau = building_energy_data$non_residential,
   pass_tb = transportation_data$passenger,
   freight_tb = transportation_data$freight,
   .parking_cost = parking_cost,
@@ -34,6 +34,15 @@ run_all_modules(
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
+  .baseline_year = 2022,
+  .leed_start_year = 2028,
+  .retrofit_start_year = 2028,
+  .retrofit_end_year = 2050,
+  .heatpump_start_year = 2028,
+  .heatpump_end_year = 2050,
+  .new_jobs_leed_gold_pct = 0,
+  .existing_jobs_retrofit_pct = 0,
+  .jobs_heatpump_pct = 0,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
   .scenario = "BAU",
@@ -60,6 +69,7 @@ run_all_modules(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
+<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .bev_pct_sales = ghg.gert::transportation_defaults$bev_pct_sales,
@@ -73,10 +83,33 @@ run_all_modules(
   .grid_emissions = ghg.gert::grid_emissions,
   .elast_5d = ghg.gert::elast_5d,
   .vehicle_occupancy = ghg.gert::vehicle_occupancy
+=======
+    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
+  .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
+  .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values,
+  .elast = ghg.ccap::elast,
+  .fuel_economy = ghg.ccap::fuel_economy,
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .elast_5d = ghg.ccap::elast_5d,
+  .vehicle_occupancy = ghg.ccap::vehicle_occupancy
+>>>>>>> main
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{run_land_use}{logical. Default is \code{TRUE}}
 
@@ -181,9 +214,15 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
+<<<<<<< HEAD
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
 \item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
+=======
+\item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
+Default is \code{0.0}.}
+>>>>>>> main
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -255,6 +294,34 @@ Numeric between 0 and 1.
 Default is 0
 Default is \code{0}}
 
+\item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028}
+
+\item{.cbtp_full_effect_year}{character or numeric, year the CBTP strategy reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1).
+Default is 0}
+
+\item{.ctr_employees_targeted}{numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+Default is 0.}
+
+\item{.ctr_voluntary}{logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+Default is TRUE.}
+
+\item{.ctr_start_year}{character or numeric, the year the trip reduction program begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028.}
+
+\item{.ctr_full_effect_year}{character or numeric, year the trip reduction program reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
+Default is \code{ghg.ccap::commute_vmt_proportion}.}
+
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
 in the final forecast year.
@@ -262,6 +329,16 @@ Default is 0.}
 
 \item{.hev_pct_sales}{numeric,   a value between \code{0} and \code{1.}
 Percent of all vehicle sales that are hybrid electric vehicles (HEV)
+in the final forecast year.
+Default is 0.}
+
+\item{.bev_pct_stock}{numeric,  a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are battery electric vehicles (BEV)
+in the final forecast year.
+Default is 0}
+
+\item{.hev_pct_stock}{numeric,   a value between \code{0} and \code{1.}
+Percent of all vehicle stock that are hybrid electric vehicles (HEV)
 in the final forecast year.
 Default is 0.}
 
@@ -274,10 +351,14 @@ Default is 0.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
+<<<<<<< HEAD
 \item{.grid_emissions}{table,
 Default is \code{ghg.gert::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
+=======
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+>>>>>>> main
 
 \item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
 Default is \code{ghg.gert::vehicle_occupancy}.}

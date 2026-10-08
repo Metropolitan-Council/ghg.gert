@@ -19,10 +19,14 @@ calc_ghg_mwh(
 )
 }
 \arguments{
+<<<<<<< HEAD
 \item{grid_emissions}{table,
 Default is \code{ghg.gert::grid_emissions}}
 
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+=======
+\item{.selected_ctu}{character, selected city or county.}
+>>>>>>> main
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
@@ -52,6 +56,7 @@ based on electrical grid emission factors.
 based on the floor area assumptions. For a function that compiles all
 residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
 }
+<<<<<<< HEAD
 \examples{
 \dontrun{
 library(ghg.gert)
@@ -64,10 +69,16 @@ calc_ghg_residential(
 )
 }
 }
+=======
+>>>>>>> main
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
@@ -98,6 +109,10 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+<<<<<<< HEAD
+=======
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
+>>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 
 Other residential:

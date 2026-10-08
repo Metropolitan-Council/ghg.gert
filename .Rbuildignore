@@ -14,3 +14,4 @@
 ^agents$
 ^\.agents$
 ^data/skills$
+^vignettes$

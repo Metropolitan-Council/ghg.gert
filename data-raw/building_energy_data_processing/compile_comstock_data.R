@@ -1,9 +1,9 @@
 ### import ComStock data for electrification and retrofit elasticities
 
-library(dplyr)
-library(tidyr)
-library(readr)
-library(purrr)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
+library(purrr, warn.conflicts = FALSE)
 
 # helper to bin year in data -- for commercial buildings, we're just looking for 2010s, but labeling all for now in case we want to do deeper analysis later
 bin_year <- function(year) {

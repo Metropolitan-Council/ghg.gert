@@ -791,11 +791,12 @@ vmt_total_reduction <- function(.pass_tb,
 }
 
 
-#' @title Trip reduction program VMT VMT adjustment
+#' @title Trip reduction program VMT adjustment
 #'
 #' @description
 #'
-#' Community Based Travel Planning (CBTP) is a transportation demand management strategy
+#' Community Based Travel Planning (CBTP), sometimes referred to as transportation options
+#' or transportation alternatives, is a transportation demand management strategy
 #' that provides personalized travel behavior change assistance to households in a target
 #' community. This function calculates the expected reduction in vehicle miles traveled (VMT)
 #' based on two key elasticities: the proportion of targeted households that participate and
@@ -804,13 +805,23 @@ vmt_total_reduction <- function(.pass_tb,
 #' The reduction is calculated as: `percent_reduction = -(prop_targeted × participation_rate × trip_reduction_rate)`,
 #' with a maximum VMT reduction cap of 2.3%.
 #'
+#' Limitations
+#'   - This function does not account for associated increases in transit or active transportation VMT that may result
+#'      from the program.
+#'   - This function assumes that the program will start in the given year and continue to exist through the final forecast year.
+#'   - The function assumes that the relative number of people targeted for the program will be consistent over time,
+#'      even though the composition of the regional population will change.
+#'
 #' @param .pass_tb tibble, baseline passenger transportation table with columns `year`
 #' @param .cbtp_prop_targeted numeric, proportion of households targeted with CBTP (0 to 1).
 #'     Default is `r ghg.gert::transportation_defaults$cbtp_prop_targeted`
 #' @param .cbtp_start_year character or numeric, the year the CBTP strategy begins. For years prior to this,
-#'     no reduction is applied. For years at or after this year, the full reduction is applied.
-#'     Default is `r ghg.gert::transportation_defaults$cbtp_start_year`
-#' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.gert::enviro_factors`.
+#'     no reduction is applied. The reduction ramps up from this year.
+#'     Default is `r ghg.ccap::transportation_defaults$cbtp_start_year`
+#' @param .cbtp_full_effect_year character or numeric, year the CBTP strategy reaches its full effect.
+#'     The reduction remains at full effect thereafter.
+#'     Default is `r ghg.ccap::transportation_defaults$cbtp_full_effect_year`.
+#' @param .enviro_factors list, environmental factors including CBTP elasticities. Default is `ghg.ccap::enviro_factors`.
 #'     Expected to contain:
 #'     - `CBTP_PARTICIPATION_PCT`: proportion of targeted residences that participate (default 0.19)
 #'     - `CBTP_TRIP_REDUCTION_PCT`: vehicle trip reduction by participating residences (default 0.12)
@@ -818,8 +829,9 @@ vmt_total_reduction <- function(.pass_tb,
 #'
 #' @return tibble with columns `year` and `cbtp_adj`, where `cbtp_adj` is the adjustment factor
 #'     (1 = no effect, < 1 = reduction). For years before `.cbtp_start_year`, `cbtp_adj = 1`.
-#'     For years at or after `.cbtp_start_year`, `cbtp_adj = 1 + reduction_pct` where
-#'     `reduction_pct` is capped at `-0.023` (maximum 2.3% reduction).
+#'     The reduction increases through `.cbtp_full_effect_year`, then stays constant.
+#'     `reduction_pct` is capped at `-0.023`
+#'     (maximum 2.3% reduction).
 #'
 #' @details
 #' \loadmathjax
@@ -836,6 +848,7 @@ vmt_total_reduction <- function(.pass_tb,
 #' @export
 #' @family transportation
 #' @family VMT effects
+#' @family TDM
 #'
 #' @references
 #' CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
@@ -843,11 +856,12 @@ vmt_total_reduction <- function(.pass_tb,
 #' @importFrom dplyr tibble mutate select case_when
 #' @importFrom tibble tibble
 vmt_trip_reduction <- function(.pass_tb,
-                               .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
-                               .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
-                               .enviro_factors = ghg.gert::enviro_factors) {
+                               .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+                               .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+                               .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+                               .enviro_factors = ghg.ccap::enviro_factors) {
   if (.cbtp_prop_targeted == 0) {
-    # browser()
+    # if no households are targeted for CBTP, return a tibble with cbtp_adj = 1
     return(.pass_tb %>%
       select(geog_id, geog_name, year) %>%
       distinct() %>%
@@ -858,32 +872,132 @@ vmt_trip_reduction <- function(.pass_tb,
   }
 
   # Extract elasticity values from enviro_factors
-  # browser()
   participation_pct <- .enviro_factors$CBTP_PARTICIPATION_PCT
   trip_reduction_pct <- .enviro_factors$CBTP_TRIP_REDUCTION_PCT
   max_reduction_pct <- .enviro_factors$MAX_TRIP_REDUCTION_PCT
 
-  households_community <- ghg.gert::demographic_data %>%
+  uncapped_reduction <- 1 + (.cbtp_prop_targeted * participation_pct * trip_reduction_pct)
+  capped_reduction <- max(uncapped_reduction, 1 + max_reduction_pct)
+
+  # ramp schedule for CBTP effect over time
+  ramp_pct <- build_ramp_schedule(
+    start_year = as.numeric(.cbtp_start_year),
+    end_year   = as.numeric(.cbtp_full_effect_year),
+    target_pct = capped_reduction - 1,
+    col_name   = "cbtp_ramp_pct"
+  ) %>%
+    dplyr::transmute(year = as.character(emissions_year), cbtp_ramp_pct)
+
+  households_community <- ghg.ccap::demographic_data %>%
     filter_ctu(unique(.pass_tb$geog_name)) %>%
     dplyr::filter(
       sp_categories == "total_households",
-      inventory_year %in% .pass_tb$year
+      emissions_year %in% .pass_tb$year
     ) %>%
-    dplyr::select(geog_name, geog_id, year = inventory_year, households = value) %>%
+    dplyr::select(geog_name, geog_id, year = emissions_year, households = value) %>%
     mutate(
       households_cbtp = (households * .cbtp_prop_targeted) * participation_pct,
-      uncapped_reduction = 1 + (.cbtp_prop_targeted * participation_pct * trip_reduction_pct),
-      capped_reduction = dplyr::case_when(
-        uncapped_reduction < (1 + max_reduction_pct) ~ 1 + max_reduction_pct,
-        TRUE ~ uncapped_reduction
-      ),
-      cbtp_adj = dplyr::case_when(
-        as.numeric(year) < as.numeric(.cbtp_start_year) ~ 1,
-        TRUE ~ capped_reduction
-      ),
       year = as.character(year)
     ) %>%
+    dplyr::left_join(ramp_pct, by = "year") %>%
+    mutate(cbtp_adj = 1 + cbtp_ramp_pct) %>%
     select(geog_id, geog_name, year, households_cbtp, cbtp_adj)
 
   return(households_community)
+}
+
+#' @title Commute trip reduction (CTR) program VMT adjustment
+#'
+#' @description
+#' This function calculates the expected reduction in vehicle miles traveled (VMT) based on a commute trip reduction program.
+#' These programs fall under the umbrella of travel demand management (TDM) strategies.
+#' The reduction is calculated using the proportion of employees in a given geographic unit targeted for the program,
+#' whether the program is voluntary or mandatory, and the year the program begins.
+#' The reduction is capped at a maximum percentage defined in `enviro_factors`.
+#'
+#' Limitations
+#'   - This function does not account for associated increases in transit or active transportation VMT that may result
+#'      from the commute trip reduction program.
+#'   - This function assumes that the program will start in the given year and continue to exist through the final forecast year.
+#'   - The function assumes that the relative number of employees targeted for the program will be consistent over time,
+#'      even though the composition of the regional workforce will change.
+#'
+#'
+#' @param .ctr_employees_targeted numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_employees_targeted`.
+#' @param .ctr_voluntary logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_voluntary`.
+#' @param .ctr_start_year character or numeric, the year the trip reduction program begins. For years prior to this,
+#'     no reduction is applied. The reduction ramps up from this year.
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_start_year`.
+#' @param .ctr_full_effect_year character or numeric, year the trip reduction program reaches its full effect.
+#'     The reduction remains at full effect thereafter.
+#'     Default is `r ghg.ccap::transportation_defaults$ctr_full_effect_year`.
+#' @param .commute_vmt_proportion table, proportion of passenger light-duty vehicle VMT that is commute-related.
+#'     Default is `ghg.ccap::commute_vmt_proportion`.
+#' @export
+#'
+#' @family transportation
+#' @family VMT effects
+#' @family TDM
+#'
+#'
+#' @inheritParams run_module_transportation
+#' @inheritParams calc_vmt_forecast
+#' @inheritParams filter_ctu
+#'
+#' @references
+#' CAPCOA Handbook. Community Based Travel Planning strategies for reducing VMT.
+#'
+vmt_commute_trip_reduction <- function(.pass_tb,
+                                       .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+                                       .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+                                       .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+                                       .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+                                       .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+                                       .enviro_factors = ghg.ccap::enviro_factors) {
+  if (.ctr_employees_targeted == 0) {
+    return(.pass_tb %>%
+      select(geog_id, geog_name, year) %>%
+      distinct() %>%
+      mutate(
+        commute_trip_reduction_adj = 1
+      ))
+  }
+
+  max_reduction_pct <- .enviro_factors$MAX_COMMUTE_TRIP_REDUCTION_PCT
+  vmt_proportion <- .commute_vmt_proportion %>%
+    filter_ctu(unique(.pass_tb$geog_name)) %>%
+    dplyr::select(geog_id, geog_name, vmt_proportion = value) %>%
+    pull("vmt_proportion")
+
+  trip_reduction_percent <- if (.ctr_voluntary) {
+    .enviro_factors$COMMUTE_TRIP_REDUCTION_VOLUNTARY_PCT
+  } else {
+    .enviro_factors$COMMUTE_TRIP_REDUCTION_MANDATORY_PCT
+  }
+
+  uncapped_reduction <- 1 + (.ctr_employees_targeted * trip_reduction_percent)
+  capped_reduction <- max(uncapped_reduction, 1 + max_reduction_pct)
+
+  # ramp up to the maximum reduction between the start and full effect years
+  ramp_pct <- build_ramp_schedule(
+    start_year = as.numeric(.ctr_start_year),
+    end_year   = as.numeric(.ctr_full_effect_year),
+    target_pct = capped_reduction - 1,
+    col_name   = "ctr_ramp_pct"
+  ) %>%
+    dplyr::transmute(year = as.character(emissions_year), ctr_ramp_pct)
+
+  commute_trip_reduction <- .pass_tb %>%
+    select(geog_id, geog_name, year) %>%
+    distinct() %>%
+    dplyr::left_join(ramp_pct, by = "year") %>%
+    mutate(
+      # Scale commute-only reduction to total VMT: only the commute share is affected
+      commute_trip_reduction_adj = 1 + ctr_ramp_pct * vmt_proportion
+    ) %>%
+    select(-ctr_ramp_pct)
+
+  return(commute_trip_reduction)
 }

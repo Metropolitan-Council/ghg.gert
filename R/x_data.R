@@ -290,6 +290,30 @@
 # transportation_defaults -----
 "transportation_defaults"
 
+#' @title Commute share of passenger light-duty VMT
+#'
+#' @description Estimated proportion of passenger light-duty vehicle miles
+#' traveled that is attributable to commute trips, by geography. Estimates are
+#' derived from the Travel Behavior Inventory and the geography community designation (for cities),
+#' or geography level (for counties and region).
+#'
+#' In cases where there were no commute data for a given community designation,
+#' CTUs were assigned the region-level estimate.
+#'
+#' @format A tibble with 6 columns and 194 observations.
+#' - **mode**: Transportation mode, `"PLDV"`.
+#' - **var**: Variable name, `"COMMUTE_VMT_PROP"`.
+#' - **geog_name**: Geographic name.
+#' - **geog_id** ID value
+#' - **value**: Proportion of passenger light-duty VMT attributable to commute trips.
+#' - **type**: Data type, `"P"`.
+#' @family datasets
+#' @examples
+#' library(ghg.ccap)
+#' commute_vmt_proportion
+# commute_vmt_proportion -----
+"commute_vmt_proportion"
+
 #' @title EPA Smart Location Database (2021) edition intersection density data aggregated to CTU level.
 #' @description Compiled from the EPA Smart Location Database (SLD) 2021 edition, this dataset provides intersection density metrics aggregated from
 #'   2019 block groups (GEOID20) to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.

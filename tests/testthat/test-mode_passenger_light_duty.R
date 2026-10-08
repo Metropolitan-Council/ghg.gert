@@ -1,11 +1,7 @@
 test_passenger <- function(x) {
   testthat::test_that(paste0(x, " emissions reduce with interventions"), {
-    pass <- suppressMessages(
-      mode_passenger_light_duty(
-        .pass_tb = transportation_data$passenger,
-        .selected_ctu = x
-      )
-    )
+    # shared BAU from setup.R avoids recomputing the default scenario
+    pass <- transportation_bau_by_geog[[x]]$passenger$PLDV
 
     testthat::expect_length(pass, 2)
 
@@ -82,6 +78,15 @@ test_passenger <- function(x) {
       .vmt_reduction_pct = 0.10
     ))
 
+    pass_ctr <- suppressMessages(mode_passenger_light_duty(
+      .pass_tb = transportation_data$passenger,
+      .selected_ctu = x,
+      .scenario = "ctr",
+      .ctr_employees_targeted = 0.5,
+      .ctr_voluntary = FALSE,
+      .ctr_start_year = "2025"
+    ))
+
     # check that emissions decrease
     purrr::map(
       list(
@@ -90,7 +95,8 @@ test_passenger <- function(x) {
         pass_lu_int,
         pass_road,
         pass_tele,
-        pass_vmt_reduction
+        pass_vmt_reduction,
+        pass_ctr
       ),
       function(x) {
         test_ghg <- x$dir_ghg %>%
@@ -110,7 +116,8 @@ test_passenger <- function(x) {
         pass_lu_int,
         pass_road,
         pass_tele,
-        pass_vmt_reduction
+        pass_vmt_reduction,
+        pass_ctr
       ),
       function(x) {
         test_ghg <- x$vmt %>%

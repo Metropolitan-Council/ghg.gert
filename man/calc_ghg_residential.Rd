@@ -7,30 +7,35 @@
 calc_ghg_residential(
   res_energy,
   .selected_ctu,
+<<<<<<< HEAD
   .grid_emissions = ghg.gert::grid_emissions,
   .enviro_factors = ghg.gert::enviro_factors
+=======
+  .grid_emissions = ghg.ccap::grid_emissions,
+  .combustion_ef = ghg.ccap::combustion_ef
+>>>>>>> main
 )
 }
 \arguments{
 \item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
-Table, table with residential energy,
-including columns \code{residential_mwh}, \code{residential_mcf}.}
+Table with residential energy, including columns
+\code{residential_mwh}, \code{residential_mcf},
+\code{residential_propane_mmbtu}, and \code{residential_kerosene_mmbtu}.}
 
+<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
+=======
+\item{.selected_ctu}{character, selected city or county.}
+>>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
-A table with columns
-\code{geog_name},
-\code{year},
-\code{population},
-\code{residential_mwh},
-\code{residential_electricity_emissions_kg_co},
-\code{residential_therms}, and
-\code{residential_natural_gas_emissions_kg_co}
+A table with the input energy columns plus
+\code{electricity_emissions}, \code{natural_gas_emissions},
+and \code{liquid_fuel_emissions} (propane + kerosene combined, mt CO2e).
 }
 \description{
 Estimates total energy demand
@@ -46,6 +51,10 @@ residential strategies refer to \code{\link[=scen_building_residential]{scen_bui
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

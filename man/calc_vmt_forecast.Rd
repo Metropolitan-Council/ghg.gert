@@ -7,7 +7,7 @@
 calc_vmt_forecast(
   .scenario,
   tb,
-  .selected_ctu = "all",
+  .selected_ctu,
   .mode,
   .stock,
   .variable,
@@ -37,6 +37,7 @@ calc_vmt_forecast(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
+<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
@@ -45,6 +46,22 @@ calc_vmt_forecast(
   .factor_values = ghg.gert::factor_values,
   .elast = ghg.gert::elast,
   .elast_5d = ghg.gert::elast_5d
+=======
+    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
+  .enviro_factors = ghg.ccap::enviro_factors,
+  .factor_values = ghg.ccap::factor_values,
+  .elast = ghg.ccap::elast,
+  .elast_5d = ghg.ccap::elast_5d
+>>>>>>> main
 )
 }
 \arguments{
@@ -54,7 +71,7 @@ calc_vmt_forecast(
 and one for each year. Package provided datasets \code{transportation_data$passenger} or
 \code{transportation_data$freight} are suitable.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.mode}{character, current mode}
 
@@ -97,6 +114,10 @@ Default is 0.}
 \item{.parking_price}{numeric, measured in dollars per hour.
 Default is 0.}
 
+\item{.vmt_reduction_pct}{total percent reduction in PLDV VMT by final forecast year.
+Numeric between 0 and 1.
+Default is 0.}
+
 \item{.freight_parking_price}{numeric, measured in dollars per hour.
 Default is 0.}
 
@@ -135,6 +156,34 @@ Numeric between 0 and 1.
 Default is 0
 Default is \code{0}}
 
+\item{.cbtp_prop_targeted}{numeric, proportion of households targeted with CBTP (0 to 1).
+Default is 0}
+
+\item{.cbtp_start_year}{character or numeric, the year the CBTP strategy begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028}
+
+\item{.cbtp_full_effect_year}{character or numeric, year the CBTP strategy reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.ctr_employees_targeted}{numeric, proportion of employees targeted for commute trip reduction (0 to 1).
+Default is 0.}
+
+\item{.ctr_voluntary}{logical, whether the trip reduction program is voluntary or mandatory with monitoring.
+Default is TRUE.}
+
+\item{.ctr_start_year}{character or numeric, the year the trip reduction program begins. For years prior to this,
+no reduction is applied. The reduction ramps up from this year.
+Default is 2028.}
+
+\item{.ctr_full_effect_year}{character or numeric, year the trip reduction program reaches its full effect.
+The reduction remains at full effect thereafter.
+Default is 2035.}
+
+\item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
+Default is \code{ghg.ccap::commute_vmt_proportion}.}
+
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
 
@@ -153,8 +202,8 @@ Calculate vehicle miles traveled by mode and power train
 }
 \details{
 This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
-\subsection{Eqn: (PMT in 1000 mi) x Pr(stock by fuel) / AVO}{
-}
+
+\deqn{VMT = \frac{PMT_{(1000\ mi)} \times Pr(stock \mid fuel)}{AVO}}
 }
 \seealso{
 Other transportation:
@@ -176,6 +225,10 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
+<<<<<<< HEAD
+=======
+\code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
+>>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

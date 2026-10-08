@@ -13,7 +13,7 @@
 #' @importFrom dplyr filter select mutate
 #'
 calc_cost <- function(tb_vmt,
-                      .selected_ctu = "all",
+                      .selected_ctu,
                       .mode,
                       .price,
                       .enviro_factors = enviro_factors,

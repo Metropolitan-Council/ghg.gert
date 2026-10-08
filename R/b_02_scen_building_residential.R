@@ -28,6 +28,8 @@
 #' @inheritParams run_all_modules
 #' @inheritParams calc_housing_leed
 #' @inheritParams calc_residential_retrofit
+#' @inheritParams calc_residential_electrification
+#'
 #'
 #'
 #' @return [tibble::tibble()], Data table with columns
@@ -43,35 +45,12 @@
 #'
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' library(ghg.gert)
-#'
-#' scen_building_residential(
-#'   res_tb = building_data$residential,
-#'   res_tb_bau = building_data$residential,
-#'   .selected_ctu = "all",
-#'   .single_family_floor_area_growth_pct = 0.05,
-#'   .new_homes_affected_pct = 0.50,
-#'   .new_homes_leed_gold_pct = 0.50,
-#'   .existing_home_retrofit_pct = 0.80,
-#'   .existing_home_ultra_retrofit_pct = 0.20,
-#'   .home_behavior_change_pct = 1.00,
-#'   .additional_electrified_residential_buildings_pct = 0.45,
-#'   .enviro_factors = enviro_factors
-#' )
-#' }
 scen_building_residential <- function(res_tb = res_tb,
                                       res_tb_bau = res_tb_bau,
                                       .scenario = "",
                                       .selected_ctu,
                                       .baseline_year,
                                       .density_output,
-                                      # .single_family_floor_area_growth_pct,
-                                      # .new_homes_affected_pct,
-                                      # .new_homes_leed_gold_pct,
-                                      # .existing_home_retrofit_pct,
-                                      # .existing_home_ultra_retrofit_pct,
                                       .leed_start_year,
                                       .new_sf_homes_leed_gold_pct,
                                       .new_mf_homes_leed_gold_pct,
@@ -79,19 +58,11 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .retrofit_end_year,
                                       .existing_sf_retrofit_pct,
                                       .existing_mf_retrofit_pct,
-                                      # .home_behavior_change_pct,
-                                      # .additional_electrified_residential_buildings_pct,
                                       .heatpump_start_year,
                                       .heatpump_end_year,
                                       .sf_heatpump_pct,
-                                      .mf_heatpump_pct,
-                                      # .renewable_ng_res,
-                                      .grid_emissions = ghg.gert::grid_emissions,
-                                      .enviro_factors = ghg.gert::enviro_factors) {
-  # cli::cli_progress_message("** compiling residential strategies \n")
+                                      .mf_heatpump_pct) {
 
-
-  # browser()
   # B.R1 (SF to MF)
   tb01 <- ghg.gert::adj_unit_counts(
     res_tb = res_tb,
@@ -105,8 +76,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
     .new_sf_homes_leed_gold_pct = .new_sf_homes_leed_gold_pct,
-    .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct,
-    .enviro_factors = .enviro_factors
+    .new_mf_homes_leed_gold_pct = .new_mf_homes_leed_gold_pct
   )
 
   # B.R4 + BR5 (Retrofit Homes)
@@ -116,8 +86,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .retrofit_start_year = .retrofit_start_year,
     .retrofit_end_year = .retrofit_end_year,
     .existing_sf_retrofit_pct = .existing_sf_retrofit_pct,
-    .existing_mf_retrofit_pct = .existing_mf_retrofit_pct,
-    .enviro_factors = .enviro_factors
+    .existing_mf_retrofit_pct = .existing_mf_retrofit_pct
   )
 
   tb04 <- bind_rows(
@@ -141,8 +110,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
     .new_sf_homes_leed_gold_pct = 0,
-    .new_mf_homes_leed_gold_pct = 0,
-    .enviro_factors = .enviro_factors
+    .new_mf_homes_leed_gold_pct = 0
   )
 
   tb07 <- calc_residential_retrofit(
@@ -151,8 +119,7 @@ scen_building_residential <- function(res_tb = res_tb,
     .retrofit_start_year = .retrofit_start_year,
     .retrofit_end_year = .retrofit_end_year,
     .existing_sf_retrofit_pct = 0,
-    .existing_mf_retrofit_pct = 0,
-    .enviro_factors = .enviro_factors
+    .existing_mf_retrofit_pct = 0
   )
 
   tb08 <- bind_rows(
@@ -179,9 +146,7 @@ scen_building_residential <- function(res_tb = res_tb,
 
   tb_out <- calc_ghg_residential(
     res_energy = tb10,
-    .selected_ctu = .selected_ctu,
-    .grid_emissions = .grid_emissions,
-    .enviro_factors = .enviro_factors
+    .selected_ctu = .selected_ctu
   )
 
 

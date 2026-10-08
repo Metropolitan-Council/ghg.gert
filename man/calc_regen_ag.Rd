@@ -21,7 +21,7 @@ calc_regen_ag(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 

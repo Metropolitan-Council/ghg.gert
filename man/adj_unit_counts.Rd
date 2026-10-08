@@ -7,7 +7,15 @@
 adj_unit_counts(res_tb, density_output, .selected_ctu)
 }
 \arguments{
+<<<<<<< HEAD
 \item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+=======
+\item{.selected_ctu}{character, selected city or county.}
+
+\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
+Percentage of new single-family homes to instead be built as multifamily homes.
+Default is \code{0.0}.}
+>>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -41,6 +49,10 @@ Other residential:
 
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
+<<<<<<< HEAD
+=======
+\code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
+>>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

@@ -42,6 +42,12 @@ if (exists("trip") & exists("hh")) {
     read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Household.csv")
   )
 
+  trip_purpose <- bind_rows(
+    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019TripPurpose.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021TripPurpose.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023TripPurpose.csv")
+  )
+
   cprg_tbi_hh_counties <- c(
     "Anoka MN",
     "Carver MN",

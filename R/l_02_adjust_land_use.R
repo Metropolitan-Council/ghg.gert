@@ -22,7 +22,7 @@
 #'
 land_use_update <- function(tb_bau = tb_bau,
                             tb_strategy = tb_strategy,
-                            .selected_ctu = "all",
+                            .selected_ctu,
                             .scenario = "alt") {
   # browser()
   tb_bau <- filter_ctu(tb_bau, .selected_ctu = .selected_ctu) %>%

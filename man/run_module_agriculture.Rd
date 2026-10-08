@@ -13,7 +13,12 @@ run_module_agriculture(
   run_fertilizer = TRUE,
   run_crops = TRUE,
   .baseline_year = 2022,
+<<<<<<< HEAD
   .selected_ctu = "all",
+=======
+  .ag_land_perserved = 1,
+  .selected_ctu,
+>>>>>>> main
   .scenario = "alt",
   .smart_fertilizer_start_year = 2028,
   .smart_fertilizer_current = 0,
@@ -28,7 +33,7 @@ run_module_agriculture(
 )
 }
 \arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 }

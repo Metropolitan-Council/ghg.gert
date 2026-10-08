@@ -21,11 +21,6 @@ testthat::test_that("Geog index joins smoothly", {
   )
 
   purrr::map(
-    building_data,
-    check_join
-  )
-
-  purrr::map(
     building_energy_data,
     check_join
   )
@@ -36,7 +31,7 @@ testthat::test_that("Geog index joins smoothly", {
   )
 })
 
-testthat::test_that("Credit River and Empire are correct", {
+testthat::test_that("Credit River, Empire, Fort Snelling are correct", {
   check_townships <- function(x) {
     if ("geog_name" %in% names(x)) {
       test_val <- x %>%
@@ -62,10 +57,6 @@ testthat::test_that("Credit River and Empire are correct", {
     check_townships
   )
 
-  purrr::map(
-    building_data,
-    check_townships
-  )
 
   purrr::map(
     building_energy_data,

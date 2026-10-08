@@ -21,9 +21,13 @@ scen_building_residential(
   .heatpump_start_year,
   .heatpump_end_year,
   .sf_heatpump_pct,
+<<<<<<< HEAD
   .mf_heatpump_pct,
   .grid_emissions = ghg.gert::grid_emissions,
   .enviro_factors = ghg.gert::enviro_factors
+=======
+  .mf_heatpump_pct
+>>>>>>> main
 )
 }
 \arguments{
@@ -40,7 +44,7 @@ scenario, in contrast \code{res_tb} is used as the input for the decarbonization
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
@@ -49,6 +53,7 @@ Default is \code{0.0}}
 \item{.new_mf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
+<<<<<<< HEAD
 
 \item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
 
@@ -59,6 +64,8 @@ Default is \code{ghg.gert::grid_emissions}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
+=======
+>>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns
@@ -82,6 +89,7 @@ electrification of heating systems, grid decarbonization, and renewable natural 
 To run the Building Energy Module, refer to function \code{run_scenario_building()}
 For more details, see \code{vignette("building_energy_module_inputs_residential")}
 }
+<<<<<<< HEAD
 \examples{
 \dontrun{
 library(ghg.gert)
@@ -101,6 +109,8 @@ scen_building_residential(
 )
 }
 }
+=======
+>>>>>>> main
 \seealso{
 Other buildings, residential:
 \code{\link[=calc_residential_electrification]{calc_residential_electrification()}}

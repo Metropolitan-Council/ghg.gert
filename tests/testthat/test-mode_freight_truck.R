@@ -1,13 +1,7 @@
 test_freight_truck <- function(x) {
   testthat::test_that(paste0(x, " freight truck emissions decrease with interventions"), {
-    fr <- suppressMessages(
-      suppressWarnings(
-        mode_freight_truck(
-          .freight_tb = transportation_data$freight,
-          .selected_ctu = x
-        )
-      )
-    )
+    # shared BAU from setup.R avoids recomputing the default scenario
+    fr <- transportation_bau_by_geog[[x]]$freight$SUT_CUT
 
     testthat::expect_length(fr, 2)
 

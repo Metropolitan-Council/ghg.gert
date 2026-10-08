@@ -67,9 +67,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
                                           .retrofit_start_year,
                                           .retrofit_end_year,
                                           .new_jobs_leed_gold_pct,
-                                          .leed_start_year,
-                                          .grid_emissions = ghg.gert::grid_emissions,
-                                          .enviro_factors = ghg.gert::enviro_factors) {
+                                          .leed_start_year) {
   # cli::cli_progress_message("** compiling nonresidential strategies \n")
 
 
@@ -78,8 +76,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
-    .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
-    .enviro_factors = .enviro_factors
+    .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct
   )
 
 
@@ -89,8 +86,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .existing_jobs_retrofit_pct = .existing_jobs_retrofit_pct,
     .retrofit_start_year = .retrofit_start_year,
-    .retrofit_end_year = .retrofit_end_year,
-    .enviro_factors = .enviro_factors
+    .retrofit_end_year = .retrofit_end_year
   )
 
   # tb04 is the scenario results with selected LEED construction and retrofit pcts applied
@@ -104,8 +100,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .leed_start_year = .leed_start_year,
-    .new_jobs_leed_gold_pct = 0.0,
-    .enviro_factors = .enviro_factors
+    .new_jobs_leed_gold_pct = 0.0
   )
 
   tb06 <- calc_business_retrofit(
@@ -113,8 +108,7 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .selected_ctu = .selected_ctu,
     .existing_jobs_retrofit_pct = 0.0,
     .retrofit_start_year = .retrofit_start_year,
-    .retrofit_end_year = .retrofit_end_year,
-    .enviro_factors = .enviro_factors
+    .retrofit_end_year = .retrofit_end_year
   )
 
   # tb07 is the BAU results with BAU LEED construction and retrofit pcts applied
@@ -131,15 +125,12 @@ scen_building_non_residential <- function(non_res_tb = non_res_tb,
     .baseline_year = .baseline_year,
     .scenario = .scenario,
     .selected_ctu = .selected_ctu,
-    .jobs_heatpump_pct = .jobs_heatpump_pct,
-    .enviro_factors = ghg.gert::enviro_factors
+    .jobs_heatpump_pct = .jobs_heatpump_pct
   )
 
   tb_out <- calc_ghg_non_residential(
     non_res_energy = tb09,
-    .selected_ctu = .selected_ctu,
-    .grid_emissions = .grid_emissions,
-    .enviro_factors = .enviro_factors
+    .selected_ctu = .selected_ctu
   )
 
 

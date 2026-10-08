@@ -518,7 +518,8 @@ testthat::test_that("Counties have truck fleets with all fuel types", {
     filter(
       stringr::str_detect(var, "Stock"),
       mode %in% c("CUT", "SUT"),
-      geog_name %in% c("Hennepin County", "Ramsey County", "Dakota County", "Washington County", "Scott County", "Anoka County", "Carver County")
+      geog_name %in% c("Hennepin County", "Ramsey County", "Dakota County",
+                       "Washington County", "Scott County", "Anoka County", "Carver County")
     ) %>%
     filter(value == 0) %>%
     select(year) %>%
@@ -528,3 +529,40 @@ testthat::test_that("Counties have truck fleets with all fuel types", {
       ignore_attr = TRUE
     )
 })
+
+
+
+test_that("commute_vmt_proportion covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  cvp_geogs <- commute_vmt_proportion %>%
+    filter(!is.na(value)) %>%
+    pull("geog_id") %>%
+    unique()
+  missing <- setdiff(trans_geogs, cvp_geogs)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      length(missing), " geographies in transportation_data missing from commute_vmt_proportion"
+      # paste(sort(missing), collapse = ", ")
+    )
+  )
+})
+
+test_that("epa_sld_intersection_density covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  epa_geogs <- epa_sld_intersection_density %>%
+    filter(!is.na(intersection_density)) %>%
+    pull("geog_id") %>%
+    unique()
+  missing <- setdiff(trans_geogs, epa_geogs)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      length(missing), " geographies in transportation_data missing from epa_sld_intersection_density"
+      # paste(sort(missing), collapse = ", ")
+    )
+  )
+})
+

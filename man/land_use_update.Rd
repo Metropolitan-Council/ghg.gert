@@ -7,7 +7,7 @@
 land_use_update(
   tb_bau = tb_bau,
   tb_strategy = tb_strategy,
-  .selected_ctu = "all",
+  .selected_ctu,
   .scenario = "alt"
 )
 }
