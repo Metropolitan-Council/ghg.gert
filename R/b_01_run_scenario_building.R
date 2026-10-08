@@ -27,7 +27,7 @@
 #' @importFrom cli cli_progress_message
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' library(ghg.gert)
 #' run_scenario_building(
@@ -81,11 +81,6 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
                                   # non-residential
                                   .new_jobs_leed_gold_pct = 0.0,
                                   .existing_jobs_retrofit_pct = 0.0,
-                                  .jobs_heatpump_pct = 0.0) {
-  res_tb     <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
-  non_res_tb     <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
                                   .jobs_heatpump_pct = 0.0,
                                   # emissions factors and elasticities
                                   .grid_emissions = ghg.gert::grid_emissions,
@@ -183,9 +178,8 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
         .retrofit_start_year = .retrofit_start_year,
         .retrofit_end_year = .retrofit_end_year,
         .new_jobs_leed_gold_pct = .new_jobs_leed_gold_pct,
-        .leed_start_year = .leed_start_year
         .leed_start_year = .leed_start_year,
-        .grid_emissions = ghg.gert::grid_emissions,
+        .grid_emissions = ghg.gert::grid_emissions
       ) %>%
       dplyr::mutate(
         sector = "Non-residential",

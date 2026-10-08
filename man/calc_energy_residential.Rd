@@ -30,28 +30,6 @@ BAU residential units (zero-strategy pass).}
 \code{residential_propane_mmbtu}, \code{residential_kerosene_mmbtu}.
 }
 \description{
-<<<<<<< HEAD
-Estimates total energy demand
-from the residential building sector by city/township
-for the user-specified scenario, and the business-as-usual scenario.
-}
-\note{
-\code{calc_energy_residential()} estimates the building energy demand
-based on the housing efficiency assumptions. For a function that compiles all
-residential strategies refer to \code{\link[=scen_building_residential]{scen_building_residential()}}.
-}
-\examples{
-\dontrun{
-library(ghg.gert)
-
-calc_ghg_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .enviro_factors = enviro_factors
-)
-}
-=======
 Estimates total energy demand (electricity, natural gas,
 propane, and kerosene) from the residential building sector by
 city/township for the user-specified scenario and BAU.
@@ -61,16 +39,12 @@ apply per-unit energy profiles from \code{\link[=calc_building_energy]{calc_buil
 to the most recent 5 observed years. Propane and kerosene track the
 natural gas forecast proportionally using per-CTU ratios derived from
 the baseline period.
->>>>>>> main
 }
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

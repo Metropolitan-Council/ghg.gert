@@ -12,8 +12,8 @@ mode_passenger_light_duty(
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
   .vehicle_occupancy = vehicle_occupancy,
-<<<<<<< HEAD
   .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
   .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
   .pldv_avo_pct = ghg.gert::transportation_defaults$pldv_avo_pct,
@@ -28,24 +28,6 @@ mode_passenger_light_duty(
   .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
   .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
   .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
-=======
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
-  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-  .parking_price = ghg.ccap::transportation_defaults$parking_price,
-  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
-  .cong_price = ghg.ccap::transportation_defaults$cong_price,
-  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
-  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
-  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
->>>>>>> main
   .land_use_diversity_pct_change =
     ghg.gert::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
@@ -55,7 +37,6 @@ mode_passenger_light_duty(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .enviro_factors = ghg.gert::enviro_factors,
@@ -63,20 +44,11 @@ mode_passenger_light_duty(
   .elast_5d = ghg.gert::elast_5d,
   .factor_values = ghg.gert::factor_values,
   .fuel_economy = ghg.gert::fuel_economy,
-=======
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .elast = ghg.ccap::elast,
-  .elast_5d = ghg.ccap::elast_5d,
-  .factor_values = ghg.ccap::factor_values,
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
-  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
-  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
-  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
->>>>>>> main
+  .ctr_employees_targeted = ghg.gert::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.gert::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.gert::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.gert::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.gert::commute_vmt_proportion,
   .calc_transp_cost = FALSE,
   .calc_transp_fuel_use = FALSE,
   .calc_transp_ghg_embodied = FALSE
@@ -204,7 +176,7 @@ The reduction remains at full effect thereafter.
 Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
-Default is \code{ghg.ccap::commute_vmt_proportion}.}
+Default is \code{ghg.gert::commute_vmt_proportion}.}
 
 \item{.calc_transp_cost}{logical, whether to calculate transportation cost tables.
 Default is \code{FALSE}. Changing this value to \code{TRUE} increased runtime.}
@@ -244,10 +216,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
-<<<<<<< HEAD
-=======
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{passenger}

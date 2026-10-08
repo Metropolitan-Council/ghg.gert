@@ -12,12 +12,7 @@ calc_energy_non_residential(
   .baseline_year,
   .scenario = "alt",
   .selected_ctu,
-<<<<<<< HEAD
-  .jobs_heatpump_pct,
-  .enviro_factors = ghg.gert::enviro_factors
-=======
   .jobs_heatpump_pct
->>>>>>> main
 )
 }
 \arguments{
@@ -31,14 +26,7 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-<<<<<<< HEAD
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.gert::enviro_factors}.}
-=======
 \item{.selected_ctu}{character, selected city or county.}
->>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -60,29 +48,11 @@ for the user-specified scenario, and the business-as-usual scenario.
 based on the housing efficiency assumptions. For a function that compiles all
 nonresidential strategies refer to \code{\link[=scen_building_non_residential]{scen_building_non_residential()}}.
 }
-<<<<<<< HEAD
-\examples{
-\dontrun{
-library(ghg.gert)
-
-calc_ghg_non_residential(
-  res_tb = building_data$residential,
-  res_tb_bau = building_data$residential,
-  .selected_ctu = "all",
-  .enviro_factors = enviro_factors
-)
-}
-}
-=======
->>>>>>> main
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

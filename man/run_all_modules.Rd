@@ -69,9 +69,16 @@ run_all_modules(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
+  .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
+  .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
+  .ctr_employees_targeted = ghg.gert::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.gert::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.gert::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.gert::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.gert::commute_vmt_proportion,
   .bev_pct_sales = ghg.gert::transportation_defaults$bev_pct_sales,
   .hev_pct_sales = ghg.gert::transportation_defaults$hev_pct_sales,
   .bev_pct_stock = ghg.gert::transportation_defaults$bev_pct_stock,
@@ -83,29 +90,6 @@ run_all_modules(
   .grid_emissions = ghg.gert::grid_emissions,
   .elast_5d = ghg.gert::elast_5d,
   .vehicle_occupancy = ghg.gert::vehicle_occupancy
-=======
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
-  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
-  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
-  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
-  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
-  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
-  .bev_pct_stock = ghg.ccap::transportation_defaults$bev_pct_stock,
-  .hev_pct_stock = ghg.ccap::transportation_defaults$hev_pct_stock,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values,
-  .elast = ghg.ccap::elast,
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .elast_5d = ghg.ccap::elast_5d,
-  .vehicle_occupancy = ghg.ccap::vehicle_occupancy
->>>>>>> main
 )
 }
 \arguments{
@@ -214,15 +198,9 @@ Default is \code{0.0}}
 The percentage of new multi-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
 
-<<<<<<< HEAD
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-=======
 \item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
->>>>>>> main
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
@@ -320,7 +298,7 @@ The reduction remains at full effect thereafter.
 Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
-Default is \code{ghg.ccap::commute_vmt_proportion}.}
+Default is \code{ghg.gert::commute_vmt_proportion}.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
@@ -351,14 +329,10 @@ Default is 0.}
 
 \item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
-<<<<<<< HEAD
 \item{.grid_emissions}{table,
 Default is \code{ghg.gert::grid_emissions}}
 
 \item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
-=======
-\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
->>>>>>> main
 
 \item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
 Default is \code{ghg.gert::vehicle_occupancy}.}

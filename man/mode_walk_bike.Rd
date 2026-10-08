@@ -34,23 +34,16 @@ mode_walk_bike(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
-=======
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
-  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
-  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
-  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
->>>>>>> main
+  .ctr_employees_targeted = ghg.gert::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.gert::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.gert::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.gert::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.gert::commute_vmt_proportion,
   .enviro_factors = enviro_factors,
   .elast = elast,
   .fuel_economy = fuel_economy,
@@ -172,7 +165,7 @@ The reduction remains at full effect thereafter.
 Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
-Default is \code{ghg.ccap::commute_vmt_proportion}.}
+Default is \code{ghg.gert::commute_vmt_proportion}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
@@ -223,10 +216,7 @@ Other transportation:
 \code{\link[=mode_transit_rail]{mode_transit_rail()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
-<<<<<<< HEAD
-=======
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{passenger}

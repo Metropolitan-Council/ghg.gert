@@ -6,16 +6,10 @@
 \usage{
 vmt_trip_reduction(
   .pass_tb,
-<<<<<<< HEAD
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
   .enviro_factors = ghg.gert::enviro_factors
-=======
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .enviro_factors = ghg.ccap::enviro_factors
->>>>>>> main
 )
 }
 \arguments{
@@ -104,17 +98,11 @@ Other transportation:
 \code{\link[=mode_transit_rail]{mode_transit_rail()}},
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
-<<<<<<< HEAD
-\code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}}
-
-Other VMT effects:
-=======
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}}
 
 Other VMT effects:
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
 \code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
 \code{\link[=vmt_road_policy]{vmt_road_policy()}},
@@ -123,12 +111,9 @@ Other VMT effects:
 \code{\link[=vmt_total_reduction]{vmt_total_reduction()}},
 \code{\link[=vmt_transit_service]{vmt_transit_service()}},
 \code{\link[=vmt_vehicle_occupancy]{vmt_vehicle_occupancy()}}
-<<<<<<< HEAD
-=======
 
 Other TDM:
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}}
->>>>>>> main
 }
 \concept{TDM}
 \concept{VMT effects}

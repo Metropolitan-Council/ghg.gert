@@ -15,7 +15,7 @@ ctu_test_list <- geography_test_list[
 
 for (ctu in ctu_test_list) {
   test_that(paste("SFA sqft capped at SFD median for", ctu), {
-    parcel_data <- ghg.ccap::parcel_ctu
+    parcel_data <- ghg.gert::parcel_ctu
 
     # browser()
     # Compute the SFD median for this CTU

@@ -309,7 +309,7 @@
 #' - **type**: Data type, `"P"`.
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' commute_vmt_proportion
 # commute_vmt_proportion -----
 "commute_vmt_proportion"

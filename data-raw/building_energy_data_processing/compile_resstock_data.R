@@ -2,7 +2,7 @@
 ###
 ### Import and summarize ResStock scenario data for building energy profiles.
 ### Filtered to the seven-county Twin Cities metro area to match the
-### CEEStock ground-truth data and the ghg.ccap pipeline geography.
+### CEEStock ground-truth data and the ghg.gert pipeline geography.
 ###
 ### Includes end-use decomposition (heating vs appliances) for constructing
 ### full-electrification profiles downstream.

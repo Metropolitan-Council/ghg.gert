@@ -10,39 +10,11 @@ calc_residential_retrofit(
   .existing_sf_retrofit_pct,
   .existing_mf_retrofit_pct,
   .retrofit_start_year,
-<<<<<<< HEAD
-  .retrofit_end_year,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-
-calc_residential_retrofit(
-  res_tb,
-  .selected_ctu,
-  .existing_sf_retrofit_pct,
-  .existing_mf_retrofit_pct,
-  .retrofit_start_year,
-  .retrofit_end_year,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-}
-\arguments{
-\item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}, data table with residential building attributes.
-Package provided dataset \code{building_energy$residential} is suitable and the
-default value.
-\code{res_tb_bau} is only used for the "business as usual" scenario, in contrast
-\code{res_tb} is used as the input for the decarbonization scenario.}
-
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.gert::enviro_factors}.}
-=======
   .retrofit_end_year
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
->>>>>>> main
 
 \item{.existing_home_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing homes retrofitted to reduce energy usage by \emph{33\%}.
@@ -66,46 +38,12 @@ and CTU housing projections. This function must inherit an object from calc_hous
 }
 \details{
 Uses the average single family floor area in 2018
-<<<<<<< HEAD
-
-Uses the average single family floor area in 2018
-}
-\examples{
-\dontrun{
-library(ghg.gert)
-
-calc_residential_retrofit(
-  res_tb = building_data$residential,
-  .selected_ctu = "all",
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-}
-
-\dontrun{
-library(ghg.gert)
-
-calc_residential_retrofit(
-  res_tb = building_data$residential,
-  .selected_ctu = "all",
-  .existing_home_retrofit_pct = 0.80,
-  .existing_home_ultra_retrofit_pct = 0.20,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-}
-
-=======
->>>>>>> main
 }
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

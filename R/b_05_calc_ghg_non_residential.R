@@ -34,10 +34,11 @@
 calc_ghg_non_residential <- function(non_res_energy,
                                      .selected_ctu,
                                      .grid_emissions = ghg.gert::grid_emissions,
-                                     .enviro_factors = ghg.gert::enviro_factors) {
+                                     .enviro_factors = ghg.gert::enviro_factors,
+                                     .combustion_ef = ghg.gert::combustion_ef) {
   # cli::cli_progress_message("*** calculating residential ghg emissions \n")
 
-  ef_natgas  <- .combustion_ef$mt_co2e_per_unit[.combustion_ef$fuel_type == "Natural Gas"]
+  ef_natgas <- .combustion_ef$mt_co2e_per_unit[.combustion_ef$fuel_type == "Natural Gas"]
 
   non_res_energy <- filter_ctu(non_res_energy, .selected_ctu = .selected_ctu)
 

@@ -1,6 +1,6 @@
 # import_tables-building_energy_data.R
 #
-# Consolidated ingestion of all building energy datasets for ghg.ccap.
+# Consolidated ingestion of all building energy datasets for ghg.gert.
 # Produces package data object:
 #   - building_energy_data  (list: inventories, forecasts, demographic slices)
 
@@ -47,7 +47,7 @@ county_elec_inventory <- read_rds(
     sector = if_else(sector == "Residential", "Residential", "Business"),
     county_name = paste(county_name, "County")
   ) %>%
-  left_join(ghg.ccap::geog_index, by = join_by(county_name == geog_name, geog_level)) %>%
+  left_join(ghg.gert::geog_index, by = join_by(county_name == geog_name, geog_level)) %>%
   group_by(county_name, geog_id, geog_level, sector, emissions_year) %>%
   summarize(mwh = sum(value_activity), .groups = "drop") %>%
   select(
@@ -87,7 +87,7 @@ county_gas_inventory <- read_rds(
     sector = if_else(sector == "Residential", "Residential", "Business"),
     county_name = paste(county_name, "County")
   ) %>%
-  left_join(ghg.ccap::geog_index, by = join_by(county_name == geog_name, geog_level)) %>%
+  left_join(ghg.gert::geog_index, by = join_by(county_name == geog_name, geog_level)) %>%
   group_by(county_name, geog_id, geog_level, sector, emissions_year) %>%
   summarize(mcf = sum(value_activity), .groups = "drop") %>%
   select(

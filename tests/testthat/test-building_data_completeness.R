@@ -3,7 +3,7 @@
 # Validates that every geography in geog_index has the required
 # background data to run the building energy module end-to-end.
 
-all_geographies <- ghg.ccap::geog_index %>%
+all_geographies <- ghg.gert::geog_index %>%
   filter(imagine_designation != "Non-Council Community") %>%
   pull(geog_name)
 ctu_geographies <- all_geographies[!grepl("County$", all_geographies)]
@@ -23,7 +23,7 @@ projection_years <- 2005:2050
 # --- parcel_ctu: all 4 housing types for every CTU ---
 
 test_that("Every CTU has all 4 residential housing types in parcel_ctu", {
-  parcel_coverage <- ghg.ccap::parcel_ctu %>%
+  parcel_coverage <- ghg.gert::parcel_ctu %>%
     filter(geog_name %in% ctu_geographies) %>%
     group_by(geog_name) %>%
     summarize(
@@ -49,7 +49,7 @@ test_that("Every CTU has all 4 residential housing types in parcel_ctu", {
 })
 
 test_that("Every county has all 4 residential housing types in parcel_ctu", {
-  parcel_county <- ghg.ccap::parcel_ctu %>%
+  parcel_county <- ghg.gert::parcel_ctu %>%
     filter(geog_name %in% county_geographies) %>%
     group_by(geog_name) %>%
     summarize(n_categories = n_distinct(mc_classification), .groups = "drop")
@@ -69,7 +69,7 @@ test_that("Every county has all 4 residential housing types in parcel_ctu", {
 })
 
 test_that("parcel_ctu has no NA or zero sq_ft_use", {
-  bad_rows <- ghg.ccap::parcel_ctu %>%
+  bad_rows <- ghg.gert::parcel_ctu %>%
     filter(is.na(sq_ft_use) | sq_ft_use <= 0)
   expect_equal(nrow(bad_rows), 0,
     label = paste(
@@ -83,7 +83,7 @@ test_that("parcel_ctu has no NA or zero sq_ft_use", {
 # --- demographic_data: at least one housing type present in all years ---
 
 test_that("Every CTU has residential housing data across all projection years", {
-  housing <- ghg.ccap::demographic_data %>%
+  housing <- ghg.gert::demographic_data %>%
     filter(
       sp_categories %in% residential_categories,
       geog_name %in% ctu_geographies

@@ -7,27 +7,16 @@
 calc_ghg_non_residential(
   non_res_energy,
   .selected_ctu,
-<<<<<<< HEAD
   .grid_emissions = ghg.gert::grid_emissions,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-}
-\arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.gert::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.gert::enviro_factors}.}
-=======
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .combustion_ef = ghg.ccap::combustion_ef
+  .enviro_factors = ghg.gert::enviro_factors,
+  .combustion_ef = ghg.gert::combustion_ef
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
->>>>>>> main
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.gert::enviro_factors}.}
 
 \item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential energy,
@@ -58,10 +47,7 @@ non-residential strategies refer to \code{\link[=scen_building_non_residential]{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

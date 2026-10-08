@@ -9,21 +9,7 @@ calc_housing_leed(
   .selected_ctu,
   .new_sf_homes_leed_gold_pct,
   .new_mf_homes_leed_gold_pct,
-<<<<<<< HEAD
-  .leed_start_year,
-  .enviro_factors = ghg.gert::enviro_factors
-)
-
-calc_housing_leed(
-  res_tb,
-  .selected_ctu,
-  .new_sf_homes_leed_gold_pct,
-  .new_mf_homes_leed_gold_pct,
-  .leed_start_year,
-  .enviro_factors = ghg.gert::enviro_factors
-=======
   .leed_start_year
->>>>>>> main
 )
 }
 \arguments{
@@ -51,44 +37,12 @@ greenhouse gas emissions.
 }
 \details{
 Uses the expected growth of new housing according to UrbanSim estimates
-<<<<<<< HEAD
-
-Uses the expected growth of new housing according to UrbanSim estimates
-}
-\examples{
-\dontrun{
-library(ghg.gert)
-
-calc_housing_leed(
-  res_tb = building_data$residential,
-  .selected_ctu = "all",
-  .new_homes_leed_gold_pct = 0.5,
-  .enviro_factors = enviro_factors
-)
-}
-
-\dontrun{
-library(ghg.gert)
-
-calc_housing_leed(
-  res_tb = building_data$residential,
-  .selected_ctu = "all",
-  .new_homes_leed_gold_pct = 0.5,
-  .enviro_factors = enviro_factors
-)
-}
-
-=======
->>>>>>> main
 }
 \seealso{
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

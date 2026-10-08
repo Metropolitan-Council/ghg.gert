@@ -601,7 +601,7 @@ region_weighted <- housing_join %>%
     county_name = NA_character_,
     geog_name = "Twin Cities Region"
   ) %>%
-  left_join(ghg.ccap::geog_index %>% select(geog_name, geog_id), by = "geog_name")
+  left_join(ghg.gert::geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
 parcel_ctu <- bind_rows(
   county_weighted,

@@ -49,11 +49,11 @@ recode_building_category <- function(category) {
 # Direct module call keeps this transportation-only: no buildings, land use, or
 # building emission factors are touched. `run_module_transportation` defaults to
 # `.scenario = "BAU"` and pulls its inputs (transportation_data, factor_values,
-# elast, fuel_economy, enviro_factors, ...) from ghg.ccap defaults.
+# elast, fuel_economy, enviro_factors, ...) from ghg.gert defaults.
 #
 # NOTE: heavy per-CTU run. If build time becomes a problem, split this back out
 # into a `compile_transp_bau_ctu.R` data-raw step that saves `transp_bau_ctu`.
-# Confirm `ctu_list` still ships with ghg.ccap (else derive from geog_index:
+# Confirm `ctu_list` still ships with ghg.gert (else derive from geog_index:
 #   dplyr::filter(geog_index, geog_level != "COUNTY")$geog_name).
 
 ctu_list <- filter(geog_index, geog_level %in% c("CITY", "TOWNSHIP"))$geog_name
@@ -70,7 +70,7 @@ summarize_transportation <- function(transportation_module_output) {
       "WAT", "AIR"
     )) %>%
     dplyr::left_join(
-      ghg.ccap::transportation_index$modes %>%
+      ghg.gert::transportation_index$modes %>%
         dplyr::select(mode_abbrev, mode_description_1, sector, category),
       by = c("mode" = "mode_abbrev")
     ) %>%

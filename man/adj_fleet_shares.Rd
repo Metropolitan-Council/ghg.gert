@@ -7,21 +7,12 @@
 adj_fleet_shares(
   .pass_tb,
   .freight_tb,
-<<<<<<< HEAD
-  .selected_ctu = "all",
   .bev_pct_sales = ghg.gert::transportation_defaults$bev_pct_sales,
   .hev_pct_sales = ghg.gert::transportation_defaults$hev_pct_sales,
   .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
   .payd_fee = ghg.gert::transportation_defaults$payd_fee,
   .gas_tax = ghg.gert::transportation_defaults$gas_tax,
-=======
   .selected_ctu,
-  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
-  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
->>>>>>> main
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -32,8 +23,6 @@ Default is \code{transportation_data$passenger}.}
 
 \item{.freight_tb}{\code{\link[tibble:tibble]{tibble::tibble()}} Freight input table.
 Default is \code{transportation_data$freight}.}
-
-\item{.selected_ctu}{character, selected city or county.}
 
 \item{.bev_pct_sales}{numeric,  a value between \code{0} and \code{1.}
 Percent of all vehicle  sales that are battery electric vehicles (BEV)
@@ -53,6 +42,8 @@ Default is 0.}
 
 \item{.gas_tax}{Gas tax in dollars per mile.
 Default is 0.}
+
+\item{.selected_ctu}{character, selected city or county.}
 
 \item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
@@ -113,10 +104,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
-<<<<<<< HEAD
-=======
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{stock adjustments}

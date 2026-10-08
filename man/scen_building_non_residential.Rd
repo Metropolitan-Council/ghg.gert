@@ -17,13 +17,7 @@ scen_building_non_residential(
   .retrofit_start_year,
   .retrofit_end_year,
   .new_jobs_leed_gold_pct,
-<<<<<<< HEAD
-  .leed_start_year,
-  .grid_emissions = ghg.gert::grid_emissions,
-  .enviro_factors = ghg.gert::enviro_factors
-=======
   .leed_start_year
->>>>>>> main
 )
 }
 \arguments{
@@ -45,15 +39,6 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 \item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
-<<<<<<< HEAD
-
-\item{.grid_emissions}{table,
-Default is \code{ghg.gert::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.gert::enviro_factors}.}
-=======
->>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}, Data table with columns

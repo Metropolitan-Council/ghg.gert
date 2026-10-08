@@ -6,22 +6,12 @@
 \usage{
 calc_building_energy(
   .selected_ctu,
-<<<<<<< HEAD
   parcel_data = ghg.gert::parcel_ctu,
-  resstock_tb = ghg.gert::resstock_summaries,
-  ceestock_tb = ghg.gert::ceestock_summaries
-)
-}
-\arguments{
-\item{.selected_ctu}{character, selected city or county. Default is \code{"all"}.}
-=======
-  parcel_data = ghg.ccap::parcel_ctu,
-  building_tb = ghg.ccap::building_summaries
+  building_tb = ghg.gert::building_summaries
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
->>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -39,14 +29,7 @@ inadvertently increase energy use.
 \dontrun{
 library(ghg.gert)
 
-<<<<<<< HEAD
-adj_unit_counts(
-  res_tb = compile_bau_building_energy()$residential,
-  .selected_ctu = "all"
-)
-=======
 calc_building_energy(.selected_ctu = "Fridley")
->>>>>>> main
 }
 }
 \seealso{
@@ -60,10 +43,7 @@ Other residential:
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},
 \code{\link[=calc_energy_non_residential]{calc_energy_non_residential()}},

@@ -37,31 +37,20 @@ calc_vmt_forecast(
   .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
   .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-<<<<<<< HEAD
     ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
   .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
   .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
+  .ctr_employees_targeted = ghg.gert::transportation_defaults$ctr_employees_targeted,
+  .ctr_voluntary = ghg.gert::transportation_defaults$ctr_voluntary,
+  .ctr_start_year = ghg.gert::transportation_defaults$ctr_start_year,
+  .ctr_full_effect_year = ghg.gert::transportation_defaults$ctr_full_effect_year,
+  .commute_vmt_proportion = ghg.gert::commute_vmt_proportion,
   .enviro_factors = ghg.gert::enviro_factors,
   .factor_values = ghg.gert::factor_values,
   .elast = ghg.gert::elast,
   .elast_5d = ghg.gert::elast_5d
-=======
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .ctr_employees_targeted = ghg.ccap::transportation_defaults$ctr_employees_targeted,
-  .ctr_voluntary = ghg.ccap::transportation_defaults$ctr_voluntary,
-  .ctr_start_year = ghg.ccap::transportation_defaults$ctr_start_year,
-  .ctr_full_effect_year = ghg.ccap::transportation_defaults$ctr_full_effect_year,
-  .commute_vmt_proportion = ghg.ccap::commute_vmt_proportion,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values,
-  .elast = ghg.ccap::elast,
-  .elast_5d = ghg.ccap::elast_5d
->>>>>>> main
 )
 }
 \arguments{
@@ -182,7 +171,7 @@ The reduction remains at full effect thereafter.
 Default is 2035.}
 
 \item{.commute_vmt_proportion}{table, proportion of passenger light-duty vehicle VMT that is commute-related.
-Default is \code{ghg.ccap::commute_vmt_proportion}.}
+Default is \code{ghg.gert::commute_vmt_proportion}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
 \code{ghg.gert::enviro_factors}.}
@@ -202,7 +191,6 @@ Calculate vehicle miles traveled by mode and power train
 }
 \details{
 This function calculates vehicle miles traveled (VMT) by mode and power train. It uses the following equation:
-
 \deqn{VMT = \frac{PMT_{(1000\ mi)} \times Pr(stock \mid fuel)}{AVO}}
 }
 \seealso{
@@ -225,10 +213,7 @@ Other transportation:
 \code{\link[=mode_walk_bike]{mode_walk_bike()}},
 \code{\link[=run_module_transportation]{run_module_transportation()}},
 \code{\link[=vmt_annual_energy_outlook]{vmt_annual_energy_outlook()}},
-<<<<<<< HEAD
-=======
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_trip_reduction]{vmt_trip_reduction()}}
 }
 \concept{transportation}

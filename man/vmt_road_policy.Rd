@@ -69,10 +69,7 @@ whether the driver would prefer to pay the cost to a government agency or insura
 }
 \seealso{
 Other VMT effects:
-<<<<<<< HEAD
-=======
 \code{\link[=vmt_commute_trip_reduction]{vmt_commute_trip_reduction()}},
->>>>>>> main
 \code{\link[=vmt_land_use_change]{vmt_land_use_change()}},
 \code{\link[=vmt_parking_policy]{vmt_parking_policy()}},
 \code{\link[=vmt_stock_proportion]{vmt_stock_proportion()}},

@@ -22,26 +22,19 @@ run_scenario_building(
   .heatpump_end_year = 2050,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
-<<<<<<< HEAD
   .app_elec_start_year = 2028,
   .app_elec_end_year = 2050,
   .sf_app_elec_pct = 0,
   .mf_app_elec_pct = 0,
-=======
->>>>>>> main
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
   .new_jobs_leed_gold_pct = 0,
   .existing_jobs_retrofit_pct = 0,
-<<<<<<< HEAD
   .jobs_heatpump_pct = 0,
   .grid_emissions = ghg.gert::grid_emissions,
   .enviro_factors = ghg.gert::enviro_factors
-=======
-  .jobs_heatpump_pct = 0
->>>>>>> main
 )
 }
 \arguments{
@@ -71,13 +64,6 @@ scenario, in contrast \code{non_res_tb} is used as the input for the decarboniza
 
 \item{.scenario}{character, scenario name. Useful for labeling.}
 
-<<<<<<< HEAD
-\item{.sf_heatpump_pct}{numeric, percent of single family homes converting to heat pumps}
-
-\item{.mf_heatpump_pct}{numeric, percent of multifamily homes converting to heat pumps}
-
-=======
->>>>>>> main
 \item{.new_sf_homes_leed_gold_pct}{numeric,  a value between \code{0} and \code{1}.
 The percentage of new single-family homes built according to \emph{LEED Gold} standards.
 Default is \code{0.0}}
@@ -89,15 +75,9 @@ Default is \code{0.0}}
 \item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
-<<<<<<< HEAD
 
 \item{.grid_emissions}{table,
 Default is \code{ghg.gert::grid_emissions}}
-
-\item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.gert::enviro_factors}.}
-=======
->>>>>>> main
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},
@@ -114,12 +94,9 @@ scenarios for both residential and non-residential buildings.
 }
 \examples{
 \dontrun{
-<<<<<<< HEAD
+library(ghg.gert)
 
 library(ghg.gert)
-=======
-library(ghg.ccap)
->>>>>>> main
 run_scenario_building(
   res_tb = building_energy_data$residential,
   non_res_tb = building_energy_data$jobs,
@@ -128,7 +105,8 @@ run_scenario_building(
   run_residential = TRUE,
   run_non_residential = TRUE,
   .selected_ctu = "all",
-<<<<<<< HEAD
+  .sf_heatpump_pct = 0.10,
+  .existing_sf_retrofit_pct = 0.80
   .enviro_factors = enviro_factors,
   .home_behavior_change_pct = 1.00,
   .single_family_floor_area_growth_pct = 0.05,
@@ -137,10 +115,6 @@ run_scenario_building(
   .existing_home_retrofit_pct = 0.80,
   .existing_home_ultra_retrofit_pct = 0.20,
   .additional_electrified_residential_buildings_pct = 0.45
-=======
-  .sf_heatpump_pct = 0.10,
-  .existing_sf_retrofit_pct = 0.80
->>>>>>> main
 )
 }
 
@@ -149,10 +123,7 @@ run_scenario_building(
 Other buildings:
 \code{\link[=adj_cropland_area]{adj_cropland_area()}},
 \code{\link[=adj_unit_counts]{adj_unit_counts()}},
-<<<<<<< HEAD
-=======
 \code{\link[=build_ramp_schedule]{build_ramp_schedule()}},
->>>>>>> main
 \code{\link[=calc_building_energy]{calc_building_energy()}},
 \code{\link[=calc_business_leed]{calc_business_leed()}},
 \code{\link[=calc_business_retrofit]{calc_business_retrofit()}},

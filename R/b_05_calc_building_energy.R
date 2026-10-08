@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_building_energy(.selected_ctu = "Fridley")
 #' }
@@ -27,8 +27,8 @@
 #' @importFrom purrr map_dfr map
 calc_building_energy <- function(
   .selected_ctu,
-  parcel_data = ghg.ccap::parcel_ctu,
-  building_tb = ghg.ccap::building_summaries
+  parcel_data = ghg.gert::parcel_ctu,
+  building_tb = ghg.gert::building_summaries
 ) {
   # ── Bin functions ──────────────────────────────────────────────────────────
   # Two sqft schemes (detached = 7 fine bins, attached = 4 coarse bins) match

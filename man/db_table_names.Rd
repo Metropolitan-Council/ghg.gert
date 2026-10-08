@@ -29,10 +29,7 @@ db_table_names$metro_demos
 }
 \seealso{
 Other datasets:
-<<<<<<< HEAD
-=======
 \code{\link{commute_vmt_proportion}},
->>>>>>> main
 \code{\link{demographic_data}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
