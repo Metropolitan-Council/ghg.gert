@@ -7,12 +7,16 @@
 calc_ghg_non_residential(
   non_res_energy,
   .selected_ctu,
-  .grid_emissions = ghg.ccap::grid_emissions,
-  .combustion_ef = ghg.ccap::combustion_ef
+  .grid_emissions = ghg.gert::grid_emissions,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .combustion_ef = ghg.gert::combustion_ef
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
+
+\item{.enviro_factors}{list, named list of environmental factors. Default is
+\code{ghg.gert::enviro_factors}.}
 
 \item{res_energy}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential energy,

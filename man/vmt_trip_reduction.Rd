@@ -6,10 +6,10 @@
 \usage{
 vmt_trip_reduction(
   .pass_tb,
-  .cbtp_prop_targeted = ghg.ccap::transportation_defaults$cbtp_prop_targeted,
-  .cbtp_start_year = ghg.ccap::transportation_defaults$cbtp_start_year,
-  .cbtp_full_effect_year = ghg.ccap::transportation_defaults$cbtp_full_effect_year,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .cbtp_prop_targeted = ghg.gert::transportation_defaults$cbtp_prop_targeted,
+  .cbtp_start_year = ghg.gert::transportation_defaults$cbtp_start_year,
+  .cbtp_full_effect_year = ghg.gert::transportation_defaults$cbtp_full_effect_year,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -26,7 +26,7 @@ Default is 2028}
 The reduction remains at full effect thereafter.
 Default is 2035.}
 
-\item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.ccap::enviro_factors}.
+\item{.enviro_factors}{list, environmental factors including CBTP elasticities. Default is \code{ghg.gert::enviro_factors}.
 Expected to contain:
 \itemize{
 \item \code{CBTP_PARTICIPATION_PCT}: proportion of targeted residences that participate (default 0.19)

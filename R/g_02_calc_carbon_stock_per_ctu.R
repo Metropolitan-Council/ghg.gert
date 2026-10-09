@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_carbon_stock_per_ctu(
 #'   tb = land_use_data,
@@ -48,7 +48,7 @@ calc_carbon_stock_per_ctu <- function(tb,
                                       .parking_lot_reduction_percentage,
                                       .conservation_tillage_intervention,
                                       detail,
-                                      .enviro_factors = ghg.ccap::enviro_factors) {
+                                      .enviro_factors = ghg.gert::enviro_factors) {
   match.arg(
     arg = .conservation_tillage_intervention,
     choices = c(
@@ -70,7 +70,7 @@ calc_carbon_stock_per_ctu <- function(tb,
 
   tb$ctu_county <- filter_ctu(tb$ctu_county, .selected_ctu = .selected_ctu)
 
-  csf <- ghg.ccap::carbon_stock_factors
+  csf <- ghg.gert::carbon_stock_factors
 
   # -------------------------------------------------------------------------
 

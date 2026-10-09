@@ -5,9 +5,9 @@
 \title{Run Simplified Natural Systems Scenario}
 \usage{
 run_scenario_natural_systems(
-  tb_inv = bind_rows(ghg.ccap::natural_systems_data$inventory),
-  tb_future = bind_rows(ghg.ccap::natural_systems_data$projections),
-  tb_seq = ghg.ccap::natural_systems_data$land_cover_carbon,
+  tb_inv = bind_rows(ghg.gert::natural_systems_data$inventory),
+  tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
+  tb_seq = ghg.gert::natural_systems_data$land_cover_carbon,
   .selected_ctu = "Regional",
   .restore_wetland = FALSE,
   .wetland_ambition = 50,
@@ -21,7 +21,7 @@ run_scenario_natural_systems(
   .pocket_prairie_pct = 0,
   .pocket_prairie_start = 2028,
   .pocket_prairie_end = 2050,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
   detail = FALSE
 )
 }

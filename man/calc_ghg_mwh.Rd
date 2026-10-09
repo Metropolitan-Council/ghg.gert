@@ -15,14 +15,14 @@ calc_ghg_mwh(
   grid_scenario = "MISO",
   .selected_ctu,
   .grid_decarbonization_estimator,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
 \item{res_tb}{\code{\link[tibble:tibble]{tibble::tibble()}}.
 Table, table with residential building data.}

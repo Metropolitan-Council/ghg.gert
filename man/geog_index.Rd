@@ -21,7 +21,7 @@ geog_index
 Geographic index of cities, names, types
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 geog_index
 }
 \seealso{

@@ -28,8 +28,8 @@
 #'
 calc_ghg_residential <- function(res_energy,
                                  .selected_ctu,
-                                 .grid_emissions = ghg.ccap::grid_emissions,
-                                 .combustion_ef = ghg.ccap::combustion_ef) {
+                                 .grid_emissions = ghg.gert::grid_emissions,
+                                 .combustion_ef = ghg.gert::combustion_ef) {
   res_energy <- filter_ctu(res_energy, .selected_ctu = .selected_ctu)
 
   # pull scalar EFs from combustion_ef lookup

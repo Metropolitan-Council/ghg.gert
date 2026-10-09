@@ -6,8 +6,8 @@
 \usage{
 calc_building_energy(
   .selected_ctu,
-  parcel_data = ghg.ccap::parcel_ctu,
-  building_tb = ghg.ccap::building_summaries
+  parcel_data = ghg.gert::parcel_ctu,
+  building_tb = ghg.gert::building_summaries
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ inadvertently increase energy use.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_building_energy(.selected_ctu = "Fridley")
 }

@@ -34,7 +34,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
                                    run_fertilizer = TRUE,
                                    run_crops = TRUE,
                                    .baseline_year = 2022,
-                                   .ag_land_perserved = 1,
+                                   #  .ag_land_perserved = 1,
                                    .selected_ctu,
                                    .scenario = "alt",
                                    # # manure
@@ -104,7 +104,7 @@ run_module_agriculture <- function(livestock_tb = agriculture_activity_data$live
 
   manure <-
     calculate_manure_emissions(
-      manure_caf = ghg.ccap::agriculture_manure_caf,
+      manure_caf = ghg.gert::agriculture_manure_caf,
       .selected_ctu = .selected_ctu
     )
 

@@ -82,13 +82,13 @@ all_bau <- purrr::map(
       run_module_transportation(
         .scenario = "bau",
         .selected_ctu = x,
-        pass_tb = ghg.ccap::transportation_data$passenger,
-        freight_tb = ghg.ccap::transportation_data$freight,
-        .factor_values = ghg.ccap::factor_values,
-        .enviro_factors = ghg.ccap::enviro_factors,
-        .elast = ghg.ccap::elast,
-        .elast_5d = ghg.ccap::elast_5d,
-        .fuel_economy = ghg.ccap::fuel_economy
+        pass_tb = ghg.gert::transportation_data$passenger,
+        freight_tb = ghg.gert::transportation_data$freight,
+        .factor_values = ghg.gert::factor_values,
+        .enviro_factors = ghg.gert::enviro_factors,
+        .elast = ghg.gert::elast,
+        .elast_5d = ghg.gert::elast_5d,
+        .fuel_economy = ghg.gert::fuel_economy
       )
     )
   })
@@ -104,13 +104,13 @@ run_transport_bev <- function(bev) {
         run_module_transportation(
           .scenario = paste0("bev_", bev),
           .selected_ctu = x,
-          pass_tb = ghg.ccap::transportation_data$passenger,
-          freight_tb = ghg.ccap::transportation_data$freight,
-          .factor_values = ghg.ccap::factor_values,
-          .enviro_factors = ghg.ccap::enviro_factors,
-          .elast = ghg.ccap::elast,
-          .elast_5d = ghg.ccap::elast_5d,
-          .fuel_economy = ghg.ccap::fuel_economy,
+          pass_tb = ghg.gert::transportation_data$passenger,
+          freight_tb = ghg.gert::transportation_data$freight,
+          .factor_values = ghg.gert::factor_values,
+          .enviro_factors = ghg.gert::enviro_factors,
+          .elast = ghg.gert::elast,
+          .elast_5d = ghg.gert::elast_5d,
+          .fuel_economy = ghg.gert::fuel_economy,
           .bev_pct_stock = bev
         )
       )
@@ -128,7 +128,7 @@ summarize_emiss <- function(x) {
       "WAT", "AIR"
     )) %>%
     dplyr::left_join(
-      ghg.ccap::transportation_index$modes %>%
+      ghg.gert::transportation_index$modes %>%
         dplyr::select(mode_abbrev, mode_description_1, sector, category),
       by = c("mode" = "mode_abbrev")
     ) %>%

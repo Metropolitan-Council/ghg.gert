@@ -11,7 +11,7 @@ calc_tree_planting_land_cover(
   .tree_planting_intervention = "none",
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -54,7 +54,7 @@ land cover type by city/township under a tree planting scenario.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_tree_planting_land_cover(
   tb = land_use_data,

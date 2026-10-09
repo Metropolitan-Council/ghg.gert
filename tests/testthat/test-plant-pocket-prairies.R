@@ -3,11 +3,11 @@ testthat::test_that("plant_pocket_prairies", {
 
   # ── Setup ───────────────────────────────────────────────────────────────────
 
-  tb_future <- dplyr::bind_rows(ghg.ccap::natural_systems_data$projections)
-  tb_seq <- ghg.ccap::natural_systems_data$land_cover_carbon
+  tb_future <- dplyr::bind_rows(ghg.gert::natural_systems_data$projections)
+  tb_seq <- ghg.gert::natural_systems_data$land_cover_carbon
 
   get_df_null <- function(ctu_name) {
-    ghg.ccap::filter_ctu(tb_future, ctu_name)
+    ghg.gert::filter_ctu(tb_future, ctu_name)
   }
 
   # Helper: get area for a specific land cover type at a given year

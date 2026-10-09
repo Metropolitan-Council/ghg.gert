@@ -14,7 +14,7 @@ transportation_defaults
 Default values for transportation inputs
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 transportation_defaults
 }
 \seealso{

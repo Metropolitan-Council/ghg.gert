@@ -9,7 +9,7 @@ calculate_cropland_emissions(
   crops_tb = .crops_tb,
   .baseline_year = .baseline_year,
   area_tb = area_tb,
-  agricultural_emissions = ghg.ccap::agricultural_emissions,
+  agricultural_emissions = ghg.gert::agricultural_emissions,
   .cropland_decrease_2050 = .cropland_decrease_2050,
   .selected_ctu = .selected_ctu,
   .scenario = "alt",

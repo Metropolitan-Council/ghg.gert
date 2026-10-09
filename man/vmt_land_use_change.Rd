@@ -7,19 +7,19 @@
 vmt_land_use_change(
   .type,
   .comb_5d_impact_pct_change =
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
-  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+    ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
+  .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
   .land_use_diversity_pct_change =
-    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+    ghg.gert::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
-    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+    ghg.gert::transportation_defaults$intersection_design_pct_change,
   .intersection_density_pct_change =
-    ghg.ccap::transportation_defaults$intersection_density_pct_change,
-  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
-  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .elast_5d = ghg.ccap::elast_5d
+    ghg.gert::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .elast_5d = ghg.gert::elast_5d
 )
 }
 \arguments{
@@ -53,9 +53,9 @@ Numeric between -1 and 1. Default is 0}
 Numeric between -1 and 1. Default is 0}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
 }
 \value{
 a table with columns \code{year}, \code{type}, and \code{land_use_adj}

@@ -7,7 +7,7 @@
 calc_land_by_development_type(
   tb,
   .selected_ctu,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -43,7 +43,7 @@ development type under the specified land use scenario.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_land_by_development_type(
   tb = land_use_data,

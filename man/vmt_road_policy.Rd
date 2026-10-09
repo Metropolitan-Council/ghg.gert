@@ -10,13 +10,13 @@ vmt_road_policy(
   .mode,
   .tb_fuel_cost_mile,
   .stock,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-  .cong_price = ghg.ccap::transportation_defaults$cong_price,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .elast = ghg.ccap::elast
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
+  .cong_price = ghg.gert::transportation_defaults$cong_price,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .elast = ghg.gert::elast
 )
 }
 \arguments{
@@ -48,9 +48,9 @@ Default is 0.}
 Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 }
 \value{
 a table with columns   \code{year}, \code{geog_name}, \code{fuel_time_cost_mile}, \code{payd_ins_adj},

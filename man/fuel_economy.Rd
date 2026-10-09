@@ -22,7 +22,7 @@ fuel_economy
 Fuel economy
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 }
 \seealso{
 Other datasets:

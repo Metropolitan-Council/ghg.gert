@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_land_cover_percentages(
 #'   tb = land_use_data,

@@ -38,13 +38,13 @@ calc_energy_residential <- function(res_tb,
   # baseline observed energy ----
 
   baseline_elec <- filter_ctu(
-    ghg.ccap::building_energy_data$electricity_inventory,
+    ghg.gert::building_energy_data$electricity_inventory,
     .selected_ctu = .selected_ctu
   ) %>%
     dplyr::filter(emissions_year <= .baseline_year, sector == "Residential")
 
   baseline_natgas <- filter_ctu(
-    ghg.ccap::building_energy_data$natgas_inventory,
+    ghg.gert::building_energy_data$natgas_inventory,
     .selected_ctu = .selected_ctu
   ) %>%
     dplyr::filter(emissions_year <= .baseline_year, sector == "Residential")
@@ -52,7 +52,7 @@ calc_energy_residential <- function(res_tb,
   # propane_inventory columns: propane_mmbtu, fueloil_other_mmbtu, propane (hh count)
   # select and rename to the canonical names used downstream
   baseline_propane <- filter_ctu(
-    ghg.ccap::building_energy_data$propane_inventory,
+    ghg.gert::building_energy_data$propane_inventory,
     .selected_ctu = .selected_ctu
   ) %>%
     dplyr::filter(emissions_year <= .baseline_year) %>%

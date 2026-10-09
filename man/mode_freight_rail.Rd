@@ -12,29 +12,29 @@ mode_freight_rail(
   .aeo_scenario = "REF",
   .parking_cost = parking_cost,
   .vehicle_occupancy = vehicle_occupancy,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
-  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
-  .parking_price = ghg.ccap::transportation_defaults$parking_price,
-  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
-  .cong_price = ghg.ccap::transportation_defaults$cong_price,
-  .freight_vmt_fee = ghg.ccap::transportation_defaults$freight_vmt_fee,
-  .pop_dens_pct_change = ghg.ccap::transportation_defaults$pop_dens_pct_change,
-  .emp_dens_pct_change = ghg.ccap::transportation_defaults$emp_dens_pct_change,
+  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.gert::transportation_defaults$pldv_avo_pct,
+  .transit_service_pct = ghg.gert::transportation_defaults$transit_service_pct,
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
+  .parking_price = ghg.gert::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.gert::transportation_defaults$freight_parking_price,
+  .cong_price = ghg.gert::transportation_defaults$cong_price,
+  .freight_vmt_fee = ghg.gert::transportation_defaults$freight_vmt_fee,
+  .pop_dens_pct_change = ghg.gert::transportation_defaults$pop_dens_pct_change,
+  .emp_dens_pct_change = ghg.gert::transportation_defaults$emp_dens_pct_change,
   .land_use_diversity_pct_change =
-    ghg.ccap::transportation_defaults$land_use_diversity_pct_change,
+    ghg.gert::transportation_defaults$land_use_diversity_pct_change,
   .intersection_design_pct_change =
-    ghg.ccap::transportation_defaults$intersection_design_pct_change,
+    ghg.gert::transportation_defaults$intersection_design_pct_change,
   .intersection_density_pct_change =
-    ghg.ccap::transportation_defaults$intersection_density_pct_change,
-  .job_access_pct_change = ghg.ccap::transportation_defaults$job_access_pct_change,
-  .transit_dist_pct_change = ghg.ccap::transportation_defaults$transit_dist_pct_change,
+    ghg.gert::transportation_defaults$intersection_density_pct_change,
+  .job_access_pct_change = ghg.gert::transportation_defaults$job_access_pct_change,
+  .transit_dist_pct_change = ghg.gert::transportation_defaults$transit_dist_pct_change,
   .comb_5d_impact_pct_change =
-    ghg.ccap::transportation_defaults$comb_5d_impact_pct_change,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
+    ghg.gert::transportation_defaults$comb_5d_impact_pct_change,
+  .telework_pct = ghg.gert::transportation_defaults$telework_pct,
   .enviro_factors = enviro_factors,
   .factor_values = factor_values,
   .elast = elast,
@@ -55,10 +55,10 @@ and one for each year. Package provided dataset \code{transportation_data$freigh
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.gert::parking_cost}.}
 
 \item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
-Default is \code{ghg.ccap::vehicle_occupancy}.}
+Default is \code{ghg.gert::vehicle_occupancy}.}
 
 \item{.transit_avo_pct}{numeric, transit average vehicle occupancy (AVO) \% adjustment.
 Default is 0.}
@@ -124,15 +124,15 @@ Default is 0
 Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
-\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.ccap::elast_5d} included in this package.}
+\item{.elast_5d}{table of 5D elasticities. Default is \code{ghg.gert::elast_5d} included in this package.}
 
-\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...

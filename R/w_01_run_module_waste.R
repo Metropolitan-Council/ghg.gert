@@ -30,6 +30,7 @@
 #' @export
 #' @importFrom cli cli_progress_message
 #' @importFrom tibble deframe
+#' @importFrom utils head
 #'
 run_module_waste <- function(tb_inv = waste_data$inventory,
                              tb_future = waste_data$projections,
@@ -121,22 +122,22 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
 
   ## Do the same for our business as usual scenario
-  landfill_emis_bau <- ghg.ccap::calculate_landfill_emissions(
+  landfill_emis_bau <- ghg.gert::calculate_landfill_emissions(
     waste_inv = tb_inv,
     waste_future = tb_future,
     waste_char = tb_char
   )
-  incin_emis_bau <- ghg.ccap::calculate_incin_emissions(
+  incin_emis_bau <- ghg.gert::calculate_incin_emissions(
     waste_inv = tb_inv,
     waste_future = tb_future
   )
-  organic_emis_bau <- ghg.ccap::calculate_organic_emissions(
+  organic_emis_bau <- ghg.gert::calculate_organic_emissions(
     waste_inv = tb_inv,
     waste_future = tb_future
   )
 
   ## NEW! wastewater emissions
-  wastewater_emis_bau <- ghg.ccap::calculate_wastewater_emissions(
+  wastewater_emis_bau <- ghg.gert::calculate_wastewater_emissions(
     waste_inv = tb_inv,
     waste_future = tb_future
   )
@@ -197,7 +198,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
       ) %>%
       cross_join(df %>%
         dplyr::select(geog_id, geog_name, geog_level) %>%
-        head(1)) %>%
+        utils::head(1)) %>%
       relocate(c(geog_id, geog_name, geog_level), .after = inventory_year)
   }
 
@@ -233,7 +234,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   if (.waste_reduction_pct == 0) {
     tb_proj_01 <- tb_future
   } else {
-    tb_proj_01 <- ghg.ccap::calculate_waste_reduction(
+    tb_proj_01 <- ghg.gert::calculate_waste_reduction(
       waste_tb = tb_future,
       .waste_reduction_pct = .waste_reduction_pct,
       .waste_reduction_start = .waste_reduction_start,
@@ -377,7 +378,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
   # 4. Calculate emissions --------------------------------------------------
   # calculate landfill emissions
-  landfill_emis <- ghg.ccap::calculate_landfill_emissions(
+  landfill_emis <- ghg.gert::calculate_landfill_emissions(
     waste_inv = tb_inv,
     waste_future = tb_proj_02,
     waste_char = tb_char,
@@ -387,13 +388,13 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
   )
 
   # calculate incineration emissions
-  incin_emis <- ghg.ccap::calculate_incin_emissions(
+  incin_emis <- ghg.gert::calculate_incin_emissions(
     waste_inv = tb_inv,
     waste_future = tb_proj_02
   )
 
   # calculate organic emissions
-  organic_emis <- ghg.ccap::calculate_organic_emissions(
+  organic_emis <- ghg.gert::calculate_organic_emissions(
     waste_inv = tb_inv,
     waste_future = tb_proj_02,
     .anaerobic_digestion_pct = .anaerobic_digestion_pct,
@@ -406,7 +407,7 @@ run_module_waste <- function(tb_inv = waste_data$inventory,
 
 
   ## NEW! wastewater emissions
-  wastewater_emis <- ghg.ccap::calculate_wastewater_emissions(
+  wastewater_emis <- ghg.gert::calculate_wastewater_emissions(
     waste_inv = tb_inv,
     waste_future = tb_proj_02
   )

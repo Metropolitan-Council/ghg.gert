@@ -42,7 +42,7 @@ plantable_fraction <- c(
   Developed_High = 0.05
 )
 
-nlcd_2022 <- bind_rows(ghg.ccap::natural_systems_data$inventory) %>%
+nlcd_2022 <- bind_rows(ghg.gert::natural_systems_data$inventory) %>%
   filter(
     geog_id %in% ctu_meta$geog_id,
     inventory_year == 2022,

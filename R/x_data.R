@@ -58,7 +58,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' elast
 # elast -----
 "elast"
@@ -81,7 +81,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' elast_5d
 # elast_5d-----
 "elast_5d"
@@ -110,7 +110,7 @@
 #' @family datasets
 #'
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' transportation_data$passenger
 #' transportation_data$freight
 # transportation_data -----
@@ -130,7 +130,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' transportation_index$emission_sources
 #' transportation_index$variables
 #' transportation_index$modes
@@ -151,7 +151,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' db_table_names$mod_1
 #' db_table_names$metro_demos
 # db_table_names -----
@@ -167,7 +167,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' naics_codes$commercial
 #' naics_codes$industrial
 # naics_codes -----
@@ -184,7 +184,7 @@
 #' - **metadata** Metadata, where available
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 # fuel_economy -----
 "fuel_economy"
 
@@ -198,7 +198,7 @@
 #' - **geog_id_type** ID value type
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' geog_index
 # geog_index -----
 "geog_index"
@@ -223,7 +223,7 @@
 #'
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' unique(lc_county$land_cover_type)
 #' unique(lc_county$county_name)
 # lc_county -----
@@ -241,7 +241,7 @@
 #' - **value** value
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' demographic_data
 # demographic_data -----
 "demographic_data"
@@ -271,7 +271,7 @@
 #' @source https://data.pca.state.mn.us/views/SCOREoverview/SCOREOverview
 #'
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' waste_data$ctu$baseline
 #' waste_data$ctu$projections
 #' waste_data$county$baseline
@@ -285,7 +285,7 @@
 #' @format named list
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' transportation_defaults
 # transportation_defaults -----
 "transportation_defaults"
@@ -309,7 +309,7 @@
 #' - **type**: Data type, `"P"`.
 #' @family datasets
 #' @examples
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' commute_vmt_proportion
 # commute_vmt_proportion -----
 "commute_vmt_proportion"

@@ -9,10 +9,10 @@ vmt_vehicle_occupancy(
   .tb_vmt,
   .mode,
   .stock,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
-  .pldv_avo_pct = ghg.ccap::transportation_defaults$pldv_avo_pct,
-  .vehicle_occupancy = ghg.ccap::vehicle_occupancy,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
+  .pldv_avo_pct = ghg.gert::transportation_defaults$pldv_avo_pct,
+  .vehicle_occupancy = ghg.gert::vehicle_occupancy,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -33,10 +33,10 @@ Default is 0.}
 Default is 0.}
 
 \item{.vehicle_occupancy}{table, vehicle occupancy averages by mode.
-Default is \code{ghg.ccap::vehicle_occupancy}.}
+Default is \code{ghg.gert::vehicle_occupancy}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 table with columns \code{geog_name}, \code{geog_id}, \code{year}, \code{occupancy_adj}

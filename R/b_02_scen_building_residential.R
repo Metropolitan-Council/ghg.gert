@@ -64,7 +64,7 @@ scen_building_residential <- function(res_tb = res_tb,
                                       .mf_heatpump_pct) {
 
   # B.R1 (SF to MF)
-  tb01 <- ghg.ccap::adj_unit_counts(
+  tb01 <- ghg.gert::adj_unit_counts(
     res_tb = res_tb,
     density_output = .density_output,
     .selected_ctu = .selected_ctu

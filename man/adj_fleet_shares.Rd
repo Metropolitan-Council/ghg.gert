@@ -8,11 +8,11 @@ adj_fleet_shares(
   .pass_tb,
   .freight_tb,
   .selected_ctu,
-  .bev_pct_sales = ghg.ccap::transportation_defaults$bev_pct_sales,
-  .hev_pct_sales = ghg.ccap::transportation_defaults$hev_pct_sales,
-  .vmt_fee = ghg.ccap::transportation_defaults$vmt_fee,
-  .payd_fee = ghg.ccap::transportation_defaults$payd_fee,
-  .gas_tax = ghg.ccap::transportation_defaults$gas_tax,
+  .bev_pct_sales = ghg.gert::transportation_defaults$bev_pct_sales,
+  .hev_pct_sales = ghg.gert::transportation_defaults$hev_pct_sales,
+  .vmt_fee = ghg.gert::transportation_defaults$vmt_fee,
+  .payd_fee = ghg.gert::transportation_defaults$payd_fee,
+  .gas_tax = ghg.gert::transportation_defaults$gas_tax,
   .elast = elast,
   .enviro_factors = enviro_factors
 )
@@ -45,10 +45,10 @@ Default is 0.}
 \item{.gas_tax}{Gas tax in dollars per mile.
 Default is 0.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names...

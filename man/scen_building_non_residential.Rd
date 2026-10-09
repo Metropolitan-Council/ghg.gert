@@ -64,7 +64,7 @@ For more details, see \code{vignette("building_energy_module_inputs_residential"
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 scen_building_non_residential(
   non_res_tb = non_res_tb,

@@ -11,9 +11,9 @@ calc_ghg_direct(
   .fuel_type,
   .miles_per_gallon,
   .aeo_scenario = "REF",
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values
+  .fuel_economy = ghg.gert::fuel_economy,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values
 )
 }
 \arguments{
@@ -32,12 +32,12 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.aeo_scenario}{character, selected EIA Annual Energy Outlook scenario.
 Default is \code{"REF"}}
 
-\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with column names

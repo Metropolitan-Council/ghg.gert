@@ -131,6 +131,10 @@ importFrom(rlang,
   exec,
   sym
 )
+importFrom(stats,
+  median,
+  setNames
+)
 importFrom(stringr,
   str_detect,
   str_to_lower
@@ -151,3 +155,4 @@ importFrom(units,
   as_units,
   set_units
 )
+importFrom(utils,head)

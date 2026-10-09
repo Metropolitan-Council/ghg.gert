@@ -22,7 +22,7 @@ transportation_index
 Reference index for abbreviations, data sources, identifiers
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 transportation_index$emission_sources
 transportation_index$variables
 transportation_index$modes

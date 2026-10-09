@@ -27,7 +27,7 @@ provided as a tibble with columns \code{geog_name}, \code{geog_id}, \code{var}, 
 \dontrun{
 
 
-library(ghg.ccap)
+library(ghg.gert)
 }
 
 }

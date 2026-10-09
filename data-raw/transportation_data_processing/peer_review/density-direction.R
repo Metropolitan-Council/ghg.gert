@@ -1,4 +1,4 @@
-library(ghg.ccap)
+library(ghg.gert)
 library(tidyverse)
 
 popdens_decrease <- run_module_transportation(

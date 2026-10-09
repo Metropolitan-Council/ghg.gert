@@ -52,7 +52,7 @@ testthat::test_that("Eagan expected density is greater than Rosemount", {
 
 ## planned land use function tests ----
 
-# function rely on user input in shiny app (ghg.ccap.app)
+# function rely on user input in shiny app (ghg.gert.app)
 # going to input some mock data for four cities to simulate this input
 # Eagan - no change
 # Mpls - add 5 to every unit_minimum

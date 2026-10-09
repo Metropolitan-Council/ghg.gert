@@ -23,16 +23,16 @@ check_inputs <- function(name, value) {
   )
 
   pct_0_to_1 <- c(
-    "electrified_buildings_pct", "non_res_natural_gas_for_water_heating_pct",
+    "non_res_natural_gas_for_water_heating_pct",
     "non_res_natural_gas_for_space_heating_pct", "commercial_smart_grid_pct",
-    "industrial_smart_grid_pct", "smart_grid_energy_reduction_pct",
-    "new_homes_to_multifamily_pct", "existing_high_efficiency_buildings_pct",
+    "industrial_smart_grid_pct",
+    "existing_high_efficiency_buildings_pct",
     "home_behavior_change_pct", "single_family_floor_area_growth_pct",
     "new_homes_affected_pct", "new_sf_homes_leed_gold_pct",
     "new_mf_homes_leed_gold_pct", "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct", "single_family_heat_pump_pct",
     "multifamily_heat_pump_pct", "additional_electrified_residential_buildings_pct",
-    "grid_decarbonization_pct", "parking_lot_reduction_percentage",
+    "parking_lot_reduction_percentage",
     "manure_management", "smart_fertilizer_application",
     "cover_crops", "no_till_agriculture", "ctr_employees_targeted",
     "cbtp_prop_targeted"
@@ -104,18 +104,18 @@ check_inputs <- function(name, value) {
       }
     },
     selected_ctu = {
-      if (value != "all" && !value %in% c(unique(ghg.ccap::geog_index$geog_name), "Twin Cities Region", "CCAP Region")) {
+      if (value != "all" && !value %in% c(unique(ghg.gert::geog_index$geog_name), "Twin Cities Region", "CCAP Region")) {
         cli::cli_abort("Enter a valid geog_name name")
       }
     },
     fuel_type = {
-      if (!value %in% unique(ghg.ccap::factor_values$ghg$source)) {
-        cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.ccap::factor_values$ghg$source), collapse = ", "))
+      if (!value %in% unique(ghg.gert::factor_values$ghg$source)) {
+        cli::cli_abort("Enter a valid fuel type: ", paste0(unique(ghg.gert::factor_values$ghg$source), collapse = ", "))
       }
     },
     miles_per_gallon = {
-      if (!value %in% unique(ghg.ccap::fuel_economy$var)) {
-        cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.ccap::fuel_economy$var), collapse = ", "))
+      if (!value %in% unique(ghg.gert::fuel_economy$var)) {
+        cli::cli_abort("Enter a valid miles per gallon: ", paste0(unique(ghg.gert::fuel_economy$var), collapse = ", "))
       }
     }
     # default: do nothing (equivalent to your final `else return()`)

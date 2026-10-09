@@ -26,7 +26,7 @@ elast
 Values are specific to forecast year
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 elast
 }
 \seealso{

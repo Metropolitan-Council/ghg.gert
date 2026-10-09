@@ -12,7 +12,7 @@
 #' @param .mode character, given transportation mode.
 #' @param .fuel_type character, fuel type for given mode.
 #' @param .miles_per_gallon numeric, miles per gallon for mode.
-#' @param .fuel_economy table, table with GHG factor values. Default is `ghg.ccap::fuel_economy`
+#' @param .fuel_economy table, table with GHG factor values. Default is `ghg.gert::fuel_economy`
 #'
 #' @inheritParams run_module_transportation
 #' @inheritParams calc_vmt_forecast
@@ -36,9 +36,9 @@ calc_ghg_direct <- function(tb_vmt,
                             .fuel_type,
                             .miles_per_gallon,
                             .aeo_scenario = "REF",
-                            .fuel_economy = ghg.ccap::fuel_economy,
-                            .enviro_factors = ghg.ccap::enviro_factors,
-                            .factor_values = ghg.ccap::factor_values) {
+                            .fuel_economy = ghg.gert::fuel_economy,
+                            .enviro_factors = ghg.gert::enviro_factors,
+                            .factor_values = ghg.gert::factor_values) {
   check_inputs(name = "fuel_type", value = .fuel_type)
   # for given fuel type,
   # find the number of metric tons CO2 per gallon of fuel/kilowatt hour

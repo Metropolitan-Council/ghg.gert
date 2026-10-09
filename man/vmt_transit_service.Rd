@@ -7,9 +7,9 @@
 vmt_transit_service(
   tb,
   .mode,
-  .transit_service_pct = ghg.ccap::transportation_defaults$transit_service_pct,
-  .elast = ghg.ccap::elast,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .transit_service_pct = ghg.gert::transportation_defaults$transit_service_pct,
+  .elast = ghg.gert::elast,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -22,10 +22,10 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 \item{.transit_service_pct}{numeric, change in transit service \% adjustment.
 Default is 0.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 a table with columns \code{year}, \code{geog_name}, and \code{transit_adj}.

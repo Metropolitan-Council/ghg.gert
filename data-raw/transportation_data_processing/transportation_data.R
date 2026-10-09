@@ -159,6 +159,6 @@ testthat::expect_equal(
   )
 )
 
-# waldo::compare(ghg.ccap::transportation_data, transportation_data)
+# waldo::compare(ghg.gert::transportation_data, transportation_data)
 
 usethis::use_data(transportation_data, overwrite = TRUE)

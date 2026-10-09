@@ -59,14 +59,14 @@ calc_energy_non_residential <- function(non_res_tb,
     dplyr::pull(val)
 
   baseline_energy <- left_join(
-    filter_ctu(ghg.ccap::building_energy_data$electricity_inventory,
+    filter_ctu(ghg.gert::building_energy_data$electricity_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
         emissions_year <= .baseline_year,
         sector == "Business"
       ),
-    filter_ctu(ghg.ccap::building_energy_data$natgas_inventory,
+    filter_ctu(ghg.gert::building_energy_data$natgas_inventory,
       .selected_ctu = .selected_ctu
     ) %>%
       dplyr::filter(
@@ -76,10 +76,10 @@ calc_energy_non_residential <- function(non_res_tb,
     by = join_by(geog_name, geog_id, geog_level, sector, emissions_year)
   )
 
-  # make scenario_comm_des available for use in ghg.ccap.app
+  # make scenario_comm_des available for use in ghg.gert.app
   utils::data(
     "scenario_comm_des",
-    package = "ghg.ccap",
+    package = "ghg.gert",
     envir   = environment()
   )
 

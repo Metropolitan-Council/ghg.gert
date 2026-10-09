@@ -8,10 +8,6 @@ adj_unit_counts(res_tb, density_output, .selected_ctu)
 }
 \arguments{
 \item{.selected_ctu}{character, selected city or county.}
-
-\item{.new_homes_to_multifamily_pct}{numeric,  a value between \code{0} and \code{1}.
-Percentage of new single-family homes to instead be built as multifamily homes.
-Default is \code{0.0}.}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -27,12 +23,11 @@ detached home to increase single family attached and multifamily homes.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 adj_unit_counts(
   res_tb = compile_bau_building_energy()$residential,
-  .selected_ctu = "all",
-  .new_homes_to_multifamily_pct = 0.50
+  .selected_ctu = "all"
 )
 }
 }

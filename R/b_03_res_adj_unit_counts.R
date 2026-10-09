@@ -10,9 +10,6 @@
 #' @inheritParams run_scenario_building
 #' @inheritParams filter_ctu
 #' @inheritParams calc_ghg_residential
-#' @param .new_homes_to_multifamily_pct numeric,  a value between `0` and `1`.
-#'      Percentage of new single-family homes to instead be built as multifamily homes.
-#'      Default is `0.0`.
 #'
 #' @return [tibble::tibble()].
 #'       A table with columns `geog_name`, `geog_id`, `year`, `var`, and `value`.
@@ -23,12 +20,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' adj_unit_counts(
 #'   res_tb = compile_bau_building_energy()$residential,
-#'   .selected_ctu = "all",
-#'   .new_homes_to_multifamily_pct = 0.50
+#'   .selected_ctu = "all"
 #' )
 #' }
 #' @importFrom dplyr filter group_by mutate select ungroup anti_join bind_rows

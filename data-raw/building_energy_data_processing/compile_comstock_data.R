@@ -117,7 +117,7 @@ comstock_summaries <- list(
   new_build_efficient = summarize_comstock(high_efficiency, new_build = TRUE)
 )
 
-baseline_tbl <- ghg.ccap::imagine_mwh_mcf_per_job
+baseline_tbl <- ghg.gert::imagine_mwh_mcf_per_job
 
 # Pull medians for the two reference baselines (full + newBuild)
 baseline_mcf <- comstock_summaries$baseline %>% pull(mean_mcf_sqft)

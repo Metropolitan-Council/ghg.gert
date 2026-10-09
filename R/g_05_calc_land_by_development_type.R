@@ -35,7 +35,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_land_by_development_type(
 #'   tb = land_use_data,
@@ -44,7 +44,7 @@
 #' }
 calc_land_by_development_type <- function(tb,
                                           .selected_ctu,
-                                          .enviro_factors = ghg.ccap::enviro_factors) {
+                                          .enviro_factors = ghg.gert::enviro_factors) {
   # -------------------------------------------------------------------------
   ctu_land_use_hectares <- filter_ctu(tb$ctu_land_use_hectares, .selected_ctu)
 
@@ -52,7 +52,7 @@ calc_land_by_development_type <- function(tb,
 
   # -------------------------------------------------------------------------
   luse_scenario_params <- tb$scenario_parameters %>%
-    dplyr::filter(scenario_description_2 == ghg.ccap::enviro_factors$URBAN_FORM_SCENARIO)
+    dplyr::filter(scenario_description_2 == ghg.gert::enviro_factors$URBAN_FORM_SCENARIO)
 
   # -------------------------------------------------------------------------
   ctu_land_use_hectares_by_dev_type <-

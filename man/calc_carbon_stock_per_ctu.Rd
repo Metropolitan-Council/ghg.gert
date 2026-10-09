@@ -13,7 +13,7 @@ calc_carbon_stock_per_ctu(
   .parking_lot_reduction_percentage,
   .conservation_tillage_intervention,
   detail,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -73,7 +73,7 @@ lot reduction percentages, and conservation tillage interventions.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 calc_carbon_stock_per_ctu(
   tb = land_use_data,

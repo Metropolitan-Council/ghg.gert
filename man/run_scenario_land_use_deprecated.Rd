@@ -12,7 +12,7 @@ run_scenario_land_use_deprecated(
   .tree_planting_per_capita = 0.26,
   .tree_planting_per_hectare = 247,
   .parking_lot_reduction_percentage = 0,
-  .enviro_factors = ghg.ccap::enviro_factors,
+  .enviro_factors = ghg.gert::enviro_factors,
   detail = FALSE
 )
 }
@@ -73,7 +73,7 @@ per capita, tree planting per hectare, and parking lot reduction percentage.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
 
 run_scenario_land_use(
   tb = land_use_data,

@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(councilR)
-library(ghg.ccap)
+library(ghg.gert)
 
 
 # Define years in model-----
@@ -214,9 +214,9 @@ elast_5d <- bind_rows(
 
 # save all -----
 
-# waldo::compare(elast_5d, ghg.ccap::elast_5d)
+# waldo::compare(elast_5d, ghg.gert::elast_5d)
 usethis::use_data(elast_5d, overwrite = TRUE)
 
 
-# waldo::compare(elast, ghg.ccap::elast)
+# waldo::compare(elast, ghg.gert::elast)
 usethis::use_data(elast, overwrite = TRUE)

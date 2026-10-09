@@ -22,13 +22,17 @@ run_scenario_building(
   .heatpump_end_year = 2050,
   .sf_heatpump_pct = 0,
   .mf_heatpump_pct = 0,
+  .app_elec_start_year = 2028,
+  .app_elec_end_year = 2050,
   .new_sf_homes_leed_gold_pct = 0,
   .new_mf_homes_leed_gold_pct = 0,
   .existing_sf_retrofit_pct = 0,
   .existing_mf_retrofit_pct = 0,
   .new_jobs_leed_gold_pct = 0,
   .existing_jobs_retrofit_pct = 0,
-  .jobs_heatpump_pct = 0
+  .jobs_heatpump_pct = 0,
+  .grid_emissions = ghg.gert::grid_emissions,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -69,6 +73,9 @@ Default is \code{0.0}}
 \item{.existing_jobs_retrofit_pct}{numeric,  a value between \code{0} and \code{1}.
 Percentage of existing jobs (analog for buildings) retrofitted to reduce energy usage by \emph{33\%}. ??? update to include ComStock data
 Default is \code{0.0}.}
+
+\item{.grid_emissions}{table,
+Default is \code{ghg.gert::grid_emissions}}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{geog_name}, \code{geog_id},
@@ -85,7 +92,9 @@ scenarios for both residential and non-residential buildings.
 }
 \examples{
 \dontrun{
-library(ghg.ccap)
+library(ghg.gert)
+
+library(ghg.gert)
 run_scenario_building(
   res_tb = building_energy_data$residential,
   non_res_tb = building_energy_data$jobs,

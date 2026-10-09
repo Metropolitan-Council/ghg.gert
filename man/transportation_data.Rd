@@ -20,7 +20,7 @@ transportation_data
 A list of transportation and freight data input tables
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 transportation_data$passenger
 transportation_data$freight
 }

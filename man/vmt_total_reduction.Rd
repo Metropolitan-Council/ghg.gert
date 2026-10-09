@@ -7,8 +7,8 @@
 vmt_total_reduction(
   .pass_tb,
   .mode,
-  .vmt_reduction_pct = ghg.ccap::transportation_defaults$vmt_reduction_pct,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .vmt_reduction_pct = ghg.gert::transportation_defaults$vmt_reduction_pct,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ Numeric between 0 and 1.
 Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \description{
 Calculate VMT reduction multiplier

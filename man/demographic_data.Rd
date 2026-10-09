@@ -23,7 +23,7 @@ demographic_data
 Future city and county demographic information from UrbanSim
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 demographic_data
 }
 \seealso{

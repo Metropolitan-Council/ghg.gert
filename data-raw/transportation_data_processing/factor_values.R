@@ -116,7 +116,7 @@ ghg_long <- ghg %>%
   ungroup()
 
 
-grid_emissions_kwh <- ghg.ccap::grid_emissions %>%
+grid_emissions_kwh <- ghg.gert::grid_emissions %>%
   filter(emissions_year %in% ghg_long$year) %>%
   mutate(mt_co2e_per_kwh = mt_co2e_per_mwh / 1000) %>%
   mutate(
@@ -138,6 +138,6 @@ factor_values <- list(
   ghg = ghg_long
 )
 
-# waldo::compare(ghg.ccap::factor_values, factor_values)
+# waldo::compare(ghg.gert::factor_values, factor_values)
 
 usethis::use_data(factor_values, overwrite = TRUE)

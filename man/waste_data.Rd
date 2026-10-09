@@ -33,7 +33,7 @@ waste_data
 A list of solid waste activity data tables
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 waste_data$ctu$baseline
 waste_data$ctu$projections
 waste_data$county$baseline

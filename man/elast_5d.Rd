@@ -26,7 +26,7 @@ elast_5d
 Values are specific to forecast year
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 elast_5d
 }
 \seealso{

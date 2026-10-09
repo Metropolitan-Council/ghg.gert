@@ -549,7 +549,7 @@ gc()
 
 ### add county level data by taking weighted average approach
 
-housing_data <- ghg.ccap::demographic_data %>%
+housing_data <- ghg.gert::demographic_data %>%
   filter(
     sp_categories %in% c(
       "multifamily_units",
@@ -580,13 +580,12 @@ county_weighted <- housing_join %>%
     median_year = wa_med_year
   ) %>%
   left_join(
-    ghg.ccap::geog_index %>%
-      select(
-        geog_name,
-        geog_id
-      ),
-    by = "geog_name"
-  )
+    ghg.gert::geog_index %>%
+    select(
+      geog_name,
+      geog_id
+    ),
+    by = "geog_name")
 
 ### add region-level weighted average (Twin Cities)
 
@@ -602,7 +601,7 @@ region_weighted <- housing_join %>%
     county_name = NA_character_,
     geog_name = "Twin Cities Region"
   ) %>%
-  left_join(ghg.ccap::geog_index %>% select(geog_name, geog_id), by = "geog_name")
+  left_join(ghg.gert::geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
 parcel_ctu <- bind_rows(
   county_weighted,

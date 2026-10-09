@@ -10,7 +10,7 @@ calc_ghg_embodied(
   .sales_mode,
   .fuel_type,
   .class,
-  .transit_avo_pct = ghg.ccap::transportation_defaults$transit_avo_pct,
+  .transit_avo_pct = ghg.gert::transportation_defaults$transit_avo_pct,
   .mitigation_tb = 0,
   .bau_tb = 0,
   .enviro_factors = enviro_factors,
@@ -45,9 +45,9 @@ Default is \code{0}.}
 Default is \code{0}.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \description{
 Calculate Embodied (Indirect) Emissions

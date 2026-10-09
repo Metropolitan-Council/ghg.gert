@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #'
 #' calc_scen_land_use(
 #'   tb = land_use_data,

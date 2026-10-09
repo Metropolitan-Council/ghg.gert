@@ -7,8 +7,8 @@
 vmt_telework(
   .pass_tb,
   .mode,
-  .telework_pct = ghg.ccap::transportation_defaults$telework_pct,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .telework_pct = ghg.gert::transportation_defaults$telework_pct,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ Default is 0
 Default is \code{0}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \description{
 Calculate telework multiplier

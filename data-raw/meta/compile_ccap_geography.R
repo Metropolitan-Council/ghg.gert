@@ -117,5 +117,5 @@ ctu_county_area <- ccap_ctu %>%
   )) %>%
   select(geog_name, county_name, geog_id = ctu_id_gnis, pct_of_ctu_area = pct_of_ctu)
 
-# waldo::compare(ctu_county_area, ghg.ccap::ctu_county_area)
+# waldo::compare(ctu_county_area, ghg.gert::ctu_county_area)
 usethis::use_data(ctu_county_area, overwrite = T)

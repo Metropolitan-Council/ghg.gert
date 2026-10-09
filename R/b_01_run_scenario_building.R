@@ -20,12 +20,16 @@
 #'   `elec_mwh`, `natgas_mcf`, `propane_mmbtu`, `kerosene_mmbtu`,
 #'   `electricity_emissions`, `natural_gas_emissions`, `liquid_fuel_emissions`.
 #'   Non-residential rows have `0` for propane/kerosene/liquid fuel columns.
+#' @param .grid_emissions table,
+#'   Default is `ghg.gert::grid_emissions`
 #'
 #' @export
 #' @importFrom cli cli_progress_message
 #' @examples
 #' \dontrun{
-#' library(ghg.ccap)
+#' library(ghg.gert)
+#'
+#' library(ghg.gert)
 #' run_scenario_building(
 #'   res_tb = building_energy_data$residential,
 #'   non_res_tb = building_energy_data$jobs,
@@ -58,6 +62,10 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
                                   # residential
                                   .sf_heatpump_pct = 0.0,
                                   .mf_heatpump_pct = 0.0,
+                                  .app_elec_start_year = 2028,
+                                  .app_elec_end_year = 2050,
+                                  # .sf_app_elec_pct = 0.0,
+                                  # .mf_app_elec_pct = 0.0,
                                   .new_sf_homes_leed_gold_pct = 0.0,
                                   .new_mf_homes_leed_gold_pct = 0.0,
                                   .existing_sf_retrofit_pct = 0.0,
@@ -65,11 +73,17 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
                                   # non-residential
                                   .new_jobs_leed_gold_pct = 0.0,
                                   .existing_jobs_retrofit_pct = 0.0,
-                                  .jobs_heatpump_pct = 0.0) {
-  res_tb     <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
-  res_tb_bau <- filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
-  non_res_tb     <- filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
-  non_res_tb_bau <- filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
+                                  .jobs_heatpump_pct = 0.0,
+                                  # emissions factors and elasticities
+                                  .grid_emissions = ghg.gert::grid_emissions,
+                                  .enviro_factors = ghg.gert::enviro_factors) {
+  res_tb <- filter_ctu(res_tb, .selected_ctu = .selected_ctu)
+  res_tb_bau <-
+    filter_ctu(res_tb_bau, .selected_ctu = .selected_ctu)
+  non_res_tb <-
+    filter_ctu(non_res_tb, .selected_ctu = .selected_ctu)
+  non_res_tb_bau <-
+    filter_ctu(non_res_tb_bau, .selected_ctu = .selected_ctu)
 
   # input validation ----
 
@@ -78,8 +92,12 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
     "new_mf_homes_leed_gold_pct",
     "existing_sf_retrofit_pct",
     "existing_mf_retrofit_pct",
+
+    # Residential – electrification via heatpump
     "sf_heatpump_pct",
     "mf_heatpump_pct",
+
+    # Non-residential – LEED / retrofits / electrification via heatpump
     "new_jobs_leed_gold_pct",
     "existing_jobs_retrofit_pct",
     "jobs_heatpump_pct"
@@ -90,8 +108,12 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
     .new_mf_homes_leed_gold_pct,
     .existing_sf_retrofit_pct,
     .existing_mf_retrofit_pct,
+
+    # Residential – electrification via heatpump
     .sf_heatpump_pct,
     .mf_heatpump_pct,
+
+    # Non-residential – LEED / retrofits / electrification via heatpump
     .new_jobs_leed_gold_pct,
     .existing_jobs_retrofit_pct,
     .jobs_heatpump_pct
@@ -152,8 +174,8 @@ run_scenario_building <- function(res_tb = building_energy_data$residential,
       ) %>%
       dplyr::mutate(
         sector = "Non-residential",
-        propane_mmbtu        = 0,
-        kerosene_mmbtu       = 0,
+        propane_mmbtu = 0,
+        kerosene_mmbtu = 0,
         liquid_fuel_emissions = 0
       ) %>%
       dplyr::rename(

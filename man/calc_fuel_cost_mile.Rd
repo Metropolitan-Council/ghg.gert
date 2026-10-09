@@ -10,9 +10,9 @@ calc_fuel_cost_mile(
   .aeo_scenario = "REF",
   .miles_per_gallon,
   .fuel_cost_gallon,
-  .fuel_economy = ghg.ccap::fuel_economy,
-  .enviro_factors = ghg.ccap::enviro_factors,
-  .factor_values = ghg.ccap::factor_values
+  .fuel_economy = ghg.gert::fuel_economy,
+  .enviro_factors = ghg.gert::enviro_factors,
+  .factor_values = ghg.gert::factor_values
 )
 }
 \arguments{
@@ -31,12 +31,12 @@ Miles per gallon for current mode}
 \item{.fuel_cost_gallon}{numeric,
 Fuel cost per gallon for current mode}
 
-\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.ccap::fuel_economy}}
+\item{.fuel_economy}{table, table with GHG factor values. Default is \code{ghg.gert::fuel_economy}}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 
-\item{.factor_values}{list, generalized factor values. Default is \code{ghg.ccap::factor_values}.}
+\item{.factor_values}{list, generalized factor values. Default is \code{ghg.gert::factor_values}.}
 }
 \value{
 a tibble with columns for \code{mode}, \code{var}, \code{year}, and \code{fuel_cost_mile}.

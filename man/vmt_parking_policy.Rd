@@ -7,11 +7,11 @@
 vmt_parking_policy(
   tb,
   .mode,
-  .parking_cost = ghg.ccap::parking_cost,
-  .elast = ghg.ccap::elast,
-  .parking_price = ghg.ccap::transportation_defaults$parking_price,
-  .freight_parking_price = ghg.ccap::transportation_defaults$freight_parking_price,
-  .enviro_factors = ghg.ccap::enviro_factors
+  .parking_cost = ghg.gert::parking_cost,
+  .elast = ghg.gert::elast,
+  .parking_price = ghg.gert::transportation_defaults$parking_price,
+  .freight_parking_price = ghg.gert::transportation_defaults$freight_parking_price,
+  .enviro_factors = ghg.gert::enviro_factors
 )
 }
 \arguments{
@@ -21,9 +21,9 @@ and one for each year. Package provided datasets \code{transportation_data$passe
 
 \item{.mode}{character, current mode}
 
-\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.ccap::parking_cost}.}
+\item{.parking_cost}{table, existing parking cost assumptions. Default is \code{ghg.gert::parking_cost}.}
 
-\item{.elast}{table of elasticities. Default is \code{ghg.ccap::elast}.}
+\item{.elast}{table of elasticities. Default is \code{ghg.gert::elast}.}
 
 \item{.parking_price}{numeric, measured in dollars per hour.
 Default is 0.}
@@ -32,7 +32,7 @@ Default is 0.}
 Default is 0.}
 
 \item{.enviro_factors}{list, named list of environmental factors. Default is
-\code{ghg.ccap::enviro_factors}.}
+\code{ghg.gert::enviro_factors}.}
 }
 \value{
 a table with

@@ -3,10 +3,10 @@ testthat::test_that("plant_community_trees", {
 
   # ── Setup ───────────────────────────────────────────────────────────────────
 
-  tb_future <- dplyr::bind_rows(ghg.ccap::natural_systems_data$projections)
+  tb_future <- dplyr::bind_rows(ghg.gert::natural_systems_data$projections)
 
   get_df_null <- function(ctu_name) {
-    ghg.ccap::filter_ctu(tb_future, ctu_name)
+    ghg.gert::filter_ctu(tb_future, ctu_name)
   }
 
   get_urban_tree_area <- function(result, yr) {
@@ -17,7 +17,7 @@ testthat::test_that("plant_community_trees", {
   }
 
   get_sequestration <- function(result, yr) {
-    carbon <- ghg.ccap::natural_systems_data$land_cover_carbon
+    carbon <- ghg.gert::natural_systems_data$land_cover_carbon
     result %>%
       dplyr::filter(inventory_year == yr) %>%
       dplyr::left_join(carbon, by = "land_cover_type") %>%
@@ -78,7 +78,7 @@ testthat::test_that("plant_community_trees", {
     )
 
     # Exceeding max throws an error
-    baseline_info <- ghg.ccap::community_tree_baseline %>%
+    baseline_info <- ghg.gert::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
     testthat::expect_error(
@@ -139,7 +139,7 @@ testthat::test_that("plant_community_trees", {
     )
 
     # Exceeding max throws an error
-    baseline_info <- ghg.ccap::community_tree_baseline %>%
+    baseline_info <- ghg.gert::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
     testthat::expect_error(
@@ -186,7 +186,7 @@ testthat::test_that("plant_community_trees", {
     )
 
     # Exceeding max throws an error
-    baseline_info <- ghg.ccap::community_tree_baseline %>%
+    baseline_info <- ghg.gert::community_tree_baseline %>%
       dplyr::filter(geog_id == unique(df_null$geog_id)[1])
 
     if (nrow(baseline_info) == 1) {

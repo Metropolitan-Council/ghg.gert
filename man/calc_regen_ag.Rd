@@ -7,7 +7,7 @@
 calc_regen_ag(
   emissions,
   .selected_ctu,
-  caf_strategies = ghg.ccap::agriculture_regen_ag_caf,
+  caf_strategies = ghg.gert::agriculture_regen_ag_caf,
   .scenario,
   .baseline_year,
   ag_area_adj,

@@ -28,7 +28,7 @@ In cases where there were no commute data for a given community designation,
 CTUs were assigned the region-level estimate.
 }
 \examples{
-library(ghg.ccap)
+library(ghg.gert)
 commute_vmt_proportion
 }
 \seealso{

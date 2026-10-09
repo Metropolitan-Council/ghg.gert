@@ -17,7 +17,7 @@
 #' \dontrun{
 #'
 #'
-#' library(ghg.ccap)
+#' library(ghg.gert)
 #' }
 #'
 land_use_update <- function(tb_bau = tb_bau,

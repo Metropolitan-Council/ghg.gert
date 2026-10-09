@@ -15,7 +15,7 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom cli cli_warn
 county_assign <- function(.selected_ctu = .selected_ctu) {
-  geog_county <- ghg.ccap::ctu_county_area %>%
+  geog_county <- ghg.gert::ctu_county_area %>%
     filter(geog_name == .selected_ctu) %>%
     arrange(desc(pct_of_ctu_area)) %>%
     slice_head() %>%
