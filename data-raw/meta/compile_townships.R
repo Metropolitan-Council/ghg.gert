@@ -5,8 +5,10 @@
 # appends its own township-group rows just before use_data(), using these
 # helpers so the membership, IDs and designations live in one place.
 #
-# Internal only (not exported); data-raw scripts reach these through
-# pkgload::load_all().
+# Backend build helper, not part of the package: lives in data-raw and is
+# sourced by build scripts after load_all():
+#   pkgload::load_all()
+#   source("data-raw/meta/compile_townships.R")
 #
 # Typical use in a build script:
 #
@@ -29,10 +31,8 @@
 #' geog_level assigned to township-group rows. A distinct level keeps them out
 #' of existing filters such as geog_level %in% c("CITY", "TOWNSHIP") and
 #' geog_level == "COUNTY".
-#' @noRd
 TWP_GROUP_LEVEL <- "TOWNSHIP_GROUP"
 
-#' @noRd
 TWP_GROUP_ID_TYPE <- "township_group"
 
 #' One row per township group.
@@ -43,7 +43,6 @@ TWP_GROUP_ID_TYPE <- "township_group"
 #'   Carver: 9 Agricultural, 1 Diversified Rural (Laketown)
 #'   Scott:  4 Diversified Rural, 3 Agricultural, 2 Rural Residential,
 #'           1 Suburban Edge (Jackson)
-#' @noRd
 twp_group_meta <- function() {
   tibble::tribble(
     ~county_name, ~county_fips, ~geog_name,          ~geog_id,  ~imagine_designation, ~n_members,
@@ -52,7 +51,6 @@ twp_group_meta <- function() {
   )
 }
 
-#' @noRd
 twp_group_names <- function() twp_group_meta()$geog_name
 
 # Membership --------------------------------------------------------------------
@@ -69,7 +67,6 @@ twp_group_names <- function() twp_group_meta()$geog_name
 #'   ctu_county_area is saved.
 #' @return tibble: geog_name, geog_id, county_name, group_name, group_id,
 #'   group_designation
-#' @noRd
 twp_group_lookup <- function(ctu_df = ghg.gert::ctu_county_area) {
   meta <- twp_group_meta()
 
@@ -127,7 +124,6 @@ twp_group_lookup <- function(ctu_df = ghg.gert::ctu_county_area) {
 #' Attach group_name / group_id / group_designation to township rows.
 #' Non-member rows are dropped.
 #' @param by column in df holding the township name
-#' @noRd
 twp_group_tag <- function(df, by = "geog_name", lookup = twp_group_lookup()) {
   df %>%
     dplyr::inner_join(
@@ -139,14 +135,12 @@ twp_group_tag <- function(df, by = "geog_name", lookup = twp_group_lookup()) {
 
 #' Remove township-group rows. Use when reading a dataset as an input to
 #' another aggregation (county or region roll-ups) to avoid double counting.
-#' @noRd
 twp_group_drop <- function(df, name_col = "geog_name") {
   df[!df[[name_col]] %in% twp_group_names(), , drop = FALSE]
 }
 
 #' Drop any existing group rows from df and bind the new ones, keeping df's
 #' column order. Idempotent, so build scripts can be re-run safely.
-#' @noRd
 twp_group_replace <- function(df, new, name_col = "geog_name") {
   new <- dplyr::select(new, dplyr::any_of(names(df)))
 
@@ -182,7 +176,6 @@ twp_group_replace <- function(df, new, name_col = "geog_name") {
 #'   imagine_designation.
 #' @param county_col If set, this column gets the group's county_name.
 #' @return Township-group rows only, ready for twp_group_replace().
-#' @noRd
 twp_group_sum <- function(df,
                           value_cols,
                           group_cols,
@@ -225,14 +218,12 @@ twp_group_sum <- function(df,
 }
 
 #' Weighted mean that falls back to a simple mean when weights are all 0/NA.
-#' @noRd
 twp_wmean <- function(x, w) {
   ok <- !is.na(x) & !is.na(w)
   if (sum(w[ok]) > 0) stats::weighted.mean(x[ok], w[ok]) else mean(x, na.rm = TRUE)
 }
 
 #' Keep a categorical value if all members agree, otherwise `mixed`.
-#' @noRd
 twp_collapse_chr <- function(x, mixed = "aggregated") {
   u <- unique(stats::na.omit(x))
   if (length(u) == 1) u else mixed
@@ -242,7 +233,6 @@ twp_collapse_chr <- function(x, mixed = "aggregated") {
 
 #' Confirm group totals equal member-township totals for a summed column.
 #' Returns TRUE/FALSE invisibly; set strict = TRUE to error on mismatch.
-#' @noRd
 twp_group_check_sum <- function(df, value_col, label = value_col,
                                 name_col = "geog_name",
                                 lookup = twp_group_lookup(),
@@ -264,7 +254,6 @@ twp_group_check_sum <- function(df, value_col, label = value_col,
 
 #' Confirm a dataset has rows for every township group.
 #' Intended for a final pre-release check across all datasets.
-#' @noRd
 twp_group_check_present <- function(df, label, name_col = "geog_name") {
   missing <- setdiff(twp_group_names(), unique(df[[name_col]]))
   if (length(missing) == 0) {

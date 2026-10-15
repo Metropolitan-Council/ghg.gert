@@ -1,7 +1,5 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
 library(dplyr)
-ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
-ccap_county <- readRDS(file.path(here::here(), "data-raw/meta/ccap_county.RDS"))
 
 ##### read in and reformat UrbanSim output
 # read in urbansim metadata
