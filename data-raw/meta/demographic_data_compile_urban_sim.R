@@ -1,5 +1,7 @@
 ##### bring in UrbanSim projection data for COCTUs and output CTU and County numbers
 library(dplyr)
+pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 ##### read in and reformat UrbanSim output
 # read in urbansim metadata
@@ -303,6 +305,24 @@ demographic_data <- demographic_data %>%
   ) %>%
   mutate(value_change_from_base = value - base_value) %>%
   select(-base_value)
+
+##### Township groups
+# Summed from member townships AFTER Imagine scaling, so the groups equal the
+# sum of their scaled townships (Imagine has no township-group targets).
+# value_change_from_base sums cleanly too (sum of deltas = delta of sums).
+demographic_data <- twp_group_replace(
+  demographic_data,
+  twp_group_sum(
+    demographic_data,
+    value_cols = c("value", "value_change_from_base"),
+    group_cols = c("sp_categories", "emissions_year"),
+    .fill = list(
+      geog_id_type = TWP_GROUP_ID_TYPE,
+      geog_level = TWP_GROUP_LEVEL
+    )
+  )
+)
+twp_group_check_sum(demographic_data, "value", "demographic_data")
 
 anti_join(
   demographic_data,

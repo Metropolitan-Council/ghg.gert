@@ -1,10 +1,5 @@
 # create index of geographies ----
-#
-# Outputs
-#   geog_index    (package data)  one row per geography, attributes only
-#   geog_geometry (data-raw/meta/geog_geometry.RDS)  sf, one row per
-#                 geog_index row: CTUs, counties, region, township groups
-#
+
 devtools::load_all(".")
 source("data-raw/meta/compile_townships.R")
 

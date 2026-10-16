@@ -190,6 +190,14 @@ twp_group_sum <- function(df,
   twp <- twp_group_tag(df, by = name_col, lookup = lookup)
   keys <- c("group_name", "group_id", "group_designation", "group_county")
 
+  # warn if any member township is absent from df (e.g. a name mismatch
+  # between the dataset and ctu_county_area), since the group would be
+  # silently under-counted
+  missing_twp <- setdiff(lookup$geog_name, unique(twp[[name_col]]))
+  if (length(missing_twp) > 0) {
+    cli::cli_warn("Member townships not found in data: {.val {missing_twp}}")
+  }
+
   out <- twp %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(c(keys, group_cols)))) %>%
     dplyr::summarise(
