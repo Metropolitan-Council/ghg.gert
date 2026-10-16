@@ -96,58 +96,6 @@ geog_index <- twp_group_replace(
     )
 )
 
-# Geometry ----
-# One (multi)polygon per geog_id. CTUs that appear as several pieces in the
-# source (e.g. split by county) are unioned back to a single feature.
-# Counties, region and township groups are unioned from their parts, so
-# all levels share the CTU source's CRS and edges.
-geo_crs <- sf::st_crs(cprg_ctu_raw)
-
-ctu_geom <- cprg_ctu_raw %>%
-  select(geog_id = gnis, geometry) %>%
-  sf::st_make_valid() %>%
-  group_by(geog_id) %>%
-  summarise(geometry = sf::st_union(geometry), .groups = "drop")
-
-county_geom <- cprg_county_raw %>%
-  select(geog_id = geoid, geometry) %>%
-  sf::st_transform(geo_crs) %>%
-  sf::st_make_valid() %>%
-  group_by(geog_id) %>%
-  summarise(geometry = sf::st_union(geometry), .groups = "drop")
-
-region_geom <- county_geom %>%
-  summarise(geometry = sf::st_union(geometry)) %>%
-  mutate(geog_id = cprg_region$geog_id)
-
-twp_group_geom <- ctu_geom %>%
-  inner_join(
-    twp_lookup %>% distinct(geog_id, group_id),
-    by = "geog_id"
-  ) %>%
-  group_by(geog_id = group_id) %>%
-  summarise(geometry = sf::st_union(geometry), .groups = "drop")
-
-# rbind (sf method) rather than bind_rows, which doesn't reliably keep sf
-geog_geometry <- list(ctu_geom, county_geom, region_geom, twp_group_geom) %>%
-  lapply(function(x) select(x, geog_id, geometry)) %>%
-  do.call(rbind, .) %>%
-  inner_join(geog_index, by = "geog_id") %>%
-  select(names(geog_index), geometry) %>%
-  sf::st_as_sf() %>%
-  sf::st_cast("MULTIPOLYGON")
-
-# checks: exactly one geometry per geog_index row, none empty
-stopifnot(
-  nrow(geog_geometry) == nrow(geog_index),
-  setequal(geog_geometry$geog_id, geog_index$geog_id),
-  !anyDuplicated(geog_geometry$geog_id),
-  !any(sf::st_is_empty(geog_geometry))
-)
-cli::cli_alert_success(
-  "geog_geometry: {nrow(geog_geometry)} rows ({paste(names(table(geog_geometry$geog_level)), table(geog_geometry$geog_level), collapse = ', ')})"
-)
-
 # Save ----
 usethis::use_data(geog_index, overwrite = TRUE)
-saveRDS(geog_geometry, "data-raw/meta/geog_geometry.RDS")
+
