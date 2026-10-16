@@ -9,6 +9,7 @@ library(purrr)
 sf_use_s2(FALSE)
 
 pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 # Configuration ----
 OUTPUT_DIR <- "data-raw/transportation_data_processing/processed_data"
@@ -37,7 +38,7 @@ ctu_boundaries <- geog_geometry %>%
   select(ctu_id_gnis = geog_id, geog_name, geog_short_name, geog_id_type, geog_level)
 
 if (!file.exists(BLOCKGROUP_FILE)) {
-  stop("Block group data not found. Run epa_sld_download.R first.")
+  stop("Block group data not found. Run data-raw/transportation_data_processing/epa_sld.R first.")
 }
 
 mn_sld <- readRDS(BLOCKGROUP_FILE) %>%
@@ -155,13 +156,46 @@ epa_sld_county <- intersected %>%
   left_join(geog_index %>% filter(geog_level == "COUNTY") %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
 
 
-epa_sld <- bind_rows(epa_sld_ctu, epa_sld_county, epa_sld_region) %>%
+# Township groups: area-weighted over the same block-group pieces as the
+# member townships, i.e. an area-weighted mean of the townships
+epa_sld_twp <- intersected %>%
+  st_drop_geometry() %>%
+  inner_join(
+    twp_group_lookup() %>% distinct(ctu_id_gnis = geog_id, geog_id = group_id),
+    by = "ctu_id_gnis"
+  ) %>%
+  group_by(geog_id) %>%
+  summarise(
+    across(
+      all_of(D3_METRICS),
+      ~ {
+        # Handle NA values
+        valid_idx <- !is.na(.x) & !is.na(piece_area)
+        if (sum(valid_idx) == 0) {
+          return(NA_real_)
+        }
+        weighted_mean <- weighted.mean(.x[valid_idx], w = piece_area[valid_idx], na.rm = TRUE) %>%
+          round(digits = 2)
+        total_area <- sum(piece_area[valid_idx], na.rm = TRUE)
+        if (total_area == 0) NA_real_ else weighted_mean
+      },
+      .names = "{.col}"
+    ),
+    total_area_meters = sum(piece_area, na.rm = TRUE),
+    n_blockgroups = n_distinct(GEOID20),
+    .groups = "drop"
+  ) %>%
+  left_join(geog_index %>% filter(geog_level == TWP_GROUP_LEVEL) %>% select(geog_name, geog_id_type, geog_id, geog_level), by = c("geog_id"))
+
+
+epa_sld <- bind_rows(epa_sld_ctu, epa_sld_county, epa_sld_twp, epa_sld_region) %>%
   select(geog_name, geog_id, geog_id_type, geog_level, all_of(D3_METRICS), total_area_meters, n_blockgroups) %>%
   unique() # removes duplicate values for cities in multiple counties
 
 # Create long format (tidy)
 epa_sld_ctu_long <- epa_sld_ctu %>%
   bind_rows(epa_sld_county) %>%
+  bind_rows(epa_sld_twp) %>%
   bind_rows(epa_sld_region) %>%
   select(
     geog_name,
