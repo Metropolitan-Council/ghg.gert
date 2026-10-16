@@ -123,13 +123,17 @@ twp_group_lookup <- function(ctu_df = ghg.gert::ctu_county_area) {
 
 #' Attach group_name / group_id / group_designation to township rows.
 #' Non-member rows are dropped.
-#' @param by column in df holding the township name
-twp_group_tag <- function(df, by = "geog_name", lookup = twp_group_lookup()) {
+#' @param by column in df holding the township name (or GNIS id)
+#' @param key lookup column to match on: "geog_name" (default) or "geog_id".
+#'   Matching on GNIS id is robust to naming differences between sources.
+twp_group_tag <- function(df, by = "geog_name", lookup = twp_group_lookup(),
+                          key = c("geog_name", "geog_id")) {
+  key <- match.arg(key)
   df %>%
     dplyr::inner_join(
       lookup %>%
-        dplyr::select(geog_name, group_county = county_name, group_name, group_id, group_designation),
-      by = stats::setNames("geog_name", by)
+        dplyr::select(dplyr::all_of(key), group_county = county_name, group_name, group_id, group_designation),
+      by = stats::setNames(key, by)
     )
 }
 
@@ -175,6 +179,7 @@ twp_group_replace <- function(df, new, name_col = "geog_name") {
 #' @param designation_col If set, this column gets the group's
 #'   imagine_designation.
 #' @param county_col If set, this column gets the group's county_name.
+#' @param key Match townships on "geog_name" (name_col) or "geog_id" (id_col).
 #' @return Township-group rows only, ready for twp_group_replace().
 twp_group_sum <- function(df,
                           value_cols,
@@ -186,14 +191,17 @@ twp_group_sum <- function(df,
                           .fill = list(),
                           designation_col = NULL,
                           county_col = NULL,
+                          key = c("geog_name", "geog_id"),
                           lookup = twp_group_lookup()) {
-  twp <- twp_group_tag(df, by = name_col, lookup = lookup)
+  key <- match.arg(key)
+  tag_col <- if (key == "geog_id") id_col else name_col
+  twp <- twp_group_tag(df, by = tag_col, lookup = lookup, key = key)
   keys <- c("group_name", "group_id", "group_designation", "group_county")
 
   # warn if any member township is absent from df (e.g. a name mismatch
   # between the dataset and ctu_county_area), since the group would be
   # silently under-counted
-  missing_twp <- setdiff(lookup$geog_name, unique(twp[[name_col]]))
+  missing_twp <- setdiff(lookup[[key]], unique(twp[[tag_col]]))
   if (length(missing_twp) > 0) {
     cli::cli_warn("Member townships not found in data: {.val {missing_twp}}")
   }
@@ -207,7 +215,7 @@ twp_group_sum <- function(df,
 
   if (length(once_cols) > 0) {
     once <- twp %>%
-      dplyr::distinct(dplyr::across(dplyr::all_of(c("group_name", name_col, once_by, once_cols)))) %>%
+      dplyr::distinct(dplyr::across(dplyr::all_of(c("group_name", tag_col, once_by, once_cols)))) %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(c("group_name", once_by)))) %>%
       dplyr::summarise(
         dplyr::across(dplyr::all_of(once_cols), ~ sum(.x, na.rm = TRUE)),
@@ -243,9 +251,13 @@ twp_collapse_chr <- function(x, mixed = "aggregated") {
 #' Returns TRUE/FALSE invisibly; set strict = TRUE to error on mismatch.
 twp_group_check_sum <- function(df, value_col, label = value_col,
                                 name_col = "geog_name",
+                                id_col = "geog_id",
+                                key = c("geog_name", "geog_id"),
                                 lookup = twp_group_lookup(),
                                 strict = FALSE) {
-  member_total <- twp_group_tag(df, by = name_col, lookup = lookup)[[value_col]] %>%
+  key <- match.arg(key)
+  tag_col <- if (key == "geog_id") id_col else name_col
+  member_total <- twp_group_tag(df, by = tag_col, lookup = lookup, key = key)[[value_col]] %>%
     sum(na.rm = TRUE)
   group_total <- df[df[[name_col]] %in% twp_group_names(), ][[value_col]] %>%
     sum(na.rm = TRUE)
