@@ -6,6 +6,8 @@ library(dplyr, warn.conflicts = FALSE)
 library(tidyr, warn.conflicts = FALSE)
 library(readr, warn.conflicts = FALSE)
 library(arrow, warn.conflicts = FALSE)
+pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
 
@@ -603,9 +605,40 @@ region_weighted <- housing_join %>%
   ) %>%
   left_join(ghg.gert::geog_index %>% select(geog_name, geog_id), by = "geog_name")
 
+### add township-group weighted average (Carver / Scott Townships)
+# Same housing-unit weighting as county_weighted. Joined on geog_id (GNIS)
+# rather than name, since parcel names here still come from ccap_ctu.
+twp_lookup <- twp_group_lookup()
+
+twp_weighted <- housing_join %>%
+  filter(!is.na(units), units > 0) %>%
+  inner_join(
+    twp_lookup %>% select(geog_id, group_name, group_id, group_county = county_name),
+    by = "geog_id"
+  ) %>%
+  group_by(group_name, group_id, group_county, mc_classification, inventory_year) %>%
+  summarise(
+    sq_ft_use = weighted.mean(sq_ft_use, w = units, na.rm = TRUE),
+    median_year = weighted.mean(median_year, w = units, na.rm = TRUE),
+    n_members = n(),
+    .groups = "drop"
+  ) %>%
+  transmute(
+    county_name = group_county,
+    geog_id = group_id,
+    geog_name = group_name,
+    mc_classification, inventory_year, sq_ft_use, median_year, n_members
+  )
+
+# expect 2 groups x 4 housing types; n_members < 10 means some townships
+# have no units of that type (normal for multifamily / manufactured homes)
+print(twp_weighted)
+twp_weighted <- select(twp_weighted, -n_members)
+
 parcel_ctu <- bind_rows(
   county_weighted,
   parcel_complete,
+  twp_weighted,
   region_weighted
 )
 
