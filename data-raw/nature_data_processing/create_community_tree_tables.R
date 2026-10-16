@@ -2,7 +2,7 @@
 # this script takes what was learned there and creates two data objects for use in community trees function and app
 #
 # Creates two package data objects:
-#   1. community_tree_density  — median sqm canopy per tree by thrive designation
+#   1. community_tree_density  — median sqm canopy per tree by Imagine 2050 designation
 #   2. community_tree_baseline — tree count per CTU (DNR actual or modeled estimate)
 
 library(tidyverse)
@@ -32,9 +32,10 @@ dnr_metro <- read_excel("./data-raw/nature_data_processing/CommunityChangeTable.
   ) %>%
   select(community, county, trees_2023)
 
-ctu_meta <- readRDS("./data-raw/meta/ccap_ctu.rds") %>%
-  sf::st_drop_geometry() %>%
-  select(geog_name, ctu_class, geog_id = ctu_id_gnis, thrive_designation)
+# CTU list and Imagine 2050 designation (replaces deprecated ccap_ctu.RDS / Thrive)
+ctu_meta <- ghg.gert::geog_index %>%
+  filter(geog_id_type == "ctu_gnis") %>%
+  select(geog_name, ctu_class = geog_level, geog_id, imagine_designation)
 
 plantable_fraction <- c(
   Developed_Low  = 0.30,
@@ -61,7 +62,7 @@ nlcd_2022 <- bind_rows(ghg.gert::natural_systems_data$inventory) %>%
       Developed_High * plantable_fraction["Developed_High"]
   ) %>%
   select(geog_name, ctu_class, geog_id, urban_tree_sqkm, total_plantable_sqkm) %>%
-  left_join(ctu_meta %>% distinct(geog_id, thrive_designation), by = "geog_id")
+  left_join(ctu_meta %>% distinct(geog_id, imagine_designation), by = "geog_id")
 
 
 #  Match DNR to NLCD
@@ -82,10 +83,10 @@ if (nrow(unmatched_dnr) > 0) {
 }
 # all accounted for
 
-# Community tree density: sqm/tree by thrive designation
+# Community tree density: sqm/tree by Imagine designation
 
 community_tree_density <- matched %>%
-  group_by(thrive_designation) %>%
+  group_by(imagine_designation) %>%
   summarise(
     n_communities = n(),
     median_sqm_per_tree = median(sqm_per_tree),
@@ -109,8 +110,8 @@ community_tree_baseline <- nlcd_2022 %>%
     by = "geog_id"
   ) %>%
   left_join(
-    community_tree_density %>% select(thrive_designation, median_sqm_per_tree),
-    by = "thrive_designation"
+    community_tree_density %>% select(imagine_designation, median_sqm_per_tree),
+    by = "imagine_designation"
   ) %>%
   mutate(
     # Use designation-specific density; fall back to regional if designation missing
@@ -133,7 +134,7 @@ community_tree_baseline <- nlcd_2022 %>%
     )
   ) %>%
   select(
-    geog_name, ctu_class, geog_id, thrive_designation,
+    geog_name, ctu_class, geog_id, imagine_designation,
     tree_count, source, max_plantable_trees,
     sqm_per_tree, urban_tree_sqkm, total_plantable_sqkm
   )
@@ -184,7 +185,7 @@ county_tree_baseline <- community_tree_baseline %>%
   mutate(
     geog_name          = paste(county_name, "County"),
     ctu_class          = "COUNTY",
-    thrive_designation = county_name,
+    imagine_designation = county_name,
     source             = "modeled",
     sqm_per_tree       = regional_median
   ) %>%

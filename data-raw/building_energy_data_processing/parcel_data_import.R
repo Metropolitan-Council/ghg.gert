@@ -9,7 +9,11 @@ library(arrow, warn.conflicts = FALSE)
 pkgload::load_all()
 source("data-raw/meta/compile_townships.R")
 
-ccap_ctu <- readRDS(file.path(here::here(), "data-raw/meta/ccap_ctu.RDS"))
+# CTU list: one row per CTU-county piece, with class from geog_index.
+# Replaces the deprecated ccap_ctu.RDS. Names already carry the " Twp." suffix.
+ctu_meta <- twp_group_drop(ctu_county_area) %>%
+  left_join(geog_index %>% select(geog_id, ctu_class = geog_level), by = "geog_id") %>%
+  select(geog_name, county_name, geog_id, ctu_class)
 
 # fetch parcel data from MN Geospatial Commons
 # need to modify import code from councilR to get multiple layers
@@ -295,16 +299,15 @@ mn_parcel_map <- mn_parcel_predict %>%
   ) %>%
   mutate(ctu_id = case_when(
     CTU_NAME == "Credit River" ~ # incorporated as city in 2021
-      ccap_ctu$ctu_id_gnis[ccap_ctu$geog_name == "Credit River"],
+      unique(ctu_meta$geog_id[ctu_meta$geog_name == "Credit River"]),
     CTU_NAME == "Empire Township" ~ # incorporated as city in 2024
-      ccap_ctu$ctu_id_gnis[ccap_ctu$geog_name == "Empire"],
+      unique(ctu_meta$geog_id[ctu_meta$geog_name == "Empire"]),
     TRUE ~ CTU_ID_TXT
   )) %>%
-  left_join(ccap_ctu, by = c(
-    "ctu_id" = "ctu_id_gnis",
+  left_join(ctu_meta, by = c(
+    "ctu_id" = "geog_id",
     "CO_NAME" = "county_name"
-  )) %>%
-  sf::st_as_sf()
+  ))
 
 
 mn_parcel_county <- mn_parcel_predict %>%
@@ -329,16 +332,9 @@ mn_parcel_county <- mn_parcel_predict %>%
 
 ctu_parcel <- mn_parcel_map %>%
   ungroup() %>%
-  sf::st_drop_geometry() %>%
   rename(county_name = CO_NAME) %>%
-  select(-c(CTU_NAME, CTU_ID_TXT, statefp, state_abb)) %>%
-  mutate(
-    inventory_year = 2021,
-    geog_name = if_else(ctu_class == "TOWNSHIP",
-      paste(geog_name, "Twp."),
-      geog_name
-    )
-  )
+  select(-c(CTU_NAME, CTU_ID_TXT)) %>%
+  mutate(inventory_year = 2021)
 
 
 ### go back and use simple lm to fill in 0 sq ft cities (Hennepin)
@@ -445,19 +441,15 @@ mfd_out <- mfd_parcel %>%
 
 
 ### --- fill in missing CTU-category combos using county averages ---
-### Use ccap_ctu as the canonical CTU list so every CTU gets a row for
+### Use ctu_meta as the canonical CTU list so every CTU gets a row for
 ### every residential category, even if it has zero parcels of that type
 ### (e.g. Landfall has no residential parcels at all).
 
-all_ctus <- ccap_ctu %>%
-  sf::st_drop_geometry() %>%
+all_ctus <- ctu_meta %>%
   transmute(
     county_name,
-    ctu_id = ctu_id_gnis,
-    geog_name = if_else(ctu_class == "TOWNSHIP",
-      paste(geog_name, "Twp."),
-      geog_name
-    ),
+    ctu_id = geog_id,
+    geog_name,
     inventory_year = 2021
   ) %>%
   # one row per CTU: drop the minor-county pieces of split CTUs
@@ -607,7 +599,7 @@ region_weighted <- housing_join %>%
 
 ### add township-group weighted average (Carver / Scott Townships)
 # Same housing-unit weighting as county_weighted. Joined on geog_id (GNIS)
-# rather than name, since parcel names here still come from ccap_ctu.
+# rather than name, to be robust to any naming differences.
 twp_lookup <- twp_group_lookup()
 
 twp_weighted <- housing_join %>%

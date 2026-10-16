@@ -1,5 +1,6 @@
 #### import random forest models from inventory repo to project mcf demand forward
 load("data/demographic_data.rda")
+load("data/geog_index.rda")
 library(sf)
 # load in predictor data
 urbansim_res <- demographic_data %>%
@@ -32,8 +33,6 @@ urbansim_busi <- demographic_data %>%
     values_from = value
   )
 
-ccap_ctu <- readr::read_rds("data-raw/meta/ccap_ctu.RDS")
-ccap_county <- readr::read_rds("data-raw/meta/ccap_county.RDS")
 
 coctu_res_mcf <- readr::read_rds(
   "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_residential_mcf.rds"
@@ -69,12 +68,11 @@ electricity_res <- left_join(res_mcf,
     select(-geog_name),
   by = c("geog_id", "geog_level", "inventory_year")
 ) %>%
-  left_join(ccap_ctu %>% st_drop_geometry() %>%
-    distinct(ctu_id_gnis, thrive_designation) %>%
-    rename(geog_id = ctu_id_gnis)) %>%
+  # Imagine 2050 designation (replaces deprecated Thrive via ccap_ctu.RDS)
+  left_join(geog_index %>% distinct(geog_id, imagine_designation), by = "geog_id") %>%
   mutate(broad_designation = case_when(
-    grepl("Urban", thrive_designation) ~ "Urban",
-    grepl("Suburban", thrive_designation) ~ "Suburban",
+    grepl("Urban", imagine_designation) ~ "Urban",
+    grepl("Suburban", imagine_designation) ~ "Suburban",
     TRUE ~ "Rural"
   ))
 

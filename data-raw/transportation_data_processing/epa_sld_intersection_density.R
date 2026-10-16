@@ -16,7 +16,6 @@ CSV_DIR <- "data-raw/transportation_data_processing/csv_copies"
 
 # Input files
 BLOCKGROUP_FILE <- file.path(OUTPUT_DIR, "mn_sld_blockgroups.RDS")
-CTU_FILE <- "data-raw/meta/ccap_ctu.RDS"
 
 # Output files
 OUTPUT_LONG_RDS <- file.path(OUTPUT_DIR, "ctu_intersection_density_long.RDS")
@@ -30,22 +29,19 @@ D3_METRICS <- c(
 )
 
 # Aggregate block groups to CTUs ----
-if (!file.exists(CTU_FILE)) {
-  stop("CTU boundary data not found. Expected: ", CTU_FILE)
-}
-
-ccap_ctu <- readRDS(CTU_FILE) %>%
-  filter(ctu_id_gnis %in% geog_index$geog_id) %>%
+# CTU boundaries from geog_geometry (built in data-raw/meta/compile_geog_geometry.R;
+# replaces deprecated ctu_boundaries.RDS)
+ctu_boundaries <- geog_geometry %>%
+  filter(geog_id_type == "ctu_gnis") %>%
   sf::st_make_valid() %>%
-  select(ctu_id_gnis) %>%
-  left_join(geog_index %>% select(ctu_id_gnis = geog_id, geog_name, geog_short_name, geog_id_type, geog_level), by = "ctu_id_gnis")
+  select(ctu_id_gnis = geog_id, geog_name, geog_short_name, geog_id_type, geog_level)
 
 if (!file.exists(BLOCKGROUP_FILE)) {
   stop("Block group data not found. Run epa_sld_download.R first.")
 }
 
 mn_sld <- readRDS(BLOCKGROUP_FILE) %>%
-  st_transform(st_crs(ccap_ctu)) %>%
+  st_transform(st_crs(ctu_boundaries)) %>%
   st_make_valid() %>%
   mutate(
     bg_area = as.numeric(AC_LAND) %>%
@@ -57,12 +53,12 @@ mn_sld <- readRDS(BLOCKGROUP_FILE) %>%
   filter(county_fips %in% geog_index$geog_id[geog_index$geog_level == "COUNTY"])
 # Ensure same CRS and fix invalid geometries
 
-message("Aggregating EPA SLD to ", nrow(ccap_ctu), " CTUs...")
+message("Aggregating EPA SLD to ", nrow(ctu_boundaries), " CTUs...")
 
 # Intersect block groups with CTUs
 intersected <- st_intersection(
   mn_sld %>% select(GEOID20, bg_area, county_fips, all_of(D3_METRICS)),
-  ccap_ctu %>% select(ctu_id_gnis) %>% unique()
+  ctu_boundaries %>% select(ctu_id_gnis) %>% unique()
 ) %>%
   # Calculate intersection piece areas and area-weighted averages
   mutate(piece_area = st_area(geometry) %>%
