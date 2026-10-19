@@ -1,25 +1,30 @@
 # load TBI data if it doesn't already exist
-if (!fs::file_exists("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Trip.csv")) {
+# tbi/ is not tracked in git (~4GB unzipped); this block recreates it
+tbi_dir <- "data-raw/transportation_data_processing/tbi"
+
+if (!fs::file_exists(file.path(tbi_dir, "TravelBehaviorInventory2023LinkedTrip.csv"))) {
   pkgload::load_all()
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2019/csv_society_tbi_home_interview2019.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2019.zip"
-  )
+  dir.create(tbi_dir, recursive = TRUE, showWarnings = FALSE)
 
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2021/csv_society_tbi_home_interview2021.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2021.zip"
-  )
+  # zips are large; R's default 60s timeout is too short
+  old_timeout <- getOption("timeout")
+  options(timeout = max(1800, old_timeout))
 
-  download.file(
-    url = "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_tbi_home_interview2023/csv_society_tbi_home_interview2023.zip",
-    destfile = "data-raw/transportation_data_processing/tbi/csv_society_tbi_home_interview2023.zip"
-  )
+  # Met Council GIS data server (the old Geospatial Commons links are dead)
+  for (yr in c(2019, 2021, 2023)) {
+    zip_name <- paste0("tbi_home_interview", yr, ".zip")
+    download.file(
+      url = paste0("https://gisdata.metc.state.mn.us/gisdata/Society/", zip_name),
+      destfile = file.path(tbi_dir, zip_name),
+      mode = "wb"
+    )
+  }
+  options(timeout = old_timeout)
 
-  list.files("data-raw/transportation_data_processing/tbi/", full.names = TRUE) %>%
+  list.files(tbi_dir, pattern = "\\.zip$", full.names = TRUE) %>%
     purrr::map(
       function(x) {
-        zip::unzip(x, exdir = "data-raw/transportation_data_processing/tbi/")
+        zip::unzip(x, exdir = tbi_dir)
       }
     )
 }
@@ -31,21 +36,21 @@ if (exists("trip") & exists("hh")) {
 
   # warning that these are hefty, around 4gb
   trip <- bind_rows(
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019LinkedTrip.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021LinkedTrip.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023LinkedTrip.csv")
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2019/csv/TravelBehaviorInventory2019LinkedTrip.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2021/csv/TravelBehaviorInventory2021LinkedTrip.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2023/csv/TravelBehaviorInventory2023LinkedTrip.csv")
   )
 
   hh <- bind_rows(
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023Household.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021Household.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019Household.csv")
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2019/csv/TravelBehaviorInventory2019Household.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2021/csv/TravelBehaviorInventory2021Household.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2023/csv/TravelBehaviorInventory2023Household.csv")
   )
 
   trip_purpose <- bind_rows(
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2019TripPurpose.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2021TripPurpose.csv"),
-    read.csv("data-raw/transportation_data_processing/tbi/TravelBehaviorInventory2023TripPurpose.csv")
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2019/csv/TravelBehaviorInventory2019TripPurpose.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2021/csv/TravelBehaviorInventory2021TripPurpose.csv"),
+    read.csv("data-raw/transportation_data_processing/tbi/tbi_home_interview2023/csv/TravelBehaviorInventory2023TripPurpose.csv")
   )
 
   cprg_tbi_hh_counties <- c(
