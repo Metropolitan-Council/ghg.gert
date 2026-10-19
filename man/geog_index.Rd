@@ -3,22 +3,32 @@
 \docType{data}
 \name{geog_index}
 \alias{geog_index}
-\title{Geographic index of cities, names, types}
+\title{Geographic index of cities, townships, counties, and region}
 \format{
 tibble
 \itemize{
-\item \strong{ctu_name} CTU name, concurrent with original data tables
-\item \strong{geog_name} Geographic name
-\item \strong{geog_level} City, township, unorganized territory, county
-\item \strong{geog_id} ID value
-\item \strong{geog_id_type} ID value type
+\item \strong{geog_name} Geographic name (townships carry a " Twp." suffix)
+\item \strong{geog_short_name} Short name
+\item \strong{geog_level} \code{"CITY"}, \code{"TOWNSHIP"}, \code{"UNORGANIZED"}, \code{"COUNTY"},
+\code{"REGION"}, or \code{"TOWNSHIP_GROUP"}
+\item \strong{geog_id} ID value: GNIS ID (CTUs), county FIPS, \code{"00000000"} (region),
+or county FIPS + \code{"T"} (township groups)
+\item \strong{imagine_designation} Imagine 2050 community designation (CTUs and
+township groups), or \code{"County"} / \code{"Region"}
+\item \strong{geog_id_type} ID value type: \code{"ctu_gnis"}, \code{"county_fips"}, \code{"region"},
+or \code{"township_group"}
 }
 }
 \usage{
 geog_index
 }
 \description{
-Geographic index of cities, names, types
+One row per geography available in the tool: CTUs (cities,
+townships, unorganized territory) in the seven-county metro, the seven
+counties, the Twin Cities region, and two township groups ("Carver
+Townships", "Scott Townships") that aggregate each county's townships.
+Township group membership and designations are defined in
+\code{data-raw/meta/compile_townships.R}.
 }
 \examples{
 library(ghg.gert)
@@ -27,6 +37,7 @@ geog_index
 \seealso{
 Other datasets:
 \code{\link{commute_vmt_proportion}},
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
@@ -35,6 +46,7 @@ Other datasets:
 \code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},
