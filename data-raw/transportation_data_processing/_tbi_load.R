@@ -2,7 +2,7 @@
 # tbi/ is not tracked in git (~4GB unzipped); this block recreates it
 tbi_dir <- "data-raw/transportation_data_processing/tbi"
 
-if (!fs::file_exists(file.path(tbi_dir, "TravelBehaviorInventory2023LinkedTrip.csv"))) {
+if (!fs::file_exists(file.path(tbi_dir, "tbi_home_interview2023/csv/TravelBehaviorInventory2023LinkedTrip.csv"))) {
   pkgload::load_all()
   dir.create(tbi_dir, recursive = TRUE, showWarnings = FALSE)
 
