@@ -1,4 +1,5 @@
 pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 # County VMT ----
 # fetch from CPRG repository and sum up at county level, similar to what was done in fix_update_pmt.R
@@ -92,20 +93,6 @@ vehicle_occupancy <- bind_rows(
 # for ctus with more than one county, allocate VMT based on the proportion of each CTU's VMT in each county for each year
 # complete for all vehicle fuel types, plus Total, Exist, and Sales variations for each fuel type
 # Tot should be the sum of each fuel type for each year
-
-# Load CTU data and prepare VMT proportions
-cprg_ctu <- readr::read_rds("https://github.com/Metropolitan-Council/ghg-cprg/raw/refs/heads/main/_meta/data/cprg_ctu.RDS") %>%
-  sf::st_drop_geometry() %>%
-  filter(county_name %in% c(
-    "Anoka",
-    "Carver",
-    "Dakota",
-    "Hennepin",
-    "Ramsey",
-    "Scott",
-    "Washington"
-  )) %>%
-  select(-statefp, -state_abb, -geoid_wis, -cprg_area)
 
 # Calculate total VMT per CTU across all counties
 coctu_vmt <- coctu_vmt_forecast %>%
@@ -369,6 +356,43 @@ parking_cost <- bind_rows(
   county_parking_cut
 ) %>%
   unique()
+
+# Township groups: AVO and parking ----
+# Matched on GNIS id. (transportation_data group rows are added in
+# fix_region_aggregate.R, the last script to write it.)
+twp_lookup <- twp_group_lookup() %>% select(geog_id, group_name, group_id)
+
+# AVO: member-township AVO weighted by each township's activity for that
+# mode in the earliest data year (PMT for passenger modes, TMT for freight).
+# Modes with one value across townships come through unchanged.
+base_year <- min(transportation_data$passenger$year)
+
+mode_weights <- bind_rows(
+  transportation_data$passenger %>% filter(var == "PMT"),
+  transportation_data$freight %>% filter(var == "TMT")
+) %>%
+  filter(year == base_year) %>%
+  select(geog_id, mode, w = value)
+
+vehicle_occupancy <- twp_group_replace(
+  vehicle_occupancy,
+  vehicle_occupancy %>%
+    inner_join(twp_lookup, by = "geog_id") %>%
+    left_join(mode_weights, by = c("geog_id", "mode")) %>%
+    group_by(group_name, group_id, mode, var, aeo_mode, type) %>%
+    summarise(value = round(twp_wmean(value, w), 2), .groups = "drop") %>%
+    rename(geog_name = group_name, geog_id = group_id)
+)
+
+# Parking: simple mean of member townships (all $0 today)
+parking_cost <- twp_group_replace(
+  parking_cost,
+  parking_cost %>%
+    inner_join(twp_lookup, by = "geog_id") %>%
+    group_by(group_name, group_id, mode, var, aeo_mode, type) %>%
+    summarise(value = mean(value, na.rm = TRUE), .groups = "drop") %>%
+    rename(geog_name = group_name, geog_id = group_id)
+)
 
 # Save updated datasets
 usethis::use_data(transportation_data, overwrite = TRUE)
