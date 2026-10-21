@@ -3,10 +3,15 @@
 #
 # Creates two package data objects:
 #   1. community_tree_density  — median sqm canopy per tree by Imagine 2050 designation
-#   2. community_tree_baseline — tree count per CTU (DNR actual or modeled estimate)
+#   2. community_tree_baseline — tree count per CTU (DNR actual or modeled estimate),
+#      plus county roll-ups and township groups (sum of member townships)
+#
+# RUN AFTER nature_data_processing/00_prepare_land_cover_data.R
 
 library(tidyverse)
 library(readxl)
+pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 # Load data
 
@@ -191,11 +196,39 @@ county_tree_baseline <- community_tree_baseline %>%
   ) %>%
   select(names(community_tree_baseline))
 
-# Combine CTU and county into single dataset
-community_tree_baseline <- bind_rows(community_tree_baseline, county_tree_baseline)
+# township groups: sum of member townships (matched on GNIS id). Member
+# counts are already rounded, so they are summed as is; sqm_per_tree is the
+# implied density of the summed canopy and tree count.
+twp_tree_baseline <- community_tree_baseline %>%
+  twp_group_tag(by = "geog_id", key = "geog_id") %>%
+  group_by(group_name, group_id, group_designation) %>%
+  summarise(
+    tree_count = sum(tree_count),
+    max_plantable_trees = sum(max_plantable_trees),
+    urban_tree_sqkm = sum(urban_tree_sqkm),
+    total_plantable_sqkm = sum(total_plantable_sqkm),
+    source = twp_collapse_chr(source, "mixed"),
+    n_members = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    geog_name = group_name,
+    geog_id = group_id,
+    ctu_class = TWP_GROUP_LEVEL,
+    imagine_designation = group_designation,
+    sqm_per_tree = if_else(tree_count > 0, urban_tree_sqkm * 1e6 / tree_count, regional_median)
+  )
+
+# expect 10 members per group
+print(select(twp_tree_baseline, geog_name, n_members, tree_count, max_plantable_trees, source))
+twp_tree_baseline <- select(twp_tree_baseline, names(community_tree_baseline))
+
+# Combine CTU, township group, and county into single dataset
+community_tree_baseline <- bind_rows(community_tree_baseline, twp_tree_baseline, county_tree_baseline)
 
 cat("\n── Combined baseline ──\n")
-cat("  CTUs:    ", sum(community_tree_baseline$ctu_class != "COUNTY"), "\n")
+cat("  CTUs:    ", sum(!community_tree_baseline$ctu_class %in% c("COUNTY", TWP_GROUP_LEVEL)), "\n")
+cat("  Township groups:", sum(community_tree_baseline$ctu_class == TWP_GROUP_LEVEL), "\n")
 cat("  Counties:", sum(community_tree_baseline$ctu_class == "COUNTY"), "\n")
 
 cat("\n── County rows ──\n")
