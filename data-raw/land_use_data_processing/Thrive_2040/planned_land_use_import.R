@@ -104,18 +104,31 @@ planned_land_use <- list(
 )
 
 # township groups ----
-# Acres summed from member townships within each exact density category
-# (matched on GNIS id), so each category keeps its unit_mean and the land
-# use module gets an acre-weighted density across the group.
+# Group rows keep each member township's own land use categories: the
+# township name is prefixed to ctu_landuse_desc (e.g. "Benton Twp. -
+# Agricultural"), so categories stay distinct per township rather than
+# merging same-named categories across townships. Matched on GNIS id; each
+# category keeps its unit_mean, so the land use module still gets an
+# acre-weighted density across the group. Member township rows themselves
+# are unchanged.
 density_cols <- c(
   "ctu_landuse_desc", "hsg_den", "units_per_acre", "unit_minimum",
   "unit_maximum", "per_acres", "unit_mean"
 )
 
+twp_member_ids <- twp_group_lookup()$geog_id
+
 planned_land_use <- purrr::imap(planned_land_use, function(df, nm) {
+  df_labeled <- df %>%
+    mutate(ctu_landuse_desc = if_else(
+      geog_id %in% twp_member_ids,
+      paste(geog_name, "-", ctu_landuse_desc),
+      ctu_landuse_desc
+    ))
+
   out <- twp_group_replace(
     df,
-    twp_group_sum(df,
+    twp_group_sum(df_labeled,
       value_cols = "acres",
       group_cols = density_cols,
       key = "geog_id",
