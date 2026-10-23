@@ -189,19 +189,63 @@
 "fuel_economy"
 
 
-#' @title Geographic index of cities, names, types
+#' @title Geographic index of cities, townships, counties, and region
+#' @description One row per geography available in the tool: CTUs (cities,
+#'   townships, unorganized territory) in the seven-county metro, the seven
+#'   counties, the Twin Cities region, and two township groups ("Carver
+#'   Townships", "Scott Townships") that aggregate each county's townships.
+#'   Township group membership and designations are defined in
+#'   `data-raw/meta/compile_townships.R`.
 #' @format tibble
-#' - **ctu_name** CTU name, concurrent with original data tables
-#' - **geog_name** Geographic name
-#' - **geog_level** City, township, unorganized territory, county
-#' - **geog_id** ID value
-#' - **geog_id_type** ID value type
+#' - **geog_name** Geographic name (townships carry a " Twp." suffix)
+#' - **geog_short_name** Short name
+#' - **geog_level** `"CITY"`, `"TOWNSHIP"`, `"UNORGANIZED"`, `"COUNTY"`,
+#'   `"REGION"`, or `"TOWNSHIP_GROUP"`
+#' - **geog_id** ID value: GNIS ID (CTUs), county FIPS, `"00000000"` (region),
+#'   or county FIPS + `"T"` (township groups)
+#' - **imagine_designation** Imagine 2050 community designation (CTUs and
+#'   township groups), or `"County"` / `"Region"`
+#' - **geog_id_type** ID value type: `"ctu_gnis"`, `"county_fips"`, `"region"`,
+#'   or `"township_group"`
 #' @family datasets
 #' @examples
 #' library(ghg.gert)
 #' geog_index
 # geog_index -----
 "geog_index"
+
+
+#' @title Boundaries for every geography in geog_index
+#' @description Simple features object with one (multi)polygon per row of
+#'   [geog_index]. CTU and county boundaries are from the Census (via
+#'   councilR); CTUs split by a county line are unioned to a single feature,
+#'   and the region and township groups are unioned from their parts.
+#'   Built in `data-raw/meta/compile_geog_geometry.R`.
+#' @format sf object (MULTIPOLYGON, NAD83 / UTM zone 15N, EPSG:26915) with the
+#'   [geog_index] columns plus **geometry**.
+#' @family datasets
+#' @examples
+#' library(ghg.gert)
+#' geog_geometry
+# geog_geometry -----
+"geog_geometry"
+
+
+#' @title Share of each CTU's area in each county
+#' @description One row per CTU-county piece, for assigning CTUs (and township
+#'   groups) to counties, e.g. in [county_assign()]. Township groups each sit
+#'   wholly within one county. Built in `data-raw/meta/compile_geog_geometry.R`.
+#' @format tibble
+#' - **geog_name** CTU or township group name
+#' - **county_name** County name
+#' - **geog_id** CTU GNIS ID or township group ID
+#' - **pct_of_ctu_area** Share of the CTU's area in that county (0 to 1)
+#' @family datasets
+#' @examples
+#' library(ghg.gert)
+#' ctu_county_area
+# ctu_county_area -----
+"ctu_county_area"
 
 
 #' @title Land cover type by county and year (2001 to 2021)
@@ -230,15 +274,23 @@
 "lc_county"
 
 
-#' @title Future city and county demographic information from UrbanSim
+#' @title Annual demographic data for CTUs, counties, region, and township groups
+#' @description UrbanSim projections (2005 to 2050, interpolated annually),
+#'   scaled to Imagine 2050 local forecasts. Township groups are the sum of
+#'   their member townships after scaling.
 #' @format tibble
-#' - **inventory_year** year
+#' - **emissions_year** Year
 #' - **geog_name** Geographic name
-#' - **geog_level** City, township, unorganized territory, county
+#' - **geog_level** See [geog_index]
 #' - **geog_id** ID value
 #' - **geog_id_type** ID value type
-#' - **sp_categories** alue category. One of "households", "jobs", "multifamily_units", "population", "single_family_units"
-#' - **value** value
+#' - **sp_categories** Value category. One of `"population"`,
+#'   `"total_households"`, `"single_family_detached"`,
+#'   `"single_family_attached"`, `"multifamily_units"`, `"manufactured_homes"`,
+#'   `"jobs"`, `"commercial_jobs"`, `"industrial_jobs"`,
+#'   `"commercial_job_space"`, `"industrial_job_space"`
+#' - **value** Value
+#' - **value_change_from_base** Change in value from 2022
 #' @family datasets
 #' @examples
 #' library(ghg.gert)
@@ -247,24 +299,31 @@
 "demographic_data"
 
 
-#' @title A list of solid waste activity data tables
+#' @title Waste activity data (solid waste and wastewater)
 #'
-#' @format A named list of five tibbles
+#' @description County solid waste from MPCA SCORE reports through the
+#'   reference year (2022), downscaled to CTUs by population using each
+#'   county's per capita rates; projections carry 2022 per capita rates
+#'   forward. Wastewater rows use population as the activity scalar. Includes
+#'   CTUs, counties, the region (sum of counties), and township groups (sum of
+#'   member townships). Built in `data-raw/waste_data_processing/waste_data.R`.
+#'
+#' @format A named list
 #' \describe{
-#'   \item{ctu$baseline}{tibble with 20,088 rows and 8 columns, `inventory_year`,
-#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
-#'       `units_activity`, `data_type`}
-#'   \item{ctu$projections}{tibble with 31,248 rows and 8 columns, `inventory_year`,
-#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
-#'       `units_activity`, `data_type`}
-#'   \item{county$baseline}{tibble with 756 rows and 8 columns, `inventory_year`,
-#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
-#'       `units_activity`, `data_type`}
-#'   \item{county$projections}{tibble with 1,176 rows and 8 columns, `inventory_year`,
-#'       `geog_id`, `geog_name`, `geog_level`, `source`, `value_activity`,
-#'       `units_activity`, `data_type`}
-#'   \item{characterization}{tibble with 50 rows and 5 columns, `Material`,
-#'   `Mean`, `Lower`, `Upper`, `Category`}
+#'   \item{inventory}{tibble of annual activity through 2022 with columns
+#'       `inventory_year`, `geog_id`, `geog_name`, `geog_level`, `geog_pop`,
+#'       `source`, `value_activity`, `units_activity`, `data_type`}
+#'   \item{projections}{tibble of annual activity after 2022, same columns as
+#'       `inventory`}
+#'   \item{solid_waste_baseline}{tibble of 2022 solid waste by source with
+#'       `pct_of_total`, MPCA 2030 targets (`target2030`), `changeFromTarget`,
+#'       and `action`}
+#'   \item{mpca}{list of MPCA targets: `waste_reduction` (reduction by year)
+#'       and `source_diversions` (target share by source and year)}
+#'   \item{characterization}{tibble of MPCA waste composition with columns
+#'       `Material`, `Mean`, `Lower`, `Upper`, `Category`}
+#'   \item{epa}{list of EPA wastewater inputs: `wastewater_constants` and
+#'       `protein_consumption`}
 #' }
 #' @family datasets
 #'
@@ -272,10 +331,9 @@
 #'
 #' @examples
 #' library(ghg.gert)
-#' waste_data$ctu$baseline
-#' waste_data$ctu$projections
-#' waste_data$county$baseline
-#' waste_data$county$projections
+#' waste_data$inventory
+#' waste_data$projections
+#' waste_data$solid_waste_baseline
 #' waste_data$characterization
 # waste_data -----
 "waste_data"
@@ -298,9 +356,10 @@
 #' or geography level (for counties and region).
 #'
 #' In cases where there were no commute data for a given community designation,
-#' CTUs were assigned the region-level estimate.
+#' CTUs were assigned the region-level estimate. Township groups take the
+#' estimate for their assigned designation (see [geog_index]).
 #'
-#' @format A tibble with 6 columns and 194 observations.
+#' @format A tibble with 6 columns.
 #' - **mode**: Transportation mode, `"PLDV"`.
 #' - **var**: Variable name, `"COMMUTE_VMT_PROP"`.
 #' - **geog_name**: Geographic name.
@@ -318,11 +377,12 @@
 #' @description Compiled from the EPA Smart Location Database (SLD) 2021 edition, this dataset provides intersection density metrics aggregated from
 #'   2019 block groups (GEOID20) to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.
 #'   EPA cites 2018 HERE Maps and NAVSTREETS as data sources and uses acres of land as the denominator for intersection density calculations.
+#'   Counties, the region, and township groups are area-weighted over the same block group pieces.
 #'   Zotero key chapmanSmartLocationDatabase2021
-#' @format A tibble with 5 columns and 186 observations.
-#' - **geog_id**: CTU GNIS ID
-#' - **geog_name**: CTU name
-#' - **geog_id_type**: CTU ID type
+#' @format A tibble with 4 columns.
+#' - **geog_id**: ID value (see [geog_index])
+#' - **geog_name**: Geographic name
+#' - **geog_id_type**: ID value type
 #' - **intersection_density**: Total road network density measured in intersections per square mile
 #' @family datasets
 # epa_sld_intersection_density -----

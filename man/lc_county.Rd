@@ -34,6 +34,7 @@ unique(lc_county$county_name)
 \seealso{
 Other datasets:
 \code{\link{commute_vmt_proportion}},
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
@@ -42,6 +43,7 @@ Other datasets:
 \code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{geog_index}},
 \code{\link{naics_codes}},
 \code{\link{transportation_data}},

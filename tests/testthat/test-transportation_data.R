@@ -245,7 +245,10 @@ testthat::test_that("bus AVO correct", {
       "Hennepin County", 8.09,
       "Ramsey County", 8.09,
       "Scott County", 8.09,
-      "Washington County", 8.09
+      "Washington County", 8.09,
+      # township groups: PMT-weighted mean of member townships (fix_county_aggregate.R)
+      "Carver Townships", 15.53,
+      "Scott Townships", 18.94
     )
   )
 })

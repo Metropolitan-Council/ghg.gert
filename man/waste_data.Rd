@@ -3,24 +3,24 @@
 \docType{data}
 \name{waste_data}
 \alias{waste_data}
-\title{A list of solid waste activity data tables}
+\title{Waste activity data (solid waste and wastewater)}
 \format{
-A named list of five tibbles
+A named list
 \describe{
-\item{ctu$baseline}{tibble with 20,088 rows and 8 columns, \code{inventory_year},
-\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
-\code{units_activity}, \code{data_type}}
-\item{ctu$projections}{tibble with 31,248 rows and 8 columns, \code{inventory_year},
-\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
-\code{units_activity}, \code{data_type}}
-\item{county$baseline}{tibble with 756 rows and 8 columns, \code{inventory_year},
-\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
-\code{units_activity}, \code{data_type}}
-\item{county$projections}{tibble with 1,176 rows and 8 columns, \code{inventory_year},
-\code{geog_id}, \code{geog_name}, \code{geog_level}, \code{source}, \code{value_activity},
-\code{units_activity}, \code{data_type}}
-\item{characterization}{tibble with 50 rows and 5 columns, \code{Material},
-\code{Mean}, \code{Lower}, \code{Upper}, \code{Category}}
+\item{inventory}{tibble of annual activity through 2022 with columns
+\code{inventory_year}, \code{geog_id}, \code{geog_name}, \code{geog_level}, \code{geog_pop},
+\code{source}, \code{value_activity}, \code{units_activity}, \code{data_type}}
+\item{projections}{tibble of annual activity after 2022, same columns as
+\code{inventory}}
+\item{solid_waste_baseline}{tibble of 2022 solid waste by source with
+\code{pct_of_total}, MPCA 2030 targets (\code{target2030}), \code{changeFromTarget},
+and \code{action}}
+\item{mpca}{list of MPCA targets: \code{waste_reduction} (reduction by year)
+and \code{source_diversions} (target share by source and year)}
+\item{characterization}{tibble of MPCA waste composition with columns
+\code{Material}, \code{Mean}, \code{Lower}, \code{Upper}, \code{Category}}
+\item{epa}{list of EPA wastewater inputs: \code{wastewater_constants} and
+\code{protein_consumption}}
 }
 }
 \source{
@@ -30,19 +30,24 @@ https://data.pca.state.mn.us/views/SCOREoverview/SCOREOverview
 waste_data
 }
 \description{
-A list of solid waste activity data tables
+County solid waste from MPCA SCORE reports through the
+reference year (2022), downscaled to CTUs by population using each
+county's per capita rates; projections carry 2022 per capita rates
+forward. Wastewater rows use population as the activity scalar. Includes
+CTUs, counties, the region (sum of counties), and township groups (sum of
+member townships). Built in \code{data-raw/waste_data_processing/waste_data.R}.
 }
 \examples{
 library(ghg.gert)
-waste_data$ctu$baseline
-waste_data$ctu$projections
-waste_data$county$baseline
-waste_data$county$projections
+waste_data$inventory
+waste_data$projections
+waste_data$solid_waste_baseline
 waste_data$characterization
 }
 \seealso{
 Other datasets:
 \code{\link{commute_vmt_proportion}},
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
@@ -51,6 +56,7 @@ Other datasets:
 \code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},
