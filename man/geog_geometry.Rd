@@ -19,8 +19,11 @@ and the region and township groups are unioned from their parts.
 Built in \code{data-raw/meta/compile_geog_geometry.R}.
 }
 \examples{
+#
+\dontrun{
 library(ghg.gert)
 geog_geometry
+}
 }
 \seealso{
 Other datasets:

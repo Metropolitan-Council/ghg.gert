@@ -225,8 +225,11 @@
 #'   [geog_index] columns plus **geometry**.
 #' @family datasets
 #' @examples
+#' #
+#' \dontrun{
 #' library(ghg.gert)
 #' geog_geometry
+#' }
 # geog_geometry -----
 "geog_geometry"
 

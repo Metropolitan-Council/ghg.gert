@@ -15,18 +15,28 @@ source("data-raw/meta/compile_townships.R")
 county_geog <- councilR::fetch_county_geo()
 
 # fetch_ctu_geo() looks for mn_fips_codes which is missing from councilR
-mn_fips_codes <- tigris::fips_codes %>% dplyr::filter(state == "MN",
-                                                      county_code %in% county_geog$COUNTYFP)
+mn_fips_codes <- tigris::fips_codes %>% dplyr::filter(
+  state == "MN",
+  county_code %in% county_geog$COUNTYFP
+)
 ctu_geog <- councilR::fetch_ctu_geo() %>%
-  mutate(CTU_NAME = stringr::str_replace_all(CTU_NAME,
-                                    "St\\.",
-                                    "Saint"),
-         CTU_NAME = stringr::str_replace_all(CTU_NAME,
-                                             "Village of ",
-                                             ""),
-         CTU_NAME = stringr::str_replace_all(CTU_NAME,
-                                             stringr::fixed(" (unorg.)"),
-                                             ""))
+  mutate(
+    CTU_NAME = stringr::str_replace_all(
+      CTU_NAME,
+      "St\\.",
+      "Saint"
+    ),
+    CTU_NAME = stringr::str_replace_all(
+      CTU_NAME,
+      "Village of ",
+      ""
+    ),
+    CTU_NAME = stringr::str_replace_all(
+      CTU_NAME,
+      stringr::fixed(" (unorg.)"),
+      ""
+    )
+  )
 
 # project both to UTM 15N so sf uses planar GEOS rather than spherical s2,
 # which rejects some Census polygons (degenerate edges)
@@ -121,7 +131,7 @@ geog_geometry <- list(ctu_geom, county_geom, region_geom, twp_group_geom) %>%
   do.call(rbind, .) %>%
   inner_join(geog_index, by = "geog_id") %>%
   select(names(geog_index), geometry) %>%
-  sf::st_as_sf() %>%
+  sf::st_as_sf(geometry = "geometry") %>%
   sf::st_cast("MULTIPOLYGON")
 
 # checks: exactly one geometry per geog_index row, none empty
