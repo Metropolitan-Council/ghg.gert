@@ -1,5 +1,6 @@
 #### Import planned land use from Thrive 2040 and convert to usable residential categories
 devtools::load_all(".")
+source("data-raw/meta/compile_townships.R")
 
 # helper: normalize CTU names to match geog_index conventions
 normalize_ctu_name <- function(x) {
@@ -101,5 +102,46 @@ planned_land_use <- list(
   ctu_planned_land_use_council = ctu_planned_land_use_council,
   ctu_planned_land_use_parcel = ctu_planned_land_use_parcel
 )
+
+# township groups ----
+# Group rows keep each member township's own land use categories: the
+# township name is prefixed to ctu_landuse_desc (e.g. "Benton Twp. -
+# Agricultural"), so categories stay distinct per township rather than
+# merging same-named categories across townships. Matched on GNIS id; each
+# category keeps its unit_mean, so the land use module still gets an
+# acre-weighted density across the group. Member township rows themselves
+# are unchanged.
+density_cols <- c(
+  "ctu_landuse_desc", "hsg_den", "units_per_acre", "unit_minimum",
+  "unit_maximum", "per_acres", "unit_mean"
+)
+
+twp_member_ids <- twp_group_lookup()$geog_id
+
+planned_land_use <- purrr::imap(planned_land_use, function(df, nm) {
+  df_labeled <- df %>%
+    mutate(ctu_landuse_desc = if_else(
+      geog_id %in% twp_member_ids,
+      paste(geog_name, "-", ctu_landuse_desc),
+      ctu_landuse_desc
+    ))
+
+  out <- twp_group_replace(
+    df,
+    twp_group_sum(df_labeled,
+      value_cols = "acres",
+      group_cols = density_cols,
+      key = "geog_id",
+      designation_col = "imagine_designation",
+      .fill = list(
+        geog_id_type = TWP_GROUP_ID_TYPE,
+        geog_level = TWP_GROUP_LEVEL
+      )
+    ) %>%
+      mutate(geog_short_name = geog_name)
+  )
+  twp_group_check_sum(out, "acres", nm, key = "geog_id")
+  out
+})
 
 usethis::use_data(planned_land_use, overwrite = TRUE)

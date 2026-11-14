@@ -7,6 +7,9 @@
 # Makes app specific recategorizations of sectors and subsectors, tailored
 # to climate mitigation minimum requirements
 #
+# Township groups (Carver / Scott Townships) are added to the CTU tables as
+# the sum of their member townships, transportation included.
+#
 # BANDAID (flag for transportation DS review): CTU transportation splices
 # module BAU over years >= 2015 and keeps raw ghg-cprg for 2005-2014, with no
 # alignment across the seam. The pre-2015 delta-shift smoothing lives only in
@@ -17,6 +20,7 @@
 library(dplyr, warn.conflicts = FALSE)
 library(readr, warn.conflicts = FALSE)
 devtools::load_all(".")
+source("data-raw/meta/compile_townships.R")
 
 # helpers --------------------------------------------------------------------
 
@@ -38,6 +42,26 @@ recode_building_category <- function(category) {
     category == "Business building energy" ~ "Non-residential electricity",
     TRUE ~ category
   )
+}
+
+# Township groups: sum member townships (matched on GNIS id, still carried as
+# ctu_id_gnis); population repeats on every row, so it is summed once per
+# township per year. Group rows take the group id as fips_id.
+add_twp_groups <- function(df, group_cols, label) {
+  out <- twp_group_replace(
+    df,
+    twp_group_sum(df,
+      value_cols = "value_emissions",
+      group_cols = group_cols,
+      id_col = "ctu_id_gnis",
+      key = "geog_id",
+      once_cols = "population", once_by = "emissions_year",
+      .fill = list(geog_level = tolower(TWP_GROUP_LEVEL), ctu_class = TWP_GROUP_LEVEL)
+    ) %>%
+      mutate(fips_id = ctu_id_gnis)
+  )
+  twp_group_check_sum(out, "value_emissions", label, id_col = "ctu_id_gnis", key = "geog_id")
+  out
 }
 
 # BAU CTU transportation -----------------------------------------------------
@@ -256,18 +280,19 @@ ctu_ghg_inventory <- ghg_ctu_replace %>%
     population = ctu_population,
     fips_id = ctu_id_fips
   ) %>%
-  dplyr::select(-c(ctu_id_gnis)) %>%
   dplyr::mutate(
     sector = if_else(sector == "Commercial", "Business", sector),
     category = if_else(category == "Stationary combustion", "Business building fuel", category),
     category = recode_building_category(category)
   ) %>%
-  group_by(emissions_year, geog_level, geog_name, ctu_class, fips_id, population, sector, category) %>%
+  group_by(emissions_year, geog_level, geog_name, ctu_class, ctu_id_gnis, fips_id, population, sector, category) %>%
   summarize(value_emissions = sum(value_emissions, na.rm = TRUE), .groups = "drop") %>%
   mutate(
     sector = stringr::str_replace_all(sector, "Business", "Non-residential"),
     category = stringr::str_replace_all(category, "Business", "Non-residential")
-  )
+  ) %>%
+  add_twp_groups(c("emissions_year", "sector", "category"), "municipal CTU inventory") %>%
+  select(-ctu_id_gnis)
 
 # County inventory -----------------------------------------------------------
 # Categorization preserved from prior version; only the ghg-cprg label that
@@ -384,18 +409,19 @@ full_ctu_ghg_inventory <- ghg_ctu_replace %>%
     population = ctu_population,
     fips_id = ctu_id_fips
   ) %>%
-  dplyr::select(-c(ctu_id_gnis)) %>%
   dplyr::mutate(
     sector = if_else(sector == "Commercial", "Non-residential", sector),
     category = if_else(category == "Stationary combustion", "Non-residential building fuel", category),
     category = recode_building_category(category)
   ) %>%
-  group_by(emissions_year, geog_level, geog_name, ctu_class, fips_id, population, sector, category, source) %>%
+  group_by(emissions_year, geog_level, geog_name, ctu_class, ctu_id_gnis, fips_id, population, sector, category, source) %>%
   summarize(value_emissions = sum(value_emissions, na.rm = TRUE), .groups = "drop") %>%
   mutate(
     sector = stringr::str_replace_all(sector, "Business", "Non-residential"),
     category = stringr::str_replace_all(category, "Business", "Non-residential")
-  )
+  ) %>%
+  add_twp_groups(c("emissions_year", "sector", "category", "source"), "full CTU inventory") %>%
+  select(-ctu_id_gnis)
 
 # assemble + save ------------------------------------------------------------
 

@@ -23,6 +23,7 @@
 #
 
 pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 source("data-raw/transportation_data_processing/_tbi_load.R")
 library(srvyr)
 
@@ -192,7 +193,12 @@ tbi_region_commute_vmt_prop <- cbind(trip_region_commute_vmt, trip_region_vmt) %
 commute_vmt_proportion <- tbi_commute_vmt_prop %>%
   select(cd_2050, commute_vmt_prop) %>%
   ungroup() %>%
-  full_join(geog_index %>% filter(geog_id_type == "ctu_gnis"), join_by(cd_2050 == imagine_designation)) %>%
+  # CTUs and township groups take the proportion for their Imagine designation
+  # (groups use the designation set in compile_townships.R)
+  full_join(
+    geog_index %>% filter(geog_id_type %in% c("ctu_gnis", TWP_GROUP_ID_TYPE)),
+    join_by(cd_2050 == imagine_designation)
+  ) %>%
   bind_rows(tbi_county_commute_vmt_prop %>% select(geog_name, geog_id, cd_2050, commute_vmt_prop)) %>%
   bind_rows(tbi_region_commute_vmt_prop %>% select(geog_name, geog_id, cd_2050, commute_vmt_prop)) %>%
   mutate(

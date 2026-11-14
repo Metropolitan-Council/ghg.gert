@@ -29,8 +29,6 @@ urbansim_busi <- demographic_data %>%
     values_from = value
   )
 
-ccap_ctu <- readr::read_rds("data-raw/meta/ccap_ctu.RDS")
-ccap_county <- readr::read_rds("data-raw/meta/ccap_county.RDS")
 
 coctu_res_mwh <- readr::read_rds(
   "https://github.com/Metropolitan-Council/ghg-cprg/raw/main/_energy/data-raw/predicted_coctu_residential_mwh.rds"

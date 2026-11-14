@@ -13,7 +13,7 @@
 #' @param tb_inv Inventory data (list with $ctu, $county, $region)
 #' @param tb_future Future projections data (list with $ctu, $county, $region)
 #' @param tb_seq Sequestration rates by land cover type
-#' @param .selected_ctu City/township selection ("all", "Regional", county name, or CTU name)
+#' @param .selected_ctu City/township selection ("all", "Twin Cities Region", county name, township group, or CTU name)
 #'
 #' @param .restore_wetland Logical, whether to restore wetlands (default FALSE)
 #' @param .wetland_ambition Numeric 0-100, percent of wetland potential to realize (default 50)
@@ -66,7 +66,7 @@ run_scenario_natural_systems <- function(
   tb_inv = bind_rows(ghg.gert::natural_systems_data$inventory),
   tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
   tb_seq = ghg.gert::natural_systems_data$land_cover_carbon,
-  .selected_ctu = "Regional",
+  .selected_ctu = "Twin Cities Region",
   # Wetland restoration (GIS-constrained)
   .restore_wetland = FALSE,
   .wetland_ambition = 50,
@@ -197,7 +197,7 @@ run_scenario_natural_systems <- function(
 #' @export
 get_ctu_restoration_potential <- function(
   tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
-  .selected_ctu = "Regional"
+  .selected_ctu = "Twin Cities Region"
 ) {
   df_null <- ghg.gert::filter_ctu(tb_future, .selected_ctu = .selected_ctu)
 

@@ -1,4 +1,5 @@
 pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 #### Compare agricultural communities by satellite and land use
 
 # downloaded from metrocouncil.org
@@ -73,8 +74,19 @@ agriculture_flag <- geog_index %>%
   ) %>%
   mutate(has_ag = case_when(
     geog_level == "COUNTY" ~ TRUE,
+    geog_level == "REGION" ~ TRUE,
     is.na(has_ag) ~ FALSE,
     TRUE ~ has_ag
   ))
+
+# township groups (already in geog_index): has_ag if any member township has ag
+twp_with_ag <- agriculture_flag %>%
+  filter(has_ag) %>%
+  twp_group_tag(by = "geog_id", key = "geog_id") %>%
+  pull(group_id) %>%
+  unique()
+
+agriculture_flag <- agriculture_flag %>%
+  mutate(has_ag = has_ag | geog_id %in% twp_with_ag)
 
 usethis::use_data(agriculture_flag, overwrite = T)

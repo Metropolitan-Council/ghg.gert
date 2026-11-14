@@ -54,6 +54,8 @@ geography_test_list_core <- c(
   # Townships
   "Benton Twp.",
   "Denmark Twp.",
+  # Township aggregation
+  "Scott Townships",
   # Counties
   "Hennepin County",
   "Scott County"
@@ -101,6 +103,9 @@ geography_test_list_full <- c(
   "Victoria",
   "White Bear Twp.",
   "Woodbury",
+  # Township aggregations
+  "Scott Townships",
+  "Carver Townships",
   # Counties (alphabetical)
   "Anoka County",
   "Carver County",

@@ -1,5 +1,6 @@
 ### load in agricultural activity data and extend to 2050
 devtools::load_all(".")
+source("data-raw/meta/compile_townships.R")
 
 metro_counties <- c("Anoka", "Carver", "Dakota", "Hennepin",
                     "Ramsey", "Scott", "Washington")
@@ -136,6 +137,46 @@ fertilizer_extended <- extend_to_2050(fertilizer,
                                       value_col = "metric_tons_applied",
                                       group_cols = c("geoid", "geog_name", "county_name", "fertilizer_type")
 ) %>% ungroup()
+
+# township groups ----
+# Summed from member townships after extending to 2050. Matched on name
+# (livestock has no id column). geoid is a numeric CTU id not used by
+# package functions, so it is left NA on group rows.
+twp_livestock <- livestock_extended %>%
+  twp_group_tag() %>%
+  group_by(group_name, group_county, inventory_year, livestock_type) %>%
+  summarize(
+    head_count = sum(head_count, na.rm = TRUE),
+    data_type = twp_collapse_chr(data_type, "mixed"),
+    .groups = "drop"
+  ) %>%
+  rename(geog_name = group_name, county_name = group_county)
+
+livestock_extended <- twp_group_replace(livestock_extended, twp_livestock)
+
+crops_extended <- twp_group_replace(
+  crops_extended,
+  twp_group_sum(crops_extended,
+    value_cols = "metric_tons",
+    group_cols = c("inventory_year", "crop_type"),
+    id_col = NULL, county_col = "county_name",
+    .fill = list(geoid = NA_real_)
+  )
+)
+
+fertilizer_extended <- twp_group_replace(
+  fertilizer_extended,
+  twp_group_sum(fertilizer_extended,
+    value_cols = "metric_tons_applied",
+    group_cols = c("inventory_year", "fertilizer_type"),
+    id_col = NULL, county_col = "county_name",
+    .fill = list(geoid = NA_real_)
+  )
+)
+
+twp_group_check_sum(livestock_extended, "head_count", "livestock")
+twp_group_check_sum(crops_extended, "metric_tons", "crops")
+twp_group_check_sum(fertilizer_extended, "metric_tons_applied", "fertilizer")
 
 # save ----
 agriculture_activity_data <- list(

@@ -8,7 +8,7 @@ run_scenario_natural_systems(
   tb_inv = bind_rows(ghg.gert::natural_systems_data$inventory),
   tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
   tb_seq = ghg.gert::natural_systems_data$land_cover_carbon,
-  .selected_ctu = "Regional",
+  .selected_ctu = "Twin Cities Region",
   .restore_wetland = FALSE,
   .wetland_ambition = 50,
   .forest_area_sqkm = 0,
@@ -32,7 +32,7 @@ run_scenario_natural_systems(
 
 \item{tb_seq}{Sequestration rates by land cover type}
 
-\item{.selected_ctu}{City/township selection ("all", "Regional", county name, or CTU name)}
+\item{.selected_ctu}{City/township selection ("all", "Twin Cities Region", county name, township group, or CTU name)}
 
 \item{.restore_wetland}{Logical, whether to restore wetlands (default FALSE)}
 

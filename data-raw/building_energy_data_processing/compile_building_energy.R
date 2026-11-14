@@ -5,6 +5,7 @@
 #   - building_energy_data  (list: inventories, forecasts, demographic slices)
 
 devtools::load_all(".")
+source("data-raw/meta/compile_townships.R")
 library(dplyr, warn.conflicts = FALSE)
 library(tidyr, warn.conflicts = FALSE)
 library(readr, warn.conflicts = FALSE)
@@ -169,6 +170,35 @@ regional_propane_inventory <- county_propane_inventory %>%
     fueloil_other_mmbtu
   )
 
+# township groups ----
+# Summed from member townships and added to the CTU tables, so the
+# imagine_designation join below picks up each group's designation from
+# geog_index. The residential / non_residential / jobs slices need nothing
+# here: they come from demographic_data, which already has group rows
+# (run demographic_data_compile_urban_sim.R first).
+add_twp_groups <- function(df, value_cols) {
+  twp_group_replace(
+    df,
+    twp_group_sum(
+      df,
+      value_cols = value_cols,
+      group_cols = c("sector", "emissions_year"),
+      .fill = list(geog_level = TWP_GROUP_LEVEL)
+    )
+  )
+}
+
+ctu_elec_inventory <- add_twp_groups(ctu_elec_inventory, "mwh")
+ctu_gas_inventory <- add_twp_groups(ctu_gas_inventory, "mcf")
+ctu_propane_inventory <- add_twp_groups(
+  ctu_propane_inventory,
+  c("propane_mmbtu", "fueloil_other_mmbtu")
+)
+
+twp_group_check_sum(ctu_elec_inventory, "mwh", "electricity_inventory")
+twp_group_check_sum(ctu_gas_inventory, "mcf", "natgas_inventory")
+twp_group_check_sum(ctu_propane_inventory, "propane_mmbtu", "propane_inventory")
+
 # assemble building_energy_data ----
 building_energy_data <- list(
   # observed inventories (used by b_04 energy calc scripts)
@@ -245,6 +275,9 @@ building_energy_data <- list(
 #Check to make sure there aren't double rows, particularly for multiple county cities
 purrr::map(building_energy_data[c("electricity_inventory", "natgas_inventory", "propane_inventory")],
            ~ dplyr::count(.x, geog_id, sector, emissions_year) |> dplyr::filter(n > 1))
+
+# township groups present in every element (demographic slices included)
+purrr::iwalk(building_energy_data, twp_group_check_present)
 
 
 # save ----

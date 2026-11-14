@@ -1,7 +1,10 @@
 # update passenger light-duty vehicle AVO to most recent TBI
 # create average using Imagine 2050 Community Designation
+# Also aggregate bus and other non-PLDV AVO for township groups
+# and complete final vehicle occupancy table
 pkgload::load_all()
 source("data-raw/transportation_data_processing/_tbi_load.R")
+source("data-raw/meta/compile_townships.R")
 
 # get index of CD levels
 hh_cd_levels <- hh_region %>%
@@ -78,11 +81,12 @@ avo_region <- trip %>%
   ungroup()
 
 
-# compare new with previous ------
+# compare new with previous ------tka 
 avo_new <- avo_imagine %>%
   left_join(hh_cd_levels, join_by(cd_2050)) %>%
-  left_join(geog_index,
-    by = c("cd_2050" = "imagine_designation")
+  full_join(
+    geog_index %>% filter(geog_id_type %in% c("ctu_gnis", TWP_GROUP_ID_TYPE)),
+    join_by(cd_2050 == imagine_designation)
   ) %>%
   mutate(
     var = "AVO",
@@ -92,38 +96,93 @@ avo_new <- avo_imagine %>%
     value = num_travelers_numeric
   ) %>%
   select(geog_id, var, mode, value, aeo_mode, type) %>%
+  unique() %>%
+  left_join(geog_index %>% select(geog_id, geog_name), by = "geog_id") %>%
+  select(c(
+    "mode", "var", "geog_name", "geog_id", "value", "aeo_mode",
+    "type"
+  ))
+
+avo_exist_all <- transportation_data$passenger %>%
+  filter(var == "AVO", !mode %in% c("AV", "DRS")) %>%
   unique()
 
-avo_exist <- transportation_data$passenger %>%
-  filter(
-    mode == "PLDV",
-    var == "AVO"
-  ) %>%
-  unique()
 
-# average AVO has increased
-# avo_exist$value %>% mean()
-# avo_new$value %>% mean()
-
-# replace AVO -----
-
-avo_replace <- avo_exist %>%
-  select(-value) %>%
-  left_join(avo_new)
 
 # make sure no NA values
 testthat::expect_equal(
-  avo_replace %>%
+  avo_new %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    nrow(),
+  nrow(twp_group_meta())
+)
+
+testthat::expect_true(all(
+  avo_new %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    pull(n) == 1L
+))
+
+testthat::expect_equal(
+  avo_new %>%
     filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(aeo_mode) | is.na(type)) %>%
     nrow(),
   0
 )
 
+# extract and aggregate bus, other AVO for township groups -----
+# use minimum value from TMA analysis
+avo_bus_twp <- transportation_data$passenger %>%
+  filter(
+    var == "AVO",
+    mode != "PLDV"
+  ) %>%
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO") %>%
+      unique()
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  twp_group_tag(by = "geog_id", key = "geog_id") %>%
+  group_by(group_name, group_id, mode, var, aeo_mode, type) %>%
+  summarize(
+    value = round(min(value), 2),
+    .groups = "drop"
+  ) %>%
+  rename(geog_name = group_name, geog_id = group_id)
 
-# replace in our transportation_data object
+testthat::expect_setequal(avo_bus_twp$geog_id, twp_group_meta()$geog_id)
+testthat::expect_true(all(is.finite(avo_bus_twp$value)))
+
+
+
+vehicle_occupancy <- transportation_data$passenger %>%
+  # get AVO for all non-PLDV modes, minus AV and DRS
+  filter(var == "AVO", !mode %in% c("AV", "DRS", "PLDV")) %>%
+  select(-year) %>%
+  unique() %>%
+  # find freight AVO
+  # these are all 1 and used for consistency
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO")
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  # bind new AVO values for PLDV from TBI
+  bind_rows(avo_new) %>%
+  # bind aggregated bus and other non-PLDV AVO for township groups
+  bind_rows(avo_bus_twp)
+
+# remove AVO from passenger and freight datasets as it is now included in vehicle_occupancy
 transportation_data$passenger <- transportation_data$passenger %>%
-  filter(!(var == "AVO" & mode == "PLDV")) %>%
-  bind_rows(avo_replace)
+  filter(var != "AVO")
 
+transportation_data$freight <- transportation_data$freight %>%
+  filter(var != "AVO")
 
 usethis::use_data(transportation_data, overwrite = TRUE)
+usethis::use_data(vehicle_occupancy, overwrite = TRUE)
