@@ -49,18 +49,14 @@ library(stringr)
 #     str_remove_all("[:punct:]") %>%
 #     str_trim())
 
+# all other parking geographies -----
 
-parking_cost <-
-  transportation_data$passenger %>%
-  filter(
-    var == "PARK",
-    mode == "PLDV"
+pldv_parking <- geog_index %>%
+  mutate(
+    var = "PARK",
+    mode = "PLDV"
   ) %>%
-  # left_join(
-  #   tbi_parking_cost %>%
-  #     select(geog_name, vehicle_park_cost),
-  #   by = join_by(geog_name)
-  # ) %>%
+  # filter(geog_level != "COUNTY") %>%
   mutate(value = case_when(
     # use TBI if possible
     geog_name == "Minneapolis" ~ 1, # https://www.minneapolismn.gov/getting-around/parking-driving/street-parking-meters/parking-meters/parking-meter-map/
@@ -68,21 +64,46 @@ parking_cost <-
     # !is.na(vehicle_park_cost) ~ vehicle_park_cost,
     # otherwise use $0.00 (free parking)
     TRUE ~ 0.00
+  ))
+
+parking_freight_non_zero <- transportation_data$freight %>%
+  filter(var == "PARK") %>%
+  select(geog_id, geog_name, mode, var, value, aeo_mode, type) %>%
+  mutate(value = case_when(
+    # use existing data and
+    # change 0.10 to 0.00 (free parking)
+    value == 1 ~ value,
+    value == 0.1 ~ 0.00,
+    TRUE ~ value
   )) %>%
-  select(names(transportation_data$passenger)) %>%
-  bind_rows(
-    transportation_data$freight %>%
-      filter(var == "PARK") %>%
-      mutate(value = case_when(
-        # use existing data and
-        # change 0.10 to 0.00 (free parking)
-        value == 1 ~ value,
-        value == 0.1 ~ 0.00,
-        TRUE ~ value
-      ))
+  unique() %>%
+  filter(value != 0.00)
+
+
+freight_parking <- geog_index %>%
+  mutate(
+    # we only have SUT parking
+    var = "PARK",
+    mode = "SUT"
   ) %>%
-  select(-year) %>%
+  mutate(value = case_when(
+    geog_id %in% parking_freight_non_zero$geog_id ~ 1,
+    TRUE ~ 0.00
+  )) %>%
   unique()
+
+parking_cost <-
+  pldv_parking %>%
+  bind_rows(freight_parking) %>%
+  unique()
+
+
+testthat::expect_equal(
+  parking_cost %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value)) %>%
+    nrow(),
+  0
+)
 
 
 transportation_data$passenger <- transportation_data$passenger %>%
@@ -92,5 +113,4 @@ transportation_data$freight <- transportation_data$freight %>%
   filter(!(var == "PARK"))
 
 usethis::use_data(transportation_data, overwrite = TRUE)
-
 usethis::use_data(parking_cost, overwrite = TRUE)
