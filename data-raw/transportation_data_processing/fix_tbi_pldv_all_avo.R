@@ -81,7 +81,7 @@ avo_region <- trip %>%
   ungroup()
 
 
-# compare new with previous ------tka 
+# compare new with previous ------
 avo_new <- avo_imagine %>%
   left_join(hh_cd_levels, join_by(cd_2050)) %>%
   full_join(
@@ -101,7 +101,8 @@ avo_new <- avo_imagine %>%
   select(c(
     "mode", "var", "geog_name", "geog_id", "value", "aeo_mode",
     "type"
-  ))
+  )) %>%
+  filter(!is.na(geog_id))
 
 avo_exist_all <- transportation_data$passenger %>%
   filter(var == "AVO", !mode %in% c("AV", "DRS")) %>%
@@ -158,6 +159,102 @@ testthat::expect_setequal(avo_bus_twp$geog_id, twp_group_meta()$geog_id)
 testthat::expect_true(all(is.finite(avo_bus_twp$value)))
 
 
+# complete for county level -----
+
+
+# PLDV avo by county
+avo_county <- trip %>%
+  filter(
+    hh_id %in% hh_region$hh_id,
+    mode_type %in% c(
+      "Household Vehicle",
+      "Other Vehicle",
+      "For-Hire Vehicle"
+    ),
+    # origin and destination in MPO area
+    trip_o_in_mpo == TRUE,
+    trip_d_in_mpo == TRUE,
+    # ensure observed trip duration,
+    # reasonable distance
+    # origin or destination in our counties
+    duration_seconds > 0,
+    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+    distance_miles < 720,
+    distance_miles > 0
+  ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
+  filter(
+    linked_trip_weight > 0,
+    !is.na(cd_2050)
+  ) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+  group_by(hh_county) %>%
+  summarize(
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
+    n_trips = srvyr::survey_total(),
+    n_trips_sample = n(),
+    .groups = "keep"
+  ) %>%
+  ungroup() %>%
+  mutate(geog_name = stringr::str_replace(hh_county, " MN", " County")) %>%
+  left_join(geog_index, by = c("geog_name" = "geog_name")) %>%
+  mutate(
+    var = "AVO",
+    mode = "PLDV",
+    aeo_mode = "LDV",
+    type = "P",
+    value = num_travelers_numeric
+  ) %>%
+  select(geog_id, geog_name, var, mode, value, aeo_mode, type)
+
+testthat::expect_setequal(
+  county_avo$geog_id,
+  geog_index$geog_id[geog_index$geog_level == "COUNTY"]
+)
+
+testthat::expect_true(all(
+  county_avo %>%
+    count(geog_id, mode) %>%
+    pull(n) == 1L
+))
+
+testthat::expect_equal(
+  nrow(county_avo),
+  n_distinct(county_avo$geog_id) * n_distinct(county_avo$mode)
+)
+
+
+# for bus AVO, use the lowest AVO from the Transit Market Area analysis for all counties
+
+co_bus_other <- transportation_data$passenger %>%
+  filter(
+    var == "AVO",
+    mode != "PLDV"
+  ) %>%
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO") %>%
+      unique()
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  left_join(ctu_county_area,
+    by = c("geog_name" = "geog_name", "geog_id" = "geog_id"),
+    relationship = "many-to-many"
+  ) %>%
+  unique() %>%
+  filter(!is.na(county_name)) %>%
+  group_by(county_name, mode, var, aeo_mode, type) %>%
+  summarize(
+    value = round(min(value), 2),
+    .groups = "drop"
+  ) %>%
+  rename(geog_short_name = county_name) %>%
+  left_join(geog_index %>% filter(geog_level == "COUNTY"), by = c("geog_short_name" = "geog_short_name"))
+
+
+# combine all ----
 
 vehicle_occupancy <- transportation_data$passenger %>%
   # get AVO for all non-PLDV modes, minus AV and DRS
@@ -175,7 +272,27 @@ vehicle_occupancy <- transportation_data$passenger %>%
   # bind new AVO values for PLDV from TBI
   bind_rows(avo_new) %>%
   # bind aggregated bus and other non-PLDV AVO for township groups
-  bind_rows(avo_bus_twp)
+  bind_rows(avo_bus_twp) %>%
+  bind_rows(
+    avo_county,
+    co_bus_other
+  ) %>%
+  select(geog_id, geog_name, var, mode, value, aeo_mode, type)
+
+
+testthat::expect_true(all(
+  vehicle_occupancy %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    pull(n) == 13
+))
+
+testthat::expect_equal(
+  vehicle_occupancy %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(type)) %>%
+    nrow(),
+  0
+)
 
 # remove AVO from passenger and freight datasets as it is now included in vehicle_occupancy
 transportation_data$passenger <- transportation_data$passenger %>%
