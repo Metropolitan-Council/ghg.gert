@@ -34,7 +34,7 @@ city_vmt_proportions <- coctu_vmt_forecast %>%
 # Get CTU-level vehicle counts from transportation_data
 ctu_vehicle_counts <- transportation_data$passenger %>%
   left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("geog_id" = "geog_id", "geog_name")) %>%
-  filter(geog_level != "COUNTY") %>%
+  filter(geog_level != "COUNTY", geog_level != "TOWNSHIP_GROUP") %>%
   filter(
     str_detect(var, "Tot", negate = TRUE),
     str_detect(var, "Stock|Sales|Exist")
@@ -172,6 +172,8 @@ county_passenger_data <- bind_rows(
 # Get CTU-level freight data (TMT and Stock vars)
 ctu_freight_data <- transportation_data$freight %>%
   filter(var %in% c("TMT") | str_detect(var, "Stock")) %>%
+  left_join(geog_index %>% select(geog_id, geog_name, geog_level), by = c("geog_id" = "geog_id", "geog_name")) %>%
+  filter(geog_level != "COUNTY", geog_level != "TOWNSHIP_GROUP") %>%
   mutate(inventory_year = as.numeric(year))
 
 # Allocate CTU freight data to counties using VMT proportions
@@ -230,11 +232,3 @@ twp_lookup <- twp_group_lookup() %>% select(geog_id, group_name, group_id)
 
 # Save updated datasets
 usethis::use_data(transportation_data, overwrite = TRUE)
-
-
-
-transportation_data$freight %>%
-  filter(
-    geog_name == "Hennepin County",
-    mode == "SUT", var == "BEVStock"
-  )
