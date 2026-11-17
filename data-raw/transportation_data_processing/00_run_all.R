@@ -40,7 +40,6 @@ transportation_data <- readRDS("data-raw/transportation_data_processing/clean_pa
 # these need to be run AFTER we fix city names
 source("data-raw/transportation_data_processing/fix_tbi_pldv_all_avo.R")
 source("data-raw/transportation_data_processing/fix_parking.R")
-# TODO fix vmt for township groupings
 source("data-raw/transportation_data_processing/fix_update_pmt.R")
 source("data-raw/transportation_data_processing/fix_remove_av.R")
 source("data-raw/transportation_data_processing/fix_remove_phev.R")
