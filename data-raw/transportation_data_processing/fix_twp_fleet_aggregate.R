@@ -30,7 +30,8 @@ for (nm in c("passenger", "freight")) {
             filter(!stringr::str_detect(var, "Stock|Sales|Exist")),
         fleet
     ) %>%
-        select(all_of(names(transportation_data[[nm]])))
+        select(all_of(names(transportation_data[[nm]]))) %>%
+        mutate(value = round(value))
 }
 
 usethis::use_data(transportation_data, overwrite = TRUE)
