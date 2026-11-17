@@ -19,7 +19,8 @@ transportation_data$passenger <-
         geog_name = "Twin Cities Region"
       ) %>%
       select(names(transportation_data$passenger))
-  )
+  ) %>%
+  arrange(geog_id, mode, var, year)
 
 
 transportation_data$freight <-
@@ -35,22 +36,8 @@ transportation_data$freight <-
         geog_name = "Twin Cities Region"
       ) %>%
       select(names(transportation_data$freight))
-  )
+  ) %>%
+  arrange(geog_id, mode, var, year)
 
-# Township groups ----
-# Every passenger/freight var is extensive (PMT, TMT, vehicle counts incl.
-# Tot*), so a straight sum of member townships is correct. Matched on GNIS id.
-for (nm in c("passenger", "freight")) {
-  transportation_data[[nm]] <- twp_group_replace(
-    transportation_data[[nm]],
-    twp_group_sum(
-      transportation_data[[nm]],
-      value_cols = "value",
-      group_cols = c("mode", "var", "year", "aeo_mode", "type"),
-      key = "geog_id"
-    )
-  )
-  twp_group_check_sum(transportation_data[[nm]], "value", nm, key = "geog_id")
-}
 
 usethis::use_data(transportation_data, overwrite = TRUE)

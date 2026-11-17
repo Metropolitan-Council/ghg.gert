@@ -209,19 +209,19 @@ avo_county <- trip %>%
   select(geog_id, geog_name, var, mode, value, aeo_mode, type)
 
 testthat::expect_setequal(
-  county_avo$geog_id,
+  avo_county$geog_id,
   geog_index$geog_id[geog_index$geog_level == "COUNTY"]
 )
 
 testthat::expect_true(all(
-  county_avo %>%
+  avo_county %>%
     count(geog_id, mode) %>%
     pull(n) == 1L
 ))
 
 testthat::expect_equal(
-  nrow(county_avo),
-  n_distinct(county_avo$geog_id) * n_distinct(county_avo$mode)
+  nrow(avo_county),
+  n_distinct(avo_county$geog_id) * n_distinct(avo_county$mode)
 )
 
 
