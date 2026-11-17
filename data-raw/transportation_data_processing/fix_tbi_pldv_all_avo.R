@@ -237,6 +237,7 @@ co_bus_other <- transportation_data$passenger %>%
       filter(var == "AVO") %>%
       unique()
   ) %>%
+  filter(!geog_id %in% twp_group_meta()$geog_id) %>%
   select(-year) %>%
   unique() %>%
   left_join(ctu_county_area,
