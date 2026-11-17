@@ -205,12 +205,14 @@ county_freight_data <- ctu_freight_data %>%
 
 
 # Update transportation_data ----
-# Add county data to existing transportation_data
+# Replace only matching regenerated rows; preserve all other activity and fleets.
 
 # Passenger data
 transportation_data$passenger <- bind_rows(
   transportation_data$passenger %>%
-    filter(!geog_id %in% unique(county_passenger_data$geog_id)),
+    anti_join(county_passenger_data,
+      by = c("geog_id", "mode", "var", "year", "aeo_mode", "type")
+    ),
   county_passenger_data
 ) %>%
   arrange(geog_id, mode, var, year) %>%
@@ -219,16 +221,13 @@ transportation_data$passenger <- bind_rows(
 # Freight data
 transportation_data$freight <- bind_rows(
   transportation_data$freight %>%
-    filter(!geog_id %in% unique(county_freight_data$geog_id)),
+    anti_join(county_freight_data,
+      by = c("geog_id", "mode", "var", "year", "aeo_mode", "type")
+    ),
   county_freight_data
 ) %>%
   arrange(geog_id, mode, var, year) %>%
   unique()
-
-# Township groups: AVO and parking ----
-# Matched on GNIS id. (transportation_data group rows are added in
-# fix_region_aggregate.R, the last script to write it.)
-twp_lookup <- twp_group_lookup() %>% select(geog_id, group_name, group_id)
 
 # Save updated datasets
 usethis::use_data(transportation_data, overwrite = TRUE)
