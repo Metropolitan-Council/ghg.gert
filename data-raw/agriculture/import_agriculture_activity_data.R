@@ -55,6 +55,7 @@ livestock <- bind_rows(
     ) %>%
     mutate(join_name = tolower(ctu_name)) %>%
     left_join(gi_lookup, by = join_by(join_name, ctu_class == geog_level)) %>%
+    filter(!is.na(geog_name)) %>%
     select(
       inventory_year, geog_name, county_name,
       livestock_type, head_count = township_head_count, data_type
@@ -89,6 +90,7 @@ crops <- bind_rows(
     ) %>%
     mutate(join_name = tolower(ctu_name)) %>%
     left_join(gi_lookup, by = join_by(join_name, ctu_class == geog_level)) %>%
+    filter(!is.na(geog_name)) %>%
     select(
       geoid = ctu_id, inventory_year, geog_name, county_name,
       crop_type, metric_tons = ctu_metric_tons
@@ -126,6 +128,7 @@ fertilizer <- bind_rows(
     ) %>%
     mutate(join_name = tolower(ctu_name)) %>%
     left_join(gi_lookup, by = join_by(join_name, ctu_class == geog_level)) %>%
+    filter(!is.na(geog_name)) %>%
     select(
       geoid = ctu_id, inventory_year, geog_name, county_name,
       fertilizer_type, metric_tons_applied
