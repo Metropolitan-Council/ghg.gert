@@ -276,7 +276,13 @@ vehicle_occupancy <- transportation_data$passenger %>%
   bind_rows(avo_bus_twp) %>%
   bind_rows(
     avo_county,
-    co_bus_other
+    co_bus_other,
+    avo_region %>%
+      transmute(
+        geog_id = "00000000", geog_name = "Twin Cities Region",
+        var = "AVO", mode = "PLDV", value = num_travelers_numeric,
+        aeo_mode = "LDV", type = "P"
+      )
   ) %>%
   select(geog_id, geog_name, var, mode, value, aeo_mode, type)
 
