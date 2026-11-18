@@ -550,6 +550,62 @@ testthat::test_that("county totals > major city totals for PMT, TMT, and Stock",
   )
 })
 
+testthat::test_that("Carver and Scott township-group totals are below county totals", {
+  expect_township_groups_below_counties <- function(data, variable, mode_value) {
+    township_values <- data %>%
+      filter(
+        geog_name %in% c("Carver Townships", "Scott Townships"),
+        var == .env$variable,
+        mode == .env$mode_value
+      ) %>%
+      mutate(
+        county_name = stringr::str_replace(geog_name, " Townships$", " County")
+      ) %>%
+      select(county_name, year, township_value = value)
+
+    county_values <- data %>%
+      filter(
+        geog_name %in% c("Carver County", "Scott County"),
+        var == .env$variable,
+        mode == .env$mode_value
+      ) %>%
+      select(county_name = geog_name, year, county_value = value)
+
+    comparisons <- full_join(
+      county_values,
+      township_values,
+      by = c("county_name", "year")
+    )
+
+    testthat::expect_setequal(
+      unique(comparisons$county_name),
+      c("Carver County", "Scott County")
+    )
+    testthat::expect_false(anyNA(comparisons$county_value))
+    testthat::expect_false(anyNA(comparisons$township_value))
+    testthat::expect_true(
+      all(comparisons$township_value < comparisons$county_value),
+      info = paste(variable, mode_value, "township-group values must be below county totals")
+    )
+  }
+
+  expect_township_groups_below_counties(
+    transportation_data$passenger,
+    variable = "PMT",
+    mode_value = "PLDV"
+  )
+  expect_township_groups_below_counties(
+    transportation_data$freight,
+    variable = "TMT",
+    mode_value = "CUT"
+  )
+  expect_township_groups_below_counties(
+    transportation_data$passenger,
+    variable = "TotStock",
+    mode_value = "PLDV"
+  )
+})
+
 testthat::test_that("Counties have truck fleets with all fuel types", {
   # BEV can be 0 in starting years
   transportation_data$freight %>%
@@ -601,6 +657,26 @@ test_that("epa_sld_intersection_density covers all transportation geographies", 
     info = paste0(
       length(missing), " geographies in transportation_data missing from epa_sld_intersection_density"
       # paste(sort(missing), collapse = ", ")
+    )
+  )
+})
+
+test_that("vehicle_occupancy covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  occupancy_geogs <- vehicle_occupancy %>%
+    filter(!is.na(value)) %>%
+    pull("geog_id") %>%
+    unique()
+  missing <- setdiff(trans_geogs, occupancy_geogs)
+  missing_names <- geog_index %>%
+    filter(geog_id %in% missing) %>%
+    pull(geog_name)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      "Geographies missing from vehicle_occupancy: ",
+      paste(missing_names, collapse = ", ")
     )
   )
 })
