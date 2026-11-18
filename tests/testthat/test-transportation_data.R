@@ -46,6 +46,14 @@ testthat::test_that("no unorg. suffix", {
 
 
 testthat::test_that("bus AVO correct", {
+  bu_avo <-
+    vehicle_occupancy %>%
+    filter(mode == "BU", var == "AVO") %>%
+    select(geog_name, value) %>%
+    unique()
+
+  testthat::expect_true(all(!is.na(bu_avo$value)))
+
   testthat::expect_equal(
     left_join(
       vehicle_occupancy %>%
