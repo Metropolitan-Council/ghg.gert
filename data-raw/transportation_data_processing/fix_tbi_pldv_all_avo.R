@@ -237,7 +237,6 @@ co_bus_other <- transportation_data$passenger %>%
       filter(var == "AVO") %>%
       unique()
   ) %>%
-  filter(!geog_id %in% twp_group_meta()$geog_id) %>%
   select(-year) %>%
   unique() %>%
   left_join(ctu_county_area,
@@ -246,10 +245,11 @@ co_bus_other <- transportation_data$passenger %>%
   ) %>%
   unique() %>%
   filter(!is.na(county_name)) %>%
+  filter(!geog_id %in% twp_group_meta()$geog_id) %>%
   group_by(county_name, mode, var, aeo_mode, type) %>%
   summarize(
     value = round(min(value), 2),
-    .groups = "drop"
+    .groups = "keep"
   ) %>%
   rename(geog_short_name = county_name) %>%
   left_join(geog_index %>% filter(geog_level == "COUNTY"), by = c("geog_short_name" = "geog_short_name"))

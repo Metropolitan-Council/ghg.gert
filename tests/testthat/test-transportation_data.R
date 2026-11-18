@@ -258,6 +258,34 @@ testthat::test_that("bus AVO correct", {
   )
 })
 
+testthat::test_that("township-group freight activity sums member township TMT", {
+  township_groups <- geog_index %>%
+    filter(geog_level == "TOWNSHIP_GROUP") %>%
+    transmute(geog_id, county_name = stringr::str_remove(geog_name, " Townships$"))
+
+  member_townships <- ctu_county_area %>%
+    filter(stringr::str_ends(geog_name, stringr::fixed(" Twp."))) %>%
+    select(member_id = geog_id, county_name) %>%
+    inner_join(township_groups, by = "county_name") %>%
+    distinct(member_id, geog_id)
+
+  freight_tmt <- transportation_data$freight %>%
+    filter(var == "TMT") %>%
+    select(geog_id, mode, year, value)
+
+  expected <- freight_tmt %>%
+    rename(member_id = geog_id) %>%
+    inner_join(member_townships, by = "member_id") %>%
+    group_by(geog_id, mode, year) %>%
+    summarize(value = sum(value), .groups = "drop")
+
+  actual <- freight_tmt %>%
+    filter(geog_id %in% township_groups$geog_id) %>%
+    arrange(geog_id, mode, year)
+
+  testthat::expect_equal(actual, expected)
+})
+
 
 testthat::test_that("All transit is the sum of each transit mode", {
   at_total <- transportation_data$passenger %>%
