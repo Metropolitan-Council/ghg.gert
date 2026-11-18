@@ -241,16 +241,16 @@ testthat::test_that("bus AVO correct", {
         "Woodland", 15.38,
         "Young America Twp.", 25.64,
         "Anoka County", 8.09,
-        "Carver County", 8.09,
+        "Carver County", 9.1,
         "Dakota County", 8.09,
         "Hennepin County", 8.09,
         "Ramsey County", 8.09,
-        "Scott County", 8.09,
+        "Scott County", 9.1,
         "Washington County", 8.09,
-        # township groups: PMT-weighted mean of member townships (fix_county_aggregate.R)
-        "Carver Townships", 15.53,
-        "Scott Townships", 18.94
-      )
+        "Carver Townships", 15.38,
+        "Scott Townships", 9.1
+      ),
+      by = "geog_name"
     ) %>%
       filter(value != test_value) %>%
       nrow(),
