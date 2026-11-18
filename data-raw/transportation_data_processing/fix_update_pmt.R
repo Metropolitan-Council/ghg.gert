@@ -198,8 +198,15 @@ county_pmt <- ctu_pmt_all %>%
 # Currently its group_id is removed, and the missing-name filter drops every row.
 # Existing non-PLDV county/group PMT in ctu_pmt_all is also retained rather than
 # replaced, so reruns can keep stale group rows or duplicate county PMT.
-pmt_new_all <- bind_rows(ctu_pmt_all, county_pmt, twp_vmt_other %>%
-  select(-n_members, -group_id)) %>%
+pmt_new_all <- bind_rows(
+  ctu_pmt_all %>%
+    anti_join(
+      bind_rows(county_pmt, twp_vmt_other),
+      by = c("geog_id", "mode", "var", "year", "aeo_mode", "type")
+    ),
+  county_pmt,
+  twp_vmt_other %>% select(-n_members, -group_id)
+) %>%
   filter(!is.na(geog_name))
 
 
