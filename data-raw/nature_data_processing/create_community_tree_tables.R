@@ -2,11 +2,16 @@
 # this script takes what was learned there and creates two data objects for use in community trees function and app
 #
 # Creates two package data objects:
-#   1. community_tree_density  — median sqm canopy per tree by thrive designation
-#   2. community_tree_baseline — tree count per CTU (DNR actual or modeled estimate)
+#   1. community_tree_density  — median sqm canopy per tree by Imagine 2050 designation
+#   2. community_tree_baseline — tree count per CTU (DNR actual or modeled estimate),
+#      plus county roll-ups and township groups (sum of member townships)
+#
+# RUN AFTER nature_data_processing/00_prepare_land_cover_data.R
 
 library(tidyverse)
 library(readxl)
+pkgload::load_all()
+source("data-raw/meta/compile_townships.R")
 
 # Load data
 
@@ -32,9 +37,10 @@ dnr_metro <- read_excel("./data-raw/nature_data_processing/CommunityChangeTable.
   ) %>%
   select(community, county, trees_2023)
 
-ctu_meta <- readRDS("./data-raw/meta/ccap_ctu.rds") %>%
-  sf::st_drop_geometry() %>%
-  select(geog_name, ctu_class, geog_id = ctu_id_gnis, thrive_designation)
+# CTU list and Imagine 2050 designation (replaces deprecated ccap_ctu.RDS / Thrive)
+ctu_meta <- ghg.gert::geog_index %>%
+  filter(geog_id_type == "ctu_gnis") %>%
+  select(geog_name, ctu_class = geog_level, geog_id, imagine_designation)
 
 plantable_fraction <- c(
   Developed_Low  = 0.30,
@@ -61,7 +67,7 @@ nlcd_2022 <- bind_rows(ghg.gert::natural_systems_data$inventory) %>%
       Developed_High * plantable_fraction["Developed_High"]
   ) %>%
   select(geog_name, ctu_class, geog_id, urban_tree_sqkm, total_plantable_sqkm) %>%
-  left_join(ctu_meta %>% distinct(geog_id, thrive_designation), by = "geog_id")
+  left_join(ctu_meta %>% distinct(geog_id, imagine_designation), by = "geog_id")
 
 
 #  Match DNR to NLCD
@@ -82,10 +88,10 @@ if (nrow(unmatched_dnr) > 0) {
 }
 # all accounted for
 
-# Community tree density: sqm/tree by thrive designation
+# Community tree density: sqm/tree by Imagine designation
 
 community_tree_density <- matched %>%
-  group_by(thrive_designation) %>%
+  group_by(imagine_designation) %>%
   summarise(
     n_communities = n(),
     median_sqm_per_tree = median(sqm_per_tree),
@@ -109,8 +115,8 @@ community_tree_baseline <- nlcd_2022 %>%
     by = "geog_id"
   ) %>%
   left_join(
-    community_tree_density %>% select(thrive_designation, median_sqm_per_tree),
-    by = "thrive_designation"
+    community_tree_density %>% select(imagine_designation, median_sqm_per_tree),
+    by = "imagine_designation"
   ) %>%
   mutate(
     # Use designation-specific density; fall back to regional if designation missing
@@ -133,7 +139,7 @@ community_tree_baseline <- nlcd_2022 %>%
     )
   ) %>%
   select(
-    geog_name, ctu_class, geog_id, thrive_designation,
+    geog_name, ctu_class, geog_id, imagine_designation,
     tree_count, source, max_plantable_trees,
     sqm_per_tree, urban_tree_sqkm, total_plantable_sqkm
   )
@@ -184,17 +190,45 @@ county_tree_baseline <- community_tree_baseline %>%
   mutate(
     geog_name          = paste(county_name, "County"),
     ctu_class          = "COUNTY",
-    thrive_designation = county_name,
+    imagine_designation = county_name,
     source             = "modeled",
     sqm_per_tree       = regional_median
   ) %>%
   select(names(community_tree_baseline))
 
-# Combine CTU and county into single dataset
-community_tree_baseline <- bind_rows(community_tree_baseline, county_tree_baseline)
+# township groups: sum of member townships (matched on GNIS id). Member
+# counts are already rounded, so they are summed as is; sqm_per_tree is the
+# implied density of the summed canopy and tree count.
+twp_tree_baseline <- community_tree_baseline %>%
+  twp_group_tag(by = "geog_id", key = "geog_id") %>%
+  group_by(group_name, group_id, group_designation) %>%
+  summarise(
+    tree_count = sum(tree_count),
+    max_plantable_trees = sum(max_plantable_trees),
+    urban_tree_sqkm = sum(urban_tree_sqkm),
+    total_plantable_sqkm = sum(total_plantable_sqkm),
+    source = twp_collapse_chr(source, "mixed"),
+    n_members = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    geog_name = group_name,
+    geog_id = group_id,
+    ctu_class = TWP_GROUP_LEVEL,
+    imagine_designation = group_designation,
+    sqm_per_tree = if_else(tree_count > 0, urban_tree_sqkm * 1e6 / tree_count, regional_median)
+  )
+
+# expect 10 members per group
+print(select(twp_tree_baseline, geog_name, n_members, tree_count, max_plantable_trees, source))
+twp_tree_baseline <- select(twp_tree_baseline, names(community_tree_baseline))
+
+# Combine CTU, township group, and county into single dataset
+community_tree_baseline <- bind_rows(community_tree_baseline, twp_tree_baseline, county_tree_baseline)
 
 cat("\n── Combined baseline ──\n")
-cat("  CTUs:    ", sum(community_tree_baseline$ctu_class != "COUNTY"), "\n")
+cat("  CTUs:    ", sum(!community_tree_baseline$ctu_class %in% c("COUNTY", TWP_GROUP_LEVEL)), "\n")
+cat("  Township groups:", sum(community_tree_baseline$ctu_class == TWP_GROUP_LEVEL), "\n")
 cat("  Counties:", sum(community_tree_baseline$ctu_class == "COUNTY"), "\n")
 
 cat("\n── County rows ──\n")

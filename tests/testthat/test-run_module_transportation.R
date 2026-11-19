@@ -432,16 +432,7 @@ purrr::map2(
 
 test_that("Region VMT stock proportion", {
   region_parking <- parking_cost %>%
-    group_by(mode, var, type, aeo_mode) %>%
-    summarize(
-      value = min(value),
-      .groups = "keep"
-    ) %>%
-    mutate(
-      geog_id = "00000000",
-      geog_name = "Twin Cities Region"
-    ) %>%
-    ungroup()
+    filter(geog_level == "REGION")
 
   region_avo <- vehicle_occupancy %>%
     group_by(mode, var, type, aeo_mode) %>%

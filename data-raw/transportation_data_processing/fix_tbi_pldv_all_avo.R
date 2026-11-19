@@ -1,0 +1,312 @@
+# update passenger light-duty vehicle AVO to most recent TBI
+# create average using Imagine 2050 Community Designation
+# Also aggregate bus and other non-PLDV AVO for township groups
+# and complete final vehicle occupancy table
+pkgload::load_all()
+source("data-raw/transportation_data_processing/_tbi_load.R")
+source("data-raw/meta/compile_townships.R")
+
+# get index of CD levels
+hh_cd_levels <- hh_region %>%
+  select(cd_2050, cd_2050_broad, cd_2050_rsd) %>%
+  unique()
+
+
+avo_imagine <- trip %>%
+  filter(
+    hh_id %in% hh_region$hh_id,
+    mode_type %in% c(
+      "Household Vehicle",
+      "Other Vehicle",
+      "For-Hire Vehicle"
+    ),
+    # origin and destination in MPO area
+    trip_o_in_mpo == TRUE,
+    trip_d_in_mpo == TRUE,
+    # ensure observed trip duration,
+    # reasonable distance
+    # origin or destination in our counties
+    duration_seconds > 0,
+    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+    distance_miles < 720,
+    distance_miles > 0
+  ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
+  filter(
+    linked_trip_weight > 0,
+    !is.na(cd_2050)
+  ) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+  group_by(cd_2050) %>%
+  summarize(
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
+    n_trips = srvyr::survey_total(),
+    n_trips_sample = n(), .groups = "keep"
+  ) %>%
+  ungroup()
+
+# region level AVO, no CD grouping
+avo_region <- trip %>%
+  filter(
+    hh_id %in% hh_region$hh_id,
+    mode_type %in% c(
+      "Household Vehicle",
+      "Other Vehicle",
+      "For-Hire Vehicle"
+    ),
+    # origin and destination in MPO area
+    trip_o_in_mpo == TRUE,
+    trip_d_in_mpo == TRUE,
+    # ensure observed trip duration,
+    # reasonable distance
+    # origin or destination in our counties
+    duration_seconds > 0,
+    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+    distance_miles < 720,
+    distance_miles > 0
+  ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
+  filter(
+    linked_trip_weight > 0,
+    !is.na(cd_2050)
+  ) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+  summarize(
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
+    n_trips = srvyr::survey_total(),
+    n_trips_sample = n(), .groups = "keep"
+  ) %>%
+  ungroup()
+
+
+# compare new with previous ------
+avo_new <- avo_imagine %>%
+  left_join(hh_cd_levels, join_by(cd_2050)) %>%
+  full_join(
+    geog_index %>% filter(geog_id_type %in% c("ctu_gnis", TWP_GROUP_ID_TYPE)),
+    join_by(cd_2050 == imagine_designation)
+  ) %>%
+  mutate(
+    var = "AVO",
+    mode = "PLDV",
+    aeo_mode = "LDV",
+    type = "P",
+    value = num_travelers_numeric
+  ) %>%
+  select(geog_id, var, mode, value, aeo_mode, type) %>%
+  unique() %>%
+  left_join(geog_index %>% select(geog_id, geog_name), by = "geog_id") %>%
+  select(c(
+    "mode", "var", "geog_name", "geog_id", "value", "aeo_mode",
+    "type"
+  )) %>%
+  filter(!is.na(geog_id))
+
+avo_exist_all <- transportation_data$passenger %>%
+  filter(var == "AVO", !mode %in% c("AV", "DRS")) %>%
+  unique()
+
+
+
+# make sure no NA values
+testthat::expect_equal(
+  avo_new %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    nrow(),
+  nrow(twp_group_meta())
+)
+
+testthat::expect_true(all(
+  avo_new %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    pull(n) == 1L
+))
+
+testthat::expect_equal(
+  avo_new %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(aeo_mode) | is.na(type)) %>%
+    nrow(),
+  0
+)
+
+# extract and aggregate bus, other AVO for township groups -----
+# use minimum value from TMA analysis
+avo_bus_twp <- transportation_data$passenger %>%
+  filter(
+    var == "AVO",
+    mode != "PLDV"
+  ) %>%
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO") %>%
+      unique()
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  twp_group_tag(by = "geog_id", key = "geog_id") %>%
+  group_by(group_name, group_id, mode, var, aeo_mode, type) %>%
+  summarize(
+    value = round(min(value), 2),
+    .groups = "drop"
+  ) %>%
+  rename(geog_name = group_name, geog_id = group_id)
+
+testthat::expect_setequal(avo_bus_twp$geog_id, twp_group_meta()$geog_id)
+testthat::expect_true(all(is.finite(avo_bus_twp$value)))
+
+
+# complete for county level -----
+
+
+# PLDV avo by county
+avo_county <- trip %>%
+  filter(
+    hh_id %in% hh_region$hh_id,
+    mode_type %in% c(
+      "Household Vehicle",
+      "Other Vehicle",
+      "For-Hire Vehicle"
+    ),
+    # origin and destination in MPO area
+    trip_o_in_mpo == TRUE,
+    trip_d_in_mpo == TRUE,
+    # ensure observed trip duration,
+    # reasonable distance
+    # origin or destination in our counties
+    duration_seconds > 0,
+    as.character(trip_o_county) %in% cprg_tbi_hh_counties,
+    as.character(trip_d_county) %in% cprg_tbi_hh_counties,
+    distance_miles < 720,
+    distance_miles > 0
+  ) %>%
+  left_join(hh_region, join_by(survey_year, hh_id)) %>%
+  filter(
+    linked_trip_weight > 0,
+    !is.na(cd_2050)
+  ) %>%
+  srvyr::as_survey_design(id = linked_trip_id, weights = linked_trip_weight) %>%
+  group_by(hh_county) %>%
+  summarize(
+    num_travelers_numeric = round(srvyr::survey_mean(num_hh_travelers_int, na.rm = T), digits = 2),
+    n_trips = srvyr::survey_total(),
+    n_trips_sample = n(),
+    .groups = "keep"
+  ) %>%
+  ungroup() %>%
+  mutate(geog_name = stringr::str_replace(hh_county, " MN", " County")) %>%
+  left_join(geog_index, by = c("geog_name" = "geog_name")) %>%
+  mutate(
+    var = "AVO",
+    mode = "PLDV",
+    aeo_mode = "LDV",
+    type = "P",
+    value = num_travelers_numeric
+  ) %>%
+  select(geog_id, geog_name, var, mode, value, aeo_mode, type)
+
+testthat::expect_setequal(
+  avo_county$geog_id,
+  geog_index$geog_id[geog_index$geog_level == "COUNTY"]
+)
+
+testthat::expect_true(all(
+  avo_county %>%
+    count(geog_id, mode) %>%
+    pull(n) == 1L
+))
+
+testthat::expect_equal(
+  nrow(avo_county),
+  n_distinct(avo_county$geog_id) * n_distinct(avo_county$mode)
+)
+
+
+# for bus AVO, use the lowest AVO from the Transit Market Area analysis for all counties
+
+co_bus_other <- transportation_data$passenger %>%
+  filter(
+    var == "AVO",
+    mode != "PLDV"
+  ) %>%
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO") %>%
+      unique()
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  left_join(ctu_county_area,
+    by = c("geog_name" = "geog_name", "geog_id" = "geog_id"),
+    relationship = "many-to-many"
+  ) %>%
+  unique() %>%
+  filter(!is.na(county_name)) %>%
+  filter(!geog_id %in% twp_group_meta()$geog_id) %>%
+  group_by(county_name, mode, var, aeo_mode, type) %>%
+  summarize(
+    value = round(min(value), 2),
+    .groups = "keep"
+  ) %>%
+  rename(geog_short_name = county_name) %>%
+  left_join(geog_index %>% filter(geog_level == "COUNTY"), by = c("geog_short_name" = "geog_short_name"))
+
+
+# combine all ----
+
+vehicle_occupancy <- transportation_data$passenger %>%
+  # get AVO for all non-PLDV modes, minus AV and DRS
+  filter(var == "AVO", !mode %in% c("AV", "DRS", "PLDV")) %>%
+  select(-year) %>%
+  unique() %>%
+  # find freight AVO
+  # these are all 1 and used for consistency
+  bind_rows(
+    transportation_data$freight %>%
+      filter(var == "AVO")
+  ) %>%
+  select(-year) %>%
+  unique() %>%
+  # bind new AVO values for PLDV from TBI
+  bind_rows(avo_new) %>%
+  # bind aggregated bus and other non-PLDV AVO for township groups
+  bind_rows(avo_bus_twp) %>%
+  bind_rows(
+    avo_county,
+    co_bus_other,
+    avo_region %>%
+      transmute(
+        geog_id = "00000000", geog_name = "Twin Cities Region",
+        var = "AVO", mode = "PLDV", value = num_travelers_numeric,
+        aeo_mode = "LDV", type = "P"
+      )
+  ) %>%
+  select(geog_id, geog_name, var, mode, value, aeo_mode, type)
+
+
+testthat::expect_true(all(
+  vehicle_occupancy %>%
+    filter(geog_id %in% twp_group_meta()$geog_id) %>%
+    count(geog_id) %>%
+    pull(n) == 13
+))
+
+testthat::expect_equal(
+  vehicle_occupancy %>%
+    filter(is.na(geog_id) | is.na(geog_name) | is.na(value) | is.na(type)) %>%
+    nrow(),
+  0
+)
+
+# remove AVO from passenger and freight datasets as it is now included in vehicle_occupancy
+transportation_data$passenger <- transportation_data$passenger %>%
+  filter(var != "AVO")
+
+transportation_data$freight <- transportation_data$freight %>%
+  filter(var != "AVO")
+
+usethis::use_data(transportation_data, overwrite = TRUE)
+usethis::use_data(vehicle_occupancy, overwrite = TRUE)

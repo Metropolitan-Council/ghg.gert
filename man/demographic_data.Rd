@@ -3,24 +3,31 @@
 \docType{data}
 \name{demographic_data}
 \alias{demographic_data}
-\title{Future city and county demographic information from UrbanSim}
+\title{Annual demographic data for CTUs, counties, region, and township groups}
 \format{
 tibble
 \itemize{
-\item \strong{inventory_year} year
+\item \strong{emissions_year} Year
 \item \strong{geog_name} Geographic name
-\item \strong{geog_level} City, township, unorganized territory, county
+\item \strong{geog_level} See \link{geog_index}
 \item \strong{geog_id} ID value
 \item \strong{geog_id_type} ID value type
-\item \strong{sp_categories} alue category. One of "households", "jobs", "multifamily_units", "population", "single_family_units"
-\item \strong{value} value
+\item \strong{sp_categories} Value category. One of \code{"population"},
+\code{"total_households"}, \code{"single_family_detached"},
+\code{"single_family_attached"}, \code{"multifamily_units"}, \code{"manufactured_homes"},
+\code{"jobs"}, \code{"commercial_jobs"}, \code{"industrial_jobs"},
+\code{"commercial_job_space"}, \code{"industrial_job_space"}
+\item \strong{value} Value
+\item \strong{value_change_from_base} Change in value from 2022
 }
 }
 \usage{
 demographic_data
 }
 \description{
-Future city and county demographic information from UrbanSim
+UrbanSim projections (2005 to 2050, interpolated annually),
+scaled to Imagine 2050 local forecasts. Township groups are the sum of
+their member townships after scaling.
 }
 \examples{
 library(ghg.gert)
@@ -29,6 +36,7 @@ demographic_data
 \seealso{
 Other datasets:
 \code{\link{commute_vmt_proportion}},
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{elast}},
 \code{\link{elast_5d}},
@@ -36,6 +44,7 @@ Other datasets:
 \code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},

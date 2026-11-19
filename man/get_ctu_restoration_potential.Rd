@@ -6,7 +6,7 @@
 \usage{
 get_ctu_restoration_potential(
   tb_future = bind_rows(ghg.gert::natural_systems_data$projections),
-  .selected_ctu = "Regional"
+  .selected_ctu = "Twin Cities Region"
 )
 }
 \arguments{

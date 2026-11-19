@@ -138,12 +138,13 @@ matched %>%
 
 # by community designation
 
-ctu_meta <- readRDS("./data-raw/meta/ccap_ctu.rds") %>%
-  sf::st_drop_geometry() %>%
-  select(ctu_id_gnis, thrive_designation)
+# Imagine 2050 designation (replaces deprecated ccap_ctu.RDS / Thrive)
+ctu_meta <- ghg.gert::geog_index %>%
+  filter(geog_id_type == "ctu_gnis") %>%
+  select(geog_id, imagine_designation)
 
 matched_meta <- matched %>%
-  left_join(ctu_meta, by = c("geog_id" = "ctu_id_gnis"))
+  left_join(ctu_meta, by = "geog_id")
 
 matched_meta %>%
   ggplot(aes(x = urban_tree_sqkm, y = trees_2023)) +
@@ -151,28 +152,28 @@ matched_meta %>%
   geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "DNR Street Trees vs NLCD Urban_Tree Area by Thrive Designation",
+    title = "DNR Street Trees vs NLCD Urban_Tree Area by Imagine Designation",
     x = "NLCD Urban_Tree area (sq km)",
     y = "DNR street tree population",
     color = NULL
   ) +
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap(. ~ thrive_designation)
+  facet_wrap(. ~ imagine_designation)
 
 # linear model
 
 mod_base <- lm(trees_2023 ~ urban_tree_sqkm, data = matched_meta)
-mod_thrive <- lm(trees_2023 ~ urban_tree_sqkm * thrive_designation, data = matched_meta)
+mod_imagine <- lm(trees_2023 ~ urban_tree_sqkm * imagine_designation, data = matched_meta)
 
 cat("\n── Base model (no designation) ──\n")
 summary(mod_base)
 
-cat("\n── With thrive designation (interaction) ──\n")
-summary(mod_thrive)
+cat("\n── With Imagine designation (interaction) ──\n")
+summary(mod_imagine)
 
 cat("\n── Model comparison ──\n")
-anova(mod_base, mod_thrive)
+anova(mod_base, mod_imagine)
 
 
 # Residual outliers

@@ -5,7 +5,7 @@
 \alias{commute_vmt_proportion}
 \title{Commute share of passenger light-duty VMT}
 \format{
-A tibble with 6 columns and 194 observations.
+A tibble with 6 columns.
 \itemize{
 \item \strong{mode}: Transportation mode, \code{"PLDV"}.
 \item \strong{var}: Variable name, \code{"COMMUTE_VMT_PROP"}.
@@ -25,7 +25,8 @@ derived from the Travel Behavior Inventory and the geography community designati
 or geography level (for counties and region).
 
 In cases where there were no commute data for a given community designation,
-CTUs were assigned the region-level estimate.
+CTUs were assigned the region-level estimate. Township groups take the
+estimate for their assigned designation (see \link{geog_index}).
 }
 \examples{
 library(ghg.gert)
@@ -33,6 +34,7 @@ commute_vmt_proportion
 }
 \seealso{
 Other datasets:
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
@@ -41,6 +43,7 @@ Other datasets:
 \code{\link{epa_sld_intersection_density}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},

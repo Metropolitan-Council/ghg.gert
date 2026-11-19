@@ -35,49 +35,57 @@ test_air_water_multi <-
         .bev_pct_sales = 0.10
       )
 
-      fr_transit <- suppressMessages(suppressWarnings(mode_air_water_multi(
-        .freight_tb = fr_adjusted$freight,
-        .selected_ctu = x,
-        .scenario = "transit",
-        .transit_service_pct = .30,
-        .transit_avo_pct = 0.5,
-        .vmt_fee = 0.01
-      )))
+      fr_transit <- suppressMessages(
+        suppressWarnings(mode_air_water_multi(
+          .freight_tb = fr_adjusted$freight,
+          .selected_ctu = x,
+          .scenario = "transit",
+          .transit_service_pct = .30,
+          .transit_avo_pct = 0.5,
+          .vmt_fee = 0.01
+        ))
+      )
 
-      fr_lu <- suppressMessages(suppressWarnings(mode_air_water_multi(
-        .freight_tb = fr_adjusted$freight,
-        .selected_ctu = x,
-        .scenario = "land_use",
-        .emp_dens_pct_change = 0.10,
-        .pop_dens_pct_change = 0.10,
-        .vmt_fee = 0.01
-      )))
-
-
-      fr_road <- suppressMessages(suppressWarnings(mode_air_water_multi(
-        .freight_tb = fr_adjusted$freight,
-        .selected_ctu = x,
-        .scenario = "road",
-        .emp_dens_pct_change = 0.10,
-        .pldv_avo_pct = 0.5,
-        .cong_price = 0.01,
-        .freight_parking_price = 20,
-        .freight_vmt_fee = 0.02,
-        .parking_price = 20,
-        .vmt_fee = 0.01
-      )))
+      fr_lu <- suppressMessages(
+        suppressWarnings(mode_air_water_multi(
+          .freight_tb = fr_adjusted$freight,
+          .selected_ctu = x,
+          .scenario = "land_use",
+          .emp_dens_pct_change = 0.10,
+          .pop_dens_pct_change = 0.10,
+          .vmt_fee = 0.01
+        ))
+      )
 
 
-      fr_tele <- suppressMessages(suppressWarnings(mode_air_water_multi(
-        .freight_tb = fr_adjusted$freight,
-        .selected_ctu = x,
-        .scenario = "telework",
-        .emp_dens_pct_change = 0.10,
-        .vmt_fee = 0.01,
-        .freight_parking_price = 20,
-        .telework_pct = 0.5,
-        .parking_price = 20
-      )))
+      fr_road <- suppressMessages(suppressWarnings(
+        mode_air_water_multi(
+          .freight_tb = fr_adjusted$freight,
+          .selected_ctu = x,
+          .scenario = "road",
+          .emp_dens_pct_change = 0.10,
+          .pldv_avo_pct = 0.5,
+          .cong_price = 0.01,
+          .freight_parking_price = 20,
+          .freight_vmt_fee = 0.02,
+          .parking_price = 20,
+          .vmt_fee = 0.01
+        )
+      ))
+
+
+      fr_tele <- suppressMessages(suppressWarnings(
+        mode_air_water_multi(
+          .freight_tb = fr_adjusted$freight,
+          .selected_ctu = x,
+          .scenario = "telework",
+          .emp_dens_pct_change = 0.10,
+          .vmt_fee = 0.01,
+          .freight_parking_price = 20,
+          .telework_pct = 0.5,
+          .parking_price = 20
+        )
+      ))
 
 
       purrr::map(

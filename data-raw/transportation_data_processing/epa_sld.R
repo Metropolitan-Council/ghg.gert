@@ -12,8 +12,11 @@ MN_STATEFP <- "27"
 OUTPUT_DIR <- "data-raw/transportation_data_processing/processed_data"
 CACHE_FILE <- file.path(OUTPUT_DIR, "mn_sld_blockgroups.RDS")
 METADATA_FILE <- file.path(OUTPUT_DIR, "epa_sld_metadata.json")
+CACHE_DAYS <- 30 # used by cache_is_fresh() when force_refresh = FALSE
 
-dir.create("data-raw/transportation_data_processing/processed_data", recursive = TRUE)
+# processed_data/ is not tracked in git; this script (re)creates its contents,
+# which epa_sld_intersection_density.R reads
+dir.create(OUTPUT_DIR, recursive = TRUE, showWarnings = FALSE)
 
 # Minnesota projection (UTM Zone 15N)
 MN_CRS <- 26915

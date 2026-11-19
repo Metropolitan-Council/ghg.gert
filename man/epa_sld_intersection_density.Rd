@@ -5,11 +5,11 @@
 \alias{epa_sld_intersection_density}
 \title{EPA Smart Location Database (2021) edition intersection density data aggregated to CTU level.}
 \format{
-A tibble with 5 columns and 186 observations.
+A tibble with 4 columns.
 \itemize{
-\item \strong{geog_id}: CTU GNIS ID
-\item \strong{geog_name}: CTU name
-\item \strong{geog_id_type}: CTU ID type
+\item \strong{geog_id}: ID value (see \link{geog_index})
+\item \strong{geog_name}: Geographic name
+\item \strong{geog_id_type}: ID value type
 \item \strong{intersection_density}: Total road network density measured in intersections per square mile
 }
 }
@@ -20,11 +20,13 @@ epa_sld_intersection_density
 Compiled from the EPA Smart Location Database (SLD) 2021 edition, this dataset provides intersection density metrics aggregated from
 2019 block groups (GEOID20) to the CTU level. Intersection density is aggregated using a weighted mean based on the area of the intersected block groups.
 EPA cites 2018 HERE Maps and NAVSTREETS as data sources and uses acres of land as the denominator for intersection density calculations.
+Counties, the region, and township groups are area-weighted over the same block group pieces.
 Zotero key chapmanSmartLocationDatabase2021
 }
 \seealso{
 Other datasets:
 \code{\link{commute_vmt_proportion}},
+\code{\link{ctu_county_area}},
 \code{\link{db_table_names}},
 \code{\link{demographic_data}},
 \code{\link{elast}},
@@ -32,6 +34,7 @@ Other datasets:
 \code{\link{enviro_factors}},
 \code{\link{factor_values}},
 \code{\link{fuel_economy}},
+\code{\link{geog_geometry}},
 \code{\link{geog_index}},
 \code{\link{lc_county}},
 \code{\link{naics_codes}},

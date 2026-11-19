@@ -46,208 +46,252 @@ testthat::test_that("no unorg. suffix", {
 
 
 testthat::test_that("bus AVO correct", {
-  testthat::expect_equal(
+  bu_avo <-
     vehicle_occupancy %>%
-      filter(mode == "BU", var == "AVO") %>%
-      select(geog_name, value) %>%
-      unique(),
-    tibble::tribble(
-      ~geog_name, ~value,
-      "Afton", 25.64,
-      "Andover", 9.1,
-      "Anoka", 9.1,
-      "Apple Valley", 9.1,
-      "Arden Hills", 9.1,
-      "Bayport", 8.09,
-      "Baytown Twp.", 9.1,
-      "Belle Plaine", 25.64,
-      "Belle Plaine Twp.", 25.64,
-      "Benton Twp.", 15.38,
-      "Bethel", 25.64,
-      "Birchwood Village", 9.1,
-      "Blaine", 9.1,
-      "Blakeley Twp.", 25.64,
-      "Bloomington", 8.09,
-      "Brooklyn Center", 8.09,
-      "Brooklyn Park", 8.09,
-      "Burnsville", 9.1,
-      "Camden Twp.", 25.64,
-      "Carver", 15.38,
-      "Castle Rock Twp.", 25.64,
-      "Cedar Lake Twp.", 25.64,
-      "Centerville", 15.38,
-      "Champlin", 9.1,
-      "Chanhassen", 9.1,
-      "Chaska", 15.38,
-      "Circle Pines", 9.1,
-      "Coates", 25.64,
-      "Cologne", 25.64,
-      "Columbia Heights", 8.09,
-      "Columbus", 15.38,
-      "Coon Rapids", 9.1,
-      "Corcoran", 15.38,
-      "Cottage Grove", 15.38,
-      "Credit River", 9.1,
-      "Crystal", 8.09,
-      "Dahlgren Twp.", 15.38,
-      "Dayton", 9.1,
-      "Deephaven", 15.38,
-      "Dellwood", 9.1,
-      "Denmark Twp.", 9.1,
-      "Douglas Twp.", 25.64,
-      "Eagan", 9.1,
-      "East Bethel", 25.64,
-      "Eden Prairie", 9.1,
-      "Edina", 8.09,
-      "Elko New Market", 25.64,
-      "Empire", 9.1,
-      "Eureka Twp.", 15.38,
-      "Excelsior", 15.38,
-      "Falcon Heights", 8.09,
-      "Farmington", 9.1,
-      "Forest Lake", 15.38,
-      "Fort Snelling", 8.09,
-      "Fridley", 8.09,
-      "Gem Lake", 9.1,
-      "Golden Valley", 8.09,
-      "Grant", 9.1,
-      "Greenfield", 25.64,
-      "Greenvale Twp.", 25.64,
-      "Greenwood", 15.38,
-      "Grey Cloud Island Twp.", 15.38,
-      "Ham Lake", 9.1,
-      "Hamburg", 25.64,
-      "Hampton", 25.64,
-      "Hampton Twp.", 25.64,
-      "Hancock Twp.", 25.64,
-      "Hanover", 25.64,
-      "Hastings", 8.09,
-      "Helena Twp.", 25.64,
-      "Hilltop", 8.09,
-      "Hollywood Twp.", 25.64,
-      "Hopkins", 8.09,
-      "Hugo", 15.38,
-      "Independence", 25.64,
-      "Inver Grove Heights", 8.09,
-      "Jackson Twp.", 9.1,
-      "Jordan", 25.64,
-      "Lake Elmo", 9.1,
-      "Lake Saint Croix Beach", 25.64,
-      "Lakeland", 25.64,
-      "Lakeland Shores", 25.64,
-      "Laketown Twp.", 15.38,
-      "Lakeville", 9.1,
-      "Landfall", 9.1,
-      "Lauderdale", 8.09,
-      "Lexington", 9.1,
-      "Lilydale", 8.09,
-      "Lino Lakes", 9.1,
-      "Linwood Twp.", 25.64,
-      "Little Canada", 8.09,
-      "Long Lake", 25.64,
-      "Loretto", 25.64,
-      "Louisville Twp.", 15.38,
-      "Mahtomedi", 9.1,
-      "Maple Grove", 9.1,
-      "Maple Plain", 25.64,
-      "Maplewood", 9.44,
-      "Marine on Saint Croix", 25.64,
-      "Marshan Twp.", 25.64,
-      "May Twp.", 25.64,
-      "Mayer", 25.64,
-      "Medicine Lake", 9.1,
-      "Medina", 9.1,
-      "Mendota", 8.09,
-      "Mendota Heights", 8.09,
-      "Miesville", 25.64,
-      "Minneapolis", 9.44,
-      "Minnetonka", 8.09,
-      "Minnetonka Beach", 15.38,
-      "Minnetrista", 15.38,
-      "Mound", 15.38,
-      "Mounds View", 9.1,
-      "New Brighton", 8.09,
-      "New Germany", 25.64,
-      "New Hope", 9.1,
-      "New Market Twp.", 25.64,
-      "New Prague", 25.64,
-      "New Trier", 25.64,
-      "Newport", 9.1,
-      "Nininger Twp.", 8.09,
-      "North Oaks", 9.1,
-      "North Saint Paul", 9.1,
-      "Northfield", 25.64,
-      "Norwood Young America", 25.64,
-      "Nowthen", 25.64,
-      "Oak Grove", 25.64,
-      "Oak Park Heights", 8.09,
-      "Oakdale", 9.1,
-      "Orono", 15.38,
-      "Osseo", 9.1,
-      "Pine Springs", 9.1,
-      "Plymouth", 9.1,
-      "Prior Lake", 9.1,
-      "Ramsey", 9.1,
-      "Randolph", 25.64,
-      "Randolph Twp.", 25.64,
-      "Ravenna Twp.", 15.38,
-      "Richfield", 8.09,
-      "Robbinsdale", 8.09,
-      "Rockford", 25.64,
-      "Rogers", 15.38,
-      "Rosemount", 9.1,
-      "Roseville", 9.44,
-      "San Francisco Twp.", 25.64,
-      "Sand Creek Twp.", 25.64,
-      "Savage", 9.1,
-      "Scandia", 25.64,
-      "Sciota Twp.", 25.64,
-      "Shakopee", 9.1,
-      "Shoreview", 9.1,
-      "Shorewood", 9.1,
-      "South Saint Paul", 8.09,
-      "Spring Lake Park", 9.1,
-      "Spring Lake Twp.", 15.38,
-      "Spring Park", 15.38,
-      "Saint Anthony", 8.09,
-      "Saint Bonifacius", 25.64,
-      "Saint Francis", 25.64,
-      "Saint Lawrence Twp.", 25.64,
-      "Saint Louis Park", 9.44,
-      "Saint Marys Point", 25.64,
-      "Saint Paul", 9.44,
-      "Saint Paul Park", 9.1,
-      "Stillwater", 8.09,
-      "Stillwater Twp.", 9.1,
-      "Sunfish Lake", 9.1,
-      "Tonka Bay", 15.38,
-      "Vadnais Heights", 9.1,
-      "Vermillion", 25.64,
-      "Vermillion Twp.", 25.64,
-      "Victoria", 15.38,
-      "Waconia", 15.38,
-      "Waconia Twp.", 15.38,
-      "Waterford Twp.", 25.64,
-      "Watertown", 25.64,
-      "Watertown Twp.", 15.38,
-      "Wayzata", 9.1,
-      "West Lakeland Twp.", 15.38,
-      "West Saint Paul", 8.09,
-      "White Bear Lake", 9.1,
-      "White Bear Twp.", 9.1,
-      "Willernie", 9.1,
-      "Woodbury", 9.1,
-      "Woodland", 15.38,
-      "Young America Twp.", 25.64,
-      "Anoka County", 8.09,
-      "Carver County", 8.09,
-      "Dakota County", 8.09,
-      "Hennepin County", 8.09,
-      "Ramsey County", 8.09,
-      "Scott County", 8.09,
-      "Washington County", 8.09
-    )
+    filter(mode == "BU", var == "AVO") %>%
+    select(geog_name, value) %>%
+    unique()
+
+  testthat::expect_true(all(!is.na(bu_avo$value)))
+
+  testthat::expect_equal(
+    left_join(
+      vehicle_occupancy %>%
+        filter(mode == "BU", var == "AVO") %>%
+        select(geog_name, value) %>%
+        unique(),
+      tibble::tribble(
+        ~geog_name, ~test_value,
+        "Afton", 25.64,
+        "Andover", 9.1,
+        "Anoka", 9.1,
+        "Apple Valley", 9.1,
+        "Arden Hills", 9.1,
+        "Bayport", 8.09,
+        "Baytown Twp.", 9.1,
+        "Belle Plaine", 25.64,
+        "Belle Plaine Twp.", 25.64,
+        "Benton Twp.", 15.38,
+        "Bethel", 25.64,
+        "Birchwood Village", 9.1,
+        "Blaine", 9.1,
+        "Blakeley Twp.", 25.64,
+        "Bloomington", 8.09,
+        "Brooklyn Center", 8.09,
+        "Brooklyn Park", 8.09,
+        "Burnsville", 9.1,
+        "Camden Twp.", 25.64,
+        "Carver", 15.38,
+        "Castle Rock Twp.", 25.64,
+        "Cedar Lake Twp.", 25.64,
+        "Centerville", 15.38,
+        "Champlin", 9.1,
+        "Chanhassen", 9.1,
+        "Chaska", 15.38,
+        "Circle Pines", 9.1,
+        "Coates", 25.64,
+        "Cologne", 25.64,
+        "Columbia Heights", 8.09,
+        "Columbus", 15.38,
+        "Coon Rapids", 9.1,
+        "Corcoran", 15.38,
+        "Cottage Grove", 15.38,
+        "Credit River", 9.1,
+        "Crystal", 8.09,
+        "Dahlgren Twp.", 15.38,
+        "Dayton", 9.1,
+        "Deephaven", 15.38,
+        "Dellwood", 9.1,
+        "Denmark Twp.", 9.1,
+        "Douglas Twp.", 25.64,
+        "Eagan", 9.1,
+        "East Bethel", 25.64,
+        "Eden Prairie", 9.1,
+        "Edina", 8.09,
+        "Elko New Market", 25.64,
+        "Empire", 9.1,
+        "Eureka Twp.", 15.38,
+        "Excelsior", 15.38,
+        "Falcon Heights", 8.09,
+        "Farmington", 9.1,
+        "Forest Lake", 15.38,
+        "Fort Snelling", 8.09,
+        "Fridley", 8.09,
+        "Gem Lake", 9.1,
+        "Golden Valley", 8.09,
+        "Grant", 9.1,
+        "Greenfield", 25.64,
+        "Greenvale Twp.", 25.64,
+        "Greenwood", 15.38,
+        "Grey Cloud Island Twp.", 15.38,
+        "Ham Lake", 9.1,
+        "Hamburg", 25.64,
+        "Hampton", 25.64,
+        "Hampton Twp.", 25.64,
+        "Hancock Twp.", 25.64,
+        "Hanover", 25.64,
+        "Hastings", 8.09,
+        "Helena Twp.", 25.64,
+        "Hilltop", 8.09,
+        "Hollywood Twp.", 25.64,
+        "Hopkins", 8.09,
+        "Hugo", 15.38,
+        "Independence", 25.64,
+        "Inver Grove Heights", 8.09,
+        "Jackson Twp.", 9.1,
+        "Jordan", 25.64,
+        "Lake Elmo", 9.1,
+        "Lake Saint Croix Beach", 25.64,
+        "Lakeland", 25.64,
+        "Lakeland Shores", 25.64,
+        "Laketown Twp.", 15.38,
+        "Lakeville", 9.1,
+        "Landfall", 9.1,
+        "Lauderdale", 8.09,
+        "Lexington", 9.1,
+        "Lilydale", 8.09,
+        "Lino Lakes", 9.1,
+        "Linwood Twp.", 25.64,
+        "Little Canada", 8.09,
+        "Long Lake", 25.64,
+        "Loretto", 25.64,
+        "Louisville Twp.", 15.38,
+        "Mahtomedi", 9.1,
+        "Maple Grove", 9.1,
+        "Maple Plain", 25.64,
+        "Maplewood", 9.44,
+        "Marine on Saint Croix", 25.64,
+        "Marshan Twp.", 25.64,
+        "May Twp.", 25.64,
+        "Mayer", 25.64,
+        "Medicine Lake", 9.1,
+        "Medina", 9.1,
+        "Mendota", 8.09,
+        "Mendota Heights", 8.09,
+        "Miesville", 25.64,
+        "Minneapolis", 9.44,
+        "Minnetonka", 8.09,
+        "Minnetonka Beach", 15.38,
+        "Minnetrista", 15.38,
+        "Mound", 15.38,
+        "Mounds View", 9.1,
+        "New Brighton", 8.09,
+        "New Germany", 25.64,
+        "New Hope", 9.1,
+        "New Market Twp.", 25.64,
+        "New Prague", 25.64,
+        "New Trier", 25.64,
+        "Newport", 9.1,
+        "Nininger Twp.", 8.09,
+        "North Oaks", 9.1,
+        "North Saint Paul", 9.1,
+        "Northfield", 25.64,
+        "Norwood Young America", 25.64,
+        "Nowthen", 25.64,
+        "Oak Grove", 25.64,
+        "Oak Park Heights", 8.09,
+        "Oakdale", 9.1,
+        "Orono", 15.38,
+        "Osseo", 9.1,
+        "Pine Springs", 9.1,
+        "Plymouth", 9.1,
+        "Prior Lake", 9.1,
+        "Ramsey", 9.1,
+        "Randolph", 25.64,
+        "Randolph Twp.", 25.64,
+        "Ravenna Twp.", 15.38,
+        "Richfield", 8.09,
+        "Robbinsdale", 8.09,
+        "Rockford", 25.64,
+        "Rogers", 15.38,
+        "Rosemount", 9.1,
+        "Roseville", 9.44,
+        "San Francisco Twp.", 25.64,
+        "Sand Creek Twp.", 25.64,
+        "Savage", 9.1,
+        "Scandia", 25.64,
+        "Sciota Twp.", 25.64,
+        "Shakopee", 9.1,
+        "Shoreview", 9.1,
+        "Shorewood", 9.1,
+        "South Saint Paul", 8.09,
+        "Spring Lake Park", 9.1,
+        "Spring Lake Twp.", 15.38,
+        "Spring Park", 15.38,
+        "Saint Anthony", 8.09,
+        "Saint Bonifacius", 25.64,
+        "Saint Francis", 25.64,
+        "Saint Lawrence Twp.", 25.64,
+        "Saint Louis Park", 9.44,
+        "Saint Marys Point", 25.64,
+        "Saint Paul", 9.44,
+        "Saint Paul Park", 9.1,
+        "Stillwater", 8.09,
+        "Stillwater Twp.", 9.1,
+        "Sunfish Lake", 9.1,
+        "Tonka Bay", 15.38,
+        "Vadnais Heights", 9.1,
+        "Vermillion", 25.64,
+        "Vermillion Twp.", 25.64,
+        "Victoria", 15.38,
+        "Waconia", 15.38,
+        "Waconia Twp.", 15.38,
+        "Waterford Twp.", 25.64,
+        "Watertown", 25.64,
+        "Watertown Twp.", 15.38,
+        "Wayzata", 9.1,
+        "West Lakeland Twp.", 15.38,
+        "West Saint Paul", 8.09,
+        "White Bear Lake", 9.1,
+        "White Bear Twp.", 9.1,
+        "Willernie", 9.1,
+        "Woodbury", 9.1,
+        "Woodland", 15.38,
+        "Young America Twp.", 25.64,
+        "Anoka County", 8.09,
+        "Carver County", 9.1,
+        "Dakota County", 8.09,
+        "Hennepin County", 8.09,
+        "Ramsey County", 8.09,
+        "Scott County", 9.1,
+        "Washington County", 8.09,
+        "Carver Townships", 15.38,
+        "Scott Townships", 9.1
+      ),
+      by = "geog_name"
+    ) %>%
+      filter(value != test_value) %>%
+      nrow(),
+    0
   )
+})
+
+testthat::test_that("township-group freight activity sums member township TMT", {
+  township_groups <- geog_index %>%
+    filter(geog_level == "TOWNSHIP_GROUP") %>%
+    transmute(geog_id, county_name = stringr::str_remove(geog_name, " Townships$"))
+
+  member_townships <- ctu_county_area %>%
+    filter(stringr::str_ends(geog_name, stringr::fixed(" Twp."))) %>%
+    select(member_id = geog_id, county_name) %>%
+    inner_join(township_groups, by = "county_name") %>%
+    distinct(member_id, geog_id)
+
+  freight_tmt <- transportation_data$freight %>%
+    filter(var == "TMT") %>%
+    select(geog_id, mode, year, value)
+
+  expected <- freight_tmt %>%
+    rename(member_id = geog_id) %>%
+    inner_join(member_townships, by = "member_id") %>%
+    group_by(geog_id, mode, year) %>%
+    summarize(value = sum(value), .groups = "drop")
+
+  actual <- freight_tmt %>%
+    filter(geog_id %in% township_groups$geog_id) %>%
+    arrange(geog_id, mode, year)
+
+  testthat::expect_equal(actual, expected)
 })
 
 
@@ -258,7 +302,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
       var == "PMT"
     ) %>%
     group_by(geog_name, year) %>%
-    summarise(value = sum(value))
+    summarise(value = sum(value), .groups = "keep")
 
   transit_total <- transportation_data$passenger %>%
     filter(
@@ -271,7 +315,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
       var == "PMT"
     ) %>%
     group_by(geog_name, year) %>%
-    summarise(value = sum(value))
+    summarise(value = sum(value), .groups = "keep")
 
 
   testthat::expect_equal(at_total,
@@ -289,7 +333,7 @@ testthat::test_that("All transit is the sum of each transit mode", {
       )
     ) %>%
     group_by(geog_name, year) %>%
-    summarise(value = sum(value))
+    summarise(value = sum(value), .groups = "keep")
 
 
   testthat::expect_equal(
@@ -319,11 +363,13 @@ testthat::test_that("minimum parking value correct", {
 })
 
 
-testthat::test_that("PHEVPr correct", {
-  transportation_data$passenger %>%
-    filter(var == "PHEVPr") %>%
-    nrow() %>%
-    testthat::expect_equal(0)
+testthat::test_that("no PHEV variables remain in transportation data", {
+  purrr::walk(c("passenger", "freight"), function(nm) {
+    testthat::expect_false(
+      any(stringr::str_detect(transportation_data[[nm]]$var, "PHEV")),
+      info = nm
+    )
+  })
 })
 
 
@@ -512,14 +558,72 @@ testthat::test_that("county totals > major city totals for PMT, TMT, and Stock",
   )
 })
 
+testthat::test_that("Carver and Scott township-group totals are below county totals", {
+  expect_township_groups_below_counties <- function(data, variable, mode_value) {
+    township_values <- data %>%
+      filter(
+        geog_name %in% c("Carver Townships", "Scott Townships"),
+        var == .env$variable,
+        mode == .env$mode_value
+      ) %>%
+      mutate(
+        county_name = stringr::str_replace(geog_name, " Townships$", " County")
+      ) %>%
+      select(county_name, year, township_value = value)
+
+    county_values <- data %>%
+      filter(
+        geog_name %in% c("Carver County", "Scott County"),
+        var == .env$variable,
+        mode == .env$mode_value
+      ) %>%
+      select(county_name = geog_name, year, county_value = value)
+
+    comparisons <- full_join(
+      county_values,
+      township_values,
+      by = c("county_name", "year")
+    )
+
+    testthat::expect_setequal(
+      unique(comparisons$county_name),
+      c("Carver County", "Scott County")
+    )
+    testthat::expect_false(anyNA(comparisons$county_value))
+    testthat::expect_false(anyNA(comparisons$township_value))
+    testthat::expect_true(
+      all(comparisons$township_value < comparisons$county_value),
+      info = paste(variable, mode_value, "township-group values must be below county totals")
+    )
+  }
+
+  expect_township_groups_below_counties(
+    transportation_data$passenger,
+    variable = "PMT",
+    mode_value = "PLDV"
+  )
+  expect_township_groups_below_counties(
+    transportation_data$freight,
+    variable = "TMT",
+    mode_value = "CUT"
+  )
+  expect_township_groups_below_counties(
+    transportation_data$passenger,
+    variable = "TotStock",
+    mode_value = "PLDV"
+  )
+})
+
 testthat::test_that("Counties have truck fleets with all fuel types", {
   # BEV can be 0 in starting years
   transportation_data$freight %>%
     filter(
       stringr::str_detect(var, "Stock"),
       mode %in% c("CUT", "SUT"),
-      geog_name %in% c("Hennepin County", "Ramsey County", "Dakota County",
-                       "Washington County", "Scott County", "Anoka County", "Carver County")
+      geog_name %in% c(
+        "Hennepin County", "Ramsey County", "Dakota County",
+        "Washington County", "Scott County", "Anoka County", "Carver County"
+      )
     ) %>%
     filter(value == 0) %>%
     select(year) %>%
@@ -529,7 +633,6 @@ testthat::test_that("Counties have truck fleets with all fuel types", {
       ignore_attr = TRUE
     )
 })
-
 
 
 test_that("commute_vmt_proportion covers all transportation geographies", {
@@ -566,3 +669,22 @@ test_that("epa_sld_intersection_density covers all transportation geographies", 
   )
 })
 
+test_that("vehicle_occupancy covers all transportation geographies", {
+  trans_geogs <- unique(geog_index$geog_id)
+  occupancy_geogs <- vehicle_occupancy %>%
+    filter(!is.na(value)) %>%
+    pull("geog_id") %>%
+    unique()
+  missing <- setdiff(trans_geogs, occupancy_geogs)
+  missing_names <- geog_index %>%
+    filter(geog_id %in% missing) %>%
+    pull(geog_name)
+
+  testthat::expect_true(
+    length(missing) == 0,
+    info = paste0(
+      "Geographies missing from vehicle_occupancy: ",
+      paste(missing_names, collapse = ", ")
+    )
+  )
+})

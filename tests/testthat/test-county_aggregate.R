@@ -784,30 +784,22 @@ testthat::test_that("CTU freight TotStock totals equal Region TotStock for CUT",
 testthat::test_that("All counties have parking cost set to minimum observed value", {
   # Get minimum parking cost from all CTUs
   min_parking <- parking_cost %>%
-    left_join(
-      geog_index %>% select(geog_id, geog_level),
-      by = "geog_id"
-    ) %>%
-    filter(geog_level != "COUNTY") %>%
-    pull(value) %>%
-    min(na.rm = TRUE)
+    filter(geog_id_type == "ctu_gnis") %>%
+    group_by(mode) %>%
+    summarize(min_value = min(value, na.rm = TRUE), .groups = "drop")
 
   # Get county parking data
   county_parking <- parking_cost %>%
-    left_join(
-      geog_index %>% select(geog_id, geog_level),
-      by = "geog_id"
-    ) %>%
-    filter(geog_level == "COUNTY")
+    filter(geog_level == "COUNTY") %>%
+    left_join(min_parking, by = "mode")
 
   # Check that all 7 counties exist
   testthat::expect_equal(length(unique(county_parking$geog_id)), 7)
 
   # Check that all values equal the minimum parking cost
-  testthat::expect_true(all(county_parking$value == min_parking))
+  testthat::expect_equal(county_parking$value, county_parking$min_value)
 
-  # Check that all are PLDV mode
-  testthat::expect_false(all(county_parking$mode == "PLDV"))
+  testthat::expect_setequal(county_parking$mode, c("PLDV", "SUT"))
 
   # Check that all are PARK var
   testthat::expect_true(all(county_parking$var == "PARK"))
