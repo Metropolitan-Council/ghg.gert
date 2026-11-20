@@ -1,6 +1,11 @@
 pkgload::load_all()
 source("data-raw/meta/compile_townships.R")
 
+# VMT is compiled through a multi-repo pipeline
+# internal modeling repo -> creates county and CTU VMT forecasts, county level MOVES emissions ->
+# passed to ghg-cprg for inventory ->
+# passed here for county, CTU, etc. geography VMT to PMT, and then emissions
+
 # Rebuild passenger PMT; freight TMT and all fleet variables are unchanged.
 # Region PMT is rebuilt from CTUs later by fix_region_aggregate.R.
 
